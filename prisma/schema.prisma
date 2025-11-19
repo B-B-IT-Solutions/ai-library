@@ -8,12 +8,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Promt {
+model Prompt {
   id               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title            String
   content          String   @db.Text
   categories       String[]
   recommendedModel String   @map("recommended_model")
+  isFavorite       Boolean  @default(false) @map("is_favorite")
+  createdAt        DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt        DateTime @updatedAt @map("updated_at")
 
   @@map("prompt")
 }
