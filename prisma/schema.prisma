@@ -22,3 +22,16 @@ model Prompt {
 
   @@map("prompt")
 }
+
+model PromptTemplate {
+  id               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title            String
+  content          String   @db.Text
+  followUpPrompts  String[] @map("follow_up_prompts") @db.Text
+  categories       String[]
+  recommendedModel String   @map("recommended_model")
+  createdAt        DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  @@map("prompt_template")
+}

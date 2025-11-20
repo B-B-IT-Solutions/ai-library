@@ -2,12 +2,10 @@ import z from "zod";
 
 import { insertPromptSchema } from "../validators/prompt.schema";
 
-export type DPromptTemplate = {
-   title: stirng;
-   content: string;
-   categories: string[];
-   recommendedModel: string;
-   followUpPrompts: [];
+export type DPromptTemplate = z.infer<typeof insertPromptTemplateSchema> & {
+   id: string;
+   updatedAt: string;
+   createdAt: string;
 };
 
 export type DPrompt = z.infer<typeof insertPromptSchema> & {

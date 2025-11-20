@@ -2,7 +2,7 @@ import { Prisma, PrismaClient } from "../src/generated/prisma/client";
 
 const prisma = new PrismaClient();
 
-const promptsData: Prisma.PromptCreateInput[] = [
+const promptsData: Prisma.PromptTemplateCreateInput[] = [
    {
       title: "Code Review Assistant",
       content:
@@ -77,10 +77,10 @@ const promptsData: Prisma.PromptCreateInput[] = [
 
 export const main = async () => {
    console.log("Deleting obsolete entries...");
-   await prisma.prompt.deleteMany();
+   await prisma.promptTemplate.deleteMany();
 
    console.log("Starting to seed...");
-   await prisma.prompt.createMany({
+   await prisma.promptTemplate.createMany({
       data: promptsData,
    });
 
