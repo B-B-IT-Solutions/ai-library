@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, FC } from "react";
+import { useState, FC } from "react";
 import {
    Search,
    Plus,
@@ -19,7 +19,7 @@ import {
    FileText,
 } from "lucide-react";
 import { TemplateSelector } from "./template/TemplateSelector";
-import { DPromptCreate, DPromptTemplate } from "@/data/domain/prompt";
+import { DPrompt, DPromptCreate } from "@/data/domain/prompt";
 import { createPrompt } from "@/lib/actions/prompt/prompt.actions";
 
 const AI_MODELS = [
@@ -35,10 +35,8 @@ const AI_MODELS = [
    "Other",
 ];
 
-const PREDEFINED_PROMPTS: DPromptTemplate[] = [];
-
 type PromptManagerProps = {
-   prompts: DPromptCreate[];
+   prompts: DPrompt[];
 };
 
 const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
@@ -49,14 +47,12 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
    const [searchTerm, setSearchTerm] = useState("");
    const [selectedCategory, setSelectedCategory] = useState("all");
    const [expandedVersions, setExpandedVersions] = useState({});
-   const [showTemplates, setShowTemplates] = useState(false);
-   const [templateSearch, setTemplateSearch] = useState("");
-   const [templateCategory, setTemplateCategory] = useState("all");
+
    const [expandedPromptContent, setExpandedPromptContent] = useState({});
    const [copiedItem, setCopiedItem] = useState(null);
    const [activeMenu, setActiveMenu] = useState("prompts");
    const [favorites, setFavorites] = useState([]);
-   const [formData, setFormData] = useState({
+   const [formData, setFormData] = useState<DPromptCreate>({
       title: "",
       content: "",
       categories: [],
@@ -82,7 +78,9 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
    };
 
    const updatePrompt = () => {
-      if (!selectedPrompt || !formData.content) return;
+      if (!selectedPrompt || !formData.content) {
+         return;
+      }
 
       const updatedPrompts = prompts.map((p) => {
          if (p.id === selectedPrompt.id) {
@@ -110,8 +108,6 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
 
       const newCats = [...new Set([...categories, ...formData.categories])];
       setCategories(newCats);
-
-      saveData(updatedPrompts, newCats);
 
       const updated = updatedPrompts.find((p) => p.id === selectedPrompt.id);
       setSelectedPrompt(updated);
@@ -146,9 +142,6 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
       });
       setIsEditing(false);
       setSelectedPrompt(null);
-      setShowTemplates(false);
-      setTemplateSearch("");
-      setTemplateCategory("all");
    };
 
    const loadTemplate = (template) => {
@@ -159,9 +152,6 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
          recommendedModel: template.recommendedModel || "",
          followUpPrompts: template.followUpPrompts || [],
       });
-      setShowTemplates(false);
-      setTemplateSearch("");
-      setTemplateCategory("all");
    };
 
    const togglePromptContent = (promptId) => {
@@ -205,7 +195,6 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
          : [...favorites, promptId];
 
       setFavorites(newFavorites);
-      saveData(prompts, categories, newFavorites);
    };
 
    const favoritePrompts = prompts.filter((p) => favorites.includes(p.id));
@@ -232,36 +221,6 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
          categories: prev.categories.filter((c) => c !== cat),
       }));
    };
-
-   const filteredPrompts = prompts.filter((p) => {
-      const matchesSearch =
-         p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-         p.versions.some((v) =>
-            v.content.toLowerCase().includes(searchTerm.toLowerCase())
-         );
-      const matchesCategory =
-         selectedCategory === "all" || p.categories.includes(selectedCategory);
-      return matchesSearch && matchesCategory;
-   });
-
-   const templateCategories = [
-      ...new Set(PREDEFINED_PROMPTS.flatMap((t) => t.categories)),
-   ].sort();
-
-   const filteredTemplates = PREDEFINED_PROMPTS.filter((template) => {
-      const matchesSearch =
-         template.title.toLowerCase().includes(templateSearch.toLowerCase()) ||
-         template.content
-            .toLowerCase()
-            .includes(templateSearch.toLowerCase()) ||
-         template.categories.some((cat) =>
-            cat.toLowerCase().includes(templateSearch.toLowerCase())
-         );
-      const matchesCategory =
-         templateCategory === "all" ||
-         template.categories.includes(templateCategory);
-      return matchesSearch && matchesCategory;
-   });
 
    const formatDate = (dateString) => {
       return new Date(dateString).toLocaleString("en-US", {
@@ -392,7 +351,7 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
                            <div className="bg-white rounded-lg border border-slate-200 shadow-sm max-h-[600px] overflow-y-auto">
                               <div className="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
                                  <h2 className="font-semibold text-slate-900">
-                                    Prompts ({filteredPrompts.length})
+                                    Prompts ({prompts.length})
                                  </h2>
                                  <button
                                     onClick={() => {
@@ -406,7 +365,7 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
                               </div>
 
                               <div className="divide-y divide-slate-200">
-                                 {filteredPrompts.map((prompt) => (
+                                 {prompts.map((prompt) => (
                                     <div
                                        key={prompt.id}
                                        onClick={() => selectPrompt(prompt)}
@@ -499,17 +458,7 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
 
                                  {/* Template Selector */}
                                  {!selectedPrompt && (
-                                    <TemplateSelector
-                                       showTemplates={showTemplates}
-                                       setShowTemplates={setShowTemplates}
-                                       search={templateSearch}
-                                       setSearch={setTemplateSearch}
-                                       category={templateCategory}
-                                       setCategory={setTemplateCategory}
-                                       categories={templateCategories}
-                                       templates={filteredTemplates}
-                                       onSelect={loadTemplate}
-                                    />
+                                    <TemplateSelector onSelect={loadTemplate} />
                                  )}
 
                                  <div className="space-y-4">

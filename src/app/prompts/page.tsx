@@ -7,6 +7,7 @@ export const metadata = {
 
 const PromptsPage = async () => {
    const prompts = await getPrompts();
+
    return (
       <div data-testid="prompts-page">
          <PromptManager prompts={prompts} />
