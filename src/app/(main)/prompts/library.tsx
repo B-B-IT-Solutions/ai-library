@@ -16,7 +16,7 @@ import {
    Check,
    Star,
 } from "lucide-react";
-import { TemplateSelector } from "./template/TemplateSelector";
+import { TemplateSelector } from "./template/template-selector";
 import { DPrompt, DPromptCreate } from "@/data/domain/prompt";
 import { createPrompt } from "@/lib/actions/prompt/prompt.actions";
 

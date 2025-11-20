@@ -1,7 +1,7 @@
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { FC, useState } from "react";
-import { TemplateFilters } from "./TemplateFilters";
-import { TemplateCards } from "./TemplateCards";
+import { TemplateFilters } from "./template-filters";
+import { TemplateCards } from "./template-cards";
 import { DPromptTemplate } from "@/data/domain/prompt";
 
 const PREDEFINED_PROMPTS: DPromptTemplate[] = [
