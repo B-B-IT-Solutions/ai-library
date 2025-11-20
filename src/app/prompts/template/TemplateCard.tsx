@@ -1,12 +1,15 @@
 import { DPromptTemplate } from "@/data/domain/prompt";
 import { FC } from "react";
 
-type TempalteCardProps = {
+type TemplateCardsProps = {
    template: DPromptTemplate;
    onSelect: (template: DPromptTemplate) => void;
 };
 
-export const TempalteCard: FC<TempalteCardProps> = ({ template, onSelect }) => {
+export const TemplateCard: FC<TemplateCardsProps> = ({
+   template,
+   onSelect,
+}) => {
    return (
       <button
          onClick={() => onSelect(template)}

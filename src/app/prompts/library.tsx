@@ -18,7 +18,7 @@ import {
    Settings,
    FileText,
 } from "lucide-react";
-import { TempalteCards } from "./template/TemplateCards";
+import { TemplateCards } from "./template/TemplateCards";
 
 const AI_MODELS = [
    "Claude Sonnet 4.5",
@@ -682,7 +682,7 @@ const PromptManager = () => {
                                              </div>
 
                                              {/* Template Grid */}
-                                             <TempalteCards
+                                             <TemplateCards
                                                 templates={filteredTemplates}
                                                 onSelect={loadTemplate}
                                              />

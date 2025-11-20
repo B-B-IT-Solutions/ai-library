@@ -1,13 +1,13 @@
 import { DPromptTemplate } from "@/data/domain/prompt";
 import { FC } from "react";
-import { TempalteCard } from "./TemplateCard";
+import { TemplateCard } from "./TemplateCard";
 
-type TempalteCardsProps = {
+type TemplateCardsProps = {
    templates: DPromptTemplate[];
    onSelect: (template: DPromptTemplate) => void;
 };
 
-export const TempalteCards: FC<TempalteCardsProps> = ({
+export const TemplateCards: FC<TemplateCardsProps> = ({
    templates,
    onSelect,
 }) => {
@@ -15,7 +15,7 @@ export const TempalteCards: FC<TempalteCardsProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-96 overflow-y-auto">
          {templates.length > 0 ? (
             templates.map((template, idx) => (
-               <TempalteCard
+               <TemplateCard
                   key={idx}
                   template={template}
                   onSelect={onSelect}
