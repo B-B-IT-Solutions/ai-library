@@ -238,7 +238,6 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
                </header>
 
                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                  {/* Sidebar */}
                   <div className="lg:col-span-1 space-y-4">
                      {/* Search and Filter */}
                      <div className="bg-white rounded-lg p-4 border border-slate-200 shadow-sm">
@@ -621,7 +620,7 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
 
                            {/* Current Prompt Content - Foldable */}
                            <div className="mb-6">
-                              <button
+                              <div
                                  onClick={() => togglePromptContent("current")}
                                  className="w-full flex items-center justify-between p-4 bg-slate-50 rounded-lg border border-slate-200 hover:bg-slate-100 transition-colors"
                               >
@@ -632,13 +631,15 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
                                     <button
                                        onClick={(e) => {
                                           e.stopPropagation();
-                                          copyToClipboard(
-                                             selectedPrompt.versions[
-                                                selectedPrompt.versions.length -
-                                                   1
-                                             ].content,
-                                             "current-prompt"
-                                          );
+                                          if (selectedPrompt) {
+                                             copyToClipboard(
+                                                selectedPrompt.versions[
+                                                   selectedPrompt.versions
+                                                      .length - 1
+                                                ].content,
+                                                "current-prompt"
+                                             );
+                                          }
                                        }}
                                        className="p-2 hover:bg-slate-200 rounded transition-colors"
                                        title="Copy to clipboard"
@@ -655,16 +656,17 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
                                        <ChevronRight className="w-5 h-5 text-slate-600" />
                                     )}
                                  </div>
-                              </button>
+                              </div>
 
                               {expandedPromptContent["current"] && (
                                  <div className="mt-2 p-4 bg-white border border-slate-200 rounded-lg">
                                     <pre className="whitespace-pre-wrap text-sm text-slate-700 font-mono">
-                                       {
-                                          selectedPrompt.versions[
-                                             selectedPrompt.versions.length - 1
-                                          ].content
-                                       }
+                                       {selectedPrompt?.versions.length > 1
+                                          ? selectedPrompt.versions[
+                                               selectedPrompt.versions.length -
+                                                  1
+                                            ].content
+                                          : ""}
                                     </pre>
                                  </div>
                               )}
