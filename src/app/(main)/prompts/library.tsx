@@ -40,9 +40,8 @@ type PromptManagerProps = {
 };
 
 const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
-   const [, setPrompts] = useState([]);
    const [categories, setCategories] = useState([]);
-   const [selectedPrompt, setSelectedPrompt] = useState(null);
+   const [selectedPrompt, setSelectedPrompt] = useState<DPrompt | null>(null);
    const [isEditing, setIsEditing] = useState(false);
    const [searchTerm, setSearchTerm] = useState("");
    const [selectedCategory, setSelectedCategory] = useState("all");
@@ -104,8 +103,6 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
          return p;
       });
 
-      setPrompts(updatedPrompts);
-
       const newCats = [...new Set([...categories, ...formData.categories])];
       setCategories(newCats);
 
@@ -120,7 +117,9 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
    };
 
    const startEdit = () => {
-      if (!selectedPrompt) return;
+      if (!selectedPrompt) {
+         return;
+      }
       setFormData({
          title: selectedPrompt.title,
          content:
