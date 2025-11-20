@@ -22,7 +22,7 @@ export type DPrompt = DPromptCreate & {
 export type DPromptVersion = {
    version: number;
    content: string;
-   createdAt: Date;
+   createdAt: string;
 };
 
 export type DPromptUdapte = {

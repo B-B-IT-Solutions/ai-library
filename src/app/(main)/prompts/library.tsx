@@ -17,7 +17,7 @@ import {
    Star,
 } from "lucide-react";
 import { TemplateSelector } from "./template/template-selector";
-import { DPrompt, DPromptCreate } from "@/data/domain/prompt";
+import { DPrompt, DPromptCreate, DPromptTemplate } from "@/data/domain/prompt";
 import { createPrompt } from "@/lib/actions/prompt/prompt.actions";
 
 const AI_MODELS = [
@@ -45,8 +45,9 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
    const [selectedCategory, setSelectedCategory] = useState("all");
    const [expandedVersions, setExpandedVersions] = useState({});
 
-   const [expandedPromptContent, setExpandedPromptContent] = useState({});
-   const [copiedItem, setCopiedItem] = useState(null);
+   const [conentExpanded, setContentExpanded] = useState(false);
+   const [followUpsExpanded, setFollowupsExpaned] = useState(false);
+   const [copiedItem, setCopiedItem] = useState<string | null>(null);
 
    const [formData, setFormData] = useState<DPromptCreate>({
       title: "",
@@ -119,8 +120,7 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
       }
       setFormData({
          title: selectedPrompt.title,
-         content:
-            selectedPrompt.versions[selectedPrompt.versions.length - 1].content,
+         content: selectedPrompt.content,
          categories: selectedPrompt.categories,
          recommendedModel: selectedPrompt.recommendedModel || "",
          followUpPrompts: selectedPrompt.followUpPrompts || [],
@@ -140,7 +140,7 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
       setSelectedPrompt(null);
    };
 
-   const loadTemplate = (template) => {
+   const loadTemplate = (template: DPromptTemplate) => {
       setFormData({
          title: template.title,
          content: template.content,
@@ -148,13 +148,6 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
          recommendedModel: template.recommendedModel || "",
          followUpPrompts: template.followUpPrompts || [],
       });
-   };
-
-   const togglePromptContent = (promptId) => {
-      setExpandedPromptContent((prev) => ({
-         ...prev,
-         [promptId]: !prev[promptId],
-      }));
    };
 
    const addFollowUpPrompt = () => {
@@ -168,14 +161,14 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
       }
    };
 
-   const removeFollowUpPrompt = (index) => {
+   const removeFollowUpPrompt = (index: number) => {
       setFormData((prev) => ({
          ...prev,
          followUpPrompts: prev.followUpPrompts.filter((_, i) => i !== index),
       }));
    };
 
-   const copyToClipboard = async (text, itemId) => {
+   const copyToClipboard = async (text: string, itemId: string) => {
       try {
          await navigator.clipboard.writeText(text);
          setCopiedItem(itemId);
@@ -185,14 +178,14 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
       }
    };
 
-   const toggleVersionExpand = (promptId) => {
+   const toggleVersionExpand = (promptId: string) => {
       setExpandedVersions((prev) => ({
          ...prev,
          [promptId]: !prev[promptId],
       }));
    };
 
-   const addCategory = (cat) => {
+   const addCategory = (cat: string) => {
       if (cat && !formData.categories.includes(cat)) {
          setFormData((prev) => ({
             ...prev,
@@ -201,14 +194,14 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
       }
    };
 
-   const removeCategory = (cat) => {
+   const removeCategory = (cat: string) => {
       setFormData((prev) => ({
          ...prev,
          categories: prev.categories.filter((c) => c !== cat),
       }));
    };
 
-   const formatDate = (dateString) => {
+   const formatDate = (dateString: string) => {
       return new Date(dateString).toLocaleString("en-US", {
          year: "numeric",
          month: "short",
@@ -621,7 +614,9 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
                            {/* Current Prompt Content - Foldable */}
                            <div className="mb-6">
                               <div
-                                 onClick={() => togglePromptContent("current")}
+                                 onClick={() =>
+                                    setContentExpanded(!conentExpanded)
+                                 }
                                  className="w-full flex items-center justify-between p-4 bg-slate-50 rounded-lg border border-slate-200 hover:bg-slate-100 transition-colors"
                               >
                                  <span className="font-semibold text-slate-900 flex items-center gap-2">
@@ -631,15 +626,10 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
                                     <button
                                        onClick={(e) => {
                                           e.stopPropagation();
-                                          if (selectedPrompt) {
-                                             copyToClipboard(
-                                                selectedPrompt.versions[
-                                                   selectedPrompt.versions
-                                                      .length - 1
-                                                ].content,
-                                                "current-prompt"
-                                             );
-                                          }
+                                          copyToClipboard(
+                                             selectedPrompt.content,
+                                             "current-prompt"
+                                          );
                                        }}
                                        className="p-2 hover:bg-slate-200 rounded transition-colors"
                                        title="Copy to clipboard"
@@ -650,7 +640,7 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
                                           <Copy className="w-4 h-4 text-slate-600" />
                                        )}
                                     </button>
-                                    {expandedPromptContent["current"] ? (
+                                    {conentExpanded ? (
                                        <ChevronDown className="w-5 h-5 text-slate-600" />
                                     ) : (
                                        <ChevronRight className="w-5 h-5 text-slate-600" />
@@ -658,15 +648,10 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
                                  </div>
                               </div>
 
-                              {expandedPromptContent["current"] && (
+                              {conentExpanded && (
                                  <div className="mt-2 p-4 bg-white border border-slate-200 rounded-lg">
                                     <pre className="whitespace-pre-wrap text-sm text-slate-700 font-mono">
-                                       {selectedPrompt?.versions.length > 1
-                                          ? selectedPrompt.versions[
-                                               selectedPrompt.versions.length -
-                                                  1
-                                            ].content
-                                          : ""}
+                                       {selectedPrompt.content}
                                     </pre>
                                  </div>
                               )}
@@ -678,7 +663,9 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
                                  <div className="mb-6">
                                     <button
                                        onClick={() =>
-                                          togglePromptContent("followups")
+                                          setFollowupsExpaned(
+                                             !followUpsExpanded
+                                          )
                                        }
                                        className="w-full flex items-center justify-between p-4 bg-slate-50 rounded-lg border border-slate-200 hover:bg-slate-100 transition-colors"
                                     >
@@ -690,14 +677,14 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
                                           }
                                           )
                                        </span>
-                                       {expandedPromptContent["followups"] ? (
+                                       {followUpsExpanded ? (
                                           <ChevronDown className="w-5 h-5 text-slate-600" />
                                        ) : (
                                           <ChevronRight className="w-5 h-5 text-slate-600" />
                                        )}
                                     </button>
 
-                                    {expandedPromptContent["followups"] && (
+                                    {followUpsExpanded && (
                                        <div className="mt-2 space-y-2">
                                           {selectedPrompt.followUpPrompts.map(
                                              (followUp, idx) => (
