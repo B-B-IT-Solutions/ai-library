@@ -1,15 +1,17 @@
+import { getPrompts } from "@/lib/actions/prompt/prompt.actions";
 import PromptManager from "./library";
 
 export const metadata = {
-  title: "Prompts",
+   title: "Prompts",
 };
 
 const PromptsPage = async () => {
-  return (
-    <div data-testid="prompts-page">
-      <PromptManager />
-    </div>
-  );
+   const prompts = await getPrompts();
+   return (
+      <div data-testid="prompts-page">
+         <PromptManager prompts={prompts} />
+      </div>
+   );
 };
 
 export default PromptsPage;

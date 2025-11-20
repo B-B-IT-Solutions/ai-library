@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, FC } from "react";
 import {
    Search,
    Plus,
@@ -19,6 +19,7 @@ import {
    FileText,
 } from "lucide-react";
 import { TemplateSelector } from "./template/TemplateSelector";
+import { DPrompt } from "@/data/domain/prompt";
 
 const AI_MODELS = [
    "Claude Sonnet 4.5",
@@ -106,8 +107,12 @@ const PREDEFINED_PROMPTS = [
    },
 ];
 
-const PromptManager = () => {
-   const [prompts, setPrompts] = useState([]);
+type PromptManagerProps = {
+   prompts: DPrompt[];
+};
+
+const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
+   const [, setPrompts] = useState([]);
    const [categories, setCategories] = useState([]);
    const [selectedPrompt, setSelectedPrompt] = useState(null);
    const [isEditing, setIsEditing] = useState(false);
