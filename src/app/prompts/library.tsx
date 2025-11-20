@@ -402,7 +402,10 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
    };
 
    return (
-      <div className="min-h-screen bg-slate-50 text-slate-900 flex">
+      <div
+         className="min-h-screen bg-slate-50 text-slate-900 flex"
+         data-testid="prompt-manager"
+      >
          {/* Left Sidebar Navigation */}
          <div className="w-64 bg-white border-r border-slate-200 flex flex-col">
             <div className="p-6 border-b border-slate-200">

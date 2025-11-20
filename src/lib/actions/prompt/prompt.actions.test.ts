@@ -37,7 +37,7 @@ describe("createPrompt tests", () => {
    });
 
    it("createPrompt - error - test", async () => {
-      const prompt = dtestData.pPrompt();
+      const prompt = dtestData.dPrompt();
       pCreatePromptMock.mockRejectedValue(new Error("db error"));
 
       const result = await createPrompt(prompt);
@@ -60,7 +60,7 @@ describe("createPrompt tests", () => {
    });
 
    it("createPrompt - prompt created  - test", async () => {
-      const prompt = dtestData.pPrompt();
+      const prompt = dtestData.dPrompt();
 
       const result = await createPrompt(prompt);
       const expectedResult = {
