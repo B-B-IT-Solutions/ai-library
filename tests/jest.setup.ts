@@ -15,7 +15,7 @@ jest.mock("next/navigation", () => ({
    ...jest.requireActual("next-router-mock"),
    useRouter: () => mockRouter,
    usePathname() {
-      return () => mockRouter.pathname;
+      return mockRouter.pathname;
    },
    useSearchParams: jest.fn(() => {
       if (mockRouter.query) {

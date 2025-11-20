@@ -10,113 +10,6 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
       data-testid="prompt-manager"
     >
       <div
-        class="w-64 bg-white border-r border-slate-200 flex flex-col"
-      >
-        <div
-          class="p-6 border-b border-slate-200"
-        >
-          <h1
-            class="text-2xl font-bold text-slate-900"
-          >
-            Prompt Manager
-          </h1>
-        </div>
-        <nav
-          class="flex-1 p-4"
-        >
-          <button
-            class="w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors mb-2 bg-blue-50 text-blue-700 font-medium"
-          >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-file-text w-5 h-5"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
-              />
-              <path
-                d="M14 2v5a1 1 0 0 0 1 1h5"
-              />
-              <path
-                d="M10 9H8"
-              />
-              <path
-                d="M16 13H8"
-              />
-              <path
-                d="M16 17H8"
-              />
-            </svg>
-            Prompts
-          </button>
-          <button
-            class="w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors mb-2 text-slate-600 hover:bg-slate-50"
-          >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-star w-5 h-5"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"
-              />
-            </svg>
-            Favorites
-          </button>
-          <button
-            class="w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors text-slate-600 hover:bg-slate-50"
-          >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-settings w-5 h-5"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"
-              />
-              <circle
-                cx="12"
-                cy="12"
-                r="3"
-              />
-            </svg>
-            Settings
-          </button>
-        </nav>
-        <div
-          class="p-4 border-t border-slate-200 text-xs text-slate-500"
-        >
-          <p>
-            Version 1.0.0
-          </p>
-        </div>
-      </div>
-      <div
         class="flex-1 p-6"
       >
         <div
@@ -289,8 +182,7 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
                           <span
                             class="flex items-center gap-1 text-blue-600 font-medium"
                           >
-                            🤖
-                             
+                            🤖 
                             model 0
                           </span>
                           <span
@@ -324,11 +216,11 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
                       </div>
                       <button
                         class="ml-2 p-1 hover:bg-slate-100 rounded transition-colors"
-                        title="Add to favorites"
+                        title="Remove from favorites"
                       >
                         <svg
                           aria-hidden="true"
-                          class="lucide lucide-star w-5 h-5 text-slate-400"
+                          class="lucide lucide-star w-5 h-5 fill-yellow-400 text-yellow-400"
                           fill="none"
                           height="24"
                           stroke="currentColor"
@@ -381,8 +273,7 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
                           <span
                             class="flex items-center gap-1 text-blue-600 font-medium"
                           >
-                            🤖
-                             
+                            🤖 
                             model 1
                           </span>
                           <span
@@ -416,11 +307,11 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
                       </div>
                       <button
                         class="ml-2 p-1 hover:bg-slate-100 rounded transition-colors"
-                        title="Add to favorites"
+                        title="Remove from favorites"
                       >
                         <svg
                           aria-hidden="true"
-                          class="lucide lucide-star w-5 h-5 text-slate-400"
+                          class="lucide lucide-star w-5 h-5 fill-yellow-400 text-yellow-400"
                           fill="none"
                           height="24"
                           stroke="currentColor"
@@ -473,8 +364,7 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
                           <span
                             class="flex items-center gap-1 text-blue-600 font-medium"
                           >
-                            🤖
-                             
+                            🤖 
                             model 2
                           </span>
                           <span
@@ -508,11 +398,11 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
                       </div>
                       <button
                         class="ml-2 p-1 hover:bg-slate-100 rounded transition-colors"
-                        title="Add to favorites"
+                        title="Remove from favorites"
                       >
                         <svg
                           aria-hidden="true"
-                          class="lucide lucide-star w-5 h-5 text-slate-400"
+                          class="lucide lucide-star w-5 h-5 fill-yellow-400 text-yellow-400"
                           fill="none"
                           height="24"
                           stroke="currentColor"
