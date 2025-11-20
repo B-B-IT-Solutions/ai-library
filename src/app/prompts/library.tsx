@@ -18,8 +18,7 @@ import {
    Settings,
    FileText,
 } from "lucide-react";
-import { TemplateCards } from "./template/TemplateCards";
-import { TemplateFilters } from "./template/TemplateFilters";
+import { TemplateSelector } from "./template/TemplateSelector";
 
 const AI_MODELS = [
    "Claude Sonnet 4.5",
@@ -620,46 +619,17 @@ const PromptManager = () => {
 
                                  {/* Template Selector */}
                                  {!selectedPrompt && (
-                                    <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                                       <button
-                                          onClick={() =>
-                                             setShowTemplates(!showTemplates)
-                                          }
-                                          className="w-full flex items-center justify-between text-left"
-                                       >
-                                          <span className="font-medium text-blue-900">
-                                             {showTemplates
-                                                ? "📋 Hide Templates"
-                                                : "📋 Start from Template"}
-                                          </span>
-                                          {showTemplates ? (
-                                             <ChevronDown className="w-5 h-5 text-blue-900" />
-                                          ) : (
-                                             <ChevronRight className="w-5 h-5 text-blue-900" />
-                                          )}
-                                       </button>
-
-                                       {showTemplates && (
-                                          <div className="mt-4 space-y-4">
-                                             {/* Template Filters */}
-                                             <TemplateFilters
-                                                search={templateSearch}
-                                                setSearch={setTemplateSearch}
-                                                category={templateCategory}
-                                                setCategory={
-                                                   setTemplateCategory
-                                                }
-                                                categories={templateCategories}
-                                             />
-
-                                             {/* Template Grid */}
-                                             <TemplateCards
-                                                templates={filteredTemplates}
-                                                onSelect={loadTemplate}
-                                             />
-                                          </div>
-                                       )}
-                                    </div>
+                                    <TemplateSelector
+                                       showTemplates={showTemplates}
+                                       setShowTemplates={setShowTemplates}
+                                       search={templateSearch}
+                                       setSearch={setTemplateSearch}
+                                       category={templateCategory}
+                                       setCategory={setTemplateCategory}
+                                       categories={templateCategories}
+                                       templates={filteredTemplates}
+                                       onSelect={loadTemplate}
+                                    />
                                  )}
 
                                  <div className="space-y-4">
