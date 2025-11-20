@@ -15,4 +15,5 @@ export {
 
 export { renderAsyncRSC, getElementById } from "./test.utils";
 
-export * as dbtestData from "./mock-data/db.data.mocks";
+export * as ptestData from "./mock-data/persistence.data.mocks";
+export * as dtestData from "./mock-data/domain.data.mocks";

@@ -8,9 +8,16 @@ export const toDPrompts = (pPrompts: Prompt[]): DPrompt[] => {
 
 export const toDPrompt = (prompt: Prompt): DPrompt => {
    return {
+      id: prompt.id,
       title: prompt.title,
       content: prompt.content,
       categories: prompt.categories,
       recommendedModel: prompt.recommendedModel,
+      followUpPrompts: prompt.followUpPrompts,
+      currentVersion: prompt.currentVersion,
+      isFavorite: prompt.isFavorite,
+      versions: [],
+      updatedAt: prompt.updatedAt.toISOString(),
+      createdAt: prompt.createdAt.toISOString(),
    };
 };

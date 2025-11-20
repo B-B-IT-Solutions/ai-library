@@ -15,6 +15,7 @@ model Prompt {
   followUpPrompts  String[] @map("follow_up_prompts") @db.Text
   categories       String[]
   recommendedModel String   @map("recommended_model")
+  currentVersion   Int      @map("current_verion")
   isFavorite       Boolean  @default(false) @map("is_favorite")
   createdAt        DateTime @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt        DateTime @updatedAt @map("updated_at")
