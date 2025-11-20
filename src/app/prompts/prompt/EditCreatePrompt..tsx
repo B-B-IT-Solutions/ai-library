@@ -1,4 +1,4 @@
-import { DPrompt, DPromptTemplate } from "@/data/domain/prompt";
+import { DPromptCreate, DPromptTemplate } from "@/data/domain/prompt";
 import { FC, useState } from "react";
 import { TemplateSelector } from "../template/TemplateSelector";
 import { X } from "lucide-react";
@@ -17,7 +17,7 @@ const AI_MODELS = [
 ];
 
 type EditCreatePromptProps = {
-   selectedPrompt: DPrompt;
+   selectedPrompt: DPromptCreate;
    showTemplates: boolean;
    setShowTemplates: (value: boolean) => void;
    search: string;
@@ -41,7 +41,7 @@ export const EditCreatePrompt: FC<EditCreatePromptProps> = ({
    templates,
    onSelect,
 }) => {
-   const [formData, setFormData] = useState<DPrompt>({
+   const [formData, setFormData] = useState<DPromptCreate>({
       title: "",
       content: "",
       categories: [],

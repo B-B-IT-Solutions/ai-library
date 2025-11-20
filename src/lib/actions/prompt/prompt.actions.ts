@@ -1,10 +1,12 @@
-import { DPrompt } from "@/data/domain/prompt";
+"use server";
+
+import { DPromptCreate, DPrompt } from "@/data/domain/prompt";
 import {
    getPrompts as pGetPrompts,
    createPrompt as pCreatePrompt,
 } from "@/db/queries/prompt";
 import { toDPrompts } from "./prompt.mapper";
-import { insertPromptSchema } from "@/data/validators/prompt.schema";
+import { createPromptSchema } from "@/data/validators/prompt.schema";
 import { formatError } from "./utils";
 
 export const getPrompts = async (): Promise<DPrompt[]> => {
@@ -12,9 +14,9 @@ export const getPrompts = async (): Promise<DPrompt[]> => {
    return toDPrompts(data);
 };
 
-export const createPrompt = async (data: DPrompt) => {
+export const createPrompt = async (data: DPromptCreate) => {
    try {
-      const prompt = insertPromptSchema.parse(data);
+      const prompt = createPromptSchema.parse(data);
       const toSave = { ...prompt, currentVersion: 1 };
       await pCreatePrompt(toSave);
       return {
