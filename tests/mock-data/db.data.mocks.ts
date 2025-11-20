@@ -1,11 +1,11 @@
 import { range } from "es-toolkit";
 import { Prompt } from "@/generated/prisma/client";
 
-export const dbPrompts = (count = 3): Prompt[] => {
-   return range(0, count).map((i) => dbPrompt(i));
+export const pPrompts = (count = 3): Prompt[] => {
+   return range(0, count).map((i) => pPrompt(i));
 };
 
-export const dbPrompt = (index = 1): Prompt => {
+export const pPrompt = (index = 1): Prompt => {
    return {
       id: `334db648-f300-4284-8149-075ff465d75${index}`,
       title: `title ${index}`,

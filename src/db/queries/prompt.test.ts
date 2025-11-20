@@ -12,7 +12,7 @@ describe("getPrompts tests", () => {
    });
 
    test("getPrompts - prompts retrieved - test", async () => {
-      const prompts = dbtestData.dbPrompts();
+      const prompts = dbtestData.pPrompts();
       prismaMock.prompt.findMany.mockResolvedValue(prompts);
 
       const result = await getPrompts();
