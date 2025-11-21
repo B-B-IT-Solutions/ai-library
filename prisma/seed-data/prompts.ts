@@ -1,4 +1,4 @@
-type DPatternType = "persona" | "audience";
+type DPatternType = "persona" | "audience" | "recipe" | "template";
 
 type DPromptSample = {
    title: string;
