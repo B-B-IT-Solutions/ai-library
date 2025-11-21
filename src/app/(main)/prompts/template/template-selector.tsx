@@ -1,8 +1,10 @@
-import { Prisma, PrismaClient } from "../src/generated/prisma/client";
+import { ChevronDown, ChevronRight } from "lucide-react";
+import { FC, useState } from "react";
+import { TemplateFilters } from "./template-filters";
+import { TemplateCards } from "./template-cards";
+import { DPromptTemplate } from "@/data/domain/prompt";
 
-const prisma = new PrismaClient();
-
-const promptsData: Prisma.PromptTemplateCreateInput[] = [
+const PREDEFINED_PROMPTS: DPromptTemplate[] = [
    {
       title: "Code Review Assistant",
       content:
@@ -75,23 +77,73 @@ const promptsData: Prisma.PromptTemplateCreateInput[] = [
    },
 ];
 
-export const main = async () => {
-   console.log("Deleting obsolete entries...");
-   await prisma.promptTemplate.deleteMany();
-
-   console.log("Starting to seed...");
-   await prisma.promptTemplate.createMany({
-      data: promptsData,
-   });
-
-   console.log("Seeding finished.");
+type TemplateSelectorProps = {
+   onSelect: (template: DPromptTemplate) => void;
 };
 
-main()
-   .catch((e) => {
-      console.error(e);
-      process.exit(1);
-   })
-   .finally(async () => {
-      await prisma.$disconnect();
+export const TemplateSelector: FC<TemplateSelectorProps> = ({ onSelect }) => {
+   const [showTemplates, setShowTemplates] = useState(false);
+   const [templateSearch, setTemplateSearch] = useState("");
+   const [templateCategory, setTemplateCategory] = useState("all");
+
+   const templateCategories = [
+      ...new Set(PREDEFINED_PROMPTS.flatMap((t) => t.categories)),
+   ].sort();
+
+   const filteredTemplates = PREDEFINED_PROMPTS.filter((template) => {
+      const matchesSearch =
+         template.title.toLowerCase().includes(templateSearch.toLowerCase()) ||
+         template.content
+            .toLowerCase()
+            .includes(templateSearch.toLowerCase()) ||
+         template.categories.some((cat: string) =>
+            cat.toLowerCase().includes(templateSearch.toLowerCase())
+         );
+      const matchesCategory =
+         templateCategory === "all" ||
+         template.categories.includes(templateCategory);
+      return matchesSearch && matchesCategory;
    });
+
+   return (
+      <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+         <button
+            onClick={() => setShowTemplates(!showTemplates)}
+            className="w-full flex items-center justify-between text-left"
+         >
+            <span className="font-medium text-blue-900">
+               {showTemplates ? "📋 Hide Templates" : "📋 Start from Template"}
+            </span>
+            {showTemplates ? (
+               <ChevronDown className="w-5 h-5 text-blue-900" />
+            ) : (
+               <ChevronRight className="w-5 h-5 text-blue-900" />
+            )}
+         </button>
+
+         {showTemplates && (
+            <div className="mt-4 space-y-4">
+               {/* Template Filters */}
+               <TemplateFilters
+                  search={templateSearch}
+                  setSearch={setTemplateSearch}
+                  category={templateCategory}
+                  setCategory={setTemplateCategory}
+                  categories={templateCategories}
+               />
+
+               {/* Template Grid */}
+               <TemplateCards
+                  templates={filteredTemplates}
+                  onSelect={(template) => {
+                     onSelect(template);
+                     setShowTemplates(false);
+                     setTemplateSearch("");
+                     setTemplateCategory("all");
+                  }}
+               />
+            </div>
+         )}
+      </div>
+   );
+};
