@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`LoadingPage rendering tests LoadingPage rendered 1`] = `
+<div>
+  <div
+    data-testid="loading-page"
+    style="display: flex; justify-content: center; align-items: center; height: 100vh; width: 100vw;"
+  >
+    <img
+      alt="Loading..."
+      data-nimg="1"
+      decoding="async"
+      height="150"
+      loading="lazy"
+      src="/_next/image?url=%2Ftest-file-stub.gif&w=384&q=75"
+      srcset="/_next/image?url=%2Ftest-file-stub.gif&w=256&q=75 1x, /_next/image?url=%2Ftest-file-stub.gif&w=384&q=75 2x"
+      style="color: transparent;"
+      width="150"
+    />
+  </div>
+</div>
+`;
