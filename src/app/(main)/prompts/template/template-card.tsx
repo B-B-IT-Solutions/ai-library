@@ -12,14 +12,10 @@ export const TemplateCard: FC<TemplateCardsProps> = ({
    template,
    onSelect,
 }) => {
-   return (
-      <button
-         onClick={() => onSelect(template)}
-         className="p-4 bg-white border border-slate-300 rounded-lg text-left hover:border-blue-500 hover:shadow-md transition-all"
-      >
-         <h4 className="font-medium mb-2 text-slate-900">{template.title}</h4>
-         <div className="flex flex-wrap gap-1 mb-2">
-            {template.categories.map((cat) => (
+   const tags = () => {
+      return (
+         <div className="flex flex-wrap gap-1 mb-2" data-testid="tags">
+            {template.categories.map((cat: string) => (
                <span
                   key={cat}
                   className="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
@@ -33,9 +29,35 @@ export const TemplateCard: FC<TemplateCardsProps> = ({
                </span>
             )}
          </div>
-         <p className="text-xs text-slate-600 line-clamp-2">
+      );
+   };
+
+   const content = () => {
+      return (
+         <p
+            className="text-xs text-slate-600 line-clamp-2"
+            data-testid="content"
+         >
             {template.content}
          </p>
-      </button>
+      );
+   };
+
+   return (
+      <Card
+         className="p-4 gap-0 bg-white border border-slate-300 rounded-lg text-left hover:border-blue-500 hover:shadow-md transition-all"
+         onClick={() => onSelect(template)}
+         data-testid="template-card"
+      >
+         <CardHeader className="p-0 gap-0 items-center">
+            <h4 className="font-medium mb-2 text-slate-900">
+               {template.title}
+            </h4>
+         </CardHeader>
+         <CardContent className="p-0 grid gap-2">
+            {tags()}
+            {content()}
+         </CardContent>
+      </Card>
    );
 };
