@@ -1,5 +1,7 @@
-import { DPromptTemplate } from "@/data/domain/prompt";
 import { FC } from "react";
+
+import { DPromptTemplate } from "@/data/domain/prompt";
+
 import { TemplateCard } from "./template-card";
 
 type TemplateCardsProps = {

@@ -1,5 +1,5 @@
-import { Search } from "lucide-react";
 import { FC } from "react";
+import { Search } from "lucide-react";
 
 type TemplateFiltersProps = {
    search: string;

@@ -1,5 +1,7 @@
-import { DPromptTemplate } from "@/data/domain/prompt";
 import { FC } from "react";
+
+import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
+import { DPromptTemplate } from "@/data/domain/prompt";
 
 type TemplateCardsProps = {
    template: DPromptTemplate;
