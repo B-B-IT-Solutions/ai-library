@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { isEmpty, map } from "es-toolkit/compat";
 
 import { DPromptTemplate } from "@/data/domain/prompt";
 
@@ -13,21 +14,28 @@ export const TemplateCards: FC<TemplateCardsProps> = ({
    templates,
    onSelect,
 }) => {
-   return (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-96 overflow-y-auto">
-         {templates.length > 0 ? (
-            templates.map((template, idx) => (
-               <TemplateCard
-                  key={idx}
-                  template={template}
-                  onSelect={onSelect}
-               />
-            ))
-         ) : (
-            <div className="col-span-2 text-center py-8 text-slate-500">
+   const cards = () => {
+      if (isEmpty(templates)) {
+         return (
+            <div
+               className="col-span-2 text-center py-8 text-slate-500"
+               data-testid="empty-templates"
+            >
                No templates match your filters
             </div>
-         )}
+         );
+      }
+      return map(templates, (template, idx) => (
+         <TemplateCard key={idx} template={template} onSelect={onSelect} />
+      ));
+   };
+
+   return (
+      <div
+         className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-96 overflow-y-auto scrollbar-thin"
+         data-testid="template-cards"
+      >
+         {cards()}
       </div>
    );
 };

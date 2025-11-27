@@ -1,15 +1,9 @@
-jest.mock("@/lib/actions/prompt/prompt.actions");
-
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData } from "@tests";
-import { Metadata } from "next";
 
 import { TemplateCard } from "./template-card";
-
-export const expectedMetadata: Metadata = {
-   title: "Prompts",
-};
 
 const assertRendered = () => {
    const card = screen.getByTestId("template-card");
@@ -22,14 +16,10 @@ const assertRendered = () => {
 };
 
 describe("TemplateCard rendering tests", () => {
-   beforeEach(() => {
-      jest.resetAllMocks();
-   });
-
    it("TemplateCard rendered test", async () => {
       const template = dtestData.dPromptTemplate();
 
-      const { container } = await render(
+      const { container } = render(
          <TemplateCard template={template} onSelect={jest.fn()} />
       );
 
@@ -38,5 +28,27 @@ describe("TemplateCard rendering tests", () => {
       });
 
       expect(container).toMatchSnapshot();
+   });
+});
+
+describe("TemplateCard functionality tests", () => {
+   it("TemplateCard - template clicked = test", async () => {
+      const template = dtestData.dPromptTemplate();
+      const onSelectFn = jest.fn();
+
+      render(<TemplateCard template={template} onSelect={onSelectFn} />);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(onSelectFn).not.toHaveBeenCalled();
+      });
+
+      const card = screen.getByTestId("template-card");
+      userEvent.click(card);
+
+      await waitFor(() => {
+         expect(onSelectFn).toHaveBeenCalledTimes(1);
+         expect(onSelectFn).toHaveBeenCalledWith(template);
+      });
    });
 });

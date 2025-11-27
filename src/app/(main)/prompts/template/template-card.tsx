@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { map } from "es-toolkit/compat";
 
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import { DPromptTemplate } from "@/data/domain/prompt";
@@ -13,9 +14,10 @@ export const TemplateCard: FC<TemplateCardsProps> = ({
    onSelect,
 }) => {
    const tags = () => {
+      const { categories, recommendedModel } = template;
       return (
          <div className="flex flex-wrap gap-1 mb-2" data-testid="tags">
-            {template.categories.map((cat: string) => (
+            {map(categories, (cat) => (
                <span
                   key={cat}
                   className="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
@@ -23,9 +25,9 @@ export const TemplateCard: FC<TemplateCardsProps> = ({
                   {cat}
                </span>
             ))}
-            {template.recommendedModel && (
+            {recommendedModel && (
                <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded border border-blue-200">
-                  🤖 {template.recommendedModel}
+                  🤖 {recommendedModel}
                </span>
             )}
          </div>

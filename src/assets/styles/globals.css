@@ -35,6 +35,14 @@
    .h3-bold {
       @apply font-bold text-xl lg:text-2xl;
    }
+
+   .scrollbar-thin {
+      scrollbar-width: thin; /* Firefox */
+   }
+
+   .scrollbar-thin::-webkit-scrollbar {
+      width: 6px; /* Chrome/Safari/Edge */
+   }
 }
 
 @theme inline {
