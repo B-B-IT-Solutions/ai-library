@@ -1,12 +1,13 @@
 "use server";
 
-import { DPromptCreate, DPrompt } from "@/data/domain/prompt";
-import {
-   getPrompts as pGetPrompts,
-   createPrompt as pCreatePrompt,
-} from "@/db/queries/prompt";
-import { toDPrompts } from "./prompt.mapper";
+import { DPrompt, DPromptCreate } from "@/data/domain/prompt";
 import { createPromptSchema } from "@/data/validators/prompt.schema";
+import {
+   createPrompt as pCreatePrompt,
+   getPrompts as pGetPrompts,
+} from "@/db/queries/prompt";
+
+import { toDPrompts } from "./prompt.mapper";
 import { formatError } from "./utils";
 
 export const getPrompts = async (): Promise<DPrompt[]> => {

@@ -2,10 +2,10 @@ import "@/assets/styles/globals.css";
 
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { ThemeProvider } from "next-themes";
 
 import { Toaster } from "@/components/shadcn/sonner";
 import { APP_DESCRIPTION, APP_NAME, SERVER_URL } from "@/lib/constants";
+import { Providers } from "@/providers";
 
 const inter = Inter({
    subsets: ["latin"],
@@ -32,15 +32,10 @@ const RootLayout = (props: Readonly<RootLayoutProps>) => {
             className={`${inter.className} antialiased`}
             data-testid="root-layout"
          >
-            <ThemeProvider
-               attribute="class"
-               defaultTheme="light"
-               enableSystem={true}
-               disableTransitionOnChange={true}
-            >
+            <Providers>
                <Toaster />
                {children}
-            </ThemeProvider>
+            </Providers>
          </body>
       </html>
    );
