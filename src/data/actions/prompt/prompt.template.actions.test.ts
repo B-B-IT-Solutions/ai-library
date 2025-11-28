@@ -1,4 +1,4 @@
-jest.mock("@/db/queries/prompt.template");
+jest.mock("@/data/db/queries/prompt.template");
 
 import { ptestData } from "@tests";
 import { map } from "es-toolkit/compat";

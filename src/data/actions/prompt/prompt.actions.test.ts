@@ -1,4 +1,4 @@
-jest.mock("@/db/queries/prompt");
+jest.mock("@/data/db/queries/prompt");
 
 import { dtestData, ptestData } from "@tests";
 

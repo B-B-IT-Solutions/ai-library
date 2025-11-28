@@ -13,7 +13,11 @@ export {
    assertStringifyEqual,
 } from "./assert.utils";
 
-export { renderAsyncRSC, getElementById } from "./test.utils";
+export {
+   renderAsyncRSC,
+   renderHookWithReactQuery,
+   getElementById,
+} from "./test.utils";
 
 export * as ptestData from "./mock-data/persistence.data.mocks";
 export * as dtestData from "./mock-data/domain.data.mocks";
