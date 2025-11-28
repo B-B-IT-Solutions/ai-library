@@ -1,8 +1,10 @@
 import { ptestData } from "@tests";
-import { toDPrompt, toDPrompts } from "./prompt.mapper";
-import { Prompt } from "@/generated/prisma/browser";
-import { DPrompt } from "@/data/domain/prompt";
 import { map } from "es-toolkit/compat";
+
+import { DPrompt } from "@/data/domain/prompt";
+import { Prompt } from "@/generated/prisma/browser";
+
+import { toDPrompt, toDPrompts } from "./prompt.mapper";
 
 const toDPromptsInternal = (pPrompts: Prompt[]): DPrompt[] => {
    return map(pPrompts, (dbP) => toDPrompt(dbP));

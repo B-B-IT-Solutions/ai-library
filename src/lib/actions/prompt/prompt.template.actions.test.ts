@@ -1,8 +1,9 @@
 jest.mock("@/db/queries/prompt.template");
 
+import { ptestData } from "@tests";
+
 import { getPromptTemplates as pGetPromptTemplates } from "@/db/queries/prompt.template";
 
-import { ptestData } from "@tests";
 import { toDPromptTemplates } from "./prompt.mapper";
 import { getPromptTemplates } from "./prompt.template.actions";
 

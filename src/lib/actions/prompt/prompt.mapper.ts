@@ -1,7 +1,8 @@
+import { map } from "es-toolkit/compat";
+
 import { DPrompt, DPromptTemplate } from "@/data/domain/prompt";
 import { Prompt } from "@/generated/prisma/browser";
 import { PromptTemplate } from "@/generated/prisma/client";
-import { map } from "es-toolkit/compat";
 
 export const toDPromptTemplates = (
    pPrompts: PromptTemplate[]

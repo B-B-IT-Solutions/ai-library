@@ -37,7 +37,7 @@ export const TemplateCard: FC<TemplateCardsProps> = ({
    const content = () => {
       return (
          <p
-            className="text-xs text-slate-600 line-clamp-2"
+            className="text-xs text-slate-600 line-clamp-3"
             data-testid="content"
          >
             {template.content}
