@@ -23,7 +23,21 @@ describe("db queries tests", () => {
 
       const result = await getPromptTemplates();
 
+      const expectedFindMayArgs: Prisma.PromptTemplateFindManyArgs = {
+         include: {
+            categories: {
+               select: {
+                  name: true,
+               },
+            },
+         },
+      };
+
       expect(result).toEqual(prompts);
+      expect(prismaMock.promptTemplate.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptTemplate.findMany).toHaveBeenCalledWith(
+         expectedFindMayArgs
+      );
    });
 
    test("getPromptTemplateCategories - categories retrieved - test", async () => {

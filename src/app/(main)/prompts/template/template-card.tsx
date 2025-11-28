@@ -19,10 +19,10 @@ export const TemplateCard: FC<TemplateCardsProps> = ({
          <div className="flex flex-wrap gap-1 mb-2" data-testid="tags">
             {map(categories, (cat) => (
                <span
-                  key={cat}
+                  key={cat.name}
                   className="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
                >
-                  {cat}
+                  {cat.name}
                </span>
             ))}
             {recommendedModel && (

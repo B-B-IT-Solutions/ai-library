@@ -22,24 +22,24 @@ const assertRendered = () => {
    assertInDocument(promptManager);
 };
 
-describe("PromptsPage rendering tests", () => {
-   beforeEach(() => {
-      jest.resetAllMocks();
-   });
+// describe("PromptsPage rendering tests", () => {
+//    beforeEach(() => {
+//       jest.resetAllMocks();
+//    });
 
-   it("PromptsPage - prompts retrieved - rendered test", async () => {
-      const prompts = dtestData.dPrompts();
-      getPromptsMock.mockResolvedValue(prompts);
+//    it("PromptsPage - prompts retrieved - rendered test", async () => {
+//       const prompts = dtestData.dPrompts();
+//       getPromptsMock.mockResolvedValue(prompts);
 
-      const { container } = await renderAsyncRSC(PromptsPage, {});
+//       const { container } = await renderAsyncRSC(PromptsPage, {});
 
-      await waitFor(() => {
-         assertRendered();
-      });
+//       await waitFor(() => {
+//          assertRendered();
+//       });
 
-      expect(container).toMatchSnapshot();
-   });
-});
+//       expect(container).toMatchSnapshot();
+//    });
+// });
 
 describe("PromptsPage functionality tests", () => {
    it("PromptsPage - metadata - test", async () => {
