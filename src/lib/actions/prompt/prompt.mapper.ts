@@ -1,6 +1,6 @@
 import { map } from "es-toolkit/compat";
 
-import { DPrompt, DPromptTemplate } from "@/data/domain/prompt";
+import { DPrompt, DPromptTemplate } from "@/data/types/domain/prompt";
 import { Prompt } from "@/generated/prisma/browser";
 import { PromptTemplate } from "@/generated/prisma/client";
 

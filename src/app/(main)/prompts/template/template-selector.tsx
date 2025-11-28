@@ -1,11 +1,11 @@
 import { FC, useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
-import { DPromptTemplate } from "@/data/domain/prompt";
 import {
    useLoadPromptTemplateCategories,
    useLoadPromptTemplates,
 } from "@/data/ts-queries/prompt";
+import { DPromptTemplate } from "@/data/types/domain/prompt";
 
 import { TemplateCards } from "./template-cards";
 import { TemplateFilters } from "./template-filters";

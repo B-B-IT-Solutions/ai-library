@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Star } from "lucide-react";
 
-import { DPrompt } from "@/data/domain/prompt";
+import { DPrompt } from "@/data/types/domain/prompt";
 
 export const Favorites = () => {
    const prompts: DPrompt[] = [];

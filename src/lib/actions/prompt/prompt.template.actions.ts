@@ -2,7 +2,7 @@
 
 import { map } from "es-toolkit/compat";
 
-import { DPromptTemplate } from "@/data/domain/prompt";
+import { DPromptTemplate } from "@/data/types/domain/prompt";
 import {
    getPromptTemplateCategories as pGetPromptTemplateCategories,
    getPromptTemplates as pGetPromptTemplates,

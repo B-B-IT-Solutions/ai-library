@@ -1,7 +1,7 @@
 "use server";
 
-import { DPrompt, DPromptCreate } from "@/data/domain/prompt";
-import { createPromptSchema } from "@/data/validators/prompt.schema";
+import { DPrompt, DPromptCreate } from "@/data/types/domain/prompt";
+import { createPromptSchema } from "@/data/types/validators/prompt.schema";
 import {
    createPrompt as pCreatePrompt,
    getPrompts as pGetPrompts,

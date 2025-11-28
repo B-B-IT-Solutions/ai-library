@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { X } from "lucide-react";
 
-import { DPromptCreate, DPromptTemplate } from "@/data/domain/prompt";
+import { DPromptCreate, DPromptTemplate } from "@/data/types/domain/prompt";
 import { TemplateSelector } from "../template/template-selector";
 
 const AI_MODELS = [

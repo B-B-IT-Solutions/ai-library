@@ -6,7 +6,7 @@ import {
    UseQueryResult,
 } from "@tanstack/react-query";
 
-import { DPromptTemplate } from "@/data/domain/prompt";
+import { DPromptTemplate } from "@/data/types/domain/prompt";
 import {
    getPromptTemplateCategories,
    getPromptTemplates,
