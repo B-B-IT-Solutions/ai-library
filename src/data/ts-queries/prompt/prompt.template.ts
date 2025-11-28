@@ -6,11 +6,11 @@ import {
    UseQueryResult,
 } from "@tanstack/react-query";
 
-import { DPromptTemplate } from "@/data/types/domain/prompt";
 import {
    getPromptTemplateCategories,
    getPromptTemplates,
-} from "@/lib/actions/prompt/prompt.template.actions";
+} from "@/data/actions/prompt/prompt.template.actions";
+import { DPromptTemplate } from "@/data/types/domain/prompt";
 
 import { promptTemplateCategoryKeys, promptTemplateKeys } from "./utils";
 

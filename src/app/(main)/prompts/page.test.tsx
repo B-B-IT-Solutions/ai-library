@@ -4,7 +4,7 @@ import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 
-import { getPrompts } from "@/lib/actions/prompt/prompt.actions";
+import { getPrompts } from "@/data/actions/prompt/prompt.actions";
 
 import PromptsPage, { metadata } from "./page";
 

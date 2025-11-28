@@ -17,12 +17,12 @@ import {
    X,
 } from "lucide-react";
 
+import { createPrompt } from "@/data/actions/prompt/prompt.actions";
 import {
    DPrompt,
    DPromptCreate,
    DPromptTemplate,
 } from "@/data/types/domain/prompt";
-import { createPrompt } from "@/lib/actions/prompt/prompt.actions";
 
 import { TemplateSelector } from "./template/template-selector";
 

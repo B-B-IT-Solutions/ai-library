@@ -8,7 +8,7 @@ import {
    preloadPromptTemplateCategoriesOptions,
    preloadPromptTemplatesOptions,
 } from "@/data/ts-queries/prompt";
-import { getPrompts } from "@/lib/actions/prompt/prompt.actions";
+import { getPrompts } from "@/data/actions/prompt/prompt.actions";
 
 import PromptManager from "./library";
 
