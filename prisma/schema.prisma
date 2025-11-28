@@ -14,7 +14,7 @@ model Prompt {
   content          String   @db.Text
   followUpPrompts  String[] @map("follow_up_prompts") @db.Text
   categories       String[]
-  recommendedModel String   @map("recommended_model")
+  recommendedModel String   @map("recommended_model") @db.VarChar(250)
   currentVersion   Int      @map("current_verion")
   isFavorite       Boolean  @default(false) @map("is_favorite")
   createdAt        DateTime @default(now()) @map("created_at") @db.Timestamp(6)
@@ -24,13 +24,21 @@ model Prompt {
 }
 
 model PromptTemplate {
-  id               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id               String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title            String
-  content          String   @db.Text
-  categories       String[]
-  recommendedModel String   @map("recommended_model")
-  createdAt        DateTime @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt        DateTime @updatedAt @map("updated_at")
+  content          String                   @db.Text
+  categories       PromptTemplateCategory[]
+  recommendedModel String                   @map("recommended_model") @db.VarChar(250)
+  createdAt        DateTime                 @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt        DateTime                 @updatedAt @map("updated_at")
 
   @@map("prompt_template")
+}
+
+model PromptTemplateCategory {
+  id      Int              @id @default(autoincrement())
+  name    String           @unique @db.VarChar(250)
+  prompts PromptTemplate[]
+
+  @@map("prompt_template_category")
 }
