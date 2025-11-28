@@ -1,12 +1,11 @@
 import { FC, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
 import { DPromptTemplate } from "@/data/domain/prompt";
 import {
-   getPromptTemplateCategories,
-   getPromptTemplates,
-} from "@/lib/actions/prompt/prompt.template.actions";
+   useLoadPromptTemplateCategories,
+   useLoadPromptTemplates,
+} from "@/data/ts-queries/prompt";
 
 import { TemplateCards } from "./template-cards";
 import { TemplateFilters } from "./template-filters";
@@ -16,19 +15,8 @@ type TemplateSelectorProps = {
 };
 
 export const TemplateSelector: FC<TemplateSelectorProps> = ({ onSelect }) => {
-   const { data: templates = [] } = useQuery({
-      queryKey: ["prompt-templates"],
-      queryFn: async () => {
-         return await getPromptTemplates();
-      },
-   });
-
-   const { data: categories = [] } = useQuery({
-      queryKey: ["prompt-template-categories"],
-      queryFn: async () => {
-         return await getPromptTemplateCategories();
-      },
-   });
+   const { data: templates = [] } = useLoadPromptTemplates();
+   const { data: categories = [] } = useLoadPromptTemplateCategories();
 
    const [showTemplates, setShowTemplates] = useState(false);
    const [templateSearch, setTemplateSearch] = useState("");

@@ -17,8 +17,6 @@ export const toDPromptTemplate = (prompt: PromptTemplate): DPromptTemplate => {
       content: prompt.content,
       categories: prompt.categories,
       recommendedModel: prompt.recommendedModel,
-      followUpPrompts: prompt.followUpPrompts,
-      versions: [],
       updatedAt: prompt.updatedAt.toISOString(),
       createdAt: prompt.createdAt.toISOString(),
    };
