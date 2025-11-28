@@ -1,8 +1,13 @@
 import z from "zod";
 
-import { createPromptSchema } from "../validators/prompt.schema";
+import {
+   createPromptSchema,
+   createPromptTemplateSchema,
+} from "../validators/prompt.schema";
 
-export type DPromptTemplate = z.infer<typeof insertPromptTemplateSchema> & {
+export type DPromptTemplateCreate = z.infer<typeof createPromptTemplateSchema>;
+
+export type DPromptTemplate = DPromptTemplateCreate & {
    id: string;
    updatedAt: string;
    createdAt: string;
