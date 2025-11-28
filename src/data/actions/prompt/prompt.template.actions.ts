@@ -2,11 +2,11 @@
 
 import { map } from "es-toolkit/compat";
 
-import { DPromptTemplate } from "@/data/types/domain/prompt";
 import {
    getPromptTemplateCategories as pGetPromptTemplateCategories,
    getPromptTemplates as pGetPromptTemplates,
-} from "@/db/queries/prompt.template";
+} from "@/data/db/queries/prompt.template";
+import { DPromptTemplate } from "@/data/types/domain/prompt";
 
 import { toDPromptTemplates } from "./prompt.mapper";
 

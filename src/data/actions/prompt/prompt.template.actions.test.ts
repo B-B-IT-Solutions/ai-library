@@ -6,7 +6,7 @@ import { map } from "es-toolkit/compat";
 import {
    getPromptTemplateCategories as pGetPromptTemplateCategories,
    getPromptTemplates as pGetPromptTemplates,
-} from "@/db/queries/prompt.template";
+} from "@/data/db/queries/prompt.template";
 
 import { toDPromptTemplates } from "./prompt.mapper";
 import {

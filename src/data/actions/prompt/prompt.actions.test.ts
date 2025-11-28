@@ -5,7 +5,7 @@ import { dtestData, ptestData } from "@tests";
 import {
    createPrompt as pCreatePrompt,
    getPrompts as pGetPrompts,
-} from "@/db/queries/prompt";
+} from "@/data/db/queries/prompt";
 
 import { createPrompt, getPrompts } from "./prompt.actions";
 import { toDPrompts } from "./prompt.mapper";
