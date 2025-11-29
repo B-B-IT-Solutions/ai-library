@@ -49,6 +49,13 @@ export const TemplateFilters: FC<TemplateFiltersProps> = ({
       }
    };
 
+   // const handleSearch = (value: string) => {
+   //    debounce(() => {
+   //       console.log("called");
+   //       setSearch(value);
+   //    }, 300);
+   // };
+
    const searchInput = () => {
       return (
          <div className="relative" data-testid="search-input">
