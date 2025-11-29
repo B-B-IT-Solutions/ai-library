@@ -12,6 +12,7 @@ import {
 } from "@/data/actions/prompt/prompt.template.actions";
 import { DPromptTemplate } from "@/data/types/domain/prompt";
 
+import { LoadPromptTemplatesParams } from "./types";
 import { promptTemplateCategoryKeys, promptTemplateKeys } from "./utils";
 
 export const preloadPromptTemplatesOptions = (): FetchQueryOptions<
@@ -40,23 +41,23 @@ export const preloadPromptTemplateCategoriesOptions = (): FetchQueryOptions<
    };
 };
 
-export const loadPromptTemplatesOptions = (): UndefinedInitialDataOptions<
-   DPromptTemplate[],
-   Error,
-   DPromptTemplate[]
-> => {
+export const loadPromptTemplatesOptions = (
+   params?: LoadPromptTemplatesParams
+): UndefinedInitialDataOptions<DPromptTemplate[], Error, DPromptTemplate[]> => {
    return {
-      queryKey: promptTemplateKeys.templates(),
+      queryKey: promptTemplateKeys.templates(params),
       queryFn: async () => {
-         return await getPromptTemplates();
+         return await getPromptTemplates(params);
       },
       placeholderData: keepPreviousData,
       staleTime: 5 * 60 * 1000,
    };
 };
 
-export const useLoadPromptTemplates = (): UseQueryResult<DPromptTemplate[]> => {
-   const options = loadPromptTemplatesOptions();
+export const useLoadPromptTemplates = (
+   params?: LoadPromptTemplatesParams
+): UseQueryResult<DPromptTemplate[]> => {
+   const options = loadPromptTemplatesOptions(params);
    return useQuery<DPromptTemplate[]>(options);
 };
 
