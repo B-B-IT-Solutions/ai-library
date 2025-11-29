@@ -2,19 +2,22 @@
 
 import { FC, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { map } from "es-toolkit/compat";
 import {
    Check,
    ChevronDown,
    ChevronRight,
    Copy,
    Edit2,
+   Plus,
    Save,
    Tag,
    X,
 } from "lucide-react";
-import { ControllerRenderProps, useForm } from "react-hook-form";
+import { ControllerRenderProps, useFieldArray, useForm } from "react-hook-form";
 
 import { AutosizeTextarea } from "@/components/shadcn/autosize-textarea";
+import { Button } from "@/components/shadcn/button";
 import {
    Form,
    FormControl,
@@ -31,7 +34,6 @@ import {
    SelectTrigger,
    SelectValue,
 } from "@/components/shadcn/select";
-import { Textarea } from "@/components/shadcn/textarea";
 import { createPrompt } from "@/data/actions/prompt/prompt.actions";
 import { DPrompt, DPromptCreate } from "@/data/types/domain/prompt";
 import { createPromptSchema } from "@/data/types/validators/prompt.schema";
@@ -72,6 +74,11 @@ export const PromptFom: FC<PromptFomProps> = ({ prompt }) => {
       },
    });
 
+   const { fields, append, remove } = useFieldArray({
+      control: form.control,
+      name: "categories",
+   });
+
    const [formData, setFormData] = useState<DPromptCreate>({
       title: "",
       content: "",
@@ -86,36 +93,12 @@ export const PromptFom: FC<PromptFomProps> = ({ prompt }) => {
    };
 
    const startEdit = () => {
-      if (!prompt) {
-         return;
-      }
-      setFormData({
-         title: prompt.title,
-         content: prompt.content,
-         categories: prompt.categories,
-         recommendedModel: prompt.recommendedModel || "",
-         followUpPrompts: prompt.followUpPrompts || [],
-      });
       setIsEditing(true);
    };
 
-   const addFollowUpPrompt = () => {
-      const input = document.getElementById("newFollowUp");
-      if (input && input.value.trim()) {
-         setFormData((prev) => ({
-            ...prev,
-            followUpPrompts: [...prev.followUpPrompts, input.value.trim()],
-         }));
-         input.value = "";
-      }
-   };
+   const addFollowUpPrompt = () => {};
 
-   const removeFollowUpPrompt = (index: number) => {
-      setFormData((prev) => ({
-         ...prev,
-         followUpPrompts: prev.followUpPrompts.filter((_, i) => i !== index),
-      }));
-   };
+   const removeFollowUpPrompt = (index: number) => {};
 
    const copyToClipboard = async (text: string, itemId: string) => {
       try {
@@ -131,22 +114,6 @@ export const PromptFom: FC<PromptFomProps> = ({ prompt }) => {
       setExpandedVersions((prev) => ({
          ...prev,
          [promptId]: !prev[promptId],
-      }));
-   };
-
-   const addCategory = (cat: string) => {
-      if (cat && !formData.categories.includes(cat)) {
-         setFormData((prev) => ({
-            ...prev,
-            categories: [...prev.categories, cat],
-         }));
-      }
-   };
-
-   const removeCategory = (cat: string) => {
-      setFormData((prev) => ({
-         ...prev,
-         categories: prev.categories.filter((c) => c !== cat),
       }));
    };
 
@@ -190,49 +157,40 @@ export const PromptFom: FC<PromptFomProps> = ({ prompt }) => {
                </div>
 
                <div>
-                  <label className="block text-sm font-medium mb-2 text-slate-700">
-                     Categories
-                  </label>
-                  <div className="flex gap-2 mb-2 flex-wrap">
-                     {formData.categories.map((cat) => (
-                        <span
-                           key={cat}
-                           className="flex items-center gap-1 px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm border border-slate-200"
-                        >
-                           {cat}
-                           <button
-                              onClick={() => removeCategory(cat)}
-                              className="hover:text-slate-900"
-                           >
-                              <X className="w-3 h-3" />
-                           </button>
-                        </span>
-                     ))}
-                  </div>
-                  <div className="flex gap-2">
-                     <input
-                        type="text"
-                        id="newCategory"
-                        placeholder="Add category..."
-                        className="flex-1 px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        onKeyPress={(e) => {
-                           if (e.key === "Enter") {
-                              addCategory(e.target.value);
-                              e.target.value = "";
-                           }
-                        }}
-                     />
-                     <button
-                        onClick={() => {
-                           const input = document.getElementById("newCategory");
-                           addCategory(input.value);
-                           input.value = "";
-                        }}
-                        className="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg transition-colors"
+                  <FormItem className="w-full">
+                     <FormLabel className="block text-sm font-medium mb-1 text-slate-700">
+                        Categories
+                     </FormLabel>
+                     <div className="space-y-3">
+                        {map(fields, (field, index) => (
+                           <div key={field.id} className="flex gap-2">
+                              <Input
+                                 {...form.register(`categories.${index}`)}
+                                 placeholder="Enter category"
+                                 className="flex-1"
+                              />
+                              <Button
+                                 type="button"
+                                 variant="outline"
+                                 size="icon"
+                                 onClick={() => remove(index)}
+                                 className="hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+                              >
+                                 <X className="h-4 w-4" />
+                              </Button>
+                           </div>
+                        ))}
+                     </div>{" "}
+                     <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => append("")}
+                        className="mt-3 w-full"
                      >
-                        Add
-                     </button>
-                  </div>
+                        <Plus className="h-4 w-4 mr-2" />
+                        Add Category
+                     </Button>
+                  </FormItem>
                </div>
 
                <div>
