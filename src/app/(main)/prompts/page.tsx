@@ -10,7 +10,7 @@ import {
    preloadPromptTemplatesOptions,
 } from "@/data/ts-queries/prompt";
 
-import PromptManager from "./library";
+import { PromptManager } from "./library";
 
 export const metadata = {
    title: "Prompts",
