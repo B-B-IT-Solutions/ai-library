@@ -27,6 +27,7 @@ describe("getPromptTemplates tests", () => {
          include: {
             categories: true,
          },
+         take: 20,
       };
 
       expect(result).toEqual(prompts);
@@ -46,6 +47,7 @@ describe("getPromptTemplates tests", () => {
          include: {
             categories: true,
          },
+         take: 20,
       };
 
       expect(result).toEqual(prompts);
@@ -82,6 +84,7 @@ describe("getPromptTemplates tests", () => {
          include: {
             categories: true,
          },
+         take: 20,
       };
 
       expect(result).toEqual(prompts);
@@ -115,6 +118,7 @@ describe("getPromptTemplates tests", () => {
          include: {
             categories: true,
          },
+         take: 20,
       };
 
       expect(result).toEqual(prompts);
@@ -163,6 +167,7 @@ describe("getPromptTemplates tests", () => {
          include: {
             categories: true,
          },
+         take: 20,
       };
 
       expect(result).toEqual(prompts);

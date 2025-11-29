@@ -17,6 +17,7 @@ export const getPromptTemplates = async (
       include: {
          categories: true,
       },
+      take: 20,
    });
 };
 
