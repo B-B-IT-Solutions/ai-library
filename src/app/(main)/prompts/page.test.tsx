@@ -3,6 +3,7 @@ jest.mock("@/data/actions/prompt/prompt.template.actions");
 
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
+import MockDate from "mockdate";
 import { Metadata } from "next";
 
 import { getPrompts } from "@/data/actions/prompt/prompt.actions";
@@ -39,6 +40,11 @@ const assertRendered = () => {
 describe("PromptsPage rendering tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
+      MockDate.set("2025-09-27");
+   });
+
+   afterEach(() => {
+      MockDate.reset();
    });
 
    it("PromptsPage - prompts retrieved - rendered test", async () => {
