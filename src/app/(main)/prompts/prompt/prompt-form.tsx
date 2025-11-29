@@ -14,7 +14,12 @@ import {
    Tag,
    X,
 } from "lucide-react";
-import { ControllerRenderProps, useFieldArray, useForm } from "react-hook-form";
+import {
+   ControllerRenderProps,
+   SubmitHandler,
+   useFieldArray,
+   useForm,
+} from "react-hook-form";
 
 import { AutosizeTextarea } from "@/components/shadcn/autosize-textarea";
 import { Button } from "@/components/shadcn/button";
@@ -93,9 +98,8 @@ export const PromptFom: FC<PromptFomProps> = ({ prompt }) => {
       name: "followUpPrompts",
    });
 
-   const savePrompt = () => {
-      const newPrompt = form.getValues();
-      createPrompt(newPrompt);
+   const onSubmit: SubmitHandler<DPromptCreate> = async (values) => {
+      await createPrompt(values);
    };
 
    const startEdit = () => {
@@ -307,7 +311,7 @@ export const PromptFom: FC<PromptFomProps> = ({ prompt }) => {
                </div>
 
                <button
-                  onClick={savePrompt}
+                  onClick={form.handleSubmit(onSubmit)}
                   className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm"
                >
                   <Save className="w-4 h-4" />
