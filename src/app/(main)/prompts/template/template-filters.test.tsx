@@ -75,4 +75,46 @@ describe("TemplateFilters functionality tests", () => {
          expect(setSearchFn).toHaveBeenNthCalledWith(6, "1");
       });
    });
+
+   it("TemplateFilters - categories selected - test", async () => {
+      const loadedCategories = ["category 1", "category 2", "category 3"];
+      const categories: string[] = ["category 1"];
+      const search = "";
+      const setCategoriesFn = jest.fn();
+
+      render(
+         <TemplateFilters
+            loadedCategories={loadedCategories}
+            search={search}
+            categories={categories}
+            setSearch={jest.fn()}
+            setCategories={setCategoriesFn}
+         />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         expect(setCategoriesFn).not.toHaveBeenCalled();
+      });
+
+      const comboBox = screen.getByTestId("categories-combo-box");
+      userEvent.click(comboBox);
+
+      const cat1 = screen.getAllByText(loadedCategories[0])[1];
+      userEvent.click(cat1);
+
+      await waitFor(() => {
+         expect(setCategoriesFn).toHaveBeenCalledTimes(1);
+         expect(setCategoriesFn).toHaveBeenCalledWith([]);
+      });
+
+      const cat2 = screen.getByText(loadedCategories[1]);
+      userEvent.click(cat2);
+
+      const expectedPayload2 = [loadedCategories[0], loadedCategories[1]];
+      await waitFor(() => {
+         expect(setCategoriesFn).toHaveBeenCalledTimes(2);
+         expect(setCategoriesFn).toHaveBeenNthCalledWith(2, expectedPayload2);
+      });
+   });
 });

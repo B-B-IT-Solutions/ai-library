@@ -49,10 +49,6 @@ export const TemplateFilters: FC<TemplateFiltersProps> = ({
       }
    };
 
-   const removeTag = (value: string) => {
-      toggleOption(value);
-   };
-
    const searchInput = () => {
       return (
          <div className="relative" data-testid="search-input">
@@ -98,9 +94,8 @@ export const TemplateFilters: FC<TemplateFiltersProps> = ({
                               size={12}
                               className="cursor-pointer"
                               onClick={(e) => {
-                                 console.log("clicked");
                                  e.stopPropagation();
-                                 removeTag(cat);
+                                 toggleOption(cat);
                               }}
                            />
                         </Badge>
