@@ -13,6 +13,7 @@ import {
    CommandItem,
    CommandList,
 } from "@/components/shadcn/command";
+import { Input } from "@/components/shadcn/input";
 import {
    Popover,
    PopoverContent,
@@ -52,19 +53,29 @@ export const TemplateFilters: FC<TemplateFiltersProps> = ({
       toggleOption(value);
    };
 
-   return (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-         <div className="relative">
+   const searchInput = () => {
+      return (
+         <div className="relative" data-testid="search-input">
             <Search className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
-            <input
+            <Input
+               id="search-templates"
                type="text"
                placeholder="Search templates"
                value={search}
                onChange={(e) => setSearch(e.target.value)}
-               className="w-full pl-10 pr-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+               className="w-full min-h-10 pl-10 pr-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
          </div>
-         <Popover open={open} onOpenChange={setOpen}>
+      );
+   };
+
+   const categoriesComboBox = () => {
+      return (
+         <Popover
+            open={open}
+            onOpenChange={setOpen}
+            data-testid="categoreis-combo-box"
+         >
             <PopoverTrigger asChild={true}>
                <div
                   className={cn(
@@ -75,7 +86,7 @@ export const TemplateFilters: FC<TemplateFiltersProps> = ({
                >
                   {categories.length === 0 && (
                      <span className="text-muted-foreground text-sm">
-                        Select cateory
+                        Select category
                      </span>
                   )}
 
@@ -108,9 +119,9 @@ export const TemplateFilters: FC<TemplateFiltersProps> = ({
                   <CommandList>
                      <CommandEmpty>No results found.</CommandEmpty>
                      <CommandGroup>
-                        {loadedCategories.map((cat) => (
+                        {map(loadedCategories, (cat, idx) => (
                            <CommandItem
-                              key={cat}
+                              key={idx}
                               onSelect={() => toggleOption(cat)}
                               className="flex items-center gap-2"
                            >
@@ -128,6 +139,16 @@ export const TemplateFilters: FC<TemplateFiltersProps> = ({
                </Command>
             </PopoverContent>
          </Popover>
+      );
+   };
+
+   return (
+      <div
+         className="grid grid-cols-1 md:grid-cols-2 gap-3"
+         data-testid="template-filters"
+      >
+         {searchInput()}
+         {categoriesComboBox()}
       </div>
    );
 };

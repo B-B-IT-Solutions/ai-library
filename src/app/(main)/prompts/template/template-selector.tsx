@@ -1,3 +1,5 @@
+"use client";
+
 import { FC, useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
