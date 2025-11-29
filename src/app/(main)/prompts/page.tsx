@@ -4,11 +4,11 @@ import {
    QueryClient,
 } from "@tanstack/react-query";
 
-import { getPrompts } from "@/lib/actions/prompt/prompt.actions";
+import { getPrompts } from "@/data/actions/prompt/prompt.actions";
 import {
-   getPromptTemplateCategories,
-   getPromptTemplates,
-} from "@/lib/actions/prompt/prompt.template.actions";
+   preloadPromptTemplateCategoriesOptions,
+   preloadPromptTemplatesOptions,
+} from "@/data/ts-queries/prompt";
 
 import PromptManager from "./library";
 
@@ -20,20 +20,8 @@ const PromptsPage = async () => {
    const prompts = await getPrompts();
 
    const queryClient = new QueryClient();
-
-   await queryClient.prefetchQuery({
-      queryKey: ["prompt-templates"],
-      queryFn: async () => {
-         return await getPromptTemplates();
-      },
-   });
-
-   await queryClient.prefetchQuery({
-      queryKey: ["prompt-template-categories"],
-      queryFn: async () => {
-         return await getPromptTemplateCategories();
-      },
-   });
+   await queryClient.prefetchQuery(preloadPromptTemplatesOptions());
+   await queryClient.prefetchQuery(preloadPromptTemplateCategoriesOptions());
 
    return (
       <div className="w-full" data-testid="prompts-page">

@@ -1,7 +1,7 @@
 import { ptestData } from "@tests";
 import { map } from "es-toolkit/compat";
 
-import { DPrompt } from "@/data/domain/prompt";
+import { DPrompt } from "@/data/types/domain/prompt";
 import { Prompt } from "@/generated/prisma/browser";
 
 import { toDPrompt, toDPrompts } from "./prompt.mapper";

@@ -1,4 +1,4 @@
-import { DPromptTemplateCreate } from "@/data/domain/prompt";
+import { DPromptTemplateCreate } from "@/data/types/domain/prompt";
 
 export const promptTemplatesData: DPromptTemplateCreate[] = [
    {

@@ -2,7 +2,7 @@ import { FC } from "react";
 import { map } from "es-toolkit/compat";
 
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
-import { DPromptTemplate } from "@/data/domain/prompt";
+import { DPromptTemplate } from "@/data/types/domain/prompt";
 
 type TemplateCardsProps = {
    template: DPromptTemplate;

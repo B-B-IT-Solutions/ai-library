@@ -1,4 +1,4 @@
-import { clsx, type ClassValue } from "clsx";
+import { type ClassValue, clsx } from "clsx";
 import { trim } from "es-toolkit";
 import { replace, toLower } from "es-toolkit/compat";
 import { twMerge } from "tailwind-merge";

@@ -17,8 +17,12 @@ import {
    X,
 } from "lucide-react";
 
-import { DPrompt, DPromptCreate, DPromptTemplate } from "@/data/domain/prompt";
-import { createPrompt } from "@/lib/actions/prompt/prompt.actions";
+import { createPrompt } from "@/data/actions/prompt/prompt.actions";
+import {
+   DPrompt,
+   DPromptCreate,
+   DPromptTemplate,
+} from "@/data/types/domain/prompt";
 
 import { TemplateSelector } from "./template/template-selector";
 
@@ -111,7 +115,7 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
       setIsEditing(false);
    };
 
-   const selectPrompt = (prompt) => {
+   const selectPrompt = (prompt: DPrompt) => {
       setSelectedPrompt(prompt);
       setIsEditing(false);
    };
@@ -146,9 +150,9 @@ const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
       setFormData({
          title: template.title,
          content: template.content,
-         categories: [...template.categories],
+         categories: [],
          recommendedModel: template.recommendedModel || "",
-         followUpPrompts: template.followUpPrompts || [],
+         followUpPrompts: [],
       });
    };
 

@@ -4,7 +4,7 @@ import {
    DPrompt,
    DPromptTemplate,
    DPromptTemplateCategory,
-} from "@/data/domain/prompt";
+} from "@/data/types/domain/prompt";
 
 export const dPromptTemplates = (count = 3): DPromptTemplate[] => {
    return range(0, count).map((i) => dPromptTemplate(i));

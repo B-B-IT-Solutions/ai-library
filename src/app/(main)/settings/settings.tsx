@@ -1,4 +1,4 @@
-import { DPrompt } from "@/data/domain/prompt";
+import { DPrompt } from "@/data/types/domain/prompt";
 
 export const Settings = () => {
    const prompts: DPrompt[] = [];
