@@ -32,7 +32,7 @@ describe("TemplateCard rendering tests", () => {
 });
 
 describe("TemplateCard functionality tests", () => {
-   it("TemplateCard - template clicked = test", async () => {
+   it("TemplateCard - template clicked - test", async () => {
       const template = dtestData.dPromptTemplate();
       const onSelectFn = jest.fn();
 

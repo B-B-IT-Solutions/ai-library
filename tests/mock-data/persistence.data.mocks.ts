@@ -1,5 +1,6 @@
 import { range } from "es-toolkit";
 
+import { PromptTemplateWithCategories } from "@/data/types/db/prompt";
 import {
    Prompt,
    PromptTemplate,
@@ -9,6 +10,23 @@ import {
    PromptCreateInput,
    PromptUpdateInput,
 } from "@/generated/prisma/models";
+
+export const pPromptTemplatesWithCategories = (
+   count = 3
+): PromptTemplateWithCategories[] => {
+   return range(0, count).map((i) => pPromptTemplateWithCategories(i));
+};
+
+export const pPromptTemplateWithCategories = (
+   index = 1
+): PromptTemplateWithCategories => {
+   const template = pPromptTemplate(index);
+   const categories = pPromptTemplateCategories();
+   return {
+      ...template,
+      categories,
+   };
+};
 
 export const pPromptTemplates = (count = 3): PromptTemplate[] => {
    return range(0, count).map((i) => pPromptTemplate(i));

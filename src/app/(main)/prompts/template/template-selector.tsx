@@ -1,3 +1,5 @@
+"use client";
+
 import { FC, useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
@@ -16,11 +18,14 @@ type TemplateSelectorProps = {
 
 export const TemplateSelector: FC<TemplateSelectorProps> = ({ onSelect }) => {
    const [showTemplates, setShowTemplates] = useState(false);
-   const [templateSearch, setTemplateSearch] = useState("");
-   const [templateCategory, setTemplateCategory] = useState("all");
+   const [search, setSearch] = useState("");
+   const [categories, setCategories] = useState<string[]>([]);
 
-   const { data: templates = [] } = useLoadPromptTemplates();
-   const { data: categories = [] } = useLoadPromptTemplateCategories();
+   const { data: templates = [] } = useLoadPromptTemplates({
+      search,
+      categories,
+   });
+   const { data: loadedCategories = [] } = useLoadPromptTemplateCategories();
 
    const showButton = () => {
       return (
@@ -46,11 +51,11 @@ export const TemplateSelector: FC<TemplateSelectorProps> = ({ onSelect }) => {
          return (
             <div className="mt-4 space-y-4" data-testid="templates-view">
                <TemplateFilters
-                  search={templateSearch}
-                  setSearch={setTemplateSearch}
-                  category={templateCategory}
-                  setCategory={setTemplateCategory}
+                  search={search}
+                  setSearch={setSearch}
                   categories={categories}
+                  setCategories={setCategories}
+                  loadedCategories={loadedCategories}
                />
 
                <TemplateCards
@@ -58,8 +63,8 @@ export const TemplateSelector: FC<TemplateSelectorProps> = ({ onSelect }) => {
                   onSelect={(template) => {
                      onSelect(template);
                      setShowTemplates(false);
-                     setTemplateSearch("");
-                     setTemplateCategory("all");
+                     setSearch("");
+                     setCategories([]);
                   }}
                />
             </div>

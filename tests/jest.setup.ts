@@ -72,3 +72,7 @@ Object.assign(global, {
       disconnect: jest.fn(),
    })),
 });
+
+Object.defineProperty(window.HTMLElement.prototype, "scrollIntoView", {
+   value: jest.fn(),
+});

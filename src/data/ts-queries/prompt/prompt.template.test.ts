@@ -22,6 +22,7 @@ import {
    useLoadPromptTemplateCategories,
    useLoadPromptTemplates,
 } from "./prompt.template";
+import { LoadPromptTemplatesParams } from "./types";
 
 const getPromptTemplatesMock = getPromptTemplates as jest.MockedFunction<
    typeof getPromptTemplates
@@ -46,7 +47,7 @@ describe("prefetch options tests", () => {
          Error,
          string[]
       > = {
-         queryKey: ["prompt-templates"],
+         queryKey: ["prompt-templates", {}],
          queryFn: jest.fn(),
       };
 
@@ -125,31 +126,40 @@ describe("loadPromptTemplates hooks tests", () => {
    });
 
    test("loadPromptTemplatesOptions - test", async () => {
+      const params: LoadPromptTemplatesParams = {
+         search: "test 1",
+         categories: ["cat 123"],
+      };
       const expectedOptions: UndefinedInitialDataOptions<
          DPromptTemplate[],
          Error,
          DPromptTemplate[]
       > = {
-         queryKey: ["prompt-templates"],
+         queryKey: ["prompt-templates", { params }],
          queryFn: jest.fn(),
          staleTime: 5 * 60 * 1000,
       };
 
-      const options = loadPromptTemplatesOptions();
+      const options = loadPromptTemplatesOptions(params);
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
    });
 
    test("useLoadPromptTemplates test", async () => {
+      const params: LoadPromptTemplatesParams = {
+         search: "test 123",
+         categories: ["cat 1"],
+      };
       const templates = dtestData.dPromptTemplates();
       getPromptTemplatesMock.mockResolvedValue(templates);
 
       const { result } = renderHookWithReactQuery(() =>
-         useLoadPromptTemplates()
+         useLoadPromptTemplates(params)
       );
 
       await waitFor(() => {
          expect(result.current.data).toEqual(templates);
          expect(getPromptTemplatesMock).toHaveBeenCalledTimes(1);
+         expect(getPromptTemplatesMock).toHaveBeenCalledWith(params);
       });
    });
 });

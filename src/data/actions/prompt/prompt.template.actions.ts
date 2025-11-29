@@ -10,8 +10,15 @@ import { DPromptTemplate } from "@/data/types/domain/prompt";
 
 import { toDPromptTemplates } from "./prompt.mapper";
 
-export const getPromptTemplates = async (): Promise<DPromptTemplate[]> => {
-   const data = await pGetPromptTemplates();
+type DGetPromptTemplatesParams = {
+   search?: string;
+   categories?: string[];
+};
+
+export const getPromptTemplates = async (
+   params?: DGetPromptTemplatesParams
+): Promise<DPromptTemplate[]> => {
+   const data = await pGetPromptTemplates(params);
    return toDPromptTemplates(data);
 };
 
