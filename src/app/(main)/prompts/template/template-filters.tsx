@@ -3,19 +3,19 @@ import { map } from "es-toolkit/compat";
 import { Search } from "lucide-react";
 
 type TemplateFiltersProps = {
+   categories: string[];
    search: string;
    category: string;
    setSearch: (value: string) => void;
    setCategory: (value: string) => void;
-   categories: string[];
 };
 
 export const TemplateFilters: FC<TemplateFiltersProps> = ({
-   search: templateSearch,
-   setSearch: setTemplateSearch,
-   category: templateCategory,
-   setCategory: setTemplateCategory,
-   categories: templateCategories,
+   categories,
+   search: search,
+   setSearch: setSearch,
+   category,
+   setCategory,
 }) => {
    return (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -24,18 +24,18 @@ export const TemplateFilters: FC<TemplateFiltersProps> = ({
             <input
                type="text"
                placeholder="Search templates..."
-               value={templateSearch}
-               onChange={(e) => setTemplateSearch(e.target.value)}
+               value={search}
+               onChange={(e) => setSearch(e.target.value)}
                className="w-full pl-10 pr-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
          </div>
          <select
-            value={templateCategory}
-            onChange={(e) => setTemplateCategory(e.target.value)}
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
             className="px-3 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
          >
             <option value="all">All Categories</option>
-            {map(templateCategories, (cat) => (
+            {map(categories, (cat) => (
                <option key={cat} value={cat}>
                   {cat}
                </option>
