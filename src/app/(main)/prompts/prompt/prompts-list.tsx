@@ -1,8 +1,10 @@
 "use client";
 
 import { FC, useState } from "react";
-import { Filter, Plus, Search } from "lucide-react";
+import { map } from "es-toolkit/compat";
+import { Filter, Loader2, Plus, Search } from "lucide-react";
 
+import InfiniteScroll from "@/components/shadcn/infinite-scroll";
 import { CallbackFn } from "@/data/types/domain/common";
 import { DPrompt } from "@/data/types/domain/prompt";
 
@@ -21,13 +23,65 @@ export const PromptsList: FC<PromptsListProps> = ({
    selectPrompt,
    selectedPrompt,
 }) => {
+   const [loading, setLoading] = useState(false);
+   const [hasMore, setHasMore] = useState(true);
+
    const [categories, setCategories] = useState([]);
    const [searchTerm, setSearchTerm] = useState("");
    const [selectedCategory, setSelectedCategory] = useState("all");
 
-   return (
-      <div className="lg:col-span-1 space-y-4">
-         {/* Search and Filter */}
+   const loadPrompts = async () => {};
+
+   const promptItemsHeader = () => {
+      return (
+         <div className="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+            <h2 className="font-semibold text-slate-900">
+               Prompts ({prompts.length})
+            </h2>
+            <button
+               onClick={addPrompt}
+               className="p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-sm"
+            >
+               <Plus className="w-4 h-4" />
+            </button>
+         </div>
+      );
+   };
+
+   const promptItems = () => {
+      return (
+         <div className="divide-y divide-slate-200 max-h-[500px] overflow-y-auto">
+            {map(prompts, (prompt) => (
+               <PromptListItem
+                  key={prompt.id}
+                  prompt={prompt}
+                  isSelected={prompt.id == selectedPrompt?.id}
+                  selectPrompt={selectPrompt}
+               />
+            ))}{" "}
+            <InfiniteScroll
+               hasMore={hasMore}
+               isLoading={loading}
+               next={loadPrompts}
+               threshold={1}
+            >
+               {hasMore && <Loader2 className="my-4 h-8 w-8 animate-spin" />}
+            </InfiniteScroll>
+         </div>
+      );
+   };
+
+   const promptItemsList = () => {
+      return (
+         <div className="bg-white rounded-lg border border-slate-200 shadow-sm">
+            {promptItemsHeader()}
+            {promptItems()}
+         </div>
+      );
+   };
+
+   const promptFilters = () => {
+      return (
          <div className="bg-white rounded-lg p-4 border border-slate-200 shadow-sm">
             <div className="relative mb-4">
                <Search className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
@@ -59,32 +113,13 @@ export const PromptsList: FC<PromptsListProps> = ({
                </select>
             </div>
          </div>
+      );
+   };
 
-         {/* Prompts List */}
-         <div className="bg-white rounded-lg border border-slate-200 shadow-sm max-h-[600px] overflow-y-auto">
-            <div className="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
-               <h2 className="font-semibold text-slate-900">
-                  Prompts ({prompts.length})
-               </h2>
-               <button
-                  onClick={addPrompt}
-                  className="p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-sm"
-               >
-                  <Plus className="w-4 h-4" />
-               </button>
-            </div>
-
-            <div className="divide-y divide-slate-200">
-               {prompts.map((prompt) => (
-                  <PromptListItem
-                     key={prompt.id}
-                     prompt={prompt}
-                     isSelected={prompt.id == selectedPrompt?.id}
-                     selectPrompt={selectPrompt}
-                  />
-               ))}
-            </div>
-         </div>
+   return (
+      <div className="lg:col-span-1 space-y-4" data-testid="prompts-list">
+         {promptFilters()}
+         {promptItemsList()}
       </div>
    );
 };

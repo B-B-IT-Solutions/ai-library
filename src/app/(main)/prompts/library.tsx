@@ -3,11 +3,8 @@
 import { FC, useState } from "react";
 import { Plus, X } from "lucide-react";
 
-import {
-   DPrompt,
-   DPromptCreate,
-   DPromptTemplate,
-} from "@/data/types/domain/prompt";
+import { DPrompt, DPromptCreate } from "@/data/types/domain/prompt";
+import { DPromptTemplate } from "@/data/types/domain/prompt.teplate";
 
 import { PromptFom } from "./prompt/prompt-form";
 import { PromptsList } from "./prompt/prompts-list";
@@ -84,7 +81,7 @@ export const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
 
                {/* Main Content */}
                <div className="lg:col-span-2">
-                  {selectedPrompt ? (
+                  {selectedPrompt || isEditing ? (
                      /* Edit/Create Form */
                      <div className="bg-white rounded-lg p-6 border border-slate-200 shadow-sm">
                         {isEditing && (
