@@ -14,8 +14,20 @@ export const renderAsyncRSC = async <T,>(
 ) => {
    const component = await asyncComponent(props);
    let result: RenderResult = {} as RenderResult;
+   const queryClient = new QueryClient({
+      defaultOptions: {
+         queries: {
+            retry: false,
+         },
+      },
+   });
+
    await waitFor(() => {
-      result = render(component);
+      result = render(
+         <QueryClientProvider client={queryClient}>
+            {component}
+         </QueryClientProvider>
+      );
    });
 
    return {

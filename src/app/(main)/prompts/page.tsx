@@ -4,11 +4,11 @@ import {
    QueryClient,
 } from "@tanstack/react-query";
 
+import { getPrompts } from "@/data/actions/prompt/prompt.actions";
 import {
    preloadPromptTemplateCategoriesOptions,
    preloadPromptTemplatesOptions,
 } from "@/data/ts-queries/prompt";
-import { getPrompts } from "@/data/actions/prompt/prompt.actions";
 
 import PromptManager from "./library";
 
