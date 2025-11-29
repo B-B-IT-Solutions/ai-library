@@ -71,12 +71,8 @@ export const TemplateFilters: FC<TemplateFiltersProps> = ({
 
    const categoriesComboBox = () => {
       return (
-         <Popover
-            open={open}
-            onOpenChange={setOpen}
-            data-testid="categoreis-combo-box"
-         >
-            <PopoverTrigger asChild={true}>
+         <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild={true} data-testid="categories-combo-box">
                <div
                   className={cn(
                      "w-full min-h-10 cursor-pointer rounded-md border border-input bg-background px-2 py-1",
