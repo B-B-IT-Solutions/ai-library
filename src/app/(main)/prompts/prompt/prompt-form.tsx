@@ -21,6 +21,7 @@ import { Button } from "@/components/shadcn/button";
 import {
    Form,
    FormControl,
+   FormDescription,
    FormField,
    FormItem,
    FormLabel,
@@ -74,9 +75,22 @@ export const PromptFom: FC<PromptFomProps> = ({ prompt }) => {
       },
    });
 
-   const { fields, append, remove } = useFieldArray({
+   const {
+      fields: categories,
+      append: addCategory,
+      remove: removeCategory,
+   } = useFieldArray({
       control: form.control,
       name: "categories",
+   });
+
+   const {
+      fields: followUpPrompts,
+      append: addFollowUpPrompt,
+      remove: removeFollowUpPrompt,
+   } = useFieldArray({
+      control: form.control,
+      name: "followUpPrompts",
    });
 
    const [formData, setFormData] = useState<DPromptCreate>({
@@ -95,10 +109,6 @@ export const PromptFom: FC<PromptFomProps> = ({ prompt }) => {
    const startEdit = () => {
       setIsEditing(true);
    };
-
-   const addFollowUpPrompt = () => {};
-
-   const removeFollowUpPrompt = (index: number) => {};
 
    const copyToClipboard = async (text: string, itemId: string) => {
       try {
@@ -162,7 +172,7 @@ export const PromptFom: FC<PromptFomProps> = ({ prompt }) => {
                         Categories
                      </FormLabel>
                      <div className="space-y-3">
-                        {map(fields, (field, index) => (
+                        {map(categories, (field, index) => (
                            <div key={field.id} className="flex gap-2">
                               <Input
                                  {...form.register(`categories.${index}`)}
@@ -173,18 +183,18 @@ export const PromptFom: FC<PromptFomProps> = ({ prompt }) => {
                                  type="button"
                                  variant="outline"
                                  size="icon"
-                                 onClick={() => remove(index)}
+                                 onClick={() => removeCategory(index)}
                                  className="hover:bg-red-50 hover:text-red-600 hover:border-red-300"
                               >
                                  <X className="h-4 w-4" />
                               </Button>
                            </div>
                         ))}
-                     </div>{" "}
+                     </div>
                      <Button
                         type="button"
                         variant="outline"
-                        onClick={() => append("")}
+                        onClick={() => addCategory("")}
                         className="mt-3 w-full"
                      >
                         <Plus className="h-4 w-4 mr-2" />
@@ -260,52 +270,44 @@ export const PromptFom: FC<PromptFomProps> = ({ prompt }) => {
                </div>
 
                <div>
-                  <label className="block text-sm font-medium mb-2 text-slate-700">
-                     Follow-up Prompts
-                  </label>
-                  <p className="text-xs text-slate-500 mb-2">
-                     Add suggested follow-up questions or prompts that users
-                     might want to ask next.
-                  </p>
-                  {formData.followUpPrompts.length > 0 && (
-                     <div className="mb-2 space-y-2">
-                        {formData.followUpPrompts.map((prompt, idx) => (
-                           <div
-                              key={idx}
-                              className="flex items-center gap-2 p-2 bg-slate-50 rounded border border-slate-200"
-                           >
-                              <span className="flex-1 text-sm text-slate-700">
-                                 {prompt}
-                              </span>
-                              <button
+                  <FormItem className="w-full">
+                     <FormLabel className="block text-sm font-medium mb-1 text-slate-700">
+                        Follow-up Prompts
+                     </FormLabel>
+                     <FormDescription>
+                        Add suggested follow-up questions or prompts that users
+                        might want to ask next.
+                     </FormDescription>
+                     <div className="space-y-3">
+                        {map(followUpPrompts, (field, idx) => (
+                           <div key={field.id} className="flex gap-2">
+                              <Input
+                                 {...form.register(`categories.${idx}`)}
+                                 placeholder="Enter follow-up prompt"
+                                 className="flex-1"
+                              />
+                              <Button
+                                 type="button"
+                                 variant="outline"
+                                 size="icon"
                                  onClick={() => removeFollowUpPrompt(idx)}
-                                 className="p-1 hover:bg-slate-200 rounded transition-colors"
+                                 className="hover:bg-red-50 hover:text-red-600 hover:border-red-300"
                               >
-                                 <X className="w-4 h-4 text-slate-600" />
-                              </button>
+                                 <X className="h-4 w-4" />
+                              </Button>
                            </div>
                         ))}
                      </div>
-                  )}
-                  <div className="flex gap-2">
-                     <input
-                        type="text"
-                        id="newFollowUp"
-                        placeholder="Add follow-up prompt..."
-                        className="flex-1 px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        onKeyPress={(e) => {
-                           if (e.key === "Enter") {
-                              addFollowUpPrompt();
-                           }
-                        }}
-                     />
-                     <button
-                        onClick={addFollowUpPrompt}
-                        className="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg transition-colors"
+                     <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => addFollowUpPrompt("")}
+                        className="mt-3 w-full"
                      >
+                        <Plus className="h-4 w-4 mr-2" />
                         Add
-                     </button>
-                  </div>
+                     </Button>
+                  </FormItem>
                </div>
 
                <button
