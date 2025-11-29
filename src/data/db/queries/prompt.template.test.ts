@@ -62,7 +62,7 @@ describe("getPromptTemplates tests", () => {
       prismaMock.promptTemplate.findMany.mockResolvedValue(prompts);
 
       const search = "prompt 1";
-      const result = await getPromptTemplates({ search });
+      const result = await getPromptTemplates({ search, categories: [] });
 
       const expectedFindMayArgs: Prisma.PromptTemplateFindManyArgs = {
          where: {

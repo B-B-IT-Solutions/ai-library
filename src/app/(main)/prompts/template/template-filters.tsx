@@ -1,7 +1,8 @@
 "use client";
 
 import { FC, useState } from "react";
-import { map } from "es-toolkit/compat";
+import { cloneDeep } from "es-toolkit";
+import { concat, includes, isEqual, map, remove } from "es-toolkit/compat";
 import { ChevronsUpDown, Search, X } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -29,20 +30,22 @@ type TemplateFiltersProps = {
 
 export const TemplateFilters: FC<TemplateFiltersProps> = ({
    loadedCategories,
-   search: search,
-   setSearch: setSearch,
-   categories: category,
-   setCategories: setCategory,
+   search,
+   setSearch,
+   categories,
+   setCategories,
 }) => {
    const [open, setOpen] = useState(false);
-   const [selected, setSelected] = useState<string[]>([]);
 
    const toggleOption = (value: string) => {
-      setSelected((prev) =>
-         prev.includes(value)
-            ? prev.filter((v) => v !== value)
-            : [...prev, value]
-      );
+      if (includes(categories, value)) {
+         const newCats = cloneDeep(categories);
+         remove(newCats, (prev) => isEqual(prev, value));
+         setCategories(newCats);
+      } else {
+         const newCats = concat(categories, value);
+         setCategories(newCats);
+      }
    };
 
    const removeTag = (value: string) => {
@@ -70,13 +73,13 @@ export const TemplateFilters: FC<TemplateFiltersProps> = ({
                   )}
                   onClick={() => setOpen(true)}
                >
-                  {selected.length === 0 && (
+                  {categories.length === 0 && (
                      <span className="text-muted-foreground text-sm">
                         Select cateory
                      </span>
                   )}
 
-                  {selected.map((cat) => {
+                  {map(categories, (cat) => {
                      return (
                         <Badge
                            key={cat}
@@ -114,7 +117,7 @@ export const TemplateFilters: FC<TemplateFiltersProps> = ({
                               <div
                                  className={cn(
                                     "h-3 w-3 rounded-sm border border-primary",
-                                    selected.includes(cat) ? "bg-primary" : ""
+                                    categories.includes(cat) ? "bg-primary" : ""
                                  )}
                               />
                               {cat}
@@ -125,19 +128,6 @@ export const TemplateFilters: FC<TemplateFiltersProps> = ({
                </Command>
             </PopoverContent>
          </Popover>
-         <select
-            multiple={true}
-            value={category}
-            onChange={(e) => setCategory([e.target.value])}
-            className="px-3 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-         >
-            <option value="all">All Categories</option>
-            {map(loadedCategories, (cat) => (
-               <option key={cat} value={cat}>
-                  {cat}
-               </option>
-            ))}
-         </select>
       </div>
    );
 };

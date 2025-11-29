@@ -55,8 +55,9 @@ const resolveGetPromptTemplatesWhereInput = (
         ]
       : undefined;
 
+   const isCategories = !isEmpty(categories);
    const categoriesClause: Prisma.PromptTemplateWhereInput[] | undefined =
-      categories
+      isCategories
          ? [
               {
                  categories: {

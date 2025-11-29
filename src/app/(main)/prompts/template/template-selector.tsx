@@ -21,6 +21,7 @@ export const TemplateSelector: FC<TemplateSelectorProps> = ({ onSelect }) => {
 
    const { data: templates = [] } = useLoadPromptTemplates({
       search,
+      categories,
    });
    const { data: loadedCategories = [] } = useLoadPromptTemplateCategories();
 
