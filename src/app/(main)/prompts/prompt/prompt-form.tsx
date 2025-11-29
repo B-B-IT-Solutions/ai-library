@@ -93,14 +93,6 @@ export const PromptFom: FC<PromptFomProps> = ({ prompt }) => {
       name: "followUpPrompts",
    });
 
-   const [formData, setFormData] = useState<DPromptCreate>({
-      title: "",
-      content: "",
-      categories: [],
-      recommendedModel: "",
-      followUpPrompts: [],
-   });
-
    const savePrompt = () => {
       const newPrompt = form.getValues();
       createPrompt(newPrompt);
@@ -191,15 +183,17 @@ export const PromptFom: FC<PromptFomProps> = ({ prompt }) => {
                            </div>
                         ))}
                      </div>
-                     <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => addCategory("")}
-                        className="mt-3 w-full"
-                     >
-                        <Plus className="h-4 w-4 mr-2" />
-                        Add Category
-                     </Button>
+                     <div className="flex justify-end">
+                        <Button
+                           type="button"
+                           variant="outline"
+                           onClick={() => addCategory("")}
+                           className="mt-3"
+                        >
+                           <Plus className="h-4 w-4 mr-2" />
+                           Add Category
+                        </Button>
+                     </div>
                   </FormItem>
                </div>
 
@@ -282,7 +276,7 @@ export const PromptFom: FC<PromptFomProps> = ({ prompt }) => {
                         {map(followUpPrompts, (field, idx) => (
                            <div key={field.id} className="flex gap-2">
                               <Input
-                                 {...form.register(`categories.${idx}`)}
+                                 {...form.register(`followUpPrompts.${idx}`)}
                                  placeholder="Enter follow-up prompt"
                                  className="flex-1"
                               />
@@ -298,15 +292,17 @@ export const PromptFom: FC<PromptFomProps> = ({ prompt }) => {
                            </div>
                         ))}
                      </div>
-                     <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => addFollowUpPrompt("")}
-                        className="mt-3 w-full"
-                     >
-                        <Plus className="h-4 w-4 mr-2" />
-                        Add
-                     </Button>
+                     <div className="flex justify-end">
+                        <Button
+                           type="button"
+                           variant="outline"
+                           onClick={() => addFollowUpPrompt("")}
+                           className="mt-3"
+                        >
+                           <Plus className="h-4 w-4 mr-2" />
+                           Add Follow-up Prompt
+                        </Button>
+                     </div>
                   </FormItem>
                </div>
 
