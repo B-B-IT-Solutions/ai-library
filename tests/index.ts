@@ -16,6 +16,7 @@ export {
 export {
    renderAsyncRSC,
    renderHookWithReactQuery,
+   renderWithReactQuery,
    getElementById,
 } from "./test.utils";
 

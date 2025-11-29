@@ -35,6 +35,24 @@ export const renderAsyncRSC = async <T,>(
    };
 };
 
+export const renderWithReactQuery = (component: React.ReactNode) => {
+   const queryClient = new QueryClient({
+      defaultOptions: {
+         queries: {
+            retry: false,
+         },
+      },
+   });
+
+   return {
+      ...render(
+         <QueryClientProvider client={queryClient}>
+            {component}
+         </QueryClientProvider>
+      ),
+   };
+};
+
 export const renderHookWithReactQuery = <Result, Props>(
    hookUnderTest: () => Result
 ): RenderHookResult<Result, Props> => {

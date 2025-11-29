@@ -15,18 +15,19 @@ type TemplateSelectorProps = {
 };
 
 export const TemplateSelector: FC<TemplateSelectorProps> = ({ onSelect }) => {
-   const { data: templates = [] } = useLoadPromptTemplates();
-   const { data: categories = [] } = useLoadPromptTemplateCategories();
-
    const [showTemplates, setShowTemplates] = useState(false);
    const [templateSearch, setTemplateSearch] = useState("");
    const [templateCategory, setTemplateCategory] = useState("all");
 
-   return (
-      <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+   const { data: templates = [] } = useLoadPromptTemplates();
+   const { data: categories = [] } = useLoadPromptTemplateCategories();
+
+   const showButton = () => {
+      return (
          <button
             onClick={() => setShowTemplates(!showTemplates)}
             className="w-full flex items-center justify-between text-left"
+            data-testid="show-templates-btn"
          >
             <span className="font-medium text-blue-900">
                {showTemplates ? "📋 Hide Templates" : "📋 Start from Template"}
@@ -37,9 +38,13 @@ export const TemplateSelector: FC<TemplateSelectorProps> = ({ onSelect }) => {
                <ChevronRight className="w-5 h-5 text-blue-900" />
             )}
          </button>
+      );
+   };
 
-         {showTemplates && (
-            <div className="mt-4 space-y-4">
+   const templatesView = () => {
+      if (showTemplates) {
+         return (
+            <div className="mt-4 space-y-4" data-testid="templates-view">
                <TemplateFilters
                   search={templateSearch}
                   setSearch={setTemplateSearch}
@@ -58,7 +63,17 @@ export const TemplateSelector: FC<TemplateSelectorProps> = ({ onSelect }) => {
                   }}
                />
             </div>
-         )}
+         );
+      }
+   };
+
+   return (
+      <div
+         className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg"
+         data-testid="template-selector"
+      >
+         {showButton()}
+         {templatesView()}
       </div>
    );
 };
