@@ -3,12 +3,14 @@ import { isEmpty } from "es-toolkit/compat";
 import { Prisma } from "@/generated/prisma/client";
 import prisma from "../prisma";
 
-type GetPromptTemplatesParams = {
+type PGetPromptTemplatesParams = {
    search?: string;
    categories?: string[];
 };
 
-export const getPromptTemplates = async (params?: GetPromptTemplatesParams) => {
+export const getPromptTemplates = async (
+   params?: PGetPromptTemplatesParams
+) => {
    const where = resolveGetPromptTemplatesWhereInput(params);
    return await prisma.promptTemplate.findMany({
       where: where,
@@ -27,7 +29,7 @@ export const getPromptTemplateCategories = async () => {
 };
 
 const resolveGetPromptTemplatesWhereInput = (
-   params?: GetPromptTemplatesParams
+   params?: PGetPromptTemplatesParams
 ): Prisma.PromptTemplateWhereInput | undefined => {
    if (isEmpty(params)) {
       return undefined;
