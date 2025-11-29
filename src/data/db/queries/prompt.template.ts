@@ -13,11 +13,7 @@ export const getPromptTemplates = async (params?: GetPromptTemplatesParams) => {
    return await prisma.promptTemplate.findMany({
       where: where,
       include: {
-         categories: {
-            select: {
-               name: true,
-            },
-         },
+         categories: true,
       },
    });
 };

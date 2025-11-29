@@ -1,16 +1,18 @@
 import { map } from "es-toolkit/compat";
 
+import { PromptTemplateWithCategories } from "@/data/types/db/prompt";
 import { DPrompt, DPromptTemplate } from "@/data/types/domain/prompt";
 import { Prompt } from "@/generated/prisma/browser";
-import { PromptTemplate } from "@/generated/prisma/client";
 
 export const toDPromptTemplates = (
-   pPrompts: PromptTemplate[]
+   pPrompts: PromptTemplateWithCategories[]
 ): DPromptTemplate[] => {
    return map(pPrompts, (dbP) => toDPromptTemplate(dbP));
 };
 
-export const toDPromptTemplate = (prompt: PromptTemplate): DPromptTemplate => {
+export const toDPromptTemplate = (
+   prompt: PromptTemplateWithCategories
+): DPromptTemplate => {
    return {
       id: prompt.id,
       title: prompt.title,

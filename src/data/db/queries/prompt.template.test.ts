@@ -25,11 +25,7 @@ describe("getPromptTemplates tests", () => {
 
       const expectedFindMayArgs: Prisma.PromptTemplateFindManyArgs = {
          include: {
-            categories: {
-               select: {
-                  name: true,
-               },
-            },
+            categories: true,
          },
       };
 
@@ -48,11 +44,7 @@ describe("getPromptTemplates tests", () => {
 
       const expectedFindMayArgs: Prisma.PromptTemplateFindManyArgs = {
          include: {
-            categories: {
-               select: {
-                  name: true,
-               },
-            },
+            categories: true,
          },
       };
 
@@ -88,11 +80,7 @@ describe("getPromptTemplates tests", () => {
             ],
          },
          include: {
-            categories: {
-               select: {
-                  name: true,
-               },
-            },
+            categories: true,
          },
       };
 
@@ -125,11 +113,7 @@ describe("getPromptTemplates tests", () => {
             ],
          },
          include: {
-            categories: {
-               select: {
-                  name: true,
-               },
-            },
+            categories: true,
          },
       };
 
@@ -177,11 +161,7 @@ describe("getPromptTemplates tests", () => {
             ],
          },
          include: {
-            categories: {
-               select: {
-                  name: true,
-               },
-            },
+            categories: true,
          },
       };
 

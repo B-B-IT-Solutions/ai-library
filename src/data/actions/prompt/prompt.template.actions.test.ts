@@ -29,7 +29,7 @@ describe("getPromptTemplates tests", () => {
    });
 
    it("getPromptTemplates test", async () => {
-      const templates = ptestData.pPromptTemplates();
+      const templates = ptestData.pPromptTemplatesWithCategories();
       pGetPromptTemplatesMock.mockResolvedValue(templates);
 
       const result = await getPromptTemplates();
