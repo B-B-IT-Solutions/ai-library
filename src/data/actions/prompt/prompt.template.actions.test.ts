@@ -60,7 +60,7 @@ describe("getPromptTemplates tests", () => {
       const categories = ["cat 1", "cat2", "cat 3"];
       const params = { search, categories };
 
-      const result = await getPromptTemplates({});
+      const result = await getPromptTemplates(params);
       const expectedResult = toDPromptTemplates(templates);
 
       expect(result).toEqual(expectedResult);
