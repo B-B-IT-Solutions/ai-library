@@ -89,11 +89,6 @@ describe("TemplateSelector functionality tests", () => {
          expect(onSelectFn).not.toHaveBeenCalled();
       });
 
-      await waitFor(() => {
-         expect(onSelectFn).toHaveBeenCalledTimes(1);
-         expect(onSelectFn).toHaveBeenCalledWith(templates[0]);
-      });
-
       const card = screen.getAllByTestId("template-card")[0];
       userEvent.click(card);
 
