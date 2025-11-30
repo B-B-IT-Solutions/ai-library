@@ -31,6 +31,7 @@ export const PromptListItem: FC<PromptListItemProps> = ({
          className={`p-4 cursor-pointer transition-colors hover:bg-slate-50 ${
             isSelected ? "bg-blue-50 border-l-4 border-l-blue-600" : ""
          }`}
+         data-testid="prompt-list-item"
       >
          <div className="flex items-start justify-between">
             <div className="flex-1">

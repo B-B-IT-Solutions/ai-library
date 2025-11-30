@@ -10,11 +10,9 @@ import { PromptFom } from "./prompt/prompt-form";
 import { PromptsList } from "./prompt/prompts-list";
 import { TemplateSelector } from "./template/template-selector";
 
-type PromptManagerProps = {
-   prompts: DPrompt[];
-};
+type PromptManagerProps = {};
 
-export const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
+export const PromptManager: FC<PromptManagerProps> = () => {
    const [selectedPrompt, setSelectedPrompt] = useState<DPrompt | null>(null);
    const [isEditing, setIsEditing] = useState(false);
 
@@ -74,7 +72,6 @@ export const PromptManager: FC<PromptManagerProps> = ({ prompts }) => {
                      resetForm();
                      setIsEditing(true);
                   }}
-                  prompts={prompts}
                   selectPrompt={selectPrompt}
                   selectedPrompt={selectedPrompt}
                />

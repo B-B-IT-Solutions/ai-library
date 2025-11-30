@@ -23,7 +23,7 @@ describe("getPrompts tests", () => {
 
       const expectedResult: PromptsPage = {
          content: prompts,
-         pageNumber: 1,
+         pageNumber: 0,
          pageSize: 10,
          totalElements: 50,
          totalPages: 100,
@@ -49,7 +49,7 @@ describe("getPrompts tests", () => {
 
       const expectedResult: PromptsPage = {
          content: prompts,
-         pageNumber: 1,
+         pageNumber: 0,
          pageSize: 10,
          totalElements: 50,
          totalPages: 100,

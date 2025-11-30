@@ -1,5 +1,11 @@
 jest.mock("@/data/actions/prompt/prompt.actions");
 jest.mock("@/data/actions/prompt/prompt.template.actions");
+jest.mock("@/data/ts-queries/prompt", () => ({
+   ...jest.requireActual("@/data/ts-queries/prompt"),
+   preloadPromptsOptions: jest.fn(),
+   preloadPromptTemplateCategoriesOptions: jest.fn(),
+   preloadPromptTemplatesOptions: jest.fn(),
+}));
 
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
@@ -11,7 +17,11 @@ import {
    getPromptTemplateCategories,
    getPromptTemplates,
 } from "@/data/actions/prompt/prompt.template.actions";
-import { DPromptsPageQuery } from "@/data/types/domain/prompt";
+import {
+   preloadPromptsOptions,
+   preloadPromptTemplateCategoriesOptions,
+   preloadPromptTemplatesOptions,
+} from "@/data/ts-queries/prompt";
 
 import PromptsPage, { metadata } from "./page";
 
@@ -24,6 +34,20 @@ const getPromptTemplatesMock = getPromptTemplates as jest.MockedFunction<
 const getPromptTemplateCategoriesMock =
    getPromptTemplateCategories as jest.MockedFunction<
       typeof getPromptTemplateCategories
+   >;
+
+const preloadPromptsOptionsMock = preloadPromptsOptions as jest.MockedFunction<
+   typeof preloadPromptsOptions
+>;
+
+const preloadPromptTemplatesOptionsMock =
+   preloadPromptTemplatesOptions as jest.MockedFunction<
+      typeof preloadPromptTemplatesOptions
+   >;
+
+const preloadPromptTemplateCategoriesOptionsMock =
+   preloadPromptTemplateCategoriesOptions as jest.MockedFunction<
+      typeof preloadPromptTemplateCategoriesOptions
    >;
 
 export const expectedMetadata: Metadata = {
@@ -56,6 +80,13 @@ describe("PromptsPage rendering tests", () => {
       getPromptsMock.mockResolvedValue(page);
       getPromptTemplatesMock.mockResolvedValue(templates);
       getPromptTemplateCategoriesMock.mockResolvedValue(categories);
+      preloadPromptsOptionsMock.mockReturnValue({ queryKey: ["prompts"] });
+      preloadPromptTemplatesOptionsMock.mockReturnValue({
+         queryKey: ["prompts-templates"],
+      });
+      preloadPromptTemplateCategoriesOptionsMock.mockReturnValue({
+         queryKey: ["prompts-template-categories"],
+      });
 
       const { container } = await renderAsyncRSC(PromptsPage, {});
 
@@ -63,11 +94,12 @@ describe("PromptsPage rendering tests", () => {
          assertRendered();
       });
 
-      const expectedQuery: DPromptsPageQuery = {
-         pagination: { pageNumber: 1, pageSize: 10 },
-      };
+      expect(preloadPromptsOptionsMock).toHaveBeenCalledTimes(1);
+      expect(preloadPromptTemplatesOptionsMock).toHaveBeenCalledTimes(1);
+      expect(preloadPromptTemplateCategoriesOptionsMock).toHaveBeenCalledTimes(
+         1
+      );
       expect(getPromptsMock).toHaveBeenCalledTimes(1);
-      expect(getPromptsMock).toHaveBeenCalledWith(expectedQuery);
 
       expect(container).toMatchSnapshot();
    });

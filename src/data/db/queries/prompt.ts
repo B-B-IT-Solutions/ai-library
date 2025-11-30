@@ -6,10 +6,10 @@ export const getPrompts = async (
    query?: PromptsPageQuery
 ): Promise<PromptsPage> => {
    const { pagination } = query || {};
-   const { pageNumber = 1, pageSize = 10 } = pagination || {};
+   const { pageNumber = 0, pageSize = 10 } = pagination || {};
 
    const data = await prisma.prompt.findMany({
-      skip: (pageNumber - 1) * pageSize,
+      skip: pageNumber * pageSize,
       take: pageSize,
    });
 
@@ -17,8 +17,8 @@ export const getPrompts = async (
       content: data,
       pageNumber: pageNumber,
       pageSize: pageSize,
-      totalElements: 50,
-      totalPages: 100,
+      totalElements: pageSize,
+      totalPages: 1,
    };
 };
 

@@ -1,4 +1,5 @@
 import {
+   FetchQueryOptions,
    InfiniteData,
    QueryKey,
    UndefinedInitialDataInfiniteOptions,
@@ -12,6 +13,21 @@ import { getNextPageParam, pageQuery } from "../utils";
 
 import { LoadPromptsParams } from "./types";
 import { promptKeys } from "./utils";
+
+export const preloadPromptsOptions = (
+   props?: LoadPromptsParams
+): FetchQueryOptions<DPromptsPage, Error, DPromptsPage> => {
+   const { search, categories } = props || {};
+   return {
+      queryKey: promptKeys.prompts(props),
+      queryFn: async () => {
+         const globalFilter = search;
+         const filter = { categories };
+         const query: DPromptsPageQuery = pageQuery(0, 7, globalFilter, filter);
+         return await getPrompts(query);
+      },
+   };
+};
 
 export const infiniteLoadPromptsOptions = (
    props: LoadPromptsParams

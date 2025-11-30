@@ -148,6 +148,7 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
               >
                 <div
                   class="p-4 cursor-pointer transition-colors hover:bg-slate-50 "
+                  data-testid="prompt-list-item"
                 >
                   <div
                     class="flex items-start justify-between"
@@ -239,6 +240,7 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
                 </div>
                 <div
                   class="p-4 cursor-pointer transition-colors hover:bg-slate-50 "
+                  data-testid="prompt-list-item"
                 >
                   <div
                     class="flex items-start justify-between"
@@ -330,6 +332,7 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
                 </div>
                 <div
                   class="p-4 cursor-pointer transition-colors hover:bg-slate-50 "
+                  data-testid="prompt-list-item"
                 >
                   <div
                     class="flex items-start justify-between"
@@ -419,7 +422,6 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
                     </button>
                   </div>
                 </div>
-                 
                 <svg
                   aria-hidden="true"
                   class="lucide lucide-loader-circle my-4 h-8 w-8 animate-spin"

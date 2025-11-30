@@ -144,6 +144,7 @@ exports[`PromptManager rendering tests PromptManager rendered test 1`] = `
             >
               <div
                 class="p-4 cursor-pointer transition-colors hover:bg-slate-50 "
+                data-testid="prompt-list-item"
               >
                 <div
                   class="flex items-start justify-between"
@@ -235,6 +236,7 @@ exports[`PromptManager rendering tests PromptManager rendered test 1`] = `
               </div>
               <div
                 class="p-4 cursor-pointer transition-colors hover:bg-slate-50 "
+                data-testid="prompt-list-item"
               >
                 <div
                   class="flex items-start justify-between"
@@ -326,6 +328,7 @@ exports[`PromptManager rendering tests PromptManager rendered test 1`] = `
               </div>
               <div
                 class="p-4 cursor-pointer transition-colors hover:bg-slate-50 "
+                data-testid="prompt-list-item"
               >
                 <div
                   class="flex items-start justify-between"
@@ -415,7 +418,6 @@ exports[`PromptManager rendering tests PromptManager rendered test 1`] = `
                   </button>
                 </div>
               </div>
-               
               <svg
                 aria-hidden="true"
                 class="lucide lucide-loader-circle my-4 h-8 w-8 animate-spin"
