@@ -37,7 +37,7 @@ describe("getPromptTemplates tests", () => {
       );
    });
 
-   test("getPromptTemplates - prompts - params {} - retrieved - test", async () => {
+   test("getPromptTemplates - prompts - params empty - retrieved - test", async () => {
       const prompts = ptestData.pPromptTemplates();
       prismaMock.promptTemplate.findMany.mockResolvedValue(prompts);
 

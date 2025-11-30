@@ -1,3 +1,5 @@
+import { isEmpty } from "es-toolkit/compat";
+
 import { PromptsPage, PromptsPageQuery } from "@/data/types/db/prompt";
 import {
    PromptCreateInput,
@@ -13,7 +15,7 @@ export const getPrompts = async (
    const { pagination } = query || {};
    const { pageNumber, pageSize } = pagination || DEFAULT_PAGINATION;
 
-   const whereClause: PromptWhereInput = {};
+   const whereClause = resolveGetPromptsWhereInput(query);
 
    const [data, count] = await prisma.$transaction([
       prisma.prompt.findMany({
@@ -61,4 +63,52 @@ export const updatePrompt = async (
       where: { id: promptId },
       data: data,
    });
+};
+
+const resolveGetPromptsWhereInput = (
+   query?: PromptsPageQuery
+): PromptWhereInput | undefined => {
+   if (isEmpty(query)) {
+      return undefined;
+   }
+
+   const { globalFilter } = query;
+   const { categories } = query.filter || {};
+
+   const searchClause: PromptWhereInput[] | undefined = globalFilter
+      ? [
+           {
+              title: {
+                 contains: globalFilter,
+                 mode: "insensitive",
+              },
+           },
+           {
+              content: {
+                 contains: globalFilter,
+                 mode: "insensitive",
+              },
+           },
+        ]
+      : undefined;
+
+   const isCategories = !isEmpty(categories);
+   const categoriesClause: PromptWhereInput[] | undefined = isCategories
+      ? [
+           {
+              categories: {
+                 some: {
+                    name: {
+                       in: categories,
+                    },
+                 },
+              },
+           },
+        ]
+      : undefined;
+
+   return {
+      OR: searchClause,
+      AND: categoriesClause,
+   };
 };
