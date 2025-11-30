@@ -43,7 +43,6 @@ export const main = async () => {
             };
          });
 
-      console.log(connect);
       await prisma.promptTemplate.create({
          data: {
             ...pt,

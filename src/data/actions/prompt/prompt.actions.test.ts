@@ -1,17 +1,26 @@
 jest.mock("@/data/db/queries/prompt");
 
 import { dtestData, ptestData } from "@tests";
+import { map } from "es-toolkit/compat";
 
 import {
    createPrompt as pCreatePrompt,
+   getPromptCategories as pGetPromptCategories,
    getPrompts as pGetPrompts,
 } from "@/data/db/queries/prompt";
 import { DPromptsPageQuery } from "@/data/types/domain/prompt";
 
-import { createPrompt, getPrompts } from "./prompt.actions";
+import {
+   createPrompt,
+   getPromptCategories,
+   getPrompts,
+} from "./prompt.actions";
 import { toDPromptsPage } from "./prompt.mapper";
 
 const pGetPromptsMock = pGetPrompts as jest.MockedFunction<typeof pGetPrompts>;
+const pGetPromptCategoriesMock = pGetPromptCategories as jest.MockedFunction<
+   typeof pGetPromptCategories
+>;
 const pCreatePromptMock = pCreatePrompt as jest.MockedFunction<
    typeof pCreatePrompt
 >;
@@ -21,7 +30,7 @@ describe("getPromptss tests", () => {
       jest.resetAllMocks();
    });
 
-   it("getPromptss - query undefined - test", async () => {
+   it("getPrompts - query undefined - test", async () => {
       const page = ptestData.pPromptsPage();
       pGetPromptsMock.mockResolvedValue(page);
 
@@ -33,7 +42,7 @@ describe("getPromptss tests", () => {
       expect(pGetPromptsMock).toHaveBeenCalledWith(undefined);
    });
 
-   it("getPromptss - query empty - test", async () => {
+   it("getPrompts - query empty - test", async () => {
       const page = ptestData.pPromptsPage();
       pGetPromptsMock.mockResolvedValue(page);
 
@@ -46,7 +55,7 @@ describe("getPromptss tests", () => {
       expect(pGetPromptsMock).toHaveBeenCalledWith(query);
    });
 
-   it("getPromptss - query defined - test", async () => {
+   it("getPrompts - query defined - test", async () => {
       const page = ptestData.pPromptsPage();
       pGetPromptsMock.mockResolvedValue(page);
 
@@ -57,6 +66,23 @@ describe("getPromptss tests", () => {
       expect(result).toEqual(expectedResult);
       expect(pGetPromptsMock).toHaveBeenCalledTimes(1);
       expect(pGetPromptsMock).toHaveBeenCalledWith(query);
+   });
+});
+
+describe("getPromptCategories tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   it("getPromptCategories test", async () => {
+      const categories = ptestData.pPromptCategories();
+      pGetPromptCategoriesMock.mockResolvedValue(categories);
+
+      const result = await getPromptCategories();
+      const expectedResult = map(categories, (c) => c.name);
+
+      expect(result).toEqual(expectedResult);
+      expect(pGetPromptCategoriesMock).toHaveBeenCalledTimes(1);
    });
 });
 
@@ -77,10 +103,21 @@ describe("createPrompt tests", () => {
       const promptToSave = {
          title: prompt.title,
          content: prompt.content,
-         categories: prompt.categories,
          recommendedModel: prompt.recommendedModel,
          followUpPrompts: prompt.followUpPrompts,
          currentVersion: 1,
+         categories: {
+            connectOrCreate: [
+               {
+                  where: {
+                     name: "category 1",
+                  },
+                  create: {
+                     name: "category 1",
+                  },
+               },
+            ],
+         },
       };
 
       expect(result).toEqual(expectedResult);
@@ -99,10 +136,21 @@ describe("createPrompt tests", () => {
       const promptToSave = {
          title: prompt.title,
          content: prompt.content,
-         categories: prompt.categories,
          recommendedModel: prompt.recommendedModel,
          followUpPrompts: prompt.followUpPrompts,
          currentVersion: 1,
+         categories: {
+            connectOrCreate: [
+               {
+                  where: {
+                     name: "category 1",
+                  },
+                  create: {
+                     name: "category 1",
+                  },
+               },
+            ],
+         },
       };
 
       expect(result).toEqual(expectedResult);

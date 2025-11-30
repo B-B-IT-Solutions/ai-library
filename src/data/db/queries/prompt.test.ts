@@ -7,13 +7,19 @@ import { PromptsPage, PromptsPageQuery } from "@/data/types/db/prompt";
 import { DPromptsPage } from "@/data/types/domain/prompt";
 import { Prisma } from "@/generated/prisma/client";
 import {
+   PromptCategoryFindManyArgs,
    PromptCountArgs,
    PromptFindManyArgs,
    PromptWhereInput,
 } from "@/generated/prisma/models";
 import prisma from "../prisma";
 
-import { createPrompt, getPrompts, updatePrompt } from "./prompt";
+import {
+   createPrompt,
+   getPromptCategories,
+   getPrompts,
+   updatePrompt,
+} from "./prompt";
 
 export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
@@ -138,6 +144,31 @@ describe("getPrompts tests", () => {
       );
       expect(prismaMock.prompt.count).toHaveBeenCalledTimes(1);
       expect(prismaMock.prompt.count).toHaveBeenCalledWith(expedtedCountArgs);
+   });
+});
+
+describe("getPromptCategories queries tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("getPromptCategories - categories retrieved - test", async () => {
+      const categories = ptestData.pPromptCategories();
+      prismaMock.promptCategory.findMany.mockResolvedValue(categories);
+
+      const result = await getPromptCategories();
+
+      const expectedFindMayArgs: PromptCategoryFindManyArgs = {
+         select: {
+            name: true,
+         },
+      };
+
+      expect(result).toEqual(categories);
+      expect(prismaMock.promptCategory.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptCategory.findMany).toHaveBeenCalledWith(
+         expectedFindMayArgs
+      );
    });
 });
 

@@ -1,6 +1,9 @@
 import { PromptsPage, PromptsPageQuery } from "@/data/types/db/prompt";
-import { Prisma } from "@/generated/prisma/client";
-import { PromptWhereInput } from "@/generated/prisma/models";
+import {
+   PromptCreateInput,
+   PromptUpdateInput,
+   PromptWhereInput,
+} from "@/generated/prisma/models";
 import prisma from "../prisma";
 import { DEFAULT_PAGINATION } from "../utils";
 
@@ -33,7 +36,15 @@ export const getPrompts = async (
    };
 };
 
-export const createPrompt = async (product: Prisma.PromptCreateInput) => {
+export const getPromptCategories = async () => {
+   return await prisma.promptCategory.findMany({
+      select: {
+         name: true,
+      },
+   });
+};
+
+export const createPrompt = async (product: PromptCreateInput) => {
    return await prisma.prompt.create({
       data: product,
    });
@@ -41,7 +52,7 @@ export const createPrompt = async (product: Prisma.PromptCreateInput) => {
 
 export const updatePrompt = async (
    promptId: string,
-   data: Prisma.PromptUpdateInput
+   data: PromptUpdateInput
 ) => {
    return await prisma.prompt.update({
       where: { id: promptId },

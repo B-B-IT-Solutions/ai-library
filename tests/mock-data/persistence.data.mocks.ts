@@ -6,6 +6,7 @@ import {
 } from "@/data/types/db/prompt";
 import {
    Prompt,
+   PromptCategory,
    PromptTemplate,
    PromptTemplateCategory,
 } from "@/generated/prisma/client";
@@ -53,6 +54,17 @@ export const pPromptTemplateCategories = (
 };
 
 export const pPromptTemplateCategory = (index = 1): PromptTemplateCategory => {
+   return {
+      id: Math.random(),
+      name: `category ${index}`,
+   };
+};
+
+export const pPromptCategories = (count = 3): PromptCategory[] => {
+   return range(0, count).map((i) => pPromptCategory(i));
+};
+
+export const pPromptCategory = (index = 1): PromptCategory => {
    return {
       id: Math.random(),
       name: `category ${index}`,
