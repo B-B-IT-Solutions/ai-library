@@ -97,12 +97,15 @@ export const PromptsList: FC<PromptsListProps> = ({
 
    const promptFilters = () => {
       return (
-         <div className="bg-white rounded-lg p-4 border border-slate-200 shadow-sm">
+         <div
+            className="bg-white rounded-lg p-4 border border-slate-200 shadow-sm"
+            data-testid="prompts-list-filters"
+         >
             <div className="relative mb-4">
                <Search className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
                <input
                   type="text"
-                  placeholder="Search prompts..."
+                  placeholder="Search prompts"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
