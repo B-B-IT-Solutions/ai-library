@@ -9,6 +9,13 @@ export const promptKeys = {
    },
 };
 
+export const promptCategoriesKeys = {
+   all: ["prompt-categories"],
+   categories: () => {
+      return [...promptCategoriesKeys.all] as const;
+   },
+};
+
 export const promptTemplateKeys = {
    all: ["prompt-templates"],
    templates: (params?: LoadPromptTemplatesParams) => {
@@ -16,9 +23,9 @@ export const promptTemplateKeys = {
    },
 };
 
-export const promptTemplateCategoryKeys = {
+export const promptTemplateCategoriesKeys = {
    all: ["prompt-template-categories"],
    categories: () => {
-      return [...promptTemplateCategoryKeys.all] as const;
+      return [...promptTemplateCategoriesKeys.all] as const;
    },
 };

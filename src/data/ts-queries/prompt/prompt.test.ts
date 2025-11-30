@@ -4,19 +4,31 @@ import {
    InfiniteData,
    QueryKey,
    UndefinedInitialDataInfiniteOptions,
+   UndefinedInitialDataOptions,
 } from "@tanstack/react-query";
 import { waitFor } from "@testing-library/dom";
 import { dtestData, renderHookWithReactQuery } from "@tests";
 
-import { getPrompts } from "@/data/actions/prompt/prompt.actions";
+import {
+   getPromptCategories,
+   getPrompts,
+} from "@/data/actions/prompt/prompt.actions";
 import { DPromptsPage, DPromptsPageQuery } from "@/data/types/domain/prompt";
 
-import { infiniteLoadPromptsOptions, useInfiniteLoadPrompts } from "./prompt";
+import {
+   infiniteLoadPromptsOptions,
+   loadPromptCategoriesOptions,
+   useInfiniteLoadPrompts,
+   useLoadPromptCategories,
+} from "./prompt";
 import { LoadPromptsParams } from "./types";
 
 const getPromptsMock = getPrompts as jest.MockedFunction<typeof getPrompts>;
+const getPromptCategoriesMock = getPromptCategories as jest.MockedFunction<
+   typeof getPromptCategories
+>;
 
-describe("loadNote hooks tests", () => {
+describe("loadPrompts hooks tests", () => {
    test("infiniteLoadPromptsOptions - test", async () => {
       const filter = dtestData.dPromptsFilter();
       const params: LoadPromptsParams = {
@@ -67,6 +79,41 @@ describe("loadNote hooks tests", () => {
          expect(result.current.data?.pages[0]).toEqual(promptsPage);
          expect(getPromptsMock).toHaveBeenCalledTimes(1);
          expect(getPromptsMock).toHaveBeenCalledWith(expectedQuery);
+      });
+   });
+});
+
+describe("loadPromptCategories hooks tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   test("loadPromptCategoriesOptions - test", async () => {
+      const expectedOptions: UndefinedInitialDataOptions<
+         string[],
+         Error,
+         string[]
+      > = {
+         queryKey: ["prompt-categories"],
+         queryFn: jest.fn(),
+         staleTime: 5 * 60 * 1000,
+      };
+
+      const options = loadPromptCategoriesOptions();
+      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
+   });
+
+   test("useLoadPromptCategories test", async () => {
+      const categories = ["category 1", "category 2", "category 3"];
+      getPromptCategoriesMock.mockResolvedValue(categories);
+
+      const { result } = renderHookWithReactQuery(() =>
+         useLoadPromptCategories()
+      );
+
+      await waitFor(() => {
+         expect(result.current.data).toEqual(categories);
+         expect(getPromptCategoriesMock).toHaveBeenCalledTimes(1);
       });
    });
 });
