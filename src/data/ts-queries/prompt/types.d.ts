@@ -1,4 +1,4 @@
-export type LoadPromptParams = {
+export type LoadPromptsParams = {
    search?: string;
    categories?: string[];
 };

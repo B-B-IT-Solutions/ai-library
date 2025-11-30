@@ -6,13 +6,15 @@ import {
    UseInfiniteQueryResult,
 } from "@tanstack/react-query";
 
-import { DPromptsPage } from "@/data/types/domain/prompt";
+import { getPrompts } from "@/data/actions/prompt/prompt.actions";
+import { DPromptsPage, DPromptsPageQuery } from "@/data/types/domain/prompt";
+import { getNextPageParam, pageQuery } from "../utils";
 
-import { LoadPromptParams } from "./types";
+import { LoadPromptsParams } from "./types";
 import { promptKeys } from "./utils";
 
 export const infiniteLoadPromptsOptions = (
-   props: LoadPromptParams
+   props: LoadPromptsParams
 ): UndefinedInitialDataInfiniteOptions<
    DPromptsPage,
    Error,
@@ -20,11 +22,19 @@ export const infiniteLoadPromptsOptions = (
    QueryKey,
    number
 > => {
+   const { search, categories } = props;
    return {
       queryKey: promptKeys.prompts(props),
-      queryFn: ({ pageParam }) => {
-         const query: DNotesPageQuery = pageQuery2(pageParam, 7, filter, sort);
-         return loadContactNotes(contactId, query);
+      queryFn: async ({ pageParam }) => {
+         const globalFilter = search;
+         const filter = { categories };
+         const query: DPromptsPageQuery = pageQuery(
+            pageParam,
+            7,
+            globalFilter,
+            filter
+         );
+         return await getPrompts(query);
       },
       initialPageParam: 0,
       getNextPageParam: getNextPageParam,
@@ -33,7 +43,7 @@ export const infiniteLoadPromptsOptions = (
 };
 
 export const useInfiniteLoadPrompts = (
-   props: LoadPromptParams
+   props: LoadPromptsParams
 ): UseInfiniteQueryResult<InfiniteData<DPromptsPage>, Error> => {
    const options = infiniteLoadPromptsOptions(props);
    return useInfiniteQuery(options);

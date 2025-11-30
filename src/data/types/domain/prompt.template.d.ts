@@ -1,6 +1,6 @@
 import z from "zod";
 
-import { createPromptTemplateSchema } from "../validators/prompt.schema";
+import { createPromptTemplateSchema } from "@/data/types/validators/prompt.schema";
 
 export type DPromptTemplateCategory = {
    name: string;

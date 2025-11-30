@@ -1,7 +1,7 @@
-import { createPromptSchema } from "@types/validators/prompt.schema";
 import z from "zod";
 
-import { Filter, Page, PageQuery } from "../common";
+import { Filter, Page, PageQuery } from "@/data/types/common";
+import { createPromptSchema } from "@/data/types/validators/prompt.schema";
 
 export type DPromptCreate = z.infer<typeof createPromptSchema>;
 
@@ -32,6 +32,6 @@ export type DPromptUdapte = {
 export type DPromptsPageQuery = PageQuery<DPromptsFilter>;
 export type DPromptsPage = Page<DPrompt>;
 
-export declare interface DPromptsFilter extends Filter {
+export interface DPromptsFilter extends Filter {
    categories?: string[];
 }

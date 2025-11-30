@@ -5,8 +5,8 @@ import {
    getPrompts as pGetPrompts,
 } from "@/data/db/queries/prompt";
 import {
-   DPrompt,
    DPromptCreate,
+   DPromptsPage,
    DPromptsPageQuery,
 } from "@/data/types/domain/prompt";
 import { createPromptSchema } from "@/data/types/validators/prompt.schema";
@@ -16,7 +16,7 @@ import { formatError } from "./utils";
 
 export const getPrompts = async (
    query?: DPromptsPageQuery
-): Promise<DPrompt[]> => {
+): Promise<DPromptsPage> => {
    const data = await pGetPrompts(query);
    return toDPrompts(data);
 };

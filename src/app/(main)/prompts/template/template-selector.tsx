@@ -7,7 +7,7 @@ import {
    useLoadPromptTemplateCategories,
    useLoadPromptTemplates,
 } from "@/data/ts-queries/prompt";
-import { DPromptTemplate } from "@/data/types/domain/prompt.teplate";
+import { DPromptTemplate } from "@/data/types/domain/prompt.template";
 
 import { TemplateCards } from "./template-cards";
 import { TemplateFilters } from "./template-filters";

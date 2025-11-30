@@ -12,7 +12,7 @@ import {
    getPromptTemplateCategories,
    getPromptTemplates,
 } from "@/data/actions/prompt/prompt.template.actions";
-import { DPromptTemplate } from "@/data/types/domain/prompt";
+import { DPromptTemplate } from "@/data/types/domain/prompt.template";
 
 import {
    loadPromptTemplateCategoriesOptions,

@@ -1,6 +1,9 @@
 export interface Page<T = object> {
-   hasMore: boolean;
    content: T[];
+   pageNumber: number;
+   pageSize: number;
+   totalElements: number;
+   totalPages: number;
 }
 
 export type Pagination = {
@@ -12,7 +15,12 @@ export type Filter = Record<string, FitlerValue>;
 
 export interface PageQuery<T extends Filter> {
    pagination?: Pagination;
-   sort?: string;
+   sort?: Sort;
    filter?: T;
    globalFilter?: string;
+}
+
+export interface Sort {
+   field: string;
+   desc: boolean;
 }

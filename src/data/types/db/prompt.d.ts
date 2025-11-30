@@ -1,8 +1,8 @@
+import { Page, PageQuery } from "@/data/types/common";
 import {
    PromptTemplate,
    PromptTemplateCategory,
 } from "@/generated/prisma/client";
-import { Page, PageQuery } from "../common";
 
 export type PromptTemplateWithCategories = PromptTemplate & {
    categories: PromptTemplateCategory[];

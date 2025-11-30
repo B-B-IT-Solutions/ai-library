@@ -6,7 +6,7 @@ import {
    getPromptTemplateCategories as pGetPromptTemplateCategories,
    getPromptTemplates as pGetPromptTemplates,
 } from "@/data/db/queries/prompt.template";
-import { DPromptTemplate } from "@/data/types/domain/prompt.teplate";
+import { DPromptTemplate } from "@/data/types/domain/prompt.template";
 
 import { toDPromptTemplates } from "./prompt.mapper";
 

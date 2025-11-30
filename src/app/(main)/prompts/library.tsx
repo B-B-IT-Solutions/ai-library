@@ -4,7 +4,7 @@ import { FC, useState } from "react";
 import { Plus, X } from "lucide-react";
 
 import { DPrompt, DPromptCreate } from "@/data/types/domain/prompt";
-import { DPromptTemplate } from "@/data/types/domain/prompt.teplate";
+import { DPromptTemplate } from "@/data/types/domain/prompt.template";
 
 import { PromptFom } from "./prompt/prompt-form";
 import { PromptsList } from "./prompt/prompts-list";
