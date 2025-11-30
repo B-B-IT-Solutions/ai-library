@@ -1,10 +1,16 @@
 import { range } from "es-toolkit";
 
+import { Sort } from "@/data/types/common";
 import {
    DPrompt,
+   DPromptsFilter,
+   DPromptsPage,
+   DPromptsPageQuery,
+} from "@/data/types/domain/prompt";
+import {
    DPromptTemplate,
    DPromptTemplateCategory,
-} from "@/data/types/domain/prompt";
+} from "@/data/types/domain/prompt.template";
 
 export const dPromptTemplates = (count = 3): DPromptTemplate[] => {
    return range(0, count).map((i) => dPromptTemplate(i));
@@ -34,6 +40,16 @@ export const dPromptTemplateCategory = (index = 1): DPromptTemplateCategory => {
    };
 };
 
+export const dPromptsPage = (): DPromptsPage => {
+   return {
+      content: dPrompts(),
+      pageNumber: 1,
+      pageSize: 3,
+      totalElements: 15,
+      totalPages: 5,
+   };
+};
+
 export const dPrompts = (count = 3): DPrompt[] => {
    return range(0, count).map((i) => dPrompt(i));
 };
@@ -56,4 +72,25 @@ export const dPrompt = (index = 1): DPrompt => {
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
    };
+};
+
+export const dPromptsPageQuery = (): DPromptsPageQuery => {
+   return {
+      pagination: {
+         pageNumber: 15,
+         pageSize: 5,
+      },
+      filter: dPromptsFilter(),
+      globalFilter: "test 1",
+   };
+};
+
+export const dPromptsFilter = (): DPromptsFilter => {
+   return {
+      categories: ["cat 1", "cat 2", "cat 3"],
+   };
+};
+
+export const sort = (field = "field1", desc = false): Sort => {
+   return { field, desc };
 };

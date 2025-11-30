@@ -1,22 +1,7 @@
 import z from "zod";
 
-import {
-   createPromptSchema,
-   createPromptTemplateSchema,
-} from "../validators/prompt.schema";
-
-export type DPromptTemplateCategory = {
-   name: string;
-};
-
-export type DPromptTemplateCreate = z.infer<typeof createPromptTemplateSchema>;
-
-export type DPromptTemplate = Omit<DPromptTemplateCreate, "categories"> & {
-   id: string;
-   categories: DPromptTemplateCategory[];
-   updatedAt: string;
-   createdAt: string;
-};
+import { Filter, Page, PageQuery } from "@/data/types/common";
+import { createPromptSchema } from "@/data/types/validators/prompt.schema";
 
 export type DPromptCreate = z.infer<typeof createPromptSchema>;
 
@@ -43,3 +28,10 @@ export type DPromptUdapte = {
    recommendedModel: string;
    followUpPrompts: string[];
 };
+
+export type DPromptsPageQuery = PageQuery<DPromptsFilter>;
+export type DPromptsPage = Page<DPrompt>;
+
+export interface DPromptsFilter extends Filter {
+   categories?: string[];
+}

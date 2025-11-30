@@ -6,9 +6,10 @@ import {
    createPrompt as pCreatePrompt,
    getPrompts as pGetPrompts,
 } from "@/data/db/queries/prompt";
+import { DPromptsPageQuery } from "@/data/types/domain/prompt";
 
 import { createPrompt, getPrompts } from "./prompt.actions";
-import { toDPrompts } from "./prompt.mapper";
+import { toDPromptsPage } from "./prompt.mapper";
 
 const pGetPromptsMock = pGetPrompts as jest.MockedFunction<typeof pGetPrompts>;
 const pCreatePromptMock = pCreatePrompt as jest.MockedFunction<
@@ -20,15 +21,42 @@ describe("getPromptss tests", () => {
       jest.resetAllMocks();
    });
 
-   it("getPromptss test", async () => {
-      const products = ptestData.pPrompts();
-      pGetPromptsMock.mockResolvedValue(products);
+   it("getPromptss - query undefined - test", async () => {
+      const page = ptestData.pPromptsPage();
+      pGetPromptsMock.mockResolvedValue(page);
 
       const result = await getPrompts();
-      const expectedResult = toDPrompts(products);
+      const expectedResult = toDPromptsPage(page);
 
       expect(result).toEqual(expectedResult);
       expect(pGetPromptsMock).toHaveBeenCalledTimes(1);
+      expect(pGetPromptsMock).toHaveBeenCalledWith(undefined);
+   });
+
+   it("getPromptss - query empty - test", async () => {
+      const page = ptestData.pPromptsPage();
+      pGetPromptsMock.mockResolvedValue(page);
+
+      const query: DPromptsPageQuery = {};
+      const result = await getPrompts(query);
+      const expectedResult = toDPromptsPage(page);
+
+      expect(result).toEqual(expectedResult);
+      expect(pGetPromptsMock).toHaveBeenCalledTimes(1);
+      expect(pGetPromptsMock).toHaveBeenCalledWith(query);
+   });
+
+   it("getPromptss - query defined - test", async () => {
+      const page = ptestData.pPromptsPage();
+      pGetPromptsMock.mockResolvedValue(page);
+
+      const query = dtestData.dPromptsPageQuery();
+      const result = await getPrompts(query);
+      const expectedResult = toDPromptsPage(page);
+
+      expect(result).toEqual(expectedResult);
+      expect(pGetPromptsMock).toHaveBeenCalledTimes(1);
+      expect(pGetPromptsMock).toHaveBeenCalledWith(query);
    });
 });
 

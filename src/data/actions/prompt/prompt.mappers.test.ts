@@ -1,10 +1,18 @@
 import { ptestData } from "@tests";
 import { map } from "es-toolkit/compat";
 
-import { DPrompt } from "@/data/types/domain/prompt";
+import { PromptsPage } from "@/data/types/db/prompt";
+import { DPrompt, DPromptsPage } from "@/data/types/domain/prompt";
 import { Prompt } from "@/generated/prisma/browser";
 
-import { toDPrompt, toDPrompts } from "./prompt.mapper";
+import { toDPrompt, toDPrompts, toDPromptsPage } from "./prompt.mapper";
+
+const toDPromptsPageInternal = (pPromptsPage: PromptsPage): DPromptsPage => {
+   return {
+      ...pPromptsPage,
+      content: toDPromptsInternal(pPromptsPage.content),
+   };
+};
 
 const toDPromptsInternal = (pPrompts: Prompt[]): DPrompt[] => {
    return map(pPrompts, (dbP) => toDPrompt(dbP));
@@ -29,6 +37,13 @@ const toDPromptInternal = (prompt: Prompt): DPrompt => {
 describe("toDPrompt tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
+   });
+
+   it("toDPromptsPage test", async () => {
+      const page = ptestData.pPromptsPage();
+      const result = toDPromptsPage(page);
+      const expectedResult = toDPromptsPageInternal(page);
+      expect(result).toEqual(expectedResult);
    });
 
    it("toDPrompts test", async () => {
