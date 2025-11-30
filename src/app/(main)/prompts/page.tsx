@@ -10,7 +10,7 @@ import {
    preloadPromptTemplatesOptions,
 } from "@/data/ts-queries/prompt";
 
-import { PromptManager } from "./library";
+import { PromptManager } from "./prompt-manager";
 
 export const metadata = {
    title: "Prompts",
@@ -20,8 +20,6 @@ const PromptsPage = async () => {
    const promptsPage = await getPrompts({
       pagination: { pageNumber: 1, pageSize: 10 },
    });
-
-   console.log(promptsPage);
 
    const queryClient = new QueryClient();
    await queryClient.prefetchQuery(preloadPromptTemplatesOptions());

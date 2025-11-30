@@ -1,5 +1,6 @@
 import "@testing-library/jest-dom";
 import "whatwg-fetch";
+import "intersection-observer";
 
 import failOnConsole from "jest-fail-on-console";
 import { mockDeep } from "jest-mock-extended";
