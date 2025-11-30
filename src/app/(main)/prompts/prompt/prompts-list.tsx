@@ -33,7 +33,7 @@ export const PromptsList: FC<PromptsListProps> = ({
       isFetchingNextPage,
    } = useInfiniteLoadPrompts({ search, categories });
 
-   const count = sum(map(pages, (p) => p.pageSize));
+   const count = sum(map(pages, (p) => p.numberOfElements));
 
    const promptItemsHeader = () => {
       return (
@@ -67,8 +67,11 @@ export const PromptsList: FC<PromptsListProps> = ({
             <InfiniteScroll
                hasMore={hasNextPage}
                isLoading={isFetchingNextPage}
-               next={fetchNextPage}
-               threshold={1}
+               next={() => {
+                  console.log("fetchNextPage");
+                  fetchNextPage();
+               }}
+               threshold={0.7}
             >
                {hasNextPage && (
                   <Loader2 className="my-4 h-8 w-8 animate-spin" />

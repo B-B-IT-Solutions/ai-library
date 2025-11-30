@@ -60,8 +60,10 @@ export const pPromptTemplateCategory = (index = 1): PromptTemplateCategory => {
 };
 
 export const pPromptsPage = (): PromptsPage => {
+   const prompts = pPrompts();
    return {
-      content: pPrompts(),
+      content: prompts,
+      numberOfElements: prompts.length,
       pageNumber: 1,
       pageSize: 3,
       totalElements: 15,

@@ -56,7 +56,7 @@ describe("loadNote hooks tests", () => {
       );
 
       const expectedQuery: DPromptsPageQuery = {
-         pagination: { pageNumber: 0, pageSize: 7 },
+         pagination: { pageNumber: 0, pageSize: 10 },
          globalFilter: params.search,
          filter: filter,
       };

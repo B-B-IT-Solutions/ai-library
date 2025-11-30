@@ -9,6 +9,7 @@ import {
 
 import { getPrompts } from "@/data/actions/prompt/prompt.actions";
 import { DPromptsPage, DPromptsPageQuery } from "@/data/types/domain/prompt";
+import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
 import { getNextPageParam, pageQuery } from "../utils";
 
 import { LoadPromptsParams } from "./types";
@@ -23,7 +24,12 @@ export const preloadPromptsOptions = (
       queryFn: async () => {
          const globalFilter = search;
          const filter = { categories };
-         const query: DPromptsPageQuery = pageQuery(0, 7, globalFilter, filter);
+         const query: DPromptsPageQuery = pageQuery(
+            INIT_PAGE_NUMBER,
+            PAGE_SIZE,
+            globalFilter,
+            filter
+         );
          return await getPrompts(query);
       },
    };
@@ -46,7 +52,7 @@ export const infiniteLoadPromptsOptions = (
          const filter = { categories };
          const query: DPromptsPageQuery = pageQuery(
             pageParam,
-            7,
+            PAGE_SIZE,
             globalFilter,
             filter
          );

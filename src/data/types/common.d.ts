@@ -1,5 +1,6 @@
 export interface Page<T = object> {
    content: T[];
+   numberOfElements: number;
    pageNumber: number;
    pageSize: number;
    totalElements: number;

@@ -25,6 +25,7 @@ export const getPrompts = async (
 
    return {
       content: data,
+      numberOfElements: data.length,
       pageNumber: pageNumber,
       pageSize: pageSize,
       totalElements: count,
