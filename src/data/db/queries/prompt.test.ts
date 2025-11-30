@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
-import { PromptsPageQuery } from "@/data/types/db/prompt";
+import { PromptsPage, PromptsPageQuery } from "@/data/types/db/prompt";
 import { Prisma } from "@/generated/prisma/client";
 import prisma from "../prisma";
 
@@ -21,12 +21,19 @@ describe("getPrompts tests", () => {
 
       const result = await getPrompts();
 
+      const expectedResult: PromptsPage = {
+         content: prompts,
+         pageNumber: 1,
+         pageSize: 10,
+         totalElements: 50,
+         totalPages: 100,
+      };
       const expectedFindManyArgs: Prisma.PromptFindManyArgs = {
          skip: 0,
          take: 10,
       };
 
-      expect(result).toEqual(prompts);
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
       expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
          expectedFindManyArgs
@@ -40,12 +47,19 @@ describe("getPrompts tests", () => {
       const query: PromptsPageQuery = {};
       const result = await getPrompts(query);
 
+      const expectedResult: PromptsPage = {
+         content: prompts,
+         pageNumber: 1,
+         pageSize: 10,
+         totalElements: 50,
+         totalPages: 100,
+      };
       const expectedFindManyArgs: Prisma.PromptFindManyArgs = {
          skip: 0,
          take: 10,
       };
 
-      expect(result).toEqual(prompts);
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
       expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
          expectedFindManyArgs
@@ -61,12 +75,19 @@ describe("getPrompts tests", () => {
       };
       const result = await getPrompts(query);
 
+      const expectedResult: PromptsPage = {
+         content: prompts,
+         pageNumber: 5,
+         pageSize: 15,
+         totalElements: 50,
+         totalPages: 100,
+      };
       const expectedFindManyArgs: Prisma.PromptFindManyArgs = {
          skip: 60,
          take: 15,
       };
 
-      expect(result).toEqual(prompts);
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
       expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
          expectedFindManyArgs

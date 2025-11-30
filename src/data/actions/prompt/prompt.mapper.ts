@@ -1,7 +1,11 @@
 import { map } from "es-toolkit/compat";
 
-import { PromptTemplateWithCategories } from "@/data/types/db/prompt";
-import { DPrompt, DPromptTemplate } from "@/data/types/domain/prompt";
+import {
+   PromptsPage,
+   PromptTemplateWithCategories,
+} from "@/data/types/db/prompt";
+import { DPrompt, DPromptsPage } from "@/data/types/domain/prompt";
+import { DPromptTemplate } from "@/data/types/domain/prompt.template";
 import { Prompt } from "@/generated/prisma/browser";
 
 export const toDPromptTemplates = (
@@ -21,6 +25,13 @@ export const toDPromptTemplate = (
       recommendedModel: prompt.recommendedModel,
       updatedAt: prompt.updatedAt.toISOString(),
       createdAt: prompt.createdAt.toISOString(),
+   };
+};
+
+export const toDPromptsPage = (pPromptsPage: PromptsPage): DPromptsPage => {
+   return {
+      ...pPromptsPage,
+      content: toDPrompts(pPromptsPage.content),
    };
 };
 

@@ -9,7 +9,7 @@ import {
 import { DPromptsPageQuery } from "@/data/types/domain/prompt";
 
 import { createPrompt, getPrompts } from "./prompt.actions";
-import { toDPrompts } from "./prompt.mapper";
+import { toDPromptsPage } from "./prompt.mapper";
 
 const pGetPromptsMock = pGetPrompts as jest.MockedFunction<typeof pGetPrompts>;
 const pCreatePromptMock = pCreatePrompt as jest.MockedFunction<
@@ -22,11 +22,11 @@ describe("getPromptss tests", () => {
    });
 
    it("getPromptss - query undefined - test", async () => {
-      const products = ptestData.pPrompts();
-      pGetPromptsMock.mockResolvedValue(products);
+      const page = ptestData.pPromptsPage();
+      pGetPromptsMock.mockResolvedValue(page);
 
       const result = await getPrompts();
-      const expectedResult = toDPrompts(products);
+      const expectedResult = toDPromptsPage(page);
 
       expect(result).toEqual(expectedResult);
       expect(pGetPromptsMock).toHaveBeenCalledTimes(1);
@@ -34,12 +34,12 @@ describe("getPromptss tests", () => {
    });
 
    it("getPromptss - query empty - test", async () => {
-      const products = ptestData.pPrompts();
-      pGetPromptsMock.mockResolvedValue(products);
+      const page = ptestData.pPromptsPage();
+      pGetPromptsMock.mockResolvedValue(page);
 
       const query: DPromptsPageQuery = {};
       const result = await getPrompts(query);
-      const expectedResult = toDPrompts(products);
+      const expectedResult = toDPromptsPage(page);
 
       expect(result).toEqual(expectedResult);
       expect(pGetPromptsMock).toHaveBeenCalledTimes(1);
@@ -47,12 +47,12 @@ describe("getPromptss tests", () => {
    });
 
    it("getPromptss - query defined - test", async () => {
-      const products = ptestData.pPrompts();
-      pGetPromptsMock.mockResolvedValue(products);
+      const page = ptestData.pPromptsPage();
+      pGetPromptsMock.mockResolvedValue(page);
 
       const query = dtestData.dPromptsPageQuery();
       const result = await getPrompts(query);
-      const expectedResult = toDPrompts(products);
+      const expectedResult = toDPromptsPage(page);
 
       expect(result).toEqual(expectedResult);
       expect(pGetPromptsMock).toHaveBeenCalledTimes(1);

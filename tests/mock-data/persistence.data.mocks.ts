@@ -1,6 +1,9 @@
 import { range } from "es-toolkit";
 
-import { PromptTemplateWithCategories } from "@/data/types/db/prompt";
+import {
+   PromptsPage,
+   PromptTemplateWithCategories,
+} from "@/data/types/db/prompt";
 import {
    Prompt,
    PromptTemplate,
@@ -53,6 +56,16 @@ export const pPromptTemplateCategory = (index = 1): PromptTemplateCategory => {
    return {
       id: Math.random(),
       name: `category ${index}`,
+   };
+};
+
+export const pPromptsPage = (): PromptsPage => {
+   return {
+      content: pPrompts(),
+      pageNumber: 1,
+      pageSize: 3,
+      totalElements: 15,
+      totalPages: 5,
    };
 };
 

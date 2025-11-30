@@ -1,15 +1,25 @@
-import { PromptsPageQuery } from "@/data/types/db/prompt";
+import { PromptsPage, PromptsPageQuery } from "@/data/types/db/prompt";
 import { Prisma } from "@/generated/prisma/client";
 import prisma from "../prisma";
 
-export const getPrompts = async (query?: PromptsPageQuery) => {
+export const getPrompts = async (
+   query?: PromptsPageQuery
+): Promise<PromptsPage> => {
    const { pagination } = query || {};
    const { pageNumber = 1, pageSize = 10 } = pagination || {};
 
-   return await prisma.prompt.findMany({
+   const data = await prisma.prompt.findMany({
       skip: (pageNumber - 1) * pageSize,
       take: pageSize,
    });
+
+   return {
+      content: data,
+      pageNumber: pageNumber,
+      pageSize: pageSize,
+      totalElements: 50,
+      totalPages: 100,
+   };
 };
 
 export const createPrompt = async (product: Prisma.PromptCreateInput) => {

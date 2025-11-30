@@ -11,14 +11,14 @@ import {
 } from "@/data/types/domain/prompt";
 import { createPromptSchema } from "@/data/types/validators/prompt.schema";
 
-import { toDPrompts } from "./prompt.mapper";
+import { toDPromptsPage } from "./prompt.mapper";
 import { formatError } from "./utils";
 
 export const getPrompts = async (
    query?: DPromptsPageQuery
 ): Promise<DPromptsPage> => {
    const data = await pGetPrompts(query);
-   return toDPrompts(data);
+   return toDPromptsPage(data);
 };
 
 export const createPrompt = async (data: DPromptCreate) => {

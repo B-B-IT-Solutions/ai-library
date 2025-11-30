@@ -17,7 +17,11 @@ export const metadata = {
 };
 
 const PromptsPage = async () => {
-   const prompts = await getPrompts();
+   const promptsPage = await getPrompts({
+      pagination: { pageNumber: 1, pageSize: 10 },
+   });
+
+   console.log(promptsPage);
 
    const queryClient = new QueryClient();
    await queryClient.prefetchQuery(preloadPromptTemplatesOptions());
@@ -26,7 +30,7 @@ const PromptsPage = async () => {
    return (
       <div className="w-full" data-testid="prompts-page">
          <HydrationBoundary state={dehydrate(queryClient)}>
-            <PromptManager prompts={prompts} />
+            <PromptManager prompts={promptsPage.content} />
          </HydrationBoundary>
       </div>
    );

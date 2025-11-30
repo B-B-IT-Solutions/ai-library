@@ -11,6 +11,7 @@ import {
    getPromptTemplateCategories,
    getPromptTemplates,
 } from "@/data/actions/prompt/prompt.template.actions";
+import { DPromptsPageQuery } from "@/data/types/domain/prompt";
 
 import PromptsPage, { metadata } from "./page";
 
@@ -48,11 +49,11 @@ describe("PromptsPage rendering tests", () => {
    });
 
    it("PromptsPage - prompts retrieved - rendered test", async () => {
-      const prompts = dtestData.dPrompts();
+      const page = dtestData.dPromptsPage();
       const templates = dtestData.dPromptTemplates();
       const categories = ["category 1", "category 2", "category 3"];
 
-      getPromptsMock.mockResolvedValue(prompts);
+      getPromptsMock.mockResolvedValue(page);
       getPromptTemplatesMock.mockResolvedValue(templates);
       getPromptTemplateCategoriesMock.mockResolvedValue(categories);
 
@@ -61,6 +62,12 @@ describe("PromptsPage rendering tests", () => {
       await waitFor(() => {
          assertRendered();
       });
+
+      const expectedQuery: DPromptsPageQuery = {
+         pagination: { pageNumber: 1, pageSize: 10 },
+      };
+      expect(getPromptsMock).toHaveBeenCalledTimes(1);
+      expect(getPromptsMock).toHaveBeenCalledWith(expectedQuery);
 
       expect(container).toMatchSnapshot();
    });
