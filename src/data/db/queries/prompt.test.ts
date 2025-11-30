@@ -38,7 +38,7 @@ describe("getPrompts tests", () => {
    });
 
    test("getPrompts - query undefined - test", async () => {
-      const prompts = ptestData.pPrompts();
+      const prompts = ptestData.pPromptsWithCategories();
       prismaMock.prompt.findMany.mockResolvedValue(prompts);
       prismaMock.prompt.count.mockResolvedValue(prompts.length);
 
@@ -57,6 +57,9 @@ describe("getPrompts tests", () => {
          where: expectedWhereClause,
          skip: 0,
          take: 10,
+         include: {
+            categories: true,
+         },
       };
       const expedtedCountArgs: PromptCountArgs = {
          where: expectedWhereClause,
@@ -73,7 +76,7 @@ describe("getPrompts tests", () => {
    });
 
    test("getPrompts - query empty - test", async () => {
-      const prompts = ptestData.pPrompts();
+      const prompts = ptestData.pPromptsWithCategories();
       prismaMock.prompt.findMany.mockResolvedValue(prompts);
       prismaMock.prompt.count.mockResolvedValue(prompts.length);
 
@@ -93,6 +96,9 @@ describe("getPrompts tests", () => {
          where: expectedWhereClause,
          skip: 0,
          take: 10,
+         include: {
+            categories: true,
+         },
       };
       const expedtedCountArgs: PromptCountArgs = {
          where: expectedWhereClause,
@@ -109,7 +115,7 @@ describe("getPrompts tests", () => {
    });
 
    test("getPrompts - query defined - test", async () => {
-      const prompts = ptestData.pPrompts(21);
+      const prompts = ptestData.pPromptsWithCategories(21);
       prismaMock.prompt.findMany.mockResolvedValue(prompts);
       prismaMock.prompt.count.mockResolvedValue(prompts.length);
 
@@ -131,6 +137,9 @@ describe("getPrompts tests", () => {
          where: expectedWhereClause,
          skip: 15,
          take: 5,
+         include: {
+            categories: true,
+         },
       };
       const expedtedCountArgs: PromptCountArgs = {
          where: expectedWhereClause,

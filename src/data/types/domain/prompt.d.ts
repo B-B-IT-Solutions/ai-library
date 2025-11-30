@@ -5,11 +5,16 @@ import { createPromptSchema } from "@/data/types/validators/prompt.schema";
 
 export type DPromptCreate = z.infer<typeof createPromptSchema>;
 
-export type DPrompt = DPromptCreate & {
+export type DPromptCategory = {
+   name: string;
+};
+
+export type DPrompt = Omit<DPromptCreate, "categories"> & {
    id: string;
    currentVersion: number;
    versions: DPromptVersion[];
    isFavorite: boolean;
+   categories: DPromptCategory[];
    updatedAt: string;
    createdAt: string;
 };

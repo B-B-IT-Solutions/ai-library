@@ -68,12 +68,12 @@ export const PromptListItem: FC<PromptListItemProps> = ({
                   {prompt.title}
                </h3>
                <div className="flex flex-wrap gap-1 mb-2">
-                  {prompt.categories.map((cat) => (
+                  {prompt.categories.map((cat, idx) => (
                      <span
-                        key={cat}
+                        key={idx}
                         className="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded border border-slate-200"
                      >
-                        {cat}
+                        {cat.name}
                      </span>
                   ))}
                </div>

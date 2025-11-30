@@ -9,6 +9,7 @@ import { useInfiniteLoadPrompts } from "@/data/ts-queries/prompt";
 import { CallbackFn } from "@/data/types/domain/common";
 import { DPrompt } from "@/data/types/domain/prompt";
 
+import { PromptFilters } from "./prompt-filters";
 import { PromptListItem } from "./prompt-list-item";
 
 type PromptsListProps = {
@@ -22,7 +23,7 @@ export const PromptsList: FC<PromptsListProps> = ({
    selectPrompt,
    selectedPrompt,
 }) => {
-   const [categories, setCategories] = useState([]);
+   const [categories, setCategories] = useState<string[]>([]);
    const [search, setSearch] = useState("");
    const [selectedCategory, setSelectedCategory] = useState("all");
 
@@ -34,6 +35,8 @@ export const PromptsList: FC<PromptsListProps> = ({
    } = useInfiniteLoadPrompts({ search, categories });
 
    const count = sum(map(pages, (p) => p.numberOfElements));
+
+   console.log(pages);
 
    const promptItemsHeader = () => {
       return (
@@ -136,6 +139,12 @@ export const PromptsList: FC<PromptsListProps> = ({
 
    return (
       <div className="lg:col-span-1 space-y-4" data-testid="prompts-list">
+         <PromptFilters
+            search={search}
+            setSearch={setSearch}
+            categories={categories}
+            setCategories={setCategories}
+         />
          {promptFilters()}
          {promptItemsList()}
       </div>

@@ -20,6 +20,9 @@ export const getPrompts = async (
          where: whereClause,
          skip: pageNumber * pageSize,
          take: pageSize,
+         include: {
+            categories: true,
+         },
       }),
       prisma.prompt.count({
          where: whereClause,

@@ -19,10 +19,10 @@ import {
    PopoverContent,
    PopoverTrigger,
 } from "@/components/shadcn/popover";
+import { useLoadPromptCategories } from "@/data/ts-queries/prompt/prompt";
 import { cn } from "@/lib/utils";
 
 type PromptFiltersProps = {
-   loadedCategories: string[];
    search: string;
    categories: string[];
    setSearch: (value: string) => void;
@@ -30,13 +30,14 @@ type PromptFiltersProps = {
 };
 
 export const PromptFilters: FC<PromptFiltersProps> = ({
-   loadedCategories,
    search,
    setSearch,
    categories,
    setCategories,
 }) => {
    const [open, setOpen] = useState(false);
+
+   const { data: loadedCategories = [] } = useLoadPromptCategories();
 
    const toggleOption = (value: string) => {
       if (includes(categories, value)) {
@@ -61,9 +62,9 @@ export const PromptFilters: FC<PromptFiltersProps> = ({
          <div className="relative" data-testid="search-input">
             <Search className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
             <Input
-               id="search-templates"
+               id="search-prompts"
                type="text"
-               placeholder="Search templates"
+               placeholder="Search prompts"
                value={search}
                onChange={(e) => setSearch(e.target.value)}
                className="w-full min-h-10 pl-10 pr-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
