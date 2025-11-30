@@ -2,6 +2,7 @@ import { FC } from "react";
 import { Clock, Star } from "lucide-react";
 
 import { DPrompt } from "@/data/types/domain/prompt";
+import { formatDateTime } from "@/lib/utils";
 
 type PromptListItemProps = {
    prompt: DPrompt;
@@ -14,16 +15,6 @@ export const PromptListItem: FC<PromptListItemProps> = ({
    isSelected,
    selectPrompt,
 }) => {
-   const formatDate = (dateString: string) => {
-      return new Date(dateString).toLocaleString("en-US", {
-         year: "numeric",
-         month: "short",
-         day: "numeric",
-         hour: "2-digit",
-         minute: "2-digit",
-      });
-   };
-
    return (
       <div
          key={prompt.id}
@@ -57,7 +48,7 @@ export const PromptListItem: FC<PromptListItemProps> = ({
                   )}
                   <span className="flex items-center gap-1">
                      <Clock className="w-3 h-3" />
-                     {formatDate(prompt.updatedAt)}
+                     {formatDateTime(prompt.updatedAt).dateTime}
                   </span>
                </div>
             </div>

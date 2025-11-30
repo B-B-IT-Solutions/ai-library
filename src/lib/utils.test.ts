@@ -1,4 +1,4 @@
-import { cn, toTestId } from "./utils";
+import { cn, formatDateTime, toTestId } from "./utils";
 
 describe("utils tests", () => {
    beforeEach(() => {
@@ -25,6 +25,18 @@ describe("utils tests", () => {
       const result = cn(classes1, classes2, classes3);
       const expectedResult = `${classes1} ${classes2} ${classes3}`;
 
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("formatDateTime test", async () => {
+      const ds = "2025-11-30T14:08:39.969Z";
+      const result = formatDateTime(ds);
+
+      const expectedResult = {
+         dateTime: "30. Nov. 2025, 03:08 PM",
+         dateOnly: "So., 30. Nov. 2025",
+         timeOnly: "03:08 PM",
+      };
       expect(result).toEqual(expectedResult);
    });
 });
