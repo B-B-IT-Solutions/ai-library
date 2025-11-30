@@ -1,24 +1,34 @@
 import { PromptsPage, PromptsPageQuery } from "@/data/types/db/prompt";
 import { Prisma } from "@/generated/prisma/client";
+import { PromptWhereInput } from "@/generated/prisma/models";
 import prisma from "../prisma";
+import { DEFAULT_PAGINATION } from "../utils";
 
 export const getPrompts = async (
    query?: PromptsPageQuery
 ): Promise<PromptsPage> => {
    const { pagination } = query || {};
-   const { pageNumber = 0, pageSize = 10 } = pagination || {};
+   const { pageNumber, pageSize } = pagination || DEFAULT_PAGINATION;
 
-   const data = await prisma.prompt.findMany({
-      skip: pageNumber * pageSize,
-      take: pageSize,
-   });
+   const whereClause: PromptWhereInput = {};
+
+   const [data, count] = await prisma.$transaction([
+      prisma.prompt.findMany({
+         where: whereClause,
+         skip: pageNumber * pageSize,
+         take: pageSize,
+      }),
+      prisma.prompt.count({
+         where: whereClause,
+      }),
+   ]);
 
    return {
       content: data,
       pageNumber: pageNumber,
       pageSize: pageSize,
-      totalElements: pageSize,
-      totalPages: 1,
+      totalElements: count,
+      totalPages: Math.ceil(count / pageSize),
    };
 };
 
