@@ -37,7 +37,10 @@ export const PromptsList: FC<PromptsListProps> = ({
 
    const promptItemsHeader = () => {
       return (
-         <div className="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+         <div
+            className="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50"
+            data-testid="prompts-list-header"
+         >
             <h2 className="font-semibold text-slate-900">Prompts ({count})</h2>
             <button
                onClick={addPrompt}
@@ -51,7 +54,10 @@ export const PromptsList: FC<PromptsListProps> = ({
 
    const promptItems = () => {
       return (
-         <div className="divide-y divide-slate-200 max-h-[500px] overflow-y-auto">
+         <div
+            className="divide-y divide-slate-200 max-h-[500px] overflow-y-auto"
+            data-testid="prompts-list-items"
+         >
             {map(pages, (page) => {
                return map(page.content, (prompt) => {
                   return (
@@ -67,14 +73,13 @@ export const PromptsList: FC<PromptsListProps> = ({
             <InfiniteScroll
                hasMore={hasNextPage}
                isLoading={isFetchingNextPage}
-               next={() => {
-                  console.log("fetchNextPage");
-                  fetchNextPage();
-               }}
+               next={fetchNextPage}
                threshold={0.7}
             >
                {hasNextPage && (
-                  <Loader2 className="my-4 h-8 w-8 animate-spin" />
+                  <div className="flex flex-center">
+                     <Loader2 className="my-4 h-8 w-8 animate-spin flex items-center" />
+                  </div>
                )}
             </InfiniteScroll>
          </div>
