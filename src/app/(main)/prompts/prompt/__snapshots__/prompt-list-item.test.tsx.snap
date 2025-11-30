@@ -71,7 +71,9 @@ exports[`PromptListItem rendering tests PromptListItem - isSelected false - rend
         </div>
       </div>
       <button
-        class="ml-2 p-1 hover:bg-slate-100 rounded transition-colors"
+        class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-9 has-[>svg]:px-3 ml-2 p-1 bg-background hover:bg-slate-100 rounded transition-colors"
+        data-slot="button"
+        data-testid="toggle-favorite-btn"
         title="Remove from favorites"
       >
         <svg
@@ -168,12 +170,14 @@ exports[`PromptListItem rendering tests PromptListItem - isSelected true - rende
         </div>
       </div>
       <button
-        class="ml-2 p-1 hover:bg-slate-100 rounded transition-colors"
-        title="Remove from favorites"
+        class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-9 has-[>svg]:px-3 ml-2 p-1 bg-background hover:bg-slate-100 rounded transition-colors"
+        data-slot="button"
+        data-testid="toggle-favorite-btn"
+        title="Add to favorites"
       >
         <svg
           aria-hidden="true"
-          class="lucide lucide-star w-5 h-5 fill-yellow-400 text-yellow-400"
+          class="lucide lucide-star w-5 h-5 text-slate-400"
           fill="none"
           height="24"
           stroke="currentColor"

@@ -1,6 +1,8 @@
-import { FC } from "react";
-import { Clock, Star } from "lucide-react";
+import { FC, useTransition } from "react";
+import { Clock, Loader, Star } from "lucide-react";
+import { toast } from "sonner";
 
+import { Button } from "@/components/shadcn/button";
 import { DPrompt } from "@/data/types/domain/prompt";
 import { formatDateTime } from "@/lib/utils";
 
@@ -15,6 +17,42 @@ export const PromptListItem: FC<PromptListItemProps> = ({
    isSelected,
    selectPrompt,
 }) => {
+   const [isPending, startTransition] = useTransition();
+
+   const toggleFavorite = () => {
+      startTransition(async () => {
+         toast("Prompt added to favorite");
+      });
+   };
+
+   const addFavoriteBtn = () => {
+      return (
+         <Button
+            onClick={(e) => {
+               e.stopPropagation();
+               toggleFavorite();
+            }}
+            className="ml-2 p-1 bg-background hover:bg-slate-100 rounded transition-colors"
+            title={
+               prompt.isFavorite ? "Remove from favorites" : "Add to favorites"
+            }
+            data-testid="toggle-favorite-btn"
+         >
+            {isPending ? (
+               <Loader className="w-4 h-4 animate-spin" />
+            ) : (
+               <Star
+                  className={`w-5 h-5 ${
+                     prompt.isFavorite
+                        ? "fill-yellow-400 text-yellow-400"
+                        : "text-slate-400"
+                  }`}
+               />
+            )}
+         </Button>
+      );
+   };
+
    return (
       <div
          key={prompt.id}
@@ -52,26 +90,7 @@ export const PromptListItem: FC<PromptListItemProps> = ({
                   </span>
                </div>
             </div>
-            <button
-               onClick={(e) => {
-                  e.stopPropagation();
-                  // toggleFavorite(prompt.id);
-               }}
-               className="ml-2 p-1 hover:bg-slate-100 rounded transition-colors"
-               title={
-                  prompt.isFavorite
-                     ? "Remove from favorites"
-                     : "Add to favorites"
-               }
-            >
-               <Star
-                  className={`w-5 h-5 ${
-                     prompt.isFavorite
-                        ? "fill-yellow-400 text-yellow-400"
-                        : "text-slate-400"
-                  }`}
-               />
-            </button>
+            {addFavoriteBtn()}
          </div>
       </div>
    );
