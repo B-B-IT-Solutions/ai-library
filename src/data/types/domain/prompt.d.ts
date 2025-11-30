@@ -1,6 +1,7 @@
+import { createPromptSchema } from "@types/validators/prompt.schema";
 import z from "zod";
 
-import { createPromptSchema } from "../validators/prompt.schema";
+import { Filter, Page, PageQuery } from "../common";
 
 export type DPromptCreate = z.infer<typeof createPromptSchema>;
 
@@ -27,3 +28,10 @@ export type DPromptUdapte = {
    recommendedModel: string;
    followUpPrompts: string[];
 };
+
+export type DPromptsPageQuery = PageQuery<DPromptsFilter>;
+export type DPromptsPage = Page<DPrompt>;
+
+export declare interface DPromptsFilter extends Filter {
+   categories?: string[];
+}

@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
+import { PromptsPageQuery } from "@/data/types/db/prompt";
 import { Prisma } from "@/generated/prisma/client";
 import prisma from "../prisma";
 
@@ -14,13 +15,62 @@ describe("getPrompts tests", () => {
       mockReset(prismaMock);
    });
 
-   test("getPrompts - prompts retrieved - test", async () => {
+   test("getPrompts - query undefined - test", async () => {
       const prompts = ptestData.pPrompts();
       prismaMock.prompt.findMany.mockResolvedValue(prompts);
 
       const result = await getPrompts();
 
+      const expectedFindManyArgs: Prisma.PromptFindManyArgs = {
+         skip: 0,
+         take: 10,
+      };
+
       expect(result).toEqual(prompts);
+      expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+   });
+
+   test("getPrompts - query empty - test", async () => {
+      const prompts = ptestData.pPrompts();
+      prismaMock.prompt.findMany.mockResolvedValue(prompts);
+
+      const query: PromptsPageQuery = {};
+      const result = await getPrompts(query);
+
+      const expectedFindManyArgs: Prisma.PromptFindManyArgs = {
+         skip: 0,
+         take: 10,
+      };
+
+      expect(result).toEqual(prompts);
+      expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+   });
+
+   test("getPrompts - query defined - test", async () => {
+      const prompts = ptestData.pPrompts();
+      prismaMock.prompt.findMany.mockResolvedValue(prompts);
+
+      const query: PromptsPageQuery = {
+         pagination: { pageNumber: 5, pageSize: 15 },
+      };
+      const result = await getPrompts(query);
+
+      const expectedFindManyArgs: Prisma.PromptFindManyArgs = {
+         skip: 60,
+         take: 15,
+      };
+
+      expect(result).toEqual(prompts);
+      expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
    });
 });
 

@@ -1,6 +1,13 @@
 import { queryKey } from "../utils";
 
-import { LoadPromptTemplatesParams } from "./types";
+import { LoadPromptParams, LoadPromptTemplatesParams } from "./types";
+
+export const promptKeys = {
+   all: ["prompts"],
+   prompts: (params?: LoadPromptParams) => {
+      return [...promptKeys.all, queryKey(params)] as const;
+   },
+};
 
 export const promptTemplateKeys = {
    all: ["prompt-templates"],

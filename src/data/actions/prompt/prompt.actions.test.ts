@@ -6,6 +6,7 @@ import {
    createPrompt as pCreatePrompt,
    getPrompts as pGetPrompts,
 } from "@/data/db/queries/prompt";
+import { DPromptsPageQuery } from "@/data/types/domain/prompt";
 
 import { createPrompt, getPrompts } from "./prompt.actions";
 import { toDPrompts } from "./prompt.mapper";
@@ -20,7 +21,7 @@ describe("getPromptss tests", () => {
       jest.resetAllMocks();
    });
 
-   it("getPromptss test", async () => {
+   it("getPromptss - query undefined - test", async () => {
       const products = ptestData.pPrompts();
       pGetPromptsMock.mockResolvedValue(products);
 
@@ -29,6 +30,33 @@ describe("getPromptss tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(pGetPromptsMock).toHaveBeenCalledTimes(1);
+      expect(pGetPromptsMock).toHaveBeenCalledWith(undefined);
+   });
+
+   it("getPromptss - query empty - test", async () => {
+      const products = ptestData.pPrompts();
+      pGetPromptsMock.mockResolvedValue(products);
+
+      const query: DPromptsPageQuery = {};
+      const result = await getPrompts(query);
+      const expectedResult = toDPrompts(products);
+
+      expect(result).toEqual(expectedResult);
+      expect(pGetPromptsMock).toHaveBeenCalledTimes(1);
+      expect(pGetPromptsMock).toHaveBeenCalledWith(query);
+   });
+
+   it("getPromptss - query defined - test", async () => {
+      const products = ptestData.pPrompts();
+      pGetPromptsMock.mockResolvedValue(products);
+
+      const query = dtestData.dPromptsPageQuery();
+      const result = await getPrompts(query);
+      const expectedResult = toDPrompts(products);
+
+      expect(result).toEqual(expectedResult);
+      expect(pGetPromptsMock).toHaveBeenCalledTimes(1);
+      expect(pGetPromptsMock).toHaveBeenCalledWith(query);
    });
 });
 

@@ -6,36 +6,35 @@ import {
    UseInfiniteQueryResult,
 } from "@tanstack/react-query";
 
-export const infiniteLoadContactNotesOptions =
-   (): UndefinedInitialDataInfiniteOptions<
-      DNotesPage,
-      Error,
-      InfiniteData<DNotesPage>,
-      QueryKey,
-      number
-   > => {
-      const { contactId, filter, sort } = props;
-      return {
-         queryKey: notesKeys.contactNotesInfinite(contactId, filter, sort),
-         queryFn: ({ pageParam }) => {
-            const query: DNotesPageQuery = pageQuery2(
-               pageParam,
-               7,
-               filter,
-               sort
-            );
-            return loadContactNotes(contactId, query);
-         },
-         initialPageParam: 0,
-         getNextPageParam: getNextPageParam,
-         staleTime: 5 * 60 * 1000,
-      };
-   };
+import { DPromptsPage } from "@/data/types/domain/prompt";
 
-export const useInfiniteLoadContactNotes = (): UseInfiniteQueryResult<
-   InfiniteData<DNotesPage>,
-   Error
+import { LoadPromptParams } from "./types";
+import { promptKeys } from "./utils";
+
+export const infiniteLoadPromptsOptions = (
+   props: LoadPromptParams
+): UndefinedInitialDataInfiniteOptions<
+   DPromptsPage,
+   Error,
+   InfiniteData<DPromptsPage>,
+   QueryKey,
+   number
 > => {
-   const options = infiniteLoadContactNotesOptions();
+   return {
+      queryKey: promptKeys.prompts(props),
+      queryFn: ({ pageParam }) => {
+         const query: DNotesPageQuery = pageQuery2(pageParam, 7, filter, sort);
+         return loadContactNotes(contactId, query);
+      },
+      initialPageParam: 0,
+      getNextPageParam: getNextPageParam,
+      staleTime: 5 * 60 * 1000,
+   };
+};
+
+export const useInfiniteLoadPrompts = (
+   props: LoadPromptParams
+): UseInfiniteQueryResult<InfiniteData<DPromptsPage>, Error> => {
+   const options = infiniteLoadPromptsOptions(props);
    return useInfiniteQuery(options);
 };

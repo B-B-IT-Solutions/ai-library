@@ -1,10 +1,10 @@
 import { range } from "es-toolkit";
 
+import { DPrompt, DPromptsPageQuery } from "@/data/types/domain/prompt";
 import {
-   DPrompt,
    DPromptTemplate,
    DPromptTemplateCategory,
-} from "@/data/types/domain/prompt";
+} from "@/data/types/domain/prompt.teplate";
 
 export const dPromptTemplates = (count = 3): DPromptTemplate[] => {
    return range(0, count).map((i) => dPromptTemplate(i));
@@ -55,5 +55,18 @@ export const dPrompt = (index = 1): DPrompt => {
       versions: [],
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dPromptsPageQuery = (): DPromptsPageQuery => {
+   return {
+      pagination: {
+         pageNumber: 15,
+         pageSize: 5,
+      },
+      filter: {
+         categories: ["cat 1", "cat 2", "cat 3"],
+      },
+      globalFilter: "test 1",
    };
 };
