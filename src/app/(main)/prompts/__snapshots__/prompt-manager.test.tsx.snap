@@ -32,7 +32,7 @@ exports[`PromptManager rendering tests PromptManager rendered test 1`] = `
         >
           <div
             class="bg-white rounded-lg p-4 border border-slate-200 shadow-sm"
-            data-testid="prompts-list-filters"
+            data-testid="prompts-filter"
           >
             <div
               class="relative mb-4"

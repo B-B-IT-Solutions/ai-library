@@ -9,8 +9,8 @@ import { useInfiniteLoadPrompts } from "@/data/ts-queries/prompt";
 import { CallbackFn } from "@/data/types/domain/common";
 import { DPrompt } from "@/data/types/domain/prompt";
 
-import { Filters, PromptFilters } from "./prompt-filters";
 import { PromptListItem } from "./prompt-list-item";
+import { Filters, PromptFilters } from "./prompts-filter";
 
 type PromptsListProps = {
    addPrompt: CallbackFn;

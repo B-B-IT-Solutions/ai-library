@@ -50,7 +50,7 @@ export const PromptFilters: FC<PromptFiltersProps> = ({ onFiltersUpdate }) => {
 
    const { data: loadedCategories = [] } = useLoadPromptCategories();
 
-   console.log(loadedCategories);
+   // console.log(loadedCategories);
 
    const toggleCategory = (value: string) => {
       if (includes(categories, value)) {
@@ -94,7 +94,6 @@ export const PromptFilters: FC<PromptFiltersProps> = ({ onFiltersUpdate }) => {
                         "w-full min-h-10 cursor-pointer rounded-md border border-input bg-background px-2 py-1",
                         "flex items-center flex-wrap gap-2"
                      )}
-                     onClick={() => setOpen(true)}
                   >
                      {categories.length === 0 && (
                         <span className="text-muted-foreground text-sm"></span>
@@ -111,10 +110,10 @@ export const PromptFilters: FC<PromptFiltersProps> = ({ onFiltersUpdate }) => {
                               <X
                                  size={12}
                                  className="cursor-pointer"
-                                 onClick={(e) => {
-                                    e.stopPropagation();
-                                    toggleCategory(cat);
-                                 }}
+                                 // onClick={(e) => {
+                                 //    e.stopPropagation();
+                                 //    toggleCategory(cat);
+                                 // }}
                               />
                            </Badge>
                         );
@@ -155,7 +154,7 @@ export const PromptFilters: FC<PromptFiltersProps> = ({ onFiltersUpdate }) => {
    return (
       <div
          className="bg-white rounded-lg p-4 border border-slate-200 shadow-sm"
-         data-testid="prompts-list-filters"
+         data-testid="prompts-filter"
       >
          {searchInput()}
          {categoriesComboBox()}

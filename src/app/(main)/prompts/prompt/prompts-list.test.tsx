@@ -18,7 +18,7 @@ const getPromptsMock = getPrompts as jest.MockedFunction<typeof getPrompts>;
 
 const assertRendered = () => {
    const list = screen.getByTestId("prompts-list");
-   const filters = screen.getByTestId("prompts-list-filters");
+   const filters = screen.getByTestId("prompts-filter");
    const listHeader = screen.getByTestId("prompts-list-header");
    const listItems = screen.getByTestId("prompts-list-items");
    const listItem = screen.getAllByTestId("prompt-list-item");
