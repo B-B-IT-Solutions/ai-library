@@ -8,11 +8,11 @@ import { TemplateSelector } from "@/components/prompts/template";
 import { DPrompt } from "@/data/types/domain/prompt";
 import { DPromptTemplate } from "@/data/types/domain/prompt.template";
 
-type PromptManagerProps = {
+type PromptCreateEditProps = {
    prompt?: DPrompt;
 };
 
-export const PromptCreateEdit: FC<PromptManagerProps> = ({ prompt }) => {
+export const PromptCreateEdit: FC<PromptCreateEditProps> = ({ prompt }) => {
    const [isEditing, setIsEditing] = useState(false);
    const [template, setTemplate] = useState<DPromptTemplate | undefined>();
 

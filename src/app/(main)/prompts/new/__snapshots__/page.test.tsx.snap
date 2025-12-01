@@ -76,7 +76,6 @@ exports[`CreatePromptPage rendering tests CreatePromptPage - prompt found -rende
                     id="_r_0_-form-item"
                     name="title"
                     placeholder="Enter prompt title..."
-                    value=""
                   />
                 </div>
               </div>

@@ -58,7 +58,7 @@ const AI_MODELS = [
 ];
 
 type PromptFomProps = {
-   prompt?: DPrompt;
+   prompt: DPromptCreate;
 };
 
 export const PromptFom: FC<PromptFomProps> = ({ prompt }) => {
@@ -71,13 +71,7 @@ export const PromptFom: FC<PromptFomProps> = ({ prompt }) => {
 
    const form = useForm<DPromptCreate>({
       resolver: zodResolver(createPromptSchema),
-      defaultValues: prompt || {
-         title: "",
-         content: "",
-         categories: [],
-         recommendedModel: "",
-         followUpPrompts: [],
-      },
+      defaultValues: prompt,
    });
 
    const {

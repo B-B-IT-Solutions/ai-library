@@ -73,7 +73,6 @@ exports[`PromptManager rendering tests PromptManager rendered test 1`] = `
                   id="_r_0_-form-item"
                   name="title"
                   placeholder="Enter prompt title..."
-                  value=""
                 />
               </div>
             </div>
