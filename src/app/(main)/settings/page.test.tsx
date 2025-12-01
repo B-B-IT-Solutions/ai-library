@@ -22,7 +22,7 @@ describe("SettingsPage rendering tests", () => {
    });
 
    it("SettingsPage - prompts retrieved - rendered test", async () => {
-      const { container } = await renderAsyncRSC(SettingsPage, {});
+      const { container } = await renderAsyncRSC(SettingsPage);
 
       await waitFor(() => {
          assertRendered();

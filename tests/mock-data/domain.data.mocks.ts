@@ -41,8 +41,10 @@ export const dPromptTemplateCategory = (index = 1): DPromptTemplateCategory => {
 };
 
 export const dPromptsPage = (): DPromptsPage => {
+   const prompts = dPrompts();
    return {
-      content: dPrompts(),
+      content: prompts,
+      numberOfElements: prompts.length,
       pageNumber: 1,
       pageSize: 3,
       totalElements: 15,

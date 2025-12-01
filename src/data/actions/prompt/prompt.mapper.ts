@@ -1,12 +1,9 @@
 import { map } from "es-toolkit/compat";
 
-import {
-   PromptsPage,
-   PromptTemplateWithCategories,
-} from "@/data/types/db/prompt";
+import { PromptsPage, PromptWithCategories } from "@/data/types/db/prompt";
+import { PromptTemplateWithCategories } from "@/data/types/db/prompt.template";
 import { DPrompt, DPromptsPage } from "@/data/types/domain/prompt";
 import { DPromptTemplate } from "@/data/types/domain/prompt.template";
-import { Prompt } from "@/generated/prisma/browser";
 
 export const toDPromptTemplates = (
    pPrompts: PromptTemplateWithCategories[]
@@ -35,11 +32,11 @@ export const toDPromptsPage = (pPromptsPage: PromptsPage): DPromptsPage => {
    };
 };
 
-export const toDPrompts = (pPrompts: Prompt[]): DPrompt[] => {
+export const toDPrompts = (pPrompts: PromptWithCategories[]): DPrompt[] => {
    return map(pPrompts, (dbP) => toDPrompt(dbP));
 };
 
-export const toDPrompt = (prompt: Prompt): DPrompt => {
+export const toDPrompt = (prompt: PromptWithCategories): DPrompt => {
    return {
       id: prompt.id,
       title: prompt.title,

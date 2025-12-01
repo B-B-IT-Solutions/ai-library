@@ -74,6 +74,14 @@ Object.assign(global, {
    })),
 });
 
+class ResizeObserver {
+   observe() {}
+   unobserve() {}
+   disconnect() {}
+}
+
+global.ResizeObserver = ResizeObserver;
+
 Object.defineProperty(window.HTMLElement.prototype, "scrollIntoView", {
    value: jest.fn(),
 });

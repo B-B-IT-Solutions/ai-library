@@ -3,8 +3,9 @@ jest.mock("@/data/actions/prompt/prompt.template.actions");
 jest.mock("@/data/ts-queries/prompt", () => ({
    ...jest.requireActual("@/data/ts-queries/prompt"),
    preloadPromptsOptions: jest.fn(),
-   preloadPromptTemplateCategoriesOptions: jest.fn(),
+   preloadPromptCategoriesOptions: jest.fn(),
    preloadPromptTemplatesOptions: jest.fn(),
+   preloadPromptTemplateCategoriesOptions: jest.fn(),
 }));
 
 import { screen, waitFor } from "@testing-library/dom";
@@ -12,12 +13,16 @@ import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import MockDate from "mockdate";
 import { Metadata } from "next";
 
-import { getPrompts } from "@/data/actions/prompt/prompt.actions";
+import {
+   getPromptCategories,
+   getPrompts,
+} from "@/data/actions/prompt/prompt.actions";
 import {
    getPromptTemplateCategories,
    getPromptTemplates,
 } from "@/data/actions/prompt/prompt.template.actions";
 import {
+   preloadPromptCategoriesOptions,
    preloadPromptsOptions,
    preloadPromptTemplateCategoriesOptions,
    preloadPromptTemplatesOptions,
@@ -26,11 +31,17 @@ import {
 import PromptsPage, { metadata } from "./page";
 
 const getPromptsMock = getPrompts as jest.MockedFunction<typeof getPrompts>;
+const preloadPromptCategoriesOptionsMock =
+   preloadPromptCategoriesOptions as jest.MockedFunction<
+      typeof preloadPromptCategoriesOptions
+   >;
+const getPromptCategoriesMock = getPromptCategories as jest.MockedFunction<
+   typeof getPromptCategories
+>;
 
 const getPromptTemplatesMock = getPromptTemplates as jest.MockedFunction<
    typeof getPromptTemplates
 >;
-
 const getPromptTemplateCategoriesMock =
    getPromptTemplateCategories as jest.MockedFunction<
       typeof getPromptTemplateCategories
@@ -44,7 +55,6 @@ const preloadPromptTemplatesOptionsMock =
    preloadPromptTemplatesOptions as jest.MockedFunction<
       typeof preloadPromptTemplatesOptions
    >;
-
 const preloadPromptTemplateCategoriesOptionsMock =
    preloadPromptTemplateCategoriesOptions as jest.MockedFunction<
       typeof preloadPromptTemplateCategoriesOptions
@@ -75,12 +85,17 @@ describe("PromptsPage rendering tests", () => {
    it("PromptsPage - prompts retrieved - rendered test", async () => {
       const page = dtestData.dPromptsPage();
       const templates = dtestData.dPromptTemplates();
-      const categories = ["category 1", "category 2", "category 3"];
+      const promptCategories = ["category 1", "category 2", "category 789"];
+      const templateCategories = ["category 1", "category 2", "category 3"];
 
       getPromptsMock.mockResolvedValue(page);
+      getPromptCategoriesMock.mockResolvedValue(promptCategories);
       getPromptTemplatesMock.mockResolvedValue(templates);
-      getPromptTemplateCategoriesMock.mockResolvedValue(categories);
+      getPromptTemplateCategoriesMock.mockResolvedValue(templateCategories);
       preloadPromptsOptionsMock.mockReturnValue({ queryKey: ["prompts"] });
+      preloadPromptCategoriesOptionsMock.mockReturnValue({
+         queryKey: ["prompt-categories"],
+      });
       preloadPromptTemplatesOptionsMock.mockReturnValue({
          queryKey: ["prompts-templates"],
       });
@@ -88,7 +103,7 @@ describe("PromptsPage rendering tests", () => {
          queryKey: ["prompts-template-categories"],
       });
 
-      const { container } = await renderAsyncRSC(PromptsPage, {});
+      const { container } = await renderAsyncRSC(PromptsPage);
 
       await waitFor(() => {
          assertRendered();

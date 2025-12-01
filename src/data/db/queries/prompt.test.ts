@@ -7,13 +7,19 @@ import { PromptsPage, PromptsPageQuery } from "@/data/types/db/prompt";
 import { DPromptsPage } from "@/data/types/domain/prompt";
 import { Prisma } from "@/generated/prisma/client";
 import {
+   PromptCategoryFindManyArgs,
    PromptCountArgs,
    PromptFindManyArgs,
    PromptWhereInput,
 } from "@/generated/prisma/models";
 import prisma from "../prisma";
 
-import { createPrompt, getPrompts, updatePrompt } from "./prompt";
+import {
+   createPrompt,
+   getPromptCategories,
+   getPrompts,
+   updatePrompt,
+} from "./prompt";
 
 export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
@@ -32,7 +38,7 @@ describe("getPrompts tests", () => {
    });
 
    test("getPrompts - query undefined - test", async () => {
-      const prompts = ptestData.pPrompts();
+      const prompts = ptestData.pPromptsWithCategories();
       prismaMock.prompt.findMany.mockResolvedValue(prompts);
       prismaMock.prompt.count.mockResolvedValue(prompts.length);
 
@@ -40,16 +46,20 @@ describe("getPrompts tests", () => {
 
       const expectedResult: PromptsPage = {
          content: prompts,
+         numberOfElements: prompts.length,
          pageNumber: 0,
          pageSize: 10,
          totalElements: 3,
          totalPages: 1,
       };
-      const expectedWhereClause: PromptWhereInput = {};
+      const expectedWhereClause = undefined;
       const expectedFindManyArgs: PromptFindManyArgs = {
          where: expectedWhereClause,
          skip: 0,
          take: 10,
+         include: {
+            categories: true,
+         },
       };
       const expedtedCountArgs: PromptCountArgs = {
          where: expectedWhereClause,
@@ -66,7 +76,7 @@ describe("getPrompts tests", () => {
    });
 
    test("getPrompts - query empty - test", async () => {
-      const prompts = ptestData.pPrompts();
+      const prompts = ptestData.pPromptsWithCategories();
       prismaMock.prompt.findMany.mockResolvedValue(prompts);
       prismaMock.prompt.count.mockResolvedValue(prompts.length);
 
@@ -75,16 +85,133 @@ describe("getPrompts tests", () => {
 
       const expectedResult: PromptsPage = {
          content: prompts,
+         numberOfElements: prompts.length,
          pageNumber: 0,
          pageSize: 10,
          totalElements: 3,
          totalPages: 1,
       };
-      const expectedWhereClause: PromptWhereInput = {};
+      const expectedWhereClause = undefined;
       const expectedFindManyArgs: PromptFindManyArgs = {
          where: expectedWhereClause,
          skip: 0,
          take: 10,
+         include: {
+            categories: true,
+         },
+      };
+      const expedtedCountArgs: PromptCountArgs = {
+         where: expectedWhereClause,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.prompt.count).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.count).toHaveBeenCalledWith(expedtedCountArgs);
+   });
+
+   test("getPrompts - query.globalFilter defined - test", async () => {
+      const prompts = ptestData.pPromptsWithCategories(21);
+      prismaMock.prompt.findMany.mockResolvedValue(prompts);
+      prismaMock.prompt.count.mockResolvedValue(prompts.length);
+
+      const query: PromptsPageQuery = {
+         pagination: { pageNumber: 3, pageSize: 5 },
+         globalFilter: "test 123",
+      };
+      const result = await getPrompts(query);
+
+      const expectedResult: PromptsPage = {
+         content: prompts,
+         numberOfElements: prompts.length,
+         pageNumber: 3,
+         pageSize: 5,
+         totalElements: 21,
+         totalPages: 5,
+      };
+      const expectedWhereClause: PromptWhereInput = {
+         OR: [
+            {
+               title: {
+                  contains: query.globalFilter,
+                  mode: "insensitive",
+               },
+            },
+            {
+               content: {
+                  contains: query.globalFilter,
+                  mode: "insensitive",
+               },
+            },
+         ],
+      };
+      const expectedFindManyArgs: PromptFindManyArgs = {
+         where: expectedWhereClause,
+         skip: 15,
+         take: 5,
+         include: {
+            categories: true,
+         },
+      };
+      const expedtedCountArgs: PromptCountArgs = {
+         where: expectedWhereClause,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.prompt.count).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.count).toHaveBeenCalledWith(expedtedCountArgs);
+   });
+
+   test("getPrompts - query.filter defined - test", async () => {
+      const prompts = ptestData.pPromptsWithCategories(21);
+      prismaMock.prompt.findMany.mockResolvedValue(prompts);
+      prismaMock.prompt.count.mockResolvedValue(prompts.length);
+
+      const query: PromptsPageQuery = {
+         pagination: { pageNumber: 3, pageSize: 5 },
+         filter: {
+            categories: ["cat 123"],
+         },
+      };
+      const result = await getPrompts(query);
+
+      const expectedResult: PromptsPage = {
+         content: prompts,
+         numberOfElements: prompts.length,
+         pageNumber: 3,
+         pageSize: 5,
+         totalElements: 21,
+         totalPages: 5,
+      };
+      const expectedWhereClause: PromptWhereInput = {
+         AND: [
+            {
+               categories: {
+                  some: {
+                     name: {
+                        in: query.filter!.categories,
+                     },
+                  },
+               },
+            },
+         ],
+      };
+      const expectedFindManyArgs: PromptFindManyArgs = {
+         where: expectedWhereClause,
+         skip: 15,
+         take: 5,
+         include: {
+            categories: true,
+         },
       };
       const expedtedCountArgs: PromptCountArgs = {
          where: expectedWhereClause,
@@ -101,27 +228,61 @@ describe("getPrompts tests", () => {
    });
 
    test("getPrompts - query defined - test", async () => {
-      const prompts = ptestData.pPrompts(21);
+      const prompts = ptestData.pPromptsWithCategories(21);
       prismaMock.prompt.findMany.mockResolvedValue(prompts);
       prismaMock.prompt.count.mockResolvedValue(prompts.length);
 
       const query: PromptsPageQuery = {
          pagination: { pageNumber: 3, pageSize: 5 },
+         globalFilter: "test 1",
+         filter: {
+            categories: ["cat 1"],
+         },
       };
       const result = await getPrompts(query);
 
       const expectedResult: PromptsPage = {
          content: prompts,
+         numberOfElements: prompts.length,
          pageNumber: 3,
          pageSize: 5,
          totalElements: 21,
          totalPages: 5,
       };
-      const expectedWhereClause: PromptWhereInput = {};
+      const expectedWhereClause: PromptWhereInput = {
+         OR: [
+            {
+               title: {
+                  contains: query.globalFilter,
+                  mode: "insensitive",
+               },
+            },
+            {
+               content: {
+                  contains: query.globalFilter,
+                  mode: "insensitive",
+               },
+            },
+         ],
+         AND: [
+            {
+               categories: {
+                  some: {
+                     name: {
+                        in: query.filter!.categories,
+                     },
+                  },
+               },
+            },
+         ],
+      };
       const expectedFindManyArgs: PromptFindManyArgs = {
          where: expectedWhereClause,
          skip: 15,
          take: 5,
+         include: {
+            categories: true,
+         },
       };
       const expedtedCountArgs: PromptCountArgs = {
          where: expectedWhereClause,
@@ -135,6 +296,31 @@ describe("getPrompts tests", () => {
       );
       expect(prismaMock.prompt.count).toHaveBeenCalledTimes(1);
       expect(prismaMock.prompt.count).toHaveBeenCalledWith(expedtedCountArgs);
+   });
+});
+
+describe("getPromptCategories queries tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("getPromptCategories - categories retrieved - test", async () => {
+      const categories = ptestData.pPromptCategories();
+      prismaMock.promptCategory.findMany.mockResolvedValue(categories);
+
+      const result = await getPromptCategories();
+
+      const expectedFindMayArgs: PromptCategoryFindManyArgs = {
+         select: {
+            name: true,
+         },
+      };
+
+      expect(result).toEqual(categories);
+      expect(prismaMock.promptCategory.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptCategory.findMany).toHaveBeenCalledWith(
+         expectedFindMayArgs
+      );
    });
 });
 

@@ -13,7 +13,7 @@ import {
 import { DPromptTemplate } from "@/data/types/domain/prompt.template";
 
 import { LoadPromptTemplatesParams } from "./types";
-import { promptTemplateCategoryKeys, promptTemplateKeys } from "./utils";
+import { promptTemplateCategoriesKeys, promptTemplateKeys } from "./utils";
 
 export const preloadPromptTemplatesOptions = (): FetchQueryOptions<
    DPromptTemplate[],
@@ -34,7 +34,7 @@ export const preloadPromptTemplateCategoriesOptions = (): FetchQueryOptions<
    string[]
 > => {
    return {
-      queryKey: promptTemplateCategoryKeys.categories(),
+      queryKey: promptTemplateCategoriesKeys.categories(),
       queryFn: async () => {
          return await getPromptTemplateCategories();
       },
@@ -64,7 +64,7 @@ export const useLoadPromptTemplates = (
 export const loadPromptTemplateCategoriesOptions =
    (): UndefinedInitialDataOptions<string[], Error, string[]> => {
       return {
-         queryKey: promptTemplateCategoryKeys.categories(),
+         queryKey: promptTemplateCategoriesKeys.categories(),
          queryFn: async () => {
             return await getPromptTemplateCategories();
          },

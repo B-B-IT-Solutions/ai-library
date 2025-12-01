@@ -1,6 +1,7 @@
 import {
+   promptCategoriesKeys,
    promptKeys,
-   promptTemplateCategoryKeys,
+   promptTemplateCategoriesKeys,
    promptTemplateKeys,
 } from "./utils";
 
@@ -22,6 +23,13 @@ describe("promptKeys tests", () => {
          "prompts",
          { params: { search: "test 123", categories: ["cat 1"] } },
       ]);
+   });
+});
+
+describe("promptCategoriesKeys tests", () => {
+   test("promptCategoriesKeys - test", async () => {
+      expect(promptCategoriesKeys.all).toEqual(["prompt-categories"]);
+      expect(promptCategoriesKeys.categories()).toEqual(["prompt-categories"]);
    });
 });
 
@@ -49,12 +57,12 @@ describe("promptTemplateKeys tests", () => {
    });
 });
 
-describe("promptTemplateCategoryKeys tests", () => {
-   test("promptTemplateCategoryKeys - test", async () => {
-      expect(promptTemplateCategoryKeys.all).toEqual([
+describe("promptTemplateCategoriesKeys tests", () => {
+   test("promptTemplateCategoriesKeys - test", async () => {
+      expect(promptTemplateCategoriesKeys.all).toEqual([
          "prompt-template-categories",
       ]);
-      expect(promptTemplateCategoryKeys.categories()).toEqual([
+      expect(promptTemplateCategoriesKeys.categories()).toEqual([
          "prompt-template-categories",
       ]);
    });

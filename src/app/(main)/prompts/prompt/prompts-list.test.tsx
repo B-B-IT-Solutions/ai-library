@@ -8,30 +8,42 @@ import {
    getPrompts,
 } from "@/data/actions/prompt/prompt.actions";
 
-import { PromptManager } from "./prompt-manager";
-
-const getPromptsMock = getPrompts as jest.MockedFunction<typeof getPrompts>;
+import { PromptsList } from "./prompts-list";
 
 const getPromptCategoriesMock = getPromptCategories as jest.MockedFunction<
    typeof getPromptCategories
 >;
 
+const getPromptsMock = getPrompts as jest.MockedFunction<typeof getPrompts>;
+
 const assertRendered = () => {
-   const promptManager = screen.getByTestId("prompt-manager");
+   const list = screen.getByTestId("prompts-list");
+   const filters = screen.getByTestId("prompts-filter");
+   const listHeader = screen.getByTestId("prompts-list-header");
+   const listItems = screen.getByTestId("prompts-list-items");
    const listItem = screen.getAllByTestId("prompt-list-item");
 
-   assertInDocument(promptManager);
+   assertInDocument(list);
+   assertInDocument(filters);
+   assertInDocument(listHeader);
+   assertInDocument(listItems);
    expect(listItem).toHaveLength(3);
 };
 
-describe("PromptManager rendering tests", () => {
-   it("PromptManager rendered test", async () => {
+describe("PromptsList rendering tests", () => {
+   it("PromptsList rendered test", async () => {
       const categories = ["category 1", "category 2", "category 3"];
       const page = dtestData.dPromptsPage();
       getPromptsMock.mockResolvedValue(page);
       getPromptCategoriesMock.mockResolvedValue(categories);
 
-      const { container } = renderWithReactQuery(<PromptManager />);
+      const { container } = renderWithReactQuery(
+         <PromptsList
+            addPrompt={jest.fn()}
+            selectPrompt={jest.fn()}
+            selectedPrompt={null}
+         />
+      );
 
       await waitFor(() => {
          assertRendered();

@@ -1,9 +1,8 @@
 import { ptestData } from "@tests";
 import { map } from "es-toolkit/compat";
 
-import { PromptsPage } from "@/data/types/db/prompt";
+import { PromptsPage, PromptWithCategories } from "@/data/types/db/prompt";
 import { DPrompt, DPromptsPage } from "@/data/types/domain/prompt";
-import { Prompt } from "@/generated/prisma/browser";
 
 import { toDPrompt, toDPrompts, toDPromptsPage } from "./prompt.mapper";
 
@@ -14,11 +13,11 @@ const toDPromptsPageInternal = (pPromptsPage: PromptsPage): DPromptsPage => {
    };
 };
 
-const toDPromptsInternal = (pPrompts: Prompt[]): DPrompt[] => {
+const toDPromptsInternal = (pPrompts: PromptWithCategories[]): DPrompt[] => {
    return map(pPrompts, (dbP) => toDPrompt(dbP));
 };
 
-const toDPromptInternal = (prompt: Prompt): DPrompt => {
+const toDPromptInternal = (prompt: PromptWithCategories): DPrompt => {
    return {
       id: prompt.id,
       title: prompt.title,
@@ -47,14 +46,14 @@ describe("toDPrompt tests", () => {
    });
 
    it("toDPrompts test", async () => {
-      const prompts = ptestData.pPrompts();
+      const prompts = ptestData.pPromptsWithCategories();
       const result = toDPrompts(prompts);
       const expectedResult = toDPromptsInternal(prompts);
       expect(result).toEqual(expectedResult);
    });
 
    it("toDPrompt test", async () => {
-      const prompt = ptestData.pPrompt();
+      const prompt = ptestData.pPromptWithCategories();
       const result = toDPrompt(prompt);
       const expectedResult = toDPromptInternal(prompt);
       expect(result).toEqual(expectedResult);
