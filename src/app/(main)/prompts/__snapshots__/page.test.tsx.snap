@@ -617,7 +617,7 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
           class="lg:col-span-2"
         >
           <div
-            class="rounded-lg bg-slate-50 text-slate-900 flex"
+            class="h-full rounded-lg bg-slate-50 text-slate-900 flex"
             data-testid="prompt-manager"
           >
             <div
@@ -625,6 +625,7 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
             >
               <div
                 class="bg-white rounded-lg p-12 border border-slate-200 shadow-sm text-center"
+                data-testid="prompts-empty"
               >
                 <div
                   class="text-slate-500 mb-4"
@@ -661,8 +662,8 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
                 <a
                   class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-9 has-[>svg]:px-3 mt-4 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm"
                   data-slot="button"
-                  data-testid="mock-link"
-                  href="/prompt/new"
+                  data-testid="create-prompt-btn"
+                  href="/prompts/new"
                 >
                   <svg
                     aria-hidden="true"
