@@ -36,10 +36,11 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
           >
             <div
               class="bg-white rounded-lg p-4 border border-slate-200 shadow-sm"
-              data-testid="prompts-list-filters"
+              data-testid="prompts-filter"
             >
               <div
                 class="relative mb-4"
+                data-testid="search-input"
               >
                 <svg
                   aria-hidden="true"
@@ -64,14 +65,21 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
                   />
                 </svg>
                 <input
-                  class="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 h-9 min-w-0 px-3 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  data-slot="input"
+                  id="search-prompts"
                   placeholder="Search prompts"
                   type="text"
-                  value=""
                 />
               </div>
               <div
-                class="space-y-2"
+                aria-controls="radix-_r_0_"
+                aria-expanded="false"
+                aria-haspopup="dialog"
+                data-slot="popover-trigger"
+                data-state="closed"
+                data-testid="categories-combo-box"
+                type="button"
               >
                 <label
                   class="flex items-center text-sm text-slate-600 mb-2 font-medium"
@@ -95,15 +103,153 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
                   </svg>
                   Filter by Category
                 </label>
-                <select
-                  class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                <div
+                  class="w-full min-h-10 cursor-pointer rounded-md border border-input bg-background px-2 py-1 flex items-center flex-wrap gap-2"
                 >
-                  <option
-                    value="all"
+                  <span
+                    class="text-muted-foreground text-sm"
+                  />
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-chevrons-up-down ml-auto h-4 w-4 opacity-50"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    All Categories
-                  </option>
-                </select>
+                    <path
+                      d="m7 15 5 5 5-5"
+                    />
+                    <path
+                      d="m7 9 5-5 5 5"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div
+                data-testid="mock-react-presence"
+              >
+                <div
+                  data-testid="mock-react-portal"
+                >
+                  <div
+                    data-testid="mock-react-presence"
+                  >
+                    <div
+                      data-radix-popper-content-wrapper=""
+                      style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 4px); min-width: max-content; --radix-popper-available-width: -16px; --radix-popper-available-height: -4px; --radix-popper-anchor-width: 0px; --radix-popper-anchor-height: 0px; --radix-popper-transform-origin: 50% 0px;"
+                    >
+                      <div
+                        class="bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 origin-(--radix-popover-content-transform-origin) rounded-md border shadow-md outline-hidden w-72 p-0"
+                        data-align="center"
+                        data-side="bottom"
+                        data-slot="popover-content"
+                        data-state="closed"
+                        id="radix-_r_0_"
+                        role="dialog"
+                        style="--radix-popover-content-transform-origin: var(--radix-popper-transform-origin); --radix-popover-content-available-width: var(--radix-popper-available-width); --radix-popover-content-available-height: var(--radix-popper-available-height); --radix-popover-trigger-width: var(--radix-popper-anchor-width); --radix-popover-trigger-height: var(--radix-popper-anchor-height);"
+                        tabindex="-1"
+                      >
+                        <div
+                          class="bg-popover text-popover-foreground flex h-full w-full flex-col overflow-hidden rounded-md"
+                          cmdk-root=""
+                          data-slot="command"
+                          tabindex="-1"
+                        >
+                          <label
+                            cmdk-label=""
+                            for="radix-_r_3_"
+                            id="radix-_r_2_"
+                            style="position: absolute; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border-width: 0px;"
+                          />
+                          <div
+                            aria-label="Suggestions"
+                            class="max-h-[300px] scroll-py-1 overflow-x-hidden overflow-y-auto"
+                            cmdk-list=""
+                            data-slot="command-list"
+                            id="radix-_r_1_"
+                            role="listbox"
+                            tabindex="-1"
+                          >
+                            <div
+                              cmdk-list-sizer=""
+                            >
+                              <div
+                                class="text-foreground [&_[cmdk-group-heading]]:text-muted-foreground overflow-hidden p-1 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium"
+                                cmdk-group=""
+                                data-slot="command-group"
+                                data-value="undefined"
+                                role="presentation"
+                              >
+                                <div
+                                  cmdk-group-items=""
+                                  role="group"
+                                >
+                                  <div
+                                    aria-disabled="false"
+                                    aria-selected="true"
+                                    class="data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative cursor-default rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 flex items-center gap-2"
+                                    cmdk-item=""
+                                    data-disabled="false"
+                                    data-selected="true"
+                                    data-slot="command-item"
+                                    data-value="category 1"
+                                    id="radix-_r_6_"
+                                    role="option"
+                                  >
+                                    <div
+                                      class="h-3 w-3 rounded-sm border border-primary"
+                                    />
+                                    category 1
+                                  </div>
+                                  <div
+                                    aria-disabled="false"
+                                    aria-selected="false"
+                                    class="data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative cursor-default rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 flex items-center gap-2"
+                                    cmdk-item=""
+                                    data-disabled="false"
+                                    data-selected="false"
+                                    data-slot="command-item"
+                                    data-value="category 2"
+                                    id="radix-_r_7_"
+                                    role="option"
+                                  >
+                                    <div
+                                      class="h-3 w-3 rounded-sm border border-primary"
+                                    />
+                                    category 2
+                                  </div>
+                                  <div
+                                    aria-disabled="false"
+                                    aria-selected="false"
+                                    class="data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative cursor-default rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 flex items-center gap-2"
+                                    cmdk-item=""
+                                    data-disabled="false"
+                                    data-selected="false"
+                                    data-slot="command-item"
+                                    data-value="category 789"
+                                    id="radix-_r_8_"
+                                    role="option"
+                                  >
+                                    <div
+                                      class="h-3 w-3 rounded-sm border border-primary"
+                                    />
+                                    category 789
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div
@@ -169,9 +315,7 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
                       >
                         <span
                           class="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded border border-slate-200"
-                        >
-                          category 0
-                        </span>
+                        />
                       </div>
                       <div
                         class="text-xs text-slate-500 flex items-center gap-3"
@@ -263,9 +407,7 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
                       >
                         <span
                           class="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded border border-slate-200"
-                        >
-                          category 1
-                        </span>
+                        />
                       </div>
                       <div
                         class="text-xs text-slate-500 flex items-center gap-3"
@@ -357,9 +499,7 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
                       >
                         <span
                           class="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded border border-slate-200"
-                        >
-                          category 2
-                        </span>
+                        />
                       </div>
                       <div
                         class="text-xs text-slate-500 flex items-center gap-3"

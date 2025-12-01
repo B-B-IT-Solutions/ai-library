@@ -48,11 +48,7 @@ export const PromptFilters: FC<PromptFiltersProps> = ({ onFiltersUpdate }) => {
       onFiltersUpdate({ search: value, categories });
    }, 300);
 
-   console.log(useLoadPromptCategories);
-
    const { data: loadedCategories = [] } = useLoadPromptCategories();
-
-   console.log(loadedCategories);
 
    const toggleCategory = (value: string) => {
       if (includes(categories, value)) {
