@@ -9,18 +9,12 @@ import { DPrompt } from "@/data/types/domain/prompt";
 import { DPromptTemplate } from "@/data/types/domain/prompt.template";
 
 type PromptManagerProps = {
-   prompt: DPrompt;
+   prompt?: DPrompt;
 };
 
-export const PromptManager: FC<PromptManagerProps> = ({ prompt }) => {
-   const [selectedPrompt, setSelectedPrompt] = useState<DPrompt | undefined>(
-      prompt
-   );
+export const PromptCreateEdit: FC<PromptManagerProps> = ({ prompt }) => {
    const [isEditing, setIsEditing] = useState(false);
-
-   const resetForm = () => {};
-
-   const loadTemplate = (template: DPromptTemplate) => {};
+   const [template, setTemplate] = useState<DPromptTemplate | undefined>();
 
    const editForm = () => {
       return (
@@ -28,20 +22,17 @@ export const PromptManager: FC<PromptManagerProps> = ({ prompt }) => {
             {isEditing && (
                <div className="flex justify-between items-center mb-6">
                   <h2 className="text-2xl font-bold text-slate-900">
-                     {selectedPrompt ? "Update Prompt" : "Create New Prompt"}
+                     {prompt ? "Update Prompt" : "Create New Prompt"}
                   </h2>
-                  <button
-                     onClick={resetForm}
-                     className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
-                  >
+                  <button className="p-2 hover:bg-slate-100 rounded-lg transition-colors">
                      <X className="w-5 h-5 text-slate-600" />
                   </button>
                </div>
             )}
 
             {/* Template Selector */}
-            {!selectedPrompt && <TemplateSelector onSelect={loadTemplate} />}
-            <PromptFom prompt={selectedPrompt} />
+            {!prompt && <TemplateSelector onSelect={setTemplate} />}
+            <PromptFom prompt={prompt} />
          </div>
       );
    };
@@ -49,7 +40,7 @@ export const PromptManager: FC<PromptManagerProps> = ({ prompt }) => {
    return (
       <div
          className="h-full rounded-lg bg-slate-50 text-slate-900 flex"
-         data-testid="prompt-manager"
+         data-testid="prompt-create-edit"
       >
          <div className="flex-1 p-6">{editForm()}</div>
       </div>

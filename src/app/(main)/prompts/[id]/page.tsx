@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 
+import { PromptCreateEdit } from "@/components/prompts/prompt";
 import { getPrompt } from "@/data/actions/prompt/prompt.actions";
-import { PromptManager } from "../prompt-manager_";
 
 export const metadata = {
    title: "Prompt",
@@ -24,7 +24,7 @@ const PromptPage = async (props: PromptPageProps) => {
 
    return (
       <div data-testid="prompt-page">
-         <PromptManager prompt={prompt} />
+         <PromptCreateEdit prompt={prompt} />
       </div>
    );
 };

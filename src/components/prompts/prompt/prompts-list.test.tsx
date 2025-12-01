@@ -81,7 +81,7 @@ describe("PromptsList functionality tests", () => {
       await userEvent.click(addPromptBtn);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual("/prompt/new");
+         expect(mockRouter.pathname).toEqual("/prompts/new");
       });
    });
 });

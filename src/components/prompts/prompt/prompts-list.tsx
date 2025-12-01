@@ -40,7 +40,7 @@ export const PromptsList: FC = () => {
                className="p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-sm"
                data-testid="add-prompt-btn"
             >
-               <Link href="/prompt/new">
+               <Link href="/prompts/new">
                   <Plus className="w-4 h-4" />
                </Link>
             </Button>
