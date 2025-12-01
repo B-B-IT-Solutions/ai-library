@@ -11,8 +11,8 @@ import mockRouter from "next-router-mock";
 import { MemoryRouterProvider } from "next-router-mock/MemoryRouterProvider/next-13.5";
 
 export const renderAsyncRSC = async <T,>(
-   asyncComponent: (props?: T) => Promise<JSX.Element>,
-   props?: T
+   asyncComponent: (props: T) => Promise<JSX.Element>,
+   props: T
 ) => {
    const component = await asyncComponent(props);
    let result: RenderResult = {} as RenderResult;

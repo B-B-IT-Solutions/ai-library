@@ -9,8 +9,14 @@ import { DPromptTemplate } from "@/data/types/domain/prompt.template";
 import { PromptFom } from "./prompt/prompt-form";
 import { TemplateSelector } from "./template/template-selector";
 
-export const PromptManager: FC = () => {
-   const [selectedPrompt, setSelectedPrompt] = useState<DPrompt | null>(null);
+type PromptManagerProps = {
+   prompt?: DPrompt;
+};
+
+export const PromptManager: FC<PromptManagerProps> = ({ prompt }) => {
+   const [selectedPrompt, setSelectedPrompt] = useState<DPrompt | undefined>(
+      prompt
+   );
    const [isEditing, setIsEditing] = useState(false);
 
    const [formData, setFormData] = useState<DPromptCreate>({

@@ -272,7 +272,7 @@ exports[`PromptsList rendering tests PromptsList rendered test 1`] = `
       >
         <a
           data-testid="mock-link"
-          href="/prompt/334db648-f300-4284-8149-075ff465d750"
+          href="/prompts/334db648-f300-4284-8149-075ff465d750"
         >
           <div
             class="p-4 cursor-pointer transition-colors hover:bg-slate-50 "
@@ -369,7 +369,7 @@ exports[`PromptsList rendering tests PromptsList rendered test 1`] = `
         </a>
         <a
           data-testid="mock-link"
-          href="/prompt/334db648-f300-4284-8149-075ff465d751"
+          href="/prompts/334db648-f300-4284-8149-075ff465d751"
         >
           <div
             class="p-4 cursor-pointer transition-colors hover:bg-slate-50 "
@@ -466,7 +466,7 @@ exports[`PromptsList rendering tests PromptsList rendered test 1`] = `
         </a>
         <a
           data-testid="mock-link"
-          href="/prompt/334db648-f300-4284-8149-075ff465d752"
+          href="/prompts/334db648-f300-4284-8149-075ff465d752"
         >
           <div
             class="p-4 cursor-pointer transition-colors hover:bg-slate-50 "

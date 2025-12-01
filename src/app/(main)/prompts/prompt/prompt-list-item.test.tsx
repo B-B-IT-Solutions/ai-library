@@ -27,7 +27,7 @@ describe("PromptListItem rendering tests", () => {
       const prompt = dtestData.dPrompt();
       prompt.isFavorite = true;
 
-      const url = `/prompt/random-prompt-id-123`;
+      const url = `/prompts/random-prompt-id-123`;
       const { container } = renderWithRouter(
          <PromptListItem prompt={prompt} />,
          url
@@ -44,7 +44,7 @@ describe("PromptListItem rendering tests", () => {
       const prompt = dtestData.dPrompt();
       prompt.isFavorite = false;
 
-      const url = `/prompt/${prompt.id}`;
+      const url = `/prompts/${prompt.id}`;
       const { container } = renderWithRouter(
          <PromptListItem prompt={prompt} />,
          url
@@ -77,7 +77,7 @@ describe("PromptListItem functionality tests", () => {
       await userEvent.click(listItem);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual(`/prompt/${prompt.id}`);
+         expect(mockRouter.pathname).toEqual(`/prompts/${prompt.id}`);
       });
    });
 

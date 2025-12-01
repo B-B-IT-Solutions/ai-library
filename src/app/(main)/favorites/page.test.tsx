@@ -22,7 +22,7 @@ describe("FavoritesPage rendering tests", () => {
    });
 
    it("FavoritesPage rendered test", async () => {
-      const { container } = await renderAsyncRSC(FavoritesPage);
+      const { container } = await renderAsyncRSC(FavoritesPage, {});
 
       await waitFor(() => {
          assertRendered();
