@@ -3,35 +3,34 @@
 exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered test 1`] = `
 <div>
   <div
-    class="w-full"
+    class="min-h-screen w-full text-slate-900 flex flex-col"
     data-testid="prompts-page"
   >
     <div
-      class="min-h-screen bg-slate-50 text-slate-900 flex"
-      data-testid="prompt-manager"
+      class="flex-1"
     >
-      <div
-        class="flex-1 p-6"
+      <header
+        class="mb-8"
       >
-        <header
-          class="mb-8"
+        <h2
+          class="text-3xl font-bold text-slate-900 mb-2"
         >
-          <h2
-            class="text-3xl font-bold text-slate-900 mb-2"
-          >
-            All Prompts
-          </h2>
-          <p
-            class="text-slate-600"
-          >
-            Create, version, and organize your AI prompts
-          </p>
-        </header>
+          All Prompts
+        </h2>
+        <p
+          class="text-slate-600"
+        >
+          Create, version, and organize your AI prompts
+        </p>
+      </header>
+      <div
+        class="grid grid-cols-1 lg:grid-cols-3 gap-6"
+      >
         <div
-          class="grid grid-cols-1 lg:grid-cols-3 gap-6"
+          class="lg:col-span-1"
         >
           <div
-            class="lg:col-span-1 space-y-4"
+            class="space-y-4"
             data-testid="prompts-list"
           >
             <div
@@ -256,7 +255,7 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
               class="bg-white rounded-lg border border-slate-200 shadow-sm"
             >
               <div
-                class="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50"
+                class="p-4 rounded-lg border-b border-slate-200 flex justify-between items-center bg-slate-50"
                 data-testid="prompts-list-header"
               >
                 <h2
@@ -613,49 +612,58 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
               </div>
             </div>
           </div>
+        </div>
+        <div
+          class="lg:col-span-2"
+        >
           <div
-            class="lg:col-span-2"
+            class="min-h-screen rounded-lg bg-slate-50 text-slate-900 flex"
+            data-testid="prompt-manager"
           >
             <div
-              class="bg-white rounded-lg p-12 border border-slate-200 shadow-sm text-center"
+              class="flex-1 p-6"
             >
               <div
-                class="text-slate-500 mb-4"
+                class="bg-white rounded-lg p-12 border border-slate-200 shadow-sm text-center"
               >
-                <svg
-                  aria-hidden="true"
-                  class="lucide lucide-plus w-16 h-16 mx-auto mb-4 opacity-50"
-                  fill="none"
-                  height="24"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  xmlns="http://www.w3.org/2000/svg"
+                <div
+                  class="text-slate-500 mb-4"
                 >
-                  <path
-                    d="M5 12h14"
-                  />
-                  <path
-                    d="M12 5v14"
-                  />
-                </svg>
-                <h3
-                  class="text-xl font-semibold text-slate-900 mb-2"
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-plus w-16 h-16 mx-auto mb-4 opacity-50"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M5 12h14"
+                    />
+                    <path
+                      d="M12 5v14"
+                    />
+                  </svg>
+                  <h3
+                    class="text-xl font-semibold text-slate-900 mb-2"
+                  >
+                    No Prompt Selected
+                  </h3>
+                  <p>
+                    Select a prompt from the list or create a new one to get started
+                  </p>
+                </div>
+                <button
+                  class="mt-4 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm"
                 >
-                  No Prompt Selected
-                </h3>
-                <p>
-                  Select a prompt from the list or create a new one to get started
-                </p>
+                  Create Your First Prompt
+                </button>
               </div>
-              <button
-                class="mt-4 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm"
-              >
-                Create Your First Prompt
-              </button>
             </div>
           </div>
         </div>
