@@ -1,7 +1,6 @@
 jest.mock("@/data/actions/prompt/prompt.actions");
 
 import { screen, waitFor } from "@testing-library/dom";
-import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, getElementById, renderWithReactQuery } from "@tests";
 

@@ -22,37 +22,41 @@ import {
 import { useLoadPromptTemplateCategories } from "@/data/ts-queries/prompt";
 import { cn } from "@/lib/utils";
 
+export type Filters = {
+   search?: string;
+   categories?: string[];
+};
+
 type TemplateFiltersProps = {
-   search: string;
-   categories: string[];
-   setSearch: (value: string) => void;
-   setCategories: (value: string[]) => void;
+   onFiltersUpdate: (filters: Filters) => void;
 };
 
 export const TemplateFilters: FC<TemplateFiltersProps> = ({
-   search,
-   setSearch,
-   categories,
-   setCategories,
+   onFiltersUpdate,
 }) => {
+   const [search, setSearch] = useState<string>();
+   const [categories, setCategories] = useState<string[]>([]);
    const [open, setOpen] = useState(false);
 
    const { data: loadedCategories = [] } = useLoadPromptTemplateCategories();
 
-   const toggleOption = (value: string) => {
+   const onSearchUpdate = debounce((value: string) => {
+      setSearch(value);
+      onFiltersUpdate({ search: value, categories });
+   }, 300);
+
+   const toggleCategory = (value: string) => {
       if (includes(categories, value)) {
          const newCats = cloneDeep(categories);
          remove(newCats, (prev) => isEqual(prev, value));
          setCategories(newCats);
+         onFiltersUpdate({ search, categories: newCats });
       } else {
          const newCats = concat(categories, value);
          setCategories(newCats);
+         onFiltersUpdate({ search, categories: newCats });
       }
    };
-
-   const onSearchUpdateDebounnced = debounce((value: string) => {
-      setSearch(value);
-   }, 300);
 
    const searchInput = () => {
       return (
@@ -62,8 +66,7 @@ export const TemplateFilters: FC<TemplateFiltersProps> = ({
                id="search-templates"
                type="text"
                placeholder="Search templates"
-               value={search}
-               onChange={(e) => setSearch(e.target.value)}
+               onChange={(e) => onSearchUpdate(e.target.value)}
                className="w-full min-h-10 pl-10 pr-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
          </div>
@@ -99,7 +102,7 @@ export const TemplateFilters: FC<TemplateFiltersProps> = ({
                               className="cursor-pointer"
                               onClick={(e) => {
                                  e.stopPropagation();
-                                 toggleOption(cat);
+                                 toggleCategory(cat);
                               }}
                            />
                         </Badge>
@@ -117,7 +120,7 @@ export const TemplateFilters: FC<TemplateFiltersProps> = ({
                         {map(loadedCategories, (cat, idx) => (
                            <CommandItem
                               key={idx}
-                              onSelect={() => toggleOption(cat)}
+                              onSelect={() => toggleCategory(cat)}
                               className="flex items-center gap-2"
                            >
                               <div

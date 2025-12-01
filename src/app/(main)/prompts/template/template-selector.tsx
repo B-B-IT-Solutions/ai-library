@@ -3,14 +3,11 @@
 import { FC, useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
-import {
-   useLoadPromptTemplateCategories,
-   useLoadPromptTemplates,
-} from "@/data/ts-queries/prompt";
+import { useLoadPromptTemplates } from "@/data/ts-queries/prompt";
 import { DPromptTemplate } from "@/data/types/domain/prompt.template";
 
 import { TemplateCards } from "./template-cards";
-import { TemplateFilters } from "./template-filters";
+import { Filters, TemplateFilters } from "./template-filters";
 
 type TemplateSelectorProps = {
    onSelect: (template: DPromptTemplate) => void;
@@ -18,12 +15,11 @@ type TemplateSelectorProps = {
 
 export const TemplateSelector: FC<TemplateSelectorProps> = ({ onSelect }) => {
    const [showTemplates, setShowTemplates] = useState(false);
-   const [search, setSearch] = useState("");
-   const [categories, setCategories] = useState<string[]>([]);
+   const [filters, setFilters] = useState<Filters>({});
 
    const { data: templates = [] } = useLoadPromptTemplates({
-      search,
-      categories,
+      search: filters.search,
+      categories: filters.categories,
    });
 
    const showButton = () => {
@@ -49,20 +45,14 @@ export const TemplateSelector: FC<TemplateSelectorProps> = ({ onSelect }) => {
       if (showTemplates) {
          return (
             <div className="mt-4 space-y-4" data-testid="templates-view">
-               <TemplateFilters
-                  search={search}
-                  setSearch={setSearch}
-                  categories={categories}
-                  setCategories={setCategories}
-               />
+               <TemplateFilters onFiltersUpdate={setFilters} />
 
                <TemplateCards
                   templates={templates}
                   onSelect={(template) => {
                      onSelect(template);
                      setShowTemplates(false);
-                     setSearch("");
-                     setCategories([]);
+                     setFilters({});
                   }}
                />
             </div>
