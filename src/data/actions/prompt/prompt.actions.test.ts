@@ -5,6 +5,7 @@ import { map } from "es-toolkit/compat";
 
 import {
    createPrompt as pCreatePrompt,
+   getPrompt as pGetPrompt,
    getPromptCategories as pGetPromptCategories,
    getPrompts as pGetPrompts,
 } from "@/data/db/queries/prompt";
@@ -12,12 +13,14 @@ import { DPromptsPageQuery } from "@/data/types/domain/prompt";
 
 import {
    createPrompt,
+   getPrompt,
    getPromptCategories,
    getPrompts,
 } from "./prompt.actions";
-import { toDPromptsPage } from "./prompt.mapper";
+import { toDPrompt, toDPromptsPage } from "./prompt.mapper";
 
 const pGetPromptsMock = pGetPrompts as jest.MockedFunction<typeof pGetPrompts>;
+const pGetPromptMock = pGetPrompt as jest.MockedFunction<typeof pGetPrompt>;
 const pGetPromptCategoriesMock = pGetPromptCategories as jest.MockedFunction<
    typeof pGetPromptCategories
 >;
@@ -83,6 +86,36 @@ describe("getPromptCategories tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(pGetPromptCategoriesMock).toHaveBeenCalledTimes(1);
+   });
+});
+
+describe("getPrompt tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   it("getPrompt  - promt undefined - test", async () => {
+      pGetPromptMock.mockResolvedValue(null);
+
+      const id = "product-1";
+      const result = await getPrompt(id);
+
+      expect(result).toBeUndefined();
+      expect(pGetPromptMock).toHaveBeenCalledTimes(1);
+      expect(pGetPromptMock).toHaveBeenCalledWith({ id });
+   });
+
+   it("getPrompt  - product defined - test", async () => {
+      const prompt = ptestData.pPromptWithCategories();
+      pGetPromptMock.mockResolvedValue(prompt);
+
+      const id = "product-1";
+      const result = await getPrompt(id);
+      const expectedResult = toDPrompt(prompt);
+
+      expect(result).toEqual(expectedResult);
+      expect(pGetPromptMock).toHaveBeenCalledTimes(1);
+      expect(pGetPromptMock).toHaveBeenCalledWith({ id });
    });
 });
 

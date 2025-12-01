@@ -4,10 +4,12 @@ import { map } from "es-toolkit/compat";
 
 import {
    createPrompt as pCreatePrompt,
+   getPrompt as pGetPrompt,
    getPromptCategories as pGetPromptCategories,
    getPrompts as pGetPrompts,
 } from "@/data/db/queries/prompt";
 import {
+   DPrompt,
    DPromptCreate,
    DPromptsPage,
    DPromptsPageQuery,
@@ -18,7 +20,7 @@ import {
    PromptCreateInput,
 } from "@/generated/prisma/models";
 
-import { toDPromptsPage } from "./prompt.mapper";
+import { toDPrompt, toDPromptsPage } from "./prompt.mapper";
 import { formatError } from "./utils";
 
 export const getPrompts = async (
@@ -26,6 +28,14 @@ export const getPrompts = async (
 ): Promise<DPromptsPage> => {
    const data = await pGetPrompts(query);
    return toDPromptsPage(data);
+};
+
+export const getPrompt = async (id: string): Promise<DPrompt | undefined> => {
+   const data = await pGetPrompt({ id });
+   if (data) {
+      return toDPrompt(data);
+   }
+   return undefined;
 };
 
 export const getPromptCategories = async (): Promise<string[]> => {
