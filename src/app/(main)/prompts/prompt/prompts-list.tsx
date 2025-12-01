@@ -62,14 +62,7 @@ export const PromptsList: FC<PromptsListProps> = ({
          >
             {map(pages, (page) => {
                return map(page.content, (prompt) => {
-                  return (
-                     <PromptListItem
-                        key={prompt.id}
-                        prompt={prompt}
-                        isSelected={prompt.id == selectedPrompt?.id}
-                        selectPrompt={selectPrompt}
-                     />
-                  );
+                  return <PromptListItem key={prompt.id} prompt={prompt} />;
                });
             })}
             <InfiniteScroll

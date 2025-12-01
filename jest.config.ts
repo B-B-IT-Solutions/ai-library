@@ -43,6 +43,8 @@ module.exports = {
    moduleNameMapper: {
       "\\.(scss|sass|css|woff2)$": "identity-obj-proxy",
       "^.+\\.(jpg|jpeg|png|gif|webp|svg)$": "<rootDir>/__mocks__/file-mock.ts",
+      "^next/link$": "<rootDir>/__mocks__/next/link.tsx",
+      "^next/navigation$": "<rootDir>/__mocks__/next/navigation.tsx",
       "^next/font/google$": "<rootDir>/__mocks__/next/font/google.ts",
       "^next-auth/react$": "<rootDir>/__mocks__/next-auth/react.tsx",
       "^@radix-ui/react-portal$":
