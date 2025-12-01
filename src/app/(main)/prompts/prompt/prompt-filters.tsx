@@ -26,7 +26,7 @@ import {
    PopoverContent,
    PopoverTrigger,
 } from "@/components/shadcn/popover";
-import { useLoadPromptCategories } from "@/data/ts-queries/prompt/prompt";
+import { useLoadPromptCategories } from "@/data/ts-queries/prompt";
 import { cn } from "@/lib/utils";
 
 export type Filters = {
@@ -50,7 +50,9 @@ export const PromptFilters: FC<PromptFiltersProps> = ({ onFiltersUpdate }) => {
 
    const { data: loadedCategories = [] } = useLoadPromptCategories();
 
-   const toggleOption = (value: string) => {
+   console.log(loadedCategories);
+
+   const toggleCategory = (value: string) => {
       if (includes(categories, value)) {
          const newCats = cloneDeep(categories);
          remove(newCats, (prev) => isEqual(prev, value));
@@ -111,7 +113,7 @@ export const PromptFilters: FC<PromptFiltersProps> = ({ onFiltersUpdate }) => {
                                  className="cursor-pointer"
                                  onClick={(e) => {
                                     e.stopPropagation();
-                                    toggleOption(cat);
+                                    toggleCategory(cat);
                                  }}
                               />
                            </Badge>
@@ -130,7 +132,7 @@ export const PromptFilters: FC<PromptFiltersProps> = ({ onFiltersUpdate }) => {
                         {map(loadedCategories, (cat, idx) => (
                            <CommandItem
                               key={idx}
-                              onSelect={() => toggleOption(cat)}
+                              onSelect={() => toggleCategory(cat)}
                               className="flex items-center gap-2"
                            >
                               <div

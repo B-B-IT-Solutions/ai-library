@@ -10,9 +10,7 @@ import { PromptFom } from "./prompt/prompt-form";
 import { PromptsList } from "./prompt/prompts-list";
 import { TemplateSelector } from "./template/template-selector";
 
-type PromptManagerProps = {};
-
-export const PromptManager: FC<PromptManagerProps> = () => {
+export const PromptManager: FC = () => {
    const [selectedPrompt, setSelectedPrompt] = useState<DPrompt | null>(null);
    const [isEditing, setIsEditing] = useState(false);
 

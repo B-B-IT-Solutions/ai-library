@@ -5,4 +5,8 @@ export {
    useLoadPromptTemplateCategories,
 } from "./prompt.template";
 
-export { useInfiniteLoadPrompts, preloadPromptsOptions } from "./prompt";
+export {
+   preloadPromptsOptions,
+   useInfiniteLoadPrompts,
+   useLoadPromptCategories,
+} from "./prompt";
