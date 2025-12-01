@@ -94,7 +94,7 @@ describe("PromptsPage rendering tests", () => {
          queryKey: ["prompts-template-categories"],
       });
 
-      const { container } = await renderAsyncRSC(PromptsPage, {});
+      const { container } = await renderAsyncRSC(PromptsPage);
 
       await waitFor(() => {
          assertRendered();

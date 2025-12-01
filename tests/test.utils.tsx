@@ -9,8 +9,8 @@ import {
 } from "@testing-library/react";
 
 export const renderAsyncRSC = async <T,>(
-   asyncComponent: (props: T) => Promise<JSX.Element>,
-   props: T
+   asyncComponent: (props?: T) => Promise<JSX.Element>,
+   props?: T
 ) => {
    const component = await asyncComponent(props);
    let result: RenderResult = {} as RenderResult;
