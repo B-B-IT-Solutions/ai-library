@@ -3,11 +3,10 @@
 import { FC, useState } from "react";
 import { X } from "lucide-react";
 
-import { DPrompt, DPromptCreate } from "@/data/types/domain/prompt";
+import { PromptFom } from "@/components/prompts/prompt";
+import { TemplateSelector } from "@/components/prompts/template";
+import { DPrompt } from "@/data/types/domain/prompt";
 import { DPromptTemplate } from "@/data/types/domain/prompt.template";
-
-import { PromptFom } from "./prompt/prompt-form";
-import { TemplateSelector } from "./template/template-selector";
 
 type PromptManagerProps = {
    prompt: DPrompt;

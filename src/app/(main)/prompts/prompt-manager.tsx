@@ -2,9 +2,8 @@
 
 import { FC } from "react";
 
+import { PromptsEmpty } from "@/components/prompts/prompt";
 import { DPrompt } from "@/data/types/domain/prompt";
-
-import { PromptsEmpty } from "./prompt/prompts-empty";
 
 type PromptManagerProps = {
    prompt?: DPrompt;

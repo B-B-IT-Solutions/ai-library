@@ -10,8 +10,8 @@ import {
    preloadPromptTemplateCategoriesOptions,
    preloadPromptTemplatesOptions,
 } from "@/data/ts-queries/prompt";
+import { PromptsList } from "../../../components/prompts/prompt/prompts-list";
 
-import { PromptsList } from "./prompt/prompts-list";
 import { PromptManager } from "./prompt-manager";
 
 export const metadata = {
