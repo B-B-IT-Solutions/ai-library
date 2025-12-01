@@ -1,34 +1,37 @@
-import { screen, waitFor } from "@testing-library/dom";
-import { render } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { assertInDocument, getElementById } from "@tests";
+jest.mock("@/data/actions/prompt/prompt.template.actions");
 
-import { TemplateFilters } from "./template-filters";
+import { screen, waitFor } from "@testing-library/dom";
+import userEvent from "@testing-library/user-event";
+import { assertInDocument, getElementById, renderWithReactQuery } from "@tests";
+
+import { getPromptTemplateCategories } from "@/data/actions/prompt/prompt.template.actions";
+
+import { Filters, TemplateFilters } from "./template-filters";
+
+const getPromptTemplateCategoriesMock =
+   getPromptTemplateCategories as jest.MockedFunction<
+      typeof getPromptTemplateCategories
+   >;
 
 const assertRendered = () => {
    const filters = screen.getByTestId("template-filters");
    const search = screen.getByTestId("search-input");
    const categories = screen.getByTestId("categories-combo-box");
+   const category1 = screen.getByText("category 2");
 
    assertInDocument(filters);
    assertInDocument(search);
    assertInDocument(categories);
+   assertInDocument(category1);
 };
 
 describe("TemplateFilters rendering tests", () => {
    it("TemplateFilters rendered test", async () => {
       const loadedCategories = ["category 1", "category 2", "category 3"];
-      const categories = ["category 1"];
-      const search = "test 1";
+      getPromptTemplateCategoriesMock.mockResolvedValue(loadedCategories);
 
-      const { container } = render(
-         <TemplateFilters
-            loadedCategories={loadedCategories}
-            search={search}
-            categories={categories}
-            setSearch={jest.fn()}
-            setCategories={jest.fn()}
-         />
+      const { container } = renderWithReactQuery(
+         <TemplateFilters onFiltersUpdate={jest.fn()} />
       );
 
       await waitFor(() => {
@@ -41,80 +44,82 @@ describe("TemplateFilters rendering tests", () => {
 
 describe("TemplateFilters functionality tests", () => {
    it("TemplateFilters - search template - test", async () => {
-      const loadedCategories = ["category 1", "category 2", "category 3"];
-      const categories: string[] = [];
-      const search = "";
-      const setSearchFn = jest.fn();
+      const categories = ["category 1", "category 2", "category 3"];
+      getPromptTemplateCategoriesMock.mockResolvedValue(categories);
 
-      render(
-         <TemplateFilters
-            loadedCategories={loadedCategories}
-            search={search}
-            categories={categories}
-            setSearch={setSearchFn}
-            setCategories={jest.fn()}
-         />
+      const onFiltersUpdateFn = jest.fn();
+      renderWithReactQuery(
+         <TemplateFilters onFiltersUpdate={onFiltersUpdateFn} />
       );
 
       await waitFor(() => {
          assertRendered();
-         expect(setSearchFn).not.toHaveBeenCalled();
+         expect(onFiltersUpdateFn).not.toHaveBeenCalled();
       });
 
       const serachValue = "test 1";
       const input = getElementById("search-templates");
-      userEvent.type(input, serachValue);
+      await userEvent.type(input, serachValue);
 
+      const exptectedFilters: Filters = { search: serachValue, categories: [] };
       await waitFor(() => {
-         expect(setSearchFn).toHaveBeenCalledTimes(6);
-         expect(setSearchFn).toHaveBeenNthCalledWith(1, "t");
-         expect(setSearchFn).toHaveBeenNthCalledWith(2, "e");
-         expect(setSearchFn).toHaveBeenNthCalledWith(3, "s");
-         expect(setSearchFn).toHaveBeenNthCalledWith(4, "t");
-         expect(setSearchFn).toHaveBeenNthCalledWith(5, " ");
-         expect(setSearchFn).toHaveBeenNthCalledWith(6, "1");
+         expect(onFiltersUpdateFn).toHaveBeenCalledTimes(1);
+         expect(onFiltersUpdateFn).toHaveBeenCalledWith(exptectedFilters);
       });
    });
 
    it("TemplateFilters - categories selected - test", async () => {
       const loadedCategories = ["category 1", "category 2", "category 3"];
-      const categories: string[] = ["category 1"];
-      const search = "";
-      const setCategoriesFn = jest.fn();
+      getPromptTemplateCategoriesMock.mockResolvedValue(loadedCategories);
 
-      render(
-         <TemplateFilters
-            loadedCategories={loadedCategories}
-            search={search}
-            categories={categories}
-            setSearch={jest.fn()}
-            setCategories={setCategoriesFn}
-         />
+      const onFiltersUpdateFn = jest.fn();
+      renderWithReactQuery(
+         <TemplateFilters onFiltersUpdate={onFiltersUpdateFn} />
       );
 
       await waitFor(() => {
          assertRendered();
-         expect(setCategoriesFn).not.toHaveBeenCalled();
+         expect(onFiltersUpdateFn).not.toHaveBeenCalled();
+      });
+
+      await waitFor(() => {
+         assertRendered();
+         expect(onFiltersUpdateFn).not.toHaveBeenCalled();
       });
 
       const comboBox = screen.getByTestId("categories-combo-box");
       userEvent.click(comboBox);
 
-      const cat1 = screen.getAllByText(loadedCategories[0])[1];
-      userEvent.click(cat1);
+      const cat1 = screen.getByText(loadedCategories[0]);
+      await userEvent.click(cat1);
 
+      const exptectedFilters1: Filters = { categories: [loadedCategories[0]] };
       await waitFor(() => {
-         expect(setCategoriesFn).toHaveBeenCalledTimes(1);
-         expect(setCategoriesFn).toHaveBeenCalledWith([]);
+         expect(onFiltersUpdateFn).toHaveBeenCalledTimes(1);
+         expect(onFiltersUpdateFn).toHaveBeenCalledWith(exptectedFilters1);
       });
 
       const cat2 = screen.getByText(loadedCategories[1]);
-      userEvent.click(cat2);
+      await userEvent.click(cat2);
 
-      const expectedPayload2 = [loadedCategories[0], loadedCategories[1]];
+      const exptectedFilters2: Filters = {
+         categories: [loadedCategories[0], loadedCategories[1]],
+      };
       await waitFor(() => {
-         expect(setCategoriesFn).toHaveBeenCalledTimes(2);
-         expect(setCategoriesFn).toHaveBeenNthCalledWith(2, expectedPayload2);
+         expect(onFiltersUpdateFn).toHaveBeenCalledTimes(2);
+         expect(onFiltersUpdateFn).toHaveBeenNthCalledWith(
+            2,
+            exptectedFilters2
+         );
+      });
+
+      await userEvent.click(cat2);
+      await waitFor(() => {
+         expect(onFiltersUpdateFn).toHaveBeenCalledTimes(3);
+         expect(onFiltersUpdateFn).toHaveBeenNthCalledWith(
+            3,
+            exptectedFilters1
+         );
       });
    });
 });

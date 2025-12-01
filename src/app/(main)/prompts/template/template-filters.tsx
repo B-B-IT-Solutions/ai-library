@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useState } from "react";
-import { cloneDeep } from "es-toolkit";
+import { cloneDeep, debounce } from "es-toolkit";
 import { concat, includes, isEqual, map, remove } from "es-toolkit/compat";
 import { ChevronsUpDown, Search, X } from "lucide-react";
 
@@ -19,42 +19,44 @@ import {
    PopoverContent,
    PopoverTrigger,
 } from "@/components/shadcn/popover";
+import { useLoadPromptTemplateCategories } from "@/data/ts-queries/prompt";
 import { cn } from "@/lib/utils";
 
+export type Filters = {
+   search?: string;
+   categories?: string[];
+};
+
 type TemplateFiltersProps = {
-   loadedCategories: string[];
-   search: string;
-   categories: string[];
-   setSearch: (value: string) => void;
-   setCategories: (value: string[]) => void;
+   onFiltersUpdate: (filters: Filters) => void;
 };
 
 export const TemplateFilters: FC<TemplateFiltersProps> = ({
-   loadedCategories,
-   search,
-   setSearch,
-   categories,
-   setCategories,
+   onFiltersUpdate,
 }) => {
+   const [search, setSearch] = useState<string>();
+   const [categories, setCategories] = useState<string[]>([]);
    const [open, setOpen] = useState(false);
 
-   const toggleOption = (value: string) => {
+   const { data: loadedCategories = [] } = useLoadPromptTemplateCategories();
+
+   const onSearchUpdate = debounce((value: string) => {
+      setSearch(value);
+      onFiltersUpdate({ search: value, categories });
+   }, 300);
+
+   const toggleCategory = (value: string) => {
       if (includes(categories, value)) {
          const newCats = cloneDeep(categories);
          remove(newCats, (prev) => isEqual(prev, value));
          setCategories(newCats);
+         onFiltersUpdate({ search, categories: newCats });
       } else {
          const newCats = concat(categories, value);
          setCategories(newCats);
+         onFiltersUpdate({ search, categories: newCats });
       }
    };
-
-   // const handleSearch = (value: string) => {
-   //    debounce(() => {
-   //       console.log("called");
-   //       setSearch(value);
-   //    }, 300);
-   // };
 
    const searchInput = () => {
       return (
@@ -64,8 +66,7 @@ export const TemplateFilters: FC<TemplateFiltersProps> = ({
                id="search-templates"
                type="text"
                placeholder="Search templates"
-               value={search}
-               onChange={(e) => setSearch(e.target.value)}
+               onChange={(e) => onSearchUpdate(e.target.value)}
                className="w-full min-h-10 pl-10 pr-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
          </div>
@@ -81,7 +82,6 @@ export const TemplateFilters: FC<TemplateFiltersProps> = ({
                      "w-full min-h-10 cursor-pointer rounded-md border border-input bg-background px-2 py-1",
                      "flex items-center flex-wrap gap-2"
                   )}
-                  onClick={() => setOpen(true)}
                >
                   {categories.length === 0 && (
                      <span className="text-muted-foreground text-sm">
@@ -102,7 +102,7 @@ export const TemplateFilters: FC<TemplateFiltersProps> = ({
                               className="cursor-pointer"
                               onClick={(e) => {
                                  e.stopPropagation();
-                                 toggleOption(cat);
+                                 toggleCategory(cat);
                               }}
                            />
                         </Badge>
@@ -120,7 +120,7 @@ export const TemplateFilters: FC<TemplateFiltersProps> = ({
                         {map(loadedCategories, (cat, idx) => (
                            <CommandItem
                               key={idx}
-                              onSelect={() => toggleOption(cat)}
+                              onSelect={() => toggleCategory(cat)}
                               className="flex items-center gap-2"
                            >
                               <div

@@ -21,7 +21,7 @@ describe("SettingsPage rendering tests", () => {
       jest.resetAllMocks();
    });
 
-   it("SettingsPage - prompts retrieved - rendered test", async () => {
+   it("SettingsPage rendered test", async () => {
       const { container } = await renderAsyncRSC(SettingsPage);
 
       await waitFor(() => {

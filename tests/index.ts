@@ -15,6 +15,7 @@ export {
 
 export {
    renderAsyncRSC,
+   renderWithRouter,
    renderHookWithReactQuery,
    renderWithReactQuery,
    getElementById,

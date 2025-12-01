@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`SettingsPage rendering tests SettingsPage - prompts retrieved - rendered test 1`] = `
+exports[`SettingsPage rendering tests SettingsPage rendered test 1`] = `
 <div>
   <div
     data-testid="settings-page"

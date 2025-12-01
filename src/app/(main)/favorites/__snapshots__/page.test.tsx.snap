@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`FavoritesPage rendering tests FavoritesPage - prompts retrieved - rendered test 1`] = `
+exports[`FavoritesPage rendering tests FavoritesPage rendered test 1`] = `
 <div>
   <div
     data-testid="favorites-page"

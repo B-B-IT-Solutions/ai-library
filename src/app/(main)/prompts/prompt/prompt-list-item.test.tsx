@@ -2,7 +2,8 @@ jest.mock("sonner");
 
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
+import { assertInDocument, dtestData, renderWithRouter } from "@tests";
+import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
 import { PromptListItem } from "./prompt-list-item";
@@ -18,16 +19,18 @@ const assertRendered = () => {
 };
 
 describe("PromptListItem rendering tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
    it("PromptListItem - isSelected false - rendered test", async () => {
       const prompt = dtestData.dPrompt();
       prompt.isFavorite = true;
 
-      const { container } = renderWithReactQuery(
-         <PromptListItem
-            prompt={prompt}
-            isSelected={false}
-            selectPrompt={jest.fn()}
-         />
+      const url = `/prompt/random-prompt-id-123`;
+      const { container } = renderWithRouter(
+         <PromptListItem prompt={prompt} />,
+         url
       );
 
       await waitFor(() => {
@@ -41,14 +44,11 @@ describe("PromptListItem rendering tests", () => {
       const prompt = dtestData.dPrompt();
       prompt.isFavorite = false;
 
-      const { container } = renderWithReactQuery(
-         <PromptListItem
-            prompt={prompt}
-            isSelected={true}
-            selectPrompt={jest.fn()}
-         />
+      const url = `/prompt/${prompt.id}`;
+      const { container } = renderWithRouter(
+         <PromptListItem prompt={prompt} />,
+         url
       );
-
       await waitFor(() => {
          assertRendered();
       });
@@ -58,42 +58,33 @@ describe("PromptListItem rendering tests", () => {
 });
 
 describe("PromptListItem functionality tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
    it("PromptListItem - item clicked - test", async () => {
       const prompt = dtestData.dPrompt();
-      const selectPromptFn = jest.fn();
 
-      renderWithReactQuery(
-         <PromptListItem
-            prompt={prompt}
-            isSelected={false}
-            selectPrompt={selectPromptFn}
-         />
-      );
+      const url = "/prompts";
+      renderWithRouter(<PromptListItem prompt={prompt} />, url);
 
       await waitFor(() => {
          assertRendered();
-         expect(selectPromptFn).not.toHaveBeenCalled();
+         expect(mockRouter.pathname).toEqual(url);
       });
 
       const listItem = screen.getByTestId("prompt-list-item");
-      userEvent.click(listItem);
+      await userEvent.click(listItem);
 
       await waitFor(() => {
-         expect(selectPromptFn).toHaveBeenCalledTimes(1);
-         expect(selectPromptFn).toHaveBeenCalledWith(prompt);
+         expect(mockRouter.pathname).toEqual(`/prompt/${prompt.id}`);
       });
    });
 
    it("PromptListItem - addTofavorite toggled - test", async () => {
       const prompt = dtestData.dPrompt();
 
-      renderWithReactQuery(
-         <PromptListItem
-            prompt={prompt}
-            isSelected={false}
-            selectPrompt={jest.fn()}
-         />
-      );
+      renderWithRouter(<PromptListItem prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();

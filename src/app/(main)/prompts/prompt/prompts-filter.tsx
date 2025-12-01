@@ -43,12 +43,12 @@ export const PromptFilters: FC<PromptFiltersProps> = ({ onFiltersUpdate }) => {
    const [categories, setCategories] = useState<string[]>([]);
    const [open, setOpen] = useState(false);
 
-   const onSearchUpdateDebounnced = debounce((value: string) => {
+   const { data: loadedCategories = [] } = useLoadPromptCategories();
+
+   const onSearchUpdate = debounce((value: string) => {
       setSearch(value);
       onFiltersUpdate({ search: value, categories });
    }, 300);
-
-   const { data: loadedCategories = [] } = useLoadPromptCategories();
 
    const toggleCategory = (value: string) => {
       if (includes(categories, value)) {
@@ -71,7 +71,7 @@ export const PromptFilters: FC<PromptFiltersProps> = ({ onFiltersUpdate }) => {
                id="search-prompts"
                type="text"
                placeholder="Search prompts"
-               onChange={(e) => onSearchUpdateDebounnced(e.target.value)}
+               onChange={(e) => onSearchUpdate(e.target.value)}
                className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
          </div>

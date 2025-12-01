@@ -3,26 +3,16 @@
 import { FC, useState } from "react";
 import { map, sum } from "es-toolkit/compat";
 import { Loader2, Plus } from "lucide-react";
+import Link from "next/link";
 
+import { Button } from "@/components/shadcn/button";
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
 import { useInfiniteLoadPrompts } from "@/data/ts-queries/prompt";
-import { CallbackFn } from "@/data/types/domain/common";
-import { DPrompt } from "@/data/types/domain/prompt";
 
 import { PromptListItem } from "./prompt-list-item";
 import { Filters, PromptFilters } from "./prompts-filter";
 
-type PromptsListProps = {
-   addPrompt: CallbackFn;
-   selectPrompt: (prompt: DPrompt) => void;
-   selectedPrompt: DPrompt | null;
-};
-
-export const PromptsList: FC<PromptsListProps> = ({
-   addPrompt,
-   selectPrompt,
-   selectedPrompt,
-}) => {
+export const PromptsList: FC = () => {
    const [filters, setFilters] = useState<Filters>({});
 
    const {
@@ -40,16 +30,20 @@ export const PromptsList: FC<PromptsListProps> = ({
    const promptItemsHeader = () => {
       return (
          <div
-            className="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50"
+            className="p-4 rounded-lg border-b border-slate-200 flex justify-between items-center bg-slate-50"
             data-testid="prompts-list-header"
          >
             <h2 className="font-semibold text-slate-900">Prompts ({count})</h2>
-            <button
-               onClick={addPrompt}
+
+            <Button
+               asChild={true}
                className="p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-sm"
+               data-testid="add-prompt-btn"
             >
-               <Plus className="w-4 h-4" />
-            </button>
+               <Link href="/prompt/new">
+                  <Plus className="w-4 h-4" />
+               </Link>
+            </Button>
          </div>
       );
    };
@@ -62,14 +56,7 @@ export const PromptsList: FC<PromptsListProps> = ({
          >
             {map(pages, (page) => {
                return map(page.content, (prompt) => {
-                  return (
-                     <PromptListItem
-                        key={prompt.id}
-                        prompt={prompt}
-                        isSelected={prompt.id == selectedPrompt?.id}
-                        selectPrompt={selectPrompt}
-                     />
-                  );
+                  return <PromptListItem key={prompt.id} prompt={prompt} />;
                });
             })}
             <InfiniteScroll
@@ -102,7 +89,7 @@ export const PromptsList: FC<PromptsListProps> = ({
    };
 
    return (
-      <div className="lg:col-span-1 space-y-4" data-testid="prompts-list">
+      <div className="space-y-4" data-testid="prompts-list">
          {promptFilters()}
          {promptItemsList()}
       </div>

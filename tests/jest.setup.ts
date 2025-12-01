@@ -5,30 +5,11 @@ import "intersection-observer";
 import failOnConsole from "jest-fail-on-console";
 import { mockDeep } from "jest-mock-extended";
 import { NextRequest, NextResponse } from "next/server";
-import mockRouter from "next-router-mock";
 import { ReadableStream, TextEncoderStream, TransformStream } from "stream/web";
 import { TextDecoder, TextEncoder } from "util";
 import { BroadcastChannel } from "worker_threads";
 
 import { PrismaClient } from "@/generated/prisma/client";
-
-jest.mock("next/navigation", () => ({
-   ...jest.requireActual("next-router-mock"),
-   useRouter: () => mockRouter,
-   usePathname() {
-      return mockRouter.pathname;
-   },
-   useSearchParams: jest.fn(() => {
-      if (mockRouter.query) {
-         const params = mockRouter.query as unknown as URLSearchParams;
-         return new URLSearchParams(params);
-      }
-      return new URLSearchParams("");
-   }),
-   useServerInsertedHTML: jest.fn(),
-   redirect: jest.fn(),
-   notFound: jest.fn(),
-}));
 
 jest.mock("next-themes", () => ({
    useTheme: jest.fn().mockReturnValue({ theme: "light", setTheme: jest.fn() }),

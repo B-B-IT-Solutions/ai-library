@@ -7,6 +7,8 @@ import {
    RenderResult,
    waitFor,
 } from "@testing-library/react";
+import mockRouter from "next-router-mock";
+import { MemoryRouterProvider } from "next-router-mock/MemoryRouterProvider/next-13.5";
 
 export const renderAsyncRSC = async <T,>(
    asyncComponent: (props?: T) => Promise<JSX.Element>,
@@ -14,13 +16,7 @@ export const renderAsyncRSC = async <T,>(
 ) => {
    const component = await asyncComponent(props);
    let result: RenderResult = {} as RenderResult;
-   const queryClient = new QueryClient({
-      defaultOptions: {
-         queries: {
-            retry: false,
-         },
-      },
-   });
+   const queryClient = testQueryClient();
 
    await waitFor(() => {
       result = render(
@@ -36,14 +32,7 @@ export const renderAsyncRSC = async <T,>(
 };
 
 export const renderWithReactQuery = (component: React.ReactNode) => {
-   const queryClient = new QueryClient({
-      defaultOptions: {
-         queries: {
-            retry: false,
-         },
-      },
-   });
-
+   const queryClient = testQueryClient();
    return {
       ...render(
          <QueryClientProvider client={queryClient}>
@@ -53,17 +42,26 @@ export const renderWithReactQuery = (component: React.ReactNode) => {
    };
 };
 
+export const renderWithRouter = (
+   component: React.ReactNode,
+   url: string = "/"
+) => {
+   const queryClient = testQueryClient();
+   mockRouter.push(url);
+   return {
+      ...render(
+         <QueryClientProvider client={queryClient}>
+            {" "}
+            <MemoryRouterProvider url={url}>{component}</MemoryRouterProvider>
+         </QueryClientProvider>
+      ),
+   };
+};
+
 export const renderHookWithReactQuery = <Result, Props>(
    hookUnderTest: () => Result
 ): RenderHookResult<Result, Props> => {
-   const queryClient = new QueryClient({
-      defaultOptions: {
-         queries: {
-            retry: false,
-         },
-      },
-   });
-
+   const queryClient = testQueryClient();
    const wrapper = ({ children }: { children?: React.ReactNode }) => (
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
    );
@@ -75,4 +73,14 @@ export const renderHookWithReactQuery = <Result, Props>(
 
 export const getElementById = (id: string): HTMLElement => {
    return document.getElementById(id) as HTMLElement;
+};
+
+const testQueryClient = () => {
+   return new QueryClient({
+      defaultOptions: {
+         queries: {
+            retry: false,
+         },
+      },
+   });
 };
