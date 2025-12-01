@@ -3,26 +3,16 @@
 import { FC, useState } from "react";
 import { map, sum } from "es-toolkit/compat";
 import { Loader2, Plus } from "lucide-react";
+import Link from "next/link";
 
+import { Button } from "@/components/shadcn/button";
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
 import { useInfiniteLoadPrompts } from "@/data/ts-queries/prompt";
-import { CallbackFn } from "@/data/types/domain/common";
-import { DPrompt } from "@/data/types/domain/prompt";
 
 import { PromptListItem } from "./prompt-list-item";
 import { Filters, PromptFilters } from "./prompts-filter";
 
-type PromptsListProps = {
-   addPrompt: CallbackFn;
-   selectPrompt: (prompt: DPrompt) => void;
-   selectedPrompt: DPrompt | null;
-};
-
-export const PromptsList: FC<PromptsListProps> = ({
-   addPrompt,
-   selectPrompt,
-   selectedPrompt,
-}) => {
+export const PromptsList: FC = () => {
    const [filters, setFilters] = useState<Filters>({});
 
    const {
@@ -44,12 +34,16 @@ export const PromptsList: FC<PromptsListProps> = ({
             data-testid="prompts-list-header"
          >
             <h2 className="font-semibold text-slate-900">Prompts ({count})</h2>
-            <button
-               onClick={addPrompt}
+
+            <Button
+               asChild={true}
                className="p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-sm"
+               data-testid="add-prompt-btn"
             >
-               <Plus className="w-4 h-4" />
-            </button>
+               <Link href="/prompt/new">
+                  <Plus className="w-4 h-4" />
+               </Link>
+            </Button>
          </div>
       );
    };

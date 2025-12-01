@@ -22,11 +22,6 @@ export const PromptManager: FC = () => {
       followUpPrompts: [],
    });
 
-   const selectPrompt = (prompt: DPrompt) => {
-      setSelectedPrompt(prompt);
-      setIsEditing(false);
-   };
-
    const resetForm = () => {
       setFormData({
          title: "",
@@ -65,14 +60,7 @@ export const PromptManager: FC = () => {
             </header>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-               <PromptsList
-                  addPrompt={() => {
-                     resetForm();
-                     setIsEditing(true);
-                  }}
-                  selectPrompt={selectPrompt}
-                  selectedPrompt={selectedPrompt}
-               />
+               <PromptsList />
 
                {/* Main Content */}
                <div className="lg:col-span-2">
