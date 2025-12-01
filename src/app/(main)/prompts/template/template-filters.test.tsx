@@ -1,29 +1,40 @@
+jest.mock("@/data/actions/prompt/prompt.template.actions");
+
 import { screen, waitFor } from "@testing-library/dom";
-import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, getElementById } from "@tests";
+import { assertInDocument, getElementById, renderWithReactQuery } from "@tests";
+
+import { getPromptTemplateCategories } from "@/data/actions/prompt/prompt.template.actions";
 
 import { TemplateFilters } from "./template-filters";
+
+const getPromptTemplateCategoriesMock =
+   getPromptTemplateCategories as jest.MockedFunction<
+      typeof getPromptTemplateCategories
+   >;
 
 const assertRendered = () => {
    const filters = screen.getByTestId("template-filters");
    const search = screen.getByTestId("search-input");
    const categories = screen.getByTestId("categories-combo-box");
+   const category1 = screen.getByText("category 2");
 
    assertInDocument(filters);
    assertInDocument(search);
    assertInDocument(categories);
+   assertInDocument(category1);
 };
 
 describe("TemplateFilters rendering tests", () => {
    it("TemplateFilters rendered test", async () => {
       const loadedCategories = ["category 1", "category 2", "category 3"];
+      getPromptTemplateCategoriesMock.mockResolvedValue(loadedCategories);
+
       const categories = ["category 1"];
       const search = "test 1";
 
-      const { container } = render(
+      const { container } = renderWithReactQuery(
          <TemplateFilters
-            loadedCategories={loadedCategories}
             search={search}
             categories={categories}
             setSearch={jest.fn()}
@@ -42,13 +53,14 @@ describe("TemplateFilters rendering tests", () => {
 describe("TemplateFilters functionality tests", () => {
    it("TemplateFilters - search template - test", async () => {
       const loadedCategories = ["category 1", "category 2", "category 3"];
+      getPromptTemplateCategoriesMock.mockResolvedValue(loadedCategories);
+
       const categories: string[] = [];
       const search = "";
       const setSearchFn = jest.fn();
 
-      render(
+      renderWithReactQuery(
          <TemplateFilters
-            loadedCategories={loadedCategories}
             search={search}
             categories={categories}
             setSearch={setSearchFn}
@@ -78,13 +90,14 @@ describe("TemplateFilters functionality tests", () => {
 
    it("TemplateFilters - categories selected - test", async () => {
       const loadedCategories = ["category 1", "category 2", "category 3"];
+      getPromptTemplateCategoriesMock.mockResolvedValue(loadedCategories);
+
       const categories: string[] = ["category 1"];
       const search = "";
       const setCategoriesFn = jest.fn();
 
-      render(
+      renderWithReactQuery(
          <TemplateFilters
-            loadedCategories={loadedCategories}
             search={search}
             categories={categories}
             setSearch={jest.fn()}

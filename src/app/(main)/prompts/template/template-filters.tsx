@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useState } from "react";
-import { cloneDeep } from "es-toolkit";
+import { cloneDeep, debounce } from "es-toolkit";
 import { concat, includes, isEqual, map, remove } from "es-toolkit/compat";
 import { ChevronsUpDown, Search, X } from "lucide-react";
 
@@ -19,10 +19,10 @@ import {
    PopoverContent,
    PopoverTrigger,
 } from "@/components/shadcn/popover";
+import { useLoadPromptTemplateCategories } from "@/data/ts-queries/prompt";
 import { cn } from "@/lib/utils";
 
 type TemplateFiltersProps = {
-   loadedCategories: string[];
    search: string;
    categories: string[];
    setSearch: (value: string) => void;
@@ -30,13 +30,14 @@ type TemplateFiltersProps = {
 };
 
 export const TemplateFilters: FC<TemplateFiltersProps> = ({
-   loadedCategories,
    search,
    setSearch,
    categories,
    setCategories,
 }) => {
    const [open, setOpen] = useState(false);
+
+   const { data: loadedCategories = [] } = useLoadPromptTemplateCategories();
 
    const toggleOption = (value: string) => {
       if (includes(categories, value)) {
@@ -49,12 +50,9 @@ export const TemplateFilters: FC<TemplateFiltersProps> = ({
       }
    };
 
-   // const handleSearch = (value: string) => {
-   //    debounce(() => {
-   //       console.log("called");
-   //       setSearch(value);
-   //    }, 300);
-   // };
+   const onSearchUpdateDebounnced = debounce((value: string) => {
+      setSearch(value);
+   }, 300);
 
    const searchInput = () => {
       return (
@@ -81,7 +79,6 @@ export const TemplateFilters: FC<TemplateFiltersProps> = ({
                      "w-full min-h-10 cursor-pointer rounded-md border border-input bg-background px-2 py-1",
                      "flex items-center flex-wrap gap-2"
                   )}
-                  onClick={() => setOpen(true)}
                >
                   {categories.length === 0 && (
                      <span className="text-muted-foreground text-sm">

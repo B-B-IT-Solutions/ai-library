@@ -25,7 +25,6 @@ export const TemplateSelector: FC<TemplateSelectorProps> = ({ onSelect }) => {
       search,
       categories,
    });
-   const { data: loadedCategories = [] } = useLoadPromptTemplateCategories();
 
    const showButton = () => {
       return (
@@ -55,7 +54,6 @@ export const TemplateSelector: FC<TemplateSelectorProps> = ({ onSelect }) => {
                   setSearch={setSearch}
                   categories={categories}
                   setCategories={setCategories}
-                  loadedCategories={loadedCategories}
                />
 
                <TemplateCards
