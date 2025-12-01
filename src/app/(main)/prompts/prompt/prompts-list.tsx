@@ -2,14 +2,14 @@
 
 import { FC, useState } from "react";
 import { map, sum } from "es-toolkit/compat";
-import { Filter, Loader2, Plus, Search } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
 import { useInfiniteLoadPrompts } from "@/data/ts-queries/prompt";
 import { CallbackFn } from "@/data/types/domain/common";
 import { DPrompt } from "@/data/types/domain/prompt";
 
-import { PromptFilters } from "./prompt-filters";
+import { Filters, PromptFilters } from "./prompt-filters";
 import { PromptListItem } from "./prompt-list-item";
 
 type PromptsListProps = {
@@ -23,20 +23,19 @@ export const PromptsList: FC<PromptsListProps> = ({
    selectPrompt,
    selectedPrompt,
 }) => {
-   const [categories, setCategories] = useState<string[]>([]);
-   const [search, setSearch] = useState("");
-   const [selectedCategory, setSelectedCategory] = useState("all");
+   const [filters, setFilters] = useState<Filters>({});
 
    const {
       data: { pages = [] } = {},
       fetchNextPage,
       hasNextPage,
       isFetchingNextPage,
-   } = useInfiniteLoadPrompts({ search, categories });
+   } = useInfiniteLoadPrompts({
+      search: filters.search,
+      categories: filters.categories,
+   });
 
    const count = sum(map(pages, (p) => p.numberOfElements));
-
-   console.log(pages);
 
    const promptItemsHeader = () => {
       return (
@@ -99,52 +98,11 @@ export const PromptsList: FC<PromptsListProps> = ({
    };
 
    const promptFilters = () => {
-      return (
-         <div
-            className="bg-white rounded-lg p-4 border border-slate-200 shadow-sm"
-            data-testid="prompts-list-filters"
-         >
-            <div className="relative mb-4">
-               <Search className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
-               <input
-                  type="text"
-                  placeholder="Search prompts"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-               />
-            </div>
-
-            <div className="space-y-2">
-               <label className="flex items-center text-sm text-slate-600 mb-2 font-medium">
-                  <Filter className="w-4 h-4 mr-2" />
-                  Filter by Category
-               </label>
-               <select
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-               >
-                  <option value="all">All Categories</option>
-                  {categories.map((cat) => (
-                     <option key={cat} value={cat}>
-                        {cat}
-                     </option>
-                  ))}
-               </select>
-            </div>
-         </div>
-      );
+      return <PromptFilters onFiltersUpdate={setFilters} />;
    };
 
    return (
       <div className="lg:col-span-1 space-y-4" data-testid="prompts-list">
-         <PromptFilters
-            search={search}
-            setSearch={setSearch}
-            categories={categories}
-            setCategories={setCategories}
-         />
          {promptFilters()}
          {promptItemsList()}
       </div>

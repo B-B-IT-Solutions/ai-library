@@ -22,9 +22,7 @@ exports[`PromptListItem rendering tests PromptListItem - isSelected false - rend
         >
           <span
             class="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded border border-slate-200"
-          >
-            category 1
-          </span>
+          />
         </div>
         <div
           class="text-xs text-slate-500 flex items-center gap-3"
@@ -121,9 +119,7 @@ exports[`PromptListItem rendering tests PromptListItem - isSelected true - rende
         >
           <span
             class="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded border border-slate-200"
-          >
-            category 1
-          </span>
+          />
         </div>
         <div
           class="text-xs text-slate-500 flex items-center gap-3"

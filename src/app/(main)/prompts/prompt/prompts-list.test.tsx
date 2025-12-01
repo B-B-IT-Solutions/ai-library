@@ -3,9 +3,16 @@ jest.mock("@/data/actions/prompt/prompt.actions");
 import { screen, waitFor } from "@testing-library/react";
 import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
 
-import { getPrompts } from "@/data/actions/prompt/prompt.actions";
+import {
+   getPromptCategories,
+   getPrompts,
+} from "@/data/actions/prompt/prompt.actions";
 
 import { PromptsList } from "./prompts-list";
+
+const getPromptCategoriesMock = getPromptCategories as jest.MockedFunction<
+   typeof getPromptCategories
+>;
 
 const getPromptsMock = getPrompts as jest.MockedFunction<typeof getPrompts>;
 
@@ -25,8 +32,10 @@ const assertRendered = () => {
 
 describe("PromptsList rendering tests", () => {
    it("PromptsList rendered test", async () => {
+      const categories = ["category 1", "category 2", "category 3"];
       const page = dtestData.dPromptsPage();
       getPromptsMock.mockResolvedValue(page);
+      getPromptCategoriesMock.mockResolvedValue(categories);
 
       const { container } = renderWithReactQuery(
          <PromptsList
@@ -41,5 +50,7 @@ describe("PromptsList rendering tests", () => {
       });
 
       expect(container).toMatchSnapshot();
+      expect(getPromptsMock).toHaveBeenCalledTimes(1);
+      expect(getPromptCategoriesMock).toHaveBeenCalledTimes(1);
    });
 });

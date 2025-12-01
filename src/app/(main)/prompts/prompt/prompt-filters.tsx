@@ -2,8 +2,15 @@
 
 import { FC, useState } from "react";
 import { cloneDeep } from "es-toolkit";
-import { concat, includes, isEqual, map, remove } from "es-toolkit/compat";
-import { ChevronsUpDown, Search, X } from "lucide-react";
+import {
+   concat,
+   debounce,
+   includes,
+   isEqual,
+   map,
+   remove,
+} from "es-toolkit/compat";
+import { ChevronsUpDown, Filter, Search, X } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
 import {
@@ -22,20 +29,24 @@ import {
 import { useLoadPromptCategories } from "@/data/ts-queries/prompt/prompt";
 import { cn } from "@/lib/utils";
 
-type PromptFiltersProps = {
-   search: string;
-   categories: string[];
-   setSearch: (value: string) => void;
-   setCategories: (value: string[]) => void;
+export type Filters = {
+   search?: string;
+   categories?: string[];
 };
 
-export const PromptFilters: FC<PromptFiltersProps> = ({
-   search,
-   setSearch,
-   categories,
-   setCategories,
-}) => {
+type PromptFiltersProps = {
+   onFiltersUpdate: (filters: Filters) => void;
+};
+
+export const PromptFilters: FC<PromptFiltersProps> = ({ onFiltersUpdate }) => {
+   const [search, setSearch] = useState<string>();
+   const [categories, setCategories] = useState<string[]>([]);
    const [open, setOpen] = useState(false);
+
+   const onSearchUpdateDebounnced = debounce((value: string) => {
+      setSearch(value);
+      onFiltersUpdate({ search: value, categories });
+   }, 300);
 
    const { data: loadedCategories = [] } = useLoadPromptCategories();
 
@@ -44,30 +55,24 @@ export const PromptFilters: FC<PromptFiltersProps> = ({
          const newCats = cloneDeep(categories);
          remove(newCats, (prev) => isEqual(prev, value));
          setCategories(newCats);
+         onFiltersUpdate({ search, categories: newCats });
       } else {
          const newCats = concat(categories, value);
          setCategories(newCats);
+         onFiltersUpdate({ search, categories: newCats });
       }
    };
 
-   // const handleSearch = (value: string) => {
-   //    debounce(() => {
-   //       console.log("called");
-   //       setSearch(value);
-   //    }, 300);
-   // };
-
    const searchInput = () => {
       return (
-         <div className="relative" data-testid="search-input">
+         <div className="relative mb-4" data-testid="search-input">
             <Search className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
             <Input
                id="search-prompts"
                type="text"
                placeholder="Search prompts"
-               value={search}
-               onChange={(e) => setSearch(e.target.value)}
-               className="w-full min-h-10 pl-10 pr-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+               onChange={(e) => onSearchUpdateDebounnced(e.target.value)}
+               className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
          </div>
       );
@@ -77,38 +82,44 @@ export const PromptFilters: FC<PromptFiltersProps> = ({
       return (
          <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild={true} data-testid="categories-combo-box">
-               <div
-                  className={cn(
-                     "w-full min-h-10 cursor-pointer rounded-md border border-input bg-background px-2 py-1",
-                     "flex items-center flex-wrap gap-2"
-                  )}
-                  onClick={() => setOpen(true)}
-               >
-                  {categories.length === 0 && (
-                     <span className="text-muted-foreground text-sm"></span>
-                  )}
+               <div>
+                  <label className="flex items-center text-sm text-slate-600 mb-2 font-medium">
+                     <Filter className="w-4 h-4 mr-2" />
+                     Filter by Category
+                  </label>
+                  <div
+                     className={cn(
+                        "w-full min-h-10 cursor-pointer rounded-md border border-input bg-background px-2 py-1",
+                        "flex items-center flex-wrap gap-2"
+                     )}
+                     onClick={() => setOpen(true)}
+                  >
+                     {categories.length === 0 && (
+                        <span className="text-muted-foreground text-sm"></span>
+                     )}
 
-                  {map(categories, (cat) => {
-                     return (
-                        <Badge
-                           key={cat}
-                           variant="secondary"
-                           className="flex items-center gap-1"
-                        >
-                           {cat}
-                           <X
-                              size={12}
-                              className="cursor-pointer"
-                              onClick={(e) => {
-                                 e.stopPropagation();
-                                 toggleOption(cat);
-                              }}
-                           />
-                        </Badge>
-                     );
-                  })}
+                     {map(categories, (cat) => {
+                        return (
+                           <Badge
+                              key={cat}
+                              variant="secondary"
+                              className="flex items-center gap-1"
+                           >
+                              {cat}
+                              <X
+                                 size={12}
+                                 className="cursor-pointer"
+                                 onClick={(e) => {
+                                    e.stopPropagation();
+                                    toggleOption(cat);
+                                 }}
+                              />
+                           </Badge>
+                        );
+                     })}
 
-                  <ChevronsUpDown className="ml-auto h-4 w-4 opacity-50" />
+                     <ChevronsUpDown className="ml-auto h-4 w-4 opacity-50" />
+                  </div>
                </div>
             </PopoverTrigger>
             <PopoverContent className="w-72 p-0">
