@@ -2,27 +2,25 @@ import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 
-import FavoritesPage, { metadata } from "./page";
+import PromptPage, { metadata } from "./page";
 
 export const expectedMetadata: Metadata = {
-   title: "Favorites",
+   title: "Prompt",
 };
 
 const assertRendered = () => {
-   const page = screen.getByTestId("favorites-page");
-   const favorites = screen.getByTestId("favorites");
+   const page = screen.getByTestId("prompt-page");
 
    assertInDocument(page);
-   assertInDocument(favorites);
 };
 
-describe("FavoritesPage rendering tests", () => {
+describe("PromptPage rendering tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
    });
 
-   it("FavoritesPage rendered test", async () => {
-      const { container } = await renderAsyncRSC(FavoritesPage);
+   it("PromptPage rendered test", async () => {
+      const { container } = await renderAsyncRSC(PromptPage);
 
       await waitFor(() => {
          assertRendered();
@@ -32,8 +30,8 @@ describe("FavoritesPage rendering tests", () => {
    });
 });
 
-describe("FavoritesPage functionality tests", () => {
-   it("FavoritesPage - metadata - test", async () => {
+describe("PromptPage functionality tests", () => {
+   it("PromptPage - metadata - test", async () => {
       expect(metadata).toEqual(expectedMetadata);
    });
 });
