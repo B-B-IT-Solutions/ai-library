@@ -1,6 +1,7 @@
 "use server";
 
 import { map } from "es-toolkit/compat";
+import { validate as isValidUuid } from "uuid";
 
 import {
    createPrompt as pCreatePrompt,
@@ -31,9 +32,11 @@ export const getPrompts = async (
 };
 
 export const getPrompt = async (id: string): Promise<DPrompt | undefined> => {
-   const data = await pGetPrompt({ id });
-   if (data) {
-      return toDPrompt(data);
+   if (isValidUuid(id)) {
+      const data = await pGetPrompt({ id });
+      if (data) {
+         return toDPrompt(data);
+      }
    }
    return undefined;
 };

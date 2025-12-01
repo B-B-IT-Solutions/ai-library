@@ -94,10 +94,20 @@ describe("getPrompt tests", () => {
       jest.resetAllMocks();
    });
 
+   it("getPrompt  - id invalid - test", async () => {
+      pGetPromptMock.mockResolvedValue(null);
+
+      const id = "new";
+      const result = await getPrompt(id);
+
+      expect(result).toBeUndefined();
+      expect(pGetPromptMock).not.toHaveBeenCalled();
+   });
+
    it("getPrompt  - promt undefined - test", async () => {
       pGetPromptMock.mockResolvedValue(null);
 
-      const id = "product-1";
+      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const result = await getPrompt(id);
 
       expect(result).toBeUndefined();
@@ -109,7 +119,7 @@ describe("getPrompt tests", () => {
       const prompt = ptestData.pPromptWithCategories();
       pGetPromptMock.mockResolvedValue(prompt);
 
-      const id = "product-1";
+      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const result = await getPrompt(id);
       const expectedResult = toDPrompt(prompt);
 
