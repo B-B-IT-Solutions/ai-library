@@ -5,6 +5,7 @@ import {
 } from "@tanstack/react-query";
 
 import {
+   preloadPromptCategoriesOptions,
    preloadPromptsOptions,
    preloadPromptTemplateCategoriesOptions,
    preloadPromptTemplatesOptions,
@@ -19,6 +20,7 @@ export const metadata = {
 const PromptsPage = async () => {
    const queryClient = new QueryClient();
    await queryClient.prefetchQuery(preloadPromptsOptions());
+   await queryClient.prefetchQuery(preloadPromptCategoriesOptions());
    await queryClient.prefetchQuery(preloadPromptTemplatesOptions());
    await queryClient.prefetchQuery(preloadPromptTemplateCategoriesOptions());
 

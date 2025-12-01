@@ -2,6 +2,8 @@ jest.mock("@/data/actions/prompt/prompt.actions");
 
 import {
    InfiniteData,
+   QueryFunction,
+   QueryFunctionContext,
    QueryKey,
    UndefinedInitialDataInfiniteOptions,
    UndefinedInitialDataOptions,
@@ -18,6 +20,8 @@ import { DPromptsPage, DPromptsPageQuery } from "@/data/types/domain/prompt";
 import {
    infiniteLoadPromptsOptions,
    loadPromptCategoriesOptions,
+   preloadPromptCategoriesOptions,
+   preloadPromptsOptions,
    useInfiniteLoadPrompts,
    useLoadPromptCategories,
 } from "./prompt";
@@ -27,6 +31,58 @@ const getPromptsMock = getPrompts as jest.MockedFunction<typeof getPrompts>;
 const getPromptCategoriesMock = getPromptCategories as jest.MockedFunction<
    typeof getPromptCategories
 >;
+
+describe("prefetch options tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   test("preloadPromptsOptions  - test", async () => {
+      const page = dtestData.dPromptsPage();
+      getPromptsMock.mockResolvedValue(page);
+
+      const expectedOptions: UndefinedInitialDataOptions<
+         string[],
+         Error,
+         string[]
+      > = {
+         queryKey: ["prompts", {}],
+         queryFn: jest.fn(),
+      };
+
+      const options = preloadPromptsOptions();
+      const queryFn = options.queryFn as QueryFunction<DPromptsPage>;
+      const context = {} as QueryFunctionContext;
+      const fnResult = await queryFn(context);
+
+      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
+      expect(getPromptsMock).toHaveBeenCalledTimes(1);
+      expect(fnResult).toEqual(page);
+   });
+
+   test("preloadPromptCategoriesOptions  test", async () => {
+      const categories = ["category 1", "category 2", "category 3"];
+      getPromptCategoriesMock.mockResolvedValue(categories);
+
+      const expectedOptions: UndefinedInitialDataOptions<
+         string[],
+         Error,
+         string[]
+      > = {
+         queryKey: ["prompt-categories"],
+         queryFn: jest.fn(),
+      };
+
+      const options = preloadPromptCategoriesOptions();
+      const queryFn = options.queryFn as QueryFunction<string[]>;
+      const context = {} as QueryFunctionContext;
+      const fnResult = await queryFn(context);
+
+      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
+      expect(getPromptCategoriesMock).toHaveBeenCalledTimes(1);
+      expect(fnResult).toEqual(categories);
+   });
+});
 
 describe("loadPrompts hooks tests", () => {
    test("infiniteLoadPromptsOptions - test", async () => {

@@ -3,8 +3,9 @@ jest.mock("@/data/actions/prompt/prompt.template.actions");
 jest.mock("@/data/ts-queries/prompt", () => ({
    ...jest.requireActual("@/data/ts-queries/prompt"),
    preloadPromptsOptions: jest.fn(),
-   preloadPromptTemplateCategoriesOptions: jest.fn(),
+   preloadPromptCategoriesOptions: jest.fn(),
    preloadPromptTemplatesOptions: jest.fn(),
+   preloadPromptTemplateCategoriesOptions: jest.fn(),
 }));
 
 import { screen, waitFor } from "@testing-library/dom";
@@ -21,6 +22,7 @@ import {
    getPromptTemplates,
 } from "@/data/actions/prompt/prompt.template.actions";
 import {
+   preloadPromptCategoriesOptions,
    preloadPromptsOptions,
    preloadPromptTemplateCategoriesOptions,
    preloadPromptTemplatesOptions,
@@ -29,6 +31,10 @@ import {
 import PromptsPage, { metadata } from "./page";
 
 const getPromptsMock = getPrompts as jest.MockedFunction<typeof getPrompts>;
+const preloadPromptCategoriesOptionsMock =
+   preloadPromptCategoriesOptions as jest.MockedFunction<
+      typeof preloadPromptCategoriesOptions
+   >;
 const getPromptCategoriesMock = getPromptCategories as jest.MockedFunction<
    typeof getPromptCategories
 >;
@@ -87,6 +93,9 @@ describe("PromptsPage rendering tests", () => {
       getPromptTemplatesMock.mockResolvedValue(templates);
       getPromptTemplateCategoriesMock.mockResolvedValue(templateCategories);
       preloadPromptsOptionsMock.mockReturnValue({ queryKey: ["prompts"] });
+      preloadPromptCategoriesOptionsMock.mockReturnValue({
+         queryKey: ["prompt-categories"],
+      });
       preloadPromptTemplatesOptionsMock.mockReturnValue({
          queryKey: ["prompts-templates"],
       });

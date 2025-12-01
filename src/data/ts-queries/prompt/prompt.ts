@@ -42,6 +42,19 @@ export const preloadPromptsOptions = (
    };
 };
 
+export const preloadPromptCategoriesOptions = (): FetchQueryOptions<
+   string[],
+   Error,
+   string[]
+> => {
+   return {
+      queryKey: promptCategoriesKeys.categories(),
+      queryFn: async () => {
+         return await getPromptCategories();
+      },
+   };
+};
+
 export const infiniteLoadPromptsOptions = (
    props: LoadPromptsParams
 ): UndefinedInitialDataInfiniteOptions<
