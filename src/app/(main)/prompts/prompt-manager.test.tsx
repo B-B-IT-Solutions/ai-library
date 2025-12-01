@@ -1,7 +1,7 @@
 import { screen, waitFor } from "@testing-library/react";
 import { assertInDocument, renderWithReactQuery } from "@tests";
 
-import { PromptManager } from "./prompt-manager";
+import { PromptManager } from "./prompt-manager_";
 
 const assertRendered = () => {
    const promptManager = screen.getByTestId("prompt-manager");

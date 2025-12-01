@@ -3,7 +3,7 @@
 exports[`PromptManager rendering tests PromptManager rendered test 1`] = `
 <div>
   <div
-    class="min-h-screen rounded-lg bg-slate-50 text-slate-900 flex"
+    class="h-full rounded-lg bg-slate-50 text-slate-900 flex"
     data-testid="prompt-manager"
   >
     <div
@@ -41,7 +41,7 @@ exports[`PromptManager rendering tests PromptManager rendered test 1`] = `
             No Prompt Selected
           </h3>
           <p>
-            Select a prompt from the list or create a new one to get started
+            Select a prompt from the list or create a new one
           </p>
         </div>
         <button

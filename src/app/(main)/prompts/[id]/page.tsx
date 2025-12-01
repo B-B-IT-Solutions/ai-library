@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { getPrompt } from "@/data/actions/prompt/prompt.actions";
-import { PromptManager } from "../prompt-manager";
+import { PromptManager } from "../prompt-manager_";
 
 export const metadata = {
    title: "Prompt",

@@ -13,7 +13,10 @@ export const Sidebar = () => {
    };
 
    return (
-      <div className="w-64 bg-white border-r border-slate-200 flex flex-col">
+      <div
+         className="h-full w-64 bg-white border-r border-slate-200 flex flex-col"
+         data-testid="sidebar"
+      >
          <div className="p-6 border-b border-slate-200">
             <h1 className="text-2xl font-bold text-slate-900">
                Prompt Manager

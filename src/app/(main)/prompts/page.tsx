@@ -27,7 +27,7 @@ const PromptsPage = async () => {
 
    return (
       <div
-         className="min-h-screen w-full text-slate-900 flex flex-col"
+         className="h-full w-full text-slate-900 flex flex-col"
          data-testid="prompts-page"
       >
          <div className="flex-1">

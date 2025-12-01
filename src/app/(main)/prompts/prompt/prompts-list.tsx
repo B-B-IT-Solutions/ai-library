@@ -30,7 +30,7 @@ export const PromptsList: FC = () => {
    const promptItemsHeader = () => {
       return (
          <div
-            className="p-4 rounded-lg border-b border-slate-200 flex justify-between items-center bg-slate-50"
+            className="p-4 rounded-t-lg border-b border-slate-200 flex justify-between items-center bg-slate-50"
             data-testid="prompts-list-header"
          >
             <h2 className="font-semibold text-slate-900">Prompts ({count})</h2>

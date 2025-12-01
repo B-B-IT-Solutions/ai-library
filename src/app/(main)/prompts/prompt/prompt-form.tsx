@@ -58,7 +58,7 @@ const AI_MODELS = [
 ];
 
 type PromptFomProps = {
-   prompt: DPrompt | null;
+   prompt?: DPrompt;
 };
 
 export const PromptFom: FC<PromptFomProps> = ({ prompt }) => {

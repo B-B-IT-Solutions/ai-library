@@ -6,7 +6,7 @@ exports[`PromptPage rendering tests PromptPage - prompt found -rendered test 1`]
     data-testid="prompt-page"
   >
     <div
-      class="min-h-screen rounded-lg bg-slate-50 text-slate-900 flex"
+      class="h-full rounded-lg bg-slate-50 text-slate-900 flex"
       data-testid="prompt-manager"
     >
       <div
