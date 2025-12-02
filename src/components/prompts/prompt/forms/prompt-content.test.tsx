@@ -4,6 +4,9 @@ import { assertInDocument, dtestData } from "@tests";
 
 import { PromptContent } from "./prompt-content";
 
+const errorFn = jest.fn();
+const consoleErrorOriginal = console.error;
+
 const assertRendered = () => {
    const content = screen.getByTestId("prompt-content");
    assertInDocument(content);
@@ -69,6 +72,15 @@ describe("PromptContent rendering tests", () => {
 });
 
 describe("PromptContent functionality tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+      console.error = errorFn;
+   });
+
+   afterEach(() => {
+      console.error = consoleErrorOriginal;
+   });
+
    it("PromptContent - expand btn clicked - test", async () => {
       const prompt = dtestData.dPrompt();
 
@@ -114,5 +126,36 @@ describe("PromptContent functionality tests", () => {
       await waitFor(() => {
          assertCopyIcon();
       }, options);
+   });
+   it("PromptContent - clipboard copy error - test", async () => {
+      const writeTextMock = navigator.clipboard
+         .writeText as jest.MockedFunction<
+         typeof navigator.clipboard.writeText
+      >;
+      writeTextMock.mockRejectedValue("error 1");
+
+      const prompt = dtestData.dPrompt();
+      render(<PromptContent prompt={prompt} />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertCopyIcon();
+         expect(errorFn).not.toHaveBeenCalled();
+         expect(navigator.clipboard.writeText).not.toHaveBeenCalled();
+      });
+
+      await waitFor(() => {
+         const copyBtn = screen.getByTestId("copy-btn");
+         userEvent.click(copyBtn);
+      });
+
+      await waitFor(() => {
+         assertCopyIcon();
+         expect(errorFn).toHaveBeenCalledTimes(1);
+         expect(navigator.clipboard.writeText).toHaveBeenCalledTimes(1);
+         expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
+            prompt.content
+         );
+      });
    });
 });
