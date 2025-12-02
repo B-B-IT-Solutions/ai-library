@@ -57,7 +57,7 @@ Object.assign(global, {
 
 Object.assign(navigator, {
    clipboard: {
-      writeText: jest.fn(),
+      writeText: jest.fn().mockResolvedValue(undefined),
    },
 });
 

@@ -12,17 +12,19 @@ type PromptContentProps = {
 
 export const PromptContent: FC<PromptContentProps> = ({ prompt }) => {
    const [expanded, setExpanded] = useState(false);
-   const [copiedItem, setCopiedItem] = useState<string | null>(null);
+   const [copied, setCopied] = useState(false);
 
    const toggleExpanded = () => {
       setExpanded((prev) => !prev);
    };
 
-   const copyToClipboard = async (text: string, itemId: string) => {
+   console.log(copied);
+
+   const copyToClipboard = async () => {
       try {
-         await navigator.clipboard.writeText(text);
-         setCopiedItem(itemId);
-         setTimeout(() => setCopiedItem(null), 2000);
+         await navigator.clipboard.writeText(prompt.content);
+         setCopied(true);
+         setTimeout(() => setCopied(false), 2000);
       } catch (error) {
          console.error("Failed to copy:", error);
       }
@@ -42,16 +44,22 @@ export const PromptContent: FC<PromptContentProps> = ({ prompt }) => {
                <Button
                   onClick={(e) => {
                      e.stopPropagation();
-                     copyToClipboard(prompt.content, "current-prompt");
+                     copyToClipboard();
                   }}
                   className="p-2 bg-slate-50 hover:bg-slate-200 rounded transition-colors"
                   title="Copy to clipboard"
                   data-testid="copy-btn"
                >
-                  {copiedItem === "current-prompt" ? (
-                     <Check className="w-4 h-4 text-green-600" />
+                  {copied ? (
+                     <Check
+                        className="w-4 h-4 text-green-600"
+                        data-testid="check-icon"
+                     />
                   ) : (
-                     <Copy className="w-4 h-4 text-slate-600" />
+                     <Copy
+                        className="w-4 h-4 text-slate-600"
+                        data-testid="copy-icon"
+                     />
                   )}
                </Button>
                {expanded ? (

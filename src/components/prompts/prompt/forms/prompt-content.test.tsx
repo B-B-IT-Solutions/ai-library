@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData } from "@tests";
 
@@ -19,6 +19,16 @@ const assertNotExpanded = () => {
    assertInDocument(chevron);
 };
 
+const assertCopyIcon = () => {
+   const copy = screen.getByTestId("copy-icon");
+   assertInDocument(copy);
+};
+
+const assertCheckIcon = () => {
+   const check = screen.getByTestId("check-icon");
+   assertInDocument(check);
+};
+
 describe("PromptContent rendering tests", () => {
    it("PromptContent - expanded false - rendered test", async () => {
       const prompt = dtestData.dPrompt();
@@ -28,6 +38,7 @@ describe("PromptContent rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertNotExpanded();
+         assertCopyIcon();
       });
 
       expect(container).toMatchSnapshot();
@@ -41,6 +52,7 @@ describe("PromptContent rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertNotExpanded();
+         assertCopyIcon();
       });
 
       expect(container).toMatchSnapshot();
@@ -89,17 +101,30 @@ describe("PromptContent functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertCopyIcon();
          expect(navigator.clipboard.writeText).not.toHaveBeenCalled();
       });
 
-      const copyBtn = screen.getByTestId("copy-btn");
-      userEvent.click(copyBtn);
-
-      // await jest.advanceTimersByTime(3000);
+      await waitFor(() => {
+         const copyBtn = screen.getByTestId("copy-btn");
+         userEvent.click(copyBtn);
+      });
 
       await waitFor(() => {
          assertRendered();
+         assertCheckIcon();
+      });
+
+      // act(() => {
+      //    jest.advanceTimersByTime(2000);
+      // });
+
+      await waitFor(() => {
+         // assertCopyIcon();
          expect(navigator.clipboard.writeText).toHaveBeenCalledTimes(1);
+         expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
+            prompt.content
+         );
       });
    });
 });
