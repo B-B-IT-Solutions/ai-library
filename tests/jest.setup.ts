@@ -55,6 +55,12 @@ Object.assign(global, {
    })),
 });
 
+Object.assign(navigator, {
+   clipboard: {
+      writeText: jest.fn(),
+   },
+});
+
 class ResizeObserver {
    observe() {}
    unobserve() {}

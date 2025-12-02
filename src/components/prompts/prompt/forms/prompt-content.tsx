@@ -15,7 +15,7 @@ export const PromptContent: FC<PromptContentProps> = ({ prompt }) => {
    const [copiedItem, setCopiedItem] = useState<string | null>(null);
 
    const toggleExpanded = () => {
-      return setExpanded((prev) => !prev);
+      setExpanded((prev) => !prev);
    };
 
    const copyToClipboard = async (text: string, itemId: string) => {
@@ -29,10 +29,11 @@ export const PromptContent: FC<PromptContentProps> = ({ prompt }) => {
    };
 
    return (
-      <div className="mb-6" data-testid="prompt-content">
+      <div data-testid="prompt-content">
          <div
             onClick={toggleExpanded}
             className="w-full flex items-center justify-between p-4 bg-slate-50 rounded-lg border border-slate-200 hover:bg-slate-100 transition-colors"
+            data-testid="expand-toggle"
          >
             <span className="font-semibold text-slate-900 flex items-center gap-2">
                Current Prompt Content
@@ -43,8 +44,9 @@ export const PromptContent: FC<PromptContentProps> = ({ prompt }) => {
                      e.stopPropagation();
                      copyToClipboard(prompt.content, "current-prompt");
                   }}
-                  className="p-2 hover:bg-slate-200 rounded transition-colors"
+                  className="p-2 bg-slate-50 hover:bg-slate-200 rounded transition-colors"
                   title="Copy to clipboard"
+                  data-testid="copy-btn"
                >
                   {copiedItem === "current-prompt" ? (
                      <Check className="w-4 h-4 text-green-600" />
@@ -53,9 +55,15 @@ export const PromptContent: FC<PromptContentProps> = ({ prompt }) => {
                   )}
                </Button>
                {expanded ? (
-                  <ChevronDown className="w-5 h-5 text-slate-600" />
+                  <ChevronDown
+                     className="w-5 h-5 text-slate-600"
+                     data-testid="chevron-down"
+                  />
                ) : (
-                  <ChevronRight className="w-5 h-5 text-slate-600" />
+                  <ChevronRight
+                     className="w-5 h-5 text-slate-600"
+                     data-testid="chevron-right"
+                  />
                )}
             </div>
          </div>

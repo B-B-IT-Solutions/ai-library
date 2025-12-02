@@ -5,4 +5,4 @@ export { PromptFilters } from "./prompts-filter";
 export { PromptsList } from "./prompts-list";
 export { PromptView } from "./prompt-view";
 export { PromptCreateEdit } from "./prompt-create-edit";
-export { PromptFomView } from "./forms/prompt-form-view";
+export { PromptFormView } from "./forms/prompt-form-view";

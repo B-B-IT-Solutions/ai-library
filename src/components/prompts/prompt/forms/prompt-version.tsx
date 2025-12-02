@@ -19,7 +19,7 @@ export const PromptVersion: FC<PromptVersionProps> = ({
    const [expanded, setExpanded] = useState(false);
 
    const toggleExpanded = () => {
-      return setExpanded((prev) => !prev);
+      setExpanded((prev) => !prev);
    };
 
    return (
@@ -35,9 +35,15 @@ export const PromptVersion: FC<PromptVersionProps> = ({
             >
                <div className="flex items-center gap-3">
                   {expanded ? (
-                     <ChevronDown className="w-4 h-4 text-slate-600" />
+                     <ChevronDown
+                        className="w-4 h-4 text-slate-600"
+                        data-testid="chevron-down"
+                     />
                   ) : (
-                     <ChevronRight className="w-4 h-4 text-slate-600" />
+                     <ChevronRight
+                        className="w-4 h-4 text-slate-600"
+                        data-testid="chevron-right"
+                     />
                   )}
                   <span className="font-medium text-slate-900">
                      Version {version.version}

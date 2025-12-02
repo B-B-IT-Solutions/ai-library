@@ -1,42 +1,21 @@
-"use client";
-
-import { FC, useState } from "react";
+import { FC } from "react";
 import { map } from "es-toolkit/compat";
-import {
-   Check,
-   ChevronDown,
-   ChevronRight,
-   Copy,
-   Edit2,
-   Tag,
-} from "lucide-react";
+import { Edit2, Tag } from "lucide-react";
 
 import { DPrompt } from "@/data/types/domain/prompt";
 import { formatDateTime } from "@/lib/utils";
 
+import { PromptContent } from "./prompt-content";
 import { PromptVersions } from "./prompt-versions";
 
 type PromptFomProps = {
    prompt: DPrompt;
 };
 
-export const PromptFomView: FC<PromptFomProps> = ({ prompt }) => {
-   const [conentExpanded, setContentExpanded] = useState(false);
-   const [copiedItem, setCopiedItem] = useState<string | null>(null);
-
-   const copyToClipboard = async (text: string, itemId: string) => {
-      try {
-         await navigator.clipboard.writeText(text);
-         setCopiedItem(itemId);
-         setTimeout(() => setCopiedItem(null), 2000);
-      } catch (error) {
-         console.error("Failed to copy:", error);
-      }
-   };
-
+export const PromptFormView: FC<PromptFomProps> = ({ prompt }) => {
    const viewForm = () => {
       return (
-         <div className="bg-white rounded-lg p-6 border border-slate-200 shadow-sm">
+         <div className="space-y-6 bg-white rounded-lg p-6 border border-slate-200 shadow-sm">
             <div className="flex justify-between items-start mb-6">
                <div>
                   <h2 className="text-2xl font-bold mb-2 text-slate-900">
@@ -83,48 +62,7 @@ export const PromptFomView: FC<PromptFomProps> = ({ prompt }) => {
                   Edit
                </button>
             </div>
-
-            {/* Current Prompt Content - Foldable */}
-            <div className="mb-6">
-               <div
-                  onClick={() => setContentExpanded(!conentExpanded)}
-                  className="w-full flex items-center justify-between p-4 bg-slate-50 rounded-lg border border-slate-200 hover:bg-slate-100 transition-colors"
-               >
-                  <span className="font-semibold text-slate-900 flex items-center gap-2">
-                     Current Prompt Content
-                  </span>
-                  <div className="flex items-center gap-2">
-                     <button
-                        onClick={(e) => {
-                           e.stopPropagation();
-                           copyToClipboard(prompt.content, "current-prompt");
-                        }}
-                        className="p-2 hover:bg-slate-200 rounded transition-colors"
-                        title="Copy to clipboard"
-                     >
-                        {copiedItem === "current-prompt" ? (
-                           <Check className="w-4 h-4 text-green-600" />
-                        ) : (
-                           <Copy className="w-4 h-4 text-slate-600" />
-                        )}
-                     </button>
-                     {conentExpanded ? (
-                        <ChevronDown className="w-5 h-5 text-slate-600" />
-                     ) : (
-                        <ChevronRight className="w-5 h-5 text-slate-600" />
-                     )}
-                  </div>
-               </div>
-
-               {conentExpanded && (
-                  <div className="mt-2 p-4 bg-white border border-slate-200 rounded-lg">
-                     <pre className="whitespace-pre-wrap text-sm text-slate-700 font-mono">
-                        {prompt.content}
-                     </pre>
-                  </div>
-               )}
-            </div>
-
+            <PromptContent prompt={prompt} />
             <PromptVersions prompt={prompt} />
          </div>
       );

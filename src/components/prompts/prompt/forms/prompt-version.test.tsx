@@ -9,11 +9,17 @@ const assertRendered = () => {
    assertInDocument(version);
 };
 
-describe("PromptVersion rendering tests", () => {
-   beforeEach(() => {
-      jest.resetAllMocks();
-   });
+const assertExpanded = () => {
+   const chevron = screen.getByTestId("chevron-down");
+   assertInDocument(chevron);
+};
 
+const assertNotExpanded = () => {
+   const chevron = screen.getByTestId("chevron-right");
+   assertInDocument(chevron);
+};
+
+describe("PromptVersion rendering tests", () => {
    it("PromptVersion - isCurrent false - rendered test", async () => {
       const version = dtestData.dPromptVersion();
 
@@ -23,6 +29,7 @@ describe("PromptVersion rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertNotExpanded();
       });
 
       expect(container).toMatchSnapshot();
@@ -37,6 +44,7 @@ describe("PromptVersion rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertNotExpanded();
       });
 
       expect(container).toMatchSnapshot();
@@ -51,13 +59,14 @@ describe("PromptVersion functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertNotExpanded();
       });
 
       const expandBtn = screen.getByTestId("expand-btn");
       userEvent.click(expandBtn);
 
       await waitFor(() => {
-         assertRendered();
+         assertExpanded();
       });
    });
 });

@@ -19,6 +19,7 @@ exports[`PromptVersion rendering tests PromptVersion - isCurrent false - rendere
           <svg
             aria-hidden="true"
             class="lucide lucide-chevron-right w-4 h-4 text-slate-600"
+            data-testid="chevron-right"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -70,6 +71,7 @@ exports[`PromptVersion rendering tests PromptVersion - isCurrent true - rendered
           <svg
             aria-hidden="true"
             class="lucide lucide-chevron-right w-4 h-4 text-slate-600"
+            data-testid="chevron-right"
             fill="none"
             height="24"
             stroke="currentColor"
