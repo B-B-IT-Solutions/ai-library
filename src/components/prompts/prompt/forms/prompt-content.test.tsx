@@ -1,4 +1,4 @@
-import { act, render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData } from "@tests";
 
@@ -69,14 +69,6 @@ describe("PromptContent rendering tests", () => {
 });
 
 describe("PromptContent functionality tests", () => {
-   // beforeEach(() => {
-   //    jest.useFakeTimers();
-   // });
-
-   // afterEach(() => {
-   //    jest.useRealTimers();
-   // });
-
    it("PromptContent - expand btn clicked - test", async () => {
       const prompt = dtestData.dPrompt();
 
@@ -111,20 +103,16 @@ describe("PromptContent functionality tests", () => {
       });
 
       await waitFor(() => {
-         assertRendered();
          assertCheckIcon();
-      });
-
-      // act(() => {
-      //    jest.advanceTimersByTime(2000);
-      // });
-
-      await waitFor(() => {
-         // assertCopyIcon();
          expect(navigator.clipboard.writeText).toHaveBeenCalledTimes(1);
          expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
             prompt.content
          );
       });
+
+      const options = { timeout: 3000 };
+      await waitFor(() => {
+         assertCopyIcon();
+      }, options);
    });
 });

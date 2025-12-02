@@ -18,8 +18,6 @@ export const PromptContent: FC<PromptContentProps> = ({ prompt }) => {
       setExpanded((prev) => !prev);
    };
 
-   console.log(copied);
-
    const copyToClipboard = async () => {
       try {
          await navigator.clipboard.writeText(prompt.content);
