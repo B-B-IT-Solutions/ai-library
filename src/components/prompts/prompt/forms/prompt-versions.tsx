@@ -17,7 +17,7 @@ export const PromptVersions: FC<PromptVersionsProps> = ({ prompt }) => {
             Version History ({prompt.versions.length})
          </h3>
          {map(versions, (version, idx) => (
-            <PromptVersion version={version} isCurrent={idx === 0} />
+            <PromptVersion version={version} isCurrent={idx === 0} key={idx} />
          ))}
       </div>
    );

@@ -44,10 +44,10 @@ describe("PromptVersion rendering tests", () => {
 });
 
 describe("PromptVersion functionality tests", () => {
-   it("PromptVersion - expand btn toggled - test", async () => {
+   it("PromptVersion - expand btn clicked - test", async () => {
       const version = dtestData.dPromptVersion();
 
-      <PromptVersion version={version} isCurrent={false} />;
+      render(<PromptVersion version={version} isCurrent={true} />);
 
       await waitFor(() => {
          assertRendered();
