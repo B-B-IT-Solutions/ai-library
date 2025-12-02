@@ -7,8 +7,10 @@ import { PromptsPage, PromptsPageQuery } from "@/data/types/db/prompt";
 import { DPromptsPage } from "@/data/types/domain/prompt";
 import { Prisma } from "@/generated/prisma/client";
 import {
+   PromptAggregateArgs,
    PromptCategoryFindManyArgs,
    PromptCountArgs,
+   PromptFindFirstArgs,
    PromptFindManyArgs,
    PromptWhereInput,
 } from "@/generated/prisma/models";
@@ -16,7 +18,9 @@ import prisma from "../prisma";
 
 import {
    createPrompt,
+   getPrompt,
    getPromptCategories,
+   GetPromptQuery,
    getPrompts,
    updatePrompt,
 } from "./prompt";
@@ -296,6 +300,52 @@ describe("getPrompts tests", () => {
       );
       expect(prismaMock.prompt.count).toHaveBeenCalledTimes(1);
       expect(prismaMock.prompt.count).toHaveBeenCalledWith(expedtedCountArgs);
+   });
+});
+
+describe("getPrompt tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("getPrompt - id defiend - slug undefined - test", async () => {
+      const prompt = ptestData.pPromptWithCategories();
+      prismaMock.prompt.findFirst.mockResolvedValue(prompt);
+
+      const query: GetPromptQuery = { id: "1" };
+      const result = await getPrompt(query);
+
+      const expectedWhere: PromptFindFirstArgs = {
+         where: {
+            id: query.id,
+         },
+         include: {
+            categories: true,
+         },
+      };
+      expect(result).toEqual(prompt);
+      expect(prismaMock.prompt.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.findFirst).toHaveBeenCalledWith(expectedWhere);
+   });
+
+   test("getPrompt - id undefiend - slug defined - test", async () => {
+      prismaMock.prompt.findFirst.mockResolvedValue(null);
+
+      const query: GetPromptQuery = { id: "1" };
+      const result = await getPrompt(query);
+
+      const expectedWhere: PromptFindFirstArgs = {
+         where: {
+            id: query.id,
+         },
+         include: {
+            categories: true,
+         },
+      };
+
+      expect(result).toBeNull();
+      expect(prismaMock.prompt.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.prompt.findFirst).toHaveBeenCalledWith(expectedWhere);
    });
 });
 

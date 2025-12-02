@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { isEmpty, map } from "es-toolkit/compat";
 
-import { DPromptTemplate } from "@/data/types/domain/prompt";
+import { DPromptTemplate } from "@/data/types/domain/prompt.template";
 
 import { TemplateCard } from "./template-card";
 

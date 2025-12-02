@@ -4,15 +4,13 @@ import {
    QueryClient,
 } from "@tanstack/react-query";
 
+import { PromptsList, PromptView } from "@/components/prompts/prompt";
 import {
    preloadPromptCategoriesOptions,
    preloadPromptsOptions,
    preloadPromptTemplateCategoriesOptions,
    preloadPromptTemplatesOptions,
 } from "@/data/ts-queries/prompt";
-
-import { PromptsList } from "./prompt/prompts-list";
-import { PromptManager } from "./prompt-manager";
 
 export const metadata = {
    title: "Prompts",
@@ -27,7 +25,7 @@ const PromptsPage = async () => {
 
    return (
       <div
-         className="min-h-screen w-full text-slate-900 flex flex-col"
+         className="h-full w-full text-slate-900 flex flex-col"
          data-testid="prompts-page"
       >
          <div className="flex-1">
@@ -45,7 +43,7 @@ const PromptsPage = async () => {
                      <PromptsList />
                   </div>
                   <div className="lg:col-span-2">
-                     <PromptManager />
+                     <PromptView />
                   </div>
                </div>
             </HydrationBoundary>

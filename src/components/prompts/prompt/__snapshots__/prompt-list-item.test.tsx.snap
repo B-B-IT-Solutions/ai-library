@@ -5,7 +5,7 @@ exports[`PromptListItem rendering tests PromptListItem - isSelected false - rend
    
   <a
     data-testid="mock-link"
-    href="/prompt/334db648-f300-4284-8149-075ff465d751"
+    href="/prompts/334db648-f300-4284-8149-075ff465d751"
   >
     <div
       class="p-4 cursor-pointer transition-colors hover:bg-slate-50 "
@@ -108,7 +108,7 @@ exports[`PromptListItem rendering tests PromptListItem - isSelected true - rende
    
   <a
     data-testid="mock-link"
-    href="/prompt/334db648-f300-4284-8149-075ff465d751"
+    href="/prompts/334db648-f300-4284-8149-075ff465d751"
   >
     <div
       class="p-4 cursor-pointer transition-colors hover:bg-slate-50 bg-blue-50 border-l-4 border-l-blue-600"

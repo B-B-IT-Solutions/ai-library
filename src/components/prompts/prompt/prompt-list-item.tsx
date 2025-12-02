@@ -18,7 +18,7 @@ export const PromptListItem: FC<PromptListItemProps> = ({ prompt }) => {
    const [isPending, startTransition] = useTransition();
    const pathname = usePathname();
 
-   const href = `/prompt/${prompt.id}`;
+   const href = `/prompts/${prompt.id}`;
    const isSelected = pathname.startsWith(href);
 
    const toggleFavorite = () => {
@@ -56,7 +56,7 @@ export const PromptListItem: FC<PromptListItemProps> = ({ prompt }) => {
    };
 
    return (
-      <Link href={`/prompt/${prompt.id}`}>
+      <Link href={href}>
          <div
             className={`p-4 cursor-pointer transition-colors hover:bg-slate-50 ${
                isSelected ? "bg-blue-50 border-l-4 border-l-blue-600" : ""

@@ -1,6 +1,10 @@
 import { isEmpty } from "es-toolkit/compat";
 
-import { PromptsPage, PromptsPageQuery } from "@/data/types/db/prompt";
+import {
+   PromptsPage,
+   PromptsPageQuery,
+   PromptWithCategories,
+} from "@/data/types/db/prompt";
 import {
    PromptCreateInput,
    PromptUpdateInput,
@@ -39,6 +43,23 @@ export const getPrompts = async (
       totalElements: count,
       totalPages: Math.ceil(count / pageSize),
    };
+};
+
+export type GetPromptQuery = {
+   id: string;
+};
+
+export const getPrompt = async (
+   query: GetPromptQuery
+): Promise<PromptWithCategories | null> => {
+   const { id } = query;
+   const data = await prisma.prompt.findFirst({
+      where: { id },
+      include: {
+         categories: true,
+      },
+   });
+   return data;
 };
 
 export const getPromptCategories = async () => {

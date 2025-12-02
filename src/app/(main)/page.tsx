@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 
 const MainPage = async () => {
    return (
-      <div className="h-screen flex flex-center" data-testid="main-page">
+      <div className="h-full flex flex-center" data-testid="main-page">
          main page
       </div>
    );

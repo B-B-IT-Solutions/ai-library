@@ -1,0 +1,301 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`PromptManager rendering tests PromptManager rendered test 1`] = `
+<div>
+  <div
+    class="h-full rounded-lg bg-slate-50 text-slate-900 flex"
+    data-testid="prompt-create-edit"
+  >
+    <div
+      class="flex-1 p-6"
+    >
+      <div
+        class="bg-white rounded-lg p-6 border border-slate-200 shadow-sm"
+      >
+        <div
+          class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg"
+          data-testid="template-selector"
+        >
+          <button
+            class="w-full flex items-center justify-between text-left"
+            data-testid="show-templates-btn"
+          >
+            <span
+              class="font-medium text-blue-900"
+            >
+              📋 Start from Template
+            </span>
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-chevron-right w-5 h-5 text-blue-900"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="m9 18 6-6-6-6"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          class="lg:col-span-2"
+          data-testid="prompt-form"
+        >
+          <div
+            class="space-y-4"
+            data-testid="edit-form"
+          >
+            <div>
+              <div
+                class="grid gap-2 w-full"
+                data-slot="form-item"
+              >
+                <label
+                  class="items-center gap-2 select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive block text-sm font-medium mb-1 text-slate-700"
+                  data-error="false"
+                  data-slot="form-label"
+                  for="_r_0_-form-item"
+                >
+                  Title
+                </label>
+                <input
+                  aria-describedby="_r_0_-form-item-description"
+                  aria-invalid="false"
+                  class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                  data-slot="form-control"
+                  id="_r_0_-form-item"
+                  name="title"
+                  placeholder="Enter prompt title..."
+                />
+              </div>
+            </div>
+            <div>
+              <div
+                class="grid gap-2 w-full"
+                data-slot="form-item"
+              >
+                <label
+                  class="items-center gap-2 select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive block text-sm font-medium mb-1 text-slate-700"
+                  data-error="false"
+                  data-slot="form-label"
+                  for="_r_1_-form-item"
+                >
+                  Categories
+                </label>
+                <div
+                  class="space-y-3"
+                />
+                <div
+                  class="flex justify-end"
+                >
+                  <button
+                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 mt-3"
+                    data-slot="button"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-plus h-4 w-4 mr-2"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M5 12h14"
+                      />
+                      <path
+                        d="M12 5v14"
+                      />
+                    </svg>
+                    Add Category
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div
+                class="grid gap-2 w-full"
+                data-slot="form-item"
+              >
+                <label
+                  class="items-center gap-2 select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive block text-sm font-medium mb-1 text-slate-700"
+                  data-error="false"
+                  data-slot="form-label"
+                  for="_r_2_-form-item"
+                >
+                  Recommended AI Model
+                </label>
+                <button
+                  aria-autocomplete="none"
+                  aria-controls="radix-_r_3_"
+                  aria-describedby="_r_2_-form-item-description"
+                  aria-expanded="false"
+                  aria-invalid="false"
+                  class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
+                  data-placeholder=""
+                  data-size="default"
+                  data-slot="form-control"
+                  data-state="closed"
+                  dir="ltr"
+                  id="_r_2_-form-item"
+                  role="combobox"
+                  type="button"
+                >
+                  <span
+                    data-slot="select-value"
+                    style="pointer-events: none;"
+                  >
+                    Select a model
+                  </span>
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-chevron-down size-4 opacity-50"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="m6 9 6 6 6-6"
+                    />
+                  </svg>
+                </button>
+                <div
+                  data-testid="mock-react-portal"
+                />
+              </div>
+            </div>
+            <div>
+              <div
+                class="grid gap-2 w-full"
+                data-slot="form-item"
+              >
+                <label
+                  class="items-center gap-2 select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive block text-sm font-medium mb-1 text-slate-700"
+                  data-error="false"
+                  data-slot="form-label"
+                  for="_r_4_-form-item"
+                >
+                  Prompt Content
+                </label>
+                <textarea
+                  aria-describedby="_r_4_-form-item-description"
+                  aria-invalid="false"
+                  class="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  data-slot="form-control"
+                  id="_r_4_-form-item"
+                  name="content"
+                  placeholder="Enter your prompt content..."
+                  style="min-height: 256px; max-height: 9007199254740991px; height: 6px;"
+                />
+              </div>
+            </div>
+            <div>
+              <div
+                class="grid gap-2 w-full"
+                data-slot="form-item"
+              >
+                <label
+                  class="items-center gap-2 select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive block text-sm font-medium mb-1 text-slate-700"
+                  data-error="false"
+                  data-slot="form-label"
+                  for="_r_5_-form-item"
+                >
+                  Follow-up Prompts
+                </label>
+                <p
+                  class="text-muted-foreground text-sm"
+                  data-slot="form-description"
+                  id="_r_5_-form-item-description"
+                >
+                  Add suggested follow-up questions or prompts that users might want to ask next.
+                </p>
+                <div
+                  class="space-y-3"
+                />
+                <div
+                  class="flex justify-end"
+                >
+                  <button
+                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 mt-3"
+                    data-slot="button"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-plus h-4 w-4 mr-2"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M5 12h14"
+                      />
+                      <path
+                        d="M12 5v14"
+                      />
+                    </svg>
+                    Add Follow-up Prompt
+                  </button>
+                </div>
+              </div>
+            </div>
+            <button
+              class="w-full flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-save w-4 h-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"
+                />
+                <path
+                  d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"
+                />
+                <path
+                  d="M7 3v4a1 1 0 0 0 1 1h7"
+                />
+              </svg>
+              Create Prompt
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
