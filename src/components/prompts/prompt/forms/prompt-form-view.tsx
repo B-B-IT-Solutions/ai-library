@@ -14,13 +14,13 @@ import {
 import { DPrompt } from "@/data/types/domain/prompt";
 import { formatDateTime } from "@/lib/utils";
 
+import { PromptVersions } from "./prompt-versions";
+
 type PromptFomProps = {
    prompt: DPrompt;
 };
 
 export const PromptFomView: FC<PromptFomProps> = ({ prompt }) => {
-   const [expandedVersions, setExpandedVersions] = useState({});
-
    const [conentExpanded, setContentExpanded] = useState(false);
    const [followUpsExpanded, setFollowupsExpaned] = useState(false);
    const [copiedItem, setCopiedItem] = useState<string | null>(null);
@@ -33,13 +33,6 @@ export const PromptFomView: FC<PromptFomProps> = ({ prompt }) => {
       } catch (error) {
          console.error("Failed to copy:", error);
       }
-   };
-
-   const toggleVersionExpand = (promptId: string) => {
-      setExpandedVersions((prev) => ({
-         ...prev,
-         [promptId]: !prev[promptId],
-      }));
    };
 
    const viewForm = () => {
@@ -188,51 +181,7 @@ export const PromptFomView: FC<PromptFomProps> = ({ prompt }) => {
                </div>
             )}
 
-            {/* Version History */}
-            <div className="space-y-4">
-               <h3 className="text-lg font-semibold flex items-center gap-2 text-slate-900">
-                  Version History ({prompt.versions.length})
-               </h3>
-
-               {[...prompt.versions].reverse().map((version, idx) => (
-                  <div
-                     key={version.version}
-                     className="bg-slate-50 rounded-lg border border-slate-200 overflow-hidden"
-                  >
-                     <button
-                        onClick={() => toggleVersionExpand(version.version)}
-                        className="w-full p-4 flex justify-between items-center hover:bg-slate-100 transition-colors"
-                     >
-                        <div className="flex items-center gap-3">
-                           {expandedVersions[version.version] ? (
-                              <ChevronDown className="w-4 h-4 text-slate-600" />
-                           ) : (
-                              <ChevronRight className="w-4 h-4 text-slate-600" />
-                           )}
-                           <span className="font-medium text-slate-900">
-                              Version {version.version}
-                           </span>
-                           {idx === 0 && (
-                              <span className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs border border-green-200">
-                                 Current
-                              </span>
-                           )}
-                        </div>
-                        <span className="text-sm text-slate-600">
-                           {formatDateTime(version.createdAt).dateTime}
-                        </span>
-                     </button>
-
-                     {expandedVersions[version.version] && (
-                        <div className="p-4 border-t border-slate-200 bg-white">
-                           <pre className="whitespace-pre-wrap text-sm text-slate-700 font-mono">
-                              {version.content}
-                           </pre>
-                        </div>
-                     )}
-                  </div>
-               ))}
-            </div>
+            <PromptVersions prompt={prompt} />
          </div>
       );
    };

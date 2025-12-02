@@ -321,7 +321,19 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
                         >
                           <span
                             class="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded border border-slate-200"
-                          />
+                          >
+                            category 0
+                          </span>
+                          <span
+                            class="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded border border-slate-200"
+                          >
+                            category 1
+                          </span>
+                          <span
+                            class="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded border border-slate-200"
+                          >
+                            category 2
+                          </span>
                         </div>
                         <div
                           class="text-xs text-slate-500 flex items-center gap-3"
@@ -418,7 +430,19 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
                         >
                           <span
                             class="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded border border-slate-200"
-                          />
+                          >
+                            category 0
+                          </span>
+                          <span
+                            class="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded border border-slate-200"
+                          >
+                            category 1
+                          </span>
+                          <span
+                            class="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded border border-slate-200"
+                          >
+                            category 2
+                          </span>
                         </div>
                         <div
                           class="text-xs text-slate-500 flex items-center gap-3"
@@ -515,7 +539,19 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
                         >
                           <span
                             class="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded border border-slate-200"
-                          />
+                          >
+                            category 0
+                          </span>
+                          <span
+                            class="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded border border-slate-200"
+                          >
+                            category 1
+                          </span>
+                          <span
+                            class="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded border border-slate-200"
+                          >
+                            category 2
+                          </span>
                         </div>
                         <div
                           class="text-xs text-slate-500 flex items-center gap-3"

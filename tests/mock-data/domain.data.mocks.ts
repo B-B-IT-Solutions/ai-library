@@ -3,9 +3,12 @@ import { range } from "es-toolkit";
 import { Sort } from "@/data/types/common";
 import {
    DPrompt,
+   DPromptCategory,
+   DPromptCreate,
    DPromptsFilter,
    DPromptsPage,
    DPromptsPageQuery,
+   DPromptVersion,
 } from "@/data/types/domain/prompt";
 import {
    DPromptTemplate,
@@ -61,7 +64,7 @@ export const dPrompt = (index = 1): DPrompt => {
       id: `334db648-f300-4284-8149-075ff465d75${index}`,
       title: `title ${index}`,
       content: `content ${index}`,
-      categories: [`category ${index}`],
+      categories: dPromptCategories(),
       recommendedModel: `model ${index}`,
       followUpPrompts: [
          "follow up prompt 1",
@@ -70,8 +73,44 @@ export const dPrompt = (index = 1): DPrompt => {
       ],
       isFavorite: true,
       currentVersion: 1,
-      versions: [],
+      versions: dPromptVersions(),
       updatedAt: new Date("2025-09-27").toISOString(),
+      createdAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dPromptCreate = (index = 1): DPromptCreate => {
+   return {
+      title: `title ${index}`,
+      content: `content ${index}`,
+      categories: ["category 1"],
+      recommendedModel: `model ${index}`,
+      followUpPrompts: [
+         "follow up prompt 1",
+         "follow up prompt 2",
+         "follow up prompt 3",
+      ],
+   };
+};
+
+export const dPromptCategories = (count = 3): DPromptCategory[] => {
+   return range(0, count).map((i) => dPromptTemplateCategory(i));
+};
+
+export const dPromptCategory = (index = 1): DPromptCategory => {
+   return {
+      name: `category ${index}`,
+   };
+};
+
+export const dPromptVersions = (count = 3): DPromptVersion[] => {
+   return range(0, count).map((i) => dPromptVersion(i));
+};
+
+export const dPromptVersion = (index = 1): DPromptVersion => {
+   return {
+      version: index,
+      content: `content ${index}`,
       createdAt: new Date("2025-09-27").toISOString(),
    };
 };
