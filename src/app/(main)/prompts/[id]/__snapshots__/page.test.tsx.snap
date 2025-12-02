@@ -202,6 +202,7 @@ exports[`PromptPage rendering tests PromptPage - prompt found -rendered test 1`]
                 <svg
                   aria-hidden="true"
                   class="lucide lucide-copy w-4 h-4 text-slate-600"
+                  data-testid="copy-icon"
                   fill="none"
                   height="24"
                   stroke="currentColor"
