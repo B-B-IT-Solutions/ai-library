@@ -22,7 +22,6 @@ type PromptFomProps = {
 
 export const PromptFomView: FC<PromptFomProps> = ({ prompt }) => {
    const [conentExpanded, setContentExpanded] = useState(false);
-   const [followUpsExpanded, setFollowupsExpaned] = useState(false);
    const [copiedItem, setCopiedItem] = useState<string | null>(null);
 
    const copyToClipboard = async (text: string, itemId: string) => {
@@ -125,61 +124,6 @@ export const PromptFomView: FC<PromptFomProps> = ({ prompt }) => {
                   </div>
                )}
             </div>
-
-            {/* Follow-up Prompts Section */}
-            {prompt.followUpPrompts && prompt.followUpPrompts.length > 0 && (
-               <div className="mb-6">
-                  <button
-                     onClick={() => setFollowupsExpaned(!followUpsExpanded)}
-                     className="w-full flex items-center justify-between p-4 bg-slate-50 rounded-lg border border-slate-200 hover:bg-slate-100 transition-colors"
-                  >
-                     <span className="font-semibold text-slate-900 flex items-center gap-2">
-                        Follow-up Prompts ({prompt.followUpPrompts.length})
-                     </span>
-                     {followUpsExpanded ? (
-                        <ChevronDown className="w-5 h-5 text-slate-600" />
-                     ) : (
-                        <ChevronRight className="w-5 h-5 text-slate-600" />
-                     )}
-                  </button>
-
-                  {followUpsExpanded && (
-                     <div className="mt-2 space-y-2">
-                        {prompt.followUpPrompts.map((followUp, idx) => (
-                           <div
-                              key={idx}
-                              className="p-3 bg-blue-50 border border-blue-200 rounded-lg group"
-                           >
-                              <div className="flex items-start gap-2">
-                                 <span className="text-blue-600 font-medium text-sm mt-0.5">
-                                    {idx + 1}.
-                                 </span>
-                                 <p className="text-sm text-slate-700 flex-1">
-                                    {followUp}
-                                 </p>
-                                 <button
-                                    onClick={() =>
-                                       copyToClipboard(
-                                          followUp,
-                                          `followup-${idx}`
-                                       )
-                                    }
-                                    className="p-1.5 hover:bg-blue-100 rounded transition-colors opacity-0 group-hover:opacity-100"
-                                    title="Copy to clipboard"
-                                 >
-                                    {copiedItem === `followup-${idx}` ? (
-                                       <Check className="w-4 h-4 text-green-600" />
-                                    ) : (
-                                       <Copy className="w-4 h-4 text-blue-600" />
-                                    )}
-                                 </button>
-                              </div>
-                           </div>
-                        ))}
-                     </div>
-                  )}
-               </div>
-            )}
 
             <PromptVersions prompt={prompt} />
          </div>
