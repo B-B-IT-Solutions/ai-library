@@ -3,7 +3,7 @@
 import { FC, useState } from "react";
 import { X } from "lucide-react";
 
-import { PromptFom } from "@/components/prompts/prompt";
+import { PromptFormEdit } from "@/components/prompts/prompt";
 import { TemplateSelector } from "@/components/prompts/template";
 import { DPrompt } from "@/data/types/domain/prompt";
 import { DPromptTemplate } from "@/data/types/domain/prompt.template";
@@ -32,7 +32,7 @@ export const PromptCreateEdit: FC<PromptCreateEditProps> = ({ prompt }) => {
 
             {/* Template Selector */}
             {!prompt && <TemplateSelector onSelect={setTemplate} />}
-            <PromptFom prompt={prompt} />
+            <PromptFormEdit prompt={prompt} />
          </div>
       );
    };
