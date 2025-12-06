@@ -1,4 +1,4 @@
-import { Sidebar } from "@/components/shared/sidebar";
+import { Sidebar } from "@/components/shared";
 
 export type MainLayoutProps = {
    children: React.ReactNode;
