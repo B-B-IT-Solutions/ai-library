@@ -6,13 +6,13 @@ export const navigationMenu1: DMenuItem[] = [
    {
       id: "prompts",
       title: "Prompts",
-      icon: <SquareChevronRight width={20} height={20} />,
+      icon: SquareChevronRight,
       url: "/prompts",
    },
    {
       id: "favorites",
       title: "Favorites",
-      icon: <Star width={20} height={20} />,
+      icon: Star,
       url: "/favorites",
    },
 ];
@@ -21,19 +21,19 @@ export const navigationMenu2: DMenuItem[] = [
    {
       id: "feedback",
       title: "Feedback",
-      icon: <Send width={20} height={20} />,
+      icon: Send,
       url: "/feedback",
    },
    {
       id: "invite-people",
       title: "Invite People",
-      icon: <Users width={20} height={20} />,
+      icon: Users,
       url: "/invite-people",
    },
    {
       id: "settings",
       title: "Settings",
-      icon: <Settings width={20} height={20} />,
+      icon: Settings,
       url: "/settings",
    },
 ];
