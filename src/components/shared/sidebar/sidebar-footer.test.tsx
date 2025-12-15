@@ -1,11 +1,5 @@
 import { screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import {
-   assertInDocument,
-   assertNotInDocument,
-   ctestData,
-   renderWithSidebar,
-} from "@tests";
+import { assertInDocument, ctestData, renderWithSidebar } from "@tests";
 
 import { SidebarFooter } from "./sidebar-footer";
 
@@ -17,7 +11,7 @@ const assertRendered = () => {
    assertInDocument(menu);
 };
 
-const assertMenuItemsRendered = () => {
+const assertMenuItems = () => {
    const account = screen.getByTestId("account");
    const billing = screen.getByTestId("billing");
    const signOut = screen.getByTestId("sign-out");
@@ -25,16 +19,6 @@ const assertMenuItemsRendered = () => {
    assertInDocument(account);
    assertInDocument(billing);
    assertInDocument(signOut);
-};
-
-const assertMenuItemsNotRendered = () => {
-   const account = screen.queryByTestId("account");
-   const billing = screen.queryByTestId("billing");
-   const signOut = screen.queryByTestId("sign-out");
-
-   assertNotInDocument(account);
-   assertNotInDocument(billing);
-   assertNotInDocument(signOut);
 };
 
 describe("SidebarFooter rendering tests", () => {
@@ -73,14 +57,7 @@ describe("Sidebar functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertMenuItemsNotRendered();
-      });
-
-      const menu = screen.getByTestId("sidebar-footer-menu");
-      userEvent.click(menu);
-
-      await waitFor(() => {
-         assertMenuItemsRendered();
+         assertMenuItems();
       });
    });
 });

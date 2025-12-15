@@ -1,8 +1,10 @@
 import { screen, waitFor } from "@testing-library/dom";
-import { render } from "@testing-library/react";
-import { assertInDocument } from "@tests";
+import { assertInDocument, ntestData, renderAsyncRSC } from "@tests";
+import { cookies } from "next/headers";
 
 import MainLayout from "./layout";
+
+const cookiesMock = cookies as jest.MockedFunction<typeof cookies>;
 
 const assertRendered = () => {
    const layout = screen.getByTestId("main-layout");
@@ -14,11 +16,12 @@ const assertRendered = () => {
 
 describe("MainLayout rendering tests", () => {
    it("MainLayout rendered", async () => {
-      const { container } = render(
-         <MainLayout>
-            <div data-testid="test-1"></div>
-         </MainLayout>
-      );
+      const reqCookies = ntestData.cookies({});
+      cookiesMock.mockResolvedValue(reqCookies);
+
+      const { container } = await renderAsyncRSC(MainLayout, {
+         children: <div data-testid="test-1"></div>,
+      });
 
       await waitFor(() => {
          assertRendered();
