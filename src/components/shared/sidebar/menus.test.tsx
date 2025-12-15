@@ -1,40 +1,46 @@
-import { Send, Settings, SquareChevronRight, Star, Users } from "lucide-react";
+import { FileText, LayoutTemplate, Send, Settings, Star, Users } from "lucide-react";
 
 import { navigationMenu1, navigationMenu2 } from "./menus";
 import { DMenuItem } from "./types";
 
 const expectedNavigationMenu1: DMenuItem[] = [
    {
-      id: "prompts",
+      id: "/prompts",
       title: "Prompts",
-      icon: <SquareChevronRight width={20} height={20} />,
+      icon: FileText,
       url: "/prompts",
    },
    {
-      id: "favorites",
+      id: "/templates",
+      title: "Templates",
+      icon: LayoutTemplate,
+      url: "/templates",
+   },
+   {
+      id: "/favorites",
       title: "Favorites",
-      icon: <Star width={20} height={20} />,
+      icon: Star,
       url: "/favorites",
    },
 ];
 
 export const expectedNavigationMenu2: DMenuItem[] = [
    {
-      id: "feedback",
+      id: "/feedback",
       title: "Feedback",
-      icon: <Send width={20} height={20} />,
+      icon: Send,
       url: "/feedback",
    },
    {
-      id: "invite-people",
+      id: "/invite-people",
       title: "Invite People",
-      icon: <Users width={20} height={20} />,
+      icon: Users,
       url: "/invite-people",
    },
    {
-      id: "settings",
+      id: "/settings",
       title: "Settings",
-      icon: <Settings width={20} height={20} />,
+      icon: Settings,
       url: "/settings",
    },
 ];

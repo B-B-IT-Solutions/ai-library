@@ -1,11 +1,11 @@
+import { ChevronUp, User2 } from "lucide-react";
+
 import {
    DropdownMenu,
    DropdownMenuContent,
    DropdownMenuItem,
    DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
-import { ChevronUp, User2 } from "lucide-react";
-
+} from "@/components/shadcn/dropdown-menu";
 import {
    SidebarFooter as ShadcnSidebarFooter,
    SidebarMenu,
@@ -27,7 +27,7 @@ export const SidebarFooter = () => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
                      side="top"
-                     className="w-[--radix-popper-anchor-width]"
+                     className="w-(--radix-popper-anchor-width)"
                   >
                      <DropdownMenuItem>
                         <span>Account</span>
