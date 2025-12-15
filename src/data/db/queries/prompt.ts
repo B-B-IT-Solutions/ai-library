@@ -1,5 +1,6 @@
 import { isEmpty } from "es-toolkit/compat";
 
+import prisma from "@/data/db/prisma";
 import {
    PromptsPage,
    PromptsPageQuery,
@@ -10,7 +11,6 @@ import {
    PromptUpdateInput,
    PromptWhereInput,
 } from "@/generated/prisma/models";
-import prisma from "../prisma";
 import { DEFAULT_PAGINATION } from "../utils";
 
 export const getPrompts = async (
