@@ -1,7 +1,7 @@
 jest.mock("@/data/db/queries/user");
 jest.mock("next/dist/client/components/redirect-error");
 
-import { ptestData } from "@tests";
+import { dtestData, ptestData } from "@tests";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 import { signIn, signOut } from "@/auth";
@@ -9,6 +9,7 @@ import {
    createUser,
    getUserByEmail as pGetUserByEmail,
    getUserById as pGetUserById,
+   updateUser as pUpdateUser,
 } from "@/data/db/queries/user";
 import { DSignInFormData, DSignUpFormData } from "@/data/types/domain/user";
 import { Prisma } from "@/generated/prisma/client";
@@ -20,6 +21,7 @@ import {
    signInWithCredentials,
    signOutUser,
    signUpUser,
+   updateUser,
 } from "./user.actions";
 
 const isRedirectErrorock = isRedirectError as jest.MockedFunction<
@@ -255,5 +257,21 @@ describe("getUserByEmail tests", () => {
       expect(result).toBeNull();
       expect(pGetUserByEmailMock).toHaveBeenCalledTimes(1);
       expect(pGetUserByEmailMock).toHaveBeenCalledWith(email);
+   });
+});
+
+describe("updateUser tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   test("updateUser - user updated - test", async () => {
+      const userId = "user-id-1";
+      const data = dtestData.dUserUpdateData();
+
+      await updateUser(userId, data);
+
+      expect(pUpdateUser).toHaveBeenCalledTimes(1);
+      expect(pUpdateUser).toHaveBeenCalledWith(userId, data);
    });
 });

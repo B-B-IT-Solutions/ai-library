@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import type { NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-import { getUserByEmail } from "@/data/actions/user";
+import { getUserByEmail, updateUser } from "@/data/actions/user";
 import { prisma } from "@/data/db/prisma";
 import { compare } from "@/lib/encrypt";
 
@@ -114,10 +114,9 @@ export const authConfig: NextAuthConfig = {
                token.name = user.email!.split("@")[0];
 
                // Update database to reflect the token name
-               await prisma.user.update({
-                  where: { id: user.id },
-                  data: { name: token.name },
-               });
+               const userId = user.id as string;
+               const data = { name: token.name };
+               await updateUser(userId, data);
             }
 
             if (trigger === "signIn" || trigger === "signUp") {

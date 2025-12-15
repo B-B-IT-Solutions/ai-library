@@ -14,6 +14,13 @@ import {
    DPromptTemplate,
    DPromptTemplateCategory,
 } from "@/data/types/domain/prompt.template";
+import { DUserUpdateData } from "@/data/types/domain/user";
+
+export const dUserUpdateData = (index = 1): DUserUpdateData => {
+   return {
+      name: `User ${index}`,
+   };
+};
 
 export const dPromptTemplates = (count = 3): DPromptTemplate[] => {
    return range(0, count).map((i) => dPromptTemplate(i));

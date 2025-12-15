@@ -2,6 +2,7 @@ import { range } from "es-toolkit";
 
 import { PromptsPage, PromptWithCategories } from "@/data/types/db/prompt";
 import { PromptTemplateWithCategories } from "@/data/types/db/prompt.template";
+import { UserUpdateData } from "@/data/types/db/user";
 import {
    Prompt,
    PromptCategory,
@@ -26,6 +27,17 @@ export const pUser = (index = 1): User => {
       role: "user",
       updatedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),
+   };
+};
+
+export const pUserUpdateData = (index = 1): UserUpdateData => {
+   return {
+      name: `User ${index}`,
+      emailVerified: new Date("2025-09-27"),
+      image: "image/1",
+      password: "password123",
+      paymentMethod: "stripe",
+      role: "user",
    };
 };
 

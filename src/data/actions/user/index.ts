@@ -4,4 +4,5 @@ export {
    signInWithCredentials,
    signOutUser,
    signUpUser,
+   updateUser,
 } from "./user.actions";

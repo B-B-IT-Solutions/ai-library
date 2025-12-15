@@ -11,7 +11,7 @@ import { AdapterUser } from "next-auth/adapters";
 import { JWT } from "next-auth/jwt";
 import { CredentialsConfig } from "next-auth/providers/credentials";
 
-import { getUserByEmail } from "@/data/actions/user";
+import { getUserByEmail, updateUser } from "@/data/actions/user";
 import { compare } from "@/lib/encrypt";
 
 import { authConfig } from "./auth.config";
@@ -25,6 +25,8 @@ type CredentialsConfigExtended = CredentialsConfig & {
 const getUserByEmailMock = getUserByEmail as jest.MockedFunction<
    typeof getUserByEmail
 >;
+
+const updateUserMock = updateUser as jest.MockedFunction<typeof updateUser>;
 
 const compareMock = compare as jest.MockedFunction<typeof compare>;
 
@@ -360,6 +362,10 @@ describe("auth.config - callback.session - tests", () => {
 });
 
 describe("auth.config - callback.jwt - tests", () => {
+   const mockCookies = {
+      get: jest.fn().mockReturnValue({ value: "session-cart-id" }),
+   } as unknown as ReadonlyRequestCookies;
+
    const jwtCallback = authConfig.callbacks!.jwt!;
 
    beforeEach(() => {
@@ -389,10 +395,6 @@ describe("auth.config - callback.jwt - tests", () => {
          email: "john@example.com",
       } as AdapterUser;
 
-      const mockCookies = {
-         get: jest.fn().mockReturnValue({ value: "session-cart-id" }),
-      } as unknown as ReadonlyRequestCookies;
-
       cookiesMock.mockResolvedValue(mockCookies);
 
       const result = await jwtCallback({
@@ -408,34 +410,28 @@ describe("auth.config - callback.jwt - tests", () => {
       expect(result!.role).toEqual(user.role);
    });
 
-   // it("should handle NO_NAME user by generating name from email", async () => {
-   //    const mockToken = {} as any;
-   //    const mockUser = {
-   //       id: "user-123",
-   //       role: "USER",
-   //       name: "NO_NAME",
-   //       email: "test@example.com",
-   //    } as any;
+   it("jwt - generate name from email for user.name NO_NAME - test", async () => {
+      const token = {} as JWT;
+      const user = {
+         id: "user-123",
+         role: "USER",
+         name: "NO_NAME",
+         email: "test@example.com",
+      } as AdapterUser;
 
-   //    const mockCookies = {
-   //       get: jest.fn().mockReturnValue({ value: "session-cart-id" }),
-   //    };
-   //    (cookies as jest.Mock).mockResolvedValue(mockCookies);
-   //    (prisma.user.update as jest.Mock).mockResolvedValue({});
+      cookiesMock.mockResolvedValue(mockCookies);
 
-   //    const result = await jwtCallback?.({
-   //       token: mockToken,
-   //       user: mockUser,
-   //       trigger: undefined,
-   //       session: undefined,
-   //    });
+      const result = await jwtCallback({
+         token,
+         user,
+         trigger: undefined,
+         session: undefined,
+      });
 
-   //    expect(result?.name).toBe("test");
-   //    expect(prisma.user.update).toHaveBeenCalledWith({
-   //       where: { id: "user-123" },
-   //       data: { name: "test" },
-   //    });
-   // });
+      expect(result!.name).toBe("test");
+      expect(updateUserMock).toHaveBeenCalledTimes(1);
+      expect(updateUserMock).toHaveBeenCalledWith(user.id, { name: "test" });
+   });
 
    // it("should retrieve sessionCartId on signIn trigger", async () => {
    //    const mockToken = {} as any;

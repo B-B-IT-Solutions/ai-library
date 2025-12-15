@@ -1,6 +1,7 @@
 import prisma from "@/data/db/prisma";
-import { Prisma, User } from "@/generated/prisma/client";
-import { UserWhereInput } from "@/generated/prisma/models";
+import { UserUpdateData } from "@/data/types/db/user";
+import { User } from "@/generated/prisma/client";
+import { UserCreateInput, UserWhereInput } from "@/generated/prisma/models";
 
 type PGeUserParams = {
    userId?: string;
@@ -26,13 +27,20 @@ export const getUser = async (params: PGeUserParams): Promise<User | null> => {
    return null;
 };
 
-export const createUser = async (user: Prisma.UserCreateInput) => {
+export const createUser = async (user: UserCreateInput) => {
    return await prisma.user.create({
       data: {
          name: user.name,
          email: user.email,
          password: user.password,
       },
+   });
+};
+
+export const updateUser = async (userId: string, data: UserUpdateData) => {
+   return await prisma.user.update({
+      where: { id: userId },
+      data: data,
    });
 };
 

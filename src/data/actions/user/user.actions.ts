@@ -7,8 +7,13 @@ import {
    createUser,
    getUserByEmail as pGetUserByEmail,
    getUserById as pGetUserById,
+   updateUser as pUpdateUser,
 } from "@/data/db/queries/user";
-import { DSignInFormData, DSignUpFormData } from "@/data/types/domain/user";
+import {
+   DSignInFormData,
+   DSignUpFormData,
+   DUserUpdateData,
+} from "@/data/types/domain/user";
 import {
    signInFormSchema,
    signUpFormSchema,
@@ -88,4 +93,8 @@ export const getUserByEmail = async (email: string) => {
       return null;
    }
    return user;
+};
+
+export const updateUser = async (userId: string, data: DUserUpdateData) => {
+   await pUpdateUser(userId, data);
 };

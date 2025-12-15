@@ -4,8 +4,15 @@ import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/db/prisma";
 import { Prisma } from "@/generated/prisma/client";
+import { UserUpdateArgs } from "@/generated/prisma/models";
 
-import { createUser, getUser, getUserByEmail, getUserById } from "./user";
+import {
+   createUser,
+   getUser,
+   getUserByEmail,
+   getUserById,
+   updateUser,
+} from "./user";
 
 export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
@@ -114,5 +121,28 @@ describe("createUser tests", () => {
       expect(result).toEqual(user);
       expect(prismaMock.user.create).toHaveBeenCalledTimes(1);
       expect(prismaMock.user.create).toHaveBeenCalledWith(expectedCreateArgs);
+   });
+});
+
+describe("updateUser tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("updateUser - user updated - test", async () => {
+      const userId = "user-id-1";
+      const data = ptestData.pUserUpdateData();
+      prismaMock.user.update.mockResolvedValue(data);
+
+      const result = await updateUser(userId, data);
+
+      const expectedUpdateArgs: UserUpdateArgs = {
+         where: { id: userId },
+         data: data,
+      };
+
+      expect(result).toEqual(data);
+      expect(prismaMock.user.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.user.update).toHaveBeenCalledWith(expectedUpdateArgs);
    });
 });
