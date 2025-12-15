@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`AuthLayout rendering tests AuthLayout rendered 1`] = `
+<div>
+  <div
+    class="flex-center min-h-screen w-full"
+    data-testid="auth-layout"
+  >
+    <div
+      data-testid="test-1"
+    />
+  </div>
+</div>
+`;

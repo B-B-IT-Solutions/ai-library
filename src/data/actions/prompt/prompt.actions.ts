@@ -20,9 +20,9 @@ import {
    PromptCategoryCreateOrConnectWithoutPromptsInput,
    PromptCreateInput,
 } from "@/generated/prisma/models";
+import { formatError } from "../utils";
 
 import { toDPrompt, toDPromptsPage } from "./prompt.mapper";
-import { formatError } from "./utils";
 
 export const getPrompts = async (
    query?: DPromptsPageQuery

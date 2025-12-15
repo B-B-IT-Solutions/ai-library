@@ -1,0 +1,252 @@
+jest.mock("@/data/actions/user");
+
+import { getByDisplayValue, screen, waitFor } from "@testing-library/dom";
+import { render } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import {
+   assertHasAttributeWithValue,
+   assertInDocument,
+   getElementById,
+} from "@tests";
+import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
+
+import { signUpUser } from "@/data/actions/user";
+
+import { SignUpForm } from "./sign-up-form";
+
+const useSearchParamsMock = useSearchParams as jest.MockedFunction<
+   typeof useSearchParams
+>;
+const signUpUserMock = signUpUser as jest.MockedFunction<typeof signUpUser>;
+
+const assertRendered = () => {
+   const form = screen.getByTestId("sign-up-form");
+   assertInDocument(form);
+};
+
+const assertFieldsRendered = () => {
+   const name = screen.getByTestId("name-field");
+   const email = screen.getByTestId("email-field");
+   const password = screen.getByTestId("password-field");
+   const confirmPassword = screen.getByTestId("confirm-password-field");
+   const signUpBtn = screen.getByTestId("sign-up-btn");
+   const singInLink = screen.getByTestId("sign-in-link");
+
+   assertInDocument(name);
+   assertInDocument(email);
+   assertInDocument(password);
+   assertInDocument(confirmPassword);
+   assertInDocument(signUpBtn);
+   assertInDocument(singInLink);
+};
+
+const assertCallbackUrl = (url: string) => {
+   const callbackUrl = getElementById("callbackUrl");
+
+   assertInDocument(callbackUrl);
+   assertHasAttributeWithValue(callbackUrl, "value", url);
+};
+
+describe("SignUpForm rendering tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   it("SignUpForm - callbackUrl defined -  rendered test", async () => {
+      const params = { callbackUrl: "callbackUrl/test-1" };
+      const searchParams = new URLSearchParams(
+         params
+      ) as ReadonlyURLSearchParams;
+      useSearchParamsMock.mockReturnValue(searchParams);
+
+      const { container } = render(<SignUpForm />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertFieldsRendered();
+         assertCallbackUrl(params.callbackUrl);
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("SignUpForm - callbackUrl undefined -  rendered test", async () => {
+      const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
+      useSearchParamsMock.mockReturnValue(searchParams);
+
+      const { container } = render(<SignUpForm />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertFieldsRendered();
+         assertCallbackUrl("/");
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+});
+
+describe("SignUpForm functionality tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   it("SignUpForm - sign in clicked - success true - test", async () => {
+      const singUpResult = {
+         success: true,
+         message: "User registered successfully",
+      };
+
+      signUpUserMock.mockResolvedValue(singUpResult);
+      const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
+      useSearchParamsMock.mockReturnValue(searchParams);
+      render(<SignUpForm />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertFieldsRendered();
+         expect(signUpUserMock).not.toHaveBeenCalled();
+      });
+
+      const signUpBtn = screen.getByTestId("sign-up-btn");
+      await userEvent.click(signUpBtn);
+
+      await waitFor(() => {
+         expect(signUpUserMock).not.toHaveBeenCalled();
+      });
+
+      const nameValue = "Test 1";
+      const name = getElementById("name");
+      await userEvent.type(name, nameValue);
+
+      const options = { timeout: 3000 };
+      await waitFor(() => {
+         const text = screen.getByDisplayValue(nameValue);
+         expect(text).toBeInTheDocument();
+      }, options);
+
+      const emailValue = "test1@email.com";
+      const email = getElementById("email");
+      await userEvent.type(email, emailValue);
+
+      await waitFor(() => {
+         const text = screen.getByDisplayValue(emailValue);
+         expect(text).toBeInTheDocument();
+      }, options);
+
+      const passwordValue = "pwd123456";
+      const password = getElementById("password");
+      await userEvent.type(password, passwordValue);
+
+      await waitFor(() => {
+         const text = screen.getByDisplayValue(passwordValue);
+         expect(text).toBeInTheDocument();
+      }, options);
+
+      const confirmPassword = getElementById("confirmPassword");
+      await userEvent.type(confirmPassword, passwordValue);
+
+      await waitFor(() => {
+         const confirmPasswordField = screen.getByTestId(
+            "confirm-password-field"
+         );
+         const text = getByDisplayValue(confirmPasswordField, passwordValue);
+         expect(text).toBeInTheDocument();
+      }, options);
+
+      userEvent.click(signUpBtn);
+
+      const expectedFormData = {
+         name: nameValue,
+         email: emailValue,
+         password: passwordValue,
+         confirmPassword: passwordValue,
+      };
+
+      await waitFor(() => {
+         expect(signUpUserMock).toHaveBeenCalledTimes(1);
+         expect(signUpUserMock).toHaveBeenCalledWith(expectedFormData);
+      });
+   });
+
+   it("SignUpForm - sign in clicked - success false - test", async () => {
+      const singUpResult = {
+         success: false,
+         message: "Email already exists",
+      };
+
+      signUpUserMock.mockResolvedValue(singUpResult);
+      const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
+      useSearchParamsMock.mockReturnValue(searchParams);
+      render(<SignUpForm />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertFieldsRendered();
+         expect(signUpUserMock).not.toHaveBeenCalled();
+      });
+
+      const signUpBtn = screen.getByTestId("sign-up-btn");
+      await userEvent.click(signUpBtn);
+
+      await waitFor(() => {
+         expect(signUpUserMock).not.toHaveBeenCalled();
+      });
+
+      const nameValue = "Test 1";
+      const name = getElementById("name");
+      await userEvent.type(name, nameValue);
+
+      const options = { timeout: 3000 };
+      await waitFor(() => {
+         const text = screen.getByDisplayValue(nameValue);
+         expect(text).toBeInTheDocument();
+      }, options);
+
+      const emailValue = "test1@email.com";
+      const email = getElementById("email");
+      await userEvent.type(email, emailValue);
+
+      await waitFor(() => {
+         const text = screen.getByDisplayValue(emailValue);
+         expect(text).toBeInTheDocument();
+      }, options);
+
+      const passwordValue = "pwd123456";
+      const password = getElementById("password");
+      await userEvent.type(password, passwordValue);
+
+      await waitFor(() => {
+         const text = screen.getByDisplayValue(passwordValue);
+         expect(text).toBeInTheDocument();
+      }, options);
+
+      const confirmPassword = getElementById("confirmPassword");
+      await userEvent.type(confirmPassword, passwordValue);
+
+      await waitFor(() => {
+         const confirmPasswordField = screen.getByTestId(
+            "confirm-password-field"
+         );
+         const text = getByDisplayValue(confirmPasswordField, passwordValue);
+         expect(text).toBeInTheDocument();
+      }, options);
+
+      userEvent.click(signUpBtn);
+
+      const expectedFormData = {
+         name: nameValue,
+         email: emailValue,
+         password: passwordValue,
+         confirmPassword: passwordValue,
+      };
+
+      await waitFor(() => {
+         expect(signUpUserMock).toHaveBeenCalledTimes(1);
+         expect(signUpUserMock).toHaveBeenCalledWith(expectedFormData);
+      });
+
+      const rootError = screen.getByText(singUpResult.message);
+      assertInDocument(rootError);
+   });
+});

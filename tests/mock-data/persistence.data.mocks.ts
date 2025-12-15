@@ -7,11 +7,27 @@ import {
    PromptCategory,
    PromptTemplate,
    PromptTemplateCategory,
+   User,
 } from "@/generated/prisma/client";
 import {
    PromptCreateInput,
    PromptUpdateInput,
 } from "@/generated/prisma/models";
+
+export const pUser = (index = 1): User => {
+   return {
+      id: `334db648-f300-4284-8149-075ff465d75${index}`,
+      name: `User ${index}`,
+      email: `user${index}@email.com`,
+      emailVerified: new Date("2025-09-27"),
+      image: "image/1",
+      password: "password123",
+      paymentMethod: "stripe",
+      role: "user",
+      updatedAt: new Date("2025-09-27"),
+      createdAt: new Date("2025-09-27"),
+   };
+};
 
 export const pPromptTemplatesWithCategories = (
    count = 3
