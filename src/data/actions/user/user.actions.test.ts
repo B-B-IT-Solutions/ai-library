@@ -1,4 +1,4 @@
-jest.mock("@/data/types/domain/user");
+jest.mock("@/data/db/queries/user");
 jest.mock("next/dist/client/components/redirect-error");
 
 import { ptestData } from "@tests";
