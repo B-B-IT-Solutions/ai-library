@@ -3,10 +3,10 @@ jest.mock("@/lib/encrypt");
 
 import { ntestData, ptestData } from "@tests";
 import { forEach } from "es-toolkit/compat";
-import { DeepMockProxy } from "jest-mock-extended";
-import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { Session } from "next-auth";
+import { AdapterUser } from "next-auth/adapters";
+import { JWT } from "next-auth/jwt";
 import { CredentialsConfig } from "next-auth/providers/credentials";
 
 import { getUserByEmail } from "@/data/actions/user";
@@ -168,7 +168,7 @@ describe("auth.config - CredentialsProvider - tests", () => {
    });
 });
 
-describe("auth.config - callback authorized - tests", () => {
+describe("auth.config - callback.authorized - tests", () => {
    const protectedPaths = [
       "/prompts",
       "/templates",
@@ -293,65 +293,66 @@ describe("auth.config - callback authorized - tests", () => {
    });
 });
 
-// describe("session callback", () => {
-//    const sessionCallback = authConfig.callbacks?.session;
+describe("auth.config - callback.session - tests", () => {
+   const sessionCallback = authConfig.callbacks!.session!;
 
-//    it("should populate session with token data", async () => {
-//       const mockSession = {
-//          user: {
-//             id: "",
-//             role: "",
-//             name: "",
-//          },
-//       } as any;
+   it("session - populate user from token - test", async () => {
+      const session = {
+         user: ntestData.adapterUser(),
+         sessionToken: "token-1",
+         userId: "1",
+         expires: new Date(),
+      };
 
-//       const mockToken = {
-//          sub: "user-123",
-//          role: "ADMIN",
-//          name: "John Doe",
-//       } as any;
+      const token = {
+         sub: "user-123",
+         role: "ADMIN",
+         name: "John Doe",
+      } as JWT;
 
-//       const result = await sessionCallback?.({
-//          session: mockSession,
-//          token: mockToken,
-//          user: {} as any,
-//          trigger: undefined,
-//       });
+      const result = await sessionCallback({
+         session: session,
+         token: token,
+         user: {} as AdapterUser,
+         trigger: undefined,
+      });
 
-//       expect(result?.user.id).toBe("user-123");
-//       expect(result?.user.role).toBe("ADMIN");
-//       expect(result?.user.name).toBe("John Doe");
-//    });
+      expect(result.user!.id).toEqual(token.sub);
+      expect(result.user!.role).toEqual(token.role);
+      expect(result.user!.name).toEqual(token.name);
+   });
 
-//    it("should update session name on update trigger", async () => {
-//       const mockSession = {
-//          user: {
-//             id: "user-123",
-//             role: "USER",
-//             name: "Old Name",
-//          },
-//       } as any;
+   it("session - update user name - test", async () => {
+      const session = {
+         user: {
+            id: "user-123",
+            role: "USER",
+            name: "Old Name",
+         },
+      };
 
-//       const mockToken = {
-//          sub: "user-123",
-//          role: "USER",
-//          name: "Old Name",
-//       } as any;
+      const token = {
+         sub: "user-123",
+         role: "USER",
+         name: "Old Name",
+      } as JWT;
 
-//       const mockUser = {
-//          name: "Updated Name",
-//       } as any;
+      const user = {
+         name: "Updated Name",
+      } as AdapterUser;
 
-//       const result = await sessionCallback?.({
-//          session: mockSession,
-//          token: mockToken,
-//          user: mockUser,
-//          trigger: "update",
-//       });
+      const result = await sessionCallback?.({
+         session,
+         token,
+         user,
+         trigger: "update",
+      });
 
-//       expect(result?.user.name).toBe("Updated Name");
-//    });
-// });
+      expect(result.user!.id).toEqual(token.sub);
+      expect(result.user!.role).toEqual(token.role);
+      expect(result.user!.name).toBe("Updated Name");
+   });
+});
 
 // describe("jwt callback", () => {
 //    const jwtCallback = authConfig.callbacks?.jwt;
