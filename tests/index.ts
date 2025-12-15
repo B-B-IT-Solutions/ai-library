@@ -16,6 +16,7 @@ export {
 export {
    renderAsyncRSC,
    renderWithRouter,
+   renderWithSidebar,
    renderHookWithReactQuery,
    renderWithReactQuery,
    getElementById,
@@ -23,3 +24,5 @@ export {
 
 export * as ptestData from "./mock-data/persistence.data.mocks";
 export * as dtestData from "./mock-data/domain.data.mocks";
+export * as ctestData from "./mock-data/common.data.mocks";
+export * as ntestData from "./mock-data/next.data.mocks";

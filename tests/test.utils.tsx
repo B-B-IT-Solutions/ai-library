@@ -10,6 +10,8 @@ import {
 import mockRouter from "next-router-mock";
 import { MemoryRouterProvider } from "next-router-mock/MemoryRouterProvider/next-13.5";
 
+import { SidebarProvider } from "@/components/shadcn/sidebar";
+
 export const renderAsyncRSC = async <T,>(
    asyncComponent: (props: T) => Promise<JSX.Element>,
    props: T
@@ -51,8 +53,25 @@ export const renderWithRouter = (
    return {
       ...render(
          <QueryClientProvider client={queryClient}>
-            {" "}
             <MemoryRouterProvider url={url}>{component}</MemoryRouterProvider>
+         </QueryClientProvider>
+      ),
+   };
+};
+
+export const renderWithSidebar = (
+   component: React.ReactNode,
+   url: string = "/",
+   open: boolean = true
+) => {
+   const queryClient = testQueryClient();
+   mockRouter.push(url);
+   return {
+      ...render(
+         <QueryClientProvider client={queryClient}>
+            <MemoryRouterProvider url={url}>
+               <SidebarProvider defaultOpen={open}>{component}</SidebarProvider>
+            </MemoryRouterProvider>
          </QueryClientProvider>
       ),
    };

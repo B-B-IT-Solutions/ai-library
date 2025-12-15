@@ -2,7 +2,6 @@
 
 exports[`PromptListItem rendering tests PromptListItem - isSelected false - rendered test 1`] = `
 <div>
-   
   <a
     data-testid="mock-link"
     href="/prompts/334db648-f300-4284-8149-075ff465d751"
@@ -117,7 +116,6 @@ exports[`PromptListItem rendering tests PromptListItem - isSelected false - rend
 
 exports[`PromptListItem rendering tests PromptListItem - isSelected true - rendered test 1`] = `
 <div>
-   
   <a
     data-testid="mock-link"
     href="/prompts/334db648-f300-4284-8149-075ff465d751"
