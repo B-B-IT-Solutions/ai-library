@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`SignUpPage rendering tests SignUpPage - user already signed in - callbackUrl defined - rendered test 1`] = `<div />`;
+
+exports[`SignUpPage rendering tests SignUpPage - user already signed in - callbackUrl undefined - rendered test 1`] = `<div />`;
+
+exports[`SignUpPage rendering tests SignUpPage - user not signed in - rendered test 1`] = `
+<div>
+  <div
+    class="w-full max-w-md mx-auto"
+    data-testid="sign-up-page"
+  >
+    <div
+      class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
+      data-slot="card"
+    >
+      <div
+        class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 space-y-4"
+        data-slot="card-header"
+        data-testid="card-header"
+      >
+        <a
+          class="flex-center"
+          data-testid="mock-link"
+          href="/"
+        >
+          <img
+            alt="KI Bibliothek logo"
+            data-nimg="1"
+            decoding="async"
+            height="100"
+            src="/images/logo.svg"
+            style="color: transparent;"
+            width="100"
+          />
+        </a>
+        <div
+          class="leading-none font-semibold text-center"
+          data-slot="card-title"
+          data-testid="card-title"
+        >
+          Create Account
+        </div>
+        <div
+          class="text-muted-foreground text-sm text-center"
+          data-slot="card-description"
+          data-testid="card-description"
+        >
+          Enter your information below to sign up
+        </div>
+      </div>
+      <div
+        class="px-6 space-y-4"
+        data-slot="card-content"
+      >
+        <div
+          data-testid="sign-up-form-mock"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
