@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import type { NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
+import { getUserByEmail } from "@/data/actions/user";
 import { prisma } from "@/data/db/prisma";
 import { compare } from "@/lib/encrypt";
 
@@ -28,21 +29,13 @@ export const authConfig: NextAuthConfig = {
                return null;
             }
 
-            // Find user in database
-            const user = await prisma.user.findFirst({
-               where: {
-                  email: credentials.email as string,
-               },
-            });
+            const email = credentials.email as string;
+            const user = await getUserByEmail(email);
 
-            // Check if user exists and if the password matches
             if (user && user.password) {
-               const isMatch = await compare(
-                  credentials.password as string,
-                  user.password
-               );
+               const password = credentials.password as string;
+               const isMatch = await compare(password, user.password);
 
-               // If password is correct, return user
                if (isMatch) {
                   return {
                      id: user.id,
@@ -52,7 +45,6 @@ export const authConfig: NextAuthConfig = {
                   };
                }
             }
-            // If user does not exist or password does not match return null
             return null;
          },
       }),
@@ -61,8 +53,9 @@ export const authConfig: NextAuthConfig = {
       authorized({ request, auth }) {
          // Array of regex patterns of paths we want to protect
          const protectedPaths = [
-            /\/shipping-address/,
-            /\/payment-method/,
+            /\/prompts/,
+            /\/templates/,
+            /\/settings/,
             /\/place-order/,
             /\/profile/,
             /\/user\/(.*)/,

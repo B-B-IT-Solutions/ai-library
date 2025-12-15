@@ -1,5 +1,6 @@
 export {
    getUserById,
+   getUserByEmail,
    signInWithCredentials,
    signOutUser,
    signUpUser,
