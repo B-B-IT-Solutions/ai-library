@@ -18,7 +18,7 @@ export const cookies = (cookies: CookieValues): ReadonlyRequestCookies => {
    ) as unknown as ReadonlyRequestCookies;
 };
 
-export const nextRequest = (body: object): NextRequest => {
+export const nextRequest = (body: object = {}): NextRequest => {
    return {
       json: async () => body,
    } as NextRequest;

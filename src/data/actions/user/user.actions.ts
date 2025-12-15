@@ -3,8 +3,17 @@
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 import { signIn, signOut } from "@/auth";
-import { createUser, getUser } from "@/data/db/queries/user";
-import { DSignInFormData, DSignUpFormData } from "@/data/types/domain/user";
+import {
+   createUser,
+   getUserByEmail as pGetUserByEmail,
+   getUserById as pGetUserById,
+   updateUser as pUpdateUser,
+} from "@/data/db/queries/user";
+import {
+   DSignInFormData,
+   DSignUpFormData,
+   DUserUpdateData,
+} from "@/data/types/domain/user";
 import {
    signInFormSchema,
    signUpFormSchema,
@@ -71,9 +80,21 @@ export const signUpUser = async (formData: DSignUpFormData) => {
 };
 
 export const getUserById = async (userId: string) => {
-   const user = await getUser(userId);
+   const user = await pGetUserById(userId);
    if (!user) {
       throw new Error("User not found");
    }
    return user;
+};
+
+export const getUserByEmail = async (email: string) => {
+   const user = await pGetUserByEmail(email);
+   if (!user) {
+      return null;
+   }
+   return user;
+};
+
+export const updateUser = async (userId: string, data: DUserUpdateData) => {
+   await pUpdateUser(userId, data);
 };

@@ -1,20 +1,27 @@
 jest.mock("@/data/db/queries/user");
 jest.mock("next/dist/client/components/redirect-error");
 
-import { ptestData } from "@tests";
+import { dtestData, ptestData } from "@tests";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 import { signIn, signOut } from "@/auth";
-import { createUser, getUser } from "@/data/db/queries/user";
+import {
+   createUser,
+   getUserByEmail as pGetUserByEmail,
+   getUserById as pGetUserById,
+   updateUser as pUpdateUser,
+} from "@/data/db/queries/user";
 import { DSignInFormData, DSignUpFormData } from "@/data/types/domain/user";
 import { Prisma } from "@/generated/prisma/client";
 import { hash } from "@/lib/encrypt";
 
 import {
+   getUserByEmail,
    getUserById,
    signInWithCredentials,
    signOutUser,
    signUpUser,
+   updateUser,
 } from "./user.actions";
 
 const isRedirectErrorock = isRedirectError as jest.MockedFunction<
@@ -23,7 +30,12 @@ const isRedirectErrorock = isRedirectError as jest.MockedFunction<
 const signInMock = signIn as jest.MockedFunction<typeof signIn>;
 const signOutMock = signOut as jest.MockedFunction<typeof signOut>;
 
-const getUserMock = getUser as jest.MockedFunction<typeof getUser>;
+const getUserByIdMock = pGetUserById as jest.MockedFunction<
+   typeof pGetUserById
+>;
+const pGetUserByEmailMock = pGetUserByEmail as jest.MockedFunction<
+   typeof pGetUserByEmail
+>;
 const createUserMock = createUser as jest.MockedFunction<typeof createUser>;
 
 describe("signInWithCredentials tests", () => {
@@ -199,23 +211,67 @@ describe("getUserById tests", () => {
 
    it("getUserById - user found - test", async () => {
       const user = ptestData.pUser();
-      getUserMock.mockResolvedValue(user);
+      getUserByIdMock.mockResolvedValue(user);
 
       const result = await getUserById(user.id);
 
       expect(result).toEqual(user);
-      expect(getUserMock).toHaveBeenCalledTimes(1);
-      expect(getUserMock).toHaveBeenCalledWith(user.id);
+      expect(getUserByIdMock).toHaveBeenCalledTimes(1);
+      expect(getUserByIdMock).toHaveBeenCalledWith(user.id);
    });
 
    it("getUserById - user null - test", async () => {
-      getUserMock.mockResolvedValue(null);
+      getUserByIdMock.mockResolvedValue(null);
       const userId = "invalid-id-1";
 
       const fn = () => getUserById(userId);
 
       await expect(fn).rejects.toThrow(Error);
-      expect(getUserMock).toHaveBeenCalledTimes(1);
-      expect(getUserMock).toHaveBeenCalledWith(userId);
+      expect(getUserByIdMock).toHaveBeenCalledTimes(1);
+      expect(getUserByIdMock).toHaveBeenCalledWith(userId);
+   });
+});
+
+describe("getUserByEmail tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   it("getUserByEmail - user found - test", async () => {
+      const user = ptestData.pUser();
+      pGetUserByEmailMock.mockResolvedValue(user);
+
+      const result = await getUserByEmail(user.email);
+
+      expect(result).toEqual(user);
+      expect(pGetUserByEmailMock).toHaveBeenCalledTimes(1);
+      expect(pGetUserByEmailMock).toHaveBeenCalledWith(user.email);
+   });
+
+   it("getUserByEmail - user null - test", async () => {
+      pGetUserByEmailMock.mockResolvedValue(null);
+      const email = "invalid-email-1";
+
+      const result = await getUserByEmail(email);
+
+      expect(result).toBeNull();
+      expect(pGetUserByEmailMock).toHaveBeenCalledTimes(1);
+      expect(pGetUserByEmailMock).toHaveBeenCalledWith(email);
+   });
+});
+
+describe("updateUser tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   test("updateUser - user updated - test", async () => {
+      const userId = "user-id-1";
+      const data = dtestData.dUserUpdateData();
+
+      await updateUser(userId, data);
+
+      expect(pUpdateUser).toHaveBeenCalledTimes(1);
+      expect(pUpdateUser).toHaveBeenCalledWith(userId, data);
    });
 });
