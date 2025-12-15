@@ -3,6 +3,8 @@ jest.mock("@/lib/encrypt");
 
 import { ntestData, ptestData } from "@tests";
 import { forEach } from "es-toolkit/compat";
+import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
+import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { Session } from "next-auth";
 import { AdapterUser } from "next-auth/adapters";
@@ -25,6 +27,9 @@ const getUserByEmailMock = getUserByEmail as jest.MockedFunction<
 >;
 
 const compareMock = compare as jest.MockedFunction<typeof compare>;
+
+const cookiesMock = cookies as jest.MockedFunction<typeof cookies>;
+
 const nextMock = NextResponse.next as jest.MockedFunction<
    typeof NextResponse.next
 >;
@@ -58,7 +63,7 @@ describe("auth.config - CredentialsProvider - tests", () => {
    const authorize = credentialsProvider.options.authorize!;
 
    beforeEach(() => {
-      jest.clearAllMocks();
+      jest.resetAllMocks();
    });
 
    it("provider - options.credentials - test", async () => {
@@ -184,7 +189,7 @@ describe("auth.config - callback.authorized - tests", () => {
    const authorized = authConfig.callbacks!.authorized!;
 
    beforeEach(() => {
-      jest.clearAllMocks();
+      jest.resetAllMocks();
    });
 
    it("authorized - protected path access without authentication blocked- test", () => {
@@ -354,152 +359,169 @@ describe("auth.config - callback.session - tests", () => {
    });
 });
 
-// describe("jwt callback", () => {
-//    const jwtCallback = authConfig.callbacks?.jwt;
+describe("auth.config - callback.jwt - tests", () => {
+   const jwtCallback = authConfig.callbacks!.jwt!;
 
-//    beforeEach(() => {
-//       jest.clearAllMocks();
-//    });
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
 
-//    it("should assign user fields to token when user is provided", async () => {
-//       const mockToken = {} as any;
-//       const mockUser = {
-//          id: "user-123",
-//          role: "ADMIN",
-//          name: "John Doe",
-//          email: "john@example.com",
-//       } as any;
+   it("jwt - user null - test", async () => {
+      const token = {} as JWT;
+      const user = null as unknown as AdapterUser;
 
-//       const mockCookies = {
-//          get: jest.fn().mockReturnValue({ value: "session-cart-id" }),
-//       };
-//       (cookies as jest.Mock).mockResolvedValue(mockCookies);
+      const result = await jwtCallback({
+         token,
+         user,
+         trigger: undefined,
+         session: undefined,
+      });
 
-//       const result = await jwtCallback?.({
-//          token: mockToken,
-//          user: mockUser,
-//          trigger: undefined,
-//          session: undefined,
-//       });
+      expect(result).toEqual(token);
+   });
 
-//       expect(result?.id).toBe("user-123");
-//       expect(result?.role).toBe("ADMIN");
-//    });
+   it("jwt - token updated using user fields - test", async () => {
+      const token = {} as JWT;
+      const user = {
+         id: "user-123",
+         role: "ADMIN",
+         name: "John Doe",
+         email: "john@example.com",
+      } as AdapterUser;
 
-//    it("should handle NO_NAME user by generating name from email", async () => {
-//       const mockToken = {} as any;
-//       const mockUser = {
-//          id: "user-123",
-//          role: "USER",
-//          name: "NO_NAME",
-//          email: "test@example.com",
-//       } as any;
+      const mockCookies = {
+         get: jest.fn().mockReturnValue({ value: "session-cart-id" }),
+      } as unknown as ReadonlyRequestCookies;
 
-//       const mockCookies = {
-//          get: jest.fn().mockReturnValue({ value: "session-cart-id" }),
-//       };
-//       (cookies as jest.Mock).mockResolvedValue(mockCookies);
-//       (prisma.user.update as jest.Mock).mockResolvedValue({});
+      cookiesMock.mockResolvedValue(mockCookies);
 
-//       const result = await jwtCallback?.({
-//          token: mockToken,
-//          user: mockUser,
-//          trigger: undefined,
-//          session: undefined,
-//       });
+      const result = await jwtCallback({
+         token,
+         user,
+         trigger: undefined,
+         session: undefined,
+      });
 
-//       expect(result?.name).toBe("test");
-//       expect(prisma.user.update).toHaveBeenCalledWith({
-//          where: { id: "user-123" },
-//          data: { name: "test" },
-//       });
-//    });
+      expect(result!.id).toBeDefined();
+      expect(result!.id).toEqual(user.id);
+      expect(result!.role).toBeDefined();
+      expect(result!.role).toEqual(user.role);
+   });
 
-//    it("should retrieve sessionCartId on signIn trigger", async () => {
-//       const mockToken = {} as any;
-//       const mockUser = {
-//          id: "user-123",
-//          role: "USER",
-//          name: "John Doe",
-//          email: "john@example.com",
-//       } as any;
+   // it("should handle NO_NAME user by generating name from email", async () => {
+   //    const mockToken = {} as any;
+   //    const mockUser = {
+   //       id: "user-123",
+   //       role: "USER",
+   //       name: "NO_NAME",
+   //       email: "test@example.com",
+   //    } as any;
 
-//       const mockCookies = {
-//          get: jest.fn().mockReturnValue({ value: "cart-123" }),
-//       };
-//       (cookies as jest.Mock).mockResolvedValue(mockCookies);
+   //    const mockCookies = {
+   //       get: jest.fn().mockReturnValue({ value: "session-cart-id" }),
+   //    };
+   //    (cookies as jest.Mock).mockResolvedValue(mockCookies);
+   //    (prisma.user.update as jest.Mock).mockResolvedValue({});
 
-//       const result = await jwtCallback?.({
-//          token: mockToken,
-//          user: mockUser,
-//          trigger: "signIn",
-//          session: undefined,
-//       });
+   //    const result = await jwtCallback?.({
+   //       token: mockToken,
+   //       user: mockUser,
+   //       trigger: undefined,
+   //       session: undefined,
+   //    });
 
-//       expect(mockCookies.get).toHaveBeenCalledWith("sessionCartId");
-//       expect(result?.id).toBe("user-123");
-//    });
+   //    expect(result?.name).toBe("test");
+   //    expect(prisma.user.update).toHaveBeenCalledWith({
+   //       where: { id: "user-123" },
+   //       data: { name: "test" },
+   //    });
+   // });
 
-//    it("should retrieve sessionCartId on signUp trigger", async () => {
-//       const mockToken = {} as any;
-//       const mockUser = {
-//          id: "user-123",
-//          role: "USER",
-//          name: "John Doe",
-//          email: "john@example.com",
-//       } as any;
+   // it("should retrieve sessionCartId on signIn trigger", async () => {
+   //    const mockToken = {} as any;
+   //    const mockUser = {
+   //       id: "user-123",
+   //       role: "USER",
+   //       name: "John Doe",
+   //       email: "john@example.com",
+   //    } as any;
 
-//       const mockCookies = {
-//          get: jest.fn().mockReturnValue({ value: "cart-123" }),
-//       };
-//       (cookies as jest.Mock).mockResolvedValue(mockCookies);
+   //    const mockCookies = {
+   //       get: jest.fn().mockReturnValue({ value: "cart-123" }),
+   //    };
+   //    (cookies as jest.Mock).mockResolvedValue(mockCookies);
 
-//       const result = await jwtCallback?.({
-//          token: mockToken,
-//          user: mockUser,
-//          trigger: "signUp",
-//          session: undefined,
-//       });
+   //    const result = await jwtCallback?.({
+   //       token: mockToken,
+   //       user: mockUser,
+   //       trigger: "signIn",
+   //       session: undefined,
+   //    });
 
-//       expect(mockCookies.get).toHaveBeenCalledWith("sessionCartId");
-//       expect(result?.id).toBe("user-123");
-//    });
+   //    expect(mockCookies.get).toHaveBeenCalledWith("sessionCartId");
+   //    expect(result?.id).toBe("user-123");
+   // });
 
-//    it("should update token name on update trigger", async () => {
-//       const mockToken = {
-//          name: "Old Name",
-//       } as any;
+   // it("should retrieve sessionCartId on signUp trigger", async () => {
+   //    const mockToken = {} as any;
+   //    const mockUser = {
+   //       id: "user-123",
+   //       role: "USER",
+   //       name: "John Doe",
+   //       email: "john@example.com",
+   //    } as any;
 
-//       const mockSession = {
-//          user: {
-//             name: "New Name",
-//          },
-//       } as any;
+   //    const mockCookies = {
+   //       get: jest.fn().mockReturnValue({ value: "cart-123" }),
+   //    };
+   //    (cookies as jest.Mock).mockResolvedValue(mockCookies);
 
-//       const result = await jwtCallback?.({
-//          token: mockToken,
-//          user: undefined,
-//          trigger: "update",
-//          session: mockSession,
-//       });
+   //    const result = await jwtCallback?.({
+   //       token: mockToken,
+   //       user: mockUser,
+   //       trigger: "signUp",
+   //       session: undefined,
+   //    });
 
-//       expect(result?.name).toBe("New Name");
-//    });
+   //    expect(mockCookies.get).toHaveBeenCalledWith("sessionCartId");
+   //    expect(result?.id).toBe("user-123");
+   // });
 
-//    it("should not update token when no user or session update", async () => {
-//       const mockToken = {
-//          sub: "user-123",
-//          role: "USER",
-//          name: "John Doe",
-//       } as any;
+   // it("should update token name on update trigger", async () => {
+   //    const mockToken = {
+   //       name: "Old Name",
+   //    } as any;
 
-//       const result = await jwtCallback?.({
-//          token: mockToken,
-//          user: undefined,
-//          trigger: undefined,
-//          session: undefined,
-//       });
+   //    const mockSession = {
+   //       user: {
+   //          name: "New Name",
+   //       },
+   //    } as any;
 
-//       expect(result).toEqual(mockToken);
-//    });
-// });
+   //    const result = await jwtCallback?.({
+   //       token: mockToken,
+   //       user: undefined,
+   //       trigger: "update",
+   //       session: mockSession,
+   //    });
+
+   //    expect(result?.name).toBe("New Name");
+   // });
+
+   // it("should not update token when no user or session update", async () => {
+   //    const mockToken = {
+   //       sub: "user-123",
+   //       role: "USER",
+   //       name: "John Doe",
+   //    } as any;
+
+   //    const result = await jwtCallback?.({
+   //       token: mockToken,
+   //       user: undefined,
+   //       trigger: undefined,
+   //       session: undefined,
+   //    });
+
+   //    expect(result).toEqual(mockToken);
+   // });
+});
