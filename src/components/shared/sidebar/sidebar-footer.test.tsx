@@ -1,5 +1,10 @@
 import { screen, waitFor } from "@testing-library/react";
-import { assertInDocument, ctestData, renderWithSidebar } from "@tests";
+import {
+   assertInDocument,
+   ctestData,
+   ntestData,
+   renderWithSidebar,
+} from "@tests";
 
 import { SidebarFooter } from "./sidebar-footer";
 
@@ -27,7 +32,8 @@ describe("SidebarFooter rendering tests", () => {
    });
 
    it("SidebarFooter - sidebar open - rendered test", async () => {
-      const { container } = renderWithSidebar(<SidebarFooter />);
+      const user = ntestData.user();
+      const { container } = renderWithSidebar(<SidebarFooter user={user} />);
 
       await waitFor(() => {
          assertRendered();
@@ -37,7 +43,8 @@ describe("SidebarFooter rendering tests", () => {
    });
 
    it("SidebarFooter - sidebar collapsed - rendered test", async () => {
-      const { container } = renderWithSidebar(<SidebarFooter />);
+      const user = ntestData.user();
+      const { container } = renderWithSidebar(<SidebarFooter user={user} />);
 
       await waitFor(() => {
          assertRendered();
@@ -53,7 +60,8 @@ describe("Sidebar functionality tests", () => {
    });
 
    it("Sidebar - navigation - test", async () => {
-      renderWithSidebar(<SidebarFooter />);
+      const user = ntestData.user();
+      renderWithSidebar(<SidebarFooter user={user} />);
 
       await waitFor(() => {
          assertRendered();

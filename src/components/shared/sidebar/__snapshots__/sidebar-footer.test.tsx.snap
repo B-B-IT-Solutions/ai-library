@@ -61,7 +61,8 @@ exports[`SidebarFooter rendering tests SidebarFooter - sidebar collapsed - rende
                     d="M20 21a8 8 0 0 0-16 0"
                   />
                 </svg>
-                 Username
+                 
+                User Name 1
                 <svg
                   aria-hidden="true"
                   class="lucide lucide-chevron-up ml-auto"
@@ -192,7 +193,8 @@ exports[`SidebarFooter rendering tests SidebarFooter - sidebar open - rendered t
                     d="M20 21a8 8 0 0 0-16 0"
                   />
                 </svg>
-                 Username
+                 
+                User Name 1
                 <svg
                   aria-hidden="true"
                   class="lucide lucide-chevron-up ml-auto"
