@@ -14,7 +14,7 @@ module.exports = {
          lines: 99,
          statements: 99,
       },
-      "./src/db/prisma.ts": {
+      "./src/data/db/prisma.ts": {
          branches: 75,
          functions: 100,
          lines: 100,
