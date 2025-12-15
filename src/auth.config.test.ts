@@ -1,22 +1,16 @@
 jest.mock("@/data/actions/user");
 jest.mock("@/lib/encrypt");
 
-import { NextResponse } from "next/server";
+import { ntestData, ptestData } from "@tests";
+import { forEach } from "es-toolkit/compat";
+import { DeepMockProxy } from "jest-mock-extended";
+import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
+import { Session } from "next-auth";
 import { CredentialsConfig } from "next-auth/providers/credentials";
 
-import { compare } from "@/lib/encrypt";
-
-// Mock dependencies
-jest.mock("@auth/prisma-adapter");
-jest.mock("next/headers");
-jest.mock("next/server");
-jest.mock("@/data/db/prisma");
-jest.mock("@/lib/encrypt");
-
-import { ntestData, ptestData } from "@tests";
-import { cookies } from "next/headers";
-
 import { getUserByEmail } from "@/data/actions/user";
+import { compare } from "@/lib/encrypt";
 
 import { authConfig } from "./auth.config";
 
@@ -31,6 +25,9 @@ const getUserByEmailMock = getUserByEmail as jest.MockedFunction<
 >;
 
 const compareMock = compare as jest.MockedFunction<typeof compare>;
+const nextMock = NextResponse.next as jest.MockedFunction<
+   typeof NextResponse.next
+>;
 
 const expectePagesConfig = {
    signIn: "/sign-in",
@@ -171,124 +168,130 @@ describe("auth.config - CredentialsProvider - tests", () => {
    });
 });
 
-// describe("authorized callback", () => {
-//    const authorized = authConfig.callbacks?.authorized;
+describe("auth.config - callback authorized - tests", () => {
+   const protectedPaths = [
+      "/prompts",
+      "/templates",
+      "/settings",
+      "/place-order",
+      "/profile",
+      "/user/123",
+      "/order/456",
+      "/admin",
+   ];
+   const publicPaths = ["/sign-in", "/sign-out"];
 
-//    beforeEach(() => {
-//       jest.clearAllMocks();
-//    });
+   const authorized = authConfig.callbacks!.authorized!;
 
-//    describe("protected paths", () => {
-//       const protectedPaths = [
-//          "/prompts",
-//          "/templates",
-//          "/settings",
-//          "/place-order",
-//          "/profile",
-//          "/user/123",
-//          "/order/456",
-//          "/admin",
-//       ];
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
 
-//       protectedPaths.forEach((path) => {
-//          it(`should return false when accessing ${path} without authentication`, () => {
-//             const request = {
-//                nextUrl: { pathname: path },
-//                cookies: {
-//                   get: jest.fn().mockReturnValue({ value: "session-id" }),
-//                },
-//                headers: new Headers(),
-//             } as any;
+   it("authorized - protected path access without authentication blocked- test", () => {
+      forEach(protectedPaths, (path) => {
+         const request = {
+            nextUrl: { pathname: path },
+            cookies: {
+               get: jest.fn(),
+            },
+         } as unknown as NextRequest;
 
-//             const result = authorized?.({ request, auth: null });
+         const result = authorized({ request, auth: null });
+         expect(result).toBe(false);
+      });
+   });
 
-//             expect(result).toBe(false);
-//          });
+   it("authorized - protected path access with authentication allowed - test", () => {
+      forEach(protectedPaths, (path) => {
+         const request = {
+            nextUrl: { pathname: path },
+            cookies: {
+               get: jest.fn().mockReturnValue({ value: "session-id" }),
+               set: jest.fn(),
+            },
+         } as unknown as NextRequest;
 
-//          it(`should allow access to ${path} when authenticated`, () => {
-//             const request = {
-//                nextUrl: { pathname: path },
-//                cookies: {
-//                   get: jest.fn().mockReturnValue({ value: "session-id" }),
-//                },
-//                headers: new Headers(),
-//             } as any;
+         const auth = {
+            user: { id: "user-1", email: "test@example.com" },
+         } as Session;
 
-//             const auth = {
-//                user: { id: "user-1", email: "test@example.com" },
-//             } as any;
+         const result = authorized({ request, auth });
+         expect(result).toBe(true);
+      });
+   });
 
-//             const result = authorized?.({ request, auth });
+   it("authorized - public path access without authentication allowed - test", () => {
+      forEach(publicPaths, (path) => {
+         const request = {
+            nextUrl: { pathname: path },
+            cookies: {
+               get: jest.fn().mockReturnValue({ value: "session-id" }),
+            },
+         } as unknown as NextRequest;
 
-//             expect(result).toBe(true);
-//          });
-//       });
+         const result = authorized({ request, auth: null });
+         expect(result).toBe(true);
+      });
+   });
 
-//       it("should allow access to public paths without authentication", () => {
-//          const request = {
-//             nextUrl: { pathname: "/sign-in" },
-//             cookies: {
-//                get: jest.fn().mockReturnValue({ value: "session-id" }),
-//             },
-//             headers: new Headers(),
-//          } as any;
+   it("authorized - sessionCartId undefined - test", () => {
+      const mockResponse = {
+         cookies: {
+            set: jest.fn(),
+         },
+      } as unknown as NextResponse;
+      nextMock.mockReturnValue(mockResponse);
 
-//          const result = authorized?.({ request, auth: null });
+      const request = {
+         nextUrl: { pathname: "/public" },
+         cookies: { get: jest.fn().mockReturnValue(undefined) },
+         headers: new Headers({ "header-1": "value-1" }),
+      } as unknown as NextRequest;
 
-//          expect(result).toBe(true);
-//       });
-//    });
+      const auth = {
+         user: { id: "user-1" },
+      } as Session;
 
-//    describe("sessionCartId cookie management", () => {
-//       it("should return response with sessionCartId cookie when cookie does not exist", () => {
-//          const mockResponse = {
-//             cookies: {
-//                set: jest.fn(),
-//             },
-//          };
+      const result = authorized({ request, auth });
 
-//          (NextResponse.next as jest.Mock).mockReturnValue(mockResponse);
+      const expectedResponseInit = {
+         request: {
+            headers: new Headers(request.headers),
+         },
+      };
 
-//          const request = {
-//             nextUrl: { pathname: "/public" },
-//             cookies: { get: jest.fn().mockReturnValue(undefined) },
-//             headers: new Headers(),
-//          } as any;
+      expect(result).toEqual(mockResponse);
+      expect(request.cookies.get).toHaveBeenCalledTimes(1);
+      expect(request.cookies.get).toHaveBeenCalledWith("sessionCartId");
+      expect(nextMock).toHaveBeenCalledTimes(1);
+      expect(nextMock).toHaveBeenCalledWith(expectedResponseInit);
+      expect(mockResponse.cookies.set).toHaveBeenCalledWith(
+         "sessionCartId",
+         expect.any(String)
+      );
+   });
 
-//          const auth = { user: { id: "user-1" } } as any;
+   it("authorized - sessionCartId defined - test", () => {
+      const request = {
+         nextUrl: { pathname: "/public" },
+         cookies: {
+            get: jest.fn().mockReturnValue({ value: "existing-cart-id" }),
+         },
+         headers: new Headers(),
+      } as unknown as NextRequest;
 
-//          const result = authorized?.({ request, auth });
+      const auth = {
+         user: { id: "user-1" },
+      } as Session;
 
-//          expect(request.cookies.get).toHaveBeenCalledWith("sessionCartId");
-//          expect(NextResponse.next).toHaveBeenCalledWith({
-//             request: {
-//                headers: expect.any(Headers),
-//             },
-//          });
-//          expect(mockResponse.cookies.set).toHaveBeenCalledWith(
-//             "sessionCartId",
-//             expect.any(String)
-//          );
-//          expect(result).toBe(mockResponse);
-//       });
+      const result = authorized({ request, auth });
 
-//       it("should return true when sessionCartId cookie exists", () => {
-//          const request = {
-//             nextUrl: { pathname: "/public" },
-//             cookies: {
-//                get: jest.fn().mockReturnValue({ value: "existing-cart-id" }),
-//             },
-//             headers: new Headers(),
-//          } as any;
-
-//          const auth = { user: { id: "user-1" } } as any;
-
-//          const result = authorized?.({ request, auth });
-
-//          expect(result).toBe(true);
-//       });
-//    });
-// });
+      expect(result).toEqual(true);
+      expect(request.cookies.get).toHaveBeenCalledTimes(1);
+      expect(request.cookies.get).toHaveBeenCalledWith("sessionCartId");
+      expect(nextMock).not.toHaveBeenCalled();
+   });
+});
 
 // describe("session callback", () => {
 //    const sessionCallback = authConfig.callbacks?.session;
