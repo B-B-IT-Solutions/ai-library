@@ -16,10 +16,10 @@ import {
 export const SidebarFooter = () => {
    return (
       <ShadcnSidebarFooter data-testid="sidebar-footer">
-         <SidebarMenu>
+         <SidebarMenu data-testid="sidebar-footer-menu">
             <SidebarMenuItem>
                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
+                  <DropdownMenuTrigger asChild={true}>
                      <SidebarMenuButton>
                         <User2 /> Username
                         <ChevronUp className="ml-auto" />
@@ -29,13 +29,13 @@ export const SidebarFooter = () => {
                      side="top"
                      className="w-(--radix-popper-anchor-width)"
                   >
-                     <DropdownMenuItem>
+                     <DropdownMenuItem data-testid="account">
                         <span>Account</span>
                      </DropdownMenuItem>
-                     <DropdownMenuItem>
+                     <DropdownMenuItem data-testid="billing">
                         <span>Billing</span>
                      </DropdownMenuItem>
-                     <DropdownMenuItem>
+                     <DropdownMenuItem data-testid="sign-out">
                         <span>Sign out</span>
                      </DropdownMenuItem>
                   </DropdownMenuContent>
