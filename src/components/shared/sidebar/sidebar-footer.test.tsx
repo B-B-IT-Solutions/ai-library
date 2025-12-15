@@ -43,8 +43,9 @@ describe("SidebarFooter rendering tests", () => {
    });
 
    it("SidebarFooter - sidebar collapsed - rendered test", async () => {
-      const user = ntestData.user();
-      const { container } = renderWithSidebar(<SidebarFooter user={user} />);
+      const { container } = renderWithSidebar(
+         <SidebarFooter user={undefined} />
+      );
 
       await waitFor(() => {
          assertRendered();
