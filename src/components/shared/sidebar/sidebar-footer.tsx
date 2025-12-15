@@ -15,7 +15,7 @@ import {
 
 export const SidebarFooter = () => {
    return (
-      <ShadcnSidebarFooter>
+      <ShadcnSidebarFooter data-testid="sidebar-footer">
          <SidebarMenu>
             <SidebarMenuItem>
                <DropdownMenu>

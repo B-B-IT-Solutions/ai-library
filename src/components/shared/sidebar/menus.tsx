@@ -1,4 +1,11 @@
-import { FileText, LayoutTemplate, Send, Settings, Star, Users } from "lucide-react";
+import {
+   FileText,
+   LayoutTemplate,
+   Send,
+   Settings,
+   Star,
+   Users,
+} from "lucide-react";
 
 import { DMenuItem } from "./types";
 

@@ -16,6 +16,7 @@ import {
    SidebarMenuItem,
    useSidebar,
 } from "@/components/shadcn/sidebar";
+import { toTestId } from "@/lib/utils";
 
 import { navigationMenu1, navigationMenu2 } from "./menus";
 import { SidebarFooter } from "./sidebar-footer";
@@ -32,7 +33,10 @@ export const Sidebar = () => {
    const renderMenu = (menuItems: typeof navigationMenu1) => {
       return map(menuItems, (m) => {
          return (
-            <SidebarMenuItem key={m.id}>
+            <SidebarMenuItem
+               key={m.id}
+               data-testid={`menu-item${toTestId(m.id)}`}
+            >
                <SidebarMenuButton asChild={true} isActive={isActive(m.id)}>
                   <Link href={m.url}>
                      <m.icon />
@@ -52,9 +56,9 @@ export const Sidebar = () => {
    };
 
    return (
-      <ShadcnSidebar collapsible="icon">
-         <SidebarHeader>{appName()}</SidebarHeader>
-         <SidebarContent>
+      <ShadcnSidebar collapsible="icon" data-testid="sidebar">
+         <SidebarHeader data-testid="sidebar-header">{appName()}</SidebarHeader>
+         <SidebarContent data-testid="sidebar-content">
             <SidebarGroup>
                <SidebarGroupLabel>Application</SidebarGroupLabel>
                <SidebarGroupContent>
