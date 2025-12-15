@@ -1,5 +1,5 @@
 import { screen, waitFor } from "@testing-library/dom";
-import { assertInDocument, ntestData, renderAsyncRSC } from "@tests";
+import { assertInDocument, ctestData, ntestData, renderAsyncRSC } from "@tests";
 import { cookies } from "next/headers";
 
 import MainLayout from "./layout";
@@ -15,6 +15,10 @@ const assertRendered = () => {
 };
 
 describe("MainLayout rendering tests", () => {
+   beforeEach(() => {
+      window.matchMedia = ctestData.createMatchMedia(false);
+   });
+
    it("MainLayout rendered", async () => {
       const reqCookies = ntestData.cookies({});
       cookiesMock.mockResolvedValue(reqCookies);
