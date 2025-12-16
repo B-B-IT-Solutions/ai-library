@@ -1,8 +1,11 @@
 import {
+   BookOpen,
    FileText,
    LayoutTemplate,
+   Package,
    Send,
    Settings,
+   ShoppingBag,
    Star,
    Users,
 } from "lucide-react";
@@ -27,6 +30,24 @@ export const navigationMenu1: DMenuItem[] = [
       title: "Favorites",
       icon: Star,
       url: "/favorites",
+   },
+   {
+      id: "/marketplace",
+      title: "Marketplace",
+      icon: ShoppingBag,
+      url: "/marketplace",
+   },
+   {
+      id: "/library",
+      title: "My Library",
+      icon: BookOpen,
+      url: "/library",
+   },
+   {
+      id: "/orders",
+      title: "Orders",
+      icon: Package,
+      url: "/orders",
    },
 ];
 
