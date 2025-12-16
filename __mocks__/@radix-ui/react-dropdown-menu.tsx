@@ -54,6 +54,17 @@ const Content: React.FC<{
    );
 };
 
+const Group: React.FC<{
+   children: React.ReactNode;
+}> = ({ children, ...props }) => {
+   clearProps(props);
+   return (
+      <div data-testid="mock-react-dropdown-menu-group" {...props}>
+         {children}
+      </div>
+   );
+};
+
 const Label: React.FC<{
    children: React.ReactNode;
 }> = ({ children, ...props }) => {
@@ -101,6 +112,7 @@ module.exports = {
    Trigger,
    Portal,
    Content,
+   Group,
    Label,
    Item,
    CheckboxItem,

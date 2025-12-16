@@ -1,13 +1,15 @@
 "use client";
 
 import { FC } from "react";
-import { ChevronUp, User2 } from "lucide-react";
+import { ChevronUp, LogOut, User2 } from "lucide-react";
 import { User } from "next-auth";
 
 import {
    DropdownMenu,
    DropdownMenuContent,
+   DropdownMenuGroup,
    DropdownMenuItem,
+   DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
 import {
@@ -36,15 +38,30 @@ export const SidebarFooter: FC<SidebarFooterProps> = ({ user }) => {
                </DropdownMenuTrigger>
                <DropdownMenuContent
                   side="top"
-                  className="w-(--radix-popper-anchor-width)"
+                  sideOffset={20}
+                  align="start"
+                  className="w-(--radix-popper-anchor-width) border-indigo-300"
                >
-                  <DropdownMenuItem data-testid="account">
-                     <span>Account</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem data-testid="billing">
-                     <span>Billing</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem data-testid="sign-out">
+                  <DropdownMenuGroup>
+                     <DropdownMenuItem
+                        className="px-2 py-1.5 cursor-pointer rounded-lg"
+                        data-testid="account"
+                     >
+                        <span>Account</span>
+                     </DropdownMenuItem>
+                     <DropdownMenuItem
+                        className="px-2 py-1.5 cursor-pointer rounded-lg"
+                        data-testid="billing"
+                     >
+                        <span>Billing</span>
+                     </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                  <DropdownMenuSeparator className="mx-2 my-1.5" />
+                  <DropdownMenuItem
+                     className="px-2 py-1.5 cursor-pointer rounded-lg"
+                     data-testid="sign-out"
+                  >
+                     <LogOut />
                      <span>Sign out</span>
                   </DropdownMenuItem>
                </DropdownMenuContent>
@@ -54,7 +71,7 @@ export const SidebarFooter: FC<SidebarFooterProps> = ({ user }) => {
    };
 
    return (
-      <ShadcnSidebarFooter data-testid="sidebar-footer">
+      <ShadcnSidebarFooter className="border-t" data-testid="sidebar-footer">
          <SidebarMenu data-testid="sidebar-footer-menu">
             <SidebarMenuItem>{dropdownMenu()}</SidebarMenuItem>
          </SidebarMenu>
