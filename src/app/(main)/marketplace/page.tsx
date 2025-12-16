@@ -17,7 +17,7 @@ export default async function MarketplacePage() {
                Marketplace
             </h1>
             <p className="text-slate-600">
-               Browse and purchase prompt templates, bundles, and subscriptions
+               Browse and purchase prompt templates and bundles
             </p>
          </div>
 

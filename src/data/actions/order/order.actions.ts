@@ -15,7 +15,6 @@ import {
    pGetUserOrders,
    pUpdateOrderStatus,
 } from "@/data/db/queries/order";
-import { pCreateSubscription } from "@/data/db/queries/purchase";
 import { DOrder } from "@/data/types/domain/order";
 import { ActionResult } from "@/data/types/utils";
 import { formatError } from "../utils";
@@ -66,9 +65,8 @@ export const createOrder = async (
          },
       });
 
-      // Create purchases and subscriptions based on products
+      // Create purchases based on products
       const templateIds: string[] = [];
-      let subscriptionDuration: number | null = null;
 
       for (const item of cart.items) {
          const product = item.product;
@@ -83,24 +81,12 @@ export const createOrder = async (
                   ?.map((bi: any) => bi.templateId)
                   .filter(Boolean) || [];
             templateIds.push(...bundleTemplateIds);
-         } else if (product.type === "SUBSCRIPTION") {
-            // Store subscription duration
-            subscriptionDuration = product.subscriptionDuration;
          }
       }
 
       // Create purchase records
       if (templateIds.length > 0) {
          await pCreatePurchases(order.id, userId, templateIds);
-      }
-
-      // Create subscription if applicable
-      if (subscriptionDuration) {
-         const startDate = new Date();
-         const endDate = new Date();
-         endDate.setDate(endDate.getDate() + subscriptionDuration);
-
-         await pCreateSubscription(userId, startDate, endDate);
       }
 
       // Update order status to completed

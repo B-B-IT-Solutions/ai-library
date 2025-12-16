@@ -52,8 +52,7 @@ export const ProductDetailsDialog: FC<ProductDetailsDialogProps> = ({
    const getTypeBadgeColor = () => {
       const colors = {
          TEMPLATE: "bg-blue-100 text-blue-700 border-blue-200",
-         BUNDLE: "bg-purple-100 text-purple-700 border-purple-200",
-         SUBSCRIPTION: "bg-green-100 text-green-700 border-green-200",
+         BUNDLE: "bg-green-100 text-green-700 border-green-200",
       };
       return colors[product.type];
    };
@@ -149,47 +148,6 @@ export const ProductDetailsDialog: FC<ProductDetailsDialogProps> = ({
       );
    };
 
-   const renderSubscriptionDetails = () => {
-      if (product.type !== "SUBSCRIPTION" || !product.subscriptionDuration)
-         return null;
-
-      const days = product.subscriptionDuration;
-      const months = Math.floor(days / 30);
-
-      return (
-         <div>
-            <h4 className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
-               <Calendar className="h-4 w-4" />
-               Subscription Details
-            </h4>
-            <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
-               <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                     <span className="text-sm text-slate-600">Duration</span>
-                     <span className="text-sm font-medium text-slate-900">
-                        {months > 0
-                           ? `${months} month${months > 1 ? "s" : ""}`
-                           : `${days} days`}
-                     </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                     <span className="text-sm text-slate-600">Access</span>
-                     <span className="text-sm font-medium text-slate-900">
-                        All templates
-                     </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                     <span className="text-sm text-slate-600">Renewal</span>
-                     <span className="text-sm font-medium text-slate-900">
-                        Manual
-                     </span>
-                  </div>
-               </div>
-            </div>
-         </div>
-      );
-   };
-
    return (
       <Dialog open={open} onOpenChange={onOpenChange}>
          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -219,7 +177,6 @@ export const ProductDetailsDialog: FC<ProductDetailsDialogProps> = ({
             <div className="space-y-6">
                {renderTemplateDetails()}
                {renderBundleDetails()}
-               {renderSubscriptionDetails()}
             </div>
 
             <div className="flex gap-3 pt-4 sticky bottom-0 bg-white border-t mt-6 -mx-6 px-6 py-4">

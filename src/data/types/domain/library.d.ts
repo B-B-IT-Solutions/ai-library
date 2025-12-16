@@ -11,5 +11,5 @@ export type DPurchase = {
 
 export type DLibraryTemplate = DPromptTemplate & {
    purchasedAt: string;
-   accessType: "PURCHASED" | "SUBSCRIPTION";
+   accessType: "PURCHASED";
 };

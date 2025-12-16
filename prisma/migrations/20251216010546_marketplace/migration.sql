@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "ProductType" AS ENUM ('TEMPLATE', 'BUNDLE', 'SUBSCRIPTION');
+CREATE TYPE "ProductType" AS ENUM ('TEMPLATE', 'BUNDLE');
 
 -- CreateEnum
 CREATE TYPE "ProductStatus" AS ENUM ('ACTIVE', 'INACTIVE', 'ARCHIVED');
@@ -16,7 +16,6 @@ CREATE TABLE "product" (
     "type" "ProductType" NOT NULL,
     "status" "ProductStatus" NOT NULL DEFAULT 'ACTIVE',
     "template_id" UUID,
-    "subscription_duration" INTEGER,
     "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -92,19 +91,6 @@ CREATE TABLE "purchase" (
     CONSTRAINT "purchase_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
-CREATE TABLE "subscription" (
-    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
-    "user_id" UUID NOT NULL,
-    "start_date" TIMESTAMP(6) NOT NULL,
-    "end_date" TIMESTAMP(6) NOT NULL,
-    "is_active" BOOLEAN NOT NULL DEFAULT true,
-    "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "subscription_pkey" PRIMARY KEY ("id")
-);
-
 -- CreateIndex
 CREATE UNIQUE INDEX "bundle_item_bundle_id_template_id_key" ON "bundle_item"("bundle_id", "template_id");
 
@@ -152,6 +138,3 @@ ALTER TABLE "purchase" ADD CONSTRAINT "purchase_order_id_fkey" FOREIGN KEY ("ord
 
 -- AddForeignKey
 ALTER TABLE "purchase" ADD CONSTRAINT "purchase_template_id_fkey" FOREIGN KEY ("template_id") REFERENCES "prompt_template"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "subscription" ADD CONSTRAINT "subscription_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

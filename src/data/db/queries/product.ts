@@ -68,21 +68,7 @@ export const pGetBundleWithTemplates = async (bundleId: string) => {
    });
 };
 
-export const pGetActiveSubscriptionPlans = async () => {
-   return await prisma.product.findMany({
-      where: {
-         type: "SUBSCRIPTION",
-         status: "ACTIVE",
-      },
-      orderBy: {
-         price: "asc",
-      },
-   });
-};
-
-export const pGetProductsByType = async (
-   type: "TEMPLATE" | "BUNDLE" | "SUBSCRIPTION"
-) => {
+export const pGetProductsByType = async (type: "TEMPLATE" | "BUNDLE") => {
    return await prisma.product.findMany({
       where: {
          type,

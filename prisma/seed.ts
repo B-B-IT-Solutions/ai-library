@@ -67,7 +67,9 @@ export const main = async () => {
       const product = await prisma.product.create({
          data: {
             name: template.title,
-            description: `Get access to the "${template.title}" template. ${template.content.substring(0, 100)}...`,
+            description: `Get access to the "${
+               template.title
+            }" template. ${template.content.substring(0, 100)}...`,
             price: 9.99,
             type: "TEMPLATE",
             status: "ACTIVE",
@@ -82,9 +84,11 @@ export const main = async () => {
 
    // Developer Bundle
    const devTemplates = createdTemplates.filter((t) =>
-      ["Code Review Assistant", "SQL Query Generator", "Bug Report Template"].includes(
-         t.title
-      )
+      [
+         "Code Review Assistant",
+         "SQL Query Generator",
+         "Bug Report Template",
+      ].includes(t.title)
    );
    const devBundle = await prisma.product.create({
       data: {
@@ -126,7 +130,9 @@ export const main = async () => {
          },
       },
    });
-   console.log(`Created bundle: ${contentBundle.name} ($${contentBundle.price})`);
+   console.log(
+      `Created bundle: ${contentBundle.name} ($${contentBundle.price})`
+   );
 
    // Business Productivity Bundle
    const businessTemplates = createdTemplates.filter((t) =>
@@ -155,45 +161,11 @@ export const main = async () => {
       `Created bundle: ${businessBundle.name} ($${businessBundle.price})`
    );
 
-   // Create subscription plans
-   console.log("\nCreating subscription plans...");
-
-   const monthlySubscription = await prisma.product.create({
-      data: {
-         name: "Monthly All-Access Pass",
-         description:
-            "Get unlimited access to all templates for 30 days. Perfect for trying out the platform!",
-         price: 29.99,
-         type: "SUBSCRIPTION",
-         status: "ACTIVE",
-         subscriptionDuration: 30,
-      },
-   });
-   console.log(
-      `Created subscription: ${monthlySubscription.name} ($${monthlySubscription.price})`
-   );
-
-   const yearlySubscription = await prisma.product.create({
-      data: {
-         name: "Annual All-Access Pass",
-         description:
-            "Unlimited access to all templates for a full year. Best value - save 40%!",
-         price: 199.99,
-         type: "SUBSCRIPTION",
-         status: "ACTIVE",
-         subscriptionDuration: 365,
-      },
-   });
-   console.log(
-      `Created subscription: ${yearlySubscription.name} ($${yearlySubscription.price})`
-   );
-
    console.log("\n✅ Seeding finished successfully!");
    console.log(`\nSummary:`);
    console.log(`- ${createdTemplates.length} templates`);
    console.log(`- ${createdTemplates.length} individual products`);
    console.log(`- 3 bundles`);
-   console.log(`- 2 subscription plans`);
 };
 
 main()

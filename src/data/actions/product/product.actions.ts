@@ -3,7 +3,6 @@
 import { validate as isValidUuid } from "uuid";
 
 import {
-   pGetActiveSubscriptionPlans,
    pGetBundleWithTemplates,
    pGetProductById,
    pGetProducts,
@@ -18,7 +17,9 @@ export const getProducts = async (): Promise<DProduct[]> => {
    return toDProducts(products);
 };
 
-export const getProductById = async (id: string): Promise<DProduct | undefined> => {
+export const getProductById = async (
+   id: string
+): Promise<DProduct | undefined> => {
    if (!isValidUuid(id)) {
       return undefined;
    }
@@ -36,13 +37,8 @@ export const getBundles = async (): Promise<DProduct[]> => {
    return toDProducts(bundles);
 };
 
-export const getSubscriptionPlans = async (): Promise<DProduct[]> => {
-   const plans = await pGetActiveSubscriptionPlans();
-   return toDProducts(plans);
-};
-
 export const getProductsByType = async (
-   type: "TEMPLATE" | "BUNDLE" | "SUBSCRIPTION"
+   type: "TEMPLATE" | "BUNDLE"
 ): Promise<DProduct[]> => {
    const products = await pGetProductsByType(type);
    return toDProducts(products);

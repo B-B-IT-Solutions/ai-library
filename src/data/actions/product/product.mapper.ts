@@ -8,10 +8,9 @@ type PrismaProduct = {
    name: string;
    description: string;
    price: any;
-   type: "TEMPLATE" | "BUNDLE" | "SUBSCRIPTION";
+   type: "TEMPLATE" | "BUNDLE";
    status: "ACTIVE" | "INACTIVE" | "ARCHIVED";
    templateId: string | null;
-   subscriptionDuration: number | null;
    createdAt: Date;
    updatedAt: Date;
    template?: any;
@@ -38,11 +37,6 @@ export const toDProduct = (product: PrismaProduct): DProduct => {
    if (product.template) {
       baseProduct.template = toDPromptTemplate(product.template);
       baseProduct.templateId = product.templateId ?? undefined;
-   }
-
-   // Add subscription duration if exists
-   if (product.subscriptionDuration) {
-      baseProduct.subscriptionDuration = product.subscriptionDuration;
    }
 
    // Add bundle items if exists

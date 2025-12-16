@@ -68,8 +68,7 @@ export const ProductCard: FC<ProductCardProps> = ({
    const typeBadge = () => {
       const colors = {
          TEMPLATE: "bg-blue-100 text-blue-700 border-blue-200",
-         BUNDLE: "bg-purple-100 text-purple-700 border-purple-200",
-         SUBSCRIPTION: "bg-green-100 text-green-700 border-green-200",
+         BUNDLE: "bg-green-100 text-green-700 border-green-200",
       };
 
       return (
@@ -110,23 +109,6 @@ export const ProductCard: FC<ProductCardProps> = ({
       );
    };
 
-   const subscriptionInfo = () => {
-      if (product.type !== "SUBSCRIPTION" || !product.subscriptionDuration)
-         return null;
-
-      const days = product.subscriptionDuration;
-      const months = Math.floor(days / 30);
-
-      return (
-         <p className="text-xs text-slate-600 mb-2">
-            {months > 0
-               ? `${months} month${months > 1 ? "s" : ""}`
-               : `${days} days`}{" "}
-            access
-         </p>
-      );
-   };
-
    return (
       <Card
          className="p-4 gap-0 bg-white border border-slate-300 rounded-lg hover:border-blue-500 hover:shadow-md transition-all"
@@ -146,7 +128,6 @@ export const ProductCard: FC<ProductCardProps> = ({
          <CardContent className="p-0 grid gap-2">
             {categories()}
             {bundleInfo()}
-            {subscriptionInfo()}
             <p className="text-sm text-slate-600 line-clamp-2 mb-3">
                {product.description}
             </p>

@@ -4,7 +4,6 @@ import { validate as isValidUuid } from "uuid";
 
 import { createPrompt as pCreatePrompt } from "@/data/db/queries/prompt";
 import {
-   pCheckSubscriptionAccess,
    pCheckUserHasTemplate,
    pGetUserPurchases,
 } from "@/data/db/queries/purchase";
@@ -32,13 +31,6 @@ export const hasAccessToTemplate = async (
 ): Promise<boolean> => {
    try {
       const userId = await requireUserId();
-
-      // Check subscription access
-      const hasSubscription = await pCheckSubscriptionAccess(userId);
-      if (hasSubscription) {
-         return true;
-      }
-
       // Check purchase access
       return await pCheckUserHasTemplate(userId, templateId);
    } catch (error) {

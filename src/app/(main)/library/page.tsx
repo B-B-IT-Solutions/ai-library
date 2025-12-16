@@ -7,7 +7,6 @@ import { auth } from "@/auth";
 import { PurchasedTemplateCard } from "@/components/library/purchased-template-card";
 import { Button } from "@/components/shadcn/button";
 import { getPurchasedTemplates } from "@/data/actions/library/library.actions";
-import { getActiveSubscription } from "@/data/actions/subscription/subscription.actions";
 
 export default async function LibraryPage() {
    const session = await auth();
@@ -15,10 +14,7 @@ export default async function LibraryPage() {
       return redirect("/");
    }
 
-   const [templates, subscription] = await Promise.all([
-      getPurchasedTemplates(),
-      getActiveSubscription(),
-   ]);
+   const templates = await getPurchasedTemplates();
 
    if (!templates || templates.length === 0) {
       return (
@@ -52,25 +48,6 @@ export default async function LibraryPage() {
                Access and manage your purchased templates
             </p>
          </div>
-
-         {subscription && (
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
-               <div className="flex items-center justify-between">
-                  <div>
-                     <h3 className="font-semibold text-green-900">
-                        Active Subscription
-                     </h3>
-                     <p className="text-sm text-green-700">
-                        Access to all templates until{" "}
-                        {new Date(subscription.endDate).toLocaleDateString()}
-                     </p>
-                  </div>
-                  <span className="px-3 py-1 bg-green-100 text-green-700 rounded border border-green-200 text-sm font-medium">
-                     Active
-                  </span>
-               </div>
-            </div>
-         )}
 
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {map(templates, (template) => (
