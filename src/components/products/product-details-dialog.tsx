@@ -1,8 +1,8 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useTransition } from "react";
 import { map } from "es-toolkit/compat";
-import { Calendar, Package, ShoppingCart, Sparkles, X } from "lucide-react";
+import { Calendar, Package, ShoppingCart, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -15,7 +15,7 @@ import {
    DialogTitle,
 } from "@/components/shadcn/dialog";
 import { Separator } from "@/components/shadcn/separator";
-import { useAddToCart } from "@/data/ts-queries/cart/cart";
+import { addToCart } from "@/data/actions/cart/cart.actions";
 import { DProduct } from "@/data/types/domain/product";
 
 type ProductDetailsDialogProps = {
@@ -29,22 +29,24 @@ export const ProductDetailsDialog: FC<ProductDetailsDialogProps> = ({
    open,
    onOpenChange,
 }) => {
-   const addToCart = useAddToCart();
+   const [isPending, startTransition] = useTransition();
 
    const handleAddToCart = () => {
-      addToCart.mutate(
-         { productId: product.id, quantity: 1 },
-         {
-            onSuccess: (result) => {
-               if (result.success) {
-                  toast.success(result.message);
-                  onOpenChange(false);
-               } else {
-                  toast.error(result.message);
-               }
-            },
+      startTransition(async () => {
+         const result = await addToCart(product.id, 1);
+         if (result.success) {
+            toast.success(result.message);
+            onOpenChange(false);
+            // Dispatch custom event to update cart preview
+            if (result.data) {
+               window.dispatchEvent(
+                  new CustomEvent("cart-updated", { detail: result.data })
+               );
+            }
+         } else {
+            toast.error(result.message);
          }
-      );
+      });
    };
 
    const getTypeBadgeColor = () => {
@@ -223,12 +225,12 @@ export const ProductDetailsDialog: FC<ProductDetailsDialogProps> = ({
             <div className="flex gap-3 pt-4 sticky bottom-0 bg-white border-t mt-6 -mx-6 px-6 py-4">
                <Button
                   onClick={handleAddToCart}
-                  disabled={addToCart.isPending}
+                  disabled={isPending}
                   className="flex-1"
                   size="lg"
                >
                   <ShoppingCart className="w-4 h-4 mr-2" />
-                  {addToCart.isPending ? "Adding..." : "Add to Cart"}
+                  {isPending ? "Adding..." : "Add to Cart"}
                </Button>
                <Button
                   onClick={() => onOpenChange(false)}

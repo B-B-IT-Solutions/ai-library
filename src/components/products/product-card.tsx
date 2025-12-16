@@ -1,13 +1,13 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC, useState, useTransition } from "react";
 import { map } from "es-toolkit/compat";
 import { Info, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
-import { useAddToCart } from "@/data/ts-queries/cart/cart";
+import { addToCart } from "@/data/actions/cart/cart.actions";
 import { DProduct } from "@/data/types/domain/product";
 
 import { ProductDetailsDialog } from "./product-details-dialog";
@@ -17,22 +17,24 @@ type ProductCardProps = {
 };
 
 export const ProductCard: FC<ProductCardProps> = ({ product }) => {
-   const addToCart = useAddToCart();
    const [showDetails, setShowDetails] = useState(false);
+   const [isPending, startTransition] = useTransition();
 
    const handleAddToCart = () => {
-      addToCart.mutate(
-         { productId: product.id, quantity: 1 },
-         {
-            onSuccess: (result) => {
-               if (result.success) {
-                  toast.success(result.message);
-               } else {
-                  toast.error(result.message);
-               }
-            },
+      startTransition(async () => {
+         const result = await addToCart(product.id, 1);
+         if (result.success) {
+            toast.success(result.message);
+            // Dispatch custom event to update cart preview
+            if (result.data) {
+               window.dispatchEvent(
+                  new CustomEvent("cart-updated", { detail: result.data })
+               );
+            }
+         } else {
+            toast.error(result.message);
          }
-      );
+      });
    };
 
    const typeBadge = () => {
@@ -133,12 +135,12 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
                </Button>
                <Button
                   onClick={handleAddToCart}
-                  disabled={addToCart.isPending}
+                  disabled={isPending}
                   className="flex-1"
                   data-testid="add-to-cart-button"
                >
                   <ShoppingCart className="w-4 h-4 mr-2" />
-                  {addToCart.isPending ? "Adding..." : "Add to Cart"}
+                  {isPending ? "Adding..." : "Add to Cart"}
                </Button>
             </div>
          </CardContent>

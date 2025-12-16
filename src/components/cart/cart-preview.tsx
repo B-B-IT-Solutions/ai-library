@@ -1,32 +1,35 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useTransition } from "react";
 import { ShoppingCart, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
+import { removeFromCart } from "@/data/actions/cart/cart.actions";
 import { DCart } from "@/data/types/domain/cart";
-import { useRemoveFromCart } from "@/data/ts-queries/cart/cart";
-import { toast } from "sonner";
 
 type CartPreviewProps = {
    cart: DCart;
+   onCartChange?: (cart: DCart) => void;
 };
 
-export const CartPreview: FC<CartPreviewProps> = ({ cart }) => {
+export const CartPreview: FC<CartPreviewProps> = ({ cart, onCartChange }) => {
    const router = useRouter();
-   const removeFromCart = useRemoveFromCart();
+   const [isPending, startTransition] = useTransition();
 
-   const handleRemoveItem = (itemId: string, productName: string) => {
-      removeFromCart.mutate(itemId, {
-         onSuccess: (result) => {
-            if (result.success) {
-               toast.success(`${productName} removed from cart`);
-            } else {
-               toast.error(result.message);
+   const handleRemoveItem = async (itemId: string, productName: string) => {
+      startTransition(async () => {
+         const result = await removeFromCart(itemId);
+         if (result.success) {
+            toast.success(`${productName} removed from cart`);
+            if (result.data && onCartChange) {
+               onCartChange(result.data);
             }
-         },
+         } else {
+            toast.error(result.message);
+         }
       });
    };
 
@@ -86,9 +89,9 @@ export const CartPreview: FC<CartPreviewProps> = ({ cart }) => {
                            </div>
                            <button
                               onClick={() => handleRemoveItem(item.id, item.product.name)}
-                              className="text-slate-400 hover:text-red-500 transition-colors p-1"
+                              className="text-slate-400 hover:text-red-500 transition-colors p-1 disabled:opacity-50"
                               aria-label="Remove item"
-                              disabled={removeFromCart.isPending}
+                              disabled={isPending}
                            >
                               <Trash2 className="h-4 w-4" />
                            </button>
