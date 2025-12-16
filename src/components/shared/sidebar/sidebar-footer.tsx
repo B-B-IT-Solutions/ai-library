@@ -18,6 +18,7 @@ import {
    SidebarMenuButton,
    SidebarMenuItem,
 } from "@/components/shadcn/sidebar";
+import { signOutUser } from "@/data/actions/user";
 
 type SidebarFooterProps = {
    user?: User;
@@ -59,6 +60,7 @@ export const SidebarFooter: FC<SidebarFooterProps> = ({ user }) => {
                   <DropdownMenuSeparator className="mx-2 my-1.5" />
                   <DropdownMenuItem
                      className="px-2 py-1.5 cursor-pointer rounded-lg"
+                     onClick={signOutUser}
                      data-testid="sign-out"
                   >
                      <LogOut />

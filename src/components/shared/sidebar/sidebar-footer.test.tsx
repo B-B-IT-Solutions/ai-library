@@ -1,12 +1,20 @@
+jest.mock("@/data/actions/user");
+
 import { screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import {
    assertInDocument,
+   assertNotInDocument,
    ctestData,
    ntestData,
    renderWithSidebar,
 } from "@tests";
 
+import { signOutUser } from "@/data/actions/user";
+
 import { SidebarFooter } from "./sidebar-footer";
+
+const signOutUserMock = signOutUser as jest.MockedFunction<typeof signOutUser>;
 
 const assertRendered = () => {
    const footer = screen.getByTestId("sidebar-footer");
@@ -16,7 +24,7 @@ const assertRendered = () => {
    assertInDocument(menu);
 };
 
-const assertMenuItems = () => {
+const assertMenuItemsRendered = () => {
    const account = screen.getByTestId("account");
    const billing = screen.getByTestId("billing");
    const signOut = screen.getByTestId("sign-out");
@@ -24,6 +32,16 @@ const assertMenuItems = () => {
    assertInDocument(account);
    assertInDocument(billing);
    assertInDocument(signOut);
+};
+
+const assertMenuItemsNotRendered = () => {
+   const account = screen.queryByTestId("account");
+   const billing = screen.queryByTestId("billing");
+   const signOut = screen.queryByTestId("sign-out");
+
+   assertNotInDocument(account);
+   assertNotInDocument(billing);
+   assertNotInDocument(signOut);
 };
 
 describe("SidebarFooter rendering tests", () => {
@@ -37,6 +55,7 @@ describe("SidebarFooter rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertMenuItemsRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -49,6 +68,7 @@ describe("SidebarFooter rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertMenuItemsNotRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -66,7 +86,15 @@ describe("Sidebar functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertMenuItems();
+         assertMenuItemsRendered();
+         expect(signOutUserMock).not.toHaveBeenCalled();
+      });
+
+      const singOutItem = screen.getByTestId("sign-out");
+      userEvent.click(singOutItem);
+
+      await waitFor(() => {
+         expect(signOutUserMock).toHaveBeenCalledTimes(1);
       });
    });
 });
