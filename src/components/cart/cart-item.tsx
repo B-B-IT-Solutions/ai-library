@@ -1,14 +1,15 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useTransition } from "react";
 import { Minus, Plus, X } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
 import {
-   useRemoveFromCart,
-   useUpdateCartQuantity,
-} from "@/data/ts-queries/cart/cart";
+   removeFromCart,
+   updateCartItemQuantity,
+} from "@/data/actions/cart/cart.actions";
 import { DCartItem } from "@/data/types/domain/cart";
 
 type CartItemProps = {
@@ -16,34 +17,33 @@ type CartItemProps = {
 };
 
 export const CartItem: FC<CartItemProps> = ({ item }) => {
-   const removeFromCart = useRemoveFromCart();
-   const updateQuantity = useUpdateCartQuantity();
+   const router = useRouter();
+   const [isRemoving, startRemoveTransition] = useTransition();
+   const [isUpdating, startUpdateTransition] = useTransition();
 
    const handleRemove = () => {
-      removeFromCart.mutate(item.id, {
-         onSuccess: (result) => {
-            if (result.success) {
-               toast.success(result.message);
-            } else {
-               toast.error(result.message);
-            }
-         },
+      startRemoveTransition(async () => {
+         const result = await removeFromCart(item.id);
+         if (result.success) {
+            toast.success(result.message);
+            router.refresh();
+         } else {
+            toast.error(result.message);
+         }
       });
    };
 
    const handleUpdateQuantity = (newQuantity: number) => {
       if (newQuantity < 1) return;
 
-      updateQuantity.mutate(
-         { itemId: item.id, quantity: newQuantity },
-         {
-            onSuccess: (result) => {
-               if (!result.success) {
-                  toast.error(result.message);
-               }
-            },
+      startUpdateTransition(async () => {
+         const result = await updateCartItemQuantity(item.id, newQuantity);
+         if (result.success) {
+            router.refresh();
+         } else {
+            toast.error(result.message);
          }
-      );
+      });
    };
 
    return (
@@ -63,7 +63,7 @@ export const CartItem: FC<CartItemProps> = ({ item }) => {
                variant="outline"
                size="icon"
                onClick={() => handleUpdateQuantity(item.quantity - 1)}
-               disabled={item.quantity <= 1 || updateQuantity.isPending}
+               disabled={item.quantity <= 1 || isUpdating}
                data-testid="decrease-quantity"
             >
                <Minus className="w-4 h-4" />
@@ -73,7 +73,7 @@ export const CartItem: FC<CartItemProps> = ({ item }) => {
                variant="outline"
                size="icon"
                onClick={() => handleUpdateQuantity(item.quantity + 1)}
-               disabled={updateQuantity.isPending}
+               disabled={isUpdating}
                data-testid="increase-quantity"
             >
                <Plus className="w-4 h-4" />
@@ -90,7 +90,7 @@ export const CartItem: FC<CartItemProps> = ({ item }) => {
             variant="ghost"
             size="icon"
             onClick={handleRemove}
-            disabled={removeFromCart.isPending}
+            disabled={isRemoving}
             data-testid="remove-item"
          >
             <X className="w-4 h-4" />

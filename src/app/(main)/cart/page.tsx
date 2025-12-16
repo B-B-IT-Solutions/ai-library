@@ -1,5 +1,3 @@
-"use client";
-
 import { map } from "es-toolkit/compat";
 import { ShoppingBag } from "lucide-react";
 import Link from "next/link";
@@ -7,28 +5,10 @@ import Link from "next/link";
 import { CartItem } from "@/components/cart/cart-item";
 import { CartSummary } from "@/components/cart/cart-summary";
 import { Button } from "@/components/shadcn/button";
-import { useCart } from "@/data/ts-queries/cart/cart";
+import { getCartSummary } from "@/data/actions/cart/cart.actions";
 
-export default function CartPage() {
-   const { data: cart, isLoading } = useCart();
-
-   if (isLoading) {
-      return (
-         <div className="container mx-auto px-4 py-8">
-            <div className="animate-pulse">
-               <div className="h-8 bg-slate-200 rounded w-32 mb-8" />
-               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                  <div className="lg:col-span-2 space-y-4">
-                     {[1, 2, 3].map((i) => (
-                        <div key={i} className="h-24 bg-slate-100 rounded-lg" />
-                     ))}
-                  </div>
-                  <div className="h-48 bg-slate-100 rounded-lg" />
-               </div>
-            </div>
-         </div>
-      );
-   }
+export default async function CartPage() {
+   const cart = await getCartSummary();
 
    if (!cart || cart.items.length === 0) {
       return (

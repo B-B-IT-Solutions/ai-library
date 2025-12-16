@@ -1,30 +1,18 @@
-"use client";
-
 import { format } from "date-fns";
 import { map } from "es-toolkit/compat";
 import { CheckCircle, Package } from "lucide-react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 
 import { Button } from "@/components/shadcn/button";
-import { useLoadOrderById } from "@/data/ts-queries/order/order";
+import { getOrderById } from "@/data/actions/order/order.actions";
 
-export default function OrderDetailPage() {
-   const params = useParams();
-   const orderId = params.id as string;
+type OrderDetailPageProps = {
+   params: Promise<{ id: string }>;
+};
 
-   const { data: order, isLoading } = useLoadOrderById(orderId);
-
-   if (isLoading) {
-      return (
-         <div className="container mx-auto px-4 py-8 max-w-2xl">
-            <div className="animate-pulse space-y-6">
-               <div className="h-8 bg-slate-200 rounded w-48" />
-               <div className="h-64 bg-slate-100 rounded-lg" />
-            </div>
-         </div>
-      );
-   }
+export default async function OrderDetailPage({ params }: OrderDetailPageProps) {
+   const { id: orderId } = await params;
+   const order = await getOrderById(orderId);
 
    if (!order) {
       return (
