@@ -1,8 +1,8 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useState } from "react";
 import { map } from "es-toolkit/compat";
-import { ShoppingCart } from "lucide-react";
+import { Info, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
@@ -10,12 +10,15 @@ import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import { useAddToCart } from "@/data/ts-queries/cart/cart";
 import { DProduct } from "@/data/types/domain/product";
 
+import { ProductDetailsDialog } from "./product-details-dialog";
+
 type ProductCardProps = {
    product: DProduct;
 };
 
 export const ProductCard: FC<ProductCardProps> = ({ product }) => {
    const addToCart = useAddToCart();
+   const [showDetails, setShowDetails] = useState(false);
 
    const handleAddToCart = () => {
       addToCart.mutate(
@@ -114,19 +117,37 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
             {categories()}
             {bundleInfo()}
             {subscriptionInfo()}
-            <p className="text-sm text-slate-600 line-clamp-2 mb-2">
+            <p className="text-sm text-slate-600 line-clamp-2 mb-3">
                {product.description}
             </p>
-            <Button
-               onClick={handleAddToCart}
-               disabled={addToCart.isPending}
-               className="w-full"
-               data-testid="add-to-cart-button"
-            >
-               <ShoppingCart className="w-4 h-4 mr-2" />
-               {addToCart.isPending ? "Adding..." : "Add to Cart"}
-            </Button>
+
+            <div className="flex gap-2">
+               <Button
+                  onClick={() => setShowDetails(true)}
+                  variant="outline"
+                  className="flex-1"
+                  data-testid="view-details-button"
+               >
+                  <Info className="w-4 h-4 mr-2" />
+                  Details
+               </Button>
+               <Button
+                  onClick={handleAddToCart}
+                  disabled={addToCart.isPending}
+                  className="flex-1"
+                  data-testid="add-to-cart-button"
+               >
+                  <ShoppingCart className="w-4 h-4 mr-2" />
+                  {addToCart.isPending ? "Adding..." : "Add to Cart"}
+               </Button>
+            </div>
          </CardContent>
+
+         <ProductDetailsDialog
+            product={product}
+            open={showDetails}
+            onOpenChange={setShowDetails}
+         />
       </Card>
    );
 };
