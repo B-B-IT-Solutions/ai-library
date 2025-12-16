@@ -16,7 +16,6 @@ model User {
   image         String?
   password      String?    @db.VarChar(250)
   role          String     @default("user") @db.VarChar(50)
-  paymentMethod String?    @map("payment_method") @db.VarChar(50)
   createdAt     DateTime   @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt     DateTime   @updatedAt @map("updated_at")
   accounts      Account[]
@@ -158,10 +157,10 @@ model Product {
 model BundleItem {
   id         String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   bundleId   String         @map("bundle_id") @db.Uuid
-  bundle     Product        @relation(fields: [bundleId], references: [id], onDelete: Cascade)
   templateId String         @map("template_id") @db.Uuid
-  template   PromptTemplate @relation(fields: [templateId], references: [id])
   createdAt  DateTime       @default(now()) @map("created_at") @db.Timestamp(6)
+  bundle     Product        @relation(fields: [bundleId], references: [id], onDelete: Cascade)
+  template   PromptTemplate @relation(fields: [templateId], references: [id])
 
   @@unique([bundleId, templateId])
   @@map("bundle_item")
@@ -170,11 +169,11 @@ model BundleItem {
 model Cart {
   id            String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   userId        String?    @map("user_id") @db.Uuid
-  user          User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
   sessionCartId String?    @unique @map("session_cart_id") @db.VarChar(250)
-  items         CartItem[]
   createdAt     DateTime   @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt     DateTime   @updatedAt @map("updated_at")
+  items         CartItem[]
+  user          User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("cart")
 }
@@ -182,12 +181,12 @@ model Cart {
 model CartItem {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   cartId    String   @map("cart_id") @db.Uuid
-  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
   productId String   @map("product_id") @db.Uuid
-  product   Product  @relation(fields: [productId], references: [id])
   quantity  Int      @default(1)
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt DateTime @updatedAt @map("updated_at")
+  product   Product  @relation(fields: [productId], references: [id])
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
 
   @@unique([cartId, productId])
   @@map("cart_item")
@@ -196,14 +195,14 @@ model CartItem {
 model Order {
   id            String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   userId        String      @map("user_id") @db.Uuid
-  user          User        @relation(fields: [userId], references: [id])
   status        OrderStatus @default(PENDING)
   totalAmount   Decimal     @map("total_amount") @db.Decimal(10, 2)
   paymentMethod String?     @map("payment_method") @db.VarChar(100)
-  items         OrderItem[]
-  purchases     Purchase[]
   createdAt     DateTime    @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt     DateTime    @updatedAt @map("updated_at")
+  user          User        @relation(fields: [userId], references: [id])
+  items         OrderItem[]
+  purchases     Purchase[]
 
   @@map("order")
 }
@@ -211,12 +210,12 @@ model Order {
 model OrderItem {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   orderId   String   @map("order_id") @db.Uuid
-  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
   productId String   @map("product_id") @db.Uuid
-  product   Product  @relation(fields: [productId], references: [id])
   quantity  Int      @default(1)
   price     Decimal  @db.Decimal(10, 2)
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id])
 
   @@map("order_item")
 }
@@ -224,12 +223,12 @@ model OrderItem {
 model Purchase {
   id         String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   userId     String         @map("user_id") @db.Uuid
-  user       User           @relation(fields: [userId], references: [id])
   orderId    String         @map("order_id") @db.Uuid
-  order      Order          @relation(fields: [orderId], references: [id])
   templateId String         @map("template_id") @db.Uuid
-  template   PromptTemplate @relation(fields: [templateId], references: [id])
   createdAt  DateTime       @default(now()) @map("created_at") @db.Timestamp(6)
+  user       User           @relation(fields: [userId], references: [id])
+  order      Order          @relation(fields: [orderId], references: [id])
+  template   PromptTemplate @relation(fields: [templateId], references: [id])
 
   @@unique([userId, templateId])
   @@map("purchase")
