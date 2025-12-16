@@ -2,7 +2,7 @@
 
 import { FC, useTransition } from "react";
 import { map } from "es-toolkit/compat";
-import { Calendar, Package, ShoppingCart, Sparkles } from "lucide-react";
+import { Package, ShoppingCart, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
 import { Badge } from "@/components/shadcn/badge";

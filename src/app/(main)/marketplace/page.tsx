@@ -4,7 +4,6 @@ import { getProducts } from "@/data/actions/product/product.actions";
 import { MarketplaceClient } from "./marketplace-client";
 
 export default async function MarketplacePage() {
-   // Fetch data on the server
    const [products, cart] = await Promise.all([
       getProducts(),
       getCartSummary(),
