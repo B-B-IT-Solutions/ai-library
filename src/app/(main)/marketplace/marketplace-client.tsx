@@ -24,13 +24,22 @@ export const MarketplaceClient = ({
       );
    }
 
+   // Get IDs of products already in cart
+   const cartProductIds = new Set(
+      initialCart.items.map((item) => item.product.id)
+   );
+
    return (
       <div className="flex flex-col lg:flex-row gap-8">
          {/* Products Grid */}
          <div className="flex-1">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                {map(products, (product) => (
-                  <ProductCard key={product.id} product={product} />
+                  <ProductCard
+                     key={product.id}
+                     product={product}
+                     isInCart={cartProductIds.has(product.id)}
+                  />
                ))}
             </div>
          </div>

@@ -90,18 +90,15 @@ export const pAddItemToCart = async (
    });
 
    if (existingItem) {
-      // Update quantity
-      return await prisma.cartItem.update({
-         where: { id: existingItem.id },
-         data: { quantity: existingItem.quantity + quantity },
-      });
+      // For digital products, don't allow duplicates - just return existing item
+      return existingItem;
    } else {
-      // Create new item
+      // Create new item with quantity of 1 (digital products)
       return await prisma.cartItem.create({
          data: {
             cartId,
             productId,
-            quantity,
+            quantity: 1,
          },
       });
    }

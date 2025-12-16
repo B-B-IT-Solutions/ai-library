@@ -1,15 +1,12 @@
 "use client";
 
 import { FC, useTransition } from "react";
-import { Minus, Plus, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
-import {
-   removeFromCart,
-   updateCartItemQuantity,
-} from "@/data/actions/cart/cart.actions";
+import { removeFromCart } from "@/data/actions/cart/cart.actions";
 import { DCartItem } from "@/data/types/domain/cart";
 
 type CartItemProps = {
@@ -19,26 +16,12 @@ type CartItemProps = {
 export const CartItem: FC<CartItemProps> = ({ item }) => {
    const router = useRouter();
    const [isRemoving, startRemoveTransition] = useTransition();
-   const [isUpdating, startUpdateTransition] = useTransition();
 
    const handleRemove = () => {
       startRemoveTransition(async () => {
          const result = await removeFromCart(item.id);
          if (result.success) {
             toast.success(result.message);
-            router.refresh();
-         } else {
-            toast.error(result.message);
-         }
-      });
-   };
-
-   const handleUpdateQuantity = (newQuantity: number) => {
-      if (newQuantity < 1) return;
-
-      startUpdateTransition(async () => {
-         const result = await updateCartItemQuantity(item.id, newQuantity);
-         if (result.success) {
             router.refresh();
          } else {
             toast.error(result.message);
@@ -54,30 +37,8 @@ export const CartItem: FC<CartItemProps> = ({ item }) => {
          <div className="flex-1">
             <h4 className="font-medium text-slate-900">{item.product.name}</h4>
             <p className="text-sm text-slate-600">
-               {item.product.type} · ${item.product.price.toFixed(2)} each
+               {item.product.type} · ${item.product.price.toFixed(2)}
             </p>
-         </div>
-
-         <div className="flex items-center gap-2">
-            <Button
-               variant="outline"
-               size="icon"
-               onClick={() => handleUpdateQuantity(item.quantity - 1)}
-               disabled={item.quantity <= 1 || isUpdating}
-               data-testid="decrease-quantity"
-            >
-               <Minus className="w-4 h-4" />
-            </Button>
-            <span className="w-8 text-center font-medium">{item.quantity}</span>
-            <Button
-               variant="outline"
-               size="icon"
-               onClick={() => handleUpdateQuantity(item.quantity + 1)}
-               disabled={isUpdating}
-               data-testid="increase-quantity"
-            >
-               <Plus className="w-4 h-4" />
-            </Button>
          </div>
 
          <div className="w-24 text-right">

@@ -10,14 +10,10 @@ import {
    pGetCartBySessionId,
    pGetCartByUserId,
    pRemoveCartItem,
-   pUpdateCartItemQuantity,
 } from "@/data/db/queries/cart";
 import { DCart, DCartSummary } from "@/data/types/domain/cart";
 import { ActionResult } from "@/data/types/utils";
-import {
-   addToCartSchema,
-   updateCartItemSchema,
-} from "@/data/types/validators/product.schema";
+import { addToCartSchema } from "@/data/types/validators/product.schema";
 import { formatError } from "../utils";
 
 import { toDCart } from "./cart.mapper";
@@ -76,6 +72,11 @@ export const addToCart = async (
       const validated = addToCartSchema.parse({ productId, quantity });
       const cart = await getOrCreateCart();
 
+      // Check if item already exists
+      const existingItem = cart.items?.find(
+         (item: any) => item.productId === validated.productId
+      );
+
       await pAddItemToCart(cart.id, validated.productId, validated.quantity);
 
       // Fetch updated cart
@@ -88,7 +89,9 @@ export const addToCart = async (
 
       return {
          success: true,
-         message: "Item added to cart successfully.",
+         message: existingItem
+            ? "Item is already in your cart."
+            : "Item added to cart successfully.",
          data: toDCart(updatedCart!),
       };
    } catch (error) {
@@ -116,35 +119,6 @@ export const removeFromCart = async (
       return {
          success: true,
          message: "Item removed from cart successfully.",
-         data: toDCart(updatedCart!),
-      };
-   } catch (error) {
-      return {
-         success: false,
-         message: formatError(error),
-      };
-   }
-};
-
-export const updateCartItemQuantity = async (
-   itemId: string,
-   quantity: number
-): Promise<ActionResult<DCart>> => {
-   try {
-      const validated = updateCartItemSchema.parse({ quantity });
-      await pUpdateCartItemQuantity(itemId, validated.quantity);
-
-      const cart = await getOrCreateCart();
-      const session = await auth();
-      const userId = session?.user?.id;
-
-      const updatedCart = userId
-         ? await pGetCartByUserId(userId)
-         : await pGetCartBySessionId(cart.sessionCartId!);
-
-      return {
-         success: true,
-         message: "Cart updated successfully.",
          data: toDCart(updatedCart!),
       };
    } catch (error) {
