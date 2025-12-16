@@ -1,16 +1,16 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useTransition } from "react";
 import { map } from "es-toolkit/compat";
-import { Copy, Download, Eye } from "lucide-react";
+import { Copy, Download } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import {
-   useCopyTemplateToPrompts,
-   useDownloadTemplate,
-} from "@/data/ts-queries/library/library";
+   copyTemplateToPrompts,
+   downloadTemplate,
+} from "@/data/actions/library/library.actions";
 import { DPromptTemplate } from "@/data/types/domain/prompt.template";
 
 type PurchasedTemplateCardProps = {
@@ -20,42 +20,40 @@ type PurchasedTemplateCardProps = {
 export const PurchasedTemplateCard: FC<PurchasedTemplateCardProps> = ({
    template,
 }) => {
-   const copyToPrompts = useCopyTemplateToPrompts();
-   const downloadTemplate = useDownloadTemplate();
+   const [isCopying, startCopyTransition] = useTransition();
+   const [isDownloading, startDownloadTransition] = useTransition();
 
    const handleCopy = () => {
-      copyToPrompts.mutate(template.id, {
-         onSuccess: (result) => {
-            if (result.success) {
-               toast.success(result.message);
-            } else {
-               toast.error(result.message);
-            }
-         },
+      startCopyTransition(async () => {
+         const result = await copyTemplateToPrompts(template.id);
+         if (result.success) {
+            toast.success(result.message);
+         } else {
+            toast.error(result.message);
+         }
       });
    };
 
    const handleDownload = () => {
-      downloadTemplate.mutate(template.id, {
-         onSuccess: (result) => {
-            if (result.success && result.data) {
-               // Create download
-               const blob = new Blob([result.data], {
-                  type: "application/json",
-               });
-               const url = URL.createObjectURL(blob);
-               const a = document.createElement("a");
-               a.href = url;
-               a.download = `${template.title.replace(/\s+/g, "_")}.json`;
-               document.body.appendChild(a);
-               a.click();
-               document.body.removeChild(a);
-               URL.revokeObjectURL(url);
-               toast.success("Template downloaded!");
-            } else {
-               toast.error(result.message);
-            }
-         },
+      startDownloadTransition(async () => {
+         const result = await downloadTemplate(template.id);
+         if (result.success && result.data) {
+            // Create download
+            const blob = new Blob([result.data], {
+               type: "application/json",
+            });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `${template.title.replace(/\s+/g, "_")}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            toast.success("Template downloaded!");
+         } else {
+            toast.error(result.message);
+         }
       });
    };
 
@@ -96,17 +94,17 @@ export const PurchasedTemplateCard: FC<PurchasedTemplateCardProps> = ({
                   variant="outline"
                   size="sm"
                   onClick={handleCopy}
-                  disabled={copyToPrompts.isPending}
+                  disabled={isCopying}
                   data-testid="copy-button"
                >
                   <Copy className="w-4 h-4 mr-1" />
-                  {copyToPrompts.isPending ? "Copying..." : "Copy"}
+                  {isCopying ? "Copying..." : "Copy"}
                </Button>
                <Button
                   variant="outline"
                   size="sm"
                   onClick={handleDownload}
-                  disabled={downloadTemplate.isPending}
+                  disabled={isDownloading}
                   data-testid="download-button"
                >
                   <Download className="w-4 h-4 mr-1" />

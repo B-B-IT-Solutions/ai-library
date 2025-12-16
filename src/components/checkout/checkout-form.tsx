@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -17,7 +17,7 @@ import {
    FormMessage,
 } from "@/components/shadcn/form";
 import { Input } from "@/components/shadcn/input";
-import { usePlaceOrder } from "@/data/ts-queries/order/order";
+import { createOrder } from "@/data/actions/order/order.actions";
 import { DCart } from "@/data/types/domain/cart";
 import { DCheckoutForm } from "@/data/types/domain/order";
 import { checkoutSchema } from "@/data/types/validators/order.schema";
@@ -28,7 +28,7 @@ type CheckoutFormProps = {
 
 export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
    const router = useRouter();
-   const placeOrder = usePlaceOrder();
+   const [isPending, startTransition] = useTransition();
 
    const form = useForm<DCheckoutForm>({
       resolver: zodResolver(checkoutSchema),
@@ -39,15 +39,14 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
    });
 
    const onSubmit = (data: DCheckoutForm) => {
-      placeOrder.mutate(data.paymentMethodId || undefined, {
-         onSuccess: (result) => {
-            if (result.success && result.data) {
-               toast.success(result.message);
-               router.push(`/order/${result.data.id}`);
-            } else {
-               toast.error(result.message);
-            }
-         },
+      startTransition(async () => {
+         const result = await createOrder(data.paymentMethodId || undefined);
+         if (result.success && result.data) {
+            toast.success(result.message);
+            router.push(`/order/${result.data.id}`);
+         } else {
+            toast.error(result.message);
+         }
       });
    };
 
@@ -107,10 +106,10 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
             <Button
                type="submit"
                className="w-full"
-               disabled={placeOrder.isPending || cart.items.length === 0}
+               disabled={isPending || cart.items.length === 0}
                data-testid="place-order-button"
             >
-               {placeOrder.isPending ? "Placing Order..." : "Place Order"}
+               {isPending ? "Placing Order..." : "Place Order"}
             </Button>
          </form>
       </Form>

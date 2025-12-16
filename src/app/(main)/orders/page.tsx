@@ -1,30 +1,13 @@
-"use client";
-
 import { map } from "es-toolkit/compat";
 import { Package } from "lucide-react";
 import Link from "next/link";
 
 import { OrderCard } from "@/components/orders/order-card";
 import { Button } from "@/components/shadcn/button";
-import { useLoadOrders } from "@/data/ts-queries/order/order";
+import { getUserOrders } from "@/data/actions/order/order.actions";
 
-export default function OrdersPage() {
-   const { data: orders, isLoading } = useLoadOrders();
-
-   if (isLoading) {
-      return (
-         <div className="container mx-auto px-4 py-8">
-            <div className="animate-pulse">
-               <div className="h-8 bg-slate-200 rounded w-48 mb-8" />
-               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {[1, 2, 3, 4, 5, 6].map((i) => (
-                     <div key={i} className="h-48 bg-slate-100 rounded-lg" />
-                  ))}
-               </div>
-            </div>
-         </div>
-      );
-   }
+export default async function OrdersPage() {
+   const orders = await getUserOrders();
 
    if (!orders || orders.length === 0) {
       return (

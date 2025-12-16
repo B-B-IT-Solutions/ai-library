@@ -1,35 +1,17 @@
-"use client";
-
 import { map } from "es-toolkit/compat";
 import { BookOpen } from "lucide-react";
 import Link from "next/link";
 
 import { PurchasedTemplateCard } from "@/components/library/purchased-template-card";
 import { Button } from "@/components/shadcn/button";
-import {
-   useLoadActiveSubscription,
-   useLoadPurchasedTemplates,
-} from "@/data/ts-queries/library/library";
+import { getPurchasedTemplates } from "@/data/actions/library/library.actions";
+import { getActiveSubscription } from "@/data/actions/subscription/subscription.actions";
 
-export default function LibraryPage() {
-   const { data: templates, isLoading: templatesLoading } =
-      useLoadPurchasedTemplates();
-   const { data: subscription } = useLoadActiveSubscription();
-
-   if (templatesLoading) {
-      return (
-         <div className="container mx-auto px-4 py-8">
-            <div className="animate-pulse">
-               <div className="h-8 bg-slate-200 rounded w-48 mb-8" />
-               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {[1, 2, 3, 4, 5, 6].map((i) => (
-                     <div key={i} className="h-64 bg-slate-100 rounded-lg" />
-                  ))}
-               </div>
-            </div>
-         </div>
-      );
-   }
+export default async function LibraryPage() {
+   const [templates, subscription] = await Promise.all([
+      getPurchasedTemplates(),
+      getActiveSubscription(),
+   ]);
 
    if (!templates || templates.length === 0) {
       return (
