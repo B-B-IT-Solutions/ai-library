@@ -80,8 +80,8 @@ describe("Sidebar functionality tests", () => {
       window.matchMedia = ctestData.createMatchMedia(false);
    });
 
-   it("Sidebar - navigation - test", async () => {
-      const user = ntestData.user();
+   it("Sidebar - sign out clicked - test", async () => {
+      const user = { name: undefined, role: "user" };
       renderWithSidebar(<SidebarFooter user={user} />);
 
       await waitFor(() => {
