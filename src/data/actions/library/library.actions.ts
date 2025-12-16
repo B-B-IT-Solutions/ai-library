@@ -2,7 +2,6 @@
 
 import { validate as isValidUuid } from "uuid";
 
-import { auth } from "@/auth";
 import { createPrompt as pCreatePrompt } from "@/data/db/queries/prompt";
 import {
    pCheckSubscriptionAccess,
@@ -13,38 +12,38 @@ import { DPurchase } from "@/data/types/domain/library";
 import { DPromptTemplate } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 import { PromptCreateInput } from "@/generated/prisma/models";
+import { requireUserId } from "../auth-utils";
 import { formatError } from "../utils";
 
 import { toDPurchases } from "./library.mapper";
 
 export const getPurchasedTemplates = async (): Promise<DPromptTemplate[]> => {
-   const session = await auth();
-   if (!session?.user?.id) {
+   try {
+      const userId = await requireUserId();
+      const purchases = await pGetUserPurchases(userId);
+      return purchases.map((p) => p.template);
+   } catch (error) {
       return [];
    }
-
-   const purchases = await pGetUserPurchases(session.user.id);
-   return purchases.map((p) => p.template);
 };
 
 export const hasAccessToTemplate = async (
    templateId: string
 ): Promise<boolean> => {
-   const session = await auth();
-   if (!session?.user?.id) {
+   try {
+      const userId = await requireUserId();
+
+      // Check subscription access
+      const hasSubscription = await pCheckSubscriptionAccess(userId);
+      if (hasSubscription) {
+         return true;
+      }
+
+      // Check purchase access
+      return await pCheckUserHasTemplate(userId, templateId);
+   } catch (error) {
       return false;
    }
-
-   const userId = session.user.id;
-
-   // Check subscription access
-   const hasSubscription = await pCheckSubscriptionAccess(userId);
-   if (hasSubscription) {
-      return true;
-   }
-
-   // Check purchase access
-   return await pCheckUserHasTemplate(userId, templateId);
 };
 
 export const copyTemplateToPrompts = async (
@@ -58,13 +57,7 @@ export const copyTemplateToPrompts = async (
          };
       }
 
-      const session = await auth();
-      if (!session?.user?.id) {
-         return {
-            success: false,
-            message: "You must be logged in to copy templates.",
-         };
-      }
+      const userId = await requireUserId();
 
       // Check access
       const hasAccess = await hasAccessToTemplate(templateId);
@@ -76,7 +69,7 @@ export const copyTemplateToPrompts = async (
       }
 
       // Get template
-      const purchases = await pGetUserPurchases(session.user.id);
+      const purchases = await pGetUserPurchases(userId);
       const purchase = purchases.find((p) => p.templateId === templateId);
 
       if (!purchase) {
@@ -129,13 +122,7 @@ export const downloadTemplate = async (
          };
       }
 
-      const session = await auth();
-      if (!session?.user?.id) {
-         return {
-            success: false,
-            message: "You must be logged in to download templates.",
-         };
-      }
+      const userId = await requireUserId();
 
       // Check access
       const hasAccess = await hasAccessToTemplate(templateId);
@@ -147,7 +134,7 @@ export const downloadTemplate = async (
       }
 
       // Get template
-      const purchases = await pGetUserPurchases(session.user.id);
+      const purchases = await pGetUserPurchases(userId);
       const purchase = purchases.find((p) => p.templateId === templateId);
 
       if (!purchase) {

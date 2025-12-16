@@ -1,14 +1,20 @@
 import { map } from "es-toolkit/compat";
 import { redirect } from "next/navigation";
 
+import { auth } from "@/auth";
 import { CheckoutForm } from "@/components/checkout/checkout-form";
 import { getCartSummary } from "@/data/actions/cart/cart.actions";
 
 export default async function CheckoutPage() {
+   const session = await auth();
+   if (!session?.user?.id) {
+      return redirect("/");
+   }
+
    const cart = await getCartSummary();
 
    if (!cart || cart.items.length === 0) {
-      redirect("/cart");
+      return redirect("/cart");
    }
 
    return (

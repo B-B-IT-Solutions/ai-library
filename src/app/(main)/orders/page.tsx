@@ -1,12 +1,19 @@
 import { map } from "es-toolkit/compat";
 import { Package } from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
+import { auth } from "@/auth";
 import { OrderCard } from "@/components/orders/order-card";
 import { Button } from "@/components/shadcn/button";
 import { getUserOrders } from "@/data/actions/order/order.actions";
 
 export default async function OrdersPage() {
+   const session = await auth();
+   if (!session?.user?.id) {
+      return redirect("/");
+   }
+
    const orders = await getUserOrders();
 
    if (!orders || orders.length === 0) {

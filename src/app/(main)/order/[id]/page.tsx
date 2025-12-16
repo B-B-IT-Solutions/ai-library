@@ -2,7 +2,9 @@ import { format } from "date-fns";
 import { map } from "es-toolkit/compat";
 import { CheckCircle, Package } from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
+import { auth } from "@/auth";
 import { Button } from "@/components/shadcn/button";
 import { getOrderById } from "@/data/actions/order/order.actions";
 
@@ -10,7 +12,14 @@ type OrderDetailPageProps = {
    params: Promise<{ id: string }>;
 };
 
-export default async function OrderDetailPage({ params }: OrderDetailPageProps) {
+export default async function OrderDetailPage({
+   params,
+}: OrderDetailPageProps) {
+   const session = await auth();
+   if (!session?.user?.id) {
+      return redirect("/");
+   }
+
    const { id: orderId } = await params;
    const order = await getOrderById(orderId);
 

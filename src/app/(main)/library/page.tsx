@@ -1,13 +1,20 @@
 import { map } from "es-toolkit/compat";
 import { BookOpen } from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
+import { auth } from "@/auth";
 import { PurchasedTemplateCard } from "@/components/library/purchased-template-card";
 import { Button } from "@/components/shadcn/button";
 import { getPurchasedTemplates } from "@/data/actions/library/library.actions";
 import { getActiveSubscription } from "@/data/actions/subscription/subscription.actions";
 
 export default async function LibraryPage() {
+   const session = await auth();
+   if (!session?.user?.id) {
+      return redirect("/");
+   }
+
    const [templates, subscription] = await Promise.all([
       getPurchasedTemplates(),
       getActiveSubscription(),
