@@ -26,35 +26,6 @@ export const ProductCardSkeleton: FC = () => (
    </Card>
 );
 
-export const CartPreviewSkeleton: FC = () => (
-   <Card className="shadow-lg">
-      <CardHeader className="pb-3">
-         <div className="flex items-center justify-between">
-            <div className="h-6 bg-slate-200 rounded w-24 animate-pulse" />
-            <div className="h-4 bg-slate-200 rounded w-16 animate-pulse" />
-         </div>
-      </CardHeader>
-      <CardContent className="space-y-4">
-         <div className="space-y-3">
-            {[1, 2, 3].map((i) => (
-               <div
-                  key={i}
-                  className="h-20 bg-slate-100 rounded-lg animate-pulse"
-               />
-            ))}
-         </div>
-         <div className="border-t pt-4 space-y-2">
-            <div className="h-4 bg-slate-200 rounded w-full animate-pulse" />
-            <div className="h-6 bg-slate-200 rounded w-full animate-pulse" />
-         </div>
-         <div className="space-y-2 pt-2">
-            <div className="h-10 bg-slate-200 rounded w-full animate-pulse" />
-            <div className="h-8 bg-slate-200 rounded w-full animate-pulse" />
-         </div>
-      </CardContent>
-   </Card>
-);
-
 export const OrderCardSkeleton: FC = () => (
    <div className="h-48 bg-slate-100 rounded-lg border border-slate-200 p-4">
       <div className="flex justify-between items-start mb-3">
