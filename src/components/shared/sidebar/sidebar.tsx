@@ -1,8 +1,10 @@
 "use client";
 
+import { FC } from "react";
 import { map, startsWith } from "es-toolkit/compat";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { User } from "next-auth";
 
 import {
    Sidebar as ShadcnSidebar,
@@ -21,7 +23,11 @@ import { toTestId } from "@/lib/utils";
 import { navigationMenu1, navigationMenu2 } from "./menus";
 import { SidebarFooter } from "./sidebar-footer";
 
-export const Sidebar = () => {
+type SidebarProps = {
+   user?: User;
+};
+
+export const Sidebar: FC<SidebarProps> = ({ user }) => {
    const { open, openMobile } = useSidebar();
 
    const pathName = usePathname();
@@ -72,7 +78,7 @@ export const Sidebar = () => {
                </SidebarGroupContent>
             </SidebarGroup>
          </SidebarContent>
-         <SidebarFooter />
+         <SidebarFooter user={user} />
       </ShadcnSidebar>
    );
 };
