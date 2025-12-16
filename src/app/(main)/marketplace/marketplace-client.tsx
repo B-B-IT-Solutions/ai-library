@@ -1,6 +1,10 @@
+"use client";
+
+import { useState } from "react";
 import { map } from "es-toolkit/compat";
 
-import { CartPreviewWrapper } from "@/components/cart/cart-preview-wrapper";
+import { CartDrawer } from "@/components/cart/cart-drawer";
+import { FloatingCartButton } from "@/components/cart/floating-cart-button";
 import { ProductCard } from "@/components/products/product-card";
 import { DCart } from "@/data/types/domain/cart";
 import { DProduct } from "@/data/types/domain/product";
@@ -14,6 +18,8 @@ export const MarketplaceClient = ({
    products,
    initialCart,
 }: MarketplaceClientProps) => {
+   const [isCartOpen, setIsCartOpen] = useState(false);
+
    if (!products || products.length === 0) {
       return (
          <div className="text-center py-12">
@@ -30,26 +36,30 @@ export const MarketplaceClient = ({
    );
 
    return (
-      <div className="flex flex-col lg:flex-row gap-8">
-         {/* Products Grid */}
-         <div className="flex-1">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-               {map(products, (product) => (
-                  <ProductCard
-                     key={product.id}
-                     product={product}
-                     isInCart={cartProductIds.has(product.id)}
-                  />
-               ))}
-            </div>
+      <>
+         {/* Products Grid - Now Full Width */}
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {map(products, (product) => (
+               <ProductCard
+                  key={product.id}
+                  product={product}
+                  isInCart={cartProductIds.has(product.id)}
+               />
+            ))}
          </div>
 
-         {/* Cart Preview Sidebar */}
-         <div className="w-full lg:w-80">
-            <div className="sticky top-4">
-               <CartPreviewWrapper initialCart={initialCart} />
-            </div>
-         </div>
-      </div>
+         {/* Floating Cart Button */}
+         <FloatingCartButton
+            initialCart={initialCart}
+            onClick={() => setIsCartOpen(true)}
+         />
+
+         {/* Cart Drawer */}
+         <CartDrawer
+            initialCart={initialCart}
+            open={isCartOpen}
+            onOpenChange={setIsCartOpen}
+         />
+      </>
    );
 };

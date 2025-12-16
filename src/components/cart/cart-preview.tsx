@@ -79,11 +79,11 @@ export const CartPreview: FC<CartPreviewProps> = ({ cart, onCartChange }) => {
                               </h4>
                               <div className="flex items-center gap-2 mt-1">
                                  <span className="text-xs text-slate-600">
-                                    Qty: {item.quantity}
+                                    {item.product.type}
                                  </span>
                                  <span className="text-xs text-slate-400">•</span>
                                  <span className="text-xs font-medium text-indigo-600">
-                                    ${(Number(item.product.price) * item.quantity).toFixed(2)}
+                                    ${item.product.price.toFixed(2)}
                                  </span>
                               </div>
                            </div>
