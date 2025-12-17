@@ -32,7 +32,7 @@ const assertMenuItems = () => {
    const groupApplication = screen.getByText("Application");
    const prompts = screen.getByTestId("menu-item-prompts");
    const templates = screen.getByTestId("menu-item-templates");
-   const favorites = screen.getByTestId("menu-item-favorites");
+   const marketplace = screen.getByTestId("menu-item-marketplace");
 
    const groupOther = screen.getByText("Other");
    const feedback = screen.getByTestId("menu-item-feedback");
@@ -42,7 +42,7 @@ const assertMenuItems = () => {
    assertInDocument(groupApplication);
    assertInDocument(prompts);
    assertInDocument(templates);
-   assertInDocument(favorites);
+   assertInDocument(marketplace);
 
    assertInDocument(groupOther);
    assertInDocument(feedback);
@@ -120,7 +120,7 @@ describe("Sidebar functionality tests", () => {
 
       await assertNavigateToMenuItem("Prompts", "/prompts");
       await assertNavigateToMenuItem("Templates", "/templates");
-      await assertNavigateToMenuItem("Favorites", "/favorites");
+      await assertNavigateToMenuItem("Marketplace", "/marketplace");
       await assertNavigateToMenuItem("Feedback", "/feedback");
       await assertNavigateToMenuItem("Invite People", "/invite-people");
       await assertNavigateToMenuItem("Settings", "/settings");

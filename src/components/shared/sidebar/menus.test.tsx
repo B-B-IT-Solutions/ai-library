@@ -27,12 +27,6 @@ const expectedNavigationMenu1: DMenuItem[] = [
       url: "/templates",
    },
    {
-      id: "/favorites",
-      title: "Favorites",
-      icon: Star,
-      url: "/favorites",
-   },
-   {
       id: "/marketplace",
       title: "Marketplace",
       icon: ShoppingBag,

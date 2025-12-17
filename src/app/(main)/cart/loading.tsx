@@ -1,9 +1,9 @@
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import { CartItemSkeleton } from "@/components/shared/skeletons";
 
-export default function CartLoading() {
+export const CartLoading = () => {
    return (
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8" data-testid="cart-loading">
          <div className="h-8 bg-slate-200 rounded w-48 mb-8 animate-pulse" />
 
          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -36,4 +36,6 @@ export default function CartLoading() {
          </div>
       </div>
    );
-}
+};
+
+export default CartLoading;

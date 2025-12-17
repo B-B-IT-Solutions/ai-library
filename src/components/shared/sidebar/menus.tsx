@@ -6,7 +6,6 @@ import {
    Send,
    Settings,
    ShoppingBag,
-   Star,
    Users,
 } from "lucide-react";
 
@@ -24,12 +23,6 @@ export const navigationMenu1: DMenuItem[] = [
       title: "Templates",
       icon: LayoutTemplate,
       url: "/templates",
-   },
-   {
-      id: "/favorites",
-      title: "Favorites",
-      icon: Star,
-      url: "/favorites",
    },
    {
       id: "/marketplace",
