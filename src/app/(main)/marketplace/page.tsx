@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import { getCartSummary } from "@/data/actions/cart/cart.actions";
 import { getProducts } from "@/data/actions/product/product.actions";
 
-import { MarketplaceClient } from "./marketplace-client";
+import { Marketplace } from "./marketplace";
 
 export const metadata: Metadata = {
    title: "Marketplace",
@@ -28,7 +28,7 @@ export const MarketplacePage = async () => {
                Browse and purchase prompt templates and bundles
             </p>
          </div>
-         <MarketplaceClient products={products} initialCart={cart} />
+         <Marketplace products={products} initialCart={cart} />
       </div>
    );
 };

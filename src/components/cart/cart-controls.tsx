@@ -15,7 +15,7 @@ export const CartControls: FC<CartControlsProps> = ({ initialCart }) => {
    const [isCartOpen, setIsCartOpen] = useState(false);
 
    return (
-      <>
+      <div data-testid="cart-controls">
          <FloatingCartButton
             initialCart={initialCart}
             onClick={() => setIsCartOpen(true)}
@@ -25,6 +25,6 @@ export const CartControls: FC<CartControlsProps> = ({ initialCart }) => {
             open={isCartOpen}
             onOpenChange={setIsCartOpen}
          />
-      </>
+      </div>
    );
 };

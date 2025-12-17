@@ -22,10 +22,10 @@ export const expectedMetadata: Metadata = {
 
 const assertRendered = () => {
    const page = screen.getByTestId("market-place-page");
-   const marketPlaceClient = screen.getByTestId("market-place-client");
+   const marketPlace = screen.getByTestId("market-place");
 
    assertInDocument(page);
-   assertInDocument(marketPlaceClient);
+   assertInDocument(marketPlace);
 };
 
 describe("MarketplacePage rendering tests", () => {

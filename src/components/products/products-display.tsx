@@ -21,7 +21,7 @@ export const ProductsDisplay = ({
    const [viewMode, setViewMode] = useState<ViewMode>("grid");
 
    return (
-      <>
+      <div data-testid="products">
          {/* View Toggle */}
          <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-slate-900">
@@ -53,6 +53,6 @@ export const ProductsDisplay = ({
                ))}
             </div>
          )}
-      </>
+      </div>
    );
 };
