@@ -1,13 +1,8 @@
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import { assertInDocument, dtestData } from "@tests";
-import { Metadata } from "next";
 
 import { Marketplace } from "./marketplace";
-
-export const expectedMetadata: Metadata = {
-   title: "Marketplace",
-};
 
 const assertRendered = () => {
    const marketPlace = screen.getByTestId("market-place");

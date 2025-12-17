@@ -16,7 +16,6 @@ export const Marketplace = ({
    initialCart,
    viewMode,
 }: MarketplaceProps) => {
-   // Get IDs of products already in cart
    const cartProductIds = new Set(
       initialCart.items.map((item) => item.product.id)
    );

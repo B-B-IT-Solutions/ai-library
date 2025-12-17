@@ -19,7 +19,10 @@ export const Products = ({
 }: ProductsProps) => {
    const gridView = () => {
       return (
-         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+         <div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            data-testid="products-grid"
+         >
             {map(products, (product) => (
                <ProductCard
                   key={product.id}
@@ -33,7 +36,7 @@ export const Products = ({
 
    const listView = () => {
       return (
-         <div className="space-y-4">
+         <div className="space-y-4" data-testid="products-list">
             {map(products, (product) => (
                <ProductListItem
                   key={product.id}

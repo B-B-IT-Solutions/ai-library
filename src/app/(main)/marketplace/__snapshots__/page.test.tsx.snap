@@ -130,6 +130,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
         </div>
         <div
           class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          data-testid="products-grid"
         >
           <div
             class="text-card-foreground flex flex-col shadow-sm p-4 gap-0 bg-white border border-slate-300 rounded-lg hover:border-blue-500 hover:shadow-md transition-all"
@@ -694,6 +695,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
         </div>
         <div
           class="space-y-4"
+          data-testid="products-list"
         >
           <div
             class="text-card-foreground flex flex-col gap-6 shadow-sm p-4 bg-white border border-slate-300 rounded-lg hover:border-blue-500 hover:shadow-md transition-all"
