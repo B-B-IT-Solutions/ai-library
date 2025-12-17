@@ -23,13 +23,16 @@ export const ViewToggle: FC<ViewToggleProps> = ({ currentView }) => {
    };
 
    return (
-      <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg">
+      <div
+         className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg"
+         data-testid="view-toggle"
+      >
          <Button
             variant={currentView === "grid" ? "default" : "ghost"}
             size="sm"
             onClick={() => updateViewMode("grid")}
             className="gap-2 cursor-pointer"
-            data-testid="grid-view-button"
+            data-testid="grid-view-btn"
          >
             <Grid3x3 className="w-4 h-4" />
             <span className="hidden sm:inline">Grid</span>
@@ -39,7 +42,7 @@ export const ViewToggle: FC<ViewToggleProps> = ({ currentView }) => {
             size="sm"
             onClick={() => updateViewMode("list")}
             className="gap-2 cursor-pointer"
-            data-testid="list-view-button"
+            data-testid="list-view-btn"
          >
             <List className="w-4 h-4" />
             <span className="hidden sm:inline">List</span>
