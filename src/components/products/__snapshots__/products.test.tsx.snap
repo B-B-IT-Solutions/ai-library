@@ -209,7 +209,9 @@ exports[`Products rendering tests Products - one product - test 1`] = `
                   d="M12 8h.01"
                 />
               </svg>
-              Details
+              <span>
+                Details
+              </span>
             </button>
             <div
               data-slot="dialog"
@@ -470,7 +472,9 @@ exports[`Products rendering tests Products - viewMode grid - rendered test 1`] =
                   d="M12 8h.01"
                 />
               </svg>
-              Details
+              <span>
+                Details
+              </span>
             </button>
             <div
               data-slot="dialog"
@@ -624,7 +628,9 @@ exports[`Products rendering tests Products - viewMode grid - rendered test 1`] =
                   d="M12 8h.01"
                 />
               </svg>
-              Details
+              <span>
+                Details
+              </span>
             </button>
             <div
               data-slot="dialog"
@@ -769,7 +775,9 @@ exports[`Products rendering tests Products - viewMode grid - rendered test 1`] =
                   d="M12 8h.01"
                 />
               </svg>
-              Details
+              <span>
+                Details
+              </span>
             </button>
             <div
               data-slot="dialog"

@@ -80,7 +80,9 @@ exports[`ProductCard rendering tests ProductCard - product BUNDLE - test 1`] = `
               d="M12 8h.01"
             />
           </svg>
-          Details
+          <span>
+            Details
+          </span>
         </button>
         <div
           data-slot="dialog"
@@ -233,7 +235,9 @@ exports[`ProductCard rendering tests ProductCard- product TEMPLATE - test 1`] = 
               d="M12 8h.01"
             />
           </svg>
-          Details
+          <span>
+            Details
+          </span>
         </button>
         <div
           data-slot="dialog"

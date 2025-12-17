@@ -56,7 +56,9 @@ export const AddToCartButton: FC<AddToCartButtonProps> = ({
                      size == "sm" ? "sm:mr-1" : "mr-2"
                   )}
                />
-               Adding...
+               <span className={size == "sm" ? "hidden sm:inline" : undefined}>
+                  Adding...
+               </span>
             </>
          );
       }

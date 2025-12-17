@@ -26,10 +26,23 @@ const assertProductNotRendered = (product: DProduct) => {
 };
 
 describe("ShowDetailsButton rendering tests", () => {
-   it("ShowDetailsButton rendered test", async () => {
+   it("ShowDetailsButton - size default - test", async () => {
       const product = dtestData.dProduct();
       const { container } = render(
-         <ShowDetailsButton product={product} isInCart={false} />
+         <ShowDetailsButton product={product} isInCart={false} size="default" />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("ShowDetailsButton - size sm - test", async () => {
+      const product = dtestData.dProduct();
+      const { container } = render(
+         <ShowDetailsButton product={product} isInCart={false} size="sm" />
       );
 
       await waitFor(() => {

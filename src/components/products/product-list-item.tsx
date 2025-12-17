@@ -1,15 +1,11 @@
-"use client";
-
-import { FC, useState } from "react";
+import { FC } from "react";
 import { map } from "es-toolkit/compat";
-import { Info } from "lucide-react";
 
-import { Button } from "@/components/shadcn/button";
 import { Card } from "@/components/shadcn/card";
 import { DProduct } from "@/data/types/domain/product";
 
 import { AddToCartButton } from "./add-to-cart-button";
-import { ProductDetailsDialog } from "./product-details-dialog";
+import { ShowDetailsButton } from "./show-details-button";
 
 type ProductListItemProps = {
    product: DProduct;
@@ -20,8 +16,6 @@ export const ProductListItem: FC<ProductListItemProps> = ({
    product,
    isInCart,
 }) => {
-   const [showDetails, setShowDetails] = useState(false);
-
    const typeBadge = () => {
       const colors = {
          TEMPLATE: "bg-blue-100 text-blue-700 border-blue-200",
@@ -101,16 +95,11 @@ export const ProductListItem: FC<ProductListItemProps> = ({
                </p>
 
                <div className="flex gap-2 w-full sm:w-auto">
-                  <Button
-                     onClick={() => setShowDetails(true)}
-                     variant="outline"
+                  <ShowDetailsButton
+                     product={product}
+                     isInCart={isInCart}
                      size="sm"
-                     className="flex-1 sm:flex-initial"
-                     data-testid="view-details-button"
-                  >
-                     <Info className="w-4 h-4 sm:mr-2" />
-                     <span className="hidden sm:inline">Details</span>
-                  </Button>
+                  />
                   <AddToCartButton
                      product={product}
                      isInCart={isInCart}
@@ -119,13 +108,6 @@ export const ProductListItem: FC<ProductListItemProps> = ({
                </div>
             </div>
          </div>
-
-         <ProductDetailsDialog
-            product={product}
-            open={showDetails}
-            onClose={() => setShowDetails(false)}
-            isInCart={isInCart}
-         />
       </Card>
    );
 };
