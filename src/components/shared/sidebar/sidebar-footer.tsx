@@ -32,7 +32,7 @@ export const SidebarFooter: FC<SidebarFooterProps> = ({ user }) => {
          return (
             <DropdownMenu>
                <DropdownMenuTrigger asChild={true}>
-                  <SidebarMenuButton>
+                  <SidebarMenuButton data-testid="sidebar-menu-btn">
                      <User2 /> {name}
                      <ChevronUp className="ml-auto" />
                   </SidebarMenuButton>

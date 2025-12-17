@@ -1,3 +1,5 @@
+import { isEmpty } from "es-toolkit/compat";
+
 import { CartControls } from "@/components/cart/cart-controls";
 import { ProductsDisplay } from "@/components/products/products-display";
 import { DCart } from "@/data/types/domain/cart";
@@ -12,7 +14,7 @@ export const MarketplaceClient = ({
    products,
    initialCart,
 }: MarketplaceClientProps) => {
-   if (!products || products.length === 0) {
+   if (isEmpty(products)) {
       return (
          <div className="text-center py-12">
             <p className="text-slate-600">
