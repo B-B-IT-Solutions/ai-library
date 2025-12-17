@@ -3,11 +3,10 @@
 import { validate as isValidUuid } from "uuid";
 
 import {
-   pGetBundleWithTemplates,
    pGetProductById,
    pGetProducts,
    pGetProductsByType,
-} from "@/data/db/queries/product";
+} from "@/data/db/queries/product/product";
 import { DProduct } from "@/data/types/domain/product";
 
 import { toDProduct, toDProducts } from "./product.mapper";

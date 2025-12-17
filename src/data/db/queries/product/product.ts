@@ -1,5 +1,5 @@
+import { prisma } from "@/data/db/prisma";
 import { Prisma } from "@/generated/prisma/client";
-import { prisma } from "../prisma";
 
 export const pGetProducts = async (where?: Prisma.ProductWhereInput) => {
    return await prisma.product.findMany({
