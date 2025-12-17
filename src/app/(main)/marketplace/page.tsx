@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
-import { getCartSummary } from "@/data/actions/cart/cart.actions";
-import { getProducts } from "@/data/actions/product/product.actions";
+import { getCart } from "@/data/actions/cart";
+import { getProducts } from "@/data/actions/product";
 import { DProductViewMode } from "@/data/types/domain/product";
 
 import { Marketplace } from "./marketplace";
@@ -20,10 +20,7 @@ export const MarketplacePage = async (props: MarketplacePageProps) => {
    const searchParams = await props.searchParams;
    const viewMode = searchParams?.view;
 
-   const [products, cart] = await Promise.all([
-      getProducts(),
-      getCartSummary(),
-   ]);
+   const [products, cart] = await Promise.all([getProducts(), getCart()]);
 
    return (
       <div

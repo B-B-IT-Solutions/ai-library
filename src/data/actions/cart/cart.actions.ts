@@ -12,12 +12,29 @@ import {
    pGetCartByUserId,
    pRemoveCartItem,
 } from "@/data/db/queries/cart";
-import { DCart, DCartSummary } from "@/data/types/domain/cart";
+import { DCart } from "@/data/types/domain/cart";
 import { ActionResult } from "@/data/types/utils";
 import { addToCartSchema } from "@/data/types/validators/product.schema";
 import { formatError } from "../utils";
 
 import { toDCart } from "./cart.mapper";
+
+export const getCart = async (): Promise<DCart> => {
+   try {
+      const cart = await getOrCreateCart();
+      return toDCart(cart);
+   } catch (error) {
+      // Return empty cart if error
+      return {
+         id: "",
+         items: [],
+         subtotal: 0,
+         total: 0,
+         createdAt: new Date().toISOString(),
+         updatedAt: new Date().toISOString(),
+      };
+   }
+};
 
 const getOrCreateCart = async (): Promise<any> => {
    const session = await auth();
@@ -46,23 +63,6 @@ const getOrCreateCart = async (): Promise<any> => {
    }
 
    return cart;
-};
-
-export const getCartSummary = async (): Promise<DCart> => {
-   try {
-      const cart = await getOrCreateCart();
-      return toDCart(cart);
-   } catch (error) {
-      // Return empty cart if error
-      return {
-         id: "",
-         items: [],
-         subtotal: 0,
-         total: 0,
-         createdAt: new Date().toISOString(),
-         updatedAt: new Date().toISOString(),
-      };
-   }
 };
 
 export const addToCart = async (

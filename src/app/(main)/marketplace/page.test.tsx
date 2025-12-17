@@ -5,8 +5,8 @@ import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 
-import { getCartSummary } from "@/data/actions/cart/cart.actions";
-import { getProducts } from "@/data/actions/product/product.actions";
+import { getCart } from "@/data/actions/cart";
+import { getProducts } from "@/data/actions/product";
 
 import MarketplacePage, {
    MarketplacePageProps,
@@ -14,9 +14,7 @@ import MarketplacePage, {
    metadata,
 } from "./page";
 
-const getCartSummaryMock = getCartSummary as jest.MockedFunction<
-   typeof getCartSummary
->;
+const getCartSummaryMock = getCart as jest.MockedFunction<typeof getCart>;
 
 const getProductsMock = getProducts as jest.MockedFunction<typeof getProducts>;
 

@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 import { CheckoutForm } from "@/components/checkout/checkout-form";
-import { getCartSummary } from "@/data/actions/cart/cart.actions";
+import { getCart } from "@/data/actions/cart";
 
 export default async function CheckoutPage() {
    const session = await auth();
@@ -11,7 +11,7 @@ export default async function CheckoutPage() {
       return redirect("/");
    }
 
-   const cart = await getCartSummary();
+   const cart = await getCart();
 
    if (!cart || cart.items.length === 0) {
       return redirect("/cart");

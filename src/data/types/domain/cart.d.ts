@@ -1,4 +1,4 @@
-import { DProduct } from "./product";
+import { DProduct } from "@/data/types/domain/product";
 
 export type DCart = {
    id: string;
@@ -19,10 +19,4 @@ export type DCartItem = {
    lineTotal: number;
    createdAt: string;
    updatedAt: string;
-};
-
-export type DCartSummary = {
-   itemCount: number;
-   subtotal: number;
-   total: number;
 };

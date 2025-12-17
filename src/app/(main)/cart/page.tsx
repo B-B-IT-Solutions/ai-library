@@ -5,10 +5,10 @@ import Link from "next/link";
 import { CartItem } from "@/components/cart/cart-item";
 import { CartSummary } from "@/components/cart/cart-summary";
 import { Button } from "@/components/shadcn/button";
-import { getCartSummary } from "@/data/actions/cart/cart.actions";
+import { getCart } from "@/data/actions/cart";
 
 export default async function CartPage() {
-   const cart = await getCartSummary();
+   const cart = await getCart();
 
    if (!cart || cart.items.length === 0) {
       return (
