@@ -3,9 +3,12 @@ import {
    ProductCardSkeleton,
 } from "@/components/shared/skeletons";
 
-export default function MarketplaceLoading() {
+export const MarketplaceLoading = () => {
    return (
-      <div className="container mx-auto px-4 py-8">
+      <div
+         className="container mx-auto px-4 py-8"
+         data-testid="market-place-loading"
+      >
          <PageHeaderSkeleton />
 
          <div className="flex flex-col lg:flex-row gap-8">
@@ -20,4 +23,6 @@ export default function MarketplaceLoading() {
          </div>
       </div>
    );
-}
+};
+
+export default MarketplaceLoading;
