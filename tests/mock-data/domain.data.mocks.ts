@@ -56,6 +56,9 @@ export const dProducts = (count = 3): DProduct[] => {
 };
 
 export const dProduct = (index = 1): DProduct => {
+   const template1 = dPromptTemplate(1);
+   const template2 = dPromptTemplate(2);
+
    return {
       id: `334db648-f300-4284-8149-075ff465d75${index}`,
       name: `name ${index}`,
@@ -63,6 +66,9 @@ export const dProduct = (index = 1): DProduct => {
       price: 59.99,
       type: "BUNDLE",
       status: "ACTIVE",
+      templateId: template1.id,
+      template: template1,
+      bundleItems: [template2],
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
    };

@@ -92,7 +92,9 @@ export const ProductDetailsDialog: FC<ProductDetailsDialogProps> = ({
    };
 
    const renderBundleDetails = () => {
-      if (product.type !== "BUNDLE" || !product.bundleItems) return null;
+      if (product.type !== "BUNDLE" || !product.bundleItems) {
+         return null;
+      }
 
       return (
          <div>

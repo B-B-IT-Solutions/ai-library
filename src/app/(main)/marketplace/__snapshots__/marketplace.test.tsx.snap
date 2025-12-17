@@ -167,6 +167,32 @@ exports[`Marketplace rendering tests Marketplace - viewMode grid - rendered test
             class="p-0 grid gap-2"
             data-slot="card-content"
           >
+            <div
+              class="flex flex-wrap gap-1 mb-2"
+              data-testid="categories"
+            >
+              <span
+                class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+              >
+                category 0
+              </span>
+              <span
+                class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+              >
+                category 1
+              </span>
+              <span
+                class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+              >
+                category 2
+              </span>
+            </div>
+            <p
+              class="text-xs text-slate-600 mb-2"
+            >
+              1
+               templates included
+            </p>
             <p
               class="text-sm text-slate-600 line-clamp-2 mb-3"
             >
@@ -293,6 +319,32 @@ exports[`Marketplace rendering tests Marketplace - viewMode grid - rendered test
             class="p-0 grid gap-2"
             data-slot="card-content"
           >
+            <div
+              class="flex flex-wrap gap-1 mb-2"
+              data-testid="categories"
+            >
+              <span
+                class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+              >
+                category 0
+              </span>
+              <span
+                class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+              >
+                category 1
+              </span>
+              <span
+                class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+              >
+                category 2
+              </span>
+            </div>
+            <p
+              class="text-xs text-slate-600 mb-2"
+            >
+              1
+               templates included
+            </p>
             <p
               class="text-sm text-slate-600 line-clamp-2 mb-3"
             >
@@ -410,6 +462,32 @@ exports[`Marketplace rendering tests Marketplace - viewMode grid - rendered test
             class="p-0 grid gap-2"
             data-slot="card-content"
           >
+            <div
+              class="flex flex-wrap gap-1 mb-2"
+              data-testid="categories"
+            >
+              <span
+                class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+              >
+                category 0
+              </span>
+              <span
+                class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+              >
+                category 1
+              </span>
+              <span
+                class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+              >
+                category 2
+              </span>
+            </div>
+            <p
+              class="text-xs text-slate-600 mb-2"
+            >
+              1
+               templates included
+            </p>
             <p
               class="text-sm text-slate-600 line-clamp-2 mb-3"
             >
@@ -715,7 +793,33 @@ exports[`Marketplace rendering tests Marketplace - viewMode list - rendered test
               </p>
               <div
                 class="flex flex-wrap items-center gap-3 text-xs text-slate-600"
-              />
+              >
+                <div
+                  class="flex flex-wrap gap-1"
+                  data-testid="categories"
+                >
+                  <span
+                    class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+                  >
+                    category 0
+                  </span>
+                  <span
+                    class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+                  >
+                    category 1
+                  </span>
+                  <span
+                    class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+                  >
+                    category 2
+                  </span>
+                </div>
+                <span
+                  class="flex items-center gap-1"
+                >
+                  1 templates included
+                </span>
+              </div>
             </div>
             <div
               class="flex flex-col items-end gap-3 sm:min-w-[200px]"
@@ -854,7 +958,33 @@ exports[`Marketplace rendering tests Marketplace - viewMode list - rendered test
               </p>
               <div
                 class="flex flex-wrap items-center gap-3 text-xs text-slate-600"
-              />
+              >
+                <div
+                  class="flex flex-wrap gap-1"
+                  data-testid="categories"
+                >
+                  <span
+                    class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+                  >
+                    category 0
+                  </span>
+                  <span
+                    class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+                  >
+                    category 1
+                  </span>
+                  <span
+                    class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+                  >
+                    category 2
+                  </span>
+                </div>
+                <span
+                  class="flex items-center gap-1"
+                >
+                  1 templates included
+                </span>
+              </div>
             </div>
             <div
               class="flex flex-col items-end gap-3 sm:min-w-[200px]"
@@ -984,7 +1114,33 @@ exports[`Marketplace rendering tests Marketplace - viewMode list - rendered test
               </p>
               <div
                 class="flex flex-wrap items-center gap-3 text-xs text-slate-600"
-              />
+              >
+                <div
+                  class="flex flex-wrap gap-1"
+                  data-testid="categories"
+                >
+                  <span
+                    class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+                  >
+                    category 0
+                  </span>
+                  <span
+                    class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+                  >
+                    category 1
+                  </span>
+                  <span
+                    class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+                  >
+                    category 2
+                  </span>
+                </div>
+                <span
+                  class="flex items-center gap-1"
+                >
+                  1 templates included
+                </span>
+              </div>
             </div>
             <div
               class="flex flex-col items-end gap-3 sm:min-w-[200px]"

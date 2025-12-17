@@ -27,8 +27,31 @@ const assertBtnsNotRendered = () => {
 };
 
 describe("ProductDetailsDialog rendering tests", () => {
-   it("ProductDetailsDialog - open true test", async () => {
+   it("ProductDetailsDialog - open true - product BUNDLE - test", async () => {
       const product = dtestData.dProduct();
+      product.type = "BUNDLE";
+
+      const { container } = render(
+         <ProductDetailsDialog
+            product={product}
+            isInCart={false}
+            open={true}
+            onClose={jest.fn()}
+         />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertBtnsRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("ProductDetailsDialog - open true - product TEMPLATE - test", async () => {
+      const product = dtestData.dProduct();
+      product.type = "TEMPLATE";
+
       const { container } = render(
          <ProductDetailsDialog
             product={product}
