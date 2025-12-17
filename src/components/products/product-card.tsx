@@ -31,7 +31,9 @@ export const ProductCard: FC<ProductCardProps> = ({ product, isInCart }) => {
    };
 
    const categories = () => {
-      if (!product.template?.categories) return null;
+      if (!product.template?.categories) {
+         return null;
+      }
 
       return (
          <div className="flex flex-wrap gap-1 mb-2" data-testid="categories">
@@ -48,7 +50,9 @@ export const ProductCard: FC<ProductCardProps> = ({ product, isInCart }) => {
    };
 
    const bundleInfo = () => {
-      if (product.type !== "BUNDLE" || !product.bundleItems) return null;
+      if (product.type !== "BUNDLE" || !product.bundleItems) {
+         return null;
+      }
 
       return (
          <p className="text-xs text-slate-600 mb-2">

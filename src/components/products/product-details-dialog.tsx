@@ -37,12 +37,6 @@ export const ProductDetailsDialog: FC<ProductDetailsDialogProps> = ({
          if (result.success) {
             toast.success(result.message);
             onOpenChange(false);
-            // Dispatch custom event to update cart preview
-            if (result.data) {
-               window.dispatchEvent(
-                  new CustomEvent("cart-updated", { detail: result.data })
-               );
-            }
          } else {
             toast.error(result.message);
          }
