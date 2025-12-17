@@ -5,6 +5,8 @@ import { addToCartSchema } from "@/data/types/validators/product.schema";
 
 import { DPromptTemplate } from "./prompt.template";
 
+type DProductViewMode = "grid" | "list";
+
 export type DProductType = "TEMPLATE" | "BUNDLE";
 export type DProductStatus = "ACTIVE" | "INACTIVE" | "ARCHIVED";
 

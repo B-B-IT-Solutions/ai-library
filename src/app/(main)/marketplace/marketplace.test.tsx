@@ -43,12 +43,28 @@ describe("Marketplace rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("Marketplace rendered test", async () => {
+   it("Marketplace - viewMode grid - rendered test", async () => {
       const products = dtestData.dProducts();
       const cart = dtestData.dCart();
 
       const { container } = render(
-         <Marketplace products={products} initialCart={cart} />
+         <Marketplace products={products} initialCart={cart} viewMode="grid" />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertProductsRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("Marketplace - viewMode list - rendered test", async () => {
+      const products = dtestData.dProducts();
+      const cart = dtestData.dCart();
+
+      const { container } = render(
+         <Marketplace products={products} initialCart={cart} viewMode="list" />
       );
 
       await waitFor(() => {

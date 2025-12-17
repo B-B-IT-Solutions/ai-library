@@ -8,7 +8,11 @@ import { Metadata } from "next";
 import { getCartSummary } from "@/data/actions/cart/cart.actions";
 import { getProducts } from "@/data/actions/product/product.actions";
 
-import MarketplacePage, { metadata } from "./page";
+import MarketplacePage, {
+   MarketplacePageProps,
+   MarketPlaceSearchParams,
+   metadata,
+} from "./page";
 
 const getCartSummaryMock = getCartSummary as jest.MockedFunction<
    typeof getCartSummary
@@ -33,13 +37,34 @@ describe("MarketplacePage rendering tests", () => {
       jest.resetAllMocks();
    });
 
-   it("MarketplacePage rendered test", async () => {
+   it("MarketplacePage - props empty - rendered test", async () => {
       const products = dtestData.dProducts();
       const cart = dtestData.dCart();
       getProductsMock.mockResolvedValue(products);
       getCartSummaryMock.mockResolvedValue(cart);
 
       const { container } = await renderAsyncRSC(MarketplacePage, {});
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("MarketplacePage - searchParams.view list - rendered test", async () => {
+      const products = dtestData.dProducts();
+      const cart = dtestData.dCart();
+      getProductsMock.mockResolvedValue(products);
+      getCartSummaryMock.mockResolvedValue(cart);
+
+      const searchParams: MarketPlaceSearchParams = { view: "list" };
+
+      const props: MarketplacePageProps = {
+         searchParams: Promise.resolve(searchParams),
+      };
+
+      const { container } = await renderAsyncRSC(MarketplacePage, props);
 
       await waitFor(() => {
          assertRendered();

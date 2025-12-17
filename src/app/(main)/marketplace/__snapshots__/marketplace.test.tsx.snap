@@ -19,7 +19,7 @@ exports[`Marketplace rendering tests Marketplace - products empty - test 1`] = `
 </div>
 `;
 
-exports[`Marketplace rendering tests Marketplace rendered test 1`] = `
+exports[`Marketplace rendering tests Marketplace - viewMode grid - rendered test 1`] = `
 <div>
   <div
     data-testid="market-place"
@@ -41,7 +41,7 @@ exports[`Marketplace rendering tests Marketplace rendered test 1`] = `
           class="flex items-center gap-1 bg-slate-100 p-1 rounded-lg"
         >
           <button
-            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md px-3 has-[>svg]:px-2.5 gap-2"
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md px-3 has-[>svg]:px-2.5 gap-2 cursor-pointer"
             data-slot="button"
             data-testid="grid-view-button"
           >
@@ -85,7 +85,7 @@ exports[`Marketplace rendering tests Marketplace rendered test 1`] = `
             </span>
           </button>
           <button
-            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md px-3 has-[>svg]:px-2.5 gap-2"
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md px-3 has-[>svg]:px-2.5 gap-2 cursor-pointer"
             data-slot="button"
             data-testid="list-view-button"
           >
@@ -481,6 +481,590 @@ exports[`Marketplace rendering tests Marketplace rendered test 1`] = `
                 </svg>
                 Add to Cart
               </button>
+            </div>
+          </div>
+          <div
+            data-testid="mock-react-dialog-root"
+          >
+            <div
+              data-slot="dialog-portal"
+              data-testid="mock-react-dialog-portal"
+            >
+              <div
+                class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+                data-slot="dialog-overlay"
+                data-testid="mock-react-dialog-overlay"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      data-testid="cart-controls"
+    >
+      <button
+        class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 has-[>svg]:px-4 fixed bottom-6 right-6 rounded-full shadow-lg hover:shadow-xl transition-all z-50 h-14 w-14 p-0"
+        data-slot="button"
+        data-testid="floating-cart-button"
+      >
+        <div
+          class="relative"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-shopping-cart h-6 w-6"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="8"
+              cy="21"
+              r="1"
+            />
+            <circle
+              cx="19"
+              cy="21"
+              r="1"
+            />
+            <path
+              d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
+            />
+          </svg>
+          <span
+            class="absolute -top-5 -right-4 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center"
+          >
+            3
+          </span>
+        </div>
+      </button>
+      <div
+        data-testid="mock-react-dialog-root"
+      >
+        <div
+          data-slot="sheet-portal"
+          data-testid="mock-react-dialog-portal"
+        >
+          <div
+            class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+            data-slot="sheet-overlay"
+            data-testid="mock-react-dialog-overlay"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Marketplace rendering tests Marketplace - viewMode list - rendered test 1`] = `
+<div>
+  <div
+    data-testid="market-place"
+  >
+    <div
+      data-testid="products"
+    >
+      <div
+        class="flex justify-between items-center mb-6"
+      >
+        <h2
+          class="text-2xl font-bold text-slate-900"
+        >
+          3
+           
+          Products
+        </h2>
+        <div
+          class="flex items-center gap-1 bg-slate-100 p-1 rounded-lg"
+        >
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md px-3 has-[>svg]:px-2.5 gap-2 cursor-pointer"
+            data-slot="button"
+            data-testid="grid-view-button"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-grid3x3 lucide-grid-3x3 w-4 h-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                height="18"
+                rx="2"
+                width="18"
+                x="3"
+                y="3"
+              />
+              <path
+                d="M3 9h18"
+              />
+              <path
+                d="M3 15h18"
+              />
+              <path
+                d="M9 3v18"
+              />
+              <path
+                d="M15 3v18"
+              />
+            </svg>
+            <span
+              class="hidden sm:inline"
+            >
+              Grid
+            </span>
+          </button>
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md px-3 has-[>svg]:px-2.5 gap-2 cursor-pointer"
+            data-slot="button"
+            data-testid="list-view-button"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-list w-4 h-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M3 5h.01"
+              />
+              <path
+                d="M3 12h.01"
+              />
+              <path
+                d="M3 19h.01"
+              />
+              <path
+                d="M8 5h13"
+              />
+              <path
+                d="M8 12h13"
+              />
+              <path
+                d="M8 19h13"
+              />
+            </svg>
+            <span
+              class="hidden sm:inline"
+            >
+              List
+            </span>
+          </button>
+        </div>
+      </div>
+      <div
+        class="space-y-4"
+      >
+        <div
+          class="text-card-foreground flex flex-col gap-6 shadow-sm p-4 bg-white border border-slate-300 rounded-lg hover:border-blue-500 hover:shadow-md transition-all"
+          data-slot="card"
+          data-testid="product-list-item"
+        >
+          <div
+            class="flex flex-col sm:flex-row gap-4 items-start"
+          >
+            <div
+              class="flex-1 min-w-0 space-y-2"
+            >
+              <div
+                class="flex items-start gap-2 flex-wrap"
+              >
+                <h4
+                  class="font-medium text-slate-900 text-lg flex-1"
+                >
+                  name 0
+                </h4>
+                <span
+                  class="text-xs px-2 py-0.5 rounded border bg-green-100 text-green-700 border-green-200"
+                >
+                  BUNDLE
+                </span>
+              </div>
+              <p
+                class="text-sm text-slate-600 line-clamp-2"
+              >
+                description 0
+              </p>
+              <div
+                class="flex flex-wrap items-center gap-3 text-xs text-slate-600"
+              />
+            </div>
+            <div
+              class="flex flex-col items-end gap-3 sm:min-w-[200px]"
+            >
+              <p
+                class="text-2xl font-bold text-slate-900"
+              >
+                $
+                59.99
+              </p>
+              <div
+                class="flex gap-2 w-full sm:w-auto"
+              >
+                <button
+                  class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 sm:flex-initial"
+                  data-slot="button"
+                  data-testid="view-details-button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-info w-4 h-4 sm:mr-2"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                    />
+                    <path
+                      d="M12 16v-4"
+                    />
+                    <path
+                      d="M12 8h.01"
+                    />
+                  </svg>
+                  <span
+                    class="hidden sm:inline"
+                  >
+                    Details
+                  </span>
+                </button>
+                <button
+                  class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 sm:flex-initial"
+                  data-slot="button"
+                  data-testid="add-to-cart-button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-shopping-cart w-4 h-4 sm:mr-2"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="8"
+                      cy="21"
+                      r="1"
+                    />
+                    <circle
+                      cx="19"
+                      cy="21"
+                      r="1"
+                    />
+                    <path
+                      d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
+                    />
+                  </svg>
+                  <span
+                    class="hidden sm:inline"
+                  >
+                    Add
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            data-testid="mock-react-dialog-root"
+          >
+            <div
+              data-slot="dialog-portal"
+              data-testid="mock-react-dialog-portal"
+            >
+              <div
+                class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+                data-slot="dialog-overlay"
+                data-testid="mock-react-dialog-overlay"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="text-card-foreground flex flex-col gap-6 shadow-sm p-4 bg-white border border-slate-300 rounded-lg hover:border-blue-500 hover:shadow-md transition-all"
+          data-slot="card"
+          data-testid="product-list-item"
+        >
+          <div
+            class="flex flex-col sm:flex-row gap-4 items-start"
+          >
+            <div
+              class="flex-1 min-w-0 space-y-2"
+            >
+              <div
+                class="flex items-start gap-2 flex-wrap"
+              >
+                <h4
+                  class="font-medium text-slate-900 text-lg flex-1"
+                >
+                  name 1
+                </h4>
+                <span
+                  class="text-xs px-2 py-0.5 rounded border bg-green-100 text-green-700 border-green-200"
+                >
+                  BUNDLE
+                </span>
+              </div>
+              <p
+                class="text-sm text-slate-600 line-clamp-2"
+              >
+                description 1
+              </p>
+              <div
+                class="flex flex-wrap items-center gap-3 text-xs text-slate-600"
+              />
+            </div>
+            <div
+              class="flex flex-col items-end gap-3 sm:min-w-[200px]"
+            >
+              <p
+                class="text-2xl font-bold text-slate-900"
+              >
+                $
+                59.99
+              </p>
+              <div
+                class="flex gap-2 w-full sm:w-auto"
+              >
+                <button
+                  class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 sm:flex-initial"
+                  data-slot="button"
+                  data-testid="view-details-button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-info w-4 h-4 sm:mr-2"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                    />
+                    <path
+                      d="M12 16v-4"
+                    />
+                    <path
+                      d="M12 8h.01"
+                    />
+                  </svg>
+                  <span
+                    class="hidden sm:inline"
+                  >
+                    Details
+                  </span>
+                </button>
+                <button
+                  class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 sm:flex-initial"
+                  data-slot="button"
+                  data-testid="add-to-cart-button"
+                  disabled=""
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check w-4 h-4 sm:mr-2"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                  <span
+                    class="hidden sm:inline"
+                  >
+                    In Cart
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            data-testid="mock-react-dialog-root"
+          >
+            <div
+              data-slot="dialog-portal"
+              data-testid="mock-react-dialog-portal"
+            >
+              <div
+                class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+                data-slot="dialog-overlay"
+                data-testid="mock-react-dialog-overlay"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="text-card-foreground flex flex-col gap-6 shadow-sm p-4 bg-white border border-slate-300 rounded-lg hover:border-blue-500 hover:shadow-md transition-all"
+          data-slot="card"
+          data-testid="product-list-item"
+        >
+          <div
+            class="flex flex-col sm:flex-row gap-4 items-start"
+          >
+            <div
+              class="flex-1 min-w-0 space-y-2"
+            >
+              <div
+                class="flex items-start gap-2 flex-wrap"
+              >
+                <h4
+                  class="font-medium text-slate-900 text-lg flex-1"
+                >
+                  name 2
+                </h4>
+                <span
+                  class="text-xs px-2 py-0.5 rounded border bg-green-100 text-green-700 border-green-200"
+                >
+                  BUNDLE
+                </span>
+              </div>
+              <p
+                class="text-sm text-slate-600 line-clamp-2"
+              >
+                description 2
+              </p>
+              <div
+                class="flex flex-wrap items-center gap-3 text-xs text-slate-600"
+              />
+            </div>
+            <div
+              class="flex flex-col items-end gap-3 sm:min-w-[200px]"
+            >
+              <p
+                class="text-2xl font-bold text-slate-900"
+              >
+                $
+                59.99
+              </p>
+              <div
+                class="flex gap-2 w-full sm:w-auto"
+              >
+                <button
+                  class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 sm:flex-initial"
+                  data-slot="button"
+                  data-testid="view-details-button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-info w-4 h-4 sm:mr-2"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                    />
+                    <path
+                      d="M12 16v-4"
+                    />
+                    <path
+                      d="M12 8h.01"
+                    />
+                  </svg>
+                  <span
+                    class="hidden sm:inline"
+                  >
+                    Details
+                  </span>
+                </button>
+                <button
+                  class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 sm:flex-initial"
+                  data-slot="button"
+                  data-testid="add-to-cart-button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-shopping-cart w-4 h-4 sm:mr-2"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="8"
+                      cy="21"
+                      r="1"
+                    />
+                    <circle
+                      cx="19"
+                      cy="21"
+                      r="1"
+                    />
+                    <path
+                      d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
+                    />
+                  </svg>
+                  <span
+                    class="hidden sm:inline"
+                  >
+                    Add
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
           <div

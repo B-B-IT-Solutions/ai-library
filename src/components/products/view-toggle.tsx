@@ -2,27 +2,33 @@
 
 import { FC } from "react";
 import { Grid3x3, List } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/shadcn/button";
-
-type ViewMode = "grid" | "list";
+import { DProductViewMode } from "@/data/types/domain/product";
 
 type ViewToggleProps = {
-   currentView: ViewMode;
-   onViewChange: (view: ViewMode) => void;
+   currentView: DProductViewMode;
 };
 
-export const ViewToggle: FC<ViewToggleProps> = ({
-   currentView,
-   onViewChange,
-}) => {
+export const ViewToggle: FC<ViewToggleProps> = ({ currentView }) => {
+   const searchParams = useSearchParams();
+   const pathname = usePathname();
+   const { replace } = useRouter();
+
+   const updateViewMode = (viewMode: DProductViewMode) => {
+      const params = new URLSearchParams(searchParams);
+      params.set("view", viewMode);
+      replace(`${pathname}?${params.toString()}`);
+   };
+
    return (
       <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg">
          <Button
             variant={currentView === "grid" ? "default" : "ghost"}
             size="sm"
-            onClick={() => onViewChange("grid")}
-            className="gap-2"
+            onClick={() => updateViewMode("grid")}
+            className="gap-2 cursor-pointer"
             data-testid="grid-view-button"
          >
             <Grid3x3 className="w-4 h-4" />
@@ -31,8 +37,8 @@ export const ViewToggle: FC<ViewToggleProps> = ({
          <Button
             variant={currentView === "list" ? "default" : "ghost"}
             size="sm"
-            onClick={() => onViewChange("list")}
-            className="gap-2"
+            onClick={() => updateViewMode("list")}
+            className="gap-2 cursor-pointer"
             data-testid="list-view-button"
          >
             <List className="w-4 h-4" />
@@ -41,5 +47,3 @@ export const ViewToggle: FC<ViewToggleProps> = ({
       </div>
    );
 };
-
-export type { ViewMode };

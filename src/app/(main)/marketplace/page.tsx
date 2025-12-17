@@ -2,6 +2,7 @@ import { Metadata } from "next";
 
 import { getCartSummary } from "@/data/actions/cart/cart.actions";
 import { getProducts } from "@/data/actions/product/product.actions";
+import { DProductViewMode } from "@/data/types/domain/product";
 
 import { Marketplace } from "./marketplace";
 
@@ -9,7 +10,16 @@ export const metadata: Metadata = {
    title: "Marketplace",
 };
 
-export const MarketplacePage = async () => {
+export type MarketPlaceSearchParams = { view?: DProductViewMode };
+
+export type MarketplacePageProps = {
+   searchParams?: Promise<MarketPlaceSearchParams>;
+};
+
+export const MarketplacePage = async (props: MarketplacePageProps) => {
+   const searchParams = await props.searchParams;
+   const viewMode = searchParams?.view;
+
    const [products, cart] = await Promise.all([
       getProducts(),
       getCartSummary(),
@@ -28,7 +38,11 @@ export const MarketplacePage = async () => {
                Browse and purchase prompt templates and bundles
             </p>
          </div>
-         <Marketplace products={products} initialCart={cart} />
+         <Marketplace
+            products={products}
+            initialCart={cart}
+            viewMode={viewMode}
+         />
       </div>
    );
 };

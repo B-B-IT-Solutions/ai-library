@@ -1,16 +1,21 @@
 import { isEmpty } from "es-toolkit/compat";
 
 import { CartControls } from "@/components/cart/cart-controls";
-import { ProductsDisplay } from "@/components/products/products-display";
+import { Products } from "@/components/products/products";
 import { DCart } from "@/data/types/domain/cart";
-import { DProduct } from "@/data/types/domain/product";
+import { DProduct, DProductViewMode } from "@/data/types/domain/product";
 
 type MarketplaceProps = {
    products: DProduct[];
    initialCart: DCart;
+   viewMode?: DProductViewMode;
 };
 
-export const Marketplace = ({ products, initialCart }: MarketplaceProps) => {
+export const Marketplace = ({
+   products,
+   initialCart,
+   viewMode,
+}: MarketplaceProps) => {
    // Get IDs of products already in cart
    const cartProductIds = new Set(
       initialCart.items.map((item) => item.product.id)
@@ -28,9 +33,10 @@ export const Marketplace = ({ products, initialCart }: MarketplaceProps) => {
       }
       return (
          <>
-            <ProductsDisplay
+            <Products
                products={products}
                cartProductIds={cartProductIds}
+               viewMode={viewMode}
             />
             <CartControls initialCart={initialCart} />
          </>
