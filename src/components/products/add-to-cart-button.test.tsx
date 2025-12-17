@@ -88,7 +88,9 @@ describe("AddToCartButton functionality tests", () => {
          expect(addToCartMock).toHaveBeenCalledTimes(1);
          expect(addToCartMock).toHaveBeenCalledWith(product.id, 1);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
-         expect(toastMock.success).toHaveBeenCalledWith(addResult.message);
+         expect(toastMock.success).toHaveBeenCalledWith(addResult.message, {
+            duration: 1000,
+         });
       });
    });
 
