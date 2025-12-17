@@ -28,12 +28,9 @@ export const MarketplaceClient = ({
    );
 
    return (
-      <>
-         <ProductsDisplay
-            products={products}
-            cartProductIds={cartProductIds}
-         />
+      <div data-testid="market-place-client">
+         <ProductsDisplay products={products} cartProductIds={cartProductIds} />
          <CartControls initialCart={initialCart} />
-      </>
+      </div>
    );
 };

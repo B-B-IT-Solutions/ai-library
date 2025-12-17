@@ -47,6 +47,8 @@ module.exports = {
       "^next/navigation$": "<rootDir>/__mocks__/next/navigation.tsx",
       "^next/font/google$": "<rootDir>/__mocks__/next/font/google.ts",
       "^next-auth/react$": "<rootDir>/__mocks__/next-auth/react.tsx",
+      "^@radix-ui/react-dialog$":
+         "<rootDir>/__mocks__/@radix-ui/react-dialog.tsx",
       "^@radix-ui/react-portal$":
          "<rootDir>/__mocks__/@radix-ui/react-portal.tsx",
       "^@radix-ui/react-presence$":

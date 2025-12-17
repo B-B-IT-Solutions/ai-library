@@ -4,11 +4,11 @@ export type DCart = {
    id: string;
    userId?: string;
    sessionCartId?: string;
-   items: DCartItem[];
    subtotal: number;
    total: number;
    createdAt: string;
    updatedAt: string;
+   items: DCartItem[];
 };
 
 export type DCartItem = {
