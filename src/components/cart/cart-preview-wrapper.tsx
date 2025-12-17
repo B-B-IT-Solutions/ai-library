@@ -4,6 +4,7 @@ import { FC, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { DCart } from "@/data/types/domain/cart";
+
 import { CartPreview } from "./cart-preview";
 
 type CartPreviewWrapperProps = {
@@ -34,7 +35,7 @@ export const CartPreviewWrapper: FC<CartPreviewWrapperProps> = ({
 
       return () => {
          window.removeEventListener(
-           "cart-updated" as any,
+            "cart-updated" as any,
             handleCartUpdate as EventListener
          );
       };

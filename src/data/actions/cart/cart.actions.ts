@@ -88,7 +88,7 @@ export const addToCart = async (
          ? await pGetCartByUserId(userId)
          : await pGetCartBySessionId(cart.sessionCartId!);
 
-      revalidatePath("/marketplace");
+      // revalidatePath("/marketplace");
 
       return {
          success: true,
@@ -119,7 +119,7 @@ export const removeFromCart = async (
          ? await pGetCartByUserId(userId)
          : await pGetCartBySessionId(cart.sessionCartId!);
 
-      revalidatePath("/marketplace");
+      // revalidatePath("/marketplace");
 
       return {
          success: true,

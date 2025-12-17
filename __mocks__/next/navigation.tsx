@@ -1,6 +1,7 @@
 import mockRouter from "next-router-mock";
 
 mockRouter.replace = jest.fn();
+mockRouter.refresh = jest.fn();
 
 module.exports = {
    __esModule: true,

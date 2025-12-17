@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
-import { removeFromCart } from "@/data/actions/cart/cart.actions";
+import { removeFromCart } from "@/data/actions/cart";
 import { DCartItem } from "@/data/types/domain/cart";
 
 type CartItemProps = {

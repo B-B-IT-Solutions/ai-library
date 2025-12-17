@@ -30,6 +30,7 @@ export const CartPreview: FC<CartPreviewProps> = ({ cart, onCartChange }) => {
          } else {
             toast.error(result.message);
          }
+         router.refresh();
       });
    };
 
@@ -50,7 +51,8 @@ export const CartPreview: FC<CartPreviewProps> = ({ cart, onCartChange }) => {
                   <h3 className="text-lg font-semibold">Your Cart</h3>
                </div>
                <span className="text-sm text-slate-600">
-                  {cart.items.length} {cart.items.length === 1 ? "item" : "items"}
+                  {cart.items.length}{" "}
+                  {cart.items.length === 1 ? "item" : "items"}
                </span>
             </div>
          </CardHeader>
@@ -81,14 +83,18 @@ export const CartPreview: FC<CartPreviewProps> = ({ cart, onCartChange }) => {
                                  <span className="text-xs text-slate-600">
                                     {item.product.type}
                                  </span>
-                                 <span className="text-xs text-slate-400">•</span>
+                                 <span className="text-xs text-slate-400">
+                                    •
+                                 </span>
                                  <span className="text-xs font-medium text-indigo-600">
                                     ${item.product.price.toFixed(2)}
                                  </span>
                               </div>
                            </div>
                            <button
-                              onClick={() => handleRemoveItem(item.id, item.product.name)}
+                              onClick={() =>
+                                 handleRemoveItem(item.id, item.product.name)
+                              }
                               className="text-slate-400 hover:text-red-500 transition-colors p-1 disabled:opacity-50"
                               aria-label="Remove item"
                               disabled={isPending}
@@ -103,11 +109,15 @@ export const CartPreview: FC<CartPreviewProps> = ({ cart, onCartChange }) => {
                   <div className="border-t pt-4 space-y-2">
                      <div className="flex justify-between text-sm">
                         <span className="text-slate-600">Subtotal</span>
-                        <span className="font-medium">${cart.subtotal.toFixed(2)}</span>
+                        <span className="font-medium">
+                           ${cart.subtotal.toFixed(2)}
+                        </span>
                      </div>
                      <div className="flex justify-between text-base font-semibold">
                         <span>Total</span>
-                        <span className="text-indigo-600">${cart.total.toFixed(2)}</span>
+                        <span className="text-indigo-600">
+                           ${cart.total.toFixed(2)}
+                        </span>
                      </div>
                   </div>
 

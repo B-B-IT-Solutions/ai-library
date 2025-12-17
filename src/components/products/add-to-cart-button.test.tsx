@@ -5,6 +5,7 @@ import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData } from "@tests";
+import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
 import { addToCart } from "@/data/actions/cart/cart.actions";
@@ -91,6 +92,7 @@ describe("AddToCartButton functionality tests", () => {
          expect(toastMock.success).toHaveBeenCalledWith(addResult.message, {
             duration: 1000,
          });
+         expect(mockRouter.refresh).toHaveBeenCalledTimes(1);
       });
    });
 
@@ -118,6 +120,7 @@ describe("AddToCartButton functionality tests", () => {
          expect(addToCartMock).toHaveBeenCalledWith(product.id, 1);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(addResult.message);
+         expect(mockRouter.refresh).toHaveBeenCalledTimes(1);
       });
    });
 });

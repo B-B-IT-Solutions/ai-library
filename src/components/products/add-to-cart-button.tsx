@@ -2,6 +2,7 @@
 
 import { FC, useTransition } from "react";
 import { Check, Loader, ShoppingCart } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
@@ -20,6 +21,7 @@ export const AddToCartButton: FC<AddToCartButtonProps> = ({
    isInCart,
    size,
 }) => {
+   const router = useRouter();
    const [isPending, startTransition] = useTransition();
 
    const handleAddToCart = () => {
@@ -32,6 +34,7 @@ export const AddToCartButton: FC<AddToCartButtonProps> = ({
          } else {
             toast.error(result.message);
          }
+         router.refresh();
       });
    };
 
