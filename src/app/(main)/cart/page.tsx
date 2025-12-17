@@ -1,4 +1,4 @@
-import { map } from "es-toolkit/compat";
+import { isEmpty, map } from "es-toolkit/compat";
 import { ShoppingBag } from "lucide-react";
 import Link from "next/link";
 
@@ -7,10 +7,10 @@ import { CartSummary } from "@/components/cart/cart-summary";
 import { Button } from "@/components/shadcn/button";
 import { getCart } from "@/data/actions/cart";
 
-export default async function CartPage() {
+export const CartPage = async () => {
    const cart = await getCart();
 
-   if (!cart || cart.items.length === 0) {
+   if (isEmpty(cart.items)) {
       return (
          <div className="container mx-auto px-4 py-8">
             <h1 className="text-3xl font-bold text-slate-900 mb-8">
@@ -33,7 +33,7 @@ export default async function CartPage() {
    }
 
    return (
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8" data-testid="cart-page">
          <h1 className="text-3xl font-bold text-slate-900 mb-8">
             Shopping Cart
          </h1>
@@ -57,4 +57,6 @@ export default async function CartPage() {
          </div>
       </div>
    );
-}
+};
+
+export default CartPage;
