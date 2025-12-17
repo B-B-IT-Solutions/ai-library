@@ -1,48 +1,111 @@
-import React from "react";
+import * as React from "react";
 
-const Root: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-   return <div data-testid="mock-react-dialog-root">{children}</div>;
+type DialogContextType = {
+   open: boolean;
+   setOpen: (v: boolean) => void;
+};
+
+const DialogContext = React.createContext<DialogContextType | null>(null);
+
+const Root = ({ open = false, onOpenChange, children }: any) => {
+   const [internalOpen, setInternalOpen] = React.useState(open);
+
+   const setOpen = (v: boolean) => {
+      setInternalOpen(v);
+      onOpenChange?.(v);
+   };
+
+   return (
+      <DialogContext.Provider value={{ open: internalOpen, setOpen }}>
+         <div data-testid="mock-react-dialog-root">{children}</div>
+      </DialogContext.Provider>
+   );
 };
 
 const Trigger: React.FC<{
    children: React.ReactNode;
-}> = ({ children }) => {
-   return <div data-testid="mock-react-dialog-trigger">{children}</div>;
-};
+   asChild: boolean;
+}> = ({ children, asChild, ...props }) => {
+   const ctx = React.useContext(DialogContext)!;
 
-const Portal: React.FC<{
-   children: React.ReactNode;
-}> = ({ children }) => {
-   return <div data-testid="mock-react-dialog-portal">{children}</div>;
-};
+   if (asChild && React.isValidElement(children)) {
+      return React.cloneElement(children, {
+         onClick: () => ctx.setOpen(true),
+      });
+   }
 
-const Overlay: React.FC<{
-   children: React.ReactNode;
-}> = ({ children }) => {
-   return <div data-testid="mock-react-dialog-overlay">{children}</div>;
+   return (
+      <button
+         onClick={() => ctx.setOpen(true)}
+         data-testid="mock-react-dialog-trigger"
+         {...props}
+      >
+         {children}
+      </button>
+   );
 };
 
 const Content: React.FC<{
    children: React.ReactNode;
-}> = ({ children }) => {
-   return <div data-testid="mock-react-dialog-content">{children}</div>;
+}> = ({ children, ...props }) => {
+   const ctx = React.useContext(DialogContext)!;
+   if (!ctx.open) {
+      return null;
+   }
+   return (
+      <div data-testid="mock-react-dialog-content" {...props}>
+         {children}
+      </div>
+   );
+};
+
+const Portal: React.FC<{
+   children: React.ReactNode;
+}> = ({ children, ...props }) => {
+   return (
+      <div data-testid="mock-react-dialog-portal" {...props}>
+         {children}
+      </div>
+   );
+};
+
+const Overlay: React.FC<{
+   children: React.ReactNode;
+}> = ({ children, ...props }) => {
+   return (
+      <div data-testid="mock-react-dialog-overlay" {...props}>
+         {children}
+      </div>
+   );
 };
 
 const Title: React.FC<{
    children: React.ReactNode;
-}> = ({ children }) => {
-   return <div data-testid="mock-react-dialog-title">{children}</div>;
+}> = ({ children, ...props }) => {
+   return (
+      <div data-testid="mock-react-dialog-title" {...props}>
+         {children}
+      </div>
+   );
 };
 
 const Description: React.FC<{
    children: React.ReactNode;
-}> = ({ children }) => {
-   return <div data-testid="mock-react-dialog-description">{children}</div>;
+}> = ({ children, ...props }) => {
+   return (
+      <div data-testid="mock-react-dialog-description" {...props}>
+         {children}
+      </div>
+   );
+};
+
+const Close = ({ children }: any) => {
+   const ctx = React.useContext(DialogContext)!;
+   return <button onClick={() => ctx.setOpen(false)}>{children}</button>;
 };
 
 module.exports = {
    __esModule: true,
-   //    ...jest.requireActual("@radix-ui/react-dialog"),
    Root,
    Trigger,
    Portal,
@@ -50,4 +113,5 @@ module.exports = {
    Content,
    Title,
    Description,
+   Close,
 };
