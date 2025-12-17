@@ -31,7 +31,7 @@ const assertAppName = (name: string) => {
 const assertMenuItems = () => {
    const groupApplication = screen.getByText("Application");
    const prompts = screen.getByTestId("menu-item-prompts");
-   const templates = screen.getByTestId("menu-item-templates");
+   const library = screen.getByTestId("menu-item-library");
    const marketplace = screen.getByTestId("menu-item-marketplace");
 
    const groupOther = screen.getByText("Other");
@@ -41,7 +41,7 @@ const assertMenuItems = () => {
 
    assertInDocument(groupApplication);
    assertInDocument(prompts);
-   assertInDocument(templates);
+   assertInDocument(library);
    assertInDocument(marketplace);
 
    assertInDocument(groupOther);
@@ -119,7 +119,7 @@ describe("Sidebar functionality tests", () => {
       });
 
       await assertNavigateToMenuItem("Prompts", "/prompts");
-      await assertNavigateToMenuItem("Templates", "/templates");
+      await assertNavigateToMenuItem("My Library", "/library");
       await assertNavigateToMenuItem("Marketplace", "/marketplace");
       await assertNavigateToMenuItem("Feedback", "/feedback");
       await assertNavigateToMenuItem("Invite People", "/invite-people");
@@ -135,7 +135,7 @@ describe("Sidebar functionality tests", () => {
          assertRendered();
          assertMenuItemActive("Settings", true);
          assertMenuItemActive("Prompts", false);
-         assertMenuItemActive("Templates", false);
+         assertMenuItemActive("My Library", false);
       });
    });
 });

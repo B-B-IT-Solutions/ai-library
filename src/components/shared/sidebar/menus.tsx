@@ -19,22 +19,16 @@ export const navigationMenu1: DMenuItem[] = [
       url: "/prompts",
    },
    {
-      id: "/templates",
-      title: "Templates",
-      icon: LayoutTemplate,
-      url: "/templates",
+      id: "/library",
+      title: "My Library",
+      icon: BookOpen,
+      url: "/library",
    },
    {
       id: "/marketplace",
       title: "Marketplace",
       icon: ShoppingBag,
       url: "/marketplace",
-   },
-   {
-      id: "/library",
-      title: "My Library",
-      icon: BookOpen,
-      url: "/library",
    },
    {
       id: "/orders",
