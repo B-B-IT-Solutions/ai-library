@@ -85,7 +85,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product, isInCart }) => {
             </p>
 
             <div className="flex gap-2">
-               <ShowDetailsButton product={product} />
+               <ShowDetailsButton product={product} isInCart={isInCart} />
                <AddToCartButton product={product} isInCart={isInCart} />
             </div>
          </CardContent>

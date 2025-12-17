@@ -10,9 +10,13 @@ import { ProductDetailsDialog } from "./product-details-dialog";
 
 type AddToCartButtonProps = {
    product: DProduct;
+   isInCart: boolean;
 };
 
-export const ShowDetailsButton: FC<AddToCartButtonProps> = ({ product }) => {
+export const ShowDetailsButton: FC<AddToCartButtonProps> = ({
+   product,
+   isInCart,
+}) => {
    const [showDetails, setShowDetails] = useState(false);
 
    return (
@@ -30,6 +34,7 @@ export const ShowDetailsButton: FC<AddToCartButtonProps> = ({ product }) => {
             product={product}
             open={showDetails}
             onOpenChange={setShowDetails}
+            isInCart={isInCart}
          />
       </>
    );

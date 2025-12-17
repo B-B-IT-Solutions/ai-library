@@ -28,7 +28,9 @@ const assertProductNotRendered = (product: DProduct) => {
 describe("ShowDetailsButton rendering tests", () => {
    it("ShowDetailsButton rendered test", async () => {
       const product = dtestData.dProduct();
-      const { container } = render(<ShowDetailsButton product={product} />);
+      const { container } = render(
+         <ShowDetailsButton product={product} isInCart={false} />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -41,7 +43,7 @@ describe("ShowDetailsButton rendering tests", () => {
 describe("ShowDetailsButton functionality tests", () => {
    it("ShowDetailsButton - btn clicked - test", async () => {
       const product = dtestData.dProduct();
-      render(<ShowDetailsButton product={product} />);
+      render(<ShowDetailsButton product={product} isInCart={false} />);
 
       await waitFor(() => {
          assertRendered();

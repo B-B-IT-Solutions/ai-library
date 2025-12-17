@@ -11,11 +11,13 @@ import { DProduct } from "@/data/types/domain/product";
 type AddToCartButtonProps = {
    product: DProduct;
    isInCart: boolean;
+   size?: "default" | "lg";
 };
 
 export const AddToCartButton: FC<AddToCartButtonProps> = ({
    product,
    isInCart,
+   size,
 }) => {
    const [isPending, startTransition] = useTransition();
 
@@ -63,6 +65,7 @@ export const AddToCartButton: FC<AddToCartButtonProps> = ({
          disabled={isPending || isInCart}
          className="flex-1 cursor-pointer"
          variant={isInCart ? "secondary" : "default"}
+         size={size ? size : "default"}
          data-testid="add-to-cart-btn"
       >
          {icon()}

@@ -1,9 +1,8 @@
 "use client";
 
-import { FC, useTransition } from "react";
+import { FC } from "react";
 import { map } from "es-toolkit/compat";
-import { Package, ShoppingCart, Sparkles } from "lucide-react";
-import { toast } from "sonner";
+import { Package, Sparkles } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
@@ -15,34 +14,23 @@ import {
    DialogTitle,
 } from "@/components/shadcn/dialog";
 import { Separator } from "@/components/shadcn/separator";
-import { addToCart } from "@/data/actions/cart/cart.actions";
 import { DProduct } from "@/data/types/domain/product";
+
+import { AddToCartButton } from "./add-to-cart-button";
 
 type ProductDetailsDialogProps = {
    product: DProduct;
    open: boolean;
    onOpenChange: (open: boolean) => void;
+   isInCart: boolean;
 };
 
 export const ProductDetailsDialog: FC<ProductDetailsDialogProps> = ({
    product,
    open,
    onOpenChange,
+   isInCart,
 }) => {
-   const [isPending, startTransition] = useTransition();
-
-   const handleAddToCart = () => {
-      startTransition(async () => {
-         const result = await addToCart(product.id, 1);
-         if (result.success) {
-            toast.success(result.message);
-            onOpenChange(false);
-         } else {
-            toast.error(result.message);
-         }
-      });
-   };
-
    const getTypeBadgeColor = () => {
       const colors = {
          TEMPLATE: "bg-blue-100 text-blue-700 border-blue-200",
@@ -178,15 +166,11 @@ export const ProductDetailsDialog: FC<ProductDetailsDialogProps> = ({
             </div>
 
             <div className="flex gap-3 pt-4 sticky bottom-0 bg-white border-t mt-6 -mx-6 px-6 py-4">
-               <Button
-                  onClick={handleAddToCart}
-                  disabled={isPending}
-                  className="flex-1"
+               <AddToCartButton
+                  product={product}
+                  isInCart={isInCart}
                   size="lg"
-               >
-                  <ShoppingCart className="w-4 h-4 mr-2" />
-                  {isPending ? "Adding..." : "Add to Cart"}
-               </Button>
+               />
                <Button
                   onClick={() => onOpenChange(false)}
                   variant="outline"

@@ -24,7 +24,7 @@ describe("AddToCartButton rendering tests", () => {
    it("AddToCartButton - isInCart false - rendered", async () => {
       const product = dtestData.dProduct();
       const { container } = render(
-         <AddToCartButton product={product} isInCart={false} />
+         <AddToCartButton product={product} isInCart={false} size="default" />
       );
 
       await waitFor(() => {
@@ -37,7 +37,7 @@ describe("AddToCartButton rendering tests", () => {
    it("AddToCartButton - isInCart true - rendered", async () => {
       const product = dtestData.dProduct();
       const { container } = render(
-         <AddToCartButton product={product} isInCart={true} />
+         <AddToCartButton product={product} isInCart={true} size="lg" />
       );
 
       await waitFor(() => {
