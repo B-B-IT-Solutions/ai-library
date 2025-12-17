@@ -1,5 +1,6 @@
 import { map } from "es-toolkit/compat";
 
+import { DCart } from "@/data/types/domain/cart";
 import { DProduct, DProductViewMode } from "@/data/types/domain/product";
 
 import { ProductCard } from "./product-card";
@@ -8,15 +9,17 @@ import { ViewToggle } from "./view-toggle";
 
 type ProductsProps = {
    products: DProduct[];
-   cartProductIds: Set<string>;
+   cart: DCart;
    viewMode?: DProductViewMode;
 };
 
 export const Products = ({
    products,
-   cartProductIds,
+   cart,
    viewMode = "grid",
 }: ProductsProps) => {
+   const cartProductIds = new Set(cart.items.map((item) => item.product.id));
+
    const gridView = () => {
       return (
          <div

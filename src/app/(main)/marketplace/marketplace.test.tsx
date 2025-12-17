@@ -26,9 +26,7 @@ describe("Marketplace rendering tests", () => {
    it("Marketplace - products empty - test", async () => {
       const cart = dtestData.dCart();
 
-      const { container } = render(
-         <Marketplace products={[]} initialCart={cart} />
-      );
+      const { container } = render(<Marketplace products={[]} cart={cart} />);
 
       await waitFor(() => {
          assertRendered();
@@ -43,7 +41,7 @@ describe("Marketplace rendering tests", () => {
       const cart = dtestData.dCart();
 
       const { container } = render(
-         <Marketplace products={products} initialCart={cart} viewMode="grid" />
+         <Marketplace products={products} cart={cart} viewMode="grid" />
       );
 
       await waitFor(() => {
@@ -59,7 +57,7 @@ describe("Marketplace rendering tests", () => {
       const cart = dtestData.dCart();
 
       const { container } = render(
-         <Marketplace products={products} initialCart={cart} viewMode="list" />
+         <Marketplace products={products} cart={cart} viewMode="list" />
       );
 
       await waitFor(() => {

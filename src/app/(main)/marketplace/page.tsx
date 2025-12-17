@@ -38,11 +38,7 @@ export const MarketplacePage = async (props: MarketplacePageProps) => {
                Browse and purchase prompt templates and bundles
             </p>
          </div>
-         <Marketplace
-            products={products}
-            initialCart={cart}
-            viewMode={viewMode}
-         />
+         <Marketplace products={products} cart={cart} viewMode={viewMode} />
       </div>
    );
 };

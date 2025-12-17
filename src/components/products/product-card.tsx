@@ -1,69 +1,23 @@
 "use client";
 
-import { FC, useEffect, useState, useTransition } from "react";
+import { FC, useState } from "react";
 import { map } from "es-toolkit/compat";
-import { Check, Info, ShoppingCart } from "lucide-react";
-import { toast } from "sonner";
+import { Info } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
-import { addToCart } from "@/data/actions/cart/cart.actions";
-import { DCart } from "@/data/types/domain/cart";
 import { DProduct } from "@/data/types/domain/product";
 
+import { AddToCartButton } from "./add-to-cart-button";
 import { ProductDetailsDialog } from "./product-details-dialog";
 
 type ProductCardProps = {
    product: DProduct;
-   isInCart?: boolean;
+   isInCart: boolean;
 };
 
-export const ProductCard: FC<ProductCardProps> = ({
-   product,
-   isInCart: initialIsInCart = false,
-}) => {
+export const ProductCard: FC<ProductCardProps> = ({ product, isInCart }) => {
    const [showDetails, setShowDetails] = useState(false);
-   const [isPending, startTransition] = useTransition();
-   const [isInCart, setIsInCart] = useState(initialIsInCart);
-
-   // Listen for cart updates to update button state in real-time
-   useEffect(() => {
-      const handleCartUpdate = (event: CustomEvent<DCart>) => {
-         const inCart = event.detail.items.some(
-            (item) => item.product.id === product.id
-         );
-         setIsInCart(inCart);
-      };
-
-      window.addEventListener(
-         "cart-updated" as any,
-         handleCartUpdate as EventListener
-      );
-
-      return () => {
-         window.removeEventListener(
-            "cart-updated" as any,
-            handleCartUpdate as EventListener
-         );
-      };
-   }, [product.id]);
-
-   const handleAddToCart = () => {
-      startTransition(async () => {
-         const result = await addToCart(product.id, 1);
-         if (result.success) {
-            toast.success(result.message);
-            // Dispatch custom event to update cart preview
-            if (result.data) {
-               window.dispatchEvent(
-                  new CustomEvent("cart-updated", { detail: result.data })
-               );
-            }
-         } else {
-            toast.error(result.message);
-         }
-      });
-   };
 
    const typeBadge = () => {
       const colors = {
@@ -142,25 +96,7 @@ export const ProductCard: FC<ProductCardProps> = ({
                   <Info className="w-4 h-4 mr-2" />
                   Details
                </Button>
-               <Button
-                  onClick={handleAddToCart}
-                  disabled={isPending || isInCart}
-                  className="flex-1"
-                  variant={isInCart ? "secondary" : "default"}
-                  data-testid="add-to-cart-button"
-               >
-                  {isInCart ? (
-                     <>
-                        <Check className="w-4 h-4 mr-2" />
-                        In Cart
-                     </>
-                  ) : (
-                     <>
-                        <ShoppingCart className="w-4 h-4 mr-2" />
-                        {isPending ? "Adding..." : "Add to Cart"}
-                     </>
-                  )}
-               </Button>
+               <AddToCartButton product={product} isInCart={isInCart} />
             </div>
          </CardContent>
 

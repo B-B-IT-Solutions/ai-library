@@ -28,11 +28,10 @@ const assertProductList = () => {
 describe("Products rendering tests", () => {
    it("Products - one product - test", async () => {
       const product = dtestData.dProduct();
-      const cartProductIds = new Set<string>();
-      cartProductIds.add(product.id);
+      const cart = dtestData.dCart();
 
       const { container } = render(
-         <Products products={[product]} cartProductIds={cartProductIds} />
+         <Products products={[product]} cart={cart} />
       );
 
       await waitFor(() => {
@@ -46,15 +45,10 @@ describe("Products rendering tests", () => {
 
    it("Products - viewMode grid - rendered test", async () => {
       const products = dtestData.dProducts();
-      const cartProductIds = new Set<string>();
-      cartProductIds.add(products[0].id);
+      const cart = dtestData.dCart();
 
       const { container } = render(
-         <Products
-            products={products}
-            cartProductIds={cartProductIds}
-            viewMode="grid"
-         />
+         <Products products={products} cart={cart} viewMode="grid" />
       );
 
       await waitFor(() => {
@@ -67,15 +61,10 @@ describe("Products rendering tests", () => {
 
    it("Products - viewMode list - rendered test", async () => {
       const products = dtestData.dProducts();
-      const cartProductIds = new Set<string>();
-      cartProductIds.add(products[0].id);
+      const cart = dtestData.dCart();
 
       const { container } = render(
-         <Products
-            products={products}
-            cartProductIds={cartProductIds}
-            viewMode="list"
-         />
+         <Products products={products} cart={cart} viewMode="list" />
       );
 
       await waitFor(() => {

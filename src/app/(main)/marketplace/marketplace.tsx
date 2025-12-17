@@ -7,19 +7,11 @@ import { DProduct, DProductViewMode } from "@/data/types/domain/product";
 
 type MarketplaceProps = {
    products: DProduct[];
-   initialCart: DCart;
+   cart: DCart;
    viewMode?: DProductViewMode;
 };
 
-export const Marketplace = ({
-   products,
-   initialCart,
-   viewMode,
-}: MarketplaceProps) => {
-   const cartProductIds = new Set(
-      initialCart.items.map((item) => item.product.id)
-   );
-
+export const Marketplace = ({ products, cart, viewMode }: MarketplaceProps) => {
    const content = () => {
       if (isEmpty(products)) {
          return (
@@ -32,12 +24,8 @@ export const Marketplace = ({
       }
       return (
          <>
-            <Products
-               products={products}
-               cartProductIds={cartProductIds}
-               viewMode={viewMode}
-            />
-            <CartControls initialCart={initialCart} />
+            <Products products={products} cart={cart} viewMode={viewMode} />
+            <CartControls initialCart={cart} />
          </>
       );
    };
