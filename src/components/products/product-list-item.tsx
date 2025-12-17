@@ -15,7 +15,7 @@ import { ProductDetailsDialog } from "./product-details-dialog";
 
 type ProductListItemProps = {
    product: DProduct;
-   isInCart?: boolean;
+   isInCart: boolean;
 };
 
 export const ProductListItem: FC<ProductListItemProps> = ({
@@ -178,7 +178,8 @@ export const ProductListItem: FC<ProductListItemProps> = ({
          <ProductDetailsDialog
             product={product}
             open={showDetails}
-            onOpenChange={setShowDetails}
+            onClose={() => setShowDetails(false)}
+            isInCart={isInCart}
          />
       </Card>
    );

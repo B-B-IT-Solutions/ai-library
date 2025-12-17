@@ -33,7 +33,7 @@ export const ShowDetailsButton: FC<AddToCartButtonProps> = ({
          <ProductDetailsDialog
             product={product}
             open={showDetails}
-            onOpenChange={setShowDetails}
+            onClose={() => setShowDetails(false)}
             isInCart={isInCart}
          />
       </>

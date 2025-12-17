@@ -14,22 +14,23 @@ import {
    DialogTitle,
 } from "@/components/shadcn/dialog";
 import { Separator } from "@/components/shadcn/separator";
+import { CallbackFn } from "@/data/types/common";
 import { DProduct } from "@/data/types/domain/product";
 
 import { AddToCartButton } from "./add-to-cart-button";
 
 type ProductDetailsDialogProps = {
    product: DProduct;
-   open: boolean;
-   onOpenChange: (open: boolean) => void;
    isInCart: boolean;
+   open: boolean;
+   onClose: CallbackFn;
 };
 
 export const ProductDetailsDialog: FC<ProductDetailsDialogProps> = ({
    product,
-   open,
-   onOpenChange,
    isInCart,
+   open,
+   onClose,
 }) => {
    const getTypeBadgeColor = () => {
       const colors = {
@@ -40,7 +41,9 @@ export const ProductDetailsDialog: FC<ProductDetailsDialogProps> = ({
    };
 
    const renderTemplateDetails = () => {
-      if (product.type !== "TEMPLATE" || !product.template) return null;
+      if (product.type !== "TEMPLATE" || !product.template) {
+         return null;
+      }
 
       return (
          <div className="space-y-4">
@@ -133,7 +136,7 @@ export const ProductDetailsDialog: FC<ProductDetailsDialogProps> = ({
    return (
       <Dialog
          open={open}
-         onOpenChange={onOpenChange}
+         onOpenChange={onClose}
          data-testid="product-detials-dialog"
       >
          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -172,9 +175,10 @@ export const ProductDetailsDialog: FC<ProductDetailsDialogProps> = ({
                   size="lg"
                />
                <Button
-                  onClick={() => onOpenChange(false)}
+                  onClick={onClose}
                   variant="outline"
                   size="lg"
+                  data-testid="close-dialog-btn"
                >
                   Close
                </Button>
