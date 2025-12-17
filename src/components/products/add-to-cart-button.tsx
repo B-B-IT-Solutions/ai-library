@@ -61,7 +61,7 @@ export const AddToCartButton: FC<AddToCartButtonProps> = ({
       <Button
          onClick={handleAddToCart}
          disabled={isPending || isInCart}
-         className="flex-1"
+         className="flex-1 cursor-pointer"
          variant={isInCart ? "secondary" : "default"}
          data-testid="add-to-cart-btn"
       >

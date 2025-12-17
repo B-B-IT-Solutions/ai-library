@@ -119,6 +119,8 @@ export const removeFromCart = async (
          ? await pGetCartByUserId(userId)
          : await pGetCartBySessionId(cart.sessionCartId!);
 
+      revalidatePath("/marketplace");
+
       return {
          success: true,
          message: "Item removed from cart successfully.",
