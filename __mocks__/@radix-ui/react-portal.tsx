@@ -1,13 +1,20 @@
 import React from "react";
 
+import { clearProps } from "./utils";
+
 const Root: React.FC<{ children: React.ReactNode }> = ({ children }) => {
    return <div data-testid="mock-react-portal-root">{children}</div>;
 };
 
 const Portal: React.FC<{
    children: React.ReactNode;
-}> = ({ children }) => {
-   return <div data-testid="mock-react-portal">{children}</div>;
+}> = ({ children, ...props }) => {
+   clearProps(props);
+   return (
+      <div data-testid="mock-react-portal" {...props}>
+         {children}
+      </div>
+   );
 };
 
 module.exports = {

@@ -56,5 +56,12 @@ describe("ShowDetailsButton functionality tests", () => {
       await waitFor(() => {
          assertProductRendered(product);
       });
+
+      const closeBtn = screen.getByTestId("close-dialog-btn");
+      await userEvent.click(closeBtn);
+
+      await waitFor(() => {
+         assertProductNotRendered(product);
+      });
    });
 });
