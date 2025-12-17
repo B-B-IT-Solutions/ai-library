@@ -1,5 +1,6 @@
 import { isEmpty, map } from "es-toolkit/compat";
 import { ShoppingBag } from "lucide-react";
+import { Metadata } from "next";
 import Link from "next/link";
 
 import { CartItem } from "@/components/cart/cart-item";
@@ -7,12 +8,19 @@ import { CartSummary } from "@/components/cart/cart-summary";
 import { Button } from "@/components/shadcn/button";
 import { getCart } from "@/data/actions/cart";
 
+export const metadata: Metadata = {
+   title: "Cart",
+};
+
 export const CartPage = async () => {
    const cart = await getCart();
 
    if (isEmpty(cart.items)) {
       return (
-         <div className="container mx-auto px-4 py-8">
+         <div
+            className="container mx-auto px-4 py-8"
+            data-testid="cart-page-empty"
+         >
             <h1 className="text-3xl font-bold text-slate-900 mb-8">
                Shopping Cart
             </h1>
@@ -24,7 +32,7 @@ export const CartPage = async () => {
                <p className="text-slate-600 mb-6">
                   Start shopping to add items to your cart
                </p>
-               <Link href="/marketplace">
+               <Link href="/marketplace" data-testid="market-place-link">
                   <Button>Browse Marketplace</Button>
                </Link>
             </div>
