@@ -101,7 +101,7 @@ describe("AddToCartButton functionality tests", () => {
 
       const product = dtestData.dProduct();
 
-      render(<AddToCartButton product={product} isInCart={false} />);
+      render(<AddToCartButton product={product} isInCart={false} size="sm" />);
 
       await waitFor(() => {
          assertRendered();
