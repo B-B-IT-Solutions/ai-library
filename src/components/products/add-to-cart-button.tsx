@@ -7,11 +7,12 @@ import { toast } from "sonner";
 import { Button } from "@/components/shadcn/button";
 import { addToCart } from "@/data/actions/cart/cart.actions";
 import { DProduct } from "@/data/types/domain/product";
+import { cn } from "@/lib/utils";
 
 type AddToCartButtonProps = {
    product: DProduct;
    isInCart: boolean;
-   size?: "default" | "lg";
+   size?: "default" | "lg" | "sm";
 };
 
 export const AddToCartButton: FC<AddToCartButtonProps> = ({
@@ -36,8 +37,12 @@ export const AddToCartButton: FC<AddToCartButtonProps> = ({
       if (isInCart) {
          return (
             <>
-               <Check className="w-4 h-4 mr-2" />
-               In Cart
+               <Check
+                  className={cn("w-4 h-4", size == "sm" ? "sm:mr-1" : "mr-2")}
+               />
+               <span className={size == "sm" ? "hidden sm:inline" : undefined}>
+                  In Cart
+               </span>
             </>
          );
       }
@@ -45,7 +50,12 @@ export const AddToCartButton: FC<AddToCartButtonProps> = ({
       if (isPending) {
          return (
             <>
-               <Loader className="w-4 h-4 animate-spin mr-2" />
+               <Loader
+                  className={cn(
+                     "w-4 h-4 animate-spin",
+                     size == "sm" ? "sm:mr-1" : "mr-2"
+                  )}
+               />
                Adding...
             </>
          );
@@ -53,8 +63,12 @@ export const AddToCartButton: FC<AddToCartButtonProps> = ({
 
       return (
          <>
-            <ShoppingCart className="w-4 h-4 mr-2" />
-            Add to Cart
+            <ShoppingCart
+               className={cn("w-4 h-4", size == "sm" ? "sm:mr-1" : "mr-2")}
+            />
+            <span className={size == "sm" ? "hidden sm:inline" : undefined}>
+               {size == "sm" ? "Add" : "  Add to Cart"}
+            </span>
          </>
       );
    };
@@ -63,7 +77,10 @@ export const AddToCartButton: FC<AddToCartButtonProps> = ({
       <Button
          onClick={handleAddToCart}
          disabled={isPending || isInCart}
-         className="flex-1 cursor-pointer"
+         className={cn(
+            "flex-1 cursor-pointer",
+            size == "sm" ? "sm:flex-initial" : undefined
+         )}
          variant={isInCart ? "secondary" : "default"}
          size={size ? size : "default"}
          data-testid="add-to-cart-btn"

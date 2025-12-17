@@ -21,7 +21,7 @@ const assertRendered = () => {
 };
 
 describe("AddToCartButton rendering tests", () => {
-   it("AddToCartButton - isInCart false - rendered", async () => {
+   it("AddToCartButton - isInCart false - size deafult - rendered", async () => {
       const product = dtestData.dProduct();
       const { container } = render(
          <AddToCartButton product={product} isInCart={false} size="default" />
@@ -34,10 +34,23 @@ describe("AddToCartButton rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("AddToCartButton - isInCart true - rendered", async () => {
+   it("AddToCartButton - isInCart true - size lg - rendered", async () => {
       const product = dtestData.dProduct();
       const { container } = render(
          <AddToCartButton product={product} isInCart={true} size="lg" />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("AddToCartButton - isInCart true - size sm - rendered", async () => {
+      const product = dtestData.dProduct();
+      const { container } = render(
+         <AddToCartButton product={product} isInCart={true} size="sm" />
       );
 
       await waitFor(() => {

@@ -279,7 +279,9 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
                       d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
                     />
                   </svg>
-                  Add to Cart
+                  <span>
+                      Add to Cart
+                  </span>
                 </button>
               </div>
             </div>
@@ -422,7 +424,9 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
                       d="M20 6 9 17l-5-5"
                     />
                   </svg>
-                  In Cart
+                  <span>
+                    In Cart
+                  </span>
                 </button>
               </div>
             </div>
@@ -574,7 +578,9 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
                       d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
                     />
                   </svg>
-                  Add to Cart
+                  <span>
+                      Add to Cart
+                  </span>
                 </button>
               </div>
             </div>
@@ -888,13 +894,13 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
                     </span>
                   </button>
                   <button
-                    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 sm:flex-initial"
+                    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 cursor-pointer sm:flex-initial"
                     data-slot="button"
-                    data-testid="add-to-cart-button"
+                    data-testid="add-to-cart-btn"
                   >
                     <svg
                       aria-hidden="true"
-                      class="lucide lucide-shopping-cart w-4 h-4 sm:mr-2"
+                      class="lucide lucide-shopping-cart w-4 h-4 sm:mr-1"
                       fill="none"
                       height="24"
                       stroke="currentColor"
@@ -1053,14 +1059,14 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
                     </span>
                   </button>
                   <button
-                    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 sm:flex-initial"
+                    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 cursor-pointer sm:flex-initial"
                     data-slot="button"
-                    data-testid="add-to-cart-button"
+                    data-testid="add-to-cart-btn"
                     disabled=""
                   >
                     <svg
                       aria-hidden="true"
-                      class="lucide lucide-check w-4 h-4 sm:mr-2"
+                      class="lucide lucide-check w-4 h-4 sm:mr-1"
                       fill="none"
                       height="24"
                       stroke="currentColor"
@@ -1209,13 +1215,13 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
                     </span>
                   </button>
                   <button
-                    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 sm:flex-initial"
+                    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 cursor-pointer sm:flex-initial"
                     data-slot="button"
-                    data-testid="add-to-cart-button"
+                    data-testid="add-to-cart-btn"
                   >
                     <svg
                       aria-hidden="true"
-                      class="lucide lucide-shopping-cart w-4 h-4 sm:mr-2"
+                      class="lucide lucide-shopping-cart w-4 h-4 sm:mr-1"
                       fill="none"
                       height="24"
                       stroke="currentColor"
