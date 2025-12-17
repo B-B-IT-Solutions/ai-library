@@ -14,7 +14,7 @@ import MarketplacePage, {
    metadata,
 } from "./page";
 
-const getCartSummaryMock = getCart as jest.MockedFunction<typeof getCart>;
+const getCartMock = getCart as jest.MockedFunction<typeof getCart>;
 
 const getProductsMock = getProducts as jest.MockedFunction<typeof getProducts>;
 
@@ -39,7 +39,7 @@ describe("MarketplacePage rendering tests", () => {
       const products = dtestData.dProducts();
       const cart = dtestData.dCart();
       getProductsMock.mockResolvedValue(products);
-      getCartSummaryMock.mockResolvedValue(cart);
+      getCartMock.mockResolvedValue(cart);
 
       const { container } = await renderAsyncRSC(MarketplacePage, {});
 
@@ -54,7 +54,7 @@ describe("MarketplacePage rendering tests", () => {
       const products = dtestData.dProducts();
       const cart = dtestData.dCart();
       getProductsMock.mockResolvedValue(products);
-      getCartSummaryMock.mockResolvedValue(cart);
+      getCartMock.mockResolvedValue(cart);
 
       const searchParams: MarketPlaceSearchParams = { view: "list" };
 
