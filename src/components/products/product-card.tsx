@@ -1,15 +1,11 @@
-"use client";
-
-import { FC, useState } from "react";
+import { FC } from "react";
 import { map } from "es-toolkit/compat";
-import { Info } from "lucide-react";
 
-import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import { DProduct } from "@/data/types/domain/product";
 
 import { AddToCartButton } from "./add-to-cart-button";
-import { ProductDetailsDialog } from "./product-details-dialog";
+import { ShowDetailsButton } from "./show-details-button";
 
 type ProductCardProps = {
    product: DProduct;
@@ -17,8 +13,6 @@ type ProductCardProps = {
 };
 
 export const ProductCard: FC<ProductCardProps> = ({ product, isInCart }) => {
-   const [showDetails, setShowDetails] = useState(false);
-
    const typeBadge = () => {
       const colors = {
          TEMPLATE: "bg-blue-100 text-blue-700 border-blue-200",
@@ -87,24 +81,10 @@ export const ProductCard: FC<ProductCardProps> = ({ product, isInCart }) => {
             </p>
 
             <div className="flex gap-2">
-               <Button
-                  onClick={() => setShowDetails(true)}
-                  variant="outline"
-                  className="flex-1"
-                  data-testid="view-details-button"
-               >
-                  <Info className="w-4 h-4 mr-2" />
-                  Details
-               </Button>
+               <ShowDetailsButton product={product} />
                <AddToCartButton product={product} isInCart={isInCart} />
             </div>
          </CardContent>
-
-         <ProductDetailsDialog
-            product={product}
-            open={showDetails}
-            onOpenChange={setShowDetails}
-         />
       </Card>
    );
 };

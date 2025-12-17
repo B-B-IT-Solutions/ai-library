@@ -149,7 +149,11 @@ export const ProductDetailsDialog: FC<ProductDetailsDialogProps> = ({
    };
 
    return (
-      <Dialog open={open} onOpenChange={onOpenChange}>
+      <Dialog
+         open={open}
+         onOpenChange={onOpenChange}
+         data-testid="product-detials-dialog"
+      >
          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
                <div className="flex items-start justify-between gap-4">

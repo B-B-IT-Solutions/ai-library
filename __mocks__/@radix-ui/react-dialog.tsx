@@ -7,7 +7,11 @@ type DialogContextType = {
 
 const DialogContext = React.createContext<DialogContextType | null>(null);
 
-const Root = ({ open = false, onOpenChange, children }: any) => {
+const Root: React.FC<{
+   open: boolean;
+   onOpenChange: (value: boolean) => void;
+   children: React.ReactNode;
+}> = ({ open = false, onOpenChange, children, ...props }) => {
    const [internalOpen, setInternalOpen] = React.useState(open);
 
    const setOpen = (v: boolean) => {
@@ -17,7 +21,9 @@ const Root = ({ open = false, onOpenChange, children }: any) => {
 
    return (
       <DialogContext.Provider value={{ open: internalOpen, setOpen }}>
-         <div data-testid="mock-react-dialog-root">{children}</div>
+         <div data-testid="mock-react-dialog-root" {...props}>
+            {children}
+         </div>
       </DialogContext.Provider>
    );
 };
