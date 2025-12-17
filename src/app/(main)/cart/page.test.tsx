@@ -23,9 +23,11 @@ export const expectedMetadata: Metadata = {
 
 const assertCartRendered = () => {
    const page = screen.getByTestId("cart-page");
+   const cartSummary = screen.getByTestId("cart-summary");
    const cartItems = screen.getAllByTestId("cart-item");
 
    assertInDocument(page);
+   assertInDocument(cartSummary);
    expect(cartItems).toHaveLength(3);
 };
 
