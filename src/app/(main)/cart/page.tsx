@@ -52,7 +52,7 @@ export const CartPage = async () => {
                   <CartItem key={item.id} item={item} />
                ))}
 
-               <Link href="/marketplace">
+               <Link href="/marketplace" data-testid="continue-shopping-link">
                   <Button variant="outline" className="w-full">
                      Continue Shopping
                   </Button>

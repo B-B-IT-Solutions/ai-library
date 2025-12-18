@@ -24,10 +24,12 @@ export const expectedMetadata: Metadata = {
 const assertCartRendered = () => {
    const page = screen.getByTestId("cart-page");
    const cartSummary = screen.getByTestId("cart-summary");
+   const marketplaceLink = screen.getByTestId("continue-shopping-link");
    const cartItems = screen.getAllByTestId("cart-item");
 
    assertInDocument(page);
    assertInDocument(cartSummary);
+   assertInDocument(marketplaceLink);
    expect(cartItems).toHaveLength(3);
 };
 
@@ -74,11 +76,16 @@ describe("CartPage rendering tests", () => {
 });
 
 describe("CartPage functionality tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+      mockRouter.push("/");
+   });
+
    it("CartPage - metadata - test", async () => {
       expect(metadata).toEqual(expectedMetadata);
    });
 
-   it("CartPage - market place link clicked - test", async () => {
+   it("CartPage - empty cart - market place link clicked - test", async () => {
       const cart = dtestData.dCart();
       cart.items = [];
       getCartMock.mockResolvedValue(cart);
@@ -94,7 +101,25 @@ describe("CartPage functionality tests", () => {
       userEvent.click(link);
 
       await waitFor(() => {
-         assertEmptyCartRendered();
+         expect(mockRouter.pathname).toEqual("/marketplace");
+      });
+   });
+
+   it("CartPage - cart with items - continue shopping link clicked - test", async () => {
+      const cart = dtestData.dCart();
+      getCartMock.mockResolvedValue(cart);
+
+      await renderAsyncRSC(CartPage, {});
+
+      await waitFor(() => {
+         assertCartRendered();
+         expect(mockRouter.pathname).toEqual("/");
+      });
+
+      const link = screen.getByTestId("continue-shopping-link");
+      userEvent.click(link);
+
+      await waitFor(() => {
          expect(mockRouter.pathname).toEqual("/marketplace");
       });
    });

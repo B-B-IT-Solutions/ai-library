@@ -252,7 +252,7 @@ exports[`CartPage rendering tests CartPage - cart with items - test 1`] = `
           </button>
         </div>
         <a
-          data-testid="mock-link"
+          data-testid="continue-shopping-link"
           href="/marketplace"
         >
           <button
