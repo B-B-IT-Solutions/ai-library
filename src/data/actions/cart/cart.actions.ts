@@ -1,6 +1,5 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 import { auth } from "@/auth";
@@ -88,8 +87,6 @@ export const addToCart = async (
          ? await pGetCartByUserId(userId)
          : await pGetCartBySessionId(cart.sessionCartId!);
 
-      // revalidatePath("/marketplace");
-
       return {
          success: true,
          message: existingItem
@@ -118,8 +115,6 @@ export const removeFromCart = async (
       const updatedCart = userId
          ? await pGetCartByUserId(userId)
          : await pGetCartBySessionId(cart.sessionCartId!);
-
-      // revalidatePath("/marketplace");
 
       return {
          success: true,

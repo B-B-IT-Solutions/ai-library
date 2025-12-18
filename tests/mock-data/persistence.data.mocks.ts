@@ -4,6 +4,8 @@ import { PromptsPage, PromptWithCategories } from "@/data/types/db/prompt";
 import { PromptTemplateWithCategories } from "@/data/types/db/prompt.template";
 import { UserUpdateData } from "@/data/types/db/user";
 import {
+   Cart,
+   CartItem,
    Prompt,
    PromptCategory,
    PromptTemplate,
@@ -23,7 +25,6 @@ export const pUser = (index = 1): User => {
       emailVerified: new Date("2025-09-27"),
       image: "image/1",
       password: "password123",
-      paymentMethod: "stripe",
       role: "user",
       updatedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),
@@ -38,6 +39,31 @@ export const pUserUpdateData = (index = 1): UserUpdateData => {
       password: "password123",
       paymentMethod: "stripe",
       role: "user",
+   };
+};
+
+export const pCart = (index = 1): Cart => {
+   return {
+      id: `10fbd76c-4fd4-4294-a541-5d96e6a8e84${index}`,
+      userId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      sessionCartId: `4fe9285e-a420-453b-9237-9443c865570${index}`,
+      updatedAt: new Date("2025-09-27"),
+      createdAt: new Date("2025-09-27"),
+   };
+};
+
+export const pCartItems = (count = 3): CartItem[] => {
+   return range(0, count).map((i) => pCartItem(i));
+};
+
+export const pCartItem = (index = 1): CartItem => {
+   return {
+      id: `528b2f07-3142-48e3-9e5d-5a6a83789e95${index}`,
+      cartId: `10fbd76c-4fd4-4294-a541-5d96e6a8e84${index}`,
+      productId: `1045dc94-2eff-4150-804b-be38fa1422b${index}`,
+      quantity: 1,
+      updatedAt: new Date("2025-09-27"),
+      createdAt: new Date("2025-09-27"),
    };
 };
 

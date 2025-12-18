@@ -1,5 +1,5 @@
+import prisma from "@/data/db/prisma";
 import { CartCreateInput } from "@/generated/prisma/models";
-import { prisma } from "../prisma";
 
 export const pGetCartBySessionId = async (sessionCartId: string) => {
    return await prisma.cart.findUnique({
