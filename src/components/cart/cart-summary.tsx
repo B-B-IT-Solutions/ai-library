@@ -1,8 +1,5 @@
-"use client";
-
 import { FC } from "react";
-import { isEmpty } from "es-toolkit/compat";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
@@ -13,12 +10,6 @@ type CartSummaryProps = {
 };
 
 export const CartSummary: FC<CartSummaryProps> = ({ cart }) => {
-   const router = useRouter();
-
-   const handleCheckout = () => {
-      router.push("/checkout");
-   };
-
    return (
       <Card className="p-4" data-testid="cart-summary">
          <CardHeader className="p-0 mb-4">
@@ -39,13 +30,14 @@ export const CartSummary: FC<CartSummaryProps> = ({ cart }) => {
                </span>
             </div>
 
-            <Button
-               onClick={handleCheckout}
-               className="w-full"
-               disabled={isEmpty(cart.items)}
-               data-testid="checkout-btn"
-            >
-               Proceed to Checkout
+            <Button asChild={true}>
+               <Link
+                  href="/checkout"
+                  className="w-full"
+                  data-testid="checkout-link"
+               >
+                  Proceed to Checkout
+               </Link>
             </Button>
          </CardContent>
       </Card>
