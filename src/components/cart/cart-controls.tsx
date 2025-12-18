@@ -12,16 +12,12 @@ type CartControlsProps = {
 };
 
 export const CartControls: FC<CartControlsProps> = ({ cart }) => {
-   const [isCartOpen, setIsCartOpen] = useState(false);
+   const [isDrawer, setDrawerOpen] = useState(false);
 
    return (
       <div data-testid="cart-controls">
-         <FloatingCartButton cart={cart} onClick={() => setIsCartOpen(true)} />
-         <CartDrawer
-            cart={cart}
-            open={isCartOpen}
-            onOpenChange={setIsCartOpen}
-         />
+         <FloatingCartButton cart={cart} onClick={() => setDrawerOpen(true)} />
+         <CartDrawer cart={cart} open={isDrawer} onOpenChange={setDrawerOpen} />
       </div>
    );
 };
