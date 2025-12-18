@@ -11,16 +11,15 @@ const SheetContext = React.createContext<Ctx | null>(null);
 
 const Root: React.FC<{
    open: boolean;
-   onOpenChange: (value: boolean) => void;
+   onOpenChange?: (value: boolean) => void;
    children: React.ReactNode;
 }> = ({ open = false, onOpenChange, children, ...props }) => {
-   console.log("open");
-   console.log(open);
-
    const [internalOpen, setInternalOpen] = React.useState(open);
 
-   console.log("internalOpen");
-   console.log(internalOpen);
+   // Sync internal state with prop changes
+   React.useEffect(() => {
+      setInternalOpen(open);
+   }, [open]);
 
    const setOpen = (v: boolean) => {
       setInternalOpen(v);

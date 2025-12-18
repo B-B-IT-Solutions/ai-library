@@ -14,6 +14,11 @@ const Root: React.FC<{
 }> = ({ open = false, onOpenChange, children, ...props }) => {
    const [internalOpen, setInternalOpen] = React.useState(open);
 
+   // Sync internal state with prop changes
+   React.useEffect(() => {
+      setInternalOpen(open);
+   }, [open]);
+
    const setOpen = (v: boolean) => {
       setInternalOpen(v);
       onOpenChange?.(v);
