@@ -43,7 +43,7 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
          const result = await createOrder(data.paymentMethodId || undefined);
          if (result.success && result.data) {
             toast.success(result.message);
-            router.push(`/order/${result.data.id}`);
+            router.push(`/orders/${result.data.id}`);
          } else {
             toast.error(result.message);
          }

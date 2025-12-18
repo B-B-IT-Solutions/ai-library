@@ -183,7 +183,7 @@ describe("auth.config - callback.authorized - tests", () => {
       "/place-order",
       "/profile",
       "/user/123",
-      "/order/456",
+      "/orders/456",
       "/admin",
    ];
    const publicPaths = ["/sign-in", "/sign-out"];

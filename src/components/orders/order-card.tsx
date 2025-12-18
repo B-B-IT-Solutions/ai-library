@@ -35,7 +35,7 @@ export const OrderCard: FC<OrderCardProps> = ({ order }) => {
    };
 
    const handleViewDetails = () => {
-      router.push(`/order/${order.id}`);
+      router.push(`/orders/${order.id}`);
    };
 
    return (
