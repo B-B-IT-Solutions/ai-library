@@ -1,10 +1,16 @@
 import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 
-import { CartDrawer } from "./cart-drawer";
+import { CartControls } from "./cart-controls";
 
 const assertRendered = () => {
+   const controls = screen.getByTestId("cart-controls");
+   const floatingCartBtn = screen.getByTestId("floating-cart-btn");
    const drawer = screen.getByTestId("cart-drawer");
+
+   assertInDocument(controls);
+   assertInDocument(floatingCartBtn);
    assertInDocument(drawer);
 };
 
@@ -18,32 +24,34 @@ const assertPreviewNotRendered = () => {
    assertNotInDocument(preview);
 };
 
-describe("CartSummary rendering tests", () => {
-   it("CartSummary - open true - test", async () => {
+describe("CartControls rendering tests", () => {
+   it("CartControls rendered test", async () => {
       const cart = dtestData.dCart();
-      const { container } = render(
-         <CartDrawer cart={cart} open={true} onOpenChange={jest.fn()} />
-      );
+      const { container } = render(<CartControls cart={cart} />);
 
       await waitFor(() => {
          assertRendered();
-         assertPreviewRendered();
       });
 
       expect(container).toMatchSnapshot();
    });
+});
 
-   it("CartSummary - open false - test", async () => {
+describe("CartControls functionality tests", () => {
+   it("CartControls - floating btn clicked - test", async () => {
       const cart = dtestData.dCart();
-      const { container } = render(
-         <CartDrawer cart={cart} open={false} onOpenChange={jest.fn()} />
-      );
+      render(<CartControls cart={cart} />);
 
       await waitFor(() => {
          assertRendered();
          assertPreviewNotRendered();
       });
 
-      expect(container).toMatchSnapshot();
+      const cartBtn = screen.getByTestId("floating-cart-btn");
+      await userEvent.click(cartBtn);
+
+      await waitFor(() => {
+         assertPreviewRendered();
+      });
    });
 });
