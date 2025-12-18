@@ -1,8 +1,9 @@
 "use client";
 
-import { FC, useTransition } from "react";
+import { FC, useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { isEmpty } from "es-toolkit/compat";
+import { Loader } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -27,7 +28,8 @@ type CheckoutFormProps = {
 };
 
 export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
-   const [isPending, startTransition] = useTransition();
+   const [isSubmitted, setSubmited] = useState<boolean>(false);
+   const [, startTransition] = useTransition();
 
    const form = useForm<DCheckoutForm>({
       resolver: zodResolver(checkoutSchema),
@@ -38,14 +40,26 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
 
    const onSubmit = (data: DCheckoutForm) => {
       startTransition(async () => {
+         setSubmited(true);
          const result = await createCheckoutSession();
          if (result.success && result.data) {
             // Redirect to Stripe Checkout
             navigateToExternalUrl(result.data.url);
          } else {
+            setSubmited(false);
             toast.error(result.message);
          }
       });
+   };
+
+   const btnIcon = () => {
+      if (isSubmitted) {
+         return <Loader className="w-4 h-4 animate-spin" />;
+      }
+   };
+
+   const btnText = () => {
+      return isSubmitted ? "Redirecting to Stripe..." : "Proceed to Payment";
    };
 
    return (
@@ -90,10 +104,11 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
             <Button
                type="submit"
                className="w-full cursor-pointer"
-               disabled={isPending || isEmpty(cart.items)}
+               disabled={isSubmitted || isEmpty(cart.items)}
                data-testid="proceed-to-payment-btn"
             >
-               {isPending ? "Redirecting to Stripe..." : "Proceed to Payment"}
+               {btnIcon()}
+               {btnText()}
             </Button>
          </form>
       </Form>
