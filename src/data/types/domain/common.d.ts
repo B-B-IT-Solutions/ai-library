@@ -1,5 +1,3 @@
-export type CallbackFn = () => void;
-
 export interface TanstackParamQueryKey<T> {
    params?: T;
 }

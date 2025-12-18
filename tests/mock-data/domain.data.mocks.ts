@@ -1,6 +1,8 @@
 import { range } from "es-toolkit";
 
 import { Sort } from "@/data/types/common";
+import { DCart, DCartItem } from "@/data/types/domain/cart";
+import { DProduct } from "@/data/types/domain/product";
 import {
    DPrompt,
    DPromptCategory,
@@ -19,6 +21,56 @@ import { DUserUpdateData } from "@/data/types/domain/user";
 export const dUserUpdateData = (index = 1): DUserUpdateData => {
    return {
       name: `User ${index}`,
+   };
+};
+
+export const dCart = (index = 1): DCart => {
+   return {
+      id: `10fbd76c-4fd4-4294-a541-5d96e6a8e84${index}`,
+      subtotal: 39.99,
+      total: 59.99,
+      items: dCartItems(),
+      updatedAt: new Date("2025-09-27").toISOString(),
+      createdAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dCartItems = (count = 3): DCartItem[] => {
+   return range(0, count).map((i) => dCartItem(i));
+};
+
+export const dCartItem = (index = 1): DCartItem => {
+   return {
+      id: `528b2f07-3142-48e3-9e5d-5a6a83789e95${index}`,
+      cartId: `10fbd76c-4fd4-4294-a541-5d96e6a8e84${index}`,
+      product: dProduct(1),
+      lineTotal: 19.99,
+      quantity: 1,
+      updatedAt: new Date("2025-09-27").toISOString(),
+      createdAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dProducts = (count = 3): DProduct[] => {
+   return range(0, count).map((i) => dProduct(i));
+};
+
+export const dProduct = (index = 1): DProduct => {
+   const template1 = dPromptTemplate(1);
+   const template2 = dPromptTemplate(2);
+
+   return {
+      id: `334db648-f300-4284-8149-075ff465d75${index}`,
+      name: `name ${index}`,
+      description: `description ${index}`,
+      price: 59.99,
+      type: "BUNDLE",
+      status: "ACTIVE",
+      templateId: template1.id,
+      template: template1,
+      bundleItems: [template2],
+      updatedAt: new Date("2025-09-27").toISOString(),
+      createdAt: new Date("2025-09-27").toISOString(),
    };
 };
 

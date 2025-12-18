@@ -9,9 +9,9 @@ export const toTestId = (text: string) => {
    return replace(lowerCase, /[^a-zA-Z0-9]/g, "-").replace(/-+/g, "-");
 };
 
-export function cn(...inputs: ClassValue[]) {
+export const cn = (...inputs: ClassValue[]) => {
    return twMerge(clsx(inputs));
-}
+};
 
 export const formatDateTime = (dateString: string) => {
    const dateTimeOptions: Intl.DateTimeFormatOptions = {

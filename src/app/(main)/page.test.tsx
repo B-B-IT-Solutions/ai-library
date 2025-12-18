@@ -20,7 +20,7 @@ describe("MainPage rendering tests", () => {
    });
 
    it("MainPage rendered test", async () => {
-      const { container } = await renderAsyncRSC(MainPage);
+      const { container } = await renderAsyncRSC(MainPage, {});
 
       await waitFor(() => {
          assertRendered();

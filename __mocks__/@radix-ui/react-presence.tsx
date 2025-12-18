@@ -1,6 +1,16 @@
+import { clearProps } from "./utils";
+
 export const Presence: React.FC<{ children: React.ReactNode }> = ({
    children,
-}) => <div data-testid="mock-react-presence">{children}</div>;
+   ...props
+}) => {
+   clearProps(props);
+   return (
+      <div data-testid="mock-react-presence" {...props}>
+         {children}
+      </div>
+   );
+};
 
 module.exports = {
    __esModule: true,

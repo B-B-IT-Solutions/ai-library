@@ -1,0 +1,219 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`CartItemSkeleton rendering tests CartItemSkeleton rendered test 1`] = `
+<div>
+  <div
+    class="flex items-center gap-4 p-4 border border-slate-200 rounded-lg"
+  >
+    <div
+      class="flex-1 space-y-2"
+    >
+      <div
+        class="h-5 bg-slate-200 rounded w-3/4 animate-pulse"
+      />
+      <div
+        class="h-4 bg-slate-200 rounded w-1/2 animate-pulse"
+      />
+    </div>
+    <div
+      class="flex items-center gap-2"
+    >
+      <div
+        class="h-9 w-9 bg-slate-200 rounded animate-pulse"
+      />
+      <div
+        class="h-5 w-8 bg-slate-200 rounded animate-pulse"
+      />
+      <div
+        class="h-9 w-9 bg-slate-200 rounded animate-pulse"
+      />
+    </div>
+    <div
+      class="w-24"
+    >
+      <div
+        class="h-6 bg-slate-200 rounded animate-pulse"
+      />
+    </div>
+    <div
+      class="h-9 w-9 bg-slate-200 rounded animate-pulse"
+    />
+  </div>
+</div>
+`;
+
+exports[`OrderCardSkeleton rendering tests OrderCardSkeleton rendered test 1`] = `
+<div>
+  <div
+    class="h-48 bg-slate-100 rounded-lg border border-slate-200 p-4"
+  >
+    <div
+      class="flex justify-between items-start mb-3"
+    >
+      <div
+        class="space-y-2"
+      >
+        <div
+          class="h-5 bg-slate-200 rounded w-32 animate-pulse"
+        />
+        <div
+          class="h-4 bg-slate-200 rounded w-24 animate-pulse"
+        />
+      </div>
+      <div
+        class="h-6 bg-slate-200 rounded w-20 animate-pulse"
+      />
+    </div>
+    <div
+      class="space-y-2"
+    >
+      <div
+        class="h-4 bg-slate-100 rounded w-full animate-pulse"
+      />
+      <div
+        class="h-4 bg-slate-100 rounded w-3/4 animate-pulse"
+      />
+    </div>
+    <div
+      class="mt-4 pt-4 border-t"
+    >
+      <div
+        class="h-6 bg-slate-200 rounded w-24 animate-pulse"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`PageHeaderSkeleton rendering tests PageHeaderSkeleton rendered test 1`] = `
+<div>
+  <div
+    class="mb-8"
+  >
+    <div
+      class="h-8 bg-slate-200 rounded w-48 mb-2 animate-pulse"
+    />
+    <div
+      class="h-4 bg-slate-200 rounded w-96 animate-pulse"
+    />
+  </div>
+</div>
+`;
+
+exports[`ProductCardSkeleton rendering tests ProductCardSkeleton rendered test 1`] = `
+<div>
+  <div
+    class="text-card-foreground flex flex-col shadow-sm p-4 gap-0 bg-white border border-slate-300 rounded-lg"
+    data-slot="card"
+  >
+    <div
+      class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 p-0 gap-2 mb-3"
+      data-slot="card-header"
+    >
+      <div
+        class="flex items-start justify-between gap-2"
+      >
+        <div
+          class="h-5 bg-slate-200 rounded w-3/4 animate-pulse"
+        />
+        <div
+          class="h-5 bg-slate-200 rounded w-16 animate-pulse"
+        />
+      </div>
+      <div
+        class="h-8 bg-slate-200 rounded w-20 animate-pulse"
+      />
+    </div>
+    <div
+      class="p-0 grid gap-2"
+      data-slot="card-content"
+    >
+      <div
+        class="flex gap-1 mb-2"
+      >
+        <div
+          class="h-5 bg-slate-100 rounded w-16 animate-pulse"
+        />
+        <div
+          class="h-5 bg-slate-100 rounded w-20 animate-pulse"
+        />
+      </div>
+      <div
+        class="h-4 bg-slate-100 rounded w-full animate-pulse"
+      />
+      <div
+        class="h-4 bg-slate-100 rounded w-2/3 animate-pulse mb-2"
+      />
+      <div
+        class="flex gap-2"
+      >
+        <div
+          class="h-9 bg-slate-200 rounded flex-1 animate-pulse"
+        />
+        <div
+          class="h-9 bg-slate-200 rounded flex-1 animate-pulse"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TemplateCardSkeleton rendering tests TemplateCardSkeleton rendered test 1`] = `
+<div>
+  <div
+    class="text-card-foreground flex flex-col shadow-sm p-4 gap-0 bg-white border border-slate-300 rounded-lg"
+    data-slot="card"
+  >
+    <div
+      class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 p-0 gap-2 mb-3"
+      data-slot="card-header"
+    >
+      <div
+        class="h-5 bg-slate-200 rounded w-3/4 animate-pulse"
+      />
+      <div
+        class="h-5 bg-slate-200 rounded w-32 animate-pulse"
+      />
+    </div>
+    <div
+      class="p-0 grid gap-3"
+      data-slot="card-content"
+    >
+      <div
+        class="flex gap-1 mb-2"
+      >
+        <div
+          class="h-5 bg-slate-100 rounded w-16 animate-pulse"
+        />
+        <div
+          class="h-5 bg-slate-100 rounded w-20 animate-pulse"
+        />
+      </div>
+      <div
+        class="space-y-2"
+      >
+        <div
+          class="h-4 bg-slate-100 rounded w-full animate-pulse"
+        />
+        <div
+          class="h-4 bg-slate-100 rounded w-full animate-pulse"
+        />
+        <div
+          class="h-4 bg-slate-100 rounded w-2/3 animate-pulse"
+        />
+      </div>
+      <div
+        class="flex gap-2 mt-2"
+      >
+        <div
+          class="h-8 bg-slate-200 rounded flex-1 animate-pulse"
+        />
+        <div
+          class="h-8 bg-slate-200 rounded flex-1 animate-pulse"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

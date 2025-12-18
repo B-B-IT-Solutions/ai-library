@@ -25,3 +25,5 @@ export interface Sort {
    field: string;
    desc: boolean;
 }
+
+export type CallbackFn = () => void;

@@ -18,7 +18,7 @@ export const TsQueryClientProvider: FC<QueryClientProviderProps> = ({
    return (
       <QueryClientProvider client={queryClient}>
          {children}
-         <ReactQueryDevtools />
+         <ReactQueryDevtools buttonPosition="bottom-left" />
       </QueryClientProvider>
    );
 };

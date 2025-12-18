@@ -1,4 +1,12 @@
-import { FileText, LayoutTemplate, Send, Settings, Star, Users } from "lucide-react";
+import {
+   BookOpen,
+   FileText,
+   Package,
+   Send,
+   Settings,
+   ShoppingBag,
+   Users,
+} from "lucide-react";
 
 import { navigationMenu1, navigationMenu2 } from "./menus";
 import { DMenuItem } from "./types";
@@ -11,16 +19,22 @@ const expectedNavigationMenu1: DMenuItem[] = [
       url: "/prompts",
    },
    {
-      id: "/templates",
-      title: "Templates",
-      icon: LayoutTemplate,
-      url: "/templates",
+      id: "/library",
+      title: "My Library",
+      icon: BookOpen,
+      url: "/library",
    },
    {
-      id: "/favorites",
-      title: "Favorites",
-      icon: Star,
-      url: "/favorites",
+      id: "/marketplace",
+      title: "Marketplace",
+      icon: ShoppingBag,
+      url: "/marketplace",
+   },
+   {
+      id: "/orders",
+      title: "Orders",
+      icon: Package,
+      url: "/orders",
    },
 ];
 

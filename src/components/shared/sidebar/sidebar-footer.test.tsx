@@ -55,6 +55,15 @@ describe("SidebarFooter rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertMenuItemsNotRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+
+      const menuBtn = screen.getByTestId("sidebar-menu-btn");
+      userEvent.click(menuBtn);
+
+      await waitFor(() => {
          assertMenuItemsRendered();
       });
 
@@ -86,6 +95,13 @@ describe("Sidebar functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         expect(signOutUserMock).not.toHaveBeenCalled();
+      });
+
+      const menuBtn = screen.getByTestId("sidebar-menu-btn");
+      userEvent.click(menuBtn);
+
+      await waitFor(() => {
          assertMenuItemsRendered();
          expect(signOutUserMock).not.toHaveBeenCalled();
       });
@@ -94,6 +110,7 @@ describe("Sidebar functionality tests", () => {
       userEvent.click(singOutItem);
 
       await waitFor(() => {
+         assertMenuItemsRendered();
          expect(signOutUserMock).toHaveBeenCalledTimes(1);
       });
    });
