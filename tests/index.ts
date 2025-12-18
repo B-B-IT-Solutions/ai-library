@@ -27,4 +27,4 @@ export * as dtestData from "./mock-data/domain.data.mocks";
 export * as ctestData from "./mock-data/common.data.mocks";
 export * as ntestData from "./mock-data/next.data.mocks";
 
-export { type AuthMockType } from "./test.types";
+export { type AuthMockedFunction } from "./test.types";

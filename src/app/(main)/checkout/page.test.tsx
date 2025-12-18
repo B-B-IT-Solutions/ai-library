@@ -3,7 +3,7 @@ jest.mock("@/data/actions/cart/cart.actions");
 import { screen, waitFor } from "@testing-library/dom";
 import {
    assertInDocument,
-   AuthMockType,
+   AuthMockedFunction,
    dtestData,
    ntestData,
    renderAsyncRSC,
@@ -16,7 +16,7 @@ import { getCart } from "@/data/actions/cart";
 
 import { CheckoutPage, metadata } from "./page";
 
-const authMock = auth as unknown as AuthMockType;
+const authMock = auth as unknown as AuthMockedFunction;
 const getCartMock = getCart as jest.MockedFunction<typeof getCart>;
 const redirectMock = redirect as jest.MockedFunction<typeof redirect>;
 
