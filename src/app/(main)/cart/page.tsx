@@ -60,7 +60,7 @@ export const CartPage = async () => {
             </div>
 
             <div>
-               <CartSummary cart={cart} showCheckoutButton={true} />
+               <CartSummary cart={cart} />
             </div>
          </div>
       </div>
