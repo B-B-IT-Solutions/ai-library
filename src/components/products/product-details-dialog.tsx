@@ -137,7 +137,6 @@ export const ProductDetailsDialog: FC<ProductDetailsDialogProps> = ({
 
    return (
       <Dialog
-         key={`product-details-${open}`}
          open={open}
          onOpenChange={onClose}
          data-testid="product-detials-dialog"
