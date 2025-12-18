@@ -24,9 +24,28 @@ const assertRendered = () => {
 };
 
 describe("RemoveFromCartButton rendering tests", () => {
-   it("RemoveFromCartButton rendered test", async () => {
+   it("RemoveFromCartButton - iconX true - test", async () => {
       const item = dtestData.dCartItem();
-      const { container } = render(<RemoveFromCartButton item={item} />);
+      const { container } = render(
+         <RemoveFromCartButton item={item} iconX={true} />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("RemoveFromCartButton - iconX false - test", async () => {
+      const item = dtestData.dCartItem();
+      const { container } = render(
+         <RemoveFromCartButton
+            item={item}
+            iconX={false}
+            className="text-slate-400 hover:text-red-500 transition-colors p-1 disabled:opacity-50 bg-transparent hover:bg-transparent"
+         />
+      );
 
       await waitFor(() => {
          assertRendered();

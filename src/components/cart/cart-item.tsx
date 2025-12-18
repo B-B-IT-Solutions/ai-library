@@ -25,7 +25,7 @@ export const CartItem: FC<CartItemProps> = ({ item }) => {
                ${item.lineTotal.toFixed(2)}
             </p>
          </div>
-         <RemoveFromCartButton item={item} />
+         <RemoveFromCartButton item={item} iconX={true} />
       </div>
    );
 };
