@@ -48,7 +48,11 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
 
    return (
       <Form {...form}>
-         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+         <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-6"
+            data-testid="checkout-form"
+         >
             <div className="space-y-4">
                <h3 className="text-lg font-semibold">Payment Information</h3>
                <p className="text-sm text-slate-600">

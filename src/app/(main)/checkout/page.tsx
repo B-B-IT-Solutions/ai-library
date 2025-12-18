@@ -1,11 +1,16 @@
 import { isEmpty, map } from "es-toolkit/compat";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 import { CheckoutForm } from "@/components/checkout/checkout-form";
 import { getCart } from "@/data/actions/cart";
 
-export default async function CheckoutPage() {
+export const metadata: Metadata = {
+   title: "Checkout",
+};
+
+export const CheckoutPage = async () => {
    const session = await auth();
    if (!session?.user?.id) {
       return redirect("/");
@@ -18,7 +23,10 @@ export default async function CheckoutPage() {
    }
 
    return (
-      <div className="container mx-auto px-4 py-8 max-w-2xl">
+      <div
+         className="container mx-auto px-4 py-8 max-w-2xl"
+         data-testid="checkout-page"
+      >
          <h1 className="text-3xl font-bold text-slate-900 mb-8">Checkout</h1>
 
          <div className="space-y-6">
@@ -30,6 +38,7 @@ export default async function CheckoutPage() {
                      <div
                         key={item.id}
                         className="flex justify-between text-sm"
+                        data-testid="cart-item"
                      >
                         <span className="text-slate-600">
                            {item.product.name} × {item.quantity}
@@ -53,4 +62,6 @@ export default async function CheckoutPage() {
          </div>
       </div>
    );
-}
+};
+
+export default CheckoutPage;
