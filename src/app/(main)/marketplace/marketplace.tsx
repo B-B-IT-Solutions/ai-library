@@ -25,7 +25,7 @@ export const Marketplace = ({ products, cart, viewMode }: MarketplaceProps) => {
       return (
          <>
             <Products products={products} cart={cart} viewMode={viewMode} />
-            <CartControls initialCart={cart} />
+            <CartControls cart={cart} />
          </>
       );
    };

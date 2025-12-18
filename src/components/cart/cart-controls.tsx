@@ -8,20 +8,17 @@ import { CartDrawer } from "./cart-drawer";
 import { FloatingCartButton } from "./floating-cart-button";
 
 type CartControlsProps = {
-   initialCart: DCart;
+   cart: DCart;
 };
 
-export const CartControls: FC<CartControlsProps> = ({ initialCart }) => {
+export const CartControls: FC<CartControlsProps> = ({ cart }) => {
    const [isCartOpen, setIsCartOpen] = useState(false);
 
    return (
       <div data-testid="cart-controls">
-         <FloatingCartButton
-            initialCart={initialCart}
-            onClick={() => setIsCartOpen(true)}
-         />
+         <FloatingCartButton cart={cart} onClick={() => setIsCartOpen(true)} />
          <CartDrawer
-            initialCart={initialCart}
+            initialCart={cart}
             open={isCartOpen}
             onOpenChange={setIsCartOpen}
          />
