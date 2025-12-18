@@ -1,0 +1,142 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`OrderDetailLoading rendering tests OrderDetailLoading rendered test 1`] = `
+<div>
+  <div
+    class="container mx-auto px-4 py-8 max-w-2xl"
+    data-testid="order-detail-loading"
+  >
+    <div
+      class="bg-slate-100 border border-slate-200 rounded-lg p-6 mb-6 flex items-center gap-4 animate-pulse"
+    >
+      <div
+        class="w-12 h-12 bg-slate-200 rounded-full"
+      />
+      <div
+        class="flex-1 space-y-2"
+      >
+        <div
+          class="h-6 bg-slate-200 rounded w-48"
+        />
+        <div
+          class="h-4 bg-slate-200 rounded w-96"
+        />
+      </div>
+    </div>
+    <div
+      class="bg-white border border-slate-200 rounded-lg p-6 mb-6"
+    >
+      <div
+        class="flex items-start justify-between mb-4"
+      >
+        <div
+          class="space-y-2"
+        >
+          <div
+            class="h-7 bg-slate-200 rounded w-40 animate-pulse"
+          />
+          <div
+            class="h-4 bg-slate-100 rounded w-64 animate-pulse"
+          />
+          <div
+            class="h-4 bg-slate-100 rounded w-48 animate-pulse"
+          />
+        </div>
+        <div
+          class="h-6 bg-slate-200 rounded w-24 animate-pulse"
+        />
+      </div>
+      <div
+        class="border-t pt-4 space-y-3"
+      >
+        <div
+          class="h-5 bg-slate-200 rounded w-16 mb-2 animate-pulse"
+        />
+        <div
+          class="space-y-2"
+        >
+          <div
+            class="flex justify-between"
+          >
+            <div
+              class="space-y-1"
+            >
+              <div
+                class="h-4 bg-slate-200 rounded w-48 animate-pulse"
+              />
+              <div
+                class="h-3 bg-slate-100 rounded w-32 animate-pulse"
+              />
+            </div>
+            <div
+              class="h-4 bg-slate-200 rounded w-16 animate-pulse"
+            />
+          </div>
+        </div>
+        <div
+          class="space-y-2"
+        >
+          <div
+            class="flex justify-between"
+          >
+            <div
+              class="space-y-1"
+            >
+              <div
+                class="h-4 bg-slate-200 rounded w-48 animate-pulse"
+              />
+              <div
+                class="h-3 bg-slate-100 rounded w-32 animate-pulse"
+              />
+            </div>
+            <div
+              class="h-4 bg-slate-200 rounded w-16 animate-pulse"
+            />
+          </div>
+        </div>
+        <div
+          class="space-y-2"
+        >
+          <div
+            class="flex justify-between"
+          >
+            <div
+              class="space-y-1"
+            >
+              <div
+                class="h-4 bg-slate-200 rounded w-48 animate-pulse"
+              />
+              <div
+                class="h-3 bg-slate-100 rounded w-32 animate-pulse"
+              />
+            </div>
+            <div
+              class="h-4 bg-slate-200 rounded w-16 animate-pulse"
+            />
+          </div>
+        </div>
+        <div
+          class="border-t pt-3 flex justify-between"
+        >
+          <div
+            class="h-6 bg-slate-200 rounded w-16 animate-pulse"
+          />
+          <div
+            class="h-6 bg-slate-200 rounded w-24 animate-pulse"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex gap-4"
+    >
+      <div
+        class="flex-1 h-10 bg-slate-200 rounded animate-pulse"
+      />
+      <div
+        class="flex-1 h-10 bg-slate-200 rounded animate-pulse"
+      />
+    </div>
+  </div>
+</div>
+`;

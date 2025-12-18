@@ -3,9 +3,9 @@ import {
    PageHeaderSkeleton,
 } from "@/components/shared/skeletons";
 
-export default function OrdersLoading() {
+export const OrdersLoading = () => {
    return (
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8" data-testid="orders-loading">
          <PageHeaderSkeleton />
 
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -15,4 +15,6 @@ export default function OrdersLoading() {
          </div>
       </div>
    );
-}
+};
+
+export default OrdersLoading;

@@ -1,6 +1,9 @@
-export default function OrderDetailLoading() {
+export const OrderDetailLoading = () => {
    return (
-      <div className="container mx-auto px-4 py-8 max-w-2xl">
+      <div
+         className="container mx-auto px-4 py-8 max-w-2xl"
+         data-testid="order-detail-loading"
+      >
          {/* Success Banner Skeleton */}
          <div className="bg-slate-100 border border-slate-200 rounded-lg p-6 mb-6 flex items-center gap-4 animate-pulse">
             <div className="w-12 h-12 bg-slate-200 rounded-full" />
@@ -48,4 +51,6 @@ export default function OrderDetailLoading() {
          </div>
       </div>
    );
-}
+};
+
+export default OrderDetailLoading;
