@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`CheckoutPage rendering tests CheckoutPage - authenticated user with items - rendered test 1`] = `
+exports[`CheckoutPage rendering tests CheckoutPage - cart with items - rendered test 1`] = `
 <div>
   <div
     class="container mx-auto px-4 py-8 max-w-2xl"
@@ -39,7 +39,7 @@ exports[`CheckoutPage rendering tests CheckoutPage - authenticated user with ite
             <span
               class="font-medium"
             >
-              $
+              CHF 
               19.99
             </span>
           </div>
@@ -57,7 +57,7 @@ exports[`CheckoutPage rendering tests CheckoutPage - authenticated user with ite
             <span
               class="font-medium"
             >
-              $
+              CHF 
               19.99
             </span>
           </div>
@@ -75,7 +75,7 @@ exports[`CheckoutPage rendering tests CheckoutPage - authenticated user with ite
             <span
               class="font-medium"
             >
-              $
+              CHF 
               19.99
             </span>
           </div>
@@ -86,7 +86,7 @@ exports[`CheckoutPage rendering tests CheckoutPage - authenticated user with ite
               Total
             </span>
             <span>
-              $
+              CHF 
               59.99
             </span>
           </div>
@@ -198,8 +198,10 @@ exports[`CheckoutPage rendering tests CheckoutPage - authenticated user with ite
 </div>
 `;
 
+exports[`CheckoutPage rendering tests CheckoutPage - cart.items empty - redirects to home 1`] = `<div />`;
+
 exports[`CheckoutPage rendering tests CheckoutPage - session null - redirects to home 1`] = `<div />`;
 
-exports[`CheckoutPage rendering tests CheckoutPage - session.user null - redirects to home 1`] = `<div />`;
+exports[`CheckoutPage rendering tests CheckoutPage - session.user undefined - redirects to home 1`] = `<div />`;
 
 exports[`CheckoutPage rendering tests CheckoutPage - session.user.id undefined - redirects to home 1`] = `<div />`;

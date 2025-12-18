@@ -2,6 +2,7 @@
 
 import { FC, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { isEmpty } from "es-toolkit/compat";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -88,8 +89,8 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
             <Button
                type="submit"
                className="w-full"
-               disabled={isPending || cart.items.length === 0}
-               data-testid="place-order-button"
+               disabled={isPending || isEmpty(cart.items)}
+               data-testid="place-order-btn"
             >
                {isPending ? "Redirecting to Stripe..." : "Proceed to Payment"}
             </Button>

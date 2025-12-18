@@ -47,6 +47,9 @@ module.exports = {
       "^next/navigation$": "<rootDir>/__mocks__/next/navigation.tsx",
       "^next/font/google$": "<rootDir>/__mocks__/next/font/google.ts",
       "^next-auth/react$": "<rootDir>/__mocks__/next-auth/react.tsx",
+      "^@/auth$": "<rootDir>/__mocks__/@/auth.ts",
+      "^@/components/shared/auth$":
+         "<rootDir>/__mocks__/@/components/shared/auth.tsx",
       "^@radix-ui/react-dialog$":
          "<rootDir>/__mocks__/@radix-ui/react-dialog.tsx",
       "^@radix-ui/react-dropdown-menu$":
@@ -57,9 +60,6 @@ module.exports = {
          "<rootDir>/__mocks__/@radix-ui/react-presence.tsx",
       "^@radix-ui/react-sheet$":
          "<rootDir>/__mocks__/@radix-ui/react-sheet.tsx",
-      "^@/auth$": "<rootDir>/__mocks__/@/auth.ts",
-      "^@/components/shared/auth$":
-         "<rootDir>/__mocks__/@/components/shared/auth.tsx",
       "@/(.*)$": ["<rootDir>/src/$1"],
       "^@tests(.*)$": "<rootDir>/tests/index$1",
    },
