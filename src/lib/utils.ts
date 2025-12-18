@@ -3,6 +3,10 @@ import { trim } from "es-toolkit";
 import { replace, toLower } from "es-toolkit/compat";
 import { twMerge } from "tailwind-merge";
 
+export const navigateToExternalUrl = (url: string) => {
+   window.location.href = url;
+};
+
 export const toTestId = (text: string) => {
    const trimmed = trim(text);
    const lowerCase = toLower(trimmed);

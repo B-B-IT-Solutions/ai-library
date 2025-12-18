@@ -20,6 +20,7 @@ import { createCheckoutSession } from "@/data/actions/stripe";
 import { DCart } from "@/data/types/domain/cart";
 import { DCheckoutForm } from "@/data/types/domain/order";
 import { checkoutSchema } from "@/data/types/validators/order.schema";
+import { navigateToExternalUrl } from "@/lib/utils";
 
 type CheckoutFormProps = {
    cart: DCart;
@@ -40,7 +41,7 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
          const result = await createCheckoutSession();
          if (result.success && result.data) {
             // Redirect to Stripe Checkout
-            window.location.href = result.data.url;
+            navigateToExternalUrl(result.data.url);
          } else {
             toast.error(result.message);
          }

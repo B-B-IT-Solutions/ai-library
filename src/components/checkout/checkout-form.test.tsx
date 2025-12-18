@@ -1,4 +1,5 @@
 jest.mock("@/data/actions/stripe/stripe.actions");
+jest.mock("@/lib/utils");
 jest.mock("sonner");
 
 import { render, screen, waitFor } from "@testing-library/react";
@@ -7,11 +8,15 @@ import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import { toast } from "sonner";
 
 import { createCheckoutSession } from "@/data/actions/stripe";
+import { navigateToExternalUrl } from "@/lib/utils";
 
 import { CheckoutForm } from "./checkout-form";
 
 const createCheckoutSessionMock = createCheckoutSession as jest.MockedFunction<
    typeof createCheckoutSession
+>;
+const navigateToExternalUrlMock = navigateToExternalUrl as jest.MockedFunction<
+   typeof navigateToExternalUrl
 >;
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
@@ -76,6 +81,7 @@ describe("CheckoutForm functionality tests", () => {
          },
          message: "payment link created",
       };
+
       createCheckoutSessionMock.mockResolvedValue(stripeResult);
 
       const cart = dtestData.dCart();
@@ -107,6 +113,10 @@ describe("CheckoutForm functionality tests", () => {
 
       await waitFor(() => {
          expect(createCheckoutSessionMock).toHaveBeenCalledTimes(1);
+         expect(navigateToExternalUrlMock).toHaveBeenCalledTimes(1);
+         expect(navigateToExternalUrlMock).toHaveBeenCalledWith(
+            stripeResult.data.url
+         );
       });
    });
 
@@ -148,6 +158,7 @@ describe("CheckoutForm functionality tests", () => {
          expect(createCheckoutSessionMock).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(stripeResult.message);
+         expect(navigateToExternalUrlMock).not.toHaveBeenCalled();
       });
    });
 });
