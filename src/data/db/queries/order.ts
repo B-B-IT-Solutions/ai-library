@@ -175,3 +175,9 @@ export const pGetOrderByStripeSessionId = async (sessionId: string) => {
       },
    });
 };
+
+export const pGetOrderByPaymentIntentId = async (paymentIntentId: string) => {
+   return await prisma.order.findFirst({
+      where: { stripePaymentIntentId: paymentIntentId },
+   });
+};

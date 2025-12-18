@@ -2,12 +2,11 @@ import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
-import { completeOrder } from "@/data/actions/order/order.actions";
-import { prisma } from "@/data/db/prisma";
 import {
-   pUpdateOrderStatus,
-   pUpdateOrderWithStripeDetails,
-} from "@/data/db/queries/order";
+   handleStripeCheckoutCompleted,
+   handleStripeCheckoutExpired,
+   handleStripePaymentFailed,
+} from "@/data/actions/order/order.actions";
 import { stripe } from "@/lib/stripe/stripe-server";
 
 export async function POST(req: NextRequest) {
@@ -79,36 +78,17 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       return;
    }
 
-   // Check for duplicate processing (idempotency)
-   const order = await prisma.order.findUnique({
-      where: { id: orderId },
-   });
-
-   if (!order) {
-      console.error(`Order ${orderId} not found`);
-      return;
-   }
-
-   if (order.status === "COMPLETED") {
-      console.log(`Order ${orderId} already completed`);
-      return;
-   }
-
-   // Update with Stripe payment details
-   await pUpdateOrderWithStripeDetails(orderId, {
-      stripePaymentIntentId: session.payment_intent as string,
-      stripePaymentStatus: session.payment_status,
-      paymentMethod: "STRIPE",
-   });
-
-   // Complete the order (creates purchases, clears cart)
-   const result = await completeOrder(orderId);
+   const result = await handleStripeCheckoutCompleted(
+      orderId,
+      session.payment_intent as string,
+      session.payment_status
+   );
 
    if (!result.success) {
-      console.error(`Failed to complete order ${orderId}:`, result.message);
+      console.error(result.message);
       // Don't throw - order is paid, we need to handle this manually
    } else {
-      console.log(`Order ${orderId} completed successfully`);
+      console.log(result.message);
    }
 }
 
@@ -120,25 +100,21 @@ async function handleCheckoutExpired(session: Stripe.Checkout.Session) {
       return;
    }
 
-   await pUpdateOrderStatus(orderId, "FAILED");
-   console.log(`Order ${orderId} marked as FAILED due to expired session`);
+   const result = await handleStripeCheckoutExpired(orderId);
+
+   if (!result.success) {
+      console.error(result.message);
+   } else {
+      console.log(result.message);
+   }
 }
 
 async function handlePaymentFailed(paymentIntent: Stripe.PaymentIntent) {
-   // Find order by payment intent ID
-   const order = await prisma.order.findFirst({
-      where: { stripePaymentIntentId: paymentIntent.id },
-   });
+   const result = await handleStripePaymentFailed(paymentIntent.id);
 
-   if (!order) {
-      console.error(`Order not found for payment intent ${paymentIntent.id}`);
-      return;
+   if (!result.success) {
+      console.error(result.message);
+   } else {
+      console.log(result.message);
    }
-
-   await pUpdateOrderStatus(order.id, "FAILED");
-   await pUpdateOrderWithStripeDetails(order.id, {
-      stripePaymentStatus: "failed",
-   });
-
-   console.log(`Order ${order.id} marked as FAILED due to payment failure`);
 }

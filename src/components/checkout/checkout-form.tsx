@@ -52,7 +52,8 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
             <div className="space-y-4">
                <h3 className="text-lg font-semibold">Payment Information</h3>
                <p className="text-sm text-slate-600">
-                  You will be redirected to Stripe to securely complete your payment.
+                  You will be redirected to Stripe to securely complete your
+                  payment.
                </p>
             </div>
 
