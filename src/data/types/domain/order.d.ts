@@ -12,6 +12,9 @@ export type DOrder = {
    status: DOrderStatus;
    totalAmount: number;
    paymentMethod?: string;
+   stripeCheckoutSessionId?: string;
+   stripePaymentIntentId?: string;
+   stripePaymentStatus?: string;
    items: DOrderItem[];
    createdAt: string;
    updatedAt: string;

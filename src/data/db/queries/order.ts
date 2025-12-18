@@ -121,3 +121,57 @@ export const pCreatePurchases = async (
       skipDuplicates: true,
    });
 };
+
+export const pUpdateOrderWithStripeDetails = async (
+   orderId: string,
+   data: {
+      stripeCheckoutSessionId?: string;
+      stripePaymentIntentId?: string;
+      stripePaymentStatus?: string;
+      paymentMethod?: string;
+   }
+) => {
+   return await prisma.order.update({
+      where: { id: orderId },
+      data,
+   });
+};
+
+export const pGetOrderByStripeSessionId = async (sessionId: string) => {
+   return await prisma.order.findUnique({
+      where: { stripeCheckoutSessionId: sessionId },
+      include: {
+         items: {
+            include: {
+               product: {
+                  include: {
+                     template: {
+                        include: {
+                           categories: true,
+                        },
+                     },
+                     bundleItems: {
+                        include: {
+                           template: {
+                              include: {
+                                 categories: true,
+                              },
+                           },
+                        },
+                     },
+                  },
+               },
+            },
+         },
+         purchases: {
+            include: {
+               template: {
+                  include: {
+                     categories: true,
+                  },
+               },
+            },
+         },
+      },
+   });
+};

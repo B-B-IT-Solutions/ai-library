@@ -1,7 +1,6 @@
 import z from "zod";
 
 export const checkoutSchema = z.object({
-   paymentMethodId: z.string().optional(),
    agreeToTerms: z.boolean().refine((val) => val === true, {
       message: "You must agree to the terms and conditions",
    }),

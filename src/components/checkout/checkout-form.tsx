@@ -2,7 +2,6 @@
 
 import { FC, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -16,8 +15,7 @@ import {
    FormLabel,
    FormMessage,
 } from "@/components/shadcn/form";
-import { Input } from "@/components/shadcn/input";
-import { createOrder } from "@/data/actions/order/order.actions";
+import { createCheckoutSession } from "@/data/actions/stripe/stripe.actions";
 import { DCart } from "@/data/types/domain/cart";
 import { DCheckoutForm } from "@/data/types/domain/order";
 import { checkoutSchema } from "@/data/types/validators/order.schema";
@@ -27,23 +25,21 @@ type CheckoutFormProps = {
 };
 
 export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
-   const router = useRouter();
    const [isPending, startTransition] = useTransition();
 
    const form = useForm<DCheckoutForm>({
       resolver: zodResolver(checkoutSchema),
       defaultValues: {
-         paymentMethodId: "",
          agreeToTerms: false,
       },
    });
 
    const onSubmit = (data: DCheckoutForm) => {
       startTransition(async () => {
-         const result = await createOrder(data.paymentMethodId || undefined);
+         const result = await createCheckoutSession();
          if (result.success && result.data) {
-            toast.success(result.message);
-            router.push(`/orders/${result.data.id}`);
+            // Redirect to Stripe Checkout
+            window.location.href = result.data.url;
          } else {
             toast.error(result.message);
          }
@@ -56,27 +52,8 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
             <div className="space-y-4">
                <h3 className="text-lg font-semibold">Payment Information</h3>
                <p className="text-sm text-slate-600">
-                  Payment method is stored for reference only. No actual payment
-                  processing is implemented.
+                  You will be redirected to Stripe to securely complete your payment.
                </p>
-
-               <FormField
-                  control={form.control}
-                  name="paymentMethodId"
-                  render={({ field }) => (
-                     <FormItem>
-                        <FormLabel>Payment Method ID (Optional)</FormLabel>
-                        <FormControl>
-                           <Input
-                              placeholder="e.g., pm_1234567890"
-                              {...field}
-                              data-testid="payment-method-input"
-                           />
-                        </FormControl>
-                        <FormMessage />
-                     </FormItem>
-                  )}
-               />
             </div>
 
             <div className="border-t pt-4">
@@ -109,7 +86,7 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
                disabled={isPending || cart.items.length === 0}
                data-testid="place-order-button"
             >
-               {isPending ? "Placing Order..." : "Place Order"}
+               {isPending ? "Redirecting to Stripe..." : "Proceed to Payment"}
             </Button>
          </form>
       </Form>
