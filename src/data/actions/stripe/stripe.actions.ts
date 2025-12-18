@@ -1,6 +1,7 @@
 "use server";
 
-import { auth } from "@/auth";
+import { isEmpty } from "es-toolkit/compat";
+
 import { pGetCartByUserId } from "@/data/db/queries/cart";
 import {
    pCreateOrder,
@@ -8,24 +9,22 @@ import {
 } from "@/data/db/queries/order";
 import { ActionResult } from "@/data/types/utils";
 import { stripe } from "@/lib/stripe/stripe-server";
+import { requireUser } from "../auth-utils";
 import { formatError } from "../utils";
 
+type CheckoutResponse = {
+   sessionId: string;
+   url: string;
+};
+
 export const createCheckoutSession = async (): Promise<
-   ActionResult<{ sessionId: string; url: string }>
+   ActionResult<CheckoutResponse>
 > => {
    try {
-      const session = await auth();
-      if (!session?.user?.id) {
-         return {
-            success: false,
-            message: "You must be logged in to checkout.",
-         };
-      }
+      const user = await requireUser();
+      const cart = await pGetCartByUserId(user.id);
 
-      const userId = session.user.id;
-      const cart = await pGetCartByUserId(userId);
-
-      if (!cart || cart.items.length === 0) {
+      if (!cart || isEmpty(cart.items)) {
          return {
             success: false,
             message: "Your cart is empty.",
@@ -40,7 +39,11 @@ export const createCheckoutSession = async (): Promise<
 
       // Create pending order FIRST
       const order = await pCreateOrder({
-         user: { connect: { id: userId } },
+         user: {
+            connect: {
+               id: user.id,
+            },
+         },
          status: "PENDING",
          totalAmount,
          items: {
@@ -70,11 +73,11 @@ export const createCheckoutSession = async (): Promise<
          mode: "payment",
          payment_method_types: ["card"],
          line_items: lineItems,
-         customer_email: session.user.email || undefined,
+         customer_email: user.email || undefined,
          client_reference_id: order.id,
          metadata: {
             orderId: order.id,
-            userId: userId,
+            userId: user.id,
          },
          success_url: `${process.env.NEXT_PUBLIC_APP_URL}/orders/${order.id}?session_id={CHECKOUT_SESSION_ID}`,
          cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/checkout?canceled=true`,

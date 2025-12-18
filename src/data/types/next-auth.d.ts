@@ -25,3 +25,8 @@ declare module "@auth/core/adapters" {
       role: string;
    }
 }
+
+type LoginUser = {
+   id: string;
+   email?: string | null;
+};
