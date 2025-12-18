@@ -1,50 +1,19 @@
-"use client";
-
-import { FC, useTransition } from "react";
+import { FC } from "react";
 import { isEmpty } from "es-toolkit/compat";
-import { ShoppingCart, Trash2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { ShoppingCart } from "lucide-react";
+import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
-import { removeFromCart } from "@/data/actions/cart/cart.actions";
 import { DCart } from "@/data/types/domain/cart";
 
 import { RemoveFromCartButton } from "./remove-from-cart-button";
 
 type CartPreviewProps = {
    cart: DCart;
-   onCartChange?: (cart: DCart) => void;
 };
 
-export const CartPreview: FC<CartPreviewProps> = ({ cart, onCartChange }) => {
-   const router = useRouter();
-   const [isPending, startTransition] = useTransition();
-
-   const handleRemoveItem = async (itemId: string, productName: string) => {
-      startTransition(async () => {
-         const result = await removeFromCart(itemId);
-         if (result.success) {
-            toast.success(`${productName} removed from cart`);
-            if (result.data && onCartChange) {
-               onCartChange(result.data);
-            }
-         } else {
-            toast.error(result.message);
-         }
-         router.refresh();
-      });
-   };
-
-   const handleCheckout = () => {
-      router.push("/checkout");
-   };
-
-   const handleViewCart = () => {
-      router.push("/cart");
-   };
-
+export const CartPreview: FC<CartPreviewProps> = ({ cart }) => {
    const emptyCart = () => {
       return (
          <div className="text-center py-8">
@@ -81,16 +50,6 @@ export const CartPreview: FC<CartPreviewProps> = ({ cart, onCartChange }) => {
                            </span>
                         </div>
                      </div>
-                     <Button
-                        onClick={() =>
-                           handleRemoveItem(item.id, item.product.name)
-                        }
-                        className="text-slate-400 hover:text-red-500 transition-colors p-1 disabled:opacity-50 bg-transparent hover:bg-transparent"
-                        aria-label="Remove item"
-                        disabled={isPending}
-                     >
-                        <Trash2 className="h-4 w-4" />
-                     </Button>
                      <RemoveFromCartButton
                         item={item}
                         className="text-slate-400 hover:text-red-500 transition-colors p-1 disabled:opacity-50 bg-transparent hover:bg-transparent"
@@ -117,21 +76,20 @@ export const CartPreview: FC<CartPreviewProps> = ({ cart, onCartChange }) => {
 
             {/* Action Buttons */}
             <div className="space-y-2 pt-2">
-               <Button
-                  onClick={handleCheckout}
-                  className="w-full"
-                  size="lg"
-                  data-testid="checkout-button"
-               >
-                  Proceed to Checkout
+               <Button asChild={true} className="w-full" size="lg">
+                  <Link href="/checkout" data-testid="checkout-link">
+                     Proceed to Checkout
+                  </Link>
                </Button>
                <Button
-                  onClick={handleViewCart}
+                  asChild={true}
                   variant="outline"
                   className="w-full"
                   size="sm"
                >
-                  View Full Cart
+                  <Link href="/cart" data-testid="cart-link">
+                     View Full Cart
+                  </Link>
                </Button>
             </div>
          </>
