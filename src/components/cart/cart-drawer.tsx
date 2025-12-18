@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 
 import {
    Sheet,
@@ -13,54 +13,24 @@ import { DCart } from "@/data/types/domain/cart";
 import { CartPreview } from "./cart-preview";
 
 type CartDrawerProps = {
-   initialCart: DCart;
+   cart: DCart;
    open: boolean;
    onOpenChange: (open: boolean) => void;
 };
 
 export const CartDrawer: FC<CartDrawerProps> = ({
-   initialCart,
+   cart,
    open,
    onOpenChange,
 }) => {
-   const [cart, setCart] = useState<DCart>(initialCart);
-
-   // Update cart when initialCart changes
-   useEffect(() => {
-      setCart(initialCart);
-   }, [initialCart]);
-
-   // Listen for custom cart update events
-   useEffect(() => {
-      const handleCartUpdate = (event: CustomEvent<DCart>) => {
-         setCart(event.detail);
-      };
-
-      window.addEventListener(
-         "cart-updated" as any,
-         handleCartUpdate as EventListener
-      );
-
-      return () => {
-         window.removeEventListener(
-            "cart-updated" as any,
-            handleCartUpdate as EventListener
-         );
-      };
-   }, []);
-
-   const handleCartChange = (updatedCart: DCart) => {
-      setCart(updatedCart);
-   };
-
    return (
-      <Sheet open={open} onOpenChange={onOpenChange}>
+      <Sheet open={open} onOpenChange={onOpenChange} data-testid="cart-drawer">
          <SheetContent className="w-full sm:max-w-lg">
             <SheetHeader className="sr-only">
                <SheetTitle>Shopping Cart</SheetTitle>
             </SheetHeader>
             <div className="h-full flex flex-col">
-               <CartPreview cart={cart} onCartChange={handleCartChange} />
+               <CartPreview cart={cart} />
             </div>
          </SheetContent>
       </Sheet>
