@@ -1,6 +1,9 @@
-export default function CheckoutLoading() {
+export const CheckoutLoading = () => {
    return (
-      <div className="container mx-auto px-4 py-8 max-w-2xl">
+      <div
+         className="container mx-auto px-4 py-8 max-w-2xl"
+         data-testid="checkout-loading"
+      >
          <div className="h-8 bg-slate-200 rounded w-32 mb-8 animate-pulse" />
 
          <div className="space-y-6">
@@ -44,4 +47,6 @@ export default function CheckoutLoading() {
          </div>
       </div>
    );
-}
+};
+
+export default CheckoutLoading;

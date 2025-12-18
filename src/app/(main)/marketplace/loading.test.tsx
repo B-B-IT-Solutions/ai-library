@@ -2,7 +2,7 @@ import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import { assertInDocument } from "@tests";
 
-import MarketplaceLoading from "./loading";
+import { MarketplaceLoading } from "./loading";
 
 const assertRendered = () => {
    const loading = screen.getByTestId("market-place-loading");

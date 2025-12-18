@@ -2,7 +2,7 @@ import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import { assertInDocument } from "@tests";
 
-import OrderDetailLoading from "./loading";
+import { OrderDetailLoading } from "./loading";
 
 const assertRendered = () => {
    const loading = screen.getByTestId("order-detail-loading");

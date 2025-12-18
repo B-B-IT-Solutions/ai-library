@@ -1,4 +1,4 @@
-import { map } from "es-toolkit/compat";
+import { isEmpty, map } from "es-toolkit/compat";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
@@ -13,7 +13,7 @@ export default async function CheckoutPage() {
 
    const cart = await getCart();
 
-   if (!cart || cart.items.length === 0) {
+   if (isEmpty(cart.items)) {
       return redirect("/cart");
    }
 
