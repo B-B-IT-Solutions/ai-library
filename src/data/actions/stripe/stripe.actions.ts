@@ -31,7 +31,6 @@ export const createCheckoutSession = async (): Promise<
          };
       }
 
-      // Calculate total
       const totalAmount = cart.items.reduce((sum, item) => {
          const price = Number(item.product.price);
          return sum + price * item.quantity;
@@ -48,7 +47,11 @@ export const createCheckoutSession = async (): Promise<
          totalAmount,
          items: {
             create: cart.items.map((item) => ({
-               product: { connect: { id: item.productId } },
+               product: {
+                  connect: {
+                     id: item.productId,
+                  },
+               },
                quantity: item.quantity,
                price: Number(item.product.price),
             })),
@@ -58,7 +61,7 @@ export const createCheckoutSession = async (): Promise<
       // Create Stripe line items
       const lineItems = cart.items.map((item) => ({
          price_data: {
-            currency: "usd",
+            currency: "chf",
             product_data: {
                name: item.product.name,
                description: item.product.description || undefined,

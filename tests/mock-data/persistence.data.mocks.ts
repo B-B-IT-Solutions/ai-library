@@ -1,8 +1,10 @@
+import { Decimal } from "@prisma/client/runtime/library";
 import { range } from "es-toolkit";
 
 import { PromptsPage, PromptWithCategories } from "@/data/types/db/prompt";
 import { PromptTemplateWithCategories } from "@/data/types/db/prompt.template";
 import { UserUpdateData } from "@/data/types/db/user";
+import { Order } from "@/generated/prisma/browser";
 import {
    Cart,
    CartItem,
@@ -39,6 +41,21 @@ export const pUserUpdateData = (index = 1): UserUpdateData => {
       password: "password123",
       paymentMethod: "stripe",
       role: "user",
+   };
+};
+
+export const pOrder = (index = 1): Order => {
+   return {
+      id: `fa1d3c35-ea07-489f-b8c8-62fa8514130${index}`,
+      userId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      status: "PENDING",
+      totalAmount: new Decimal(27.99),
+      paymentMethod: "card",
+      stripeCheckoutSessionId: `04106289-9dc4-47cb-ba81-c3eb5677645${index}`,
+      stripePaymentIntentId: `1f6fffb4-00f5-4d8c-9202-5c0d5044c30${index}`,
+      stripePaymentStatus: "PENDING",
+      updatedAt: new Date("2025-09-27"),
+      createdAt: new Date("2025-09-27"),
    };
 };
 

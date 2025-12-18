@@ -1,5 +1,5 @@
+import prisma from "@/data/db/prisma";
 import { OrderCreateInput } from "@/generated/prisma/models";
-import { prisma } from "../prisma";
 
 export const pCreateOrder = async (data: OrderCreateInput) => {
    return await prisma.order.create({
