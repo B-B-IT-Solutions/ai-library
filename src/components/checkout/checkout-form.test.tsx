@@ -1,12 +1,38 @@
+jest.mock("@/data/actions/stripe/stripe.actions");
+jest.mock("sonner");
+
 import { render, screen, waitFor } from "@testing-library/react";
-import { assertInDocument, dtestData } from "@tests";
+import userEvent from "@testing-library/user-event";
+import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
+import { toast } from "sonner";
+
+import { createCheckoutSession } from "@/data/actions/stripe";
 
 import { CheckoutForm } from "./checkout-form";
 
+const createCheckoutSessionMock = createCheckoutSession as jest.MockedFunction<
+   typeof createCheckoutSession
+>;
+const toastMock = toast as jest.MockedFunction<typeof toast>;
+
 const assertRendered = () => {
    const form = screen.getByTestId("checkout-form");
+   const termsChkBox = screen.getByTestId("terms-checkbox");
+   const paymentBtn = screen.getByTestId("proceed-to-payment-btn");
 
    assertInDocument(form);
+   assertInDocument(termsChkBox);
+   assertInDocument(paymentBtn);
+};
+
+const assertErrorRendered = () => {
+   const error = screen.getByTestId("error-message");
+   assertInDocument(error);
+};
+
+const assertErrorNotRendered = () => {
+   const error = screen.queryByTestId("error-message");
+   assertNotInDocument(error);
 };
 
 describe("CheckoutForm functionality tests", () => {
@@ -14,9 +40,9 @@ describe("CheckoutForm functionality tests", () => {
       jest.resetAllMocks();
    });
 
-   it("CheckoutForm - displays payment information message - test", async () => {
+   it("CheckoutForm - cart empty - test", async () => {
       const cart = dtestData.dCart();
-
+      cart.items = [];
       const { container } = render(<CheckoutForm cart={cart} />);
 
       await waitFor(() => {
@@ -25,55 +51,103 @@ describe("CheckoutForm functionality tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   //    it("CheckoutForm - submit button disabled when cart is empty - test", async () => {
-   //       const session = ntestData.session();
-   //       const cart = dtestData.dCart();
-   //       cart.items = [];
-   //       authMock.mockResolvedValue(session);
-   //       getCartMock.mockResolvedValue(cart);
+   it("CheckoutForm - cart with items - test", async () => {
+      const cart = dtestData.dCart();
+      const { container } = render(<CheckoutForm cart={cart} />);
 
-   //       await renderAsyncRSC(CheckoutForm, {});
+      await waitFor(() => {
+         assertRendered();
+      });
+      expect(container).toMatchSnapshot();
+   });
+});
 
-   //       // This test won't run assertions because the page redirects when cart is empty
-   //       // But we keep it for consistency with the redirect test above
-   //       expect(redirectMock).toHaveBeenCalledWith("/cart");
-   //    });
+describe("CheckoutForm functionality tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
 
-   //    it("CheckoutForm - displays correct number of cart items - test", async () => {
-   //       const session = ntestData.session();
-   //       const cart = dtestData.dCart();
-   //       authMock.mockResolvedValue(session);
-   //       getCartMock.mockResolvedValue(cart);
+   it("CheckoutForm - payment btn clicked - resut.success true - test", async () => {
+      const stripeResult = {
+         success: true,
+         data: {
+            sessionId: "1",
+            url: "https://stripe.url.com",
+         },
+         message: "payment link created",
+      };
+      createCheckoutSessionMock.mockResolvedValue(stripeResult);
 
-   //       await renderAsyncRSC(CheckoutForm, {});
+      const cart = dtestData.dCart();
+      render(<CheckoutForm cart={cart} />);
 
-   //       await waitFor(() => {
-   //          assertRendered();
-   //       });
+      await waitFor(() => {
+         assertRendered();
+         assertErrorNotRendered();
+         expect(createCheckoutSessionMock).not.toHaveBeenCalled();
+      });
 
-   //       // Count the number of items displayed in order summary
-   //       const itemElements = screen.getAllByText(/×/);
-   //       expect(itemElements).toHaveLength(cart.items.length);
-   //    });
+      const paymentBtn = screen.getByTestId("proceed-to-payment-btn");
+      await userEvent.click(paymentBtn);
 
-   //    it("CheckoutForm - displays line totals correctly - test", async () => {
-   //       const session = ntestData.session();
-   //       const cart = dtestData.dCart();
-   //       authMock.mockResolvedValue(session);
-   //       getCartMock.mockResolvedValue(cart);
+      await waitFor(() => {
+         assertErrorRendered();
+         expect(createCheckoutSessionMock).not.toHaveBeenCalled();
+      });
 
-   //       await renderAsyncRSC(CheckoutForm, {});
+      const terms = screen.getByTestId("terms-checkbox");
+      await userEvent.click(terms);
 
-   //       await waitFor(() => {
-   //          assertRendered();
-   //       });
+      await waitFor(() => {
+         assertErrorNotRendered();
+         expect(createCheckoutSessionMock).not.toHaveBeenCalled();
+      });
 
-   //       // Verify each item's line total is displayed
-   //       cart.items.forEach((item) => {
-   //          const lineTotalText = screen.getByText(
-   //             `$${item.lineTotal.toFixed(2)}`
-   //          );
-   //          assertInDocument(lineTotalText);
-   //       });
-   //    });
+      await userEvent.click(paymentBtn);
+
+      await waitFor(() => {
+         expect(createCheckoutSessionMock).toHaveBeenCalledTimes(1);
+      });
+   });
+
+   it("CheckoutForm - payment btn clicked - resut.success false - test", async () => {
+      const stripeResult = {
+         success: false,
+         message: "cart is empty.",
+      };
+      createCheckoutSessionMock.mockResolvedValue(stripeResult);
+
+      const cart = dtestData.dCart();
+      render(<CheckoutForm cart={cart} />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertErrorNotRendered();
+         expect(createCheckoutSessionMock).not.toHaveBeenCalled();
+      });
+
+      const paymentBtn = screen.getByTestId("proceed-to-payment-btn");
+      await userEvent.click(paymentBtn);
+
+      await waitFor(() => {
+         assertErrorRendered();
+         expect(createCheckoutSessionMock).not.toHaveBeenCalled();
+      });
+
+      const terms = screen.getByTestId("terms-checkbox");
+      await userEvent.click(terms);
+
+      await waitFor(() => {
+         assertErrorNotRendered();
+         expect(createCheckoutSessionMock).not.toHaveBeenCalled();
+      });
+
+      await userEvent.click(paymentBtn);
+
+      await waitFor(() => {
+         expect(createCheckoutSessionMock).toHaveBeenCalledTimes(1);
+         expect(toastMock.error).toHaveBeenCalledTimes(1);
+         expect(toastMock.error).toHaveBeenCalledWith(stripeResult.message);
+      });
+   });
 });

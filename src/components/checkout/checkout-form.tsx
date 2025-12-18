@@ -16,7 +16,7 @@ import {
    FormLabel,
    FormMessage,
 } from "@/components/shadcn/form";
-import { createCheckoutSession } from "@/data/actions/stripe/stripe.actions";
+import { createCheckoutSession } from "@/data/actions/stripe";
 import { DCart } from "@/data/types/domain/cart";
 import { DCheckoutForm } from "@/data/types/domain/order";
 import { checkoutSchema } from "@/data/types/validators/order.schema";
@@ -79,7 +79,7 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
                            <FormLabel>
                               I agree to the terms and conditions
                            </FormLabel>
-                           <FormMessage />
+                           <FormMessage data-testid="error-message" />
                         </div>
                      </FormItem>
                   )}
@@ -88,9 +88,9 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
 
             <Button
                type="submit"
-               className="w-full"
+               className="w-full cursor-pointer"
                disabled={isPending || isEmpty(cart.items)}
-               data-testid="place-order-btn"
+               data-testid="proceed-to-payment-btn"
             >
                {isPending ? "Redirecting to Stripe..." : "Proceed to Payment"}
             </Button>
