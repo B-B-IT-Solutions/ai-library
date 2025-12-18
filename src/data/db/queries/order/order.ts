@@ -122,14 +122,16 @@ export const pCreatePurchases = async (
    });
 };
 
+export type OrderUpdateStripeDetails = {
+   stripeCheckoutSessionId?: string;
+   stripePaymentIntentId?: string;
+   stripePaymentStatus?: string;
+   paymentMethod?: string;
+};
+
 export const pUpdateOrderWithStripeDetails = async (
    orderId: string,
-   data: {
-      stripeCheckoutSessionId?: string;
-      stripePaymentIntentId?: string;
-      stripePaymentStatus?: string;
-      paymentMethod?: string;
-   }
+   data: OrderUpdateStripeDetails
 ) => {
    return await prisma.order.update({
       where: { id: orderId },

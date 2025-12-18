@@ -4,9 +4,17 @@ import { map } from "es-toolkit/compat";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/db/prisma";
-import { OrderCreateArgs, OrderCreateInput } from "@/generated/prisma/models";
+import {
+   OrderCreateArgs,
+   OrderCreateInput,
+   OrderUpdateArgs,
+} from "@/generated/prisma/models";
 
-import { pCreateOrder } from "./order";
+import {
+   OrderUpdateStripeDetails,
+   pCreateOrder,
+   pUpdateOrderWithStripeDetails,
+} from "./order";
 
 export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
@@ -83,6 +91,40 @@ describe("pCreateOrder tests", () => {
       expect(prismaMock.order.create).toHaveBeenCalledTimes(1);
       expect(prismaMock.order.create).toHaveBeenCalledWith(
          expectedOrderCreateArgs
+      );
+   });
+});
+
+describe("pUpdateOrderWithStripeDetails tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pUpdateOrderWithStripeDetails test", async () => {
+      const order = ptestData.pOrder();
+      prismaMock.order.update.mockResolvedValue(order);
+
+      const stripeUpdates: OrderUpdateStripeDetails = {
+         stripeCheckoutSessionId: "53ef3210-b719-4dd2-b612-4f28d4af187d",
+         stripePaymentIntentId: "455c1d0a-9065-498e-a298-4e9176d3a8ca",
+         stripePaymentStatus: "SUCCESS",
+         paymentMethod: "card",
+      };
+
+      const result = await pUpdateOrderWithStripeDetails(
+         order.id,
+         stripeUpdates
+      );
+
+      const expectedOrderUpdateArgs: OrderUpdateArgs = {
+         where: { id: order.id },
+         data: stripeUpdates,
+      };
+
+      expect(result).toEqual(order);
+      expect(prismaMock.order.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.order.update).toHaveBeenCalledWith(
+         expectedOrderUpdateArgs
       );
    });
 });

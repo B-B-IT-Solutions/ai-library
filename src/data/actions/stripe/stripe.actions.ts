@@ -71,7 +71,6 @@ export const createCheckoutSession = async (): Promise<
          quantity: item.quantity,
       }));
 
-      // Create Stripe Checkout Session
       const checkoutSession = await stripe.checkout.sessions.create({
          mode: "payment",
          payment_method_types: ["card"],
@@ -86,7 +85,6 @@ export const createCheckoutSession = async (): Promise<
          cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/checkout?canceled=true`,
       });
 
-      // Update order with Stripe session ID
       await pUpdateOrderWithStripeDetails(order.id, {
          stripeCheckoutSessionId: checkoutSession.id,
          stripePaymentStatus: "unpaid",
