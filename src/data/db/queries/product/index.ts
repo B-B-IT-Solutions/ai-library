@@ -1,0 +1,1 @@
+export { pGetProducts } from "./product";
