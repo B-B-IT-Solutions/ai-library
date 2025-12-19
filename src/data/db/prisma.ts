@@ -6,7 +6,7 @@ const globalForPrisma = global as unknown as {
 
 export const extendsConfig = {};
 
-export const prisma =
+const prisma =
    globalForPrisma.prisma || new PrismaClient().$extends(extendsConfig);
 
 if (process.env.NODE_ENV !== "production") {
