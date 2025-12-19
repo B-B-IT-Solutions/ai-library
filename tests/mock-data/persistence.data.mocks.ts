@@ -2,7 +2,12 @@ import { Decimal } from "@prisma/client/runtime/library";
 import { range } from "es-toolkit";
 
 import { CartItemWithProduct, CartWithItems } from "@/data/types/db/cart";
-import { ProductWithTemplateBundleItems } from "@/data/types/db/product";
+import {
+   OrderItemWithProduct,
+   OrderProduct,
+   OrderPurchase,
+   OrderWithItemsAndPurchases,
+} from "@/data/types/db/order";
 import { PromptsPage, PromptWithCategories } from "@/data/types/db/prompt";
 import { PromptTemplateWithCategories } from "@/data/types/db/prompt.template";
 import { UserUpdateData } from "@/data/types/db/user";
@@ -10,11 +15,13 @@ import { Order } from "@/generated/prisma/browser";
 import {
    Cart,
    CartItem,
+   OrderItem,
    Product,
    Prompt,
    PromptCategory,
    PromptTemplate,
    PromptTemplateCategory,
+   Purchase,
    User,
 } from "@/generated/prisma/client";
 import {
@@ -65,15 +72,11 @@ export const pProduct = (index = 1): Product => {
    };
 };
 
-export const pProductsWithTemplateBundleItems = (
-   count = 3
-): ProductWithTemplateBundleItems[] => {
+export const pOrderProduct = (count = 3): OrderProduct[] => {
    return range(0, count).map((i) => pProductWithTemplateBundleItems(i));
 };
 
-export const pProductWithTemplateBundleItems = (
-   index = 1
-): ProductWithTemplateBundleItems => {
+export const pProductWithTemplateBundleItems = (index = 1): OrderProduct => {
    const product = pProduct(index);
    const template = pPromptTemplateWithCategories(index);
    const bundleItems = pPromptTemplatesWithCategories(2);
@@ -113,7 +116,7 @@ export const pOrder = (index = 1): Order => {
    return {
       id: `fa1d3c35-ea07-489f-b8c8-62fa8514130${index}`,
       userId: `334db648-f300-4284-8149-075ff465d75${index}`,
-      status: "PENDING" as const,
+      status: "PENDING",
       totalAmount: new Decimal(29.99),
       paymentMethod: "card",
       stripeCheckoutSessionId: `04106289-9dc4-47cb-ba81-c3eb5677645${index}`,
@@ -121,6 +124,81 @@ export const pOrder = (index = 1): Order => {
       stripePaymentStatus: "PENDING",
       updatedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),
+   };
+};
+
+export const pOrderItems = (count = 3): OrderItem[] => {
+   return range(0, count).map((i) => pOrderItem(i));
+};
+
+export const pOrderItem = (index = 1): OrderItem => {
+   return {
+      id: `order-item-${index}`,
+      orderId: `fa1d3c35-ea07-489f-b8c8-62fa8514130${index}`,
+      productId: `1045dc94-2eff-4150-804b-be38fa1422b${index}`,
+      quantity: 1,
+      price: new Decimal(29.99),
+      createdAt: new Date("2025-09-27"),
+   };
+};
+
+export const pOrderItemsWithProduct = (count = 3): OrderItemWithProduct[] => {
+   return range(0, count).map((i) => pOrderItemWithProduct(i));
+};
+
+export const pOrderItemWithProduct = (index = 1): OrderItemWithProduct => {
+   const orderItem = pOrderItem(index);
+   const product = pProductWithTemplateBundleItems(index);
+
+   return {
+      ...orderItem,
+      product,
+   };
+};
+
+export const pPurchases = (count = 3): Purchase[] => {
+   return range(0, count).map((i) => pPurchase(i));
+};
+
+export const pPurchase = (index = 1): Purchase => {
+   return {
+      id: `purchase-${index}`,
+      orderId: `fa1d3c35-ea07-489f-b8c8-62fa8514130${index}`,
+      userId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      templateId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      createdAt: new Date("2025-09-27"),
+   };
+};
+
+export const pPurchasesWithTemplate = (count = 3): OrderPurchase[] => {
+   return range(0, count).map((i) => pPurchaseWithTemplate(i));
+};
+
+export const pPurchaseWithTemplate = (index = 1): OrderPurchase => {
+   const purchase = pPurchase(index);
+   const template = pPromptTemplateWithCategories(index);
+
+   return {
+      ...purchase,
+      template,
+   };
+};
+
+export const pOrderWithItemsAndPurchases = (
+   index = 1,
+   itemCount = 2,
+   purchaseCount = 2
+): OrderWithItemsAndPurchases => {
+   const order = pOrder(index);
+   const items = range(0, itemCount).map((i) => pOrderItemWithProduct(i));
+   const purchases = range(0, purchaseCount).map((i) =>
+      pPurchaseWithTemplate(i)
+   );
+
+   return {
+      ...order,
+      items,
+      purchases,
    };
 };
 

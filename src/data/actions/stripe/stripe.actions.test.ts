@@ -60,7 +60,7 @@ describe("createCheckoutSession tests", () => {
       };
       cart.items[0].quantity = 1;
 
-      const order = ptestData.pOrder(1);
+      const order = ptestData.pOrderWithItemsAndPurchases(1);
       const checkoutSession = stripeCheckoutSession();
 
       requireUserMock.mockResolvedValue(user);
@@ -93,7 +93,7 @@ describe("createCheckoutSession tests", () => {
                {
                   product: {
                      connect: {
-                        id: cart.items[0].product.id,
+                        id: cart.items[0].productId,
                      },
                   },
                   quantity: 1,
@@ -103,15 +103,7 @@ describe("createCheckoutSession tests", () => {
          },
       };
 
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(pGetCartByUserIdMock).toHaveBeenCalledTimes(1);
-      expect(pGetCartByUserIdMock).toHaveBeenCalledWith(user.id);
-      expect(pCreateOrderMock).toHaveBeenCalledTimes(1);
-      expect(pCreateOrderMock).toHaveBeenCalledWith(expectOrderCreateInput);
-
-      expect(stripeMock.checkout.sessions.create).toHaveBeenCalledTimes(1);
-      expect(stripeMock.checkout.sessions.create).toHaveBeenCalledWith({
+      const expectedStripeCheckoutPayload = {
          mode: "payment",
          payment_method_types: ["card"],
          line_items: [
@@ -135,7 +127,19 @@ describe("createCheckoutSession tests", () => {
          },
          success_url: `http://localhost:3000/orders/${order.id}?session_id={CHECKOUT_SESSION_ID}`,
          cancel_url: "http://localhost:3000/checkout?canceled=true",
-      });
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(pGetCartByUserIdMock).toHaveBeenCalledTimes(1);
+      expect(pGetCartByUserIdMock).toHaveBeenCalledWith(user.id);
+      expect(pCreateOrderMock).toHaveBeenCalledTimes(1);
+      expect(pCreateOrderMock).toHaveBeenCalledWith(expectOrderCreateInput);
+
+      expect(stripeMock.checkout.sessions.create).toHaveBeenCalledTimes(1);
+      expect(stripeMock.checkout.sessions.create).toHaveBeenCalledWith(
+         expectedStripeCheckoutPayload
+      );
 
       expect(pUpdateOrderWithStripeDetailsMock).toHaveBeenCalledTimes(1);
       expect(pUpdateOrderWithStripeDetailsMock).toHaveBeenCalledWith(order.id, {
@@ -179,17 +183,12 @@ describe("createCheckoutSession tests", () => {
          status: "PENDING" as const,
       };
 
-      const checkoutSession = {
-         id: "session-1",
-         url: "https://checkout.stripe.com/session-1",
-      };
+      const checkoutSession = stripeCheckoutSession();
 
       requireUserMock.mockResolvedValue(user);
       pGetCartByUserIdMock.mockResolvedValue(cart);
-      pCreateOrderMock.mockResolvedValue(order as any);
-      stripeMock.checkout.sessions.create = jest
-         .fn()
-         .mockResolvedValue(checkoutSession as any);
+      pCreateOrderMock.mockResolvedValue(order);
+      stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
       pUpdateOrderWithStripeDetailsMock.mockResolvedValue(order as any);
 
       const result = await createCheckoutSession();
@@ -216,7 +215,7 @@ describe("createCheckoutSession tests", () => {
                {
                   product: {
                      connect: {
-                        id: cart.items[0].product.id,
+                        id: cart.items[0].productId,
                      },
                   },
                   quantity: 2,
@@ -225,7 +224,7 @@ describe("createCheckoutSession tests", () => {
                {
                   product: {
                      connect: {
-                        id: cart.items[1].product.id,
+                        id: cart.items[1].productId,
                      },
                   },
                   quantity: 1,

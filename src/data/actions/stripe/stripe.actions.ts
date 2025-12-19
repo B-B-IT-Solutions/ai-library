@@ -8,6 +8,7 @@ import {
    pUpdateOrderWithStripeDetails,
 } from "@/data/db/queries/order";
 import { ActionResult } from "@/data/types/utils";
+import { APP_URL } from "@/lib/constants";
 import { stripe } from "@/lib/stripe/stripe-server";
 import { requireUser } from "../auth-utils";
 import { formatError } from "../utils";
@@ -81,8 +82,8 @@ export const createCheckoutSession = async (): Promise<
             orderId: order.id,
             userId: user.id,
          },
-         success_url: `${process.env.NEXT_PUBLIC_APP_URL}/orders/${order.id}?session_id={CHECKOUT_SESSION_ID}`,
-         cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/checkout?canceled=true`,
+         success_url: `${APP_URL}/orders/${order.id}?session_id={CHECKOUT_SESSION_ID}`,
+         cancel_url: `${APP_URL}/checkout?canceled=true`,
       });
 
       await pUpdateOrderWithStripeDetails(order.id, {
