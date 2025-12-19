@@ -38,15 +38,15 @@ export const CartPreview: FC<CartPreviewProps> = ({ cart }) => {
                   >
                      <div className="flex-1 min-w-0">
                         <h4 className="text-sm font-medium text-slate-900 truncate">
-                           {item.product.name}
+                           {item.productName}
                         </h4>
                         <div className="flex items-center gap-2 mt-1">
                            <span className="text-xs text-slate-600">
-                              {item.product.type}
+                              {item.productType}
                            </span>
                            <span className="text-xs text-slate-400">•</span>
                            <span className="text-xs font-medium text-indigo-600">
-                              ${item.product.price.toFixed(2)}
+                              ${item.productPrice.toFixed(2)}
                            </span>
                         </div>
                      </div>

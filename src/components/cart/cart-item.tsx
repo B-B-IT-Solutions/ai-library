@@ -15,9 +15,9 @@ export const CartItem: FC<CartItemProps> = ({ item }) => {
          data-testid="cart-item"
       >
          <div className="flex-1">
-            <h4 className="font-medium text-slate-900">{item.product.name}</h4>
+            <h4 className="font-medium text-slate-900">{item.productName}</h4>
             <p className="text-sm text-slate-600">
-               {item.product.type} · ${item.product.price.toFixed(2)}
+               {item.productType} · ${item.productPrice.toFixed(2)}
             </p>
          </div>
          <div className="w-24 text-right">

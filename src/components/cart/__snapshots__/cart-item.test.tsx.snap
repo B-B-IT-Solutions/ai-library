@@ -29,7 +29,7 @@ exports[`CartItem rendering tests CartItem rendered test 1`] = `
         class="font-bold text-slate-900"
       >
         $
-        19.99
+        59.99
       </p>
     </div>
     <button

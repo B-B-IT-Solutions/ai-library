@@ -252,13 +252,14 @@ exports[`Marketplace rendering tests Marketplace - viewMode grid - rendered test
                 </div>
               </div>
               <button
-                class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 flex-1 cursor-pointer"
+                class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 h-9 px-4 py-2 has-[>svg]:px-3 flex-1 cursor-pointer"
                 data-slot="button"
                 data-testid="add-to-cart-btn"
+                disabled=""
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-shopping-cart w-4 h-4 mr-2"
+                  class="lucide lucide-check w-4 h-4 mr-2"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -269,22 +270,12 @@ exports[`Marketplace rendering tests Marketplace - viewMode grid - rendered test
                   width="24"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <circle
-                    cx="8"
-                    cy="21"
-                    r="1"
-                  />
-                  <circle
-                    cx="19"
-                    cy="21"
-                    r="1"
-                  />
                   <path
-                    d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
+                    d="M20 6 9 17l-5-5"
                   />
                 </svg>
                 <span>
-                    Add to Cart
+                  In Cart
                 </span>
               </button>
             </div>
@@ -555,13 +546,14 @@ exports[`Marketplace rendering tests Marketplace - viewMode grid - rendered test
                 </div>
               </div>
               <button
-                class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 flex-1 cursor-pointer"
+                class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 h-9 px-4 py-2 has-[>svg]:px-3 flex-1 cursor-pointer"
                 data-slot="button"
                 data-testid="add-to-cart-btn"
+                disabled=""
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-shopping-cart w-4 h-4 mr-2"
+                  class="lucide lucide-check w-4 h-4 mr-2"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -572,22 +564,12 @@ exports[`Marketplace rendering tests Marketplace - viewMode grid - rendered test
                   width="24"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <circle
-                    cx="8"
-                    cy="21"
-                    r="1"
-                  />
-                  <circle
-                    cx="19"
-                    cy="21"
-                    r="1"
-                  />
                   <path
-                    d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
+                    d="M20 6 9 17l-5-5"
                   />
                 </svg>
                 <span>
-                    Add to Cart
+                  In Cart
                 </span>
               </button>
             </div>
@@ -899,13 +881,14 @@ exports[`Marketplace rendering tests Marketplace - viewMode list - rendered test
                   </div>
                 </div>
                 <button
-                  class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 cursor-pointer sm:flex-initial"
+                  class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 cursor-pointer sm:flex-initial"
                   data-slot="button"
                   data-testid="add-to-cart-btn"
+                  disabled=""
                 >
                   <svg
                     aria-hidden="true"
-                    class="lucide lucide-shopping-cart w-4 h-4 sm:mr-1"
+                    class="lucide lucide-check w-4 h-4 sm:mr-1"
                     fill="none"
                     height="24"
                     stroke="currentColor"
@@ -916,24 +899,14 @@ exports[`Marketplace rendering tests Marketplace - viewMode list - rendered test
                     width="24"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <circle
-                      cx="8"
-                      cy="21"
-                      r="1"
-                    />
-                    <circle
-                      cx="19"
-                      cy="21"
-                      r="1"
-                    />
                     <path
-                      d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
+                      d="M20 6 9 17l-5-5"
                     />
                   </svg>
                   <span
                     class="hidden sm:inline"
                   >
-                    Add
+                    In Cart
                   </span>
                 </button>
               </div>
@@ -1220,13 +1193,14 @@ exports[`Marketplace rendering tests Marketplace - viewMode list - rendered test
                   </div>
                 </div>
                 <button
-                  class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 cursor-pointer sm:flex-initial"
+                  class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 cursor-pointer sm:flex-initial"
                   data-slot="button"
                   data-testid="add-to-cart-btn"
+                  disabled=""
                 >
                   <svg
                     aria-hidden="true"
-                    class="lucide lucide-shopping-cart w-4 h-4 sm:mr-1"
+                    class="lucide lucide-check w-4 h-4 sm:mr-1"
                     fill="none"
                     height="24"
                     stroke="currentColor"
@@ -1237,24 +1211,14 @@ exports[`Marketplace rendering tests Marketplace - viewMode list - rendered test
                     width="24"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <circle
-                      cx="8"
-                      cy="21"
-                      r="1"
-                    />
-                    <circle
-                      cx="19"
-                      cy="21"
-                      r="1"
-                    />
                     <path
-                      d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
+                      d="M20 6 9 17l-5-5"
                     />
                   </svg>
                   <span
                     class="hidden sm:inline"
                   >
-                    Add
+                    In Cart
                   </span>
                 </button>
               </div>

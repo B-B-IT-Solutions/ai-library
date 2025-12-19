@@ -4,11 +4,16 @@ import { ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/db/prisma";
-import { CartCreateInput, CartFindFirstArgs } from "@/generated/prisma/models";
+import {
+   CartCreateInput,
+   CartFindFirstArgs,
+   CartFindUniqueArgs,
+} from "@/generated/prisma/models";
 
 import {
    pClearCart,
    pCreateCart,
+   pGetCartBySessionId,
    pGetCartByUserId,
    pGetOrCreateCart,
 } from "./cart";
@@ -39,28 +44,7 @@ describe("pGetOrCreateCart tests", () => {
       const expectedFindFirstArgs: CartFindFirstArgs = {
          where: { userId },
          include: {
-            items: {
-               include: {
-                  product: {
-                     include: {
-                        template: {
-                           include: {
-                              categories: true,
-                           },
-                        },
-                        bundleItems: {
-                           include: {
-                              template: {
-                                 include: {
-                                    categories: true,
-                                 },
-                              },
-                           },
-                        },
-                     },
-                  },
-               },
-            },
+            items: true,
          },
       };
 
@@ -110,28 +94,7 @@ describe("pGetOrCreateCart tests", () => {
       const expectedFindFirstArgs: CartFindFirstArgs = {
          where: { sessionCartId },
          include: {
-            items: {
-               include: {
-                  product: {
-                     include: {
-                        template: {
-                           include: {
-                              categories: true,
-                           },
-                        },
-                        bundleItems: {
-                           include: {
-                              template: {
-                                 include: {
-                                    categories: true,
-                                 },
-                              },
-                           },
-                        },
-                     },
-                  },
-               },
-            },
+            items: true,
          },
       };
 
@@ -184,28 +147,7 @@ describe("pGetCartByUserId tests", () => {
       const expectedFindFirstArgs: CartFindFirstArgs = {
          where: { userId },
          include: {
-            items: {
-               include: {
-                  product: {
-                     include: {
-                        template: {
-                           include: {
-                              categories: true,
-                           },
-                        },
-                        bundleItems: {
-                           include: {
-                              template: {
-                                 include: {
-                                    categories: true,
-                                 },
-                              },
-                           },
-                        },
-                     },
-                  },
-               },
-            },
+            items: true,
          },
       };
 
@@ -213,6 +155,33 @@ describe("pGetCartByUserId tests", () => {
       expect(prismaMock.cart.findFirst).toHaveBeenCalledTimes(1);
       expect(prismaMock.cart.findFirst).toHaveBeenCalledWith(
          expectedFindFirstArgs
+      );
+   });
+});
+
+describe("pGetCartBySessionId tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pGetCartBySessionId test", async () => {
+      const cart = ptestData.pCart();
+      prismaMock.cart.findUnique.mockResolvedValue(cart);
+
+      const sessionCartId = "sessionCartId-1";
+      const result = await pGetCartBySessionId(sessionCartId);
+
+      const expectedFindUniqueArgs: CartFindUniqueArgs = {
+         where: { sessionCartId },
+         include: {
+            items: true,
+         },
+      };
+
+      expect(result).toEqual(cart);
+      expect(prismaMock.cart.findUnique).toHaveBeenCalledTimes(1);
+      expect(prismaMock.cart.findUnique).toHaveBeenCalledWith(
+         expectedFindUniqueArgs
       );
    });
 });

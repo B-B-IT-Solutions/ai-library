@@ -40,7 +40,7 @@ export const CheckoutPage = async () => {
                         data-testid="cart-item"
                      >
                         <span className="text-slate-600">
-                           {item.product.name} × {item.quantity}
+                           {item.productName}
                         </span>
                         <span className="font-medium">
                            CHF {item.lineTotal.toFixed(2)}

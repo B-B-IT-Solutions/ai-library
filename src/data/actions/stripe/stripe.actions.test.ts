@@ -53,12 +53,6 @@ describe("createCheckoutSession tests", () => {
       const user = dtestData.dLoginUser();
       const product = ptestData.pProduct(1);
       const cart = ptestData.pCartWithItems(1, 1);
-      cart.items[0].product = {
-         ...product,
-         template: ptestData.pPromptTemplateWithCategories(1),
-         bundleItems: [],
-      };
-      cart.items[0].quantity = 1;
 
       const order = ptestData.pOrderWithItemsAndPurchases(1);
       const checkoutSession = stripeCheckoutSession();
@@ -161,17 +155,7 @@ describe("createCheckoutSession tests", () => {
       };
 
       const cart = ptestData.pCartWithItems(1, 2);
-      cart.items[0].product = {
-         ...product1,
-         template: ptestData.pPromptTemplateWithCategories(1),
-         bundleItems: [],
-      };
       cart.items[0].quantity = 2;
-      cart.items[1].product = {
-         ...product2,
-         template: ptestData.pPromptTemplateWithCategories(2),
-         bundleItems: [],
-      };
       cart.items[1].quantity = 1;
 
       const totalAmount = 19.99 * 2 + 39.99;

@@ -90,7 +90,7 @@ exports[`CartPage rendering tests CartPage - cart with items - test 1`] = `
             <h4
               class="font-medium text-slate-900"
             >
-              name 1
+              name 0
             </h4>
             <p
               class="text-sm text-slate-600"
@@ -107,7 +107,7 @@ exports[`CartPage rendering tests CartPage - cart with items - test 1`] = `
               class="font-bold text-slate-900"
             >
               $
-              19.99
+              59.99
             </p>
           </div>
           <button
@@ -164,7 +164,7 @@ exports[`CartPage rendering tests CartPage - cart with items - test 1`] = `
               class="font-bold text-slate-900"
             >
               $
-              19.99
+              59.99
             </p>
           </div>
           <button
@@ -204,7 +204,7 @@ exports[`CartPage rendering tests CartPage - cart with items - test 1`] = `
             <h4
               class="font-medium text-slate-900"
             >
-              name 1
+              name 2
             </h4>
             <p
               class="text-sm text-slate-600"
@@ -221,7 +221,7 @@ exports[`CartPage rendering tests CartPage - cart with items - test 1`] = `
               class="font-bold text-slate-900"
             >
               $
-              19.99
+              59.99
             </p>
           </div>
           <button

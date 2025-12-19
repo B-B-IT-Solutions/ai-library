@@ -32,15 +32,13 @@ exports[`CheckoutPage rendering tests CheckoutPage - cart with items - rendered 
             <span
               class="text-slate-600"
             >
-              name 1
-               × 
-              1
+              name 0
             </span>
             <span
               class="font-medium"
             >
               CHF 
-              19.99
+              59.99
             </span>
           </div>
           <div
@@ -51,14 +49,12 @@ exports[`CheckoutPage rendering tests CheckoutPage - cart with items - rendered 
               class="text-slate-600"
             >
               name 1
-               × 
-              1
             </span>
             <span
               class="font-medium"
             >
               CHF 
-              19.99
+              59.99
             </span>
           </div>
           <div
@@ -68,15 +64,13 @@ exports[`CheckoutPage rendering tests CheckoutPage - cart with items - rendered 
             <span
               class="text-slate-600"
             >
-              name 1
-               × 
-              1
+              name 2
             </span>
             <span
               class="font-medium"
             >
               CHF 
-              19.99
+              59.99
             </span>
           </div>
           <div

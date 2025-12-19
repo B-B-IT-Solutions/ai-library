@@ -100,8 +100,7 @@ export default async function OrderDetailPage({
                      <div>
                         <p className="font-medium">{item.product.name}</p>
                         <p className="text-slate-600">
-                           {item.product.type} · ${item.price.toFixed(2)} ×{" "}
-                           {item.quantity}
+                           {item.product.type} · ${item.price.toFixed(2)}
                         </p>
                      </div>
                      <span className="font-medium">

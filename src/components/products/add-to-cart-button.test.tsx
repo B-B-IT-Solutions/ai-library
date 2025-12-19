@@ -87,7 +87,7 @@ describe("AddToCartButton functionality tests", () => {
 
       await waitFor(() => {
          expect(addToCartMock).toHaveBeenCalledTimes(1);
-         expect(addToCartMock).toHaveBeenCalledWith(product.id, 1);
+         expect(addToCartMock).toHaveBeenCalledWith(product);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(addResult.message, {
             duration: 1000,
@@ -117,7 +117,7 @@ describe("AddToCartButton functionality tests", () => {
 
       await waitFor(() => {
          expect(addToCartMock).toHaveBeenCalledTimes(1);
-         expect(addToCartMock).toHaveBeenCalledWith(product.id, 1);
+         expect(addToCartMock).toHaveBeenCalledWith(product);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(addResult.message);
          expect(mockRouter.refresh).toHaveBeenCalledTimes(1);

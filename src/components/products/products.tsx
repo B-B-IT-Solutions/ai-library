@@ -18,7 +18,7 @@ export const Products = ({
    cart,
    viewMode = "grid",
 }: ProductsProps) => {
-   const cartProductIds = new Set(cart.items.map((item) => item.product.id));
+   const cartProductIds = new Set(cart.items.map((item) => item.productId));
 
    const gridView = () => {
       return (

@@ -39,28 +39,7 @@ export const pGetCartBySessionId = async (
    return await prisma.cart.findUnique({
       where: { sessionCartId },
       include: {
-         items: {
-            include: {
-               product: {
-                  include: {
-                     template: {
-                        include: {
-                           categories: true,
-                        },
-                     },
-                     bundleItems: {
-                        include: {
-                           template: {
-                              include: {
-                                 categories: true,
-                              },
-                           },
-                        },
-                     },
-                  },
-               },
-            },
-         },
+         items: true,
       },
    });
 };
@@ -71,28 +50,7 @@ export const pGetCartByUserId = async (
    return await prisma.cart.findFirst({
       where: { userId },
       include: {
-         items: {
-            include: {
-               product: {
-                  include: {
-                     template: {
-                        include: {
-                           categories: true,
-                        },
-                     },
-                     bundleItems: {
-                        include: {
-                           template: {
-                              include: {
-                                 categories: true,
-                              },
-                           },
-                        },
-                     },
-                  },
-               },
-            },
-         },
+         items: true,
       },
    });
 };

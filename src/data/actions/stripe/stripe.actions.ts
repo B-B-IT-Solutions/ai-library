@@ -33,7 +33,7 @@ export const createCheckoutSession = async (): Promise<
       }
 
       const totalAmount = cart.items.reduce((sum, item) => {
-         const price = Number(item.product.price);
+         const price = Number(item.productPrice);
          return sum + price * item.quantity;
       }, 0);
 
@@ -54,7 +54,7 @@ export const createCheckoutSession = async (): Promise<
                   },
                },
                quantity: item.quantity,
-               price: Number(item.product.price),
+               price: Number(item.productPrice),
             })),
          },
       });
@@ -64,10 +64,10 @@ export const createCheckoutSession = async (): Promise<
          price_data: {
             currency: "chf",
             product_data: {
-               name: item.product.name,
-               description: item.product.description || undefined,
+               name: item.productName,
+               description: item?.product?.description || undefined,
             },
-            unit_amount: Math.round(Number(item.product.price) * 100), // Convert to cents
+            unit_amount: Math.round(Number(item.productPrice) * 100), // Convert to cents
          },
          quantity: item.quantity,
       }));
