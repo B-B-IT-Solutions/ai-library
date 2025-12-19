@@ -122,19 +122,17 @@ export const pMigrateSessionCartToUser = async (
       where: { sessionCartId },
    });
 
-   if (!sessionCart) {
-      return null;
+   if (sessionCart) {
+      await prisma.cart.deleteMany({
+         where: { userId },
+      });
+
+      await prisma.cart.update({
+         where: { id: sessionCart.id },
+         data: {
+            userId,
+            sessionCartId: null,
+         },
+      });
    }
-
-   await prisma.cart.deleteMany({
-      where: { userId },
-   });
-
-   return await prisma.cart.update({
-      where: { id: sessionCart.id },
-      data: {
-         userId,
-         sessionCartId: null,
-      },
-   });
 };

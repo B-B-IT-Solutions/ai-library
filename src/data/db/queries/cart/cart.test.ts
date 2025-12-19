@@ -412,9 +412,8 @@ describe("pMigrateSessionCartToUser tests", () => {
       const sessionCartId = "session-123";
       const userId = "user-1";
 
-      const result = await pMigrateSessionCartToUser(sessionCartId, userId);
+      await pMigrateSessionCartToUser(sessionCartId, userId);
 
-      expect(result).toEqual(updatedCart);
       expect(prismaMock.cart.findUnique).toHaveBeenCalledTimes(1);
       expect(prismaMock.cart.findUnique).toHaveBeenCalledWith({
          where: { sessionCartId },
@@ -439,9 +438,8 @@ describe("pMigrateSessionCartToUser tests", () => {
       const sessionCartId = "non-existent-session";
       const userId = "user-1";
 
-      const result = await pMigrateSessionCartToUser(sessionCartId, userId);
+      await pMigrateSessionCartToUser(sessionCartId, userId);
 
-      expect(result).toBeNull();
       expect(prismaMock.cart.findUnique).toHaveBeenCalledTimes(1);
       expect(prismaMock.cart.findUnique).toHaveBeenCalledWith({
          where: { sessionCartId },
