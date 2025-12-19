@@ -1,5 +1,10 @@
 import { screen, waitFor } from "@testing-library/dom";
-import { assertInDocument, ntestData, renderAsyncRSC } from "@tests";
+import {
+   assertInDocument,
+   AuthMockedFunction,
+   ntestData,
+   renderAsyncRSC,
+} from "@tests";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
@@ -7,7 +12,7 @@ import { auth } from "@/auth";
 
 import SignUpPage, { metadata, SignUpPageProps } from "./page";
 
-const authMock = auth as jest.MockedFunction<typeof auth>;
+const authMock = auth as unknown as AuthMockedFunction;
 const redirectMock = redirect as jest.MockedFunction<typeof redirect>;
 
 export const expectedMetadata: Metadata = {

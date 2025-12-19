@@ -13,6 +13,10 @@ export const cn = (...inputs: ClassValue[]) => {
    return twMerge(clsx(inputs));
 };
 
+export const navigateToExternalUrl = (url: string) => {
+   window.location.href = url;
+};
+
 export const formatDateTime = (dateString: string) => {
    const dateTimeOptions: Intl.DateTimeFormatOptions = {
       month: "short", // abbreviated month name (e.g., 'Oct')

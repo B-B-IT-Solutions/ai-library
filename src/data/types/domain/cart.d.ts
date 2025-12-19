@@ -1,9 +1,7 @@
-import { DProduct } from "@/data/types/domain/product";
-
 export type DCart = {
    id: string;
-   userId?: string;
-   sessionCartId?: string;
+   userId: string | null;
+   sessionCartId: string | null;
    subtotal: number;
    total: number;
    createdAt: string;
@@ -14,7 +12,11 @@ export type DCart = {
 export type DCartItem = {
    id: string;
    cartId: string;
-   product: DProduct;
+   productId: string;
+   productName: string;
+   productDescription?: string;
+   productType: string;
+   productPrice: number;
    quantity: number;
    lineTotal: number;
    createdAt: string;

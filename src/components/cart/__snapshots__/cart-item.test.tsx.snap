@@ -18,8 +18,8 @@ exports[`CartItem rendering tests CartItem rendered test 1`] = `
         class="text-sm text-slate-600"
       >
         BUNDLE
-         · $
-        59.99
+         · CHF 
+        19.99
       </p>
     </div>
     <div
@@ -28,7 +28,7 @@ exports[`CartItem rendering tests CartItem rendered test 1`] = `
       <p
         class="font-bold text-slate-900"
       >
-        $
+        CHF 
         19.99
       </p>
     </div>

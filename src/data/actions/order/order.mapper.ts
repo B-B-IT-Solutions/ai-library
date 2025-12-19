@@ -9,6 +9,9 @@ type PrismaOrder = {
    status: "PENDING" | "COMPLETED" | "FAILED" | "REFUNDED";
    totalAmount: any;
    paymentMethod: string | null;
+   stripeCheckoutSessionId: string | null;
+   stripePaymentIntentId: string | null;
+   stripePaymentStatus: string | null;
    createdAt: Date;
    updatedAt: Date;
    items: any[];
@@ -35,6 +38,9 @@ export const toDOrder = (order: PrismaOrder): DOrder => {
       status: order.status as DOrderStatus,
       totalAmount: Number(order.totalAmount),
       paymentMethod: order.paymentMethod ?? undefined,
+      stripeCheckoutSessionId: order.stripeCheckoutSessionId ?? undefined,
+      stripePaymentIntentId: order.stripePaymentIntentId ?? undefined,
+      stripePaymentStatus: order.stripePaymentStatus ?? undefined,
       items: map(order.items, (item) => toDOrderItem(item)),
       createdAt: order.createdAt.toISOString(),
       updatedAt: order.updatedAt.toISOString(),

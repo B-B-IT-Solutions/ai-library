@@ -15,15 +15,13 @@ export const CartItem: FC<CartItemProps> = ({ item }) => {
          data-testid="cart-item"
       >
          <div className="flex-1">
-            <h4 className="font-medium text-slate-900">{item.product.name}</h4>
+            <h4 className="font-medium text-slate-900">{item.productName}</h4>
             <p className="text-sm text-slate-600">
-               {item.product.type} · ${item.product.price.toFixed(2)}
+               {item.productType} · CHF {item.productPrice}
             </p>
          </div>
          <div className="w-24 text-right">
-            <p className="font-bold text-slate-900">
-               ${item.lineTotal.toFixed(2)}
-            </p>
+            <p className="font-bold text-slate-900">CHF {item.lineTotal}</p>
          </div>
          <RemoveFromCartButton item={item} iconX={true} />
       </div>

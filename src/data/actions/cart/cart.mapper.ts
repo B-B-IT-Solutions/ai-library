@@ -1,35 +1,19 @@
 import { map } from "es-toolkit/compat";
 
-import { toDProduct } from "@/data/actions/product/product.mapper";
+import { CartWithItems } from "@/data/types/db/cart";
 import { DCart, DCartItem } from "@/data/types/domain/cart";
+import { CartItem } from "@/generated/prisma/client";
 
-type PrismaCart = {
-   id: string;
-   userId: string | null;
-   sessionCartId: string | null;
-   createdAt: Date;
-   updatedAt: Date;
-   items: any[];
-};
+import { calculateSubTotalAmount } from "./utils";
 
-type PrismaCartItem = {
-   id: string;
-   cartId: string;
-   productId: string;
-   quantity: number;
-   createdAt: Date;
-   updatedAt: Date;
-   product: any;
-};
-
-export const toDCart = (cart: PrismaCart): DCart => {
+export const toDCart = (cart: CartWithItems): DCart => {
+   const subtotal = calculateSubTotalAmount(cart);
    const items = map(cart.items, (item) => toDCartItem(item));
-   const subtotal = items.reduce((sum, item) => sum + item.lineTotal, 0);
 
    return {
       id: cart.id,
-      userId: cart.userId ?? undefined,
-      sessionCartId: cart.sessionCartId ?? undefined,
+      userId: cart.userId,
+      sessionCartId: cart.sessionCartId,
       items,
       subtotal,
       total: subtotal,
@@ -38,14 +22,16 @@ export const toDCart = (cart: PrismaCart): DCart => {
    };
 };
 
-export const toDCartItem = (item: PrismaCartItem): DCartItem => {
-   const product = toDProduct(item.product);
-   const lineTotal = product.price * item.quantity;
+export const toDCartItem = (item: CartItem): DCartItem => {
+   const lineTotal = Number(item.productPrice) * item.quantity;
 
    return {
       id: item.id,
       cartId: item.cartId,
-      product,
+      productId: item.productId,
+      productName: item.productName,
+      productType: item.productType,
+      productPrice: Number(item.productPrice),
       quantity: item.quantity,
       lineTotal,
       createdAt: item.createdAt.toISOString(),

@@ -26,7 +26,7 @@ export const AddToCartButton: FC<AddToCartButtonProps> = ({
 
    const handleAddToCart = () => {
       startTransition(async () => {
-         const result = await addToCart(product.id, 1);
+         const result = await addToCart(product);
          if (result.success) {
             toast.success(result.message, {
                duration: 1000,

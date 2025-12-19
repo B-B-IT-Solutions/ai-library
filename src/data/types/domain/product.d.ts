@@ -1,7 +1,6 @@
 import z from "zod";
 
 import { Filter, Page, PageQuery } from "@/data/types/common";
-import { addToCartSchema } from "@/data/types/validators/product.schema";
 
 import { DPromptTemplate } from "./prompt.template";
 
@@ -17,16 +16,19 @@ export type DProduct = {
    price: number;
    type: DProductType;
    status: DProductStatus;
-   templateId?: string;
+   templateId: string | null;
    template?: DPromptTemplate;
-   bundleItems?: DPromptTemplate[];
+   bundleItems?: DBundleItem[];
    createdAt: string;
    updatedAt: string;
 };
 
-export type DBundle = DProduct & {
-   type: "BUNDLE";
-   bundleItems: DPromptTemplate[];
+export type DBundleItem = {
+   id: string;
+   bundleId: string;
+   templateId: string | null;
+   template: DPromptTemplate | null;
+   createdAt: string;
 };
 
 export type DProductsPageQuery = PageQuery<DProductsFilter>;
@@ -38,5 +40,3 @@ export interface DProductsFilter extends Filter {
    minPrice?: number;
    maxPrice?: number;
 }
-
-export type DAddToCart = z.infer<typeof addToCartSchema>;

@@ -1,50 +1,52 @@
-import { map } from "es-toolkit/compat";
+import { isEmpty, map } from "es-toolkit/compat";
 
 import { toDPromptTemplate } from "@/data/actions/prompt/prompt.mapper";
+import {
+   BundleItemWithTemplate,
+   ProductWithTemplateBundleItems,
+} from "@/data/types/db/product";
 import { DProduct } from "@/data/types/domain/product";
 
-type PrismaProduct = {
-   id: string;
-   name: string;
-   description: string;
-   price: any;
-   type: "TEMPLATE" | "BUNDLE";
-   status: "ACTIVE" | "INACTIVE" | "ARCHIVED";
-   templateId: string | null;
-   createdAt: Date;
-   updatedAt: Date;
-   template?: any;
-   bundleItems?: any[];
-};
-
-export const toDProducts = (pProducts: PrismaProduct[]): DProduct[] => {
+export const toDProducts = (
+   pProducts: ProductWithTemplateBundleItems[]
+): DProduct[] => {
    return map(pProducts, (p) => toDProduct(p));
 };
 
-export const toDProduct = (product: PrismaProduct): DProduct => {
-   const baseProduct: DProduct = {
+export const toDProduct = (
+   product: ProductWithTemplateBundleItems
+): DProduct => {
+   const dProduct: DProduct = {
       id: product.id,
       name: product.name,
       description: product.description,
       price: Number(product.price),
       type: product.type,
       status: product.status,
+      templateId: product.templateId,
       createdAt: product.createdAt.toISOString(),
       updatedAt: product.updatedAt.toISOString(),
    };
 
-   // Add template if exists
    if (product.template) {
-      baseProduct.template = toDPromptTemplate(product.template);
-      baseProduct.templateId = product.templateId ?? undefined;
+      dProduct.template = toDPromptTemplate(product.template);
    }
 
-   // Add bundle items if exists
-   if (product.bundleItems && product.bundleItems.length > 0) {
-      baseProduct.bundleItems = map(product.bundleItems, (item) =>
-         toDPromptTemplate(item.template)
-      );
+   if (product.bundleItems && !isEmpty(product.bundleItems)) {
+      const items = map(product.bundleItems, (item) => toDBundleItem(item));
+      dProduct.bundleItems = items;
    }
 
-   return baseProduct;
+   return dProduct;
+};
+
+const toDBundleItem = (item: BundleItemWithTemplate) => {
+   const template = item.template ? toDPromptTemplate(item.template) : null;
+   return {
+      id: item.id,
+      bundleId: item.bundleId,
+      templateId: template ? template.id : null,
+      template: template ?? null,
+      createdAt: item.createdAt.toISOString(),
+   };
 };

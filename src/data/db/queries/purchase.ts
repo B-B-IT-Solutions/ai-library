@@ -1,4 +1,4 @@
-import { prisma } from "../prisma";
+import prisma from "@/data/db/prisma";
 
 export const pGetUserPurchases = async (userId: string) => {
    return await prisma.purchase.findMany({

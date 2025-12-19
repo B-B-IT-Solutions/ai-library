@@ -1,8 +1,9 @@
 "use client";
 
-import { FC, useTransition } from "react";
+import { FC, useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { isEmpty } from "es-toolkit/compat";
+import { Loader } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -16,67 +17,64 @@ import {
    FormLabel,
    FormMessage,
 } from "@/components/shadcn/form";
-import { Input } from "@/components/shadcn/input";
-import { createOrder } from "@/data/actions/order/order.actions";
+import { createCheckoutSession } from "@/data/actions/stripe";
 import { DCart } from "@/data/types/domain/cart";
 import { DCheckoutForm } from "@/data/types/domain/order";
 import { checkoutSchema } from "@/data/types/validators/order.schema";
+import { navigateToExternalUrl } from "@/lib/utils";
 
 type CheckoutFormProps = {
    cart: DCart;
 };
 
 export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
-   const router = useRouter();
-   const [isPending, startTransition] = useTransition();
+   const [isSubmitted, setSubmited] = useState<boolean>(false);
+   const [, startTransition] = useTransition();
 
    const form = useForm<DCheckoutForm>({
       resolver: zodResolver(checkoutSchema),
       defaultValues: {
-         paymentMethodId: "",
          agreeToTerms: false,
       },
    });
 
    const onSubmit = (data: DCheckoutForm) => {
       startTransition(async () => {
-         const result = await createOrder(data.paymentMethodId || undefined);
+         setSubmited(true);
+         const result = await createCheckoutSession();
          if (result.success && result.data) {
-            toast.success(result.message);
-            router.push(`/orders/${result.data.id}`);
+            // Redirect to Stripe Checkout
+            navigateToExternalUrl(result.data.url);
          } else {
+            setSubmited(false);
             toast.error(result.message);
          }
       });
    };
 
+   const btnIcon = () => {
+      if (isSubmitted) {
+         return <Loader className="w-4 h-4 animate-spin" />;
+      }
+   };
+
+   const btnText = () => {
+      return isSubmitted ? "Redirecting to Stripe..." : "Proceed to Payment";
+   };
+
    return (
       <Form {...form}>
-         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+         <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-6"
+            data-testid="checkout-form"
+         >
             <div className="space-y-4">
                <h3 className="text-lg font-semibold">Payment Information</h3>
                <p className="text-sm text-slate-600">
-                  Payment method is stored for reference only. No actual payment
-                  processing is implemented.
+                  You will be redirected to Stripe to securely complete your
+                  payment.
                </p>
-
-               <FormField
-                  control={form.control}
-                  name="paymentMethodId"
-                  render={({ field }) => (
-                     <FormItem>
-                        <FormLabel>Payment Method ID (Optional)</FormLabel>
-                        <FormControl>
-                           <Input
-                              placeholder="e.g., pm_1234567890"
-                              {...field}
-                              data-testid="payment-method-input"
-                           />
-                        </FormControl>
-                        <FormMessage />
-                     </FormItem>
-                  )}
-               />
             </div>
 
             <div className="border-t pt-4">
@@ -96,7 +94,7 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
                            <FormLabel>
                               I agree to the terms and conditions
                            </FormLabel>
-                           <FormMessage />
+                           <FormMessage data-testid="error-message" />
                         </div>
                      </FormItem>
                   )}
@@ -105,11 +103,12 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
 
             <Button
                type="submit"
-               className="w-full"
-               disabled={isPending || cart.items.length === 0}
-               data-testid="place-order-button"
+               className="w-full cursor-pointer"
+               disabled={isSubmitted || isEmpty(cart.items)}
+               data-testid="proceed-to-payment-btn"
             >
-               {isPending ? "Placing Order..." : "Place Order"}
+               {btnIcon()}
+               {btnText()}
             </Button>
          </form>
       </Form>

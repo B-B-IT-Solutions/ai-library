@@ -91,7 +91,7 @@ export const ProductListItem: FC<ProductListItemProps> = ({
             {/* Right: Price and Actions */}
             <div className="flex flex-col items-end gap-3 sm:min-w-[200px]">
                <p className="text-2xl font-bold text-slate-900">
-                  ${product.price.toFixed(2)}
+                  CHF {product.price}
                </p>
 
                <div className="flex gap-2 w-full sm:w-auto">

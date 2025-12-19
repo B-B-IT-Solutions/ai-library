@@ -179,30 +179,37 @@ model Cart {
 }
 
 model CartItem {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  cartId    String   @map("cart_id") @db.Uuid
-  productId String   @map("product_id") @db.Uuid
-  quantity  Int      @default(1)
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt DateTime @updatedAt @map("updated_at")
-  product   Product  @relation(fields: [productId], references: [id])
-  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  id                 String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  cartId             String      @map("cart_id") @db.Uuid
+  productId          String      @map("product_id") @db.Uuid
+  productName        String      @map("product_name") @db.VarChar(250)
+  productDescription String?     @map("product_description") @db.VarChar(500)
+  productType        ProductType @map("product_type")
+  productPrice       Decimal     @map("product_price") @db.Decimal(10, 2)
+  quantity           Int         @default(1)
+  createdAt          DateTime    @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt          DateTime    @updatedAt @map("updated_at")
+  product            Product     @relation(fields: [productId], references: [id])
+  cart               Cart        @relation(fields: [cartId], references: [id], onDelete: Cascade)
 
   @@unique([cartId, productId])
   @@map("cart_item")
 }
 
 model Order {
-  id            String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId        String      @map("user_id") @db.Uuid
-  status        OrderStatus @default(PENDING)
-  totalAmount   Decimal     @map("total_amount") @db.Decimal(10, 2)
-  paymentMethod String?     @map("payment_method") @db.VarChar(100)
-  createdAt     DateTime    @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt     DateTime    @updatedAt @map("updated_at")
-  user          User        @relation(fields: [userId], references: [id])
-  items         OrderItem[]
-  purchases     Purchase[]
+  id                      String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId                  String      @map("user_id") @db.Uuid
+  status                  OrderStatus @default(PENDING)
+  totalAmount             Decimal     @map("total_amount") @db.Decimal(10, 2)
+  paymentMethod           String?     @map("payment_method") @db.VarChar(100)
+  stripeCheckoutSessionId String?     @unique @map("stripe_checkout_session_id") @db.VarChar(500)
+  stripePaymentIntentId   String?     @map("stripe_payment_intent_id") @db.VarChar(500)
+  stripePaymentStatus     String?     @map("stripe_payment_status") @db.VarChar(50)
+  createdAt               DateTime    @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt               DateTime    @updatedAt @map("updated_at")
+  user                    User        @relation(fields: [userId], references: [id])
+  items                   OrderItem[]
+  purchases               Purchase[]
 
   @@map("order")
 }

@@ -4,7 +4,7 @@ jest.mock("./prisma", () => ({
 
 import { assertStringifyEqual } from "@tests";
 
-import { extendsConfig, prisma } from "./prisma";
+import prisma, { extendsConfig } from "./prisma";
 
 export const expectedExtendsConfig = {};
 

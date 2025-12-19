@@ -74,7 +74,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product, isInCart }) => {
                {typeBadge()}
             </div>
             <p className="text-2xl font-bold text-slate-900">
-               ${product.price.toFixed(2)}
+               CHF {product.price}
             </p>
          </CardHeader>
          <CardContent className="p-0 grid gap-2">

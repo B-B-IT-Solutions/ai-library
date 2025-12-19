@@ -184,7 +184,7 @@ exports[`CartPreview rendering tests CartPreview - cart with items - test 1`] = 
             <h4
               class="text-sm font-medium text-slate-900 truncate"
             >
-              name 1
+              name 0
             </h4>
             <div
               class="flex items-center gap-2 mt-1"
@@ -202,8 +202,8 @@ exports[`CartPreview rendering tests CartPreview - cart with items - test 1`] = 
               <span
                 class="text-xs font-medium text-indigo-600"
               >
-                $
-                59.99
+                CHF 
+                19.99
               </span>
             </div>
           </div>
@@ -270,8 +270,8 @@ exports[`CartPreview rendering tests CartPreview - cart with items - test 1`] = 
               <span
                 class="text-xs font-medium text-indigo-600"
               >
-                $
-                59.99
+                CHF 
+                19.99
               </span>
             </div>
           </div>
@@ -320,7 +320,7 @@ exports[`CartPreview rendering tests CartPreview - cart with items - test 1`] = 
             <h4
               class="text-sm font-medium text-slate-900 truncate"
             >
-              name 1
+              name 2
             </h4>
             <div
               class="flex items-center gap-2 mt-1"
@@ -338,8 +338,8 @@ exports[`CartPreview rendering tests CartPreview - cart with items - test 1`] = 
               <span
                 class="text-xs font-medium text-indigo-600"
               >
-                $
-                59.99
+                CHF 
+                19.99
               </span>
             </div>
           </div>
@@ -394,8 +394,8 @@ exports[`CartPreview rendering tests CartPreview - cart with items - test 1`] = 
           <span
             class="font-medium"
           >
-            $
-            39.99
+            CHF 
+            59.97
           </span>
         </div>
         <div
@@ -407,8 +407,8 @@ exports[`CartPreview rendering tests CartPreview - cart with items - test 1`] = 
           <span
             class="text-indigo-600"
           >
-            $
-            59.99
+            CHF 
+            59.97
           </span>
         </div>
       </div>
@@ -512,7 +512,7 @@ exports[`CartPreview rendering tests CartPreview - cart with one item - test 1`]
             <h4
               class="text-sm font-medium text-slate-900 truncate"
             >
-              name 1
+              name 0
             </h4>
             <div
               class="flex items-center gap-2 mt-1"
@@ -530,8 +530,8 @@ exports[`CartPreview rendering tests CartPreview - cart with one item - test 1`]
               <span
                 class="text-xs font-medium text-indigo-600"
               >
-                $
-                59.99
+                CHF 
+                19.99
               </span>
             </div>
           </div>
@@ -586,8 +586,8 @@ exports[`CartPreview rendering tests CartPreview - cart with one item - test 1`]
           <span
             class="font-medium"
           >
-            $
-            39.99
+            CHF 
+            59.97
           </span>
         </div>
         <div
@@ -599,8 +599,8 @@ exports[`CartPreview rendering tests CartPreview - cart with one item - test 1`]
           <span
             class="text-indigo-600"
           >
-            $
-            59.99
+            CHF 
+            59.97
           </span>
         </div>
       </div>

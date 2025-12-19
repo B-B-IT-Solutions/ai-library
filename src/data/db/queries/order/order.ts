@@ -1,46 +1,21 @@
+import prisma from "@/data/db/prisma";
+import { OrderWithItems } from "@/data/types/db/order";
 import { OrderCreateInput } from "@/generated/prisma/models";
-import { prisma } from "../prisma";
 
-export const pCreateOrder = async (data: OrderCreateInput) => {
+export const pCreateOrder = async (
+   data: OrderCreateInput
+): Promise<OrderWithItems> => {
    return await prisma.order.create({
       data,
       include: {
-         items: {
-            include: {
-               product: {
-                  include: {
-                     template: {
-                        include: {
-                           categories: true,
-                        },
-                     },
-                     bundleItems: {
-                        include: {
-                           template: {
-                              include: {
-                                 categories: true,
-                              },
-                           },
-                        },
-                     },
-                  },
-               },
-            },
-         },
-         purchases: {
-            include: {
-               template: {
-                  include: {
-                     categories: true,
-                  },
-               },
-            },
-         },
+         items: true,
       },
    });
 };
 
-export const pGetOrderById = async (orderId: string) => {
+export const pGetOrderById = async (
+   orderId: string
+): Promise<OrderWithItems | null> => {
    return await prisma.order.findUnique({
       where: { id: orderId },
       include: {
@@ -119,5 +94,28 @@ export const pCreatePurchases = async (
    return await prisma.purchase.createMany({
       data: purchases,
       skipDuplicates: true,
+   });
+};
+
+export type OrderUpdateStripeDetails = {
+   stripeCheckoutSessionId?: string;
+   stripePaymentIntentId?: string;
+   stripePaymentStatus?: string;
+   paymentMethod?: string;
+};
+
+export const pUpdateOrderWithStripeDetails = async (
+   orderId: string,
+   data: OrderUpdateStripeDetails
+) => {
+   return await prisma.order.update({
+      where: { id: orderId },
+      data,
+   });
+};
+
+export const pGetOrderByPaymentIntentId = async (paymentIntentId: string) => {
+   return await prisma.order.findFirst({
+      where: { stripePaymentIntentId: paymentIntentId },
    });
 };

@@ -1,0 +1,100 @@
+import { PrismaClient } from "@prisma/client";
+import { ptestData } from "@tests";
+import { map } from "es-toolkit/compat";
+import { DeepMockProxy, mockReset } from "jest-mock-extended";
+
+import prisma from "@/data/db/prisma";
+import {
+   OrderCreateArgs,
+   OrderCreateInput,
+   OrderUpdateArgs,
+} from "@/generated/prisma/models";
+
+import {
+   OrderUpdateStripeDetails,
+   pCreateOrder,
+   pUpdateOrderWithStripeDetails,
+} from "./order";
+
+export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
+
+describe("pCreateOrder tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pCreateOrder test", async () => {
+      const order = ptestData.pOrder();
+      prismaMock.order.create.mockResolvedValue(order);
+
+      const items = ptestData.pCartItems(3);
+      const createInput: OrderCreateInput = {
+         user: {
+            connect: {
+               id: "user-1",
+            },
+         },
+         status: "PENDING",
+         totalAmount: 27.99,
+         items: {
+            create: map(items, (i) => ({
+               product: {
+                  connect: {
+                     id: i.productId,
+                  },
+               },
+               quantity: i.quantity,
+               price: 9.99,
+            })),
+         },
+      };
+      const result = await pCreateOrder(createInput);
+
+      const expectedOrderCreateArgs: OrderCreateArgs = {
+         data: createInput,
+         include: {
+            items: true,
+         },
+      };
+
+      expect(result).toEqual(order);
+      expect(prismaMock.order.create).toHaveBeenCalledTimes(1);
+      expect(prismaMock.order.create).toHaveBeenCalledWith(
+         expectedOrderCreateArgs
+      );
+   });
+});
+
+describe("pUpdateOrderWithStripeDetails tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pUpdateOrderWithStripeDetails test", async () => {
+      const order = ptestData.pOrder();
+      prismaMock.order.update.mockResolvedValue(order);
+
+      const stripeUpdates: OrderUpdateStripeDetails = {
+         stripeCheckoutSessionId: "53ef3210-b719-4dd2-b612-4f28d4af187d",
+         stripePaymentIntentId: "455c1d0a-9065-498e-a298-4e9176d3a8ca",
+         stripePaymentStatus: "SUCCESS",
+         paymentMethod: "card",
+      };
+
+      const result = await pUpdateOrderWithStripeDetails(
+         order.id,
+         stripeUpdates
+      );
+
+      const expectedOrderUpdateArgs: OrderUpdateArgs = {
+         where: { id: order.id },
+         data: stripeUpdates,
+      };
+
+      expect(result).toEqual(order);
+      expect(prismaMock.order.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.order.update).toHaveBeenCalledWith(
+         expectedOrderUpdateArgs
+      );
+   });
+});

@@ -11,15 +11,15 @@ import { DPurchase } from "@/data/types/domain/library";
 import { DPromptTemplate } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 import { PromptCreateInput } from "@/generated/prisma/models";
-import { requireUserId } from "../auth-utils";
+import { requireUser } from "../auth-utils";
 import { formatError } from "../utils";
 
 import { toDPurchases } from "./library.mapper";
 
 export const getPurchasedTemplates = async (): Promise<DPromptTemplate[]> => {
    try {
-      const userId = await requireUserId();
-      const purchases = await pGetUserPurchases(userId);
+      const user = await requireUser();
+      const purchases = await pGetUserPurchases(user.id!);
       return purchases.map((p) => p.template);
    } catch (error) {
       return [];
@@ -30,9 +30,9 @@ export const hasAccessToTemplate = async (
    templateId: string
 ): Promise<boolean> => {
    try {
-      const userId = await requireUserId();
+      const user = await requireUser();
       // Check purchase access
-      return await pCheckUserHasTemplate(userId, templateId);
+      return await pCheckUserHasTemplate(user.id, templateId);
    } catch (error) {
       return false;
    }
@@ -49,7 +49,7 @@ export const copyTemplateToPrompts = async (
          };
       }
 
-      const userId = await requireUserId();
+      const user = await requireUser();
 
       // Check access
       const hasAccess = await hasAccessToTemplate(templateId);
@@ -61,7 +61,7 @@ export const copyTemplateToPrompts = async (
       }
 
       // Get template
-      const purchases = await pGetUserPurchases(userId);
+      const purchases = await pGetUserPurchases(user.id);
       const purchase = purchases.find((p) => p.templateId === templateId);
 
       if (!purchase) {
@@ -114,7 +114,7 @@ export const downloadTemplate = async (
          };
       }
 
-      const userId = await requireUserId();
+      const user = await requireUser();
 
       // Check access
       const hasAccess = await hasAccessToTemplate(templateId);
@@ -126,7 +126,7 @@ export const downloadTemplate = async (
       }
 
       // Get template
-      const purchases = await pGetUserPurchases(userId);
+      const purchases = await pGetUserPurchases(user.id);
       const purchase = purchases.find((p) => p.templateId === templateId);
 
       if (!purchase) {
