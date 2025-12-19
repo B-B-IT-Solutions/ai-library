@@ -13,6 +13,8 @@ import { ActionResult } from "@/data/types/utils";
 import { APP_URL } from "@/lib/constants";
 import { stripe } from "@/lib/stripe/stripe-server";
 
+import { toStripePriceUnit } from "./utils";
+
 type CheckoutResponse = {
    sessionId: string;
    url: string;
@@ -62,7 +64,7 @@ export const createCheckoutSession = async (): Promise<
                name: item.productName,
                description: item.productDescription,
             },
-            unit_amount: Math.round(Number(item.productPrice) * 100), // Convert to cents
+            unit_amount: toStripePriceUnit(item),
          },
          quantity: item.quantity,
       }));

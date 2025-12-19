@@ -434,47 +434,4 @@ describe("createCheckoutSession tests", () => {
          })
       );
    });
-
-   // it("createCheckoutSession - verifies price conversion to cents - test", async () => {
-   //    const user = { id: "user-1", email: "test@email.com" };
-   //    const product = {
-   //       ...ptestData.pProduct(1),
-   //       price: new Decimal(10.5),
-   //    };
-   //    const cart = ptestData.pCartWithItems(1, 1);
-   //    cart.items[0].product = {
-   //       ...product,
-   //       template: ptestData.pPromptTemplateWithCategories(1),
-   //       bundleItems: [],
-   //    };
-
-   //    const order = ptestData.pOrderWithItems(1);
-   //    const checkoutSession = stripeCheckoutSession();
-
-   //    requireUserMock.mockResolvedValue(user);
-   //    pGetCartByUserIdMock.mockResolvedValue(cart);
-   //    pCreateOrderMock.mockResolvedValue(order);
-   //    stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
-   //    pUpdateOrderWithStripeDetailsMock.mockResolvedValue(order);
-
-   //    await createCheckoutSession();
-
-   //    expect(stripeMock.checkout.sessions.create).toHaveBeenCalledWith(
-   //       expect.objectContaining({
-   //          line_items: [
-   //             {
-   //                price_data: {
-   //                   currency: "chf",
-   //                   product_data: {
-   //                      name: product.name,
-   //                      description: product.description,
-   //                   },
-   //                   unit_amount: 1050, // 10.50 * 100 = 1050
-   //                },
-   //                quantity: 1,
-   //             },
-   //          ],
-   //       })
-   //    );
-   // });
 });

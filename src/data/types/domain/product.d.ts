@@ -1,7 +1,6 @@
 import z from "zod";
 
 import { Filter, Page, PageQuery } from "@/data/types/common";
-import { addToCartSchema } from "@/data/types/validators/product.schema";
 
 import { DPromptTemplate } from "./prompt.template";
 
@@ -38,5 +37,3 @@ export interface DProductsFilter extends Filter {
    minPrice?: number;
    maxPrice?: number;
 }
-
-export type DAddToCart = z.infer<typeof addToCartSchema>;
