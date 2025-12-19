@@ -16,16 +16,19 @@ export type DProduct = {
    price: number;
    type: DProductType;
    status: DProductStatus;
-   templateId?: string;
+   templateId: string | null;
    template?: DPromptTemplate;
-   bundleItems?: DPromptTemplate[];
+   bundleItems?: DBundleItem[];
    createdAt: string;
    updatedAt: string;
 };
 
-export type DBundle = DProduct & {
-   type: "BUNDLE";
-   bundleItems: DPromptTemplate[];
+export type DBundleItem = {
+   id: string;
+   bundleId: string;
+   templateId: string | null;
+   template: DPromptTemplate | null;
+   createdAt: string;
 };
 
 export type DProductsPageQuery = PageQuery<DProductsFilter>;

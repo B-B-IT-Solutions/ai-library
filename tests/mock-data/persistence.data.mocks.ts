@@ -3,6 +3,10 @@ import { range } from "es-toolkit";
 
 import { CartWithItems } from "@/data/types/db/cart";
 import { OrderWithItems } from "@/data/types/db/order";
+import {
+   BundleItemWithTemplate,
+   ProductWithTemplateBundleItems,
+} from "@/data/types/db/product";
 import { PromptsPage, PromptWithCategories } from "@/data/types/db/prompt";
 import { PromptTemplateWithCategories } from "@/data/types/db/prompt.template";
 import { UserUpdateData } from "@/data/types/db/user";
@@ -46,6 +50,40 @@ export const pUserUpdateData = (index = 1): UserUpdateData => {
       password: "password123",
       paymentMethod: "stripe",
       role: "user",
+   };
+};
+
+export const pProductsWithTemplateBundleItems = (
+   count = 3
+): ProductWithTemplateBundleItems[] => {
+   return range(0, count).map((i) => pProductWithTemplateBundleItems(i));
+};
+
+export const pProductWithTemplateBundleItems = (
+   index = 1
+): ProductWithTemplateBundleItems => {
+   const product = pProduct(index);
+   const template = pPromptTemplateWithCategories(index);
+   return {
+      ...product,
+      templateId: template.id,
+      template,
+      bundleItems: pBundleItems(),
+   };
+};
+
+export const pBundleItems = (count = 3): BundleItemWithTemplate[] => {
+   return range(0, count).map((i) => pBundleItem(i));
+};
+
+export const pBundleItem = (index = 1): BundleItemWithTemplate => {
+   const template = pPromptTemplateWithCategories(index);
+   return {
+      id: `418c5cf3-d0d5-4ad8-a841-d458c8aa6cb1${index}`,
+      bundleId: `2cabc8ff-010a-4b0b-93c6-4f311d35c432${index}`,
+      templateId: template.id,
+      template,
+      createdAt: new Date("2025-09-27"),
    };
 };
 
