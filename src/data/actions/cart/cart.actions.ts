@@ -3,13 +3,10 @@
 import { cookies } from "next/headers";
 
 import { auth } from "@/auth";
-import { requireUser } from "@/data/actions/auth-utils";
 import { formatError } from "@/data/actions/utils";
 import {
    pAddItemToCart,
    pClearCart,
-   pGetCartBySessionId,
-   pGetCartByUserId,
    pGetOrCreateCart,
    pRemoveCartItem,
 } from "@/data/db/queries/cart";
@@ -46,11 +43,6 @@ export const addToCart = async (
    try {
       const cart = await getCart();
 
-      // Check if item already exists
-      const existingItem = cart.items?.find(
-         (item: any) => item.productId === product.id
-      );
-
       const params: AddItemToCartParams = {
          cartId: cart.id,
          productId: product.id,
@@ -61,20 +53,9 @@ export const addToCart = async (
 
       await pAddItemToCart(params);
 
-      // Fetch updated cart
-      const session = await auth();
-      const userId = session?.user?.id;
-
-      const updatedCart = userId
-         ? await pGetCartByUserId(userId)
-         : await pGetCartBySessionId(cart.sessionCartId!);
-
       return {
          success: true,
-         message: existingItem
-            ? "Item is already in your cart."
-            : "Item added to cart successfully.",
-         data: toDCart(updatedCart!),
+         message: "Item added to cart successfully.",
       };
    } catch (error) {
       return {
@@ -89,19 +70,9 @@ export const removeFromCart = async (
 ): Promise<ActionResult<DCart>> => {
    try {
       await pRemoveCartItem(itemId);
-
-      const cart = await getCart();
-      const session = await auth();
-      const userId = session?.user?.id;
-
-      const updatedCart = userId
-         ? await pGetCartByUserId(userId)
-         : await pGetCartBySessionId(cart.sessionCartId!);
-
       return {
          success: true,
          message: "Item removed from cart successfully.",
-         data: toDCart(updatedCart!),
       };
    } catch (error) {
       return {
@@ -113,16 +84,8 @@ export const removeFromCart = async (
 
 export const clearCart = async (): Promise<ActionResult<void>> => {
    try {
-      const user = await requireUser();
-      const cart = await pGetCartByUserId(user.id);
-
-      if (cart) {
-         await pClearCart(cart.id);
-         return {
-            success: true,
-            message: "Cart cleared successfully.",
-         };
-      }
+      const cart = await getCart();
+      await pClearCart(cart.id);
 
       return {
          success: true,
