@@ -53,37 +53,7 @@ describe("pCreateOrder tests", () => {
       const expectedOrderCreateArgs: OrderCreateArgs = {
          data: createInput,
          include: {
-            items: {
-               include: {
-                  product: {
-                     include: {
-                        template: {
-                           include: {
-                              categories: true,
-                           },
-                        },
-                        bundleItems: {
-                           include: {
-                              template: {
-                                 include: {
-                                    categories: true,
-                                 },
-                              },
-                           },
-                        },
-                     },
-                  },
-               },
-            },
-            purchases: {
-               include: {
-                  template: {
-                     include: {
-                        categories: true,
-                     },
-                  },
-               },
-            },
+            items: true,
          },
       };
 

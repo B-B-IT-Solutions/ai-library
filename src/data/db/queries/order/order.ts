@@ -1,51 +1,21 @@
 import prisma from "@/data/db/prisma";
-import { OrderWithItemsAndPurchases } from "@/data/types/db/order";
+import { OrderWithItems } from "@/data/types/db/order";
 import { OrderCreateInput } from "@/generated/prisma/models";
 
 export const pCreateOrder = async (
    data: OrderCreateInput
-): Promise<OrderWithItemsAndPurchases> => {
+): Promise<OrderWithItems> => {
    return await prisma.order.create({
       data,
       include: {
-         items: {
-            include: {
-               product: {
-                  include: {
-                     template: {
-                        include: {
-                           categories: true,
-                        },
-                     },
-                     bundleItems: {
-                        include: {
-                           template: {
-                              include: {
-                                 categories: true,
-                              },
-                           },
-                        },
-                     },
-                  },
-               },
-            },
-         },
-         purchases: {
-            include: {
-               template: {
-                  include: {
-                     categories: true,
-                  },
-               },
-            },
-         },
+         items: true,
       },
    });
 };
 
 export const pGetOrderById = async (
    orderId: string
-): Promise<OrderWithItemsAndPurchases | null> => {
+): Promise<OrderWithItems | null> => {
    return await prisma.order.findUnique({
       where: { id: orderId },
       include: {
@@ -146,7 +116,7 @@ export const pUpdateOrderWithStripeDetails = async (
 
 export const pGetOrderByStripeSessionId = async (
    sessionId: string
-): Promise<OrderWithItemsAndPurchases | null> => {
+): Promise<OrderWithItems | null> => {
    return await prisma.order.findUnique({
       where: { stripeCheckoutSessionId: sessionId },
       include: {

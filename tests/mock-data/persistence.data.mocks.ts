@@ -1,13 +1,8 @@
 import { Decimal } from "@prisma/client/runtime/library";
 import { range } from "es-toolkit";
 
-import { CartItemWithProduct, CartWithItems } from "@/data/types/db/cart";
-import {
-   OrderItemWithProduct,
-   OrderProduct,
-   OrderPurchase,
-   OrderWithItemsAndPurchases,
-} from "@/data/types/db/order";
+import { CartWithItems } from "@/data/types/db/cart";
+import { OrderWithItems } from "@/data/types/db/order";
 import { PromptsPage, PromptWithCategories } from "@/data/types/db/prompt";
 import { PromptTemplateWithCategories } from "@/data/types/db/prompt.template";
 import { UserUpdateData } from "@/data/types/db/user";
@@ -72,43 +67,21 @@ export const pProduct = (index = 1): Product => {
    };
 };
 
-export const pOrderProduct = (count = 3): OrderProduct[] => {
-   return range(0, count).map((i) => pProductWithTemplateBundleItems(i));
-};
-
-export const pProductWithTemplateBundleItems = (index = 1): OrderProduct => {
-   const product = pProduct(index);
-   const template = pPromptTemplateWithCategories(index);
-   const bundleItems = pPromptTemplatesWithCategories(2);
-
-   return {
-      ...product,
-      template,
-      bundleItems,
-   };
-};
-
-export const pCartItemsWithProduct = (count = 3): CartItemWithProduct[] => {
-   return range(0, count).map((i) => pCartItemWithProduct(i));
-};
-
 export const pCartWithItems = (index = 1, itemCount = 2): CartWithItems => {
    const cart = pCart(index);
-   const items = range(0, itemCount).map((i) => pCartItemWithProduct(i));
-
+   const items = pCartItems(itemCount);
    return {
       ...cart,
       items,
    };
 };
 
-export const pCartItemWithProduct = (index = 1): CartItemWithProduct => {
-   const cartItem = pCartItem(index);
-   const product = pProductWithTemplateBundleItems(index);
-
+export const pOrderWithItems = (index = 1, itemCount = 3): OrderWithItems => {
+   const order = pOrder(index);
+   const items = pOrderItems(itemCount);
    return {
-      ...cartItem,
-      product,
+      ...order,
+      items,
    };
 };
 
@@ -142,20 +115,6 @@ export const pOrderItem = (index = 1): OrderItem => {
    };
 };
 
-export const pOrderItemsWithProduct = (count = 3): OrderItemWithProduct[] => {
-   return range(0, count).map((i) => pOrderItemWithProduct(i));
-};
-
-export const pOrderItemWithProduct = (index = 1): OrderItemWithProduct => {
-   const orderItem = pOrderItem(index);
-   const product = pProductWithTemplateBundleItems(index);
-
-   return {
-      ...orderItem,
-      product,
-   };
-};
-
 export const pPurchases = (count = 3): Purchase[] => {
    return range(0, count).map((i) => pPurchase(i));
 };
@@ -167,38 +126,6 @@ export const pPurchase = (index = 1): Purchase => {
       userId: `334db648-f300-4284-8149-075ff465d75${index}`,
       templateId: `334db648-f300-4284-8149-075ff465d75${index}`,
       createdAt: new Date("2025-09-27"),
-   };
-};
-
-export const pPurchasesWithTemplate = (count = 3): OrderPurchase[] => {
-   return range(0, count).map((i) => pPurchaseWithTemplate(i));
-};
-
-export const pPurchaseWithTemplate = (index = 1): OrderPurchase => {
-   const purchase = pPurchase(index);
-   const template = pPromptTemplateWithCategories(index);
-
-   return {
-      ...purchase,
-      template,
-   };
-};
-
-export const pOrderWithItemsAndPurchases = (
-   index = 1,
-   itemCount = 2,
-   purchaseCount = 2
-): OrderWithItemsAndPurchases => {
-   const order = pOrder(index);
-   const items = range(0, itemCount).map((i) => pOrderItemWithProduct(i));
-   const purchases = range(0, purchaseCount).map((i) =>
-      pPurchaseWithTemplate(i)
-   );
-
-   return {
-      ...order,
-      items,
-      purchases,
    };
 };
 
@@ -221,6 +148,9 @@ export const pCartItem = (index = 1): CartItem => {
       id: `528b2f07-3142-48e3-9e5d-5a6a83789e95${index}`,
       cartId: `10fbd76c-4fd4-4294-a541-5d96e6a8e84${index}`,
       productId: `1045dc94-2eff-4150-804b-be38fa1422b${index}`,
+      productName: `name ${index}`,
+      productType: "TEMPLATE",
+      productPrice: new Decimal(19.99),
       quantity: 1,
       updatedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),
