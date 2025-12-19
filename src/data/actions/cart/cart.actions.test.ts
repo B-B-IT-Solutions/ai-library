@@ -33,10 +33,10 @@ describe("getCart tests", () => {
 
       const fn = () => getCart();
 
-      expect(fn).rejects.toThrow(Error);
-      // expect(cookiesMock).toHaveBeenCalledTimes(1);
-      // expect(pGetOrCreateCartMock).toHaveBeenCalledTimes(1);
-      // expect(pGetOrCreateCartMock).toHaveBeenCalledWith({});
+      await expect(fn).rejects.toThrow(Error);
+      expect(cookiesMock).toHaveBeenCalledTimes(1);
+      expect(pGetOrCreateCartMock).toHaveBeenCalledTimes(1);
+      expect(pGetOrCreateCartMock).toHaveBeenCalledWith({});
    });
 
    it("getCart - session.user undefined- sessionCartId defined - test", async () => {
