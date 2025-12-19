@@ -202,7 +202,7 @@ exports[`CartPreview rendering tests CartPreview - cart with items - test 1`] = 
               <span
                 class="text-xs font-medium text-indigo-600"
               >
-                $
+                CHF 
                 19.99
               </span>
             </div>
@@ -270,7 +270,7 @@ exports[`CartPreview rendering tests CartPreview - cart with items - test 1`] = 
               <span
                 class="text-xs font-medium text-indigo-600"
               >
-                $
+                CHF 
                 19.99
               </span>
             </div>
@@ -338,7 +338,7 @@ exports[`CartPreview rendering tests CartPreview - cart with items - test 1`] = 
               <span
                 class="text-xs font-medium text-indigo-600"
               >
-                $
+                CHF 
                 19.99
               </span>
             </div>
@@ -394,7 +394,7 @@ exports[`CartPreview rendering tests CartPreview - cart with items - test 1`] = 
           <span
             class="font-medium"
           >
-            $
+            CHF 
             59.97
           </span>
         </div>
@@ -407,7 +407,7 @@ exports[`CartPreview rendering tests CartPreview - cart with items - test 1`] = 
           <span
             class="text-indigo-600"
           >
-            $
+            CHF 
             59.97
           </span>
         </div>
@@ -530,7 +530,7 @@ exports[`CartPreview rendering tests CartPreview - cart with one item - test 1`]
               <span
                 class="text-xs font-medium text-indigo-600"
               >
-                $
+                CHF 
                 19.99
               </span>
             </div>
@@ -586,7 +586,7 @@ exports[`CartPreview rendering tests CartPreview - cart with one item - test 1`]
           <span
             class="font-medium"
           >
-            $
+            CHF 
             59.97
           </span>
         </div>
@@ -599,7 +599,7 @@ exports[`CartPreview rendering tests CartPreview - cart with one item - test 1`]
           <span
             class="text-indigo-600"
           >
-            $
+            CHF 
             59.97
           </span>
         </div>

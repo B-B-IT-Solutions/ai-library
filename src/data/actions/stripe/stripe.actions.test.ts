@@ -1,8 +1,8 @@
 jest.mock("@/data/actions/cart");
 jest.mock("@/data/db/queries/order");
 jest.mock("@/lib/stripe/stripe-server");
-jest.mock("../auth-utils");
-jest.mock("../utils");
+jest.mock("@/data/actions/auth-utils");
+jest.mock("@/data/actions/utils");
 
 import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
@@ -91,6 +91,7 @@ describe("createCheckoutSession tests", () => {
    it("createCheckoutSession - successful checkout with single item - test", async () => {
       const user = dtestData.dLoginUser();
       const cart = dtestData.dCart(1, 1);
+      const totalAmount = 19.99;
 
       const order = ptestData.pOrderWithItems();
       const checkoutSession = stripeCheckoutSession();
@@ -120,7 +121,7 @@ describe("createCheckoutSession tests", () => {
             },
          },
          status: "PENDING",
-         totalAmount: 19.99,
+         totalAmount,
          items: {
             create: [
                {
@@ -473,51 +474,6 @@ describe("createCheckoutSession tests", () => {
    //                quantity: 1,
    //             },
    //          ],
-   //       })
-   //    );
-   // });
-
-   // it("createCheckoutSession - calculates total amount correctly - test", async () => {
-   //    const user = { id: "user-1", email: "test@email.com" };
-   //    const product1 = {
-   //       ...ptestData.pProduct(1),
-   //       price: new Decimal(15.5),
-   //    };
-   //    const product2 = {
-   //       ...ptestData.pProduct(2),
-   //       price: new Decimal(25.75),
-   //    };
-
-   //    const cart = ptestData.pCartWithItems(1, 2);
-   //    cart.items[0].product = {
-   //       ...product1,
-   //       template: ptestData.pPromptTemplateWithCategories(1),
-   //       bundleItems: [],
-   //    };
-   //    cart.items[0].quantity = 3;
-   //    cart.items[1].product = {
-   //       ...product2,
-   //       template: ptestData.pPromptTemplateWithCategories(2),
-   //       bundleItems: [],
-   //    };
-   //    cart.items[1].quantity = 2;
-
-   //    const expectedTotal = 15.5 * 3 + 25.75 * 2; // 46.5 + 51.5 = 98.0
-
-   //    const order = ptestData.pOrderWithItems(1);
-   //    const checkoutSession = stripeCheckoutSession();
-
-   //    requireUserMock.mockResolvedValue(user);
-   //    pGetCartByUserIdMock.mockResolvedValue(cart);
-   //    pCreateOrderMock.mockResolvedValue(order);
-   //    stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
-   //    pUpdateOrderWithStripeDetailsMock.mockResolvedValue(order);
-
-   //    await createCheckoutSession();
-
-   //    expect(pCreateOrderMock).toHaveBeenCalledWith(
-   //       expect.objectContaining({
-   //          totalAmount: expectedTotal,
    //       })
    //    );
    // });

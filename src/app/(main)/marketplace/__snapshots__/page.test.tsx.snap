@@ -159,7 +159,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
               <p
                 class="text-2xl font-bold text-slate-900"
               >
-                $
+                CHF 
                 59.99
               </p>
             </div>
@@ -306,7 +306,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
               <p
                 class="text-2xl font-bold text-slate-900"
               >
-                $
+                CHF 
                 59.99
               </p>
             </div>
@@ -453,7 +453,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
               <p
                 class="text-2xl font-bold text-slate-900"
               >
-                $
+                CHF 
                 59.99
               </p>
             </div>
@@ -841,7 +841,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
                 <p
                   class="text-2xl font-bold text-slate-900"
                 >
-                  $
+                  CHF 
                   59.99
                 </p>
                 <div
@@ -997,7 +997,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
                 <p
                   class="text-2xl font-bold text-slate-900"
                 >
-                  $
+                  CHF 
                   59.99
                 </p>
                 <div
@@ -1153,7 +1153,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
                 <p
                   class="text-2xl font-bold text-slate-900"
                 >
-                  $
+                  CHF 
                   59.99
                 </p>
                 <div

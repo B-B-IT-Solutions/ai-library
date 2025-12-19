@@ -32,11 +32,6 @@ export const createCheckoutSession = async (): Promise<
          };
       }
 
-      const totalAmount = cart.items.reduce((sum, item) => {
-         const price = Number(item.productPrice);
-         return sum + price * item.quantity;
-      }, 0);
-
       // Create pending order FIRST
       const order = await pCreateOrder({
          user: {
@@ -45,7 +40,7 @@ export const createCheckoutSession = async (): Promise<
             },
          },
          status: "PENDING",
-         totalAmount,
+         totalAmount: cart.total,
          items: {
             create: cart.items.map((item) => ({
                product: {

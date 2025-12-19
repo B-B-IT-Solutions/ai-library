@@ -20,14 +20,12 @@ export const CartSummary: FC<CartSummaryProps> = ({ cart }) => {
                <span className="text-slate-600">
                   Items ({cart.items.length})
                </span>
-               <span className="font-medium">${cart.subtotal.toFixed(2)}</span>
+               <span className="font-medium">CHF {cart.subtotal}</span>
             </div>
 
             <div className="border-t pt-3 flex justify-between">
                <span className="font-semibold">Total</span>
-               <span className="font-bold text-lg">
-                  ${cart.total.toFixed(2)}
-               </span>
+               <span className="font-bold text-lg">CHF {cart.total}</span>
             </div>
 
             <Button asChild={true}>

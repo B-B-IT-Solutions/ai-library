@@ -46,7 +46,7 @@ export const CartPreview: FC<CartPreviewProps> = ({ cart }) => {
                            </span>
                            <span className="text-xs text-slate-400">•</span>
                            <span className="text-xs font-medium text-indigo-600">
-                              ${item.productPrice.toFixed(2)}
+                              CHF {item.productPrice}
                            </span>
                         </div>
                      </div>
@@ -62,15 +62,11 @@ export const CartPreview: FC<CartPreviewProps> = ({ cart }) => {
             <div className="border-t pt-4 space-y-2">
                <div className="flex justify-between text-sm">
                   <span className="text-slate-600">Subtotal</span>
-                  <span className="font-medium">
-                     ${cart.subtotal.toFixed(2)}
-                  </span>
+                  <span className="font-medium">CHF {cart.subtotal}</span>
                </div>
                <div className="flex justify-between text-base font-semibold">
                   <span>Total</span>
-                  <span className="text-indigo-600">
-                     ${cart.total.toFixed(2)}
-                  </span>
+                  <span className="text-indigo-600">CHF {cart.total}</span>
                </div>
             </div>
 

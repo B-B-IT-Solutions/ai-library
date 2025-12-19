@@ -160,7 +160,7 @@ exports[`Marketplace rendering tests Marketplace - viewMode grid - rendered test
             <p
               class="text-2xl font-bold text-slate-900"
             >
-              $
+              CHF 
               59.99
             </p>
           </div>
@@ -307,7 +307,7 @@ exports[`Marketplace rendering tests Marketplace - viewMode grid - rendered test
             <p
               class="text-2xl font-bold text-slate-900"
             >
-              $
+              CHF 
               59.99
             </p>
           </div>
@@ -454,7 +454,7 @@ exports[`Marketplace rendering tests Marketplace - viewMode grid - rendered test
             <p
               class="text-2xl font-bold text-slate-900"
             >
-              $
+              CHF 
               59.99
             </p>
           </div>
@@ -823,7 +823,7 @@ exports[`Marketplace rendering tests Marketplace - viewMode list - rendered test
               <p
                 class="text-2xl font-bold text-slate-900"
               >
-                $
+                CHF 
                 59.99
               </p>
               <div
@@ -979,7 +979,7 @@ exports[`Marketplace rendering tests Marketplace - viewMode list - rendered test
               <p
                 class="text-2xl font-bold text-slate-900"
               >
-                $
+                CHF 
                 59.99
               </p>
               <div
@@ -1135,7 +1135,7 @@ exports[`Marketplace rendering tests Marketplace - viewMode list - rendered test
               <p
                 class="text-2xl font-bold text-slate-900"
               >
-                $
+                CHF 
                 59.99
               </p>
               <div
