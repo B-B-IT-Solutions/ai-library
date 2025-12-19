@@ -203,7 +203,7 @@ exports[`CartPreview rendering tests CartPreview - cart with items - test 1`] = 
                 class="text-xs font-medium text-indigo-600"
               >
                 $
-                59.99
+                19.99
               </span>
             </div>
           </div>
@@ -271,7 +271,7 @@ exports[`CartPreview rendering tests CartPreview - cart with items - test 1`] = 
                 class="text-xs font-medium text-indigo-600"
               >
                 $
-                59.99
+                19.99
               </span>
             </div>
           </div>
@@ -339,7 +339,7 @@ exports[`CartPreview rendering tests CartPreview - cart with items - test 1`] = 
                 class="text-xs font-medium text-indigo-600"
               >
                 $
-                59.99
+                19.99
               </span>
             </div>
           </div>
@@ -395,7 +395,7 @@ exports[`CartPreview rendering tests CartPreview - cart with items - test 1`] = 
             class="font-medium"
           >
             $
-            39.99
+            59.97
           </span>
         </div>
         <div
@@ -408,7 +408,7 @@ exports[`CartPreview rendering tests CartPreview - cart with items - test 1`] = 
             class="text-indigo-600"
           >
             $
-            59.99
+            59.97
           </span>
         </div>
       </div>
@@ -531,7 +531,7 @@ exports[`CartPreview rendering tests CartPreview - cart with one item - test 1`]
                 class="text-xs font-medium text-indigo-600"
               >
                 $
-                59.99
+                19.99
               </span>
             </div>
           </div>
@@ -587,7 +587,7 @@ exports[`CartPreview rendering tests CartPreview - cart with one item - test 1`]
             class="font-medium"
           >
             $
-            39.99
+            59.97
           </span>
         </div>
         <div
@@ -600,7 +600,7 @@ exports[`CartPreview rendering tests CartPreview - cart with one item - test 1`]
             class="text-indigo-600"
           >
             $
-            59.99
+            59.97
           </span>
         </div>
       </div>

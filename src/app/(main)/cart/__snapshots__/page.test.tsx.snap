@@ -97,7 +97,7 @@ exports[`CartPage rendering tests CartPage - cart with items - test 1`] = `
             >
               BUNDLE
                · $
-              59.99
+              19.99
             </p>
           </div>
           <div
@@ -107,7 +107,7 @@ exports[`CartPage rendering tests CartPage - cart with items - test 1`] = `
               class="font-bold text-slate-900"
             >
               $
-              59.99
+              19.99
             </p>
           </div>
           <button
@@ -154,7 +154,7 @@ exports[`CartPage rendering tests CartPage - cart with items - test 1`] = `
             >
               BUNDLE
                · $
-              59.99
+              19.99
             </p>
           </div>
           <div
@@ -164,7 +164,7 @@ exports[`CartPage rendering tests CartPage - cart with items - test 1`] = `
               class="font-bold text-slate-900"
             >
               $
-              59.99
+              19.99
             </p>
           </div>
           <button
@@ -211,7 +211,7 @@ exports[`CartPage rendering tests CartPage - cart with items - test 1`] = `
             >
               BUNDLE
                · $
-              59.99
+              19.99
             </p>
           </div>
           <div
@@ -221,7 +221,7 @@ exports[`CartPage rendering tests CartPage - cart with items - test 1`] = `
               class="font-bold text-slate-900"
             >
               $
-              59.99
+              19.99
             </p>
           </div>
           <button
@@ -297,7 +297,7 @@ exports[`CartPage rendering tests CartPage - cart with items - test 1`] = `
                 class="font-medium"
               >
                 $
-                39.99
+                59.97
               </span>
             </div>
             <div
@@ -312,7 +312,7 @@ exports[`CartPage rendering tests CartPage - cart with items - test 1`] = `
                 class="font-bold text-lg"
               >
                 $
-                59.99
+                59.97
               </span>
             </div>
             <a

@@ -2,7 +2,9 @@
 
 import { isEmpty } from "es-toolkit/compat";
 
-import { pGetCartByUserId } from "@/data/db/queries/cart";
+import { requireUser } from "@/data/actions/auth-utils";
+import { getCart } from "@/data/actions/cart";
+import { formatError } from "@/data/actions/utils";
 import {
    pCreateOrder,
    pUpdateOrderWithStripeDetails,
@@ -10,8 +12,6 @@ import {
 import { ActionResult } from "@/data/types/utils";
 import { APP_URL } from "@/lib/constants";
 import { stripe } from "@/lib/stripe/stripe-server";
-import { requireUser } from "../auth-utils";
-import { formatError } from "../utils";
 
 type CheckoutResponse = {
    sessionId: string;
@@ -23,9 +23,9 @@ export const createCheckoutSession = async (): Promise<
 > => {
    try {
       const user = await requireUser();
-      const cart = await pGetCartByUserId(user.id);
+      const cart = await getCart();
 
-      if (!cart || isEmpty(cart.items)) {
+      if (isEmpty(cart.items)) {
          return {
             success: false,
             message: "Your cart is empty.",
@@ -65,7 +65,7 @@ export const createCheckoutSession = async (): Promise<
             currency: "chf",
             product_data: {
                name: item.productName,
-               description: item.productDescription || undefined,
+               description: item.productDescription,
             },
             unit_amount: Math.round(Number(item.productPrice) * 100), // Convert to cents
          },

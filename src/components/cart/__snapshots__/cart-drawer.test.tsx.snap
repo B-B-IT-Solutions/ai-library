@@ -147,7 +147,7 @@ exports[`CartSummary rendering tests CartSummary - open true - test 1`] = `
                         class="text-xs font-medium text-indigo-600"
                       >
                         $
-                        59.99
+                        19.99
                       </span>
                     </div>
                   </div>
@@ -215,7 +215,7 @@ exports[`CartSummary rendering tests CartSummary - open true - test 1`] = `
                         class="text-xs font-medium text-indigo-600"
                       >
                         $
-                        59.99
+                        19.99
                       </span>
                     </div>
                   </div>
@@ -283,7 +283,7 @@ exports[`CartSummary rendering tests CartSummary - open true - test 1`] = `
                         class="text-xs font-medium text-indigo-600"
                       >
                         $
-                        59.99
+                        19.99
                       </span>
                     </div>
                   </div>
@@ -339,7 +339,7 @@ exports[`CartSummary rendering tests CartSummary - open true - test 1`] = `
                     class="font-medium"
                   >
                     $
-                    39.99
+                    59.97
                   </span>
                 </div>
                 <div
@@ -352,7 +352,7 @@ exports[`CartSummary rendering tests CartSummary - open true - test 1`] = `
                     class="text-indigo-600"
                   >
                     $
-                    59.99
+                    59.97
                   </span>
                 </div>
               </div>

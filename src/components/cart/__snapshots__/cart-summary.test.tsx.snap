@@ -35,7 +35,7 @@ exports[`CartSummary rendering tests CartSummary rendered test 1`] = `
           class="font-medium"
         >
           $
-          39.99
+          59.97
         </span>
       </div>
       <div
@@ -50,7 +50,7 @@ exports[`CartSummary rendering tests CartSummary rendered test 1`] = `
           class="font-bold text-lg"
         >
           $
-          59.99
+          59.97
         </span>
       </div>
       <a

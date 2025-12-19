@@ -29,14 +29,14 @@ export const dUserUpdateData = (index = 1): DUserUpdateData => {
    };
 };
 
-export const dCart = (index = 1): DCart => {
+export const dCart = (index = 1, itemsCount = 3): DCart => {
    return {
       id: `10fbd76c-4fd4-4294-a541-5d96e6a8e84${index}`,
       userId: "user-1",
       sessionCartId: null,
-      subtotal: 39.99,
-      total: 59.99,
-      items: dCartItems(),
+      subtotal: itemsCount * 19.99,
+      total: itemsCount * 19.99,
+      items: dCartItems(itemsCount),
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
    };
@@ -53,8 +53,8 @@ export const dCartItem = (index = 1): DCartItem => {
       productId: `334db648-f300-4284-8149-075ff465d75${index}`,
       productName: `name ${index}`,
       productType: "BUNDLE",
-      productPrice: 59.99,
-      lineTotal: 59.99,
+      productPrice: 19.99,
+      lineTotal: 19.99,
       quantity: 1,
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
