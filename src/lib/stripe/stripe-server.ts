@@ -1,10 +1,14 @@
 import Stripe from "stripe";
 
-if (!process.env.STRIPE_SECRET_KEY) {
+import { STRIPE_SECRET_KEY } from "@/lib/constants";
+
+if (!STRIPE_SECRET_KEY) {
    throw new Error("STRIPE_SECRET_KEY is not set in environment variables");
 }
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+export const stripeConfig: Stripe.StripeConfig = {
    apiVersion: "2025-12-15.clover",
    typescript: true,
-});
+};
+
+export const stripe = new Stripe(STRIPE_SECRET_KEY, stripeConfig);

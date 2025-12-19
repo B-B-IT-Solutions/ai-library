@@ -1,4 +1,4 @@
-import { cn, formatDateTime, toTestId } from "./utils";
+import { cn, formatDateTime, navigateToExternalUrl, toTestId } from "./utils";
 
 describe("utils tests", () => {
    beforeEach(() => {
@@ -26,6 +26,22 @@ describe("utils tests", () => {
       const expectedResult = `${classes1} ${classes2} ${classes3}`;
 
       expect(result).toEqual(expectedResult);
+   });
+
+   test("navigateToExternalUrl test", () => {
+      const originalErrorLog = console.error;
+      const errorFn = jest.fn();
+      console.error = errorFn;
+
+      const url = "https://test-url.com";
+      navigateToExternalUrl(url);
+
+      const expectedCause = "Not implemented: navigation (except hash changes)";
+      expect(errorFn).toHaveBeenCalledTimes(1);
+      const error = errorFn.mock.calls[0][0];
+      expect(error.message).toEqual(expectedCause);
+
+      console.error = originalErrorLog;
    });
 
    it("formatDateTime test", async () => {
