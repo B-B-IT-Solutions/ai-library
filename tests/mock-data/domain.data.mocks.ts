@@ -17,6 +17,11 @@ import {
    DPromptTemplateCategory,
 } from "@/data/types/domain/prompt.template";
 import { DUserUpdateData } from "@/data/types/domain/user";
+import { LoginUser } from "@/data/types/next-auth";
+
+export const dLoginUser = (index = 1): LoginUser => {
+   return { id: `user-${index}`, email: "test@email.com" };
+};
 
 export const dUserUpdateData = (index = 1): DUserUpdateData => {
    return {

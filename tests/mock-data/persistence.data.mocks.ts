@@ -1,6 +1,8 @@
 import { Decimal } from "@prisma/client/runtime/library";
 import { range } from "es-toolkit";
 
+import { CartItemWithProduct, CartWithItems } from "@/data/types/db/cart";
+import { ProductWithTemplateBundleItems } from "@/data/types/db/product";
 import { PromptsPage, PromptWithCategories } from "@/data/types/db/prompt";
 import { PromptTemplateWithCategories } from "@/data/types/db/prompt.template";
 import { UserUpdateData } from "@/data/types/db/user";
@@ -8,6 +10,7 @@ import { Order } from "@/generated/prisma/browser";
 import {
    Cart,
    CartItem,
+   Product,
    Prompt,
    PromptCategory,
    PromptTemplate,
@@ -44,12 +47,74 @@ export const pUserUpdateData = (index = 1): UserUpdateData => {
    };
 };
 
+export const pProducts = (count = 3): Product[] => {
+   return range(0, count).map((i) => pProduct(i));
+};
+
+export const pProduct = (index = 1): Product => {
+   return {
+      id: `1045dc94-2eff-4150-804b-be38fa1422b${index}`,
+      name: `Product ${index}`,
+      description: `Product Description ${index}`,
+      price: new Decimal(29.99),
+      type: "TEMPLATE",
+      status: "ACTIVE",
+      templateId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      createdAt: new Date("2025-09-27"),
+      updatedAt: new Date("2025-09-27"),
+   };
+};
+
+export const pProductsWithTemplateBundleItems = (
+   count = 3
+): ProductWithTemplateBundleItems[] => {
+   return range(0, count).map((i) => pProductWithTemplateBundleItems(i));
+};
+
+export const pProductWithTemplateBundleItems = (
+   index = 1
+): ProductWithTemplateBundleItems => {
+   const product = pProduct(index);
+   const template = pPromptTemplateWithCategories(index);
+   const bundleItems = pPromptTemplatesWithCategories(2);
+
+   return {
+      ...product,
+      template,
+      bundleItems,
+   };
+};
+
+export const pCartItemsWithProduct = (count = 3): CartItemWithProduct[] => {
+   return range(0, count).map((i) => pCartItemWithProduct(i));
+};
+
+export const pCartWithItems = (index = 1, itemCount = 2): CartWithItems => {
+   const cart = pCart(index);
+   const items = range(0, itemCount).map((i) => pCartItemWithProduct(i));
+
+   return {
+      ...cart,
+      items,
+   };
+};
+
+export const pCartItemWithProduct = (index = 1): CartItemWithProduct => {
+   const cartItem = pCartItem(index);
+   const product = pProductWithTemplateBundleItems(index);
+
+   return {
+      ...cartItem,
+      product,
+   };
+};
+
 export const pOrder = (index = 1): Order => {
    return {
       id: `fa1d3c35-ea07-489f-b8c8-62fa8514130${index}`,
       userId: `334db648-f300-4284-8149-075ff465d75${index}`,
-      status: "PENDING",
-      totalAmount: new Decimal(27.99),
+      status: "PENDING" as const,
+      totalAmount: new Decimal(29.99),
       paymentMethod: "card",
       stripeCheckoutSessionId: `04106289-9dc4-47cb-ba81-c3eb5677645${index}`,
       stripePaymentIntentId: `1f6fffb4-00f5-4d8c-9202-5c0d5044c30${index}`,

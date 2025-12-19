@@ -1,7 +1,10 @@
 import prisma from "@/data/db/prisma";
+import { CartWithItems } from "@/data/types/db/cart";
 import { CartCreateInput } from "@/generated/prisma/models";
 
-export const pGetCartBySessionId = async (sessionCartId: string) => {
+export const pGetCartBySessionId = async (
+   sessionCartId: string
+): Promise<CartWithItems | null> => {
    return await prisma.cart.findUnique({
       where: { sessionCartId },
       include: {
@@ -31,7 +34,9 @@ export const pGetCartBySessionId = async (sessionCartId: string) => {
    });
 };
 
-export const pGetCartByUserId = async (userId: string) => {
+export const pGetCartByUserId = async (
+   userId: string
+): Promise<CartWithItems | null> => {
    return await prisma.cart.findFirst({
       where: { userId },
       include: {
