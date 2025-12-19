@@ -14,7 +14,10 @@ export type DCart = {
 export type DCartItem = {
    id: string;
    cartId: string;
-   product: DProduct;
+   productId: string;
+   productName: string;
+   productType: string;
+   productPrice: number;
    quantity: number;
    lineTotal: number;
    createdAt: string;

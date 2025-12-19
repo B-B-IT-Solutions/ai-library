@@ -13,13 +13,14 @@ import {
    pGetOrCreateCart,
    pRemoveCartItem,
 } from "@/data/db/queries/cart";
+import { AddItemToCartParams } from "@/data/db/queries/cart/cart";
 import { DCart } from "@/data/types/domain/cart";
+import { DProduct } from "@/data/types/domain/product";
 import { ActionResult } from "@/data/types/utils";
-import { addToCartSchema } from "@/data/types/validators/product.schema";
 
 import { toDCart } from "./cart.mapper";
 
-export const getCart = async (): Promise<DCart | null> => {
+export const getCart = async (): Promise<DCart> => {
    try {
       let userId = undefined;
       let sessionCartId = undefined;
@@ -34,25 +35,31 @@ export const getCart = async (): Promise<DCart | null> => {
 
       const cart = await pGetOrCreateCart({ userId, sessionCartId });
       return toDCart(cart);
-   } catch {
-      return null;
+   } catch (error) {
+      throw error;
    }
 };
 
 export const addToCart = async (
-   productId: string,
-   quantity: number = 1
+   product: DProduct
 ): Promise<ActionResult<DCart>> => {
    try {
-      const validated = addToCartSchema.parse({ productId, quantity });
       const cart = await getCart();
 
       // Check if item already exists
       const existingItem = cart.items?.find(
-         (item: any) => item.productId === validated.productId
+         (item: any) => item.productId === product.id
       );
 
-      await pAddItemToCart(cart.id, validated.productId, validated.quantity);
+      const params: AddItemToCartParams = {
+         cartId: cart.id,
+         productId: product.id,
+         productName: product.name,
+         productType: product.type,
+         productPrice: product.price,
+      };
+
+      await pAddItemToCart(params);
 
       // Fetch updated cart
       const session = await auth();

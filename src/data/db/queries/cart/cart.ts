@@ -1,5 +1,6 @@
 import prisma from "@/data/db/prisma";
 import { CartWithItems } from "@/data/types/db/cart";
+import { ProductType } from "@/generated/prisma/enums";
 import { CartCreateInput } from "@/generated/prisma/models";
 
 type GetOrCreateCartParams = {
@@ -107,12 +108,17 @@ export const pCreateCart = async (
    });
 };
 
-export const pAddItemToCart = async (
-   cartId: string,
-   productId: string,
-   quantity: number
-) => {
-   // Check if item already exists in cart
+export type AddItemToCartParams = {
+   cartId: string;
+   productId: string;
+   productName: string;
+   productType: ProductType;
+   productPrice: number;
+};
+
+export const pAddItemToCart = async (params: AddItemToCartParams) => {
+   const { cartId, productId, productName, productType, productPrice } = params;
+
    const existingItem = await prisma.cartItem.findUnique({
       where: {
          cartId_productId: {
@@ -122,19 +128,20 @@ export const pAddItemToCart = async (
       },
    });
 
-   if (existingItem) {
-      // For digital products, don't allow duplicates - just return existing item
-      return existingItem;
-   } else {
-      // Create new item with quantity of 1 (digital products)
+   if (!existingItem) {
       return await prisma.cartItem.create({
          data: {
             cartId,
             productId,
+            productName,
+            productType,
+            productPrice,
             quantity: 1,
          },
       });
    }
+
+   return existingItem;
 };
 
 export const pRemoveCartItem = async (itemId: string) => {

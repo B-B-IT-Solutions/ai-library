@@ -2,7 +2,7 @@ jest.mock("@/auth");
 jest.mock("@/data/db/queries/cart");
 jest.mock("@/data/actions/auth-utils");
 
-import { AuthMockedFunction, dtestData, ntestData, ptestData } from "@tests";
+import { AuthMockedFunction, ntestData, ptestData } from "@tests";
 import { cookies } from "next/headers";
 
 import { auth } from "@/auth";
@@ -24,15 +24,19 @@ describe("getCart tests", () => {
    });
 
    it("getCart - session null - sessionCartId null - test", async () => {
+      pGetOrCreateCartMock.mockRejectedValue(
+         new Error("invalid userId and sessionCartId")
+      );
       authMock.mockResolvedValue(null);
       const reqCookies = ntestData.cookies({});
       cookiesMock.mockResolvedValue(reqCookies);
 
-      const result = await getCart();
+      const fn = () => getCart();
 
-      expect(result).toBeNull();
-      expect(pGetOrCreateCartMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrCreateCartMock).toHaveBeenCalledWith({});
+      expect(fn).rejects.toThrow(Error);
+      // expect(cookiesMock).toHaveBeenCalledTimes(1);
+      // expect(pGetOrCreateCartMock).toHaveBeenCalledTimes(1);
+      // expect(pGetOrCreateCartMock).toHaveBeenCalledWith({});
    });
 
    it("getCart - session.user undefined- sessionCartId defined - test", async () => {
@@ -52,24 +56,51 @@ describe("getCart tests", () => {
       const expectedParams = { sessionCartId: cookies.sessionCartId };
 
       expect(result).toEqual(expectResult);
+      expect(cookiesMock).toHaveBeenCalledTimes(1);
       expect(pGetOrCreateCartMock).toHaveBeenCalledTimes(1);
       expect(pGetOrCreateCartMock).toHaveBeenCalledWith(expectedParams);
    });
 
-   //    it("getCart - session defined - test", async () => {
-   //       authMock.mockResolvedValue(null);
+   it("getCart - session.user.id undefined- sessionCartId defined - test", async () => {
+      const session = ntestData.session();
+      session.user.id = undefined;
+      const cart = ptestData.pCartWithItems();
+      authMock.mockResolvedValue(session);
+      pGetOrCreateCartMock.mockResolvedValue(cart);
 
-   //       const user = dtestData.dLoginUser();
-   //       const cart = ptestData.pCartWithItems();
-   //       requireUserMock.mockResolvedValue(user);
+      const cookies = { sessionCartId: "sessionCartId-1" };
+      const reqCookies = ntestData.cookies(cookies);
+      cookiesMock.mockResolvedValue(reqCookies);
 
-   //       const cartId = "cart-1";
+      const result = await getCart();
+      const expectResult = toDCart(cart);
 
-   //       await getCart();
+      const expectedParams = { sessionCartId: cookies.sessionCartId };
 
-   //       await waitFor(() => {
-   //          expect(pGetOrCreateCartMock).toHaveBeenCalledTimes(1);
-   //          expect(pGetOrCreateCartMock).toHaveBeenCalledWith(1);
-   //       });
-   //    });
+      expect(result).toEqual(expectResult);
+      expect(cookiesMock).toHaveBeenCalledTimes(1);
+      expect(pGetOrCreateCartMock).toHaveBeenCalledTimes(1);
+      expect(pGetOrCreateCartMock).toHaveBeenCalledWith(expectedParams);
+   });
+
+   it("getCart - session.user defined - sessionCartId undefined - test", async () => {
+      const session = ntestData.session();
+      const cart = ptestData.pCartWithItems();
+      authMock.mockResolvedValue(session);
+      pGetOrCreateCartMock.mockResolvedValue(cart);
+
+      const cookies = { sessionCartId: "sessionCartId-1" };
+      const reqCookies = ntestData.cookies(cookies);
+      cookiesMock.mockResolvedValue(reqCookies);
+
+      const result = await getCart();
+      const expectResult = toDCart(cart);
+
+      const expectedParams = { userId: session.user.id };
+
+      expect(result).toEqual(expectResult);
+      expect(pGetOrCreateCartMock).toHaveBeenCalledTimes(1);
+      expect(pGetOrCreateCartMock).toHaveBeenCalledWith(expectedParams);
+      expect(cookiesMock).not.toHaveBeenCalled();
+   });
 });
