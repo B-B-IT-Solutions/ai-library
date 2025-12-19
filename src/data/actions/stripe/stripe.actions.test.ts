@@ -6,7 +6,7 @@ jest.mock("../utils");
 
 import { Decimal } from "@prisma/client/runtime/library";
 import { dtestData, ptestData } from "@tests";
-import { DeepMockProxy, mockReset } from "jest-mock-extended";
+import { DeepMockProxy } from "jest-mock-extended";
 import Stripe from "stripe";
 
 import { requireUser } from "@/data/actions/auth-utils";
@@ -175,13 +175,7 @@ describe("createCheckoutSession tests", () => {
       cart.items[1].quantity = 1;
 
       const totalAmount = 19.99 * 2 + 39.99;
-      const order = {
-         ...ptestData.pOrder(1),
-         id: "order-1",
-         userId: user.id,
-         totalAmount: new Decimal(totalAmount),
-         status: "PENDING" as const,
-      };
+      const order = ptestData.pOrderWithItemsAndPurchases(1);
 
       const checkoutSession = stripeCheckoutSession();
 
@@ -189,7 +183,7 @@ describe("createCheckoutSession tests", () => {
       pGetCartByUserIdMock.mockResolvedValue(cart);
       pCreateOrderMock.mockResolvedValue(order);
       stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
-      pUpdateOrderWithStripeDetailsMock.mockResolvedValue(order as any);
+      pUpdateOrderWithStripeDetailsMock.mockResolvedValue(order);
 
       const result = await createCheckoutSession();
 
@@ -377,13 +371,13 @@ describe("createCheckoutSession tests", () => {
    it("createCheckoutSession - stripe.checkout.sessions.create throws error - test", async () => {
       const user = { id: "user-1", email: "test@email.com" };
       const cart = ptestData.pCartWithItems(1, 1);
-      const order = ptestData.pOrder(1);
+      const order = ptestData.pOrderWithItemsAndPurchases(1);
       const error = new Error("Stripe API error");
 
       requireUserMock.mockResolvedValue(user);
       pGetCartByUserIdMock.mockResolvedValue(cart);
-      pCreateOrderMock.mockResolvedValue(order as any);
-      stripeMock.checkout.sessions.create = jest.fn().mockRejectedValue(error);
+      pCreateOrderMock.mockResolvedValue(order);
+      stripeMock.checkout.sessions.create.mockRejectedValue(error);
       formatErrorMock.mockReturnValue("Stripe API error");
 
       const result = await createCheckoutSession();
@@ -404,19 +398,14 @@ describe("createCheckoutSession tests", () => {
    it("createCheckoutSession - pUpdateOrderWithStripeDetails throws error - test", async () => {
       const user = { id: "user-1", email: "test@email.com" };
       const cart = ptestData.pCartWithItems(1, 1);
-      const order = ptestData.pOrder(1);
-      const checkoutSession = {
-         id: "session-1",
-         url: "https://checkout.stripe.com/session-1",
-      };
+      const order = ptestData.pOrderWithItemsAndPurchases(1);
+      const checkoutSession = stripeCheckoutSession();
       const error = new Error("Failed to update order");
 
       requireUserMock.mockResolvedValue(user);
       pGetCartByUserIdMock.mockResolvedValue(cart);
-      pCreateOrderMock.mockResolvedValue(order as any);
-      stripeMock.checkout.sessions.create = jest
-         .fn()
-         .mockResolvedValue(checkoutSession as any);
+      pCreateOrderMock.mockResolvedValue(order);
+      stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
       pUpdateOrderWithStripeDetailsMock.mockRejectedValue(error);
       formatErrorMock.mockReturnValue("Failed to update order");
 
@@ -436,21 +425,17 @@ describe("createCheckoutSession tests", () => {
    });
 
    it("createCheckoutSession - user with no email - test", async () => {
-      const user = { id: "user-1", email: null };
+      const user = dtestData.dLoginUser();
+      user.email = null;
       const cart = ptestData.pCartWithItems(1, 1);
-      const order = ptestData.pOrder(1);
-      const checkoutSession = {
-         id: "session-1",
-         url: "https://checkout.stripe.com/session-1",
-      };
+      const order = ptestData.pOrderWithItemsAndPurchases(1);
+      const checkoutSession = stripeCheckoutSession();
 
-      requireUserMock.mockResolvedValue(user as any);
+      requireUserMock.mockResolvedValue(user);
       pGetCartByUserIdMock.mockResolvedValue(cart);
-      pCreateOrderMock.mockResolvedValue(order as any);
-      stripeMock.checkout.sessions.create = jest
-         .fn()
-         .mockResolvedValue(checkoutSession as any);
-      pUpdateOrderWithStripeDetailsMock.mockResolvedValue(order as any);
+      pCreateOrderMock.mockResolvedValue(order);
+      stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
+      pUpdateOrderWithStripeDetailsMock.mockResolvedValue(order);
 
       const result = await createCheckoutSession();
 
@@ -484,19 +469,14 @@ describe("createCheckoutSession tests", () => {
          bundleItems: [],
       };
 
-      const order = ptestData.pOrder(1);
-      const checkoutSession = {
-         id: "session-1",
-         url: "https://checkout.stripe.com/session-1",
-      };
+      const order = ptestData.pOrderWithItemsAndPurchases(1);
+      const checkoutSession = stripeCheckoutSession();
 
       requireUserMock.mockResolvedValue(user);
       pGetCartByUserIdMock.mockResolvedValue(cart);
-      pCreateOrderMock.mockResolvedValue(order as any);
-      stripeMock.checkout.sessions.create = jest
-         .fn()
-         .mockResolvedValue(checkoutSession as any);
-      pUpdateOrderWithStripeDetailsMock.mockResolvedValue(order as any);
+      pCreateOrderMock.mockResolvedValue(order);
+      stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
+      pUpdateOrderWithStripeDetailsMock.mockResolvedValue(order);
 
       const result = await createCheckoutSession();
 
@@ -541,19 +521,14 @@ describe("createCheckoutSession tests", () => {
          bundleItems: [],
       };
 
-      const order = ptestData.pOrder(1);
-      const checkoutSession = {
-         id: "session-1",
-         url: "https://checkout.stripe.com/session-1",
-      };
+      const order = ptestData.pOrderWithItemsAndPurchases(1);
+      const checkoutSession = stripeCheckoutSession();
 
       requireUserMock.mockResolvedValue(user);
       pGetCartByUserIdMock.mockResolvedValue(cart);
-      pCreateOrderMock.mockResolvedValue(order as any);
-      stripeMock.checkout.sessions.create = jest
-         .fn()
-         .mockResolvedValue(checkoutSession as any);
-      pUpdateOrderWithStripeDetailsMock.mockResolvedValue(order as any);
+      pCreateOrderMock.mockResolvedValue(order);
+      stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
+      pUpdateOrderWithStripeDetailsMock.mockResolvedValue(order);
 
       await createCheckoutSession();
 
@@ -603,19 +578,14 @@ describe("createCheckoutSession tests", () => {
 
       const expectedTotal = 15.5 * 3 + 25.75 * 2; // 46.5 + 51.5 = 98.0
 
-      const order = ptestData.pOrder(1);
-      const checkoutSession = {
-         id: "session-1",
-         url: "https://checkout.stripe.com/session-1",
-      };
+      const order = ptestData.pOrderWithItemsAndPurchases(1);
+      const checkoutSession = stripeCheckoutSession();
 
       requireUserMock.mockResolvedValue(user);
       pGetCartByUserIdMock.mockResolvedValue(cart);
-      pCreateOrderMock.mockResolvedValue(order as any);
-      stripeMock.checkout.sessions.create = jest
-         .fn()
-         .mockResolvedValue(checkoutSession as any);
-      pUpdateOrderWithStripeDetailsMock.mockResolvedValue(order as any);
+      pCreateOrderMock.mockResolvedValue(order);
+      stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
+      pUpdateOrderWithStripeDetailsMock.mockResolvedValue(order);
 
       await createCheckoutSession();
 
