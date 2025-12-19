@@ -4,9 +4,11 @@ import { CartWithItems } from "@/data/types/db/cart";
 import { DCart, DCartItem } from "@/data/types/domain/cart";
 import { CartItem } from "@/generated/prisma/client";
 
+import { calculateSubTotalAmount } from "./utils";
+
 export const toDCart = (cart: CartWithItems): DCart => {
+   const subtotal = calculateSubTotalAmount(cart);
    const items = map(cart.items, (item) => toDCartItem(item));
-   const subtotal = items.reduce((sum, item) => sum + item.lineTotal, 0);
 
    return {
       id: cart.id,

@@ -1,10 +1,10 @@
-//    const subtotal = items.reduce((sum, item) => sum + item.lineTotal, 0);
+import { CartWithItems } from "@/data/types/db/cart";
 
-//          const totalAmount = cart.items.reduce((sum, item) => {
-//          const price = Number(item.productPrice);
-//          return sum + price * item.quantity;
-//       }, 0);
+export const calculateSubTotalAmount = (cart: CartWithItems) => {
+   const subTotal = cart.items.reduce((sum, item) => {
+      const price = Number(item.productPrice);
+      return sum + price * item.quantity;
+   }, 0);
 
-//       export const calculateTotalAmount = ()=>{
-
-//       }
+   return Number(subTotal.toFixed(2));
+};
