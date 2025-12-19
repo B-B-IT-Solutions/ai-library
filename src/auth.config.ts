@@ -5,7 +5,7 @@ import type { NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import { getUserByEmail, updateUser } from "@/data/actions/user";
-import { prisma } from "@/data/db/prisma";
+import prisma from "@/data/db/prisma";
 import { compare } from "@/lib/encrypt";
 
 export const authConfig: NextAuthConfig = {

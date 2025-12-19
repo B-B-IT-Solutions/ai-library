@@ -1,9 +1,9 @@
-import { prisma } from "@/data/db/prisma";
+import prisma from "@/data/db/prisma";
 import { ProductWithTemplateBundleItems } from "@/data/types/db/product";
-import { Prisma } from "@/generated/prisma/client";
+import { ProductWhereInput } from "@/generated/prisma/models";
 
 export const pGetProducts = async (
-   where?: Prisma.ProductWhereInput
+   where?: ProductWhereInput
 ): Promise<ProductWithTemplateBundleItems[]> => {
    return await prisma.product.findMany({
       where,
