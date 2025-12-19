@@ -2,10 +2,6 @@ import Stripe from "stripe";
 
 import { STRIPE_SECRET_KEY } from "@/lib/constants";
 
-if (!STRIPE_SECRET_KEY) {
-   throw new Error("STRIPE_SECRET_KEY is not set in environment variables");
-}
-
 export const stripeConfig: Stripe.StripeConfig = {
    apiVersion: "2025-12-15.clover",
    typescript: true,

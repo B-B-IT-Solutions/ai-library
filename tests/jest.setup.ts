@@ -19,6 +19,7 @@ jest.mock("next-themes", () => ({
 jest.mock("next/headers", () => ({
    __esModule: true,
    cookies: jest.fn(),
+   headers: jest.fn(),
 }));
 
 jest.mock("next/cache", () => ({

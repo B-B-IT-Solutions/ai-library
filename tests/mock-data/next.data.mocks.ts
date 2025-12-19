@@ -1,3 +1,4 @@
+import { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { NextRequest } from "next/server";
 import { Account, Session } from "next-auth";
@@ -16,6 +17,10 @@ export const cookies = (cookies: CookieValues): ReadonlyRequestCookies => {
    return new MockReadonlyRequestCookies(
       cookies
    ) as unknown as ReadonlyRequestCookies;
+};
+
+export const headers = (init: HeadersInit): ReadonlyHeaders => {
+   return new Headers(init);
 };
 
 export const nextRequest = (body: object = {}): NextRequest => {
