@@ -12,6 +12,7 @@ import {
    pGetOrCreateCart,
    pRemoveCartItem,
 } from "@/data/db/queries/cart";
+import { BatchPayload } from "@/generated/prisma/internal/prismaNamespace";
 
 import { addToCart, clearCart, getCart, removeFromCart } from "./cart.actions";
 import { toDCart } from "./cart.mapper";
@@ -128,27 +129,33 @@ describe("addToCart tests", () => {
    it("addToCart - success - test", async () => {
       const session = ntestData.session();
       const cart = ptestData.pCartWithItems();
+      const item = ptestData.pCartItem();
       const product = dtestData.dProduct();
 
       authMock.mockResolvedValue(session);
       pGetOrCreateCartMock.mockResolvedValue(cart);
-      pAddItemToCartMock.mockResolvedValue(undefined);
+      pAddItemToCartMock.mockResolvedValue(item);
 
       const result = await addToCart(product);
 
       const expectedParams = {
-         cartId: toDCart(cart).id,
+         cartId: cart.id,
          productId: product.id,
          productName: product.name,
          productType: product.type,
          productPrice: product.price,
       };
 
-      expect(result).toEqual({
+      const expectdResult = {
          success: true,
          message: "Item added to cart successfully.",
-      });
+      };
+
+      expect(result).toEqual(expectdResult);
       expect(pGetOrCreateCartMock).toHaveBeenCalledTimes(1);
+      expect(pGetOrCreateCartMock).toHaveBeenCalledWith({
+         userId: session.user.id,
+      });
       expect(pAddItemToCartMock).toHaveBeenCalledTimes(1);
       expect(pAddItemToCartMock).toHaveBeenCalledWith(expectedParams);
    });
@@ -158,37 +165,47 @@ describe("addToCart tests", () => {
       const cart = ptestData.pCartWithItems();
       const product = dtestData.dProduct();
       const errorMessage = "Database error";
+      const error = new Error(errorMessage);
 
       authMock.mockResolvedValue(session);
       pGetOrCreateCartMock.mockResolvedValue(cart);
-      pAddItemToCartMock.mockRejectedValue(new Error(errorMessage));
+      pAddItemToCartMock.mockRejectedValue(error);
 
       const result = await addToCart(product);
 
-      expect(result).toEqual({
+      const expectdResult = {
          success: false,
          message: errorMessage,
-      });
+      };
+
+      expect(result).toEqual(expectdResult);
       expect(pGetOrCreateCartMock).toHaveBeenCalledTimes(1);
+      expect(pGetOrCreateCartMock).toHaveBeenCalledWith({
+         userId: session.user.id,
+      });
       expect(pAddItemToCartMock).toHaveBeenCalledTimes(1);
    });
 
    it("addToCart - getCart throws error - test", async () => {
       const product = dtestData.dProduct();
       const errorMessage = "Cart not found";
+      const error = new Error(errorMessage);
 
       authMock.mockResolvedValue(null);
       const reqCookies = ntestData.cookies({});
       cookiesMock.mockResolvedValue(reqCookies);
-      pGetOrCreateCartMock.mockRejectedValue(new Error(errorMessage));
+      pGetOrCreateCartMock.mockRejectedValue(error);
 
       const result = await addToCart(product);
 
-      expect(result).toEqual({
+      const expectdResult = {
          success: false,
          message: errorMessage,
-      });
+      };
+
+      expect(result).toEqual(expectdResult);
       expect(pGetOrCreateCartMock).toHaveBeenCalledTimes(1);
+      expect(pGetOrCreateCartMock).toHaveBeenCalledWith({});
       expect(pAddItemToCartMock).not.toHaveBeenCalled();
    });
 });
@@ -199,37 +216,42 @@ describe("removeFromCart tests", () => {
    });
 
    it("removeFromCart - success - test", async () => {
-      const itemId = "item-123";
-      pRemoveCartItemMock.mockResolvedValue(undefined);
+      const item = ptestData.pCartItem();
+      pRemoveCartItemMock.mockResolvedValue(item);
 
-      const result = await removeFromCart(itemId);
+      const result = await removeFromCart(item.id);
 
-      expect(result).toEqual({
+      const expectdResult = {
          success: true,
          message: "Item removed from cart successfully.",
-      });
+      };
+
+      expect(result).toEqual(expectdResult);
       expect(pRemoveCartItemMock).toHaveBeenCalledTimes(1);
-      expect(pRemoveCartItemMock).toHaveBeenCalledWith(itemId);
+      expect(pRemoveCartItemMock).toHaveBeenCalledWith(item.id);
    });
 
    it("removeFromCart - error - test", async () => {
-      const itemId = "item-123";
+      const item = ptestData.pCartItem();
       const errorMessage = "Item not found";
+      const error = new Error(errorMessage);
 
-      pRemoveCartItemMock.mockRejectedValue(new Error(errorMessage));
+      pRemoveCartItemMock.mockRejectedValue(error);
 
-      const result = await removeFromCart(itemId);
+      const result = await removeFromCart(item.id);
 
-      expect(result).toEqual({
+      const expectdResult = {
          success: false,
          message: errorMessage,
-      });
+      };
+
+      expect(result).toEqual(expectdResult);
       expect(pRemoveCartItemMock).toHaveBeenCalledTimes(1);
-      expect(pRemoveCartItemMock).toHaveBeenCalledWith(itemId);
+      expect(pRemoveCartItemMock).toHaveBeenCalledWith(item.id);
    });
 
    it("removeFromCart - database error - test", async () => {
-      const itemId = "item-456";
+      const item = ptestData.pCartItem();
       const error = {
          name: "PrismaClientKnownRequestError",
          code: "P2025",
@@ -238,12 +260,14 @@ describe("removeFromCart tests", () => {
 
       pRemoveCartItemMock.mockRejectedValue(error);
 
-      const result = await removeFromCart(itemId);
+      const result = await removeFromCart(item.id);
 
-      expect(result).toEqual({
+      const expectdResult = {
          success: false,
          message: "Record to delete does not exist.",
-      });
+      };
+
+      expect(result).toEqual(expectdResult);
       expect(pRemoveCartItemMock).toHaveBeenCalledTimes(1);
    });
 });
@@ -256,56 +280,73 @@ describe("clearCart tests", () => {
    it("clearCart - success - test", async () => {
       const session = ntestData.session();
       const cart = ptestData.pCartWithItems();
+      const batchPayload: BatchPayload = { count: cart.items.length };
 
       authMock.mockResolvedValue(session);
       pGetOrCreateCartMock.mockResolvedValue(cart);
-      pClearCartMock.mockResolvedValue(undefined);
+      pClearCartMock.mockResolvedValue(batchPayload);
 
       const result = await clearCart();
 
-      expect(result).toEqual({
+      const expectedResult = {
          success: true,
          message: "Cart cleared successfully.",
-      });
+      };
+
+      expect(result).toEqual(expectedResult);
       expect(pGetOrCreateCartMock).toHaveBeenCalledTimes(1);
+      expect(pGetOrCreateCartMock).toHaveBeenCalledWith({
+         userId: session.user.id,
+      });
       expect(pClearCartMock).toHaveBeenCalledTimes(1);
-      expect(pClearCartMock).toHaveBeenCalledWith(toDCart(cart).id);
+      expect(pClearCartMock).toHaveBeenCalledWith(cart.id);
    });
 
    it("clearCart - error - test", async () => {
       const session = ntestData.session();
       const cart = ptestData.pCartWithItems();
       const errorMessage = "Failed to clear cart";
+      const error = new Error(errorMessage);
 
       authMock.mockResolvedValue(session);
       pGetOrCreateCartMock.mockResolvedValue(cart);
-      pClearCartMock.mockRejectedValue(new Error(errorMessage));
+      pClearCartMock.mockRejectedValue(error);
 
       const result = await clearCart();
 
-      expect(result).toEqual({
+      const expectedResult = {
          success: false,
          message: errorMessage,
-      });
+      };
+
+      expect(result).toEqual(expectedResult);
       expect(pGetOrCreateCartMock).toHaveBeenCalledTimes(1);
+      expect(pGetOrCreateCartMock).toHaveBeenCalledWith({
+         userId: session.user.id,
+      });
       expect(pClearCartMock).toHaveBeenCalledTimes(1);
+      expect(pClearCartMock).toHaveBeenCalledWith(cart.id);
    });
 
    it("clearCart - getCart throws error - test", async () => {
       const errorMessage = "Cart not found";
+      const error = new Error(errorMessage);
 
       authMock.mockResolvedValue(null);
       const reqCookies = ntestData.cookies({});
       cookiesMock.mockResolvedValue(reqCookies);
-      pGetOrCreateCartMock.mockRejectedValue(new Error(errorMessage));
+      pGetOrCreateCartMock.mockRejectedValue(error);
 
       const result = await clearCart();
 
-      expect(result).toEqual({
+      const expectdResult = {
          success: false,
          message: errorMessage,
-      });
+      };
+
+      expect(result).toEqual(expectdResult);
       expect(pGetOrCreateCartMock).toHaveBeenCalledTimes(1);
+      expect(pGetOrCreateCartMock).toHaveBeenCalledWith({});
       expect(pClearCartMock).not.toHaveBeenCalled();
    });
 });

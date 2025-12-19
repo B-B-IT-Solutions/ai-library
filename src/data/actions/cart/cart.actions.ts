@@ -70,6 +70,7 @@ export const removeFromCart = async (
 ): Promise<ActionResult<DCart>> => {
    try {
       await pRemoveCartItem(itemId);
+
       return {
          success: true,
          message: "Item removed from cart successfully.",
