@@ -46,7 +46,69 @@ const stripeCheckoutSession = (): Stripe.Response<Stripe.Checkout.Session> => {
 describe("createCheckoutSession tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
-      // mockReset(stripeMock);
+   });
+
+   it("createCheckoutSession - user not authenticated - test", async () => {
+      const error = new Error("Authentication required");
+      requireUserMock.mockRejectedValue(error);
+      formatErrorMock.mockReturnValue("Authentication required");
+
+      const result = await createCheckoutSession();
+      const expectedResult = {
+         success: false,
+         message: "Authentication required",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(pGetCartByUserIdMock).not.toHaveBeenCalled();
+      expect(pCreateOrderMock).not.toHaveBeenCalled();
+      expect(stripeMock.checkout.sessions.create).not.toHaveBeenCalled();
+      expect(pUpdateOrderWithStripeDetailsMock).not.toHaveBeenCalled();
+      expect(formatErrorMock).toHaveBeenCalledTimes(1);
+      expect(formatErrorMock).toHaveBeenCalledWith(error);
+   });
+
+   it("createCheckoutSession - cart is null - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      pGetCartByUserIdMock.mockResolvedValue(null);
+
+      const result = await createCheckoutSession();
+      const expectedResult = {
+         success: false,
+         message: "Your cart is empty.",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(pGetCartByUserIdMock).toHaveBeenCalledTimes(1);
+      expect(pGetCartByUserIdMock).toHaveBeenCalledWith(user.id);
+      expect(pCreateOrderMock).not.toHaveBeenCalled();
+      expect(stripeMock.checkout.sessions.create).not.toHaveBeenCalled();
+      expect(pUpdateOrderWithStripeDetailsMock).not.toHaveBeenCalled();
+   });
+
+   it("createCheckoutSession - cart empty - test", async () => {
+      const user = { id: "user-1", email: "test@email.com" };
+      const cart = ptestData.pCartWithItems(1, 0);
+
+      requireUserMock.mockResolvedValue(user);
+      pGetCartByUserIdMock.mockResolvedValue(cart);
+
+      const result = await createCheckoutSession();
+      const expectedResult = {
+         success: false,
+         message: "Your cart is empty.",
+      };
+
+      expect(result).toEqual(expectedResult);
+
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(pGetCartByUserIdMock).toHaveBeenCalledTimes(1);
+      expect(pCreateOrderMock).not.toHaveBeenCalled();
+      expect(stripeMock.checkout.sessions.create).not.toHaveBeenCalled();
+      expect(pUpdateOrderWithStripeDetailsMock).not.toHaveBeenCalled();
    });
 
    it("createCheckoutSession - successful checkout with single item - test", async () => {
@@ -105,8 +167,8 @@ describe("createCheckoutSession tests", () => {
                price_data: {
                   currency: "chf",
                   product_data: {
-                     name: cart.items[0].productName,
-                     description: undefined,
+                     name: item1.productName,
+                     description: item1.productDescription,
                   },
                   unit_amount: 1999,
                },
@@ -147,6 +209,9 @@ describe("createCheckoutSession tests", () => {
       const cart = ptestData.pCartWithItems(1, 2);
       const order = ptestData.pOrderWithItems();
       const totalAmount = 19.99 + 19.99;
+      const item1 = cart.items[0];
+      const item2 = cart.items[1];
+      item2.productDescription = null;
 
       const checkoutSession = stripeCheckoutSession();
 
@@ -167,8 +232,6 @@ describe("createCheckoutSession tests", () => {
          },
       };
 
-      const item1 = cart.items[0];
-      const item2 = cart.items[1];
       const expectOrderCreateInput = {
          user: {
             connect: {
@@ -210,7 +273,7 @@ describe("createCheckoutSession tests", () => {
                   currency: "chf",
                   product_data: {
                      name: item1.productName,
-                     description: undefined,
+                     description: item1.productDescription,
                   },
                   unit_amount: 1999,
                },
@@ -257,255 +320,144 @@ describe("createCheckoutSession tests", () => {
       });
    });
 
-   // it("createCheckoutSession - cart is null - test", async () => {
-   //    const user = { id: "user-1", email: "test@email.com" };
+   it("createCheckoutSession - pGetCartByUserId throws error - test", async () => {
+      const user = dtestData.dLoginUser();
+      const error = new Error("Database error");
 
-   //    requireUserMock.mockResolvedValue(user);
-   //    pGetCartByUserIdMock.mockResolvedValue(null);
+      requireUserMock.mockResolvedValue(user);
+      pGetCartByUserIdMock.mockRejectedValue(error);
+      formatErrorMock.mockReturnValue("Database error");
 
-   //    const result = await createCheckoutSession();
+      const result = await createCheckoutSession();
+      const expectedResult = {
+         success: false,
+         message: "Database error",
+      };
 
-   //    expect(result).toEqual({
-   //       success: false,
-   //       message: "Your cart is empty.",
-   //    });
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(pGetCartByUserIdMock).toHaveBeenCalledTimes(1);
+      expect(pCreateOrderMock).not.toHaveBeenCalled();
+      expect(stripeMock.checkout.sessions.create).not.toHaveBeenCalled();
+      expect(pUpdateOrderWithStripeDetailsMock).not.toHaveBeenCalled();
+      expect(formatErrorMock).toHaveBeenCalledTimes(1);
+      expect(formatErrorMock).toHaveBeenCalledWith(error);
+   });
 
-   //    expect(requireUserMock).toHaveBeenCalledTimes(1);
-   //    expect(pGetCartByUserIdMock).toHaveBeenCalledTimes(1);
-   //    expect(pGetCartByUserIdMock).toHaveBeenCalledWith(user.id);
-   //    expect(pCreateOrderMock).not.toHaveBeenCalled();
-   //    expect(stripeMock.checkout.sessions.create).not.toHaveBeenCalled();
-   //    expect(pUpdateOrderWithStripeDetailsMock).not.toHaveBeenCalled();
-   // });
+   it("createCheckoutSession - pCreateOrder throws error - test", async () => {
+      const user = dtestData.dLoginUser();
+      const cart = ptestData.pCartWithItems(1, 1);
+      const error = new Error("Failed to create order");
 
-   // it("createCheckoutSession - cart has empty items - test", async () => {
-   //    const user = { id: "user-1", email: "test@email.com" };
-   //    const cart = ptestData.pCartWithItems(1, 0);
+      requireUserMock.mockResolvedValue(user);
+      pGetCartByUserIdMock.mockResolvedValue(cart);
+      pCreateOrderMock.mockRejectedValue(error);
+      formatErrorMock.mockReturnValue("Failed to create order");
 
-   //    requireUserMock.mockResolvedValue(user);
-   //    pGetCartByUserIdMock.mockResolvedValue(cart);
+      const result = await createCheckoutSession();
+      const expectedResult = {
+         success: false,
+         message: "Failed to create order",
+      };
 
-   //    const result = await createCheckoutSession();
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(pGetCartByUserIdMock).toHaveBeenCalledTimes(1);
+      expect(pCreateOrderMock).toHaveBeenCalledTimes(1);
+      expect(stripeMock.checkout.sessions.create).not.toHaveBeenCalled();
+      expect(pUpdateOrderWithStripeDetailsMock).not.toHaveBeenCalled();
+      expect(formatErrorMock).toHaveBeenCalledTimes(1);
+      expect(formatErrorMock).toHaveBeenCalledWith(error);
+   });
 
-   //    expect(result).toEqual({
-   //       success: false,
-   //       message: "Your cart is empty.",
-   //    });
+   it("createCheckoutSession - stripe.checkout.sessions.create throws error - test", async () => {
+      const user = dtestData.dLoginUser();
+      const cart = ptestData.pCartWithItems(1, 1);
+      const order = ptestData.pOrderWithItems(1);
+      const error = new Error("Stripe API error");
 
-   //    expect(requireUserMock).toHaveBeenCalledTimes(1);
-   //    expect(pGetCartByUserIdMock).toHaveBeenCalledTimes(1);
-   //    expect(pCreateOrderMock).not.toHaveBeenCalled();
-   //    expect(stripeMock.checkout.sessions.create).not.toHaveBeenCalled();
-   //    expect(pUpdateOrderWithStripeDetailsMock).not.toHaveBeenCalled();
-   // });
+      requireUserMock.mockResolvedValue(user);
+      pGetCartByUserIdMock.mockResolvedValue(cart);
+      pCreateOrderMock.mockResolvedValue(order);
+      stripeMock.checkout.sessions.create.mockRejectedValue(error);
+      formatErrorMock.mockReturnValue("Stripe API error");
 
-   // it("createCheckoutSession - user not authenticated - test", async () => {
-   //    const error = new Error("Authentication required");
-   //    requireUserMock.mockRejectedValue(error);
-   //    formatErrorMock.mockReturnValue("Authentication required");
+      const result = await createCheckoutSession();
+      const expectedResult = {
+         success: false,
+         message: "Stripe API error",
+      };
 
-   //    const result = await createCheckoutSession();
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(pGetCartByUserIdMock).toHaveBeenCalledTimes(1);
+      expect(pCreateOrderMock).toHaveBeenCalledTimes(1);
+      expect(stripeMock.checkout.sessions.create).toHaveBeenCalledTimes(1);
+      expect(pUpdateOrderWithStripeDetailsMock).not.toHaveBeenCalled();
+      expect(formatErrorMock).toHaveBeenCalledTimes(1);
+      expect(formatErrorMock).toHaveBeenCalledWith(error);
+   });
 
-   //    expect(result).toEqual({
-   //       success: false,
-   //       message: "Authentication required",
-   //    });
+   it("createCheckoutSession - pUpdateOrderWithStripeDetails throws error - test", async () => {
+      const user = dtestData.dLoginUser();
+      const cart = ptestData.pCartWithItems(1, 1);
+      const order = ptestData.pOrderWithItems(1);
+      const checkoutSession = stripeCheckoutSession();
+      const error = new Error("Failed to update order");
 
-   //    expect(requireUserMock).toHaveBeenCalledTimes(1);
-   //    expect(pGetCartByUserIdMock).not.toHaveBeenCalled();
-   //    expect(pCreateOrderMock).not.toHaveBeenCalled();
-   //    expect(stripeMock.checkout.sessions.create).not.toHaveBeenCalled();
-   //    expect(pUpdateOrderWithStripeDetailsMock).not.toHaveBeenCalled();
-   //    expect(formatErrorMock).toHaveBeenCalledWith(error);
-   // });
+      requireUserMock.mockResolvedValue(user);
+      pGetCartByUserIdMock.mockResolvedValue(cart);
+      pCreateOrderMock.mockResolvedValue(order);
+      stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
+      pUpdateOrderWithStripeDetailsMock.mockRejectedValue(error);
+      formatErrorMock.mockReturnValue("Failed to update order");
 
-   // it("createCheckoutSession - pGetCartByUserId throws error - test", async () => {
-   //    const user = { id: "user-1", email: "test@email.com" };
-   //    const error = new Error("Database error");
+      const result = await createCheckoutSession();
+      const expectedResult = {
+         success: false,
+         message: "Failed to update order",
+      };
 
-   //    requireUserMock.mockResolvedValue(user);
-   //    pGetCartByUserIdMock.mockRejectedValue(error);
-   //    formatErrorMock.mockReturnValue("Database error");
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(pGetCartByUserIdMock).toHaveBeenCalledTimes(1);
+      expect(pCreateOrderMock).toHaveBeenCalledTimes(1);
+      expect(stripeMock.checkout.sessions.create).toHaveBeenCalledTimes(1);
+      expect(pUpdateOrderWithStripeDetailsMock).toHaveBeenCalledTimes(1);
+      expect(formatErrorMock).toHaveBeenCalledTimes(1);
+      expect(formatErrorMock).toHaveBeenCalledWith(error);
+   });
 
-   //    const result = await createCheckoutSession();
+   it("createCheckoutSession - user with no email - test", async () => {
+      const user = dtestData.dLoginUser();
+      user.email = null;
+      const cart = ptestData.pCartWithItems(1, 1);
+      const order = ptestData.pOrderWithItems(1);
+      const checkoutSession = stripeCheckoutSession();
 
-   //    expect(result).toEqual({
-   //       success: false,
-   //       message: "Database error",
-   //    });
+      requireUserMock.mockResolvedValue(user);
+      pGetCartByUserIdMock.mockResolvedValue(cart);
+      pCreateOrderMock.mockResolvedValue(order);
+      stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
+      pUpdateOrderWithStripeDetailsMock.mockResolvedValue(order);
 
-   //    expect(requireUserMock).toHaveBeenCalledTimes(1);
-   //    expect(pGetCartByUserIdMock).toHaveBeenCalledTimes(1);
-   //    expect(pCreateOrderMock).not.toHaveBeenCalled();
-   //    expect(stripeMock.checkout.sessions.create).not.toHaveBeenCalled();
-   //    expect(pUpdateOrderWithStripeDetailsMock).not.toHaveBeenCalled();
-   //    expect(formatErrorMock).toHaveBeenCalledWith(error);
-   // });
+      const result = await createCheckoutSession();
+      const expectedResult = {
+         success: true,
+         message: "Checkout session created",
+         data: {
+            sessionId: "session-1",
+            url: "https://checkout.stripe.com/session-1",
+         },
+      };
 
-   // it("createCheckoutSession - pCreateOrder throws error - test", async () => {
-   //    const user = { id: "user-1", email: "test@email.com" };
-   //    const cart = ptestData.pCartWithItems(1, 1);
-   //    const error = new Error("Failed to create order");
-
-   //    requireUserMock.mockResolvedValue(user);
-   //    pGetCartByUserIdMock.mockResolvedValue(cart);
-   //    pCreateOrderMock.mockRejectedValue(error);
-   //    formatErrorMock.mockReturnValue("Failed to create order");
-
-   //    const result = await createCheckoutSession();
-
-   //    expect(result).toEqual({
-   //       success: false,
-   //       message: "Failed to create order",
-   //    });
-
-   //    expect(requireUserMock).toHaveBeenCalledTimes(1);
-   //    expect(pGetCartByUserIdMock).toHaveBeenCalledTimes(1);
-   //    expect(pCreateOrderMock).toHaveBeenCalledTimes(1);
-   //    expect(stripeMock.checkout.sessions.create).not.toHaveBeenCalled();
-   //    expect(pUpdateOrderWithStripeDetailsMock).not.toHaveBeenCalled();
-   //    expect(formatErrorMock).toHaveBeenCalledWith(error);
-   // });
-
-   // it("createCheckoutSession - stripe.checkout.sessions.create throws error - test", async () => {
-   //    const user = { id: "user-1", email: "test@email.com" };
-   //    const cart = ptestData.pCartWithItems(1, 1);
-   //    const order = ptestData.pOrderWithItems(1);
-   //    const error = new Error("Stripe API error");
-
-   //    requireUserMock.mockResolvedValue(user);
-   //    pGetCartByUserIdMock.mockResolvedValue(cart);
-   //    pCreateOrderMock.mockResolvedValue(order);
-   //    stripeMock.checkout.sessions.create.mockRejectedValue(error);
-   //    formatErrorMock.mockReturnValue("Stripe API error");
-
-   //    const result = await createCheckoutSession();
-
-   //    expect(result).toEqual({
-   //       success: false,
-   //       message: "Stripe API error",
-   //    });
-
-   //    expect(requireUserMock).toHaveBeenCalledTimes(1);
-   //    expect(pGetCartByUserIdMock).toHaveBeenCalledTimes(1);
-   //    expect(pCreateOrderMock).toHaveBeenCalledTimes(1);
-   //    expect(stripeMock.checkout.sessions.create).toHaveBeenCalledTimes(1);
-   //    expect(pUpdateOrderWithStripeDetailsMock).not.toHaveBeenCalled();
-   //    expect(formatErrorMock).toHaveBeenCalledWith(error);
-   // });
-
-   // it("createCheckoutSession - pUpdateOrderWithStripeDetails throws error - test", async () => {
-   //    const user = { id: "user-1", email: "test@email.com" };
-   //    const cart = ptestData.pCartWithItems(1, 1);
-   //    const order = ptestData.pOrderWithItems(1);
-   //    const checkoutSession = stripeCheckoutSession();
-   //    const error = new Error("Failed to update order");
-
-   //    requireUserMock.mockResolvedValue(user);
-   //    pGetCartByUserIdMock.mockResolvedValue(cart);
-   //    pCreateOrderMock.mockResolvedValue(order);
-   //    stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
-   //    pUpdateOrderWithStripeDetailsMock.mockRejectedValue(error);
-   //    formatErrorMock.mockReturnValue("Failed to update order");
-
-   //    const result = await createCheckoutSession();
-
-   //    expect(result).toEqual({
-   //       success: false,
-   //       message: "Failed to update order",
-   //    });
-
-   //    expect(requireUserMock).toHaveBeenCalledTimes(1);
-   //    expect(pGetCartByUserIdMock).toHaveBeenCalledTimes(1);
-   //    expect(pCreateOrderMock).toHaveBeenCalledTimes(1);
-   //    expect(stripeMock.checkout.sessions.create).toHaveBeenCalledTimes(1);
-   //    expect(pUpdateOrderWithStripeDetailsMock).toHaveBeenCalledTimes(1);
-   //    expect(formatErrorMock).toHaveBeenCalledWith(error);
-   // });
-
-   // it("createCheckoutSession - user with no email - test", async () => {
-   //    const user = dtestData.dLoginUser();
-   //    user.email = null;
-   //    const cart = ptestData.pCartWithItems(1, 1);
-   //    const order = ptestData.pOrderWithItems(1);
-   //    const checkoutSession = stripeCheckoutSession();
-
-   //    requireUserMock.mockResolvedValue(user);
-   //    pGetCartByUserIdMock.mockResolvedValue(cart);
-   //    pCreateOrderMock.mockResolvedValue(order);
-   //    stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
-   //    pUpdateOrderWithStripeDetailsMock.mockResolvedValue(order);
-
-   //    const result = await createCheckoutSession();
-
-   //    expect(result).toEqual({
-   //       success: true,
-   //       message: "Checkout session created",
-   //       data: {
-   //          sessionId: "session-1",
-   //          url: "https://checkout.stripe.com/session-1",
-   //       },
-   //    });
-
-   //    expect(stripeMock.checkout.sessions.create).toHaveBeenCalledWith(
-   //       expect.objectContaining({
-   //          customer_email: undefined,
-   //       })
-   //    );
-   // });
-
-   // it("createCheckoutSession - product with null description - test", async () => {
-   //    const user = { id: "user-1", email: "test@email.com" };
-   //    const product = {
-   //       ...ptestData.pProduct(1),
-   //       description: null,
-   //       price: new Decimal(29.99),
-   //    };
-   //    const cart = ptestData.pCartWithItems(1, 1);
-   //    cart.items[0].product = {
-   //       ...product,
-   //       template: ptestData.pPromptTemplateWithCategories(1),
-   //       bundleItems: [],
-   //    };
-
-   //    const order = ptestData.pOrderWithItems(1);
-   //    const checkoutSession = stripeCheckoutSession();
-
-   //    requireUserMock.mockResolvedValue(user);
-   //    pGetCartByUserIdMock.mockResolvedValue(cart);
-   //    pCreateOrderMock.mockResolvedValue(order);
-   //    stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
-   //    pUpdateOrderWithStripeDetailsMock.mockResolvedValue(order);
-
-   //    const result = await createCheckoutSession();
-
-   //    expect(result).toEqual({
-   //       success: true,
-   //       message: "Checkout session created",
-   //       data: {
-   //          sessionId: "session-1",
-   //          url: "https://checkout.stripe.com/session-1",
-   //       },
-   //    });
-
-   //    expect(stripeMock.checkout.sessions.create).toHaveBeenCalledWith(
-   //       expect.objectContaining({
-   //          line_items: [
-   //             {
-   //                price_data: {
-   //                   currency: "chf",
-   //                   product_data: {
-   //                      name: product.name,
-   //                      description: undefined,
-   //                   },
-   //                   unit_amount: 2999,
-   //                },
-   //                quantity: 1,
-   //             },
-   //          ],
-   //       })
-   //    );
-   // });
+      expect(result).toEqual(expectedResult);
+      expect(stripeMock.checkout.sessions.create).toHaveBeenCalledWith(
+         expect.objectContaining({
+            customer_email: undefined,
+         })
+      );
+   });
 
    // it("createCheckoutSession - verifies price conversion to cents - test", async () => {
    //    const user = { id: "user-1", email: "test@email.com" };

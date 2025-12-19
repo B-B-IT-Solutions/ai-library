@@ -65,7 +65,7 @@ export const createCheckoutSession = async (): Promise<
             currency: "chf",
             product_data: {
                name: item.productName,
-               description: item?.product?.description || undefined,
+               description: item.productDescription || undefined,
             },
             unit_amount: Math.round(Number(item.productPrice) * 100), // Convert to cents
          },

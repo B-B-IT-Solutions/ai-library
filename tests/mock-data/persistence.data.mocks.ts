@@ -149,6 +149,7 @@ export const pCartItem = (index = 1): CartItem => {
       cartId: `10fbd76c-4fd4-4294-a541-5d96e6a8e84${index}`,
       productId: `1045dc94-2eff-4150-804b-be38fa1422b${index}`,
       productName: `name ${index}`,
+      productDescription: `description ${index}`,
       productType: "TEMPLATE",
       productPrice: new Decimal(19.99),
       quantity: 1,
