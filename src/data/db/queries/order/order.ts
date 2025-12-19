@@ -114,47 +114,6 @@ export const pUpdateOrderWithStripeDetails = async (
    });
 };
 
-export const pGetOrderByStripeSessionId = async (
-   sessionId: string
-): Promise<OrderWithItems | null> => {
-   return await prisma.order.findUnique({
-      where: { stripeCheckoutSessionId: sessionId },
-      include: {
-         items: {
-            include: {
-               product: {
-                  include: {
-                     template: {
-                        include: {
-                           categories: true,
-                        },
-                     },
-                     bundleItems: {
-                        include: {
-                           template: {
-                              include: {
-                                 categories: true,
-                              },
-                           },
-                        },
-                     },
-                  },
-               },
-            },
-         },
-         purchases: {
-            include: {
-               template: {
-                  include: {
-                     categories: true,
-                  },
-               },
-            },
-         },
-      },
-   });
-};
-
 export const pGetOrderByPaymentIntentId = async (paymentIntentId: string) => {
    return await prisma.order.findFirst({
       where: { stripePaymentIntentId: paymentIntentId },
