@@ -3,65 +3,40 @@
 import { cookies } from "next/headers";
 
 import { auth } from "@/auth";
+import { requireUser } from "@/data/actions/auth-utils";
+import { formatError } from "@/data/actions/utils";
 import {
    pAddItemToCart,
    pClearCart,
-   pCreateCart,
    pGetCartBySessionId,
    pGetCartByUserId,
+   pGetOrCreateCart,
    pRemoveCartItem,
 } from "@/data/db/queries/cart";
 import { DCart } from "@/data/types/domain/cart";
 import { ActionResult } from "@/data/types/utils";
 import { addToCartSchema } from "@/data/types/validators/product.schema";
-import { formatError } from "../utils";
 
 import { toDCart } from "./cart.mapper";
 
-export const getCart = async (): Promise<DCart> => {
+export const getCart = async (): Promise<DCart | null> => {
    try {
-      const cart = await getOrCreateCart();
-      return toDCart(cart);
-   } catch (error) {
-      // Return empty cart if error
-      return {
-         id: "",
-         items: [],
-         subtotal: 0,
-         total: 0,
-         createdAt: new Date().toISOString(),
-         updatedAt: new Date().toISOString(),
-      };
-   }
-};
+      let userId = undefined;
+      let sessionCartId = undefined;
 
-const getOrCreateCart = async (): Promise<any> => {
-   const session = await auth();
-   const userId = session?.user?.id;
-
-   // If user is authenticated, get user cart
-   if (userId) {
-      let cart = await pGetCartByUserId(userId);
-      if (!cart) {
-         cart = await pCreateCart({ user: { connect: { id: userId } } });
+      const session = await auth();
+      if (session?.user?.id) {
+         userId = session.user.id;
+      } else {
+         const cookiesObject = await cookies();
+         sessionCartId = cookiesObject.get("sessionCartId")?.value;
       }
-      return cart;
+
+      const cart = await pGetOrCreateCart({ userId, sessionCartId });
+      return toDCart(cart);
+   } catch {
+      return null;
    }
-
-   // If not authenticated, use session cart
-   const cookiesObject = await cookies();
-   const sessionCartId = cookiesObject.get("sessionCartId")?.value;
-
-   if (!sessionCartId) {
-      throw new Error("Session cart ID not found");
-   }
-
-   let cart = await pGetCartBySessionId(sessionCartId);
-   if (!cart) {
-      cart = await pCreateCart({ sessionCartId });
-   }
-
-   return cart;
 };
 
 export const addToCart = async (
@@ -70,7 +45,7 @@ export const addToCart = async (
 ): Promise<ActionResult<DCart>> => {
    try {
       const validated = addToCartSchema.parse({ productId, quantity });
-      const cart = await getOrCreateCart();
+      const cart = await getCart();
 
       // Check if item already exists
       const existingItem = cart.items?.find(
@@ -108,7 +83,7 @@ export const removeFromCart = async (
    try {
       await pRemoveCartItem(itemId);
 
-      const cart = await getOrCreateCart();
+      const cart = await getCart();
       const session = await auth();
       const userId = session?.user?.id;
 
@@ -131,8 +106,16 @@ export const removeFromCart = async (
 
 export const clearCart = async (): Promise<ActionResult<void>> => {
    try {
-      const cart = await getOrCreateCart();
-      await pClearCart(cart.id);
+      const user = await requireUser();
+      const cart = await pGetCartByUserId(user.id);
+
+      if (cart) {
+         await pClearCart(cart.id);
+         return {
+            success: true,
+            message: "Cart cleared successfully.",
+         };
+      }
 
       return {
          success: true,

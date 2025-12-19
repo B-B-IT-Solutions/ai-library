@@ -2,6 +2,36 @@ import prisma from "@/data/db/prisma";
 import { CartWithItems } from "@/data/types/db/cart";
 import { CartCreateInput } from "@/generated/prisma/models";
 
+type GetOrCreateCartParams = {
+   userId?: string;
+   sessionCartId?: string;
+};
+
+export const pGetOrCreateCart = async (
+   params: GetOrCreateCartParams
+): Promise<CartWithItems> => {
+   const { userId, sessionCartId } = params;
+   // If user is authenticated, get user cart
+   if (userId) {
+      let cart = await pGetCartByUserId(userId);
+      if (!cart) {
+         cart = await pCreateCart({ user: { connect: { id: userId } } });
+      }
+      return cart;
+   }
+
+   if (!sessionCartId) {
+      throw new Error("Cart cannot be created without userId or sessionId");
+   }
+
+   let cart = await pGetCartBySessionId(sessionCartId);
+   if (!cart) {
+      cart = await pCreateCart({ sessionCartId });
+   }
+
+   return cart;
+};
+
 export const pGetCartBySessionId = async (
    sessionCartId: string
 ): Promise<CartWithItems | null> => {
@@ -66,15 +96,13 @@ export const pGetCartByUserId = async (
    });
 };
 
-export const pCreateCart = async (data: CartCreateInput) => {
+export const pCreateCart = async (
+   data: CartCreateInput
+): Promise<CartWithItems> => {
    return await prisma.cart.create({
       data,
       include: {
-         items: {
-            include: {
-               product: true,
-            },
-         },
+         items: true,
       },
    });
 };

@@ -2,8 +2,8 @@ import { DProduct } from "@/data/types/domain/product";
 
 export type DCart = {
    id: string;
-   userId?: string;
-   sessionCartId?: string;
+   userId: string | null;
+   sessionCartId: string | null;
    subtotal: number;
    total: number;
    createdAt: string;
