@@ -178,9 +178,9 @@ describe("auth.config - CredentialsProvider - tests", () => {
 describe("auth.config - callback.authorized - tests", () => {
    const protectedPaths = [
       "/prompts",
-      "/templates",
+      "/library",
+      "/checkout",
       "/settings",
-      "/place-order",
       "/profile",
       "/user/123",
       "/orders/456",

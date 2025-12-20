@@ -108,16 +108,6 @@ export const pRemoveCartItem = async (itemId: string) => {
    });
 };
 
-export const pUpdateCartItemQuantity = async (
-   itemId: string,
-   quantity: number
-) => {
-   return await prisma.cartItem.update({
-      where: { id: itemId },
-      data: { quantity },
-   });
-};
-
 export const pClearCart = async (cartId: string) => {
    return await prisma.cartItem.deleteMany({
       where: { cartId },
@@ -128,26 +118,21 @@ export const pMigrateSessionCartToUser = async (
    sessionCartId: string,
    userId: string
 ) => {
-   // Find session cart
    const sessionCart = await prisma.cart.findUnique({
       where: { sessionCartId },
    });
 
-   if (!sessionCart) {
-      return null;
+   if (sessionCart) {
+      await prisma.cart.deleteMany({
+         where: { userId },
+      });
+
+      await prisma.cart.update({
+         where: { id: sessionCart.id },
+         data: {
+            userId,
+            sessionCartId: null,
+         },
+      });
    }
-
-   // Delete any existing user cart
-   await prisma.cart.deleteMany({
-      where: { userId },
-   });
-
-   // Update session cart to be user's cart
-   return await prisma.cart.update({
-      where: { id: sessionCart.id },
-      data: {
-         userId,
-         sessionCartId: null,
-      },
-   });
 };
