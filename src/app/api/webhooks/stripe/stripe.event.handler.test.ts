@@ -33,7 +33,6 @@ const handleStripePaymentFailedMock =
 
 describe("handleStripeEvent tests", () => {
    const originalConsoleLog = console.log;
-
    const originalConsoleError = console.error;
 
    beforeEach(() => {
