@@ -212,7 +212,7 @@ describe("SignUpForm functionality tests", () => {
          expect(text).toBeInTheDocument();
       }, options);
 
-      const passwordValue = "pwd123456";
+      const passwordValue = "pwd123456!";
       const password = getElementById("password");
       await userEvent.type(password, passwordValue);
 

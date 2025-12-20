@@ -19,43 +19,11 @@ import { signUpUser } from "@/data/actions/user";
 import { DSignUpFormData } from "@/data/types/domain/user";
 import { signUpFormSchema } from "@/data/types/validators/user.schema";
 
-type PasswordStrength = "weak" | "medium" | "strong" | null;
-
-const getPasswordStrength = (password: string): PasswordStrength => {
-   if (!password) {
-      return null;
-   }
-   if (password.length < 6) {
-      return "weak";
-   }
-
-   let strength = 0;
-   if (password.length >= 8) {
-      strength++;
-   }
-   if (/[a-z]/.test(password) && /[A-Z]/.test(password)) {
-      strength++;
-   }
-   if (/\d/.test(password)) {
-      strength++;
-   }
-   if (/[^a-zA-Z\d]/.test(password)) {
-      strength++;
-   }
-
-   if (strength <= 1) {
-      return "weak";
-   }
-   if (strength <= 2) {
-      return "medium";
-   }
-   return "strong";
-};
+import { getPasswordStrength, PasswordStrength } from "./utils";
 
 export const SignUpForm = () => {
    const [showPassword, setShowPassword] = useState(false);
    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-   const [passwordValue, setPasswordValue] = useState("");
 
    const {
       handleSubmit,
