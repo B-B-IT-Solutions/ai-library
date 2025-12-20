@@ -1,6 +1,6 @@
 import Stripe from "stripe";
 
-import { stripeConfig } from "./stripe-server";
+import { stripe, stripeConfig } from "./stripe-server";
 
 const expectedStripeConfig: Stripe.StripeConfig = {
    apiVersion: "2025-12-15.clover",
@@ -13,8 +13,6 @@ describe("stripe-server tests", () => {
    });
 
    it("stripe instance test", async () => {
-      const { stripe, stripeConfig } = await import("./stripe-server");
-
       expect(stripe).toBeDefined();
       expect(stripe.getApiField("version")).toBe(stripeConfig.apiVersion);
       expect(stripeConfig.typescript).toBe(true);
