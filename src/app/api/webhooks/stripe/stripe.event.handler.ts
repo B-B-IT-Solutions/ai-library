@@ -42,14 +42,11 @@ export const handleStripeEvent = async (event: Stripe.Event) => {
    }
 };
 
-export const handleCheckoutCompleted = async (
-   session: Stripe.Checkout.Session
-) => {
+const handleCheckoutCompleted = async (session: Stripe.Checkout.Session) => {
    const orderId = session.metadata?.orderId;
 
    if (!orderId) {
-      console.error("No orderId in session metadata");
-      return;
+      throw new Error("No orderId in session metadata");
    }
 
    const result = await handleStripeCheckoutCompleted(
@@ -59,40 +56,29 @@ export const handleCheckoutCompleted = async (
    );
 
    if (!result.success) {
-      console.error(result.message);
       // Don't throw - order is paid, we need to handle this manually
-   } else {
-      console.log(result.message);
+      console.error(result.message);
    }
 };
 
-export const handleCheckoutExpired = async (
-   session: Stripe.Checkout.Session
-) => {
+const handleCheckoutExpired = async (session: Stripe.Checkout.Session) => {
    const orderId = session.metadata?.orderId;
 
    if (!orderId) {
-      console.error("No orderId in session metadata");
-      return;
+      throw new Error("No orderId in session metadata");
    }
 
    const result = await handleStripeCheckoutExpired(orderId);
 
    if (!result.success) {
       console.error(result.message);
-   } else {
-      console.log(result.message);
    }
 };
 
-export const handlePaymentFailed = async (
-   paymentIntent: Stripe.PaymentIntent
-) => {
+const handlePaymentFailed = async (paymentIntent: Stripe.PaymentIntent) => {
    const result = await handleStripePaymentFailed(paymentIntent.id);
 
    if (!result.success) {
       console.error(result.message);
-   } else {
-      console.log(result.message);
    }
 };

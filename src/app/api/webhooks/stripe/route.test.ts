@@ -83,7 +83,7 @@ describe("POST tests", () => {
    it("POST - event processed - test", async () => {
       const body = "test body";
       const signature = "test-sign-1";
-      const stripeEvent = stripeTestData.chargeSucceededEvent();
+      const stripeEvent = stripeTestData.checkoutSessionCompletedEvent();
       const response = NextResponse.json({ received: true }, { status: 200 });
 
       nextRequestMock.text.mockResolvedValue(body);

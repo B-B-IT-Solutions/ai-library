@@ -1,31 +1,54 @@
 import Stripe from "stripe";
 
-export const chargeSucceededEvent = (): Stripe.ChargeSucceededEvent => {
+export const checkoutSessionCompletedEvent = (): Stripe.Event => {
    return {
-      type: "charge.succeeded",
-      id: "charge-event-id-1",
+      type: "checkout.session.completed",
+      id: "checkout-id-1",
       data: {
          object: {
             id: "object-id-1",
             amount: 132,
+            payment_intent: "pi_test_123",
+            payment_status: "paid",
             metadata: {
                orderId: "order-id-1",
             } as Stripe.Metadata,
             billing_details: {
                email: "test1@email.com",
             },
-         } as Stripe.Charge,
+         } as unknown as Stripe.Checkout.Session,
       },
-   } as Stripe.ChargeSucceededEvent;
+   } as unknown as Stripe.Event;
 };
 
-export const chargeSucceededFailed = (): Stripe.ChargeFailedEvent => {
+export const checkoutSessionCompletedExpired = (): Stripe.Event => {
    return {
-      type: "charge.failed",
-      id: "charge-event-id-1",
+      type: "checkout.session.expired",
+      id: "checkout-id-1",
       data: {
          object: {
             id: "object-id-1",
+            amount: 132,
+            payment_intent: "pi_test_123",
+            payment_status: "paid",
+            metadata: {
+               orderId: "order-id-1",
+            } as Stripe.Metadata,
+            billing_details: {
+               email: "test1@email.com",
+            },
+         } as unknown as Stripe.Checkout.Session,
+      },
+   } as unknown as Stripe.Event;
+};
+
+export const paymentIntentFailedEvent = (): Stripe.Event => {
+   return {
+      type: "payment_intent.payment_failed",
+      id: "checkout-id-1",
+      data: {
+         object: {
+            id: "payment-intent-id-1",
             amount: 132,
             metadata: {
                orderId: "order-id-1",
@@ -33,9 +56,9 @@ export const chargeSucceededFailed = (): Stripe.ChargeFailedEvent => {
             billing_details: {
                email: "test1@email.com",
             },
-         } as Stripe.Charge,
+         } as unknown as Stripe.PaymentIntent,
       },
-   } as Stripe.ChargeFailedEvent;
+   } as unknown as Stripe.Event;
 };
 
 export const paymentIntent = (
