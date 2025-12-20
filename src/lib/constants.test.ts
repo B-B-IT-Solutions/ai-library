@@ -5,6 +5,7 @@ import {
    INIT_PAGE_NUMBER,
    PAGE_SIZE,
    STRIPE_SECRET_KEY,
+   STRIPE_WEBHOOK_SECRET,
 } from "./constants";
 
 describe("Constants tests", () => {
@@ -12,6 +13,9 @@ describe("Constants tests", () => {
       expect(APP_NAME).toEqual("KI Bibliothek");
       expect(APP_DESCRIPTION).toEqual("Modernene KI-Bibliothek");
       expect(APP_URL).toEqual("http://localhost:3000");
+      expect(STRIPE_WEBHOOK_SECRET).toEqual(
+         "0o3d0b4S9CeARjPD9QnK3xgq96a7esuI4nxtLZEWNSk="
+      );
       expect(STRIPE_SECRET_KEY).toEqual(
          "sk_test_0o3d0b4S9CeARjPD9QnK3xgq96a7esuI4nxtLZEWNSk"
       );

@@ -3,7 +3,6 @@ jest.mock("@/data/actions/order/order.actions");
 import { stripeTestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 import { NextResponse } from "next/server";
-import { afterEach } from "node:test";
 import Stripe from "stripe";
 
 import {
