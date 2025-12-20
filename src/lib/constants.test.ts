@@ -23,3 +23,54 @@ describe("Constants tests", () => {
       expect(PAGE_SIZE).toEqual(10);
    });
 });
+
+describe("Constants validation tests", () => {
+   const originalEnv = process.env;
+
+   const originalConsoleLog = console.log;
+   const originalConsoleError = console.error;
+
+   beforeEach(() => {
+      console.log = jest.fn();
+      console.error = jest.fn();
+   });
+
+   afterEach(() => {
+      process.env = originalEnv;
+      jest.resetModules();
+      console.log = originalConsoleLog;
+      console.error = originalConsoleError;
+   });
+
+   it("should throw error when STRIPE_WEBHOOK_SECRET is not set", async () => {
+      const env = { ...originalEnv };
+      delete env.STRIPE_WEBHOOK_SECRET;
+      process.env = env;
+
+      jest.resetModules();
+
+      await expect(
+         jest.isolateModulesAsync(async () => {
+            await import("./constants");
+         })
+      ).rejects.toThrow(
+         "STRIPE_WEBHOOK_SECRET is not set in environment variables"
+      );
+   });
+
+   it("should throw error when STRIPE_SECRET_KEY is not set", async () => {
+      const env = { ...originalEnv };
+      delete env.STRIPE_SECRET_KEY;
+      process.env = env;
+
+      jest.resetModules();
+
+      await expect(
+         jest.isolateModulesAsync(async () => {
+            await import("./constants");
+         })
+      ).rejects.toThrow(
+         "STRIPE_SECRET_KEY is not set in environment variables"
+      );
+   });
+});
