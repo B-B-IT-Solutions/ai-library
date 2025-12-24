@@ -4,8 +4,8 @@ import { map } from "es-toolkit/compat";
 import { Card } from "@/components/shadcn/card";
 import { DProduct } from "@/data/types/domain/product";
 
-import { AddToCartButton } from "./add-to-cart-button";
-import { ShowDetailsButton } from "./show-details-button";
+import { AddToCartButton } from "./buttons/add-to-cart-button";
+import { ShowDetailsButton } from "./buttons/show-details-button";
 
 type ProductListItemProps = {
    product: DProduct;

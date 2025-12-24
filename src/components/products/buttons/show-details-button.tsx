@@ -6,8 +6,7 @@ import { Info } from "lucide-react";
 import { Button } from "@/components/shadcn/button";
 import { DProduct } from "@/data/types/domain/product";
 import { cn } from "@/lib/utils";
-
-import { ProductDetailsDialog } from "./product-details-dialog";
+import { ProductDetailsDialog } from "../product-details-dialog";
 
 type AddToCartButtonProps = {
    product: DProduct;
