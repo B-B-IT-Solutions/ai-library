@@ -99,10 +99,6 @@ describe("SignInPage rendering tests", () => {
 });
 
 describe("SignInPage functionality tests", () => {
-   beforeEach(() => {
-      jest.resetAllMocks();
-   });
-
    it("SignInPage - metadata - test", async () => {
       expect(metadata).toEqual(expectedMetadata);
    });
