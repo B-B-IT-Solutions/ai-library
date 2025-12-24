@@ -14,14 +14,19 @@ import { Sidebar } from "./sidebar";
 const assertRendered = () => {
    const sidebar = screen.getByTestId("sidebar");
    const sidebarHeader = screen.getByTestId("sidebar-header");
+   const sidebarTrigger = screen.getByTestId("sidebar-trigger");
    const sidebarContent = screen.getByTestId("sidebar-content");
    const sidebarFooter = screen.getByTestId("sidebar-footer");
-   const homeLink = screen.getByTestId("home-link");
 
    assertInDocument(sidebar);
    assertInDocument(sidebarHeader);
+   assertInDocument(sidebarTrigger);
    assertInDocument(sidebarContent);
    assertInDocument(sidebarFooter);
+};
+
+const assertHomeLink = () => {
+   const homeLink = screen.getByTestId("home-link");
    assertInDocument(homeLink);
 };
 
@@ -71,6 +76,7 @@ describe("Sidebar rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertHomeLink();
          assertAppName("KI Bibliothek");
          assertMenuItems();
       });

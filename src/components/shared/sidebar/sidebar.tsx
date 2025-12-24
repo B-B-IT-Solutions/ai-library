@@ -17,6 +17,7 @@ import {
    SidebarMenu,
    SidebarMenuButton,
    SidebarMenuItem,
+   SidebarTrigger,
    useSidebar,
 } from "@/components/shadcn/sidebar";
 import { APP_NAME } from "@/lib/constants";
@@ -57,25 +58,38 @@ export const Sidebar: FC<SidebarProps> = ({ user }) => {
    };
 
    const appHeader = () => {
-      return (
-         <>
-            <Link
-               href="/"
-               className="flex items-center gap-2 px-2 py-1"
-               data-testid="home-link"
-            >
-               <Image
-                  src="/images/logo.svg"
-                  width={32}
-                  height={32}
-                  alt={`${APP_NAME} logo`}
-                  className="shrink-0"
-               />
-               {(open || openMobile) && (
+      if (open || openMobile) {
+         return (
+            <div className="flex justify-between items-center gap-2 px-1 py-1">
+               <Link
+                  href="/"
+                  className="flex items-center gap-2 min-w-0"
+                  data-testid="home-link"
+               >
+                  <Image
+                     src="/images/logo.svg"
+                     width={32}
+                     height={32}
+                     alt={`${APP_NAME} logo`}
+                     className="shrink-0"
+                  />
                   <span className="font-bold text-lg truncate">{APP_NAME}</span>
-               )}
-            </Link>
-         </>
+               </Link>
+               <SidebarTrigger
+                  className="shrink-0 cursor-pointer"
+                  data-testid="sidebar-trigger"
+               />
+            </div>
+         );
+      }
+
+      return (
+         <div className="flex items-center justify-center py-1">
+            <SidebarTrigger
+               className="shrink-0 cursor-pointer"
+               data-testid="sidebar-trigger"
+            />
+         </div>
       );
    };
 
