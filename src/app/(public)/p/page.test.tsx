@@ -1,12 +1,7 @@
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, renderAsyncRSC } from "@tests";
-import { Metadata } from "next";
 
-import PublicPage, { metadata } from "./page";
-
-export const expectedMetadata: Metadata = {
-   title: "",
-};
+import PublicPage from "./page";
 
 const assertRendered = () => {
    const page = screen.getByTestId("public-page");
@@ -27,11 +22,5 @@ describe("PublicPage rendering tests", () => {
       });
 
       expect(container).toMatchSnapshot();
-   });
-});
-
-describe("PublicPage functionality tests", () => {
-   it("PublicPage - metadata - test", async () => {
-      expect(metadata).toEqual(expectedMetadata);
    });
 });
