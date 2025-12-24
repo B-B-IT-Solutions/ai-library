@@ -2,6 +2,7 @@
 
 import { FC } from "react";
 import { map, startsWith } from "es-toolkit/compat";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { User } from "next-auth";
@@ -16,8 +17,10 @@ import {
    SidebarMenu,
    SidebarMenuButton,
    SidebarMenuItem,
+   SidebarTrigger,
    useSidebar,
 } from "@/components/shadcn/sidebar";
+import { APP_NAME } from "@/lib/constants";
 import { toTestId } from "@/lib/utils";
 
 import { navigationMenu1, navigationMenu2 } from "./menus";
@@ -54,16 +57,47 @@ export const Sidebar: FC<SidebarProps> = ({ user }) => {
       });
    };
 
-   const appName = () => {
+   const appHeader = () => {
       if (open || openMobile) {
-         return "Prompt Manager";
+         return (
+            <div className="flex justify-between items-center gap-2 px-1 py-1">
+               <Link
+                  href="/"
+                  className="flex items-center gap-2 min-w-0"
+                  data-testid="home-link"
+               >
+                  <Image
+                     src="/images/logo.svg"
+                     width={32}
+                     height={32}
+                     alt={`${APP_NAME} logo`}
+                     className="shrink-0"
+                  />
+                  <span className="font-bold text-lg truncate">{APP_NAME}</span>
+               </Link>
+               <SidebarTrigger
+                  className="shrink-0 cursor-pointer"
+                  data-testid="sidebar-trigger"
+               />
+            </div>
+         );
       }
-      return "PM";
+
+      return (
+         <div className="flex items-center justify-center py-1">
+            <SidebarTrigger
+               className="shrink-0 cursor-pointer"
+               data-testid="sidebar-trigger"
+            />
+         </div>
+      );
    };
 
    return (
       <ShadcnSidebar collapsible="icon" data-testid="sidebar">
-         <SidebarHeader data-testid="sidebar-header">{appName()}</SidebarHeader>
+         <SidebarHeader data-testid="sidebar-header">
+            {appHeader()}
+         </SidebarHeader>
          <SidebarContent data-testid="sidebar-content">
             <SidebarGroup>
                <SidebarGroupLabel>Application</SidebarGroupLabel>

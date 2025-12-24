@@ -14,13 +14,20 @@ import { Sidebar } from "./sidebar";
 const assertRendered = () => {
    const sidebar = screen.getByTestId("sidebar");
    const sidebarHeader = screen.getByTestId("sidebar-header");
+   const sidebarTrigger = screen.getByTestId("sidebar-trigger");
    const sidebarContent = screen.getByTestId("sidebar-content");
    const sidebarFooter = screen.getByTestId("sidebar-footer");
 
    assertInDocument(sidebar);
    assertInDocument(sidebarHeader);
+   assertInDocument(sidebarTrigger);
    assertInDocument(sidebarContent);
    assertInDocument(sidebarFooter);
+};
+
+const assertHomeLink = () => {
+   const homeLink = screen.getByTestId("home-link");
+   assertInDocument(homeLink);
 };
 
 const assertAppName = (name: string) => {
@@ -69,7 +76,8 @@ describe("Sidebar rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertAppName("Prompt Manager");
+         assertHomeLink();
+         assertAppName("KI Bibliothek");
          assertMenuItems();
       });
 
@@ -86,7 +94,6 @@ describe("Sidebar rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertAppName("PM");
          assertMenuItems();
       });
 
@@ -136,6 +143,24 @@ describe("Sidebar functionality tests", () => {
          assertMenuItemActive("Settings", true);
          assertMenuItemActive("Prompts", false);
          assertMenuItemActive("My Library", false);
+      });
+   });
+
+   it("Sidebar - home link clicked - test", async () => {
+      const user = ntestData.user();
+      const url = "/settings";
+      renderWithSidebar(<Sidebar user={user} />, url);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(mockRouter.pathname).toEqual(url);
+      });
+
+      const homeLink = screen.getByTestId("home-link");
+      await userEvent.click(homeLink);
+
+      await waitFor(() => {
+         expect(mockRouter.pathname).toEqual(`/`);
       });
    });
 });

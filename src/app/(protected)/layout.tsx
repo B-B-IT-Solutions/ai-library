@@ -20,10 +20,7 @@ const MainLayout = async (props: Readonly<MainLayoutProps>) => {
       <div className="h-full flex flex-row" data-testid="main-layout">
          <SidebarProvider defaultOpen={defaultOpen}>
             <Sidebar user={session?.user} />
-            <main className="flex-1 wrapper">
-               <SidebarTrigger />
-               {children}
-            </main>
+            <main className="flex-1 wrapper">{children}</main>
          </SidebarProvider>
       </div>
    );

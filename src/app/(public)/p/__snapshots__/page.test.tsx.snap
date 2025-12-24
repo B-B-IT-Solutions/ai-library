@@ -3,10 +3,56 @@
 exports[`PublicPage rendering tests PublicPage rendered test 1`] = `
 <div>
   <div
-    class="h-full flex flex-center"
+    class="min-h-screen w-full bg-gradient-to-br from-background via-background to-primary/5"
     data-testid="public-page"
   >
-    public page
+    <div
+      class="container mx-auto px-4 py-16 md:py-24"
+    >
+      <div
+        class="max-w-6xl mx-auto"
+      >
+        <div
+          class="text-center space-y-8 mb-20"
+        >
+          <div
+            class="space-y-4"
+          >
+            <h2
+              class="text-5xl md:text-6xl font-bold tracking-tight"
+            >
+              Welcome to 
+              KI Bibliothek
+            </h2>
+            <p
+              class="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto"
+            >
+              Modernene KI-Bibliothek
+            </p>
+          </div>
+          <div
+            class="flex gap-4 justify-center flex-wrap"
+          >
+            <a
+              class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-10 rounded-md px-6 has-[>svg]:px-4"
+              data-slot="button"
+              data-testid="mock-link"
+              href="/sign-up"
+            >
+              Start Free Trial
+            </a>
+            <a
+              class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-10 rounded-md px-6 has-[>svg]:px-4"
+              data-slot="button"
+              data-testid="mock-link"
+              href="/p/marketplace"
+            >
+              Browse Marketplace
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 `;
