@@ -438,7 +438,7 @@ describe("auth.config - callback.jwt - tests", () => {
       expect(updateUserMock).toHaveBeenCalledWith(user.id, { name: "test" });
    });
 
-   it("jwt - trigger signIn - test", async () => {
+   it("jwt - trigger signIn - sessionCartId defined - test", async () => {
       const token = {} as JWT;
       const userId = "user-123";
       const sessionCartId = "sessionCartId-1";
@@ -469,7 +469,32 @@ describe("auth.config - callback.jwt - tests", () => {
       );
    });
 
-   it("jwt - trigger signUp - test", async () => {
+   it("jwt - trigger signIn - sessionCartId undefined - test", async () => {
+      const token = {} as JWT;
+      const userId = "user-123";
+      const user = {
+         id: userId,
+         role: "USER",
+         name: "John Doe",
+         email: "john@example.com",
+      } as AdapterUser;
+
+      const reqCookies = ntestData.cookies({});
+      cookiesMock.mockResolvedValue(reqCookies);
+
+      const result = await jwtCallback({
+         token: token,
+         user: user,
+         trigger: "signIn",
+         session: undefined,
+      });
+
+      expect(result!.id).toBe(user.id);
+      expect(result!.role).toBe(user.role);
+      expect(migrateSessionCartToUserMock).not.toHaveBeenCalled();
+   });
+
+   it("jwt - trigger signUp - sessionCartId defined - test", async () => {
       const token = {} as JWT;
       const userId = "user-789";
       const sessionCartId = "sessionCartId-1";
@@ -498,6 +523,31 @@ describe("auth.config - callback.jwt - tests", () => {
          sessionCartId,
          userId
       );
+   });
+
+   it("jwt - trigger signUp - sessionCartId undefined - test", async () => {
+      const token = {} as JWT;
+      const userId = "user-789";
+      const user = {
+         id: userId,
+         role: "USER_1",
+         name: "John Doe",
+         email: "john@example.com",
+      } as AdapterUser;
+
+      const reqCookies = ntestData.cookies({});
+      cookiesMock.mockResolvedValue(reqCookies);
+
+      const result = await jwtCallback({
+         token: token,
+         user: user,
+         trigger: "signUp",
+         session: undefined,
+      });
+
+      expect(result!.id).toBe(user.id);
+      expect(result!.role).toBe(user.role);
+      expect(migrateSessionCartToUserMock).not.toHaveBeenCalled();
    });
 
    it("jwt - trigger update - test", async () => {
