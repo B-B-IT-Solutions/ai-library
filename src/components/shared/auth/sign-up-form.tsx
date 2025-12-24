@@ -76,8 +76,8 @@ export const SignUpForm = () => {
             return "bg-yellow-500";
          case "strong":
             return "bg-green-500";
-         default:
-            return "bg-gray-300";
+         // default:
+         //    return "bg-gray-300";
       }
    };
 
@@ -89,8 +89,8 @@ export const SignUpForm = () => {
             return "w-2/3";
          case "strong":
             return "w-full";
-         default:
-            return "w-0";
+         // default:
+         //    return "w-0";
       }
    };
 

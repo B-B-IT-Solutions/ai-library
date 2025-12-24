@@ -12,8 +12,10 @@ import {
    assertHasAttributeWithValue,
    assertInDocument,
    getElementById,
+   renderWithRouter,
 } from "@tests";
 import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
+import mockRouter from "next-router-mock";
 
 import { signUpUser } from "@/data/actions/user";
 
@@ -360,6 +362,31 @@ describe("SignUpForm functionality tests", () => {
 
       await waitFor(() => {
          assertConfirmPasswordNotVisible();
+      });
+   });
+
+   it("SignUpForm - sign-in link clicked - test", async () => {
+      const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
+      useSearchParamsMock.mockReturnValue(searchParams);
+
+      const url = "/sign-in";
+      renderWithRouter(<SignUpForm />, url);
+
+      await waitFor(() => {
+         assertRendered();
+         assertFieldsRendered();
+      });
+
+      await waitFor(() => {
+         assertRendered();
+         expect(mockRouter.pathname).toEqual(url);
+      });
+
+      const singInLink = screen.getByTestId("sign-in-link");
+      await userEvent.click(singInLink);
+
+      await waitFor(() => {
+         expect(mockRouter.pathname).toEqual(`/sign-in`);
       });
    });
 });
