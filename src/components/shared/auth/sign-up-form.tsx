@@ -207,9 +207,12 @@ export const SignUpForm = () => {
                            data-testid="toggle-password-visibility"
                         >
                            {showPassword ? (
-                              <EyeOff className="h-4 w-4" />
+                              <EyeOff
+                                 className="h-4 w-4"
+                                 data-testid="eye-off-icon"
+                              />
                            ) : (
-                              <Eye className="h-4 w-4" />
+                              <Eye className="h-4 w-4" data-testid="eye-icon" />
                            )}
                         </button>
                      </div>
@@ -277,9 +280,12 @@ export const SignUpForm = () => {
                            data-testid="toggle-confirm-password-visibility"
                         >
                            {showConfirmPassword ? (
-                              <EyeOff className="h-4 w-4" />
+                              <EyeOff
+                                 className="h-4 w-4"
+                                 data-testid="eye-off-icon"
+                              />
                            ) : (
-                              <Eye className="h-4 w-4" />
+                              <Eye className="h-4 w-4" data-testid="eye-icon" />
                            )}
                         </button>
                      </div>
