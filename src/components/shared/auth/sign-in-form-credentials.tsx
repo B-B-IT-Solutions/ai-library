@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -18,6 +20,8 @@ import { DSignInFormData } from "@/data/types/domain/user";
 import { signInFormSchema } from "@/data/types/validators/user.schema";
 
 export const CredentialsSignInForm = () => {
+   const [showPassword, setShowPassword] = useState(false);
+
    const {
       handleSubmit,
       formState: { isSubmitting, errors },
@@ -44,10 +48,15 @@ export const CredentialsSignInForm = () => {
       }
    };
 
+   const togglePasswordVisibility = () => {
+      setShowPassword(!showPassword);
+   };
+
    return (
       <form
          onSubmit={handleSubmit(onSubmit)}
          data-testid="singin-form-credentails"
+         className="space-y-5"
       >
          <input
             type="hidden"
@@ -55,84 +64,138 @@ export const CredentialsSignInForm = () => {
             name="callbackUrl"
             value={callbackUrl}
          />
-         <div className="space-y-6">
-            <FieldGroup>
-               <Controller
-                  name="email"
-                  control={control}
-                  render={({ field, fieldState }) => (
-                     <Field
-                        data-invalid={fieldState.invalid}
-                        data-testid="email-field"
+         <FieldGroup>
+            <Controller
+               name="email"
+               control={control}
+               render={({ field, fieldState }) => (
+                  <Field
+                     data-invalid={fieldState.invalid}
+                     data-testid="email-field"
+                  >
+                     <FieldLabel
+                        htmlFor="email"
+                        className="text-sm font-medium"
                      >
-                        <FieldLabel htmlFor="email">Email</FieldLabel>
+                        Email Address
+                     </FieldLabel>
+                     <div className="relative">
+                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                           <Mail className="h-4 w-4" />
+                        </div>
                         <Input
                            {...field}
                            id="email"
                            autoComplete="email"
-                           placeholder="Email"
+                           placeholder="you@example.com"
                            aria-invalid={fieldState.invalid}
-                           className="text-foreground"
+                           className="pl-10 h-11 text-foreground transition-all focus:ring-2 focus:ring-primary/20"
                         />
-                        {fieldState.invalid && (
-                           <FieldError errors={[fieldState.error]} />
-                        )}
-                     </Field>
-                  )}
-               />
-               <Controller
-                  name="password"
-                  control={control}
-                  render={({ field, fieldState }) => (
-                     <Field
-                        data-invalid={fieldState.invalid}
-                        data-testid="password-field"
-                     >
-                        <FieldLabel htmlFor="password">Password</FieldLabel>
+                     </div>
+                     {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                     )}
+                  </Field>
+               )}
+            />
+            <Controller
+               name="password"
+               control={control}
+               render={({ field, fieldState }) => (
+                  <Field
+                     data-invalid={fieldState.invalid}
+                     data-testid="password-field"
+                  >
+                     <div className="flex items-center justify-between">
+                        <FieldLabel
+                           htmlFor="password"
+                           className="text-sm font-medium"
+                        >
+                           Password
+                        </FieldLabel>
+                        <Link
+                           href="/forgot-password"
+                           className="text-xs text-primary hover:text-primary/80 transition-colors"
+                           data-testid="forgot-password-link"
+                        >
+                           Forgot password?
+                        </Link>
+                     </div>
+                     <div className="relative">
+                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                           <Lock className="h-4 w-4" />
+                        </div>
                         <Input
                            {...field}
                            id="password"
-                           autoComplete="password"
-                           type="password"
-                           placeholder="Password"
+                           autoComplete="current-password"
+                           type={showPassword ? "text" : "password"}
+                           placeholder="Enter your password"
                            aria-invalid={fieldState.invalid}
-                           className="text-foreground"
+                           className="pl-10 pr-10 h-11 text-foreground transition-all focus:ring-2 focus:ring-primary/20"
                         />
-                        {fieldState.invalid && (
-                           <FieldError errors={[fieldState.error]} />
-                        )}
-                     </Field>
-                  )}
-               />
-               <Field>
-                  <Button
-                     disabled={isSubmitting}
-                     className="w-full"
-                     variant="default"
-                     type="submit"
-                     data-testid="sign-in-btn"
-                  >
-                     {isSubmitting ? "Signing In..." : "Sign In"}
-                  </Button>
-                  {errors.root?.serverError && (
-                     <FieldError
-                        errors={[{ message: errors.root.serverError.message }]}
-                     />
-                  )}
-               </Field>
-            </FieldGroup>
-
-            <div className="text-sm text-center text-muted-foreground">
-               Don&apos;t have an account?{" "}
-               <Link
-                  href="/sign-up"
-                  target="_self"
-                  className="link text-accent-foreground"
-                  data-testid="sign-up-link"
+                        <button
+                           type="button"
+                           onClick={togglePasswordVisibility}
+                           className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded p-0.5"
+                           aria-label={
+                              showPassword ? "Hide password" : "Show password"
+                           }
+                           data-testid="toggle-password-visibility"
+                        >
+                           {showPassword ? (
+                              <EyeOff
+                                 className="h-4 w-4"
+                                 data-testid="eye-off-icon"
+                              />
+                           ) : (
+                              <Eye className="h-4 w-4" data-testid="eye-icon" />
+                           )}
+                        </button>
+                     </div>
+                     {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                     )}
+                  </Field>
+               )}
+            />
+            {errors.root?.serverError && (
+               <div className="rounded-md bg-destructive/10 p-3 border border-destructive/20">
+                  <FieldError
+                     errors={[{ message: errors.root.serverError.message }]}
+                  />
+               </div>
+            )}
+            <Field>
+               <Button
+                  disabled={isSubmitting}
+                  className="w-full h-11 text-base font-medium transition-all hover:shadow-lg cursor-pointer"
+                  variant="default"
+                  type="submit"
+                  data-testid="sign-in-btn"
                >
-                  Sign Up
-               </Link>
-            </div>
+                  {isSubmitting ? (
+                     <span className="flex items-center gap-2">
+                        <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                        Signing in...
+                     </span>
+                  ) : (
+                     "Sign In"
+                  )}
+               </Button>
+            </Field>
+         </FieldGroup>
+
+         <div className="text-sm text-center text-muted-foreground pt-2">
+            Don&apos;t have an account?{" "}
+            <Link
+               href="/sign-up"
+               target="_self"
+               className="font-medium text-primary hover:text-primary/80 transition-colors underline-offset-4 hover:underline"
+               data-testid="sign-up-link"
+            >
+               Sign up
+            </Link>
          </div>
       </form>
    );

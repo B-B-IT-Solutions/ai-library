@@ -10,7 +10,11 @@ import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 
-import SignUpPage, { metadata, SignUpPageProps } from "./page";
+import SignUpPage, {
+   metadata,
+   SignInPageSearchParams,
+   SignUpPageProps,
+} from "./page";
 
 const authMock = auth as unknown as AuthMockedFunction;
 const redirectMock = redirect as jest.MockedFunction<typeof redirect>;
@@ -42,15 +46,17 @@ describe("SignUpPage rendering tests", () => {
       const session = ntestData.session();
       authMock.mockResolvedValue(session);
 
-      const redirectParams = { callbackUrl: "/callback/test-1" };
+      const searchParams: SignInPageSearchParams = {
+         callbackUrl: "/callback/test-1",
+      };
       const props: SignUpPageProps = {
-         searchParams: Promise.resolve(redirectParams),
+         searchParams: Promise.resolve(searchParams),
       };
       const { container } = await renderAsyncRSC(SignUpPage, props);
 
       await waitFor(() => {
          expect(redirectMock).toHaveBeenCalledTimes(1);
-         expect(redirectMock).toHaveBeenCalledWith(redirectParams.callbackUrl);
+         expect(redirectMock).toHaveBeenCalledWith(searchParams.callbackUrl);
       });
 
       expect(container).toMatchSnapshot();
@@ -60,9 +66,11 @@ describe("SignUpPage rendering tests", () => {
       const session = ntestData.session();
       authMock.mockResolvedValue(session);
 
-      const redirectParams = { callbackUrl: undefined };
+      const searchParams: SignInPageSearchParams = {
+         callbackUrl: undefined,
+      };
       const props: SignUpPageProps = {
-         searchParams: Promise.resolve(redirectParams),
+         searchParams: Promise.resolve(searchParams),
       };
       const { container } = await renderAsyncRSC(SignUpPage, props);
 
@@ -76,8 +84,11 @@ describe("SignUpPage rendering tests", () => {
 
    it("SignUpPage - user not signed in - rendered test", async () => {
       authMock.mockResolvedValue(null);
+      const searchParams: SignInPageSearchParams = {
+         callbackUrl: "/callback/test-1",
+      };
       const props: SignUpPageProps = {
-         searchParams: Promise.resolve({ callbackUrl: "/callback/test-1" }),
+         searchParams: Promise.resolve(searchParams),
       };
       const { container } = await renderAsyncRSC(SignUpPage, props);
 
@@ -90,10 +101,6 @@ describe("SignUpPage rendering tests", () => {
 });
 
 describe("SignUpPage functionality tests", () => {
-   beforeEach(() => {
-      jest.resetAllMocks();
-   });
-
    it("SignUpPage - metadata - test", async () => {
       expect(metadata).toEqual(expectedMetadata);
    });

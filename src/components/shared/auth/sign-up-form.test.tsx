@@ -1,14 +1,21 @@
 jest.mock("@/data/actions/user");
 
-import { getByDisplayValue, screen, waitFor } from "@testing-library/dom";
+import {
+   getByDisplayValue,
+   getByTestId,
+   screen,
+   waitFor,
+} from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
    assertHasAttributeWithValue,
    assertInDocument,
    getElementById,
+   renderWithRouter,
 } from "@tests";
 import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
+import mockRouter from "next-router-mock";
 
 import { signUpUser } from "@/data/actions/user";
 
@@ -45,6 +52,42 @@ const assertCallbackUrl = (url: string) => {
 
    assertInDocument(callbackUrl);
    assertHasAttributeWithValue(callbackUrl, "value", url);
+};
+
+const assertPasswordVisible = () => {
+   const passwordField = screen.getByTestId("password-field");
+   const passwordInput = getElementById("password");
+   const icon = getByTestId(passwordField, "eye-off-icon");
+
+   assertHasAttributeWithValue(passwordInput, "type", "text");
+   assertInDocument(icon);
+};
+
+const assertPasswordNotVisible = () => {
+   const passwordField = screen.getByTestId("password-field");
+   const passwordInput = getElementById("password");
+   const icon = getByTestId(passwordField, "eye-icon");
+
+   assertHasAttributeWithValue(passwordInput, "type", "password");
+   assertInDocument(icon);
+};
+
+const assertConfirmPasswordVisible = () => {
+   const passwordField = screen.getByTestId("confirm-password-field");
+   const passwordInput = getElementById("confirmPassword");
+   const icon = getByTestId(passwordField, "eye-off-icon");
+
+   assertHasAttributeWithValue(passwordInput, "type", "text");
+   assertInDocument(icon);
+};
+
+const assertConfirmPasswordNotVisible = () => {
+   const passwordField = screen.getByTestId("confirm-password-field");
+   const passwordInput = getElementById("confirmPassword");
+   const icon = getByTestId(passwordField, "eye-icon");
+
+   assertHasAttributeWithValue(passwordInput, "type", "password");
+   assertInDocument(icon);
 };
 
 describe("SignUpForm rendering tests", () => {
@@ -212,7 +255,7 @@ describe("SignUpForm functionality tests", () => {
          expect(text).toBeInTheDocument();
       }, options);
 
-      const passwordValue = "pwd123456";
+      const passwordValue = "pwd123456!";
       const password = getElementById("password");
       await userEvent.type(password, passwordValue);
 
@@ -248,5 +291,102 @@ describe("SignUpForm functionality tests", () => {
 
       const rootError = screen.getByText(singUpResult.message);
       assertInDocument(rootError);
+   });
+
+   it("SignUpForm - show password btn clicked - test", async () => {
+      const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
+      useSearchParamsMock.mockReturnValue(searchParams);
+      render(<SignUpForm />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertFieldsRendered();
+         assertPasswordNotVisible();
+      });
+
+      const passwordValue = "pwd123";
+      const password = getElementById("password");
+      await userEvent.type(password, passwordValue);
+
+      const options = { timeout: 3000 };
+      await waitFor(() => {
+         const text = screen.getByDisplayValue(passwordValue);
+         expect(text).toBeInTheDocument();
+      }, options);
+
+      const showPasswordBtn = screen.getByTestId("toggle-password-visibility");
+      userEvent.click(showPasswordBtn);
+
+      await waitFor(() => {
+         assertPasswordVisible();
+      });
+
+      userEvent.click(showPasswordBtn);
+
+      await waitFor(() => {
+         assertPasswordNotVisible();
+      });
+   });
+
+   it("SignUpForm - show confirm password btn clicked - test", async () => {
+      const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
+      useSearchParamsMock.mockReturnValue(searchParams);
+      render(<SignUpForm />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertFieldsRendered();
+         assertConfirmPasswordNotVisible();
+      });
+
+      const passwordValue = "pwd123";
+      const confirmPassword = getElementById("confirmPassword");
+      await userEvent.type(confirmPassword, passwordValue);
+
+      const options = { timeout: 3000 };
+      await waitFor(() => {
+         const text = screen.getByDisplayValue(passwordValue);
+         expect(text).toBeInTheDocument();
+      }, options);
+
+      const showPasswordBtn = screen.getByTestId(
+         "toggle-confirm-password-visibility"
+      );
+      userEvent.click(showPasswordBtn);
+
+      await waitFor(() => {
+         assertConfirmPasswordVisible();
+      });
+
+      userEvent.click(showPasswordBtn);
+
+      await waitFor(() => {
+         assertConfirmPasswordNotVisible();
+      });
+   });
+
+   it("SignUpForm - sign-in link clicked - test", async () => {
+      const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
+      useSearchParamsMock.mockReturnValue(searchParams);
+
+      const url = "/sign-in";
+      renderWithRouter(<SignUpForm />, url);
+
+      await waitFor(() => {
+         assertRendered();
+         assertFieldsRendered();
+      });
+
+      await waitFor(() => {
+         assertRendered();
+         expect(mockRouter.pathname).toEqual(url);
+      });
+
+      const singInLink = screen.getByTestId("sign-in-link");
+      await userEvent.click(singInLink);
+
+      await waitFor(() => {
+         expect(mockRouter.pathname).toEqual(`/sign-in`);
+      });
    });
 });
