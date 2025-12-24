@@ -55,6 +55,7 @@ export const authConfig: NextAuthConfig = {
          // Array of regex patterns of paths we want to protect
          const protectedPaths = [
             /\/prompts/,
+            /^\/marketplace/,
             /\/library/,
             /\/checkout/,
             /\/orders\/(.*)/,

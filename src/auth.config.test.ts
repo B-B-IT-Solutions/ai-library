@@ -4,7 +4,6 @@ jest.mock("@/lib/encrypt");
 
 import { ntestData, ptestData } from "@tests";
 import { forEach } from "es-toolkit/compat";
-import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { Session } from "next-auth";
@@ -185,6 +184,7 @@ describe("auth.config - CredentialsProvider - tests", () => {
 describe("auth.config - callback.authorized - tests", () => {
    const protectedPaths = [
       "/prompts",
+      "/marketplace",
       "/library",
       "/checkout",
       "/settings",
@@ -193,7 +193,7 @@ describe("auth.config - callback.authorized - tests", () => {
       "/orders/456",
       "/admin",
    ];
-   const publicPaths = ["/sign-in", "/sign-out"];
+   const publicPaths = ["/sign-in", "/sign-out", "/public/marketplace"];
 
    const authorized = authConfig.callbacks!.authorized!;
 
