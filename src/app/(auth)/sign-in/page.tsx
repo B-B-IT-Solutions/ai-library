@@ -18,10 +18,12 @@ export const metadata: Metadata = {
    title: "Sign In",
 };
 
+export type SignInPageSearchParams = {
+   callbackUrl?: string;
+};
+
 export type SignInPageProps = {
-   searchParams: Promise<{
-      callbackUrl?: string;
-   }>;
+   searchParams: Promise<SignInPageSearchParams>;
 };
 
 const SignInPage = async (props: SignInPageProps) => {
