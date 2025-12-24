@@ -169,7 +169,7 @@ exports[`Products rendering tests Products - one product - test 1`] = `
           <p
             class="text-xs text-slate-600 mb-2"
           >
-            1
+            3
              templates included
           </p>
           <p
@@ -433,7 +433,7 @@ exports[`Products rendering tests Products - viewMode grid - rendered test 1`] =
           <p
             class="text-xs text-slate-600 mb-2"
           >
-            1
+            3
              templates included
           </p>
           <p
@@ -580,7 +580,7 @@ exports[`Products rendering tests Products - viewMode grid - rendered test 1`] =
           <p
             class="text-xs text-slate-600 mb-2"
           >
-            1
+            3
              templates included
           </p>
           <p
@@ -727,7 +727,7 @@ exports[`Products rendering tests Products - viewMode grid - rendered test 1`] =
           <p
             class="text-xs text-slate-600 mb-2"
           >
-            1
+            3
              templates included
           </p>
           <p
@@ -990,7 +990,7 @@ exports[`Products rendering tests Products - viewMode list - rendered test 1`] =
               <span
                 class="flex items-center gap-1"
               >
-                1 templates included
+                3 templates included
               </span>
             </div>
           </div>
@@ -1146,7 +1146,7 @@ exports[`Products rendering tests Products - viewMode list - rendered test 1`] =
               <span
                 class="flex items-center gap-1"
               >
-                1 templates included
+                3 templates included
               </span>
             </div>
           </div>
@@ -1302,7 +1302,7 @@ exports[`Products rendering tests Products - viewMode list - rendered test 1`] =
               <span
                 class="flex items-center gap-1"
               >
-                1 templates included
+                3 templates included
               </span>
             </div>
           </div>
