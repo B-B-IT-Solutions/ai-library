@@ -144,9 +144,12 @@ export const CredentialsSignInForm = () => {
                            data-testid="toggle-password-visibility"
                         >
                            {showPassword ? (
-                              <EyeOff className="h-4 w-4" />
+                              <EyeOff
+                                 className="h-4 w-4"
+                                 data-testid="eye-off-icon"
+                              />
                            ) : (
-                              <Eye className="h-4 w-4" />
+                              <Eye className="h-4 w-4" data-testid="eye-icon" />
                            )}
                         </button>
                      </div>

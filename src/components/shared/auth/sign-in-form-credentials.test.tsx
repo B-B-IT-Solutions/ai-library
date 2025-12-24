@@ -31,11 +31,13 @@ const assertFieldsRendered = () => {
    const password = screen.getByTestId("password-field");
    const signInBtn = screen.getByTestId("sign-in-btn");
    const singUpLink = screen.getByTestId("sign-up-link");
+   const forgotPasswordLink = screen.getByTestId("forgot-password-link");
 
    assertInDocument(email);
    assertInDocument(password);
    assertInDocument(signInBtn);
    assertInDocument(singUpLink);
+   assertInDocument(forgotPasswordLink);
 };
 
 const assertCallbackUrl = (url: string) => {
@@ -43,6 +45,22 @@ const assertCallbackUrl = (url: string) => {
 
    assertInDocument(callbackUrl);
    assertHasAttributeWithValue(callbackUrl, "value", url);
+};
+
+const assertPasswordVisible = () => {
+   const password = getElementById("password");
+   const icon = screen.getByTestId("eye-off-icon");
+
+   assertHasAttributeWithValue(password, "type", "text");
+   assertInDocument(icon);
+};
+
+const assertPasswordNotVisible = () => {
+   const password = getElementById("password");
+   const icon = screen.getByTestId("eye-icon");
+
+   assertHasAttributeWithValue(password, "type", "password");
+   assertInDocument(icon);
 };
 
 describe("CredentialsSignInForm rendering tests", () => {
@@ -204,5 +222,40 @@ describe("CredentialsSignInForm functionality tests", () => {
 
       const rootError = screen.getByText(singInResult.message);
       assertInDocument(rootError);
+   });
+
+   it("CredentialsSignInForm - show password toggle clicked - test", async () => {
+      const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
+      useSearchParamsMock.mockReturnValue(searchParams);
+      render(<CredentialsSignInForm />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertFieldsRendered();
+         assertPasswordNotVisible();
+      });
+
+      const passwordValue = "pwd123";
+      const password = getElementById("password");
+      await userEvent.type(password, passwordValue);
+
+      const options = { timeout: 3000 };
+      await waitFor(() => {
+         const text = screen.getByDisplayValue(passwordValue);
+         expect(text).toBeInTheDocument();
+      }, options);
+
+      const showPasswordBtn = screen.getByTestId("toggle-password-visibility");
+      userEvent.click(showPasswordBtn);
+
+      await waitFor(() => {
+         assertPasswordVisible();
+      });
+
+      userEvent.click(showPasswordBtn);
+
+      await waitFor(() => {
+         assertPasswordNotVisible();
+      });
    });
 });
