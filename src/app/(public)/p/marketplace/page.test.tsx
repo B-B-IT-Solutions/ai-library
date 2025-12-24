@@ -47,60 +47,11 @@ describe("MarketplacePage rendering tests", () => {
       jest.resetAllMocks();
    });
 
-   it("MarketplacePage - session null - redirects to /marketplace", async () => {
+   it("MarketplacePage - session null - props empty - test", async () => {
       authMock.mockResolvedValue(null);
 
-      const { container } = await renderAsyncRSC(MarketplacePage, {});
-
-      await waitFor(() => {
-         expect(authMock).toHaveBeenCalledTimes(1);
-         expect(getCartMock).not.toHaveBeenCalled();
-         expect(redirectMock).toHaveBeenCalledTimes(1);
-         expect(redirectMock).toHaveBeenCalledWith("/marketplace");
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("MarketplacePage - session.user undefined - redirects to /marketplace", async () => {
-      const session = ntestData.session();
-      session.user = undefined;
-      authMock.mockResolvedValue(session);
-
-      const { container } = await renderAsyncRSC(MarketplacePage, {});
-
-      await waitFor(() => {
-         expect(authMock).toHaveBeenCalledTimes(1);
-         expect(getCartMock).not.toHaveBeenCalled();
-         expect(redirectMock).toHaveBeenCalledTimes(1);
-         expect(redirectMock).toHaveBeenCalledWith("/marketplace");
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("MarketplacePage - session.user.id undefined - redirects to /marketplace", async () => {
-      const session = ntestData.session();
-      session.user.id = undefined;
-      authMock.mockResolvedValue(session);
-
-      const { container } = await renderAsyncRSC(MarketplacePage, {});
-
-      await waitFor(() => {
-         expect(authMock).toHaveBeenCalledTimes(1);
-         expect(getCartMock).not.toHaveBeenCalled();
-         expect(redirectMock).toHaveBeenCalledTimes(1);
-         expect(redirectMock).toHaveBeenCalledWith("/marketplace");
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("MarketplacePage - props empty - rendered test", async () => {
-      const session = ntestData.session();
       const products = dtestData.dProducts();
       const cart = dtestData.dCart();
-      authMock.mockResolvedValue(session);
       getProductsMock.mockResolvedValue(products);
       getCartMock.mockResolvedValue(cart);
 
@@ -113,11 +64,13 @@ describe("MarketplacePage rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("MarketplacePage - searchParams.view list - rendered test", async () => {
+   it("MarketplacePage - session.user undefined - searchParams.view list - test", async () => {
       const session = ntestData.session();
+      session.user = undefined;
+      authMock.mockResolvedValue(session);
+
       const products = dtestData.dProducts();
       const cart = dtestData.dCart();
-      authMock.mockResolvedValue(session);
       getProductsMock.mockResolvedValue(products);
       getCartMock.mockResolvedValue(cart);
 
@@ -131,6 +84,43 @@ describe("MarketplacePage rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("MarketplacePage - session.user.id undefined - searchParams.view grid - test", async () => {
+      const session = ntestData.session();
+      session.user.id = undefined;
+      authMock.mockResolvedValue(session);
+
+      const searchParams: MarketPlaceSearchParams = { view: "grid" };
+
+      const props: MarketplacePageProps = {
+         searchParams: Promise.resolve(searchParams),
+      };
+
+      const { container } = await renderAsyncRSC(MarketplacePage, props);
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("MarketplacePage - session.user.id defined - redirects to /marketplace - test", async () => {
+      const session = ntestData.session();
+      authMock.mockResolvedValue(session);
+
+      const { container } = await renderAsyncRSC(MarketplacePage, {});
+
+      await waitFor(() => {
+         expect(authMock).toHaveBeenCalledTimes(1);
+         expect(getCartMock).not.toHaveBeenCalled();
+         expect(getCartMock).not.toHaveBeenCalled();
+         expect(redirectMock).toHaveBeenCalledTimes(1);
+         expect(redirectMock).toHaveBeenCalledWith("/marketplace");
       });
 
       expect(container).toMatchSnapshot();

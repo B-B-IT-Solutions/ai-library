@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendered test 1`] = `
+exports[`MarketplacePage rendering tests MarketplacePage - session null - props empty - test 1`] = `
 <div>
   <div
     class="container mx-auto px-4 py-8"
@@ -642,7 +642,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
 </div>
 `;
 
-exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view list - rendered test 1`] = `
+exports[`MarketplacePage rendering tests MarketplacePage - session.user undefined - searchParams.view list - test 1`] = `
 <div>
   <div
     class="container mx-auto px-4 py-8"
@@ -1311,8 +1311,42 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
 </div>
 `;
 
-exports[`MarketplacePage rendering tests MarketplacePage - session null - redirects to /marketplace 1`] = `<div />`;
+exports[`MarketplacePage rendering tests MarketplacePage - session.user.id defined - redirects to /marketplace - test 1`] = `<div />`;
 
-exports[`MarketplacePage rendering tests MarketplacePage - session.user undefined - redirects to /marketplace 1`] = `<div />`;
-
-exports[`MarketplacePage rendering tests MarketplacePage - session.user.id undefined - redirects to /marketplace 1`] = `<div />`;
+exports[`MarketplacePage rendering tests MarketplacePage - session.user.id undefined - searchParams.view grid - test 1`] = `
+<div>
+  <div
+    class="container mx-auto px-4 py-8"
+    data-testid="market-place-page"
+  >
+    <div
+      class="mb-8"
+    >
+      <h1
+        class="text-3xl font-bold text-slate-900 mb-2"
+      >
+        Marketplace
+      </h1>
+      <p
+        class="text-slate-600"
+      >
+        Browse and purchase prompt templates and bundles
+      </p>
+    </div>
+    <div
+      data-testid="market-place"
+    >
+      <div
+        class="text-center py-12"
+        data-testid="products-empty"
+      >
+        <p
+          class="text-slate-600"
+        >
+          No products available at the moment.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;

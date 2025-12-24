@@ -19,7 +19,7 @@ export type MarketplacePageProps = {
 
 export const MarketplacePage = async (props: MarketplacePageProps) => {
    const session = await auth();
-   if (!session?.user?.id) {
+   if (session?.user?.id) {
       return redirect("/marketplace");
    }
 
