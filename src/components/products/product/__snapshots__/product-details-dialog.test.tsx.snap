@@ -123,12 +123,78 @@ exports[`ProductDetailsDialog rendering tests ProductDetailsDialog - open true -
                 />
               </svg>
               Included Templates (
-              1
+              3
               )
             </h4>
             <div
               class="space-y-2"
             >
+              <div
+                class="bg-slate-50 border border-slate-200 rounded-lg p-3"
+              >
+                <h5
+                  class="font-medium text-slate-900 text-sm mb-1"
+                >
+                  title 0
+                </h5>
+                <p
+                  class="text-xs text-slate-600 line-clamp-2"
+                >
+                  content 0
+                </p>
+                <div
+                  class="flex flex-wrap gap-1 mt-2"
+                >
+                  <span
+                    class="text-xs px-1.5 py-0.5 bg-white text-slate-600 rounded border border-slate-200"
+                  >
+                    category 0
+                  </span>
+                  <span
+                    class="text-xs px-1.5 py-0.5 bg-white text-slate-600 rounded border border-slate-200"
+                  >
+                    category 1
+                  </span>
+                  <span
+                    class="text-xs px-1.5 py-0.5 bg-white text-slate-600 rounded border border-slate-200"
+                  >
+                    category 2
+                  </span>
+                </div>
+              </div>
+              <div
+                class="bg-slate-50 border border-slate-200 rounded-lg p-3"
+              >
+                <h5
+                  class="font-medium text-slate-900 text-sm mb-1"
+                >
+                  title 1
+                </h5>
+                <p
+                  class="text-xs text-slate-600 line-clamp-2"
+                >
+                  content 1
+                </p>
+                <div
+                  class="flex flex-wrap gap-1 mt-2"
+                >
+                  <span
+                    class="text-xs px-1.5 py-0.5 bg-white text-slate-600 rounded border border-slate-200"
+                  >
+                    category 0
+                  </span>
+                  <span
+                    class="text-xs px-1.5 py-0.5 bg-white text-slate-600 rounded border border-slate-200"
+                  >
+                    category 1
+                  </span>
+                  <span
+                    class="text-xs px-1.5 py-0.5 bg-white text-slate-600 rounded border border-slate-200"
+                  >
+                    category 2
+                  </span>
+                </div>
+              </div>
               <div
                 class="bg-slate-50 border border-slate-200 rounded-lg p-3"
               >

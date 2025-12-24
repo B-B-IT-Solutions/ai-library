@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import type { NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
+import { migrateSessionCartToUser } from "@/data/actions/cart";
 import { getUserByEmail, updateUser } from "@/data/actions/user";
 import prisma from "@/data/db/prisma";
 import { compare } from "@/lib/encrypt";
@@ -54,6 +55,7 @@ export const authConfig: NextAuthConfig = {
          // Array of regex patterns of paths we want to protect
          const protectedPaths = [
             /\/prompts/,
+            /^\/marketplace/,
             /\/library/,
             /\/checkout/,
             /\/orders\/(.*)/,
@@ -123,24 +125,10 @@ export const authConfig: NextAuthConfig = {
                const cookiesObject = await cookies();
                const sessionCartId = cookiesObject.get("sessionCartId")?.value;
 
-               // if (sessionCartId) {
-               //    const sessionCart = await prisma.cart.findFirst({
-               //       where: { sessionCartId },
-               //    });
-
-               //    if (sessionCart) {
-               //       // Delete current user cart
-               //       await prisma.cart.deleteMany({
-               //          where: { userId: user.id },
-               //       });
-
-               //       // Assign new cart
-               //       await prisma.cart.update({
-               //          where: { id: sessionCart.id },
-               //          data: { userId: user.id },
-               //       });
-               //    }
-               // }
+               if (sessionCartId) {
+                  const userId = user.id as string;
+                  await migrateSessionCartToUser(sessionCartId, userId);
+               }
             }
          }
 

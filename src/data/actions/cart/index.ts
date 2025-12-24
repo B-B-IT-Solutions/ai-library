@@ -1,1 +1,6 @@
-export { getCart, addToCart, removeFromCart } from "./cart.actions";
+export {
+   getCart,
+   addToCart,
+   removeFromCart,
+   migrateSessionCartToUser,
+} from "./cart.actions";

@@ -3,8 +3,8 @@ import { map } from "es-toolkit/compat";
 import { DCart } from "@/data/types/domain/cart";
 import { DProduct, DProductViewMode } from "@/data/types/domain/product";
 
-import { ProductCard } from "./product-card";
-import { ProductListItem } from "./product-list-item";
+import { ProductCard } from "./product/product-card";
+import { ProductListItem } from "./product/product-list-item";
 import { ViewToggle } from "./view-toggle";
 
 type ProductsProps = {

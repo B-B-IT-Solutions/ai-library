@@ -10,11 +10,18 @@ import {
    pAddItemToCart,
    pClearCart,
    pGetOrCreateCart,
+   pMigrateSessionCartToUser,
    pRemoveCartItem,
 } from "@/data/db/queries/cart";
 import { BatchPayload } from "@/generated/prisma/internal/prismaNamespace";
 
-import { addToCart, clearCart, getCart, removeFromCart } from "./cart.actions";
+import {
+   addToCart,
+   clearCart,
+   getCart,
+   migrateSessionCartToUser,
+   removeFromCart,
+} from "./cart.actions";
 import { toDCart } from "./cart.mapper";
 
 const authMock = auth as unknown as AuthMockedFunction;
@@ -33,6 +40,11 @@ const pRemoveCartItemMock = pRemoveCartItem as jest.MockedFunction<
 >;
 
 const pClearCartMock = pClearCart as jest.MockedFunction<typeof pClearCart>;
+
+const pMigrateSessionCartToUserMock =
+   pMigrateSessionCartToUser as jest.MockedFunction<
+      typeof pMigrateSessionCartToUser
+   >;
 
 describe("getCart tests", () => {
    beforeEach(() => {
@@ -348,5 +360,24 @@ describe("clearCart tests", () => {
       expect(pGetOrCreateCartMock).toHaveBeenCalledTimes(1);
       expect(pGetOrCreateCartMock).toHaveBeenCalledWith({});
       expect(pClearCartMock).not.toHaveBeenCalled();
+   });
+});
+
+describe("migrateSessionCartToUser tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   test("migrateSessionCartToUser - cart updated - test", async () => {
+      const sessionCartId = "session-id-1";
+      const userId = "user-id-1";
+
+      await migrateSessionCartToUser(sessionCartId, userId);
+
+      expect(pMigrateSessionCartToUserMock).toHaveBeenCalledTimes(1);
+      expect(pMigrateSessionCartToUserMock).toHaveBeenCalledWith(
+         sessionCartId,
+         userId
+      );
    });
 });

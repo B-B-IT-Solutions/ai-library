@@ -6,4 +6,6 @@ export {
    pGetCartBySessionId,
    pGetCartByUserId,
    pRemoveCartItem,
+   pMigrateSessionCartToUser,
+   type AddItemToCartParams,
 } from "./cart";

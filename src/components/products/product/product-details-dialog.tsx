@@ -16,8 +16,7 @@ import {
 import { Separator } from "@/components/shadcn/separator";
 import { CallbackFn } from "@/data/types/common";
 import { DProduct } from "@/data/types/domain/product";
-
-import { AddToCartButton } from "./add-to-cart-button";
+import { AddToCartButton } from "../buttons/add-to-cart-button";
 
 type ProductDetailsDialogProps = {
    product: DProduct;
@@ -103,31 +102,32 @@ export const ProductDetailsDialog: FC<ProductDetailsDialogProps> = ({
                Included Templates ({product.bundleItems.length})
             </h4>
             <div className="space-y-2">
-               {map(product.bundleItems, (template) => (
+               {map(product.bundleItems, (item) => (
                   <div
-                     key={template.id}
+                     key={item.id}
                      className="bg-slate-50 border border-slate-200 rounded-lg p-3"
                   >
                      <h5 className="font-medium text-slate-900 text-sm mb-1">
-                        {template.title}
+                        {item?.template?.title}
                      </h5>
-                     {template.content && (
+                     {item?.template?.content && (
                         <p className="text-xs text-slate-600 line-clamp-2">
-                           {template.content}
+                           {item?.template?.content}
                         </p>
                      )}
-                     {template.categories && template.categories.length > 0 && (
-                        <div className="flex flex-wrap gap-1 mt-2">
-                           {map(template.categories, (cat) => (
-                              <span
-                                 key={cat.name}
-                                 className="text-xs px-1.5 py-0.5 bg-white text-slate-600 rounded border border-slate-200"
-                              >
-                                 {cat.name}
-                              </span>
-                           ))}
-                        </div>
-                     )}
+                     {item?.template?.categories &&
+                        item?.template?.categories.length > 0 && (
+                           <div className="flex flex-wrap gap-1 mt-2">
+                              {map(item?.template?.categories, (cat) => (
+                                 <span
+                                    key={cat.name}
+                                    className="text-xs px-1.5 py-0.5 bg-white text-slate-600 rounded border border-slate-200"
+                                 >
+                                    {cat.name}
+                                 </span>
+                              ))}
+                           </div>
+                        )}
                   </div>
                ))}
             </div>

@@ -16,7 +16,13 @@ export const pGetOrCreateCart = async (
    if (userId) {
       let cart = await pGetCartByUserId(userId);
       if (!cart) {
-         cart = await pCreateCart({ user: { connect: { id: userId } } });
+         cart = await pCreateCart({
+            user: {
+               connect: {
+                  id: userId,
+               },
+            },
+         });
       }
       return cart;
    }

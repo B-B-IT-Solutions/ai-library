@@ -1,9 +1,9 @@
 jest.mock("@/data/actions/user");
+jest.mock("@/data/actions/cart");
 jest.mock("@/lib/encrypt");
 
 import { ntestData, ptestData } from "@tests";
 import { forEach } from "es-toolkit/compat";
-import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { Session } from "next-auth";
@@ -11,6 +11,7 @@ import { AdapterUser } from "next-auth/adapters";
 import { JWT } from "next-auth/jwt";
 import { CredentialsConfig } from "next-auth/providers/credentials";
 
+import { migrateSessionCartToUser } from "@/data/actions/cart";
 import { getUserByEmail, updateUser } from "@/data/actions/user";
 import { compare } from "@/lib/encrypt";
 
@@ -27,6 +28,11 @@ const getUserByEmailMock = getUserByEmail as jest.MockedFunction<
 >;
 
 const updateUserMock = updateUser as jest.MockedFunction<typeof updateUser>;
+
+const migrateSessionCartToUserMock =
+   migrateSessionCartToUser as jest.MockedFunction<
+      typeof migrateSessionCartToUser
+   >;
 
 const compareMock = compare as jest.MockedFunction<typeof compare>;
 
@@ -178,6 +184,7 @@ describe("auth.config - CredentialsProvider - tests", () => {
 describe("auth.config - callback.authorized - tests", () => {
    const protectedPaths = [
       "/prompts",
+      "/marketplace",
       "/library",
       "/checkout",
       "/settings",
@@ -186,7 +193,7 @@ describe("auth.config - callback.authorized - tests", () => {
       "/orders/456",
       "/admin",
    ];
-   const publicPaths = ["/sign-in", "/sign-out"];
+   const publicPaths = ["/sign-in", "/sign-out", "/public/marketplace"];
 
    const authorized = authConfig.callbacks!.authorized!;
 
@@ -362,10 +369,6 @@ describe("auth.config - callback.session - tests", () => {
 });
 
 describe("auth.config - callback.jwt - tests", () => {
-   const mockCookies = {
-      get: jest.fn().mockReturnValue({ value: "cart-123" }),
-   } as unknown as ReadonlyRequestCookies;
-
    const jwtCallback = authConfig.callbacks!.jwt!;
 
    beforeEach(() => {
@@ -395,7 +398,8 @@ describe("auth.config - callback.jwt - tests", () => {
          email: "john@example.com",
       } as AdapterUser;
 
-      cookiesMock.mockResolvedValue(mockCookies);
+      const reqCookies = ntestData.cookies({});
+      cookiesMock.mockResolvedValue(reqCookies);
 
       const result = await jwtCallback({
          token,
@@ -419,7 +423,8 @@ describe("auth.config - callback.jwt - tests", () => {
          email: "test@example.com",
       } as AdapterUser;
 
-      cookiesMock.mockResolvedValue(mockCookies);
+      const reqCookies = ntestData.cookies({});
+      cookiesMock.mockResolvedValue(reqCookies);
 
       const result = await jwtCallback({
          token,
@@ -435,14 +440,18 @@ describe("auth.config - callback.jwt - tests", () => {
 
    it("jwt - trigger signIn - test", async () => {
       const token = {} as JWT;
+      const userId = "user-123";
+      const sessionCartId = "sessionCartId-1";
       const user = {
-         id: "user-123",
+         id: userId,
          role: "USER",
          name: "John Doe",
          email: "john@example.com",
       } as AdapterUser;
 
-      cookiesMock.mockResolvedValue(mockCookies);
+      const cookies = { sessionCartId };
+      const reqCookies = ntestData.cookies(cookies);
+      cookiesMock.mockResolvedValue(reqCookies);
 
       const result = await jwtCallback({
          token: token,
@@ -453,20 +462,27 @@ describe("auth.config - callback.jwt - tests", () => {
 
       expect(result!.id).toBe(user.id);
       expect(result!.role).toBe(user.role);
-      expect(mockCookies.get).toHaveBeenCalledTimes(1);
-      expect(mockCookies.get).toHaveBeenCalledWith("sessionCartId");
+      expect(migrateSessionCartToUserMock).toHaveBeenCalledTimes(1);
+      expect(migrateSessionCartToUserMock).toHaveBeenCalledWith(
+         sessionCartId,
+         userId
+      );
    });
 
    it("jwt - trigger signUp - test", async () => {
       const token = {} as JWT;
+      const userId = "user-789";
+      const sessionCartId = "sessionCartId-1";
       const user = {
-         id: "user-789",
+         id: userId,
          role: "USER_1",
          name: "John Doe",
          email: "john@example.com",
       } as AdapterUser;
 
-      cookiesMock.mockResolvedValue(mockCookies);
+      const cookies = { sessionCartId };
+      const reqCookies = ntestData.cookies(cookies);
+      cookiesMock.mockResolvedValue(reqCookies);
 
       const result = await jwtCallback({
          token: token,
@@ -477,8 +493,11 @@ describe("auth.config - callback.jwt - tests", () => {
 
       expect(result!.id).toBe(user.id);
       expect(result!.role).toBe(user.role);
-      expect(mockCookies.get).toHaveBeenCalledTimes(1);
-      expect(mockCookies.get).toHaveBeenCalledWith("sessionCartId");
+      expect(migrateSessionCartToUserMock).toHaveBeenCalledTimes(1);
+      expect(migrateSessionCartToUserMock).toHaveBeenCalledWith(
+         sessionCartId,
+         userId
+      );
    });
 
    it("jwt - trigger update - test", async () => {
@@ -500,5 +519,6 @@ describe("auth.config - callback.jwt - tests", () => {
       });
 
       expect(result!.name).toEqual("New Name");
+      expect(migrateSessionCartToUserMock).not.toHaveBeenCalled();
    });
 });

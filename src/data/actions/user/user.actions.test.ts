@@ -104,6 +104,7 @@ describe("signOutUser tests", () => {
    it("signOutUser - test", async () => {
       await signOutUser();
       expect(signOutMock).toHaveBeenCalledTimes(1);
+      expect(signOutMock).toHaveBeenCalledWith({ redirectTo: "/p" });
    });
 });
 

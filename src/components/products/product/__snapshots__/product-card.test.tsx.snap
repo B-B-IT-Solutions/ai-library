@@ -39,7 +39,7 @@ exports[`ProductCard rendering tests ProductCard - product BUNDLE - test 1`] = `
       <p
         class="text-xs text-slate-600 mb-2"
       >
-        1
+        3
          templates included
       </p>
       <p

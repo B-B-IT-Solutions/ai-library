@@ -42,7 +42,7 @@ export const signInWithCredentials = async (formData: DSignInFormData) => {
 };
 
 export const signOutUser = async () => {
-   await signOut();
+   await signOut({ redirectTo: "/p" });
 };
 
 export const signUpUser = async (formData: DSignUpFormData) => {
