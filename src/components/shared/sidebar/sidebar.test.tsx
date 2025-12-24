@@ -69,7 +69,7 @@ describe("Sidebar rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertAppName("Prompt Manager");
+         assertAppName("KI Bibliothek");
          assertMenuItems();
       });
 
@@ -86,7 +86,6 @@ describe("Sidebar rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertAppName("PM");
          assertMenuItems();
       });
 

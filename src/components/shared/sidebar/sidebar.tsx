@@ -2,6 +2,7 @@
 
 import { FC } from "react";
 import { map, startsWith } from "es-toolkit/compat";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { User } from "next-auth";
@@ -18,6 +19,7 @@ import {
    SidebarMenuItem,
    useSidebar,
 } from "@/components/shadcn/sidebar";
+import { APP_NAME } from "@/lib/constants";
 import { toTestId } from "@/lib/utils";
 
 import { navigationMenu1, navigationMenu2 } from "./menus";
@@ -54,16 +56,30 @@ export const Sidebar: FC<SidebarProps> = ({ user }) => {
       });
    };
 
-   const appName = () => {
-      if (open || openMobile) {
-         return "Prompt Manager";
-      }
-      return "PM";
+   const appHeader = () => {
+      return (
+         <>
+            <Link href="/" className="flex items-center gap-2 px-2 py-1">
+               <Image
+                  src="/images/logo.svg"
+                  width={32}
+                  height={32}
+                  alt={`${APP_NAME} logo`}
+                  className="shrink-0"
+               />
+               {(open || openMobile) && (
+                  <span className="font-bold text-lg truncate">{APP_NAME}</span>
+               )}
+            </Link>
+         </>
+      );
    };
 
    return (
       <ShadcnSidebar collapsible="icon" data-testid="sidebar">
-         <SidebarHeader data-testid="sidebar-header">{appName()}</SidebarHeader>
+         <SidebarHeader data-testid="sidebar-header">
+            {appHeader()}
+         </SidebarHeader>
          <SidebarContent data-testid="sidebar-content">
             <SidebarGroup>
                <SidebarGroupLabel>Application</SidebarGroupLabel>

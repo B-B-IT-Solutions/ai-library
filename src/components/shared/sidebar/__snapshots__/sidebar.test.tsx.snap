@@ -35,7 +35,23 @@ exports[`Sidebar rendering tests Sidebar - sidebar collapsed - rendered test 1`]
             data-slot="sidebar-header"
             data-testid="sidebar-header"
           >
-            PM
+            <a
+              class="flex items-center gap-2 px-2 py-1"
+              data-testid="mock-link"
+              href="/"
+            >
+              <img
+                alt="KI Bibliothek logo"
+                class="shrink-0"
+                data-nimg="1"
+                decoding="async"
+                height="32"
+                loading="lazy"
+                src="/images/logo.svg"
+                style="color: transparent;"
+                width="32"
+              />
+            </a>
           </div>
           <div
             class="flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden"
@@ -463,7 +479,28 @@ exports[`Sidebar rendering tests Sidebar - sidebar open - rendered test 1`] = `
             data-slot="sidebar-header"
             data-testid="sidebar-header"
           >
-            Prompt Manager
+            <a
+              class="flex items-center gap-2 px-2 py-1"
+              data-testid="mock-link"
+              href="/"
+            >
+              <img
+                alt="KI Bibliothek logo"
+                class="shrink-0"
+                data-nimg="1"
+                decoding="async"
+                height="32"
+                loading="lazy"
+                src="/images/logo.svg"
+                style="color: transparent;"
+                width="32"
+              />
+              <span
+                class="font-bold text-lg truncate"
+              >
+                KI Bibliothek
+              </span>
+            </a>
           </div>
           <div
             class="flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden"
