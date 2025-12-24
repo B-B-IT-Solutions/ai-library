@@ -1,10 +1,9 @@
 import { Metadata } from "next";
 
+import { Marketplace } from "@/components/marketplace";
 import { getCart } from "@/data/actions/cart";
 import { getProducts } from "@/data/actions/product";
 import { DProductViewMode } from "@/data/types/domain/product";
-
-import { Marketplace } from "./marketplace";
 
 export const metadata: Metadata = {
    title: "Marketplace",
