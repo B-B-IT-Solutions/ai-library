@@ -13,7 +13,6 @@ const PublicLayout = async (props: Readonly<PublicLayoutProps>) => {
 
    return (
       <div className="h-full flex flex-col" data-testid="public-layout">
-         {/* Header with Logo and Auth Buttons */}
          <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container mx-auto px-4 py-4">
                <div className="flex justify-between items-center">

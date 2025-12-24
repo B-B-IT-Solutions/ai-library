@@ -23,7 +23,7 @@ exports[`SignInPage rendering tests SignInPage - user not signed in - rendered t
           data-testid="card-header"
         >
           <a
-            class="flex-center transition-transform hover:scale-105"
+            class="flex flex-col items-center gap-3 transition-transform hover:scale-105"
             data-testid="mock-link"
             href="/"
           >
@@ -37,6 +37,11 @@ exports[`SignInPage rendering tests SignInPage - user not signed in - rendered t
               style="color: transparent;"
               width="80"
             />
+            <h1
+              class="text-2xl font-bold"
+            >
+              KI Bibliothek
+            </h1>
           </a>
           <div
             class="space-y-2"

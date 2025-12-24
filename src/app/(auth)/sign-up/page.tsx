@@ -45,7 +45,7 @@ const SignUpPage = async (props: SignUpPageProps) => {
                <CardHeader className="space-y-6 pb-6" data-testid="card-header">
                   <Link
                      href="/"
-                     className="flex-center transition-transform hover:scale-105"
+                     className="flex flex-col items-center gap-3 transition-transform hover:scale-105"
                   >
                      <Image
                         src="/images/logo.svg"
@@ -55,6 +55,7 @@ const SignUpPage = async (props: SignUpPageProps) => {
                         priority={true}
                         className="drop-shadow-lg"
                      />
+                     <h1 className="text-2xl font-bold">{APP_NAME}</h1>
                   </Link>
                   <div className="space-y-2">
                      <CardTitle
