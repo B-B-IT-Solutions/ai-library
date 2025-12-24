@@ -25,13 +25,11 @@ const assertRendered = () => {
    assertInDocument(sidebarFooter);
 };
 
-const assertHomeLink = () => {
+const assertHeader = () => {
+   const appName = screen.getByText("KI Bibliothek");
    const homeLink = screen.getByTestId("home-link");
-   assertInDocument(homeLink);
-};
 
-const assertAppName = (name: string) => {
-   const appName = screen.getByText(name);
+   assertInDocument(homeLink);
    assertInDocument(appName);
 };
 
@@ -76,8 +74,7 @@ describe("Sidebar rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertHomeLink();
-         assertAppName("KI Bibliothek");
+         assertHeader();
          assertMenuItems();
       });
 
