@@ -3,9 +3,8 @@ import { map } from "es-toolkit/compat";
 
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import { DProduct } from "@/data/types/domain/product";
-
-import { AddToCartButton } from "./buttons/add-to-cart-button";
-import { ShowDetailsButton } from "./buttons/show-details-button";
+import { AddToCartButton } from "../buttons/add-to-cart-button";
+import { ShowDetailsButton } from "../buttons/show-details-button";
 
 type ProductCardProps = {
    product: DProduct;

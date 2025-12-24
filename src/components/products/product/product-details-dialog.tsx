@@ -17,7 +17,7 @@ import { Separator } from "@/components/shadcn/separator";
 import { CallbackFn } from "@/data/types/common";
 import { DProduct } from "@/data/types/domain/product";
 
-import { AddToCartButton } from "./buttons/add-to-cart-button";
+import { AddToCartButton } from "../buttons/add-to-cart-button";
 
 type ProductDetailsDialogProps = {
    product: DProduct;
