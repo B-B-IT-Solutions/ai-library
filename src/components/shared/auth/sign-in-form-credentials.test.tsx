@@ -7,8 +7,10 @@ import {
    assertHasAttributeWithValue,
    assertInDocument,
    getElementById,
+   renderWithRouter,
 } from "@tests";
 import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
+import mockRouter from "next-router-mock";
 
 import { signInWithCredentials } from "@/data/actions/user";
 
@@ -224,7 +226,7 @@ describe("CredentialsSignInForm functionality tests", () => {
       assertInDocument(rootError);
    });
 
-   it("CredentialsSignInForm - show password toggle clicked - test", async () => {
+   it("CredentialsSignInForm - show password btn clicked - test", async () => {
       const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
       useSearchParamsMock.mockReturnValue(searchParams);
       render(<CredentialsSignInForm />);
@@ -256,6 +258,31 @@ describe("CredentialsSignInForm functionality tests", () => {
 
       await waitFor(() => {
          assertPasswordNotVisible();
+      });
+   });
+
+   it("CredentialsSignInForm - sign-up link clicked - test", async () => {
+      const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
+      useSearchParamsMock.mockReturnValue(searchParams);
+
+      const url = "/sign-in";
+      renderWithRouter(<CredentialsSignInForm />, url);
+
+      await waitFor(() => {
+         assertRendered();
+         assertFieldsRendered();
+      });
+
+      await waitFor(() => {
+         assertRendered();
+         expect(mockRouter.pathname).toEqual(url);
+      });
+
+      const singUpLink = screen.getByTestId("sign-up-link");
+      await userEvent.click(singUpLink);
+
+      await waitFor(() => {
+         expect(mockRouter.pathname).toEqual(`/sign-up`);
       });
    });
 });
