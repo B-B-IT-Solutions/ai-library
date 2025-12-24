@@ -10,9 +10,9 @@ import {
    pAddItemToCart,
    pClearCart,
    pGetOrCreateCart,
+   pMigrateSessionCartToUser,
    pRemoveCartItem,
 } from "@/data/db/queries/cart";
-import { pMigrateSessionCartToUser } from "@/data/db/queries/cart/cart";
 import { BatchPayload } from "@/generated/prisma/internal/prismaNamespace";
 
 import {

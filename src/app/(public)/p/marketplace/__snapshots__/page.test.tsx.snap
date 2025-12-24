@@ -1310,3 +1310,9 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
   </div>
 </div>
 `;
+
+exports[`MarketplacePage rendering tests MarketplacePage - session null - redirects to /marketplace 1`] = `<div />`;
+
+exports[`MarketplacePage rendering tests MarketplacePage - session.user undefined - redirects to /marketplace 1`] = `<div />`;
+
+exports[`MarketplacePage rendering tests MarketplacePage - session.user.id undefined - redirects to /marketplace 1`] = `<div />`;

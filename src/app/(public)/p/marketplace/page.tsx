@@ -1,5 +1,7 @@
 import { Metadata } from "next";
+import { redirect } from "next/navigation";
 
+import { auth } from "@/auth";
 import { Marketplace } from "@/components/marketplace";
 import { getCart } from "@/data/actions/cart";
 import { getProducts } from "@/data/actions/product";
@@ -16,6 +18,11 @@ export type MarketplacePageProps = {
 };
 
 export const MarketplacePage = async (props: MarketplacePageProps) => {
+   const session = await auth();
+   if (!session?.user?.id) {
+      return redirect("/marketplace");
+   }
+
    const searchParams = await props.searchParams;
    const viewMode = searchParams?.view;
 
