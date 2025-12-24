@@ -37,7 +37,7 @@ exports[`Sidebar rendering tests Sidebar - sidebar collapsed - rendered test 1`]
           >
             <a
               class="flex items-center gap-2 px-2 py-1"
-              data-testid="mock-link"
+              data-testid="home-link"
               href="/"
             >
               <img
@@ -481,7 +481,7 @@ exports[`Sidebar rendering tests Sidebar - sidebar open - rendered test 1`] = `
           >
             <a
               class="flex items-center gap-2 px-2 py-1"
-              data-testid="mock-link"
+              data-testid="home-link"
               href="/"
             >
               <img

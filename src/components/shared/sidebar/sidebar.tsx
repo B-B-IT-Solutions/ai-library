@@ -59,7 +59,11 @@ export const Sidebar: FC<SidebarProps> = ({ user }) => {
    const appHeader = () => {
       return (
          <>
-            <Link href="/" className="flex items-center gap-2 px-2 py-1">
+            <Link
+               href="/"
+               className="flex items-center gap-2 px-2 py-1"
+               data-testid="home-link"
+            >
                <Image
                   src="/images/logo.svg"
                   width={32}

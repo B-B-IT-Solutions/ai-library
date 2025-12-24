@@ -16,11 +16,13 @@ const assertRendered = () => {
    const sidebarHeader = screen.getByTestId("sidebar-header");
    const sidebarContent = screen.getByTestId("sidebar-content");
    const sidebarFooter = screen.getByTestId("sidebar-footer");
+   const homeLink = screen.getByTestId("home-link");
 
    assertInDocument(sidebar);
    assertInDocument(sidebarHeader);
    assertInDocument(sidebarContent);
    assertInDocument(sidebarFooter);
+   assertInDocument(homeLink);
 };
 
 const assertAppName = (name: string) => {
@@ -135,6 +137,24 @@ describe("Sidebar functionality tests", () => {
          assertMenuItemActive("Settings", true);
          assertMenuItemActive("Prompts", false);
          assertMenuItemActive("My Library", false);
+      });
+   });
+
+   it("Sidebar - home link clicked - test", async () => {
+      const user = ntestData.user();
+      const url = "/settings";
+      renderWithSidebar(<Sidebar user={user} />, url);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(mockRouter.pathname).toEqual(url);
+      });
+
+      const homeLink = screen.getByTestId("home-link");
+      await userEvent.click(homeLink);
+
+      await waitFor(() => {
+         expect(mockRouter.pathname).toEqual(`/`);
       });
    });
 });
