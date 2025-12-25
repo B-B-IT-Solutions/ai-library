@@ -79,8 +79,34 @@ describe("ProductPage rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("ProductPage - product defined - rendered test", async () => {
+   it("ProductPage - product type BUNDLE - rendered test", async () => {
       const product = dtestData.dProduct();
+      product.type = "BUNDLE";
+      const cart = dtestData.dCart();
+      getProductMock.mockResolvedValue(product);
+      getCartMock.mockResolvedValue(cart);
+
+      const params: ProductParams = { id: "product-id-1" };
+
+      const props: ProductPageProps = {
+         params: Promise.resolve(params),
+      };
+
+      const { container } = await renderAsyncRSC(ProductPage, props);
+
+      await waitFor(() => {
+         assertPageRendered();
+         expect(getProductMock).toHaveBeenCalledTimes(1);
+         expect(getProductMock).toHaveBeenCalledWith(params.id);
+         expect(getCartMock).toHaveBeenCalledTimes(1);
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("ProductPage - product type TEMPLATE - rendered test", async () => {
+      const product = dtestData.dProduct();
+      product.type = "TEMPLATE";
       const cart = dtestData.dCart();
       getProductMock.mockResolvedValue(product);
       getCartMock.mockResolvedValue(cart);
