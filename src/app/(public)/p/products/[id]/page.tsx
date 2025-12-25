@@ -7,7 +7,6 @@ import { auth } from "@/auth";
 import { AddToCartButton } from "@/components/products/buttons/add-to-cart-button";
 import { ProductDetailsContent } from "@/components/products/product/product-details-content";
 import { ProductPageHeader } from "@/components/products/product/product-page-header";
-import { parseProductContent } from "@/components/products/product/product-details-dialog/utils/content-parser";
 import { Button } from "@/components/shadcn/button";
 import { getCart } from "@/data/actions/cart";
 import { getBundleValue, getProducts } from "@/data/actions/product";
@@ -41,35 +40,6 @@ const PublicProductPage = async (props: PublicProductPageProps) => {
    // Check if product is in cart
    const isInCart = cart.items.some((item) => item.productId === product.id);
 
-   // Parse content
-   const parsedContent =
-      product.type === "TEMPLATE" && product.template
-         ? parseProductContent(
-              product.template.content,
-              product.template.categories.map((c) => c.name)
-           )
-         : product.type === "BUNDLE" && product.bundleItems
-         ? parseProductContent(
-              product.bundleItems
-                 .map((item) => item.template?.content || "")
-                 .join("\n\n"),
-              Array.from(
-                 new Set(
-                    product.bundleItems.flatMap(
-                       (item) =>
-                          item.template?.categories.map((c) => c.name) || []
-                    )
-                 )
-              )
-           )
-         : {
-              features: [],
-              useCases: [],
-              examples: [],
-              instructions: [],
-              placeholders: [],
-           };
-
    // Calculate bundle value if needed
    const bundleValue =
       product.type === "BUNDLE" ? await getBundleValue(product) : null;
@@ -96,7 +66,6 @@ const PublicProductPage = async (props: PublicProductPageProps) => {
             <div className="bg-white rounded-lg border shadow-sm p-6 mb-6">
                <ProductDetailsContent
                   product={product}
-                  parsedContent={parsedContent}
                   bundleValue={bundleValue}
                />
             </div>

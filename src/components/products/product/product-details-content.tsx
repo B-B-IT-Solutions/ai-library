@@ -9,22 +9,46 @@ import { KeyFeatures } from "./product-details-dialog/sections/key-features";
 import { TemplatePreview } from "./product-details-dialog/sections/template-preview";
 import { UsageInstructions } from "./product-details-dialog/sections/usage-instructions";
 import { UseCases } from "./product-details-dialog/sections/use-cases";
-import type {
-   BundleValue,
-   ParsedProductContent,
-} from "./product-details-dialog/types";
+import type { BundleValue } from "./product-details-dialog/types";
+import { parseProductContent } from "./product-details-dialog/utils/content-parser";
 
 interface ProductDetailsContentProps {
    product: DProduct;
-   parsedContent: ParsedProductContent;
    bundleValue?: BundleValue | null;
 }
 
 export const ProductDetailsContent: FC<ProductDetailsContentProps> = ({
    product,
-   parsedContent,
    bundleValue,
 }) => {
+   const parsedContent =
+      product.type === "TEMPLATE" && product.template
+         ? parseProductContent(
+              product.template.content,
+              product.template.categories.map((c) => c.name)
+           )
+         : product.type === "BUNDLE" && product.bundleItems
+         ? parseProductContent(
+              product.bundleItems
+                 .map((item) => item.template?.content || "")
+                 .join("\n\n"),
+              Array.from(
+                 new Set(
+                    product.bundleItems.flatMap(
+                       (item) =>
+                          item.template?.categories.map((c) => c.name) || []
+                    )
+                 )
+              )
+           )
+         : {
+              features: [],
+              useCases: [],
+              examples: [],
+              instructions: [],
+              placeholders: [],
+           };
+
    return (
       <div className="space-y-6" data-testid="product-details">
          {/* Template Sections */}

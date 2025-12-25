@@ -5,7 +5,6 @@ import { notFound } from "next/navigation";
 
 import { AddToCartButton } from "@/components/products/buttons/add-to-cart-button";
 import { ProductDetailsContent } from "@/components/products/product/product-details-content";
-import { parseProductContent } from "@/components/products/product/product-details-dialog/utils/content-parser";
 import { ProductPageHeader } from "@/components/products/product/product-page-header";
 import { Button } from "@/components/shadcn/button";
 import { getCart } from "@/data/actions/cart";
@@ -37,36 +36,6 @@ const ProductPage = async (props: ProductPageProps) => {
 
    const isInCart = cart.items.some((item) => item.productId === product.id);
 
-   // Parse content
-   const parsedContent =
-      product.type === "TEMPLATE" && product.template
-         ? parseProductContent(
-              product.template.content,
-              product.template.categories.map((c) => c.name)
-           )
-         : product.type === "BUNDLE" && product.bundleItems
-         ? parseProductContent(
-              product.bundleItems
-                 .map((item) => item.template?.content || "")
-                 .join("\n\n"),
-              Array.from(
-                 new Set(
-                    product.bundleItems.flatMap(
-                       (item) =>
-                          item.template?.categories.map((c) => c.name) || []
-                    )
-                 )
-              )
-           )
-         : {
-              features: [],
-              useCases: [],
-              examples: [],
-              instructions: [],
-              placeholders: [],
-           };
-
-   // Calculate bundle value if needed
    const bundleValue =
       product.type === "BUNDLE" ? await getBundleValue(product) : null;
 
@@ -92,7 +61,6 @@ const ProductPage = async (props: ProductPageProps) => {
             <div className="bg-white rounded-lg border shadow-sm p-6 mb-6">
                <ProductDetailsContent
                   product={product}
-                  parsedContent={parsedContent}
                   bundleValue={bundleValue}
                />
             </div>
