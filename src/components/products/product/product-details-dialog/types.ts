@@ -1,18 +1,4 @@
 import { DBundleItem } from "@/data/types/domain/product";
-import type {
-   Example,
-   Feature,
-   Instruction,
-   UseCase,
-} from "@/data/types/domain/product-metadata";
-
-export interface ParsedProductContent {
-   features: Feature[];
-   useCases: UseCase[];
-   examples: Example[];
-   instructions: Instruction[];
-   placeholders: Placeholder[];
-}
 
 export interface Placeholder {
    name: string;

@@ -1,11 +1,5 @@
 import { Filter, Page, PageQuery } from "@/data/types/common";
 
-import type {
-   Example,
-   Feature,
-   Instruction,
-   UseCase,
-} from "./product-metadata";
 import { DPromptTemplate } from "./prompt.template";
 
 type DProductViewMode = "grid" | "list";
@@ -27,12 +21,35 @@ export type DProduct = {
    templateId: string | null;
    template?: DPromptTemplate;
    bundleItems?: DBundleItem[];
-   features: Feature[] | null;
-   useCases: UseCase[] | null;
-   examples: Example[] | null;
-   instructions: Instruction[] | null;
+   features: DFeature[] | null;
+   useCases: DUseCase[] | null;
+   examples: DExample[] | null;
+   instructions: DInstruction[] | null;
    createdAt: string;
    updatedAt: string;
+};
+
+export type DFeature = {
+   icon: string;
+   title: string;
+   description: string;
+};
+
+export type DUseCase = {
+   category: string;
+   description: string;
+   tags: string[];
+};
+
+export type DExample = {
+   title: string;
+   content: string;
+};
+
+export type DInstruction = {
+   step: number;
+   title: string;
+   description: string;
 };
 
 export type DBundleItem = {

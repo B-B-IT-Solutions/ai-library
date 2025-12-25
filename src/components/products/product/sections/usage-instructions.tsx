@@ -1,10 +1,10 @@
 import { FC } from "react";
 import { BookOpen, CheckCircle2 } from "lucide-react";
 
-import type { Instruction } from "../product-details-dialog/types";
+import { DInstruction } from "@/data/types/domain/product";
 
 interface UsageInstructionsProps {
-   instructions: Instruction[];
+   instructions: DInstruction[];
 }
 
 export const UsageInstructions: FC<UsageInstructionsProps> = ({

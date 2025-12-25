@@ -1,10 +1,10 @@
 import { FC } from "react";
 import * as Icons from "lucide-react";
 
-import type { Feature } from "../product-details-dialog/types";
+import { DFeature } from "@/data/types/domain/product";
 
 interface KeyFeaturesProps {
-   features: Feature[];
+   features: DFeature[];
 }
 
 export const KeyFeatures: FC<KeyFeaturesProps> = ({ features }) => {

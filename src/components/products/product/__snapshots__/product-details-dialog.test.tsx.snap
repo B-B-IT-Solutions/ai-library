@@ -133,6 +133,176 @@ exports[`ProductDetailsDialog rendering tests ProductDetailsDialog - open true -
               >
                 <svg
                   aria-hidden="true"
+                  class="lucide lucide-badge-percent h-5 w-5 text-green-600"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"
+                  />
+                  <path
+                    d="m15 9-6 6"
+                  />
+                  <path
+                    d="M9 9h.01"
+                  />
+                  <path
+                    d="M15 15h.01"
+                  />
+                </svg>
+                Bundle Value
+              </h3>
+              <div
+                class="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-lg p-6"
+              >
+                <div
+                  class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+                >
+                  <div
+                    class="space-y-2"
+                  >
+                    <div
+                      class="inline-flex items-center gap-2 px-4 py-2 bg-green-100 border border-green-300 rounded-full"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="lucide lucide-trending-down h-5 w-5 text-green-700"
+                        fill="none"
+                        height="24"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M16 17h6v-6"
+                        />
+                        <path
+                          d="m22 17-8.5-8.5-5 5L2 7"
+                        />
+                      </svg>
+                      <span
+                        class="text-lg font-bold text-green-800"
+                      >
+                        Save CHF 
+                        14.98
+                         (
+                        26.63
+                        %)
+                      </span>
+                    </div>
+                    <p
+                      class="text-sm text-green-800"
+                    >
+                      Get 
+                      3
+                       templates for the price of
+                       
+                      1
+                      !
+                    </p>
+                  </div>
+                  <div
+                    class="flex flex-col gap-2 text-sm"
+                  >
+                    <div
+                      class="flex items-center justify-between gap-4"
+                    >
+                      <span
+                        class="text-slate-700"
+                      >
+                        Individual prices:
+                      </span>
+                      <span
+                        class="font-medium text-slate-900 line-through"
+                      >
+                        CHF 
+                        89.99
+                      </span>
+                    </div>
+                    <div
+                      class="flex items-center justify-between gap-4"
+                    >
+                      <span
+                        class="text-slate-700"
+                      >
+                        Bundle price:
+                      </span>
+                      <span
+                        class="font-bold text-green-700 text-lg"
+                      >
+                        CHF 
+                        59.99
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-green-200"
+                >
+                  <div
+                    class="flex items-start gap-2 text-sm text-green-800"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-package h-4 w-4 mt-0.5 shrink-0"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"
+                      />
+                      <path
+                        d="M12 22V12"
+                      />
+                      <polyline
+                        points="3.29 7 12 12 20.71 7"
+                      />
+                      <path
+                        d="m7.5 4.27 9 5.15"
+                      />
+                    </svg>
+                    <p>
+                      <strong>
+                        Bundle Theme:
+                      </strong>
+                       This curated collection provides everything you need for comprehensive AI-assisted workflows. All templates work together seamlessly for maximum productivity.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <div
+              class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px"
+              data-orientation="horizontal"
+              data-slot="separator"
+              role="none"
+            />
+            <section
+              class="space-y-3"
+            >
+              <h3
+                class="text-lg font-semibold text-slate-900 flex items-center gap-2"
+              >
+                <svg
+                  aria-hidden="true"
                   class="lucide lucide-target h-5 w-5 text-indigo-600"
                   fill="none"
                   height="24"
@@ -171,12 +341,12 @@ exports[`ProductDetailsDialog rendering tests ProductDetailsDialog - open true -
                   <span
                     class="font-medium text-sm text-indigo-900"
                   >
-                    category 0
+                    category 1
                   </span>
                   <span
                     class="text-xs text-indigo-700"
                   >
-                    Ideal for category 0 tasks
+                    description 0
                   </span>
                 </div>
                 <div
@@ -190,7 +360,7 @@ exports[`ProductDetailsDialog rendering tests ProductDetailsDialog - open true -
                   <span
                     class="text-xs text-indigo-700"
                   >
-                    Ideal for category 1 tasks
+                    description 1
                   </span>
                 </div>
                 <div
@@ -199,12 +369,12 @@ exports[`ProductDetailsDialog rendering tests ProductDetailsDialog - open true -
                   <span
                     class="font-medium text-sm text-indigo-900"
                   >
-                    category 2
+                    category 1
                   </span>
                   <span
                     class="text-xs text-indigo-700"
                   >
-                    Ideal for category 2 tasks
+                    description 2
                   </span>
                 </div>
               </div>
@@ -1235,7 +1405,7 @@ exports[`ProductDetailsDialog rendering tests ProductDetailsDialog - open true -
                   >
                     <svg
                       aria-hidden="true"
-                      class="lucide lucide-sparkles h-5 w-5 text-indigo-600 mt-0.5 shrink-0"
+                      class="lucide lucide-check h-5 w-5 text-indigo-600 mt-0.5 shrink-0"
                       fill="none"
                       height="24"
                       stroke="currentColor"
@@ -1247,30 +1417,93 @@ exports[`ProductDetailsDialog rendering tests ProductDetailsDialog - open true -
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"
-                      />
-                      <path
-                        d="M20 2v4"
-                      />
-                      <path
-                        d="M22 4h-4"
-                      />
-                      <circle
-                        cx="4"
-                        cy="20"
-                        r="2"
+                        d="M20 6 9 17l-5-5"
                       />
                     </svg>
                     <div>
                       <h4
                         class="font-medium text-slate-900 text-sm"
                       >
-                        AI-Powered Template
+                        title 0
                       </h4>
                       <p
                         class="text-xs text-slate-600 mt-1"
                       >
-                        Optimized for language model interactions
+                        description 0
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="bg-slate-50 border border-slate-200 rounded-lg p-4"
+                >
+                  <div
+                    class="flex items-start gap-3"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-check h-5 w-5 text-indigo-600 mt-0.5 shrink-0"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M20 6 9 17l-5-5"
+                      />
+                    </svg>
+                    <div>
+                      <h4
+                        class="font-medium text-slate-900 text-sm"
+                      >
+                        title 1
+                      </h4>
+                      <p
+                        class="text-xs text-slate-600 mt-1"
+                      >
+                        description 1
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="bg-slate-50 border border-slate-200 rounded-lg p-4"
+                >
+                  <div
+                    class="flex items-start gap-3"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-check h-5 w-5 text-indigo-600 mt-0.5 shrink-0"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M20 6 9 17l-5-5"
+                      />
+                    </svg>
+                    <div>
+                      <h4
+                        class="font-medium text-slate-900 text-sm"
+                      >
+                        title 2
+                      </h4>
+                      <p
+                        class="text-xs text-slate-600 mt-1"
+                      >
+                        description 2
                       </p>
                     </div>
                   </div>
@@ -1329,12 +1562,12 @@ exports[`ProductDetailsDialog rendering tests ProductDetailsDialog - open true -
                   <span
                     class="font-medium text-sm text-indigo-900"
                   >
-                    category 0
+                    category 1
                   </span>
                   <span
                     class="text-xs text-indigo-700"
                   >
-                    Ideal for category 0 tasks
+                    description 0
                   </span>
                 </div>
                 <div
@@ -1348,7 +1581,7 @@ exports[`ProductDetailsDialog rendering tests ProductDetailsDialog - open true -
                   <span
                     class="text-xs text-indigo-700"
                   >
-                    Ideal for category 1 tasks
+                    description 1
                   </span>
                 </div>
                 <div
@@ -1357,12 +1590,12 @@ exports[`ProductDetailsDialog rendering tests ProductDetailsDialog - open true -
                   <span
                     class="font-medium text-sm text-indigo-900"
                   >
-                    category 2
+                    category 1
                   </span>
                   <span
                     class="text-xs text-indigo-700"
                   >
-                    Ideal for category 2 tasks
+                    description 2
                   </span>
                 </div>
               </div>
@@ -1508,6 +1741,51 @@ exports[`ProductDetailsDialog rendering tests ProductDetailsDialog - open true -
                   <div
                     class="flex items-center justify-center w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full font-bold text-sm shrink-0"
                   >
+                    0
+                  </div>
+                  <div
+                    class="flex-1 min-w-0"
+                  >
+                    <h4
+                      class="font-medium text-slate-900 text-sm"
+                    >
+                      title 0
+                    </h4>
+                    <p
+                      class="text-xs text-slate-600 mt-1"
+                    >
+                      description 0
+                    </p>
+                  </div>
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-circle-check h-5 w-5 text-slate-300 shrink-0"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                    />
+                    <path
+                      d="m9 12 2 2 4-4"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="flex items-start gap-3 bg-slate-50 border border-slate-200 rounded-lg p-4"
+                >
+                  <div
+                    class="flex items-center justify-center w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full font-bold text-sm shrink-0"
+                  >
                     1
                   </div>
                   <div
@@ -1516,12 +1794,12 @@ exports[`ProductDetailsDialog rendering tests ProductDetailsDialog - open true -
                     <h4
                       class="font-medium text-slate-900 text-sm"
                     >
-                      Review the template content
+                      title 1
                     </h4>
                     <p
                       class="text-xs text-slate-600 mt-1"
                     >
-                      Familiarize yourself with the structure
+                      description 1
                     </p>
                   </div>
                   <svg
@@ -1561,102 +1839,12 @@ exports[`ProductDetailsDialog rendering tests ProductDetailsDialog - open true -
                     <h4
                       class="font-medium text-slate-900 text-sm"
                     >
-                      Fill in the placeholders
+                      title 2
                     </h4>
                     <p
                       class="text-xs text-slate-600 mt-1"
                     >
-                      Replace bracketed text with your specific information
-                    </p>
-                  </div>
-                  <svg
-                    aria-hidden="true"
-                    class="lucide lucide-circle-check h-5 w-5 text-slate-300 shrink-0"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="10"
-                    />
-                    <path
-                      d="m9 12 2 2 4-4"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="flex items-start gap-3 bg-slate-50 border border-slate-200 rounded-lg p-4"
-                >
-                  <div
-                    class="flex items-center justify-center w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full font-bold text-sm shrink-0"
-                  >
-                    3
-                  </div>
-                  <div
-                    class="flex-1 min-w-0"
-                  >
-                    <h4
-                      class="font-medium text-slate-900 text-sm"
-                    >
-                      Adjust tone and style as needed
-                    </h4>
-                    <p
-                      class="text-xs text-slate-600 mt-1"
-                    >
-                      Customize the template for your use case
-                    </p>
-                  </div>
-                  <svg
-                    aria-hidden="true"
-                    class="lucide lucide-circle-check h-5 w-5 text-slate-300 shrink-0"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="10"
-                    />
-                    <path
-                      d="m9 12 2 2 4-4"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="flex items-start gap-3 bg-slate-50 border border-slate-200 rounded-lg p-4"
-                >
-                  <div
-                    class="flex items-center justify-center w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full font-bold text-sm shrink-0"
-                  >
-                    4
-                  </div>
-                  <div
-                    class="flex-1 min-w-0"
-                  >
-                    <h4
-                      class="font-medium text-slate-900 text-sm"
-                    >
-                      Use with your AI assistant
-                    </h4>
-                    <p
-                      class="text-xs text-slate-600 mt-1"
-                    >
-                      Copy and paste into your preferred AI tool
+                      description 2
                     </p>
                   </div>
                   <svg

@@ -1,11 +1,10 @@
 import { FC } from "react";
 import { Target } from "lucide-react";
 
-import { Badge } from "@/components/shadcn/badge";
-import type { UseCase } from "../product-details-dialog/types";
+import { DUseCase } from "@/data/types/domain/product";
 
 interface UseCasesProps {
-   useCases: UseCase[];
+   useCases: DUseCase[];
 }
 
 export const UseCases: FC<UseCasesProps> = ({ useCases }) => {

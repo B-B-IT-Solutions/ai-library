@@ -31,7 +31,7 @@ exports[`ProductHeader rendering tests ProductHeader - product type BUNDLE - tes
             class="text-3xl font-bold text-indigo-600"
             data-testid="price"
           >
-            $
+            CHF 
             59.99
           </span>
           <span
@@ -110,7 +110,7 @@ exports[`ProductHeader rendering tests ProductHeader - product type TEMPLATE - t
             class="text-3xl font-bold text-indigo-600"
             data-testid="price"
           >
-            $
+            CHF 
             59.99
           </span>
         </div>

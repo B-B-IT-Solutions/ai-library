@@ -88,6 +88,26 @@ describe("pGetProduct tests", () => {
                   },
                },
             },
+            features: {
+               orderBy: {
+                  order: "asc",
+               },
+            },
+            useCases: {
+               orderBy: {
+                  order: "asc",
+               },
+            },
+            examples: {
+               orderBy: {
+                  order: "asc",
+               },
+            },
+            instructions: {
+               orderBy: {
+                  step: "asc",
+               },
+            },
          },
       };
 
