@@ -27,6 +27,26 @@ export const pGetProducts = async (
                },
             },
          },
+         features: {
+            orderBy: {
+               order: "asc",
+            },
+         },
+         useCases: {
+            orderBy: {
+               order: "asc",
+            },
+         },
+         examples: {
+            orderBy: {
+               order: "asc",
+            },
+         },
+         instructions: {
+            orderBy: {
+               step: "asc",
+            },
+         },
       },
       orderBy: {
          createdAt: "desc",
@@ -52,6 +72,26 @@ export const pGetProduct = async (
                      categories: true,
                   },
                },
+            },
+         },
+         features: {
+            orderBy: {
+               order: "asc",
+            },
+         },
+         useCases: {
+            orderBy: {
+               order: "asc",
+            },
+         },
+         examples: {
+            orderBy: {
+               order: "asc",
+            },
+         },
+         instructions: {
+            orderBy: {
+               step: "asc",
             },
          },
       },

@@ -4,7 +4,6 @@ import { Separator } from "@/components/shadcn/separator";
 import { DProduct } from "@/data/types/domain/product";
 
 import type { BundleValue } from "./product-details-dialog/types";
-import { parseProductContent } from "./product-details-dialog/utils/content-parser";
 import { BundleItems } from "./sections/bundle-items";
 import { BundleValueSection } from "./sections/bundle-value";
 import { KeyFeatures } from "./sections/key-features";
@@ -21,43 +20,20 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
    product,
    bundleValue,
 }) => {
-   const parsedContent =
-      product.type === "TEMPLATE" && product.template
-         ? parseProductContent(
-              product.template.content,
-              product.template.categories.map((c) => c.name)
-           )
-         : product.type === "BUNDLE" && product.bundleItems
-         ? parseProductContent(
-              product.bundleItems
-                 .map((item) => item.template?.content || "")
-                 .join("\n\n"),
-              Array.from(
-                 new Set(
-                    product.bundleItems.flatMap(
-                       (item) =>
-                          item.template?.categories.map((c) => c.name) || []
-                    )
-                 )
-              )
-           )
-         : {
-              features: [],
-              useCases: [],
-              examples: [],
-              instructions: [],
-              placeholders: [],
-           };
+   // Use structured data directly from product
+   const features = product.features || [];
+   const useCases = product.useCases || [];
+   const instructions = product.instructions || [];
 
    const tempalteDetails = () => {
       if (product.type === "TEMPLATE" && product.template) {
          return (
             <>
-               <KeyFeatures features={parsedContent.features} />
+               <KeyFeatures features={features} />
 
                <Separator />
 
-               <UseCases useCases={parsedContent.useCases} />
+               <UseCases useCases={useCases} />
 
                <Separator />
 
@@ -65,7 +41,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
 
                <Separator />
 
-               <UsageInstructions instructions={parsedContent.instructions} />
+               <UsageInstructions instructions={instructions} />
             </>
          );
       }
@@ -82,7 +58,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
                   </>
                )}
 
-               <UseCases useCases={parsedContent.useCases} />
+               <UseCases useCases={useCases} />
 
                <Separator />
 

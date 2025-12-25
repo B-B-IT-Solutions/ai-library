@@ -1,7 +1,11 @@
-import z from "zod";
-
 import { Filter, Page, PageQuery } from "@/data/types/common";
 
+import type {
+   Example,
+   Feature,
+   Instruction,
+   UseCase,
+} from "./product-metadata";
 import { DPromptTemplate } from "./prompt.template";
 
 type DProductViewMode = "grid" | "list";
@@ -19,6 +23,10 @@ export type DProduct = {
    templateId: string | null;
    template?: DPromptTemplate;
    bundleItems?: DBundleItem[];
+   features: Feature[] | null;
+   useCases: UseCase[] | null;
+   examples: Example[] | null;
+   instructions: Instruction[] | null;
    createdAt: string;
    updatedAt: string;
 };

@@ -1,4 +1,10 @@
 import { DBundleItem } from "@/data/types/domain/product";
+import type {
+   Example,
+   Feature,
+   Instruction,
+   UseCase,
+} from "@/data/types/domain/product-metadata";
 
 export interface ParsedProductContent {
    features: Feature[];
@@ -6,29 +12,6 @@ export interface ParsedProductContent {
    examples: Example[];
    instructions: Instruction[];
    placeholders: Placeholder[];
-}
-
-export interface Feature {
-   icon: string; // lucide-react icon name
-   title: string;
-   description: string;
-}
-
-export interface UseCase {
-   category: string;
-   description: string;
-   tags: string[];
-}
-
-export interface Example {
-   title: string;
-   content: string;
-}
-
-export interface Instruction {
-   step: number;
-   title: string;
-   description: string;
 }
 
 export interface Placeholder {

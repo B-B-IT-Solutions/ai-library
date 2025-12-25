@@ -24,6 +24,27 @@ export const toDProduct = (
       type: product.type,
       status: product.status,
       templateId: product.templateId,
+
+      // Map relational data to domain types
+      features: map(product.features, (f) => ({
+         icon: f.icon,
+         title: f.title,
+         description: f.description,
+      })),
+      useCases: map(product.useCases, (uc) => ({
+         category: uc.category,
+         description: uc.description,
+         tags: uc.tags,
+      })),
+      examples: map(product.examples, (ex) => ({
+         title: ex.title,
+         content: ex.content,
+      })),
+      instructions: map(product.instructions, (inst) => ({
+         step: inst.step,
+         title: inst.title,
+         description: inst.description,
+      })),
       createdAt: product.createdAt.toISOString(),
       updatedAt: product.updatedAt.toISOString(),
    };

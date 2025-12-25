@@ -137,21 +137,76 @@ enum OrderStatus {
 }
 
 model Product {
-  id          String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name        String          @db.VarChar(250)
-  description String          @db.Text
-  price       Decimal         @db.Decimal(10, 2)
+  id          String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String        @db.VarChar(250)
+  description String        @db.Text
+  price       Decimal       @db.Decimal(10, 2)
   type        ProductType
-  status      ProductStatus   @default(ACTIVE)
-  templateId  String?         @map("template_id") @db.Uuid
-  template    PromptTemplate? @relation(fields: [templateId], references: [id])
-  bundleItems BundleItem[]
-  cartItems   CartItem[]
-  orderItems  OrderItem[]
-  createdAt   DateTime        @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt   DateTime        @updatedAt @map("updated_at")
+  status      ProductStatus @default(ACTIVE)
+  templateId  String?       @map("template_id") @db.Uuid
+
+  template     PromptTemplate?      @relation(fields: [templateId], references: [id])
+  bundleItems  BundleItem[]
+  cartItems    CartItem[]
+  orderItems   OrderItem[]
+  features     ProductFeature[]
+  useCases     ProductUseCase[]
+  examples     ProductExample[]
+  instructions ProductInstruction[]
+  createdAt    DateTime             @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt    DateTime             @updatedAt @map("updated_at")
 
   @@map("product")
+}
+
+model ProductFeature {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  productId   String   @map("product_id") @db.Uuid
+  icon        String   @db.VarChar(50)
+  title       String   @db.VarChar(250)
+  description String   @db.VarChar(750)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("product_feature")
+}
+
+model ProductUseCase {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  productId   String   @map("product_id") @db.Uuid
+  category    String   @db.VarChar(250)
+  description String   @db.VarChar(750)
+  tags        String[] @db.VarChar(100)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("product_use_case")
+}
+
+model ProductExample {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  productId String   @map("product_id") @db.Uuid
+  title     String   @db.VarChar(250)
+  content   String   @db.VarChar(750)
+  order     Int      @default(0)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("product_example")
+}
+
+model ProductInstruction {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  productId   String   @map("product_id") @db.Uuid
+  step        Int
+  title       String   @db.VarChar(250)
+  description String   @db.VarChar(750)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("product_instruction")
 }
 
 model BundleItem {
