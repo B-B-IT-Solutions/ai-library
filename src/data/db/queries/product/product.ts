@@ -1,3 +1,5 @@
+import { map } from "es-toolkit/compat";
+
 import prisma from "@/data/db/prisma";
 import { ProductWithTemplateBundleItems } from "@/data/types/db/product";
 import {
@@ -75,7 +77,7 @@ export const pGetProductPricesByTemplateIds = async (
       },
    });
 
-   return products.map((p) => ({
+   return map(products, (p) => ({
       templateId: p.templateId!,
       price: Number(p.price),
    }));
