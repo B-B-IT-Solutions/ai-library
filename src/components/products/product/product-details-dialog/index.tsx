@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useMemo } from "react";
+import { FC } from "react";
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 
@@ -16,14 +16,14 @@ import { AddToCartButton } from "../../buttons/add-to-cart-button";
 import { ProductDetailsContent } from "../product-details-content";
 
 import { ProductHeader } from "./sections/product-header";
-import { parseProductContent } from "./utils/content-parser";
+import { BundleValue } from "./types";
 
 type ProductDetailsDialogProps = {
    product: DProduct;
    isInCart: boolean;
    open: boolean;
    onClose: CallbackFn;
-   bundleValue?: import("./types").BundleValue | null;
+   bundleValue?: BundleValue | null;
 };
 
 export const ProductDetailsDialog: FC<ProductDetailsDialogProps> = ({
@@ -33,37 +33,6 @@ export const ProductDetailsDialog: FC<ProductDetailsDialogProps> = ({
    onClose,
    bundleValue,
 }) => {
-   // Parse content based on product type
-   const parsedContent = useMemo(() => {
-      if (product.type === "TEMPLATE" && product.template) {
-         const categories = product.template.categories.map((c) => c.name);
-         return parseProductContent(product.template.content, categories);
-      }
-
-      if (product.type === "BUNDLE" && product.bundleItems) {
-         // For bundles, combine all template content
-         const allContent = product.bundleItems
-            .map((item) => item.template?.content || "")
-            .join("\n\n");
-         const allCategories = Array.from(
-            new Set(
-               product.bundleItems.flatMap(
-                  (item) => item.template?.categories.map((c) => c.name) || []
-               )
-            )
-         );
-         return parseProductContent(allContent, allCategories);
-      }
-
-      return {
-         features: [],
-         useCases: [],
-         examples: [],
-         instructions: [],
-         placeholders: [],
-      };
-   }, [product]);
-
    return (
       <Dialog
          open={open}
@@ -80,7 +49,6 @@ export const ProductDetailsDialog: FC<ProductDetailsDialogProps> = ({
             <div className="flex-1 overflow-y-auto px-6 py-6">
                <ProductDetailsContent
                   product={product}
-                  parsedContent={parsedContent}
                   bundleValue={bundleValue}
                />
             </div>

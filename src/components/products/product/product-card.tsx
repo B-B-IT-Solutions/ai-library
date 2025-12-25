@@ -6,6 +6,8 @@ import { DProduct } from "@/data/types/domain/product";
 import { AddToCartButton } from "../buttons/add-to-cart-button";
 import { ShowDetailsButton } from "../buttons/show-details-button";
 
+import { getTypeBadgeColor } from "./utils";
+
 type ProductCardProps = {
    product: DProduct;
    isInCart: boolean;
@@ -13,16 +15,11 @@ type ProductCardProps = {
 
 export const ProductCard: FC<ProductCardProps> = ({ product, isInCart }) => {
    const typeBadge = () => {
-      const colors = {
-         TEMPLATE: "bg-blue-100 text-blue-700 border-blue-200",
-         BUNDLE: "bg-green-100 text-green-700 border-green-200",
-      };
-
       return (
          <span
-            className={`text-xs px-2 py-0.5 rounded border ${
-               colors[product.type]
-            }`}
+            className={`text-xs px-2 py-0.5 rounded border ${getTypeBadgeColor(
+               product.type
+            )}`}
          >
             {product.type}
          </span>

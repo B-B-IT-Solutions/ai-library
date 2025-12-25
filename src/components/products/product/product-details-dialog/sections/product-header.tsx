@@ -8,20 +8,13 @@ import {
    DialogTitle,
 } from "@/components/shadcn/dialog";
 import { DProduct } from "@/data/types/domain/product";
+import { getTypeBadgeColor } from "../../utils";
 
 interface ProductHeaderProps {
    product: DProduct;
 }
 
 export const ProductHeader: FC<ProductHeaderProps> = ({ product }) => {
-   const getTypeBadgeColor = () => {
-      const colors = {
-         TEMPLATE: "bg-blue-100 text-blue-700 border-blue-200",
-         BUNDLE: "bg-green-100 text-green-700 border-green-200",
-      };
-      return colors[product.type];
-   };
-
    const getQuickStats = () => {
       if (product.type === "BUNDLE" && product.bundleItems) {
          return `${product.bundleItems.length} templates included`;
@@ -37,7 +30,9 @@ export const ProductHeader: FC<ProductHeaderProps> = ({ product }) => {
                   {product.name}
                </DialogTitle>
                <div className="flex items-center gap-3 flex-wrap">
-                  <Badge className={getTypeBadgeColor()}>{product.type}</Badge>
+                  <Badge className={getTypeBadgeColor(product.type)}>
+                     {product.type}
+                  </Badge>
                   <span className="text-2xl font-bold text-indigo-600">
                      ${product.price.toFixed(2)}
                   </span>
