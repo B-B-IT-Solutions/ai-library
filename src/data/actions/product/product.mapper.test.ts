@@ -22,7 +22,7 @@ describe("toDProducts tests", () => {
          expect(product.id).toBe(products[index].id);
          expect(product.name).toBe(products[index].name);
          expect(product.description).toBe(products[index].description);
-         expect(product.price).toBe(Number(products[index].price));
+         expect(product.price).toBe(Number(products[index].price.toFixed(2)));
          expect(product.type).toBe(products[index].type);
          expect(product.status).toBe(products[index].status);
          expect(product.templateId).toBe(products[index].templateId);

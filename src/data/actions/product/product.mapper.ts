@@ -20,7 +20,7 @@ export const toDProduct = (
       id: product.id,
       name: product.name,
       description: product.description,
-      price: Number(product.price),
+      price: Number(product.price.toFixed(2)),
       type: product.type,
       status: product.status,
       templateId: product.templateId,

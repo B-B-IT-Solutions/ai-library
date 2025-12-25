@@ -27,7 +27,7 @@ export const ProductHeader: FC<ProductPageProps> = ({ product }) => {
                      {product.type}
                   </Badge>
                   <span className="text-3xl font-bold text-indigo-600">
-                     ${product.price.toFixed(2)}
+                     ${product.price}
                   </span>
                   {getQuickStats() && (
                      <span className="text-sm text-slate-600 flex items-center gap-1">
