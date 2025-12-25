@@ -6,7 +6,7 @@ import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import { ProductDetailsDialog } from "./product-details-dialog";
 
 const assertRendered = () => {
-   const detailsDialog = screen.getByTestId("product-detials-dialog");
+   const detailsDialog = screen.getByTestId("product-details-dialog");
    assertInDocument(detailsDialog);
 };
 

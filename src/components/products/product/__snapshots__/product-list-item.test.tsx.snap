@@ -92,7 +92,7 @@ exports[`ProductListItem rendering tests ProductListItem - product BUNDLE - test
           </button>
           <div
             data-slot="dialog"
-            data-testid="product-detials-dialog"
+            data-testid="product-details-dialog"
           >
             <div
               data-slot="dialog-portal"
@@ -257,7 +257,7 @@ exports[`ProductListItem rendering tests ProductListItem- product TEMPLATE - tes
           </button>
           <div
             data-slot="dialog"
-            data-testid="product-detials-dialog"
+            data-testid="product-details-dialog"
           >
             <div
               data-slot="dialog-portal"

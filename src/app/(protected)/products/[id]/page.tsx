@@ -5,8 +5,8 @@ import { notFound } from "next/navigation";
 
 import { AddToCartButton } from "@/components/products/buttons/add-to-cart-button";
 import { ProductDetailsContent } from "@/components/products/product/product-details-content";
-import { ProductPageHeader } from "@/components/products/product/product-page-header";
 import { parseProductContent } from "@/components/products/product/product-details-dialog/utils/content-parser";
+import { ProductPageHeader } from "@/components/products/product/product-page-header";
 import { Button } from "@/components/shadcn/button";
 import { getCart } from "@/data/actions/cart";
 import { getBundleValue, getProducts } from "@/data/actions/product";
@@ -28,7 +28,7 @@ const ProductPage = async (props: ProductPageProps) => {
    const product = products.find((p) => p.id === id);
 
    if (!product) {
-      notFound();
+      return notFound();
    }
 
    // Check if product is in cart

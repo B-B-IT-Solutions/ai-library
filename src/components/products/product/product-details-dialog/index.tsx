@@ -1,8 +1,8 @@
 "use client";
 
 import { FC, useMemo } from "react";
-import Link from "next/link";
 import { ExternalLink } from "lucide-react";
+import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
 import {
