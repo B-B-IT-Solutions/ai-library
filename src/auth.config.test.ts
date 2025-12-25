@@ -185,6 +185,7 @@ describe("auth.config - callback.authorized - tests", () => {
    const protectedPaths = [
       "/prompts",
       "/marketplace",
+      "/products/123",
       "/library",
       "/checkout",
       "/settings",
@@ -193,7 +194,7 @@ describe("auth.config - callback.authorized - tests", () => {
       "/orders/456",
       "/admin",
    ];
-   const publicPaths = ["/sign-in", "/sign-out", "/public/marketplace"];
+   const publicPaths = ["/sign-in", "/sign-out", "/p/marketplace"];
 
    const authorized = authConfig.callbacks!.authorized!;
 

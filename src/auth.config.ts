@@ -56,6 +56,7 @@ export const authConfig: NextAuthConfig = {
          const protectedPaths = [
             /\/prompts/,
             /^\/marketplace/,
+            /\/products\/(.*)/,
             /\/library/,
             /\/checkout/,
             /\/orders\/(.*)/,

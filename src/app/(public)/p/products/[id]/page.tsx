@@ -9,7 +9,7 @@ import { ProductDetailsContent } from "@/components/products/product/product-det
 import { ProductPageHeader } from "@/components/products/product/product-page-header";
 import { Button } from "@/components/shadcn/button";
 import { getCart } from "@/data/actions/cart";
-import { getBundleValue, getProducts } from "@/data/actions/product";
+import { getBundleValue, getProduct } from "@/data/actions/product";
 
 export const metadata: Metadata = {
    title: "Product Details",
@@ -21,20 +21,21 @@ export type PublicProductPageProps = {
 
 const PublicProductPage = async (props: PublicProductPageProps) => {
    const session = await auth();
-   const { id } = await props.params;
+   const { id: productId } = await props.params;
 
    // Redirect authenticated users to protected version
    if (session?.user?.id) {
-      return redirect(`/products/${id}`);
+      return redirect(`/products/${productId}`);
    }
 
    // Fetch product and cart
-   const [products, cart] = await Promise.all([getProducts(), getCart()]);
-
-   const product = products.find((p) => p.id === id);
+   const [product, cart] = await Promise.all([
+      getProduct(productId),
+      getCart(),
+   ]);
 
    if (!product) {
-      notFound();
+      return notFound();
    }
 
    // Check if product is in cart
@@ -70,7 +71,6 @@ const PublicProductPage = async (props: PublicProductPageProps) => {
                />
             </div>
 
-            {/* Actions */}
             <div className="bg-white rounded-lg border shadow-sm p-6">
                <div className="flex flex-col sm:flex-row gap-3">
                   <AddToCartButton
