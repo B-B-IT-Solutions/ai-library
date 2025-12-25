@@ -10,7 +10,7 @@ import {
 } from "@/components/products";
 import { Button } from "@/components/shadcn/button";
 import { getCart } from "@/data/actions/cart";
-import { getBundleValue, getProduct } from "@/data/actions/product";
+import { getProduct } from "@/data/actions/product";
 
 export const metadata: Metadata = {
    title: "Product",
@@ -38,9 +38,6 @@ const ProductPage = async (props: ProductPageProps) => {
 
    const isInCart = cart.items.some((item) => item.productId === product.id);
 
-   const bundleValue =
-      product.type === "BUNDLE" ? await getBundleValue(product) : null;
-
    return (
       <div
          className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5"
@@ -61,7 +58,7 @@ const ProductPage = async (props: ProductPageProps) => {
             </div>
 
             <div className="bg-white rounded-lg border shadow-sm p-6 mb-6">
-               <ProductDetails product={product} bundleValue={bundleValue} />
+               <ProductDetails product={product} />
             </div>
 
             <div className="bg-white rounded-lg border shadow-sm p-6">

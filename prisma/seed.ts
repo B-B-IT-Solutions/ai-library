@@ -161,14 +161,25 @@ export const main = async () => {
       ].includes(t.title)
    );
 
+   // Calculate Developer Bundle savings
+   const devBundlePrice = 19.99;
+   const devIndividualPrice = 9.99 * devTemplates.length; // $29.97
+   const devSavings = devIndividualPrice - devBundlePrice; // $9.98
+   const devSavingsPercentage = (devSavings / devIndividualPrice) * 100; // ~33.3%
+
    const devBundle = await prisma.product.create({
       data: {
          name: "Developer Essentials Bundle",
          description:
             "Complete toolkit for developers including code review, SQL generation, and bug reporting templates. Save 30%!",
-         price: 19.99,
+         price: devBundlePrice,
          type: "BUNDLE",
          status: "ACTIVE",
+
+         // Bundle savings fields
+         savingsAmount: devSavings,
+         savingsPercentage: devSavingsPercentage,
+         totalIndividualPrice: devIndividualPrice,
 
          // Sample metadata as related records
          features: {
@@ -265,14 +276,25 @@ export const main = async () => {
       ].includes(t.title)
    );
 
+   // Calculate Content Creator Bundle savings
+   const contentBundlePrice = 22.99;
+   const contentIndividualPrice = 9.99 * contentTemplates.length; // $29.97
+   const contentSavings = contentIndividualPrice - contentBundlePrice; // $6.98
+   const contentSavingsPercentage = (contentSavings / contentIndividualPrice) * 100; // ~23.3%
+
    const contentBundle = await prisma.product.create({
       data: {
          name: "Content Creator Pro Bundle",
          description:
             "Everything you need for content creation: blog posts, documentation, and professional emails. Save 25%!",
-         price: 22.99,
+         price: contentBundlePrice,
          type: "BUNDLE",
          status: "ACTIVE",
+
+         // Bundle savings fields
+         savingsAmount: contentSavings,
+         savingsPercentage: contentSavingsPercentage,
+         totalIndividualPrice: contentIndividualPrice,
 
          // Sample metadata as related records
          features: {
@@ -369,14 +391,26 @@ export const main = async () => {
          "Email Response Generator",
       ].includes(t.title)
    );
+   // Calculate Business Productivity Bundle savings
+   const businessBundlePrice = 21.99;
+   const businessIndividualPrice = 9.99 * businessTemplates.length; // $29.97
+   const businessSavings = businessIndividualPrice - businessBundlePrice; // $7.98
+   const businessSavingsPercentage =
+      (businessSavings / businessIndividualPrice) * 100; // ~26.6%
+
    const businessBundle = await prisma.product.create({
       data: {
          name: "Business Productivity Bundle",
          description:
             "Boost your productivity with meeting summaries, user stories, and professional communication templates.",
-         price: 21.99,
+         price: businessBundlePrice,
          type: "BUNDLE",
          status: "ACTIVE",
+
+         // Bundle savings fields
+         savingsAmount: businessSavings,
+         savingsPercentage: businessSavingsPercentage,
+         totalIndividualPrice: businessIndividualPrice,
 
          // Sample metadata as related records
          features: {

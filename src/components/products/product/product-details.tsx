@@ -3,7 +3,6 @@ import { FC } from "react";
 import { Separator } from "@/components/shadcn/separator";
 import { DProduct } from "@/data/types/domain/product";
 
-import type { BundleValue } from "./product-details-dialog/types";
 import { BundleItems } from "./sections/bundle-items";
 import { BundleValueSection } from "./sections/bundle-value";
 import { KeyFeatures } from "./sections/key-features";
@@ -13,13 +12,9 @@ import { UseCases } from "./sections/use-cases";
 
 interface ProductDetailsProps {
    product: DProduct;
-   bundleValue?: BundleValue | null;
 }
 
-export const ProductDetails: FC<ProductDetailsProps> = ({
-   product,
-   bundleValue,
-}) => {
+export const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
    // Use structured data directly from product
    const features = product.features || [];
    const useCases = product.useCases || [];
@@ -51,12 +46,8 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
       if (product.type === "BUNDLE" && product.bundleItems) {
          return (
             <>
-               {bundleValue && (
-                  <>
-                     <BundleValueSection value={bundleValue} />
-                     <Separator />
-                  </>
-               )}
+               <BundleValueSection product={product} />
+               <Separator />
 
                <UseCases useCases={useCases} />
 

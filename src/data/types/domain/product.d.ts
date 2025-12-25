@@ -18,6 +18,10 @@ export type DProduct = {
    name: string;
    description: string;
    price: number;
+   savingsAmount: number | null;
+   savingsPercentage: number | null;
+   // Bundle-specific fields
+   totalIndividualPrice: number | null;
    type: DProductType;
    status: DProductStatus;
    templateId: string | null;

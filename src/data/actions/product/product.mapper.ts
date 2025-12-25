@@ -21,6 +21,16 @@ export const toDProduct = (
       name: product.name,
       description: product.description,
       price: Number(product.price.toFixed(2)),
+      savingsAmount: product.savingsAmount
+         ? Number(product.savingsAmount.toFixed(2))
+         : null,
+      savingsPercentage: product.savingsPercentage
+         ? Number(product.savingsPercentage.toFixed(2))
+         : null,
+      // Bundle-specific fields
+      totalIndividualPrice: product.totalIndividualPrice
+         ? Number(product.totalIndividualPrice.toFixed(2))
+         : null,
       type: product.type,
       status: product.status,
       templateId: product.templateId,

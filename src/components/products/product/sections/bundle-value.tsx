@@ -1,20 +1,47 @@
 import { FC } from "react";
+import { isEmpty } from "es-toolkit/compat";
 import { BadgePercent, Package, TrendingDown } from "lucide-react";
 
-import type { BundleValue } from "../product-details-dialog/types";
-import {
-   formatPercentage,
-   formatPrice,
-} from "../product-details-dialog/utils/value-calculator";
+import { DProduct } from "@/data/types/domain/product";
 
 interface BundleValueProps {
-   value: BundleValue | null;
+   product: DProduct;
 }
 
-export const BundleValueSection: FC<BundleValueProps> = ({ value }) => {
-   if (!value || value.savings <= 0) {
+export const BundleValueSection: FC<BundleValueProps> = ({ product }) => {
+   if (!product.savingsAmount) {
       return null;
    }
+
+   const percentage = product.savingsPercentage
+      ? product.savingsPercentage
+      : Math.floor(product.savingsAmount / product.price);
+
+   const savings = () => {
+      return (
+         <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-100 border border-green-300 rounded-full">
+            <TrendingDown className="h-5 w-5 text-green-700" />
+            <span className="text-lg font-bold text-green-800">
+               Save CHF {product.savingsAmount} ({percentage}%)
+            </span>
+         </div>
+      );
+   };
+
+   const totalIndividualPrice = () => {
+      if (!isEmpty(product.bundleItems) && product.totalIndividualPrice) {
+         return (
+            <p className="text-sm text-green-800">
+               Get {product.bundleItems!.length} templates for the price of{" "}
+               {Math.floor(
+                  (product.price * product.bundleItems!.length) /
+                     product.totalIndividualPrice
+               )}
+               !
+            </p>
+         );
+      }
+   };
 
    return (
       <section className="space-y-3">
@@ -26,34 +53,21 @@ export const BundleValueSection: FC<BundleValueProps> = ({ value }) => {
          <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-lg p-6">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                <div className="space-y-2">
-                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-100 border border-green-300 rounded-full">
-                     <TrendingDown className="h-5 w-5 text-green-700" />
-                     <span className="text-lg font-bold text-green-800">
-                        Save ${formatPrice(value.savings)} (
-                        {formatPercentage(value.savingsPercentage)}%)
-                     </span>
-                  </div>
-                  <p className="text-sm text-green-800">
-                     Get {value.itemCount} templates for the price of{" "}
-                     {Math.floor(
-                        (value.itemCount * value.bundlePrice) /
-                           value.totalIndividualPrice
-                     )}
-                     !
-                  </p>
+                  {savings()}
+                  {totalIndividualPrice()}
                </div>
 
                <div className="flex flex-col gap-2 text-sm">
                   <div className="flex items-center justify-between gap-4">
                      <span className="text-slate-700">Individual prices:</span>
                      <span className="font-medium text-slate-900 line-through">
-                        ${formatPrice(value.totalIndividualPrice)}
+                        CHF {product.totalIndividualPrice}
                      </span>
                   </div>
                   <div className="flex items-center justify-between gap-4">
                      <span className="text-slate-700">Bundle price:</span>
                      <span className="font-bold text-green-700 text-lg">
-                        ${formatPrice(value.bundlePrice)}
+                        CHF {product.price}
                      </span>
                   </div>
                </div>

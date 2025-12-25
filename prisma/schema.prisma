@@ -137,13 +137,17 @@ enum OrderStatus {
 }
 
 model Product {
-  id          String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name        String        @db.VarChar(250)
-  description String        @db.Text
-  price       Decimal       @db.Decimal(10, 2)
-  type        ProductType
-  status      ProductStatus @default(ACTIVE)
-  templateId  String?       @map("template_id") @db.Uuid
+  id                   String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                 String        @db.VarChar(250)
+  description          String        @db.Text
+  price                Decimal       @db.Decimal(10, 2)
+  savingsAmount        Decimal?      @map("savings_amount") @db.Decimal(10, 2)
+  savingsPercentage    Decimal?      @map("savings_percentage") @db.Decimal(5, 2)
+  // Bundle-specific fields
+  totalIndividualPrice Decimal?      @map("total_individual_price") @db.Decimal(10, 2)
+  type                 ProductType
+  status               ProductStatus @default(ACTIVE)
+  templateId           String?       @map("template_id") @db.Uuid
 
   template     PromptTemplate?      @relation(fields: [templateId], references: [id])
   bundleItems  BundleItem[]

@@ -16,14 +16,12 @@ import { AddToCartButton } from "../../buttons/add-to-cart-button";
 import { ProductDetails } from "../product-details";
 
 import { ProductHeader } from "./product-header";
-import { BundleValue } from "./types";
 
 type ProductDetailsDialogProps = {
    product: DProduct;
    isInCart: boolean;
    open: boolean;
    onClose: CallbackFn;
-   bundleValue?: BundleValue | null;
 };
 
 export const ProductDetailsDialog: FC<ProductDetailsDialogProps> = ({
@@ -31,7 +29,6 @@ export const ProductDetailsDialog: FC<ProductDetailsDialogProps> = ({
    isInCart,
    open,
    onClose,
-   bundleValue,
 }) => {
    return (
       <Dialog
@@ -47,7 +44,7 @@ export const ProductDetailsDialog: FC<ProductDetailsDialogProps> = ({
 
             {/* Scrollable Content */}
             <div className="flex-1 overflow-y-auto px-6 py-6">
-               <ProductDetails product={product} bundleValue={bundleValue} />
+               <ProductDetails product={product} />
             </div>
 
             {/* Sticky Footer */}

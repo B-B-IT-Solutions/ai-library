@@ -35,7 +35,7 @@ export const ProductHeader: FC<ProductPageProps> = ({ product }) => {
                      className="text-3xl font-bold text-indigo-600"
                      data-testid="price"
                   >
-                     ${product.price}
+                     CHF {product.price}
                   </span>
                   {getQuickStats() && (
                      <span

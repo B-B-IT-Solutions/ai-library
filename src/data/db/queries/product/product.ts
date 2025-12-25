@@ -97,28 +97,3 @@ export const pGetProduct = async (
       },
    });
 };
-
-/**
- * Get product prices by template IDs
- * Used for calculating bundle value
- */
-export const pGetProductPricesByTemplateIds = async (
-   templateIds: string[]
-): Promise<{ templateId: string; price: number }[]> => {
-   const products = await prisma.product.findMany({
-      where: {
-         templateId: { in: templateIds },
-         type: "TEMPLATE",
-         status: "ACTIVE",
-      },
-      select: {
-         templateId: true,
-         price: true,
-      },
-   });
-
-   return map(products, (p) => ({
-      templateId: p.templateId!,
-      price: Number(p.price),
-   }));
-};
