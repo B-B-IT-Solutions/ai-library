@@ -26,7 +26,7 @@ export const ProductDetailsContent: FC<ProductDetailsContentProps> = ({
    bundleValue,
 }) => {
    return (
-      <div className="space-y-6">
+      <div className="space-y-6" data-testid="product-details">
          {/* Template Sections */}
          {product.type === "TEMPLATE" && product.template && (
             <>

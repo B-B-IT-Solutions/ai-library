@@ -25,7 +25,7 @@ export const ProductPageHeader: FC<ProductPageHeaderProps> = ({ product }) => {
    };
 
    return (
-      <div>
+      <div data-testid="product-page-header">
          <div className="flex items-start justify-between gap-4">
             <div className="flex-1">
                <h1 className="text-3xl font-bold mb-3">{product.name}</h1>

@@ -123,6 +123,7 @@ exports[`ProductDetailsDialog rendering tests ProductDetailsDialog - open true -
         >
           <div
             class="space-y-6"
+            data-testid="product-details"
           >
             <section
               class="space-y-3"
@@ -1185,6 +1186,7 @@ exports[`ProductDetailsDialog rendering tests ProductDetailsDialog - open true -
         >
           <div
             class="space-y-6"
+            data-testid="product-details"
           >
             <section
               class="space-y-3"
