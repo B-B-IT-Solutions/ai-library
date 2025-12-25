@@ -1,1 +1,1 @@
-export { getProducts, getBundleValue } from "./product.actions";
+export { getProducts, getProduct, getBundleValue } from "./product.actions";

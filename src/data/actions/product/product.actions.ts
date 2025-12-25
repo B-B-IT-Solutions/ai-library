@@ -1,18 +1,32 @@
 "use server";
+import { validate as isValidUuid } from "uuid";
 
 import type { BundleValue } from "@/components/products/product/product-details-dialog/types";
 import { calculateBundleValue } from "@/components/products/product/product-details-dialog/utils/value-calculator";
 import {
+   pGetProduct,
    pGetProductPricesByTemplateIds,
    pGetProducts,
 } from "@/data/db/queries/product";
 import { DProduct } from "@/data/types/domain/product";
 
-import { toDProducts } from "./product.mapper";
+import { toDProduct, toDProducts } from "./product.mapper";
 
 export const getProducts = async (): Promise<DProduct[]> => {
    const products = await pGetProducts({ status: "ACTIVE" });
    return toDProducts(products);
+};
+
+export const getProduct = async (
+   productId: string
+): Promise<DProduct | null> => {
+   if (isValidUuid(productId)) {
+      const product = await pGetProduct({ id: productId });
+      if (product) {
+         return toDProduct(product);
+      }
+   }
+   return null;
 };
 
 /**

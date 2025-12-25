@@ -1,1 +1,5 @@
-export { pGetProducts, pGetProductPricesByTemplateIds } from "./product";
+export {
+   pGetProducts,
+   pGetProduct,
+   pGetProductPricesByTemplateIds,
+} from "./product";

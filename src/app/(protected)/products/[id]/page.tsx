@@ -9,23 +9,27 @@ import { parseProductContent } from "@/components/products/product/product-detai
 import { ProductPageHeader } from "@/components/products/product/product-page-header";
 import { Button } from "@/components/shadcn/button";
 import { getCart } from "@/data/actions/cart";
-import { getBundleValue, getProducts } from "@/data/actions/product";
+import { getBundleValue, getProduct } from "@/data/actions/product";
 
 export const metadata: Metadata = {
    title: "Product Details",
 };
 
+export type ProductParams = {
+   id: string;
+};
+
 export type ProductPageProps = {
-   params: Promise<{ id: string }>;
+   params: Promise<ProductParams>;
 };
 
 const ProductPage = async (props: ProductPageProps) => {
-   const { id } = await props.params;
+   const { id: productId } = await props.params;
 
-   // Fetch product and cart
-   const [products, cart] = await Promise.all([getProducts(), getCart()]);
-
-   const product = products.find((p) => p.id === id);
+   const [product, cart] = await Promise.all([
+      getProduct(productId),
+      getCart(),
+   ]);
 
    if (!product) {
       return notFound();
