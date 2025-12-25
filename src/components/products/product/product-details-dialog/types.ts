@@ -1,3 +1,5 @@
+import { DBundleItem } from "@/data/types/domain/product";
+
 export interface ParsedProductContent {
    features: Feature[];
    useCases: UseCase[];
@@ -44,7 +46,7 @@ export interface BundleValue {
 
 export interface BundleItemGroup {
    category: string;
-   items: import("@/data/types/domain/product").DBundleItem[];
+   items: DBundleItem[];
 }
 
 export interface FormattedLine {

@@ -49,10 +49,9 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
               placeholders: [],
            };
 
-   return (
-      <div className="space-y-6" data-testid="product-details">
-         {/* Template Sections */}
-         {product.type === "TEMPLATE" && product.template && (
+   const tempalteDetails = () => {
+      if (product.type === "TEMPLATE" && product.template) {
+         return (
             <>
                <KeyFeatures features={parsedContent.features} />
 
@@ -68,10 +67,13 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
 
                <UsageInstructions instructions={parsedContent.instructions} />
             </>
-         )}
+         );
+      }
+   };
 
-         {/* Bundle Sections */}
-         {product.type === "BUNDLE" && product.bundleItems && (
+   const bundleDetails = () => {
+      if (product.type === "BUNDLE" && product.bundleItems) {
+         return (
             <>
                {bundleValue && (
                   <>
@@ -119,7 +121,14 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
                   </ul>
                </div>
             </>
-         )}
+         );
+      }
+   };
+
+   return (
+      <div className="space-y-6" data-testid="product-details">
+         {tempalteDetails()}
+         {bundleDetails()}
       </div>
    );
 };
