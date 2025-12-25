@@ -3,9 +3,11 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { AddToCartButton } from "@/components/products/buttons/add-to-cart-button";
-import { ProductDetailsContent } from "@/components/products/product/product-details-content";
-import { ProductPageHeader } from "@/components/products/product/product-page-header";
+import {
+   AddToCartButton,
+   ProductDetailsContent,
+   ProductPageHeader,
+} from "@/components/products";
 import { Button } from "@/components/shadcn/button";
 import { getCart } from "@/data/actions/cart";
 import { getBundleValue, getProduct } from "@/data/actions/product";

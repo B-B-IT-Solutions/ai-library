@@ -3,8 +3,7 @@ import { Package } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
 import { DProduct } from "@/data/types/domain/product";
-
-import { getTypeBadgeColor } from "./utils";
+import { getTypeBadgeColor } from "../utils";
 
 interface ProductPageHeaderProps {
    product: DProduct;

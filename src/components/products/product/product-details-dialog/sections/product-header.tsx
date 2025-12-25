@@ -8,7 +8,7 @@ import {
    DialogTitle,
 } from "@/components/shadcn/dialog";
 import { DProduct } from "@/data/types/domain/product";
-import { getTypeBadgeColor } from "../../utils";
+import { getTypeBadgeColor } from "../../../utils";
 
 interface ProductHeaderProps {
    product: DProduct;

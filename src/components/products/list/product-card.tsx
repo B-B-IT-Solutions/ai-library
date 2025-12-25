@@ -5,8 +5,7 @@ import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import { DProduct } from "@/data/types/domain/product";
 import { AddToCartButton } from "../buttons/add-to-cart-button";
 import { ShowDetailsButton } from "../buttons/show-details-button";
-
-import { getTypeBadgeColor } from "./utils";
+import { getTypeBadgeColor } from "../utils";
 
 type ProductCardProps = {
    product: DProduct;
