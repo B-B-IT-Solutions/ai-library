@@ -9,7 +9,10 @@ import { KeyFeatures } from "./product-details-dialog/sections/key-features";
 import { TemplatePreview } from "./product-details-dialog/sections/template-preview";
 import { UsageInstructions } from "./product-details-dialog/sections/usage-instructions";
 import { UseCases } from "./product-details-dialog/sections/use-cases";
-import type { BundleValue, ParsedProductContent } from "./product-details-dialog/types";
+import type {
+   BundleValue,
+   ParsedProductContent,
+} from "./product-details-dialog/types";
 
 interface ProductDetailsContentProps {
    product: DProduct;
