@@ -1,0 +1,120 @@
+"use client";
+
+import { FC, useMemo } from "react";
+import Link from "next/link";
+import { ExternalLink } from "lucide-react";
+
+import { Button } from "@/components/shadcn/button";
+import {
+   Dialog,
+   DialogContent,
+   DialogFooter,
+} from "@/components/shadcn/dialog";
+import { CallbackFn } from "@/data/types/common";
+import { DProduct } from "@/data/types/domain/product";
+import { AddToCartButton } from "../../buttons/add-to-cart-button";
+import { ProductDetailsContent } from "../product-details-content";
+
+import { ProductHeader } from "./sections/product-header";
+import { parseProductContent } from "./utils/content-parser";
+
+type ProductDetailsDialogProps = {
+   product: DProduct;
+   isInCart: boolean;
+   open: boolean;
+   onClose: CallbackFn;
+   bundleValue?: import("./types").BundleValue | null;
+};
+
+export const ProductDetailsDialog: FC<ProductDetailsDialogProps> = ({
+   product,
+   isInCart,
+   open,
+   onClose,
+   bundleValue,
+}) => {
+   // Parse content based on product type
+   const parsedContent = useMemo(() => {
+      if (product.type === "TEMPLATE" && product.template) {
+         const categories = product.template.categories.map((c) => c.name);
+         return parseProductContent(product.template.content, categories);
+      }
+
+      if (product.type === "BUNDLE" && product.bundleItems) {
+         // For bundles, combine all template content
+         const allContent = product.bundleItems
+            .map((item) => item.template?.content || "")
+            .join("\n\n");
+         const allCategories = Array.from(
+            new Set(
+               product.bundleItems.flatMap(
+                  (item) => item.template?.categories.map((c) => c.name) || []
+               )
+            )
+         );
+         return parseProductContent(allContent, allCategories);
+      }
+
+      return {
+         features: [],
+         useCases: [],
+         examples: [],
+         instructions: [],
+         placeholders: [],
+      };
+   }, [product]);
+
+   return (
+      <Dialog
+         open={open}
+         onOpenChange={onClose}
+         data-testid="product-details-dialog"
+      >
+         <DialogContent className="max-w-6xl max-h-[90vh] p-0 overflow-hidden flex flex-col">
+            {/* Sticky Header */}
+            <div className="px-6 pt-6">
+               <ProductHeader product={product} />
+            </div>
+
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto px-6 py-6">
+               <ProductDetailsContent
+                  product={product}
+                  parsedContent={parsedContent}
+                  bundleValue={bundleValue}
+               />
+            </div>
+
+            {/* Sticky Footer */}
+            <DialogFooter className="sticky bottom-0 border-t bg-white px-6 py-4">
+               <div className="flex flex-col sm:flex-row gap-3 w-full">
+                  <Button
+                     variant="ghost"
+                     size="lg"
+                     asChild
+                     className="sm:mr-auto"
+                  >
+                     <Link href={`/products/${product.id}`}>
+                        <ExternalLink className="h-4 w-4 mr-2" />
+                        View Full Page
+                     </Link>
+                  </Button>
+                  <AddToCartButton
+                     product={product}
+                     isInCart={isInCart}
+                     size="lg"
+                  />
+                  <Button
+                     onClick={onClose}
+                     variant="outline"
+                     size="lg"
+                     data-testid="close-dialog-btn"
+                  >
+                     Close
+                  </Button>
+               </div>
+            </DialogFooter>
+         </DialogContent>
+      </Dialog>
+   );
+};

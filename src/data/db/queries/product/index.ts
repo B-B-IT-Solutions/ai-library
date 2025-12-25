@@ -1,1 +1,1 @@
-export { pGetProducts } from "./product";
+export { pGetProducts, pGetProductPricesByTemplateIds } from "./product";

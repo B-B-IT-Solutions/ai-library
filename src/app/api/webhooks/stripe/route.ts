@@ -22,7 +22,7 @@ export const POST = async (req: NextRequest) => {
       const event = stripe.webhooks.constructEvent(
          body,
          signature,
-         STRIPE_WEBHOOK_SECRET
+         STRIPE_WEBHOOK_SECRET!
       );
       return handleStripeEvent(event);
    } catch {
