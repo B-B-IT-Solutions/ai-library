@@ -25,13 +25,13 @@ export const expectedMetadata: Metadata = {
 
 const assertPageRendered = () => {
    const page = screen.getByTestId("product-page");
-   const pageHeader = screen.getByTestId("product-page-header");
+   const productHeader = screen.getByTestId("product-header");
    const productDeatails = screen.getByTestId("product-details");
    const marketPlaceLink1 = screen.getByTestId("marketplace-link-1");
    const marketPlaceLink2 = screen.getByTestId("marketplace-link-2");
 
    assertInDocument(page);
-   assertInDocument(pageHeader);
+   assertInDocument(productHeader);
    assertInDocument(productDeatails);
    assertInDocument(marketPlaceLink1);
    assertInDocument(marketPlaceLink2);
@@ -39,13 +39,13 @@ const assertPageRendered = () => {
 
 const assertPageNotRendered = () => {
    const page = screen.queryByTestId("product-page");
-   const pageHeader = screen.queryByTestId("product-page-header");
+   const productHeader = screen.queryByTestId("product-header");
    const productDeatails = screen.queryByTestId("product-details");
    const marketPlaceLink1 = screen.queryByTestId("marketplace-link-1");
    const marketPlaceLink2 = screen.queryByTestId("marketplace-link-2");
 
    assertNotInDocument(page);
-   assertNotInDocument(pageHeader);
+   assertNotInDocument(productHeader);
    assertNotInDocument(productDeatails);
    assertNotInDocument(marketPlaceLink1);
    assertNotInDocument(marketPlaceLink2);
