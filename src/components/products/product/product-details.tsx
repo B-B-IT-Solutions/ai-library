@@ -12,12 +12,12 @@ import { UseCases } from "./product-details-dialog/sections/use-cases";
 import type { BundleValue } from "./product-details-dialog/types";
 import { parseProductContent } from "./product-details-dialog/utils/content-parser";
 
-interface ProductDetailsContentProps {
+interface ProductDetailsProps {
    product: DProduct;
    bundleValue?: BundleValue | null;
 }
 
-export const ProductDetailsContent: FC<ProductDetailsContentProps> = ({
+export const ProductDetails: FC<ProductDetailsProps> = ({
    product,
    bundleValue,
 }) => {

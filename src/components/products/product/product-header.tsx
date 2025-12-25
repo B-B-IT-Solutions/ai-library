@@ -5,11 +5,11 @@ import { Badge } from "@/components/shadcn/badge";
 import { DProduct } from "@/data/types/domain/product";
 import { getTypeBadgeColor } from "../utils";
 
-interface ProductPageHeaderProps {
+interface ProductPageProps {
    product: DProduct;
 }
 
-export const ProductPageHeader: FC<ProductPageHeaderProps> = ({ product }) => {
+export const ProductHeader: FC<ProductPageProps> = ({ product }) => {
    const getQuickStats = () => {
       if (product.type === "BUNDLE" && product.bundleItems) {
          return `${product.bundleItems.length} templates included`;

@@ -5,8 +5,8 @@ import { notFound, redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 import { AddToCartButton } from "@/components/products/buttons/add-to-cart-button";
-import { ProductDetailsContent } from "@/components/products/product/product-details-content";
-import { ProductPageHeader } from "@/components/products/product/product-page-header";
+import { ProductDetails } from "@/components/products/product/product-details";
+import { ProductHeader } from "@/components/products/product/product-header";
 import { Button } from "@/components/shadcn/button";
 import { getCart } from "@/data/actions/cart";
 import { getBundleValue, getProduct } from "@/data/actions/product";
@@ -60,15 +60,12 @@ const PublicProductPage = async (props: PublicProductPageProps) => {
 
             {/* Product Header */}
             <div className="bg-white rounded-lg border shadow-sm p-6 mb-6">
-               <ProductPageHeader product={product} />
+               <ProductHeader product={product} />
             </div>
 
             {/* Product Content */}
             <div className="bg-white rounded-lg border shadow-sm p-6 mb-6">
-               <ProductDetailsContent
-                  product={product}
-                  bundleValue={bundleValue}
-               />
+               <ProductDetails product={product} bundleValue={bundleValue} />
             </div>
 
             <div className="bg-white rounded-lg border shadow-sm p-6">

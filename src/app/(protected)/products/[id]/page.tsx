@@ -5,8 +5,8 @@ import { notFound } from "next/navigation";
 
 import {
    AddToCartButton,
-   ProductDetailsContent,
-   ProductPageHeader,
+   ProductDetails,
+   ProductHeader,
 } from "@/components/products";
 import { Button } from "@/components/shadcn/button";
 import { getCart } from "@/data/actions/cart";
@@ -57,14 +57,11 @@ const ProductPage = async (props: ProductPageProps) => {
             </div>
 
             <div className="bg-white rounded-lg border shadow-sm p-6 mb-6">
-               <ProductPageHeader product={product} />
+               <ProductHeader product={product} />
             </div>
 
             <div className="bg-white rounded-lg border shadow-sm p-6 mb-6">
-               <ProductDetailsContent
-                  product={product}
-                  bundleValue={bundleValue}
-               />
+               <ProductDetails product={product} bundleValue={bundleValue} />
             </div>
 
             <div className="bg-white rounded-lg border shadow-sm p-6">

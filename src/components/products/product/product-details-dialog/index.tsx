@@ -13,7 +13,7 @@ import {
 import { CallbackFn } from "@/data/types/common";
 import { DProduct } from "@/data/types/domain/product";
 import { AddToCartButton } from "../../buttons/add-to-cart-button";
-import { ProductDetailsContent } from "../product-details-content";
+import { ProductDetails } from "../product-details";
 
 import { ProductHeader } from "./sections/product-header";
 import { BundleValue } from "./types";
@@ -47,10 +47,7 @@ export const ProductDetailsDialog: FC<ProductDetailsDialogProps> = ({
 
             {/* Scrollable Content */}
             <div className="flex-1 overflow-y-auto px-6 py-6">
-               <ProductDetailsContent
-                  product={product}
-                  bundleValue={bundleValue}
-               />
+               <ProductDetails product={product} bundleValue={bundleValue} />
             </div>
 
             {/* Sticky Footer */}
