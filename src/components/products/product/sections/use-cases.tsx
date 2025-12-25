@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Target } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
-import type { UseCase } from "../types";
+import type { UseCase } from "../product-details-dialog/types";
 
 interface UseCasesProps {
    useCases: UseCase[];

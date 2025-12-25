@@ -1,8 +1,11 @@
 import { FC } from "react";
 import { BadgePercent, Package, TrendingDown } from "lucide-react";
 
-import type { BundleValue } from "../types";
-import { formatPercentage, formatPrice } from "../utils/value-calculator";
+import type { BundleValue } from "../product-details-dialog/types";
+import {
+   formatPercentage,
+   formatPrice,
+} from "../product-details-dialog/utils/value-calculator";
 
 interface BundleValueProps {
    value: BundleValue | null;

@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { BookOpen, CheckCircle2 } from "lucide-react";
 
-import type { Instruction } from "../types";
+import type { Instruction } from "../product-details-dialog/types";
 
 interface UsageInstructionsProps {
    instructions: Instruction[];

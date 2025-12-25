@@ -3,14 +3,14 @@ import { FC } from "react";
 import { Separator } from "@/components/shadcn/separator";
 import { DProduct } from "@/data/types/domain/product";
 
-import { BundleItems } from "./product-details-dialog/sections/bundle-items";
-import { BundleValueSection } from "./product-details-dialog/sections/bundle-value";
-import { KeyFeatures } from "./product-details-dialog/sections/key-features";
-import { TemplatePreview } from "./product-details-dialog/sections/template-preview";
-import { UsageInstructions } from "./product-details-dialog/sections/usage-instructions";
-import { UseCases } from "./product-details-dialog/sections/use-cases";
 import type { BundleValue } from "./product-details-dialog/types";
 import { parseProductContent } from "./product-details-dialog/utils/content-parser";
+import { BundleItems } from "./sections/bundle-items";
+import { BundleValueSection } from "./sections/bundle-value";
+import { KeyFeatures } from "./sections/key-features";
+import { TemplatePreview } from "./sections/template-preview";
+import { UsageInstructions } from "./sections/usage-instructions";
+import { UseCases } from "./sections/use-cases";
 
 interface ProductDetailsProps {
    product: DProduct;

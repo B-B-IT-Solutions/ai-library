@@ -15,7 +15,7 @@ import { DProduct } from "@/data/types/domain/product";
 import { AddToCartButton } from "../../buttons/add-to-cart-button";
 import { ProductDetails } from "../product-details";
 
-import { ProductHeader } from "./sections/product-header";
+import { ProductHeader } from "./product-header";
 import { BundleValue } from "./types";
 
 type ProductDetailsDialogProps = {

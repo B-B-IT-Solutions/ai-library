@@ -1,7 +1,7 @@
 import { FC } from "react";
 import * as Icons from "lucide-react";
 
-import type { Feature } from "../types";
+import type { Feature } from "../product-details-dialog/types";
 
 interface KeyFeaturesProps {
    features: Feature[];
