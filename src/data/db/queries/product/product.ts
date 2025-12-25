@@ -1,5 +1,3 @@
-import { map } from "es-toolkit/compat";
-
 import prisma from "@/data/db/prisma";
 import { ProductWithTemplateBundleItems } from "@/data/types/db/product";
 import {

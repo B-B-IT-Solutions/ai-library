@@ -15,20 +15,15 @@ interface ProductDetailsProps {
 }
 
 export const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
-   // Use structured data directly from product
-   const features = product.features || [];
-   const useCases = product.useCases || [];
-   const instructions = product.instructions || [];
-
    const tempalteDetails = () => {
       if (product.type === "TEMPLATE" && product.template) {
          return (
             <>
-               <KeyFeatures features={features} />
+               <KeyFeatures features={product.features} />
 
                <Separator />
 
-               <UseCases useCases={useCases} />
+               <UseCases useCases={product.useCases} />
 
                <Separator />
 
@@ -36,7 +31,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
 
                <Separator />
 
-               <UsageInstructions instructions={instructions} />
+               <UsageInstructions instructions={product.instructions} />
             </>
          );
       }
@@ -49,7 +44,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
                <BundleValueSection product={product} />
                <Separator />
 
-               <UseCases useCases={useCases} />
+               <UseCases useCases={product.useCases} />
 
                <Separator />
 

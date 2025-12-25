@@ -1,18 +1,5 @@
 import { DBundleItem } from "@/data/types/domain/product";
 
-export interface Placeholder {
-   name: string;
-   position: number;
-}
-
-export interface BundleValue {
-   totalIndividualPrice: number;
-   bundlePrice: number;
-   savings: number;
-   savingsPercentage: number;
-   itemCount: number;
-}
-
 export interface BundleItemGroup {
    category: string;
    items: DBundleItem[];

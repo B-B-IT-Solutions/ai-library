@@ -21,10 +21,10 @@ export type DProduct = {
    templateId: string | null;
    template?: DPromptTemplate;
    bundleItems?: DBundleItem[];
-   features: DFeature[] | null;
-   useCases: DUseCase[] | null;
-   examples: DExample[] | null;
-   instructions: DInstruction[] | null;
+   features: DFeature[];
+   useCases: DUseCase[];
+   examples: DExample[];
+   instructions: DInstruction[];
    createdAt: string;
    updatedAt: string;
 };
