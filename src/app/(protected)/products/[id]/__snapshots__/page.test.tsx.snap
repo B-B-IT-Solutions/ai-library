@@ -1,8 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`ProductPage rendering tests ProductPage - product null - rendered test 1`] = `<div />`;
-
-exports[`ProductPage rendering tests ProductPage - searchParams.view list - rendered test 1`] = `
+exports[`ProductPage rendering tests ProductPage - product defined - rendered test 1`] = `
 <div>
   <div
     class="min-h-screen bg-gradient-to-br from-background via-background to-primary/5"
@@ -1043,3 +1041,5 @@ exports[`ProductPage rendering tests ProductPage - searchParams.view list - rend
   </div>
 </div>
 `;
+
+exports[`ProductPage rendering tests ProductPage - product null - rendered test 1`] = `<div />`;

@@ -79,7 +79,7 @@ describe("ProductPage rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("ProductPage - searchParams.view list - rendered test", async () => {
+   it("ProductPage - product defined - rendered test", async () => {
       const product = dtestData.dProduct();
       const cart = dtestData.dCart();
       getProductMock.mockResolvedValue(product);
