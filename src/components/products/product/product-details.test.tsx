@@ -12,9 +12,13 @@ const assertRendered = () => {
 const assertBundleRendered = () => {
    const bundle = screen.getByTestId("bundle-details");
    const items = screen.getByTestId("bundle-items");
+   const value = screen.getByTestId("bundle-value");
+   const useCases = screen.getByTestId("use-cases");
 
    assertInDocument(bundle);
    assertInDocument(items);
+   assertInDocument(value);
+   assertInDocument(useCases);
 };
 
 const assertTemplateRendered = () => {

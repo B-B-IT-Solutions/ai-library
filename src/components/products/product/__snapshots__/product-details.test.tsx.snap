@@ -11,6 +11,7 @@ exports[`ProductDetails rendering tests ProductDetails - product type BUNDLE - t
     >
       <section
         class="space-y-3"
+        data-testid="bundle-value"
       >
         <h3
           class="text-lg font-semibold text-slate-900 flex items-center gap-2"
@@ -1108,6 +1109,7 @@ exports[`ProductDetails rendering tests ProductDetails - product type TEMPLATE -
         >
           <div
             class="bg-slate-50 border border-slate-200 rounded-lg p-4"
+            data-testid="feature"
           >
             <div
               class="flex items-start gap-3"
@@ -1115,6 +1117,7 @@ exports[`ProductDetails rendering tests ProductDetails - product type TEMPLATE -
               <svg
                 aria-hidden="true"
                 class="lucide lucide-check h-5 w-5 text-indigo-600 mt-0.5 shrink-0"
+                data-testid="icon"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -1132,11 +1135,13 @@ exports[`ProductDetails rendering tests ProductDetails - product type TEMPLATE -
               <div>
                 <h4
                   class="font-medium text-slate-900 text-sm"
+                  data-testid="title"
                 >
                   title 0
                 </h4>
                 <p
                   class="text-xs text-slate-600 mt-1"
+                  data-testid="description"
                 >
                   description 0
                 </p>
@@ -1145,6 +1150,7 @@ exports[`ProductDetails rendering tests ProductDetails - product type TEMPLATE -
           </div>
           <div
             class="bg-slate-50 border border-slate-200 rounded-lg p-4"
+            data-testid="feature"
           >
             <div
               class="flex items-start gap-3"
@@ -1152,6 +1158,7 @@ exports[`ProductDetails rendering tests ProductDetails - product type TEMPLATE -
               <svg
                 aria-hidden="true"
                 class="lucide lucide-check h-5 w-5 text-indigo-600 mt-0.5 shrink-0"
+                data-testid="icon"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -1169,11 +1176,13 @@ exports[`ProductDetails rendering tests ProductDetails - product type TEMPLATE -
               <div>
                 <h4
                   class="font-medium text-slate-900 text-sm"
+                  data-testid="title"
                 >
                   title 1
                 </h4>
                 <p
                   class="text-xs text-slate-600 mt-1"
+                  data-testid="description"
                 >
                   description 1
                 </p>
@@ -1182,6 +1191,7 @@ exports[`ProductDetails rendering tests ProductDetails - product type TEMPLATE -
           </div>
           <div
             class="bg-slate-50 border border-slate-200 rounded-lg p-4"
+            data-testid="feature"
           >
             <div
               class="flex items-start gap-3"
@@ -1189,6 +1199,7 @@ exports[`ProductDetails rendering tests ProductDetails - product type TEMPLATE -
               <svg
                 aria-hidden="true"
                 class="lucide lucide-check h-5 w-5 text-indigo-600 mt-0.5 shrink-0"
+                data-testid="icon"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -1206,11 +1217,13 @@ exports[`ProductDetails rendering tests ProductDetails - product type TEMPLATE -
               <div>
                 <h4
                   class="font-medium text-slate-900 text-sm"
+                  data-testid="title"
                 >
                   title 2
                 </h4>
                 <p
                   class="text-xs text-slate-600 mt-1"
+                  data-testid="description"
                 >
                   description 2
                 </p>

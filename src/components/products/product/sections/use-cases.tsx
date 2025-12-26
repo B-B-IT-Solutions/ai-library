@@ -1,13 +1,15 @@
 import { FC } from "react";
 import { Target } from "lucide-react";
 
-import { DUseCase } from "@/data/types/domain/product";
+import { DProduct } from "@/data/types/domain/product";
 
 interface UseCasesProps {
-   useCases: DUseCase[];
+   product: DProduct;
 }
 
-export const UseCases: FC<UseCasesProps> = ({ useCases }) => {
+export const UseCases: FC<UseCasesProps> = ({ product }) => {
+   const { useCases } = product;
+
    if (useCases.length === 0) {
       return null;
    }

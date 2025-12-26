@@ -19,13 +19,13 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
       if (product.type === "TEMPLATE" && product.template) {
          return (
             <div className="space-y-6" data-testid="template-details">
-               <KeyFeatures features={product.features} />
+               <KeyFeatures product={product} />
                <Separator />
-               <UseCases useCases={product.useCases} />
+               <UseCases product={product} />
                <Separator />
                <TemplatePreview content={product.template.content} />
                <Separator />
-               <UsageInstructions instructions={product.instructions} />
+               <UsageInstructions product={product} />
             </div>
          );
       }
@@ -37,7 +37,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
             <div className="space-y-6" data-testid="bundle-details">
                <BundleValueSection product={product} />
                <Separator />
-               <UseCases useCases={product.useCases} />
+               <UseCases product={product} />
                <Separator />
                <BundleItems items={product.bundleItems} groupByCategory />
                <Separator />

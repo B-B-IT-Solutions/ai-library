@@ -44,7 +44,7 @@ export const BundleValueSection: FC<BundleValueProps> = ({ product }) => {
    };
 
    return (
-      <section className="space-y-3">
+      <section className="space-y-3" data-testid="bundle-value">
          <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
             <BadgePercent className="h-5 w-5 text-green-600" />
             Bundle Value

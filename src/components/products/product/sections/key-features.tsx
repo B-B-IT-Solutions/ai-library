@@ -1,14 +1,17 @@
 import { FC } from "react";
+import { isEmpty, map } from "es-toolkit/compat";
 import * as Icons from "lucide-react";
 
-import { DFeature } from "@/data/types/domain/product";
+import { DProduct } from "@/data/types/domain/product";
 
 interface KeyFeaturesProps {
-   features: DFeature[];
+   product: DProduct;
 }
 
-export const KeyFeatures: FC<KeyFeaturesProps> = ({ features }) => {
-   if (features.length === 0) {
+export const KeyFeatures: FC<KeyFeaturesProps> = ({ product }) => {
+   const { features } = product;
+
+   if (isEmpty(features)) {
       return null;
    }
 
@@ -24,20 +27,30 @@ export const KeyFeatures: FC<KeyFeaturesProps> = ({ features }) => {
             Key Features
          </h3>
          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {features.map((feature, index) => {
+            {map(features, (feature, index) => {
                const Icon = getIcon(feature.icon);
                return (
                   <div
                      key={index}
                      className="bg-slate-50 border border-slate-200 rounded-lg p-4"
+                     data-testid="feature"
                   >
                      <div className="flex items-start gap-3">
-                        <Icon className="h-5 w-5 text-indigo-600 mt-0.5 shrink-0" />
+                        <Icon
+                           className="h-5 w-5 text-indigo-600 mt-0.5 shrink-0"
+                           data-testid="icon"
+                        />
                         <div>
-                           <h4 className="font-medium text-slate-900 text-sm">
+                           <h4
+                              className="font-medium text-slate-900 text-sm"
+                              data-testid="title"
+                           >
                               {feature.title}
                            </h4>
-                           <p className="text-xs text-slate-600 mt-1">
+                           <p
+                              className="text-xs text-slate-600 mt-1"
+                              data-testid="description"
+                           >
                               {feature.description}
                            </p>
                         </div>
