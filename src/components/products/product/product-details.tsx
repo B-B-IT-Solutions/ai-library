@@ -4,7 +4,7 @@ import { Separator } from "@/components/shadcn/separator";
 import { DProduct } from "@/data/types/domain/product";
 
 import { BundleItems } from "./sections/bundle-items";
-import { BundleValueSection } from "./sections/bundle-value";
+import { BundleValue } from "./sections/bundle-value";
 import { KeyFeatures } from "./sections/key-features";
 import { TemplatePreview } from "./sections/template-preview";
 import { UsageInstructions } from "./sections/usage-instructions";
@@ -35,7 +35,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
       if (product.type === "BUNDLE" && product.bundleItems) {
          return (
             <div className="space-y-6" data-testid="bundle-details">
-               <BundleValueSection product={product} />
+               <BundleValue product={product} />
                <Separator />
                <UseCases product={product} />
                <Separator />

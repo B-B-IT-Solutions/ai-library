@@ -52,6 +52,7 @@ exports[`ProductDetails rendering tests ProductDetails - product type BUNDLE - t
           >
             <div
               class="space-y-2"
+              data-testid="savings"
             >
               <div
                 class="inline-flex items-center gap-2 px-4 py-2 bg-green-100 border border-green-300 rounded-full"
@@ -99,6 +100,7 @@ exports[`ProductDetails rendering tests ProductDetails - product type BUNDLE - t
             </div>
             <div
               class="flex flex-col gap-2 text-sm"
+              data-testid="price-summary"
             >
               <div
                 class="flex items-center justify-between gap-4"
@@ -134,6 +136,7 @@ exports[`ProductDetails rendering tests ProductDetails - product type BUNDLE - t
           </div>
           <div
             class="mt-4 pt-4 border-t border-green-200"
+            data-testid="note"
           >
             <div
               class="flex items-start gap-2 text-sm text-green-800"
