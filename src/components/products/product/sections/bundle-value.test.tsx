@@ -60,4 +60,18 @@ describe("BundleValue rendering tests", () => {
 
       expect(container).toMatchSnapshot();
    });
+
+   it("BundleValue - bundleItems empty - totalIndividualPrice null -  test", async () => {
+      const product = dtestData.dProduct();
+      product.bundleItems = [];
+      product.totalIndividualPrice = null;
+
+      const { container } = render(<BundleValue product={product} />);
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
 });
