@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { isEmpty, map } from "es-toolkit/compat";
 import { Target } from "lucide-react";
 
 import { DProduct } from "@/data/types/domain/product";
@@ -10,7 +11,7 @@ interface UseCasesProps {
 export const UseCases: FC<UseCasesProps> = ({ product }) => {
    const { useCases } = product;
 
-   if (useCases.length === 0) {
+   if (isEmpty(useCases)) {
       return null;
    }
 
@@ -21,15 +22,22 @@ export const UseCases: FC<UseCasesProps> = ({ product }) => {
             Use Cases
          </h3>
          <div className="flex flex-wrap gap-2">
-            {useCases.map((useCase, index) => (
+            {map(useCases, (useCase, index) => (
                <div
                   key={index}
                   className="inline-flex flex-col gap-1 bg-indigo-50 border border-indigo-200 rounded-lg px-3 py-2"
+                  data-testid="use-case"
                >
-                  <span className="font-medium text-sm text-indigo-900">
+                  <span
+                     className="font-medium text-sm text-indigo-900"
+                     data-testid="category"
+                  >
                      {useCase.category}
                   </span>
-                  <span className="text-xs text-indigo-700">
+                  <span
+                     className="text-xs text-indigo-700"
+                     data-testid="description"
+                  >
                      {useCase.description}
                   </span>
                </div>

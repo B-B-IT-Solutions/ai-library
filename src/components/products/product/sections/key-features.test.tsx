@@ -1,6 +1,6 @@
 import { getByTestId, screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
-import { assertInDocument, dtestData } from "@tests";
+import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 
 import { KeyFeatures } from "./key-features";
 
@@ -16,11 +16,31 @@ const assertRendered = () => {
    assertInDocument(icon);
    assertInDocument(title);
    assertInDocument(description);
+   expect(featureDivs).toHaveLength(3);
+};
+
+const assertNotRendered = () => {
+   const features = screen.queryByTestId("key-features");
+   assertNotInDocument(features);
 };
 
 describe("KeyFeatures rendering tests", () => {
+   it("KeyFeatures - features empty -  test", async () => {
+      const product = dtestData.dProduct();
+      product.features = [];
+
+      const { container } = render(<KeyFeatures product={product} />);
+
+      await waitFor(() => {
+         assertNotRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
    it("KeyFeatures - features defined -  test", async () => {
       const product = dtestData.dProduct();
+      product.features[0].icon = "null";
 
       const { container } = render(<KeyFeatures product={product} />);
 

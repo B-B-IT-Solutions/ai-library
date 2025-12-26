@@ -223,42 +223,51 @@ exports[`ProductDetails rendering tests ProductDetails - product type BUNDLE - t
         >
           <div
             class="inline-flex flex-col gap-1 bg-indigo-50 border border-indigo-200 rounded-lg px-3 py-2"
+            data-testid="use-case"
           >
             <span
               class="font-medium text-sm text-indigo-900"
+              data-testid="category"
             >
               category 1
             </span>
             <span
               class="text-xs text-indigo-700"
+              data-testid="description"
             >
               description 0
             </span>
           </div>
           <div
             class="inline-flex flex-col gap-1 bg-indigo-50 border border-indigo-200 rounded-lg px-3 py-2"
+            data-testid="use-case"
           >
             <span
               class="font-medium text-sm text-indigo-900"
+              data-testid="category"
             >
               category 1
             </span>
             <span
               class="text-xs text-indigo-700"
+              data-testid="description"
             >
               description 1
             </span>
           </div>
           <div
             class="inline-flex flex-col gap-1 bg-indigo-50 border border-indigo-200 rounded-lg px-3 py-2"
+            data-testid="use-case"
           >
             <span
               class="font-medium text-sm text-indigo-900"
+              data-testid="category"
             >
               category 1
             </span>
             <span
               class="text-xs text-indigo-700"
+              data-testid="description"
             >
               description 2
             </span>
@@ -1281,42 +1290,51 @@ exports[`ProductDetails rendering tests ProductDetails - product type TEMPLATE -
         >
           <div
             class="inline-flex flex-col gap-1 bg-indigo-50 border border-indigo-200 rounded-lg px-3 py-2"
+            data-testid="use-case"
           >
             <span
               class="font-medium text-sm text-indigo-900"
+              data-testid="category"
             >
               category 1
             </span>
             <span
               class="text-xs text-indigo-700"
+              data-testid="description"
             >
               description 0
             </span>
           </div>
           <div
             class="inline-flex flex-col gap-1 bg-indigo-50 border border-indigo-200 rounded-lg px-3 py-2"
+            data-testid="use-case"
           >
             <span
               class="font-medium text-sm text-indigo-900"
+              data-testid="category"
             >
               category 1
             </span>
             <span
               class="text-xs text-indigo-700"
+              data-testid="description"
             >
               description 1
             </span>
           </div>
           <div
             class="inline-flex flex-col gap-1 bg-indigo-50 border border-indigo-200 rounded-lg px-3 py-2"
+            data-testid="use-case"
           >
             <span
               class="font-medium text-sm text-indigo-900"
+              data-testid="category"
             >
               category 1
             </span>
             <span
               class="text-xs text-indigo-700"
+              data-testid="description"
             >
               description 2
             </span>
