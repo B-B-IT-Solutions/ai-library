@@ -15,7 +15,7 @@ export const UsageInstructions: FC<UsageInstructionsProps> = ({
    }
 
    return (
-      <section className="space-y-3">
+      <section className="space-y-3" data-testid="usage-instructions">
          <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
             <BookOpen className="h-5 w-5 text-indigo-600" />
             How to Use

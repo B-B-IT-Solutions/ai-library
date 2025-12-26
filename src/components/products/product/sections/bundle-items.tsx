@@ -72,7 +72,7 @@ export const BundleItems: FC<BundleItemsProps> = ({
    const groups = groupedItems();
 
    return (
-      <section className="space-y-3">
+      <section className="space-y-3" data-testid="bundle-items">
          <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
             <Folder className="h-5 w-5 text-indigo-600" />
             Included Templates ({items.length})

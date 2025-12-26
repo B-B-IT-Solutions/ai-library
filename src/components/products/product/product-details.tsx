@@ -18,21 +18,15 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
    const tempalteDetails = () => {
       if (product.type === "TEMPLATE" && product.template) {
          return (
-            <>
+            <div className="space-y-6" data-testid="template-details">
                <KeyFeatures features={product.features} />
-
                <Separator />
-
                <UseCases useCases={product.useCases} />
-
                <Separator />
-
                <TemplatePreview content={product.template.content} />
-
                <Separator />
-
                <UsageInstructions instructions={product.instructions} />
-            </>
+            </div>
          );
       }
    };
@@ -40,18 +34,13 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
    const bundleDetails = () => {
       if (product.type === "BUNDLE" && product.bundleItems) {
          return (
-            <>
+            <div className="space-y-6" data-testid="bundle-details">
                <BundleValueSection product={product} />
                <Separator />
-
                <UseCases useCases={product.useCases} />
-
                <Separator />
-
                <BundleItems items={product.bundleItems} groupByCategory />
-
                <Separator />
-
                <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4">
                   <h4 className="font-semibold text-sm text-indigo-900 mb-2">
                      What You'll Get
@@ -72,7 +61,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
                      </li>
                      <li className="flex items-start gap-2">
                         <span className="shrink-0">✓</span>
-                        <span>Immediate access and lifetime updates</span>
+                        <span>Immediate access</span>
                      </li>
                      <li className="flex items-start gap-2">
                         <span className="shrink-0">✓</span>
@@ -82,13 +71,13 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
                      </li>
                   </ul>
                </div>
-            </>
+            </div>
          );
       }
    };
 
    return (
-      <div className="space-y-6" data-testid="product-details">
+      <div data-testid="product-details">
          {tempalteDetails()}
          {bundleDetails()}
       </div>
