@@ -5,6 +5,7 @@ import { CartWithItems } from "@/data/types/db/cart";
 import { OrderWithItems } from "@/data/types/db/order";
 import {
    BundleItemWithTemplate,
+   ProductWithDetails,
    ProductWithTemplateBundleItems,
 } from "@/data/types/db/product";
 import { PromptsPage, PromptWithCategories } from "@/data/types/db/prompt";
@@ -16,6 +17,10 @@ import {
    CartItem,
    OrderItem,
    Product,
+   ProductExample,
+   ProductFeature,
+   ProductInstruction,
+   ProductUseCase,
    Prompt,
    PromptCategory,
    PromptTemplate,
@@ -72,6 +77,21 @@ export const pProductWithTemplateBundleItems = (
    };
 };
 
+export const pProductWithDetails = (index = 1): ProductWithDetails => {
+   const product = pProduct(index);
+   const template = pPromptTemplateWithCategories(index);
+   return {
+      ...product,
+      templateId: template.id,
+      template,
+      bundleItems: pBundleItems(),
+      features: pFeatures(),
+      useCases: pUseCases(),
+      examples: pExamples(),
+      instructions: pInstructions(),
+   };
+};
+
 export const pBundleItems = (count = 3): BundleItemWithTemplate[] => {
    return range(0, count).map((i) => pBundleItem(i));
 };
@@ -83,6 +103,68 @@ export const pBundleItem = (index = 1): BundleItemWithTemplate => {
       bundleId: `2cabc8ff-010a-4b0b-93c6-4f311d35c432${index}`,
       templateId: template.id,
       template,
+      createdAt: new Date("2025-09-27"),
+   };
+};
+
+export const pFeatures = (count = 3): ProductFeature[] => {
+   return range(0, count).map((i) => pFeature(i));
+};
+
+export const pFeature = (index = 1): ProductFeature => {
+   return {
+      id: `be263d01-1d38-4781-9c52-16b0280d92b${index}`,
+      productId: `2bf4776e-409e-4eb5-81d3-700fcf27bfb${index}`,
+      icon: `Check`,
+      title: `title ${index}`,
+      description: `description ${index}`,
+      order: index,
+      createdAt: new Date("2025-09-27"),
+   };
+};
+
+export const pUseCases = (count = 3): ProductUseCase[] => {
+   return range(0, count).map((i) => pUseCase(i));
+};
+
+export const pUseCase = (index = 1): ProductUseCase => {
+   return {
+      id: `7d5bcac6-b650-4a07-ba2d-27c3b8f32cc${index}`,
+      productId: `2bf4776e-409e-4eb5-81d3-700fcf27bfb${index}`,
+      category: `category 1`,
+      description: `description ${index}`,
+      tags: ["tag 1", "tag 2", "tag 3"],
+      order: index,
+      createdAt: new Date("2025-09-27"),
+   };
+};
+
+export const pExamples = (count = 3): ProductExample[] => {
+   return range(0, count).map((i) => pExample(i));
+};
+
+export const pExample = (index = 1): ProductExample => {
+   return {
+      id: `a135945f-5579-4578-91d9-3b5a700b7ba${index}`,
+      productId: `2bf4776e-409e-4eb5-81d3-700fcf27bfb${index}`,
+      title: `title ${index}`,
+      content: `content ${index}`,
+      order: index,
+      createdAt: new Date("2025-09-27"),
+   };
+};
+
+export const pInstructions = (count = 3): ProductInstruction[] => {
+   return range(0, count).map((i) => pInstruction(i));
+};
+
+export const pInstruction = (index = 1): ProductInstruction => {
+   return {
+      id: `837b2e07-a123-4646-993b-28ea8e9a6f4${index}`,
+      productId: `2bf4776e-409e-4eb5-81d3-700fcf27bfb${index}`,
+      title: `title ${index}`,
+      description: `description ${index}`,
+      step: index,
       createdAt: new Date("2025-09-27"),
    };
 };

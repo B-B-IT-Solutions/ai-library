@@ -64,7 +64,7 @@ describe("pGetProduct tests", () => {
    });
 
    test("pGetProduct test", async () => {
-      const product = ptestData.pProductWithTemplateBundleItems();
+      const product = ptestData.pProductWithDetails();
       prismaMock.product.findUnique.mockResolvedValue(product);
 
       const where: ProductWhereUniqueInput = { id: "product-id-1" };

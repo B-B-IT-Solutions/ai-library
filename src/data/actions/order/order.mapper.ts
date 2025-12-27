@@ -1,6 +1,6 @@
 import { map } from "es-toolkit/compat";
 
-import { toDProduct } from "@/data/actions/product/product.mapper";
+import { toDProduct1 } from "@/data/actions/product/product.mapper";
 import { DOrder, DOrderItem, DOrderStatus } from "@/data/types/domain/order";
 
 type PrismaOrder = {
@@ -51,7 +51,7 @@ export const toDOrderItem = (item: PrismaOrderItem): DOrderItem => {
    return {
       id: item.id,
       orderId: item.orderId,
-      product: toDProduct(item.product),
+      product: toDProduct1(item.product),
       quantity: item.quantity,
       price: Number(item.price),
       createdAt: item.createdAt.toISOString(),

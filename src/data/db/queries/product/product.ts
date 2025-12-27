@@ -1,5 +1,8 @@
 import prisma from "@/data/db/prisma";
-import { ProductWithTemplateBundleItems } from "@/data/types/db/product";
+import {
+   ProductWithDetails,
+   ProductWithTemplateBundleItems,
+} from "@/data/types/db/product";
 import {
    ProductWhereInput,
    ProductWhereUniqueInput,
@@ -34,7 +37,7 @@ export const pGetProducts = async (
 
 export const pGetProduct = async (
    where: ProductWhereUniqueInput
-): Promise<ProductWithTemplateBundleItems | null> => {
+): Promise<ProductWithDetails | null> => {
    return await prisma.product.findUnique({
       where,
       include: {

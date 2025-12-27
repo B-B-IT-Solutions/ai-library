@@ -9,7 +9,7 @@ import {
 } from "@/generated/prisma/models";
 
 import { getProduct, getProducts } from "./product.actions";
-import { toDProduct, toDProducts } from "./product.mapper";
+import { toDProduct2, toDProducts } from "./product.mapper";
 
 const pGetProductsMock = pGetProducts as jest.MockedFunction<
    typeof pGetProducts
@@ -66,13 +66,13 @@ describe("getProduct tests", () => {
    });
 
    it("getProduct - product defined - test", async () => {
-      const product = ptestData.pProductWithTemplateBundleItems();
+      const product = ptestData.pProductWithDetails();
       product.id = "e25c7300-a608-42a5-ab67-cae7a8f75bfa";
       pGetProductMock.mockResolvedValue(product);
 
       const result = await getProduct(product.id);
 
-      const expectedResult = toDProduct(product);
+      const expectedResult = toDProduct2(product);
       const expectedWhereInput: ProductWhereUniqueInput = { id: product.id };
 
       expect(result).toEqual(expectedResult);
