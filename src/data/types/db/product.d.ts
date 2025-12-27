@@ -1,24 +1,23 @@
 import {
-   BundleItem,
    Product,
    ProductExample,
    ProductFeature,
    ProductInstruction,
+   ProductItem,
    ProductUseCase,
 } from "@/generated/prisma/client";
 
 import { PromptTemplateWithCategories } from "./prompt.template";
 
-export type BundleItemWithTemplate = BundleItem & {
+export type ProductItemWithTemplate = ProductItem & {
    template: PromptTemplateWithCategories | null;
 };
 
-export type ProductWithTemplateBundleItems = Product & {
-   template: PromptTemplateWithCategories | null;
-   bundleItems: BundleItemWithTemplate[];
+export type ProductWithItems = Product & {
+   productItems: ProductItemWithTemplate[];
 };
 
-export type ProductWithDetails = ProductWithTemplateBundleItems & {
+export type ProductWithDetails = ProductWithItems & {
    features: ProductFeature[];
    useCases: ProductUseCase[];
    examples: ProductExample[];

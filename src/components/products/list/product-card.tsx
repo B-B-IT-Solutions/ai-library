@@ -45,13 +45,13 @@ export const ProductCard: FC<ProductCardProps> = ({ product, isInCart }) => {
    };
 
    const bundleInfo = () => {
-      if (product.type !== "BUNDLE" || !product.bundleItems) {
+      if (product.type !== "BUNDLE" || !product.productItems) {
          return null;
       }
 
       return (
          <p className="text-xs text-slate-600 mb-2">
-            {product.bundleItems.length} templates included
+            {product.productItems.length} templates included
          </p>
       );
    };

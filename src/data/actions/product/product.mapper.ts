@@ -2,15 +2,13 @@ import { isEmpty, map } from "es-toolkit/compat";
 
 import { toDPromptTemplate } from "@/data/actions/prompt/prompt.mapper";
 import {
-   BundleItemWithTemplate,
+   ProductItemWithTemplate,
    ProductWithDetails,
-   ProductWithTemplateBundleItems,
+   ProductWithItems,
 } from "@/data/types/db/product";
-import { DProduct } from "@/data/types/domain/product";
+import { DProduct, DProductItem } from "@/data/types/domain/product";
 
-export const toDProducts = (
-   pProducts: ProductWithTemplateBundleItems[]
-): DProduct[] => {
+export const toDProducts = (pProducts: ProductWithItems[]): DProduct[] => {
    return map(pProducts, (p) => toDProduct1(p));
 };
 
@@ -43,9 +41,7 @@ export const toDProduct2 = (product: ProductWithDetails): DProduct => {
    return dProduct;
 };
 
-export const toDProduct1 = (
-   product: ProductWithTemplateBundleItems
-): DProduct => {
+export const toDProduct1 = (product: ProductWithItems): DProduct => {
    const dProduct: DProduct = {
       id: product.id,
       name: product.name,
@@ -62,7 +58,6 @@ export const toDProduct1 = (
          : null,
       type: product.type,
       status: product.status,
-      templateId: product.templateId,
       features: [],
       useCases: [],
       examples: [],
@@ -71,23 +66,19 @@ export const toDProduct1 = (
       updatedAt: product.updatedAt.toISOString(),
    };
 
-   if (product.template) {
-      dProduct.template = toDPromptTemplate(product.template);
-   }
-
-   if (product.bundleItems && !isEmpty(product.bundleItems)) {
-      const items = map(product.bundleItems, (item) => toDBundleItem(item));
-      dProduct.bundleItems = items;
+   if (product.productItems && !isEmpty(product.productItems)) {
+      const items = map(product.productItems, (item) => toDProductItem(item));
+      dProduct.productItems = items;
    }
 
    return dProduct;
 };
 
-const toDBundleItem = (item: BundleItemWithTemplate) => {
+const toDProductItem = (item: ProductItemWithTemplate): DProductItem => {
    const template = item.template ? toDPromptTemplate(item.template) : null;
    return {
       id: item.id,
-      bundleId: item.bundleId,
+      productId: item.productId,
       templateId: template ? template.id : null,
       template: template ?? null,
       createdAt: item.createdAt.toISOString(),

@@ -23,7 +23,7 @@ describe("getProducts tests", () => {
    });
 
    it("getProducts test", async () => {
-      const products = ptestData.pProductsWithTemplateBundleItems();
+      const products = ptestData.pProductsWithItems();
       pGetProductsMock.mockResolvedValue(products);
 
       const result = await getProducts();

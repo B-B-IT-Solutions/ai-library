@@ -18,9 +18,9 @@ export type DProduct = {
    totalIndividualPrice: number | null;
    type: DProductType;
    status: DProductStatus;
-   templateId: string | null;
+   templateId?: string | null;
    template?: DPromptTemplate;
-   bundleItems?: DBundleItem[];
+   productItems?: DProductItem[];
    features: DFeature[];
    useCases: DUseCase[];
    examples: DExample[];
@@ -52,9 +52,9 @@ export type DInstruction = {
    description: string;
 };
 
-export type DBundleItem = {
+export type DProductItem = {
    id: string;
-   bundleId: string;
+   productId: string;
    templateId: string | null;
    template: DPromptTemplate | null;
    createdAt: string;

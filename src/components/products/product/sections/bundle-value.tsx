@@ -14,7 +14,7 @@ export const BundleValue: FC<BundleValueProps> = ({ product }) => {
       savingsAmount,
       savingsPercentage,
       totalIndividualPrice,
-      bundleItems,
+      productItems: bundleItems,
    } = product;
 
    if (!savingsAmount) {

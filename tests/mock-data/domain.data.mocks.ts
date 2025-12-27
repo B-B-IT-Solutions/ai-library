@@ -3,7 +3,7 @@ import { range } from "es-toolkit";
 import { Sort } from "@/data/types/common";
 import { DCart, DCartItem } from "@/data/types/domain/cart";
 import {
-   DBundleItem,
+   DProductItem,
    DExample,
    DFeature,
    DInstruction,
@@ -86,7 +86,7 @@ export const dProduct = (index = 1): DProduct => {
       status: "ACTIVE",
       templateId: template.id,
       template: template,
-      bundleItems: dBundleItems(),
+      productItems: dBundleItems(),
       features: dFeatures(),
       useCases: dUseCases(),
       examples: dExamples(),
@@ -96,15 +96,15 @@ export const dProduct = (index = 1): DProduct => {
    };
 };
 
-export const dBundleItems = (count = 3): DBundleItem[] => {
+export const dBundleItems = (count = 3): DProductItem[] => {
    return range(0, count).map((i) => dBundleItem(i));
 };
 
-export const dBundleItem = (index = 1): DBundleItem => {
+export const dBundleItem = (index = 1): DProductItem => {
    const template = dPromptTemplate(index);
    return {
       id: `418c5cf3-d0d5-4ad8-a841-d458c8aa6cb1${index}`,
-      bundleId: `2cabc8ff-010a-4b0b-93c6-4f311d35c432${index}`,
+      productId: `2cabc8ff-010a-4b0b-93c6-4f311d35c432${index}`,
       templateId: template.id,
       template,
       createdAt: new Date("2025-09-27").toISOString(),

@@ -48,10 +48,10 @@ export const ProductListItem: FC<ProductListItemProps> = ({
    };
 
    const bundleInfo = () => {
-      if (product.type !== "BUNDLE" || !product.bundleItems) {
+      if (product.type !== "BUNDLE" || !product.productItems) {
          return null;
       }
-      return `${product.bundleItems.length} templates included`;
+      return `${product.productItems.length} templates included`;
    };
 
    return (

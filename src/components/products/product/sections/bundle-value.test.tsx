@@ -63,7 +63,7 @@ describe("BundleValue rendering tests", () => {
 
    it("BundleValue - bundleItems empty - totalIndividualPrice null -  test", async () => {
       const product = dtestData.dProduct();
-      product.bundleItems = [];
+      product.productItems = [];
       product.totalIndividualPrice = null;
 
       const { container } = render(<BundleValue product={product} />);

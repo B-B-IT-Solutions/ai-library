@@ -32,14 +32,14 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
    };
 
    const bundleDetails = () => {
-      if (product.type === "BUNDLE" && product.bundleItems) {
+      if (product.type === "BUNDLE" && product.productItems) {
          return (
             <div className="space-y-6" data-testid="bundle-details">
                <BundleValue product={product} />
                <Separator />
                <UseCases product={product} />
                <Separator />
-               <BundleItems items={product.bundleItems} groupByCategory />
+               <BundleItems items={product.productItems} groupByCategory />
                <Separator />
                <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4">
                   <h4 className="font-semibold text-sm text-indigo-900 mb-2">
@@ -49,7 +49,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
                      <li className="flex items-start gap-2">
                         <span className="shrink-0">✓</span>
                         <span>
-                           {product.bundleItems.length} professionally crafted
+                           {product.productItems.length} professionally crafted
                            prompt templates
                         </span>
                      </li>

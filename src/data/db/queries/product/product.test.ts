@@ -20,7 +20,7 @@ describe("pGetProducts tests", () => {
    });
 
    test("pGetProducts test", async () => {
-      const products = ptestData.pProductsWithTemplateBundleItems();
+      const products = ptestData.pProductsWithItems();
       prismaMock.product.findMany.mockResolvedValue(products);
 
       const where: ProductWhereInput = { status: "ACTIVE" };
@@ -30,12 +30,7 @@ describe("pGetProducts tests", () => {
       const expectedFindManyArgs: ProductFindManyArgs = {
          where,
          include: {
-            template: {
-               include: {
-                  categories: true,
-               },
-            },
-            bundleItems: {
+            productItems: {
                include: {
                   template: {
                      include: {
@@ -74,12 +69,7 @@ describe("pGetProduct tests", () => {
       const expectedFindUniqueArgs: ProductFindUniqueArgs = {
          where,
          include: {
-            template: {
-               include: {
-                  categories: true,
-               },
-            },
-            bundleItems: {
+            productItems: {
                include: {
                   template: {
                      include: {
