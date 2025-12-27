@@ -71,7 +71,7 @@ describe("toDProduct1 tests", () => {
       const result = toDProduct1(product);
 
       assertCommon(result, product);
-      expect(result.productItems).toBeUndefined();
+      expect(result.productItems).toEqual([]);
    });
 
    it("toDProduct1 - with productItems - test", () => {

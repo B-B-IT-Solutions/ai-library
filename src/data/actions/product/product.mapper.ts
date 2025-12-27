@@ -1,4 +1,4 @@
-import { isEmpty, map } from "es-toolkit/compat";
+import { map } from "es-toolkit/compat";
 
 import { toDPromptTemplate } from "@/data/actions/prompt/prompt.mapper";
 import {
@@ -62,16 +62,16 @@ export const toDProduct1 = (product: ProductWithItems): DProduct => {
       useCases: [],
       examples: [],
       instructions: [],
+      productItems: toDProductItems(product.productItems),
       createdAt: product.createdAt.toISOString(),
       updatedAt: product.updatedAt.toISOString(),
    };
 
-   if (product.productItems && !isEmpty(product.productItems)) {
-      const items = map(product.productItems, (item) => toDProductItem(item));
-      dProduct.productItems = items;
-   }
-
    return dProduct;
+};
+
+const toDProductItems = (items: ProductItemWithTemplate[]): DProductItem[] => {
+   return map(items, (item) => toDProductItem(item));
 };
 
 const toDProductItem = (item: ProductItemWithTemplate): DProductItem => {
