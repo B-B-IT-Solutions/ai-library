@@ -216,7 +216,7 @@ exports[`Products rendering tests Products - one product - test 1`] = `
             </button>
             <div
               data-slot="dialog"
-              data-testid="product-detials-dialog"
+              data-testid="product-details-dialog"
             >
               <div
                 data-slot="dialog-portal"
@@ -480,7 +480,7 @@ exports[`Products rendering tests Products - viewMode grid - rendered test 1`] =
             </button>
             <div
               data-slot="dialog"
-              data-testid="product-detials-dialog"
+              data-testid="product-details-dialog"
             >
               <div
                 data-slot="dialog-portal"
@@ -627,7 +627,7 @@ exports[`Products rendering tests Products - viewMode grid - rendered test 1`] =
             </button>
             <div
               data-slot="dialog"
-              data-testid="product-detials-dialog"
+              data-testid="product-details-dialog"
             >
               <div
                 data-slot="dialog-portal"
@@ -774,7 +774,7 @@ exports[`Products rendering tests Products - viewMode grid - rendered test 1`] =
             </button>
             <div
               data-slot="dialog"
-              data-testid="product-detials-dialog"
+              data-testid="product-details-dialog"
             >
               <div
                 data-slot="dialog-portal"
@@ -1044,7 +1044,7 @@ exports[`Products rendering tests Products - viewMode list - rendered test 1`] =
               </button>
               <div
                 data-slot="dialog"
-                data-testid="product-detials-dialog"
+                data-testid="product-details-dialog"
               >
                 <div
                   data-slot="dialog-portal"
@@ -1200,7 +1200,7 @@ exports[`Products rendering tests Products - viewMode list - rendered test 1`] =
               </button>
               <div
                 data-slot="dialog"
-                data-testid="product-detials-dialog"
+                data-testid="product-details-dialog"
               >
                 <div
                   data-slot="dialog-portal"
@@ -1356,7 +1356,7 @@ exports[`Products rendering tests Products - viewMode list - rendered test 1`] =
               </button>
               <div
                 data-slot="dialog"
-                data-testid="product-detials-dialog"
+                data-testid="product-details-dialog"
               >
                 <div
                   data-slot="dialog-portal"

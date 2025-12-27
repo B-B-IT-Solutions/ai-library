@@ -9,7 +9,7 @@ import { ShowDetailsButton } from "./show-details-button";
 
 const assertRendered = () => {
    const viewDetailsBtn = screen.getByTestId("view-details-btn");
-   const detailsDialog = screen.getByTestId("product-detials-dialog");
+   const detailsDialog = screen.getByTestId("product-details-dialog");
 
    assertInDocument(viewDetailsBtn);
    assertInDocument(detailsDialog);

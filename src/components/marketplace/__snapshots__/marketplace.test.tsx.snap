@@ -238,7 +238,7 @@ exports[`Marketplace rendering tests Marketplace - viewMode grid - rendered test
               </button>
               <div
                 data-slot="dialog"
-                data-testid="product-detials-dialog"
+                data-testid="product-details-dialog"
               >
                 <div
                   data-slot="dialog-portal"
@@ -385,7 +385,7 @@ exports[`Marketplace rendering tests Marketplace - viewMode grid - rendered test
               </button>
               <div
                 data-slot="dialog"
-                data-testid="product-detials-dialog"
+                data-testid="product-details-dialog"
               >
                 <div
                   data-slot="dialog-portal"
@@ -532,7 +532,7 @@ exports[`Marketplace rendering tests Marketplace - viewMode grid - rendered test
               </button>
               <div
                 data-slot="dialog"
-                data-testid="product-detials-dialog"
+                data-testid="product-details-dialog"
               >
                 <div
                   data-slot="dialog-portal"
@@ -867,7 +867,7 @@ exports[`Marketplace rendering tests Marketplace - viewMode list - rendered test
                 </button>
                 <div
                   data-slot="dialog"
-                  data-testid="product-detials-dialog"
+                  data-testid="product-details-dialog"
                 >
                   <div
                     data-slot="dialog-portal"
@@ -1023,7 +1023,7 @@ exports[`Marketplace rendering tests Marketplace - viewMode list - rendered test
                 </button>
                 <div
                   data-slot="dialog"
-                  data-testid="product-detials-dialog"
+                  data-testid="product-details-dialog"
                 >
                   <div
                     data-slot="dialog-portal"
@@ -1179,7 +1179,7 @@ exports[`Marketplace rendering tests Marketplace - viewMode list - rendered test
                 </button>
                 <div
                   data-slot="dialog"
-                  data-testid="product-detials-dialog"
+                  data-testid="product-details-dialog"
                 >
                   <div
                     data-slot="dialog-portal"

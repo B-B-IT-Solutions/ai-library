@@ -38,7 +38,7 @@ exports[`ShowDetailsButton rendering tests ShowDetailsButton - size default - te
   </button>
   <div
     data-slot="dialog"
-    data-testid="product-detials-dialog"
+    data-testid="product-details-dialog"
   >
     <div
       data-slot="dialog-portal"
@@ -94,7 +94,7 @@ exports[`ShowDetailsButton rendering tests ShowDetailsButton - size sm - test 1`
   </button>
   <div
     data-slot="dialog"
-    data-testid="product-detials-dialog"
+    data-testid="product-details-dialog"
   >
     <div
       data-slot="dialog-portal"

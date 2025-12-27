@@ -1,7 +1,7 @@
 import { isEmpty } from "es-toolkit/compat";
 
 import { CartControls } from "@/components/cart/cart-controls";
-import { Products } from "@/components/products/products";
+import { Products } from "@/components/products";
 import { DCart } from "@/data/types/domain/cart";
 import { DProduct, DProductViewMode } from "@/data/types/domain/product";
 

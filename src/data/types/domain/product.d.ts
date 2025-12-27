@@ -1,5 +1,3 @@
-import z from "zod";
-
 import { Filter, Page, PageQuery } from "@/data/types/common";
 
 import { DPromptTemplate } from "./prompt.template";
@@ -14,13 +12,44 @@ export type DProduct = {
    name: string;
    description: string;
    price: number;
+   savingsAmount: number | null;
+   savingsPercentage: number | null;
+   // Bundle-specific fields
+   totalIndividualPrice: number | null;
    type: DProductType;
    status: DProductStatus;
    templateId: string | null;
    template?: DPromptTemplate;
    bundleItems?: DBundleItem[];
+   features: DFeature[];
+   useCases: DUseCase[];
+   examples: DExample[];
+   instructions: DInstruction[];
    createdAt: string;
    updatedAt: string;
+};
+
+export type DFeature = {
+   icon: string;
+   title: string;
+   description: string;
+};
+
+export type DUseCase = {
+   category: string;
+   description: string;
+   tags: string[];
+};
+
+export type DExample = {
+   title: string;
+   content: string;
+};
+
+export type DInstruction = {
+   step: number;
+   title: string;
+   description: string;
 };
 
 export type DBundleItem = {

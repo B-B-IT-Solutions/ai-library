@@ -2,7 +2,14 @@ import { range } from "es-toolkit";
 
 import { Sort } from "@/data/types/common";
 import { DCart, DCartItem } from "@/data/types/domain/cart";
-import { DBundleItem, DProduct } from "@/data/types/domain/product";
+import {
+   DBundleItem,
+   DExample,
+   DFeature,
+   DInstruction,
+   DProduct,
+   DUseCase,
+} from "@/data/types/domain/product";
 import {
    DPrompt,
    DPromptCategory,
@@ -66,19 +73,24 @@ export const dProducts = (count = 3): DProduct[] => {
 };
 
 export const dProduct = (index = 1): DProduct => {
-   const template1 = dPromptTemplate(1);
-   const template2 = dPromptTemplate(2);
-
+   const template = dPromptTemplate(1);
    return {
       id: `334db648-f300-4284-8149-075ff465d75${index}`,
       name: `name ${index}`,
       description: `description ${index}`,
       price: 59.99,
+      savingsAmount: 14.98,
+      savingsPercentage: 26.63,
+      totalIndividualPrice: 89.99,
       type: "BUNDLE",
       status: "ACTIVE",
-      templateId: template1.id,
-      template: template1,
+      templateId: template.id,
+      template: template,
       bundleItems: dBundleItems(),
+      features: dFeatures(),
+      useCases: dUseCases(),
+      examples: dExamples(),
+      instructions: dInstructions(),
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
    };
@@ -96,6 +108,53 @@ export const dBundleItem = (index = 1): DBundleItem => {
       templateId: template.id,
       template,
       createdAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dFeatures = (count = 3): DFeature[] => {
+   return range(0, count).map((i) => dFeature(i));
+};
+
+export const dFeature = (index = 1): DFeature => {
+   return {
+      icon: `Check`,
+      title: `title ${index}`,
+      description: `description ${index}`,
+   };
+};
+
+export const dUseCases = (count = 3): DUseCase[] => {
+   return range(0, count).map((i) => dUseCase(i));
+};
+
+export const dUseCase = (index = 1): DUseCase => {
+   return {
+      category: `category 1`,
+      description: `description ${index}`,
+      tags: ["tag 1", "tag 2", "tag 3"],
+   };
+};
+
+export const dExamples = (count = 3): DExample[] => {
+   return range(0, count).map((i) => dExample(i));
+};
+
+export const dExample = (index = 1): DExample => {
+   return {
+      title: `title ${index}`,
+      content: `content ${index}`,
+   };
+};
+
+export const dInstructions = (count = 3): DInstruction[] => {
+   return range(0, count).map((i) => dInstruction(i));
+};
+
+export const dInstruction = (index = 1): DInstruction => {
+   return {
+      title: `title ${index}`,
+      description: `description ${index}`,
+      step: index,
    };
 };
 

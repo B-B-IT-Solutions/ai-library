@@ -120,6 +120,56 @@ CREATE TABLE "product" (
 );
 
 -- CreateTable
+CREATE TABLE "product_feature" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "product_id" UUID NOT NULL,
+    "icon" VARCHAR(50) NOT NULL,
+    "title" VARCHAR(250) NOT NULL,
+    "description" VARCHAR(750) NOT NULL,
+    "order" INTEGER NOT NULL DEFAULT 0,
+    "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "product_feature_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "product_use_case" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "product_id" UUID NOT NULL,
+    "category" VARCHAR(250) NOT NULL,
+    "description" VARCHAR(750) NOT NULL,
+    "tags" VARCHAR(100)[],
+    "order" INTEGER NOT NULL DEFAULT 0,
+    "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "product_use_case_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "product_example" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "product_id" UUID NOT NULL,
+    "title" VARCHAR(250) NOT NULL,
+    "content" VARCHAR(750) NOT NULL,
+    "order" INTEGER NOT NULL DEFAULT 0,
+    "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "product_example_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "product_instruction" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "product_id" UUID NOT NULL,
+    "step" INTEGER NOT NULL,
+    "title" VARCHAR(250) NOT NULL,
+    "description" VARCHAR(750) NOT NULL,
+    "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "product_instruction_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "bundle_item" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "bundle_id" UUID NOT NULL,
@@ -145,6 +195,10 @@ CREATE TABLE "cart_item" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "cart_id" UUID NOT NULL,
     "product_id" UUID NOT NULL,
+    "product_name" VARCHAR(250) NOT NULL,
+    "product_description" VARCHAR(500),
+    "product_type" "ProductType" NOT NULL,
+    "product_price" DECIMAL(10,2) NOT NULL,
     "quantity" INTEGER NOT NULL DEFAULT 1,
     "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
@@ -159,6 +213,9 @@ CREATE TABLE "order" (
     "status" "OrderStatus" NOT NULL DEFAULT 'PENDING',
     "total_amount" DECIMAL(10,2) NOT NULL,
     "payment_method" VARCHAR(100),
+    "stripe_checkout_session_id" VARCHAR(500),
+    "stripe_payment_intent_id" VARCHAR(500),
+    "stripe_payment_status" VARCHAR(50),
     "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -223,6 +280,9 @@ CREATE UNIQUE INDEX "cart_session_cart_id_key" ON "cart"("session_cart_id");
 CREATE UNIQUE INDEX "cart_item_cart_id_product_id_key" ON "cart_item"("cart_id", "product_id");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "order_stripe_checkout_session_id_key" ON "order"("stripe_checkout_session_id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "purchase_user_id_template_id_key" ON "purchase"("user_id", "template_id");
 
 -- CreateIndex
@@ -239,6 +299,18 @@ ALTER TABLE "session" ADD CONSTRAINT "session_user_id_fkey" FOREIGN KEY ("user_i
 
 -- AddForeignKey
 ALTER TABLE "product" ADD CONSTRAINT "product_template_id_fkey" FOREIGN KEY ("template_id") REFERENCES "prompt_template"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "product_feature" ADD CONSTRAINT "product_feature_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "product_use_case" ADD CONSTRAINT "product_use_case_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "product_example" ADD CONSTRAINT "product_example_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "product_instruction" ADD CONSTRAINT "product_instruction_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "bundle_item" ADD CONSTRAINT "bundle_item_bundle_id_fkey" FOREIGN KEY ("bundle_id") REFERENCES "product"("id") ON DELETE CASCADE ON UPDATE CASCADE;

@@ -237,7 +237,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - session null - props 
                 </button>
                 <div
                   data-slot="dialog"
-                  data-testid="product-detials-dialog"
+                  data-testid="product-details-dialog"
                 >
                   <div
                     data-slot="dialog-portal"
@@ -384,7 +384,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - session null - props 
                 </button>
                 <div
                   data-slot="dialog"
-                  data-testid="product-detials-dialog"
+                  data-testid="product-details-dialog"
                 >
                   <div
                     data-slot="dialog-portal"
@@ -531,7 +531,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - session null - props 
                 </button>
                 <div
                   data-slot="dialog"
-                  data-testid="product-detials-dialog"
+                  data-testid="product-details-dialog"
                 >
                   <div
                     data-slot="dialog-portal"
@@ -885,7 +885,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - session.user undefine
                   </button>
                   <div
                     data-slot="dialog"
-                    data-testid="product-detials-dialog"
+                    data-testid="product-details-dialog"
                   >
                     <div
                       data-slot="dialog-portal"
@@ -1041,7 +1041,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - session.user undefine
                   </button>
                   <div
                     data-slot="dialog"
-                    data-testid="product-detials-dialog"
+                    data-testid="product-details-dialog"
                   >
                     <div
                       data-slot="dialog-portal"
@@ -1197,7 +1197,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - session.user undefine
                   </button>
                   <div
                     data-slot="dialog"
-                    data-testid="product-detials-dialog"
+                    data-testid="product-details-dialog"
                   >
                     <div
                       data-slot="dialog-portal"
