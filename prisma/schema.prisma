@@ -101,8 +101,7 @@ model PromptTemplate {
   recommendedModel String                   @map("recommended_model") @db.VarChar(250)
   createdAt        DateTime                 @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt        DateTime                 @updatedAt @map("updated_at")
-  products         Product[]
-  bundleItems      BundleItem[]
+  productItems     ProductItem[]
   purchases        Purchase[]
 
   @@map("prompt_template")
@@ -137,28 +136,24 @@ enum OrderStatus {
 }
 
 model Product {
-  id                   String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name                 String        @db.VarChar(250)
-  description          String        @db.Text
-  price                Decimal       @db.Decimal(10, 2)
-  savingsAmount        Decimal?      @map("savings_amount") @db.Decimal(10, 2)
-  savingsPercentage    Decimal?      @map("savings_percentage") @db.Decimal(5, 2)
-  // Bundle-specific fields
-  totalIndividualPrice Decimal?      @map("total_individual_price") @db.Decimal(10, 2)
+  id                   String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                 String               @db.VarChar(250)
+  description          String               @db.Text
+  price                Decimal              @db.Decimal(10, 2)
+  savingsAmount        Decimal?             @map("savings_amount") @db.Decimal(10, 2)
+  savingsPercentage    Decimal?             @map("savings_percentage") @db.Decimal(5, 2)
+  totalIndividualPrice Decimal?             @map("total_individual_price") @db.Decimal(10, 2)
   type                 ProductType
-  status               ProductStatus @default(ACTIVE)
-  templateId           String?       @map("template_id") @db.Uuid
-
-  template     PromptTemplate?      @relation(fields: [templateId], references: [id])
-  bundleItems  BundleItem[]
-  cartItems    CartItem[]
-  orderItems   OrderItem[]
-  features     ProductFeature[]
-  useCases     ProductUseCase[]
-  examples     ProductExample[]
-  instructions ProductInstruction[]
-  createdAt    DateTime             @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt    DateTime             @updatedAt @map("updated_at")
+  status               ProductStatus        @default(ACTIVE)
+  features             ProductFeature[]
+  useCases             ProductUseCase[]
+  examples             ProductExample[]
+  instructions         ProductInstruction[]
+  productItems         ProductItem[]
+  cartItems            CartItem[]
+  orderItems           OrderItem[]
+  createdAt            DateTime             @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt            DateTime             @updatedAt @map("updated_at")
 
   @@map("product")
 }
@@ -213,16 +208,17 @@ model ProductInstruction {
   @@map("product_instruction")
 }
 
-model BundleItem {
-  id         String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  bundleId   String         @map("bundle_id") @db.Uuid
-  templateId String         @map("template_id") @db.Uuid
-  createdAt  DateTime       @default(now()) @map("created_at") @db.Timestamp(6)
-  bundle     Product        @relation(fields: [bundleId], references: [id], onDelete: Cascade)
-  template   PromptTemplate @relation(fields: [templateId], references: [id])
+model ProductItem {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  productId  String   @map("product_id") @db.Uuid
+  templateId String   @map("template_id") @db.Uuid
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(6)
 
-  @@unique([bundleId, templateId])
-  @@map("bundle_item")
+  product  Product        @relation(fields: [productId], references: [id])
+  template PromptTemplate @relation(fields: [templateId], references: [id])
+
+  @@unique([productId, templateId])
+  @@map("product_item")
 }
 
 model Cart {

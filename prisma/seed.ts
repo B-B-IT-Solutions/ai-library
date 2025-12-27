@@ -135,7 +135,8 @@ export const main = async () => {
                   {
                      step: 3,
                      title: "Run Prompt",
-                     description: "Paste into your AI assistant and get results",
+                     description:
+                        "Paste into your AI assistant and get results",
                   },
                   {
                      step: 4,
@@ -187,7 +188,8 @@ export const main = async () => {
                {
                   icon: "Code2",
                   title: "Complete Dev Toolkit",
-                  description: "Everything you need for modern software development",
+                  description:
+                     "Everything you need for modern software development",
                   order: 0,
                },
                {
@@ -200,7 +202,8 @@ export const main = async () => {
                {
                   icon: "Database",
                   title: "SQL Generation",
-                  description: "Create optimized SQL queries with AI assistance",
+                  description:
+                     "Create optimized SQL queries with AI assistance",
                   order: 2,
                },
                {
@@ -238,12 +241,14 @@ export const main = async () => {
                {
                   step: 1,
                   title: "Choose a Template",
-                  description: "Select the template that fits your current task",
+                  description:
+                     "Select the template that fits your current task",
                },
                {
                   step: 2,
                   title: "Customize for Your Project",
-                  description: "Adapt the template to your specific project needs",
+                  description:
+                     "Adapt the template to your specific project needs",
                },
                {
                   step: 3,
@@ -280,7 +285,8 @@ export const main = async () => {
    const contentBundlePrice = 22.99;
    const contentIndividualPrice = 9.99 * contentTemplates.length; // $29.97
    const contentSavings = contentIndividualPrice - contentBundlePrice; // $6.98
-   const contentSavingsPercentage = (contentSavings / contentIndividualPrice) * 100; // ~23.3%
+   const contentSavingsPercentage =
+      (contentSavings / contentIndividualPrice) * 100; // ~23.3%
 
    const contentBundle = await prisma.product.create({
       data: {
@@ -302,7 +308,8 @@ export const main = async () => {
                {
                   icon: "FileText",
                   title: "Content Creation Suite",
-                  description: "Complete toolkit for professional content creation",
+                  description:
+                     "Complete toolkit for professional content creation",
                   order: 0,
                },
                {
@@ -341,7 +348,8 @@ export const main = async () => {
                },
                {
                   category: "Communication",
-                  description: "Professional email responses and correspondence",
+                  description:
+                     "Professional email responses and correspondence",
                   tags: ["email", "communication", "business"],
                   order: 2,
                },
@@ -357,7 +365,8 @@ export const main = async () => {
                {
                   step: 2,
                   title: "Define Your Topic",
-                  description: "Specify your subject matter and target audience",
+                  description:
+                     "Specify your subject matter and target audience",
                },
                {
                   step: 3,
@@ -424,7 +433,8 @@ export const main = async () => {
                {
                   icon: "Users",
                   title: "Meeting Management",
-                  description: "Transform meeting notes into actionable summaries",
+                  description:
+                     "Transform meeting notes into actionable summaries",
                   order: 1,
                },
                {
