@@ -1,11 +1,11 @@
 import { FC } from "react";
-import { map } from "es-toolkit/compat";
+import { isEmpty, map } from "es-toolkit/compat";
 
 import { Card } from "@/components/shadcn/card";
 import { DProduct } from "@/data/types/domain/product";
 import { AddToCartButton } from "../buttons/add-to-cart-button";
 import { ShowDetailsButton } from "../buttons/show-details-button";
-import { getTypeBadgeColor } from "../utils";
+import { getTypeBadgeColor, resolveUniqCategories } from "../utils";
 
 type ProductListItemProps = {
    product: DProduct;
@@ -16,6 +16,8 @@ export const ProductListItem: FC<ProductListItemProps> = ({
    product,
    isInCart,
 }) => {
+   const { productItems } = product;
+
    const typeBadge = () => {
       return (
          <span
@@ -29,29 +31,31 @@ export const ProductListItem: FC<ProductListItemProps> = ({
    };
 
    const categories = () => {
-      if (!product.template?.categories) {
-         return null;
+      const cats = resolveUniqCategories(productItems);
+      if (!isEmpty(cats)) {
+         return (
+            <div className="flex flex-wrap gap-1" data-testid="categories">
+               {map(cats, (cat) => (
+                  <span
+                     key={cat.name}
+                     className="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+                  >
+                     {cat.name}
+                  </span>
+               ))}
+            </div>
+         );
       }
-
-      return (
-         <div className="flex flex-wrap gap-1" data-testid="categories">
-            {map(product.template.categories, (cat) => (
-               <span
-                  key={cat.name}
-                  className="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
-               >
-                  {cat.name}
-               </span>
-            ))}
-         </div>
-      );
    };
 
-   const bundleInfo = () => {
-      if (product.type !== "BUNDLE" || !product.productItems) {
-         return null;
+   const itemsInfo = () => {
+      if (!isEmpty(productItems)) {
+         return (
+            <span className="flex items-center gap-1">
+               {`${productItems.length} templates included`}
+            </span>
+         );
       }
-      return `${product.productItems.length} templates included`;
    };
 
    return (
@@ -75,11 +79,7 @@ export const ProductListItem: FC<ProductListItemProps> = ({
 
                <div className="flex flex-wrap items-center gap-3 text-xs text-slate-600">
                   {categories()}
-                  {bundleInfo() && (
-                     <span className="flex items-center gap-1">
-                        {bundleInfo()}
-                     </span>
-                  )}
+                  {itemsInfo()}
                </div>
             </div>
 

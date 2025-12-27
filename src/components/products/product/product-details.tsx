@@ -6,7 +6,6 @@ import { DProduct } from "@/data/types/domain/product";
 import { BundleItems } from "./sections/bundle-items";
 import { BundleValue } from "./sections/bundle-value";
 import { KeyFeatures } from "./sections/key-features";
-import { TemplatePreview } from "./sections/template-preview";
 import { UsageInstructions } from "./sections/usage-instructions";
 import { UseCases } from "./sections/use-cases";
 
@@ -16,14 +15,14 @@ interface ProductDetailsProps {
 
 export const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
    const tempalteDetails = () => {
-      if (product.type === "TEMPLATE" && product.template) {
+      if (product.type === "TEMPLATE") {
          return (
             <div className="space-y-6" data-testid="template-details">
                <KeyFeatures product={product} />
                <Separator />
                <UseCases product={product} />
                <Separator />
-               <TemplatePreview content={product.template.content} />
+               {/* <TemplatePreview content={product.template.content} /> */}
                <Separator />
                <UsageInstructions product={product} />
             </div>

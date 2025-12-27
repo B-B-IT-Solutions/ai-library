@@ -1,11 +1,11 @@
 import { FC } from "react";
-import { map } from "es-toolkit/compat";
+import { isEmpty, map } from "es-toolkit/compat";
 
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import { DProduct } from "@/data/types/domain/product";
 import { AddToCartButton } from "../buttons/add-to-cart-button";
 import { ShowDetailsButton } from "../buttons/show-details-button";
-import { getTypeBadgeColor } from "../utils";
+import { getTypeBadgeColor, resolveUniqCategories } from "../utils";
 
 type ProductCardProps = {
    product: DProduct;
@@ -13,6 +13,8 @@ type ProductCardProps = {
 };
 
 export const ProductCard: FC<ProductCardProps> = ({ product, isInCart }) => {
+   const { productItems } = product;
+
    const typeBadge = () => {
       return (
          <span
@@ -26,34 +28,31 @@ export const ProductCard: FC<ProductCardProps> = ({ product, isInCart }) => {
    };
 
    const categories = () => {
-      if (!product.template?.categories) {
-         return null;
+      const cats = resolveUniqCategories(productItems);
+      if (!isEmpty(cats)) {
+         return (
+            <div className="flex flex-wrap gap-1 mb-2" data-testid="categories">
+               {map(cats, (cat) => (
+                  <span
+                     key={cat.name}
+                     className="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+                  >
+                     {cat.name}
+                  </span>
+               ))}
+            </div>
+         );
       }
-
-      return (
-         <div className="flex flex-wrap gap-1 mb-2" data-testid="categories">
-            {map(product.template.categories, (cat) => (
-               <span
-                  key={cat.name}
-                  className="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
-               >
-                  {cat.name}
-               </span>
-            ))}
-         </div>
-      );
    };
 
-   const bundleInfo = () => {
-      if (product.type !== "BUNDLE" || !product.productItems) {
-         return null;
+   const itemsInfo = () => {
+      if (!isEmpty(productItems)) {
+         return (
+            <p className="text-xs text-slate-600 mb-2">
+               {productItems.length} templates included
+            </p>
+         );
       }
-
-      return (
-         <p className="text-xs text-slate-600 mb-2">
-            {product.productItems.length} templates included
-         </p>
-      );
    };
 
    return (
@@ -74,7 +73,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product, isInCart }) => {
          </CardHeader>
          <CardContent className="p-0 grid gap-2">
             {categories()}
-            {bundleInfo()}
+            {itemsInfo()}
             <p className="text-sm text-slate-600 line-clamp-2 mb-3">
                {product.description}
             </p>

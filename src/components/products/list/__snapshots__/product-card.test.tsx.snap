@@ -36,6 +36,26 @@ exports[`ProductCard rendering tests ProductCard - product BUNDLE - test 1`] = `
       class="p-0 grid gap-2"
       data-slot="card-content"
     >
+      <div
+        class="flex flex-wrap gap-1 mb-2"
+        data-testid="categories"
+      >
+        <span
+          class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+        >
+          category 0
+        </span>
+        <span
+          class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+        >
+          category 1
+        </span>
+        <span
+          class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+        >
+          category 2
+        </span>
+      </div>
       <p
         class="text-xs text-slate-600 mb-2"
       >
@@ -197,6 +217,12 @@ exports[`ProductCard rendering tests ProductCard- product TEMPLATE - test 1`] = 
           category 2
         </span>
       </div>
+      <p
+        class="text-xs text-slate-600 mb-2"
+      >
+        3
+         templates included
+      </p>
       <p
         class="text-sm text-slate-600 line-clamp-2 mb-3"
       >

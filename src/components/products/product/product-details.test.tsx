@@ -25,13 +25,13 @@ const assertTemplateRendered = () => {
    const template = screen.getByTestId("template-details");
    const features = screen.getByTestId("key-features");
    const useCases = screen.getByTestId("use-cases");
-   const preview = screen.getByTestId("template-preview");
+   // const preview = screen.getByTestId("template-preview");
    const instructions = screen.getByTestId("usage-instructions");
 
    assertInDocument(template);
    assertInDocument(features);
    assertInDocument(useCases);
-   assertInDocument(preview);
+   // assertInDocument(preview);
    assertInDocument(instructions);
 };
 

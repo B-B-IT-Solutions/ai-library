@@ -9,6 +9,7 @@ const prisma = new PrismaClient();
 export const main = async () => {
    console.log("Deleting obsolete entries...");
 
+   await prisma.productItem.deleteMany();
    await prisma.product.deleteMany();
    await prisma.promptTemplate.deleteMany();
    await prisma.promptTemplateCategory.deleteMany();
@@ -73,8 +74,6 @@ export const main = async () => {
             price: 9.99,
             type: "TEMPLATE",
             status: "ACTIVE",
-            templateId: template.id,
-
             // Sample metadata as related records
             features: {
                create: [
@@ -144,6 +143,11 @@ export const main = async () => {
                      description: "Adjust the prompt based on your needs",
                   },
                ],
+            },
+            productItems: {
+               create: {
+                  templateId: template.id,
+               },
             },
          },
       });
@@ -263,7 +267,7 @@ export const main = async () => {
             ],
          },
 
-         bundleItems: {
+         productItems: {
             create: devTemplates.map((t) => ({
                templateId: t.id,
             })),
@@ -381,7 +385,7 @@ export const main = async () => {
             ],
          },
 
-         bundleItems: {
+         productItems: {
             create: contentTemplates.map((t) => ({
                templateId: t.id,
             })),
@@ -499,7 +503,7 @@ export const main = async () => {
             ],
          },
 
-         bundleItems: {
+         productItems: {
             create: businessTemplates.map((t) => ({
                templateId: t.id,
             })),

@@ -14,13 +14,10 @@ export type DProduct = {
    price: number;
    savingsAmount: number | null;
    savingsPercentage: number | null;
-   // Bundle-specific fields
    totalIndividualPrice: number | null;
    type: DProductType;
    status: DProductStatus;
-   templateId?: string | null;
-   template?: DPromptTemplate;
-   productItems?: DProductItem[];
+   productItems: DProductItem[];
    features: DFeature[];
    useCases: DUseCase[];
    examples: DExample[];
