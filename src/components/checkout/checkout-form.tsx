@@ -19,8 +19,8 @@ import {
 } from "@/components/shadcn/form";
 import { createCheckoutSession } from "@/data/actions/stripe";
 import { DCart } from "@/data/types/domain/cart";
-import { DCheckoutForm } from "@/data/types/domain/order";
-import { checkoutSchema } from "@/data/types/validators/order.schema";
+import { DCheckoutForm } from "@/data/types/domain/checkout";
+import { checkoutSchema } from "@/data/types/validators/checkout.schema";
 import { navigateToExternalUrl } from "@/lib/utils";
 
 type CheckoutFormProps = {

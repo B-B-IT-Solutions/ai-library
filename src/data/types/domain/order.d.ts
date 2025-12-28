@@ -1,7 +1,3 @@
-import z from "zod";
-
-import { checkoutSchema } from "@/data/types/validators/order.schema";
-
 import { DProduct } from "./product";
 
 export type DOrderStatus = "PENDING" | "COMPLETED" | "FAILED" | "REFUNDED";
@@ -28,5 +24,3 @@ export type DOrderItem = {
    price: number;
    createdAt: string;
 };
-
-export type DCheckoutForm = z.infer<typeof checkoutSchema>;

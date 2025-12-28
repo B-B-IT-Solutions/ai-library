@@ -1,4 +1,4 @@
-import { map } from "es-toolkit/compat";
+import { isEmpty, map } from "es-toolkit/compat";
 import { Package } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -6,17 +6,17 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { OrderCard } from "@/components/orders/order-card";
 import { Button } from "@/components/shadcn/button";
-import { getUserOrders } from "@/data/actions/order/order.actions";
+import { getOrders } from "@/data/actions/order/order.actions";
 
-export default async function OrdersPage() {
+export const OrdersPage = async () => {
    const session = await auth();
    if (!session?.user?.id) {
       return redirect("/");
    }
 
-   const orders = await getUserOrders();
+   const orders = await getOrders();
 
-   if (!orders || orders.length === 0) {
+   if (isEmpty(orders)) {
       return (
          <div className="container mx-auto px-4 py-8">
             <h1 className="text-3xl font-bold text-slate-900 mb-8">
@@ -54,4 +54,6 @@ export default async function OrdersPage() {
          </div>
       </div>
    );
-}
+};
+
+export default OrdersPage;

@@ -2,7 +2,6 @@
 
 import { validate as isValidUuid } from "uuid";
 
-import { auth } from "@/auth";
 import { pClearCart, pGetCartByUserId } from "@/data/db/queries/cart";
 import { pCreatePurchases } from "@/data/db/queries/libarary";
 import {
@@ -14,38 +13,37 @@ import {
 } from "@/data/db/queries/order";
 import { DOrder } from "@/data/types/domain/order";
 import { ActionResult } from "@/data/types/utils";
+import { requireUser } from "../auth-utils";
 import { formatError } from "../utils";
 
 import { toDOrder, toDOrders } from "./order.mapper";
 
-export const getUserOrders = async (): Promise<DOrder[]> => {
-   const session = await auth();
-   if (!session?.user?.id) {
+export const getOrders = async (): Promise<DOrder[]> => {
+   try {
+      const user = await requireUser();
+      const orders = await pGetOrders(user.id);
+      return toDOrders(orders);
+   } catch {
       return [];
    }
-
-   const orders = await pGetOrders(session.user.id);
-   return toDOrders(orders);
 };
 
-export const getOrderById = async (
-   orderId: string
-): Promise<DOrder | undefined> => {
-   if (!isValidUuid(orderId)) {
-      return undefined;
-   }
+export const getOrderById = async (orderId: string): Promise<DOrder | null> => {
+   try {
+      const user = await requireUser();
 
-   const session = await auth();
-   if (!session?.user?.id) {
-      return undefined;
-   }
+      if (!isValidUuid(orderId)) {
+         return null;
+      }
 
-   const order = await pGetOrderById(orderId);
-   if (!order || order.userId !== session.user.id) {
-      return undefined;
+      const order = await pGetOrderById(orderId);
+      if (!order || order.userId !== user.id) {
+         return null;
+      }
+      return toDOrder(order);
+   } catch {
+      return null;
    }
-
-   return toDOrder(order);
 };
 
 export const completeOrder = async (
