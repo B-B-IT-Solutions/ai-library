@@ -60,7 +60,7 @@ export type DInstruction = {
 export type DProductItem = {
    id: string;
    productId: string;
-   templateId: string | null;
-   template: DPromptTemplate | null;
+   templateId: string;
+   template: DPromptTemplate;
    createdAt: string;
 };

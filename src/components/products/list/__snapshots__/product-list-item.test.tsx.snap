@@ -204,33 +204,7 @@ exports[`ProductListItem rendering tests ProductListItem- product TEMPLATE - tes
         </p>
         <div
           class="flex flex-wrap items-center gap-3 text-xs text-slate-600"
-        >
-          <div
-            class="flex flex-wrap gap-1"
-            data-testid="categories"
-          >
-            <span
-              class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
-            >
-              category 0
-            </span>
-            <span
-              class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
-            >
-              category 1
-            </span>
-            <span
-              class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
-            >
-              category 2
-            </span>
-          </div>
-          <span
-            class="flex items-center gap-1"
-          >
-            3 templates included
-          </span>
-        </div>
+        />
       </div>
       <div
         class="flex flex-col items-end gap-3 sm:min-w-[200px]"

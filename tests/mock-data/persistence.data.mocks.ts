@@ -169,7 +169,6 @@ export const pProduct = (index = 1): Product => {
       description: `Product Description ${index}`,
       price: new Decimal(29.99),
       discountAmount: new Decimal(7.98),
-      originalPrice: new Decimal(39.97),
       type: "TEMPLATE",
       status: "ACTIVE",
       createdAt: new Date("2025-09-27"),

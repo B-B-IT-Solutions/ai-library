@@ -46,7 +46,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product, isInCart }) => {
    };
 
    const itemsInfo = () => {
-      if (!isEmpty(productItems)) {
+      if (product.type === "BUNDLE") {
          return (
             <p className="text-xs text-slate-600 mb-2">
                {productItems.length} templates included

@@ -49,7 +49,7 @@ export const ProductListItem: FC<ProductListItemProps> = ({
    };
 
    const itemsInfo = () => {
-      if (!isEmpty(productItems)) {
+      if (product.type === "BUNDLE") {
          return (
             <span className="flex items-center gap-1">
                {`${productItems.length} templates included`}

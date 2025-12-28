@@ -79,7 +79,6 @@ export const dProduct = (index = 1): DProduct => {
       description: `description ${index}`,
       price: 59.99,
       discountAmount: 14.98,
-      originalPrice: 89.99,
       type: "BUNDLE",
       status: "ACTIVE",
       features: dFeatures(),
