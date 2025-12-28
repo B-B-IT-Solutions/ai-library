@@ -7,16 +7,48 @@ import prisma from "@/data/db/prisma";
 import {
    OrderCreateArgs,
    OrderCreateInput,
+   OrderFindManyArgs,
    OrderUpdateArgs,
 } from "@/generated/prisma/models";
 
 import {
    OrderUpdateStripeDetails,
    pCreateOrder,
+   pGetOrders,
    pUpdateOrderWithStripeDetails,
 } from "./order";
 
 export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
+
+describe("pGetOrders tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pGetOrders test", async () => {
+      const userId = "user-id-1";
+      const orders = ptestData.pOrdersWithItems();
+      prismaMock.order.findMany.mockResolvedValue(orders);
+
+      const result = await pGetOrders(userId);
+
+      const expectedFindManyArgs: OrderFindManyArgs = {
+         where: { userId },
+         include: {
+            items: true,
+         },
+         orderBy: {
+            createdAt: "desc",
+         },
+      };
+
+      expect(result).toEqual(orders);
+      expect(prismaMock.order.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.order.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+   });
+});
 
 describe("pCreateOrder tests", () => {
    beforeEach(() => {
