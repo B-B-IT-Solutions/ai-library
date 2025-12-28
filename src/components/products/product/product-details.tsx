@@ -31,7 +31,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
    };
 
    const bundleDetails = () => {
-      if (product.type === "BUNDLE" && product.productItems) {
+      if (product.type === "BUNDLE") {
          return (
             <div className="space-y-6" data-testid="bundle-details">
                <BundleValue product={product} />
