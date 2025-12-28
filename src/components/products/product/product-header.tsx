@@ -11,8 +11,8 @@ interface ProductPageProps {
 
 export const ProductHeader: FC<ProductPageProps> = ({ product }) => {
    const getQuickStats = () => {
-      if (product.type === "BUNDLE" && product.bundleItems) {
-         return `${product.bundleItems.length} templates included`;
+      if (product.type === "BUNDLE" && product.productItems) {
+         return `${product.productItems.length} templates included`;
       }
       return null;
    };

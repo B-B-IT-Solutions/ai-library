@@ -1,280 +1,211 @@
 import { ptestData } from "@tests";
+import { forEach } from "es-toolkit/compat";
 
-import { DProduct } from "@/data/types/domain/product";
-import { Product } from "@/generated/prisma/client";
+import { ProductWithDetails, ProductWithItems } from "@/data/types/db/product";
+import {
+   DExample,
+   DFeature,
+   DInstruction,
+   DProduct,
+   DProductItem,
+   DUseCase,
+} from "@/data/types/domain/product";
+import {
+   Product,
+   ProductExample,
+   ProductFeature,
+   ProductInstruction,
+   ProductItem,
+   ProductUseCase,
+} from "@/generated/prisma/client";
 
-import { toDProduct1, toDProduct2, toDProducts } from "./product.mapper";
+import {
+   toDProductsWithItems,
+   toDProductWithDetails,
+   toDProductWithItems,
+} from "./product.mapper";
 
-describe("toDProducts tests", () => {
-   it("toDProducts - empty array - test", () => {
-      const products = ptestData.pProductsWithTemplateBundleItems(0);
+const assertProduct = (dProduct: DProduct, product: Product) => {
+   const discountAmount = product.discountAmount
+      ? Number(product.discountAmount.toFixed(2))
+      : null;
 
-      const result = toDProducts(products);
+   expect(dProduct.id).toBe(product.id);
+   expect(dProduct.name).toBe(product.name);
+   expect(dProduct.description).toBe(product.description);
+   expect(dProduct.price).toBe(Number(product.price.toFixed(2)));
+   expect(dProduct.discountAmount).toEqual(discountAmount);
+   expect(dProduct.type).toBe(product.type);
+   expect(dProduct.status).toBe(product.status);
+   expect(dProduct.createdAt).toBe(product.createdAt.toISOString());
+   expect(dProduct.updatedAt).toBe(product.updatedAt.toISOString());
+};
 
-      expect(result).toHaveLength(0);
-      expect(result).toEqual([]);
+const assertProductWithItems = (
+   dProduct: DProduct,
+   product: ProductWithItems
+) => {
+   assertProduct(dProduct, product);
+   expect(dProduct.features).toEqual([]);
+   expect(dProduct.useCases).toEqual([]);
+   expect(dProduct.examples).toEqual([]);
+   expect(dProduct.instructions).toEqual([]);
+   assertProductItems(dProduct.productItems, product.productItems);
+};
+
+const assertProductWithDetails = (
+   dProduct: DProduct,
+   product: ProductWithDetails
+) => {
+   assertProduct(dProduct, product);
+   assertProductItems(dProduct.productItems, product.productItems);
+   assertFeatures(dProduct.features, product.features);
+   assertUseCases(dProduct.useCases, product.useCases);
+   assertExamples(dProduct.examples, product.examples);
+   assertInstructions(dProduct.instructions, product.instructions);
+};
+
+const assertProductItems = (dItems: DProductItem[], items: ProductItem[]) => {
+   expect(dItems.length).toEqual(items.length);
+   forEach(dItems, (dItem, index) => {
+      assertProductItem(dItem, items[index]);
+   });
+};
+
+const assertProductItem = (dItem: DProductItem, item: ProductItem) => {
+   expect(dItem.id).toEqual(item.id);
+   expect(dItem.productId).toEqual(item.productId);
+   expect(dItem.templateId).toEqual(item.templateId);
+   expect(dItem.createdAt).toEqual(item.createdAt.toISOString());
+
+   expect(dItem.template).toBeDefined();
+   expect(dItem.template!.id).toBe(item.templateId);
+   expect(dItem.template!.title).toBeDefined();
+   expect(dItem.template!.content).toBeDefined();
+};
+
+const assertFeatures = (dFeatures: DFeature[], features: ProductFeature[]) => {
+   expect(dFeatures.length).toEqual(features.length);
+   forEach(dFeatures, (df, index) => {
+      assertFeature(df, features[index]);
+   });
+};
+
+const assertFeature = (df: DFeature, f: ProductFeature) => {
+   expect(df.title).toEqual(f.title);
+   expect(df.description).toEqual(f.description);
+   expect(df.icon).toEqual(f.icon);
+};
+
+const assertUseCases = (dUseCases: DUseCase[], useCases: ProductUseCase[]) => {
+   expect(dUseCases.length).toEqual(useCases.length);
+   forEach(dUseCases, (dUc, index) => {
+      assertUseCase(dUc, useCases[index]);
+   });
+};
+
+const assertUseCase = (dUc: DUseCase, uc: ProductUseCase) => {
+   expect(dUc.category).toEqual(uc.category);
+   expect(dUc.description).toEqual(uc.description);
+   expect(dUc.tags).toEqual(uc.tags);
+};
+
+const assertExamples = (dExs: DExample[], exs: ProductExample[]) => {
+   expect(dExs.length).toEqual(exs.length);
+   forEach(dExs, (dEx, index) => {
+      assertExample(dEx, exs[index]);
+   });
+};
+
+const assertExample = (dEx: DExample, ex: ProductExample) => {
+   expect(dEx.title).toEqual(ex.title);
+   expect(dEx.content).toEqual(ex.content);
+};
+
+const assertInstructions = (
+   dIns: DInstruction[],
+   ins: ProductInstruction[]
+) => {
+   expect(dIns.length).toEqual(ins.length);
+   forEach(dIns, (dEx, index) => {
+      assertInstruction(dEx, ins[index]);
+   });
+};
+
+const assertInstruction = (dIns: DInstruction, ins: ProductInstruction) => {
+   expect(dIns.title).toEqual(ins.title);
+   expect(dIns.description).toEqual(ins.description);
+   expect(dIns.step).toEqual(ins.step);
+};
+
+describe("toDProductsWithItems tests", () => {
+   it("toDProductsWithItems - empty array - test", () => {
+      const products = ptestData.pProductsWithItems(0);
+      const results = toDProductsWithItems(products);
+
+      expect(results).toEqual([]);
    });
 
-   it("toDProducts - converts multiple products - test", () => {
-      const products = ptestData.pProductsWithTemplateBundleItems(3);
+   it("toDProductsWithItems - products mapped - test", () => {
+      const products = ptestData.pProductsWithItems(3);
+      const results = toDProductsWithItems(products);
 
-      const result = toDProducts(products);
+      expect(results).toHaveLength(3);
+      expect(results.length).toEqual(products.length);
 
-      expect(result).toHaveLength(3);
-      result.forEach((product, index) => {
-         expect(product.id).toBe(products[index].id);
-         expect(product.name).toBe(products[index].name);
-         expect(product.description).toBe(products[index].description);
-         expect(product.price).toBe(Number(products[index].price.toFixed(2)));
-         expect(product.type).toBe(products[index].type);
-         expect(product.status).toBe(products[index].status);
-         expect(product.templateId).toBe(products[index].templateId);
-         expect(product.createdAt).toBe(
-            products[index].createdAt.toISOString()
-         );
-         expect(product.updatedAt).toBe(
-            products[index].updatedAt.toISOString()
-         );
+      forEach(results, (dProduct, index) => {
+         assertProductWithItems(dProduct, products[index]);
       });
    });
 });
 
-describe("toDProduct1 tests", () => {
-   const assertCommon = (result: DProduct, product: Product) => {
-      expect(result.id).toBe(product.id);
-      expect(result.name).toBe(product.name);
-      expect(result.description).toBe(product.description);
-      expect(result.price).toBe(Number(product.price));
-      expect(result.type).toBe(product.type);
-      expect(result.status).toBe(product.status);
+describe("toDProductWithItems tests", () => {
+   it("toDProductWithItems - empty productItems - test", () => {
+      const product = ptestData.pProductWithItems(1);
+      product.productItems = [];
+      product.discountAmount = null;
+
+      const result = toDProductWithItems(product);
+
+      expect(result.productItems).toEqual([]);
+      assertProductWithItems(result, product);
+   });
+
+   it("toDProductWithItems - productItems defined - test", () => {
+      const product = ptestData.pProductWithItems(3);
+
+      const result = toDProductWithItems(product);
+
+      expect(result.productItems).toHaveLength(3);
+      assertProductWithItems(result, product);
+   });
+});
+
+describe("toDProductWithDetails tests", () => {
+   it("toDProductWithDetails - empty details - test", () => {
+      const product = ptestData.pProductWithDetails(1);
+      product.features = [];
+      product.useCases = [];
+      product.examples = [];
+      product.instructions = [];
+      product.discountAmount = null;
+
+      const result = toDProductWithDetails(product);
       expect(result.features).toEqual([]);
       expect(result.useCases).toEqual([]);
       expect(result.examples).toEqual([]);
       expect(result.instructions).toEqual([]);
-      expect(result.createdAt).toBe(product.createdAt.toISOString());
-      expect(result.updatedAt).toBe(product.updatedAt.toISOString());
-   };
-
-   it("toDProduct1 - with template and bundleItems - test", () => {
-      const product = ptestData.pProductWithTemplateBundleItems(1);
-
-      const result = toDProduct1(product);
-
-      assertCommon(result, product);
-      expect(result.templateId).toBe(product.templateId);
-
-      // Verify template is mapped
-      expect(result.template).toBeDefined();
-      expect(result.template?.id).toBe(product.template?.id);
-      expect(result.template?.title).toBe(product.template?.title);
-      expect(result.template?.content).toBe(product.template?.content);
-      expect(result.template?.recommendedModel).toBe(
-         product.template?.recommendedModel
-      );
-
-      // Verify bundleItems are mapped
-      expect(result.bundleItems).toBeDefined();
-      expect(result.bundleItems).toHaveLength(product.bundleItems?.length ?? 0);
+      assertProductWithDetails(result, product);
    });
 
-   it("toDProduct1 - without template - test", () => {
-      const product = ptestData.pProductWithTemplateBundleItems(1);
-      product.template = null;
-
-      const result = toDProduct1(product);
-
-      assertCommon(result, product);
-      expect(result.template).toBeUndefined();
-   });
-
-   it("toDProduct1 - with empty bundleItems array - test", () => {
-      const product = ptestData.pProductWithTemplateBundleItems(1);
-      product.bundleItems = [];
-
-      const result = toDProduct1(product);
-
-      assertCommon(result, product);
-      expect(result.bundleItems).toBeUndefined();
-   });
-
-   it("toDProduct1 - bundleItems mapping - test", () => {
-      const product = ptestData.pProductWithTemplateBundleItems(1);
-      const bundleItems = ptestData.pBundleItems(2);
-      product.bundleItems = bundleItems;
-
-      const result = toDProduct1(product);
-
-      assertCommon(result, product);
-      expect(result.bundleItems).toBeDefined();
-      expect(result.bundleItems).toHaveLength(2);
-
-      result.bundleItems?.forEach((item, index) => {
-         expect(item.id).toBe(bundleItems[index].id);
-         expect(item.bundleId).toBe(bundleItems[index].bundleId);
-         expect(item.templateId).toBe(bundleItems[index].template?.id);
-         expect(item.createdAt).toBe(
-            bundleItems[index].createdAt.toISOString()
-         );
-
-         // Verify template in bundle item
-         expect(item.template).toBeDefined();
-         expect(item.template?.id).toBe(bundleItems[index].template?.id);
-         expect(item.template?.title).toBe(bundleItems[index].template?.title);
-         expect(item.template?.content).toBe(
-            bundleItems[index].template?.content
-         );
-      });
-   });
-
-   it("toDProduct1 - bundleItem without template - test", () => {
-      const product = ptestData.pProductWithTemplateBundleItems(1);
-      const bundleItem = ptestData.pBundleItem(1);
-      bundleItem.template = null;
-      product.bundleItems = [bundleItem];
-
-      const result = toDProduct1(product);
-
-      assertCommon(result, product);
-      expect(result.bundleItems).toBeDefined();
-      expect(result.bundleItems).toHaveLength(1);
-      expect(result.bundleItems?.[0].template).toBeNull();
-      expect(result.bundleItems?.[0].templateId).toBeNull();
-   });
-
-   it("toDProduct1 - price conversion from Decimal - test", () => {
-      const product = ptestData.pProductWithTemplateBundleItems(1);
-
-      const result = toDProduct1(product);
-
-      assertCommon(result, product);
-      expect(typeof result.price).toBe("number");
-      expect(result.price).toBe(Number(product.price));
-   });
-
-   it("toDProduct1 - date conversion to ISO string - test", () => {
-      const product = ptestData.pProductWithTemplateBundleItems(1);
-
-      const result = toDProduct1(product);
-
-      assertCommon(result, product);
-      expect(typeof result.createdAt).toBe("string");
-      expect(typeof result.updatedAt).toBe("string");
-      expect(result.createdAt).toBe(product.createdAt.toISOString());
-      expect(result.updatedAt).toBe(product.updatedAt.toISOString());
-   });
-});
-
-describe("toDProduct2 tests", () => {
-   it("toDProduct2 - with template and bundleItems - test", () => {
+   it("toDProductWithDetails - details defined - test", () => {
       const product = ptestData.pProductWithDetails(1);
 
-      const result = toDProduct2(product);
-
-      expect(result.id).toBe(product.id);
-      expect(result.name).toBe(product.name);
-      expect(result.description).toBe(product.description);
-      expect(result.price).toBe(Number(product.price));
-      expect(result.type).toBe(product.type);
-      expect(result.status).toBe(product.status);
-      expect(result.templateId).toBe(product.templateId);
-      expect(result.createdAt).toBe(product.createdAt.toISOString());
-      expect(result.updatedAt).toBe(product.updatedAt.toISOString());
-
-      // Verify template is mapped
-      expect(result.template).toBeDefined();
-      expect(result.template?.id).toBe(product.template?.id);
-      expect(result.template?.title).toBe(product.template?.title);
-      expect(result.template?.content).toBe(product.template?.content);
-      expect(result.template?.recommendedModel).toBe(
-         product.template?.recommendedModel
-      );
-
-      // Verify bundleItems are mapped
-      expect(result.bundleItems).toBeDefined();
-      expect(result.bundleItems).toHaveLength(product.bundleItems?.length ?? 0);
-   });
-
-   it("toDProduct1 - without template - test", () => {
-      const product = ptestData.pProductWithTemplateBundleItems(1);
-      product.template = null;
-
-      const result = toDProduct1(product);
-
-      expect(result.id).toBe(product.id);
-      expect(result.name).toBe(product.name);
-      expect(result.template).toBeUndefined();
-   });
-
-   it("toDProduct1 - with empty bundleItems array - test", () => {
-      const product = ptestData.pProductWithTemplateBundleItems(1);
-      product.bundleItems = [];
-
-      const result = toDProduct1(product);
-
-      expect(result.id).toBe(product.id);
-      expect(result.name).toBe(product.name);
-      expect(result.bundleItems).toBeUndefined();
-   });
-
-   it("toDProduct1 - bundleItems mapping - test", () => {
-      const product = ptestData.pProductWithTemplateBundleItems(1);
-      const bundleItems = ptestData.pBundleItems(2);
-      product.bundleItems = bundleItems;
-
-      const result = toDProduct1(product);
-
-      expect(result.bundleItems).toBeDefined();
-      expect(result.bundleItems).toHaveLength(2);
-
-      result.bundleItems?.forEach((item, index) => {
-         expect(item.id).toBe(bundleItems[index].id);
-         expect(item.bundleId).toBe(bundleItems[index].bundleId);
-         expect(item.templateId).toBe(bundleItems[index].template?.id);
-         expect(item.createdAt).toBe(
-            bundleItems[index].createdAt.toISOString()
-         );
-
-         // Verify template in bundle item
-         expect(item.template).toBeDefined();
-         expect(item.template?.id).toBe(bundleItems[index].template?.id);
-         expect(item.template?.title).toBe(bundleItems[index].template?.title);
-         expect(item.template?.content).toBe(
-            bundleItems[index].template?.content
-         );
-      });
-   });
-
-   it("toDProduct1 - bundleItem without template - test", () => {
-      const product = ptestData.pProductWithTemplateBundleItems(1);
-      const bundleItem = ptestData.pBundleItem(1);
-      bundleItem.template = null;
-      product.bundleItems = [bundleItem];
-
-      const result = toDProduct1(product);
-
-      expect(result.bundleItems).toBeDefined();
-      expect(result.bundleItems).toHaveLength(1);
-      expect(result.bundleItems?.[0].template).toBeNull();
-      expect(result.bundleItems?.[0].templateId).toBeNull();
-   });
-
-   it("toDProduct1 - price conversion from Decimal - test", () => {
-      const product = ptestData.pProductWithTemplateBundleItems(1);
-
-      const result = toDProduct1(product);
-
-      expect(typeof result.price).toBe("number");
-      expect(result.price).toBe(Number(product.price));
-   });
-
-   it("toDProduct1 - date conversion to ISO string - test", () => {
-      const product = ptestData.pProductWithTemplateBundleItems(1);
-
-      const result = toDProduct1(product);
-
-      expect(typeof result.createdAt).toBe("string");
-      expect(typeof result.updatedAt).toBe("string");
-      expect(result.createdAt).toBe(product.createdAt.toISOString());
-      expect(result.updatedAt).toBe(product.updatedAt.toISOString());
+      const result = toDProductWithDetails(product);
+      expect(result.features).toHaveLength(3);
+      expect(result.useCases).toHaveLength(3);
+      expect(result.examples).toHaveLength(3);
+      expect(result.instructions).toHaveLength(3);
+      assertProductWithDetails(result, product);
    });
 });

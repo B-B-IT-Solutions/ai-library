@@ -18,7 +18,6 @@ describe("ProductCard rendering tests", () => {
    it("ProductCard - product BUNDLE - test", async () => {
       const product = dtestData.dProduct();
       product.type = "BUNDLE";
-      product.template = undefined;
 
       const { container } = render(
          <ProductCard product={product} isInCart={false} />
@@ -33,7 +32,10 @@ describe("ProductCard rendering tests", () => {
 
    it("ProductCard- product TEMPLATE - test", async () => {
       const product = dtestData.dProduct();
+      const item = dtestData.dProductItem();
+      item.template.categories = [];
       product.type = "TEMPLATE";
+      product.productItems = [item];
 
       const { container } = render(
          <ProductCard product={product} isInCart={false} />

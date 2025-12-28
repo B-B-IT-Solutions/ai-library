@@ -2,7 +2,17 @@ import { Filter, Page, PageQuery } from "@/data/types/common";
 
 import { DPromptTemplate } from "./prompt.template";
 
-type DProductViewMode = "grid" | "list";
+export type DProductsPageQuery = PageQuery<DProductsFilter>;
+export type DProductsPage = Page<DProduct>;
+
+export interface DProductsFilter extends Filter {
+   type?: DProductType;
+   status?: DProductStatus;
+   minPrice?: number;
+   maxPrice?: number;
+}
+
+export type DProductViewMode = "grid" | "list";
 
 export type DProductType = "TEMPLATE" | "BUNDLE";
 export type DProductStatus = "ACTIVE" | "INACTIVE" | "ARCHIVED";
@@ -12,15 +22,10 @@ export type DProduct = {
    name: string;
    description: string;
    price: number;
-   savingsAmount: number | null;
-   savingsPercentage: number | null;
-   // Bundle-specific fields
-   totalIndividualPrice: number | null;
+   discountAmount: number | null;
    type: DProductType;
    status: DProductStatus;
-   templateId: string | null;
-   template?: DPromptTemplate;
-   bundleItems?: DBundleItem[];
+   productItems: DProductItem[];
    features: DFeature[];
    useCases: DUseCase[];
    examples: DExample[];
@@ -52,20 +57,10 @@ export type DInstruction = {
    description: string;
 };
 
-export type DBundleItem = {
+export type DProductItem = {
    id: string;
-   bundleId: string;
-   templateId: string | null;
-   template: DPromptTemplate | null;
+   productId: string;
+   templateId: string;
+   template: DPromptTemplate;
    createdAt: string;
 };
-
-export type DProductsPageQuery = PageQuery<DProductsFilter>;
-export type DProductsPage = Page<DProduct>;
-
-export interface DProductsFilter extends Filter {
-   type?: DProductType;
-   status?: DProductStatus;
-   minPrice?: number;
-   maxPrice?: number;
-}

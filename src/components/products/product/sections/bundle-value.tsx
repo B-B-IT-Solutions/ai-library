@@ -9,42 +9,34 @@ interface BundleValueProps {
 }
 
 export const BundleValue: FC<BundleValueProps> = ({ product }) => {
-   const {
-      price,
-      savingsAmount,
-      savingsPercentage,
-      totalIndividualPrice,
-      bundleItems,
-   } = product;
+   const { price, discountAmount, productItems } = product;
 
-   if (!savingsAmount) {
+   if (!discountAmount) {
       return null;
    }
 
-   const percentage = savingsPercentage
-      ? savingsPercentage
-      : Math.floor(savingsAmount / price);
+   const originalPrice = price + discountAmount;
+   const discountPercentage = Math.floor(
+      (discountAmount / originalPrice) * 100
+   );
 
    const savings = () => {
       return (
          <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-100 border border-green-300 rounded-full">
             <TrendingDown className="h-5 w-5 text-green-700" />
             <span className="text-lg font-bold text-green-800">
-               Save CHF {savingsAmount} ({percentage}%)
+               Save CHF {discountAmount} ({discountPercentage}%)
             </span>
          </div>
       );
    };
 
    const savingsBenefits = () => {
-      if (!isEmpty(bundleItems) && totalIndividualPrice) {
+      if (!isEmpty(productItems)) {
          return (
             <p className="text-sm text-green-800">
-               Get {bundleItems!.length} templates for the price of{" "}
-               {Math.floor(
-                  (price * bundleItems!.length) / totalIndividualPrice
-               )}
-               !
+               Get {productItems!.length} templates for the price of{" "}
+               {Math.floor((price * productItems.length) / originalPrice)}!
             </p>
          );
       }
@@ -71,7 +63,7 @@ export const BundleValue: FC<BundleValueProps> = ({ product }) => {
                   <div className="flex items-center justify-between gap-4">
                      <span className="text-slate-700">Individual prices:</span>
                      <span className="font-medium text-slate-900 line-through">
-                        CHF {totalIndividualPrice}
+                        CHF {originalPrice}
                      </span>
                   </div>
                   <div className="flex items-center justify-between gap-4">

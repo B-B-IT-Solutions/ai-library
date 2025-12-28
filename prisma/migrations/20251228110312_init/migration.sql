@@ -110,9 +110,9 @@ CREATE TABLE "product" (
     "name" VARCHAR(250) NOT NULL,
     "description" TEXT NOT NULL,
     "price" DECIMAL(10,2) NOT NULL,
+    "discount_amount" DECIMAL(10,2),
     "type" "ProductType" NOT NULL,
     "status" "ProductStatus" NOT NULL DEFAULT 'ACTIVE',
-    "template_id" UUID,
     "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -170,13 +170,13 @@ CREATE TABLE "product_instruction" (
 );
 
 -- CreateTable
-CREATE TABLE "bundle_item" (
+CREATE TABLE "product_item" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
-    "bundle_id" UUID NOT NULL,
+    "product_id" UUID NOT NULL,
     "template_id" UUID NOT NULL,
     "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "bundle_item_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "product_item_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -271,7 +271,7 @@ CREATE UNIQUE INDEX "prompt_category_name_key" ON "prompt_category"("name");
 CREATE UNIQUE INDEX "prompt_template_category_name_key" ON "prompt_template_category"("name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "bundle_item_bundle_id_template_id_key" ON "bundle_item"("bundle_id", "template_id");
+CREATE UNIQUE INDEX "product_item_product_id_template_id_key" ON "product_item"("product_id", "template_id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "cart_session_cart_id_key" ON "cart"("session_cart_id");
@@ -298,9 +298,6 @@ ALTER TABLE "account" ADD CONSTRAINT "account_user_id_fkey" FOREIGN KEY ("user_i
 ALTER TABLE "session" ADD CONSTRAINT "session_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "product" ADD CONSTRAINT "product_template_id_fkey" FOREIGN KEY ("template_id") REFERENCES "prompt_template"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "product_feature" ADD CONSTRAINT "product_feature_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -313,10 +310,10 @@ ALTER TABLE "product_example" ADD CONSTRAINT "product_example_product_id_fkey" F
 ALTER TABLE "product_instruction" ADD CONSTRAINT "product_instruction_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "bundle_item" ADD CONSTRAINT "bundle_item_bundle_id_fkey" FOREIGN KEY ("bundle_id") REFERENCES "product"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "product_item" ADD CONSTRAINT "product_item_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "bundle_item" ADD CONSTRAINT "bundle_item_template_id_fkey" FOREIGN KEY ("template_id") REFERENCES "prompt_template"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "product_item" ADD CONSTRAINT "product_item_template_id_fkey" FOREIGN KEY ("template_id") REFERENCES "prompt_template"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "cart" ADD CONSTRAINT "cart_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;

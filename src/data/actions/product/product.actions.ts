@@ -5,11 +5,11 @@ import { validate as isValidUuid } from "uuid";
 import { pGetProduct, pGetProducts } from "@/data/db/queries/product";
 import { DProduct } from "@/data/types/domain/product";
 
-import { toDProduct2, toDProducts } from "./product.mapper";
+import { toDProductsWithItems, toDProductWithDetails } from "./product.mapper";
 
 export const getProducts = async (): Promise<DProduct[]> => {
    const products = await pGetProducts({ status: "ACTIVE" });
-   return toDProducts(products);
+   return toDProductsWithItems(products);
 };
 
 export const getProduct = async (
@@ -18,7 +18,7 @@ export const getProduct = async (
    if (isValidUuid(productId)) {
       const product = await pGetProduct({ id: productId });
       if (product) {
-         return toDProduct2(product);
+         return toDProductWithDetails(product);
       }
    }
    return null;

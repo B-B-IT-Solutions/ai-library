@@ -1,8 +1,8 @@
-import { DBundleItem } from "@/data/types/domain/product";
+import { DProductItem } from "@/data/types/domain/product";
 
 export interface BundleItemGroup {
    category: string;
-   items: DBundleItem[];
+   items: DProductItem[];
 }
 
 export interface FormattedLine {

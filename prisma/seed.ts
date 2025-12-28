@@ -9,6 +9,7 @@ const prisma = new PrismaClient();
 export const main = async () => {
    console.log("Deleting obsolete entries...");
 
+   await prisma.productItem.deleteMany();
    await prisma.product.deleteMany();
    await prisma.promptTemplate.deleteMany();
    await prisma.promptTemplateCategory.deleteMany();
@@ -73,8 +74,6 @@ export const main = async () => {
             price: 9.99,
             type: "TEMPLATE",
             status: "ACTIVE",
-            templateId: template.id,
-
             // Sample metadata as related records
             features: {
                create: [
@@ -135,7 +134,8 @@ export const main = async () => {
                   {
                      step: 3,
                      title: "Run Prompt",
-                     description: "Paste into your AI assistant and get results",
+                     description:
+                        "Paste into your AI assistant and get results",
                   },
                   {
                      step: 4,
@@ -143,6 +143,11 @@ export const main = async () => {
                      description: "Adjust the prompt based on your needs",
                   },
                ],
+            },
+            productItems: {
+               create: {
+                  templateId: template.id,
+               },
             },
          },
       });
@@ -163,9 +168,7 @@ export const main = async () => {
 
    // Calculate Developer Bundle savings
    const devBundlePrice = 19.99;
-   const devIndividualPrice = 9.99 * devTemplates.length; // $29.97
-   const devSavings = devIndividualPrice - devBundlePrice; // $9.98
-   const devSavingsPercentage = (devSavings / devIndividualPrice) * 100; // ~33.3%
+   const devDiscountAmount = 9.98;
 
    const devBundle = await prisma.product.create({
       data: {
@@ -175,11 +178,7 @@ export const main = async () => {
          price: devBundlePrice,
          type: "BUNDLE",
          status: "ACTIVE",
-
-         // Bundle savings fields
-         savingsAmount: devSavings,
-         savingsPercentage: devSavingsPercentage,
-         totalIndividualPrice: devIndividualPrice,
+         discountAmount: devDiscountAmount,
 
          // Sample metadata as related records
          features: {
@@ -187,7 +186,8 @@ export const main = async () => {
                {
                   icon: "Code2",
                   title: "Complete Dev Toolkit",
-                  description: "Everything you need for modern software development",
+                  description:
+                     "Everything you need for modern software development",
                   order: 0,
                },
                {
@@ -200,7 +200,8 @@ export const main = async () => {
                {
                   icon: "Database",
                   title: "SQL Generation",
-                  description: "Create optimized SQL queries with AI assistance",
+                  description:
+                     "Create optimized SQL queries with AI assistance",
                   order: 2,
                },
                {
@@ -238,12 +239,14 @@ export const main = async () => {
                {
                   step: 1,
                   title: "Choose a Template",
-                  description: "Select the template that fits your current task",
+                  description:
+                     "Select the template that fits your current task",
                },
                {
                   step: 2,
                   title: "Customize for Your Project",
-                  description: "Adapt the template to your specific project needs",
+                  description:
+                     "Adapt the template to your specific project needs",
                },
                {
                   step: 3,
@@ -258,7 +261,7 @@ export const main = async () => {
             ],
          },
 
-         bundleItems: {
+         productItems: {
             create: devTemplates.map((t) => ({
                templateId: t.id,
             })),
@@ -278,9 +281,7 @@ export const main = async () => {
 
    // Calculate Content Creator Bundle savings
    const contentBundlePrice = 22.99;
-   const contentIndividualPrice = 9.99 * contentTemplates.length; // $29.97
-   const contentSavings = contentIndividualPrice - contentBundlePrice; // $6.98
-   const contentSavingsPercentage = (contentSavings / contentIndividualPrice) * 100; // ~23.3%
+   const contentDiscountAmount = 6.98;
 
    const contentBundle = await prisma.product.create({
       data: {
@@ -290,11 +291,7 @@ export const main = async () => {
          price: contentBundlePrice,
          type: "BUNDLE",
          status: "ACTIVE",
-
-         // Bundle savings fields
-         savingsAmount: contentSavings,
-         savingsPercentage: contentSavingsPercentage,
-         totalIndividualPrice: contentIndividualPrice,
+         discountAmount: contentDiscountAmount,
 
          // Sample metadata as related records
          features: {
@@ -302,7 +299,8 @@ export const main = async () => {
                {
                   icon: "FileText",
                   title: "Content Creation Suite",
-                  description: "Complete toolkit for professional content creation",
+                  description:
+                     "Complete toolkit for professional content creation",
                   order: 0,
                },
                {
@@ -341,7 +339,8 @@ export const main = async () => {
                },
                {
                   category: "Communication",
-                  description: "Professional email responses and correspondence",
+                  description:
+                     "Professional email responses and correspondence",
                   tags: ["email", "communication", "business"],
                   order: 2,
                },
@@ -357,7 +356,8 @@ export const main = async () => {
                {
                   step: 2,
                   title: "Define Your Topic",
-                  description: "Specify your subject matter and target audience",
+                  description:
+                     "Specify your subject matter and target audience",
                },
                {
                   step: 3,
@@ -372,7 +372,7 @@ export const main = async () => {
             ],
          },
 
-         bundleItems: {
+         productItems: {
             create: contentTemplates.map((t) => ({
                templateId: t.id,
             })),
@@ -393,10 +393,7 @@ export const main = async () => {
    );
    // Calculate Business Productivity Bundle savings
    const businessBundlePrice = 21.99;
-   const businessIndividualPrice = 9.99 * businessTemplates.length; // $29.97
-   const businessSavings = businessIndividualPrice - businessBundlePrice; // $7.98
-   const businessSavingsPercentage =
-      (businessSavings / businessIndividualPrice) * 100; // ~26.6%
+   const businessDiscountAmount = 7.98;
 
    const businessBundle = await prisma.product.create({
       data: {
@@ -406,11 +403,7 @@ export const main = async () => {
          price: businessBundlePrice,
          type: "BUNDLE",
          status: "ACTIVE",
-
-         // Bundle savings fields
-         savingsAmount: businessSavings,
-         savingsPercentage: businessSavingsPercentage,
-         totalIndividualPrice: businessIndividualPrice,
+         discountAmount: businessDiscountAmount,
 
          // Sample metadata as related records
          features: {
@@ -424,7 +417,8 @@ export const main = async () => {
                {
                   icon: "Users",
                   title: "Meeting Management",
-                  description: "Transform meeting notes into actionable summaries",
+                  description:
+                     "Transform meeting notes into actionable summaries",
                   order: 1,
                },
                {
@@ -489,7 +483,7 @@ export const main = async () => {
             ],
          },
 
-         bundleItems: {
+         productItems: {
             create: businessTemplates.map((t) => ({
                templateId: t.id,
             })),

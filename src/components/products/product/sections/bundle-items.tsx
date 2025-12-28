@@ -5,11 +5,11 @@ import { map } from "es-toolkit/compat";
 import { ChevronDown, ChevronUp, Folder, Sparkles } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
-import { DBundleItem } from "@/data/types/domain/product";
+import { DProductItem } from "@/data/types/domain/product";
 import type { BundleItemGroup } from "../product-details-dialog/types";
 
 interface BundleItemsProps {
-   items: DBundleItem[];
+   items: DProductItem[];
    groupByCategory?: boolean;
 }
 
@@ -42,7 +42,7 @@ export const BundleItems: FC<BundleItemsProps> = ({
          ];
       }
 
-      const groups: Record<string, DBundleItem[]> = {};
+      const groups: Record<string, DProductItem[]> = {};
 
       items.forEach((item) => {
          const categories = item.template?.categories || [];

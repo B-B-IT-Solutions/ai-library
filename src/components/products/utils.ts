@@ -1,3 +1,6 @@
+import { flatMap, isEqual, uniqWith } from "es-toolkit/compat";
+
+import { DProductItem } from "@/data/types/domain/product";
 import { ProductType } from "@/generated/prisma/enums";
 
 const colors = {
@@ -7,4 +10,12 @@ const colors = {
 
 export const getTypeBadgeColor = (type: ProductType) => {
    return colors[type];
+};
+
+export const resolveUniqCategories = (items: DProductItem[]) => {
+   const allCategories = flatMap(
+      items,
+      (item) => item.template?.categories || []
+   );
+   return uniqWith(allCategories, (c1, c2) => isEqual(c1.name, c2.name));
 };

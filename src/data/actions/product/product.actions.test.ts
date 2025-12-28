@@ -9,7 +9,7 @@ import {
 } from "@/generated/prisma/models";
 
 import { getProduct, getProducts } from "./product.actions";
-import { toDProduct2, toDProducts } from "./product.mapper";
+import { toDProductsWithItems, toDProductWithDetails } from "./product.mapper";
 
 const pGetProductsMock = pGetProducts as jest.MockedFunction<
    typeof pGetProducts
@@ -23,12 +23,12 @@ describe("getProducts tests", () => {
    });
 
    it("getProducts test", async () => {
-      const products = ptestData.pProductsWithTemplateBundleItems();
+      const products = ptestData.pProductsWithItems();
       pGetProductsMock.mockResolvedValue(products);
 
       const result = await getProducts();
 
-      const expectedResult = toDProducts(products);
+      const expectedResult = toDProductsWithItems(products);
       const expectedWhereInput: ProductWhereInput = { status: "ACTIVE" };
 
       expect(result).toEqual(expectedResult);
@@ -72,7 +72,7 @@ describe("getProduct tests", () => {
 
       const result = await getProduct(product.id);
 
-      const expectedResult = toDProduct2(product);
+      const expectedResult = toDProductWithDetails(product);
       const expectedWhereInput: ProductWhereUniqueInput = { id: product.id };
 
       expect(result).toEqual(expectedResult);

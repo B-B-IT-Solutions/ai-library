@@ -1,8 +1,5 @@
 import prisma from "@/data/db/prisma";
-import {
-   ProductWithDetails,
-   ProductWithTemplateBundleItems,
-} from "@/data/types/db/product";
+import { ProductWithDetails, ProductWithItems } from "@/data/types/db/product";
 import {
    ProductWhereInput,
    ProductWhereUniqueInput,
@@ -10,16 +7,11 @@ import {
 
 export const pGetProducts = async (
    where?: ProductWhereInput
-): Promise<ProductWithTemplateBundleItems[]> => {
+): Promise<ProductWithItems[]> => {
    return await prisma.product.findMany({
       where,
       include: {
-         template: {
-            include: {
-               categories: true,
-            },
-         },
-         bundleItems: {
+         productItems: {
             include: {
                template: {
                   include: {
@@ -41,12 +33,7 @@ export const pGetProduct = async (
    return await prisma.product.findUnique({
       where,
       include: {
-         template: {
-            include: {
-               categories: true,
-            },
-         },
-         bundleItems: {
+         productItems: {
             include: {
                template: {
                   include: {

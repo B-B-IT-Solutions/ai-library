@@ -4,9 +4,9 @@ import { range } from "es-toolkit";
 import { CartWithItems } from "@/data/types/db/cart";
 import { OrderWithItems } from "@/data/types/db/order";
 import {
-   BundleItemWithTemplate,
+   ProductItemWithTemplate,
    ProductWithDetails,
-   ProductWithTemplateBundleItems,
+   ProductWithItems,
 } from "@/data/types/db/product";
 import { PromptsPage, PromptWithCategories } from "@/data/types/db/prompt";
 import { PromptTemplateWithCategories } from "@/data/types/db/prompt.template";
@@ -58,33 +58,10 @@ export const pUserUpdateData = (index = 1): UserUpdateData => {
    };
 };
 
-export const pProductsWithTemplateBundleItems = (
-   count = 3
-): ProductWithTemplateBundleItems[] => {
-   return range(0, count).map((i) => pProductWithTemplateBundleItems(i));
-};
-
-export const pProductWithTemplateBundleItems = (
-   index = 1
-): ProductWithTemplateBundleItems => {
-   const product = pProduct(index);
-   const template = pPromptTemplateWithCategories(index);
-   return {
-      ...product,
-      templateId: template.id,
-      template,
-      bundleItems: pBundleItems(),
-   };
-};
-
 export const pProductWithDetails = (index = 1): ProductWithDetails => {
-   const product = pProduct(index);
-   const template = pPromptTemplateWithCategories(index);
+   const product = pProductWithItems(index);
    return {
       ...product,
-      templateId: template.id,
-      template,
-      bundleItems: pBundleItems(),
       features: pFeatures(),
       useCases: pUseCases(),
       examples: pExamples(),
@@ -92,15 +69,27 @@ export const pProductWithDetails = (index = 1): ProductWithDetails => {
    };
 };
 
-export const pBundleItems = (count = 3): BundleItemWithTemplate[] => {
-   return range(0, count).map((i) => pBundleItem(i));
+export const pProductsWithItems = (count = 3): ProductWithItems[] => {
+   return range(0, count).map((i) => pProductWithItems(i));
 };
 
-export const pBundleItem = (index = 1): BundleItemWithTemplate => {
+export const pProductWithItems = (index = 1): ProductWithItems => {
+   const product = pProduct(index);
+   return {
+      ...product,
+      productItems: pProductItems(),
+   };
+};
+
+export const pProductItems = (count = 3): ProductItemWithTemplate[] => {
+   return range(0, count).map((i) => pProductItem(i));
+};
+
+export const pProductItem = (index = 1): ProductItemWithTemplate => {
    const template = pPromptTemplateWithCategories(index);
    return {
       id: `418c5cf3-d0d5-4ad8-a841-d458c8aa6cb1${index}`,
-      bundleId: `2cabc8ff-010a-4b0b-93c6-4f311d35c432${index}`,
+      productId: `2cabc8ff-010a-4b0b-93c6-4f311d35c432${index}`,
       templateId: template.id,
       template,
       createdAt: new Date("2025-09-27"),
@@ -179,12 +168,9 @@ export const pProduct = (index = 1): Product => {
       name: `Product ${index}`,
       description: `Product Description ${index}`,
       price: new Decimal(29.99),
-      savingsAmount: new Decimal(7.98),
-      savingsPercentage: new Decimal(26.63),
-      totalIndividualPrice: new Decimal(39.97),
+      discountAmount: new Decimal(7.98),
       type: "TEMPLATE",
       status: "ACTIVE",
-      templateId: `334db648-f300-4284-8149-075ff465d75${index}`,
       createdAt: new Date("2025-09-27"),
       updatedAt: new Date("2025-09-27"),
    };

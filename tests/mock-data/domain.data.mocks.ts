@@ -3,11 +3,11 @@ import { range } from "es-toolkit";
 import { Sort } from "@/data/types/common";
 import { DCart, DCartItem } from "@/data/types/domain/cart";
 import {
-   DBundleItem,
    DExample,
    DFeature,
    DInstruction,
    DProduct,
+   DProductItem,
    DUseCase,
 } from "@/data/types/domain/product";
 import {
@@ -73,38 +73,33 @@ export const dProducts = (count = 3): DProduct[] => {
 };
 
 export const dProduct = (index = 1): DProduct => {
-   const template = dPromptTemplate(1);
    return {
       id: `334db648-f300-4284-8149-075ff465d75${index}`,
       name: `name ${index}`,
       description: `description ${index}`,
       price: 59.99,
-      savingsAmount: 14.98,
-      savingsPercentage: 26.63,
-      totalIndividualPrice: 89.99,
+      discountAmount: 14.98,
       type: "BUNDLE",
       status: "ACTIVE",
-      templateId: template.id,
-      template: template,
-      bundleItems: dBundleItems(),
       features: dFeatures(),
       useCases: dUseCases(),
       examples: dExamples(),
       instructions: dInstructions(),
+      productItems: dProductItems(),
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
    };
 };
 
-export const dBundleItems = (count = 3): DBundleItem[] => {
-   return range(0, count).map((i) => dBundleItem(i));
+export const dProductItems = (count = 3): DProductItem[] => {
+   return range(0, count).map((i) => dProductItem(i));
 };
 
-export const dBundleItem = (index = 1): DBundleItem => {
+export const dProductItem = (index = 1): DProductItem => {
    const template = dPromptTemplate(index);
    return {
       id: `418c5cf3-d0d5-4ad8-a841-d458c8aa6cb1${index}`,
-      bundleId: `2cabc8ff-010a-4b0b-93c6-4f311d35c432${index}`,
+      productId: `2cabc8ff-010a-4b0b-93c6-4f311d35c432${index}`,
       templateId: template.id,
       template,
       createdAt: new Date("2025-09-27").toISOString(),
