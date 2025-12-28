@@ -7,16 +7,106 @@ import prisma from "@/data/db/prisma";
 import {
    OrderCreateArgs,
    OrderCreateInput,
+   OrderFindFirstArgs,
+   OrderFindManyArgs,
+   OrderFindUniqueArgs,
    OrderUpdateArgs,
 } from "@/generated/prisma/models";
 
 import {
    OrderUpdateStripeDetails,
    pCreateOrder,
+   pGetOrderById,
+   pGetOrderByPaymentIntentId,
+   pGetOrders,
+   pUpdateOrderStatus,
    pUpdateOrderWithStripeDetails,
 } from "./order";
 
 export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
+
+describe("pGetOrders tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pGetOrders test", async () => {
+      const userId = "user-id-1";
+      const orders = ptestData.pOrdersWithItems();
+      prismaMock.order.findMany.mockResolvedValue(orders);
+
+      const result = await pGetOrders(userId);
+
+      const expectedFindManyArgs: OrderFindManyArgs = {
+         where: { userId },
+         include: {
+            items: true,
+         },
+         orderBy: {
+            createdAt: "desc",
+         },
+      };
+
+      expect(result).toEqual(orders);
+      expect(prismaMock.order.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.order.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+   });
+});
+
+describe("pGetOrderById tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pGetOrderById test", async () => {
+      const orderId = "order-id-1";
+      const order = ptestData.pOrderWithItems();
+      prismaMock.order.findUnique.mockResolvedValue(order);
+
+      const result = await pGetOrderById(orderId);
+
+      const expectedFindManyArgs: OrderFindUniqueArgs = {
+         where: { id: orderId },
+         include: {
+            items: true,
+         },
+      };
+
+      expect(result).toEqual(order);
+      expect(prismaMock.order.findUnique).toHaveBeenCalledTimes(1);
+      expect(prismaMock.order.findUnique).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+   });
+});
+
+describe("pGetOrderByPaymentIntentId tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pGetOrderByPaymentIntentId test", async () => {
+      const paymentIntentId = "payment-id-1";
+      const order = ptestData.pOrder();
+      prismaMock.order.findFirst.mockResolvedValue(order);
+
+      const result = await pGetOrderByPaymentIntentId(paymentIntentId);
+
+      const expectedFindFirstArgs: OrderFindFirstArgs = {
+         where: {
+            stripePaymentIntentId: paymentIntentId,
+         },
+      };
+
+      expect(result).toEqual(order);
+      expect(prismaMock.order.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.order.findFirst).toHaveBeenCalledWith(
+         expectedFindFirstArgs
+      );
+   });
+});
 
 describe("pCreateOrder tests", () => {
    beforeEach(() => {
@@ -43,6 +133,9 @@ describe("pCreateOrder tests", () => {
                      id: i.productId,
                   },
                },
+               productName: i.productName,
+               productDescription: i.productDescription,
+               productType: i.productType,
                quantity: i.quantity,
                price: 9.99,
             })),
@@ -62,6 +155,31 @@ describe("pCreateOrder tests", () => {
       expect(prismaMock.order.create).toHaveBeenCalledWith(
          expectedOrderCreateArgs
       );
+   });
+});
+
+describe("pUpdateOrderStatus tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pUpdateOrderStatus test", async () => {
+      const order = ptestData.pOrderWithItems();
+      prismaMock.order.update.mockResolvedValue(order);
+
+      const orderId = "order-id-1";
+      const status = "COMPLETED";
+
+      const result = await pUpdateOrderStatus(orderId, status);
+
+      const expectedUpdateArgs: OrderUpdateArgs = {
+         where: { id: orderId },
+         data: { status },
+      };
+
+      expect(result).toEqual(order);
+      expect(prismaMock.order.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.order.update).toHaveBeenCalledWith(expectedUpdateArgs);
    });
 });
 

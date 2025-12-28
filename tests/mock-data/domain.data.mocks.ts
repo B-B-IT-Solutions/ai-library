@@ -2,6 +2,7 @@ import { range } from "es-toolkit";
 
 import { Sort } from "@/data/types/common";
 import { DCart, DCartItem } from "@/data/types/domain/cart";
+import { DOrder, DOrderItem } from "@/data/types/domain/order";
 import {
    DExample,
    DFeature,
@@ -64,6 +65,43 @@ export const dCartItem = (index = 1): DCartItem => {
       lineTotal: 19.99,
       quantity: 1,
       updatedAt: new Date("2025-09-27").toISOString(),
+      createdAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dOrders = (count = 3): DOrder[] => {
+   return range(0, count).map((i) => dOrder(i));
+};
+
+export const dOrder = (index = 1, itemsCount = 3): DOrder => {
+   return {
+      id: `10fbd76c-4fd4-4294-a541-5d96e6a8e84${index}`,
+      userId: "user-1",
+      status: "COMPLETED",
+      totalAmount: itemsCount * 19.99,
+      paymentMethod: "card",
+      stripeCheckoutSessionId: `dc03d2ff-3019-4bca-ac05-84cd57c7c47${index}`,
+      stripePaymentIntentId: `c9aee31d-8b34-4ed7-adf4-594c74d4104${index}`,
+      stripePaymentStatus: "PAID",
+      items: dOrderItems(itemsCount),
+      updatedAt: new Date("2025-09-27").toISOString(),
+      createdAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dOrderItems = (count = 3): DOrderItem[] => {
+   return range(0, count).map((i) => dOrderItem(i));
+};
+
+export const dOrderItem = (index = 1): DOrderItem => {
+   return {
+      id: `d94196ec-d343-47b5-bf8d-43d5327f9c4${index}`,
+      orderId: `6510c275-019c-42e1-8691-209734b8e95${index}`,
+      productId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      productName: `name ${index}`,
+      productDescription: `description ${index}`,
+      productType: "BUNDLE",
+      price: 19.99,
       createdAt: new Date("2025-09-27").toISOString(),
    };
 };

@@ -1,6 +1,5 @@
 import { Filter, Page, PageQuery } from "@/data/types/common";
-
-import { DPromptTemplate } from "./prompt.template";
+import { DPromptTemplate } from "@/data/types/domain/prompt.template";
 
 export type DProductsPageQuery = PageQuery<DProductsFilter>;
 export type DProductsPage = Page<DProduct>;

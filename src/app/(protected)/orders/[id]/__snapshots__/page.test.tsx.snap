@@ -1,0 +1,269 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`OrderDetailPage rendering tests OrderDetailPage - order found - rendered test 1`] = `
+<div>
+  <div
+    class="container mx-auto px-4 py-8 max-w-2xl"
+    data-testid="order-details-page"
+  >
+    <div
+      class="bg-green-50 border border-green-200 rounded-lg p-6 mb-6 flex items-center gap-4"
+      data-testid="order-status"
+    >
+      <svg
+        aria-hidden="true"
+        class="lucide lucide-circle-check-big w-12 h-12 text-green-600"
+        fill="none"
+        height="24"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M21.801 10A10 10 0 1 1 17 3.335"
+        />
+        <path
+          d="m9 11 3 3L22 4"
+        />
+      </svg>
+      <div>
+        <h2
+          class="text-xl font-semibold text-green-900 mb-1"
+        >
+          Order Successful!
+        </h2>
+        <p
+          class="text-green-700"
+        >
+          Your order has been completed and your templates are ready in your library.
+        </p>
+      </div>
+    </div>
+    <div
+      class="bg-white border border-slate-200 rounded-lg p-6 mb-6"
+      data-testid="order-details"
+    >
+      <div
+        class="flex items-start justify-between mb-4"
+      >
+        <div>
+          <h1
+            class="text-2xl font-bold text-slate-900 mb-1"
+          >
+            Order Details
+          </h1>
+          <p
+            class="text-sm text-slate-600"
+          >
+            Order ID: 
+            10fbd76c-4fd4-4294-a541-5d96e6a8e841
+          </p>
+          <p
+            class="text-sm text-slate-600"
+          >
+            Date: 
+            September 27th, 2025
+          </p>
+        </div>
+        <span
+          class="text-sm px-3 py-1 rounded border bg-green-100 text-green-700 border-green-200"
+        >
+          COMPLETED
+        </span>
+      </div>
+      <div
+        class="border-t pt-4 space-y-3"
+      >
+        <h3
+          class="font-semibold mb-2"
+        >
+          Items
+        </h3>
+        <div
+          class="flex justify-between text-sm"
+        >
+          <div>
+            <p
+              class="font-medium"
+            >
+              name 0
+            </p>
+            <p
+              class="text-slate-600"
+            >
+              BUNDLE
+               · CHF 
+              19.99
+            </p>
+          </div>
+          <span
+            class="font-medium"
+          >
+            CHF 
+            19.99
+          </span>
+        </div>
+        <div
+          class="flex justify-between text-sm"
+        >
+          <div>
+            <p
+              class="font-medium"
+            >
+              name 1
+            </p>
+            <p
+              class="text-slate-600"
+            >
+              BUNDLE
+               · CHF 
+              19.99
+            </p>
+          </div>
+          <span
+            class="font-medium"
+          >
+            CHF 
+            19.99
+          </span>
+        </div>
+        <div
+          class="flex justify-between text-sm"
+        >
+          <div>
+            <p
+              class="font-medium"
+            >
+              name 2
+            </p>
+            <p
+              class="text-slate-600"
+            >
+              BUNDLE
+               · CHF 
+              19.99
+            </p>
+          </div>
+          <span
+            class="font-medium"
+          >
+            CHF 
+            19.99
+          </span>
+        </div>
+        <div
+          class="border-t pt-3 flex justify-between font-semibold text-lg"
+        >
+          <span>
+            Total
+          </span>
+          <span>
+            CHF 
+            59.97
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex gap-4"
+    >
+      <a
+        class="flex-1"
+        data-testid="library-link"
+        href="/library"
+      >
+        <button
+          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 w-full cursor-pointer"
+          data-slot="button"
+        >
+          Go to Library
+        </button>
+      </a>
+      <a
+        class="flex-1"
+        data-testid="orders-link"
+        href="/orders"
+      >
+        <button
+          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full cursor-pointer"
+          data-slot="button"
+        >
+          View All Orders
+        </button>
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`OrderDetailPage rendering tests OrderDetailPage - order not found - redirects to home 1`] = `
+<div>
+  <div
+    class="container mx-auto px-4 py-8 max-w-2xl"
+    data-testid="order-details-page"
+  >
+    <div
+      class="text-center py-12"
+      data-testid="order-not-found"
+    >
+      <svg
+        aria-hidden="true"
+        class="lucide lucide-package w-16 h-16 mx-auto text-slate-300 mb-4"
+        fill="none"
+        height="24"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"
+        />
+        <path
+          d="M12 22V12"
+        />
+        <polyline
+          points="3.29 7 12 12 20.71 7"
+        />
+        <path
+          d="m7.5 4.27 9 5.15"
+        />
+      </svg>
+      <h2
+        class="text-xl font-semibold text-slate-900 mb-2"
+      >
+        Order not found
+      </h2>
+      <p
+        class="text-slate-600 mb-6"
+      >
+        The order you're looking for doesn't exist or you don't have access to it.
+      </p>
+      <a
+        data-testid="orders-link"
+        href="/orders"
+      >
+        <button
+          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3"
+          data-slot="button"
+        >
+          View All Orders
+        </button>
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`OrderDetailPage rendering tests OrderDetailPage - session null - redirects to home 1`] = `<div />`;
+
+exports[`OrderDetailPage rendering tests OrderDetailPage - session.user undefined - redirects to home 1`] = `<div />`;
+
+exports[`OrderDetailPage rendering tests OrderDetailPage - session.user.id undefined - redirects to home 1`] = `<div />`;

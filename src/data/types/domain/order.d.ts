@@ -1,8 +1,4 @@
-import z from "zod";
-
-import { checkoutSchema } from "@/data/types/validators/order.schema";
-
-import { DProduct } from "./product";
+import { DProductType } from "@/data/types/domain/product";
 
 export type DOrderStatus = "PENDING" | "COMPLETED" | "FAILED" | "REFUNDED";
 
@@ -11,10 +7,10 @@ export type DOrder = {
    userId: string;
    status: DOrderStatus;
    totalAmount: number;
-   paymentMethod?: string;
-   stripeCheckoutSessionId?: string;
-   stripePaymentIntentId?: string;
-   stripePaymentStatus?: string;
+   paymentMethod: string | null;
+   stripeCheckoutSessionId: string | null;
+   stripePaymentIntentId: string | null;
+   stripePaymentStatus: string | null;
    items: DOrderItem[];
    createdAt: string;
    updatedAt: string;
@@ -23,10 +19,10 @@ export type DOrder = {
 export type DOrderItem = {
    id: string;
    orderId: string;
-   product: DProduct;
-   quantity: number;
+   productId: string;
+   productName: string;
+   productDescription: string | null;
+   productType: DProductType;
    price: number;
    createdAt: string;
 };
-
-export type DCheckoutForm = z.infer<typeof checkoutSchema>;

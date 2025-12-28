@@ -1,6 +1,40 @@
 import prisma from "@/data/db/prisma";
 import { OrderWithItems } from "@/data/types/db/order";
+import { Order } from "@/generated/prisma/client";
 import { OrderCreateInput } from "@/generated/prisma/models";
+
+export const pGetOrders = async (userId: string): Promise<OrderWithItems[]> => {
+   return await prisma.order.findMany({
+      where: { userId },
+      include: {
+         items: true,
+      },
+      orderBy: {
+         createdAt: "desc",
+      },
+   });
+};
+
+export const pGetOrderById = async (
+   orderId: string
+): Promise<OrderWithItems | null> => {
+   return await prisma.order.findUnique({
+      where: { id: orderId },
+      include: {
+         items: true,
+      },
+   });
+};
+
+export const pGetOrderByPaymentIntentId = async (
+   paymentIntentId: string
+): Promise<Order | null> => {
+   return await prisma.order.findFirst({
+      where: {
+         stripePaymentIntentId: paymentIntentId,
+      },
+   });
+};
 
 export const pCreateOrder = async (
    data: OrderCreateInput
@@ -13,63 +47,6 @@ export const pCreateOrder = async (
    });
 };
 
-export const pGetOrderById = async (
-   orderId: string
-): Promise<OrderWithItems | null> => {
-   return await prisma.order.findUnique({
-      where: { id: orderId },
-      include: {
-         items: {
-            include: {
-               product: {
-                  include: {
-                     template: {
-                        include: {
-                           categories: true,
-                        },
-                     },
-                     bundleItems: {
-                        include: {
-                           template: {
-                              include: {
-                                 categories: true,
-                              },
-                           },
-                        },
-                     },
-                  },
-               },
-            },
-         },
-         purchases: {
-            include: {
-               template: {
-                  include: {
-                     categories: true,
-                  },
-               },
-            },
-         },
-      },
-   });
-};
-
-export const pGetUserOrders = async (userId: string) => {
-   return await prisma.order.findMany({
-      where: { userId },
-      include: {
-         items: {
-            include: {
-               product: true,
-            },
-         },
-      },
-      orderBy: {
-         createdAt: "desc",
-      },
-   });
-};
-
 export const pUpdateOrderStatus = async (
    orderId: string,
    status: "PENDING" | "COMPLETED" | "FAILED" | "REFUNDED"
@@ -77,23 +54,6 @@ export const pUpdateOrderStatus = async (
    return await prisma.order.update({
       where: { id: orderId },
       data: { status },
-   });
-};
-
-export const pCreatePurchases = async (
-   orderId: string,
-   userId: string,
-   templateIds: string[]
-) => {
-   const purchases = templateIds.map((templateId) => ({
-      orderId,
-      userId,
-      templateId,
-   }));
-
-   return await prisma.purchase.createMany({
-      data: purchases,
-      skipDuplicates: true,
    });
 };
 
@@ -111,11 +71,5 @@ export const pUpdateOrderWithStripeDetails = async (
    return await prisma.order.update({
       where: { id: orderId },
       data,
-   });
-};
-
-export const pGetOrderByPaymentIntentId = async (paymentIntentId: string) => {
-   return await prisma.order.findFirst({
-      where: { stripePaymentIntentId: paymentIntentId },
    });
 };

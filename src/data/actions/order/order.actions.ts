@@ -2,21 +2,49 @@
 
 import { validate as isValidUuid } from "uuid";
 
-import { auth } from "@/auth";
 import { pClearCart, pGetCartByUserId } from "@/data/db/queries/cart";
+import { pCreatePurchases } from "@/data/db/queries/library";
 import {
-   pCreatePurchases,
    pGetOrderById,
    pGetOrderByPaymentIntentId,
-   pGetUserOrders,
+   pGetOrders,
    pUpdateOrderStatus,
    pUpdateOrderWithStripeDetails,
 } from "@/data/db/queries/order";
 import { DOrder } from "@/data/types/domain/order";
 import { ActionResult } from "@/data/types/utils";
+import { requireUser } from "../auth-utils";
 import { formatError } from "../utils";
 
-import { toDOrder, toDOrders } from "./order.mapper";
+import { toDOrdersWithItems, toDOrderWithItems } from "./order.mapper";
+
+export const getOrders = async (): Promise<DOrder[]> => {
+   try {
+      const user = await requireUser();
+      const orders = await pGetOrders(user.id);
+      return toDOrdersWithItems(orders);
+   } catch {
+      return [];
+   }
+};
+
+export const getOrderById = async (orderId: string): Promise<DOrder | null> => {
+   try {
+      const user = await requireUser();
+
+      if (!isValidUuid(orderId)) {
+         return null;
+      }
+
+      const order = await pGetOrderById(orderId);
+      if (!order || order.userId !== user.id) {
+         return null;
+      }
+      return toDOrderWithItems(order);
+   } catch {
+      return null;
+   }
+};
 
 export const completeOrder = async (
    orderId: string
@@ -34,7 +62,7 @@ export const completeOrder = async (
          return {
             success: true,
             message: "Order already completed.",
-            data: toDOrder(order),
+            data: toDOrderWithItems(order),
          };
       }
 
@@ -77,7 +105,7 @@ export const completeOrder = async (
       return {
          success: true,
          message: "Order completed successfully!",
-         data: toDOrder(completedOrder!),
+         data: toDOrderWithItems(completedOrder!),
       };
    } catch (error) {
       return {
@@ -85,36 +113,6 @@ export const completeOrder = async (
          message: formatError(error),
       };
    }
-};
-
-export const getOrderById = async (
-   orderId: string
-): Promise<DOrder | undefined> => {
-   if (!isValidUuid(orderId)) {
-      return undefined;
-   }
-
-   const session = await auth();
-   if (!session?.user?.id) {
-      return undefined;
-   }
-
-   const order = await pGetOrderById(orderId);
-   if (!order || order.userId !== session.user.id) {
-      return undefined;
-   }
-
-   return toDOrder(order);
-};
-
-export const getUserOrders = async (): Promise<DOrder[]> => {
-   const session = await auth();
-   if (!session?.user?.id) {
-      return [];
-   }
-
-   const orders = await pGetUserOrders(session.user.id);
-   return toDOrders(orders);
 };
 
 export const handleStripeCheckoutCompleted = async (

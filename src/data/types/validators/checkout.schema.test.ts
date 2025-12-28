@@ -1,6 +1,6 @@
 import { ZodError } from "zod";
 
-import { checkoutSchema } from "./order.schema";
+import { checkoutSchema } from "./checkout.schema";
 
 describe("checkoutSchema tests", () => {
    it("checkoutSchema - data valid - test", async () => {
