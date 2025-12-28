@@ -2,11 +2,11 @@
 
 import { validate as isValidUuid } from "uuid";
 
-import { createPrompt as pCreatePrompt } from "@/data/db/queries/prompt";
 import {
    pCheckUserHasTemplate,
    pGetUserPurchases,
-} from "@/data/db/queries/purchase";
+} from "@/data/db/queries/library";
+import { createPrompt as pCreatePrompt } from "@/data/db/queries/prompt";
 import { DPurchase } from "@/data/types/domain/library";
 import { DPromptTemplate } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
