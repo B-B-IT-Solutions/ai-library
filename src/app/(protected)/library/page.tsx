@@ -4,7 +4,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
-import { PurchasedTemplateCard } from "@/components/library/purchased-template-card";
+import { LibraryEntryCard } from "@/components/library/library-entry-card";
 import { Button } from "@/components/shadcn/button";
 import { getPurchasedTemplates } from "@/data/actions/library/library.actions";
 
@@ -51,7 +51,7 @@ export default async function LibraryPage() {
 
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {map(templates, (template) => (
-               <PurchasedTemplateCard key={template.id} template={template} />
+               <LibraryEntryCard key={template.id} template={template} />
             ))}
          </div>
       </div>

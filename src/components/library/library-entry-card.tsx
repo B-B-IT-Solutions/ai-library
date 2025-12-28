@@ -13,13 +13,11 @@ import {
 } from "@/data/actions/library/library.actions";
 import { DPromptTemplate } from "@/data/types/domain/prompt.template";
 
-type PurchasedTemplateCardProps = {
+type LibraryEntryCardProps = {
    template: DPromptTemplate;
 };
 
-export const PurchasedTemplateCard: FC<PurchasedTemplateCardProps> = ({
-   template,
-}) => {
+export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ template }) => {
    const [isCopying, startCopyTransition] = useTransition();
    const [isDownloading, startDownloadTransition] = useTransition();
 
