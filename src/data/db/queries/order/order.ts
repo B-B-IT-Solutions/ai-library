@@ -20,32 +20,7 @@ export const pGetOrderById = async (
    return await prisma.order.findUnique({
       where: { id: orderId },
       include: {
-         items: {
-            include: {
-               product: {
-                  include: {
-                     productItems: {
-                        include: {
-                           template: {
-                              include: {
-                                 categories: true,
-                              },
-                           },
-                        },
-                     },
-                  },
-               },
-            },
-         },
-         purchases: {
-            include: {
-               template: {
-                  include: {
-                     categories: true,
-                  },
-               },
-            },
-         },
+         items: true,
       },
    });
 };
@@ -85,11 +60,5 @@ export const pUpdateOrderWithStripeDetails = async (
    return await prisma.order.update({
       where: { id: orderId },
       data,
-   });
-};
-
-export const pGetOrderByPaymentIntentId = async (paymentIntentId: string) => {
-   return await prisma.order.findFirst({
-      where: { stripePaymentIntentId: paymentIntentId },
    });
 };

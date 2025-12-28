@@ -8,13 +8,16 @@ import {
    OrderCreateArgs,
    OrderCreateInput,
    OrderFindManyArgs,
+   OrderFindUniqueArgs,
    OrderUpdateArgs,
 } from "@/generated/prisma/models";
 
 import {
    OrderUpdateStripeDetails,
    pCreateOrder,
+   pGetOrderById,
    pGetOrders,
+   pUpdateOrderStatus,
    pUpdateOrderWithStripeDetails,
 } from "./order";
 
@@ -50,6 +53,33 @@ describe("pGetOrders tests", () => {
    });
 });
 
+describe("pGetOrderById tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pGetOrderById test", async () => {
+      const orderId = "order-id-1";
+      const order = ptestData.pOrderWithItems();
+      prismaMock.order.findUnique.mockResolvedValue(order);
+
+      const result = await pGetOrderById(orderId);
+
+      const expectedFindManyArgs: OrderFindUniqueArgs = {
+         where: { id: orderId },
+         include: {
+            items: true,
+         },
+      };
+
+      expect(result).toEqual(order);
+      expect(prismaMock.order.findUnique).toHaveBeenCalledTimes(1);
+      expect(prismaMock.order.findUnique).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+   });
+});
+
 describe("pCreateOrder tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
@@ -75,6 +105,9 @@ describe("pCreateOrder tests", () => {
                      id: i.productId,
                   },
                },
+               productName: i.productName,
+               productDescription: i.productDescription,
+               productType: i.productType,
                quantity: i.quantity,
                price: 9.99,
             })),
@@ -94,6 +127,31 @@ describe("pCreateOrder tests", () => {
       expect(prismaMock.order.create).toHaveBeenCalledWith(
          expectedOrderCreateArgs
       );
+   });
+});
+
+describe("pUpdateOrderStatus tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pUpdateOrderStatus test", async () => {
+      const order = ptestData.pOrderWithItems();
+      prismaMock.order.update.mockResolvedValue(order);
+
+      const orderId = "order-id-1";
+      const status = "COMPLETED";
+
+      const result = await pUpdateOrderStatus(orderId, status);
+
+      const expectedUpdateArgs: OrderUpdateArgs = {
+         where: { id: orderId },
+         data: { status },
+      };
+
+      expect(result).toEqual(order);
+      expect(prismaMock.order.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.order.update).toHaveBeenCalledWith(expectedUpdateArgs);
    });
 });
 

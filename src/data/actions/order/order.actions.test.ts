@@ -152,6 +152,6 @@ describe("getOrderById tests", () => {
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(pGetOrderByIdMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrderByIdMock).toHaveBeenCalledWith(user.id);
+      expect(pGetOrderByIdMock).toHaveBeenCalledWith(orderId);
    });
 });
