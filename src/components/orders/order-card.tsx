@@ -70,7 +70,7 @@ export const OrderCard: FC<OrderCardProps> = ({ order }) => {
                variant="outline"
                size="sm"
                onClick={handleViewDetails}
-               className="w-full"
+               className="w-full cursor-pointer"
                data-testid="view-details-button"
             >
                View Details

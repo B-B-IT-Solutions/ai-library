@@ -8,13 +8,15 @@ import { auth } from "@/auth";
 import { Button } from "@/components/shadcn/button";
 import { getOrderById } from "@/data/actions/order/order.actions";
 
-type OrderDetailPageProps = {
-   params: Promise<{ id: string }>;
+export type OrderDetailPageParams = {
+   id: string;
 };
 
-export default async function OrderDetailPage({
-   params,
-}: OrderDetailPageProps) {
+export type OrderDetailPageProps = {
+   params: Promise<OrderDetailPageParams>;
+};
+
+export const OrderDetailPage = async ({ params }: OrderDetailPageProps) => {
    const session = await auth();
    if (!session?.user?.id) {
       return redirect("/");
@@ -100,32 +102,34 @@ export default async function OrderDetailPage({
                      <div>
                         <p className="font-medium">{item.productName}</p>
                         <p className="text-slate-600">
-                           {item.productType} · ${item.price.toFixed(2)}
+                           {item.productType} · CHF {item.price.toFixed(2)}
                         </p>
                      </div>
                      <span className="font-medium">
-                        ${item.price.toFixed(2)}
+                        CHF {item.price.toFixed(2)}
                      </span>
                   </div>
                ))}
 
                <div className="border-t pt-3 flex justify-between font-semibold text-lg">
                   <span>Total</span>
-                  <span>${order.totalAmount.toFixed(2)}</span>
+                  <span>CHF {order.totalAmount.toFixed(2)}</span>
                </div>
             </div>
          </div>
 
          <div className="flex gap-4">
             <Link href="/library" className="flex-1">
-               <Button className="w-full">Go to Library</Button>
+               <Button className="w-full cursor-pointer">Go to Library</Button>
             </Link>
             <Link href="/orders" className="flex-1">
-               <Button variant="outline" className="w-full">
+               <Button variant="outline" className="w-full cursor-pointer">
                   View All Orders
                </Button>
             </Link>
          </div>
       </div>
    );
-}
+};
+
+export default OrderDetailPage;
