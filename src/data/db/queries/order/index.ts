@@ -1,9 +1,8 @@
 export {
-   pCreateOrder,
-   pUpdateOrderWithStripeDetails,
-   pCreatePurchases,
+   pGetOrders,
    pGetOrderById,
    pGetOrderByPaymentIntentId,
-   pGetUserOrders,
+   pCreateOrder,
+   pUpdateOrderWithStripeDetails,
    pUpdateOrderStatus,
 } from "./order";

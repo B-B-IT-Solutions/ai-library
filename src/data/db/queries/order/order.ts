@@ -2,7 +2,7 @@ import prisma from "@/data/db/prisma";
 import { OrderWithItems } from "@/data/types/db/order";
 import { OrderCreateInput } from "@/generated/prisma/models";
 
-export const pGetUserOrders = async (userId: string) => {
+export const pGetOrders = async (userId: string) => {
    return await prisma.order.findMany({
       where: { userId },
       include: {
@@ -72,23 +72,6 @@ export const pUpdateOrderStatus = async (
    return await prisma.order.update({
       where: { id: orderId },
       data: { status },
-   });
-};
-
-export const pCreatePurchases = async (
-   orderId: string,
-   userId: string,
-   templateIds: string[]
-) => {
-   const purchases = templateIds.map((templateId) => ({
-      orderId,
-      userId,
-      templateId,
-   }));
-
-   return await prisma.purchase.createMany({
-      data: purchases,
-      skipDuplicates: true,
    });
 };
 

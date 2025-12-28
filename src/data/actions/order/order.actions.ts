@@ -4,11 +4,11 @@ import { validate as isValidUuid } from "uuid";
 
 import { auth } from "@/auth";
 import { pClearCart, pGetCartByUserId } from "@/data/db/queries/cart";
+import { pCreatePurchases } from "@/data/db/queries/libarary";
 import {
-   pCreatePurchases,
    pGetOrderById,
    pGetOrderByPaymentIntentId,
-   pGetUserOrders,
+   pGetOrders,
    pUpdateOrderStatus,
    pUpdateOrderWithStripeDetails,
 } from "@/data/db/queries/order";
@@ -17,6 +17,16 @@ import { ActionResult } from "@/data/types/utils";
 import { formatError } from "../utils";
 
 import { toDOrder, toDOrders } from "./order.mapper";
+
+export const getUserOrders = async (): Promise<DOrder[]> => {
+   const session = await auth();
+   if (!session?.user?.id) {
+      return [];
+   }
+
+   const orders = await pGetOrders(session.user.id);
+   return toDOrders(orders);
+};
 
 export const getOrderById = async (
    orderId: string
@@ -36,16 +46,6 @@ export const getOrderById = async (
    }
 
    return toDOrder(order);
-};
-
-export const getUserOrders = async (): Promise<DOrder[]> => {
-   const session = await auth();
-   if (!session?.user?.id) {
-      return [];
-   }
-
-   const orders = await pGetUserOrders(session.user.id);
-   return toDOrders(orders);
 };
 
 export const completeOrder = async (
