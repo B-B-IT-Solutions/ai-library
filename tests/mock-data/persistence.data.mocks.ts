@@ -185,6 +185,10 @@ export const pCartWithItems = (index = 1, itemCount = 2): CartWithItems => {
    };
 };
 
+export const pOrdersWithItems = (count = 3): OrderWithItems[] => {
+   return range(0, count).map((i) => pOrderWithItems(i));
+};
+
 export const pOrderWithItems = (index = 1, itemCount = 3): OrderWithItems => {
    const order = pOrder(index);
    const items = pOrderItems(itemCount);
@@ -218,6 +222,9 @@ export const pOrderItem = (index = 1): OrderItem => {
       id: `order-item-${index}`,
       orderId: `fa1d3c35-ea07-489f-b8c8-62fa8514130${index}`,
       productId: `1045dc94-2eff-4150-804b-be38fa1422b${index}`,
+      productName: `name ${index}`,
+      productDescription: `description ${index}`,
+      productType: "TEMPLATE",
       quantity: 1,
       price: new Decimal(29.99),
       createdAt: new Date("2025-09-27"),

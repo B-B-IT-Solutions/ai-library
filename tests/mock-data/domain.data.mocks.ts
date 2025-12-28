@@ -94,13 +94,14 @@ export const dOrderItems = (count = 3): DOrderItem[] => {
 };
 
 export const dOrderItem = (index = 1): DOrderItem => {
-   const product = dProduct(index);
    return {
       id: `d94196ec-d343-47b5-bf8d-43d5327f9c4${index}`,
       orderId: `6510c275-019c-42e1-8691-209734b8e95${index}`,
+      productId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      productName: `name ${index}`,
+      productDescription: `description ${index}`,
+      productType: "BUNDLE",
       price: 19.99,
-      product: product,
-      quantity: 1,
       createdAt: new Date("2025-09-27").toISOString(),
    };
 };

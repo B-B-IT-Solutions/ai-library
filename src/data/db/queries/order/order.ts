@@ -2,15 +2,11 @@ import prisma from "@/data/db/prisma";
 import { OrderWithItems } from "@/data/types/db/order";
 import { OrderCreateInput } from "@/generated/prisma/models";
 
-export const pGetOrders = async (userId: string) => {
+export const pGetOrders = async (userId: string): Promise<OrderWithItems[]> => {
    return await prisma.order.findMany({
       where: { userId },
       include: {
-         items: {
-            include: {
-               product: true,
-            },
-         },
+         items: true,
       },
       orderBy: {
          createdAt: "desc",

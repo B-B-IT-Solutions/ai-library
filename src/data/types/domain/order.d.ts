@@ -7,10 +7,10 @@ export type DOrder = {
    userId: string;
    status: DOrderStatus;
    totalAmount: number;
-   paymentMethod?: string;
-   stripeCheckoutSessionId?: string;
-   stripePaymentIntentId?: string;
-   stripePaymentStatus?: string;
+   paymentMethod: string | null;
+   stripeCheckoutSessionId: string | null;
+   stripePaymentIntentId: string | null;
+   stripePaymentStatus: string | null;
    items: DOrderItem[];
    createdAt: string;
    updatedAt: string;
@@ -19,8 +19,10 @@ export type DOrder = {
 export type DOrderItem = {
    id: string;
    orderId: string;
-   product: DProduct;
-   quantity: number;
+   productId: string;
+   productName: string;
+   productDescription: string | null;
+   productType: string;
    price: number;
    createdAt: string;
 };

@@ -1,58 +1,41 @@
 import { map } from "es-toolkit/compat";
 
-import { toDProductWithItems } from "@/data/actions/product/product.mapper";
+import { OrderWithItems } from "@/data/types/db/order";
 import { DOrder, DOrderItem, DOrderStatus } from "@/data/types/domain/order";
+import { OrderItem } from "@/generated/prisma/client";
 
-type PrismaOrder = {
-   id: string;
-   userId: string;
-   status: "PENDING" | "COMPLETED" | "FAILED" | "REFUNDED";
-   totalAmount: any;
-   paymentMethod: string | null;
-   stripeCheckoutSessionId: string | null;
-   stripePaymentIntentId: string | null;
-   stripePaymentStatus: string | null;
-   createdAt: Date;
-   updatedAt: Date;
-   items: any[];
-};
-
-type PrismaOrderItem = {
-   id: string;
-   orderId: string;
-   productId: string;
-   quantity: number;
-   price: any;
-   createdAt: Date;
-   product: any;
-};
-
-export const toDOrders = (orders: PrismaOrder[]): DOrder[] => {
+export const toDOrders = (orders: OrderWithItems[]): DOrder[] => {
    return map(orders, (o) => toDOrder(o));
 };
 
-export const toDOrder = (order: PrismaOrder): DOrder => {
+export const toDOrder = (order: OrderWithItems): DOrder => {
    return {
       id: order.id,
       userId: order.userId,
       status: order.status as DOrderStatus,
       totalAmount: Number(order.totalAmount),
-      paymentMethod: order.paymentMethod ?? undefined,
-      stripeCheckoutSessionId: order.stripeCheckoutSessionId ?? undefined,
-      stripePaymentIntentId: order.stripePaymentIntentId ?? undefined,
-      stripePaymentStatus: order.stripePaymentStatus ?? undefined,
-      items: map(order.items, (item) => toDOrderItem(item)),
+      paymentMethod: order.paymentMethod,
+      stripeCheckoutSessionId: order.stripeCheckoutSessionId,
+      stripePaymentIntentId: order.stripePaymentIntentId,
+      stripePaymentStatus: order.stripePaymentStatus,
+      items: toDOrderItems(order.items),
       createdAt: order.createdAt.toISOString(),
       updatedAt: order.updatedAt.toISOString(),
    };
 };
 
-export const toDOrderItem = (item: PrismaOrderItem): DOrderItem => {
+const toDOrderItems = (items: OrderItem[]): DOrderItem[] => {
+   return map(items, (item) => toDOrderItem(item));
+};
+
+export const toDOrderItem = (item: OrderItem): DOrderItem => {
    return {
       id: item.id,
       orderId: item.orderId,
-      product: toDProductWithItems(item.product),
-      quantity: item.quantity,
+      productId: item.productId,
+      productName: item.productName,
+      productDescription: item.productDescription,
+      productType: item.productType,
       price: Number(item.price),
       createdAt: item.createdAt.toISOString(),
    };
