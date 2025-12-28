@@ -168,9 +168,8 @@ export const main = async () => {
 
    // Calculate Developer Bundle savings
    const devBundlePrice = 19.99;
-   const devIndividualPrice = 9.99 * devTemplates.length; // $29.97
-   const devSavings = devIndividualPrice - devBundlePrice; // $9.98
-   const devSavingsPercentage = (devSavings / devIndividualPrice) * 100; // ~33.3%
+   const devOriginalPrice = 9.99 * devTemplates.length; // $29.97
+   const devDiscountAmount = devOriginalPrice - devBundlePrice; // $9.98
 
    const devBundle = await prisma.product.create({
       data: {
@@ -181,10 +180,8 @@ export const main = async () => {
          type: "BUNDLE",
          status: "ACTIVE",
 
-         // Bundle savings fields
-         savingsAmount: devSavings,
-         savingsPercentage: devSavingsPercentage,
-         totalIndividualPrice: devIndividualPrice,
+         discountAmount: devDiscountAmount,
+         originalPrice: devOriginalPrice,
 
          // Sample metadata as related records
          features: {
@@ -289,8 +286,6 @@ export const main = async () => {
    const contentBundlePrice = 22.99;
    const contentIndividualPrice = 9.99 * contentTemplates.length; // $29.97
    const contentSavings = contentIndividualPrice - contentBundlePrice; // $6.98
-   const contentSavingsPercentage =
-      (contentSavings / contentIndividualPrice) * 100; // ~23.3%
 
    const contentBundle = await prisma.product.create({
       data: {
@@ -302,9 +297,8 @@ export const main = async () => {
          status: "ACTIVE",
 
          // Bundle savings fields
-         savingsAmount: contentSavings,
-         savingsPercentage: contentSavingsPercentage,
-         totalIndividualPrice: contentIndividualPrice,
+         discountAmount: contentSavings,
+         originalPrice: contentIndividualPrice,
 
          // Sample metadata as related records
          features: {
@@ -408,8 +402,6 @@ export const main = async () => {
    const businessBundlePrice = 21.99;
    const businessIndividualPrice = 9.99 * businessTemplates.length; // $29.97
    const businessSavings = businessIndividualPrice - businessBundlePrice; // $7.98
-   const businessSavingsPercentage =
-      (businessSavings / businessIndividualPrice) * 100; // ~26.6%
 
    const businessBundle = await prisma.product.create({
       data: {
@@ -421,9 +413,8 @@ export const main = async () => {
          status: "ACTIVE",
 
          // Bundle savings fields
-         savingsAmount: businessSavings,
-         savingsPercentage: businessSavingsPercentage,
-         totalIndividualPrice: businessIndividualPrice,
+         discountAmount: businessSavings,
+         originalPrice: businessIndividualPrice,
 
          // Sample metadata as related records
          features: {

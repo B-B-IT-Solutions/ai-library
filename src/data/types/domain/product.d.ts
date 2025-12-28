@@ -22,9 +22,8 @@ export type DProduct = {
    name: string;
    description: string;
    price: number;
-   savingsAmount: number | null;
-   savingsPercentage: number | null;
-   totalIndividualPrice: number | null;
+   discountAmount: number | null;
+   originalPrice: number | null;
    type: DProductType;
    status: DProductStatus;
    productItems: DProductItem[];

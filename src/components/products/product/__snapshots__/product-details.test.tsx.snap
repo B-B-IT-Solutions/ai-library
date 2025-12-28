@@ -83,7 +83,7 @@ exports[`ProductDetails rendering tests ProductDetails - product type BUNDLE - t
                   Save CHF 
                   14.98
                    (
-                  26.63
+                  19
                   %)
                 </span>
               </div>
@@ -94,7 +94,7 @@ exports[`ProductDetails rendering tests ProductDetails - product type BUNDLE - t
                 3
                  templates for the price of
                  
-                1
+                2
                 !
               </p>
             </div>
@@ -114,7 +114,7 @@ exports[`ProductDetails rendering tests ProductDetails - product type BUNDLE - t
                   class="font-medium text-slate-900 line-through"
                 >
                   CHF 
-                  89.99
+                  74.97
                 </span>
               </div>
               <div

@@ -136,24 +136,23 @@ enum OrderStatus {
 }
 
 model Product {
-  id                   String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name                 String               @db.VarChar(250)
-  description          String               @db.Text
-  price                Decimal              @db.Decimal(10, 2)
-  savingsAmount        Decimal?             @map("savings_amount") @db.Decimal(10, 2)
-  savingsPercentage    Decimal?             @map("savings_percentage") @db.Decimal(5, 2)
-  totalIndividualPrice Decimal?             @map("total_individual_price") @db.Decimal(10, 2)
-  type                 ProductType
-  status               ProductStatus        @default(ACTIVE)
-  features             ProductFeature[]
-  useCases             ProductUseCase[]
-  examples             ProductExample[]
-  instructions         ProductInstruction[]
-  productItems         ProductItem[]
-  cartItems            CartItem[]
-  orderItems           OrderItem[]
-  createdAt            DateTime             @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt            DateTime             @updatedAt @map("updated_at")
+  id             String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name           String               @db.VarChar(250)
+  description    String               @db.Text
+  price          Decimal              @db.Decimal(10, 2)
+  discountAmount Decimal?             @map("discount_amount") @db.Decimal(10, 2)
+  originalPrice  Decimal?             @map("original_price") @db.Decimal(10, 2)
+  type           ProductType
+  status         ProductStatus        @default(ACTIVE)
+  features       ProductFeature[]
+  useCases       ProductUseCase[]
+  examples       ProductExample[]
+  instructions   ProductInstruction[]
+  productItems   ProductItem[]
+  cartItems      CartItem[]
+  orderItems     OrderItem[]
+  createdAt      DateTime             @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt      DateTime             @updatedAt @map("updated_at")
 
   @@map("product")
 }

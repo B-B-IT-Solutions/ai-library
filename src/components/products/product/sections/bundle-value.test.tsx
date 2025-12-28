@@ -22,9 +22,9 @@ const assertNotRendered = () => {
 };
 
 describe("BundleValue rendering tests", () => {
-   it("BundleValue - savingsAmount null -  test", async () => {
+   it("BundleValue - discountAmount null -  test", async () => {
       const product = dtestData.dProduct();
-      product.savingsAmount = null;
+      product.discountAmount = null;
 
       const { container } = render(<BundleValue product={product} />);
 
@@ -35,9 +35,9 @@ describe("BundleValue rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("BundleValue - savingsAmount defined -  test", async () => {
+   it("BundleValue - discountAmount defined -  test", async () => {
       const product = dtestData.dProduct();
-      product.savingsAmount = 14.98;
+      product.discountAmount = 14.98;
 
       const { container } = render(<BundleValue product={product} />);
 
@@ -48,23 +48,9 @@ describe("BundleValue rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("BundleValue - savingsPercentage null -  test", async () => {
-      const product = dtestData.dProduct();
-      product.savingsPercentage = null;
-
-      const { container } = render(<BundleValue product={product} />);
-
-      await waitFor(() => {
-         assertRendered();
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("BundleValue - bundleItems empty - totalIndividualPrice null -  test", async () => {
+   it("BundleValue - productItems empty -  test", async () => {
       const product = dtestData.dProduct();
       product.productItems = [];
-      product.totalIndividualPrice = null;
 
       const { container } = render(<BundleValue product={product} />);
 

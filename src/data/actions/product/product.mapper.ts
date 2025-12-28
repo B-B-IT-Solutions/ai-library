@@ -45,21 +45,21 @@ export const toDProductWithItems = (product: ProductWithItems): DProduct => {
    return dProduct;
 };
 
-export const toDProduct = (product: Product): DProduct => {
+const toDProduct = (product: Product): DProduct => {
+   const discountAmount = product.discountAmount
+      ? Number(product.discountAmount.toFixed(2))
+      : null;
+   const originalPrice = product.originalPrice
+      ? Number(product.originalPrice.toFixed(2))
+      : null;
+
    const dProduct: DProduct = {
       id: product.id,
       name: product.name,
       description: product.description,
       price: Number(product.price.toFixed(2)),
-      savingsAmount: product.savingsAmount
-         ? Number(product.savingsAmount.toFixed(2))
-         : null,
-      savingsPercentage: product.savingsPercentage
-         ? Number(product.savingsPercentage.toFixed(2))
-         : null,
-      totalIndividualPrice: product.totalIndividualPrice
-         ? Number(product.totalIndividualPrice.toFixed(2))
-         : null,
+      discountAmount: discountAmount,
+      originalPrice: originalPrice,
       type: product.type,
       status: product.status,
       features: [],
@@ -79,13 +79,11 @@ const toDProductItems = (items: ProductItemWithTemplate[]): DProductItem[] => {
 };
 
 const toDProductItem = (item: ProductItemWithTemplate): DProductItem => {
-   const template = item.template ? toDPromptTemplate(item.template) : null;
-   const templateId = template ? template.id : null;
    return {
       id: item.id,
       productId: item.productId,
-      templateId: templateId,
-      template: template,
+      templateId: item.templateId,
+      template: toDPromptTemplate(item.template),
       createdAt: item.createdAt.toISOString(),
    };
 };

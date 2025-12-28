@@ -205,7 +205,7 @@ exports[`ProductPage rendering tests ProductPage - product type BUNDLE - rendere
                         Save CHF 
                         14.98
                          (
-                        26.63
+                        19
                         %)
                       </span>
                     </div>
@@ -216,7 +216,7 @@ exports[`ProductPage rendering tests ProductPage - product type BUNDLE - rendere
                       3
                        templates for the price of
                        
-                      1
+                      2
                       !
                     </p>
                   </div>
@@ -236,7 +236,7 @@ exports[`ProductPage rendering tests ProductPage - product type BUNDLE - rendere
                         class="font-medium text-slate-900 line-through"
                       >
                         CHF 
-                        89.99
+                        74.97
                       </span>
                     </div>
                     <div
