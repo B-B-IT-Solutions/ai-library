@@ -29,16 +29,12 @@ const assertProduct = (dProduct: DProduct, product: Product) => {
    const discountAmount = product.discountAmount
       ? Number(product.discountAmount.toFixed(2))
       : null;
-   const originalPrice = product.originalPrice
-      ? Number(product.originalPrice.toFixed(2))
-      : null;
 
    expect(dProduct.id).toBe(product.id);
    expect(dProduct.name).toBe(product.name);
    expect(dProduct.description).toBe(product.description);
    expect(dProduct.price).toBe(Number(product.price.toFixed(2)));
    expect(dProduct.discountAmount).toEqual(discountAmount);
-   expect(dProduct.originalPrice).toEqual(originalPrice);
    expect(dProduct.type).toBe(product.type);
    expect(dProduct.status).toBe(product.status);
    expect(dProduct.createdAt).toBe(product.createdAt.toISOString());
@@ -168,7 +164,6 @@ describe("toDProductWithItems tests", () => {
       const product = ptestData.pProductWithItems(1);
       product.productItems = [];
       product.discountAmount = null;
-      product.originalPrice = null;
 
       const result = toDProductWithItems(product);
 
@@ -194,7 +189,6 @@ describe("toDProductWithDetails tests", () => {
       product.examples = [];
       product.instructions = [];
       product.discountAmount = null;
-      product.originalPrice = null;
 
       const result = toDProductWithDetails(product);
       expect(result.features).toEqual([]);

@@ -49,9 +49,6 @@ const toDProduct = (product: Product): DProduct => {
    const discountAmount = product.discountAmount
       ? Number(product.discountAmount.toFixed(2))
       : null;
-   const originalPrice = product.originalPrice
-      ? Number(product.originalPrice.toFixed(2))
-      : null;
 
    const dProduct: DProduct = {
       id: product.id,
@@ -59,7 +56,6 @@ const toDProduct = (product: Product): DProduct => {
       description: product.description,
       price: Number(product.price.toFixed(2)),
       discountAmount: discountAmount,
-      originalPrice: originalPrice,
       type: product.type,
       status: product.status,
       features: [],

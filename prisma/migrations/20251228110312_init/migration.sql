@@ -111,7 +111,6 @@ CREATE TABLE "product" (
     "description" TEXT NOT NULL,
     "price" DECIMAL(10,2) NOT NULL,
     "discount_amount" DECIMAL(10,2),
-    "original_price" DECIMAL(10,2),
     "type" "ProductType" NOT NULL,
     "status" "ProductStatus" NOT NULL DEFAULT 'ACTIVE',
     "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,

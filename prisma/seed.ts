@@ -168,8 +168,7 @@ export const main = async () => {
 
    // Calculate Developer Bundle savings
    const devBundlePrice = 19.99;
-   const devOriginalPrice = 9.99 * devTemplates.length; // $29.97
-   const devDiscountAmount = devOriginalPrice - devBundlePrice; // $9.98
+   const devDiscountAmount = 9.98;
 
    const devBundle = await prisma.product.create({
       data: {
@@ -179,9 +178,7 @@ export const main = async () => {
          price: devBundlePrice,
          type: "BUNDLE",
          status: "ACTIVE",
-
          discountAmount: devDiscountAmount,
-         originalPrice: devOriginalPrice,
 
          // Sample metadata as related records
          features: {
@@ -284,8 +281,7 @@ export const main = async () => {
 
    // Calculate Content Creator Bundle savings
    const contentBundlePrice = 22.99;
-   const contentIndividualPrice = 9.99 * contentTemplates.length; // $29.97
-   const contentSavings = contentIndividualPrice - contentBundlePrice; // $6.98
+   const contentDiscountAmount = 6.98;
 
    const contentBundle = await prisma.product.create({
       data: {
@@ -295,10 +291,7 @@ export const main = async () => {
          price: contentBundlePrice,
          type: "BUNDLE",
          status: "ACTIVE",
-
-         // Bundle savings fields
-         discountAmount: contentSavings,
-         originalPrice: contentIndividualPrice,
+         discountAmount: contentDiscountAmount,
 
          // Sample metadata as related records
          features: {
@@ -400,8 +393,7 @@ export const main = async () => {
    );
    // Calculate Business Productivity Bundle savings
    const businessBundlePrice = 21.99;
-   const businessIndividualPrice = 9.99 * businessTemplates.length; // $29.97
-   const businessSavings = businessIndividualPrice - businessBundlePrice; // $7.98
+   const businessDiscountAmount = 7.98;
 
    const businessBundle = await prisma.product.create({
       data: {
@@ -411,10 +403,7 @@ export const main = async () => {
          price: businessBundlePrice,
          type: "BUNDLE",
          status: "ACTIVE",
-
-         // Bundle savings fields
-         discountAmount: businessSavings,
-         originalPrice: businessIndividualPrice,
+         discountAmount: businessDiscountAmount,
 
          // Sample metadata as related records
          features: {
