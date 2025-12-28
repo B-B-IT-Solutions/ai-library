@@ -71,15 +71,11 @@ export const completeOrder = async (
       for (const item of order.items) {
          const product = item.product;
 
-         if (product.type === "TEMPLATE" && product.templateId) {
-            templateIds.push(product.templateId);
-         } else if (product.type === "BUNDLE") {
-            const bundleTemplateIds =
-               product.bundleItems
-                  ?.map((bi: any) => bi.templateId)
-                  .filter(Boolean) || [];
-            templateIds.push(...bundleTemplateIds);
-         }
+         const bundleTemplateIds =
+            product.bundleItems
+               ?.map((bi: any) => bi.templateId)
+               .filter(Boolean) || [];
+         templateIds.push(...bundleTemplateIds);
       }
 
       // Create purchase records
