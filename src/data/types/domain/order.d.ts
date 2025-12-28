@@ -1,4 +1,4 @@
-import { DProduct } from "./product";
+import { DProductType } from "@/data/types/domain/product";
 
 export type DOrderStatus = "PENDING" | "COMPLETED" | "FAILED" | "REFUNDED";
 
@@ -22,7 +22,7 @@ export type DOrderItem = {
    productId: string;
    productName: string;
    productDescription: string | null;
-   productType: string;
+   productType: DProductType;
    price: number;
    createdAt: string;
 };

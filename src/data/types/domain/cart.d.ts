@@ -1,3 +1,5 @@
+import { DProductType } from "@/data/types/domain/product";
+
 export type DCart = {
    id: string;
    userId: string | null;
@@ -15,7 +17,7 @@ export type DCartItem = {
    productId: string;
    productName: string;
    productDescription?: string;
-   productType: string;
+   productType: DProductType;
    productPrice: number;
    quantity: number;
    lineTotal: number;

@@ -98,13 +98,13 @@ export default async function OrderDetailPage({
                {map(order.items, (item) => (
                   <div key={item.id} className="flex justify-between text-sm">
                      <div>
-                        <p className="font-medium">{item.product.name}</p>
+                        <p className="font-medium">{item.productName}</p>
                         <p className="text-slate-600">
-                           {item.product.type} · ${item.price.toFixed(2)}
+                           {item.productType} · ${item.price.toFixed(2)}
                         </p>
                      </div>
                      <span className="font-medium">
-                        ${(item.price * item.quantity).toFixed(2)}
+                        ${item.price.toFixed(2)}
                      </span>
                   </div>
                ))}
