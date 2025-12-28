@@ -4,7 +4,7 @@ import { isEmpty } from "es-toolkit/compat";
 import { validate as isValidUuid } from "uuid";
 
 import { pClearCart, pGetCartByUserId } from "@/data/db/queries/cart";
-import { pCreatePurchases } from "@/data/db/queries/library";
+import { pCreateLibraryEntry } from "@/data/db/queries/library";
 import {
    pGetOrder,
    pGetOrderByPaymentIntentId,
@@ -84,7 +84,7 @@ export const completeOrder = async (
 
       // Create purchase records
       if (isEmpty(templateIds.length)) {
-         await pCreatePurchases(order.id, order.userId, templateIds);
+         await pCreateLibraryEntry(order.id, order.userId, templateIds);
       }
 
       // Update order status

@@ -4,22 +4,22 @@ import { validate as isValidUuid } from "uuid";
 
 import {
    pCheckUserHasTemplate,
-   pGetUserPurchases,
+   pGetLibraryEntries,
 } from "@/data/db/queries/library";
 import { createPrompt as pCreatePrompt } from "@/data/db/queries/prompt";
-import { DPurchase } from "@/data/types/domain/library";
+import { DLibraryEntry } from "@/data/types/domain/library";
 import { DPromptTemplate } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 import { PromptCreateInput } from "@/generated/prisma/models";
 import { requireUser } from "../auth-utils";
 import { formatError } from "../utils";
 
-import { toDPurchases } from "./library.mapper";
+import { toDLibraryEntries } from "./library.mapper";
 
 export const getPurchasedTemplates = async (): Promise<DPromptTemplate[]> => {
    try {
       const user = await requireUser();
-      const purchases = await pGetUserPurchases(user.id!);
+      const purchases = await pGetLibraryEntries(user.id!);
       return purchases.map((p) => p.template);
    } catch (error) {
       return [];
@@ -61,7 +61,7 @@ export const copyTemplateToPrompts = async (
       }
 
       // Get template
-      const purchases = await pGetUserPurchases(user.id);
+      const purchases = await pGetLibraryEntries(user.id);
       const purchase = purchases.find((p) => p.templateId === templateId);
 
       if (!purchase) {
@@ -126,7 +126,7 @@ export const downloadTemplate = async (
       }
 
       // Get template
-      const purchases = await pGetUserPurchases(user.id);
+      const purchases = await pGetLibraryEntries(user.id);
       const purchase = purchases.find((p) => p.templateId === templateId);
 
       if (!purchase) {
