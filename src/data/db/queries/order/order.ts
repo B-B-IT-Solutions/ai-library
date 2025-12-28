@@ -2,13 +2,18 @@ import prisma from "@/data/db/prisma";
 import { OrderWithItems } from "@/data/types/db/order";
 import { OrderCreateInput } from "@/generated/prisma/models";
 
-export const pCreateOrder = async (
-   data: OrderCreateInput
-): Promise<OrderWithItems> => {
-   return await prisma.order.create({
-      data,
+export const pGetUserOrders = async (userId: string) => {
+   return await prisma.order.findMany({
+      where: { userId },
       include: {
-         items: true,
+         items: {
+            include: {
+               product: true,
+            },
+         },
+      },
+      orderBy: {
+         createdAt: "desc",
       },
    });
 };
@@ -23,12 +28,7 @@ export const pGetOrderById = async (
             include: {
                product: {
                   include: {
-                     template: {
-                        include: {
-                           categories: true,
-                        },
-                     },
-                     bundleItems: {
+                     productItems: {
                         include: {
                            template: {
                               include: {
@@ -54,18 +54,13 @@ export const pGetOrderById = async (
    });
 };
 
-export const pGetUserOrders = async (userId: string) => {
-   return await prisma.order.findMany({
-      where: { userId },
+export const pCreateOrder = async (
+   data: OrderCreateInput
+): Promise<OrderWithItems> => {
+   return await prisma.order.create({
+      data,
       include: {
-         items: {
-            include: {
-               product: true,
-            },
-         },
-      },
-      orderBy: {
-         createdAt: "desc",
+         items: true,
       },
    });
 };

@@ -18,6 +18,36 @@ import { formatError } from "../utils";
 
 import { toDOrder, toDOrders } from "./order.mapper";
 
+export const getOrderById = async (
+   orderId: string
+): Promise<DOrder | undefined> => {
+   if (!isValidUuid(orderId)) {
+      return undefined;
+   }
+
+   const session = await auth();
+   if (!session?.user?.id) {
+      return undefined;
+   }
+
+   const order = await pGetOrderById(orderId);
+   if (!order || order.userId !== session.user.id) {
+      return undefined;
+   }
+
+   return toDOrder(order);
+};
+
+export const getUserOrders = async (): Promise<DOrder[]> => {
+   const session = await auth();
+   if (!session?.user?.id) {
+      return [];
+   }
+
+   const orders = await pGetUserOrders(session.user.id);
+   return toDOrders(orders);
+};
+
 export const completeOrder = async (
    orderId: string
 ): Promise<ActionResult<DOrder>> => {
@@ -85,36 +115,6 @@ export const completeOrder = async (
          message: formatError(error),
       };
    }
-};
-
-export const getOrderById = async (
-   orderId: string
-): Promise<DOrder | undefined> => {
-   if (!isValidUuid(orderId)) {
-      return undefined;
-   }
-
-   const session = await auth();
-   if (!session?.user?.id) {
-      return undefined;
-   }
-
-   const order = await pGetOrderById(orderId);
-   if (!order || order.userId !== session.user.id) {
-      return undefined;
-   }
-
-   return toDOrder(order);
-};
-
-export const getUserOrders = async (): Promise<DOrder[]> => {
-   const session = await auth();
-   if (!session?.user?.id) {
-      return [];
-   }
-
-   const orders = await pGetUserOrders(session.user.id);
-   return toDOrders(orders);
 };
 
 export const handleStripeCheckoutCompleted = async (
