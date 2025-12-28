@@ -15,7 +15,7 @@ export const pGetOrders = async (userId: string): Promise<OrderWithItems[]> => {
    });
 };
 
-export const pGetOrderById = async (
+export const pGetOrder = async (
    orderId: string
 ): Promise<OrderWithItems | null> => {
    return await prisma.order.findUnique({

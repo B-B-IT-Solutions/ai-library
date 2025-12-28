@@ -1,11 +1,12 @@
 "use server";
 
+import { isEmpty } from "es-toolkit/compat";
 import { validate as isValidUuid } from "uuid";
 
 import { pClearCart, pGetCartByUserId } from "@/data/db/queries/cart";
 import { pCreatePurchases } from "@/data/db/queries/library";
 import {
-   pGetOrderById,
+   pGetOrder,
    pGetOrderByPaymentIntentId,
    pGetOrders,
    pUpdateOrderStatus,
@@ -36,7 +37,7 @@ export const getOrderById = async (orderId: string): Promise<DOrder | null> => {
          return null;
       }
 
-      const order = await pGetOrderById(orderId);
+      const order = await pGetOrder(orderId);
       if (!order || order.userId !== user.id) {
          return null;
       }
@@ -50,7 +51,7 @@ export const completeOrder = async (
    orderId: string
 ): Promise<ActionResult<DOrder>> => {
    try {
-      const order = await pGetOrderById(orderId);
+      const order = await pGetOrder(orderId);
       if (!order) {
          return {
             success: false,
@@ -62,14 +63,9 @@ export const completeOrder = async (
          return {
             success: true,
             message: "Order already completed.",
-            data: toDOrderWithItems(order),
          };
       }
 
-      // Get cart to clear
-      const cart = await pGetCartByUserId(order.userId);
-
-      // Create purchases based on order items
       const templateIds: string[] = [];
 
       for (const item of order.items) {
@@ -87,25 +83,22 @@ export const completeOrder = async (
       }
 
       // Create purchase records
-      if (templateIds.length > 0) {
+      if (isEmpty(templateIds.length)) {
          await pCreatePurchases(order.id, order.userId, templateIds);
       }
 
       // Update order status
       await pUpdateOrderStatus(order.id, "COMPLETED");
 
-      // Clear cart
+      // clear the cart
+      const cart = await pGetCartByUserId(order.userId);
       if (cart) {
          await pClearCart(cart.id);
       }
 
-      // Fetch updated order
-      const completedOrder = await pGetOrderById(order.id);
-
       return {
          success: true,
          message: "Order completed successfully!",
-         data: toDOrderWithItems(completedOrder!),
       };
    } catch (error) {
       return {
@@ -122,7 +115,7 @@ export const handleStripeCheckoutCompleted = async (
 ): Promise<ActionResult<void>> => {
    try {
       // Get order to check status
-      const order = await pGetOrderById(orderId);
+      const order = await pGetOrder(orderId);
 
       if (!order) {
          return {

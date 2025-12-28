@@ -283,16 +283,17 @@ model OrderItem {
   @@map("order_item")
 }
 
-model Purchase {
-  id         String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId     String         @map("user_id") @db.Uuid
-  orderId    String         @map("order_id") @db.Uuid
-  templateId String         @map("template_id") @db.Uuid
-  createdAt  DateTime       @default(now()) @map("created_at") @db.Timestamp(6)
-  user       User           @relation(fields: [userId], references: [id])
-  order      Order          @relation(fields: [orderId], references: [id])
-  template   PromptTemplate @relation(fields: [templateId], references: [id])
+model Libarary {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId     String   @map("user_id") @db.Uuid
+  orderId    String   @map("order_id") @db.Uuid
+  templateId String   @map("template_id") @db.Uuid
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+
+  user     User           @relation(fields: [userId], references: [id])
+  order    Order          @relation(fields: [orderId], references: [id])
+  template PromptTemplate @relation(fields: [templateId], references: [id])
 
   @@unique([userId, templateId])
-  @@map("purchase")
+  @@map("library")
 }

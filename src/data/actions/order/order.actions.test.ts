@@ -3,7 +3,7 @@ jest.mock("../auth-utils");
 
 import { dtestData, ptestData } from "@tests";
 
-import { pGetOrderById, pGetOrders } from "@/data/db/queries/order";
+import { pGetOrder, pGetOrders } from "@/data/db/queries/order";
 import { requireUser } from "../auth-utils";
 
 import { getOrderById, getOrders } from "./order.actions";
@@ -13,9 +13,7 @@ const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
 const pGetOrdersMock = pGetOrders as jest.MockedFunction<typeof pGetOrders>;
 
-const pGetOrderByIdMock = pGetOrderById as jest.MockedFunction<
-   typeof pGetOrderById
->;
+const pGetOrderMock = pGetOrder as jest.MockedFunction<typeof pGetOrder>;
 
 describe("getOrders tests", () => {
    beforeEach(() => {
@@ -77,7 +75,7 @@ describe("getOrderById tests", () => {
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrderByIdMock).not.toHaveBeenCalled();
+      expect(pGetOrderMock).not.toHaveBeenCalled();
    });
 
    it("getOrderById - id not valid - test", async () => {
@@ -89,35 +87,35 @@ describe("getOrderById tests", () => {
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrderByIdMock).not.toHaveBeenCalled();
+      expect(pGetOrderMock).not.toHaveBeenCalled();
    });
 
    it("getOrderById - db error - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
-      pGetOrderByIdMock.mockRejectedValue("db error");
+      pGetOrderMock.mockRejectedValue("db error");
       const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
 
       const result = await getOrderById(orderId);
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrderByIdMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrderByIdMock).toHaveBeenCalledWith(orderId);
+      expect(pGetOrderMock).toHaveBeenCalledTimes(1);
+      expect(pGetOrderMock).toHaveBeenCalledWith(orderId);
    });
 
    it("getOrderById - order null - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
-      pGetOrderByIdMock.mockResolvedValue(null);
+      pGetOrderMock.mockResolvedValue(null);
       const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
 
       const result = await getOrderById(orderId);
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrderByIdMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrderByIdMock).toHaveBeenCalledWith(orderId);
+      expect(pGetOrderMock).toHaveBeenCalledTimes(1);
+      expect(pGetOrderMock).toHaveBeenCalledWith(orderId);
    });
 
    it("getOrderById - order of a different user - test", async () => {
@@ -126,15 +124,15 @@ describe("getOrderById tests", () => {
       const order = ptestData.pOrderWithItems();
       order.userId = "456";
       requireUserMock.mockResolvedValue(user);
-      pGetOrderByIdMock.mockResolvedValue(order);
+      pGetOrderMock.mockResolvedValue(order);
       const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
 
       const result = await getOrderById(orderId);
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrderByIdMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrderByIdMock).toHaveBeenCalledWith(orderId);
+      expect(pGetOrderMock).toHaveBeenCalledTimes(1);
+      expect(pGetOrderMock).toHaveBeenCalledWith(orderId);
    });
 
    it("getOrderById - order retrieved - test", async () => {
@@ -142,7 +140,7 @@ describe("getOrderById tests", () => {
       const order = ptestData.pOrderWithItems();
       order.userId = user.id;
       requireUserMock.mockResolvedValue(user);
-      pGetOrderByIdMock.mockResolvedValue(order);
+      pGetOrderMock.mockResolvedValue(order);
       const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
 
       const result = await getOrderById(orderId);
@@ -151,7 +149,7 @@ describe("getOrderById tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrderByIdMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrderByIdMock).toHaveBeenCalledWith(orderId);
+      expect(pGetOrderMock).toHaveBeenCalledTimes(1);
+      expect(pGetOrderMock).toHaveBeenCalledWith(orderId);
    });
 });

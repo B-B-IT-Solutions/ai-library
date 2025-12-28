@@ -16,7 +16,7 @@ import {
 import {
    OrderUpdateStripeDetails,
    pCreateOrder,
-   pGetOrderById,
+   pGetOrder,
    pGetOrderByPaymentIntentId,
    pGetOrders,
    pUpdateOrderStatus,
@@ -55,17 +55,17 @@ describe("pGetOrders tests", () => {
    });
 });
 
-describe("pGetOrderById tests", () => {
+describe("pGetOrder tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   test("pGetOrderById test", async () => {
+   test("pGetOrder test", async () => {
       const orderId = "order-id-1";
       const order = ptestData.pOrderWithItems();
       prismaMock.order.findUnique.mockResolvedValue(order);
 
-      const result = await pGetOrderById(orderId);
+      const result = await pGetOrder(orderId);
 
       const expectedFindManyArgs: OrderFindUniqueArgs = {
          where: { id: orderId },

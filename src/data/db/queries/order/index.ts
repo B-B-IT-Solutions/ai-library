@@ -1,6 +1,6 @@
 export {
    pGetOrders,
-   pGetOrderById,
+   pGetOrder,
    pGetOrderByPaymentIntentId,
    pCreateOrder,
    pUpdateOrderWithStripeDetails,
