@@ -130,6 +130,9 @@ describe("OrdersPage rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertOrderCards(3);
+         expect(authMock).toHaveBeenCalledTimes(1);
+         expect(getOrdersMock).toHaveBeenCalledTimes(1);
+         expect(redirectMock).not.toHaveBeenCalled();
       });
 
       expect(container).toMatchSnapshot();
