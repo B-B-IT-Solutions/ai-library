@@ -6,7 +6,7 @@ import { dtestData, ptestData } from "@tests";
 import { pGetOrder, pGetOrders } from "@/data/db/queries/order";
 import { requireUser } from "../auth-utils";
 
-import { getOrderById, getOrders } from "./order.actions";
+import { getOrder, getOrders } from "./order.actions";
 import { toDOrdersWithItems, toDOrderWithItems } from "./order.mapper";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
@@ -62,41 +62,41 @@ describe("getOrders tests", () => {
    });
 });
 
-describe("getOrderById tests", () => {
+describe("getOrder tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
    });
 
-   it("getOrderById - user undefined - test", async () => {
+   it("getOrder - user undefined - test", async () => {
       requireUserMock.mockRejectedValue("Unknow user");
       const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
 
-      const result = await getOrderById(orderId);
+      const result = await getOrder(orderId);
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(pGetOrderMock).not.toHaveBeenCalled();
    });
 
-   it("getOrderById - id not valid - test", async () => {
+   it("getOrder - id not valid - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
       const orderId = "1";
 
-      const result = await getOrderById(orderId);
+      const result = await getOrder(orderId);
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(pGetOrderMock).not.toHaveBeenCalled();
    });
 
-   it("getOrderById - db error - test", async () => {
+   it("getOrder - db error - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
       pGetOrderMock.mockRejectedValue("db error");
       const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
 
-      const result = await getOrderById(orderId);
+      const result = await getOrder(orderId);
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
@@ -104,13 +104,13 @@ describe("getOrderById tests", () => {
       expect(pGetOrderMock).toHaveBeenCalledWith(orderId);
    });
 
-   it("getOrderById - order null - test", async () => {
+   it("getOrder - order null - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
       pGetOrderMock.mockResolvedValue(null);
       const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
 
-      const result = await getOrderById(orderId);
+      const result = await getOrder(orderId);
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
@@ -118,7 +118,7 @@ describe("getOrderById tests", () => {
       expect(pGetOrderMock).toHaveBeenCalledWith(orderId);
    });
 
-   it("getOrderById - order of a different user - test", async () => {
+   it("getOrder - order of a different user - test", async () => {
       const user = dtestData.dLoginUser();
       user.id = "123";
       const order = ptestData.pOrderWithItems();
@@ -127,7 +127,7 @@ describe("getOrderById tests", () => {
       pGetOrderMock.mockResolvedValue(order);
       const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
 
-      const result = await getOrderById(orderId);
+      const result = await getOrder(orderId);
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
@@ -135,7 +135,7 @@ describe("getOrderById tests", () => {
       expect(pGetOrderMock).toHaveBeenCalledWith(orderId);
    });
 
-   it("getOrderById - order retrieved - test", async () => {
+   it("getOrder - order retrieved - test", async () => {
       const user = dtestData.dLoginUser();
       const order = ptestData.pOrderWithItems();
       order.userId = user.id;
@@ -143,7 +143,7 @@ describe("getOrderById tests", () => {
       pGetOrderMock.mockResolvedValue(order);
       const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
 
-      const result = await getOrderById(orderId);
+      const result = await getOrder(orderId);
 
       const expectedResult = toDOrderWithItems(order);
 

@@ -29,7 +29,7 @@ export const getOrders = async (): Promise<DOrder[]> => {
    }
 };
 
-export const getOrderById = async (orderId: string): Promise<DOrder | null> => {
+export const getOrder = async (orderId: string): Promise<DOrder | null> => {
    try {
       const user = await requireUser();
 

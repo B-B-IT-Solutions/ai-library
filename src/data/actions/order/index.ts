@@ -1,1 +1,1 @@
-export { getOrders, getOrderById } from "./order.actions";
+export { getOrders, getOrder } from "./order.actions";

@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 import { Button } from "@/components/shadcn/button";
-import { getOrderById } from "@/data/actions/order";
+import { getOrder } from "@/data/actions/order";
 
 export const metadata: Metadata = {
    title: "Order",
@@ -28,7 +28,7 @@ export const OrderDetailPage = async ({ params }: OrderDetailPageProps) => {
    }
 
    const { id: orderId } = await params;
-   const order = await getOrderById(orderId);
+   const order = await getOrder(orderId);
 
    if (!order) {
       return (
