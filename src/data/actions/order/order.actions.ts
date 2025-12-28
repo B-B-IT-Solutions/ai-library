@@ -3,7 +3,7 @@
 import { validate as isValidUuid } from "uuid";
 
 import { pClearCart, pGetCartByUserId } from "@/data/db/queries/cart";
-import { pCreatePurchases } from "@/data/db/queries/libarary";
+import { pCreatePurchases } from "@/data/db/queries/library";
 import {
    pGetOrderById,
    pGetOrderByPaymentIntentId,

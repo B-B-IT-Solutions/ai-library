@@ -7,6 +7,7 @@ import prisma from "@/data/db/prisma";
 import {
    OrderCreateArgs,
    OrderCreateInput,
+   OrderFindFirstArgs,
    OrderFindManyArgs,
    OrderFindUniqueArgs,
    OrderUpdateArgs,
@@ -16,6 +17,7 @@ import {
    OrderUpdateStripeDetails,
    pCreateOrder,
    pGetOrderById,
+   pGetOrderByPaymentIntentId,
    pGetOrders,
    pUpdateOrderStatus,
    pUpdateOrderWithStripeDetails,
@@ -76,6 +78,32 @@ describe("pGetOrderById tests", () => {
       expect(prismaMock.order.findUnique).toHaveBeenCalledTimes(1);
       expect(prismaMock.order.findUnique).toHaveBeenCalledWith(
          expectedFindManyArgs
+      );
+   });
+});
+
+describe("pGetOrderByPaymentIntentId tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pGetOrderByPaymentIntentId test", async () => {
+      const paymentIntentId = "payment-id-1";
+      const order = ptestData.pOrder();
+      prismaMock.order.findFirst.mockResolvedValue(order);
+
+      const result = await pGetOrderByPaymentIntentId(paymentIntentId);
+
+      const expectedFindFirstArgs: OrderFindFirstArgs = {
+         where: {
+            stripePaymentIntentId: paymentIntentId,
+         },
+      };
+
+      expect(result).toEqual(order);
+      expect(prismaMock.order.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.order.findFirst).toHaveBeenCalledWith(
+         expectedFindFirstArgs
       );
    });
 });

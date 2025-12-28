@@ -1,5 +1,6 @@
 import prisma from "@/data/db/prisma";
 import { OrderWithItems } from "@/data/types/db/order";
+import { Order } from "@/generated/prisma/client";
 import { OrderCreateInput } from "@/generated/prisma/models";
 
 export const pGetOrders = async (userId: string): Promise<OrderWithItems[]> => {
@@ -21,6 +22,16 @@ export const pGetOrderById = async (
       where: { id: orderId },
       include: {
          items: true,
+      },
+   });
+};
+
+export const pGetOrderByPaymentIntentId = async (
+   paymentIntentId: string
+): Promise<Order | null> => {
+   return await prisma.order.findFirst({
+      where: {
+         stripePaymentIntentId: paymentIntentId,
       },
    });
 };
