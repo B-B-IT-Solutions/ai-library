@@ -16,13 +16,13 @@ import { ActionResult } from "@/data/types/utils";
 import { requireUser } from "../auth-utils";
 import { formatError } from "../utils";
 
-import { toDOrder, toDOrders } from "./order.mapper";
+import { toDOrdersWithItems, toDOrderWithItems } from "./order.mapper";
 
 export const getOrders = async (): Promise<DOrder[]> => {
    try {
       const user = await requireUser();
       const orders = await pGetOrders(user.id);
-      return toDOrders(orders);
+      return toDOrdersWithItems(orders);
    } catch {
       return [];
    }
@@ -40,7 +40,7 @@ export const getOrderById = async (orderId: string): Promise<DOrder | null> => {
       if (!order || order.userId !== user.id) {
          return null;
       }
-      return toDOrder(order);
+      return toDOrderWithItems(order);
    } catch {
       return null;
    }
@@ -62,7 +62,7 @@ export const completeOrder = async (
          return {
             success: true,
             message: "Order already completed.",
-            data: toDOrder(order),
+            data: toDOrderWithItems(order),
          };
       }
 
@@ -105,7 +105,7 @@ export const completeOrder = async (
       return {
          success: true,
          message: "Order completed successfully!",
-         data: toDOrder(completedOrder!),
+         data: toDOrderWithItems(completedOrder!),
       };
    } catch (error) {
       return {

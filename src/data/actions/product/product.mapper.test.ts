@@ -140,9 +140,7 @@ const assertInstruction = (dIns: DInstruction, ins: ProductInstruction) => {
 
 describe("toDProductsWithItems tests", () => {
    it("toDProductsWithItems - empty array - test", () => {
-      const products = ptestData.pProductsWithItems(0);
-      const results = toDProductsWithItems(products);
-
+      const results = toDProductsWithItems([]);
       expect(results).toEqual([]);
    });
 

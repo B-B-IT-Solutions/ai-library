@@ -4,16 +4,16 @@ import { OrderWithItems } from "@/data/types/db/order";
 import { DOrder, DOrderItem, DOrderStatus } from "@/data/types/domain/order";
 import { OrderItem } from "@/generated/prisma/client";
 
-export const toDOrders = (orders: OrderWithItems[]): DOrder[] => {
-   return map(orders, (o) => toDOrder(o));
+export const toDOrdersWithItems = (orders: OrderWithItems[]): DOrder[] => {
+   return map(orders, (o) => toDOrderWithItems(o));
 };
 
-export const toDOrder = (order: OrderWithItems): DOrder => {
+export const toDOrderWithItems = (order: OrderWithItems): DOrder => {
    return {
       id: order.id,
       userId: order.userId,
       status: order.status as DOrderStatus,
-      totalAmount: Number(order.totalAmount),
+      totalAmount: Number(order.totalAmount.toFixed(2)),
       paymentMethod: order.paymentMethod,
       stripeCheckoutSessionId: order.stripeCheckoutSessionId,
       stripePaymentIntentId: order.stripePaymentIntentId,
@@ -36,7 +36,7 @@ export const toDOrderItem = (item: OrderItem): DOrderItem => {
       productName: item.productName,
       productDescription: item.productDescription,
       productType: item.productType,
-      price: Number(item.price),
+      price: Number(item.price.toFixed(2)),
       createdAt: item.createdAt.toISOString(),
    };
 };
