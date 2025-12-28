@@ -1,10 +1,29 @@
 import { ptestData } from "@tests";
+import { forEach } from "es-toolkit/compat";
 
-import { ProductWithItems } from "@/data/types/db/product";
-import { DProduct, DProductItem } from "@/data/types/domain/product";
-import { Product, ProductItem } from "@/generated/prisma/client";
+import { ProductWithDetails, ProductWithItems } from "@/data/types/db/product";
+import {
+   DExample,
+   DFeature,
+   DInstruction,
+   DProduct,
+   DProductItem,
+   DUseCase,
+} from "@/data/types/domain/product";
+import {
+   Product,
+   ProductExample,
+   ProductFeature,
+   ProductInstruction,
+   ProductItem,
+   ProductUseCase,
+} from "@/generated/prisma/client";
 
-import { toDProductsWithItems, toDProductWithItems } from "./product.mapper";
+import {
+   toDProductsWithItems,
+   toDProductWithDetails,
+   toDProductWithItems,
+} from "./product.mapper";
 
 const assertProduct = (dProduct: DProduct, product: Product) => {
    expect(dProduct.id).toBe(product.id);
@@ -29,9 +48,21 @@ const assertProductWithItems = (
    assertProductItems(dProduct.productItems, product.productItems);
 };
 
+const assertProductWithDetails = (
+   dProduct: DProduct,
+   product: ProductWithDetails
+) => {
+   assertProduct(dProduct, product);
+   assertProductItems(dProduct.productItems, product.productItems);
+   assertFeatures(dProduct.features, product.features);
+   assertUseCases(dProduct.useCases, product.useCases);
+   assertExamples(dProduct.examples, product.examples);
+   assertInstructions(dProduct.instructions, product.instructions);
+};
+
 const assertProductItems = (dItems: DProductItem[], items: ProductItem[]) => {
    expect(dItems.length).toEqual(items.length);
-   dItems.forEach((dItem, index) => {
+   forEach(dItems, (dItem, index) => {
       assertProductItem(dItem, items[index]);
    });
 };
@@ -48,29 +79,83 @@ const assertProductItem = (dItem: DProductItem, item: ProductItem) => {
    expect(dItem.template!.content).toBeDefined();
 };
 
+const assertFeatures = (dFeatures: DFeature[], features: ProductFeature[]) => {
+   expect(dFeatures.length).toEqual(features.length);
+   forEach(dFeatures, (df, index) => {
+      assertFeature(df, features[index]);
+   });
+};
+
+const assertFeature = (df: DFeature, f: ProductFeature) => {
+   expect(df.title).toEqual(f.title);
+   expect(df.description).toEqual(f.description);
+   expect(df.icon).toEqual(f.icon);
+};
+
+const assertUseCases = (dUseCases: DUseCase[], useCases: ProductUseCase[]) => {
+   expect(dUseCases.length).toEqual(useCases.length);
+   forEach(dUseCases, (dUc, index) => {
+      assertUseCase(dUc, useCases[index]);
+   });
+};
+
+const assertUseCase = (dUc: DUseCase, uc: ProductUseCase) => {
+   expect(dUc.category).toEqual(uc.category);
+   expect(dUc.description).toEqual(uc.description);
+   expect(dUc.tags).toEqual(uc.tags);
+};
+
+const assertExamples = (dExs: DExample[], exs: ProductExample[]) => {
+   expect(dExs.length).toEqual(exs.length);
+   forEach(dExs, (dEx, index) => {
+      assertExample(dEx, exs[index]);
+   });
+};
+
+const assertExample = (dEx: DExample, ex: ProductExample) => {
+   expect(dEx.title).toEqual(ex.title);
+   expect(dEx.content).toEqual(ex.content);
+};
+
+const assertInstructions = (
+   dIns: DInstruction[],
+   ins: ProductInstruction[]
+) => {
+   expect(dIns.length).toEqual(ins.length);
+   forEach(dIns, (dEx, index) => {
+      assertInstruction(dEx, ins[index]);
+   });
+};
+
+const assertInstruction = (dIns: DInstruction, ins: ProductInstruction) => {
+   expect(dIns.title).toEqual(ins.title);
+   expect(dIns.description).toEqual(ins.description);
+   expect(dIns.step).toEqual(ins.step);
+};
+
 describe("toDProductsWithItems tests", () => {
    it("toDProductsWithItems - empty array - test", () => {
       const products = ptestData.pProductsWithItems(0);
-      const result = toDProductsWithItems(products);
+      const results = toDProductsWithItems(products);
 
-      expect(result).toEqual([]);
+      expect(results).toEqual([]);
    });
 
    it("toDProductsWithItems - products mapped - test", () => {
       const products = ptestData.pProductsWithItems(3);
-      const result = toDProductsWithItems(products);
+      const results = toDProductsWithItems(products);
 
-      expect(result).toHaveLength(3);
-      expect(result.length).toEqual(products.length);
+      expect(results).toHaveLength(3);
+      expect(results.length).toEqual(products.length);
 
-      result.forEach((dProduct, index) => {
+      forEach(results, (dProduct, index) => {
          assertProductWithItems(dProduct, products[index]);
       });
    });
 });
 
 describe("toDProductWithItems tests", () => {
-   it("toDProduct1 - with empty productItems - test", () => {
+   it("toDProductWithItems - empty productItems - test", () => {
       const product = ptestData.pProductWithItems(1);
       product.productItems = [];
 
@@ -80,12 +165,40 @@ describe("toDProductWithItems tests", () => {
       assertProductWithItems(result, product);
    });
 
-   it("toDProduct1 - with productItems - test", () => {
+   it("toDProductWithItems - productItems defined - test", () => {
       const product = ptestData.pProductWithItems(3);
 
       const result = toDProductWithItems(product);
 
       expect(result.productItems).toHaveLength(3);
       assertProductWithItems(result, product);
+   });
+});
+
+describe("toDProductWithDetails tests", () => {
+   it("toDProductWithDetails - empty details - test", () => {
+      const product = ptestData.pProductWithDetails(1);
+      product.features = [];
+      product.useCases = [];
+      product.examples = [];
+      product.instructions = [];
+
+      const result = toDProductWithDetails(product);
+      expect(result.features).toEqual([]);
+      expect(result.useCases).toEqual([]);
+      expect(result.examples).toEqual([]);
+      expect(result.instructions).toEqual([]);
+      assertProductWithDetails(result, product);
+   });
+
+   it("toDProductWithDetails - details defined - test", () => {
+      const product = ptestData.pProductWithDetails(1);
+
+      const result = toDProductWithDetails(product);
+      expect(result.features).toHaveLength(3);
+      expect(result.useCases).toHaveLength(3);
+      expect(result.examples).toHaveLength(3);
+      expect(result.instructions).toHaveLength(3);
+      assertProductWithDetails(result, product);
    });
 });
