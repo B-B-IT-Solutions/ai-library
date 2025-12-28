@@ -9,7 +9,7 @@ import {
 } from "@/generated/prisma/client";
 
 export type ProductItemWithTemplate = ProductItem & {
-   template: PromptTemplateWithCategories | null;
+   template: PromptTemplateWithCategories;
 };
 
 export type ProductWithItems = Product & {
