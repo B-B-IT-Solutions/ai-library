@@ -30,7 +30,6 @@ export const hasAccessToTemplate = async (
 ): Promise<boolean> => {
    try {
       const user = await requireUser();
-      // Check purchase access
       return await pCheckUserHasTemplate(user.id, templateId);
    } catch {
       return false;
