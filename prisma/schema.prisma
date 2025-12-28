@@ -289,14 +289,14 @@ model Library {
   userId     String   @map("user_id") @db.Uuid
   orderId    String   @map("order_id") @db.Uuid
   templateId String   @map("template_id") @db.Uuid
-  productId  String?  @map("product_id") @db.Uuid
+  productId  String   @map("product_id") @db.Uuid
   createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(6)
 
   user     User           @relation(fields: [userId], references: [id])
   order    Order          @relation(fields: [orderId], references: [id])
   template PromptTemplate @relation(fields: [templateId], references: [id])
 
-  product Product? @relation(fields: [productId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
 
   @@unique([userId, templateId])
   @@map("library")
