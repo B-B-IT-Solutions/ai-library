@@ -3,8 +3,8 @@ import { LibraryEntryWithTemplate } from "@/data/types/db/library";
 
 export const pGetLibraryEntries = async (
    userId: string
-): Promise<LibraryEntryWithTemplate[] | null> => {
-   return await prisma.library.findMany({
+): Promise<LibraryEntryWithTemplate[]> => {
+   return await prisma.libraryEntry.findMany({
       where: { userId },
       include: {
          template: {
@@ -30,7 +30,7 @@ export const pCreateLibraryEntry = async (
       templateId,
    }));
 
-   return await prisma.library.createMany({
+   return await prisma.libraryEntry.createMany({
       data: purchases,
       skipDuplicates: true,
    });
@@ -40,7 +40,7 @@ export const pCheckUserHasTemplate = async (
    userId: string,
    templateId: string
 ) => {
-   const librayEntry = await prisma.library.findUnique({
+   const librayEntry = await prisma.libraryEntry.findUnique({
       where: {
          userId_templateId: {
             userId,

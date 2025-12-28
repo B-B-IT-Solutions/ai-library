@@ -8,7 +8,6 @@ import {
 } from "@/data/db/queries/library";
 import { createPrompt as pCreatePrompt } from "@/data/db/queries/prompt";
 import { DLibraryEntry } from "@/data/types/domain/library";
-import { DPromptTemplate } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 import { PromptCreateInput } from "@/generated/prisma/models";
 import { requireUser } from "../auth-utils";
@@ -16,12 +15,12 @@ import { formatError } from "../utils";
 
 import { toDLibraryEntries } from "./library.mapper";
 
-export const getPurchasedTemplates = async (): Promise<DPromptTemplate[]> => {
+export const getLibraryEntries = async (): Promise<DLibraryEntry[]> => {
    try {
       const user = await requireUser();
-      const purchases = await pGetLibraryEntries(user.id!);
-      return purchases.map((p) => p.template);
-   } catch (error) {
+      const entries = await pGetLibraryEntries(user.id!);
+      return toDLibraryEntries(entries);
+   } catch {
       return [];
    }
 };
@@ -33,7 +32,7 @@ export const hasAccessToTemplate = async (
       const user = await requireUser();
       // Check purchase access
       return await pCheckUserHasTemplate(user.id, templateId);
-   } catch (error) {
+   } catch {
       return false;
    }
 };

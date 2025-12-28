@@ -3,7 +3,7 @@ import { ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/db/prisma";
-import { LibraryFindManyArgs } from "@/generated/prisma/models";
+import { LibraryEntryFindManyArgs } from "@/generated/prisma/models";
 
 import { pGetLibraryEntries } from "./library";
 
@@ -17,11 +17,11 @@ describe("pGetLibraryEntries tests", () => {
    test("pGetLibraryEntries test", async () => {
       const userId = "order-id-1";
       const libraryEntries = ptestData.pLibraryEntriesWithTemplate();
-      prismaMock.library.findMany.mockResolvedValue(libraryEntries);
+      prismaMock.libraryEntry.findMany.mockResolvedValue(libraryEntries);
 
       const result = await pGetLibraryEntries(userId);
 
-      const expectedFindManyArgs: LibraryFindManyArgs = {
+      const expectedFindManyArgs: LibraryEntryFindManyArgs = {
          where: { userId },
          include: {
             template: {
@@ -36,8 +36,8 @@ describe("pGetLibraryEntries tests", () => {
       };
 
       expect(result).toEqual(libraryEntries);
-      expect(prismaMock.library.findMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.library.findMany).toHaveBeenCalledWith(
+      expect(prismaMock.libraryEntry.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryEntry.findMany).toHaveBeenCalledWith(
          expectedFindManyArgs
       );
    });

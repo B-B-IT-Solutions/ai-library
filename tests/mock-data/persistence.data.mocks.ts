@@ -16,7 +16,7 @@ import { Order } from "@/generated/prisma/browser";
 import {
    Cart,
    CartItem,
-   Library,
+   LibraryEntry,
    OrderItem,
    Product,
    ProductExample,
@@ -253,11 +253,11 @@ export const pLibraryEntryWithTemplate = (
    };
 };
 
-export const pLibraryEntries = (count = 3): Library[] => {
+export const pLibraryEntries = (count = 3): LibraryEntry[] => {
    return range(0, count).map((i) => pLibraryEntry(i));
 };
 
-export const pLibraryEntry = (index = 1): Library => {
+export const pLibraryEntry = (index = 1): LibraryEntry => {
    return {
       id: `library-entry-${index}`,
       orderId: `2d4daf38-5571-4c0a-9d32-4435bdf6280${index}`,
