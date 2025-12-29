@@ -1,5 +1,6 @@
 jest.mock("@/data/db/queries/order");
 jest.mock("@/data/db/queries/cart");
+jest.mock("@/data/services/cart");
 jest.mock("../../actions/auth-utils");
 
 import { dtestData, ptestData } from "@tests";
@@ -9,6 +10,7 @@ import prisma from "@/data/db/prisma";
 import { CartRepository } from "@/data/db/queries/cart";
 import { OrderRepository } from "@/data/db/queries/order";
 import { requireUser } from "../../actions/auth-utils";
+import { CartService } from "../cart";
 
 import { toDOrdersWithItems, toDOrderWithItems } from "./order.mapper";
 import { OrderService } from "./order.service";
@@ -17,10 +19,11 @@ const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
 const orderRepo = new OrderRepository(prisma);
 const cartRepo = new CartRepository(prisma);
+const cartService = new CartService(cartRepo);
 const orderRepoMock = orderRepo as DeepMockProxy<OrderRepository>;
-const cartRepoMock = cartRepo as DeepMockProxy<CartRepository>;
+const cartServiceMock = cartService as DeepMockProxy<CartService>;
 
-const orderService = new OrderService(orderRepoMock, cartRepoMock);
+const orderService = new OrderService(orderRepoMock, cartServiceMock);
 
 describe("getOrders tests", () => {
    beforeEach(() => {
