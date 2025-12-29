@@ -2,8 +2,10 @@
 
 import prisma from "@/data/db/prisma";
 import { CartRepository } from "@/data/db/queries/cart";
+import { LibraryRepository } from "@/data/db/queries/library";
 import { OrderRepository } from "@/data/db/queries/order";
 import { CartService } from "@/data/services/cart";
+import { LibraryService } from "@/data/services/library";
 import { OrderService } from "@/data/services/order";
 import { DbClient } from "@/data/types/db/common";
 import { DOrder } from "@/data/types/domain/order";
@@ -92,6 +94,8 @@ export const handleStripePaymentFailed = async (
 const getOrderSevice = (dbClient: DbClient = prisma) => {
    const orderRepository = new OrderRepository(dbClient);
    const cartRepository = new CartRepository(dbClient);
+   const libraryRepository = new LibraryRepository(dbClient);
    const cartService = new CartService(cartRepository);
-   return new OrderService(orderRepository, cartService);
+   const libraryService = new LibraryService(libraryRepository);
+   return new OrderService(orderRepository, cartService, libraryService);
 };

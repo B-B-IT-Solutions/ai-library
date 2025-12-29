@@ -1,20 +1,26 @@
 import { validate as isValidUuid } from "uuid";
 
-import { createLibraryEntries } from "@/data/actions/library";
 import { OrderRepository } from "@/data/db/queries/order";
 import { CartService } from "@/data/services/cart";
 import { DOrder } from "@/data/types/domain/order";
 import { requireUser } from "../../actions/auth-utils";
+import { LibraryService } from "../library";
 
 import { toDOrdersWithItems, toDOrderWithItems } from "./order.mapper";
 
 export class OrderService {
    private orderRepository: OrderRepository;
    private cartService: CartService;
+   private libraryService: LibraryService;
 
-   constructor(orderRepository: OrderRepository, cartService: CartService) {
+   constructor(
+      orderRepository: OrderRepository,
+      cartService: CartService,
+      libraryService: LibraryService
+   ) {
       this.orderRepository = orderRepository;
       this.cartService = cartService;
+      this.libraryService = libraryService;
    }
 
    async getOrders(): Promise<DOrder[]> {
@@ -61,7 +67,7 @@ export class OrderService {
             stripePaymentStatus: paymentStatus,
             paymentMethod: "STRIPE",
          });
-         await createLibraryEntries(order);
+         await this.libraryService.createLibraryEntries(order);
          await this.orderRepository.pUpdateOrderStatus(order.id, "COMPLETED");
          await this.cartService.clearCart(order.userId);
       }

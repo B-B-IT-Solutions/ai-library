@@ -1,19 +1,17 @@
 jest.mock("@/data/services/library");
 
-import { dtestData, ptestData } from "@tests";
+import { dtestData } from "@tests";
 
 import { LibraryService } from "@/data/services/library";
 
 import {
    copyTemplateToPrompts,
-   createLibraryEntries,
    downloadTemplate,
    getLibraryEntries,
    hasAccessToTemplate,
 } from "./library.actions";
 
 const sGetLibraryEntries = LibraryService.prototype.getLibraryEntries;
-const sCreateLibraryEntries = LibraryService.prototype.createLibraryEntries;
 const sHasAccessToTemplate = LibraryService.prototype.hasAccessToTemplate;
 const sCopyTemplateToPrompts = LibraryService.prototype.copyTemplateToPrompts;
 const sDownloadTemplate = LibraryService.prototype.downloadTemplate;
@@ -23,9 +21,6 @@ const sGetLibraryEntriesMock = sGetLibraryEntries as jest.MockedFunction<
 >;
 const sHasAccessToTemplateMock = sHasAccessToTemplate as jest.MockedFunction<
    typeof sHasAccessToTemplate
->;
-const sCreateLibraryEntriesMock = sCreateLibraryEntries as jest.MockedFunction<
-   typeof sCreateLibraryEntries
 >;
 const sCopyTemplateToPromptsMock =
    sCopyTemplateToPrompts as jest.MockedFunction<typeof sCopyTemplateToPrompts>;
@@ -46,21 +41,6 @@ describe("getLibraryEntries tests", () => {
 
       expect(result).toEqual(entries);
       expect(sGetLibraryEntriesMock).toHaveBeenCalledTimes(1);
-   });
-});
-
-describe("createLibraryEntries tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("createLibraryEntries  test", async () => {
-      const order = ptestData.pOrderProducts(1, 3);
-
-      await createLibraryEntries(order);
-
-      expect(sCreateLibraryEntriesMock).toHaveBeenCalledTimes(1);
-      expect(sCreateLibraryEntriesMock).toHaveBeenCalledWith(order);
    });
 });
 
@@ -87,7 +67,7 @@ describe("copyTemplateToPrompts tests", () => {
       jest.clearAllMocks();
    });
 
-   it("createLibraryEntries  test", async () => {
+   it("copyTemplateToPrompts  test", async () => {
       const templateId = "template-id-1";
 
       await copyTemplateToPrompts(templateId);
