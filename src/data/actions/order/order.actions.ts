@@ -3,15 +3,9 @@
 import { validate as isValidUuid } from "uuid";
 
 import { createLibraryEntries } from "@/data/actions/library";
+import prisma from "@/data/db/prisma";
 import { pClearCart, pGetCartByUserId } from "@/data/db/queries/cart";
-import {
-   pGetOrder,
-   pGetOrderByPaymentIntentId,
-   pGetOrders,
-   pUpdateOrderStatus,
-   pUpdateOrderWithStripeDetails,
-} from "@/data/db/queries/order";
-import { pGetOrderProducts } from "@/data/db/queries/order/order";
+import { OrderRepository } from "@/data/db/queries/order";
 import { DOrder } from "@/data/types/domain/order";
 import { ActionResult } from "@/data/types/utils";
 import { requireUser } from "../auth-utils";
@@ -22,7 +16,8 @@ import { toDOrdersWithItems, toDOrderWithItems } from "./order.mapper";
 export const getOrders = async (): Promise<DOrder[]> => {
    try {
       const user = await requireUser();
-      const orders = await pGetOrders(user.id);
+      const orderRepository = new OrderRepository(prisma);
+      const orders = await orderRepository.pGetOrders(user.id);
       return toDOrdersWithItems(orders);
    } catch {
       return [];
@@ -36,8 +31,8 @@ export const getOrder = async (orderId: string): Promise<DOrder | null> => {
       if (!isValidUuid(orderId)) {
          return null;
       }
-
-      const order = await pGetOrder(orderId);
+      const orderRepository = new OrderRepository(prisma);
+      const order = await orderRepository.pGetOrder(orderId);
       if (!order || order.userId !== user.id) {
          return null;
       }
@@ -49,7 +44,8 @@ export const getOrder = async (orderId: string): Promise<DOrder | null> => {
 
 export const completeOrder = async (orderId: string): Promise<ActionResult> => {
    try {
-      const order = await pGetOrderProducts(orderId);
+      const orderRepository = new OrderRepository(prisma);
+      const order = await orderRepository.pGetOrderProducts(orderId);
       if (!order) {
          return {
             success: false,
@@ -65,7 +61,7 @@ export const completeOrder = async (orderId: string): Promise<ActionResult> => {
       }
 
       await createLibraryEntries(order);
-      await pUpdateOrderStatus(order.id, "COMPLETED");
+      await orderRepository.pUpdateOrderStatus(order.id, "COMPLETED");
 
       const cart = await pGetCartByUserId(order.userId);
       if (cart) {
@@ -91,7 +87,8 @@ export const handleStripeCheckoutCompleted = async (
 ): Promise<ActionResult<void>> => {
    try {
       // Get order to check status
-      const order = await pGetOrder(orderId);
+      const orderRepository = new OrderRepository(prisma);
+      const order = await orderRepository.pGetOrder(orderId);
 
       if (!order) {
          return {
@@ -108,7 +105,7 @@ export const handleStripeCheckoutCompleted = async (
       }
 
       // Update with Stripe payment details
-      await pUpdateOrderWithStripeDetails(orderId, {
+      await orderRepository.pUpdateOrderWithStripeDetails(orderId, {
          stripePaymentIntentId: paymentIntentId,
          stripePaymentStatus: paymentStatus,
          paymentMethod: "STRIPE",
@@ -140,7 +137,8 @@ export const handleStripeCheckoutExpired = async (
    orderId: string
 ): Promise<ActionResult<void>> => {
    try {
-      await pUpdateOrderStatus(orderId, "FAILED");
+      const orderRepository = new OrderRepository(prisma);
+      await orderRepository.pUpdateOrderStatus(orderId, "FAILED");
       return {
          success: true,
          message: `Order ${orderId} marked as FAILED due to expired session`,
@@ -157,7 +155,10 @@ export const handleStripePaymentFailed = async (
    paymentIntentId: string
 ): Promise<ActionResult<void>> => {
    try {
-      const order = await pGetOrderByPaymentIntentId(paymentIntentId);
+      const orderRepository = new OrderRepository(prisma);
+      const order = await orderRepository.pGetOrderByPaymentIntentId(
+         paymentIntentId
+      );
 
       if (!order) {
          return {
@@ -166,8 +167,8 @@ export const handleStripePaymentFailed = async (
          };
       }
 
-      await pUpdateOrderStatus(order.id, "FAILED");
-      await pUpdateOrderWithStripeDetails(order.id, {
+      await orderRepository.pUpdateOrderStatus(order.id, "FAILED");
+      await orderRepository.pUpdateOrderWithStripeDetails(order.id, {
          stripePaymentStatus: "failed",
       });
 
