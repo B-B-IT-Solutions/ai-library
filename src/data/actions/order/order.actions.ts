@@ -9,12 +9,6 @@ import { DOrder } from "@/data/types/domain/order";
 import { ActionResult } from "@/data/types/utils";
 import { formatError } from "../utils";
 
-const getOrderSevice = () => {
-   const orderRepository = new OrderRepository(prisma);
-   const cartRepository = new CartRepository(prisma);
-   return new OrderService(orderRepository, cartRepository);
-};
-
 export const getOrders = async (): Promise<DOrder[]> => {
    const orderService = getOrderSevice();
    return orderService.getOrders();
@@ -167,4 +161,10 @@ export const handleStripePaymentFailed = async (
          message: formatError(error),
       };
    }
+};
+
+const getOrderSevice = () => {
+   const orderRepository = new OrderRepository(prisma);
+   const cartRepository = new CartRepository(prisma);
+   return new OrderService(orderRepository, cartRepository);
 };

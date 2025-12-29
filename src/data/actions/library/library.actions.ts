@@ -1,184 +1,44 @@
 "use server";
 
-import { isEmpty, map } from "es-toolkit/compat";
-import { validate as isValidUuid } from "uuid";
-
 import prisma from "@/data/db/prisma";
 import { LibraryRepository } from "@/data/db/queries/library";
-import { createPrompt as pCreatePrompt } from "@/data/db/queries/prompt";
+import { LibraryService } from "@/data/services/library";
 import { OrderProducts } from "@/data/types/db/order";
 import { DLibraryEntry } from "@/data/types/domain/library";
 import { ActionResult } from "@/data/types/utils";
-import { PromptCreateInput } from "@/generated/prisma/models";
-import { requireUser } from "../auth-utils";
-import { formatError } from "../utils";
-
-import { toDLibraryEntries } from "./library.mapper";
 
 export const getLibraryEntries = async (): Promise<DLibraryEntry[]> => {
-   try {
-      const user = await requireUser();
-      const libraryRepository = new LibraryRepository(prisma);
-      const entries = await libraryRepository.pGetLibraryEntries(user.id!);
-      return toDLibraryEntries(entries);
-   } catch {
-      return [];
-   }
+   const service = getLibrarySevice();
+   return service.getLibraryEntries();
 };
 
 export const createLibraryEntries = async (order: OrderProducts) => {
-   const libraryRepository = new LibraryRepository(prisma);
-   for (const item of order.items) {
-      const { product } = item;
-      const { productItems } = product;
-      const templateIds = map(productItems, (i) => i.templateId);
-
-      if (!isEmpty(templateIds)) {
-         await libraryRepository.pCreateLibraryEntries(
-            order.id,
-            order.userId,
-            product.id,
-            templateIds
-         );
-      }
-   }
+   const service = getLibrarySevice();
+   service.createLibraryEntries(order);
 };
 
 export const hasAccessToTemplate = async (
    templateId: string
 ): Promise<boolean> => {
-   try {
-      const user = await requireUser();
-      const libraryRepository = new LibraryRepository(prisma);
-      return await libraryRepository.pCheckUserHasTemplate(user.id, templateId);
-   } catch {
-      return false;
-   }
+   const service = getLibrarySevice();
+   return service.hasAccessToTemplate(templateId);
 };
 
 export const copyTemplateToPrompts = async (
    templateId: string
-): Promise<ActionResult<void>> => {
-   try {
-      if (!isValidUuid(templateId)) {
-         return {
-            success: false,
-            message: "Invalid template ID.",
-         };
-      }
-
-      const user = await requireUser();
-
-      // Check access
-      const hasAccess = await hasAccessToTemplate(templateId);
-      if (!hasAccess) {
-         return {
-            success: false,
-            message: "You do not have access to this template.",
-         };
-      }
-
-      // Get template
-      const libraryRepository = new LibraryRepository(prisma);
-      const purchases = await libraryRepository.pGetLibraryEntries(user.id);
-      const purchase = purchases.find((p) => p.templateId === templateId);
-
-      if (!purchase) {
-         return {
-            success: false,
-            message: "Template not found.",
-         };
-      }
-
-      const template = purchase.template;
-
-      // Create prompt from template
-      const promptData: PromptCreateInput = {
-         title: template.title,
-         content: template.content,
-         recommendedModel: template.recommendedModel,
-         followUpPrompts: [],
-         currentVersion: 1,
-         isFavorite: false,
-         categories: {
-            connectOrCreate: template.categories.map((cat) => ({
-               where: { name: cat.name },
-               create: { name: cat.name },
-            })),
-         },
-      };
-
-      await pCreatePrompt(promptData);
-
-      return {
-         success: true,
-         message: "Template copied to your prompts successfully!",
-      };
-   } catch (error) {
-      return {
-         success: false,
-         message: formatError(error),
-      };
-   }
+): Promise<ActionResult> => {
+   const service = getLibrarySevice();
+   return service.copyTemplateToPrompts(templateId);
 };
 
 export const downloadTemplate = async (
    templateId: string
 ): Promise<ActionResult<string>> => {
-   try {
-      if (!isValidUuid(templateId)) {
-         return {
-            success: false,
-            message: "Invalid template ID.",
-         };
-      }
+   const service = getLibrarySevice();
+   return service.downloadTemplate(templateId);
+};
 
-      const user = await requireUser();
-
-      // Check access
-      const hasAccess = await hasAccessToTemplate(templateId);
-      if (!hasAccess) {
-         return {
-            success: false,
-            message: "You do not have access to this template.",
-         };
-      }
-
-      // Get template
-      const libraryRepository = new LibraryRepository(prisma);
-      const purchases = await libraryRepository.pGetLibraryEntries(user.id);
-      const purchase = purchases.find((p) => p.templateId === templateId);
-
-      if (!purchase) {
-         return {
-            success: false,
-            message: "Template not found.",
-         };
-      }
-
-      const template = purchase.template;
-
-      // Create JSON download data
-      const downloadData = JSON.stringify(
-         {
-            title: template.title,
-            content: template.content,
-            categories: template.categories.map((c) => c.name),
-            recommendedModel: template.recommendedModel,
-         },
-         null,
-         2
-      );
-
-      return {
-         success: true,
-         message: "Template ready for download.",
-         data: downloadData,
-      };
-   } catch (error) {
-      return {
-         success: false,
-         message: formatError(error),
-      };
-   }
+const getLibrarySevice = () => {
+   const repository = new LibraryRepository(prisma);
+   return new LibraryService(repository);
 };

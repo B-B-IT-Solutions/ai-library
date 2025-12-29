@@ -7,11 +7,6 @@ import { DCart } from "@/data/types/domain/cart";
 import { DProduct } from "@/data/types/domain/product";
 import { ActionResult } from "@/data/types/utils";
 
-const getCartSevice = () => {
-   const cartRepository = new CartRepository(prisma);
-   return new CartService(cartRepository);
-};
-
 export const getCart = async (): Promise<DCart> => {
    const service = getCartSevice();
    return service.getCart();
@@ -38,4 +33,9 @@ export const migrateSessionCartToUser = async (
 ) => {
    const service = getCartSevice();
    service.migrateSessionCartToUser(sessionCartId, userId);
+};
+
+const getCartSevice = () => {
+   const cartRepository = new CartRepository(prisma);
+   return new CartService(cartRepository);
 };

@@ -1,26 +1,36 @@
-jest.mock("@/data/db/queries/library");
-jest.mock("../auth-utils");
+jest.mock("@/data/services/library");
 
 import { dtestData, ptestData } from "@tests";
-import { forEach, map } from "es-toolkit/compat";
 
-import { LibraryRepository } from "@/data/db/queries/library";
-import { requireUser } from "../auth-utils";
+import { LibraryService } from "@/data/services/library";
 
-import { createLibraryEntries, getLibraryEntries } from "./library.actions";
-import { toDLibraryEntries } from "./library.mapper";
+import {
+   copyTemplateToPrompts,
+   createLibraryEntries,
+   downloadTemplate,
+   getLibraryEntries,
+   hasAccessToTemplate,
+} from "./library.actions";
 
-const pGetLibraryEntries = LibraryRepository.prototype.pGetLibraryEntries;
-const pCreateLibraryEntries = LibraryRepository.prototype.pCreateLibraryEntries;
+const sGetLibraryEntries = LibraryService.prototype.getLibraryEntries;
+const sCreateLibraryEntries = LibraryService.prototype.createLibraryEntries;
+const sHasAccessToTemplate = LibraryService.prototype.hasAccessToTemplate;
+const sCopyTemplateToPrompts = LibraryService.prototype.copyTemplateToPrompts;
+const sDownloadTemplate = LibraryService.prototype.downloadTemplate;
 
-const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
-
-const pGetLibraryEntriesMock = pGetLibraryEntries as jest.MockedFunction<
-   typeof pGetLibraryEntries
+const sGetLibraryEntriesMock = sGetLibraryEntries as jest.MockedFunction<
+   typeof sGetLibraryEntries
 >;
-
-const pCreateLibraryEntriesMock = pCreateLibraryEntries as jest.MockedFunction<
-   typeof pCreateLibraryEntries
+const sHasAccessToTemplateMock = sHasAccessToTemplate as jest.MockedFunction<
+   typeof sHasAccessToTemplate
+>;
+const sCreateLibraryEntriesMock = sCreateLibraryEntries as jest.MockedFunction<
+   typeof sCreateLibraryEntries
+>;
+const sCopyTemplateToPromptsMock =
+   sCopyTemplateToPrompts as jest.MockedFunction<typeof sCopyTemplateToPrompts>;
+const sDownloadTemplateMock = sDownloadTemplate as jest.MockedFunction<
+   typeof sDownloadTemplate
 >;
 
 describe("getLibraryEntries tests", () => {
@@ -28,45 +38,14 @@ describe("getLibraryEntries tests", () => {
       jest.clearAllMocks();
    });
 
-   it("getLibraryEntries - user undefined - test", async () => {
-      const entries = ptestData.pLibraryEntriesWithTemplate();
-      requireUserMock.mockRejectedValue("Unknow user");
-      pGetLibraryEntriesMock.mockResolvedValue(entries);
-
-      const result = await getLibraryEntries();
-
-      expect(result).toEqual([]);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(pGetLibraryEntriesMock).not.toHaveBeenCalled();
-   });
-
-   it("getLibraryEntries - db error - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      pGetLibraryEntriesMock.mockRejectedValue("db error");
-
-      const result = await getLibraryEntries();
-
-      expect(result).toEqual([]);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(pGetLibraryEntriesMock).toHaveBeenCalledTimes(1);
-      expect(pGetLibraryEntriesMock).toHaveBeenCalledWith(user.id);
-   });
-
    it("getLibraryEntries - entries retrieved - test", async () => {
-      const user = dtestData.dLoginUser();
-      const entries = ptestData.pLibraryEntriesWithTemplate();
-      requireUserMock.mockResolvedValue(user);
-      pGetLibraryEntriesMock.mockResolvedValue(entries);
+      const entries = dtestData.dLibraryEntries();
+      sGetLibraryEntriesMock.mockResolvedValue(entries);
 
       const result = await getLibraryEntries();
 
-      const expectedResult = toDLibraryEntries(entries);
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(pGetLibraryEntriesMock).toHaveBeenCalledTimes(1);
-      expect(pGetLibraryEntriesMock).toHaveBeenCalledWith(user.id);
+      expect(result).toEqual(entries);
+      expect(sGetLibraryEntriesMock).toHaveBeenCalledTimes(1);
    });
 });
 
@@ -75,44 +54,60 @@ describe("createLibraryEntries tests", () => {
       jest.clearAllMocks();
    });
 
-   it("createLibraryEntries - order.items empty - test", async () => {
-      const order = ptestData.pOrderProducts(1, 0);
-
-      await createLibraryEntries(order);
-
-      expect(pCreateLibraryEntriesMock).not.toHaveBeenCalled();
-   });
-
-   it("createLibraryEntries - templateIds empty - test", async () => {
-      const order = ptestData.pOrderProducts(1, 3);
-      forEach(order.items, (item) => {
-         item.product.productItems = [];
-      });
-
-      await createLibraryEntries(order);
-
-      expect(pCreateLibraryEntriesMock).not.toHaveBeenCalled();
-   });
-
-   it("createLibraryEntries - templateIds saved - test", async () => {
+   it("createLibraryEntries  test", async () => {
       const order = ptestData.pOrderProducts(1, 3);
 
       await createLibraryEntries(order);
 
-      expect(pCreateLibraryEntriesMock).toHaveBeenCalledTimes(3);
+      expect(sCreateLibraryEntriesMock).toHaveBeenCalledTimes(1);
+      expect(sCreateLibraryEntriesMock).toHaveBeenCalledWith(order);
+   });
+});
 
-      forEach(order.items, (item, index) => {
-         const templateIds = map(
-            item.product.productItems,
-            (i) => i.templateId
-         );
-         expect(pCreateLibraryEntriesMock).toHaveBeenNthCalledWith(
-            index + 1,
-            order.id,
-            order.userId,
-            item.product.id,
-            templateIds
-         );
-      });
+describe("hasAccessToTemplate tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("hasAccessToTemplate  test", async () => {
+      const templateId = "template-id-1";
+      const expectedResult = true;
+      sHasAccessToTemplateMock.mockResolvedValue(expectedResult);
+
+      const result = await hasAccessToTemplate(templateId);
+
+      expect(result).toEqual(expectedResult);
+      expect(sHasAccessToTemplateMock).toHaveBeenCalledTimes(1);
+      expect(sHasAccessToTemplateMock).toHaveBeenCalledWith(templateId);
+   });
+});
+
+describe("copyTemplateToPrompts tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("createLibraryEntries  test", async () => {
+      const templateId = "template-id-1";
+
+      await copyTemplateToPrompts(templateId);
+
+      expect(sCopyTemplateToPromptsMock).toHaveBeenCalledTimes(1);
+      expect(sCopyTemplateToPromptsMock).toHaveBeenCalledWith(templateId);
+   });
+});
+
+describe("downloadTemplate tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("downloadTemplate  test", async () => {
+      const templateId = "template-id-1";
+
+      await downloadTemplate(templateId);
+
+      expect(sDownloadTemplateMock).toHaveBeenCalledTimes(1);
+      expect(sDownloadTemplateMock).toHaveBeenCalledWith(templateId);
    });
 });

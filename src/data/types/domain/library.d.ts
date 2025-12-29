@@ -5,6 +5,7 @@ export type DLibraryEntry = {
    userId: string;
    orderId: string;
    templateId: string;
+   productId: string;
    template: DPromptTemplate;
    createdAt: string;
 };

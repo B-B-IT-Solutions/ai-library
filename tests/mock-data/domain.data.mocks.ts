@@ -2,6 +2,7 @@ import { range } from "es-toolkit";
 
 import { Sort } from "@/data/types/common";
 import { DCart, DCartItem } from "@/data/types/domain/cart";
+import { DLibraryEntry } from "@/data/types/domain/library";
 import { DOrder, DOrderItem } from "@/data/types/domain/order";
 import {
    DExample,
@@ -34,6 +35,23 @@ export const dLoginUser = (index = 1): LoginUser => {
 export const dUserUpdateData = (index = 1): DUserUpdateData => {
    return {
       name: `User ${index}`,
+   };
+};
+
+export const dLibraryEntries = (count = 3): DLibraryEntry[] => {
+   return range(0, count).map((i) => dLibraryEntry(i));
+};
+
+export const dLibraryEntry = (index = 1): DLibraryEntry => {
+   const template = dPromptTemplate(index);
+   return {
+      id: `library-entry-${index}`,
+      orderId: `2d4daf38-5571-4c0a-9d32-4435bdf6280${index}`,
+      userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
+      templateId: `52e59bcf-7651-45f8-91bf-63b8a4e06d8${index}`,
+      productId: `419682c2-d8be-433e-a15f-f7ab3663346${index}`,
+      template,
+      createdAt: new Date("2025-09-27").toISOString(),
    };
 };
 
