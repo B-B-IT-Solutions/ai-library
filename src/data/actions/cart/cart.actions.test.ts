@@ -6,7 +6,6 @@ import { CartService } from "@/data/services/cart";
 
 import {
    addToCart,
-   clearCart,
    getCart,
    migrateSessionCartToUser,
    removeFromCart,
@@ -15,7 +14,6 @@ import {
 const sGetCart = CartService.prototype.getCart;
 const sAddToCart = CartService.prototype.addToCart;
 const sRemoveFromCart = CartService.prototype.removeFromCart;
-const sClearCart = CartService.prototype.clearCart;
 const sMigrateSessionCartToUser =
    CartService.prototype.migrateSessionCartToUser;
 
@@ -24,7 +22,6 @@ const sAddToCartMock = sAddToCart as jest.MockedFunction<typeof sAddToCart>;
 const sRemoveFromCartMock = sRemoveFromCart as jest.MockedFunction<
    typeof sRemoveFromCart
 >;
-const sClearCartMock = sClearCart as jest.MockedFunction<typeof sClearCart>;
 const sMigrateSessionCartToUserMock =
    sMigrateSessionCartToUser as jest.MockedFunction<
       typeof sMigrateSessionCartToUser
@@ -87,25 +84,6 @@ describe("removeFromCart tests", () => {
       expect(result).toEqual(expectdResult);
       expect(sRemoveFromCartMock).toHaveBeenCalledTimes(1);
       expect(sRemoveFromCartMock).toHaveBeenCalledWith(item.id);
-   });
-});
-
-describe("clearCart tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("clearCart - test", async () => {
-      const expectedResult = {
-         success: true,
-         message: "Cart cleared successfully.",
-      };
-      sClearCartMock.mockResolvedValue(expectedResult);
-
-      const result = await clearCart();
-
-      expect(result).toEqual(expectedResult);
-      expect(sClearCartMock).toHaveBeenCalledTimes(1);
    });
 });
 

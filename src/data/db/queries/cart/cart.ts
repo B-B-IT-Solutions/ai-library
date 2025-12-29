@@ -1,5 +1,5 @@
 import { CartWithItems } from "@/data/types/db/cart";
-import { PrismaClient } from "@/generated/prisma/client";
+import { DbClient } from "@/data/types/db/common";
 import { ProductType } from "@/generated/prisma/enums";
 import { CartCreateInput } from "@/generated/prisma/models";
 
@@ -17,9 +17,9 @@ export type AddItemToCartParams = {
 };
 
 export class CartRepository {
-   private prisma: PrismaClient;
+   private prisma: DbClient;
 
-   constructor(prisma: PrismaClient) {
+   constructor(prisma: DbClient) {
       this.prisma = prisma;
    }
 

@@ -1,10 +1,13 @@
 "use server";
 
-import { createLibraryEntries } from "@/data/actions/library";
 import prisma from "@/data/db/prisma";
 import { CartRepository } from "@/data/db/queries/cart";
+import { LibraryRepository } from "@/data/db/queries/library";
 import { OrderRepository } from "@/data/db/queries/order";
+import { CartService } from "@/data/services/cart";
+import { LibraryService } from "@/data/services/library";
 import { OrderService } from "@/data/services/order";
+import { DbClient } from "@/data/types/db/common";
 import { DOrder } from "@/data/types/domain/order";
 import { ActionResult } from "@/data/types/utils";
 import { formatError } from "../utils";
@@ -19,86 +22,20 @@ export const getOrder = async (orderId: string): Promise<DOrder | null> => {
    return orderService.getOrder(orderId);
 };
 
-export const completeOrder = async (orderId: string): Promise<ActionResult> => {
-   try {
-      const orderRepository = new OrderRepository(prisma);
-      const cartRepository = new CartRepository(prisma);
-
-      const order = await orderRepository.pGetOrderProducts(orderId);
-      if (!order) {
-         return {
-            success: false,
-            message: "Order not found.",
-         };
-      }
-
-      if (order.status === "COMPLETED") {
-         return {
-            success: true,
-            message: "Order already completed.",
-         };
-      }
-
-      await createLibraryEntries(order);
-      await orderRepository.pUpdateOrderStatus(order.id, "COMPLETED");
-
-      const cart = await cartRepository.pGetCartByUserId(order.userId);
-      if (cart) {
-         await cartRepository.pClearCart(cart.id);
-      }
-
-      return {
-         success: true,
-         message: "Order completed successfully!",
-      };
-   } catch (error) {
-      return {
-         success: false,
-         message: formatError(error),
-      };
-   }
-};
-
 export const handleStripeCheckoutCompleted = async (
    orderId: string,
    paymentIntentId: string,
    paymentStatus: string
-): Promise<ActionResult<void>> => {
+): Promise<ActionResult> => {
    try {
-      // Get order to check status
-      const orderRepository = new OrderRepository(prisma);
-      const order = await orderRepository.pGetOrder(orderId);
-
-      if (!order) {
-         return {
-            success: false,
-            message: `Order ${orderId} not found`,
-         };
-      }
-
-      if (order.status === "COMPLETED") {
-         return {
-            success: true,
-            message: `Order ${orderId} already completed`,
-         };
-      }
-
-      // Update with Stripe payment details
-      await orderRepository.pUpdateOrderWithStripeDetails(orderId, {
-         stripePaymentIntentId: paymentIntentId,
-         stripePaymentStatus: paymentStatus,
-         paymentMethod: "STRIPE",
+      await prisma.$transaction(async (tx) => {
+         const service = getOrderSevice(tx);
+         return service.handleStripeCheckoutCompleted(
+            orderId,
+            paymentIntentId,
+            paymentStatus
+         );
       });
-
-      // Complete the order (creates purchases, clears cart)
-      const result = await completeOrder(orderId);
-
-      if (!result.success) {
-         return {
-            success: false,
-            message: `Failed to complete order ${orderId}: ${result.message}`,
-         };
-      }
 
       return {
          success: true,
@@ -114,13 +51,16 @@ export const handleStripeCheckoutCompleted = async (
 
 export const handleStripeCheckoutExpired = async (
    orderId: string
-): Promise<ActionResult<void>> => {
+): Promise<ActionResult> => {
    try {
-      const orderRepository = new OrderRepository(prisma);
-      await orderRepository.pUpdateOrderStatus(orderId, "FAILED");
+      await prisma.$transaction(async (tx) => {
+         const service = getOrderSevice(tx);
+         return service.handleStripeCheckoutExpired(orderId);
+      });
+
       return {
          success: true,
-         message: `Order ${orderId} marked as FAILED due to expired session`,
+         message: `Order ${orderId} flagged as FAILED due to expired session`,
       };
    } catch (error) {
       return {
@@ -132,28 +72,16 @@ export const handleStripeCheckoutExpired = async (
 
 export const handleStripePaymentFailed = async (
    paymentIntentId: string
-): Promise<ActionResult<void>> => {
+): Promise<ActionResult> => {
    try {
-      const orderRepository = new OrderRepository(prisma);
-      const order = await orderRepository.pGetOrderByPaymentIntentId(
-         paymentIntentId
-      );
-
-      if (!order) {
-         return {
-            success: false,
-            message: `Order not found for payment intent ${paymentIntentId}`,
-         };
-      }
-
-      await orderRepository.pUpdateOrderStatus(order.id, "FAILED");
-      await orderRepository.pUpdateOrderWithStripeDetails(order.id, {
-         stripePaymentStatus: "failed",
+      await prisma.$transaction(async (tx) => {
+         const service = getOrderSevice(tx);
+         return service.handleStripePaymentFailed(paymentIntentId);
       });
 
       return {
          success: true,
-         message: `Order ${order.id} marked as FAILED due to payment failure`,
+         message: `Order with paymentIntentId ${paymentIntentId} flagged as FAILED due to payment failure`,
       };
    } catch (error) {
       return {
@@ -163,8 +91,11 @@ export const handleStripePaymentFailed = async (
    }
 };
 
-const getOrderSevice = () => {
-   const orderRepository = new OrderRepository(prisma);
-   const cartRepository = new CartRepository(prisma);
-   return new OrderService(orderRepository, cartRepository);
+const getOrderSevice = (dbClient: DbClient = prisma) => {
+   const orderRepository = new OrderRepository(dbClient);
+   const cartRepository = new CartRepository(dbClient);
+   const libraryRepository = new LibraryRepository(dbClient);
+   const cartService = new CartService(cartRepository);
+   const libraryService = new LibraryService(libraryRepository);
+   return new OrderService(orderRepository, cartService, libraryService);
 };

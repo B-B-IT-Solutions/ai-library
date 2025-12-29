@@ -1,5 +1,8 @@
 jest.mock("@/data/db/queries/order");
 jest.mock("@/data/db/queries/cart");
+jest.mock("@/data/db/queries/library");
+jest.mock("@/data/services/cart");
+jest.mock("@/data/services/library");
 jest.mock("../../actions/auth-utils");
 
 import { dtestData, ptestData } from "@tests";
@@ -7,7 +10,10 @@ import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/db/prisma";
 import { CartRepository } from "@/data/db/queries/cart";
+import { LibraryRepository } from "@/data/db/queries/library";
 import { OrderRepository } from "@/data/db/queries/order";
+import { CartService } from "@/data/services/cart";
+import { LibraryService } from "@/data/services/library";
 import { requireUser } from "../../actions/auth-utils";
 
 import { toDOrdersWithItems, toDOrderWithItems } from "./order.mapper";
@@ -17,10 +23,18 @@ const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
 const orderRepo = new OrderRepository(prisma);
 const cartRepo = new CartRepository(prisma);
+const libraryRepo = new LibraryRepository(prisma);
+const cartService = new CartService(cartRepo);
+const libraryService = new LibraryService(libraryRepo);
 const orderRepoMock = orderRepo as DeepMockProxy<OrderRepository>;
-const cartRepoMock = cartRepo as DeepMockProxy<CartRepository>;
+const cartServiceMock = cartService as DeepMockProxy<CartService>;
+const libraryServiceMock = libraryService as DeepMockProxy<LibraryService>;
 
-const orderService = new OrderService(orderRepoMock, cartRepoMock);
+const orderService = new OrderService(
+   orderRepoMock,
+   cartServiceMock,
+   libraryServiceMock
+);
 
 describe("getOrders tests", () => {
    beforeEach(() => {
@@ -162,5 +176,180 @@ describe("getOrder tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(orderRepoMock.pGetOrder).toHaveBeenCalledTimes(1);
       expect(orderRepoMock.pGetOrder).toHaveBeenCalledWith(orderId);
+   });
+});
+
+describe("handleStripeCheckoutCompleted tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("handleStripeCheckoutCompleted - order not found - test", async () => {
+      const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
+      const paymentIntentId = "pi_123456";
+      const paymentStatus = "succeeded";
+
+      orderRepoMock.pGetOrderProducts.mockResolvedValue(null);
+
+      const fn = () =>
+         orderService.handleStripeCheckoutCompleted(
+            orderId,
+            paymentIntentId,
+            paymentStatus
+         );
+
+      await expect(fn).rejects.toThrow(`Order ${orderId} not found`);
+
+      expect(orderRepoMock.pGetOrderProducts).toHaveBeenCalledTimes(1);
+      expect(orderRepoMock.pGetOrderProducts).toHaveBeenCalledWith(orderId);
+      expect(
+         orderRepoMock.pUpdateOrderWithStripeDetails
+      ).not.toHaveBeenCalled();
+      expect(libraryServiceMock.createLibraryEntries).not.toHaveBeenCalled();
+      expect(orderRepoMock.pUpdateOrderStatus).not.toHaveBeenCalled();
+      expect(cartServiceMock.clearCart).not.toHaveBeenCalled();
+   });
+
+   it("handleStripeCheckoutCompleted - order already completed - test", async () => {
+      const order = ptestData.pOrderProducts();
+      order.status = "COMPLETED";
+      const paymentIntentId = "pi_123456";
+      const paymentStatus = "succeeded";
+
+      orderRepoMock.pGetOrderProducts.mockResolvedValue(order);
+
+      await orderService.handleStripeCheckoutCompleted(
+         order.id,
+         paymentIntentId,
+         paymentStatus
+      );
+
+      expect(orderRepoMock.pGetOrderProducts).toHaveBeenCalledTimes(1);
+      expect(orderRepoMock.pGetOrderProducts).toHaveBeenCalledWith(order.id);
+      expect(
+         orderRepoMock.pUpdateOrderWithStripeDetails
+      ).not.toHaveBeenCalled();
+      expect(libraryServiceMock.createLibraryEntries).not.toHaveBeenCalled();
+      expect(orderRepoMock.pUpdateOrderStatus).not.toHaveBeenCalled();
+      expect(cartServiceMock.clearCart).not.toHaveBeenCalled();
+   });
+
+   it("handleStripeCheckoutCompleted - order completed successfully - test", async () => {
+      const order = ptestData.pOrderProducts();
+      order.status = "PENDING";
+      const paymentIntentId = "pi_123456";
+      const paymentStatus = "succeeded";
+
+      orderRepoMock.pGetOrderProducts.mockResolvedValue(order);
+
+      await orderService.handleStripeCheckoutCompleted(
+         order.id,
+         paymentIntentId,
+         paymentStatus
+      );
+
+      expect(orderRepoMock.pGetOrderProducts).toHaveBeenCalledTimes(1);
+      expect(orderRepoMock.pGetOrderProducts).toHaveBeenCalledWith(order.id);
+
+      expect(orderRepoMock.pUpdateOrderWithStripeDetails).toHaveBeenCalledTimes(
+         1
+      );
+      expect(orderRepoMock.pUpdateOrderWithStripeDetails).toHaveBeenCalledWith(
+         order.id,
+         {
+            stripePaymentIntentId: paymentIntentId,
+            stripePaymentStatus: paymentStatus,
+            paymentMethod: "STRIPE",
+         }
+      );
+
+      expect(libraryServiceMock.createLibraryEntries).toHaveBeenCalledTimes(1);
+      expect(libraryServiceMock.createLibraryEntries).toHaveBeenCalledWith(
+         order
+      );
+
+      expect(orderRepoMock.pUpdateOrderStatus).toHaveBeenCalledTimes(1);
+      expect(orderRepoMock.pUpdateOrderStatus).toHaveBeenCalledWith(
+         order.id,
+         "COMPLETED"
+      );
+
+      expect(cartServiceMock.clearCart).toHaveBeenCalledTimes(1);
+      expect(cartServiceMock.clearCart).toHaveBeenCalledWith(order.userId);
+   });
+});
+
+describe("handleStripeCheckoutExpired tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("handleStripeCheckoutExpired - order status updated to failed - test", async () => {
+      const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
+
+      await orderService.handleStripeCheckoutExpired(orderId);
+
+      expect(orderRepoMock.pUpdateOrderStatus).toHaveBeenCalledTimes(1);
+      expect(orderRepoMock.pUpdateOrderStatus).toHaveBeenCalledWith(
+         orderId,
+         "FAILED"
+      );
+   });
+});
+
+describe("handleStripePaymentFailed tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("handleStripePaymentFailed - order not found - test", async () => {
+      const paymentIntentId = "pi_123456";
+
+      orderRepoMock.pGetOrderByPaymentIntentId.mockResolvedValue(null);
+
+      const fn = () => orderService.handleStripePaymentFailed(paymentIntentId);
+
+      await expect(fn).rejects.toThrow(
+         `Order with paymentIntentId ${paymentIntentId} not found`
+      );
+
+      expect(orderRepoMock.pGetOrderByPaymentIntentId).toHaveBeenCalledTimes(1);
+      expect(orderRepoMock.pGetOrderByPaymentIntentId).toHaveBeenCalledWith(
+         paymentIntentId
+      );
+      expect(orderRepoMock.pUpdateOrderStatus).not.toHaveBeenCalled();
+      expect(
+         orderRepoMock.pUpdateOrderWithStripeDetails
+      ).not.toHaveBeenCalled();
+   });
+
+   it("handleStripePaymentFailed - order status updated to failed - test", async () => {
+      const order = ptestData.pOrder();
+      const paymentIntentId = "pi_123456";
+
+      orderRepoMock.pGetOrderByPaymentIntentId.mockResolvedValue(order);
+
+      await orderService.handleStripePaymentFailed(paymentIntentId);
+
+      expect(orderRepoMock.pGetOrderByPaymentIntentId).toHaveBeenCalledTimes(1);
+      expect(orderRepoMock.pGetOrderByPaymentIntentId).toHaveBeenCalledWith(
+         paymentIntentId
+      );
+
+      expect(orderRepoMock.pUpdateOrderStatus).toHaveBeenCalledTimes(1);
+      expect(orderRepoMock.pUpdateOrderStatus).toHaveBeenCalledWith(
+         order.id,
+         "FAILED"
+      );
+
+      expect(orderRepoMock.pUpdateOrderWithStripeDetails).toHaveBeenCalledTimes(
+         1
+      );
+      expect(orderRepoMock.pUpdateOrderWithStripeDetails).toHaveBeenCalledWith(
+         order.id,
+         {
+            stripePaymentStatus: "failed",
+         }
+      );
    });
 });

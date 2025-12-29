@@ -1,14 +1,14 @@
+import { DbClient } from "@/data/types/db/common";
 import { ProductWithDetails, ProductWithItems } from "@/data/types/db/product";
-import { PrismaClient } from "@/generated/prisma/client";
 import {
    ProductWhereInput,
    ProductWhereUniqueInput,
 } from "@/generated/prisma/models";
 
 export class ProductRepository {
-   private prisma: PrismaClient;
+   private prisma: DbClient;
 
-   constructor(prisma: PrismaClient) {
+   constructor(prisma: DbClient) {
       this.prisma = prisma;
    }
 
