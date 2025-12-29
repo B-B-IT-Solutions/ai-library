@@ -1,67 +1,40 @@
-jest.mock("@/data/db/queries/order");
-jest.mock("../auth-utils");
+jest.mock("@/data/services/order");
 
-import { dtestData, ptestData } from "@tests";
+import { dtestData } from "@tests";
 
-import { OrderRepository } from "@/data/db/queries/order";
-import { requireUser } from "../auth-utils";
+import { OrderService } from "@/data/services/order";
 
 import { getOrder, getOrders } from "./order.actions";
-import { toDOrdersWithItems, toDOrderWithItems } from "./order.mapper";
 
-const pGetOrders = OrderRepository.prototype.pGetOrders;
-const pGetOrder = OrderRepository.prototype.pGetOrder;
+const sGetOrders = OrderService.prototype.getOrders;
+const sGetOrder = OrderService.prototype.getOrder;
 
-const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
+const sGetOrdersMock = sGetOrders as jest.MockedFunction<typeof sGetOrders>;
 
-const pGetOrdersMock = pGetOrders as jest.MockedFunction<typeof pGetOrders>;
-
-const pGetOrderMock = pGetOrder as jest.MockedFunction<typeof pGetOrder>;
+const sGetOrderMock = sGetOrder as jest.MockedFunction<typeof sGetOrder>;
 
 describe("getOrders tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("getOrders - user undefined - test", async () => {
-      const orders = ptestData.pOrdersWithItems();
-      requireUserMock.mockRejectedValue("Unknow user");
-      pGetOrdersMock.mockResolvedValue(orders);
+   it("getOrders - order empty - test", async () => {
+      sGetOrdersMock.mockResolvedValue([]);
 
       const result = await getOrders();
 
       expect(result).toEqual([]);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrdersMock).not.toHaveBeenCalled();
-   });
-
-   it("getOrders - db error - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      pGetOrdersMock.mockRejectedValue("db error");
-
-      const result = await getOrders();
-
-      expect(result).toEqual([]);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrdersMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrdersMock).toHaveBeenCalledWith(user.id);
+      expect(sGetOrdersMock).toHaveBeenCalledTimes(1);
    });
 
    it("getOrders - orders retrieved - test", async () => {
-      const user = dtestData.dLoginUser();
-      const orders = ptestData.pOrdersWithItems();
-      requireUserMock.mockResolvedValue(user);
-      pGetOrdersMock.mockResolvedValue(orders);
+      const orders = dtestData.dOrders();
+      sGetOrdersMock.mockResolvedValue(orders);
 
       const result = await getOrders();
 
-      const expectedResult = toDOrdersWithItems(orders);
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrdersMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrdersMock).toHaveBeenCalledWith(user.id);
+      expect(result).toEqual(orders);
+      expect(sGetOrdersMock).toHaveBeenCalledTimes(1);
    });
 });
 
@@ -70,93 +43,26 @@ describe("getOrder tests", () => {
       jest.clearAllMocks();
    });
 
-   it("getOrder - user undefined - test", async () => {
-      requireUserMock.mockRejectedValue("Unknow user");
-      const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
-
-      const result = await getOrder(orderId);
-
-      expect(result).toBeNull();
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrderMock).not.toHaveBeenCalled();
-   });
-
-   it("getOrder - id not valid - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      const orderId = "1";
-
-      const result = await getOrder(orderId);
-
-      expect(result).toBeNull();
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrderMock).not.toHaveBeenCalled();
-   });
-
-   it("getOrder - db error - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      pGetOrderMock.mockRejectedValue("db error");
-
-      const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
-
-      const result = await getOrder(orderId);
-
-      expect(result).toBeNull();
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrderMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrderMock).toHaveBeenCalledWith(orderId);
-   });
-
    it("getOrder - order null - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      pGetOrderMock.mockResolvedValue(null);
-
+      sGetOrderMock.mockResolvedValue(null);
       const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
 
       const result = await getOrder(orderId);
 
       expect(result).toBeNull();
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrderMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrderMock).toHaveBeenCalledWith(orderId);
-   });
-
-   it("getOrder - order of a different user - test", async () => {
-      const user = dtestData.dLoginUser();
-      user.id = "123";
-      const order = ptestData.pOrderWithItems();
-      order.userId = "456";
-      requireUserMock.mockResolvedValue(user);
-      pGetOrderMock.mockResolvedValue(order);
-
-      const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
-
-      const result = await getOrder(orderId);
-
-      expect(result).toBeNull();
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrderMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrderMock).toHaveBeenCalledWith(orderId);
+      expect(sGetOrderMock).toHaveBeenCalledTimes(1);
+      expect(sGetOrderMock).toHaveBeenCalledWith(orderId);
    });
 
    it("getOrder - order retrieved - test", async () => {
-      const user = dtestData.dLoginUser();
-      const order = ptestData.pOrderWithItems();
-      order.userId = user.id;
-      requireUserMock.mockResolvedValue(user);
-      pGetOrderMock.mockResolvedValue(order);
-
+      const order = dtestData.dOrder();
+      sGetOrderMock.mockResolvedValue(order);
       const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
 
       const result = await getOrder(orderId);
 
-      const expectedResult = toDOrderWithItems(order);
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrderMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrderMock).toHaveBeenCalledWith(orderId);
+      expect(result).toEqual(order);
+      expect(sGetOrderMock).toHaveBeenCalledTimes(1);
+      expect(sGetOrderMock).toHaveBeenCalledWith(orderId);
    });
 });

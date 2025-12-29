@@ -1,45 +1,22 @@
 "use server";
 
-import { validate as isValidUuid } from "uuid";
-
 import { createLibraryEntries } from "@/data/actions/library";
 import prisma from "@/data/db/prisma";
 import { CartRepository } from "@/data/db/queries/cart";
 import { OrderRepository } from "@/data/db/queries/order";
+import { OrderService } from "@/data/services/order";
 import { DOrder } from "@/data/types/domain/order";
 import { ActionResult } from "@/data/types/utils";
-import { requireUser } from "../auth-utils";
 import { formatError } from "../utils";
 
-import { toDOrdersWithItems, toDOrderWithItems } from "./order.mapper";
-
 export const getOrders = async (): Promise<DOrder[]> => {
-   try {
-      const user = await requireUser();
-      const orderRepository = new OrderRepository(prisma);
-      const orders = await orderRepository.pGetOrders(user.id);
-      return toDOrdersWithItems(orders);
-   } catch {
-      return [];
-   }
+   const orderService = getOrderSevice();
+   return orderService.getOrders();
 };
 
 export const getOrder = async (orderId: string): Promise<DOrder | null> => {
-   try {
-      const user = await requireUser();
-
-      if (!isValidUuid(orderId)) {
-         return null;
-      }
-      const orderRepository = new OrderRepository(prisma);
-      const order = await orderRepository.pGetOrder(orderId);
-      if (!order || order.userId !== user.id) {
-         return null;
-      }
-      return toDOrderWithItems(order);
-   } catch {
-      return null;
-   }
+   const orderService = getOrderSevice();
+   return orderService.getOrder(orderId);
 };
 
 export const completeOrder = async (orderId: string): Promise<ActionResult> => {
@@ -184,4 +161,10 @@ export const handleStripePaymentFailed = async (
          message: formatError(error),
       };
    }
+};
+
+const getOrderSevice = () => {
+   const orderRepository = new OrderRepository(prisma);
+   const cartRepository = new CartRepository(prisma);
+   return new OrderService(orderRepository, cartRepository);
 };

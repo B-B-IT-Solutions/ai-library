@@ -18,6 +18,7 @@ export const toDLibraryEntry = (
       userId: entry.userId,
       orderId: entry.orderId,
       templateId: entry.templateId,
+      productId: entry.productId,
       template: toDPromptTemplate(entry.template),
       createdAt: entry.createdAt.toISOString(),
    };
