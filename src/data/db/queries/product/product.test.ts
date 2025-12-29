@@ -10,9 +10,10 @@ import {
    ProductWhereUniqueInput,
 } from "@/generated/prisma/models";
 
-import { pGetProduct, pGetProducts } from "./product";
+import { ProductRepository } from "./product";
 
-export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
+const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
+const productRepository = new ProductRepository(prismaMock);
 
 describe("pGetProducts tests", () => {
    beforeEach(() => {
@@ -25,7 +26,7 @@ describe("pGetProducts tests", () => {
 
       const where: ProductWhereInput = { status: "ACTIVE" };
 
-      const result = await pGetProducts(where);
+      const result = await productRepository.pGetProducts(where);
 
       const expectedFindManyArgs: ProductFindManyArgs = {
          where,
@@ -64,7 +65,7 @@ describe("pGetProduct tests", () => {
 
       const where: ProductWhereUniqueInput = { id: "product-id-1" };
 
-      const result = await pGetProduct(where);
+      const result = await productRepository.pGetProduct(where);
 
       const expectedFindUniqueArgs: ProductFindUniqueArgs = {
          where,

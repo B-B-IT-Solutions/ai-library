@@ -10,13 +10,10 @@ import {
    LibraryEntryFindUniqueArgs,
 } from "@/generated/prisma/models";
 
-import {
-   pCheckUserHasTemplate,
-   pCreateLibraryEntries,
-   pGetLibraryEntries,
-} from "./library";
+import { LibraryRepository } from "./library";
 
-export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
+const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
+const libraryRepository = new LibraryRepository(prismaMock);
 
 describe("pGetLibraryEntries tests", () => {
    beforeEach(() => {
@@ -28,7 +25,7 @@ describe("pGetLibraryEntries tests", () => {
       const libraryEntries = ptestData.pLibraryEntriesWithTemplate();
       prismaMock.libraryEntry.findMany.mockResolvedValue(libraryEntries);
 
-      const result = await pGetLibraryEntries(userId);
+      const result = await libraryRepository.pGetLibraryEntries(userId);
 
       const expectedFindManyArgs: LibraryEntryFindManyArgs = {
          where: { userId },
@@ -63,7 +60,12 @@ describe("pCreateLibraryEntries tests", () => {
       const productId = "product-id-1";
       const templateIds = ["1", "2", "3"];
 
-      await pCreateLibraryEntries(orderId, userId, productId, templateIds);
+      await libraryRepository.pCreateLibraryEntries(
+         orderId,
+         userId,
+         productId,
+         templateIds
+      );
 
       const expectedEntries = map(templateIds, (templateId) => ({
          orderId,
@@ -94,7 +96,10 @@ describe("pCheckUserHasTemplate tests", () => {
       const templateId = "template-id-123";
       prismaMock.libraryEntry.findUnique.mockResolvedValue(null);
 
-      const result = await pCheckUserHasTemplate(userId, templateId);
+      const result = await libraryRepository.pCheckUserHasTemplate(
+         userId,
+         templateId
+      );
 
       const expectedFindUniqueArgs: LibraryEntryFindUniqueArgs = {
          where: {
@@ -118,7 +123,10 @@ describe("pCheckUserHasTemplate tests", () => {
       const entry = ptestData.pLibraryEntry();
       prismaMock.libraryEntry.findUnique.mockResolvedValue(entry);
 
-      const result = await pCheckUserHasTemplate(userId, templateId);
+      const result = await libraryRepository.pCheckUserHasTemplate(
+         userId,
+         templateId
+      );
 
       const expectedFindUniqueArgs: LibraryEntryFindUniqueArgs = {
          where: {

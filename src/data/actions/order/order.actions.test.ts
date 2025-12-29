@@ -3,11 +3,14 @@ jest.mock("../auth-utils");
 
 import { dtestData, ptestData } from "@tests";
 
-import { pGetOrder, pGetOrders } from "@/data/db/queries/order";
+import { OrderRepository } from "@/data/db/queries/order";
 import { requireUser } from "../auth-utils";
 
 import { getOrder, getOrders } from "./order.actions";
 import { toDOrdersWithItems, toDOrderWithItems } from "./order.mapper";
+
+const pGetOrders = OrderRepository.prototype.pGetOrders;
+const pGetOrder = OrderRepository.prototype.pGetOrder;
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
@@ -17,7 +20,7 @@ const pGetOrderMock = pGetOrder as jest.MockedFunction<typeof pGetOrder>;
 
 describe("getOrders tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    it("getOrders - user undefined - test", async () => {
@@ -64,7 +67,7 @@ describe("getOrders tests", () => {
 
 describe("getOrder tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    it("getOrder - user undefined - test", async () => {
@@ -94,6 +97,7 @@ describe("getOrder tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
       pGetOrderMock.mockRejectedValue("db error");
+
       const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
 
       const result = await getOrder(orderId);
@@ -108,6 +112,7 @@ describe("getOrder tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
       pGetOrderMock.mockResolvedValue(null);
+
       const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
 
       const result = await getOrder(orderId);
@@ -125,6 +130,7 @@ describe("getOrder tests", () => {
       order.userId = "456";
       requireUserMock.mockResolvedValue(user);
       pGetOrderMock.mockResolvedValue(order);
+
       const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
 
       const result = await getOrder(orderId);
@@ -141,6 +147,7 @@ describe("getOrder tests", () => {
       order.userId = user.id;
       requireUserMock.mockResolvedValue(user);
       pGetOrderMock.mockResolvedValue(order);
+
       const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
 
       const result = await getOrder(orderId);

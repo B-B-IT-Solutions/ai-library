@@ -13,18 +13,11 @@ import {
    OrderUpdateArgs,
 } from "@/generated/prisma/models";
 
-import {
-   OrderUpdateStripeDetails,
-   pCreateOrder,
-   pGetOrder,
-   pGetOrderByPaymentIntentId,
-   pGetOrderProducts,
-   pGetOrders,
-   pUpdateOrderStatus,
-   pUpdateOrderWithStripeDetails,
-} from "./order";
+import { OrderRepository, OrderUpdateStripeDetails } from "./order";
 
-export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
+const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
+
+const orderRepository = new OrderRepository(prismaMock);
 
 describe("pGetOrders tests", () => {
    beforeEach(() => {
@@ -36,7 +29,7 @@ describe("pGetOrders tests", () => {
       const orders = ptestData.pOrdersWithItems();
       prismaMock.order.findMany.mockResolvedValue(orders);
 
-      const result = await pGetOrders(userId);
+      const result = await orderRepository.pGetOrders(userId);
 
       const expectedFindManyArgs: OrderFindManyArgs = {
          where: { userId },
@@ -66,7 +59,7 @@ describe("pGetOrder tests", () => {
       const order = ptestData.pOrderWithItems();
       prismaMock.order.findUnique.mockResolvedValue(order);
 
-      const result = await pGetOrder(orderId);
+      const result = await orderRepository.pGetOrder(orderId);
 
       const expectedFindUniqueArgs: OrderFindUniqueArgs = {
          where: { id: orderId },
@@ -93,7 +86,9 @@ describe("pGetOrderByPaymentIntentId tests", () => {
       const order = ptestData.pOrder();
       prismaMock.order.findFirst.mockResolvedValue(order);
 
-      const result = await pGetOrderByPaymentIntentId(paymentIntentId);
+      const result = await orderRepository.pGetOrderByPaymentIntentId(
+         paymentIntentId
+      );
 
       const expectedFindFirstArgs: OrderFindFirstArgs = {
          where: {
@@ -119,7 +114,7 @@ describe("pGetOrderProducts tests", () => {
       const order = ptestData.pOrderProducts();
       prismaMock.order.findUnique.mockResolvedValue(order);
 
-      const result = await pGetOrderProducts(orderId);
+      const result = await orderRepository.pGetOrderProducts(orderId);
 
       const expectedFindUniqueArgs: OrderFindUniqueArgs = {
          where: {
@@ -187,7 +182,7 @@ describe("pCreateOrder tests", () => {
             })),
          },
       };
-      const result = await pCreateOrder(createInput);
+      const result = await orderRepository.pCreateOrder(createInput);
 
       const expectedOrderCreateArgs: OrderCreateArgs = {
          data: createInput,
@@ -216,7 +211,7 @@ describe("pUpdateOrderStatus tests", () => {
       const orderId = "order-id-1";
       const status = "COMPLETED";
 
-      const result = await pUpdateOrderStatus(orderId, status);
+      const result = await orderRepository.pUpdateOrderStatus(orderId, status);
 
       const expectedUpdateArgs: OrderUpdateArgs = {
          where: { id: orderId },
@@ -245,7 +240,7 @@ describe("pUpdateOrderWithStripeDetails tests", () => {
          paymentMethod: "card",
       };
 
-      const result = await pUpdateOrderWithStripeDetails(
+      const result = await orderRepository.pUpdateOrderWithStripeDetails(
          order.id,
          stripeUpdates
       );

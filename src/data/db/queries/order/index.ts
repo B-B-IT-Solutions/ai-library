@@ -1,8 +1,1 @@
-export {
-   pGetOrders,
-   pGetOrder,
-   pGetOrderByPaymentIntentId,
-   pCreateOrder,
-   pUpdateOrderWithStripeDetails,
-   pUpdateOrderStatus,
-} from "./order";
+export { OrderRepository } from "./order";

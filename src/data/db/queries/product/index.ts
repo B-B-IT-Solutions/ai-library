@@ -1,1 +1,1 @@
-export { pGetProducts, pGetProduct } from "./product";
+export { ProductRepository } from "./product";

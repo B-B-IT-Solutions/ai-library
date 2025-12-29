@@ -4,14 +4,8 @@ import { cookies } from "next/headers";
 
 import { auth } from "@/auth";
 import { formatError } from "@/data/actions/utils";
-import {
-   AddItemToCartParams,
-   pAddItemToCart,
-   pClearCart,
-   pGetOrCreateCart,
-   pMigrateSessionCartToUser,
-   pRemoveCartItem,
-} from "@/data/db/queries/cart";
+import prisma from "@/data/db/prisma";
+import { AddItemToCartParams, CartRepository } from "@/data/db/queries/cart";
 import { DCart } from "@/data/types/domain/cart";
 import { DProduct } from "@/data/types/domain/product";
 import { ActionResult } from "@/data/types/utils";
@@ -31,7 +25,11 @@ export const getCart = async (): Promise<DCart> => {
          sessionCartId = cookiesObject.get("sessionCartId")?.value;
       }
 
-      const cart = await pGetOrCreateCart({ userId, sessionCartId });
+      const cartRepository = new CartRepository(prisma);
+      const cart = await cartRepository.pGetOrCreateCart({
+         userId,
+         sessionCartId,
+      });
       return toDCart(cart);
    } catch (error) {
       throw error;
@@ -52,7 +50,8 @@ export const addToCart = async (
          productPrice: product.price,
       };
 
-      await pAddItemToCart(params);
+      const cartRepository = new CartRepository(prisma);
+      await cartRepository.pAddItemToCart(params);
 
       return {
          success: true,
@@ -70,7 +69,8 @@ export const removeFromCart = async (
    itemId: string
 ): Promise<ActionResult<DCart>> => {
    try {
-      await pRemoveCartItem(itemId);
+      const cartRepository = new CartRepository(prisma);
+      await cartRepository.pRemoveCartItem(itemId);
 
       return {
          success: true,
@@ -87,7 +87,8 @@ export const removeFromCart = async (
 export const clearCart = async (): Promise<ActionResult<void>> => {
    try {
       const cart = await getCart();
-      await pClearCart(cart.id);
+      const cartRepository = new CartRepository(prisma);
+      await cartRepository.pClearCart(cart.id);
 
       return {
          success: true,
@@ -105,5 +106,6 @@ export const migrateSessionCartToUser = async (
    sessionCartId: string,
    userId: string
 ) => {
-   await pMigrateSessionCartToUser(sessionCartId, userId);
+   const cartRepository = new CartRepository(prisma);
+   await cartRepository.pMigrateSessionCartToUser(sessionCartId, userId);
 };

@@ -4,14 +4,14 @@ jest.mock("../auth-utils");
 import { dtestData, ptestData } from "@tests";
 import { forEach, map } from "es-toolkit/compat";
 
-import {
-   pCreateLibraryEntries,
-   pGetLibraryEntries,
-} from "@/data/db/queries/library";
+import { LibraryRepository } from "@/data/db/queries/library";
 import { requireUser } from "../auth-utils";
 
 import { createLibraryEntries, getLibraryEntries } from "./library.actions";
 import { toDLibraryEntries } from "./library.mapper";
+
+const pGetLibraryEntries = LibraryRepository.prototype.pGetLibraryEntries;
+const pCreateLibraryEntries = LibraryRepository.prototype.pCreateLibraryEntries;
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
@@ -25,7 +25,7 @@ const pCreateLibraryEntriesMock = pCreateLibraryEntries as jest.MockedFunction<
 
 describe("getLibraryEntries tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    it("getLibraryEntries - user undefined - test", async () => {
@@ -72,7 +72,7 @@ describe("getLibraryEntries tests", () => {
 
 describe("createLibraryEntries tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    it("createLibraryEntries - order.items empty - test", async () => {

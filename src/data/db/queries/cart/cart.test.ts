@@ -11,19 +11,10 @@ import {
    CartItemFindUniqueArgs,
 } from "@/generated/prisma/models";
 
-import {
-   AddItemToCartParams,
-   pAddItemToCart,
-   pClearCart,
-   pCreateCart,
-   pGetCartBySessionId,
-   pGetCartByUserId,
-   pGetOrCreateCart,
-   pMigrateSessionCartToUser,
-   pRemoveCartItem,
-} from "./cart";
+import { AddItemToCartParams, CartRepository } from "./cart";
 
-export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
+const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
+const cartRepository = new CartRepository(prismaMock);
 
 describe("pGetOrCreateCart tests", () => {
    beforeEach(() => {
@@ -31,7 +22,7 @@ describe("pGetOrCreateCart tests", () => {
    });
 
    it("pGetOrCreateCart - userId defined - sessionCartId undefined - test", async () => {
-      const fn = () => pGetOrCreateCart({});
+      const fn = () => cartRepository.pGetOrCreateCart({});
 
       expect(fn).rejects.toThrow(Error);
       expect(prismaMock.cart.findFirst).not.toHaveBeenCalled();
@@ -44,7 +35,7 @@ describe("pGetOrCreateCart tests", () => {
 
       const userId = "user-1";
 
-      const result = await pGetOrCreateCart({ userId });
+      const result = await cartRepository.pGetOrCreateCart({ userId });
 
       const expectedFindFirstArgs: CartFindFirstArgs = {
          where: { userId },
@@ -67,7 +58,7 @@ describe("pGetOrCreateCart tests", () => {
 
       const userId = "user-1";
 
-      const result = await pGetOrCreateCart({ userId });
+      const result = await cartRepository.pGetOrCreateCart({ userId });
 
       const expectedCartCreateArgs = {
          data: {
@@ -94,7 +85,7 @@ describe("pGetOrCreateCart tests", () => {
 
       const sessionCartId = "sessionCartId-1";
 
-      const result = await pGetOrCreateCart({ sessionCartId });
+      const result = await cartRepository.pGetOrCreateCart({ sessionCartId });
 
       const expectedFindFirstArgs: CartFindFirstArgs = {
          where: { sessionCartId },
@@ -117,7 +108,7 @@ describe("pGetOrCreateCart tests", () => {
 
       const sessionCartId = "sessionCartId-1";
 
-      const result = await pGetOrCreateCart({ sessionCartId });
+      const result = await cartRepository.pGetOrCreateCart({ sessionCartId });
 
       const expectedCartCreateArgs = {
          data: {
@@ -147,7 +138,7 @@ describe("pGetCartByUserId tests", () => {
       prismaMock.cart.findFirst.mockResolvedValue(cart);
 
       const userId = "1";
-      const result = await pGetCartByUserId(userId);
+      const result = await cartRepository.pGetCartByUserId(userId);
 
       const expectedFindFirstArgs: CartFindFirstArgs = {
          where: { userId },
@@ -174,7 +165,7 @@ describe("pGetCartBySessionId tests", () => {
       prismaMock.cart.findUnique.mockResolvedValue(cart);
 
       const sessionCartId = "sessionCartId-1";
-      const result = await pGetCartBySessionId(sessionCartId);
+      const result = await cartRepository.pGetCartBySessionId(sessionCartId);
 
       const expectedFindUniqueArgs: CartFindUniqueArgs = {
          where: { sessionCartId },
@@ -201,7 +192,7 @@ describe("pCreateCart tests", () => {
          user: { connect: { id: "user-1" } },
       };
 
-      await pCreateCart(createInput);
+      await cartRepository.pCreateCart(createInput);
 
       const expectedCartCreateArgs = {
          data: createInput,
@@ -226,7 +217,7 @@ describe("pClearCart tests", () => {
 
    it("pClearCart test", async () => {
       const cartId = "cart-1";
-      await pClearCart(cartId);
+      await cartRepository.pClearCart(cartId);
 
       const expectedDeleteManyArgs = {
          where: { cartId },
@@ -259,7 +250,7 @@ describe("pAddItemToCart tests", () => {
          productPrice: 29.99,
       };
 
-      const result = await pAddItemToCart(params);
+      const result = await cartRepository.pAddItemToCart(params);
 
       const expectedFindUniqueArgs: CartItemFindUniqueArgs = {
          where: {
@@ -304,7 +295,7 @@ describe("pAddItemToCart tests", () => {
          productPrice: Number(existingItem.productPrice),
       };
 
-      const result = await pAddItemToCart(params);
+      const result = await cartRepository.pAddItemToCart(params);
 
       const expectedFindUniqueArgs: CartItemFindUniqueArgs = {
          where: {
@@ -336,7 +327,7 @@ describe("pAddItemToCart tests", () => {
          productPrice: 59.99,
       };
 
-      const result = await pAddItemToCart(params);
+      const result = await cartRepository.pAddItemToCart(params);
 
       const expectedCreateArgs = {
          data: {
@@ -365,7 +356,7 @@ describe("pRemoveCartItem tests", () => {
       const item = ptestData.pCartItem();
       prismaMock.cartItem.delete.mockResolvedValue(item);
 
-      const result = await pRemoveCartItem(item.id);
+      const result = await cartRepository.pRemoveCartItem(item.id);
 
       const expectedDeleteArgs = {
          where: { id: item.id },
@@ -384,7 +375,9 @@ describe("pRemoveCartItem tests", () => {
 
       const itemId = "non-existent-item";
 
-      await expect(pRemoveCartItem(itemId)).rejects.toThrow("Record not found");
+      await expect(cartRepository.pRemoveCartItem(itemId)).rejects.toThrow(
+         "Record not found"
+      );
       expect(prismaMock.cartItem.delete).toHaveBeenCalledTimes(1);
    });
 });
@@ -412,7 +405,7 @@ describe("pMigrateSessionCartToUser tests", () => {
       const sessionCartId = "session-123";
       const userId = "user-1";
 
-      await pMigrateSessionCartToUser(sessionCartId, userId);
+      await cartRepository.pMigrateSessionCartToUser(sessionCartId, userId);
 
       expect(prismaMock.cart.findUnique).toHaveBeenCalledTimes(1);
       expect(prismaMock.cart.findUnique).toHaveBeenCalledWith({
@@ -438,7 +431,7 @@ describe("pMigrateSessionCartToUser tests", () => {
       const sessionCartId = "non-existent-session";
       const userId = "user-1";
 
-      await pMigrateSessionCartToUser(sessionCartId, userId);
+      await cartRepository.pMigrateSessionCartToUser(sessionCartId, userId);
 
       expect(prismaMock.cart.findUnique).toHaveBeenCalledTimes(1);
       expect(prismaMock.cart.findUnique).toHaveBeenCalledWith({
