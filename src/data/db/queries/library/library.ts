@@ -4,7 +4,11 @@ import { LibraryEntryWithTemplate } from "@/data/types/db/library";
 import { PrismaClient } from "@/generated/prisma/client";
 
 export class LibraryRepository {
-   constructor(private prisma: PrismaClient) {}
+   private prisma: PrismaClient;
+
+   constructor(prisma: PrismaClient) {
+      this.prisma = prisma;
+   }
 
    async pGetLibraryEntries(
       userId: string

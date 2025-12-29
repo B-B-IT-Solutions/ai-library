@@ -4,7 +4,7 @@ import { validate as isValidUuid } from "uuid";
 
 import { createLibraryEntries } from "@/data/actions/library";
 import prisma from "@/data/db/prisma";
-import { pClearCart, pGetCartByUserId } from "@/data/db/queries/cart";
+import { CartRepository } from "@/data/db/queries/cart";
 import { OrderRepository } from "@/data/db/queries/order";
 import { DOrder } from "@/data/types/domain/order";
 import { ActionResult } from "@/data/types/utils";
@@ -45,6 +45,8 @@ export const getOrder = async (orderId: string): Promise<DOrder | null> => {
 export const completeOrder = async (orderId: string): Promise<ActionResult> => {
    try {
       const orderRepository = new OrderRepository(prisma);
+      const cartRepository = new CartRepository(prisma);
+
       const order = await orderRepository.pGetOrderProducts(orderId);
       if (!order) {
          return {
@@ -63,9 +65,9 @@ export const completeOrder = async (orderId: string): Promise<ActionResult> => {
       await createLibraryEntries(order);
       await orderRepository.pUpdateOrderStatus(order.id, "COMPLETED");
 
-      const cart = await pGetCartByUserId(order.userId);
+      const cart = await cartRepository.pGetCartByUserId(order.userId);
       if (cart) {
-         await pClearCart(cart.id);
+         await cartRepository.pClearCart(cart.id);
       }
 
       return {

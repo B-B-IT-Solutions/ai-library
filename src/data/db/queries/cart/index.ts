@@ -1,11 +1,5 @@
 export {
-   pAddItemToCart,
-   pClearCart,
-   pCreateCart,
-   pGetOrCreateCart,
-   pGetCartBySessionId,
-   pGetCartByUserId,
-   pRemoveCartItem,
-   pMigrateSessionCartToUser,
+   CartRepository,
    type AddItemToCartParams,
+   type GetOrCreateCartParams,
 } from "./cart";

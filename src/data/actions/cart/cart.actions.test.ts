@@ -6,13 +6,7 @@ import { AuthMockedFunction, dtestData, ntestData, ptestData } from "@tests";
 import { cookies } from "next/headers";
 
 import { auth } from "@/auth";
-import {
-   pAddItemToCart,
-   pClearCart,
-   pGetOrCreateCart,
-   pMigrateSessionCartToUser,
-   pRemoveCartItem,
-} from "@/data/db/queries/cart";
+import { CartRepository } from "@/data/db/queries/cart";
 import { BatchPayload } from "@/generated/prisma/internal/prismaNamespace";
 
 import {
@@ -23,6 +17,12 @@ import {
    removeFromCart,
 } from "./cart.actions";
 import { toDCart } from "./cart.mapper";
+
+const pGetOrCreateCart = CartRepository.prototype.pGetOrCreateCart;
+const pAddItemToCart = CartRepository.prototype.pAddItemToCart;
+const pRemoveCartItem = CartRepository.prototype.pRemoveCartItem;
+const pClearCart = CartRepository.prototype.pClearCart;
+const pMigrateSessionCartToUser = CartRepository.prototype.pMigrateSessionCartToUser;
 
 const authMock = auth as unknown as AuthMockedFunction;
 const cookiesMock = cookies as jest.MockedFunction<typeof cookies>;
@@ -48,7 +48,7 @@ const pMigrateSessionCartToUserMock =
 
 describe("getCart tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    it("getCart - session null - sessionCartId null - test", async () => {
@@ -135,7 +135,7 @@ describe("getCart tests", () => {
 
 describe("addToCart tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    it("addToCart - success - test", async () => {
@@ -224,7 +224,7 @@ describe("addToCart tests", () => {
 
 describe("removeFromCart tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    it("removeFromCart - success - test", async () => {
@@ -286,7 +286,7 @@ describe("removeFromCart tests", () => {
 
 describe("clearCart tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    it("clearCart - success - test", async () => {
@@ -365,7 +365,7 @@ describe("clearCart tests", () => {
 
 describe("migrateSessionCartToUser tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    test("migrateSessionCartToUser - cart updated - test", async () => {

@@ -10,7 +10,11 @@ export type OrderUpdateStripeDetails = {
 };
 
 export class OrderRepository {
-   constructor(private prisma: PrismaClient) {}
+   private prisma: PrismaClient;
+
+   constructor(prisma: PrismaClient) {
+      this.prisma = prisma;
+   }
 
    async pGetOrders(userId: string): Promise<OrderWithItems[]> {
       return await this.prisma.order.findMany({
