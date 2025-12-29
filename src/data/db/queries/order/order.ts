@@ -1,5 +1,5 @@
 import prisma from "@/data/db/prisma";
-import { OrderWithItems } from "@/data/types/db/order";
+import { OrderProducts, OrderWithItems } from "@/data/types/db/order";
 import { Order } from "@/generated/prisma/client";
 import { OrderCreateInput } from "@/generated/prisma/models";
 
@@ -22,6 +22,34 @@ export const pGetOrder = async (
       where: { id: orderId },
       include: {
          items: true,
+      },
+   });
+};
+
+export const pGetOrderProducts = async (
+   orderId: string
+): Promise<OrderProducts | null> => {
+   return await prisma.order.findUnique({
+      where: {
+         id: orderId,
+      },
+      select: {
+         id: true,
+         userId: true,
+         items: {
+            select: {
+               product: {
+                  select: {
+                     id: true,
+                     productItems: {
+                        select: {
+                           templateId: true,
+                        },
+                     },
+                  },
+               },
+            },
+         },
       },
    });
 };

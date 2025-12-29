@@ -46,3 +46,5 @@ next-env.d.ts
 
 # drawio backup files
 *.drawio.bkp
+*.drawio.dtmp
+

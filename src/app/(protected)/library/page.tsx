@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { LibraryEntryCard } from "@/components/library/library-entry-card";
 import { Button } from "@/components/shadcn/button";
-import { getLibraryEntries } from "@/data/actions/library/library.actions";
+import { getLibraryEntries } from "@/data/actions/library";
 
 export default async function LibraryPage() {
    const session = await auth();

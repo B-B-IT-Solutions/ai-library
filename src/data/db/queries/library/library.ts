@@ -1,3 +1,5 @@
+import { map } from "es-toolkit/compat";
+
 import prisma from "@/data/db/prisma";
 import { LibraryEntryWithTemplate } from "@/data/types/db/library";
 
@@ -22,16 +24,18 @@ export const pGetLibraryEntries = async (
 export const pCreateLibraryEntry = async (
    orderId: string,
    userId: string,
+   productId: string,
    templateIds: string[]
 ) => {
-   const purchases = templateIds.map((templateId) => ({
+   const entries = map(templateIds, (templateId) => ({
       orderId,
       userId,
+      productId,
       templateId,
    }));
 
    return await prisma.libraryEntry.createMany({
-      data: purchases,
+      data: entries,
       skipDuplicates: true,
    });
 };

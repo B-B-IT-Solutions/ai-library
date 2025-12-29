@@ -1,10 +1,9 @@
 "use server";
 
-import { isEmpty } from "es-toolkit/compat";
 import { validate as isValidUuid } from "uuid";
 
+import { createLibraryEntries } from "@/data/actions/library";
 import { pClearCart, pGetCartByUserId } from "@/data/db/queries/cart";
-import { pCreateLibraryEntry } from "@/data/db/queries/library";
 import {
    pGetOrder,
    pGetOrderByPaymentIntentId,
@@ -12,6 +11,7 @@ import {
    pUpdateOrderStatus,
    pUpdateOrderWithStripeDetails,
 } from "@/data/db/queries/order";
+import { pGetOrderProducts } from "@/data/db/queries/order/order";
 import { DOrder } from "@/data/types/domain/order";
 import { ActionResult } from "@/data/types/utils";
 import { requireUser } from "../auth-utils";
@@ -47,9 +47,7 @@ export const getOrder = async (orderId: string): Promise<DOrder | null> => {
    }
 };
 
-export const completeOrder = async (
-   orderId: string
-): Promise<ActionResult<DOrder>> => {
+export const completeOrder = async (orderId: string): Promise<ActionResult> => {
    try {
       const order = await pGetOrder(orderId);
       if (!order) {
@@ -66,21 +64,9 @@ export const completeOrder = async (
          };
       }
 
-      const templateIds: string[] = [];
-
-      for (const item of order.items) {
-         const product = item.product;
-
-         const bundleTemplateIds =
-            product.bundleItems
-               ?.map((bi: any) => bi.templateId)
-               .filter(Boolean) || [];
-         templateIds.push(...bundleTemplateIds);
-      }
-
-      // Create purchase records
-      if (isEmpty(templateIds.length)) {
-         await pCreateLibraryEntry(order.id, order.userId, templateIds);
+      const orderProducts = await pGetOrderProducts(orderId);
+      if (orderProducts) {
+         await createLibraryEntries(orderProducts);
       }
 
       // Update order status

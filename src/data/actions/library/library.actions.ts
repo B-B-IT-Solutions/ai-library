@@ -1,12 +1,15 @@
 "use server";
 
+import { isEmpty, map } from "es-toolkit/compat";
 import { validate as isValidUuid } from "uuid";
 
 import {
    pCheckUserHasTemplate,
+   pCreateLibraryEntry,
    pGetLibraryEntries,
 } from "@/data/db/queries/library";
 import { createPrompt as pCreatePrompt } from "@/data/db/queries/prompt";
+import { OrderProducts } from "@/data/types/db/order";
 import { DLibraryEntry } from "@/data/types/domain/library";
 import { ActionResult } from "@/data/types/utils";
 import { PromptCreateInput } from "@/generated/prisma/models";
@@ -22,6 +25,23 @@ export const getLibraryEntries = async (): Promise<DLibraryEntry[]> => {
       return toDLibraryEntries(entries);
    } catch {
       return [];
+   }
+};
+
+export const createLibraryEntries = async (order: OrderProducts) => {
+   for (const item of order.items) {
+      const { product } = item;
+      const { productItems } = product;
+      const templateIds = map(productItems, (i) => i.templateId);
+
+      if (!isEmpty(templateIds)) {
+         await pCreateLibraryEntry(
+            order.id,
+            order.userId,
+            product.id,
+            templateIds
+         );
+      }
    }
 };
 
