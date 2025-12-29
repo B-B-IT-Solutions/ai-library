@@ -22,11 +22,6 @@ export const removeFromCart = async (itemId: string): Promise<ActionResult> => {
    return service.removeFromCart(itemId);
 };
 
-export const clearCart = async (): Promise<ActionResult> => {
-   const service = getCartSevice();
-   return service.clearCart();
-};
-
 export const migrateSessionCartToUser = async (
    sessionCartId: string,
    userId: string

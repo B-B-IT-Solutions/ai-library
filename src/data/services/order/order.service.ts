@@ -1,8 +1,8 @@
 import { validate as isValidUuid } from "uuid";
 
 import { createLibraryEntries } from "@/data/actions/library";
-import { CartRepository } from "@/data/db/queries/cart";
 import { OrderRepository } from "@/data/db/queries/order";
+import { CartService } from "@/data/services/cart";
 import { DOrder } from "@/data/types/domain/order";
 import { ActionResult } from "@/data/types/utils";
 import { requireUser } from "../../actions/auth-utils";
@@ -12,14 +12,11 @@ import { toDOrdersWithItems, toDOrderWithItems } from "./order.mapper";
 
 export class OrderService {
    private orderRepository: OrderRepository;
-   private cartRepository: CartRepository;
+   private cartService: CartService;
 
-   constructor(
-      orderRepository: OrderRepository,
-      cartRepository: CartRepository
-   ) {
+   constructor(orderRepository: OrderRepository, cartService: CartService) {
       this.orderRepository = orderRepository;
-      this.cartRepository = cartRepository;
+      this.cartService = cartService;
    }
 
    async getOrders(): Promise<DOrder[]> {
@@ -68,11 +65,7 @@ export class OrderService {
 
          await createLibraryEntries(order);
          await this.orderRepository.pUpdateOrderStatus(order.id, "COMPLETED");
-
-         const cart = await this.cartRepository.pGetCartByUserId(order.userId);
-         if (cart) {
-            await this.cartRepository.pClearCart(cart.id);
-         }
+         await this.cartService.clearCart(order.userId);
 
          return {
             success: true,

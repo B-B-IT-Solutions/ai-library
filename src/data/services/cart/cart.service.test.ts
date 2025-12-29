@@ -272,15 +272,14 @@ describe("clearCart tests", () => {
    });
 
    it("clearCart - success - test", async () => {
-      const session = ntestData.session();
+      const userId = "user-id-1";
       const cart = ptestData.pCartWithItems();
       const batchPayload: BatchPayload = { count: cart.items.length };
 
-      authMock.mockResolvedValue(session);
-      cartRepoMock.pGetOrCreateCart.mockResolvedValue(cart);
+      cartRepoMock.pGetCartByUserId.mockResolvedValue(cart);
       cartRepoMock.pClearCart.mockResolvedValue(batchPayload);
 
-      const result = await cartService.clearCart();
+      const result = await cartService.clearCart(userId);
 
       const expectedResult = {
          success: true,
@@ -288,25 +287,22 @@ describe("clearCart tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(cartRepoMock.pGetOrCreateCart).toHaveBeenCalledTimes(1);
-      expect(cartRepoMock.pGetOrCreateCart).toHaveBeenCalledWith({
-         userId: session.user.id,
-      });
+      expect(cartRepoMock.pGetCartByUserId).toHaveBeenCalledTimes(1);
+      expect(cartRepoMock.pGetCartByUserId).toHaveBeenCalledWith(userId);
       expect(cartRepoMock.pClearCart).toHaveBeenCalledTimes(1);
       expect(cartRepoMock.pClearCart).toHaveBeenCalledWith(cart.id);
    });
 
    it("clearCart - error - test", async () => {
-      const session = ntestData.session();
+      const userId = "user-id-1";
       const cart = ptestData.pCartWithItems();
       const errorMessage = "Failed to clear cart";
       const error = new Error(errorMessage);
 
-      authMock.mockResolvedValue(session);
-      cartRepoMock.pGetOrCreateCart.mockResolvedValue(cart);
+      cartRepoMock.pGetCartByUserId.mockResolvedValue(cart);
       cartRepoMock.pClearCart.mockRejectedValue(error);
 
-      const result = await cartService.clearCart();
+      const result = await cartService.clearCart(userId);
 
       const expectedResult = {
          success: false,
@@ -314,24 +310,20 @@ describe("clearCart tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(cartRepoMock.pGetOrCreateCart).toHaveBeenCalledTimes(1);
-      expect(cartRepoMock.pGetOrCreateCart).toHaveBeenCalledWith({
-         userId: session.user.id,
-      });
+      expect(cartRepoMock.pGetCartByUserId).toHaveBeenCalledTimes(1);
+      expect(cartRepoMock.pGetCartByUserId).toHaveBeenCalledWith(userId);
       expect(cartRepoMock.pClearCart).toHaveBeenCalledTimes(1);
       expect(cartRepoMock.pClearCart).toHaveBeenCalledWith(cart.id);
    });
 
    it("clearCart - getCart throws error - test", async () => {
+      const userId = "user-id-1";
       const errorMessage = "Cart not found";
       const error = new Error(errorMessage);
 
-      authMock.mockResolvedValue(null);
-      const reqCookies = ntestData.cookies({});
-      cookiesMock.mockResolvedValue(reqCookies);
-      cartRepoMock.pGetOrCreateCart.mockRejectedValue(error);
+      cartRepoMock.pGetCartByUserId.mockRejectedValue(error);
 
-      const result = await cartService.clearCart();
+      const result = await cartService.clearCart(userId);
 
       const expectdResult = {
          success: false,
@@ -339,8 +331,8 @@ describe("clearCart tests", () => {
       };
 
       expect(result).toEqual(expectdResult);
-      expect(cartRepoMock.pGetOrCreateCart).toHaveBeenCalledTimes(1);
-      expect(cartRepoMock.pGetOrCreateCart).toHaveBeenCalledWith({});
+      expect(cartRepoMock.pGetCartByUserId).toHaveBeenCalledTimes(1);
+      expect(cartRepoMock.pGetCartByUserId).toHaveBeenCalledWith(userId);
       expect(cartRepoMock.pClearCart).not.toHaveBeenCalled();
    });
 });
