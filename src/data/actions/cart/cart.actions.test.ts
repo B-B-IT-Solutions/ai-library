@@ -1,13 +1,8 @@
-jest.mock("@/auth");
-jest.mock("@/data/db/queries/cart");
-jest.mock("@/data/actions/auth-utils");
+jest.mock("@/data/services/cart");
 
-import { AuthMockedFunction, dtestData, ntestData, ptestData } from "@tests";
-import { cookies } from "next/headers";
+import { dtestData } from "@tests";
 
-import { auth } from "@/auth";
-import { CartRepository } from "@/data/db/queries/cart";
-import { BatchPayload } from "@/generated/prisma/internal/prismaNamespace";
+import { CartService } from "@/data/services/cart";
 
 import {
    addToCart,
@@ -16,34 +11,23 @@ import {
    migrateSessionCartToUser,
    removeFromCart,
 } from "./cart.actions";
-import { toDCart } from "./cart.mapper";
 
-const pGetOrCreateCart = CartRepository.prototype.pGetOrCreateCart;
-const pAddItemToCart = CartRepository.prototype.pAddItemToCart;
-const pRemoveCartItem = CartRepository.prototype.pRemoveCartItem;
-const pClearCart = CartRepository.prototype.pClearCart;
-const pMigrateSessionCartToUser = CartRepository.prototype.pMigrateSessionCartToUser;
+const sGetCart = CartService.prototype.getCart;
+const sAddToCart = CartService.prototype.addToCart;
+const sRemoveFromCart = CartService.prototype.removeFromCart;
+const sClearCart = CartService.prototype.clearCart;
+const sMigrateSessionCartToUser =
+   CartService.prototype.migrateSessionCartToUser;
 
-const authMock = auth as unknown as AuthMockedFunction;
-const cookiesMock = cookies as jest.MockedFunction<typeof cookies>;
-
-const pGetOrCreateCartMock = pGetOrCreateCart as jest.MockedFunction<
-   typeof pGetOrCreateCart
+const sGetCartMock = sGetCart as jest.MockedFunction<typeof sGetCart>;
+const sAddToCartMock = sAddToCart as jest.MockedFunction<typeof sAddToCart>;
+const sRemoveFromCartMock = sRemoveFromCart as jest.MockedFunction<
+   typeof sRemoveFromCart
 >;
-
-const pAddItemToCartMock = pAddItemToCart as jest.MockedFunction<
-   typeof pAddItemToCart
->;
-
-const pRemoveCartItemMock = pRemoveCartItem as jest.MockedFunction<
-   typeof pRemoveCartItem
->;
-
-const pClearCartMock = pClearCart as jest.MockedFunction<typeof pClearCart>;
-
-const pMigrateSessionCartToUserMock =
-   pMigrateSessionCartToUser as jest.MockedFunction<
-      typeof pMigrateSessionCartToUser
+const sClearCartMock = sClearCart as jest.MockedFunction<typeof sClearCart>;
+const sMigrateSessionCartToUserMock =
+   sMigrateSessionCartToUser as jest.MockedFunction<
+      typeof sMigrateSessionCartToUser
    >;
 
 describe("getCart tests", () => {
@@ -51,85 +35,14 @@ describe("getCart tests", () => {
       jest.clearAllMocks();
    });
 
-   it("getCart - session null - sessionCartId null - test", async () => {
-      pGetOrCreateCartMock.mockRejectedValue(
-         new Error("invalid userId and sessionCartId")
-      );
-      authMock.mockResolvedValue(null);
-      const reqCookies = ntestData.cookies({});
-      cookiesMock.mockResolvedValue(reqCookies);
-
-      const fn = () => getCart();
-
-      await expect(fn).rejects.toThrow(Error);
-      expect(cookiesMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrCreateCartMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrCreateCartMock).toHaveBeenCalledWith({});
-   });
-
-   it("getCart - session.user undefined- sessionCartId defined - test", async () => {
-      const session = ntestData.session();
-      session.user = undefined;
-      const cart = ptestData.pCartWithItems();
-      authMock.mockResolvedValue(session);
-      pGetOrCreateCartMock.mockResolvedValue(cart);
-
-      const cookies = { sessionCartId: "sessionCartId-1" };
-      const reqCookies = ntestData.cookies(cookies);
-      cookiesMock.mockResolvedValue(reqCookies);
+   it("getCart - cart retrieved - test", async () => {
+      const cart = dtestData.dCart();
+      sGetCartMock.mockResolvedValue(cart);
 
       const result = await getCart();
-      const expectResult = toDCart(cart);
 
-      const expectedParams = { sessionCartId: cookies.sessionCartId };
-
-      expect(result).toEqual(expectResult);
-      expect(cookiesMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrCreateCartMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrCreateCartMock).toHaveBeenCalledWith(expectedParams);
-   });
-
-   it("getCart - session.user.id undefined- sessionCartId defined - test", async () => {
-      const session = ntestData.session();
-      session.user.id = undefined;
-      const cart = ptestData.pCartWithItems();
-      authMock.mockResolvedValue(session);
-      pGetOrCreateCartMock.mockResolvedValue(cart);
-
-      const cookies = { sessionCartId: "sessionCartId-1" };
-      const reqCookies = ntestData.cookies(cookies);
-      cookiesMock.mockResolvedValue(reqCookies);
-
-      const result = await getCart();
-      const expectResult = toDCart(cart);
-
-      const expectedParams = { sessionCartId: cookies.sessionCartId };
-
-      expect(result).toEqual(expectResult);
-      expect(cookiesMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrCreateCartMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrCreateCartMock).toHaveBeenCalledWith(expectedParams);
-   });
-
-   it("getCart - session.user defined - sessionCartId undefined - test", async () => {
-      const session = ntestData.session();
-      const cart = ptestData.pCartWithItems();
-      authMock.mockResolvedValue(session);
-      pGetOrCreateCartMock.mockResolvedValue(cart);
-
-      const cookies = { sessionCartId: "sessionCartId-1" };
-      const reqCookies = ntestData.cookies(cookies);
-      cookiesMock.mockResolvedValue(reqCookies);
-
-      const result = await getCart();
-      const expectResult = toDCart(cart);
-
-      const expectedParams = { userId: session.user.id };
-
-      expect(result).toEqual(expectResult);
-      expect(pGetOrCreateCartMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrCreateCartMock).toHaveBeenCalledWith(expectedParams);
-      expect(cookiesMock).not.toHaveBeenCalled();
+      expect(result).toEqual(cart);
+      expect(sGetCartMock).toHaveBeenCalledTimes(1);
    });
 });
 
@@ -138,87 +51,20 @@ describe("addToCart tests", () => {
       jest.clearAllMocks();
    });
 
-   it("addToCart - success - test", async () => {
-      const session = ntestData.session();
-      const cart = ptestData.pCartWithItems();
-      const item = ptestData.pCartItem();
+   it("addToCart test", async () => {
       const product = dtestData.dProduct();
-
-      authMock.mockResolvedValue(session);
-      pGetOrCreateCartMock.mockResolvedValue(cart);
-      pAddItemToCartMock.mockResolvedValue(item);
-
-      const result = await addToCart(product);
-
-      const expectedParams = {
-         cartId: cart.id,
-         productId: product.id,
-         productName: product.name,
-         productType: product.type,
-         productPrice: product.price,
-      };
-
-      const expectdResult = {
+      const expectedResult = {
          success: true,
          message: "Item added to cart successfully.",
       };
 
-      expect(result).toEqual(expectdResult);
-      expect(pGetOrCreateCartMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrCreateCartMock).toHaveBeenCalledWith({
-         userId: session.user.id,
-      });
-      expect(pAddItemToCartMock).toHaveBeenCalledTimes(1);
-      expect(pAddItemToCartMock).toHaveBeenCalledWith(expectedParams);
-   });
-
-   it("addToCart - error - test", async () => {
-      const session = ntestData.session();
-      const cart = ptestData.pCartWithItems();
-      const product = dtestData.dProduct();
-      const errorMessage = "Database error";
-      const error = new Error(errorMessage);
-
-      authMock.mockResolvedValue(session);
-      pGetOrCreateCartMock.mockResolvedValue(cart);
-      pAddItemToCartMock.mockRejectedValue(error);
+      sAddToCartMock.mockResolvedValue(expectedResult);
 
       const result = await addToCart(product);
 
-      const expectdResult = {
-         success: false,
-         message: errorMessage,
-      };
-
-      expect(result).toEqual(expectdResult);
-      expect(pGetOrCreateCartMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrCreateCartMock).toHaveBeenCalledWith({
-         userId: session.user.id,
-      });
-      expect(pAddItemToCartMock).toHaveBeenCalledTimes(1);
-   });
-
-   it("addToCart - getCart throws error - test", async () => {
-      const product = dtestData.dProduct();
-      const errorMessage = "Cart not found";
-      const error = new Error(errorMessage);
-
-      authMock.mockResolvedValue(null);
-      const reqCookies = ntestData.cookies({});
-      cookiesMock.mockResolvedValue(reqCookies);
-      pGetOrCreateCartMock.mockRejectedValue(error);
-
-      const result = await addToCart(product);
-
-      const expectdResult = {
-         success: false,
-         message: errorMessage,
-      };
-
-      expect(result).toEqual(expectdResult);
-      expect(pGetOrCreateCartMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrCreateCartMock).toHaveBeenCalledWith({});
-      expect(pAddItemToCartMock).not.toHaveBeenCalled();
+      expect(result).toEqual(expectedResult);
+      expect(sAddToCartMock).toHaveBeenCalledTimes(1);
+      expect(sAddToCartMock).toHaveBeenCalledWith(product);
    });
 });
 
@@ -228,59 +74,19 @@ describe("removeFromCart tests", () => {
    });
 
    it("removeFromCart - success - test", async () => {
-      const item = ptestData.pCartItem();
-      pRemoveCartItemMock.mockResolvedValue(item);
-
-      const result = await removeFromCart(item.id);
-
+      const item = dtestData.dCartItem();
       const expectdResult = {
          success: true,
          message: "Item removed from cart successfully.",
       };
 
-      expect(result).toEqual(expectdResult);
-      expect(pRemoveCartItemMock).toHaveBeenCalledTimes(1);
-      expect(pRemoveCartItemMock).toHaveBeenCalledWith(item.id);
-   });
-
-   it("removeFromCart - error - test", async () => {
-      const item = ptestData.pCartItem();
-      const errorMessage = "Item not found";
-      const error = new Error(errorMessage);
-
-      pRemoveCartItemMock.mockRejectedValue(error);
+      sRemoveFromCartMock.mockResolvedValue(expectdResult);
 
       const result = await removeFromCart(item.id);
 
-      const expectdResult = {
-         success: false,
-         message: errorMessage,
-      };
-
       expect(result).toEqual(expectdResult);
-      expect(pRemoveCartItemMock).toHaveBeenCalledTimes(1);
-      expect(pRemoveCartItemMock).toHaveBeenCalledWith(item.id);
-   });
-
-   it("removeFromCart - database error - test", async () => {
-      const item = ptestData.pCartItem();
-      const error = {
-         name: "PrismaClientKnownRequestError",
-         code: "P2025",
-         message: "Record to delete does not exist.",
-      };
-
-      pRemoveCartItemMock.mockRejectedValue(error);
-
-      const result = await removeFromCart(item.id);
-
-      const expectdResult = {
-         success: false,
-         message: "Record to delete does not exist.",
-      };
-
-      expect(result).toEqual(expectdResult);
-      expect(pRemoveCartItemMock).toHaveBeenCalledTimes(1);
+      expect(sRemoveFromCartMock).toHaveBeenCalledTimes(1);
+      expect(sRemoveFromCartMock).toHaveBeenCalledWith(item.id);
    });
 });
 
@@ -289,77 +95,17 @@ describe("clearCart tests", () => {
       jest.clearAllMocks();
    });
 
-   it("clearCart - success - test", async () => {
-      const session = ntestData.session();
-      const cart = ptestData.pCartWithItems();
-      const batchPayload: BatchPayload = { count: cart.items.length };
-
-      authMock.mockResolvedValue(session);
-      pGetOrCreateCartMock.mockResolvedValue(cart);
-      pClearCartMock.mockResolvedValue(batchPayload);
-
-      const result = await clearCart();
-
+   it("clearCart - test", async () => {
       const expectedResult = {
          success: true,
          message: "Cart cleared successfully.",
       };
-
-      expect(result).toEqual(expectedResult);
-      expect(pGetOrCreateCartMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrCreateCartMock).toHaveBeenCalledWith({
-         userId: session.user.id,
-      });
-      expect(pClearCartMock).toHaveBeenCalledTimes(1);
-      expect(pClearCartMock).toHaveBeenCalledWith(cart.id);
-   });
-
-   it("clearCart - error - test", async () => {
-      const session = ntestData.session();
-      const cart = ptestData.pCartWithItems();
-      const errorMessage = "Failed to clear cart";
-      const error = new Error(errorMessage);
-
-      authMock.mockResolvedValue(session);
-      pGetOrCreateCartMock.mockResolvedValue(cart);
-      pClearCartMock.mockRejectedValue(error);
+      sClearCartMock.mockResolvedValue(expectedResult);
 
       const result = await clearCart();
 
-      const expectedResult = {
-         success: false,
-         message: errorMessage,
-      };
-
       expect(result).toEqual(expectedResult);
-      expect(pGetOrCreateCartMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrCreateCartMock).toHaveBeenCalledWith({
-         userId: session.user.id,
-      });
-      expect(pClearCartMock).toHaveBeenCalledTimes(1);
-      expect(pClearCartMock).toHaveBeenCalledWith(cart.id);
-   });
-
-   it("clearCart - getCart throws error - test", async () => {
-      const errorMessage = "Cart not found";
-      const error = new Error(errorMessage);
-
-      authMock.mockResolvedValue(null);
-      const reqCookies = ntestData.cookies({});
-      cookiesMock.mockResolvedValue(reqCookies);
-      pGetOrCreateCartMock.mockRejectedValue(error);
-
-      const result = await clearCart();
-
-      const expectdResult = {
-         success: false,
-         message: errorMessage,
-      };
-
-      expect(result).toEqual(expectdResult);
-      expect(pGetOrCreateCartMock).toHaveBeenCalledTimes(1);
-      expect(pGetOrCreateCartMock).toHaveBeenCalledWith({});
-      expect(pClearCartMock).not.toHaveBeenCalled();
+      expect(sClearCartMock).toHaveBeenCalledTimes(1);
    });
 });
 
@@ -374,8 +120,8 @@ describe("migrateSessionCartToUser tests", () => {
 
       await migrateSessionCartToUser(sessionCartId, userId);
 
-      expect(pMigrateSessionCartToUserMock).toHaveBeenCalledTimes(1);
-      expect(pMigrateSessionCartToUserMock).toHaveBeenCalledWith(
+      expect(sMigrateSessionCartToUserMock).toHaveBeenCalledTimes(1);
+      expect(sMigrateSessionCartToUserMock).toHaveBeenCalledWith(
          sessionCartId,
          userId
       );
