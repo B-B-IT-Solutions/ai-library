@@ -2,6 +2,7 @@ jest.mock("@/data/services/order");
 jest.mock("next/server");
 
 import { stripeTestData } from "@tests";
+import { DeepMockProxy } from "jest-mock-extended";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -29,12 +30,7 @@ const sStripePaymentFailedMock = sStripePaymentFailed as jest.MockedFunction<
 const mockTransaction = jest.fn((callback) => callback(prisma));
 (prisma.$transaction as jest.Mock) = mockTransaction;
 
-const mockNextResponse = (data: unknown, init: { status: number }) => ({
-   status: init.status,
-   json: async () => data,
-});
-
-(NextResponse.json as jest.Mock) = jest.fn(mockNextResponse);
+const nextResponseMock = NextResponse as unknown as DeepMockProxy<NextResponse>;
 
 describe("handleStripeEvent tests", () => {
    const originalConsoleLog = console.log;
@@ -57,11 +53,16 @@ describe("handleStripeEvent tests", () => {
          const session = event.data.object as Stripe.Checkout.Session;
          session.metadata = { orderId: undefined };
 
-         const response = await handleStripeEvent(event);
+         await handleStripeEvent(event);
 
-         expect(response.status).toBe(500);
-         const responseData = await response.json();
-         expect(responseData).toEqual({ error: "Webhook processing failed" });
+         const expectedPayload = { error: "Webhook processing failed" };
+         const expectedStatus = { status: 500 };
+
+         expect(nextResponseMock.json).toHaveBeenCalledTimes(1);
+         expect(nextResponseMock.json).toHaveBeenCalledWith(
+            expectedPayload,
+            expectedStatus
+         );
 
          expect(sStripeCheckoutCompletedMock).not.toHaveBeenCalled();
          expect(console.error).toHaveBeenCalledTimes(1);
@@ -73,11 +74,16 @@ describe("handleStripeEvent tests", () => {
             new Error("processing error")
          );
 
-         const response = await handleStripeEvent(event);
+         await handleStripeEvent(event);
 
-         expect(response.status).toBe(200);
-         const responseData = await response.json();
-         expect(responseData).toEqual({ received: true });
+         const expectedPayload = { received: true };
+         const expectedStatus = { status: 200 };
+
+         expect(nextResponseMock.json).toHaveBeenCalledTimes(1);
+         expect(nextResponseMock.json).toHaveBeenCalledWith(
+            expectedPayload,
+            expectedStatus
+         );
 
          expect(sStripeCheckoutCompletedMock).toHaveBeenCalledTimes(1);
          expect(sStripeCheckoutCompletedMock).toHaveBeenCalledWith(
@@ -92,11 +98,16 @@ describe("handleStripeEvent tests", () => {
          const event = stripeTestData.checkoutSessionCompletedEvent();
          sStripeCheckoutCompletedMock.mockResolvedValue(undefined);
 
-         const response = await handleStripeEvent(event);
+         await handleStripeEvent(event);
 
-         expect(response.status).toBe(200);
-         const responseData = await response.json();
-         expect(responseData).toEqual({ received: true });
+         const expectedPayload = { received: true };
+         const expectedStatus = { status: 200 };
+
+         expect(nextResponseMock.json).toHaveBeenCalledTimes(1);
+         expect(nextResponseMock.json).toHaveBeenCalledWith(
+            expectedPayload,
+            expectedStatus
+         );
 
          expect(sStripeCheckoutCompletedMock).toHaveBeenCalledTimes(1);
          expect(sStripeCheckoutCompletedMock).toHaveBeenCalledWith(
@@ -114,11 +125,16 @@ describe("handleStripeEvent tests", () => {
          const session = event.data.object as Stripe.Checkout.Session;
          session.metadata = { orderId: undefined };
 
-         const response = await handleStripeEvent(event);
+         await handleStripeEvent(event);
 
-         expect(response.status).toBe(500);
-         const responseData = await response.json();
-         expect(responseData).toEqual({ error: "Webhook processing failed" });
+         const expectedPayload = { error: "Webhook processing failed" };
+         const expectedStatus = { status: 500 };
+
+         expect(nextResponseMock.json).toHaveBeenCalledTimes(1);
+         expect(nextResponseMock.json).toHaveBeenCalledWith(
+            expectedPayload,
+            expectedStatus
+         );
 
          expect(sStripeCheckoutExpiredMock).not.toHaveBeenCalled();
          expect(console.error).toHaveBeenCalledTimes(1);
@@ -130,11 +146,16 @@ describe("handleStripeEvent tests", () => {
             new Error("processing error")
          );
 
-         const response = await handleStripeEvent(event);
+         await handleStripeEvent(event);
 
-         expect(response.status).toBe(200);
-         const responseData = await response.json();
-         expect(responseData).toEqual({ received: true });
+         const expectedPayload = { received: true };
+         const expectedStatus = { status: 200 };
+
+         expect(nextResponseMock.json).toHaveBeenCalledTimes(1);
+         expect(nextResponseMock.json).toHaveBeenCalledWith(
+            expectedPayload,
+            expectedStatus
+         );
 
          expect(sStripeCheckoutExpiredMock).toHaveBeenCalledTimes(1);
          expect(sStripeCheckoutExpiredMock).toHaveBeenCalledWith("order-id-1");
@@ -145,11 +166,16 @@ describe("handleStripeEvent tests", () => {
          const event = stripeTestData.checkoutSessionCompletedExpired();
          sStripeCheckoutExpiredMock.mockResolvedValue(undefined);
 
-         const response = await handleStripeEvent(event);
+         await handleStripeEvent(event);
 
-         expect(response.status).toBe(200);
-         const responseData = await response.json();
-         expect(responseData).toEqual({ received: true });
+         const expectedPayload = { received: true };
+         const expectedStatus = { status: 200 };
+
+         expect(nextResponseMock.json).toHaveBeenCalledTimes(1);
+         expect(nextResponseMock.json).toHaveBeenCalledWith(
+            expectedPayload,
+            expectedStatus
+         );
 
          expect(sStripeCheckoutExpiredMock).toHaveBeenCalledTimes(1);
          expect(sStripeCheckoutExpiredMock).toHaveBeenCalledWith("order-id-1");
@@ -164,11 +190,16 @@ describe("handleStripeEvent tests", () => {
             new Error("processing error")
          );
 
-         const response = await handleStripeEvent(event);
+         await handleStripeEvent(event);
 
-         expect(response.status).toBe(200);
-         const responseData = await response.json();
-         expect(responseData).toEqual({ received: true });
+         const expectedPayload = { received: true };
+         const expectedStatus = { status: 200 };
+
+         expect(nextResponseMock.json).toHaveBeenCalledTimes(1);
+         expect(nextResponseMock.json).toHaveBeenCalledWith(
+            expectedPayload,
+            expectedStatus
+         );
 
          expect(sStripePaymentFailedMock).toHaveBeenCalledTimes(1);
          expect(sStripePaymentFailedMock).toHaveBeenCalledWith(
@@ -181,11 +212,16 @@ describe("handleStripeEvent tests", () => {
          const event = stripeTestData.paymentIntentFailedEvent();
          sStripePaymentFailedMock.mockResolvedValue(undefined);
 
-         const response = await handleStripeEvent(event);
+         await handleStripeEvent(event);
 
-         expect(response.status).toBe(200);
-         const responseData = await response.json();
-         expect(responseData).toEqual({ received: true });
+         const expectedPayload = { received: true };
+         const expectedStatus = { status: 200 };
+
+         expect(nextResponseMock.json).toHaveBeenCalledTimes(1);
+         expect(nextResponseMock.json).toHaveBeenCalledWith(
+            expectedPayload,
+            expectedStatus
+         );
 
          expect(sStripePaymentFailedMock).toHaveBeenCalledTimes(1);
          expect(sStripePaymentFailedMock).toHaveBeenCalledWith(
@@ -207,11 +243,16 @@ describe("handleStripeEvent tests", () => {
             },
          } as unknown as Stripe.Event;
 
-         const response = await handleStripeEvent(event);
+         await handleStripeEvent(event);
 
-         expect(response.status).toBe(200);
-         const responseData = await response.json();
-         expect(responseData).toEqual({ received: true });
+         const expectedPayload = { received: true };
+         const expectedStatus = { status: 200 };
+
+         expect(nextResponseMock.json).toHaveBeenCalledTimes(1);
+         expect(nextResponseMock.json).toHaveBeenCalledWith(
+            expectedPayload,
+            expectedStatus
+         );
 
          expect(console.log).toHaveBeenCalledTimes(1);
          expect(console.log).toHaveBeenCalledWith(
