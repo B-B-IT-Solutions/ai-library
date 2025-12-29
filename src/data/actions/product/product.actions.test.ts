@@ -2,7 +2,7 @@ jest.mock("@/data/db/queries/product");
 
 import { ptestData } from "@tests";
 
-import { pGetProduct, pGetProducts } from "@/data/db/queries/product";
+import { ProductRepository } from "@/data/db/queries/product";
 import {
    ProductWhereInput,
    ProductWhereUniqueInput,
@@ -10,6 +10,9 @@ import {
 
 import { getProduct, getProducts } from "./product.actions";
 import { toDProductsWithItems, toDProductWithDetails } from "./product.mapper";
+
+const pGetProducts = ProductRepository.prototype.pGetProducts;
+const pGetProduct = ProductRepository.prototype.pGetProduct;
 
 const pGetProductsMock = pGetProducts as jest.MockedFunction<
    typeof pGetProducts
@@ -19,7 +22,7 @@ const pGetProductMock = pGetProduct as jest.MockedFunction<typeof pGetProduct>;
 
 describe("getProducts tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    it("getProducts test", async () => {
@@ -39,7 +42,7 @@ describe("getProducts tests", () => {
 
 describe("getProduct tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    it("getProduct - productId invalid - test", async () => {
