@@ -191,13 +191,14 @@ describe("handleStripeCheckoutCompleted tests", () => {
 
       orderRepoMock.pGetOrderProducts.mockResolvedValue(null);
 
-      await expect(
+      const fn = () =>
          orderService.handleStripeCheckoutCompleted(
             orderId,
             paymentIntentId,
             paymentStatus
-         )
-      ).rejects.toThrow(`Order ${orderId} not found`);
+         );
+
+      await expect(fn).rejects.toThrow(`Order ${orderId} not found`);
 
       expect(orderRepoMock.pGetOrderProducts).toHaveBeenCalledTimes(1);
       expect(orderRepoMock.pGetOrderProducts).toHaveBeenCalledWith(orderId);
@@ -240,9 +241,6 @@ describe("handleStripeCheckoutCompleted tests", () => {
       const paymentStatus = "succeeded";
 
       orderRepoMock.pGetOrderProducts.mockResolvedValue(order);
-      orderRepoMock.pUpdateOrderWithStripeDetails.mockResolvedValue(undefined);
-      libraryServiceMock.createLibraryEntries.mockResolvedValue(undefined);
-      orderRepoMock.pUpdateOrderStatus.mockResolvedValue(undefined);
 
       await orderService.handleStripeCheckoutCompleted(
          order.id,
@@ -289,8 +287,6 @@ describe("handleStripeCheckoutExpired tests", () => {
    it("handleStripeCheckoutExpired - order status updated to failed - test", async () => {
       const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
 
-      orderRepoMock.pUpdateOrderStatus.mockResolvedValue(undefined);
-
       await orderService.handleStripeCheckoutExpired(orderId);
 
       expect(orderRepoMock.pUpdateOrderStatus).toHaveBeenCalledTimes(1);
@@ -311,9 +307,9 @@ describe("handleStripePaymentFailed tests", () => {
 
       orderRepoMock.pGetOrderByPaymentIntentId.mockResolvedValue(null);
 
-      await expect(
-         orderService.handleStripePaymentFailed(paymentIntentId)
-      ).rejects.toThrow(
+      const fn = () => orderService.handleStripePaymentFailed(paymentIntentId);
+
+      await expect(fn).rejects.toThrow(
          `Order with paymentIntentId ${paymentIntentId} not found`
       );
 
@@ -332,8 +328,6 @@ describe("handleStripePaymentFailed tests", () => {
       const paymentIntentId = "pi_123456";
 
       orderRepoMock.pGetOrderByPaymentIntentId.mockResolvedValue(order);
-      orderRepoMock.pUpdateOrderStatus.mockResolvedValue(undefined);
-      orderRepoMock.pUpdateOrderWithStripeDetails.mockResolvedValue(undefined);
 
       await orderService.handleStripePaymentFailed(paymentIntentId);
 
