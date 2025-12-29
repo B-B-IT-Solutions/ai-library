@@ -1,8 +1,8 @@
 "use server";
 
 import prisma from "@/data/db/prisma";
-import { LibraryRepository } from "@/data/db/queries/library";
-import { LibraryService } from "@/data/services/library";
+import { ServiceFactory } from "@/data/services";
+import { DbClient } from "@/data/types/db/common";
 import { DLibraryEntry } from "@/data/types/domain/library";
 import { ActionResult } from "@/data/types/utils";
 
@@ -32,7 +32,7 @@ export const downloadTemplate = async (
    return service.downloadTemplate(templateId);
 };
 
-const getLibrarySevice = () => {
-   const repository = new LibraryRepository(prisma);
-   return new LibraryService(repository);
+const getLibrarySevice = (dbClient: DbClient = prisma) => {
+   const factory = new ServiceFactory(dbClient);
+   return factory.getLibraryService();
 };

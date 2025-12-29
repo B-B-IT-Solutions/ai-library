@@ -271,69 +271,29 @@ describe("clearCart tests", () => {
       jest.clearAllMocks();
    });
 
-   it("clearCart - success - test", async () => {
+   it("clearCart - cart null - test", async () => {
       const userId = "user-id-1";
-      const cart = ptestData.pCartWithItems();
-      const batchPayload: BatchPayload = { count: cart.items.length };
 
-      cartRepoMock.pGetCartByUserId.mockResolvedValue(cart);
-      cartRepoMock.pClearCart.mockResolvedValue(batchPayload);
+      cartRepoMock.pGetCartByUserId.mockResolvedValue(null);
 
-      const result = await cartService.clearCart(userId);
+      await cartService.clearCart(userId);
 
-      const expectedResult = {
-         success: true,
-         message: "Cart cleared successfully.",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(cartRepoMock.pGetCartByUserId).toHaveBeenCalledTimes(1);
-      expect(cartRepoMock.pGetCartByUserId).toHaveBeenCalledWith(userId);
-      expect(cartRepoMock.pClearCart).toHaveBeenCalledTimes(1);
-      expect(cartRepoMock.pClearCart).toHaveBeenCalledWith(cart.id);
-   });
-
-   it("clearCart - error - test", async () => {
-      const userId = "user-id-1";
-      const cart = ptestData.pCartWithItems();
-      const errorMessage = "Failed to clear cart";
-      const error = new Error(errorMessage);
-
-      cartRepoMock.pGetCartByUserId.mockResolvedValue(cart);
-      cartRepoMock.pClearCart.mockRejectedValue(error);
-
-      const result = await cartService.clearCart(userId);
-
-      const expectedResult = {
-         success: false,
-         message: errorMessage,
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(cartRepoMock.pGetCartByUserId).toHaveBeenCalledTimes(1);
-      expect(cartRepoMock.pGetCartByUserId).toHaveBeenCalledWith(userId);
-      expect(cartRepoMock.pClearCart).toHaveBeenCalledTimes(1);
-      expect(cartRepoMock.pClearCart).toHaveBeenCalledWith(cart.id);
-   });
-
-   it("clearCart - getCart throws error - test", async () => {
-      const userId = "user-id-1";
-      const errorMessage = "Cart not found";
-      const error = new Error(errorMessage);
-
-      cartRepoMock.pGetCartByUserId.mockRejectedValue(error);
-
-      const result = await cartService.clearCart(userId);
-
-      const expectdResult = {
-         success: false,
-         message: errorMessage,
-      };
-
-      expect(result).toEqual(expectdResult);
       expect(cartRepoMock.pGetCartByUserId).toHaveBeenCalledTimes(1);
       expect(cartRepoMock.pGetCartByUserId).toHaveBeenCalledWith(userId);
       expect(cartRepoMock.pClearCart).not.toHaveBeenCalled();
+   });
+
+   it("clearCart - cart exists - test", async () => {
+      const userId = "user-id-1";
+      const cart = ptestData.pCartWithItems();
+      cartRepoMock.pGetCartByUserId.mockResolvedValue(cart);
+
+      await cartService.clearCart(userId);
+
+      expect(cartRepoMock.pGetCartByUserId).toHaveBeenCalledTimes(1);
+      expect(cartRepoMock.pGetCartByUserId).toHaveBeenCalledWith(userId);
+      expect(cartRepoMock.pClearCart).toHaveBeenCalledTimes(1);
+      expect(cartRepoMock.pClearCart).toHaveBeenCalledWith(cart.id);
    });
 });
 
