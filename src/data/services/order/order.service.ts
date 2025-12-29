@@ -4,9 +4,7 @@ import { createLibraryEntries } from "@/data/actions/library";
 import { OrderRepository } from "@/data/db/queries/order";
 import { CartService } from "@/data/services/cart";
 import { DOrder } from "@/data/types/domain/order";
-import { ActionResult } from "@/data/types/utils";
 import { requireUser } from "../../actions/auth-utils";
-import { formatError } from "../../actions/utils";
 
 import { toDOrdersWithItems, toDOrderWithItems } from "./order.mapper";
 
@@ -46,42 +44,12 @@ export class OrderService {
       }
    }
 
-   async completeOrder(orderId: string): Promise<ActionResult> {
-      try {
-         const order = await this.orderRepository.pGetOrderProducts(orderId);
-         if (!order) {
-            throw new Error(`Order ${orderId} not found`);
-         }
-
-         if (order.status === "COMPLETED") {
-            return {
-               success: true,
-               message: "Order already completed.",
-            };
-         }
-
-         await createLibraryEntries(order);
-         await this.orderRepository.pUpdateOrderStatus(order.id, "COMPLETED");
-         await this.cartService.clearCart(order.userId);
-
-         return {
-            success: true,
-            message: "Order completed successfully!",
-         };
-      } catch (error) {
-         return {
-            success: false,
-            message: formatError(error),
-         };
-      }
-   }
-
    async handleStripeCheckoutCompleted(
       orderId: string,
       paymentIntentId: string,
       paymentStatus: string
    ) {
-      const order = await this.orderRepository.pGetOrder(orderId);
+      const order = await this.orderRepository.pGetOrderProducts(orderId);
       if (!order) {
          throw new Error(`Order ${orderId} not found`);
       }
@@ -93,56 +61,30 @@ export class OrderService {
             stripePaymentStatus: paymentStatus,
             paymentMethod: "STRIPE",
          });
-         await this.completeOrder(orderId);
+         await createLibraryEntries(order);
+         await this.orderRepository.pUpdateOrderStatus(order.id, "COMPLETED");
+         await this.cartService.clearCart(order.userId);
       }
    }
 
-   async handleStripeCheckoutExpired(
-      orderId: string
-   ): Promise<ActionResult<void>> {
-      try {
-         await this.orderRepository.pUpdateOrderStatus(orderId, "FAILED");
-         return {
-            success: true,
-            message: `Order ${orderId} marked as FAILED due to expired session`,
-         };
-      } catch (error) {
-         return {
-            success: false,
-            message: formatError(error),
-         };
-      }
+   async handleStripeCheckoutExpired(orderId: string) {
+      await this.orderRepository.pUpdateOrderStatus(orderId, "FAILED");
    }
 
-   async handleStripePaymentFailed(
-      paymentIntentId: string
-   ): Promise<ActionResult<void>> {
-      try {
-         const order = await this.orderRepository.pGetOrderByPaymentIntentId(
-            paymentIntentId
+   async handleStripePaymentFailed(paymentIntentId: string) {
+      const order = await this.orderRepository.pGetOrderByPaymentIntentId(
+         paymentIntentId
+      );
+
+      if (!order) {
+         throw new Error(
+            `Order with paymentIntentId ${paymentIntentId} not found`
          );
-
-         if (!order) {
-            return {
-               success: false,
-               message: `Order not found for payment intent ${paymentIntentId}`,
-            };
-         }
-
-         await this.orderRepository.pUpdateOrderStatus(order.id, "FAILED");
-         await this.orderRepository.pUpdateOrderWithStripeDetails(order.id, {
-            stripePaymentStatus: "failed",
-         });
-
-         return {
-            success: true,
-            message: `Order ${order.id} marked as FAILED due to payment failure`,
-         };
-      } catch (error) {
-         return {
-            success: false,
-            message: formatError(error),
-         };
       }
+
+      await this.orderRepository.pUpdateOrderStatus(order.id, "FAILED");
+      await this.orderRepository.pUpdateOrderWithStripeDetails(order.id, {
+         stripePaymentStatus: "failed",
+      });
    }
 }
