@@ -5,10 +5,8 @@ import { isEmpty } from "es-toolkit/compat";
 import { requireUser } from "@/data/actions/auth-utils";
 import { getCart } from "@/data/actions/cart";
 import { formatError } from "@/data/actions/utils";
-import {
-   pCreateOrder,
-   pUpdateOrderWithStripeDetails,
-} from "@/data/db/queries/order";
+import prisma from "@/data/db/prisma";
+import { OrderRepository } from "@/data/db/queries/order";
 import { ActionResult } from "@/data/types/utils";
 import { APP_URL } from "@/lib/constants";
 import { stripe } from "@/lib/stripe/stripe-server";
@@ -35,7 +33,8 @@ export const createCheckoutSession = async (): Promise<
       }
 
       // Create pending order FIRST
-      const order = await pCreateOrder({
+      const orderRepository = new OrderRepository(prisma);
+      const order = await orderRepository.pCreateOrder({
          user: {
             connect: {
                id: user.id,
@@ -86,7 +85,7 @@ export const createCheckoutSession = async (): Promise<
          cancel_url: `${APP_URL}/checkout?canceled=true`,
       });
 
-      await pUpdateOrderWithStripeDetails(order.id, {
+      await orderRepository.pUpdateOrderWithStripeDetails(order.id, {
          stripeCheckoutSessionId: checkoutSession.id,
          stripePaymentStatus: "unpaid",
       });

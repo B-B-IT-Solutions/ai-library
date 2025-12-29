@@ -11,13 +11,14 @@ import Stripe from "stripe";
 import { requireUser } from "@/data/actions/auth-utils";
 import { getCart } from "@/data/actions/cart";
 import { formatError } from "@/data/actions/utils";
-import {
-   pCreateOrder,
-   pUpdateOrderWithStripeDetails,
-} from "@/data/db/queries/order";
+import { OrderRepository } from "@/data/db/queries/order";
 import { stripe } from "@/lib/stripe/stripe-server";
 
 import { createCheckoutSession } from "./stripe.actions";
+
+const pCreateOrder = OrderRepository.prototype.pCreateOrder;
+const pUpdateOrderWithStripeDetails =
+   OrderRepository.prototype.pUpdateOrderWithStripeDetails;
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 const getCartMock = getCart as jest.MockedFunction<typeof getCart>;
