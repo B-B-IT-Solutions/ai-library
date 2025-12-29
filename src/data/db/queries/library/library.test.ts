@@ -7,9 +7,14 @@ import prisma from "@/data/db/prisma";
 import {
    LibraryEntryCreateManyArgs,
    LibraryEntryFindManyArgs,
+   LibraryEntryFindUniqueArgs,
 } from "@/generated/prisma/models";
 
-import { pCreateLibraryEntries, pGetLibraryEntries } from "./library";
+import {
+   pCheckUserHasTemplate,
+   pCreateLibraryEntries,
+   pGetLibraryEntries,
+} from "./library";
 
 export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
@@ -75,6 +80,59 @@ describe("pCreateLibraryEntries tests", () => {
       expect(prismaMock.libraryEntry.createMany).toHaveBeenCalledTimes(1);
       expect(prismaMock.libraryEntry.createMany).toHaveBeenCalledWith(
          expectedCreateManyArgs
+      );
+   });
+});
+
+describe("pCheckUserHasTemplate tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pCheckUserHasTemplate - template not found - test", async () => {
+      const userId = "user-id-123";
+      const templateId = "template-id-123";
+      prismaMock.libraryEntry.findUnique.mockResolvedValue(null);
+
+      const result = await pCheckUserHasTemplate(userId, templateId);
+
+      const expectedFindUniqueArgs: LibraryEntryFindUniqueArgs = {
+         where: {
+            userId_templateId: {
+               userId,
+               templateId,
+            },
+         },
+      };
+
+      expect(result).toEqual(false);
+      expect(prismaMock.libraryEntry.findUnique).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryEntry.findUnique).toHaveBeenCalledWith(
+         expectedFindUniqueArgs
+      );
+   });
+
+   test("pCheckUserHasTemplate - template found - test", async () => {
+      const userId = "user-id-456";
+      const templateId = "template-id-456";
+      const entry = ptestData.pLibraryEntry();
+      prismaMock.libraryEntry.findUnique.mockResolvedValue(entry);
+
+      const result = await pCheckUserHasTemplate(userId, templateId);
+
+      const expectedFindUniqueArgs: LibraryEntryFindUniqueArgs = {
+         where: {
+            userId_templateId: {
+               userId,
+               templateId,
+            },
+         },
+      };
+
+      expect(result).toEqual(true);
+      expect(prismaMock.libraryEntry.findUnique).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryEntry.findUnique).toHaveBeenCalledWith(
+         expectedFindUniqueArgs
       );
    });
 });

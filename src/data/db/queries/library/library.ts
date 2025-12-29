@@ -44,7 +44,7 @@ export const pCheckUserHasTemplate = async (
    userId: string,
    templateId: string
 ) => {
-   const librayEntry = await prisma.libraryEntry.findUnique({
+   const entry = await prisma.libraryEntry.findUnique({
       where: {
          userId_templateId: {
             userId,
@@ -53,5 +53,5 @@ export const pCheckUserHasTemplate = async (
       },
    });
 
-   return librayEntry !== null;
+   return entry !== null;
 };

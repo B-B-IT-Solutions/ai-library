@@ -26,6 +26,16 @@ export const pGetOrder = async (
    });
 };
 
+export const pGetOrderByPaymentIntentId = async (
+   paymentIntentId: string
+): Promise<Order | null> => {
+   return await prisma.order.findFirst({
+      where: {
+         stripePaymentIntentId: paymentIntentId,
+      },
+   });
+};
+
 export const pGetOrderProducts = async (
    orderId: string
 ): Promise<OrderProducts | null> => {
@@ -50,16 +60,6 @@ export const pGetOrderProducts = async (
                },
             },
          },
-      },
-   });
-};
-
-export const pGetOrderByPaymentIntentId = async (
-   paymentIntentId: string
-): Promise<Order | null> => {
-   return await prisma.order.findFirst({
-      where: {
-         stripePaymentIntentId: paymentIntentId,
       },
    });
 };
