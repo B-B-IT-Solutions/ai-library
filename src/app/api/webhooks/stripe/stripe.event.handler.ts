@@ -1,11 +1,9 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-import {
-   handleStripeCheckoutCompleted,
-   handleStripeCheckoutExpired,
-   handleStripePaymentFailed,
-} from "@/data/actions/order/order.actions";
+import prisma from "@/data/db/prisma";
+import { ServiceFactory } from "@/data/services";
+import { DbClient } from "@/data/types/db/common";
 
 export const handleStripeEvent = async (event: Stripe.Event) => {
    try {
@@ -44,41 +42,52 @@ export const handleStripeEvent = async (event: Stripe.Event) => {
 
 const handleCheckoutCompleted = async (session: Stripe.Checkout.Session) => {
    const orderId = session.metadata?.orderId;
-
    if (!orderId) {
       throw new Error("No orderId in session metadata");
    }
 
-   const result = await handleStripeCheckoutCompleted(
-      orderId,
-      session.payment_intent as string,
-      session.payment_status
-   );
-
-   if (!result.success) {
-      // Don't throw - order is paid, we need to handle this manually
-      console.error(result.message);
+   try {
+      await prisma.$transaction(async (tx) => {
+         const service = getOrderSevice(tx);
+         return service.handleStripeCheckoutCompleted(
+            orderId,
+            session.payment_intent as string,
+            session.payment_status
+         );
+      });
+   } catch (error) {
+      console.error(error);
    }
 };
 
 const handleCheckoutExpired = async (session: Stripe.Checkout.Session) => {
    const orderId = session.metadata?.orderId;
-
    if (!orderId) {
       throw new Error("No orderId in session metadata");
    }
 
-   const result = await handleStripeCheckoutExpired(orderId);
-
-   if (!result.success) {
-      console.error(result.message);
+   try {
+      await prisma.$transaction(async (tx) => {
+         const service = getOrderSevice(tx);
+         return service.handleStripeCheckoutExpired(orderId);
+      });
+   } catch (error) {
+      console.error(error);
    }
 };
 
 const handlePaymentFailed = async (paymentIntent: Stripe.PaymentIntent) => {
-   const result = await handleStripePaymentFailed(paymentIntent.id);
-
-   if (!result.success) {
-      console.error(result.message);
+   try {
+      await prisma.$transaction(async (tx) => {
+         const service = getOrderSevice(tx);
+         return service.handleStripePaymentFailed(paymentIntent.id);
+      });
+   } catch (error) {
+      console.error(error);
    }
+};
+
+const getOrderSevice = (dbClient: DbClient = prisma) => {
+   const factory = new ServiceFactory(dbClient);
+   return factory.getOrderService();
 };
