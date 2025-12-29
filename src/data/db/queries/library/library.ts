@@ -1,12 +1,12 @@
 import { map } from "es-toolkit/compat";
 
+import { DbClient } from "@/data/types/db/common";
 import { LibraryEntryWithTemplate } from "@/data/types/db/library";
-import { PrismaClient } from "@/generated/prisma/client";
 
 export class LibraryRepository {
-   private prisma: PrismaClient;
+   private prisma: DbClient;
 
-   constructor(prisma: PrismaClient) {
+   constructor(prisma: DbClient) {
       this.prisma = prisma;
    }
 

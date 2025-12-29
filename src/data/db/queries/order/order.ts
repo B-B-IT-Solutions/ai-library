@@ -1,5 +1,6 @@
+import { DbClient } from "@/data/types/db/common";
 import { OrderProducts, OrderWithItems } from "@/data/types/db/order";
-import { Order, PrismaClient } from "@/generated/prisma/client";
+import { Order } from "@/generated/prisma/client";
 import { OrderCreateInput } from "@/generated/prisma/models";
 
 export type OrderUpdateStripeDetails = {
@@ -10,9 +11,9 @@ export type OrderUpdateStripeDetails = {
 };
 
 export class OrderRepository {
-   private prisma: PrismaClient;
+   private prisma: DbClient;
 
-   constructor(prisma: PrismaClient) {
+   constructor(prisma: DbClient) {
       this.prisma = prisma;
    }
 
