@@ -49,7 +49,7 @@ export const getOrder = async (orderId: string): Promise<DOrder | null> => {
 
 export const completeOrder = async (orderId: string): Promise<ActionResult> => {
    try {
-      const order = await pGetOrder(orderId);
+      const order = await pGetOrderProducts(orderId);
       if (!order) {
          return {
             success: false,
@@ -64,15 +64,9 @@ export const completeOrder = async (orderId: string): Promise<ActionResult> => {
          };
       }
 
-      const orderProducts = await pGetOrderProducts(orderId);
-      if (orderProducts) {
-         await createLibraryEntries(orderProducts);
-      }
-
-      // Update order status
+      await createLibraryEntries(order);
       await pUpdateOrderStatus(order.id, "COMPLETED");
 
-      // clear the cart
       const cart = await pGetCartByUserId(order.userId);
       if (cart) {
          await pClearCart(cart.id);

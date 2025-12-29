@@ -128,6 +128,7 @@ describe("pGetOrderProducts tests", () => {
          select: {
             id: true,
             userId: true,
+            status: true,
             items: {
                select: {
                   product: {

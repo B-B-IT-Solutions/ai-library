@@ -16,5 +16,6 @@ export type OrderItemProduct = {
 export type OrderProducts = {
    id: string;
    userId: string;
+   status: string;
    items: OrderItemProduct[];
 };

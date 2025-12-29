@@ -46,6 +46,7 @@ export const pGetOrderProducts = async (
       select: {
          id: true,
          userId: true,
+         status: true,
          items: {
             select: {
                product: {

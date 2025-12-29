@@ -197,6 +197,7 @@ export const pOrderProducts = (index = 1, count = 3): OrderProducts => {
    return {
       id: order.id,
       userId: order.userId,
+      status: "PENDING",
       items,
    };
 };
