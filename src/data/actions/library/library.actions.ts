@@ -11,13 +11,6 @@ export const getLibraryEntries = async (): Promise<DLibraryEntry[]> => {
    return service.getLibraryEntries();
 };
 
-export const hasAccessToTemplate = async (
-   templateId: string
-): Promise<boolean> => {
-   const service = getLibrarySevice();
-   return service.hasAccessToTemplate(templateId);
-};
-
 export const copyTemplateToPrompts = async (
    templateId: string
 ): Promise<ActionResult> => {

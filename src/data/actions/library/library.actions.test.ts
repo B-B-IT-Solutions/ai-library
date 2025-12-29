@@ -8,19 +8,14 @@ import {
    copyTemplateToPrompts,
    downloadTemplate,
    getLibraryEntries,
-   hasAccessToTemplate,
 } from "./library.actions";
 
 const sGetLibraryEntries = LibraryService.prototype.getLibraryEntries;
-const sHasAccessToTemplate = LibraryService.prototype.hasAccessToTemplate;
 const sCopyTemplateToPrompts = LibraryService.prototype.copyTemplateToPrompts;
 const sDownloadTemplate = LibraryService.prototype.downloadTemplate;
 
 const sGetLibraryEntriesMock = sGetLibraryEntries as jest.MockedFunction<
    typeof sGetLibraryEntries
->;
-const sHasAccessToTemplateMock = sHasAccessToTemplate as jest.MockedFunction<
-   typeof sHasAccessToTemplate
 >;
 const sCopyTemplateToPromptsMock =
    sCopyTemplateToPrompts as jest.MockedFunction<typeof sCopyTemplateToPrompts>;
@@ -41,24 +36,6 @@ describe("getLibraryEntries tests", () => {
 
       expect(result).toEqual(entries);
       expect(sGetLibraryEntriesMock).toHaveBeenCalledTimes(1);
-   });
-});
-
-describe("hasAccessToTemplate tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("hasAccessToTemplate  test", async () => {
-      const templateId = "template-id-1";
-      const expectedResult = true;
-      sHasAccessToTemplateMock.mockResolvedValue(expectedResult);
-
-      const result = await hasAccessToTemplate(templateId);
-
-      expect(result).toEqual(expectedResult);
-      expect(sHasAccessToTemplateMock).toHaveBeenCalledTimes(1);
-      expect(sHasAccessToTemplateMock).toHaveBeenCalledWith(templateId);
    });
 });
 
