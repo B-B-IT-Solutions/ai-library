@@ -16,8 +16,9 @@ import {
 import {
    OrderUpdateStripeDetails,
    pCreateOrder,
-   pGetOrderById,
+   pGetOrder,
    pGetOrderByPaymentIntentId,
+   pGetOrderProducts,
    pGetOrders,
    pUpdateOrderStatus,
    pUpdateOrderWithStripeDetails,
@@ -55,19 +56,19 @@ describe("pGetOrders tests", () => {
    });
 });
 
-describe("pGetOrderById tests", () => {
+describe("pGetOrder tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   test("pGetOrderById test", async () => {
+   test("pGetOrder test", async () => {
       const orderId = "order-id-1";
       const order = ptestData.pOrderWithItems();
       prismaMock.order.findUnique.mockResolvedValue(order);
 
-      const result = await pGetOrderById(orderId);
+      const result = await pGetOrder(orderId);
 
-      const expectedFindManyArgs: OrderFindUniqueArgs = {
+      const expectedFindUniqueArgs: OrderFindUniqueArgs = {
          where: { id: orderId },
          include: {
             items: true,
@@ -77,7 +78,7 @@ describe("pGetOrderById tests", () => {
       expect(result).toEqual(order);
       expect(prismaMock.order.findUnique).toHaveBeenCalledTimes(1);
       expect(prismaMock.order.findUnique).toHaveBeenCalledWith(
-         expectedFindManyArgs
+         expectedFindUniqueArgs
       );
    });
 });
@@ -104,6 +105,51 @@ describe("pGetOrderByPaymentIntentId tests", () => {
       expect(prismaMock.order.findFirst).toHaveBeenCalledTimes(1);
       expect(prismaMock.order.findFirst).toHaveBeenCalledWith(
          expectedFindFirstArgs
+      );
+   });
+});
+
+describe("pGetOrderProducts tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pGetOrderProducts test", async () => {
+      const orderId = "order-id-1";
+      const order = ptestData.pOrderProducts();
+      prismaMock.order.findUnique.mockResolvedValue(order);
+
+      const result = await pGetOrderProducts(orderId);
+
+      const expectedFindUniqueArgs: OrderFindUniqueArgs = {
+         where: {
+            id: orderId,
+         },
+         select: {
+            id: true,
+            userId: true,
+            status: true,
+            items: {
+               select: {
+                  product: {
+                     select: {
+                        id: true,
+                        productItems: {
+                           select: {
+                              templateId: true,
+                           },
+                        },
+                     },
+                  },
+               },
+            },
+         },
+      };
+
+      expect(result).toEqual(order);
+      expect(prismaMock.order.findUnique).toHaveBeenCalledTimes(1);
+      expect(prismaMock.order.findUnique).toHaveBeenCalledWith(
+         expectedFindUniqueArgs
       );
    });
 });

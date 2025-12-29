@@ -14,7 +14,7 @@ import { redirect } from "next/navigation";
 import mockRouter from "next-router-mock";
 
 import { auth } from "@/auth";
-import { getOrderById } from "@/data/actions/order";
+import { getOrder } from "@/data/actions/order";
 
 import {
    metadata,
@@ -24,9 +24,7 @@ import {
 } from "./page";
 
 const authMock = auth as unknown as AuthMockedFunction;
-const getOrderByIdMock = getOrderById as jest.MockedFunction<
-   typeof getOrderById
->;
+const getOrderMock = getOrder as jest.MockedFunction<typeof getOrder>;
 const redirectMock = redirect as jest.MockedFunction<typeof redirect>;
 
 export const expectedMetadata: Metadata = {
@@ -76,7 +74,7 @@ describe("OrderDetailPage rendering tests", () => {
 
       await waitFor(() => {
          expect(authMock).toHaveBeenCalledTimes(1);
-         expect(getOrderByIdMock).not.toHaveBeenCalled();
+         expect(getOrderMock).not.toHaveBeenCalled();
          expect(redirectMock).toHaveBeenCalledTimes(1);
          expect(redirectMock).toHaveBeenCalledWith("/");
       });
@@ -99,7 +97,7 @@ describe("OrderDetailPage rendering tests", () => {
 
       await waitFor(() => {
          expect(authMock).toHaveBeenCalledTimes(1);
-         expect(getOrderByIdMock).not.toHaveBeenCalled();
+         expect(getOrderMock).not.toHaveBeenCalled();
          expect(redirectMock).toHaveBeenCalledTimes(1);
          expect(redirectMock).toHaveBeenCalledWith("/");
       });
@@ -122,7 +120,7 @@ describe("OrderDetailPage rendering tests", () => {
 
       await waitFor(() => {
          expect(authMock).toHaveBeenCalledTimes(1);
-         expect(getOrderByIdMock).not.toHaveBeenCalled();
+         expect(getOrderMock).not.toHaveBeenCalled();
          expect(redirectMock).toHaveBeenCalledTimes(1);
          expect(redirectMock).toHaveBeenCalledWith("/");
       });
@@ -133,7 +131,7 @@ describe("OrderDetailPage rendering tests", () => {
    it("OrderDetailPage - order not found - redirects to home", async () => {
       const session = ntestData.session();
       authMock.mockResolvedValue(session);
-      getOrderByIdMock.mockResolvedValue(null);
+      getOrderMock.mockResolvedValue(null);
 
       const params: OrderParams = { id: "order-id-123" };
 
@@ -147,8 +145,8 @@ describe("OrderDetailPage rendering tests", () => {
          assertRendered();
          assertOrderNotFound();
          expect(authMock).toHaveBeenCalledTimes(1);
-         expect(getOrderByIdMock).toHaveBeenCalledTimes(1);
-         expect(getOrderByIdMock).toHaveBeenCalledWith(params.id);
+         expect(getOrderMock).toHaveBeenCalledTimes(1);
+         expect(getOrderMock).toHaveBeenCalledWith(params.id);
          expect(redirectMock).not.toHaveBeenCalled();
       });
 
@@ -159,7 +157,7 @@ describe("OrderDetailPage rendering tests", () => {
       const session = ntestData.session();
       const order = dtestData.dOrder();
       authMock.mockResolvedValue(session);
-      getOrderByIdMock.mockResolvedValue(order);
+      getOrderMock.mockResolvedValue(order);
 
       const params: OrderParams = { id: "order-id-456" };
 
@@ -173,8 +171,8 @@ describe("OrderDetailPage rendering tests", () => {
          assertRendered();
          assertOrderFound();
          expect(authMock).toHaveBeenCalledTimes(1);
-         expect(getOrderByIdMock).toHaveBeenCalledTimes(1);
-         expect(getOrderByIdMock).toHaveBeenCalledWith(params.id);
+         expect(getOrderMock).toHaveBeenCalledTimes(1);
+         expect(getOrderMock).toHaveBeenCalledWith(params.id);
          expect(redirectMock).not.toHaveBeenCalled();
       });
 
@@ -195,7 +193,7 @@ describe("OrderDetailPage functionality tests", () => {
       const session = ntestData.session();
       const order = dtestData.dOrder();
       authMock.mockResolvedValue(session);
-      getOrderByIdMock.mockResolvedValue(order);
+      getOrderMock.mockResolvedValue(order);
 
       const params: OrderParams = { id: "order-id-456" };
 
@@ -222,7 +220,7 @@ describe("OrderDetailPage functionality tests", () => {
       const session = ntestData.session();
       const order = dtestData.dOrder();
       authMock.mockResolvedValue(session);
-      getOrderByIdMock.mockResolvedValue(order);
+      getOrderMock.mockResolvedValue(order);
 
       const params: OrderParams = { id: "order-id-456" };
 

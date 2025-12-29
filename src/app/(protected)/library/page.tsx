@@ -1,12 +1,12 @@
-import { map } from "es-toolkit/compat";
+import { isEmpty, map } from "es-toolkit/compat";
 import { BookOpen } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
-import { PurchasedTemplateCard } from "@/components/library/purchased-template-card";
+import { LibraryEntryCard } from "@/components/library/library-entry-card";
 import { Button } from "@/components/shadcn/button";
-import { getPurchasedTemplates } from "@/data/actions/library/library.actions";
+import { getLibraryEntries } from "@/data/actions/library";
 
 export default async function LibraryPage() {
    const session = await auth();
@@ -14,9 +14,9 @@ export default async function LibraryPage() {
       return redirect("/");
    }
 
-   const templates = await getPurchasedTemplates();
+   const entries = await getLibraryEntries();
 
-   if (!templates || templates.length === 0) {
+   if (isEmpty(entries)) {
       return (
          <div className="container mx-auto px-4 py-8">
             <h1 className="text-3xl font-bold text-slate-900 mb-8">
@@ -50,8 +50,8 @@ export default async function LibraryPage() {
          </div>
 
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {map(templates, (template) => (
-               <PurchasedTemplateCard key={template.id} template={template} />
+            {map(entries, (entry) => (
+               <LibraryEntryCard key={entry.id} entry={entry} />
             ))}
          </div>
       </div>

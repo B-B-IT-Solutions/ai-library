@@ -238,14 +238,15 @@ CREATE TABLE "order_item" (
 );
 
 -- CreateTable
-CREATE TABLE "purchase" (
+CREATE TABLE "library" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "user_id" UUID NOT NULL,
     "order_id" UUID NOT NULL,
     "template_id" UUID NOT NULL,
+    "product_id" UUID,
     "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "purchase_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "library_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -286,7 +287,7 @@ CREATE UNIQUE INDEX "cart_item_cart_id_product_id_key" ON "cart_item"("cart_id",
 CREATE UNIQUE INDEX "order_stripe_checkout_session_id_key" ON "order"("stripe_checkout_session_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "purchase_user_id_template_id_key" ON "purchase"("user_id", "template_id");
+CREATE UNIQUE INDEX "library_user_id_template_id_key" ON "library"("user_id", "template_id");
 
 -- CreateIndex
 CREATE INDEX "_PromptToPromptCategory_B_index" ON "_PromptToPromptCategory"("B");
@@ -337,13 +338,16 @@ ALTER TABLE "order_item" ADD CONSTRAINT "order_item_order_id_fkey" FOREIGN KEY (
 ALTER TABLE "order_item" ADD CONSTRAINT "order_item_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "purchase" ADD CONSTRAINT "purchase_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "library" ADD CONSTRAINT "library_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "purchase" ADD CONSTRAINT "purchase_order_id_fkey" FOREIGN KEY ("order_id") REFERENCES "order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "library" ADD CONSTRAINT "library_order_id_fkey" FOREIGN KEY ("order_id") REFERENCES "order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "purchase" ADD CONSTRAINT "purchase_template_id_fkey" FOREIGN KEY ("template_id") REFERENCES "prompt_template"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "library" ADD CONSTRAINT "library_template_id_fkey" FOREIGN KEY ("template_id") REFERENCES "prompt_template"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "library" ADD CONSTRAINT "library_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_PromptToPromptCategory" ADD CONSTRAINT "_PromptToPromptCategory_A_fkey" FOREIGN KEY ("A") REFERENCES "prompt"("id") ON DELETE CASCADE ON UPDATE CASCADE;

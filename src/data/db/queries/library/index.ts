@@ -1,5 +1,5 @@
 export {
-   pCreatePurchases,
-   pGetUserPurchases,
+   pGetLibraryEntries,
+   pCreateLibraryEntries,
    pCheckUserHasTemplate,
 } from "./library";

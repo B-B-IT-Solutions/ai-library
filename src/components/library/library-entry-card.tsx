@@ -11,17 +11,17 @@ import {
    copyTemplateToPrompts,
    downloadTemplate,
 } from "@/data/actions/library/library.actions";
-import { DPromptTemplate } from "@/data/types/domain/prompt.template";
+import { DLibraryEntry } from "@/data/types/domain/library";
 
-type PurchasedTemplateCardProps = {
-   template: DPromptTemplate;
+type LibraryEntryCardProps = {
+   entry: DLibraryEntry;
 };
 
-export const PurchasedTemplateCard: FC<PurchasedTemplateCardProps> = ({
-   template,
-}) => {
+export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
    const [isCopying, startCopyTransition] = useTransition();
    const [isDownloading, startDownloadTransition] = useTransition();
+
+   const { template } = entry;
 
    const handleCopy = () => {
       startCopyTransition(async () => {

@@ -9,20 +9,20 @@ datasource db {
 }
 
 model User {
-  id            String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name          String     @default("NO_NAME") @db.VarChar(250)
-  email         String     @unique(map: "user_email_idx") @db.VarChar(250)
-  emailVerified DateTime?  @map("email_verified") @db.Timestamp(6)
+  id            String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name          String         @default("NO_NAME") @db.VarChar(250)
+  email         String         @unique(map: "user_email_idx") @db.VarChar(250)
+  emailVerified DateTime?      @map("email_verified") @db.Timestamp(6)
   image         String?
-  password      String?    @db.VarChar(250)
-  role          String     @default("user") @db.VarChar(50)
-  createdAt     DateTime   @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt     DateTime   @updatedAt @map("updated_at")
+  password      String?        @db.VarChar(250)
+  role          String         @default("user") @db.VarChar(50)
+  createdAt     DateTime       @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt     DateTime       @updatedAt @map("updated_at")
   accounts      Account[]
   sessions      Session[]
   carts         Cart[]
   orders        Order[]
-  purchases     Purchase[]
+  libraries     LibraryEntry[]
 
   @@map("user")
 }
@@ -102,7 +102,7 @@ model PromptTemplate {
   createdAt        DateTime                 @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt        DateTime                 @updatedAt @map("updated_at")
   productItems     ProductItem[]
-  purchases        Purchase[]
+  libraries        LibraryEntry[]
 
   @@map("prompt_template")
 }
@@ -152,6 +152,7 @@ model Product {
   orderItems     OrderItem[]
   createdAt      DateTime             @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt      DateTime             @updatedAt @map("updated_at")
+  libraries      LibraryEntry[]
 
   @@map("product")
 }
@@ -250,19 +251,19 @@ model CartItem {
 }
 
 model Order {
-  id                      String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId                  String      @map("user_id") @db.Uuid
-  status                  OrderStatus @default(PENDING)
-  totalAmount             Decimal     @map("total_amount") @db.Decimal(10, 2)
-  paymentMethod           String?     @map("payment_method") @db.VarChar(100)
-  stripeCheckoutSessionId String?     @unique @map("stripe_checkout_session_id") @db.VarChar(500)
-  stripePaymentIntentId   String?     @map("stripe_payment_intent_id") @db.VarChar(500)
-  stripePaymentStatus     String?     @map("stripe_payment_status") @db.VarChar(50)
-  createdAt               DateTime    @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt               DateTime    @updatedAt @map("updated_at")
-  user                    User        @relation(fields: [userId], references: [id])
+  id                      String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId                  String         @map("user_id") @db.Uuid
+  status                  OrderStatus    @default(PENDING)
+  totalAmount             Decimal        @map("total_amount") @db.Decimal(10, 2)
+  paymentMethod           String?        @map("payment_method") @db.VarChar(100)
+  stripeCheckoutSessionId String?        @unique @map("stripe_checkout_session_id") @db.VarChar(500)
+  stripePaymentIntentId   String?        @map("stripe_payment_intent_id") @db.VarChar(500)
+  stripePaymentStatus     String?        @map("stripe_payment_status") @db.VarChar(50)
+  createdAt               DateTime       @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt               DateTime       @updatedAt @map("updated_at")
+  user                    User           @relation(fields: [userId], references: [id])
   items                   OrderItem[]
-  purchases               Purchase[]
+  libraries               LibraryEntry[]
 
   @@map("order")
 }
@@ -283,16 +284,20 @@ model OrderItem {
   @@map("order_item")
 }
 
-model Purchase {
-  id         String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId     String         @map("user_id") @db.Uuid
-  orderId    String         @map("order_id") @db.Uuid
-  templateId String         @map("template_id") @db.Uuid
-  createdAt  DateTime       @default(now()) @map("created_at") @db.Timestamp(6)
-  user       User           @relation(fields: [userId], references: [id])
-  order      Order          @relation(fields: [orderId], references: [id])
-  template   PromptTemplate @relation(fields: [templateId], references: [id])
+model LibraryEntry {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId     String   @map("user_id") @db.Uuid
+  orderId    String   @map("order_id") @db.Uuid
+  templateId String   @map("template_id") @db.Uuid
+  productId  String   @map("product_id") @db.Uuid
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+
+  user     User           @relation(fields: [userId], references: [id])
+  order    Order          @relation(fields: [orderId], references: [id])
+  template PromptTemplate @relation(fields: [templateId], references: [id])
+
+  product Product @relation(fields: [productId], references: [id])
 
   @@unique([userId, templateId])
-  @@map("purchase")
+  @@map("library_entry")
 }

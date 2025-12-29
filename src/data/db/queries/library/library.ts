@@ -1,7 +1,12 @@
-import prisma from "@/data/db/prisma";
+import { map } from "es-toolkit/compat";
 
-export const pGetUserPurchases = async (userId: string) => {
-   return await prisma.purchase.findMany({
+import prisma from "@/data/db/prisma";
+import { LibraryEntryWithTemplate } from "@/data/types/db/library";
+
+export const pGetLibraryEntries = async (
+   userId: string
+): Promise<LibraryEntryWithTemplate[]> => {
+   return await prisma.libraryEntry.findMany({
       where: { userId },
       include: {
          template: {
@@ -9,7 +14,6 @@ export const pGetUserPurchases = async (userId: string) => {
                categories: true,
             },
          },
-         order: true,
       },
       orderBy: {
          createdAt: "desc",
@@ -17,11 +21,30 @@ export const pGetUserPurchases = async (userId: string) => {
    });
 };
 
+export const pCreateLibraryEntries = async (
+   orderId: string,
+   userId: string,
+   productId: string,
+   templateIds: string[]
+) => {
+   const entries = map(templateIds, (templateId) => ({
+      orderId,
+      userId,
+      productId,
+      templateId,
+   }));
+
+   await prisma.libraryEntry.createMany({
+      data: entries,
+      skipDuplicates: true,
+   });
+};
+
 export const pCheckUserHasTemplate = async (
    userId: string,
    templateId: string
 ) => {
-   const purchase = await prisma.purchase.findUnique({
+   const entry = await prisma.libraryEntry.findUnique({
       where: {
          userId_templateId: {
             userId,
@@ -30,22 +53,5 @@ export const pCheckUserHasTemplate = async (
       },
    });
 
-   return purchase !== null;
-};
-
-export const pCreatePurchases = async (
-   orderId: string,
-   userId: string,
-   templateIds: string[]
-) => {
-   const purchases = templateIds.map((templateId) => ({
-      orderId,
-      userId,
-      templateId,
-   }));
-
-   return await prisma.purchase.createMany({
-      data: purchases,
-      skipDuplicates: true,
-   });
+   return entry !== null;
 };

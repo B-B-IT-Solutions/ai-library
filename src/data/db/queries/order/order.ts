@@ -1,5 +1,5 @@
 import prisma from "@/data/db/prisma";
-import { OrderWithItems } from "@/data/types/db/order";
+import { OrderProducts, OrderWithItems } from "@/data/types/db/order";
 import { Order } from "@/generated/prisma/client";
 import { OrderCreateInput } from "@/generated/prisma/models";
 
@@ -15,7 +15,7 @@ export const pGetOrders = async (userId: string): Promise<OrderWithItems[]> => {
    });
 };
 
-export const pGetOrderById = async (
+export const pGetOrder = async (
    orderId: string
 ): Promise<OrderWithItems | null> => {
    return await prisma.order.findUnique({
@@ -32,6 +32,35 @@ export const pGetOrderByPaymentIntentId = async (
    return await prisma.order.findFirst({
       where: {
          stripePaymentIntentId: paymentIntentId,
+      },
+   });
+};
+
+export const pGetOrderProducts = async (
+   orderId: string
+): Promise<OrderProducts | null> => {
+   return await prisma.order.findUnique({
+      where: {
+         id: orderId,
+      },
+      select: {
+         id: true,
+         userId: true,
+         status: true,
+         items: {
+            select: {
+               product: {
+                  select: {
+                     id: true,
+                     productItems: {
+                        select: {
+                           templateId: true,
+                        },
+                     },
+                  },
+               },
+            },
+         },
       },
    });
 };

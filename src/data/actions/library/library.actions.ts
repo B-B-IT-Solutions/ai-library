@@ -1,28 +1,47 @@
 "use server";
 
+import { isEmpty, map } from "es-toolkit/compat";
 import { validate as isValidUuid } from "uuid";
 
 import {
    pCheckUserHasTemplate,
-   pGetUserPurchases,
+   pCreateLibraryEntries,
+   pGetLibraryEntries,
 } from "@/data/db/queries/library";
 import { createPrompt as pCreatePrompt } from "@/data/db/queries/prompt";
-import { DPurchase } from "@/data/types/domain/library";
-import { DPromptTemplate } from "@/data/types/domain/prompt.template";
+import { OrderProducts } from "@/data/types/db/order";
+import { DLibraryEntry } from "@/data/types/domain/library";
 import { ActionResult } from "@/data/types/utils";
 import { PromptCreateInput } from "@/generated/prisma/models";
 import { requireUser } from "../auth-utils";
 import { formatError } from "../utils";
 
-import { toDPurchases } from "./library.mapper";
+import { toDLibraryEntries } from "./library.mapper";
 
-export const getPurchasedTemplates = async (): Promise<DPromptTemplate[]> => {
+export const getLibraryEntries = async (): Promise<DLibraryEntry[]> => {
    try {
       const user = await requireUser();
-      const purchases = await pGetUserPurchases(user.id!);
-      return purchases.map((p) => p.template);
-   } catch (error) {
+      const entries = await pGetLibraryEntries(user.id!);
+      return toDLibraryEntries(entries);
+   } catch {
       return [];
+   }
+};
+
+export const createLibraryEntries = async (order: OrderProducts) => {
+   for (const item of order.items) {
+      const { product } = item;
+      const { productItems } = product;
+      const templateIds = map(productItems, (i) => i.templateId);
+
+      if (!isEmpty(templateIds)) {
+         await pCreateLibraryEntries(
+            order.id,
+            order.userId,
+            product.id,
+            templateIds
+         );
+      }
    }
 };
 
@@ -31,9 +50,8 @@ export const hasAccessToTemplate = async (
 ): Promise<boolean> => {
    try {
       const user = await requireUser();
-      // Check purchase access
       return await pCheckUserHasTemplate(user.id, templateId);
-   } catch (error) {
+   } catch {
       return false;
    }
 };
@@ -61,7 +79,7 @@ export const copyTemplateToPrompts = async (
       }
 
       // Get template
-      const purchases = await pGetUserPurchases(user.id);
+      const purchases = await pGetLibraryEntries(user.id);
       const purchase = purchases.find((p) => p.templateId === templateId);
 
       if (!purchase) {
@@ -126,7 +144,7 @@ export const downloadTemplate = async (
       }
 
       // Get template
-      const purchases = await pGetUserPurchases(user.id);
+      const purchases = await pGetLibraryEntries(user.id);
       const purchase = purchases.find((p) => p.templateId === templateId);
 
       if (!purchase) {

@@ -1,8 +1,14 @@
 import { Decimal } from "@prisma/client/runtime/library";
 import { range } from "es-toolkit";
+import { map } from "es-toolkit/compat";
 
 import { CartWithItems } from "@/data/types/db/cart";
-import { OrderWithItems } from "@/data/types/db/order";
+import { LibraryEntryWithTemplate } from "@/data/types/db/library";
+import {
+   OrderItemProduct,
+   OrderProducts,
+   OrderWithItems,
+} from "@/data/types/db/order";
 import {
    ProductItemWithTemplate,
    ProductWithDetails,
@@ -15,6 +21,7 @@ import { Order } from "@/generated/prisma/browser";
 import {
    Cart,
    CartItem,
+   LibraryEntry,
    OrderItem,
    Product,
    ProductExample,
@@ -25,7 +32,6 @@ import {
    PromptCategory,
    PromptTemplate,
    PromptTemplateCategory,
-   Purchase,
    User,
 } from "@/generated/prisma/client";
 import {
@@ -185,6 +191,36 @@ export const pCartWithItems = (index = 1, itemCount = 2): CartWithItems => {
    };
 };
 
+export const pOrderProducts = (index = 1, count = 3): OrderProducts => {
+   const order = pOrder(index);
+   const items = pOrderItemProducts(count);
+   return {
+      id: order.id,
+      userId: order.userId,
+      status: "PENDING",
+      items,
+   };
+};
+
+export const pOrderItemProducts = (count = 3): OrderItemProduct[] => {
+   return range(0, count).map((i) => pOrderItemProduct(i));
+};
+
+export const pOrderItemProduct = (index = 1, count = 3): OrderItemProduct => {
+   const product = pProduct(index);
+   const items = pProductItems(count);
+   const itemTemplateIds = map(items, (i) => ({
+      templateId: i.templateId,
+   }));
+
+   return {
+      product: {
+         id: product.id,
+         productItems: itemTemplateIds,
+      },
+   };
+};
+
 export const pOrdersWithItems = (count = 3): OrderWithItems[] => {
    return range(0, count).map((i) => pOrderWithItems(i));
 };
@@ -231,16 +267,38 @@ export const pOrderItem = (index = 1): OrderItem => {
    };
 };
 
-export const pPurchases = (count = 3): Purchase[] => {
-   return range(0, count).map((i) => pPurchase(i));
+export const pLibraryEntriesWithTemplate = (
+   count = 3
+): LibraryEntryWithTemplate[] => {
+   return range(0, count).map((i) => pLibraryEntryWithTemplate(i));
 };
 
-export const pPurchase = (index = 1): Purchase => {
+export const pLibraryEntryWithTemplate = (
+   index = 1
+): LibraryEntryWithTemplate => {
+   const template = pPromptTemplateWithCategories(index);
    return {
-      id: `purchase-${index}`,
-      orderId: `fa1d3c35-ea07-489f-b8c8-62fa8514130${index}`,
-      userId: `334db648-f300-4284-8149-075ff465d75${index}`,
-      templateId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      id: `library-entry-${index}`,
+      orderId: `2d4daf38-5571-4c0a-9d32-4435bdf6280${index}`,
+      userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
+      templateId: `52e59bcf-7651-45f8-91bf-63b8a4e06d8${index}`,
+      productId: `419682c2-d8be-433e-a15f-f7ab3663346${index}`,
+      template,
+      createdAt: new Date("2025-09-27"),
+   };
+};
+
+export const pLibraryEntries = (count = 3): LibraryEntry[] => {
+   return range(0, count).map((i) => pLibraryEntry(i));
+};
+
+export const pLibraryEntry = (index = 1): LibraryEntry => {
+   return {
+      id: `library-entry-${index}`,
+      orderId: `2d4daf38-5571-4c0a-9d32-4435bdf6280${index}`,
+      userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
+      templateId: `52e59bcf-7651-45f8-91bf-63b8a4e06d8${index}`,
+      productId: `419682c2-d8be-433e-a15f-f7ab3663346${index}`,
       createdAt: new Date("2025-09-27"),
    };
 };

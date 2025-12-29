@@ -2,15 +2,16 @@
 
 import { validate as isValidUuid } from "uuid";
 
+import { createLibraryEntries } from "@/data/actions/library";
 import { pClearCart, pGetCartByUserId } from "@/data/db/queries/cart";
-import { pCreatePurchases } from "@/data/db/queries/library";
 import {
-   pGetOrderById,
+   pGetOrder,
    pGetOrderByPaymentIntentId,
    pGetOrders,
    pUpdateOrderStatus,
    pUpdateOrderWithStripeDetails,
 } from "@/data/db/queries/order";
+import { pGetOrderProducts } from "@/data/db/queries/order/order";
 import { DOrder } from "@/data/types/domain/order";
 import { ActionResult } from "@/data/types/utils";
 import { requireUser } from "../auth-utils";
@@ -28,7 +29,7 @@ export const getOrders = async (): Promise<DOrder[]> => {
    }
 };
 
-export const getOrderById = async (orderId: string): Promise<DOrder | null> => {
+export const getOrder = async (orderId: string): Promise<DOrder | null> => {
    try {
       const user = await requireUser();
 
@@ -36,7 +37,7 @@ export const getOrderById = async (orderId: string): Promise<DOrder | null> => {
          return null;
       }
 
-      const order = await pGetOrderById(orderId);
+      const order = await pGetOrder(orderId);
       if (!order || order.userId !== user.id) {
          return null;
       }
@@ -46,11 +47,9 @@ export const getOrderById = async (orderId: string): Promise<DOrder | null> => {
    }
 };
 
-export const completeOrder = async (
-   orderId: string
-): Promise<ActionResult<DOrder>> => {
+export const completeOrder = async (orderId: string): Promise<ActionResult> => {
    try {
-      const order = await pGetOrderById(orderId);
+      const order = await pGetOrderProducts(orderId);
       if (!order) {
          return {
             success: false,
@@ -62,50 +61,20 @@ export const completeOrder = async (
          return {
             success: true,
             message: "Order already completed.",
-            data: toDOrderWithItems(order),
          };
       }
 
-      // Get cart to clear
-      const cart = await pGetCartByUserId(order.userId);
-
-      // Create purchases based on order items
-      const templateIds: string[] = [];
-
-      for (const item of order.items) {
-         const product = item.product;
-
-         if (product.type === "TEMPLATE" && product.templateId) {
-            templateIds.push(product.templateId);
-         } else if (product.type === "BUNDLE") {
-            const bundleTemplateIds =
-               product.bundleItems
-                  ?.map((bi: any) => bi.templateId)
-                  .filter(Boolean) || [];
-            templateIds.push(...bundleTemplateIds);
-         }
-      }
-
-      // Create purchase records
-      if (templateIds.length > 0) {
-         await pCreatePurchases(order.id, order.userId, templateIds);
-      }
-
-      // Update order status
+      await createLibraryEntries(order);
       await pUpdateOrderStatus(order.id, "COMPLETED");
 
-      // Clear cart
+      const cart = await pGetCartByUserId(order.userId);
       if (cart) {
          await pClearCart(cart.id);
       }
 
-      // Fetch updated order
-      const completedOrder = await pGetOrderById(order.id);
-
       return {
          success: true,
          message: "Order completed successfully!",
-         data: toDOrderWithItems(completedOrder!),
       };
    } catch (error) {
       return {
@@ -122,7 +91,7 @@ export const handleStripeCheckoutCompleted = async (
 ): Promise<ActionResult<void>> => {
    try {
       // Get order to check status
-      const order = await pGetOrderById(orderId);
+      const order = await pGetOrder(orderId);
 
       if (!order) {
          return {
