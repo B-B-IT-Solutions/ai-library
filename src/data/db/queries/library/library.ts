@@ -34,7 +34,7 @@ export const pCreateLibraryEntries = async (
       templateId,
    }));
 
-   return await prisma.libraryEntry.createMany({
+   await prisma.libraryEntry.createMany({
       data: entries,
       skipDuplicates: true,
    });
