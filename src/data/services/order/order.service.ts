@@ -50,10 +50,7 @@ export class OrderService {
       try {
          const order = await this.orderRepository.pGetOrderProducts(orderId);
          if (!order) {
-            return {
-               success: false,
-               message: "Order not found.",
-            };
+            throw new Error(`Order ${orderId} not found`);
          }
 
          if (order.status === "COMPLETED") {
@@ -83,51 +80,20 @@ export class OrderService {
       orderId: string,
       paymentIntentId: string,
       paymentStatus: string
-   ): Promise<ActionResult<void>> {
-      try {
-         // Get order to check status
-         const order = await this.orderRepository.pGetOrder(orderId);
+   ) {
+      const order = await this.orderRepository.pGetOrder(orderId);
+      if (!order) {
+         throw new Error(`Order ${orderId} not found`);
+      }
 
-         if (!order) {
-            return {
-               success: false,
-               message: `Order ${orderId} not found`,
-            };
-         }
-
-         if (order.status === "COMPLETED") {
-            return {
-               success: true,
-               message: `Order ${orderId} already completed`,
-            };
-         }
-
+      if (order.status !== "COMPLETED") {
          // Update with Stripe payment details
          await this.orderRepository.pUpdateOrderWithStripeDetails(orderId, {
             stripePaymentIntentId: paymentIntentId,
             stripePaymentStatus: paymentStatus,
             paymentMethod: "STRIPE",
          });
-
-         // Complete the order (creates purchases, clears cart)
-         const result = await this.completeOrder(orderId);
-
-         if (!result.success) {
-            return {
-               success: false,
-               message: `Failed to complete order ${orderId}: ${result.message}`,
-            };
-         }
-
-         return {
-            success: true,
-            message: `Order ${orderId} completed successfully`,
-         };
-      } catch (error) {
-         return {
-            success: false,
-            message: formatError(error),
-         };
+         await this.completeOrder(orderId);
       }
    }
 
