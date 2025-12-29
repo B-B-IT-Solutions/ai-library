@@ -1,9 +1,14 @@
 import { Decimal } from "@prisma/client/runtime/library";
 import { range } from "es-toolkit";
+import { map } from "es-toolkit/compat";
 
 import { CartWithItems } from "@/data/types/db/cart";
 import { LibraryEntryWithTemplate } from "@/data/types/db/library";
-import { OrderWithItems } from "@/data/types/db/order";
+import {
+   OrderItemProduct,
+   OrderProducts,
+   OrderWithItems,
+} from "@/data/types/db/order";
 import {
    ProductItemWithTemplate,
    ProductWithDetails,
@@ -183,6 +188,35 @@ export const pCartWithItems = (index = 1, itemCount = 2): CartWithItems => {
    return {
       ...cart,
       items,
+   };
+};
+
+export const pOrderProducts = (index = 1, count = 3): OrderProducts => {
+   const order = pOrder(index);
+   const items = pOrderItemProducts(count);
+   return {
+      id: order.id,
+      userId: order.userId,
+      items,
+   };
+};
+
+export const pOrderItemProducts = (count = 3): OrderItemProduct[] => {
+   return range(0, count).map((i) => pOrderItemProduct(i));
+};
+
+export const pOrderItemProduct = (index = 1, count = 3): OrderItemProduct => {
+   const product = pProduct(index);
+   const items = pProductItems(count);
+   const itemTemplateIds = map(items, (i) => ({
+      templateId: i.templateId,
+   }));
+
+   return {
+      product: {
+         id: product.id,
+         productItems: itemTemplateIds,
+      },
    };
 };
 

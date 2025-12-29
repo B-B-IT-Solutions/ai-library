@@ -21,7 +21,7 @@ export const pGetLibraryEntries = async (
    });
 };
 
-export const pCreateLibraryEntry = async (
+export const pCreateLibraryEntries = async (
    orderId: string,
    userId: string,
    productId: string,

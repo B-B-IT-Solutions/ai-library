@@ -1,5 +1,5 @@
 export {
    pGetLibraryEntries,
-   pCreateLibraryEntry,
+   pCreateLibraryEntries,
    pCheckUserHasTemplate,
 } from "./library";

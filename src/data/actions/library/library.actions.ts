@@ -5,7 +5,7 @@ import { validate as isValidUuid } from "uuid";
 
 import {
    pCheckUserHasTemplate,
-   pCreateLibraryEntry,
+   pCreateLibraryEntries,
    pGetLibraryEntries,
 } from "@/data/db/queries/library";
 import { createPrompt as pCreatePrompt } from "@/data/db/queries/prompt";
@@ -35,7 +35,7 @@ export const createLibraryEntries = async (order: OrderProducts) => {
       const templateIds = map(productItems, (i) => i.templateId);
 
       if (!isEmpty(templateIds)) {
-         await pCreateLibraryEntry(
+         await pCreateLibraryEntries(
             order.id,
             order.userId,
             product.id,
