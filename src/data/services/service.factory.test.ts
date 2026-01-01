@@ -6,6 +6,7 @@ import { CartService } from "./cart";
 import { LibraryService } from "./library";
 import { OrderService } from "./order";
 import { ServiceFactory } from "./service.factory";
+import { StripeService } from "./stripe/stripe.service";
 
 describe("ServiceFactory tests", () => {
    let mockPrisma: PrismaClient;
@@ -70,6 +71,29 @@ describe("ServiceFactory tests", () => {
          expect(orderService).toBeInstanceOf(OrderService);
          expect(cartService).toBeInstanceOf(CartService);
          expect(libraryService).toBeInstanceOf(LibraryService);
+      });
+   });
+
+   describe("getStripeService tests", () => {
+      it("should create and return StripeService instance", () => {
+         const service = serviceFactory.getStripeService();
+
+         expect(service).toBeInstanceOf(StripeService);
+      });
+
+      it("should return the same instance on multiple calls (singleton pattern)", () => {
+         const service1 = serviceFactory.getStripeService();
+         const service2 = serviceFactory.getStripeService();
+
+         expect(service1).toBe(service2);
+      });
+
+      it("should inject OrderService dependencies correctly", () => {
+         const stripeService = serviceFactory.getStripeService();
+         const orderService = serviceFactory.getOrderService();
+
+         expect(stripeService).toBeInstanceOf(StripeService);
+         expect(orderService).toBeInstanceOf(OrderService);
       });
    });
 

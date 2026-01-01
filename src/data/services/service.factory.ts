@@ -2,6 +2,7 @@ import { RepositoryFactory } from "@/data/db/queries/repository.factory";
 import { CartService } from "@/data/services/cart";
 import { LibraryService } from "@/data/services/library";
 import { OrderService } from "@/data/services/order";
+import { StripeService } from "@/data/services/stripe";
 import { DbClient } from "@/data/types/db/common";
 
 export class ServiceFactory {
@@ -9,6 +10,7 @@ export class ServiceFactory {
    private cartService?: CartService;
    private libraryService?: LibraryService;
    private orderService?: OrderService;
+   private stripeService?: StripeService;
 
    constructor(prisma: DbClient) {
       this.repositories = new RepositoryFactory(prisma);
@@ -16,31 +18,35 @@ export class ServiceFactory {
 
    getCartService(): CartService {
       if (!this.cartService) {
-         const cartRepository = this.repositories.cartRepository();
-         this.cartService = new CartService(cartRepository);
+         this.cartService = new CartService(this.repositories.cartRepository());
       }
       return this.cartService;
    }
 
    getLibraryService(): LibraryService {
       if (!this.libraryService) {
-         const libraryRepository = this.repositories.libraryRepository();
-         this.libraryService = new LibraryService(libraryRepository);
+         this.libraryService = new LibraryService(
+            this.repositories.libraryRepository()
+         );
       }
       return this.libraryService;
    }
 
    getOrderService(): OrderService {
       if (!this.orderService) {
-         const orderRepository = this.repositories.orderRepository();
-         const cartService = this.getCartService();
-         const libraryService = this.getLibraryService();
          this.orderService = new OrderService(
-            orderRepository,
-            cartService,
-            libraryService
+            this.repositories.orderRepository(),
+            this.getCartService(),
+            this.getLibraryService()
          );
       }
       return this.orderService;
+   }
+
+   getStripeService(): StripeService {
+      if (!this.stripeService) {
+         this.stripeService = new StripeService(this.getOrderService());
+      }
+      return this.stripeService;
    }
 }

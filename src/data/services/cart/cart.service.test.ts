@@ -9,7 +9,6 @@ import { cookies } from "next/headers";
 import { auth } from "@/auth";
 import prisma from "@/data/db/prisma";
 import { CartRepository } from "@/data/db/queries/cart";
-import { BatchPayload } from "@/generated/prisma/internal/prismaNamespace";
 
 import { toDCart } from "./cart.mapper";
 import { CartService } from "./cart.service";

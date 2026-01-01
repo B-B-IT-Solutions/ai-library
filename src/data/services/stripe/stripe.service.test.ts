@@ -1,3 +1,4 @@
+jest.mock("@/data/services/order");
 jest.mock("@/data/actions/cart");
 jest.mock("@/data/db/queries/order");
 jest.mock("@/lib/stripe/stripe-server");
@@ -10,10 +11,13 @@ import Stripe from "stripe";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { getCart } from "@/data/actions/cart";
+import prisma from "@/data/db/prisma";
 import { OrderRepository } from "@/data/db/queries/order";
 import { stripe } from "@/lib/stripe/stripe-server";
+import { OrderService } from "../order";
+import { ServiceFactory } from "../service.factory";
 
-import { createCheckoutSession } from "./stripe.service";
+import { StripeService } from "./stripe.service";
 
 const pCreateOrder = OrderRepository.prototype.pCreateOrder;
 const pUpdateOrder = OrderRepository.prototype.pUpdateOrder;
@@ -27,7 +31,14 @@ const pUpdateOrderMock = pUpdateOrder as jest.MockedFunction<
    typeof pUpdateOrder
 >;
 
-export const stripeMock = stripe as unknown as DeepMockProxy<Stripe>;
+const stripeMock = stripe as unknown as DeepMockProxy<Stripe>;
+
+const serviceFactory = new ServiceFactory(prisma);
+const orderService = serviceFactory.getOrderService();
+
+const orderServiceMock = orderService as DeepMockProxy<OrderService>;
+
+const stripeService = new StripeService(orderServiceMock);
 
 const stripeCheckoutSession = (): Stripe.Response<Stripe.Checkout.Session> => {
    return {
@@ -45,7 +56,7 @@ describe("createCheckoutSession tests", () => {
       const error = new Error("Authentication required");
       requireUserMock.mockRejectedValue(error);
 
-      await expect(createCheckoutSession()).rejects.toThrow(
+      await expect(stripeService.createCheckoutSession()).rejects.toThrow(
          "Authentication required"
       );
       expect(requireUserMock).toHaveBeenCalledTimes(1);
@@ -62,7 +73,7 @@ describe("createCheckoutSession tests", () => {
       requireUserMock.mockResolvedValue(user);
       getCartMock.mockResolvedValue(cart);
 
-      await expect(createCheckoutSession()).rejects.toThrow(
+      await expect(stripeService.createCheckoutSession()).rejects.toThrow(
          "Your cart is empty."
       );
 
@@ -87,7 +98,7 @@ describe("createCheckoutSession tests", () => {
       stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
       pUpdateOrderMock.mockResolvedValue(order);
 
-      const result = await createCheckoutSession();
+      const result = await stripeService.createCheckoutSession();
 
       const expectedResult = {
          sessionId: "session-1",
@@ -182,7 +193,7 @@ describe("createCheckoutSession tests", () => {
       stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
       pUpdateOrderMock.mockResolvedValue(order);
 
-      const result = await createCheckoutSession();
+      const result = await stripeService.createCheckoutSession();
 
       const expectedResult = {
          sessionId: "session-1",
@@ -289,7 +300,9 @@ describe("createCheckoutSession tests", () => {
       requireUserMock.mockResolvedValue(user);
       getCartMock.mockRejectedValue(error);
 
-      await expect(createCheckoutSession()).rejects.toThrow("Database error");
+      await expect(stripeService.createCheckoutSession()).rejects.toThrow(
+         "Database error"
+      );
 
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(getCartMock).toHaveBeenCalledTimes(1);
@@ -307,7 +320,7 @@ describe("createCheckoutSession tests", () => {
       getCartMock.mockResolvedValue(cart);
       pCreateOrderMock.mockRejectedValue(error);
 
-      await expect(createCheckoutSession()).rejects.toThrow(
+      await expect(stripeService.createCheckoutSession()).rejects.toThrow(
          "Failed to create order"
       );
 
@@ -329,7 +342,9 @@ describe("createCheckoutSession tests", () => {
       pCreateOrderMock.mockResolvedValue(order);
       stripeMock.checkout.sessions.create.mockRejectedValue(error);
 
-      await expect(createCheckoutSession()).rejects.toThrow("Stripe API error");
+      await expect(stripeService.createCheckoutSession()).rejects.toThrow(
+         "Stripe API error"
+      );
 
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(getCartMock).toHaveBeenCalledTimes(1);
@@ -351,7 +366,7 @@ describe("createCheckoutSession tests", () => {
       stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
       pUpdateOrderMock.mockRejectedValue(error);
 
-      await expect(createCheckoutSession()).rejects.toThrow(
+      await expect(stripeService.createCheckoutSession()).rejects.toThrow(
          "Failed to update order"
       );
 
@@ -375,7 +390,7 @@ describe("createCheckoutSession tests", () => {
       stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
       pUpdateOrderMock.mockResolvedValue(order);
 
-      const result = await createCheckoutSession();
+      const result = await stripeService.createCheckoutSession();
       const expectedResult = {
          sessionId: "session-1",
          url: "https://checkout.stripe.com/session-1",
