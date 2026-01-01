@@ -85,7 +85,7 @@ export const createCheckoutSession = async (): Promise<
          cancel_url: `${APP_URL}/checkout?canceled=true`,
       });
 
-      await orderRepository.pUpdateOrderWithStripeDetails(order.id, {
+      await orderRepository.pUpdateOrder(order.id, {
          stripeCheckoutSessionId: checkoutSession.id,
          stripePaymentStatus: "unpaid",
       });

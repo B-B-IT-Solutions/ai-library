@@ -11,7 +11,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 import prisma from "@/data/db/prisma";
 import { CartRepository } from "@/data/db/queries/cart";
 import { LibraryRepository } from "@/data/db/queries/library";
-import { OrderRepository } from "@/data/db/queries/order";
+import { OrderRepository, OrderUpdate } from "@/data/db/queries/order";
 import { CartService } from "@/data/services/cart";
 import { LibraryService } from "@/data/services/library";
 import { requireUser } from "../../actions/auth-utils";
@@ -202,11 +202,8 @@ describe("handleStripeCheckoutCompleted tests", () => {
 
       expect(orderRepoMock.pGetOrderProducts).toHaveBeenCalledTimes(1);
       expect(orderRepoMock.pGetOrderProducts).toHaveBeenCalledWith(orderId);
-      expect(
-         orderRepoMock.pUpdateOrderWithStripeDetails
-      ).not.toHaveBeenCalled();
       expect(libraryServiceMock.createLibraryEntries).not.toHaveBeenCalled();
-      expect(orderRepoMock.pUpdateOrderStatus).not.toHaveBeenCalled();
+      expect(orderRepoMock.pUpdateOrder).not.toHaveBeenCalled();
       expect(cartServiceMock.clearCart).not.toHaveBeenCalled();
    });
 
@@ -226,11 +223,8 @@ describe("handleStripeCheckoutCompleted tests", () => {
 
       expect(orderRepoMock.pGetOrderProducts).toHaveBeenCalledTimes(1);
       expect(orderRepoMock.pGetOrderProducts).toHaveBeenCalledWith(order.id);
-      expect(
-         orderRepoMock.pUpdateOrderWithStripeDetails
-      ).not.toHaveBeenCalled();
       expect(libraryServiceMock.createLibraryEntries).not.toHaveBeenCalled();
-      expect(orderRepoMock.pUpdateOrderStatus).not.toHaveBeenCalled();
+      expect(orderRepoMock.pUpdateOrder).not.toHaveBeenCalled();
       expect(cartServiceMock.clearCart).not.toHaveBeenCalled();
    });
 
@@ -251,27 +245,21 @@ describe("handleStripeCheckoutCompleted tests", () => {
       expect(orderRepoMock.pGetOrderProducts).toHaveBeenCalledTimes(1);
       expect(orderRepoMock.pGetOrderProducts).toHaveBeenCalledWith(order.id);
 
-      expect(orderRepoMock.pUpdateOrderWithStripeDetails).toHaveBeenCalledTimes(
-         1
-      );
-      expect(orderRepoMock.pUpdateOrderWithStripeDetails).toHaveBeenCalledWith(
-         order.id,
-         {
-            stripePaymentIntentId: paymentIntentId,
-            stripePaymentStatus: paymentStatus,
-            paymentMethod: "STRIPE",
-         }
-      );
-
       expect(libraryServiceMock.createLibraryEntries).toHaveBeenCalledTimes(1);
       expect(libraryServiceMock.createLibraryEntries).toHaveBeenCalledWith(
          order
       );
 
-      expect(orderRepoMock.pUpdateOrderStatus).toHaveBeenCalledTimes(1);
-      expect(orderRepoMock.pUpdateOrderStatus).toHaveBeenCalledWith(
+      const expectedOrderUpdate: OrderUpdate = {
+         status: "COMPLETED",
+         stripePaymentIntentId: paymentIntentId,
+         stripePaymentStatus: paymentStatus,
+         paymentMethod: "STRIPE",
+      };
+      expect(orderRepoMock.pUpdateOrder).toHaveBeenCalledTimes(1);
+      expect(orderRepoMock.pUpdateOrder).toHaveBeenCalledWith(
          order.id,
-         "COMPLETED"
+         expectedOrderUpdate
       );
 
       expect(cartServiceMock.clearCart).toHaveBeenCalledTimes(1);
@@ -289,10 +277,13 @@ describe("handleStripeCheckoutExpired tests", () => {
 
       await orderService.handleStripeCheckoutExpired(orderId);
 
-      expect(orderRepoMock.pUpdateOrderStatus).toHaveBeenCalledTimes(1);
-      expect(orderRepoMock.pUpdateOrderStatus).toHaveBeenCalledWith(
+      const expectedOrderUpdate: OrderUpdate = {
+         status: "FAILED",
+      };
+      expect(orderRepoMock.pUpdateOrder).toHaveBeenCalledTimes(1);
+      expect(orderRepoMock.pUpdateOrder).toHaveBeenCalledWith(
          orderId,
-         "FAILED"
+         expectedOrderUpdate
       );
    });
 });
@@ -317,10 +308,8 @@ describe("handleStripePaymentFailed tests", () => {
       expect(orderRepoMock.pGetOrderByPaymentIntentId).toHaveBeenCalledWith(
          paymentIntentId
       );
-      expect(orderRepoMock.pUpdateOrderStatus).not.toHaveBeenCalled();
-      expect(
-         orderRepoMock.pUpdateOrderWithStripeDetails
-      ).not.toHaveBeenCalled();
+      expect(orderRepoMock.pUpdateOrder).not.toHaveBeenCalled();
+      expect(orderRepoMock.pUpdateOrder).not.toHaveBeenCalled();
    });
 
    it("handleStripePaymentFailed - order status updated to failed - test", async () => {
@@ -336,20 +325,14 @@ describe("handleStripePaymentFailed tests", () => {
          paymentIntentId
       );
 
-      expect(orderRepoMock.pUpdateOrderStatus).toHaveBeenCalledTimes(1);
-      expect(orderRepoMock.pUpdateOrderStatus).toHaveBeenCalledWith(
+      const expectedOrderUpdate: OrderUpdate = {
+         status: "FAILED",
+         stripePaymentStatus: "failed",
+      };
+      expect(orderRepoMock.pUpdateOrder).toHaveBeenCalledTimes(1);
+      expect(orderRepoMock.pUpdateOrder).toHaveBeenCalledWith(
          order.id,
-         "FAILED"
-      );
-
-      expect(orderRepoMock.pUpdateOrderWithStripeDetails).toHaveBeenCalledTimes(
-         1
-      );
-      expect(orderRepoMock.pUpdateOrderWithStripeDetails).toHaveBeenCalledWith(
-         order.id,
-         {
-            stripePaymentStatus: "failed",
-         }
+         expectedOrderUpdate
       );
    });
 });

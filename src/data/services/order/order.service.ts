@@ -61,20 +61,21 @@ export class OrderService {
       }
 
       if (order.status !== "COMPLETED") {
-         // Update with Stripe payment details
-         await this.orderRepository.pUpdateOrderWithStripeDetails(orderId, {
+         await this.orderRepository.pUpdateOrder(orderId, {
+            status: "COMPLETED",
             stripePaymentIntentId: paymentIntentId,
             stripePaymentStatus: paymentStatus,
             paymentMethod: "STRIPE",
          });
          await this.libraryService.createLibraryEntries(order);
-         await this.orderRepository.pUpdateOrderStatus(order.id, "COMPLETED");
          await this.cartService.clearCart(order.userId);
       }
    }
 
    async handleStripeCheckoutExpired(orderId: string) {
-      await this.orderRepository.pUpdateOrderStatus(orderId, "FAILED");
+      await this.orderRepository.pUpdateOrder(orderId, {
+         status: "FAILED",
+      });
    }
 
    async handleStripePaymentFailed(paymentIntentId: string) {
@@ -88,8 +89,8 @@ export class OrderService {
          );
       }
 
-      await this.orderRepository.pUpdateOrderStatus(order.id, "FAILED");
-      await this.orderRepository.pUpdateOrderWithStripeDetails(order.id, {
+      await this.orderRepository.pUpdateOrder(order.id, {
+         status: "FAILED",
          stripePaymentStatus: "failed",
       });
    }
