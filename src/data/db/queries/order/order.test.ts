@@ -209,7 +209,9 @@ describe("pUpdateOrder tests", () => {
       prismaMock.order.update.mockResolvedValue(order);
 
       const orderId = "order-id-1";
-      const data: OrderUpdate = { status: "COMPLETED" };
+      const data: OrderUpdate = {
+         status: "COMPLETED",
+      };
 
       const result = await orderRepository.pUpdateOrder(orderId, data);
 
