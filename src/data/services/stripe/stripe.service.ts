@@ -1,5 +1,3 @@
-"use server";
-
 import { isEmpty } from "es-toolkit/compat";
 
 import { requireUser } from "@/data/actions/auth-utils";
