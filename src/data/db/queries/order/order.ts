@@ -1,9 +1,10 @@
 import { DbClient } from "@/data/types/db/common";
 import { OrderProducts, OrderWithItems } from "@/data/types/db/order";
-import { Order } from "@/generated/prisma/client";
+import { Order, OrderStatus } from "@/generated/prisma/client";
 import { OrderCreateInput } from "@/generated/prisma/models";
 
-export type OrderUpdateStripeDetails = {
+export type OrderUpdate = {
+   status?: OrderStatus;
    stripeCheckoutSessionId?: string;
    stripePaymentIntentId?: string;
    stripePaymentStatus?: string;
@@ -84,23 +85,10 @@ export class OrderRepository {
       });
    }
 
-   async pUpdateOrderStatus(
-      orderId: string,
-      status: "PENDING" | "COMPLETED" | "FAILED" | "REFUNDED"
-   ) {
+   async pUpdateOrder(orderId: string, data: OrderUpdate) {
       return await this.prisma.order.update({
          where: { id: orderId },
-         data: { status },
-      });
-   }
-
-   async pUpdateOrderWithStripeDetails(
-      orderId: string,
-      data: OrderUpdateStripeDetails
-   ) {
-      return await this.prisma.order.update({
-         where: { id: orderId },
-         data,
+         data: data,
       });
    }
 }

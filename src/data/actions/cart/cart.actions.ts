@@ -1,8 +1,8 @@
 "use server";
 
 import prisma from "@/data/db/prisma";
-import { CartRepository } from "@/data/db/queries/cart";
-import { CartService } from "@/data/services/cart";
+import { ServiceFactory } from "@/data/services";
+import { DbClient } from "@/data/types/db/common";
 import { DCart } from "@/data/types/domain/cart";
 import { DProduct } from "@/data/types/domain/product";
 import { ActionResult } from "@/data/types/utils";
@@ -30,7 +30,7 @@ export const migrateSessionCartToUser = async (
    service.migrateSessionCartToUser(sessionCartId, userId);
 };
 
-const getCartSevice = () => {
-   const cartRepository = new CartRepository(prisma);
-   return new CartService(cartRepository);
+const getCartSevice = (dbClient: DbClient = prisma) => {
+   const factory = new ServiceFactory(dbClient);
+   return factory.getCartService();
 };

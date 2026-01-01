@@ -13,7 +13,7 @@ import {
    OrderUpdateArgs,
 } from "@/generated/prisma/models";
 
-import { OrderRepository, OrderUpdateStripeDetails } from "./order";
+import { OrderRepository, OrderUpdate } from "./order";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
@@ -199,61 +199,53 @@ describe("pCreateOrder tests", () => {
    });
 });
 
-describe("pUpdateOrderStatus tests", () => {
+describe("pUpdateOrder tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   test("pUpdateOrderStatus test", async () => {
+   test("pUpdateOrder -status update - test", async () => {
       const order = ptestData.pOrderWithItems();
       prismaMock.order.update.mockResolvedValue(order);
 
       const orderId = "order-id-1";
-      const status = "COMPLETED";
+      const data: OrderUpdate = {
+         status: "COMPLETED",
+      };
 
-      const result = await orderRepository.pUpdateOrderStatus(orderId, status);
+      const result = await orderRepository.pUpdateOrder(orderId, data);
 
       const expectedUpdateArgs: OrderUpdateArgs = {
          where: { id: orderId },
-         data: { status },
+         data: data,
       };
 
       expect(result).toEqual(order);
       expect(prismaMock.order.update).toHaveBeenCalledTimes(1);
       expect(prismaMock.order.update).toHaveBeenCalledWith(expectedUpdateArgs);
    });
-});
 
-describe("pUpdateOrderWithStripeDetails tests", () => {
-   beforeEach(() => {
-      mockReset(prismaMock);
-   });
-
-   test("pUpdateOrderWithStripeDetails test", async () => {
+   test("pUpdateOrder - stripe details update - test", async () => {
       const order = ptestData.pOrder();
       prismaMock.order.update.mockResolvedValue(order);
 
-      const stripeUpdates: OrderUpdateStripeDetails = {
+      const orderId = "order-id-1";
+      const data: OrderUpdate = {
          stripeCheckoutSessionId: "53ef3210-b719-4dd2-b612-4f28d4af187d",
          stripePaymentIntentId: "455c1d0a-9065-498e-a298-4e9176d3a8ca",
          stripePaymentStatus: "SUCCESS",
          paymentMethod: "card",
       };
 
-      const result = await orderRepository.pUpdateOrderWithStripeDetails(
-         order.id,
-         stripeUpdates
-      );
+      const result = await orderRepository.pUpdateOrder(orderId, data);
 
-      const expectedOrderUpdateArgs: OrderUpdateArgs = {
-         where: { id: order.id },
-         data: stripeUpdates,
+      const expectedUpdateArgs: OrderUpdateArgs = {
+         where: { id: orderId },
+         data: data,
       };
 
       expect(result).toEqual(order);
       expect(prismaMock.order.update).toHaveBeenCalledTimes(1);
-      expect(prismaMock.order.update).toHaveBeenCalledWith(
-         expectedOrderUpdateArgs
-      );
+      expect(prismaMock.order.update).toHaveBeenCalledWith(expectedUpdateArgs);
    });
 });

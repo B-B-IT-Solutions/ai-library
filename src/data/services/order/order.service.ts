@@ -1,10 +1,10 @@
 import { validate as isValidUuid } from "uuid";
 
-import { OrderRepository } from "@/data/db/queries/order";
+import { requireUser } from "@/data/actions/auth-utils";
+import { OrderRepository, OrderUpdate } from "@/data/db/queries/order";
+import { LibraryService } from "@/data/services//library";
 import { CartService } from "@/data/services/cart";
 import { DOrder } from "@/data/types/domain/order";
-import { requireUser } from "../../actions/auth-utils";
-import { LibraryService } from "../library";
 
 import { toDOrdersWithItems, toDOrderWithItems } from "./order.mapper";
 
@@ -61,20 +61,23 @@ export class OrderService {
       }
 
       if (order.status !== "COMPLETED") {
-         // Update with Stripe payment details
-         await this.orderRepository.pUpdateOrderWithStripeDetails(orderId, {
+         const payload: OrderUpdate = {
+            status: "COMPLETED",
             stripePaymentIntentId: paymentIntentId,
             stripePaymentStatus: paymentStatus,
             paymentMethod: "STRIPE",
-         });
+         };
+         await this.orderRepository.pUpdateOrder(orderId, payload);
          await this.libraryService.createLibraryEntries(order);
-         await this.orderRepository.pUpdateOrderStatus(order.id, "COMPLETED");
          await this.cartService.clearCart(order.userId);
       }
    }
 
    async handleStripeCheckoutExpired(orderId: string) {
-      await this.orderRepository.pUpdateOrderStatus(orderId, "FAILED");
+      const payload: OrderUpdate = {
+         status: "FAILED",
+      };
+      await this.orderRepository.pUpdateOrder(orderId, payload);
    }
 
    async handleStripePaymentFailed(paymentIntentId: string) {
@@ -88,9 +91,10 @@ export class OrderService {
          );
       }
 
-      await this.orderRepository.pUpdateOrderStatus(order.id, "FAILED");
-      await this.orderRepository.pUpdateOrderWithStripeDetails(order.id, {
+      const payload: OrderUpdate = {
+         status: "FAILED",
          stripePaymentStatus: "failed",
-      });
+      };
+      await this.orderRepository.pUpdateOrder(order.id, payload);
    }
 }

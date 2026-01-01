@@ -1,1 +1,1 @@
-export { OrderRepository } from "./order";
+export { OrderRepository, type OrderUpdate } from "./order";

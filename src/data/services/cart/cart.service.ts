@@ -81,22 +81,10 @@ export class CartService {
       }
    }
 
-   async clearCart(userId: string): Promise<ActionResult> {
-      try {
-         const cart = await this.cartRepository.pGetCartByUserId(userId);
-         if (cart) {
-            await this.cartRepository.pClearCart(cart.id);
-         }
-
-         return {
-            success: true,
-            message: "Cart cleared successfully.",
-         };
-      } catch (error) {
-         return {
-            success: false,
-            message: formatError(error),
-         };
+   async clearCart(userId: string) {
+      const cart = await this.cartRepository.pGetCartByUserId(userId);
+      if (cart) {
+         await this.cartRepository.pClearCart(cart.id);
       }
    }
 
