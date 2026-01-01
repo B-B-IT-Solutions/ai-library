@@ -6,9 +6,10 @@ import { requireUser } from "@/data/actions/auth-utils";
 import { getCart } from "@/data/actions/cart";
 import prisma from "@/data/db/prisma";
 import { OrderRepository } from "@/data/db/queries/order";
+import { CartService } from "@/data/services/cart";
+import { OrderService } from "@/data/services/order";
 import { APP_URL } from "@/lib/constants";
 import { stripe } from "@/lib/stripe/stripe-server";
-import { OrderService } from "../order";
 
 import { toStripePriceUnit } from "./utils";
 
@@ -18,9 +19,11 @@ type CheckoutResponse = {
 };
 
 export class StripeService {
+   private cartService: CartService;
    private orderService: OrderService;
 
-   constructor(orderService: OrderService) {
+   constructor(cartService: CartService, orderService: OrderService) {
+      this.cartService = cartService;
       this.orderService = orderService;
    }
 

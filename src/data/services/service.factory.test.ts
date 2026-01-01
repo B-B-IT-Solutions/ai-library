@@ -90,9 +90,11 @@ describe("ServiceFactory tests", () => {
 
       it("should inject OrderService dependencies correctly", () => {
          const stripeService = serviceFactory.getStripeService();
+         const cartService = serviceFactory.getCartService();
          const orderService = serviceFactory.getOrderService();
 
          expect(stripeService).toBeInstanceOf(StripeService);
+         expect(cartService).toBeInstanceOf(CartService);
          expect(orderService).toBeInstanceOf(OrderService);
       });
    });
@@ -101,9 +103,11 @@ describe("ServiceFactory tests", () => {
       it("should create services with shared repository instances", () => {
          const cartService = serviceFactory.getCartService();
          const orderService = serviceFactory.getOrderService();
+         const stripeService = serviceFactory.getStripeService();
 
          expect(cartService).toBeInstanceOf(CartService);
          expect(orderService).toBeInstanceOf(OrderService);
+         expect(stripeService).toBeInstanceOf(StripeService);
 
          const cartRepository1 = repositoryFactory.cartRepository();
          const cartRepository2 = repositoryFactory.cartRepository();

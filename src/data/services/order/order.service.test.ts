@@ -1,17 +1,17 @@
 jest.mock("@/data/db/queries/order");
 jest.mock("@/data/services/cart");
 jest.mock("@/data/services/library");
-jest.mock("../../actions/auth-utils");
+jest.mock("@/data/actions/auth-utils");
 
 import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
+import { requireUser } from "@/data/actions/auth-utils";
 import prisma from "@/data/db/prisma";
 import { OrderRepository, OrderUpdate } from "@/data/db/queries/order";
 import { ServiceFactory } from "@/data/services";
 import { CartService } from "@/data/services/cart";
 import { LibraryService } from "@/data/services/library";
-import { requireUser } from "../../actions/auth-utils";
 
 import { toDOrdersWithItems, toDOrderWithItems } from "./order.mapper";
 import { OrderService } from "./order.service";

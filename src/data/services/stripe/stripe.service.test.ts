@@ -1,3 +1,4 @@
+jest.mock("@/data/services/cart");
 jest.mock("@/data/services/order");
 jest.mock("@/data/actions/cart");
 jest.mock("@/data/db/queries/order");
@@ -13,7 +14,7 @@ import { requireUser } from "@/data/actions/auth-utils";
 import { getCart } from "@/data/actions/cart";
 import prisma from "@/data/db/prisma";
 import { OrderRepository } from "@/data/db/queries/order";
-import { ServiceFactory } from "@/data/services";
+import { CartService, ServiceFactory } from "@/data/services";
 import { OrderService } from "@/data/services/order";
 import { stripe } from "@/lib/stripe/stripe-server";
 
@@ -34,11 +35,13 @@ const pUpdateOrderMock = pUpdateOrder as jest.MockedFunction<
 const stripeMock = stripe as unknown as DeepMockProxy<Stripe>;
 
 const serviceFactory = new ServiceFactory(prisma);
+const cartService = serviceFactory.getCartService();
 const orderService = serviceFactory.getOrderService();
 
+const cartServiceMock = cartService as DeepMockProxy<CartService>;
 const orderServiceMock = orderService as DeepMockProxy<OrderService>;
 
-const stripeService = new StripeService(orderServiceMock);
+const stripeService = new StripeService(cartServiceMock, orderServiceMock);
 
 const stripeCheckoutSession = (): Stripe.Response<Stripe.Checkout.Session> => {
    return {
