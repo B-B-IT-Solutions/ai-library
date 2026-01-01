@@ -1,7 +1,6 @@
 import { isEmpty } from "es-toolkit/compat";
 
 import { requireUser } from "@/data/actions/auth-utils";
-import { getCart } from "@/data/actions/cart";
 import prisma from "@/data/db/prisma";
 import { OrderRepository } from "@/data/db/queries/order";
 import { CartService } from "@/data/services/cart";
@@ -27,7 +26,7 @@ export class StripeService {
 
    async createCheckoutSession(): Promise<CheckoutResponse> {
       const user = await requireUser();
-      const cart = await getCart();
+      const cart = await this.cartService.getCart();
 
       if (isEmpty(cart.items)) {
          throw new Error("Your cart is empty.");
