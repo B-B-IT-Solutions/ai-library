@@ -13,9 +13,9 @@ import { requireUser } from "@/data/actions/auth-utils";
 import { getCart } from "@/data/actions/cart";
 import prisma from "@/data/db/prisma";
 import { OrderRepository } from "@/data/db/queries/order";
+import { ServiceFactory } from "@/data/services";
+import { OrderService } from "@/data/services/order";
 import { stripe } from "@/lib/stripe/stripe-server";
-import { OrderService } from "../order";
-import { ServiceFactory } from "../service.factory";
 
 import { StripeService } from "./stripe.service";
 

@@ -1,6 +1,4 @@
 jest.mock("@/data/db/queries/order");
-jest.mock("@/data/db/queries/cart");
-jest.mock("@/data/db/queries/library");
 jest.mock("@/data/services/cart");
 jest.mock("@/data/services/library");
 jest.mock("../../actions/auth-utils");
@@ -9,9 +7,8 @@ import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/db/prisma";
-import { CartRepository } from "@/data/db/queries/cart";
-import { LibraryRepository } from "@/data/db/queries/library";
 import { OrderRepository, OrderUpdate } from "@/data/db/queries/order";
+import { ServiceFactory } from "@/data/services";
 import { CartService } from "@/data/services/cart";
 import { LibraryService } from "@/data/services/library";
 import { requireUser } from "../../actions/auth-utils";
@@ -21,14 +18,15 @@ import { OrderService } from "./order.service";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
-const orderRepo = new OrderRepository(prisma);
-const cartRepo = new CartRepository(prisma);
-const libraryRepo = new LibraryRepository(prisma);
-const cartService = new CartService(cartRepo);
-const libraryService = new LibraryService(libraryRepo);
-const orderRepoMock = orderRepo as DeepMockProxy<OrderRepository>;
+const serviceFactory = new ServiceFactory(prisma);
+const cartService = serviceFactory.getCartService();
+const libraryService = serviceFactory.getLibraryService();
+
 const cartServiceMock = cartService as DeepMockProxy<CartService>;
 const libraryServiceMock = libraryService as DeepMockProxy<LibraryService>;
+
+const orderRepo = new OrderRepository(prisma);
+const orderRepoMock = orderRepo as DeepMockProxy<OrderRepository>;
 
 const orderService = new OrderService(
    orderRepoMock,
