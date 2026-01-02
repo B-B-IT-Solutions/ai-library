@@ -9,14 +9,20 @@ export type DPromptCategory = {
    name: string;
 };
 
-export type DPrompt = Omit<DPromptCreate, "categories"> & {
+export type DPromptDescriptor = {
    id: string;
+   title: string;
+   recommendedModel: string;
    currentVersion: number;
-   versions: DPromptVersion[];
    isFavorite: boolean;
    categories: DPromptCategory[];
    updatedAt: string;
    createdAt: string;
+};
+
+export type DPrompt = DPromptDescriptor & {
+   content: string;
+   followUpPrompts: string[];
 };
 
 export type DPromptVersion = {
@@ -25,9 +31,9 @@ export type DPromptVersion = {
    createdAt: string;
 };
 
-export type DPromptUdapte = {
-   id: stirng;
-   title: stirng;
+export type DPromptUpdate = {
+   id: string;
+   title: string;
    content: string;
    categories: string[];
    recommendedModel: string;
@@ -35,7 +41,7 @@ export type DPromptUdapte = {
 };
 
 export type DPromptsPageQuery = PageQuery<DPromptsFilter>;
-export type DPromptsPage = Page<DPrompt>;
+export type DPromptsPage = Page<DPromptDescriptor>;
 
 export interface DPromptsFilter extends Filter {
    categories?: string[];

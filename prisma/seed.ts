@@ -1,6 +1,4 @@
-import { forEach, map } from "es-toolkit/compat";
-
-import { Prisma, PrismaClient } from "@/generated/prisma/client";
+import { PrismaClient } from "@/generated/prisma/client";
 
 import { bundlesData } from "./seed-data/bundles";
 import { templateProductMetadata } from "./seed-data/product-metadata";
@@ -14,65 +12,41 @@ export const main = async () => {
    await prisma.productItem.deleteMany();
    await prisma.product.deleteMany();
    await prisma.promptTemplate.deleteMany();
+   await prisma.promptTemplateDescriptor.deleteMany();
    await prisma.promptTemplateCategory.deleteMany();
+   await prisma.prompt.deleteMany();
+   await prisma.promptDescriptor.deleteMany();
+   await prisma.promptCategory.deleteMany();
 
    console.log("Starting to seed...");
 
-   // Seed categories
-   forEach(promptTemplatesData, async (pt) => {
-      forEach(pt.categories, async (cat: string) => {
-         await prisma.promptTemplateCategory.upsert({
-            where: {
-               name: cat,
-            },
-            create: {
-               name: cat,
-            },
-            update: {
-               name: cat,
-            },
-         });
-      });
-   });
-
    // Seed prompt templates
-   const createdTemplates = [];
+   const createdTemplateDesciptors = [];
    for (const pt of promptTemplatesData) {
-      const connect: Prisma.PromptTemplateCategoryCreateOrConnectWithoutPromptsInput[] =
-         map(pt.categories, (cat: string) => {
-            return {
-               where: {
-                  name: cat,
-               },
-               create: {
-                  name: cat,
-               },
-            };
-         });
-
-      const template = await prisma.promptTemplate.create({
-         data: {
-            ...pt,
-            categories: {
-               connectOrCreate: connect,
-            },
+      const templateDescriptor = await prisma.promptTemplateDescriptor.create({
+         data: pt,
+         include: {
+            promptTemplate: true,
          },
       });
 
-      createdTemplates.push(template);
-      console.log(`Created template: ${template.title}`);
+      createdTemplateDesciptors.push(templateDescriptor);
+      console.log(`Created template: ${templateDescriptor.title}`);
    }
 
    console.log("\nCreating products...");
 
    // Create individual template products with sample metadata
-   for (const template of createdTemplates) {
+   for (const descriptor of createdTemplateDesciptors) {
       const product = await prisma.product.create({
          data: {
-            name: template.title,
+            name: descriptor.title,
             description: `Get access to the "${
-               template.title
-            }" template. ${template.content.substring(0, 100)}...`,
+               descriptor.title
+            }" template. ${descriptor.promptTemplate!.content.substring(
+               0,
+               100
+            )}...`,
             price: 9.99,
             type: "TEMPLATE",
             status: "ACTIVE",
@@ -80,7 +54,7 @@ export const main = async () => {
                create: templateProductMetadata.features,
             },
             useCases: {
-               create: templateProductMetadata.getUseCases(template.title),
+               create: templateProductMetadata.getUseCases(descriptor.title),
             },
             examples: {
                create: templateProductMetadata.examples,
@@ -90,7 +64,7 @@ export const main = async () => {
             },
             productItems: {
                create: {
-                  templateId: template.id,
+                  templateId: descriptor.id,
                },
             },
          },
@@ -102,7 +76,7 @@ export const main = async () => {
    console.log("\nCreating bundles...");
 
    for (const bundleConfig of bundlesData) {
-      const bundleTemplates = createdTemplates.filter((t) =>
+      const bundleTemplates = createdTemplateDesciptors.filter((t) =>
          bundleConfig.templateTitles.includes(t.title)
       );
 
@@ -135,8 +109,8 @@ export const main = async () => {
 
    console.log("\n✅ Seeding finished successfully!");
    console.log(`\nSummary:`);
-   console.log(`- ${createdTemplates.length} templates`);
-   console.log(`- ${createdTemplates.length} individual products`);
+   console.log(`- ${createdTemplateDesciptors.length} templates`);
+   console.log(`- ${createdTemplateDesciptors.length} individual products`);
    console.log(`- ${bundlesData.length} bundles`);
 };
 

@@ -12,13 +12,32 @@ export const getPromptTemplates = async (
    params?: PGetPromptTemplatesParams
 ) => {
    const where = resolveGetPromptTemplatesWhereInput(params);
-   return await prisma.promptTemplate.findMany({
+   return await prisma.promptTemplateDescriptor.findMany({
       where: where,
       include: {
          categories: true,
       },
       take: 20,
    });
+};
+
+export const getPromptTemplate = async (id: string) => {
+   const descriptor = await prisma.promptTemplateDescriptor.findUnique({
+      where: { id },
+      include: {
+         categories: true,
+         promptTemplate: true,
+      },
+   });
+
+   if (!descriptor) {
+      return null;
+   }
+
+   return {
+      ...descriptor,
+      content: descriptor.promptTemplate?.content || "",
+   };
 };
 
 export const getPromptTemplateCategories = async () => {
@@ -31,45 +50,49 @@ export const getPromptTemplateCategories = async () => {
 
 const resolveGetPromptTemplatesWhereInput = (
    params?: PGetPromptTemplatesParams
-): Prisma.PromptTemplateWhereInput | undefined => {
+): Prisma.PromptTemplateDescriptorWhereInput | undefined => {
    if (isEmpty(params)) {
       return undefined;
    }
 
    const { search, categories } = params;
 
-   const searchClause: Prisma.PromptTemplateWhereInput[] | undefined = search
-      ? [
-           {
-              title: {
-                 contains: search,
-                 mode: "insensitive",
-              },
-           },
-           {
-              content: {
-                 contains: search,
-                 mode: "insensitive",
-              },
-           },
-        ]
-      : undefined;
-
-   const isCategories = !isEmpty(categories);
-   const categoriesClause: Prisma.PromptTemplateWhereInput[] | undefined =
-      isCategories
+   const searchClause: Prisma.PromptTemplateDescriptorWhereInput[] | undefined =
+      search
          ? [
               {
-                 categories: {
-                    some: {
-                       name: {
-                          in: categories,
-                       },
+                 title: {
+                    contains: search,
+                    mode: "insensitive",
+                 },
+              },
+              {
+                 promptTemplate: {
+                    content: {
+                       contains: search,
+                       mode: "insensitive",
                     },
                  },
               },
            ]
          : undefined;
+
+   const isCategories = !isEmpty(categories);
+   const categoriesClause:
+      | Prisma.PromptTemplateDescriptorWhereInput[]
+      | undefined = isCategories
+      ? [
+           {
+              categories: {
+                 some: {
+                    name: {
+                       in: categories,
+                    },
+                 },
+              },
+           },
+        ]
+      : undefined;
 
    return {
       OR: searchClause,

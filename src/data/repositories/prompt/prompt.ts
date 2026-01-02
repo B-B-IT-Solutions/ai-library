@@ -6,10 +6,10 @@ import {
    PromptsPageQuery,
    PromptWithCategories,
 } from "@/data/types/db/prompt";
+import { Prisma } from "@/generated/prisma/client";
 import {
    PromptCreateInput,
    PromptUpdateInput,
-   PromptWhereInput,
 } from "@/generated/prisma/models";
 import { DEFAULT_PAGINATION } from "../utils";
 
@@ -22,7 +22,7 @@ export const getPrompts = async (
    const whereClause = resolveGetPromptsWhereInput(query);
 
    const [data, count] = await prisma.$transaction([
-      prisma.prompt.findMany({
+      prisma.promptDescriptor.findMany({
          where: whereClause,
          skip: pageNumber * pageSize,
          take: pageSize,
@@ -30,7 +30,7 @@ export const getPrompts = async (
             categories: true,
          },
       }),
-      prisma.prompt.count({
+      prisma.promptDescriptor.count({
          where: whereClause,
       }),
    ]);
@@ -53,13 +53,23 @@ export const getPrompt = async (
    query: GetPromptQuery
 ): Promise<PromptWithCategories | null> => {
    const { id } = query;
-   const data = await prisma.prompt.findFirst({
+   const descriptor = await prisma.promptDescriptor.findFirst({
       where: { id },
       include: {
          categories: true,
+         prompt: true,
       },
    });
-   return data;
+
+   if (!descriptor) {
+      return null;
+   }
+
+   return {
+      ...descriptor,
+      content: descriptor.prompt?.content || "",
+      followUpPrompts: descriptor.prompt?.followUpPrompts || [],
+   };
 };
 
 export const getPromptCategories = async () => {
@@ -70,9 +80,23 @@ export const getPromptCategories = async () => {
    });
 };
 
-export const createPrompt = async (product: PromptCreateInput) => {
-   return await prisma.prompt.create({
-      data: product,
+export const createPrompt = async (data: PromptCreateInput) => {
+   const { content, followUpPrompts, ...descriptorData } = data;
+
+   return await prisma.promptDescriptor.create({
+      data: {
+         ...descriptorData,
+         prompt: {
+            create: {
+               content,
+               followUpPrompts,
+            },
+         },
+      },
+      include: {
+         categories: true,
+         prompt: true,
+      },
    });
 };
 
@@ -80,15 +104,29 @@ export const updatePrompt = async (
    promptId: string,
    data: PromptUpdateInput
 ) => {
-   return await prisma.prompt.update({
+   const { content, followUpPrompts, ...descriptorData } = data;
+
+   return await prisma.promptDescriptor.update({
       where: { id: promptId },
-      data: data,
+      data: {
+         ...descriptorData,
+         prompt: {
+            update: {
+               content,
+               followUpPrompts,
+            },
+         },
+      },
+      include: {
+         categories: true,
+         prompt: true,
+      },
    });
 };
 
 const resolveGetPromptsWhereInput = (
    query?: PromptsPageQuery
-): PromptWhereInput | undefined => {
+): Prisma.PromptDescriptorWhereInput | undefined => {
    if (isEmpty(query)) {
       return undefined;
    }
@@ -96,37 +134,41 @@ const resolveGetPromptsWhereInput = (
    const { globalFilter } = query;
    const { categories } = query.filter || {};
 
-   const searchClause: PromptWhereInput[] | undefined = globalFilter
-      ? [
-           {
-              title: {
-                 contains: globalFilter,
-                 mode: "insensitive",
+   const searchClause: Prisma.PromptDescriptorWhereInput[] | undefined =
+      globalFilter
+         ? [
+              {
+                 title: {
+                    contains: globalFilter,
+                    mode: "insensitive",
+                 },
               },
-           },
-           {
-              content: {
-                 contains: globalFilter,
-                 mode: "insensitive",
-              },
-           },
-        ]
-      : undefined;
-
-   const isCategories = !isEmpty(categories);
-   const categoriesClause: PromptWhereInput[] | undefined = isCategories
-      ? [
-           {
-              categories: {
-                 some: {
-                    name: {
-                       in: categories,
+              {
+                 prompt: {
+                    content: {
+                       contains: globalFilter,
+                       mode: "insensitive",
                     },
                  },
               },
-           },
-        ]
-      : undefined;
+           ]
+         : undefined;
+
+   const isCategories = !isEmpty(categories);
+   const categoriesClause: Prisma.PromptDescriptorWhereInput[] | undefined =
+      isCategories
+         ? [
+              {
+                 categories: {
+                    some: {
+                       name: {
+                          in: categories,
+                       },
+                    },
+                 },
+              },
+           ]
+         : undefined;
 
    return {
       OR: searchClause,
