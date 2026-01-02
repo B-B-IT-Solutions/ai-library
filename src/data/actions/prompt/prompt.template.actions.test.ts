@@ -29,7 +29,7 @@ describe("getPromptTemplates tests", () => {
    });
 
    it("getPromptTemplates - params undefined - test", async () => {
-      const templates = ptestData.pPromptTemplatesWithCategories();
+      const templates = ptestData.pPromptTemplateDescriptorsWithCategories();
       pGetPromptTemplatesMock.mockResolvedValue(templates);
 
       const result = await getPromptTemplates();
@@ -41,7 +41,7 @@ describe("getPromptTemplates tests", () => {
    });
 
    it("getPromptTemplates - params empty - test", async () => {
-      const templates = ptestData.pPromptTemplatesWithCategories();
+      const templates = ptestData.pPromptTemplateDescriptorsWithCategories();
       pGetPromptTemplatesMock.mockResolvedValue(templates);
 
       const result = await getPromptTemplates({});
@@ -53,7 +53,7 @@ describe("getPromptTemplates tests", () => {
    });
 
    it("getPromptTemplates - params defined - test", async () => {
-      const templates = ptestData.pPromptTemplatesWithCategories();
+      const templates = ptestData.pPromptTemplateDescriptorsWithCategories();
       pGetPromptTemplatesMock.mockResolvedValue(templates);
 
       const search = "prompt 123";

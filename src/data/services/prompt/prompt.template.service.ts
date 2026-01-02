@@ -6,18 +6,18 @@ import {
    getPromptTemplateCategories as pGetPromptTemplateCategories,
    getPromptTemplateDescriptors as pGetPromptTemplates,
 } from "@/data/repositories/prompt/prompt.template";
-import { DPromptTemplate } from "@/data/types/domain/prompt.template";
+import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 import { toDPromptTemplateDescriptors } from "./prompt.mapper";
 
-type DGetPromptTemplatesParams = {
+type DGetPromptTemplatesDescriptorsParams = {
    search?: string;
    categories?: string[];
 };
 
-export const getPromptTemplates = async (
-   params?: DGetPromptTemplatesParams
-): Promise<DPromptTemplate[]> => {
+export const getPromptTemplateDescriptors = async (
+   params?: DGetPromptTemplatesDescriptorsParams
+): Promise<DPromptTemplateDescriptor[]> => {
    const data = await pGetPromptTemplates(params);
    return toDPromptTemplateDescriptors(data);
 };

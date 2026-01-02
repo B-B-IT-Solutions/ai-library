@@ -11,7 +11,7 @@ import {
 import { toDPromptTemplateDescriptors } from "./prompt.mapper";
 import {
    getPromptTemplateCategories,
-   getPromptTemplates,
+   getPromptTemplateDescriptors,
 } from "./prompt.template.service";
 
 const pGetPromptTemplatesMock = pGetPromptTemplates as jest.MockedFunction<
@@ -29,10 +29,10 @@ describe("getPromptTemplates tests", () => {
    });
 
    it("getPromptTemplates - params undefined - test", async () => {
-      const templates = ptestData.pPromptTemplatesWithCategories();
+      const templates = ptestData.pPromptTemplateDescriptorsWithCategories();
       pGetPromptTemplatesMock.mockResolvedValue(templates);
 
-      const result = await getPromptTemplates();
+      const result = await getPromptTemplateDescriptors();
       const expectedResult = toDPromptTemplateDescriptors(templates);
 
       expect(result).toEqual(expectedResult);
@@ -41,10 +41,10 @@ describe("getPromptTemplates tests", () => {
    });
 
    it("getPromptTemplates - params empty - test", async () => {
-      const templates = ptestData.pPromptTemplatesWithCategories();
+      const templates = ptestData.pPromptTemplateDescriptorsWithCategories();
       pGetPromptTemplatesMock.mockResolvedValue(templates);
 
-      const result = await getPromptTemplates({});
+      const result = await getPromptTemplateDescriptors({});
       const expectedResult = toDPromptTemplateDescriptors(templates);
 
       expect(result).toEqual(expectedResult);
@@ -53,14 +53,14 @@ describe("getPromptTemplates tests", () => {
    });
 
    it("getPromptTemplates - params defined - test", async () => {
-      const templates = ptestData.pPromptTemplatesWithCategories();
+      const templates = ptestData.pPromptTemplateDescriptorsWithCategories();
       pGetPromptTemplatesMock.mockResolvedValue(templates);
 
       const search = "prompt 123";
       const categories = ["cat 1", "cat2", "cat 3"];
       const params = { search, categories };
 
-      const result = await getPromptTemplates(params);
+      const result = await getPromptTemplateDescriptors(params);
       const expectedResult = toDPromptTemplateDescriptors(templates);
 
       expect(result).toEqual(expectedResult);

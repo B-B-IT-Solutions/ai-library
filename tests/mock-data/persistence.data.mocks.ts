@@ -96,7 +96,7 @@ export const pProductItems = (count = 3): ProductItemWithTemplate[] => {
 };
 
 export const pProductItem = (index = 1): ProductItemWithTemplate => {
-   const template = pPromptTemplateWithCategories(index);
+   const template = pPromptTemplateDescriptorWithCategories(index);
    return {
       id: `418c5cf3-d0d5-4ad8-a841-d458c8aa6cb1${index}`,
       productId: `2cabc8ff-010a-4b0b-93c6-4f311d35c432${index}`,
@@ -280,7 +280,7 @@ export const pLibraryEntriesWithTemplate = (
 export const pLibraryEntryWithTemplate = (
    index = 1
 ): LibraryEntryWithTemplate => {
-   const template = pPromptTemplateWithCategories(index);
+   const template = pPromptTemplateDescriptorWithCategories(index);
    return {
       id: `library-entry-${index}`,
       orderId: `2d4daf38-5571-4c0a-9d32-4435bdf6280${index}`,
@@ -336,13 +336,15 @@ export const pCartItem = (index = 1): CartItem => {
    };
 };
 
-export const pPromptTemplatesWithCategories = (
+export const pPromptTemplateDescriptorsWithCategories = (
    count = 3
 ): PromptTemplateDescriptorWithCategories[] => {
-   return range(0, count).map((i) => pPromptTemplateWithCategories(i));
+   return range(0, count).map((i) =>
+      pPromptTemplateDescriptorWithCategories(i)
+   );
 };
 
-export const pPromptTemplateWithCategories = (
+export const pPromptTemplateDescriptorWithCategories = (
    index = 1
 ): PromptTemplateDescriptorWithCategories => {
    const template = pPromptTemplateDescriptor(index);
