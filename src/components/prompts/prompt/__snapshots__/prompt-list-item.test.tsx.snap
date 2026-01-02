@@ -47,7 +47,6 @@ exports[`PromptListItem rendering tests PromptListItem - isSelected false - rend
               class="font-medium"
             >
               v
-              1
             </span>
             <span
               class="flex items-center gap-1 text-blue-600 font-medium"
@@ -161,7 +160,6 @@ exports[`PromptListItem rendering tests PromptListItem - isSelected true - rende
               class="font-medium"
             >
               v
-              1
             </span>
             <span
               class="flex items-center gap-1 text-blue-600 font-medium"
