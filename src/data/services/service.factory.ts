@@ -29,7 +29,8 @@ export class ServiceFactory {
    getLibraryService(): LibraryService {
       if (!this.libraryService) {
          this.libraryService = new LibraryService(
-            this.repositories.libraryRepository()
+            this.repositories.libraryRepository(),
+            this.getPromptService()
          );
       }
       return this.libraryService;

@@ -4,19 +4,24 @@ import { validate as isValidUuid } from "uuid";
 import { requireUser } from "@/data/actions/auth-utils";
 import { formatError } from "@/data/actions/utils";
 import { LibraryRepository } from "@/data/repositories/library";
-import { createPrompt as pCreatePrompt } from "@/data/repositories/prompt/prompt";
+import { PromptService } from "@/data/services/prompt";
 import { OrderProducts } from "@/data/types/db/order";
 import { DLibraryEntry } from "@/data/types/domain/library";
+import { DPromptCreate } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
-import { PromptCreateInput } from "@/generated/prisma/models";
 
 import { toDLibraryEntries } from "./library.mapper";
 
 export class LibraryService {
    private libraryRepository: LibraryRepository;
+   private promptService: PromptService;
 
-   constructor(libraryRepository: LibraryRepository) {
+   constructor(
+      libraryRepository: LibraryRepository,
+      promptService: PromptService
+   ) {
       this.libraryRepository = libraryRepository;
+      this.promptService = promptService;
    }
 
    async getLibraryEntries(): Promise<DLibraryEntry[]> {
@@ -98,22 +103,14 @@ export class LibraryService {
          const template = purchase.template;
 
          // Create prompt from template
-         const promptData: PromptCreateInput = {
-            title: template.title,
+         const promptData: DPromptCreate = {
             content: template.content,
+            title: template.title,
             recommendedModel: template.recommendedModel,
-            followUpPrompts: [],
-            currentVersion: 1,
-            isFavorite: false,
-            categories: {
-               connectOrCreate: template.categories.map((cat) => ({
-                  where: { name: cat.name },
-                  create: { name: cat.name },
-               })),
-            },
+            categories: map(template.categories, (cat) => cat.name),
          };
 
-         await pCreatePrompt(promptData);
+         await this.promptService.createPrompt(promptData);
 
          return {
             success: true,
