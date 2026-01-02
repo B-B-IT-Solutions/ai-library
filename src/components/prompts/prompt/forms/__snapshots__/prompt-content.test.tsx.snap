@@ -223,9 +223,7 @@ exports[`PromptContent rendering tests PromptContent - expanded true - rendered 
     >
       <pre
         class="whitespace-pre-wrap text-sm text-slate-700 font-mono"
-      >
-        content 1
-      </pre>
+      />
     </div>
   </div>
 </div>

@@ -14,7 +14,7 @@ describe("PromptVersion rendering tests", () => {
    });
 
    it("PromptVersion rendered test", async () => {
-      const prompt = dtestData.dPrompt();
+      const prompt = dtestData.dPromptDescriptor();
 
       const { container } = render(<PromptVersions prompt={prompt} />);
 

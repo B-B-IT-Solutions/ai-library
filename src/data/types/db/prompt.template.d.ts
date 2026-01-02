@@ -1,8 +1,9 @@
 import {
-   PromptTemplate,
    PromptTemplateCategory,
+   PromptTemplateDescriptor,
 } from "@/generated/prisma/client";
 
-export type PromptTemplateWithCategories = PromptTemplate & {
-   categories: PromptTemplateCategory[];
-};
+export type PromptTemplateDescriptorWithCategories =
+   PromptTemplateDescriptor & {
+      categories: PromptTemplateCategory[];
+   };

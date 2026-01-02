@@ -2,13 +2,10 @@
 
 import { map } from "es-toolkit/compat";
 
-import {
-   getPromptTemplateCategories as pGetPromptTemplateCategories,
-   getPromptTemplates as pGetPromptTemplates,
-} from "@/data/repositories/prompt/prompt.template";
-import { DPromptTemplate } from "@/data/types/domain/prompt.template";
-
-import { toDPromptTemplates } from "./prompt.mapper";
+import prisma from "@/data/repositories/prisma";
+import { ServiceFactory } from "@/data/services";
+import { DbClient } from "@/data/types/db/common";
+import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 type DGetPromptTemplatesParams = {
    search?: string;
@@ -17,12 +14,18 @@ type DGetPromptTemplatesParams = {
 
 export const getPromptTemplates = async (
    params?: DGetPromptTemplatesParams
-): Promise<DPromptTemplate[]> => {
-   const data = await pGetPromptTemplates(params);
-   return toDPromptTemplates(data);
+): Promise<DPromptTemplateDescriptor[]> => {
+   const service = getPromptTemplateService();
+   return await service.getPromptTemplateDescriptors(params);
 };
 
 export const getPromptTemplateCategories = async (): Promise<string[]> => {
-   const categories = await pGetPromptTemplateCategories();
+   const service = getPromptTemplateService();
+   const categories = await service.getPromptTemplateCategories();
    return map(categories, (c) => c.name);
+};
+
+const getPromptTemplateService = (dbClient: DbClient = prisma) => {
+   const factory = new ServiceFactory(dbClient);
+   return factory.getPromptTemplateService();
 };

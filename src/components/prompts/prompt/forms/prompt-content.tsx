@@ -4,10 +4,10 @@ import { FC, useState } from "react";
 import { Check, ChevronDown, ChevronRight, Copy } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
-import { DPrompt } from "@/data/types/domain/prompt";
+import { DPromptDescriptor } from "@/data/types/domain/prompt";
 
 type PromptContentProps = {
-   prompt: DPrompt;
+   prompt: DPromptDescriptor;
 };
 
 export const PromptContent: FC<PromptContentProps> = ({ prompt }) => {

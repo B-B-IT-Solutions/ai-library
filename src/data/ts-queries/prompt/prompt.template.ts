@@ -9,16 +9,16 @@ import {
 import {
    getPromptTemplateCategories,
    getPromptTemplates,
-} from "@/data/actions/prompt/prompt.template.actions";
-import { DPromptTemplate } from "@/data/types/domain/prompt.template";
+} from "@/data/actions/prompt";
+import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 import { LoadPromptTemplatesParams } from "./types";
 import { promptTemplateCategoriesKeys, promptTemplateKeys } from "./utils";
 
 export const preloadPromptTemplatesOptions = (): FetchQueryOptions<
-   DPromptTemplate[],
+   DPromptTemplateDescriptor[],
    Error,
-   DPromptTemplate[]
+   DPromptTemplateDescriptor[]
 > => {
    return {
       queryKey: promptTemplateKeys.templates(),
@@ -43,7 +43,11 @@ export const preloadPromptTemplateCategoriesOptions = (): FetchQueryOptions<
 
 export const loadPromptTemplatesOptions = (
    params?: LoadPromptTemplatesParams
-): UndefinedInitialDataOptions<DPromptTemplate[], Error, DPromptTemplate[]> => {
+): UndefinedInitialDataOptions<
+   DPromptTemplateDescriptor[],
+   Error,
+   DPromptTemplateDescriptor[]
+> => {
    return {
       queryKey: promptTemplateKeys.templates(params),
       queryFn: async () => {
@@ -56,9 +60,9 @@ export const loadPromptTemplatesOptions = (
 
 export const useLoadPromptTemplates = (
    params?: LoadPromptTemplatesParams
-): UseQueryResult<DPromptTemplate[]> => {
+): UseQueryResult<DPromptTemplateDescriptor[]> => {
    const options = loadPromptTemplatesOptions(params);
-   return useQuery<DPromptTemplate[]>(options);
+   return useQuery<DPromptTemplateDescriptor[]>(options);
 };
 
 export const loadPromptTemplateCategoriesOptions =

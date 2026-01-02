@@ -8,8 +8,10 @@ export type DPromptTemplateCategory = {
 
 export type DPromptTemplateCreate = z.infer<typeof createPromptTemplateSchema>;
 
-export type DPromptTemplate = Omit<DPromptTemplateCreate, "categories"> & {
+export type DPromptTemplateDescriptor = {
    id: string;
+   title: string;
+   recommendedModel: string;
    categories: DPromptTemplateCategory[];
    updatedAt: string;
    createdAt: string;

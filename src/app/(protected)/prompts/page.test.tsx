@@ -1,5 +1,4 @@
-jest.mock("@/data/actions/prompt/prompt.actions");
-jest.mock("@/data/actions/prompt/prompt.template.actions");
+jest.mock("@/data/actions/prompt");
 jest.mock("@/data/ts-queries/prompt", () => ({
    ...jest.requireActual("@/data/ts-queries/prompt"),
    preloadPromptsOptions: jest.fn(),
@@ -16,11 +15,9 @@ import { Metadata } from "next";
 import {
    getPromptCategories,
    getPrompts,
-} from "@/data/actions/prompt/prompt.actions";
-import {
    getPromptTemplateCategories,
    getPromptTemplates,
-} from "@/data/actions/prompt/prompt.template.actions";
+} from "@/data/actions/prompt";
 import {
    preloadPromptCategoriesOptions,
    preloadPromptsOptions,
@@ -85,8 +82,8 @@ describe("PromptsPage rendering tests", () => {
    });
 
    it("PromptsPage - prompts retrieved - rendered test", async () => {
-      const page = dtestData.dPromptsPage();
-      const templates = dtestData.dPromptTemplates();
+      const page = dtestData.dPromptDescriptorsPage();
+      const templates = dtestData.dPromptTemplateDescriptors();
       const promptCategories = ["category 1", "category 2", "category 789"];
       const templateCategories = ["category 1", "category 2", "category 3"];
 
@@ -105,7 +102,7 @@ describe("PromptsPage rendering tests", () => {
          queryKey: ["prompts-template-categories"],
       });
 
-      const { container } = await renderAsyncRSC(PromptsPage);
+      const { container } = await renderAsyncRSC(PromptsPage, {});
 
       await waitFor(() => {
          assertRendered();

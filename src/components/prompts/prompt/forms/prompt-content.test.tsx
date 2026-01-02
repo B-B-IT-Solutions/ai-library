@@ -34,7 +34,7 @@ const assertCheckIcon = () => {
 
 describe("PromptContent rendering tests", () => {
    it("PromptContent - expanded false - rendered test", async () => {
-      const prompt = dtestData.dPrompt();
+      const prompt = dtestData.dPromptDescriptor();
 
       const { container } = render(<PromptContent prompt={prompt} />);
 
@@ -48,7 +48,7 @@ describe("PromptContent rendering tests", () => {
    });
 
    it("PromptContent - expanded true - rendered test", async () => {
-      const prompt = dtestData.dPrompt();
+      const prompt = dtestData.dPromptDescriptor();
 
       const { container } = render(<PromptContent prompt={prompt} />);
 
@@ -82,7 +82,7 @@ describe("PromptContent functionality tests", () => {
    });
 
    it("PromptContent - expand btn clicked - test", async () => {
-      const prompt = dtestData.dPrompt();
+      const prompt = dtestData.dPromptDescriptor();
 
       render(<PromptContent prompt={prompt} />);
 
@@ -100,7 +100,7 @@ describe("PromptContent functionality tests", () => {
    });
 
    it("PromptContent - copy btn clicked - test", async () => {
-      const prompt = dtestData.dPrompt();
+      const prompt = dtestData.dPromptDescriptor();
       render(<PromptContent prompt={prompt} />);
 
       await waitFor(() => {
@@ -134,7 +134,7 @@ describe("PromptContent functionality tests", () => {
       >;
       writeTextMock.mockRejectedValue("error 1");
 
-      const prompt = dtestData.dPrompt();
+      const prompt = dtestData.dPromptDescriptor();
       render(<PromptContent prompt={prompt} />);
 
       await waitFor(() => {

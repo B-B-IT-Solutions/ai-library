@@ -1,13 +1,13 @@
 import { FC } from "react";
 import { isEmpty, map } from "es-toolkit/compat";
 
-import { DPromptTemplate } from "@/data/types/domain/prompt.template";
+import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 import { TemplateCard } from "./template-card";
 
 type TemplateCardsProps = {
-   templates: DPromptTemplate[];
-   onSelect: (template: DPromptTemplate) => void;
+   templates: DPromptTemplateDescriptor[];
+   onSelect: (template: DPromptTemplateDescriptor) => void;
 };
 
 export const TemplateCards: FC<TemplateCardsProps> = ({

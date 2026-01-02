@@ -17,7 +17,7 @@ const assertRendered = () => {
 
 describe("TemplateCard rendering tests", () => {
    it("TemplateCard rendered test", async () => {
-      const template = dtestData.dPromptTemplate();
+      const template = dtestData.dPromptTemplateDescriptor();
 
       const { container } = render(
          <TemplateCard template={template} onSelect={jest.fn()} />
@@ -33,7 +33,7 @@ describe("TemplateCard rendering tests", () => {
 
 describe("TemplateCard functionality tests", () => {
    it("TemplateCard - template clicked - test", async () => {
-      const template = dtestData.dPromptTemplate();
+      const template = dtestData.dPromptTemplateDescriptor();
       const onSelectFn = jest.fn();
 
       render(<TemplateCard template={template} onSelect={onSelectFn} />);

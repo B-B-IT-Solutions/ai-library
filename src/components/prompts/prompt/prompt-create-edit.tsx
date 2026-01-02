@@ -6,7 +6,7 @@ import { X } from "lucide-react";
 import { PromptFormEdit } from "@/components/prompts/prompt";
 import { TemplateSelector } from "@/components/prompts/template";
 import { DPrompt } from "@/data/types/domain/prompt";
-import { DPromptTemplate } from "@/data/types/domain/prompt.template";
+import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 type PromptCreateEditProps = {
    prompt?: DPrompt;
@@ -14,7 +14,9 @@ type PromptCreateEditProps = {
 
 export const PromptCreateEdit: FC<PromptCreateEditProps> = ({ prompt }) => {
    const [isEditing, setIsEditing] = useState(false);
-   const [template, setTemplate] = useState<DPromptTemplate | undefined>();
+   const [template, setTemplate] = useState<
+      DPromptTemplateDescriptor | undefined
+   >();
 
    const editForm = () => {
       return (

@@ -4,13 +4,13 @@ import { FC, useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
 import { useLoadPromptTemplates } from "@/data/ts-queries/prompt";
-import { DPromptTemplate } from "@/data/types/domain/prompt.template";
+import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 import { TemplateCards } from "./template-cards";
 import { Filters, TemplateFilters } from "./template-filters";
 
 type TemplateSelectorProps = {
-   onSelect: (template: DPromptTemplate) => void;
+   onSelect: (template: DPromptTemplateDescriptor) => void;
 };
 
 export const TemplateSelector: FC<TemplateSelectorProps> = ({ onSelect }) => {

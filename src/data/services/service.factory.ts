@@ -2,6 +2,7 @@ import { RepositoryFactory } from "@/data/repositories";
 import { CartService } from "@/data/services/cart";
 import { LibraryService } from "@/data/services/library";
 import { OrderService } from "@/data/services/order";
+import { PromptService, PromptTemplateService } from "@/data/services/prompt";
 import { StripeService } from "@/data/services/stripe";
 import { DbClient } from "@/data/types/db/common";
 
@@ -11,6 +12,8 @@ export class ServiceFactory {
    private libraryService?: LibraryService;
    private orderService?: OrderService;
    private stripeService?: StripeService;
+   private promptService?: PromptService;
+   private promptTemplateService?: PromptTemplateService;
 
    constructor(prisma: DbClient) {
       this.repositories = new RepositoryFactory(prisma);
@@ -26,7 +29,8 @@ export class ServiceFactory {
    getLibraryService(): LibraryService {
       if (!this.libraryService) {
          this.libraryService = new LibraryService(
-            this.repositories.libraryRepository()
+            this.repositories.libraryRepository(),
+            this.getPromptService()
          );
       }
       return this.libraryService;
@@ -51,5 +55,23 @@ export class ServiceFactory {
          );
       }
       return this.stripeService;
+   }
+
+   getPromptService(): PromptService {
+      if (!this.promptService) {
+         this.promptService = new PromptService(
+            this.repositories.promptRepository()
+         );
+      }
+      return this.promptService;
+   }
+
+   getPromptTemplateService(): PromptTemplateService {
+      if (!this.promptTemplateService) {
+         this.promptTemplateService = new PromptTemplateService(
+            this.repositories.promptTemplateRepository()
+         );
+      }
+      return this.promptTemplateService;
    }
 }

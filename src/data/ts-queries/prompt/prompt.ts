@@ -11,11 +11,11 @@ import {
    UseQueryResult,
 } from "@tanstack/react-query";
 
+import { getPromptCategories, getPrompts } from "@/data/actions/prompt";
 import {
-   getPromptCategories,
-   getPrompts,
-} from "@/data/actions/prompt/prompt.actions";
-import { DPromptsPage, DPromptsPageQuery } from "@/data/types/domain/prompt";
+   DPromptDescriptorsPage,
+   DPromptDescriptorsPageQuery,
+} from "@/data/types/domain/prompt";
 import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
 import { getNextPageParam, pageQuery } from "../utils";
 
@@ -24,14 +24,14 @@ import { promptCategoriesKeys, promptKeys } from "./utils";
 
 export const preloadPromptsOptions = (
    props?: LoadPromptsParams
-): FetchQueryOptions<DPromptsPage, Error, DPromptsPage> => {
+): FetchQueryOptions<DPromptDescriptorsPage, Error, DPromptDescriptorsPage> => {
    const { search, categories } = props || {};
    return {
       queryKey: promptKeys.prompts(props),
       queryFn: async () => {
          const globalFilter = search;
          const filter = { categories };
-         const query: DPromptsPageQuery = pageQuery(
+         const query: DPromptDescriptorsPageQuery = pageQuery(
             INIT_PAGE_NUMBER,
             PAGE_SIZE,
             globalFilter,
@@ -58,9 +58,9 @@ export const preloadPromptCategoriesOptions = (): FetchQueryOptions<
 export const infiniteLoadPromptsOptions = (
    props: LoadPromptsParams
 ): UndefinedInitialDataInfiniteOptions<
-   DPromptsPage,
+   DPromptDescriptorsPage,
    Error,
-   InfiniteData<DPromptsPage>,
+   InfiniteData<DPromptDescriptorsPage>,
    QueryKey,
    number
 > => {
@@ -70,7 +70,7 @@ export const infiniteLoadPromptsOptions = (
       queryFn: async ({ pageParam }) => {
          const globalFilter = search;
          const filter = { categories };
-         const query: DPromptsPageQuery = pageQuery(
+         const query: DPromptDescriptorsPageQuery = pageQuery(
             pageParam,
             PAGE_SIZE,
             globalFilter,
@@ -86,7 +86,7 @@ export const infiniteLoadPromptsOptions = (
 
 export const useInfiniteLoadPrompts = (
    props: LoadPromptsParams
-): UseInfiniteQueryResult<InfiniteData<DPromptsPage>, Error> => {
+): UseInfiniteQueryResult<InfiniteData<DPromptDescriptorsPage>, Error> => {
    const options = infiniteLoadPromptsOptions(props);
    return useInfiniteQuery(options);
 };

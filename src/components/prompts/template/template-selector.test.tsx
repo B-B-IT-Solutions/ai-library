@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/prompt/prompt.template.actions");
+jest.mock("@/data/actions/prompt");
 
 import { screen, waitFor } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
@@ -12,7 +12,7 @@ import {
 import {
    getPromptTemplateCategories,
    getPromptTemplates,
-} from "@/data/actions/prompt/prompt.template.actions";
+} from "@/data/actions/prompt";
 
 import { TemplateSelector } from "./template-selector";
 
@@ -45,7 +45,7 @@ const assertTemplatesNotRendered = () => {
 
 describe("TemplateSelector rendering tests", () => {
    it("TemplateSelector rendered test", async () => {
-      const templates = dtestData.dPromptTemplates();
+      const templates = dtestData.dPromptTemplateDescriptors();
       const categories = ["category 1", "category 2", "category 3"];
 
       getPromptTemplatesMock.mockResolvedValue(templates);
@@ -66,7 +66,7 @@ describe("TemplateSelector rendering tests", () => {
 
 describe("TemplateSelector functionality tests", () => {
    it("TemplateSelector - template clicked = test", async () => {
-      const templates = dtestData.dPromptTemplates();
+      const templates = dtestData.dPromptTemplateDescriptors();
       const categories = ["category 1", "category 2", "category 3"];
 
       getPromptTemplatesMock.mockResolvedValue(templates);

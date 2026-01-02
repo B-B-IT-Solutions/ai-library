@@ -12,7 +12,7 @@ import {
 
 describe("getNextPageParam", () => {
    test("getNextPageParam - totalPages 50 -  test", async () => {
-      const page = dtestData.dPromptsPage();
+      const page = dtestData.dPromptDescriptorsPage();
       page.pageNumber = 0;
       page.totalPages = 50;
       expect(getNextPageParam(page)).toEqual(1);
@@ -31,7 +31,7 @@ describe("getNextPageParam", () => {
    });
 
    test("getNextPageParam - totalPages 5 -  test", async () => {
-      const page = dtestData.dPromptsPage();
+      const page = dtestData.dPromptDescriptorsPage();
       page.pageNumber = 0;
       page.totalPages = 5;
       expect(getNextPageParam(page)).toEqual(1);
@@ -50,7 +50,7 @@ describe("getNextPageParam", () => {
    });
 
    test("getNextPageParam - totalPages 0 -  test", async () => {
-      const page = dtestData.dPromptsPage();
+      const page = dtestData.dPromptDescriptorsPage();
       page.pageNumber = 0;
       page.totalPages = 0;
       expect(getNextPageParam(page)).toBeNull();

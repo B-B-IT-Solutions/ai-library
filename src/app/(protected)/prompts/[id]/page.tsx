@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { PromptFormView } from "@/components/prompts/prompt";
-import { getPrompt } from "@/data/actions/prompt/prompt.actions";
+import { getPrompt } from "@/data/actions/prompt";
 
 export const metadata = {
    title: "Prompt",

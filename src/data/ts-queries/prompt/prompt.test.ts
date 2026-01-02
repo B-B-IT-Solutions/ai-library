@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/prompt/prompt.actions");
+jest.mock("@/data/actions/prompt");
 
 import {
    InfiniteData,
@@ -11,11 +11,11 @@ import {
 import { waitFor } from "@testing-library/dom";
 import { dtestData, renderHookWithReactQuery } from "@tests";
 
+import { getPromptCategories, getPrompts } from "@/data/actions/prompt";
 import {
-   getPromptCategories,
-   getPrompts,
-} from "@/data/actions/prompt/prompt.actions";
-import { DPromptsPage, DPromptsPageQuery } from "@/data/types/domain/prompt";
+   DPromptDescriptorsPage,
+   DPromptDescriptorsPageQuery,
+} from "@/data/types/domain/prompt";
 
 import {
    infiniteLoadPromptsOptions,
@@ -38,7 +38,7 @@ describe("prefetch options tests", () => {
    });
 
    test("preloadPromptsOptions  - test", async () => {
-      const page = dtestData.dPromptsPage();
+      const page = dtestData.dPromptDescriptorsPage();
       getPromptsMock.mockResolvedValue(page);
 
       const expectedOptions: UndefinedInitialDataOptions<
@@ -51,7 +51,7 @@ describe("prefetch options tests", () => {
       };
 
       const options = preloadPromptsOptions();
-      const queryFn = options.queryFn as QueryFunction<DPromptsPage>;
+      const queryFn = options.queryFn as QueryFunction<DPromptDescriptorsPage>;
       const context = {} as QueryFunctionContext;
       const fnResult = await queryFn(context);
 
@@ -93,9 +93,9 @@ describe("loadPrompts hooks tests", () => {
       };
 
       const expectedOptions: UndefinedInitialDataInfiniteOptions<
-         DPromptsPage,
+         DPromptDescriptorsPage,
          Error,
-         InfiniteData<DPromptsPage, unknown>,
+         InfiniteData<DPromptDescriptorsPage, unknown>,
          QueryKey,
          number
       > = {
@@ -111,7 +111,7 @@ describe("loadPrompts hooks tests", () => {
    });
 
    test("useInfiniteLoadPrompts test", async () => {
-      const promptsPage = dtestData.dPromptsPage();
+      const promptsPage = dtestData.dPromptDescriptorsPage();
       getPromptsMock.mockResolvedValue(promptsPage);
       const filter = dtestData.dPromptsFilter();
       const params: LoadPromptsParams = {
@@ -123,7 +123,7 @@ describe("loadPrompts hooks tests", () => {
          useInfiniteLoadPrompts(params)
       );
 
-      const expectedQuery: DPromptsPageQuery = {
+      const expectedQuery: DPromptDescriptorsPageQuery = {
          pagination: { pageNumber: 0, pageSize: 10 },
          globalFilter: params.search,
          filter: filter,

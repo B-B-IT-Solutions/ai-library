@@ -1,118 +1,100 @@
-import { PrismaClient } from "@prisma/client";
-
-import { RepositoryFactory } from "@/data/repositories";
+import prisma from "@/data/repositories/prisma";
 
 import { CartService } from "./cart";
 import { LibraryService } from "./library";
 import { OrderService } from "./order";
+import { PromptService, PromptTemplateService } from "./prompt";
 import { ServiceFactory } from "./service.factory";
 import { StripeService } from "./stripe/stripe.service";
 
-describe("ServiceFactory tests", () => {
-   let mockPrisma: PrismaClient;
-   let repositoryFactory: RepositoryFactory;
-   let serviceFactory: ServiceFactory;
+const serviceFactory = new ServiceFactory(prisma);
 
-   beforeEach(() => {
-      mockPrisma = {} as PrismaClient;
-      repositoryFactory = new RepositoryFactory(mockPrisma);
-      serviceFactory = new ServiceFactory(repositoryFactory);
+describe("getCartService tests", () => {
+   it("getCartService - new instance - test", () => {
+      const service = serviceFactory.getCartService();
+
+      expect(service).toBeInstanceOf(CartService);
    });
 
-   describe("getCartService tests", () => {
-      it("should create and return CartService instance", () => {
-         const service = serviceFactory.getCartService();
+   it("getCartService - existing instance - test", () => {
+      const service1 = serviceFactory.getCartService();
+      const service2 = serviceFactory.getCartService();
 
-         expect(service).toBeInstanceOf(CartService);
-      });
+      expect(service1).toBe(service2);
+   });
+});
 
-      it("should return the same instance on multiple calls (singleton pattern)", () => {
-         const service1 = serviceFactory.getCartService();
-         const service2 = serviceFactory.getCartService();
+describe("getLibraryService tests", () => {
+   it("getLibraryService - new instance - test", () => {
+      const service = serviceFactory.getLibraryService();
 
-         expect(service1).toBe(service2);
-      });
+      expect(service).toBeInstanceOf(LibraryService);
    });
 
-   describe("getLibraryService tests", () => {
-      it("should create and return LibraryService instance", () => {
-         const service = serviceFactory.getLibraryService();
+   it("getLibraryService - existing instance - test", () => {
+      const service1 = serviceFactory.getLibraryService();
+      const service2 = serviceFactory.getLibraryService();
 
-         expect(service).toBeInstanceOf(LibraryService);
-      });
+      expect(service1).toBe(service2);
+   });
+});
 
-      it("should return the same instance on multiple calls (singleton pattern)", () => {
-         const service1 = serviceFactory.getLibraryService();
-         const service2 = serviceFactory.getLibraryService();
+describe("getOrderService tests", () => {
+   it("getOrderService - new instance - test", () => {
+      const service = serviceFactory.getOrderService();
 
-         expect(service1).toBe(service2);
-      });
+      expect(service).toBeInstanceOf(OrderService);
    });
 
-   describe("getOrderService tests", () => {
-      it("should create and return OrderService instance", () => {
-         const service = serviceFactory.getOrderService();
+   it("getOrderService - existing instance - test", () => {
+      const service1 = serviceFactory.getOrderService();
+      const service2 = serviceFactory.getOrderService();
 
-         expect(service).toBeInstanceOf(OrderService);
-      });
+      expect(service1).toBe(service2);
+   });
+});
 
-      it("should return the same instance on multiple calls (singleton pattern)", () => {
-         const service1 = serviceFactory.getOrderService();
-         const service2 = serviceFactory.getOrderService();
+describe("getStripeService tests", () => {
+   it("getStripeService - new instance - test", () => {
+      const service = serviceFactory.getStripeService();
 
-         expect(service1).toBe(service2);
-      });
-
-      it("should inject CartService and LibraryService dependencies correctly", () => {
-         const orderService = serviceFactory.getOrderService();
-         const cartService = serviceFactory.getCartService();
-         const libraryService = serviceFactory.getLibraryService();
-
-         expect(orderService).toBeInstanceOf(OrderService);
-         expect(cartService).toBeInstanceOf(CartService);
-         expect(libraryService).toBeInstanceOf(LibraryService);
-      });
+      expect(service).toBeInstanceOf(StripeService);
    });
 
-   describe("getStripeService tests", () => {
-      it("should create and return StripeService instance", () => {
-         const service = serviceFactory.getStripeService();
+   it("getStripeService - existing instance - test", () => {
+      const service1 = serviceFactory.getStripeService();
+      const service2 = serviceFactory.getStripeService();
 
-         expect(service).toBeInstanceOf(StripeService);
-      });
+      expect(service1).toBe(service2);
+   });
+});
 
-      it("should return the same instance on multiple calls (singleton pattern)", () => {
-         const service1 = serviceFactory.getStripeService();
-         const service2 = serviceFactory.getStripeService();
+describe("getPromptService tests", () => {
+   it("getPromptService - new instance - test", () => {
+      const service = serviceFactory.getPromptService();
 
-         expect(service1).toBe(service2);
-      });
-
-      it("should inject OrderService dependencies correctly", () => {
-         const stripeService = serviceFactory.getStripeService();
-         const cartService = serviceFactory.getCartService();
-         const orderService = serviceFactory.getOrderService();
-
-         expect(stripeService).toBeInstanceOf(StripeService);
-         expect(cartService).toBeInstanceOf(CartService);
-         expect(orderService).toBeInstanceOf(OrderService);
-      });
+      expect(service).toBeInstanceOf(PromptService);
    });
 
-   describe("integration tests", () => {
-      it("should create services with shared repository instances", () => {
-         const cartService = serviceFactory.getCartService();
-         const orderService = serviceFactory.getOrderService();
-         const stripeService = serviceFactory.getStripeService();
+   it("getPromptService - existing instance - test", () => {
+      const service1 = serviceFactory.getPromptService();
+      const service2 = serviceFactory.getPromptService();
 
-         expect(cartService).toBeInstanceOf(CartService);
-         expect(orderService).toBeInstanceOf(OrderService);
-         expect(stripeService).toBeInstanceOf(StripeService);
+      expect(service1).toBe(service2);
+   });
+});
 
-         const cartRepository1 = repositoryFactory.cartRepository();
-         const cartRepository2 = repositoryFactory.cartRepository();
+describe("getPromptTemplateService tests", () => {
+   it("getPromptTemplateService - new instance - test", () => {
+      const service = serviceFactory.getPromptTemplateService();
 
-         expect(cartRepository1).toBe(cartRepository2);
-      });
+      expect(service).toBeInstanceOf(PromptTemplateService);
+   });
+
+   it("getPromptTemplateService - existing instance - test", () => {
+      const service1 = serviceFactory.getPromptTemplateService();
+      const service2 = serviceFactory.getPromptTemplateService();
+
+      expect(service1).toBe(service2);
    });
 });

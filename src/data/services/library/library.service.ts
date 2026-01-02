@@ -2,21 +2,24 @@ import { isEmpty, map } from "es-toolkit/compat";
 import { validate as isValidUuid } from "uuid";
 
 import { requireUser } from "@/data/actions/auth-utils";
-import { formatError } from "@/data/actions/utils";
 import { LibraryRepository } from "@/data/repositories/library";
-import { createPrompt as pCreatePrompt } from "@/data/repositories/prompt/prompt";
+import { PromptService } from "@/data/services/prompt";
 import { OrderProducts } from "@/data/types/db/order";
 import { DLibraryEntry } from "@/data/types/domain/library";
-import { ActionResult } from "@/data/types/utils";
-import { PromptCreateInput } from "@/generated/prisma/models";
+import { DPromptCreate } from "@/data/types/domain/prompt";
 
 import { toDLibraryEntries } from "./library.mapper";
 
 export class LibraryService {
    private libraryRepository: LibraryRepository;
+   private promptService: PromptService;
 
-   constructor(libraryRepository: LibraryRepository) {
+   constructor(
+      libraryRepository: LibraryRepository,
+      promptService: PromptService
+   ) {
       this.libraryRepository = libraryRepository;
+      this.promptService = promptService;
    }
 
    async getLibraryEntries(): Promise<DLibraryEntry[]> {
@@ -60,130 +63,79 @@ export class LibraryService {
       }
    }
 
-   async copyTemplateToPrompts(
-      templateId: string
-   ): Promise<ActionResult<void>> {
-      try {
-         if (!isValidUuid(templateId)) {
-            return {
-               success: false,
-               message: "Invalid template ID.",
-            };
-         }
-
-         const user = await requireUser();
-
-         // Check access
-         const hasAccess = await this.hasAccessToTemplate(templateId);
-         if (!hasAccess) {
-            return {
-               success: false,
-               message: "You do not have access to this template.",
-            };
-         }
-
-         // Get template
-         const purchases = await this.libraryRepository.pGetLibraryEntries(
-            user.id
-         );
-         const purchase = purchases.find((p) => p.templateId === templateId);
-
-         if (!purchase) {
-            return {
-               success: false,
-               message: "Template not found.",
-            };
-         }
-
-         const template = purchase.template;
-
-         // Create prompt from template
-         const promptData: PromptCreateInput = {
-            title: template.title,
-            content: template.content,
-            recommendedModel: template.recommendedModel,
-            followUpPrompts: [],
-            currentVersion: 1,
-            isFavorite: false,
-            categories: {
-               connectOrCreate: template.categories.map((cat) => ({
-                  where: { name: cat.name },
-                  create: { name: cat.name },
-               })),
-            },
-         };
-
-         await pCreatePrompt(promptData);
-
-         return {
-            success: true,
-            message: "Template copied to your prompts successfully!",
-         };
-      } catch (error) {
-         return {
-            success: false,
-            message: formatError(error),
-         };
+   async copyTemplateToPrompts(templateId: string) {
+      if (!isValidUuid(templateId)) {
+         throw new Error("Invalid template ID.");
       }
+
+      const user = await requireUser();
+
+      // Check access
+      const hasAccess = await this.hasAccessToTemplate(templateId);
+      if (!hasAccess) {
+         throw new Error("You do not have access to this template.");
+      }
+
+      // Get template
+      const purchases = await this.libraryRepository.pGetLibraryEntries(
+         user.id
+      );
+      const purchase = purchases.find((p) => p.templateId === templateId);
+
+      if (!purchase) {
+         throw new Error("Template not found");
+      }
+
+      const template = purchase.template;
+
+      // Create prompt from template
+      const promptData: DPromptCreate = {
+         content: template.content,
+         title: template.title,
+         recommendedModel: template.recommendedModel,
+         categories: map(template.categories, (cat) => cat.name),
+      };
+
+      await this.promptService.createPrompt(promptData);
    }
 
-   async downloadTemplate(templateId: string): Promise<ActionResult<string>> {
-      try {
-         if (!isValidUuid(templateId)) {
-            return {
-               success: false,
-               message: "Invalid template ID.",
-            };
-         }
-
-         const user = await requireUser();
-
-         // Check access
-         const hasAccess = await this.hasAccessToTemplate(templateId);
-         if (!hasAccess) {
-            return {
-               success: false,
-               message: "You do not have access to this template.",
-            };
-         }
-
-         // Get template
-         const purchases = await this.libraryRepository.pGetLibraryEntries(
-            user.id
-         );
-         const purchase = purchases.find((p) => p.templateId === templateId);
-
-         if (!purchase) {
-            return {
-               success: false,
-               message: "Template not found.",
-            };
-         }
-
-         const template = purchase.template;
-
-         // Create JSON download data
-         const downloadData = JSON.stringify(
-            {
-               title: template.title,
-               content: template.content,
-               categories: template.categories.map((c) => c.name),
-               recommendedModel: template.recommendedModel,
-            },
-            null,
-            2
-         );
-
-         return {
-            success: true,
-            message: "Template ready for download.",
-            data: downloadData,
-         };
-      } catch (error) {
-         return {
-            success: false,
-            message: formatError(error),
-         };
+   async downloadTemplate(templateId: string): Promise<string> {
+      if (!isValidUuid(templateId)) {
+         throw new Error("Invalid template ID.");
       }
+
+      const user = await requireUser();
+
+      // Check access
+      const hasAccess = await this.hasAccessToTemplate(templateId);
+      if (!hasAccess) {
+         throw new Error("You do not have access to this template.");
+      }
+
+      // Get template
+      const purchases = await this.libraryRepository.pGetLibraryEntries(
+         user.id
+      );
+      const purchase = purchases.find((p) => p.templateId === templateId);
+
+      if (!purchase) {
+         throw new Error("Template not found.");
+      }
+
+      const template = purchase.template;
+
+      // Create JSON download data
+      const downloadData = JSON.stringify(
+         {
+            title: template.title,
+            content: template.content,
+            categories: template.categories.map((c) => c.name),
+            recommendedModel: template.recommendedModel,
+         },
+         null,
+         2
+      );
+
+      return downloadData;
    }
 }

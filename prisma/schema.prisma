@@ -70,47 +70,61 @@ model VerificationToken {
   @@map("verification_token")
 }
 
-model Prompt {
+model PromptDescriptor {
   id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title            String
-  content          String           @db.Text
-  followUpPrompts  String[]         @map("follow_up_prompts") @db.Text
+  title            String           @db.VarChar(500)
   categories       PromptCategory[]
   recommendedModel String           @map("recommended_model") @db.VarChar(250)
-  currentVersion   Int              @map("current_verion")
   isFavorite       Boolean          @default(false) @map("is_favorite")
   createdAt        DateTime         @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt        DateTime         @updatedAt @map("updated_at")
+  prompt           Prompt?
+
+  @@map("prompt_descriptor")
+}
+
+model Prompt {
+  id         String           @id @db.Uuid
+  content    String           @db.Text
+  descriptor PromptDescriptor @relation(fields: [id], references: [id], onDelete: Cascade)
 
   @@map("prompt")
 }
 
 model PromptCategory {
-  id      Int      @id @default(autoincrement())
-  name    String   @unique @db.VarChar(250)
-  prompts Prompt[]
+  id      Int                @id @default(autoincrement())
+  name    String             @unique @db.VarChar(250)
+  prompts PromptDescriptor[]
 
   @@map("prompt_category")
 }
 
-model PromptTemplate {
+model PromptTemplateDescriptor {
   id               String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title            String
-  content          String                   @db.Text
+  title            String                   @db.VarChar(500)
   categories       PromptTemplateCategory[]
   recommendedModel String                   @map("recommended_model") @db.VarChar(250)
   createdAt        DateTime                 @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt        DateTime                 @updatedAt @map("updated_at")
+  promptTemplate   PromptTemplate?
   productItems     ProductItem[]
   libraries        LibraryEntry[]
+
+  @@map("prompt_template_descriptor")
+}
+
+model PromptTemplate {
+  id         String                   @id @db.Uuid
+  content    String                   @db.Text
+  descriptor PromptTemplateDescriptor @relation(fields: [id], references: [id], onDelete: Cascade)
 
   @@map("prompt_template")
 }
 
 model PromptTemplateCategory {
-  id      Int              @id @default(autoincrement())
-  name    String           @unique @db.VarChar(250)
-  prompts PromptTemplate[]
+  id        Int                        @id @default(autoincrement())
+  name      String                     @unique @db.VarChar(250)
+  templates PromptTemplateDescriptor[]
 
   @@map("prompt_template_category")
 }
@@ -213,8 +227,8 @@ model ProductItem {
   templateId String   @map("template_id") @db.Uuid
   createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(6)
 
-  product  Product        @relation(fields: [productId], references: [id])
-  template PromptTemplate @relation(fields: [templateId], references: [id])
+  product  Product                  @relation(fields: [productId], references: [id])
+  template PromptTemplateDescriptor @relation(fields: [templateId], references: [id])
 
   @@unique([productId, templateId])
   @@map("product_item")
@@ -292,9 +306,9 @@ model LibraryEntry {
   productId  String   @map("product_id") @db.Uuid
   createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(6)
 
-  user     User           @relation(fields: [userId], references: [id])
-  order    Order          @relation(fields: [orderId], references: [id])
-  template PromptTemplate @relation(fields: [templateId], references: [id])
+  user     User                     @relation(fields: [userId], references: [id])
+  order    Order                    @relation(fields: [orderId], references: [id])
+  template PromptTemplateDescriptor @relation(fields: [templateId], references: [id])
 
   product Product @relation(fields: [productId], references: [id])
 

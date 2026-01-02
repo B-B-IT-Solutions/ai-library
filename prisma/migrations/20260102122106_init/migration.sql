@@ -62,16 +62,21 @@ CREATE TABLE "verification_token" (
 );
 
 -- CreateTable
-CREATE TABLE "prompt" (
+CREATE TABLE "prompt_descriptor" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
-    "title" TEXT NOT NULL,
-    "content" TEXT NOT NULL,
-    "follow_up_prompts" TEXT[],
+    "title" VARCHAR(500) NOT NULL,
     "recommended_model" VARCHAR(250) NOT NULL,
-    "current_verion" INTEGER NOT NULL,
     "is_favorite" BOOLEAN NOT NULL DEFAULT false,
     "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "prompt_descriptor_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "prompt" (
+    "id" UUID NOT NULL,
+    "content" TEXT NOT NULL,
 
     CONSTRAINT "prompt_pkey" PRIMARY KEY ("id")
 );
@@ -85,13 +90,20 @@ CREATE TABLE "prompt_category" (
 );
 
 -- CreateTable
-CREATE TABLE "prompt_template" (
+CREATE TABLE "prompt_template_descriptor" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
-    "title" TEXT NOT NULL,
-    "content" TEXT NOT NULL,
+    "title" VARCHAR(500) NOT NULL,
     "recommended_model" VARCHAR(250) NOT NULL,
     "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "prompt_template_descriptor_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "prompt_template" (
+    "id" UUID NOT NULL,
+    "content" TEXT NOT NULL,
 
     CONSTRAINT "prompt_template_pkey" PRIMARY KEY ("id")
 );
@@ -238,31 +250,31 @@ CREATE TABLE "order_item" (
 );
 
 -- CreateTable
-CREATE TABLE "library" (
+CREATE TABLE "library_entry" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "user_id" UUID NOT NULL,
     "order_id" UUID NOT NULL,
     "template_id" UUID NOT NULL,
-    "product_id" UUID,
+    "product_id" UUID NOT NULL,
     "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "library_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "library_entry_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "_PromptToPromptCategory" (
-    "A" UUID NOT NULL,
-    "B" INTEGER NOT NULL,
+CREATE TABLE "_PromptCategoryToPromptDescriptor" (
+    "A" INTEGER NOT NULL,
+    "B" UUID NOT NULL,
 
-    CONSTRAINT "_PromptToPromptCategory_AB_pkey" PRIMARY KEY ("A","B")
+    CONSTRAINT "_PromptCategoryToPromptDescriptor_AB_pkey" PRIMARY KEY ("A","B")
 );
 
 -- CreateTable
-CREATE TABLE "_PromptTemplateToPromptTemplateCategory" (
-    "A" UUID NOT NULL,
-    "B" INTEGER NOT NULL,
+CREATE TABLE "_PromptTemplateCategoryToPromptTemplateDescriptor" (
+    "A" INTEGER NOT NULL,
+    "B" UUID NOT NULL,
 
-    CONSTRAINT "_PromptTemplateToPromptTemplateCategory_AB_pkey" PRIMARY KEY ("A","B")
+    CONSTRAINT "_PromptTemplateCategoryToPromptTemplateDescriptor_AB_pkey" PRIMARY KEY ("A","B")
 );
 
 -- CreateIndex
@@ -287,19 +299,25 @@ CREATE UNIQUE INDEX "cart_item_cart_id_product_id_key" ON "cart_item"("cart_id",
 CREATE UNIQUE INDEX "order_stripe_checkout_session_id_key" ON "order"("stripe_checkout_session_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "library_user_id_template_id_key" ON "library"("user_id", "template_id");
+CREATE UNIQUE INDEX "library_entry_user_id_template_id_key" ON "library_entry"("user_id", "template_id");
 
 -- CreateIndex
-CREATE INDEX "_PromptToPromptCategory_B_index" ON "_PromptToPromptCategory"("B");
+CREATE INDEX "_PromptCategoryToPromptDescriptor_B_index" ON "_PromptCategoryToPromptDescriptor"("B");
 
 -- CreateIndex
-CREATE INDEX "_PromptTemplateToPromptTemplateCategory_B_index" ON "_PromptTemplateToPromptTemplateCategory"("B");
+CREATE INDEX "_PromptTemplateCategoryToPromptTemplateDescriptor_B_index" ON "_PromptTemplateCategoryToPromptTemplateDescriptor"("B");
 
 -- AddForeignKey
 ALTER TABLE "account" ADD CONSTRAINT "account_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "session" ADD CONSTRAINT "session_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "prompt" ADD CONSTRAINT "prompt_id_fkey" FOREIGN KEY ("id") REFERENCES "prompt_descriptor"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "prompt_template" ADD CONSTRAINT "prompt_template_id_fkey" FOREIGN KEY ("id") REFERENCES "prompt_template_descriptor"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "product_feature" ADD CONSTRAINT "product_feature_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -317,7 +335,7 @@ ALTER TABLE "product_instruction" ADD CONSTRAINT "product_instruction_product_id
 ALTER TABLE "product_item" ADD CONSTRAINT "product_item_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "product_item" ADD CONSTRAINT "product_item_template_id_fkey" FOREIGN KEY ("template_id") REFERENCES "prompt_template"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "product_item" ADD CONSTRAINT "product_item_template_id_fkey" FOREIGN KEY ("template_id") REFERENCES "prompt_template_descriptor"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "cart" ADD CONSTRAINT "cart_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -338,25 +356,25 @@ ALTER TABLE "order_item" ADD CONSTRAINT "order_item_order_id_fkey" FOREIGN KEY (
 ALTER TABLE "order_item" ADD CONSTRAINT "order_item_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "library" ADD CONSTRAINT "library_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "library_entry" ADD CONSTRAINT "library_entry_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "library" ADD CONSTRAINT "library_order_id_fkey" FOREIGN KEY ("order_id") REFERENCES "order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "library_entry" ADD CONSTRAINT "library_entry_order_id_fkey" FOREIGN KEY ("order_id") REFERENCES "order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "library" ADD CONSTRAINT "library_template_id_fkey" FOREIGN KEY ("template_id") REFERENCES "prompt_template"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "library_entry" ADD CONSTRAINT "library_entry_template_id_fkey" FOREIGN KEY ("template_id") REFERENCES "prompt_template_descriptor"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "library" ADD CONSTRAINT "library_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "library_entry" ADD CONSTRAINT "library_entry_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_PromptToPromptCategory" ADD CONSTRAINT "_PromptToPromptCategory_A_fkey" FOREIGN KEY ("A") REFERENCES "prompt"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_PromptCategoryToPromptDescriptor" ADD CONSTRAINT "_PromptCategoryToPromptDescriptor_A_fkey" FOREIGN KEY ("A") REFERENCES "prompt_category"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_PromptToPromptCategory" ADD CONSTRAINT "_PromptToPromptCategory_B_fkey" FOREIGN KEY ("B") REFERENCES "prompt_category"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_PromptCategoryToPromptDescriptor" ADD CONSTRAINT "_PromptCategoryToPromptDescriptor_B_fkey" FOREIGN KEY ("B") REFERENCES "prompt_descriptor"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_PromptTemplateToPromptTemplateCategory" ADD CONSTRAINT "_PromptTemplateToPromptTemplateCategory_A_fkey" FOREIGN KEY ("A") REFERENCES "prompt_template"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_PromptTemplateCategoryToPromptTemplateDescriptor" ADD CONSTRAINT "_PromptTemplateCategoryToPromptTemplateDescriptor_A_fkey" FOREIGN KEY ("A") REFERENCES "prompt_template_category"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_PromptTemplateToPromptTemplateCategory" ADD CONSTRAINT "_PromptTemplateToPromptTemplateCategory_B_fkey" FOREIGN KEY ("B") REFERENCES "prompt_template_category"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_PromptTemplateCategoryToPromptTemplateDescriptor" ADD CONSTRAINT "_PromptTemplateCategoryToPromptTemplateDescriptor_B_fkey" FOREIGN KEY ("B") REFERENCES "prompt_template_descriptor"("id") ON DELETE CASCADE ON UPDATE CASCADE;

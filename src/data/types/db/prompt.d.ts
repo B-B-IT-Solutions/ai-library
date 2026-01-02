@@ -1,13 +1,13 @@
 import { Page, PageQuery } from "@/data/types/common";
-import { Prompt, PromptCategory } from "@/generated/prisma/client";
+import { PromptCategory, PromptDescriptor } from "@/generated/prisma/client";
 
-export type PromptWithCategories = Prompt & {
+export type PromptDescriptorWithCategories = PromptDescriptor & {
    categories: PromptCategory[];
 };
 
-export type PromptsPageQuery = PageQuery<PromptsFilter>;
-export type PromptsPage = Page<PromptWithCategories>;
+export type PromptDescriptorsPageQuery = PageQuery<PromptDescriptorsFilter>;
+export type PromptDescriptorsPage = Page<PromptDescriptorWithCategories>;
 
-export declare interface PromptsFilter extends Filter {
+export declare interface PromptDescriptorsFilter extends Filter {
    categories?: string[];
 }

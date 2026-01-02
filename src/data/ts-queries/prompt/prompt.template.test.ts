@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/prompt/prompt.template.actions");
+jest.mock("@/data/actions/prompt");
 
 import {
    QueryFunction,
@@ -11,8 +11,8 @@ import { dtestData, renderHookWithReactQuery } from "@tests";
 import {
    getPromptTemplateCategories,
    getPromptTemplates,
-} from "@/data/actions/prompt/prompt.template.actions";
-import { DPromptTemplate } from "@/data/types/domain/prompt.template";
+} from "@/data/actions/prompt";
+import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 import {
    loadPromptTemplateCategoriesOptions,
@@ -39,7 +39,7 @@ describe("prefetch options tests", () => {
    });
 
    test("preloadPromptTemplatesOptions  - test", async () => {
-      const templates = dtestData.dPromptTemplates();
+      const templates = dtestData.dPromptTemplateDescriptors();
       getPromptTemplatesMock.mockResolvedValue(templates);
 
       const expectedOptions: UndefinedInitialDataOptions<
@@ -52,7 +52,9 @@ describe("prefetch options tests", () => {
       };
 
       const options = preloadPromptTemplatesOptions();
-      const queryFn = options.queryFn as QueryFunction<DPromptTemplate[]>;
+      const queryFn = options.queryFn as QueryFunction<
+         DPromptTemplateDescriptor[]
+      >;
       const context = {} as QueryFunctionContext;
       const fnResult = await queryFn(context);
 
@@ -131,9 +133,9 @@ describe("loadPromptTemplates hooks tests", () => {
          categories: ["cat 123"],
       };
       const expectedOptions: UndefinedInitialDataOptions<
-         DPromptTemplate[],
+         DPromptTemplateDescriptor[],
          Error,
-         DPromptTemplate[]
+         DPromptTemplateDescriptor[]
       > = {
          queryKey: ["prompt-templates", { params }],
          queryFn: jest.fn(),
@@ -149,7 +151,7 @@ describe("loadPromptTemplates hooks tests", () => {
          search: "test 123",
          categories: ["cat 1"],
       };
-      const templates = dtestData.dPromptTemplates();
+      const templates = dtestData.dPromptTemplateDescriptors();
       getPromptTemplatesMock.mockResolvedValue(templates);
 
       const { result } = renderHookWithReactQuery(() =>

@@ -2,14 +2,14 @@ import { FC } from "react";
 import { map } from "es-toolkit/compat";
 import { Edit2, Tag } from "lucide-react";
 
-import { DPrompt } from "@/data/types/domain/prompt";
+import { DPromptDescriptor } from "@/data/types/domain/prompt";
 import { formatDateTime } from "@/lib/utils";
 
 import { PromptContent } from "./prompt-content";
 import { PromptVersions } from "./prompt-versions";
 
 type PromptFomProps = {
-   prompt: DPrompt;
+   prompt: DPromptDescriptor;
 };
 
 export const PromptFormView: FC<PromptFomProps> = ({ prompt }) => {

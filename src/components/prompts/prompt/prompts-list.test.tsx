@@ -42,7 +42,7 @@ const assertRendered = () => {
 describe("PromptsList rendering tests", () => {
    it("PromptsList rendered test", async () => {
       const categories = ["category 1", "category 2", "category 3"];
-      const page = dtestData.dPromptsPage();
+      const page = dtestData.dPromptDescriptorsPage();
       getPromptsMock.mockResolvedValue(page);
       getPromptCategoriesMock.mockResolvedValue(categories);
 
@@ -65,7 +65,7 @@ describe("PromptsList functionality tests", () => {
 
    it("PromptsList - add btn clicked - test", async () => {
       const categories = ["category 1", "category 2", "category 3"];
-      const page = dtestData.dPromptsPage();
+      const page = dtestData.dPromptDescriptorsPage();
       getPromptsMock.mockResolvedValue(page);
       getPromptCategoriesMock.mockResolvedValue(categories);
 
