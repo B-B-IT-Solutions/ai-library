@@ -1,26 +1,28 @@
-jest.mock("@/data/repositories/prompt/prompt.template");
+jest.mock("@/data/services/prompt");
 
-import { ptestData } from "@tests";
+import { dtestData } from "@tests";
 import { map } from "es-toolkit/compat";
 
-import {
-   getPromptTemplateCategories as pGetPromptTemplateCategories,
-   getPromptTemplateDescriptors as pGetPromptTemplates,
-} from "@/data/repositories/prompt/prompt.template";
+import { PromptTemplateService } from "@/data/services/prompt";
 
-import { toDPromptTemplates } from "./prompt.mapper";
 import {
    getPromptTemplateCategories,
    getPromptTemplates,
 } from "./prompt.template.actions";
 
-const pGetPromptTemplatesMock = pGetPromptTemplates as jest.MockedFunction<
-   typeof pGetPromptTemplates
->;
+const sGetPromptTemplateDescriptors =
+   PromptTemplateService.prototype.getPromptTemplateDescriptors;
+const sGetPromptTemplateCategories =
+   PromptTemplateService.prototype.getPromptTemplateCategories;
 
-const pGetPromptTemplateCategoriesMock =
-   pGetPromptTemplateCategories as jest.MockedFunction<
-      typeof pGetPromptTemplateCategories
+const sGetPromptTemplateDescriptorsMock =
+   sGetPromptTemplateDescriptors as jest.MockedFunction<
+      typeof sGetPromptTemplateDescriptors
+   >;
+
+const sGetPromptTemplateCategoriesMock =
+   sGetPromptTemplateCategories as jest.MockedFunction<
+      typeof sGetPromptTemplateCategories
    >;
 
 describe("getPromptTemplates tests", () => {
@@ -29,59 +31,56 @@ describe("getPromptTemplates tests", () => {
    });
 
    it("getPromptTemplates - params undefined - test", async () => {
-      const templates = ptestData.pPromptTemplateDescriptorsWithCategories();
-      pGetPromptTemplatesMock.mockResolvedValue(templates);
+      const templates = dtestData.dPromptTemplateDescriptors();
+      sGetPromptTemplateDescriptorsMock.mockResolvedValue(templates);
 
       const result = await getPromptTemplates();
-      const expectedResult = toDPromptTemplates(templates);
 
-      expect(result).toEqual(expectedResult);
-      expect(pGetPromptTemplatesMock).toHaveBeenCalledTimes(1);
-      expect(pGetPromptTemplatesMock).toHaveBeenCalledWith(undefined);
+      expect(result).toEqual(templates);
+      expect(sGetPromptTemplateDescriptorsMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptTemplateDescriptorsMock).toHaveBeenCalledWith(undefined);
    });
 
    it("getPromptTemplates - params empty - test", async () => {
-      const templates = ptestData.pPromptTemplateDescriptorsWithCategories();
-      pGetPromptTemplatesMock.mockResolvedValue(templates);
+      const templates = dtestData.dPromptTemplateDescriptors();
+      sGetPromptTemplateDescriptorsMock.mockResolvedValue(templates);
 
       const result = await getPromptTemplates({});
-      const expectedResult = toDPromptTemplates(templates);
 
-      expect(result).toEqual(expectedResult);
-      expect(pGetPromptTemplatesMock).toHaveBeenCalledTimes(1);
-      expect(pGetPromptTemplatesMock).toHaveBeenCalledWith({});
+      expect(result).toEqual(templates);
+      expect(sGetPromptTemplateDescriptorsMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptTemplateDescriptorsMock).toHaveBeenCalledWith({});
    });
 
    it("getPromptTemplates - params defined - test", async () => {
-      const templates = ptestData.pPromptTemplateDescriptorsWithCategories();
-      pGetPromptTemplatesMock.mockResolvedValue(templates);
+      const templates = dtestData.dPromptTemplateDescriptors();
+      sGetPromptTemplateDescriptorsMock.mockResolvedValue(templates);
 
       const search = "prompt 123";
       const categories = ["cat 1", "cat2", "cat 3"];
       const params = { search, categories };
 
       const result = await getPromptTemplates(params);
-      const expectedResult = toDPromptTemplates(templates);
 
-      expect(result).toEqual(expectedResult);
-      expect(pGetPromptTemplatesMock).toHaveBeenCalledTimes(1);
-      expect(pGetPromptTemplatesMock).toHaveBeenCalledWith(params);
+      expect(result).toEqual(templates);
+      expect(sGetPromptTemplateDescriptorsMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptTemplateDescriptorsMock).toHaveBeenCalledWith(params);
    });
 });
 
-describe("getAllPromptTemplateCategories tests", () => {
+describe("getPromptTemplateCategories tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
    });
 
    it("getPromptTemplateCategories test", async () => {
-      const categories = ptestData.pPromptTemplateCategories();
-      pGetPromptTemplateCategoriesMock.mockResolvedValue(categories);
+      const categories = dtestData.dPromptTemplateCategories();
+      sGetPromptTemplateCategoriesMock.mockResolvedValue(categories);
 
       const result = await getPromptTemplateCategories();
       const expectedResult = map(categories, (c) => c.name);
 
       expect(result).toEqual(expectedResult);
-      expect(pGetPromptTemplateCategoriesMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptTemplateCategoriesMock).toHaveBeenCalledTimes(1);
    });
 });

@@ -1,5 +1,5 @@
 import { Filter, Page, PageQuery } from "@/data/types/common";
-import { DPromptTemplate } from "@/data/types/domain/prompt.template";
+import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 export type DProductsPageQuery = PageQuery<DProductsFilter>;
 export type DProductsPage = Page<DProduct>;
@@ -60,6 +60,6 @@ export type DProductItem = {
    id: string;
    productId: string;
    templateId: string;
-   template: DPromptTemplate;
+   template: DPromptTemplateDescriptor;
    createdAt: string;
 };

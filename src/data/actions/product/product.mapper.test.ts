@@ -81,7 +81,6 @@ const assertProductItem = (dItem: DProductItem, item: ProductItem) => {
    expect(dItem.template).toBeDefined();
    expect(dItem.template!.id).toBe(item.templateId);
    expect(dItem.template!.title).toBeDefined();
-   expect(dItem.template!.content).toBeDefined();
 };
 
 const assertFeatures = (dFeatures: DFeature[], features: ProductFeature[]) => {

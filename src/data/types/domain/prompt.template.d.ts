@@ -16,7 +16,3 @@ export type DPromptTemplateDescriptor = {
    updatedAt: string;
    createdAt: string;
 };
-
-export type DPromptTemplate = DPromptTemplateDescriptor & {
-   content: string;
-};

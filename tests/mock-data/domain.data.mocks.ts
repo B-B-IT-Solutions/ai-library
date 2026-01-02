@@ -13,7 +13,6 @@ import {
    DUseCase,
 } from "@/data/types/domain/product";
 import {
-   DPrompt,
    DPromptCategory,
    DPromptCreate,
    DPromptDescriptor,
@@ -23,8 +22,8 @@ import {
    DPromptVersion,
 } from "@/data/types/domain/prompt";
 import {
-   DPromptTemplate,
    DPromptTemplateCategory,
+   DPromptTemplateDescriptor,
 } from "@/data/types/domain/prompt.template";
 import { DUserUpdateData } from "@/data/types/domain/user";
 import { LoginUser } from "@/data/types/next-auth";
@@ -44,7 +43,7 @@ export const dLibraryEntries = (count = 3): DLibraryEntry[] => {
 };
 
 export const dLibraryEntry = (index = 1): DLibraryEntry => {
-   const template = dPromptTemplate(index);
+   const template = dPromptTemplateDescriptor(index);
    return {
       id: `library-entry-${index}`,
       orderId: `2d4daf38-5571-4c0a-9d32-4435bdf6280${index}`,
@@ -153,7 +152,7 @@ export const dProductItems = (count = 3): DProductItem[] => {
 };
 
 export const dProductItem = (index = 1): DProductItem => {
-   const template = dPromptTemplate(index);
+   const template = dPromptTemplateDescriptor(index);
    return {
       id: `418c5cf3-d0d5-4ad8-a841-d458c8aa6cb1${index}`,
       productId: `2cabc8ff-010a-4b0b-93c6-4f311d35c432${index}`,
@@ -210,15 +209,18 @@ export const dInstruction = (index = 1): DInstruction => {
    };
 };
 
-export const dPromptTemplates = (count = 3): DPromptTemplate[] => {
-   return range(0, count).map((i) => dPromptTemplate(i));
+export const dPromptTemplateDescriptors = (
+   count = 3
+): DPromptTemplateDescriptor[] => {
+   return range(0, count).map((i) => dPromptTemplateDescriptor(i));
 };
 
-export const dPromptTemplate = (index = 1): DPromptTemplate => {
+export const dPromptTemplateDescriptor = (
+   index = 1
+): DPromptTemplateDescriptor => {
    return {
       id: `334db648-f300-4284-8149-075ff465d75${index}`,
       title: `title ${index}`,
-      content: `content ${index}`,
       categories: dPromptTemplateCategories(),
       recommendedModel: `model ${index}`,
       updatedAt: new Date("2025-09-27").toISOString(),

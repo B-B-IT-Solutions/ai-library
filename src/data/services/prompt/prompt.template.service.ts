@@ -1,7 +1,8 @@
-import { map } from "es-toolkit/compat";
-
 import { PromptTemplateRepository } from "@/data/repositories/prompt/prompt.template";
-import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
+import {
+   DPromptTemplateCategory,
+   DPromptTemplateDescriptor,
+} from "@/data/types/domain/prompt.template";
 
 import { toDPromptTemplateDescriptors } from "./prompt.mapper";
 
@@ -24,8 +25,7 @@ export class PromptTemplateService {
       return toDPromptTemplateDescriptors(data);
    }
 
-   async getPromptTemplateCategories(): Promise<string[]> {
-      const categories = await this.repository.pGetPromptTemplateCategories();
-      return map(categories, (c) => c.name);
+   async getPromptTemplateCategories(): Promise<DPromptTemplateCategory[]> {
+      return await this.repository.pGetPromptTemplateCategories();
    }
 }

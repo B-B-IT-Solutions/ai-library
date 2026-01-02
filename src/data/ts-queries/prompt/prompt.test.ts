@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/prompt/prompt.actions");
+jest.mock("@/data/actions/prompt");
 
 import {
    InfiniteData,
@@ -11,10 +11,7 @@ import {
 import { waitFor } from "@testing-library/dom";
 import { dtestData, renderHookWithReactQuery } from "@tests";
 
-import {
-   getPromptCategories,
-   getPrompts,
-} from "@/data/actions/prompt/prompt.actions";
+import { getPromptCategories, getPrompts } from "@/data/actions/prompt";
 import {
    DPromptDescriptorsPage,
    DPromptDescriptorsPageQuery,

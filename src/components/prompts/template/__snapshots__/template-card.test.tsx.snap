@@ -50,9 +50,7 @@ exports[`TemplateCard rendering tests TemplateCard rendered test 1`] = `
       <p
         class="text-xs text-slate-600 line-clamp-3"
         data-testid="content"
-      >
-        content 1
-      </p>
+      />
     </div>
   </div>
 </div>

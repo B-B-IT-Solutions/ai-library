@@ -70,9 +70,7 @@ exports[`TemplateCards rendering tests TemplateCards rendered test 1`] = `
         <p
           class="text-xs text-slate-600 line-clamp-3"
           data-testid="content"
-        >
-          content 0
-        </p>
+        />
       </div>
     </div>
     <div
@@ -123,9 +121,7 @@ exports[`TemplateCards rendering tests TemplateCards rendered test 1`] = `
         <p
           class="text-xs text-slate-600 line-clamp-3"
           data-testid="content"
-        >
-          content 1
-        </p>
+        />
       </div>
     </div>
     <div
@@ -176,9 +172,7 @@ exports[`TemplateCards rendering tests TemplateCards rendered test 1`] = `
         <p
           class="text-xs text-slate-600 line-clamp-3"
           data-testid="content"
-        >
-          content 2
-        </p>
+        />
       </div>
     </div>
   </div>

@@ -11,10 +11,7 @@ import {
    UseQueryResult,
 } from "@tanstack/react-query";
 
-import {
-   getPromptCategories,
-   getPrompts,
-} from "@/data/actions/prompt/prompt.actions";
+import { getPromptCategories, getPrompts } from "@/data/actions/prompt";
 import {
    DPromptDescriptorsPage,
    DPromptDescriptorsPageQuery,

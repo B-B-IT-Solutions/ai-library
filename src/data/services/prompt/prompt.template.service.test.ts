@@ -1,7 +1,6 @@
 jest.mock("@/data/repositories/prompt/prompt.template");
 
 import { ptestData } from "@tests";
-import { map } from "es-toolkit/compat";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
@@ -96,9 +95,8 @@ describe("getPromptTemplateCategories tests", () => {
       );
 
       const result = await promptTemplateService.getPromptTemplateCategories();
-      const expectedResult = map(categories, (c) => c.name);
 
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual(categories);
       expect(
          promptTemplateRepoMock.pGetPromptTemplateCategories
       ).toHaveBeenCalledTimes(1);

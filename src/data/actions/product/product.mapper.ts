@@ -1,6 +1,6 @@
 import { map } from "es-toolkit/compat";
 
-import { toDPromptTemplate } from "@/data/actions/prompt/prompt.mapper";
+import { toDPromptTemplateDescriptor } from "@/data/services/prompt/prompt.mapper";
 import {
    ProductItemWithTemplate,
    ProductWithDetails,
@@ -79,7 +79,7 @@ const toDProductItem = (item: ProductItemWithTemplate): DProductItem => {
       id: item.id,
       productId: item.productId,
       templateId: item.templateId,
-      template: toDPromptTemplate(item.template),
+      template: toDPromptTemplateDescriptor(item.template),
       createdAt: item.createdAt.toISOString(),
    };
 };

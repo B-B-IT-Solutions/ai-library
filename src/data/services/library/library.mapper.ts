@@ -1,6 +1,6 @@
 import { map } from "es-toolkit/compat";
 
-import { toDPromptTemplate } from "@/data/actions/prompt/prompt.mapper";
+import { toDPromptTemplateDescriptor } from "@/data/services/prompt/prompt.mapper";
 import { LibraryEntryWithTemplate } from "@/data/types/db/library";
 import { DLibraryEntry } from "@/data/types/domain/library";
 
@@ -19,7 +19,7 @@ export const toDLibraryEntry = (
       orderId: entry.orderId,
       templateId: entry.templateId,
       productId: entry.productId,
-      template: toDPromptTemplate(entry.template),
+      template: toDPromptTemplateDescriptor(entry.template),
       createdAt: entry.createdAt.toISOString(),
    };
 };
