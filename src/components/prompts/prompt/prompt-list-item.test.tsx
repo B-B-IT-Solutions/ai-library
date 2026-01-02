@@ -24,7 +24,7 @@ describe("PromptListItem rendering tests", () => {
    });
 
    it("PromptListItem - isSelected false - rendered test", async () => {
-      const prompt = dtestData.dPrompt();
+      const prompt = dtestData.dPromptDescriptor();
       prompt.isFavorite = true;
 
       const url = `/prompts/random-prompt-id-123`;
@@ -41,7 +41,7 @@ describe("PromptListItem rendering tests", () => {
    });
 
    it("PromptListItem - isSelected true - rendered test", async () => {
-      const prompt = dtestData.dPrompt();
+      const prompt = dtestData.dPromptDescriptor();
       prompt.isFavorite = false;
 
       const url = `/prompts/${prompt.id}`;
@@ -63,7 +63,7 @@ describe("PromptListItem functionality tests", () => {
    });
 
    it("PromptListItem - item clicked - test", async () => {
-      const prompt = dtestData.dPrompt();
+      const prompt = dtestData.dPromptDescriptor();
 
       const url = "/prompts";
       renderWithRouter(<PromptListItem prompt={prompt} />, url);
@@ -82,7 +82,7 @@ describe("PromptListItem functionality tests", () => {
    });
 
    it("PromptListItem - addTofavorite toggled - test", async () => {
-      const prompt = dtestData.dPrompt();
+      const prompt = dtestData.dPromptDescriptor();
 
       renderWithRouter(<PromptListItem prompt={prompt} />);
 

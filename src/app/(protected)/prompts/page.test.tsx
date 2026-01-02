@@ -85,7 +85,7 @@ describe("PromptsPage rendering tests", () => {
    });
 
    it("PromptsPage - prompts retrieved - rendered test", async () => {
-      const page = dtestData.dPromptsPage();
+      const page = dtestData.dPromptDescriptorsPage();
       const templates = dtestData.dPromptTemplates();
       const promptCategories = ["category 1", "category 2", "category 789"];
       const templateCategories = ["category 1", "category 2", "category 3"];

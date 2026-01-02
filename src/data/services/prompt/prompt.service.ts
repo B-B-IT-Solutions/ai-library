@@ -4,6 +4,7 @@ import { validate as isValidUuid } from "uuid";
 import { formatError } from "@/data/actions/utils";
 import { PromptRepository } from "@/data/repositories/prompt";
 import {
+   DPromptCategory,
    DPromptCreate,
    DPromptDescriptor,
    DPromptDescriptorsPage,
@@ -41,9 +42,8 @@ export class PromptService {
       return undefined;
    }
 
-   async getPromptCategories(): Promise<string[]> {
-      const categories = await this.promptRepository.pGetPromptCategories();
-      return map(categories, (c) => c.name);
+   async getPromptCategories(): Promise<DPromptCategory[]> {
+      return await this.promptRepository.pGetPromptCategories();
    }
 
    async createPrompt(data: DPromptCreate) {

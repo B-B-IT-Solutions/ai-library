@@ -1,5 +1,7 @@
 "use server";
 
+import { map } from "es-toolkit/compat";
+
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
@@ -27,7 +29,8 @@ export const getPrompt = async (
 
 export const getPromptCategories = async (): Promise<string[]> => {
    const service = getPromptSevice();
-   return await service.getPromptCategories();
+   const categories = await service.getPromptCategories();
+   return map(categories, (c) => c.name);
 };
 
 export const createPrompt = async (data: DPromptCreate) => {

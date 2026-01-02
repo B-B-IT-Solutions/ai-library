@@ -7,11 +7,11 @@ import { usePathname } from "next/navigation";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
-import { DPrompt } from "@/data/types/domain/prompt";
+import { DPromptDescriptor } from "@/data/types/domain/prompt";
 import { formatDateTime } from "@/lib/utils";
 
 type PromptListItemProps = {
-   prompt: DPrompt;
+   prompt: DPromptDescriptor;
 };
 
 export const PromptListItem: FC<PromptListItemProps> = ({ prompt }) => {

@@ -41,7 +41,7 @@ describe("prefetch options tests", () => {
    });
 
    test("preloadPromptsOptions  - test", async () => {
-      const page = dtestData.dPromptsPage();
+      const page = dtestData.dPromptDescriptorsPage();
       getPromptsMock.mockResolvedValue(page);
 
       const expectedOptions: UndefinedInitialDataOptions<
@@ -114,7 +114,7 @@ describe("loadPrompts hooks tests", () => {
    });
 
    test("useInfiniteLoadPrompts test", async () => {
-      const promptsPage = dtestData.dPromptsPage();
+      const promptsPage = dtestData.dPromptDescriptorsPage();
       getPromptsMock.mockResolvedValue(promptsPage);
       const filter = dtestData.dPromptsFilter();
       const params: LoadPromptsParams = {

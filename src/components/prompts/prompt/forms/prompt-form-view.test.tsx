@@ -10,7 +10,7 @@ const assertRendered = () => {
 
 describe("PromptFormView rendering tests", () => {
    it("PromptFormView rendered test", async () => {
-      const prompt = dtestData.dPrompt();
+      const prompt = dtestData.dPromptDescriptor();
 
       const { container } = render(<PromptFormView prompt={prompt} />);
 

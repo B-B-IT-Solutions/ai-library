@@ -73,9 +73,8 @@ describe("getPromptCategories tests", () => {
       promptRepoMock.pGetPromptCategories.mockResolvedValue(categories);
 
       const result = await promptService.getPromptCategories();
-      const expectedResult = map(categories, (c) => c.name);
 
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual(categories);
       expect(promptRepoMock.pGetPromptCategories).toHaveBeenCalledTimes(1);
    });
 });

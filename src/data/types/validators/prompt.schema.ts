@@ -7,7 +7,6 @@ export const createPromptSchema = z.object({
    recommendedModel: z
       .string()
       .min(3, "Recommended model must be at least 3 characters"),
-   followUpPrompts: z.array(z.string()),
 });
 
 export const createPromptTemplateSchema = z.object({

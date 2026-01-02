@@ -16,6 +16,7 @@ import {
    DPrompt,
    DPromptCategory,
    DPromptCreate,
+   DPromptDescriptor,
    DPromptDescriptorsFilter,
    DPromptDescriptorsPage,
    DPromptDescriptorsPageQuery,
@@ -237,8 +238,8 @@ export const dPromptTemplateCategory = (index = 1): DPromptTemplateCategory => {
    };
 };
 
-export const dPromptsPage = (): DPromptDescriptorsPage => {
-   const prompts = dPrompts();
+export const dPromptDescriptorsPage = (): DPromptDescriptorsPage => {
+   const prompts = dPromptDescriptors();
    return {
       content: prompts,
       numberOfElements: prompts.length,
@@ -249,25 +250,17 @@ export const dPromptsPage = (): DPromptDescriptorsPage => {
    };
 };
 
-export const dPrompts = (count = 3): DPrompt[] => {
-   return range(0, count).map((i) => dPrompt(i));
+export const dPromptDescriptors = (count = 3): DPromptDescriptor[] => {
+   return range(0, count).map((i) => dPromptDescriptor(i));
 };
 
-export const dPrompt = (index = 1): DPrompt => {
+export const dPromptDescriptor = (index = 1): DPromptDescriptor => {
    return {
       id: `334db648-f300-4284-8149-075ff465d75${index}`,
       title: `title ${index}`,
-      content: `content ${index}`,
       categories: dPromptCategories(),
       recommendedModel: `model ${index}`,
-      followUpPrompts: [
-         "follow up prompt 1",
-         "follow up prompt 2",
-         "follow up prompt 3",
-      ],
       isFavorite: true,
-      currentVersion: 1,
-      versions: dPromptVersions(),
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
    };
@@ -279,11 +272,6 @@ export const dPromptCreate = (index = 1): DPromptCreate => {
       content: `content ${index}`,
       categories: ["category 1"],
       recommendedModel: `model ${index}`,
-      followUpPrompts: [
-         "follow up prompt 1",
-         "follow up prompt 2",
-         "follow up prompt 3",
-      ],
    };
 };
 
