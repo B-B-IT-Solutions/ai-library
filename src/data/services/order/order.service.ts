@@ -1,12 +1,18 @@
+import { map } from "es-toolkit/compat";
 import { validate as isValidUuid } from "uuid";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { OrderRepository, OrderUpdate } from "@/data/db/queries/order";
-import { LibraryService } from "@/data/services//library";
 import { CartService } from "@/data/services/cart";
-import { DOrder } from "@/data/types/domain/order";
+import { LibraryService } from "@/data/services/library";
+import { DCart } from "@/data/types/domain/cart";
+import { DOrder, DOrderUpdate } from "@/data/types/domain/order";
 
-import { toDOrdersWithItems, toDOrderWithItems } from "./order.mapper";
+import {
+   toDOrder,
+   toDOrdersWithItems,
+   toDOrderWithItems,
+} from "./order.mapper";
 
 export class OrderService {
    private orderRepository: OrderRepository;
@@ -48,6 +54,44 @@ export class OrderService {
       } catch {
          return null;
       }
+   }
+
+   async createOrder(userId: string, cart: DCart): Promise<DOrder> {
+      const items = map(cart.items, (item) => ({
+         product: {
+            connect: {
+               id: item.productId,
+            },
+         },
+         productName: item.productName,
+         productDescription: item.productDescription,
+         productType: item.productType,
+         quantity: item.quantity,
+         price: Number(item.productPrice),
+      }));
+
+      const order = await this.orderRepository.pCreateOrder({
+         user: {
+            connect: {
+               id: userId,
+            },
+         },
+         status: "PENDING",
+         totalAmount: cart.total,
+         items: {
+            create: items,
+         },
+      });
+
+      return toDOrder(order);
+   }
+
+   async updateOrder(orderId: string, dUpdate: DOrderUpdate) {
+      const update: OrderUpdate = {
+         stripeCheckoutSessionId: dUpdate.stripeCheckoutSessionId,
+         stripePaymentStatus: dUpdate.stripePaymentStatus,
+      };
+      await this.orderRepository.pUpdateOrder(orderId, update);
    }
 
    async handleStripeCheckoutCompleted(

@@ -76,12 +76,9 @@ export class OrderRepository {
       });
    }
 
-   async pCreateOrder(data: OrderCreateInput): Promise<OrderWithItems> {
+   async pCreateOrder(data: OrderCreateInput): Promise<Order> {
       return await this.prisma.order.create({
          data,
-         include: {
-            items: true,
-         },
       });
    }
 

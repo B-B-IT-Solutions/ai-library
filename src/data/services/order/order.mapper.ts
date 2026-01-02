@@ -2,7 +2,7 @@ import { map } from "es-toolkit/compat";
 
 import { OrderWithItems } from "@/data/types/db/order";
 import { DOrder, DOrderItem, DOrderStatus } from "@/data/types/domain/order";
-import { OrderItem } from "@/generated/prisma/client";
+import { Order, OrderItem } from "@/generated/prisma/client";
 
 export const toDOrdersWithItems = (orders: OrderWithItems[]): DOrder[] => {
    return map(orders, (o) => toDOrderWithItems(o));
@@ -10,17 +10,8 @@ export const toDOrdersWithItems = (orders: OrderWithItems[]): DOrder[] => {
 
 export const toDOrderWithItems = (order: OrderWithItems): DOrder => {
    return {
-      id: order.id,
-      userId: order.userId,
-      status: order.status as DOrderStatus,
-      totalAmount: Number(order.totalAmount.toFixed(2)),
-      paymentMethod: order.paymentMethod,
-      stripeCheckoutSessionId: order.stripeCheckoutSessionId,
-      stripePaymentIntentId: order.stripePaymentIntentId,
-      stripePaymentStatus: order.stripePaymentStatus,
+      ...toDOrder(order),
       items: toDOrderItems(order.items),
-      createdAt: order.createdAt.toISOString(),
-      updatedAt: order.updatedAt.toISOString(),
    };
 };
 
@@ -38,5 +29,21 @@ export const toDOrderItem = (item: OrderItem): DOrderItem => {
       productType: item.productType,
       price: Number(item.price.toFixed(2)),
       createdAt: item.createdAt.toISOString(),
+   };
+};
+
+export const toDOrder = (order: Order): DOrder => {
+   return {
+      id: order.id,
+      userId: order.userId,
+      status: order.status as DOrderStatus,
+      totalAmount: Number(order.totalAmount.toFixed(2)),
+      paymentMethod: order.paymentMethod,
+      stripeCheckoutSessionId: order.stripeCheckoutSessionId,
+      stripePaymentIntentId: order.stripePaymentIntentId,
+      stripePaymentStatus: order.stripePaymentStatus,
+      items: [],
+      createdAt: order.createdAt.toISOString(),
+      updatedAt: order.updatedAt.toISOString(),
    };
 };

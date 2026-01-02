@@ -26,3 +26,8 @@ export type DOrderItem = {
    price: number;
    createdAt: string;
 };
+
+export type DOrderUpdate = {
+   stripeCheckoutSessionId?: string;
+   stripePaymentStatus?: string;
+};
