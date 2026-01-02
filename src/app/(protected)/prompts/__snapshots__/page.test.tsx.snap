@@ -342,7 +342,6 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
                             class="font-medium"
                           >
                             v
-                            1
                           </span>
                           <span
                             class="flex items-center gap-1 text-blue-600 font-medium"
@@ -451,7 +450,6 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
                             class="font-medium"
                           >
                             v
-                            1
                           </span>
                           <span
                             class="flex items-center gap-1 text-blue-600 font-medium"
@@ -560,7 +558,6 @@ exports[`PromptsPage rendering tests PromptsPage - prompts retrieved - rendered 
                             class="font-medium"
                           >
                             v
-                            1
                           </span>
                           <span
                             class="flex items-center gap-1 text-blue-600 font-medium"

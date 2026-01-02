@@ -1,11 +1,11 @@
-jest.mock("@/data/actions/prompt/prompt.actions");
+jest.mock("@/data/actions/prompt");
 
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getPrompt } from "@/data/actions/prompt/prompt.actions";
+import { getPrompt } from "@/data/actions/prompt";
 
 import PromptPage, { metadata, PromptPageProps } from "./page";
 
@@ -47,7 +47,7 @@ describe("PromptPage rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("PromptPage - prompt found -rendered test", async () => {
+   it("PromptPage - prompt found - rendered test", async () => {
       const prompt = dtestData.dPromptDescriptor();
       getPromptMock.mockResolvedValue(prompt);
 
