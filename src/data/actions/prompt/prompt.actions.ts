@@ -1,65 +1,39 @@
 "use server";
 
-import { map } from "es-toolkit/compat";
-import { validate as isValidUuid } from "uuid";
-
+import prisma from "@/data/repositories/prisma";
+import { ServiceFactory } from "@/data/services";
+import { DbClient } from "@/data/types/db/common";
 import {
-   createPrompt as pCreatePrompt,
-   getPrompt as pGetPrompt,
-   getPromptCategories as pGetPromptCategories,
-   getPrompts as pGetPrompts,
-} from "@/data/repositories/prompt/prompt";
-import {
-   DPrompt,
    DPromptCreate,
+   DPromptDescriptor,
    DPromptDescriptorsPage,
    DPromptDescriptorsPageQuery,
 } from "@/data/types/domain/prompt";
-import { createPromptSchema } from "@/data/types/validators/prompt.schema";
-import {
-   PromptCategoryCreateOrConnectWithoutPromptsInput,
-   PromptCreateInput,
-} from "@/generated/prisma/models";
 import { formatError } from "../utils";
-
-import { toDPrompt, toDPromptsPage } from "./prompt.mapper";
 
 export const getPrompts = async (
    query?: DPromptDescriptorsPageQuery
 ): Promise<DPromptDescriptorsPage> => {
-   const data = await pGetPrompts(query);
-   return toDPromptsPage(data);
+   const service = getPromptSevice();
+   return await service.getPrompts(query);
 };
 
-export const getPrompt = async (id: string): Promise<DPrompt | undefined> => {
-   if (isValidUuid(id)) {
-      const data = await pGetPrompt({ id });
-      if (data) {
-         return toDPrompt(data);
-      }
-   }
-   return undefined;
+export const getPrompt = async (
+   id: string
+): Promise<DPromptDescriptor | undefined> => {
+   const service = getPromptSevice();
+   return await service.getPrompt(id);
 };
 
 export const getPromptCategories = async (): Promise<string[]> => {
-   const categories = await pGetPromptCategories();
-   return map(categories, (c) => c.name);
+   const service = getPromptSevice();
+   return await service.getPromptCategories();
 };
 
 export const createPrompt = async (data: DPromptCreate) => {
    try {
-      const prompt = createPromptSchema.parse(data);
-      const categories = createOrConnectCategories(prompt.categories);
-
-      const toSave: PromptCreateInput = {
-         ...prompt,
-         currentVersion: 1,
-         categories: {
-            connectOrCreate: categories,
-         },
-      };
-      await pCreatePrompt(toSave);
-
+      const service = getPromptSevice();
+      await service.createPrompt(data);
       return {
          success: true,
          message: "Prompt created sucessfully.",
@@ -72,17 +46,7 @@ export const createPrompt = async (data: DPromptCreate) => {
    }
 };
 
-const createOrConnectCategories = (
-   categories: string[]
-): PromptCategoryCreateOrConnectWithoutPromptsInput[] => {
-   return map(categories, (cat: string) => {
-      return {
-         where: {
-            name: cat,
-         },
-         create: {
-            name: cat,
-         },
-      };
-   });
+const getPromptSevice = (dbClient: DbClient = prisma) => {
+   const factory = new ServiceFactory(dbClient);
+   return factory.getPromptService();
 };

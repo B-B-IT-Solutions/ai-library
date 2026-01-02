@@ -3,7 +3,7 @@ import prisma from "@/data/repositories/prisma";
 import { CartService } from "./cart";
 import { LibraryService } from "./library";
 import { OrderService } from "./order";
-import { PromptService } from "./prompt/prompt.service";
+import { PromptService } from "./prompt";
 import { ServiceFactory } from "./service.factory";
 import { StripeService } from "./stripe/stripe.service";
 

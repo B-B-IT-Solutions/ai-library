@@ -2,10 +2,9 @@ import { RepositoryFactory } from "@/data/repositories";
 import { CartService } from "@/data/services/cart";
 import { LibraryService } from "@/data/services/library";
 import { OrderService } from "@/data/services/order";
+import { PromptService } from "@/data/services/prompt";
 import { StripeService } from "@/data/services/stripe";
 import { DbClient } from "@/data/types/db/common";
-
-import { PromptService } from "./prompt/prompt.service";
 
 export class ServiceFactory {
    private repositories: RepositoryFactory;

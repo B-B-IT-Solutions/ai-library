@@ -1,14 +1,9 @@
-jest.mock("@/data/repositories/prompt/prompt");
+jest.mock("@/data/services/prompt");
 
 import { dtestData, ptestData } from "@tests";
 import { map } from "es-toolkit/compat";
 
-import {
-   createPrompt as pCreatePrompt,
-   getPrompt as pGetPrompt,
-   getPromptCategories as pGetPromptCategories,
-   getPrompts as pGetPrompts,
-} from "@/data/repositories/prompt/prompt";
+import { PromptService } from "@/data/services/prompt";
 import { DPromptDescriptorsPageQuery } from "@/data/types/domain/prompt";
 
 import {
@@ -19,13 +14,18 @@ import {
 } from "./prompt.actions";
 import { toDPrompt, toDPromptsPage } from "./prompt.mapper";
 
-const pGetPromptsMock = pGetPrompts as jest.MockedFunction<typeof pGetPrompts>;
-const pGetPromptMock = pGetPrompt as jest.MockedFunction<typeof pGetPrompt>;
-const pGetPromptCategoriesMock = pGetPromptCategories as jest.MockedFunction<
-   typeof pGetPromptCategories
+const sGetPrompts = PromptService.prototype.getPrompts;
+const sGetPrompt = PromptService.prototype.getPrompt;
+const sGetPromptCategories = PromptService.prototype.getPromptCategories;
+const sCreatePrompt = PromptService.prototype.createPrompt;
+
+const sGetPromptsMock = sGetPrompts as jest.MockedFunction<typeof sGetPrompts>;
+const sGetPromptMock = sGetPrompt as jest.MockedFunction<typeof sGetPrompt>;
+const sGetPromptCategoriesMock = sGetPromptCategories as jest.MockedFunction<
+   typeof sGetPromptCategories
 >;
-const pCreatePromptMock = pCreatePrompt as jest.MockedFunction<
-   typeof pCreatePrompt
+const sCreatePromptMock = sCreatePrompt as jest.MockedFunction<
+   typeof sCreatePrompt
 >;
 
 describe("getPromptss tests", () => {
@@ -35,40 +35,40 @@ describe("getPromptss tests", () => {
 
    it("getPrompts - query undefined - test", async () => {
       const page = ptestData.pPromptDescriptorsPage();
-      pGetPromptsMock.mockResolvedValue(page);
+      sGetPromptsMock.mockResolvedValue(page);
 
       const result = await getPrompts();
       const expectedResult = toDPromptsPage(page);
 
       expect(result).toEqual(expectedResult);
-      expect(pGetPromptsMock).toHaveBeenCalledTimes(1);
-      expect(pGetPromptsMock).toHaveBeenCalledWith(undefined);
+      expect(sGetPromptsMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptsMock).toHaveBeenCalledWith(undefined);
    });
 
    it("getPrompts - query empty - test", async () => {
       const page = ptestData.pPromptDescriptorsPage();
-      pGetPromptsMock.mockResolvedValue(page);
+      sGetPromptsMock.mockResolvedValue(page);
 
       const query: DPromptDescriptorsPageQuery = {};
       const result = await getPrompts(query);
       const expectedResult = toDPromptsPage(page);
 
       expect(result).toEqual(expectedResult);
-      expect(pGetPromptsMock).toHaveBeenCalledTimes(1);
-      expect(pGetPromptsMock).toHaveBeenCalledWith(query);
+      expect(sGetPromptsMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptsMock).toHaveBeenCalledWith(query);
    });
 
    it("getPrompts - query defined - test", async () => {
       const page = ptestData.pPromptDescriptorsPage();
-      pGetPromptsMock.mockResolvedValue(page);
+      sGetPromptsMock.mockResolvedValue(page);
 
       const query = dtestData.dPromptsPageQuery();
       const result = await getPrompts(query);
       const expectedResult = toDPromptsPage(page);
 
       expect(result).toEqual(expectedResult);
-      expect(pGetPromptsMock).toHaveBeenCalledTimes(1);
-      expect(pGetPromptsMock).toHaveBeenCalledWith(query);
+      expect(sGetPromptsMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptsMock).toHaveBeenCalledWith(query);
    });
 });
 
@@ -79,13 +79,13 @@ describe("getPromptCategories tests", () => {
 
    it("getPromptCategories test", async () => {
       const categories = ptestData.pPromptCategories();
-      pGetPromptCategoriesMock.mockResolvedValue(categories);
+      sGetPromptCategoriesMock.mockResolvedValue(categories);
 
       const result = await getPromptCategories();
       const expectedResult = map(categories, (c) => c.name);
 
       expect(result).toEqual(expectedResult);
-      expect(pGetPromptCategoriesMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptCategoriesMock).toHaveBeenCalledTimes(1);
    });
 });
 
@@ -95,37 +95,37 @@ describe("getPrompt tests", () => {
    });
 
    it("getPrompt  - id invalid - test", async () => {
-      pGetPromptMock.mockResolvedValue(null);
+      sGetPromptMock.mockResolvedValue(null);
 
       const id = "new";
       const result = await getPrompt(id);
 
       expect(result).toBeUndefined();
-      expect(pGetPromptMock).not.toHaveBeenCalled();
+      expect(sGetPromptMock).not.toHaveBeenCalled();
    });
 
    it("getPrompt  - promt undefined - test", async () => {
-      pGetPromptMock.mockResolvedValue(null);
+      sGetPromptMock.mockResolvedValue(null);
 
       const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const result = await getPrompt(id);
 
       expect(result).toBeUndefined();
-      expect(pGetPromptMock).toHaveBeenCalledTimes(1);
-      expect(pGetPromptMock).toHaveBeenCalledWith({ id });
+      expect(sGetPromptMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptMock).toHaveBeenCalledWith({ id });
    });
 
    it("getPrompt  - product defined - test", async () => {
       const prompt = ptestData.pPromptDescriptorWithCategories();
-      pGetPromptMock.mockResolvedValue(prompt);
+      sGetPromptMock.mockResolvedValue(prompt);
 
       const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const result = await getPrompt(id);
       const expectedResult = toDPrompt(prompt);
 
       expect(result).toEqual(expectedResult);
-      expect(pGetPromptMock).toHaveBeenCalledTimes(1);
-      expect(pGetPromptMock).toHaveBeenCalledWith({ id });
+      expect(sGetPromptMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptMock).toHaveBeenCalledWith({ id });
    });
 });
 
@@ -136,7 +136,7 @@ describe("createPrompt tests", () => {
 
    it("createPrompt - error - test", async () => {
       const prompt = dtestData.dPromptCreate();
-      pCreatePromptMock.mockRejectedValue(new Error("db error"));
+      sCreatePromptMock.mockRejectedValue(new Error("db error"));
 
       const result = await createPrompt(prompt);
       const expectedResult = {
@@ -164,8 +164,8 @@ describe("createPrompt tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(pCreatePromptMock).toHaveBeenCalledTimes(1);
-      expect(pCreatePromptMock).toHaveBeenCalledWith(promptToSave);
+      expect(sCreatePromptMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePromptMock).toHaveBeenCalledWith(promptToSave);
    });
 
    it("createPrompt - prompt created  - test", async () => {
@@ -197,7 +197,7 @@ describe("createPrompt tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(pCreatePromptMock).toHaveBeenCalledTimes(1);
-      expect(pCreatePromptMock).toHaveBeenCalledWith(promptToSave);
+      expect(sCreatePromptMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePromptMock).toHaveBeenCalledWith(promptToSave);
    });
 });
