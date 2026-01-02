@@ -34,29 +34,7 @@ export class StripeService {
 
       // Create pending order FIRST
       const orderRepository = new OrderRepository(prisma);
-      const order = await orderRepository.pCreateOrder({
-         user: {
-            connect: {
-               id: user.id,
-            },
-         },
-         status: "PENDING",
-         totalAmount: cart.total,
-         items: {
-            create: cart.items.map((item) => ({
-               product: {
-                  connect: {
-                     id: item.productId,
-                  },
-               },
-               productName: item.productName,
-               productDescription: item.productDescription,
-               productType: item.productType,
-               quantity: item.quantity,
-               price: Number(item.productPrice),
-            })),
-         },
-      });
+      const order = await this.orderService.createOrder(user.id, cart);
 
       // Create Stripe line items
       const lineItems = cart.items.map((item) => ({

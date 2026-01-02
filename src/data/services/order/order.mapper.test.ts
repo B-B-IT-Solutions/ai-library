@@ -5,7 +5,11 @@ import { OrderWithItems } from "@/data/types/db/order";
 import { DOrder, DOrderItem } from "@/data/types/domain/order";
 import { Order, OrderItem } from "@/generated/prisma/client";
 
-import { toDOrdersWithItems, toDOrderWithItems } from "./order.mapper";
+import {
+   toDOrder,
+   toDOrdersWithItems,
+   toDOrderWithItems,
+} from "./order.mapper";
 
 const assertOrder = (dOrder: DOrder, order: Order) => {
    expect(dOrder.id).toBe(order.id);
@@ -49,15 +53,15 @@ describe("toDOrdersWithItems tests", () => {
       expect(results).toEqual([]);
    });
 
-   it("toDOrdersWithItems - products mapped - test", () => {
+   it("toDOrdersWithItems - orders mapped - test", () => {
       const orders = ptestData.pOrdersWithItems(3);
       const results = toDOrdersWithItems(orders);
 
       expect(results).toHaveLength(3);
       expect(results.length).toEqual(orders.length);
 
-      forEach(results, (dProduct, index) => {
-         assertOrderWithItems(dProduct, orders[index]);
+      forEach(results, (dOrder, index) => {
+         assertOrderWithItems(dOrder, orders[index]);
       });
    });
 });
@@ -80,5 +84,15 @@ describe("toDOrderWithItems tests", () => {
 
       expect(result.items).toHaveLength(3);
       assertOrderWithItems(result, order);
+   });
+});
+
+describe("toDOrder tests", () => {
+   it("toDOrder - order mapped - test", () => {
+      const order = ptestData.pOrder();
+      const result = toDOrder(order);
+
+      assertOrder(result, order);
+      expect(result.items).toEqual([]);
    });
 });

@@ -186,9 +186,6 @@ describe("pCreateOrder tests", () => {
 
       const expectedOrderCreateArgs: OrderCreateArgs = {
          data: createInput,
-         include: {
-            items: true,
-         },
       };
 
       expect(result).toEqual(order);

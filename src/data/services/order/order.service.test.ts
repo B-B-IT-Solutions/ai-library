@@ -4,6 +4,7 @@ jest.mock("@/data/services/library");
 jest.mock("@/data/actions/auth-utils");
 
 import { dtestData, ptestData } from "@tests";
+import { map } from "es-toolkit/compat";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import { requireUser } from "@/data/actions/auth-utils";
@@ -13,7 +14,11 @@ import { ServiceFactory } from "@/data/services";
 import { CartService } from "@/data/services/cart";
 import { LibraryService } from "@/data/services/library";
 
-import { toDOrdersWithItems, toDOrderWithItems } from "./order.mapper";
+import {
+   toDOrder,
+   toDOrdersWithItems,
+   toDOrderWithItems,
+} from "./order.mapper";
 import { OrderService } from "./order.service";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
@@ -174,6 +179,55 @@ describe("getOrder tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(orderRepoMock.pGetOrder).toHaveBeenCalledTimes(1);
       expect(orderRepoMock.pGetOrder).toHaveBeenCalledWith(orderId);
+   });
+});
+
+describe("createOrder tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("createOrder - test", async () => {
+      const order = ptestData.pOrder();
+      orderRepoMock.pCreateOrder.mockResolvedValue(order);
+
+      const userId = "user-1";
+      const cart = dtestData.dCart();
+
+      const result = await orderService.createOrder(userId, cart);
+      const expectedResult = toDOrder(order);
+
+      const expectedOrderItems = map(cart.items, (item) => ({
+         product: {
+            connect: {
+               id: item.productId,
+            },
+         },
+         productName: item.productName,
+         productDescription: item.productDescription,
+         productType: item.productType,
+         quantity: item.quantity,
+         price: Number(item.productPrice),
+      }));
+
+      const expectedCreatePayload = {
+         user: {
+            connect: {
+               id: userId,
+            },
+         },
+         status: "PENDING",
+         totalAmount: cart.total,
+         items: {
+            create: expectedOrderItems,
+         },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(orderRepoMock.pCreateOrder).toHaveBeenCalledTimes(1);
+      expect(orderRepoMock.pCreateOrder).toHaveBeenCalledWith(
+         expectedCreatePayload
+      );
    });
 });
 
