@@ -1,5 +1,3 @@
-"use server";
-
 import { map } from "es-toolkit/compat";
 
 import {

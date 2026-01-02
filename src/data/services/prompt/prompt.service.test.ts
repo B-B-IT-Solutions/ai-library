@@ -1,7 +1,6 @@
 jest.mock("@/data/repositories/prompt");
 
 import { dtestData, ptestData } from "@tests";
-import { map } from "es-toolkit/compat";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";

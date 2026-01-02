@@ -1,7 +1,6 @@
 import { map } from "es-toolkit/compat";
 import { validate as isValidUuid } from "uuid";
 
-import { formatError } from "@/data/actions/utils";
 import { PromptRepository } from "@/data/repositories/prompt";
 import {
    DPromptCategory,
