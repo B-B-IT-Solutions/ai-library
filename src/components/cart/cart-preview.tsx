@@ -18,9 +18,9 @@ export const CartPreview: FC<CartPreviewProps> = ({ cart }) => {
       return (
          <div className="text-center py-8">
             <ShoppingCart className="h-12 w-12 text-slate-300 mx-auto mb-3" />
-            <p className="text-sm text-slate-500">Your cart is empty</p>
+            <p className="text-sm text-slate-500">Ihr Warenkorb ist leer</p>
             <p className="text-xs text-slate-400 mt-1">
-               Add items to get started
+               Fügen Sie Artikel hinzu, um zu beginnen
             </p>
          </div>
       );
@@ -61,11 +61,11 @@ export const CartPreview: FC<CartPreviewProps> = ({ cart }) => {
             {/* Summary */}
             <div className="border-t pt-4 space-y-2">
                <div className="flex justify-between text-sm">
-                  <span className="text-slate-600">Subtotal</span>
+                  <span className="text-slate-600">Zwischensumme</span>
                   <span className="font-medium">CHF {cart.subtotal}</span>
                </div>
                <div className="flex justify-between text-base font-semibold">
-                  <span>Total</span>
+                  <span>Gesamt</span>
                   <span className="text-indigo-600">CHF {cart.total}</span>
                </div>
             </div>
@@ -74,7 +74,7 @@ export const CartPreview: FC<CartPreviewProps> = ({ cart }) => {
             <div className="space-y-2 pt-2">
                <Button asChild={true} className="w-full" size="lg">
                   <Link href="/checkout" data-testid="checkout-link">
-                     Proceed to Checkout
+                     Zur Kasse
                   </Link>
                </Button>
                <Button
@@ -84,7 +84,7 @@ export const CartPreview: FC<CartPreviewProps> = ({ cart }) => {
                   size="sm"
                >
                   <Link href="/cart" data-testid="cart-link">
-                     View Full Cart
+                     Warenkorb anzeigen
                   </Link>
                </Button>
             </div>
@@ -98,11 +98,11 @@ export const CartPreview: FC<CartPreviewProps> = ({ cart }) => {
             <div className="flex items-center justify-between">
                <div className="flex items-center gap-2">
                   <ShoppingCart className="h-5 w-5 text-slate-600" />
-                  <h3 className="text-lg font-semibold">Your Cart</h3>
+                  <h3 className="text-lg font-semibold">Ihr Warenkorb</h3>
                </div>
                <span className="text-sm text-slate-600">
                   {cart.items.length}{" "}
-                  {cart.items.length === 1 ? "item" : "items"}
+                  {cart.items.length === 1 ? "Artikel" : "Artikel"}
                </span>
             </div>
          </CardHeader>

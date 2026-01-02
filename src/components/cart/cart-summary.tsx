@@ -13,18 +13,18 @@ export const CartSummary: FC<CartSummaryProps> = ({ cart }) => {
    return (
       <Card className="p-4" data-testid="cart-summary">
          <CardHeader className="p-0 mb-4">
-            <h3 className="text-lg font-semibold">Order Summary</h3>
+            <h3 className="text-lg font-semibold">Bestellübersicht</h3>
          </CardHeader>
          <CardContent className="p-0 space-y-3">
             <div className="flex justify-between text-sm">
                <span className="text-slate-600">
-                  Items ({cart.items.length})
+                  Artikel ({cart.items.length})
                </span>
                <span className="font-medium">CHF {cart.subtotal}</span>
             </div>
 
             <div className="border-t pt-3 flex justify-between">
-               <span className="font-semibold">Total</span>
+               <span className="font-semibold">Gesamt</span>
                <span className="font-bold text-lg">CHF {cart.total}</span>
             </div>
 
@@ -34,7 +34,7 @@ export const CartSummary: FC<CartSummaryProps> = ({ cart }) => {
                   className="w-full"
                   data-testid="checkout-link"
                >
-                  Proceed to Checkout
+                  Zur Kasse
                </Link>
             </Button>
          </CardContent>

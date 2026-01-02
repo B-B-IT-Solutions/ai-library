@@ -27,7 +27,7 @@ export const CartDrawer: FC<CartDrawerProps> = ({
       <Sheet open={open} onOpenChange={onOpenChange} data-testid="cart-drawer">
          <SheetContent className="w-full sm:max-w-lg">
             <SheetHeader className="sr-only">
-               <SheetTitle>Shopping Cart</SheetTitle>
+               <SheetTitle>Warenkorb</SheetTitle>
             </SheetHeader>
             <div className="h-full flex flex-col">
                <CartPreview cart={cart} />

@@ -54,7 +54,7 @@ export const ProductListItem: FC<ProductListItemProps> = ({
       if (product.type === "BUNDLE") {
          return (
             <span className="flex items-center gap-1">
-               {`${productItems.length} templates included`}
+               {`${productItems.length} Vorlagen enthalten`}
             </span>
          );
       }
@@ -100,7 +100,7 @@ export const ProductListItem: FC<ProductListItemProps> = ({
                   >
                      <Link href={`/products/${product.id}`}>
                         <Info className="w-4 h-4 sm:mr-1" />
-                        <span className="hidden sm:inline">Details</span>
+                        <span className="hidden sm:inline">Einzelheiten</span>
                      </Link>
                   </Button>
                   <AddToCartButton

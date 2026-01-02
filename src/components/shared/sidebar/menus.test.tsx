@@ -20,19 +20,19 @@ const expectedNavigationMenu1: DMenuItem[] = [
    },
    {
       id: "/library",
-      title: "My Library",
+      title: "Meine Bibliothek",
       icon: BookOpen,
       url: "/library",
    },
    {
       id: "/marketplace",
-      title: "Marketplace",
+      title: "Marktplatz",
       icon: ShoppingBag,
       url: "/marketplace",
    },
    {
       id: "/orders",
-      title: "Orders",
+      title: "Bestellungen",
       icon: Package,
       url: "/orders",
    },
@@ -47,13 +47,13 @@ export const expectedNavigationMenu2: DMenuItem[] = [
    },
    {
       id: "/invite-people",
-      title: "Invite People",
+      title: "Personen einladen",
       icon: Users,
       url: "/invite-people",
    },
    {
       id: "/settings",
-      title: "Settings",
+      title: "Einstellungen",
       icon: Settings,
       url: "/settings",
    },

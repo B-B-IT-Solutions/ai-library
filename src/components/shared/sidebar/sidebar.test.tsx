@@ -123,11 +123,11 @@ describe("Sidebar functionality tests", () => {
       });
 
       await assertNavigateToMenuItem("Prompts", "/prompts");
-      await assertNavigateToMenuItem("My Library", "/library");
-      await assertNavigateToMenuItem("Marketplace", "/marketplace");
+      await assertNavigateToMenuItem("Meine Bibliothek", "/library");
+      await assertNavigateToMenuItem("Marktplatz", "/marketplace");
       await assertNavigateToMenuItem("Feedback", "/feedback");
-      await assertNavigateToMenuItem("Invite People", "/invite-people");
-      await assertNavigateToMenuItem("Settings", "/settings");
+      await assertNavigateToMenuItem("Personen einladen", "/invite-people");
+      await assertNavigateToMenuItem("Einstellungen", "/settings");
    });
 
    it("Sidebar - active menu item highlighted - test", async () => {
@@ -137,9 +137,9 @@ describe("Sidebar functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertMenuItemActive("Settings", true);
+         assertMenuItemActive("Einstellungen", true);
          assertMenuItemActive("Prompts", false);
-         assertMenuItemActive("My Library", false);
+         assertMenuItemActive("Meine Bibliothek", false);
       });
    });
 

@@ -14,7 +14,7 @@ const LoadingPage = () => {
          }}
          data-testid="loading-page"
       >
-         <Image src={loader} height={150} width={150} alt="Loading..." />
+         <Image src={loader} height={150} width={150} alt="Lädt..." />
       </div>
    );
 };

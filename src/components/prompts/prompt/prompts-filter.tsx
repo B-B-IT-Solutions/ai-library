@@ -70,7 +70,7 @@ export const PromptFilters: FC<PromptFiltersProps> = ({ onFiltersUpdate }) => {
             <Input
                id="search-prompts"
                type="text"
-               placeholder="Search prompts"
+               placeholder="Prompts durchsuchen"
                onChange={(e) => onSearchUpdate(e.target.value)}
                className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
@@ -85,7 +85,7 @@ export const PromptFilters: FC<PromptFiltersProps> = ({ onFiltersUpdate }) => {
                <div>
                   <label className="flex items-center text-sm text-slate-600 mb-2 font-medium">
                      <Filter className="w-4 h-4 mr-2" />
-                     Filter by Category
+                     Nach Kategorie filtern
                   </label>
                   <div
                      className={cn(
@@ -124,7 +124,7 @@ export const PromptFilters: FC<PromptFiltersProps> = ({ onFiltersUpdate }) => {
             <PopoverContent className="w-72 p-0">
                <Command>
                   <CommandList>
-                     <CommandEmpty>No results found.</CommandEmpty>
+                     <CommandEmpty>Keine Ergebnisse gefunden.</CommandEmpty>
                      <CommandGroup>
                         {map(loadedCategories, (cat, idx) => (
                            <CommandItem

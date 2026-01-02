@@ -35,7 +35,7 @@ export const ViewToggle: FC<ViewToggleProps> = ({ currentView }) => {
             data-testid="grid-view-btn"
          >
             <Grid3x3 className="w-4 h-4" />
-            <span className="hidden sm:inline">Grid</span>
+            <span className="hidden sm:inline">Raster</span>
          </Button>
          <Button
             variant={currentView === "list" ? "default" : "ghost"}
@@ -45,7 +45,7 @@ export const ViewToggle: FC<ViewToggleProps> = ({ currentView }) => {
             data-testid="list-view-btn"
          >
             <List className="w-4 h-4" />
-            <span className="hidden sm:inline">List</span>
+            <span className="hidden sm:inline">Liste</span>
          </Button>
       </div>
    );

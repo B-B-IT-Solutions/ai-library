@@ -164,7 +164,7 @@ exports[`ProductPage rendering tests ProductPage - product type BUNDLE - rendere
                     d="M15 15h.01"
                   />
                 </svg>
-                Bundle Value
+                Bundle-Wert
               </h3>
               <div
                 class="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-lg p-6"
@@ -202,7 +202,7 @@ exports[`ProductPage rendering tests ProductPage - product type BUNDLE - rendere
                       <span
                         class="text-lg font-bold text-green-800"
                       >
-                        Save CHF 
+                        Sparen Sie CHF 
                         14.98
                          (
                         19
@@ -212,9 +212,9 @@ exports[`ProductPage rendering tests ProductPage - product type BUNDLE - rendere
                     <p
                       class="text-sm text-green-800"
                     >
-                      Get 
+                      Erhalten Sie 
                       3
-                       templates for the price of
+                       Vorlagen zum Preis von
                        
                       2
                       !
@@ -230,7 +230,7 @@ exports[`ProductPage rendering tests ProductPage - product type BUNDLE - rendere
                       <span
                         class="text-slate-700"
                       >
-                        Individual prices:
+                        Einzelpreise:
                       </span>
                       <span
                         class="font-medium text-slate-900 line-through"
@@ -245,7 +245,7 @@ exports[`ProductPage rendering tests ProductPage - product type BUNDLE - rendere
                       <span
                         class="text-slate-700"
                       >
-                        Bundle price:
+                        Bundle-Preis:
                       </span>
                       <span
                         class="font-bold text-green-700 text-lg"
@@ -291,9 +291,9 @@ exports[`ProductPage rendering tests ProductPage - product type BUNDLE - rendere
                     </svg>
                     <p>
                       <strong>
-                        Bundle Theme:
+                        Bundle-Thema:
                       </strong>
-                       This curated collection provides everything you need for comprehensive AI-assisted workflows. All templates work together seamlessly for maximum productivity.
+                       Diese kuratierte Sammlung bietet alles, was Sie für umfassende KI-gestützte Workflows benötigen. Alle Vorlagen arbeiten nahtlos zusammen für maximale Produktivität.
                     </p>
                   </div>
                 </div>
@@ -341,7 +341,7 @@ exports[`ProductPage rendering tests ProductPage - product type BUNDLE - rendere
                     r="2"
                   />
                 </svg>
-                Use Cases
+                Anwendungsfälle
               </h3>
               <div
                 class="flex flex-wrap gap-2"
@@ -429,7 +429,7 @@ exports[`ProductPage rendering tests ProductPage - product type BUNDLE - rendere
                     d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
                   />
                 </svg>
-                Included Templates (
+                Enthaltene Vorlagen (
                 3
                 )
               </h3>
@@ -450,8 +450,8 @@ exports[`ProductPage rendering tests ProductPage - product type BUNDLE - rendere
                       class="text-xs text-slate-500"
                     >
                       3
-                       template
-                      s
+                       
+                      Vorlagen
                     </span>
                   </h4>
                   <div
@@ -677,8 +677,8 @@ exports[`ProductPage rendering tests ProductPage - product type BUNDLE - rendere
                       class="text-xs text-slate-500"
                     >
                       3
-                       template
-                      s
+                       
+                      Vorlagen
                     </span>
                   </h4>
                   <div
@@ -904,8 +904,8 @@ exports[`ProductPage rendering tests ProductPage - product type BUNDLE - rendere
                       class="text-xs text-slate-500"
                     >
                       3
-                       template
-                      s
+                       
+                      Vorlagen
                     </span>
                   </h4>
                   <div
@@ -1131,7 +1131,7 @@ exports[`ProductPage rendering tests ProductPage - product type BUNDLE - rendere
               <h4
                 class="font-semibold text-sm text-indigo-900 mb-2"
               >
-                What You'll Get
+                Was Sie erhalten
               </h4>
               <ul
                 class="space-y-1 text-sm text-indigo-800"
@@ -1146,7 +1146,7 @@ exports[`ProductPage rendering tests ProductPage - product type BUNDLE - rendere
                   </span>
                   <span>
                     3
-                     professionally crafted prompt templates
+                     professionell gestaltete Prompt-Vorlagen
                   </span>
                 </li>
                 <li
@@ -1158,7 +1158,7 @@ exports[`ProductPage rendering tests ProductPage - product type BUNDLE - rendere
                     ✓
                   </span>
                   <span>
-                    Optimized for multiple AI models and use cases
+                    Optimiert für mehrere KI-Modelle und Anwendungsfälle
                   </span>
                 </li>
                 <li
@@ -1170,7 +1170,7 @@ exports[`ProductPage rendering tests ProductPage - product type BUNDLE - rendere
                     ✓
                   </span>
                   <span>
-                    Immediate access
+                    Sofortiger Zugriff
                   </span>
                 </li>
                 <li
@@ -1182,7 +1182,7 @@ exports[`ProductPage rendering tests ProductPage - product type BUNDLE - rendere
                     ✓
                   </span>
                   <span>
-                    Ready-to-use templates with clear instructions
+                    Sofort einsatzbereite Vorlagen mit klaren Anweisungen
                   </span>
                 </li>
               </ul>
@@ -1220,7 +1220,7 @@ exports[`ProductPage rendering tests ProductPage - product type BUNDLE - rendere
               />
             </svg>
             <span>
-              In Cart
+              Im Warenkorb
             </span>
           </button>
           <a
@@ -1370,7 +1370,7 @@ exports[`ProductPage rendering tests ProductPage - product type TEMPLATE - rende
                     r="2"
                   />
                 </svg>
-                Key Features
+                Hauptmerkmale
               </h3>
               <div
                 class="grid grid-cols-1 md:grid-cols-2 gap-3"
@@ -1542,7 +1542,7 @@ exports[`ProductPage rendering tests ProductPage - product type TEMPLATE - rende
                     r="2"
                   />
                 </svg>
-                Use Cases
+                Anwendungsfälle
               </h3>
               <div
                 class="flex flex-wrap gap-2"
@@ -1639,7 +1639,7 @@ exports[`ProductPage rendering tests ProductPage - product type TEMPLATE - rende
                     d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"
                   />
                 </svg>
-                How to Use
+                Verwendung
               </h3>
               <div
                 class="space-y-3"
@@ -1801,10 +1801,10 @@ exports[`ProductPage rendering tests ProductPage - product type TEMPLATE - rende
                   <span
                     class="font-semibold shrink-0"
                   >
-                    💡 Tip:
+                    💡 Tipp:
                   </span>
                   <span>
-                    Customize the template to match your specific needs and tone. The placeholders are suggestions - feel free to adapt them!
+                    Passen Sie die Vorlage an Ihre spezifischen Bedürfnisse und Ihren Ton an. Die Platzhalter sind Vorschläge - passen Sie sie gerne an!
                   </span>
                 </p>
               </div>
@@ -1842,7 +1842,7 @@ exports[`ProductPage rendering tests ProductPage - product type TEMPLATE - rende
               />
             </svg>
             <span>
-              In Cart
+              Im Warenkorb
             </span>
           </button>
           <a

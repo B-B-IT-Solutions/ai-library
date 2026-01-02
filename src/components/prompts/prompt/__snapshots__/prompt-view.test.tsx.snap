@@ -39,10 +39,10 @@ exports[`PromptView rendering tests PromptView rendered test 1`] = `
           <h3
             class="text-xl font-semibold text-slate-900 mb-2"
           >
-            No Prompt Selected
+            Kein Prompt ausgewählt
           </h3>
           <p>
-            Select a prompt from the list or create a new one
+            Wählen Sie einen Prompt aus der Liste oder erstellen Sie einen neuen
           </p>
         </div>
         <a
@@ -71,7 +71,7 @@ exports[`PromptView rendering tests PromptView rendered test 1`] = `
               d="M12 5v14"
             />
           </svg>
-           Create Prompt
+           Prompt erstellen
         </a>
       </div>
     </div>

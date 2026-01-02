@@ -193,7 +193,7 @@ exports[`MainLayout rendering tests MainLayout - session defined - rendered 1`] 
                           />
                         </svg>
                         <span>
-                          My Library
+                          Meine Bibliothek
                         </span>
                       </a>
                     </li>
@@ -236,7 +236,7 @@ exports[`MainLayout rendering tests MainLayout - session defined - rendered 1`] 
                           />
                         </svg>
                         <span>
-                          Marketplace
+                          Marktplatz
                         </span>
                       </a>
                     </li>
@@ -282,7 +282,7 @@ exports[`MainLayout rendering tests MainLayout - session defined - rendered 1`] 
                           />
                         </svg>
                         <span>
-                          Orders
+                          Bestellungen
                         </span>
                       </a>
                     </li>
@@ -395,7 +395,7 @@ exports[`MainLayout rendering tests MainLayout - session defined - rendered 1`] 
                           />
                         </svg>
                         <span>
-                          Invite People
+                          Personen einladen
                         </span>
                       </a>
                     </li>
@@ -437,7 +437,7 @@ exports[`MainLayout rendering tests MainLayout - session defined - rendered 1`] 
                           />
                         </svg>
                         <span>
-                          Settings
+                          Einstellungen
                         </span>
                       </a>
                     </li>
@@ -731,7 +731,7 @@ exports[`MainLayout rendering tests MainLayout - session undefined - rendered 1`
                           />
                         </svg>
                         <span>
-                          My Library
+                          Meine Bibliothek
                         </span>
                       </a>
                     </li>
@@ -774,7 +774,7 @@ exports[`MainLayout rendering tests MainLayout - session undefined - rendered 1`
                           />
                         </svg>
                         <span>
-                          Marketplace
+                          Marktplatz
                         </span>
                       </a>
                     </li>
@@ -820,7 +820,7 @@ exports[`MainLayout rendering tests MainLayout - session undefined - rendered 1`
                           />
                         </svg>
                         <span>
-                          Orders
+                          Bestellungen
                         </span>
                       </a>
                     </li>
@@ -933,7 +933,7 @@ exports[`MainLayout rendering tests MainLayout - session undefined - rendered 1`
                           />
                         </svg>
                         <span>
-                          Invite People
+                          Personen einladen
                         </span>
                       </a>
                     </li>
@@ -975,7 +975,7 @@ exports[`MainLayout rendering tests MainLayout - session undefined - rendered 1`
                           />
                         </svg>
                         <span>
-                          Settings
+                          Einstellungen
                         </span>
                       </a>
                     </li>

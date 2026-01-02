@@ -65,7 +65,7 @@ export const TemplateFilters: FC<TemplateFiltersProps> = ({
             <Input
                id="search-templates"
                type="text"
-               placeholder="Search templates"
+               placeholder="Vorlagen durchsuchen"
                onChange={(e) => onSearchUpdate(e.target.value)}
                className="w-full min-h-10 pl-10 pr-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
@@ -85,7 +85,7 @@ export const TemplateFilters: FC<TemplateFiltersProps> = ({
                >
                   {categories.length === 0 && (
                      <span className="text-muted-foreground text-sm">
-                        Select category
+                        Kategorie auswählen
                      </span>
                   )}
 
@@ -115,7 +115,7 @@ export const TemplateFilters: FC<TemplateFiltersProps> = ({
             <PopoverContent className="w-72 p-0">
                <Command>
                   <CommandList>
-                     <CommandEmpty>No results found.</CommandEmpty>
+                     <CommandEmpty>Keine Ergebnisse gefunden.</CommandEmpty>
                      <CommandGroup>
                         {map(loadedCategories, (cat, idx) => (
                            <CommandItem

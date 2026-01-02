@@ -21,7 +21,7 @@ export const TemplateCards: FC<TemplateCardsProps> = ({
                className="col-span-2 text-center py-8 text-slate-500"
                data-testid="empty-templates"
             >
-               No templates match your filters
+               Keine Vorlagen entsprechen Ihren Filtern
             </div>
          );
       }

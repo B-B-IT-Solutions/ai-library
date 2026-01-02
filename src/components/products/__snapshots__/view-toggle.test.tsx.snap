@@ -47,7 +47,7 @@ exports[`ViewToggle rendering tests ViewToggle - view grid - test 1`] = `
       <span
         class="hidden sm:inline"
       >
-        Grid
+        Raster
       </span>
     </button>
     <button
@@ -90,7 +90,7 @@ exports[`ViewToggle rendering tests ViewToggle - view grid - test 1`] = `
       <span
         class="hidden sm:inline"
       >
-        List
+        Liste
       </span>
     </button>
   </div>
@@ -144,7 +144,7 @@ exports[`ViewToggle rendering tests ViewToggle - view list - test 1`] = `
       <span
         class="hidden sm:inline"
       >
-        Grid
+        Raster
       </span>
     </button>
     <button
@@ -187,7 +187,7 @@ exports[`ViewToggle rendering tests ViewToggle - view list - test 1`] = `
       <span
         class="hidden sm:inline"
       >
-        List
+        Liste
       </span>
     </button>
   </div>

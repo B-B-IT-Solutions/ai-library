@@ -99,12 +99,12 @@ exports[`CheckoutPage rendering tests CheckoutPage - cart with items - rendered 
             <h3
               class="text-lg font-semibold"
             >
-              Payment Information
+              Zahlungsinformationen
             </h3>
             <p
               class="text-sm text-slate-600"
             >
-              You will be redirected to Stripe to securely complete your payment.
+              Sie werden zu Stripe weitergeleitet, um Ihre Zahlung sicher abzuschließen.
             </p>
           </div>
           <div
@@ -172,7 +172,7 @@ exports[`CheckoutPage rendering tests CheckoutPage - cart with items - rendered 
                   data-slot="form-label"
                   for="_r_0_-form-item"
                 >
-                  I agree to the terms and conditions
+                  Ich stimme den Allgemeinen Geschäftsbedingungen zu
                 </label>
               </div>
             </div>
@@ -183,7 +183,7 @@ exports[`CheckoutPage rendering tests CheckoutPage - cart with items - rendered 
             data-testid="proceed-to-payment-btn"
             type="submit"
           >
-            Proceed to Payment
+            Zur Zahlung
           </button>
         </form>
       </div>

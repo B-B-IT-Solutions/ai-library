@@ -51,7 +51,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product, isInCart }) => {
       if (product.type === "BUNDLE") {
          return (
             <p className="text-xs text-slate-600 mb-2">
-               {productItems.length} templates included
+               {productItems.length} Vorlagen enthalten
             </p>
          );
       }
@@ -89,7 +89,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product, isInCart }) => {
                >
                   <Link href={`/products/${product.id}`}>
                      <Info className="w-4 h-4 mr-2" />
-                     Details
+                     Einzelheiten
                   </Link>
                </Button>
                <AddToCartButton product={product} isInCart={isInCart} />
