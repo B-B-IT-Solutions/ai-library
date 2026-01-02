@@ -5,12 +5,15 @@ import { OrderService } from "@/data/services/order";
 import { StripeService } from "@/data/services/stripe";
 import { DbClient } from "@/data/types/db/common";
 
+import { PromptService } from "./prompt/prompt.service";
+
 export class ServiceFactory {
    private repositories: RepositoryFactory;
    private cartService?: CartService;
    private libraryService?: LibraryService;
    private orderService?: OrderService;
    private stripeService?: StripeService;
+   private promptService?: PromptService;
 
    constructor(prisma: DbClient) {
       this.repositories = new RepositoryFactory(prisma);
@@ -51,5 +54,14 @@ export class ServiceFactory {
          );
       }
       return this.stripeService;
+   }
+
+   getPromptService(): PromptService {
+      if (!this.promptService) {
+         this.promptService = new PromptService(
+            this.repositories.promptRepository()
+         );
+      }
+      return this.promptService;
    }
 }

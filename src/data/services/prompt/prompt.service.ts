@@ -47,34 +47,22 @@ export class PromptService {
    }
 
    async createPrompt(data: DPromptCreate) {
-      try {
-         const prompt = createPromptSchema.parse(data);
-         const categories = this.createOrConnectCategories(prompt.categories);
+      const prompt = createPromptSchema.parse(data);
+      const categories = this.createOrConnectCategories(prompt.categories);
 
-         const toSave: PromptCreateInput = {
-            content: prompt.content,
-            descriptor: {
-               create: {
-                  title: prompt.title,
-                  recommendedModel: prompt.recommendedModel,
-                  categories: {
-                     connectOrCreate: categories,
-                  },
+      const toSave: PromptCreateInput = {
+         content: prompt.content,
+         descriptor: {
+            create: {
+               title: prompt.title,
+               recommendedModel: prompt.recommendedModel,
+               categories: {
+                  connectOrCreate: categories,
                },
             },
-         };
-         await this.promptRepository.pCreatePrompt(toSave);
-
-         return {
-            success: true,
-            message: "Prompt created sucessfully.",
-         };
-      } catch (error) {
-         return {
-            success: false,
-            message: formatError(error),
-         };
-      }
+         },
+      };
+      await this.promptRepository.pCreatePrompt(toSave);
    }
 
    private createOrConnectCategories(

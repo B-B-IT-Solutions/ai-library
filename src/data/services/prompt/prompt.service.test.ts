@@ -129,11 +129,10 @@ describe("createPrompt tests", () => {
       const prompt = dtestData.dPromptCreate();
       promptRepoMock.pCreatePrompt.mockRejectedValue(new Error("db error"));
 
-      const result = await promptService.createPrompt(prompt);
-      const expectedResult = {
-         success: false,
-         message: "db error",
-      };
+      await expect(promptService.createPrompt(prompt)).rejects.toThrow(
+         "db error"
+      );
+
       const promptToSave: PromptCreateInput = {
          content: prompt.content,
          descriptor: {
@@ -156,7 +155,6 @@ describe("createPrompt tests", () => {
          },
       };
 
-      expect(result).toEqual(expectedResult);
       expect(promptRepoMock.pCreatePrompt).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pCreatePrompt).toHaveBeenCalledWith(promptToSave);
    });
@@ -164,11 +162,8 @@ describe("createPrompt tests", () => {
    it("createPrompt - prompt created  - test", async () => {
       const prompt = dtestData.dPromptCreate();
 
-      const result = await promptService.createPrompt(prompt);
-      const expectedResult = {
-         success: true,
-         message: "Prompt created sucessfully.",
-      };
+      await promptService.createPrompt(prompt);
+
       const promptToSave: PromptCreateInput = {
          content: prompt.content,
          descriptor: {
@@ -191,7 +186,6 @@ describe("createPrompt tests", () => {
          },
       };
 
-      expect(result).toEqual(expectedResult);
       expect(promptRepoMock.pCreatePrompt).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pCreatePrompt).toHaveBeenCalledWith(promptToSave);
    });

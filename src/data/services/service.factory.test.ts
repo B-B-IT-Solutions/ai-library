@@ -3,6 +3,7 @@ import prisma from "@/data/repositories/prisma";
 import { CartService } from "./cart";
 import { LibraryService } from "./library";
 import { OrderService } from "./order";
+import { PromptService } from "./prompt/prompt.service";
 import { ServiceFactory } from "./service.factory";
 import { StripeService } from "./stripe/stripe.service";
 
@@ -51,16 +52,6 @@ describe("getOrderService tests", () => {
 
       expect(service1).toBe(service2);
    });
-
-   it("should inject CartService and LibraryService dependencies correctly", () => {
-      const orderService = serviceFactory.getOrderService();
-      const cartService = serviceFactory.getCartService();
-      const libraryService = serviceFactory.getLibraryService();
-
-      expect(orderService).toBeInstanceOf(OrderService);
-      expect(cartService).toBeInstanceOf(CartService);
-      expect(libraryService).toBeInstanceOf(LibraryService);
-   });
 });
 
 describe("getStripeService tests", () => {
@@ -76,14 +67,19 @@ describe("getStripeService tests", () => {
 
       expect(service1).toBe(service2);
    });
+});
 
-   it("should inject OrderService dependencies correctly", () => {
-      const stripeService = serviceFactory.getStripeService();
-      const cartService = serviceFactory.getCartService();
-      const orderService = serviceFactory.getOrderService();
+describe("getPromptService tests", () => {
+   it("should create and return PromptService instance", () => {
+      const service = serviceFactory.getPromptService();
 
-      expect(stripeService).toBeInstanceOf(StripeService);
-      expect(cartService).toBeInstanceOf(CartService);
-      expect(orderService).toBeInstanceOf(OrderService);
+      expect(service).toBeInstanceOf(PromptService);
+   });
+
+   it("should return the same instance on multiple calls (singleton pattern)", () => {
+      const service1 = serviceFactory.getPromptService();
+      const service2 = serviceFactory.getPromptService();
+
+      expect(service1).toBe(service2);
    });
 });

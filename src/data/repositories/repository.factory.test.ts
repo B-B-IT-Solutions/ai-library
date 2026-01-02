@@ -4,6 +4,7 @@ import { CartRepository } from "./cart";
 import { LibraryRepository } from "./library";
 import { OrderRepository } from "./order";
 import { ProductRepository } from "./product";
+import { PromptRepository } from "./prompt";
 import { RepositoryFactory } from "./repository.factory";
 
 describe("RepositoryFactory tests", () => {
@@ -15,7 +16,7 @@ describe("RepositoryFactory tests", () => {
       factory = new RepositoryFactory(mockPrisma);
    });
 
-   describe("getCartRepository tests", () => {
+   describe("cartRepository tests", () => {
       it("should create and return CartRepository instance", () => {
          const repository = factory.cartRepository();
 
@@ -30,7 +31,7 @@ describe("RepositoryFactory tests", () => {
       });
    });
 
-   describe("getLibraryRepository tests", () => {
+   describe("libraryRepository tests", () => {
       it("should create and return LibraryRepository instance", () => {
          const repository = factory.libraryRepository();
 
@@ -45,7 +46,7 @@ describe("RepositoryFactory tests", () => {
       });
    });
 
-   describe("getOrderRepository tests", () => {
+   describe("orderRepository tests", () => {
       it("should create and return OrderRepository instance", () => {
          const repository = factory.orderRepository();
 
@@ -60,7 +61,7 @@ describe("RepositoryFactory tests", () => {
       });
    });
 
-   describe("getProductRepository tests", () => {
+   describe("productRepository tests", () => {
       it("should create and return ProductRepository instance", () => {
          const repository = factory.productRepository();
 
@@ -70,6 +71,20 @@ describe("RepositoryFactory tests", () => {
       it("should return the same instance on multiple calls (singleton pattern)", () => {
          const repository1 = factory.productRepository();
          const repository2 = factory.productRepository();
+
+         expect(repository1).toBe(repository2);
+      });
+   });
+
+   describe("promptRepository tests", () => {
+      it("should create and return PromptRepository instance", () => {
+         const repository = factory.promptRepository();
+         expect(repository).toBeInstanceOf(PromptRepository);
+      });
+
+      it("should return the same instance on multiple calls (singleton pattern)", () => {
+         const repository1 = factory.promptRepository();
+         const repository2 = factory.promptRepository();
 
          expect(repository1).toBe(repository2);
       });
