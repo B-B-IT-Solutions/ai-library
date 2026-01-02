@@ -35,19 +35,11 @@ jest.mock("next/server", () => ({
 
 jest.mock("../src/data/repositories/prisma", () => {
    const prismaMock = mockDeep<PrismaClient>();
-
    prismaMock.$transaction.mockImplementation((arg: any) => {
-      // Array form
       if (Array.isArray(arg)) {
          return Promise.all(arg);
       }
-
-      // Callback form
-      if (typeof arg === "function") {
-         return arg(prismaMock);
-      }
-
-      throw new Error("Invalid $transaction call");
+      return arg(prismaMock);
    });
 
    return {
