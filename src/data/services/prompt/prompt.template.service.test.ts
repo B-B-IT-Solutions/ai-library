@@ -12,7 +12,7 @@ import { toDPromptTemplates } from "./prompt.mapper";
 import {
    getPromptTemplateCategories,
    getPromptTemplates,
-} from "./prompt.template.actions";
+} from "./prompt.template.service";
 
 const pGetPromptTemplatesMock = pGetPromptTemplates as jest.MockedFunction<
    typeof pGetPromptTemplates

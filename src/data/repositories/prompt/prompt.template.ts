@@ -3,15 +3,15 @@ import { isEmpty } from "es-toolkit/compat";
 import prisma from "@/data/repositories/prisma";
 import { Prisma } from "@/generated/prisma/client";
 
-type PGetPromptTemplatesParams = {
+type PGetPromptTemplateDescriptorsParams = {
    search?: string;
    categories?: string[];
 };
 
-export const getPromptTemplates = async (
-   params?: PGetPromptTemplatesParams
+export const getPromptTemplateDescriptors = async (
+   params?: PGetPromptTemplateDescriptorsParams
 ) => {
-   const where = resolveGetPromptTemplatesWhereInput(params);
+   const where = resolveGetPromptTemplateDescriptorssWhereInput(params);
    return await prisma.promptTemplateDescriptor.findMany({
       where: where,
       include: {
@@ -48,8 +48,8 @@ export const getPromptTemplateCategories = async () => {
    });
 };
 
-const resolveGetPromptTemplatesWhereInput = (
-   params?: PGetPromptTemplatesParams
+const resolveGetPromptTemplateDescriptorssWhereInput = (
+   params?: PGetPromptTemplateDescriptorsParams
 ): Prisma.PromptTemplateDescriptorWhereInput | undefined => {
    if (isEmpty(params)) {
       return undefined;

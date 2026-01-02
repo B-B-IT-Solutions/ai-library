@@ -7,7 +7,7 @@ import { Prisma } from "@/generated/prisma/client";
 
 import {
    getPromptTemplateCategories,
-   getPromptTemplates,
+   getPromptTemplateDescriptors,
 } from "./prompt.template";
 
 export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
@@ -21,7 +21,7 @@ describe("getPromptTemplates tests", () => {
       const prompts = ptestData.pPromptTemplates();
       prismaMock.promptTemplate.findMany.mockResolvedValue(prompts);
 
-      const result = await getPromptTemplates();
+      const result = await getPromptTemplateDescriptors();
 
       const expectedFindMayArgs: Prisma.PromptTemplateFindManyArgs = {
          include: {
@@ -41,7 +41,7 @@ describe("getPromptTemplates tests", () => {
       const prompts = ptestData.pPromptTemplates();
       prismaMock.promptTemplate.findMany.mockResolvedValue(prompts);
 
-      const result = await getPromptTemplates({});
+      const result = await getPromptTemplateDescriptors({});
 
       const expectedFindMayArgs: Prisma.PromptTemplateFindManyArgs = {
          include: {
@@ -62,7 +62,10 @@ describe("getPromptTemplates tests", () => {
       prismaMock.promptTemplate.findMany.mockResolvedValue(prompts);
 
       const search = "prompt 1";
-      const result = await getPromptTemplates({ search, categories: [] });
+      const result = await getPromptTemplateDescriptors({
+         search,
+         categories: [],
+      });
 
       const expectedFindMayArgs: Prisma.PromptTemplateFindManyArgs = {
          where: {
@@ -99,7 +102,7 @@ describe("getPromptTemplates tests", () => {
       prismaMock.promptTemplate.findMany.mockResolvedValue(prompts);
 
       const categories = ["cat 1", "cat2", "cat 3"];
-      const result = await getPromptTemplates({ categories });
+      const result = await getPromptTemplateDescriptors({ categories });
 
       const expectedFindMayArgs: Prisma.PromptTemplateFindManyArgs = {
          where: {
@@ -134,7 +137,7 @@ describe("getPromptTemplates tests", () => {
 
       const search = "prompt 123";
       const categories = ["cat 1", "cat2", "cat 3"];
-      const result = await getPromptTemplates({ search, categories });
+      const result = await getPromptTemplateDescriptors({ search, categories });
 
       const expectedFindMayArgs: Prisma.PromptTemplateFindManyArgs = {
          where: {
