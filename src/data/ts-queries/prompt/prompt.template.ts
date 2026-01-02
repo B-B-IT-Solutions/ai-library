@@ -43,7 +43,11 @@ export const preloadPromptTemplateCategoriesOptions = (): FetchQueryOptions<
 
 export const loadPromptTemplatesOptions = (
    params?: LoadPromptTemplatesParams
-): UndefinedInitialDataOptions<DPromptTemplate[], Error, DPromptTemplate[]> => {
+): UndefinedInitialDataOptions<
+   DPromptTemplateDescriptor[],
+   Error,
+   DPromptTemplateDescriptor[]
+> => {
    return {
       queryKey: promptTemplateKeys.templates(params),
       queryFn: async () => {
@@ -56,9 +60,9 @@ export const loadPromptTemplatesOptions = (
 
 export const useLoadPromptTemplates = (
    params?: LoadPromptTemplatesParams
-): UseQueryResult<DPromptTemplate[]> => {
+): UseQueryResult<DPromptTemplateDescriptor[]> => {
    const options = loadPromptTemplatesOptions(params);
-   return useQuery<DPromptTemplate[]>(options);
+   return useQuery<DPromptTemplateDescriptor[]>(options);
 };
 
 export const loadPromptTemplateCategoriesOptions =

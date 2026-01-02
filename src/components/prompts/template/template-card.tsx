@@ -2,11 +2,11 @@ import { FC } from "react";
 import { map } from "es-toolkit/compat";
 
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
-import { DPromptTemplate } from "@/data/types/domain/prompt.template";
+import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 type TemplateCardsProps = {
-   template: DPromptTemplate;
-   onSelect: (template: DPromptTemplate) => void;
+   template: DPromptTemplateDescriptor;
+   onSelect: (template: DPromptTemplateDescriptor) => void;
 };
 
 export const TemplateCard: FC<TemplateCardsProps> = ({

@@ -1,4 +1,4 @@
-import { DPromptTemplate } from "./prompt.template";
+import { DPromptTemplateDescriptor } from "./prompt.template";
 
 export type DLibraryEntry = {
    id: string;
@@ -6,6 +6,6 @@ export type DLibraryEntry = {
    orderId: string;
    templateId: string;
    productId: string;
-   template: DPromptTemplate;
+   template: DPromptTemplateDescriptor;
    createdAt: string;
 };
