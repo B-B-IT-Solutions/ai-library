@@ -9,16 +9,16 @@ import {
 import {
    getPromptTemplateCategories,
    getPromptTemplates,
-} from "@/data/actions/prompt/prompt.template.actions";
-import { DPromptTemplate } from "@/data/types/domain/prompt.template";
+} from "@/data/actions/prompt";
+import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 import { LoadPromptTemplatesParams } from "./types";
 import { promptTemplateCategoriesKeys, promptTemplateKeys } from "./utils";
 
 export const preloadPromptTemplatesOptions = (): FetchQueryOptions<
-   DPromptTemplate[],
+   DPromptTemplateDescriptor[],
    Error,
-   DPromptTemplate[]
+   DPromptTemplateDescriptor[]
 > => {
    return {
       queryKey: promptTemplateKeys.templates(),
