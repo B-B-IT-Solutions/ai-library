@@ -13,6 +13,7 @@ import { OrderRepository, OrderUpdate } from "@/data/db/queries/order";
 import { ServiceFactory } from "@/data/services";
 import { CartService } from "@/data/services/cart";
 import { LibraryService } from "@/data/services/library";
+import { DOrderUpdate } from "@/data/types/domain/order";
 
 import {
    toDOrder,
@@ -227,6 +228,33 @@ describe("createOrder tests", () => {
       expect(orderRepoMock.pCreateOrder).toHaveBeenCalledTimes(1);
       expect(orderRepoMock.pCreateOrder).toHaveBeenCalledWith(
          expectedCreatePayload
+      );
+   });
+});
+
+describe("updateOrder tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("updateOrder - test", async () => {
+      const orderId = "order-id-1";
+      const dUpdate: DOrderUpdate = {
+         stripeCheckoutSessionId: "session-id-1",
+         stripePaymentStatus: "unpaid",
+      };
+
+      await orderService.updateOrder(orderId, dUpdate);
+
+      const expectedUpdatePayload: OrderUpdate = {
+         stripeCheckoutSessionId: dUpdate.stripeCheckoutSessionId,
+         stripePaymentStatus: dUpdate.stripePaymentStatus,
+      };
+
+      expect(orderRepoMock.pUpdateOrder).toHaveBeenCalledTimes(1);
+      expect(orderRepoMock.pUpdateOrder).toHaveBeenCalledWith(
+         orderId,
+         expectedUpdatePayload
       );
    });
 });

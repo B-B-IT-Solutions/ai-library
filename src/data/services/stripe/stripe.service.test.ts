@@ -1,9 +1,7 @@
 jest.mock("@/data/services/cart");
 jest.mock("@/data/services/order");
-jest.mock("@/data/db/queries/order");
 jest.mock("@/lib/stripe/stripe-server");
 jest.mock("@/data/actions/auth-utils");
-jest.mock("@/data/actions/utils");
 
 import { dtestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
@@ -11,22 +9,22 @@ import Stripe from "stripe";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import prisma from "@/data/db/prisma";
-import { OrderRepository } from "@/data/db/queries/order";
 import { CartService, ServiceFactory } from "@/data/services";
 import { OrderService } from "@/data/services/order";
+import { DOrderUpdate } from "@/data/types/domain/order";
 import { stripe } from "@/lib/stripe/stripe-server";
 
 import { StripeService } from "./stripe.service";
 
 const sCreateOrder = OrderService.prototype.createOrder;
-const pUpdateOrder = OrderRepository.prototype.pUpdateOrder;
+const sUpdateOrder = OrderService.prototype.updateOrder;
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 const sCreateOrderMock = sCreateOrder as jest.MockedFunction<
    typeof sCreateOrder
 >;
-const pUpdateOrderMock = pUpdateOrder as jest.MockedFunction<
-   typeof pUpdateOrder
+const sUpdateOrderMock = sUpdateOrder as jest.MockedFunction<
+   typeof sUpdateOrder
 >;
 
 const stripeMock = stripe as unknown as DeepMockProxy<Stripe>;
@@ -63,7 +61,7 @@ describe("createCheckoutSession tests", () => {
       expect(cartServiceMock.getCart).not.toHaveBeenCalled();
       expect(sCreateOrderMock).not.toHaveBeenCalled();
       expect(stripeMock.checkout.sessions.create).not.toHaveBeenCalled();
-      expect(pUpdateOrderMock).not.toHaveBeenCalled();
+      expect(sUpdateOrderMock).not.toHaveBeenCalled();
    });
 
    it("createCheckoutSession - cart empty - test", async () => {
@@ -81,7 +79,7 @@ describe("createCheckoutSession tests", () => {
       expect(cartServiceMock.getCart).toHaveBeenCalledTimes(1);
       expect(sCreateOrderMock).not.toHaveBeenCalled();
       expect(stripeMock.checkout.sessions.create).not.toHaveBeenCalled();
-      expect(pUpdateOrderMock).not.toHaveBeenCalled();
+      expect(sUpdateOrderMock).not.toHaveBeenCalled();
    });
 
    it("createCheckoutSession - successful checkout with single item - test", async () => {
@@ -95,7 +93,6 @@ describe("createCheckoutSession tests", () => {
       cartServiceMock.getCart.mockResolvedValue(cart);
       sCreateOrderMock.mockResolvedValue(order);
       stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
-      pUpdateOrderMock.mockResolvedValue(order);
 
       const result = await stripeService.createCheckoutSession();
 
@@ -132,6 +129,11 @@ describe("createCheckoutSession tests", () => {
          cancel_url: "http://localhost:3000/checkout?canceled=true",
       };
 
+      const expectedDUpdatePayload: DOrderUpdate = {
+         stripeCheckoutSessionId: "session-1",
+         stripePaymentStatus: "unpaid",
+      };
+
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(cartServiceMock.getCart).toHaveBeenCalledTimes(1);
@@ -143,11 +145,11 @@ describe("createCheckoutSession tests", () => {
          expectedStripeCheckoutPayload
       );
 
-      expect(pUpdateOrderMock).toHaveBeenCalledTimes(1);
-      expect(pUpdateOrderMock).toHaveBeenCalledWith(order.id, {
-         stripeCheckoutSessionId: "session-1",
-         stripePaymentStatus: "unpaid",
-      });
+      expect(sUpdateOrderMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateOrderMock).toHaveBeenCalledWith(
+         order.id,
+         expectedDUpdatePayload
+      );
    });
 
    it("createCheckoutSession - successful checkout with multiple items - test", async () => {
@@ -158,13 +160,12 @@ describe("createCheckoutSession tests", () => {
       const item2 = cart.items[1];
       item2.productDescription = undefined;
 
-      const checkoutSession = await stripeCheckoutSession();
+      const checkoutSession = stripeCheckoutSession();
 
       requireUserMock.mockResolvedValue(user);
       cartServiceMock.getCart.mockResolvedValue(cart);
       sCreateOrderMock.mockResolvedValue(order);
       stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
-      pUpdateOrderMock.mockResolvedValue(order);
 
       const result = await stripeService.createCheckoutSession();
 
@@ -210,6 +211,11 @@ describe("createCheckoutSession tests", () => {
          cancel_url: "http://localhost:3000/checkout?canceled=true",
       };
 
+      const expectedDUpdatePayload: DOrderUpdate = {
+         stripeCheckoutSessionId: "session-1",
+         stripePaymentStatus: "unpaid",
+      };
+
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(cartServiceMock.getCart).toHaveBeenCalledTimes(1);
@@ -221,11 +227,11 @@ describe("createCheckoutSession tests", () => {
          expectedStripeCheckoutPayload
       );
 
-      expect(pUpdateOrderMock).toHaveBeenCalledTimes(1);
-      expect(pUpdateOrderMock).toHaveBeenCalledWith(order.id, {
-         stripeCheckoutSessionId: "session-1",
-         stripePaymentStatus: "unpaid",
-      });
+      expect(sUpdateOrderMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateOrderMock).toHaveBeenCalledWith(
+         order.id,
+         expectedDUpdatePayload
+      );
    });
 
    it("createCheckoutSession - getCart throws error - test", async () => {
@@ -243,7 +249,7 @@ describe("createCheckoutSession tests", () => {
       expect(cartServiceMock.getCart).toHaveBeenCalledTimes(1);
       expect(sCreateOrderMock).not.toHaveBeenCalled();
       expect(stripeMock.checkout.sessions.create).not.toHaveBeenCalled();
-      expect(pUpdateOrderMock).not.toHaveBeenCalled();
+      expect(sUpdateOrderMock).not.toHaveBeenCalled();
    });
 
    it("createCheckoutSession - pCreateOrder throws error - test", async () => {
@@ -264,7 +270,7 @@ describe("createCheckoutSession tests", () => {
       expect(sCreateOrderMock).toHaveBeenCalledTimes(1);
       expect(sCreateOrderMock).toHaveBeenCalledWith(user.id, cart);
       expect(stripeMock.checkout.sessions.create).not.toHaveBeenCalled();
-      expect(pUpdateOrderMock).not.toHaveBeenCalled();
+      expect(sUpdateOrderMock).not.toHaveBeenCalled();
    });
 
    it("createCheckoutSession - stripe.checkout.sessions.create throws error - test", async () => {
@@ -287,7 +293,7 @@ describe("createCheckoutSession tests", () => {
       expect(sCreateOrderMock).toHaveBeenCalledTimes(1);
       expect(sCreateOrderMock).toHaveBeenCalledWith(user.id, cart);
       expect(stripeMock.checkout.sessions.create).toHaveBeenCalledTimes(1);
-      expect(pUpdateOrderMock).not.toHaveBeenCalled();
+      expect(sUpdateOrderMock).not.toHaveBeenCalled();
    });
 
    it("createCheckoutSession - pUpdateOrder throws error - test", async () => {
@@ -301,7 +307,7 @@ describe("createCheckoutSession tests", () => {
       cartServiceMock.getCart.mockResolvedValue(cart);
       sCreateOrderMock.mockResolvedValue(order);
       stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
-      pUpdateOrderMock.mockRejectedValue(error);
+      sUpdateOrderMock.mockRejectedValue(error);
 
       await expect(stripeService.createCheckoutSession()).rejects.toThrow(
          "Failed to update order"
@@ -312,7 +318,7 @@ describe("createCheckoutSession tests", () => {
       expect(sCreateOrderMock).toHaveBeenCalledTimes(1);
       expect(sCreateOrderMock).toHaveBeenCalledWith(user.id, cart);
       expect(stripeMock.checkout.sessions.create).toHaveBeenCalledTimes(1);
-      expect(pUpdateOrderMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateOrderMock).toHaveBeenCalledTimes(1);
    });
 
    it("createCheckoutSession - user with no email - test", async () => {
@@ -326,7 +332,6 @@ describe("createCheckoutSession tests", () => {
       cartServiceMock.getCart.mockResolvedValue(cart);
       sCreateOrderMock.mockResolvedValue(order);
       stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
-      pUpdateOrderMock.mockResolvedValue(order);
 
       const result = await stripeService.createCheckoutSession();
       const expectedResult = {

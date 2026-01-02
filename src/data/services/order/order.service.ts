@@ -6,7 +6,7 @@ import { OrderRepository, OrderUpdate } from "@/data/db/queries/order";
 import { CartService } from "@/data/services/cart";
 import { LibraryService } from "@/data/services/library";
 import { DCart } from "@/data/types/domain/cart";
-import { DOrder } from "@/data/types/domain/order";
+import { DOrder, DOrderUpdate } from "@/data/types/domain/order";
 
 import {
    toDOrder,
@@ -84,6 +84,14 @@ export class OrderService {
       });
 
       return toDOrder(order);
+   }
+
+   async updateOrder(orderId: string, dUpdate: DOrderUpdate) {
+      const update: OrderUpdate = {
+         stripeCheckoutSessionId: dUpdate.stripeCheckoutSessionId,
+         stripePaymentStatus: dUpdate.stripePaymentStatus,
+      };
+      await this.orderRepository.pUpdateOrder(orderId, update);
    }
 
    async handleStripeCheckoutCompleted(

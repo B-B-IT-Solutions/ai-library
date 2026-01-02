@@ -1,10 +1,9 @@
 import { isEmpty } from "es-toolkit/compat";
 
 import { requireUser } from "@/data/actions/auth-utils";
-import prisma from "@/data/db/prisma";
-import { OrderRepository } from "@/data/db/queries/order";
 import { CartService } from "@/data/services/cart";
 import { OrderService } from "@/data/services/order";
+import { DOrderUpdate } from "@/data/types/domain/order";
 import { APP_URL } from "@/lib/constants";
 import { stripe } from "@/lib/stripe/stripe-server";
 
@@ -32,11 +31,8 @@ export class StripeService {
          throw new Error("Your cart is empty.");
       }
 
-      // Create pending order FIRST
-      const orderRepository = new OrderRepository(prisma);
       const order = await this.orderService.createOrder(user.id, cart);
 
-      // Create Stripe line items
       const lineItems = cart.items.map((item) => ({
          price_data: {
             currency: "chf",
@@ -63,10 +59,11 @@ export class StripeService {
          cancel_url: `${APP_URL}/checkout?canceled=true`,
       });
 
-      await orderRepository.pUpdateOrder(order.id, {
+      const dUpdate: DOrderUpdate = {
          stripeCheckoutSessionId: checkoutSession.id,
          stripePaymentStatus: "unpaid",
-      });
+      };
+      await this.orderService.updateOrder(order.id, dUpdate);
 
       return {
          sessionId: checkoutSession.id,
