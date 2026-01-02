@@ -2,13 +2,13 @@ import { PrismaClient } from "@prisma/client";
 import { ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
+import prisma from "@/data/repositories/prisma";
 import { Prisma } from "@/generated/prisma/client";
-import prisma from "../prisma";
 
 import {
    getPromptTemplateCategories,
    getPromptTemplates,
-} from "../queries/prompt.template";
+} from "./prompt.template";
 
 export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 

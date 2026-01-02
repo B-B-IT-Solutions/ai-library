@@ -1,4 +1,4 @@
-import { RepositoryFactory } from "@/data/repositories/repository.factory";
+import { RepositoryFactory } from "@/data/repositories";
 import { CartService } from "@/data/services/cart";
 import { LibraryService } from "@/data/services/library";
 import { OrderService } from "@/data/services/order";

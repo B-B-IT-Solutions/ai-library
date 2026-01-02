@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
-import { RepositoryFactory } from "../db/queries/repository.factory";
+import { RepositoryFactory } from "@/data/repositories";
 
 import { CartService } from "./cart";
 import { LibraryService } from "./library";

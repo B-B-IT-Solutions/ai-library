@@ -3,18 +3,17 @@ import { PrismaPromise } from "@prisma/client/runtime/library";
 import { ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
+import prisma from "@/data/repositories/prisma";
 import { PromptsPage, PromptsPageQuery } from "@/data/types/db/prompt";
 import { DPromptsPage } from "@/data/types/domain/prompt";
 import { Prisma } from "@/generated/prisma/client";
 import {
-   PromptAggregateArgs,
    PromptCategoryFindManyArgs,
    PromptCountArgs,
    PromptFindFirstArgs,
    PromptFindManyArgs,
    PromptWhereInput,
 } from "@/generated/prisma/models";
-import prisma from "../prisma";
 
 import {
    createPrompt,
@@ -23,7 +22,7 @@ import {
    GetPromptQuery,
    getPrompts,
    updatePrompt,
-} from "../queries/prompt";
+} from "./prompt";
 
 export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
