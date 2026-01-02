@@ -1,9 +1,6 @@
 import { map } from "es-toolkit/compat";
 
-import {
-   getPromptTemplateCategories as pGetPromptTemplateCategories,
-   getPromptTemplateDescriptors as pGetPromptTemplates,
-} from "@/data/repositories/prompt/prompt.template";
+import { PromptTemplateRepository } from "@/data/repositories/prompt/prompt.template";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 import { toDPromptTemplateDescriptors } from "./prompt.mapper";
@@ -13,14 +10,22 @@ type DGetPromptTemplatesDescriptorsParams = {
    categories?: string[];
 };
 
-export const getPromptTemplateDescriptors = async (
-   params?: DGetPromptTemplatesDescriptorsParams
-): Promise<DPromptTemplateDescriptor[]> => {
-   const data = await pGetPromptTemplates(params);
-   return toDPromptTemplateDescriptors(data);
-};
+export class PromptTemplateService {
+   private repository: PromptTemplateRepository;
 
-export const getPromptTemplateCategories = async (): Promise<string[]> => {
-   const categories = await pGetPromptTemplateCategories();
-   return map(categories, (c) => c.name);
-};
+   constructor(repository: PromptTemplateRepository) {
+      this.repository = repository;
+   }
+
+   async getPromptTemplateDescriptors(
+      params?: DGetPromptTemplatesDescriptorsParams
+   ): Promise<DPromptTemplateDescriptor[]> {
+      const data = await this.repository.pGetPromptTemplateDescriptors(params);
+      return toDPromptTemplateDescriptors(data);
+   }
+
+   async getPromptTemplateCategories(): Promise<string[]> {
+      const categories = await this.repository.pGetPromptTemplateCategories();
+      return map(categories, (c) => c.name);
+   }
+}

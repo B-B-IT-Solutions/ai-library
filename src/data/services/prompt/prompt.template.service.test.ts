@@ -2,86 +2,105 @@ jest.mock("@/data/repositories/prompt/prompt.template");
 
 import { ptestData } from "@tests";
 import { map } from "es-toolkit/compat";
+import { DeepMockProxy } from "jest-mock-extended";
 
-import {
-   getPromptTemplateCategories as pGetPromptTemplateCategories,
-   getPromptTemplateDescriptors as pGetPromptTemplates,
-} from "@/data/repositories/prompt/prompt.template";
+import prisma from "@/data/repositories/prisma";
+import { PromptTemplateRepository } from "@/data/repositories/prompt/prompt.template";
 
 import { toDPromptTemplateDescriptors } from "./prompt.mapper";
-import {
-   getPromptTemplateCategories,
-   getPromptTemplateDescriptors,
-} from "./prompt.template.service";
+import { PromptTemplateService } from "./prompt.template.service";
 
-const pGetPromptTemplatesMock = pGetPromptTemplates as jest.MockedFunction<
-   typeof pGetPromptTemplates
->;
+const promptTemplateRepo = new PromptTemplateRepository(prisma);
+const promptTemplateRepoMock =
+   promptTemplateRepo as DeepMockProxy<PromptTemplateRepository>;
 
-const pGetPromptTemplateCategoriesMock =
-   pGetPromptTemplateCategories as jest.MockedFunction<
-      typeof pGetPromptTemplateCategories
-   >;
+const promptTemplateService = new PromptTemplateService(promptTemplateRepoMock);
 
-describe("getPromptTemplates tests", () => {
+describe("getPromptTemplateDescriptors tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
-   it("getPromptTemplates - params undefined - test", async () => {
+   it("getPromptTemplateDescriptors - params undefined - test", async () => {
       const templates = ptestData.pPromptTemplateDescriptorsWithCategories();
-      pGetPromptTemplatesMock.mockResolvedValue(templates);
+      promptTemplateRepoMock.pGetPromptTemplateDescriptors.mockResolvedValue(
+         templates
+      );
 
-      const result = await getPromptTemplateDescriptors();
+      const result = await promptTemplateService.getPromptTemplateDescriptors();
       const expectedResult = toDPromptTemplateDescriptors(templates);
 
       expect(result).toEqual(expectedResult);
-      expect(pGetPromptTemplatesMock).toHaveBeenCalledTimes(1);
-      expect(pGetPromptTemplatesMock).toHaveBeenCalledWith(undefined);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptors
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptors
+      ).toHaveBeenCalledWith(undefined);
    });
 
-   it("getPromptTemplates - params empty - test", async () => {
+   it("getPromptTemplateDescriptors - params empty - test", async () => {
       const templates = ptestData.pPromptTemplateDescriptorsWithCategories();
-      pGetPromptTemplatesMock.mockResolvedValue(templates);
+      promptTemplateRepoMock.pGetPromptTemplateDescriptors.mockResolvedValue(
+         templates
+      );
 
-      const result = await getPromptTemplateDescriptors({});
+      const result = await promptTemplateService.getPromptTemplateDescriptors(
+         {}
+      );
       const expectedResult = toDPromptTemplateDescriptors(templates);
 
       expect(result).toEqual(expectedResult);
-      expect(pGetPromptTemplatesMock).toHaveBeenCalledTimes(1);
-      expect(pGetPromptTemplatesMock).toHaveBeenCalledWith({});
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptors
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptors
+      ).toHaveBeenCalledWith({});
    });
 
-   it("getPromptTemplates - params defined - test", async () => {
+   it("getPromptTemplateDescriptors - params defined - test", async () => {
       const templates = ptestData.pPromptTemplateDescriptorsWithCategories();
-      pGetPromptTemplatesMock.mockResolvedValue(templates);
+      promptTemplateRepoMock.pGetPromptTemplateDescriptors.mockResolvedValue(
+         templates
+      );
 
       const search = "prompt 123";
       const categories = ["cat 1", "cat2", "cat 3"];
       const params = { search, categories };
 
-      const result = await getPromptTemplateDescriptors(params);
+      const result = await promptTemplateService.getPromptTemplateDescriptors(
+         params
+      );
       const expectedResult = toDPromptTemplateDescriptors(templates);
 
       expect(result).toEqual(expectedResult);
-      expect(pGetPromptTemplatesMock).toHaveBeenCalledTimes(1);
-      expect(pGetPromptTemplatesMock).toHaveBeenCalledWith(params);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptors
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptors
+      ).toHaveBeenCalledWith(params);
    });
 });
 
-describe("getAllPromptTemplateCategories tests", () => {
+describe("getPromptTemplateCategories tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    it("getPromptTemplateCategories test", async () => {
       const categories = ptestData.pPromptTemplateCategories();
-      pGetPromptTemplateCategoriesMock.mockResolvedValue(categories);
+      promptTemplateRepoMock.pGetPromptTemplateCategories.mockResolvedValue(
+         categories
+      );
 
-      const result = await getPromptTemplateCategories();
+      const result = await promptTemplateService.getPromptTemplateCategories();
       const expectedResult = map(categories, (c) => c.name);
 
       expect(result).toEqual(expectedResult);
-      expect(pGetPromptTemplateCategoriesMock).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateCategories
+      ).toHaveBeenCalledTimes(1);
    });
 });
