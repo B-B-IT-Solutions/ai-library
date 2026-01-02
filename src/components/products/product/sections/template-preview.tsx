@@ -9,7 +9,7 @@ import {
    createContentSections,
    formatTemplateContent,
    highlightPlaceholdersInLine,
-} from "../product-details-dialog/utils/template-formatter";
+} from "../utils/template-formatter";
 
 interface TemplatePreviewProps {
    content: string;

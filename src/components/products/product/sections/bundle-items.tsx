@@ -6,7 +6,7 @@ import { ChevronDown, ChevronUp, Folder, Sparkles } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
 import { DProductItem } from "@/data/types/domain/product";
-import type { BundleItemGroup } from "../product-details-dialog/types";
+import type { BundleItemGroup } from "../types";
 
 interface BundleItemsProps {
    items: DProductItem[];
