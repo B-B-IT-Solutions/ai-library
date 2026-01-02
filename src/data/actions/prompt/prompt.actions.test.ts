@@ -1,4 +1,4 @@
-jest.mock("@/data/db/queries/prompt");
+jest.mock("@/data/repositories/prompt/prompt");
 
 import { dtestData, ptestData } from "@tests";
 import { map } from "es-toolkit/compat";
@@ -8,7 +8,7 @@ import {
    getPrompt as pGetPrompt,
    getPromptCategories as pGetPromptCategories,
    getPrompts as pGetPrompts,
-} from "@/data/db/queries/prompt";
+} from "@/data/repositories/prompt/prompt";
 import { DPromptsPageQuery } from "@/data/types/domain/prompt";
 
 import {

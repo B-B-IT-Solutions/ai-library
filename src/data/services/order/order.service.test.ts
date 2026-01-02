@@ -1,4 +1,4 @@
-jest.mock("@/data/db/queries/order");
+jest.mock("@/data/repositories/order");
 jest.mock("@/data/services/cart");
 jest.mock("@/data/services/library");
 jest.mock("@/data/actions/auth-utils");
@@ -8,8 +8,8 @@ import { map } from "es-toolkit/compat";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import { requireUser } from "@/data/actions/auth-utils";
-import prisma from "@/data/db/prisma";
-import { OrderRepository, OrderUpdate } from "@/data/db/queries/order";
+import prisma from "@/data/repositories/prisma";
+import { OrderRepository, OrderUpdate } from "@/data/repositories/order";
 import { ServiceFactory } from "@/data/services";
 import { CartService } from "@/data/services/cart";
 import { LibraryService } from "@/data/services/library";

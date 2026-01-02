@@ -6,7 +6,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 import { migrateSessionCartToUser } from "@/data/actions/cart";
 import { getUserByEmail, updateUser } from "@/data/actions/user";
-import prisma from "@/data/db/prisma";
+import prisma from "@/data/repositories/prisma";
 import { compare } from "@/lib/encrypt";
 
 export const authConfig: NextAuthConfig = {

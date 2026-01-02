@@ -8,7 +8,7 @@ import {
    getUserByEmail as pGetUserByEmail,
    getUserById as pGetUserById,
    updateUser as pUpdateUser,
-} from "@/data/db/queries/user";
+} from "@/data/repositories/user";
 import {
    DSignInFormData,
    DSignUpFormData,

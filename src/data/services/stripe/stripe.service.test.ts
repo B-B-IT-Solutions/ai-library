@@ -8,7 +8,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 import Stripe from "stripe";
 
 import { requireUser } from "@/data/actions/auth-utils";
-import prisma from "@/data/db/prisma";
+import prisma from "@/data/repositories/prisma";
 import { CartService, ServiceFactory } from "@/data/services";
 import { OrderService } from "@/data/services/order";
 import { DOrderUpdate } from "@/data/types/domain/order";

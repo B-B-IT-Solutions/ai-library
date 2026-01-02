@@ -1,4 +1,4 @@
-jest.mock("@/data/db/queries/user");
+jest.mock("@/data/repositories/user");
 jest.mock("next/dist/client/components/redirect-error");
 
 import { dtestData, ptestData } from "@tests";
@@ -10,7 +10,7 @@ import {
    getUserByEmail as pGetUserByEmail,
    getUserById as pGetUserById,
    updateUser as pUpdateUser,
-} from "@/data/db/queries/user";
+} from "@/data/repositories/user";
 import { DSignInFormData, DSignUpFormData } from "@/data/types/domain/user";
 import { Prisma } from "@/generated/prisma/client";
 import { hash } from "@/lib/encrypt";

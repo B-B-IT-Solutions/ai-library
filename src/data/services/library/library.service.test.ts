@@ -1,12 +1,12 @@
-jest.mock("@/data/db/queries/library");
+jest.mock("@/data/repositories/library");
 jest.mock("../../actions/auth-utils");
 
 import { dtestData, ptestData } from "@tests";
 import { forEach, map } from "es-toolkit/compat";
 import { DeepMockProxy } from "jest-mock-extended";
 
-import prisma from "@/data/db/prisma";
-import { LibraryRepository } from "@/data/db/queries/library";
+import prisma from "@/data/repositories/prisma";
+import { LibraryRepository } from "@/data/repositories/library";
 import { requireUser } from "../../actions/auth-utils";
 
 import { toDLibraryEntries } from "./library.mapper";

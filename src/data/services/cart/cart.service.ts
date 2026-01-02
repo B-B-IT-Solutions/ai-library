@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 
 import { auth } from "@/auth";
 import { formatError } from "@/data/actions/utils";
-import { AddItemToCartParams, CartRepository } from "@/data/db/queries/cart";
+import { AddItemToCartParams, CartRepository } from "@/data/repositories/cart";
 import { DCart } from "@/data/types/domain/cart";
 import { DProduct } from "@/data/types/domain/product";
 import { ActionResult } from "@/data/types/utils";

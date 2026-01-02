@@ -23,7 +23,7 @@ import {
    GetPromptQuery,
    getPrompts,
    updatePrompt,
-} from "./prompt";
+} from "../queries/prompt";
 
 export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 

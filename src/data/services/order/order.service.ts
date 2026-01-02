@@ -2,7 +2,7 @@ import { map } from "es-toolkit/compat";
 import { validate as isValidUuid } from "uuid";
 
 import { requireUser } from "@/data/actions/auth-utils";
-import { OrderRepository, OrderUpdate } from "@/data/db/queries/order";
+import { OrderRepository, OrderUpdate } from "@/data/repositories/order";
 import { CartService } from "@/data/services/cart";
 import { LibraryService } from "@/data/services/library";
 import { DCart } from "@/data/types/domain/cart";

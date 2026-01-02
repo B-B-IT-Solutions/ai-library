@@ -1,4 +1,4 @@
-import prisma from "@/data/db/prisma";
+import prisma from "@/data/repositories/prisma";
 import { UserUpdateData } from "@/data/types/db/user";
 import { User } from "@/generated/prisma/client";
 import { UserCreateInput, UserWhereInput } from "@/generated/prisma/models";

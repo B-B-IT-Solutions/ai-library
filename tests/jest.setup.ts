@@ -33,7 +33,7 @@ jest.mock("next/server", () => ({
    NextResponse: mockDeep<NextResponse>({ funcPropSupport: true }),
 }));
 
-jest.mock("../src/data/db/prisma", () => ({
+jest.mock("../src/data/repositories/prisma", () => ({
    __esModule: true,
    default: mockDeep<PrismaClient>(),
 }));

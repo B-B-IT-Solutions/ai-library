@@ -1,8 +1,8 @@
-jest.mock("@/data/db/queries/product");
+jest.mock("@/data/repositories/product");
 
 import { ptestData } from "@tests";
 
-import { ProductRepository } from "@/data/db/queries/product";
+import { ProductRepository } from "@/data/repositories/product";
 import {
    ProductWhereInput,
    ProductWhereUniqueInput,

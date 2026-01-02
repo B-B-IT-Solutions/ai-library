@@ -8,7 +8,7 @@ import prisma from "../prisma";
 import {
    getPromptTemplateCategories,
    getPromptTemplates,
-} from "./prompt.template";
+} from "../queries/prompt.template";
 
 export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 

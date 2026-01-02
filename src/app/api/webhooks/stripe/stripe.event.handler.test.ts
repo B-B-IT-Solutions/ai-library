@@ -6,7 +6,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-import prisma from "@/data/db/prisma";
+import prisma from "@/data/repositories/prisma";
 import { OrderService } from "@/data/services/order";
 
 import { handleStripeEvent } from "./stripe.event.handler";

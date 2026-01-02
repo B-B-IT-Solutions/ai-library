@@ -1,6 +1,6 @@
 import { isEmpty } from "es-toolkit/compat";
 
-import prisma from "@/data/db/prisma";
+import prisma from "@/data/repositories/prisma";
 import { Prisma } from "@/generated/prisma/client";
 
 type PGetPromptTemplatesParams = {

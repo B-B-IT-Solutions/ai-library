@@ -1,5 +1,5 @@
 jest.mock("@/auth");
-jest.mock("@/data/db/queries/cart");
+jest.mock("@/data/repositories/cart");
 jest.mock("../../actions/auth-utils");
 
 import { AuthMockedFunction, dtestData, ntestData, ptestData } from "@tests";
@@ -7,8 +7,8 @@ import { DeepMockProxy } from "jest-mock-extended";
 import { cookies } from "next/headers";
 
 import { auth } from "@/auth";
-import prisma from "@/data/db/prisma";
-import { CartRepository } from "@/data/db/queries/cart";
+import { CartRepository } from "@/data/repositories/cart";
+import prisma from "@/data/repositories/prisma";
 
 import { toDCart } from "./cart.mapper";
 import { CartService } from "./cart.service";

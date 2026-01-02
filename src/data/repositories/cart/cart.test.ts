@@ -3,7 +3,7 @@ import { waitFor } from "@testing-library/dom";
 import { ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
-import prisma from "@/data/db/prisma";
+import prisma from "@/data/repositories/prisma";
 import {
    CartCreateInput,
    CartFindFirstArgs,

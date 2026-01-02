@@ -2,8 +2,8 @@
 
 import { validate as isValidUuid } from "uuid";
 
-import prisma from "@/data/db/prisma";
-import { ProductRepository } from "@/data/db/queries/product";
+import prisma from "@/data/repositories/prisma";
+import { ProductRepository } from "@/data/repositories/product";
 import { DProduct } from "@/data/types/domain/product";
 
 import { toDProductsWithItems, toDProductWithDetails } from "./product.mapper";

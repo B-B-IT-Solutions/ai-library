@@ -8,7 +8,7 @@ import {
    getPrompt as pGetPrompt,
    getPromptCategories as pGetPromptCategories,
    getPrompts as pGetPrompts,
-} from "@/data/db/queries/prompt";
+} from "@/data/repositories/prompt/prompt";
 import {
    DPrompt,
    DPromptCreate,
