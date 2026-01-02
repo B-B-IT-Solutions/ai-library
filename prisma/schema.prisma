@@ -72,7 +72,7 @@ model VerificationToken {
 
 model PromptDescriptor {
   id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title            String
+  title            String           @db.VarChar(500)
   categories       PromptCategory[]
   recommendedModel String           @map("recommended_model") @db.VarChar(250)
   isFavorite       Boolean          @default(false) @map("is_favorite")
@@ -101,7 +101,7 @@ model PromptCategory {
 
 model PromptTemplateDescriptor {
   id               String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title            String
+  title            String                   @db.VarChar(500)
   categories       PromptTemplateCategory[]
   recommendedModel String                   @map("recommended_model") @db.VarChar(250)
   createdAt        DateTime                 @default(now()) @map("created_at") @db.Timestamp(6)

@@ -68,7 +68,6 @@ export const getPrompt = async (
    return {
       ...descriptor,
       content: descriptor.prompt?.content || "",
-      followUpPrompts: descriptor.prompt?.followUpPrompts || [],
    };
 };
 
@@ -81,7 +80,7 @@ export const getPromptCategories = async () => {
 };
 
 export const createPrompt = async (data: PromptCreateInput) => {
-   const { content, followUpPrompts, ...descriptorData } = data;
+   const { content, ...descriptorData } = data;
 
    return await prisma.promptDescriptor.create({
       data: {
@@ -89,7 +88,6 @@ export const createPrompt = async (data: PromptCreateInput) => {
          prompt: {
             create: {
                content,
-               followUpPrompts,
             },
          },
       },
@@ -104,7 +102,7 @@ export const updatePrompt = async (
    promptId: string,
    data: PromptUpdateInput
 ) => {
-   const { content, followUpPrompts, ...descriptorData } = data;
+   const { content, ...descriptorData } = data;
 
    return await prisma.promptDescriptor.update({
       where: { id: promptId },
@@ -113,7 +111,6 @@ export const updatePrompt = async (
          prompt: {
             update: {
                content,
-               followUpPrompts,
             },
          },
       },

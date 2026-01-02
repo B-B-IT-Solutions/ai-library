@@ -64,7 +64,7 @@ CREATE TABLE "verification_token" (
 -- CreateTable
 CREATE TABLE "prompt_descriptor" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
-    "title" TEXT NOT NULL,
+    "title" VARCHAR(500) NOT NULL,
     "recommended_model" VARCHAR(250) NOT NULL,
     "is_favorite" BOOLEAN NOT NULL DEFAULT false,
     "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -92,7 +92,7 @@ CREATE TABLE "prompt_category" (
 -- CreateTable
 CREATE TABLE "prompt_template_descriptor" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
-    "title" TEXT NOT NULL,
+    "title" VARCHAR(500) NOT NULL,
     "recommended_model" VARCHAR(250) NOT NULL,
     "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
