@@ -33,10 +33,20 @@ jest.mock("next/server", () => ({
    NextResponse: mockDeep<NextResponse>({ funcPropSupport: true }),
 }));
 
-jest.mock("../src/data/db/prisma", () => ({
-   __esModule: true,
-   default: mockDeep<PrismaClient>(),
-}));
+jest.mock("../src/data/repositories/prisma", () => {
+   const prismaMock = mockDeep<PrismaClient>();
+   prismaMock.$transaction.mockImplementation((arg: any) => {
+      if (Array.isArray(arg)) {
+         return Promise.all(arg);
+      }
+      return arg(prismaMock);
+   });
+
+   return {
+      __esModule: true,
+      default: prismaMock,
+   };
+});
 
 failOnConsole();
 

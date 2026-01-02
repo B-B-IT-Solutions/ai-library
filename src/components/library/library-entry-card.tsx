@@ -95,6 +95,7 @@ export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
                   size="sm"
                   onClick={handleCopy}
                   disabled={isCopying}
+                  className="cursor-pointer"
                   data-testid="copy-button"
                >
                   <Copy className="w-4 h-4 mr-1" />
@@ -105,6 +106,7 @@ export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
                   size="sm"
                   onClick={handleDownload}
                   disabled={isDownloading}
+                  className="cursor-pointer"
                   data-testid="download-button"
                >
                   <Download className="w-4 h-4 mr-1" />

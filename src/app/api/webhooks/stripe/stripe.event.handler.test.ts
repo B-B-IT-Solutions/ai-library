@@ -6,7 +6,6 @@ import { DeepMockProxy } from "jest-mock-extended";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-import prisma from "@/data/db/prisma";
 import { OrderService } from "@/data/services/order";
 
 import { handleStripeEvent } from "./stripe.event.handler";
@@ -26,9 +25,6 @@ const sStripeCheckoutExpiredMock =
 const sStripePaymentFailedMock = sStripePaymentFailed as jest.MockedFunction<
    typeof sStripePaymentFailed
 >;
-
-const mockTransaction = jest.fn((callback) => callback(prisma));
-(prisma.$transaction as jest.Mock) = mockTransaction;
 
 const nextResponseMock = NextResponse as unknown as DeepMockProxy<NextResponse>;
 

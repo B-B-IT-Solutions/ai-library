@@ -1,6 +1,6 @@
 "use server";
 
-import prisma from "@/data/db/prisma";
+import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import { DLibraryEntry } from "@/data/types/domain/library";

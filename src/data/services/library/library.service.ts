@@ -1,14 +1,14 @@
 import { isEmpty, map } from "es-toolkit/compat";
 import { validate as isValidUuid } from "uuid";
 
-import { LibraryRepository } from "@/data/db/queries/library";
-import { createPrompt as pCreatePrompt } from "@/data/db/queries/prompt";
+import { requireUser } from "@/data/actions/auth-utils";
+import { formatError } from "@/data/actions/utils";
+import { LibraryRepository } from "@/data/repositories/library";
+import { createPrompt as pCreatePrompt } from "@/data/repositories/prompt/prompt";
 import { OrderProducts } from "@/data/types/db/order";
 import { DLibraryEntry } from "@/data/types/domain/library";
 import { ActionResult } from "@/data/types/utils";
 import { PromptCreateInput } from "@/generated/prisma/models";
-import { requireUser } from "../../actions/auth-utils";
-import { formatError } from "../../actions/utils";
 
 import { toDLibraryEntries } from "./library.mapper";
 
