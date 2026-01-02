@@ -14,8 +14,11 @@ import {
    ProductWithDetails,
    ProductWithItems,
 } from "@/data/types/db/product";
-import { PromptsPage, PromptWithCategories } from "@/data/types/db/prompt";
-import { PromptTemplateWithCategories } from "@/data/types/db/prompt.template";
+import {
+   PromptDescriptorsPage,
+   PromptDescriptorWithCategories,
+} from "@/data/types/db/prompt";
+import { PromptTemplateDescriptorWithCategories } from "@/data/types/db/prompt.template";
 import { UserUpdateData } from "@/data/types/db/user";
 import { Order } from "@/generated/prisma/browser";
 import {
@@ -28,14 +31,15 @@ import {
    ProductFeature,
    ProductInstruction,
    ProductUseCase,
-   Prompt,
    PromptCategory,
-   PromptTemplate,
+   PromptDescriptor,
    PromptTemplateCategory,
+   PromptTemplateDescriptor,
    User,
 } from "@/generated/prisma/client";
 import {
    PromptCreateInput,
+   PromptDescriptorCreateInput,
    PromptUpdateInput,
 } from "@/generated/prisma/models";
 
@@ -334,14 +338,14 @@ export const pCartItem = (index = 1): CartItem => {
 
 export const pPromptTemplatesWithCategories = (
    count = 3
-): PromptTemplateWithCategories[] => {
+): PromptTemplateDescriptorWithCategories[] => {
    return range(0, count).map((i) => pPromptTemplateWithCategories(i));
 };
 
 export const pPromptTemplateWithCategories = (
    index = 1
-): PromptTemplateWithCategories => {
-   const template = pPromptTemplate(index);
+): PromptTemplateDescriptorWithCategories => {
+   const template = pPromptTemplateDescriptor(index);
    const categories = pPromptTemplateCategories();
    return {
       ...template,
@@ -349,15 +353,18 @@ export const pPromptTemplateWithCategories = (
    };
 };
 
-export const pPromptTemplates = (count = 3): PromptTemplate[] => {
-   return range(0, count).map((i) => pPromptTemplate(i));
+export const pPromptTemplateDescriptors = (
+   count = 3
+): PromptTemplateDescriptor[] => {
+   return range(0, count).map((i) => pPromptTemplateDescriptor(i));
 };
 
-export const pPromptTemplate = (index = 1): PromptTemplate => {
+export const pPromptTemplateDescriptor = (
+   index = 1
+): PromptTemplateDescriptor => {
    return {
       id: `334db648-f300-4284-8149-075ff465d75${index}`,
       title: `title ${index}`,
-      content: `content ${index}`,
       recommendedModel: `model ${index}`,
       updatedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),
@@ -377,11 +384,11 @@ export const pPromptTemplateCategory = (index = 1): PromptTemplateCategory => {
    };
 };
 
-export const pPromptsPage = (): PromptsPage => {
-   const prompts = pPromptsWithCategories();
+export const pPromptDescriptorsPage = (): PromptDescriptorsPage => {
+   const descriptors = pPromptDescriptorssWithCategories();
    return {
-      content: prompts,
-      numberOfElements: prompts.length,
+      content: descriptors,
+      numberOfElements: descriptors.length,
       pageNumber: 1,
       pageSize: 3,
       totalElements: 15,
@@ -389,36 +396,33 @@ export const pPromptsPage = (): PromptsPage => {
    };
 };
 
-export const pPromptsWithCategories = (count = 3): PromptWithCategories[] => {
-   return range(0, count).map((i) => pPromptWithCategories(i));
+export const pPromptDescriptorssWithCategories = (
+   count = 3
+): PromptDescriptorWithCategories[] => {
+   return range(0, count).map((i) => pPromptDescriptorWithCategories(i));
 };
 
-export const pPromptWithCategories = (index = 1): PromptWithCategories => {
-   const template = pPrompt(index);
+export const pPromptDescriptorWithCategories = (
+   index = 1
+): PromptDescriptorWithCategories => {
+   const descriptor = pPromptDescriptor(index);
    const categories = pPromptCategories();
    return {
-      ...template,
+      ...descriptor,
       categories,
    };
 };
 
-export const pPrompts = (count = 3): Prompt[] => {
-   return range(0, count).map((i) => pPrompt(i));
+export const pPromptDescriptors = (count = 3): PromptDescriptor[] => {
+   return range(0, count).map((i) => pPromptDescriptor(i));
 };
 
-export const pPrompt = (index = 1): Prompt => {
+export const pPromptDescriptor = (index = 1): PromptDescriptor => {
    return {
       id: `334db648-f300-4284-8149-075ff465d75${index}`,
       title: `title ${index}`,
-      content: `content ${index}`,
       recommendedModel: `model ${index}`,
-      followUpPrompts: [
-         "follow up prompt 1",
-         "follow up prompt 2",
-         "follow up prompt 3",
-      ],
       isFavorite: true,
-      currentVersion: 1,
       updatedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),
    };
@@ -426,59 +430,31 @@ export const pPrompt = (index = 1): Prompt => {
 
 export const pPromptCreateInput = (index = 1): PromptCreateInput => {
    return {
-      title: `title ${index}`,
       content: `content ${index}`,
-      categories: {
-         connectOrCreate: [
-            {
-               where: {
-                  name: `category ${index}`,
-               },
-               create: {
-                  name: `category ${index}`,
-               },
-            },
-         ],
+      descriptor: {
+         create: {
+            title: `title ${index}`,
+            recommendedModel: `model ${index}`,
+            isFavorite: true,
+            updatedAt: new Date("2025-09-27"),
+            createdAt: new Date("2025-09-27"),
+         },
       },
-      recommendedModel: `model ${index}`,
-      followUpPrompts: [
-         "follow up prompt 1",
-         "follow up prompt 2",
-         "follow up prompt 3",
-      ],
-      isFavorite: true,
-      currentVersion: 1,
-      updatedAt: new Date("2025-09-27"),
-      createdAt: new Date("2025-09-27"),
    };
 };
 
 export const pPromptUpdateInput = (index = 1): PromptUpdateInput => {
    return {
-      title: `title ${index}`,
       content: `content ${index}`,
-      categories: {
-         connectOrCreate: [
-            {
-               where: {
-                  name: `category ${index}`,
-               },
-               create: {
-                  name: `category ${index}`,
-               },
-            },
-         ],
+      descriptor: {
+         create: {
+            title: `title ${index}`,
+            recommendedModel: `model ${index}`,
+            isFavorite: true,
+            updatedAt: new Date("2025-09-27"),
+            createdAt: new Date("2025-09-27"),
+         },
       },
-      recommendedModel: `model ${index}`,
-      followUpPrompts: [
-         "follow up prompt 1",
-         "follow up prompt 2",
-         "follow up prompt 3",
-      ],
-      isFavorite: true,
-      currentVersion: 2,
-      updatedAt: new Date("2025-09-27"),
-      createdAt: new Date("2025-09-27"),
    };
 };
 

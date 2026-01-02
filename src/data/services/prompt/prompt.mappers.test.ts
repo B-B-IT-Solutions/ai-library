@@ -1,61 +1,73 @@
 import { ptestData } from "@tests";
 import { map } from "es-toolkit/compat";
 
-import { PromptsPage, PromptWithCategories } from "@/data/types/db/prompt";
-import { DPrompt, DPromptsPage } from "@/data/types/domain/prompt";
+import {
+   PromptDescriptorsPage,
+   PromptDescriptorWithCategories,
+} from "@/data/types/db/prompt";
+import {
+   DPromptDescriptor,
+   DPromptDescriptorsPage,
+} from "@/data/types/domain/prompt";
 
-import { toDPrompt, toDPrompts, toDPromptsPage } from "./prompt.mapper";
+import {
+   toDPromptDescriptor,
+   toDPromptDescriptors,
+   toDPromptDescriptorsPage,
+} from "./prompt.mapper";
 
-const toDPromptsPageInternal = (pPromptsPage: PromptsPage): DPromptsPage => {
+const toDPromptDescriptorsPageInternal = (
+   pPromptsPage: PromptDescriptorsPage
+): DPromptDescriptorsPage => {
    return {
       ...pPromptsPage,
-      content: toDPromptsInternal(pPromptsPage.content),
+      content: toDPromptDescriptorsInternal(pPromptsPage.content),
    };
 };
 
-const toDPromptsInternal = (pPrompts: PromptWithCategories[]): DPrompt[] => {
-   return map(pPrompts, (dbP) => toDPrompt(dbP));
+const toDPromptDescriptorsInternal = (
+   pPrompts: PromptDescriptorWithCategories[]
+): DPromptDescriptor[] => {
+   return map(pPrompts, (dbP) => toDPromptDescriptor(dbP));
 };
 
-const toDPromptInternal = (prompt: PromptWithCategories): DPrompt => {
+const toDPromptDescriptorInternal = (
+   prompt: PromptDescriptorWithCategories
+): DPromptDescriptor => {
    return {
       id: prompt.id,
       title: prompt.title,
-      content: prompt.content,
       categories: prompt.categories,
       recommendedModel: prompt.recommendedModel,
-      followUpPrompts: prompt.followUpPrompts,
-      currentVersion: prompt.currentVersion,
       isFavorite: prompt.isFavorite,
-      versions: [],
       updatedAt: prompt.updatedAt.toISOString(),
       createdAt: prompt.createdAt.toISOString(),
    };
 };
 
-describe("toDPrompt tests", () => {
+describe("toDPromptDescriptors tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
    });
 
-   it("toDPromptsPage test", async () => {
-      const page = ptestData.pPromptsPage();
-      const result = toDPromptsPage(page);
-      const expectedResult = toDPromptsPageInternal(page);
+   it("toDPromptDescriptorsPage test", async () => {
+      const page = ptestData.pPromptDescriptorsPage();
+      const result = toDPromptDescriptorsPage(page);
+      const expectedResult = toDPromptDescriptorsPageInternal(page);
       expect(result).toEqual(expectedResult);
    });
 
-   it("toDPrompts test", async () => {
-      const prompts = ptestData.pPromptsWithCategories();
-      const result = toDPrompts(prompts);
-      const expectedResult = toDPromptsInternal(prompts);
+   it("toDPromptDescriptors test", async () => {
+      const prompts = ptestData.pPromptDescriptorssWithCategories();
+      const result = toDPromptDescriptors(prompts);
+      const expectedResult = toDPromptDescriptorsInternal(prompts);
       expect(result).toEqual(expectedResult);
    });
 
-   it("toDPrompt test", async () => {
-      const prompt = ptestData.pPromptWithCategories();
-      const result = toDPrompt(prompt);
-      const expectedResult = toDPromptInternal(prompt);
+   it("toDPromptDescriptor test", async () => {
+      const prompt = ptestData.pPromptDescriptorWithCategories();
+      const result = toDPromptDescriptor(prompt);
+      const expectedResult = toDPromptDescriptorInternal(prompt);
       expect(result).toEqual(expectedResult);
    });
 });

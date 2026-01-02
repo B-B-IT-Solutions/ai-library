@@ -1,18 +1,21 @@
 import { map } from "es-toolkit/compat";
 
-import { PromptsPage, PromptWithCategories } from "@/data/types/db/prompt";
-import { PromptTemplateWithCategories } from "@/data/types/db/prompt.template";
-import { DPrompt, DPromptsPage } from "@/data/types/domain/prompt";
+import {
+   PromptDescriptorsPage,
+   PromptDescriptorWithCategories,
+} from "@/data/types/db/prompt";
+import { PromptTemplateDescriptorWithCategories } from "@/data/types/db/prompt.template";
+import { DPrompt, DPromptDescriptorsPage } from "@/data/types/domain/prompt";
 import { DPromptTemplate } from "@/data/types/domain/prompt.template";
 
 export const toDPromptTemplates = (
-   pPrompts: PromptTemplateWithCategories[]
+   pPrompts: PromptTemplateDescriptorWithCategories[]
 ): DPromptTemplate[] => {
    return map(pPrompts, (dbP) => toDPromptTemplate(dbP));
 };
 
 export const toDPromptTemplate = (
-   prompt: PromptTemplateWithCategories
+   prompt: PromptTemplateDescriptorWithCategories
 ): DPromptTemplate => {
    return {
       id: prompt.id,
@@ -25,18 +28,22 @@ export const toDPromptTemplate = (
    };
 };
 
-export const toDPromptsPage = (pPromptsPage: PromptsPage): DPromptsPage => {
+export const toDPromptsPage = (
+   pPromptsPage: PromptDescriptorsPage
+): DPromptDescriptorsPage => {
    return {
       ...pPromptsPage,
       content: toDPrompts(pPromptsPage.content),
    };
 };
 
-export const toDPrompts = (pPrompts: PromptWithCategories[]): DPrompt[] => {
+export const toDPrompts = (
+   pPrompts: PromptDescriptorWithCategories[]
+): DPrompt[] => {
    return map(pPrompts, (dbP) => toDPrompt(dbP));
 };
 
-export const toDPrompt = (prompt: PromptWithCategories): DPrompt => {
+export const toDPrompt = (prompt: PromptDescriptorWithCategories): DPrompt => {
    return {
       id: prompt.id,
       title: prompt.title,

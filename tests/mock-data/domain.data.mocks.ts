@@ -16,9 +16,9 @@ import {
    DPrompt,
    DPromptCategory,
    DPromptCreate,
-   DPromptsFilter,
-   DPromptsPage,
-   DPromptsPageQuery,
+   DPromptDescriptorsFilter,
+   DPromptDescriptorsPage,
+   DPromptDescriptorsPageQuery,
    DPromptVersion,
 } from "@/data/types/domain/prompt";
 import {
@@ -237,7 +237,7 @@ export const dPromptTemplateCategory = (index = 1): DPromptTemplateCategory => {
    };
 };
 
-export const dPromptsPage = (): DPromptsPage => {
+export const dPromptsPage = (): DPromptDescriptorsPage => {
    const prompts = dPrompts();
    return {
       content: prompts,
@@ -309,7 +309,7 @@ export const dPromptVersion = (index = 1): DPromptVersion => {
    };
 };
 
-export const dPromptsPageQuery = (): DPromptsPageQuery => {
+export const dPromptsPageQuery = (): DPromptDescriptorsPageQuery => {
    return {
       pagination: {
          pageNumber: 15,
@@ -320,7 +320,7 @@ export const dPromptsPageQuery = (): DPromptsPageQuery => {
    };
 };
 
-export const dPromptsFilter = (): DPromptsFilter => {
+export const dPromptsFilter = (): DPromptDescriptorsFilter => {
    return {
       categories: ["cat 1", "cat 2", "cat 3"],
    };

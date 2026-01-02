@@ -8,7 +8,7 @@ import {
    getPromptTemplateDescriptors as pGetPromptTemplates,
 } from "@/data/repositories/prompt/prompt.template";
 
-import { toDPromptTemplates } from "./prompt.mapper";
+import { toDPromptTemplateDescriptors } from "./prompt.mapper";
 import {
    getPromptTemplateCategories,
    getPromptTemplates,
@@ -33,7 +33,7 @@ describe("getPromptTemplates tests", () => {
       pGetPromptTemplatesMock.mockResolvedValue(templates);
 
       const result = await getPromptTemplates();
-      const expectedResult = toDPromptTemplates(templates);
+      const expectedResult = toDPromptTemplateDescriptors(templates);
 
       expect(result).toEqual(expectedResult);
       expect(pGetPromptTemplatesMock).toHaveBeenCalledTimes(1);
@@ -45,7 +45,7 @@ describe("getPromptTemplates tests", () => {
       pGetPromptTemplatesMock.mockResolvedValue(templates);
 
       const result = await getPromptTemplates({});
-      const expectedResult = toDPromptTemplates(templates);
+      const expectedResult = toDPromptTemplateDescriptors(templates);
 
       expect(result).toEqual(expectedResult);
       expect(pGetPromptTemplatesMock).toHaveBeenCalledTimes(1);
@@ -61,7 +61,7 @@ describe("getPromptTemplates tests", () => {
       const params = { search, categories };
 
       const result = await getPromptTemplates(params);
-      const expectedResult = toDPromptTemplates(templates);
+      const expectedResult = toDPromptTemplateDescriptors(templates);
 
       expect(result).toEqual(expectedResult);
       expect(pGetPromptTemplatesMock).toHaveBeenCalledTimes(1);

@@ -2,17 +2,12 @@ import { map } from "es-toolkit/compat";
 import { validate as isValidUuid } from "uuid";
 
 import { formatError } from "@/data/actions/utils";
+import { PromptRepository } from "@/data/repositories/prompt";
 import {
-   createPrompt as pCreatePrompt,
-   getPrompt as pGetPrompt,
-   getPromptCategories as pGetPromptCategories,
-   getPrompts as pGetPrompts,
-} from "@/data/repositories/prompt/prompt";
-import {
-   DPrompt,
    DPromptCreate,
-   DPromptsPage,
-   DPromptsPageQuery,
+   DPromptDescriptor,
+   DPromptDescriptorsPage,
+   DPromptDescriptorsPageQuery,
 } from "@/data/types/domain/prompt";
 import { createPromptSchema } from "@/data/types/validators/prompt.schema";
 import {
@@ -20,67 +15,80 @@ import {
    PromptCreateInput,
 } from "@/generated/prisma/models";
 
-import { toDPrompt, toDPromptsPage } from "./prompt.mapper";
+import { toDPromptDescriptor, toDPromptDescriptorsPage } from "./prompt.mapper";
 
-export const getPrompts = async (
-   query?: DPromptsPageQuery
-): Promise<DPromptsPage> => {
-   const data = await pGetPrompts(query);
-   return toDPromptsPage(data);
-};
+export class PromptService {
+   private promptRepository: PromptRepository;
 
-export const getPrompt = async (id: string): Promise<DPrompt | undefined> => {
-   if (isValidUuid(id)) {
-      const data = await pGetPrompt({ id });
-      if (data) {
-         return toDPrompt(data);
+   constructor(promptRepository: PromptRepository) {
+      this.promptRepository = promptRepository;
+   }
+
+   async getPrompts(
+      query?: DPromptDescriptorsPageQuery
+   ): Promise<DPromptDescriptorsPage> {
+      const data = await this.promptRepository.pGetPromptDescriptors(query);
+      return toDPromptDescriptorsPage(data);
+   }
+
+   async getPrompt(id: string): Promise<DPromptDescriptor | undefined> {
+      if (isValidUuid(id)) {
+         const data = await this.promptRepository.pGetPromptDescriptor({ id });
+         if (data) {
+            return toDPromptDescriptor(data);
+         }
+      }
+      return undefined;
+   }
+
+   async getPromptCategories(): Promise<string[]> {
+      const categories = await this.promptRepository.pGetPromptCategories();
+      return map(categories, (c) => c.name);
+   }
+
+   async createPrompt(data: DPromptCreate) {
+      try {
+         const prompt = createPromptSchema.parse(data);
+         const categories = this.createOrConnectCategories(prompt.categories);
+
+         const toSave: PromptCreateInput = {
+            content: prompt.content,
+            descriptor: {
+               create: {
+                  title: prompt.title,
+                  recommendedModel: prompt.recommendedModel,
+                  categories: {
+                     connectOrCreate: categories,
+                  },
+               },
+            },
+         };
+         await this.promptRepository.pCreatePrompt(toSave);
+
+         return {
+            success: true,
+            message: "Prompt created sucessfully.",
+         };
+      } catch (error) {
+         return {
+            success: false,
+            message: formatError(error),
+         };
       }
    }
-   return undefined;
-};
 
-export const getPromptCategories = async (): Promise<string[]> => {
-   const categories = await pGetPromptCategories();
-   return map(categories, (c) => c.name);
-};
-
-export const createPrompt = async (data: DPromptCreate) => {
-   try {
-      const prompt = createPromptSchema.parse(data);
-      const categories = createOrConnectCategories(prompt.categories);
-
-      const toSave: PromptCreateInput = {
-         ...prompt,
-         currentVersion: 1,
-         categories: {
-            connectOrCreate: categories,
-         },
-      };
-      await pCreatePrompt(toSave);
-
-      return {
-         success: true,
-         message: "Prompt created sucessfully.",
-      };
-   } catch (error) {
-      return {
-         success: false,
-         message: formatError(error),
-      };
+   private createOrConnectCategories(
+      categories: string[]
+   ): PromptCategoryCreateOrConnectWithoutPromptsInput[] {
+      return map(categories, (cat: string) => {
+         return {
+            where: {
+               name: cat,
+            },
+            create: {
+               name: cat,
+            },
+         };
+      });
    }
-};
-
-const createOrConnectCategories = (
-   categories: string[]
-): PromptCategoryCreateOrConnectWithoutPromptsInput[] => {
-   return map(categories, (cat: string) => {
-      return {
-         where: {
-            name: cat,
-         },
-         create: {
-            name: cat,
-         },
-      };
-   });
-};
+}

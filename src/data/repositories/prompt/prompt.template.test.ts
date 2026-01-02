@@ -18,7 +18,7 @@ describe("getPromptTemplates tests", () => {
    });
 
    test("getPromptTemplates - prompts - params undefined - retrieved - test", async () => {
-      const prompts = ptestData.pPromptTemplates();
+      const prompts = ptestData.pPromptTemplateDescriptors();
       prismaMock.promptTemplate.findMany.mockResolvedValue(prompts);
 
       const result = await getPromptTemplateDescriptors();
@@ -38,7 +38,7 @@ describe("getPromptTemplates tests", () => {
    });
 
    test("getPromptTemplates - prompts - params empty - retrieved - test", async () => {
-      const prompts = ptestData.pPromptTemplates();
+      const prompts = ptestData.pPromptTemplateDescriptors();
       prismaMock.promptTemplate.findMany.mockResolvedValue(prompts);
 
       const result = await getPromptTemplateDescriptors({});
@@ -58,7 +58,7 @@ describe("getPromptTemplates tests", () => {
    });
 
    test("getPromptTemplates - prompts - params.search defined  - retrieved - test", async () => {
-      const prompts = ptestData.pPromptTemplates();
+      const prompts = ptestData.pPromptTemplateDescriptors();
       prismaMock.promptTemplate.findMany.mockResolvedValue(prompts);
 
       const search = "prompt 1";
@@ -98,7 +98,7 @@ describe("getPromptTemplates tests", () => {
    });
 
    test("getPromptTemplates - prompts - params.categories defined  - retrieved - test", async () => {
-      const prompts = ptestData.pPromptTemplates();
+      const prompts = ptestData.pPromptTemplateDescriptors();
       prismaMock.promptTemplate.findMany.mockResolvedValue(prompts);
 
       const categories = ["cat 1", "cat2", "cat 3"];
@@ -132,7 +132,7 @@ describe("getPromptTemplates tests", () => {
    });
 
    test("getPromptTemplates - prompts - params defined  - retrieved - test", async () => {
-      const prompts = ptestData.pPromptTemplates();
+      const prompts = ptestData.pPromptTemplateDescriptors();
       prismaMock.promptTemplate.findMany.mockResolvedValue(prompts);
 
       const search = "prompt 123";

@@ -15,7 +15,10 @@ import {
    getPromptCategories,
    getPrompts,
 } from "@/data/actions/prompt/prompt.actions";
-import { DPromptsPage, DPromptsPageQuery } from "@/data/types/domain/prompt";
+import {
+   DPromptDescriptorsPage,
+   DPromptDescriptorsPageQuery,
+} from "@/data/types/domain/prompt";
 
 import {
    infiniteLoadPromptsOptions,
@@ -51,7 +54,7 @@ describe("prefetch options tests", () => {
       };
 
       const options = preloadPromptsOptions();
-      const queryFn = options.queryFn as QueryFunction<DPromptsPage>;
+      const queryFn = options.queryFn as QueryFunction<DPromptDescriptorsPage>;
       const context = {} as QueryFunctionContext;
       const fnResult = await queryFn(context);
 
@@ -93,9 +96,9 @@ describe("loadPrompts hooks tests", () => {
       };
 
       const expectedOptions: UndefinedInitialDataInfiniteOptions<
-         DPromptsPage,
+         DPromptDescriptorsPage,
          Error,
-         InfiniteData<DPromptsPage, unknown>,
+         InfiniteData<DPromptDescriptorsPage, unknown>,
          QueryKey,
          number
       > = {
@@ -123,7 +126,7 @@ describe("loadPrompts hooks tests", () => {
          useInfiniteLoadPrompts(params)
       );
 
-      const expectedQuery: DPromptsPageQuery = {
+      const expectedQuery: DPromptDescriptorsPageQuery = {
          pagination: { pageNumber: 0, pageSize: 10 },
          globalFilter: params.search,
          filter: filter,

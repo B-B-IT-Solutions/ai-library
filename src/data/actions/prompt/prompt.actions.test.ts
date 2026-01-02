@@ -9,7 +9,7 @@ import {
    getPromptCategories as pGetPromptCategories,
    getPrompts as pGetPrompts,
 } from "@/data/repositories/prompt/prompt";
-import { DPromptsPageQuery } from "@/data/types/domain/prompt";
+import { DPromptDescriptorsPageQuery } from "@/data/types/domain/prompt";
 
 import {
    createPrompt,
@@ -34,7 +34,7 @@ describe("getPromptss tests", () => {
    });
 
    it("getPrompts - query undefined - test", async () => {
-      const page = ptestData.pPromptsPage();
+      const page = ptestData.pPromptDescriptorsPage();
       pGetPromptsMock.mockResolvedValue(page);
 
       const result = await getPrompts();
@@ -46,10 +46,10 @@ describe("getPromptss tests", () => {
    });
 
    it("getPrompts - query empty - test", async () => {
-      const page = ptestData.pPromptsPage();
+      const page = ptestData.pPromptDescriptorsPage();
       pGetPromptsMock.mockResolvedValue(page);
 
-      const query: DPromptsPageQuery = {};
+      const query: DPromptDescriptorsPageQuery = {};
       const result = await getPrompts(query);
       const expectedResult = toDPromptsPage(page);
 
@@ -59,7 +59,7 @@ describe("getPromptss tests", () => {
    });
 
    it("getPrompts - query defined - test", async () => {
-      const page = ptestData.pPromptsPage();
+      const page = ptestData.pPromptDescriptorsPage();
       pGetPromptsMock.mockResolvedValue(page);
 
       const query = dtestData.dPromptsPageQuery();
@@ -116,7 +116,7 @@ describe("getPrompt tests", () => {
    });
 
    it("getPrompt  - product defined - test", async () => {
-      const prompt = ptestData.pPromptWithCategories();
+      const prompt = ptestData.pPromptDescriptorWithCategories();
       pGetPromptMock.mockResolvedValue(prompt);
 
       const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";

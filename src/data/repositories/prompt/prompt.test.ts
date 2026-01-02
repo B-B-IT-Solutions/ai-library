@@ -3,40 +3,39 @@ import { ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { PromptsPage, PromptsPageQuery } from "@/data/types/db/prompt";
+import {
+   PromptDescriptorsPage,
+   PromptDescriptorsPageQuery,
+} from "@/data/types/db/prompt";
 import { Prisma } from "@/generated/prisma/client";
 import {
    PromptCategoryFindManyArgs,
-   PromptCountArgs,
-   PromptFindFirstArgs,
-   PromptFindManyArgs,
-   PromptWhereInput,
+   PromptCreateArgs,
+   PromptDescriptorCountArgs,
+   PromptDescriptorFindFirstArgs,
+   PromptDescriptorFindManyArgs,
+   PromptDescriptorWhereInput,
 } from "@/generated/prisma/models";
 
-import {
-   createPrompt,
-   getPrompt,
-   getPromptCategories,
-   GetPromptQuery,
-   getPrompts,
-   updatePrompt,
-} from "./prompt";
+import { GetPromptQuery, PromptRepository } from "./prompt";
 
-export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
+const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
-describe("getPrompts tests", () => {
+const promptRepository = new PromptRepository(prismaMock);
+
+describe("pGetPromptDescriptors tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   test("getPrompts - query undefined - test", async () => {
-      const prompts = ptestData.pPromptsWithCategories();
-      prismaMock.prompt.findMany.mockResolvedValue(prompts);
-      prismaMock.prompt.count.mockResolvedValue(prompts.length);
+   test("pGetPromptDescriptors - query undefined - test", async () => {
+      const prompts = ptestData.pPromptDescriptorssWithCategories();
+      prismaMock.promptDescriptor.findMany.mockResolvedValue(prompts);
+      prismaMock.promptDescriptor.count.mockResolvedValue(prompts.length);
 
-      const result = await getPrompts();
+      const result = await promptRepository.pGetPromptDescriptors();
 
-      const expectedResult: PromptsPage = {
+      const expectedResult: PromptDescriptorsPage = {
          content: prompts,
          numberOfElements: prompts.length,
          pageNumber: 0,
@@ -45,7 +44,7 @@ describe("getPrompts tests", () => {
          totalPages: 1,
       };
       const expectedWhereClause = undefined;
-      const expectedFindManyArgs: PromptFindManyArgs = {
+      const expectedFindManyArgs: PromptDescriptorFindManyArgs = {
          where: expectedWhereClause,
          skip: 0,
          take: 10,
@@ -53,29 +52,31 @@ describe("getPrompts tests", () => {
             categories: true,
          },
       };
-      const expedtedCountArgs: PromptCountArgs = {
+      const expedtedCountArgs: PromptDescriptorCountArgs = {
          where: expectedWhereClause,
       };
 
       expect(result).toEqual(expectedResult);
       expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
+      expect(prismaMock.promptDescriptor.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptDescriptor.findMany).toHaveBeenCalledWith(
          expectedFindManyArgs
       );
-      expect(prismaMock.prompt.count).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.count).toHaveBeenCalledWith(expedtedCountArgs);
+      expect(prismaMock.promptDescriptor.count).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptDescriptor.count).toHaveBeenCalledWith(
+         expedtedCountArgs
+      );
    });
 
-   test("getPrompts - query empty - test", async () => {
-      const prompts = ptestData.pPromptsWithCategories();
-      prismaMock.prompt.findMany.mockResolvedValue(prompts);
-      prismaMock.prompt.count.mockResolvedValue(prompts.length);
+   test("pGetPromptDescriptors - query empty - test", async () => {
+      const prompts = ptestData.pPromptDescriptorssWithCategories();
+      prismaMock.promptDescriptor.findMany.mockResolvedValue(prompts);
+      prismaMock.promptDescriptor.count.mockResolvedValue(prompts.length);
 
-      const query: PromptsPageQuery = {};
-      const result = await getPrompts(query);
+      const query: PromptDescriptorsPageQuery = {};
+      const result = await promptRepository.pGetPromptDescriptors(query);
 
-      const expectedResult: PromptsPage = {
+      const expectedResult: PromptDescriptorsPage = {
          content: prompts,
          numberOfElements: prompts.length,
          pageNumber: 0,
@@ -84,7 +85,7 @@ describe("getPrompts tests", () => {
          totalPages: 1,
       };
       const expectedWhereClause = undefined;
-      const expectedFindManyArgs: PromptFindManyArgs = {
+      const expectedFindManyArgs: PromptDescriptorFindManyArgs = {
          where: expectedWhereClause,
          skip: 0,
          take: 10,
@@ -92,32 +93,34 @@ describe("getPrompts tests", () => {
             categories: true,
          },
       };
-      const expedtedCountArgs: PromptCountArgs = {
+      const expedtedCountArgs: PromptDescriptorCountArgs = {
          where: expectedWhereClause,
       };
 
       expect(result).toEqual(expectedResult);
       expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
+      expect(prismaMock.promptDescriptor.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptDescriptor.findMany).toHaveBeenCalledWith(
          expectedFindManyArgs
       );
-      expect(prismaMock.prompt.count).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.count).toHaveBeenCalledWith(expedtedCountArgs);
+      expect(prismaMock.promptDescriptor.count).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptDescriptor.count).toHaveBeenCalledWith(
+         expedtedCountArgs
+      );
    });
 
-   test("getPrompts - query.globalFilter defined - test", async () => {
-      const prompts = ptestData.pPromptsWithCategories(21);
-      prismaMock.prompt.findMany.mockResolvedValue(prompts);
-      prismaMock.prompt.count.mockResolvedValue(prompts.length);
+   test("pGetPromptDescriptors - query.globalFilter defined - test", async () => {
+      const prompts = ptestData.pPromptDescriptorssWithCategories(21);
+      prismaMock.promptDescriptor.findMany.mockResolvedValue(prompts);
+      prismaMock.promptDescriptor.count.mockResolvedValue(prompts.length);
 
-      const query: PromptsPageQuery = {
+      const query: PromptDescriptorsPageQuery = {
          pagination: { pageNumber: 3, pageSize: 5 },
          globalFilter: "test 123",
       };
-      const result = await getPrompts(query);
+      const result = await promptRepository.pGetPromptDescriptors(query);
 
-      const expectedResult: PromptsPage = {
+      const expectedResult: PromptDescriptorsPage = {
          content: prompts,
          numberOfElements: prompts.length,
          pageNumber: 3,
@@ -125,7 +128,7 @@ describe("getPrompts tests", () => {
          totalElements: 21,
          totalPages: 5,
       };
-      const expectedWhereClause: PromptWhereInput = {
+      const expectedWhereClause: PromptDescriptorWhereInput = {
          OR: [
             {
                title: {
@@ -134,14 +137,16 @@ describe("getPrompts tests", () => {
                },
             },
             {
-               content: {
-                  contains: query.globalFilter,
-                  mode: "insensitive",
+               prompt: {
+                  content: {
+                     contains: query.globalFilter,
+                     mode: "insensitive",
+                  },
                },
             },
          ],
       };
-      const expectedFindManyArgs: PromptFindManyArgs = {
+      const expectedFindManyArgs: PromptDescriptorFindManyArgs = {
          where: expectedWhereClause,
          skip: 15,
          take: 5,
@@ -149,34 +154,36 @@ describe("getPrompts tests", () => {
             categories: true,
          },
       };
-      const expedtedCountArgs: PromptCountArgs = {
+      const expedtedCountArgs: PromptDescriptorCountArgs = {
          where: expectedWhereClause,
       };
 
       expect(result).toEqual(expectedResult);
       expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
+      expect(prismaMock.promptDescriptor.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptDescriptor.findMany).toHaveBeenCalledWith(
          expectedFindManyArgs
       );
-      expect(prismaMock.prompt.count).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.count).toHaveBeenCalledWith(expedtedCountArgs);
+      expect(prismaMock.promptDescriptor.count).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptDescriptor.count).toHaveBeenCalledWith(
+         expedtedCountArgs
+      );
    });
 
-   test("getPrompts - query.filter defined - test", async () => {
-      const prompts = ptestData.pPromptsWithCategories(21);
-      prismaMock.prompt.findMany.mockResolvedValue(prompts);
-      prismaMock.prompt.count.mockResolvedValue(prompts.length);
+   test("pGetPromptDescriptors - query.filter defined - test", async () => {
+      const prompts = ptestData.pPromptDescriptorssWithCategories(21);
+      prismaMock.promptDescriptor.findMany.mockResolvedValue(prompts);
+      prismaMock.promptDescriptor.count.mockResolvedValue(prompts.length);
 
-      const query: PromptsPageQuery = {
+      const query: PromptDescriptorsPageQuery = {
          pagination: { pageNumber: 3, pageSize: 5 },
          filter: {
             categories: ["cat 123"],
          },
       };
-      const result = await getPrompts(query);
+      const result = await promptRepository.pGetPromptDescriptors(query);
 
-      const expectedResult: PromptsPage = {
+      const expectedResult: PromptDescriptorsPage = {
          content: prompts,
          numberOfElements: prompts.length,
          pageNumber: 3,
@@ -184,7 +191,7 @@ describe("getPrompts tests", () => {
          totalElements: 21,
          totalPages: 5,
       };
-      const expectedWhereClause: PromptWhereInput = {
+      const expectedWhereClause: PromptDescriptorWhereInput = {
          AND: [
             {
                categories: {
@@ -197,7 +204,7 @@ describe("getPrompts tests", () => {
             },
          ],
       };
-      const expectedFindManyArgs: PromptFindManyArgs = {
+      const expectedFindManyArgs: PromptDescriptorFindManyArgs = {
          where: expectedWhereClause,
          skip: 15,
          take: 5,
@@ -205,35 +212,37 @@ describe("getPrompts tests", () => {
             categories: true,
          },
       };
-      const expedtedCountArgs: PromptCountArgs = {
+      const expedtedCountArgs: PromptDescriptorCountArgs = {
          where: expectedWhereClause,
       };
 
       expect(result).toEqual(expectedResult);
       expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
+      expect(prismaMock.promptDescriptor.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptDescriptor.findMany).toHaveBeenCalledWith(
          expectedFindManyArgs
       );
-      expect(prismaMock.prompt.count).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.count).toHaveBeenCalledWith(expedtedCountArgs);
+      expect(prismaMock.promptDescriptor.count).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptDescriptor.count).toHaveBeenCalledWith(
+         expedtedCountArgs
+      );
    });
 
-   test("getPrompts - query defined - test", async () => {
-      const prompts = ptestData.pPromptsWithCategories(21);
-      prismaMock.prompt.findMany.mockResolvedValue(prompts);
-      prismaMock.prompt.count.mockResolvedValue(prompts.length);
+   test("pGetPromptDescriptors - query defined - test", async () => {
+      const prompts = ptestData.pPromptDescriptorssWithCategories(21);
+      prismaMock.promptDescriptor.findMany.mockResolvedValue(prompts);
+      prismaMock.promptDescriptor.count.mockResolvedValue(prompts.length);
 
-      const query: PromptsPageQuery = {
+      const query: PromptDescriptorsPageQuery = {
          pagination: { pageNumber: 3, pageSize: 5 },
          globalFilter: "test 1",
          filter: {
             categories: ["cat 1"],
          },
       };
-      const result = await getPrompts(query);
+      const result = await promptRepository.pGetPromptDescriptors(query);
 
-      const expectedResult: PromptsPage = {
+      const expectedResult: PromptDescriptorsPage = {
          content: prompts,
          numberOfElements: prompts.length,
          pageNumber: 3,
@@ -241,7 +250,7 @@ describe("getPrompts tests", () => {
          totalElements: 21,
          totalPages: 5,
       };
-      const expectedWhereClause: PromptWhereInput = {
+      const expectedWhereClause: PromptDescriptorWhereInput = {
          OR: [
             {
                title: {
@@ -250,9 +259,11 @@ describe("getPrompts tests", () => {
                },
             },
             {
-               content: {
-                  contains: query.globalFilter,
-                  mode: "insensitive",
+               prompt: {
+                  content: {
+                     contains: query.globalFilter,
+                     mode: "insensitive",
+                  },
                },
             },
          ],
@@ -268,7 +279,7 @@ describe("getPrompts tests", () => {
             },
          ],
       };
-      const expectedFindManyArgs: PromptFindManyArgs = {
+      const expectedFindManyArgs: PromptDescriptorFindManyArgs = {
          where: expectedWhereClause,
          skip: 15,
          take: 5,
@@ -276,34 +287,36 @@ describe("getPrompts tests", () => {
             categories: true,
          },
       };
-      const expedtedCountArgs: PromptCountArgs = {
+      const expedtedCountArgs: PromptDescriptorCountArgs = {
          where: expectedWhereClause,
       };
 
       expect(result).toEqual(expectedResult);
       expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.findMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.findMany).toHaveBeenCalledWith(
+      expect(prismaMock.promptDescriptor.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptDescriptor.findMany).toHaveBeenCalledWith(
          expectedFindManyArgs
       );
-      expect(prismaMock.prompt.count).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.count).toHaveBeenCalledWith(expedtedCountArgs);
+      expect(prismaMock.promptDescriptor.count).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptDescriptor.count).toHaveBeenCalledWith(
+         expedtedCountArgs
+      );
    });
 });
 
-describe("getPrompt tests", () => {
+describe("pGetPromptDescriptor tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   test("getPrompt - id defiend - slug undefined - test", async () => {
-      const prompt = ptestData.pPromptWithCategories();
-      prismaMock.prompt.findFirst.mockResolvedValue(prompt);
+   test("pGetPromptDescriptor - id defiend - slug undefined - test", async () => {
+      const prompt = ptestData.pPromptDescriptorWithCategories();
+      prismaMock.promptDescriptor.findFirst.mockResolvedValue(prompt);
 
       const query: GetPromptQuery = { id: "1" };
-      const result = await getPrompt(query);
+      const result = await promptRepository.pGetPromptDescriptor(query);
 
-      const expectedWhere: PromptFindFirstArgs = {
+      const expectedWhere: PromptDescriptorFindFirstArgs = {
          where: {
             id: query.id,
          },
@@ -312,17 +325,19 @@ describe("getPrompt tests", () => {
          },
       };
       expect(result).toEqual(prompt);
-      expect(prismaMock.prompt.findFirst).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.findFirst).toHaveBeenCalledWith(expectedWhere);
+      expect(prismaMock.promptDescriptor.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptDescriptor.findFirst).toHaveBeenCalledWith(
+         expectedWhere
+      );
    });
 
-   test("getPrompt - id undefiend - slug defined - test", async () => {
-      prismaMock.prompt.findFirst.mockResolvedValue(null);
+   test("pGetPromptDescriptor - id undefiend - slug defined - test", async () => {
+      prismaMock.promptDescriptor.findFirst.mockResolvedValue(null);
 
       const query: GetPromptQuery = { id: "1" };
-      const result = await getPrompt(query);
+      const result = await promptRepository.pGetPromptDescriptor(query);
 
-      const expectedWhere: PromptFindFirstArgs = {
+      const expectedWhere: PromptDescriptorFindFirstArgs = {
          where: {
             id: query.id,
          },
@@ -332,8 +347,10 @@ describe("getPrompt tests", () => {
       };
 
       expect(result).toBeNull();
-      expect(prismaMock.prompt.findFirst).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.findFirst).toHaveBeenCalledWith(expectedWhere);
+      expect(prismaMock.promptDescriptor.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptDescriptor.findFirst).toHaveBeenCalledWith(
+         expectedWhere
+      );
    });
 });
 
@@ -346,7 +363,7 @@ describe("getPromptCategories queries tests", () => {
       const categories = ptestData.pPromptCategories();
       prismaMock.promptCategory.findMany.mockResolvedValue(categories);
 
-      const result = await getPromptCategories();
+      const result = await promptRepository.pGetPromptCategories();
 
       const expectedFindMayArgs: PromptCategoryFindManyArgs = {
          select: {
@@ -368,37 +385,40 @@ describe("createPrompt tests", () => {
    });
 
    test("createPrompt - prompt created - test", async () => {
-      const prompt = ptestData.pPromptCreateInput();
-      prismaMock.prompt.create.mockResolvedValue(prompt);
-      const result = await createPrompt(prompt);
+      const input = ptestData.pPromptCreateInput();
+      prismaMock.prompt.create.mockResolvedValue(input);
+      const result = await promptRepository.pCreatePrompt(input);
 
-      const expectedCreateArgs: Prisma.PromptCreateArgs = {
-         data: prompt,
+      const expectedCreateArgs: PromptCreateArgs = {
+         data: {
+            content: input.content,
+            descriptor: input.descriptor,
+         },
       };
 
-      expect(result).toEqual(prompt);
+      expect(result).toEqual(input);
       expect(prismaMock.prompt.create).toHaveBeenCalledTimes(1);
       expect(prismaMock.prompt.create).toHaveBeenCalledWith(expectedCreateArgs);
    });
 });
 
-describe("updateCart tests", () => {
+describe("updatePrompt tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   test("updateCart - prompt updated - test", async () => {
+   test("updatePrompt - prompt updated - test", async () => {
       const promptId = "prompt-id-1";
-      const prompt = ptestData.pPromptUpdateInput();
-      prismaMock.prompt.update.mockResolvedValue(prompt);
-      const result = await updatePrompt(promptId, prompt);
+      const input = ptestData.pPromptUpdateInput();
+      prismaMock.prompt.update.mockResolvedValue(input);
+      const result = await promptRepository.pUpdatePrompt(promptId, input);
 
       const expectedUpdateArgs: Prisma.PromptUpdateArgs = {
          where: { id: promptId },
-         data: prompt,
+         data: input,
       };
 
-      expect(result).toEqual(prompt);
+      expect(result).toEqual(input);
       expect(prismaMock.prompt.update).toHaveBeenCalledTimes(1);
       expect(prismaMock.prompt.update).toHaveBeenCalledWith(expectedUpdateArgs);
    });

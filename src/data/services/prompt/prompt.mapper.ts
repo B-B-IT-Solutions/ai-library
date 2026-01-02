@@ -1,23 +1,28 @@
 import { map } from "es-toolkit/compat";
 
-import { PromptsPage, PromptWithCategories } from "@/data/types/db/prompt";
-import { PromptTemplateWithCategories } from "@/data/types/db/prompt.template";
-import { DPrompt, DPromptsPage } from "@/data/types/domain/prompt";
-import { DPromptTemplate } from "@/data/types/domain/prompt.template";
+import {
+   PromptDescriptorsPage,
+   PromptDescriptorWithCategories,
+} from "@/data/types/db/prompt";
+import { PromptTemplateDescriptorWithCategories } from "@/data/types/db/prompt.template";
+import {
+   DPromptDescriptor,
+   DPromptDescriptorsPage,
+} from "@/data/types/domain/prompt";
+import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
-export const toDPromptTemplates = (
-   pPrompts: PromptTemplateWithCategories[]
-): DPromptTemplate[] => {
-   return map(pPrompts, (dbP) => toDPromptTemplate(dbP));
+export const toDPromptTemplateDescriptors = (
+   pPrompts: PromptTemplateDescriptorWithCategories[]
+): DPromptTemplateDescriptor[] => {
+   return map(pPrompts, (dbP) => toDPromptTemplateDescriptor(dbP));
 };
 
-export const toDPromptTemplate = (
-   prompt: PromptTemplateWithCategories
-): DPromptTemplate => {
+export const toDPromptTemplateDescriptor = (
+   prompt: PromptTemplateDescriptorWithCategories
+): DPromptTemplateDescriptor => {
    return {
       id: prompt.id,
       title: prompt.title,
-      content: prompt.content,
       categories: prompt.categories,
       recommendedModel: prompt.recommendedModel,
       updatedAt: prompt.updatedAt.toISOString(),
@@ -25,28 +30,30 @@ export const toDPromptTemplate = (
    };
 };
 
-export const toDPromptsPage = (pPromptsPage: PromptsPage): DPromptsPage => {
+export const toDPromptDescriptorsPage = (
+   pPromptsPage: PromptDescriptorsPage
+): DPromptDescriptorsPage => {
    return {
       ...pPromptsPage,
-      content: toDPrompts(pPromptsPage.content),
+      content: toDPromptDescriptors(pPromptsPage.content),
    };
 };
 
-export const toDPrompts = (pPrompts: PromptWithCategories[]): DPrompt[] => {
-   return map(pPrompts, (dbP) => toDPrompt(dbP));
+export const toDPromptDescriptors = (
+   pPrompts: PromptDescriptorWithCategories[]
+): DPromptDescriptor[] => {
+   return map(pPrompts, (dbP) => toDPromptDescriptor(dbP));
 };
 
-export const toDPrompt = (prompt: PromptWithCategories): DPrompt => {
+export const toDPromptDescriptor = (
+   prompt: PromptDescriptorWithCategories
+): DPromptDescriptor => {
    return {
       id: prompt.id,
       title: prompt.title,
-      content: prompt.content,
       categories: prompt.categories,
       recommendedModel: prompt.recommendedModel,
-      followUpPrompts: prompt.followUpPrompts,
-      currentVersion: prompt.currentVersion,
       isFavorite: prompt.isFavorite,
-      versions: [],
       updatedAt: prompt.updatedAt.toISOString(),
       createdAt: prompt.createdAt.toISOString(),
    };

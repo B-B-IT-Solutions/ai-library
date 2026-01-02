@@ -13,16 +13,14 @@ export type DPromptDescriptor = {
    id: string;
    title: string;
    recommendedModel: string;
-   currentVersion: number;
    isFavorite: boolean;
    categories: DPromptCategory[];
    updatedAt: string;
    createdAt: string;
 };
 
-export type DPrompt = DPromptDescriptor & {
+export type DPrompt = {
    content: string;
-   followUpPrompts: string[];
 };
 
 export type DPromptVersion = {
@@ -40,9 +38,9 @@ export type DPromptUpdate = {
    followUpPrompts: string[];
 };
 
-export type DPromptsPageQuery = PageQuery<DPromptsFilter>;
-export type DPromptsPage = Page<DPromptDescriptor>;
+export type DPromptDescriptorsPageQuery = PageQuery<DPromptDescriptorsFilter>;
+export type DPromptDescriptorsPage = Page<DPromptDescriptor>;
 
-export interface DPromptsFilter extends Filter {
+export interface DPromptDescriptorsFilter extends Filter {
    categories?: string[];
 }
