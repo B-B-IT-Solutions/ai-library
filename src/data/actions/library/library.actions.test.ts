@@ -44,11 +44,34 @@ describe("copyTemplateToPrompts tests", () => {
       jest.clearAllMocks();
    });
 
-   it("copyTemplateToPrompts  test", async () => {
+   it("copyTemplateToPrompts - success - test", async () => {
       const templateId = "template-id-1";
+      sCopyTemplateToPromptsMock.mockResolvedValue(undefined);
 
-      await copyTemplateToPrompts(templateId);
+      const result = await copyTemplateToPrompts(templateId);
+      const expectedResult = {
+         success: true,
+         message: "Template copied to your prompts successfully!",
+      };
 
+      expect(result).toEqual(expectedResult);
+      expect(sCopyTemplateToPromptsMock).toHaveBeenCalledTimes(1);
+      expect(sCopyTemplateToPromptsMock).toHaveBeenCalledWith(templateId);
+   });
+
+   it("copyTemplateToPrompts - error - test", async () => {
+      const templateId = "template-id-1";
+      const errorMessage = "Database error";
+      const error = new Error(errorMessage);
+      sCopyTemplateToPromptsMock.mockRejectedValue(error);
+
+      const result = await copyTemplateToPrompts(templateId);
+      const expectedResult = {
+         success: false,
+         message: errorMessage,
+      };
+
+      expect(result).toEqual(expectedResult);
       expect(sCopyTemplateToPromptsMock).toHaveBeenCalledTimes(1);
       expect(sCopyTemplateToPromptsMock).toHaveBeenCalledWith(templateId);
    });
@@ -59,11 +82,36 @@ describe("downloadTemplate tests", () => {
       jest.clearAllMocks();
    });
 
-   it("downloadTemplate  test", async () => {
+   it("downloadTemplate - success - test", async () => {
       const templateId = "template-id-1";
+      const downloadData = "template content data";
+      sDownloadTemplateMock.mockResolvedValue(downloadData);
 
-      await downloadTemplate(templateId);
+      const result = await downloadTemplate(templateId);
+      const expectedResult = {
+         success: true,
+         message: "Template ready for download.",
+         data: downloadData,
+      };
 
+      expect(result).toEqual(expectedResult);
+      expect(sDownloadTemplateMock).toHaveBeenCalledTimes(1);
+      expect(sDownloadTemplateMock).toHaveBeenCalledWith(templateId);
+   });
+
+   it("downloadTemplate - error - test", async () => {
+      const templateId = "template-id-1";
+      const errorMessage = "Template not found";
+      const error = new Error(errorMessage);
+      sDownloadTemplateMock.mockRejectedValue(error);
+
+      const result = await downloadTemplate(templateId);
+      const expectedResult = {
+         success: false,
+         message: errorMessage,
+      };
+
+      expect(result).toEqual(expectedResult);
       expect(sDownloadTemplateMock).toHaveBeenCalledTimes(1);
       expect(sDownloadTemplateMock).toHaveBeenCalledWith(templateId);
    });

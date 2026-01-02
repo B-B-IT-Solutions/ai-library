@@ -8,8 +8,8 @@ import { map } from "es-toolkit/compat";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import { requireUser } from "@/data/actions/auth-utils";
-import prisma from "@/data/repositories/prisma";
 import { OrderRepository, OrderUpdate } from "@/data/repositories/order";
+import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { CartService } from "@/data/services/cart";
 import { LibraryService } from "@/data/services/library";

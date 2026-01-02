@@ -1,4 +1,5 @@
 jest.mock("@/data/repositories/library");
+jest.mock("@/data/services/prompt");
 jest.mock("@/data/actions/auth-utils");
 
 import { dtestData, ptestData } from "@tests";
@@ -8,16 +9,23 @@ import { DeepMockProxy } from "jest-mock-extended";
 import { requireUser } from "@/data/actions/auth-utils";
 import { LibraryRepository } from "@/data/repositories/library";
 import prisma from "@/data/repositories/prisma";
+import { ServiceFactory } from "@/data/services";
+import { PromptService } from "@/data/services/prompt";
 
 import { toDLibraryEntries } from "./library.mapper";
 import { LibraryService } from "./library.service";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
+const serviceFactory = new ServiceFactory(prisma);
+const promptService = serviceFactory.getPromptService();
+
+const promptServiceMock = promptService as DeepMockProxy<PromptService>;
+
 const libraryRepo = new LibraryRepository(prisma);
 const libraryRepoMock = libraryRepo as DeepMockProxy<LibraryRepository>;
 
-const libraryService = new LibraryService(libraryRepoMock);
+const libraryService = new LibraryService(libraryRepoMock, promptServiceMock);
 
 describe("getLibraryEntries tests", () => {
    beforeEach(() => {
