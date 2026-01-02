@@ -1,64 +1,66 @@
 import { isEmpty } from "es-toolkit/compat";
 
-import prisma from "@/data/repositories/prisma";
+import { DbClient } from "@/data/types/db/common";
+import { PromptTemplateDescriptorWithCategories } from "@/data/types/db/prompt.template";
 import { Prisma } from "@/generated/prisma/client";
+import { PromptTemplateDescriptorWhereInput } from "@/generated/prisma/models";
 
 type PGetPromptTemplateDescriptorsParams = {
    search?: string;
    categories?: string[];
 };
 
-export const getPromptTemplateDescriptors = async (
-   params?: PGetPromptTemplateDescriptorsParams
-) => {
-   const where = resolveGetPromptTemplateDescriptorssWhereInput(params);
-   return await prisma.promptTemplateDescriptor.findMany({
-      where: where,
-      include: {
-         categories: true,
-      },
-      take: 20,
-   });
-};
+export class PromptTemplateRepository {
+   private prisma: DbClient;
 
-export const getPromptTemplate = async (id: string) => {
-   const descriptor = await prisma.promptTemplateDescriptor.findUnique({
-      where: { id },
-      include: {
-         categories: true,
-         promptTemplate: true,
-      },
-   });
-
-   if (!descriptor) {
-      return null;
+   constructor(prisma: DbClient) {
+      this.prisma = prisma;
    }
 
-   return {
-      ...descriptor,
-      content: descriptor.promptTemplate?.content || "",
-   };
-};
-
-export const getPromptTemplateCategories = async () => {
-   return await prisma.promptTemplateCategory.findMany({
-      select: {
-         name: true,
-      },
-   });
-};
-
-const resolveGetPromptTemplateDescriptorssWhereInput = (
-   params?: PGetPromptTemplateDescriptorsParams
-): Prisma.PromptTemplateDescriptorWhereInput | undefined => {
-   if (isEmpty(params)) {
-      return undefined;
+   async pGetPromptTemplateDescriptors(
+      params?: PGetPromptTemplateDescriptorsParams
+   ) {
+      const where = this.resolveGetPromptTemplateDescriptorsWhereInput(params);
+      return await this.prisma.promptTemplateDescriptor.findMany({
+         where: where,
+         include: {
+            categories: true,
+         },
+         take: 20,
+      });
    }
 
-   const { search, categories } = params;
+   async pGetPromptTemplateDescriptor(
+      id: string
+   ): Promise<PromptTemplateDescriptorWithCategories | null> {
+      return await this.prisma.promptTemplateDescriptor.findFirst({
+         where: { id },
+         include: {
+            categories: true,
+         },
+      });
+   }
 
-   const searchClause: Prisma.PromptTemplateDescriptorWhereInput[] | undefined =
-      search
+   async pGetPromptTemplateCategories() {
+      return await this.prisma.promptTemplateCategory.findMany({
+         select: {
+            name: true,
+         },
+      });
+   }
+
+   private resolveGetPromptTemplateDescriptorsWhereInput(
+      params?: PGetPromptTemplateDescriptorsParams
+   ): PromptTemplateDescriptorWhereInput | undefined {
+      if (isEmpty(params)) {
+         return undefined;
+      }
+
+      const { search, categories } = params;
+
+      const searchClause:
+         | Prisma.PromptTemplateDescriptorWhereInput[]
+         | undefined = search
          ? [
               {
                  title: {
@@ -77,25 +79,26 @@ const resolveGetPromptTemplateDescriptorssWhereInput = (
            ]
          : undefined;
 
-   const isCategories = !isEmpty(categories);
-   const categoriesClause:
-      | Prisma.PromptTemplateDescriptorWhereInput[]
-      | undefined = isCategories
-      ? [
-           {
-              categories: {
-                 some: {
-                    name: {
-                       in: categories,
+      const isCategories = !isEmpty(categories);
+      const categoriesClause:
+         | Prisma.PromptTemplateDescriptorWhereInput[]
+         | undefined = isCategories
+         ? [
+              {
+                 categories: {
+                    some: {
+                       name: {
+                          in: categories,
+                       },
                     },
                  },
               },
-           },
-        ]
-      : undefined;
+           ]
+         : undefined;
 
-   return {
-      OR: searchClause,
-      AND: categoriesClause,
-   };
-};
+      return {
+         OR: searchClause,
+         AND: categoriesClause,
+      };
+   }
+}
