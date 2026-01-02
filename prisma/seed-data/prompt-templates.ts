@@ -17,153 +17,221 @@ const promptTemplateCategories = (categories: string[]) => {
 
 export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
-      title: "Code Review Assistant",
-      recommendedModel: "Claude Sonnet 4.5",
+      title: "Schreibe eine verkaufende Landingpage",
+      recommendedModel: "GPT-5",
       categories: {
          connectOrCreate: promptTemplateCategories([
-            "Development",
-            "Code Review",
+            "Copywriting",
+            "Landingpage",
          ]),
       },
       promptTemplate: {
          create: {
             content:
-               "Please review the following code for:\n- Best practices\n- Performance optimization\n- Security vulnerabilities\n- Code readability\n- Potential bugs\n\nProvide specific suggestions for improvement.\n\nCode:\n[INSERT CODE HERE]",
+               "Du bist ein Senior Direct-Response-Copywriter.\r\n\r\nAufgabe:\r\nErstelle eine vollst\u00E4ndige Landingpage, die [Ziel] erreicht.\r\n\r\nKontext:\r\nProdukt: [Produkt]\r\nZielgruppe: [Zielgruppe]\r\nBewusstseinslevel: [Level]\r\nTraffic-Quelle: [z. B. Ads]\r\nEinw\u00E4nde: [Liste]\r\n\r\nArbeite strukturiert:\r\n1. Starke Hero-Section\r\n2. Problem- & Schmerzverst\u00E4rkung\r\n3. L\u00F6sung & Mechanismus\r\n4. Nutzen vor Features\r\n5. Einwandbehandlung\r\n6. Social Proof\r\n7. Klarer CTA\r\n\r\nSchreibe verkaufspsychologisch, klar und ohne Floskeln.\r\n",
          },
       },
    },
    {
-      title: "Technical Documentation Writer",
-      recommendedModel: "Claude Sonnet 4.5",
+      title: "Diese Seite konvertiert schlecht – analysieren & reparieren",
+      recommendedModel: "GPT-5",
       categories: {
          connectOrCreate: promptTemplateCategories([
-            "Documentation",
-            "Technical Writing",
+            "Copywriting",
+            "Landingpage",
+            "Conversion",
          ]),
       },
       promptTemplate: {
          create: {
             content:
-               "Create comprehensive technical documentation for [FEATURE/API/SYSTEM]. Include:\n\n1. Overview and purpose\n2. Prerequisites\n3. Step-by-step instructions\n4. Code examples\n5. Common issues and troubleshooting\n6. Best practices\n\nTarget audience: [SPECIFY AUDIENCE]",
+               "Du bist Conversion-Rate-Optimizer.\r\n\r\nAnalysiere diese Landingpage:\r\n[Text]\r\n\r\nIdentifiziere:\r\n\u2013 Unklarheiten\r\n\u2013 fehlende Motivation\r\n\u2013 psychologische Br\u00FCche\r\n\u2013 fehlende Einwandbehandlung\r\n\u2013 schwache CTAs\r\n\r\nSchlage konkrete Text-Verbesserungen vor.\r\n",
          },
       },
    },
    {
-      title: "Blog Post Outliner",
-      recommendedModel: "GPT-4",
+      title: "Ads, die Aufmerksamkeit stoppen",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories(["Copywriting", "Paid Ads"]),
+      },
+      promptTemplate: {
+         create: {
+            content:
+               "Du bist Performance-Copywriter f\u00FCr Paid Ads.\r\n\r\nZiel:\r\nScroll-Stopping Ads f\u00FCr [Plattform].\r\n\r\nProdukt: [Produkt]\r\nZielgruppe: [Zielgruppe]\r\nBewusstseinslevel: [Level]\r\n\r\nErstelle:\r\n\u2013 10 starke Hooks\r\n\u2013 5 Ad-Copies\r\n\u2013 klare CTA-Varianten\r\n\r\nFokus: Neugier, Relevanz, Emotion.\r\n",
+         },
+      },
+   },
+   {
+      title: "Schreibe eine E-Mail, die verkauft",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories(["Copywriting", "E-Mail"]),
+      },
+      promptTemplate: {
+         create: {
+            content:
+               "Du bist E-Mail-Copywriter.\r\n\r\nAufgabe:\r\nSchreibe eine Verkaufs-E-Mail f\u00FCr [Angebot].\r\n\r\nZielgruppe: [Zielgruppe]\r\nBewusstseinslevel: [Level]\r\nEinw\u00E4nde: [Liste]\r\n\r\nStruktur:\r\n\u2013 starker Einstieg\r\n\u2013 Story oder Problem\r\n\u2013 L\u00F6sung & Nutzen\r\n\u2013 Einwandbehandlung\r\n\u2013 CTA\r\n",
+         },
+      },
+   },
+   {
+      title: "Positionierung & Brand Voice entwickeln",
+      recommendedModel: "GPT-5",
       categories: {
          connectOrCreate: promptTemplateCategories([
-            "Content Creation",
-            "Marketing",
+            "Copywriting",
+            "Brand Voice",
          ]),
       },
       promptTemplate: {
          create: {
             content:
-               "Create a detailed blog post outline about [TOPIC].\n\nInclude:\n- Catchy title (3 options)\n- Meta description\n- Introduction hook\n- 5-7 main sections with subpoints\n- Conclusion with call-to-action\n- SEO keywords\n\nTone: [Professional/Casual/Technical]\nTarget audience: [SPECIFY]",
+               "Du bist Brand-Strategist & Copywriter.\r\n\r\nEntwickle:\r\n\u2013 Kernbotschaft\r\n\u2013 Unique Mechanism\r\n\u2013 Tonalit\u00E4t\r\n\u2013 zentrale Narrative\r\n\r\nF\u00FCr:\r\nMarke: [Marke]\r\nZielgruppe: [Zielgruppe]\r\nMarkt: [Markt]\r\n",
          },
       },
    },
    {
-      title: "Data Analysis Helper",
-      recommendedModel: "Claude Sonnet 4.5",
+      title: "Conversion-fokussierte Produktbeschreibung",
+      recommendedModel: "GPT-5",
       categories: {
          connectOrCreate: promptTemplateCategories([
-            "Data Science",
-            "Analysis",
+            "Copywriting",
+            "Produktbeschreibung",
          ]),
       },
       promptTemplate: {
          create: {
             content:
-               "Analyze the following dataset and provide insights:\n\n[INSERT DATA OR DESCRIBE DATASET]\n\nPlease provide:\n1. Summary statistics\n2. Key trends and patterns\n3. Anomalies or outliers\n4. Correlations between variables\n5. Actionable recommendations\n6. Visualizations suggestions",
+               "Du bist ein erfahrener Conversion-Copywriter. Erstelle eine verkaufsstarke Produktbeschreibung f\u00FCr [Produkt].\r\nZielgruppe: [Zielgruppe]\r\nHauptproblem der Zielgruppe: [Problem]\r\nNutzenversprechen: [Hauptnutzen]\r\nStruktur:\r\n\r\nEmotionaler Einstieg (Problem oder Wunsch)\r\n\r\nKonkrete Nutzenargumente (keine Features)\r\n\r\nSoziale Absicherung (implizit)\r\n\r\nKlarer Kaufanreiz\r\nSchreibe pr\u00E4zise, \u00FCberzeugend und ohne Floskeln.",
          },
       },
    },
    {
-      title: "Meeting Notes Summarizer",
-      recommendedModel: "GPT-4 Turbo",
+      title: "Feature-zu-Benefit-Transformation",
+      recommendedModel: "GPT-5",
       categories: {
          connectOrCreate: promptTemplateCategories([
-            "Productivity",
-            "Business",
+            "Copywriting",
+            "Produktbeschreibung",
          ]),
       },
       promptTemplate: {
          create: {
             content:
-               "Summarize the following meeting notes into a structured format:\n\n[INSERT MEETING NOTES]\n\nProvide:\n- Key decisions made\n- Action items with owners\n- Important discussion points\n- Follow-up required\n- Next meeting agenda items",
+               "Du bist ein Produkt-Marketer. Analysiere die folgenden Produktfeatures und verwandle jedes Feature in einen klaren, kundenrelevanten Nutzen.\r\nProdukt: [Produkt]\r\nFeatures: [Feature-Liste]\r\nZielgruppe: [Zielgruppe]\r\nGib die Produktbeschreibung als leicht lesbaren, strukturierten Text aus, der zeigt, warum das Produkt das Leben des Kunden verbessert.",
          },
       },
    },
    {
-      title: "Email Response Generator",
-      recommendedModel: "GPT-3.5",
+      title: "Storytelling-Produktbeschreibung",
+      recommendedModel: "GPT-5",
       categories: {
          connectOrCreate: promptTemplateCategories([
-            "Communication",
-            "Business",
+            "Copywriting",
+            "Produktbeschreibung",
          ]),
       },
       promptTemplate: {
          create: {
             content:
-               "Draft a professional email response to:\n\n[INSERT EMAIL CONTENT]\n\nTone: [Professional/Friendly/Formal]\nKey points to address:\n- [POINT 1]\n- [POINT 2]\n- [POINT 3]\n\nKeep it concise and actionable.",
+               "Du bist ein Storytelling-Copywriter. Schreibe eine Produktbeschreibung f\u00FCr [Produkt], die eine kurze Geschichte erz\u00E4hlt:\r\n\r\nAusgangssituation der Zielgruppe\r\n\r\nFrustration oder Wunsch\r\n\r\nBegegnung mit dem Produkt\r\n\r\nPositive Ver\u00E4nderung danach\r\nZielgruppe: [Zielgruppe]\r\nTonalit\u00E4t: emotional, glaubw\u00FCrdig, nahbar.",
          },
       },
    },
    {
-      title: "Learning Path Creator",
-      recommendedModel: "Claude Opus 4",
-      categories: {
-         connectOrCreate: promptTemplateCategories(["Education", "Learning"]),
-      },
-      promptTemplate: {
-         create: {
-            content:
-               "Create a comprehensive learning path for [SKILL/TOPIC].\n\nInclude:\n1. Prerequisites\n2. Week-by-week breakdown\n3. Resources (courses, books, articles)\n4. Practice projects\n5. Milestone assessments\n6. Estimated time commitment\n\nCurrent level: [Beginner/Intermediate/Advanced]",
-         },
-      },
-   },
-   {
-      title: "SQL Query Generator",
-      recommendedModel: "Claude Sonnet 4.5",
-      categories: {
-         connectOrCreate: promptTemplateCategories(["Development", "Database"]),
-      },
-      promptTemplate: {
-         create: {
-            content:
-               "Generate an SQL query for the following requirement:\n\n[DESCRIBE REQUIREMENT]\n\nDatabase schema:\n[DESCRIBE TABLES AND COLUMNS]\n\nProvide:\n- Optimized SQL query\n- Explanation of the query\n- Performance considerations\n- Alternative approaches if applicable",
-         },
-      },
-   },
-   {
-      title: "User Story Creator",
-      recommendedModel: "GPT-4",
+      title: "Premium-Produktbeschreibung (High-End)",
+      recommendedModel: "GPT-5",
       categories: {
          connectOrCreate: promptTemplateCategories([
-            "Agile",
-            "Product Management",
+            "Copywriting",
+            "Produktbeschreibung",
          ]),
       },
       promptTemplate: {
          create: {
             content:
-               "Create user stories for [FEATURE NAME].\n\nFormat each as:\n- As a [USER TYPE]\n- I want to [ACTION]\n- So that [BENEFIT]\n\nInclude:\n- Acceptance criteria\n- Edge cases\n- Technical considerations\n- Estimated complexity",
+               "Du bist ein Luxus-Copywriter. Erstelle eine hochwertige, elegante Produktbeschreibung f\u00FCr [Produkt].\r\nZielgruppe: anspruchsvolle Kunden mit hohem Qualit\u00E4tsanspruch.\r\nFokus: Exklusivit\u00E4t, Detailverliebtheit, Qualit\u00E4t, Gef\u00FChl von \u201Edas Beste\u201C.\r\nVermeide aggressive Verkaufssprache. Schreibe ruhig, souver\u00E4n und selbstbewusst.",
          },
       },
    },
    {
-      title: "Bug Report Template",
-      recommendedModel: "GPT-4 Turbo",
+      title: "Kurze Produktbeschreibung für Online-Shop",
+      recommendedModel: "GPT-5",
       categories: {
-         connectOrCreate: promptTemplateCategories(["Development", "QA"]),
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Produktbeschreibung",
+         ]),
       },
       promptTemplate: {
          create: {
             content:
-               "Report a bug with the following details:\n\n**Title:** [Clear, concise title]\n\n**Environment:**\n- OS: [e.g., Windows 11, macOS 14]\n- Browser/App Version:\n- Device:\n\n**Steps to Reproduce:**\n1. [Step 1]\n2. [Step 2]\n3. [Step 3]\n\n**Expected Behavior:**\n[What should happen]\n\n**Actual Behavior:**\n[What actually happens]\n\n**Screenshots/Logs:**\n[Attach if available]\n\n**Severity:** [Critical/High/Medium/Low]",
+               "Du bist ein E-Commerce-Texter. Schreibe eine kompakte, scannbare Produktbeschreibung f\u00FCr [Produkt].\r\nAnforderungen:\r\n\r\nMax. 150 W\u00F6rter\r\n\r\nKlare Nutzen\u00FCberschriften\r\n\r\nBullet Points\r\n\r\nKaufrelevante Argumente auf den ersten Blick\r\nZielgruppe: [Zielgruppe]",
+         },
+      },
+   },
+   {
+      title: "SEO-optimierte Produktbeschreibung",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Produktbeschreibung",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            content:
+               "Du bist ein SEO-Copywriter. Erstelle eine suchmaschinenoptimierte Produktbeschreibung f\u00FCr [Produkt].\r\nHauptkeyword: [Keyword]\r\nNebenkeywords: [Keywords]\r\nAnforderungen:\r\n\r\nNat\u00FCrlich lesbar\r\n\r\nKlare Nutzenkommunikation\r\n\r\nKeine Keyword-Stopferei\r\n\r\nMeta-Description am Ende erg\u00E4nzen.",
+         },
+      },
+   },
+   {
+      title: "Vergleichsbasierte Produktbeschreibung",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Produktbeschreibung",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            content:
+               "Du bist ein strategischer Copywriter. Schreibe eine Produktbeschreibung f\u00FCr [Produkt], indem du es implizit mit typischen Alternativen vergleichst.\r\nZeige, warum dieses Produkt die bessere Wahl ist \u2013 ohne Wettbewerber direkt zu nennen.\r\nFokus: Entscheidungserleichterung, Klarheit, Vertrauen.",
+         },
+      },
+   },
+   {
+      title: "Problemlösungs-fokussierte Produktbeschreibung",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Produktbeschreibung",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            content:
+               "Du bist ein Direktmarketing-Experte. Beginne die Produktbeschreibung mit dem gr\u00F6\u00DFten Problem der Zielgruppe und zeige Schritt f\u00FCr Schritt, wie [Produkt] dieses Problem l\u00F6st.\r\nZielgruppe: [Zielgruppe]\r\nSchreibe klar, direkt und l\u00F6sungsorientiert.",
+         },
+      },
+   },
+   {
+      title: "Technisches Produkt – verständlich erklärt",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Produktbeschreibung",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            content:
+               "Du bist ein Copywriter f\u00FCr erkl\u00E4rungsbed\u00FCrftige Produkte. Schreibe eine Produktbeschreibung f\u00FCr [Produkt], die komplexe Funktionen einfach und verst\u00E4ndlich erkl\u00E4rt.\r\nZielgruppe: Nicht-Experten.\r\nVermeide Fachjargon oder erkl\u00E4re ihn verst\u00E4ndlich. Fokus auf Nutzen und Anwendung.",
          },
       },
    },
