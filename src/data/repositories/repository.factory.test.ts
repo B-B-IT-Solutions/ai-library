@@ -4,7 +4,7 @@ import { CartRepository } from "./cart";
 import { LibraryRepository } from "./library";
 import { OrderRepository } from "./order";
 import { ProductRepository } from "./product";
-import { PromptRepository } from "./prompt";
+import { PromptRepository, PromptTemplateRepository } from "./prompt";
 import { RepositoryFactory } from "./repository.factory";
 
 describe("RepositoryFactory tests", () => {
@@ -17,13 +17,13 @@ describe("RepositoryFactory tests", () => {
    });
 
    describe("cartRepository tests", () => {
-      it("should create and return CartRepository instance", () => {
+      it("cartRepository - new instance - test", () => {
          const repository = factory.cartRepository();
 
          expect(repository).toBeInstanceOf(CartRepository);
       });
 
-      it("should return the same instance on multiple calls (singleton pattern)", () => {
+      it("cartRepository - existing instance - test", () => {
          const repository1 = factory.cartRepository();
          const repository2 = factory.cartRepository();
 
@@ -32,13 +32,13 @@ describe("RepositoryFactory tests", () => {
    });
 
    describe("libraryRepository tests", () => {
-      it("should create and return LibraryRepository instance", () => {
+      it("libraryRepository - new instance - test", () => {
          const repository = factory.libraryRepository();
 
          expect(repository).toBeInstanceOf(LibraryRepository);
       });
 
-      it("should return the same instance on multiple calls (singleton pattern)", () => {
+      it("libraryRepository - existing instance - test", () => {
          const repository1 = factory.libraryRepository();
          const repository2 = factory.libraryRepository();
 
@@ -47,13 +47,13 @@ describe("RepositoryFactory tests", () => {
    });
 
    describe("orderRepository tests", () => {
-      it("should create and return OrderRepository instance", () => {
+      it("orderRepository - new instance - test", () => {
          const repository = factory.orderRepository();
 
          expect(repository).toBeInstanceOf(OrderRepository);
       });
 
-      it("should return the same instance on multiple calls (singleton pattern)", () => {
+      it("orderRepository - existing instance - test", () => {
          const repository1 = factory.orderRepository();
          const repository2 = factory.orderRepository();
 
@@ -62,13 +62,13 @@ describe("RepositoryFactory tests", () => {
    });
 
    describe("productRepository tests", () => {
-      it("should create and return ProductRepository instance", () => {
+      it("productRepository - new instance - test", () => {
          const repository = factory.productRepository();
 
          expect(repository).toBeInstanceOf(ProductRepository);
       });
 
-      it("should return the same instance on multiple calls (singleton pattern)", () => {
+      it("productRepository - existing instance - test", () => {
          const repository1 = factory.productRepository();
          const repository2 = factory.productRepository();
 
@@ -77,14 +77,28 @@ describe("RepositoryFactory tests", () => {
    });
 
    describe("promptRepository tests", () => {
-      it("should create and return PromptRepository instance", () => {
+      it("promptRepository - new instance - test", () => {
          const repository = factory.promptRepository();
          expect(repository).toBeInstanceOf(PromptRepository);
       });
 
-      it("should return the same instance on multiple calls (singleton pattern)", () => {
+      it("promptRepository - existing instance - test", () => {
          const repository1 = factory.promptRepository();
          const repository2 = factory.promptRepository();
+
+         expect(repository1).toBe(repository2);
+      });
+   });
+
+   describe("promptTemplateRepository tests", () => {
+      it("promptTemplateRepository - new instance - test", () => {
+         const repository = factory.promptTemplateRepository();
+         expect(repository).toBeInstanceOf(PromptTemplateRepository);
+      });
+
+      it("promptTemplateRepository - existing instance - test", () => {
+         const repository1 = factory.promptTemplateRepository();
+         const repository2 = factory.promptTemplateRepository();
 
          expect(repository1).toBe(repository2);
       });
