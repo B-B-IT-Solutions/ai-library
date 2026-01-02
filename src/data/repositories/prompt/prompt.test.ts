@@ -1,11 +1,9 @@
 import { PrismaClient } from "@prisma/client";
-import { PrismaPromise } from "@prisma/client/runtime/library";
 import { ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import { PromptsPage, PromptsPageQuery } from "@/data/types/db/prompt";
-import { DPromptsPage } from "@/data/types/domain/prompt";
 import { Prisma } from "@/generated/prisma/client";
 import {
    PromptCategoryFindManyArgs,
@@ -26,18 +24,9 @@ import {
 
 export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
-const mockPrismaTransations = () => {
-   (prismaMock.$transaction as jest.Mock).mockImplementation(
-      (transactionSteps: PrismaPromise<DPromptsPage>[]) => {
-         return Promise.all(transactionSteps);
-      }
-   );
-};
-
 describe("getPrompts tests", () => {
    beforeEach(() => {
-      mockReset(prismaMock);
-      mockPrismaTransations();
+      jest.clearAllMocks();
    });
 
    test("getPrompts - query undefined - test", async () => {
