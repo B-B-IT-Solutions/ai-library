@@ -42,30 +42,30 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
                <Separator />
                <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4">
                   <h4 className="font-semibold text-sm text-indigo-900 mb-2">
-                     What You'll Get
+                     Was Sie erhalten
                   </h4>
                   <ul className="space-y-1 text-sm text-indigo-800">
                      <li className="flex items-start gap-2">
                         <span className="shrink-0">✓</span>
                         <span>
-                           {product.productItems.length} professionally crafted
-                           prompt templates
+                           {product.productItems.length} professionell gestaltete
+                           Prompt-Vorlagen
                         </span>
                      </li>
                      <li className="flex items-start gap-2">
                         <span className="shrink-0">✓</span>
                         <span>
-                           Optimized for multiple AI models and use cases
+                           Optimiert für mehrere KI-Modelle und Anwendungsfälle
                         </span>
                      </li>
                      <li className="flex items-start gap-2">
                         <span className="shrink-0">✓</span>
-                        <span>Immediate access</span>
+                        <span>Sofortiger Zugriff</span>
                      </li>
                      <li className="flex items-start gap-2">
                         <span className="shrink-0">✓</span>
                         <span>
-                           Ready-to-use templates with clear instructions
+                           Sofort einsatzbereite Vorlagen mit klaren Anweisungen
                         </span>
                      </li>
                   </ul>

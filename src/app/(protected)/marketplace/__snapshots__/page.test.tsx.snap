@@ -12,12 +12,12 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
       <h1
         class="text-3xl font-bold text-slate-900 mb-2"
       >
-        Marketplace
+        Marktplatz
       </h1>
       <p
         class="text-slate-600"
       >
-        Browse and purchase prompt templates and bundles
+        Durchsuchen und kaufen Sie Prompt-Vorlagen und Bundles
       </p>
     </div>
     <div
@@ -34,7 +34,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
           >
             3
              
-            Products
+            Produkte
           </h2>
           <div
             class="flex items-center gap-1 bg-slate-100 p-1 rounded-lg"
@@ -81,7 +81,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
               <span
                 class="hidden sm:inline"
               >
-                Grid
+                Raster
               </span>
             </button>
             <button
@@ -124,7 +124,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
               <span
                 class="hidden sm:inline"
               >
-                List
+                Liste
               </span>
             </button>
           </div>
@@ -191,7 +191,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
                 class="text-xs text-slate-600 mb-2"
               >
                 3
-                 templates included
+                 Vorlagen enthalten
               </p>
               <p
                 class="text-sm text-slate-600 line-clamp-2 mb-3"
@@ -201,10 +201,11 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
               <div
                 class="flex gap-2"
               >
-                <button
-                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 flex-1 cursor-pointer"
+                <a
+                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 flex-1"
                   data-slot="button"
                   data-testid="view-details-btn"
+                  href="/products/334db648-f300-4284-8149-075ff465d750"
                 >
                   <svg
                     aria-hidden="true"
@@ -231,25 +232,8 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
                       d="M12 8h.01"
                     />
                   </svg>
-                  <span>
-                    Details
-                  </span>
-                </button>
-                <div
-                  data-slot="dialog"
-                  data-testid="product-details-dialog"
-                >
-                  <div
-                    data-slot="dialog-portal"
-                    data-testid="mock-react-dialog-portal"
-                  >
-                    <div
-                      class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
-                      data-slot="dialog-overlay"
-                      data-testid="mock-react-dialog-overlay"
-                    />
-                  </div>
-                </div>
+                  Einzelheiten
+                </a>
                 <button
                   class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 h-9 px-4 py-2 has-[>svg]:px-3 flex-1 cursor-pointer"
                   data-slot="button"
@@ -274,7 +258,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
                     />
                   </svg>
                   <span>
-                    In Cart
+                    Im Warenkorb
                   </span>
                 </button>
               </div>
@@ -338,7 +322,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
                 class="text-xs text-slate-600 mb-2"
               >
                 3
-                 templates included
+                 Vorlagen enthalten
               </p>
               <p
                 class="text-sm text-slate-600 line-clamp-2 mb-3"
@@ -348,10 +332,11 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
               <div
                 class="flex gap-2"
               >
-                <button
-                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 flex-1 cursor-pointer"
+                <a
+                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 flex-1"
                   data-slot="button"
                   data-testid="view-details-btn"
+                  href="/products/334db648-f300-4284-8149-075ff465d751"
                 >
                   <svg
                     aria-hidden="true"
@@ -378,25 +363,8 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
                       d="M12 8h.01"
                     />
                   </svg>
-                  <span>
-                    Details
-                  </span>
-                </button>
-                <div
-                  data-slot="dialog"
-                  data-testid="product-details-dialog"
-                >
-                  <div
-                    data-slot="dialog-portal"
-                    data-testid="mock-react-dialog-portal"
-                  >
-                    <div
-                      class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
-                      data-slot="dialog-overlay"
-                      data-testid="mock-react-dialog-overlay"
-                    />
-                  </div>
-                </div>
+                  Einzelheiten
+                </a>
                 <button
                   class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 h-9 px-4 py-2 has-[>svg]:px-3 flex-1 cursor-pointer"
                   data-slot="button"
@@ -421,7 +389,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
                     />
                   </svg>
                   <span>
-                    In Cart
+                    Im Warenkorb
                   </span>
                 </button>
               </div>
@@ -485,7 +453,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
                 class="text-xs text-slate-600 mb-2"
               >
                 3
-                 templates included
+                 Vorlagen enthalten
               </p>
               <p
                 class="text-sm text-slate-600 line-clamp-2 mb-3"
@@ -495,10 +463,11 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
               <div
                 class="flex gap-2"
               >
-                <button
-                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 flex-1 cursor-pointer"
+                <a
+                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 flex-1"
                   data-slot="button"
                   data-testid="view-details-btn"
+                  href="/products/334db648-f300-4284-8149-075ff465d752"
                 >
                   <svg
                     aria-hidden="true"
@@ -525,25 +494,8 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
                       d="M12 8h.01"
                     />
                   </svg>
-                  <span>
-                    Details
-                  </span>
-                </button>
-                <div
-                  data-slot="dialog"
-                  data-testid="product-details-dialog"
-                >
-                  <div
-                    data-slot="dialog-portal"
-                    data-testid="mock-react-dialog-portal"
-                  >
-                    <div
-                      class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
-                      data-slot="dialog-overlay"
-                      data-testid="mock-react-dialog-overlay"
-                    />
-                  </div>
-                </div>
+                  Einzelheiten
+                </a>
                 <button
                   class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 h-9 px-4 py-2 has-[>svg]:px-3 flex-1 cursor-pointer"
                   data-slot="button"
@@ -568,7 +520,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
                     />
                   </svg>
                   <span>
-                    In Cart
+                    Im Warenkorb
                   </span>
                 </button>
               </div>
@@ -654,12 +606,12 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
       <h1
         class="text-3xl font-bold text-slate-900 mb-2"
       >
-        Marketplace
+        Marktplatz
       </h1>
       <p
         class="text-slate-600"
       >
-        Browse and purchase prompt templates and bundles
+        Durchsuchen und kaufen Sie Prompt-Vorlagen und Bundles
       </p>
     </div>
     <div
@@ -676,7 +628,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
           >
             3
              
-            Products
+            Produkte
           </h2>
           <div
             class="flex items-center gap-1 bg-slate-100 p-1 rounded-lg"
@@ -723,7 +675,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
               <span
                 class="hidden sm:inline"
               >
-                Grid
+                Raster
               </span>
             </button>
             <button
@@ -766,7 +718,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
               <span
                 class="hidden sm:inline"
               >
-                List
+                Liste
               </span>
             </button>
           </div>
@@ -831,7 +783,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
                   <span
                     class="flex items-center gap-1"
                   >
-                    3 templates included
+                    3 Vorlagen enthalten
                   </span>
                 </div>
               </div>
@@ -847,10 +799,11 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
                 <div
                   class="flex gap-2 w-full sm:w-auto"
                 >
-                  <button
-                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 flex-1 cursor-pointer sm:flex-initial"
+                  <a
+                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 flex-1 sm:flex-initial"
                     data-slot="button"
                     data-testid="view-details-btn"
+                    href="/products/334db648-f300-4284-8149-075ff465d750"
                   >
                     <svg
                       aria-hidden="true"
@@ -880,24 +833,9 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
                     <span
                       class="hidden sm:inline"
                     >
-                      Details
+                      Einzelheiten
                     </span>
-                  </button>
-                  <div
-                    data-slot="dialog"
-                    data-testid="product-details-dialog"
-                  >
-                    <div
-                      data-slot="dialog-portal"
-                      data-testid="mock-react-dialog-portal"
-                    >
-                      <div
-                        class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
-                        data-slot="dialog-overlay"
-                        data-testid="mock-react-dialog-overlay"
-                      />
-                    </div>
-                  </div>
+                  </a>
                   <button
                     class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 cursor-pointer sm:flex-initial"
                     data-slot="button"
@@ -924,7 +862,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
                     <span
                       class="hidden sm:inline"
                     >
-                      In Cart
+                      Im Warenkorb
                     </span>
                   </button>
                 </div>
@@ -987,7 +925,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
                   <span
                     class="flex items-center gap-1"
                   >
-                    3 templates included
+                    3 Vorlagen enthalten
                   </span>
                 </div>
               </div>
@@ -1003,10 +941,11 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
                 <div
                   class="flex gap-2 w-full sm:w-auto"
                 >
-                  <button
-                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 flex-1 cursor-pointer sm:flex-initial"
+                  <a
+                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 flex-1 sm:flex-initial"
                     data-slot="button"
                     data-testid="view-details-btn"
+                    href="/products/334db648-f300-4284-8149-075ff465d751"
                   >
                     <svg
                       aria-hidden="true"
@@ -1036,24 +975,9 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
                     <span
                       class="hidden sm:inline"
                     >
-                      Details
+                      Einzelheiten
                     </span>
-                  </button>
-                  <div
-                    data-slot="dialog"
-                    data-testid="product-details-dialog"
-                  >
-                    <div
-                      data-slot="dialog-portal"
-                      data-testid="mock-react-dialog-portal"
-                    >
-                      <div
-                        class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
-                        data-slot="dialog-overlay"
-                        data-testid="mock-react-dialog-overlay"
-                      />
-                    </div>
-                  </div>
+                  </a>
                   <button
                     class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 cursor-pointer sm:flex-initial"
                     data-slot="button"
@@ -1080,7 +1004,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
                     <span
                       class="hidden sm:inline"
                     >
-                      In Cart
+                      Im Warenkorb
                     </span>
                   </button>
                 </div>
@@ -1143,7 +1067,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
                   <span
                     class="flex items-center gap-1"
                   >
-                    3 templates included
+                    3 Vorlagen enthalten
                   </span>
                 </div>
               </div>
@@ -1159,10 +1083,11 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
                 <div
                   class="flex gap-2 w-full sm:w-auto"
                 >
-                  <button
-                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 flex-1 cursor-pointer sm:flex-initial"
+                  <a
+                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 flex-1 sm:flex-initial"
                     data-slot="button"
                     data-testid="view-details-btn"
+                    href="/products/334db648-f300-4284-8149-075ff465d752"
                   >
                     <svg
                       aria-hidden="true"
@@ -1192,24 +1117,9 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
                     <span
                       class="hidden sm:inline"
                     >
-                      Details
+                      Einzelheiten
                     </span>
-                  </button>
-                  <div
-                    data-slot="dialog"
-                    data-testid="product-details-dialog"
-                  >
-                    <div
-                      data-slot="dialog-portal"
-                      data-testid="mock-react-dialog-portal"
-                    >
-                      <div
-                        class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
-                        data-slot="dialog-overlay"
-                        data-testid="mock-react-dialog-overlay"
-                      />
-                    </div>
-                  </div>
+                  </a>
                   <button
                     class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 cursor-pointer sm:flex-initial"
                     data-slot="button"
@@ -1236,7 +1146,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
                     <span
                       class="hidden sm:inline"
                     >
-                      In Cart
+                      Im Warenkorb
                     </span>
                   </button>
                 </div>

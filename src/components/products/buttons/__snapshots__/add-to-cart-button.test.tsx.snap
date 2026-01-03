@@ -35,7 +35,7 @@ exports[`AddToCartButton rendering tests AddToCartButton - isInCart false - size
       />
     </svg>
     <span>
-        Add to Cart
+      In den Warenkorb
     </span>
   </button>
 </div>
@@ -67,7 +67,7 @@ exports[`AddToCartButton rendering tests AddToCartButton - isInCart true - size 
       />
     </svg>
     <span>
-      In Cart
+      Im Warenkorb
     </span>
   </button>
 </div>
@@ -101,7 +101,7 @@ exports[`AddToCartButton rendering tests AddToCartButton - isInCart true - size 
     <span
       class="hidden sm:inline"
     >
-      In Cart
+      Im Warenkorb
     </span>
   </button>
 </div>

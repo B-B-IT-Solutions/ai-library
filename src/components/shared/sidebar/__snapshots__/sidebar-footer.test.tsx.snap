@@ -219,7 +219,7 @@ exports[`SidebarFooter rendering tests SidebarFooter - sidebar open - rendered t
                     data-variant="default"
                   >
                     <span>
-                      Account
+                      Konto
                     </span>
                   </div>
                   <div
@@ -229,7 +229,7 @@ exports[`SidebarFooter rendering tests SidebarFooter - sidebar open - rendered t
                     data-variant="default"
                   >
                     <span>
-                      Billing
+                      Abrechnung
                     </span>
                   </div>
                 </div>
@@ -268,7 +268,7 @@ exports[`SidebarFooter rendering tests SidebarFooter - sidebar open - rendered t
                     />
                   </svg>
                   <span>
-                    Sign out
+                    Abmelden
                   </span>
                 </div>
               </div>

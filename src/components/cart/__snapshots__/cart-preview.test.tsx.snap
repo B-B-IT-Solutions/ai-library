@@ -47,7 +47,7 @@ exports[`CartPreview rendering tests CartPreview - cart empty - test 1`] = `
           <h3
             class="text-lg font-semibold"
           >
-            Your Cart
+            Ihr Warenkorb
           </h3>
         </div>
         <span
@@ -55,7 +55,7 @@ exports[`CartPreview rendering tests CartPreview - cart empty - test 1`] = `
         >
           0
            
-          items
+          Artikel
         </span>
       </div>
     </div>
@@ -96,12 +96,12 @@ exports[`CartPreview rendering tests CartPreview - cart empty - test 1`] = `
         <p
           class="text-sm text-slate-500"
         >
-          Your cart is empty
+          Ihr Warenkorb ist leer
         </p>
         <p
           class="text-xs text-slate-400 mt-1"
         >
-          Add items to get started
+          Fügen Sie Artikel hinzu, um zu beginnen
         </p>
       </div>
     </div>
@@ -156,7 +156,7 @@ exports[`CartPreview rendering tests CartPreview - cart with items - test 1`] = 
           <h3
             class="text-lg font-semibold"
           >
-            Your Cart
+            Ihr Warenkorb
           </h3>
         </div>
         <span
@@ -164,7 +164,7 @@ exports[`CartPreview rendering tests CartPreview - cart with items - test 1`] = 
         >
           3
            
-          items
+          Artikel
         </span>
       </div>
     </div>
@@ -389,7 +389,7 @@ exports[`CartPreview rendering tests CartPreview - cart with items - test 1`] = 
           <span
             class="text-slate-600"
           >
-            Subtotal
+            Zwischensumme
           </span>
           <span
             class="font-medium"
@@ -402,7 +402,7 @@ exports[`CartPreview rendering tests CartPreview - cart with items - test 1`] = 
           class="flex justify-between text-base font-semibold"
         >
           <span>
-            Total
+            Gesamt
           </span>
           <span
             class="text-indigo-600"
@@ -421,7 +421,7 @@ exports[`CartPreview rendering tests CartPreview - cart with items - test 1`] = 
           data-testid="checkout-link"
           href="/checkout"
         >
-          Proceed to Checkout
+          Zur Kasse
         </a>
         <a
           class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 w-full"
@@ -429,7 +429,7 @@ exports[`CartPreview rendering tests CartPreview - cart with items - test 1`] = 
           data-testid="cart-link"
           href="/cart"
         >
-          View Full Cart
+          Warenkorb anzeigen
         </a>
       </div>
     </div>
@@ -484,7 +484,7 @@ exports[`CartPreview rendering tests CartPreview - cart with one item - test 1`]
           <h3
             class="text-lg font-semibold"
           >
-            Your Cart
+            Ihr Warenkorb
           </h3>
         </div>
         <span
@@ -492,7 +492,7 @@ exports[`CartPreview rendering tests CartPreview - cart with one item - test 1`]
         >
           1
            
-          item
+          Artikel
         </span>
       </div>
     </div>
@@ -581,7 +581,7 @@ exports[`CartPreview rendering tests CartPreview - cart with one item - test 1`]
           <span
             class="text-slate-600"
           >
-            Subtotal
+            Zwischensumme
           </span>
           <span
             class="font-medium"
@@ -594,7 +594,7 @@ exports[`CartPreview rendering tests CartPreview - cart with one item - test 1`]
           class="flex justify-between text-base font-semibold"
         >
           <span>
-            Total
+            Gesamt
           </span>
           <span
             class="text-indigo-600"
@@ -613,7 +613,7 @@ exports[`CartPreview rendering tests CartPreview - cart with one item - test 1`]
           data-testid="checkout-link"
           href="/checkout"
         >
-          Proceed to Checkout
+          Zur Kasse
         </a>
         <a
           class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 w-full"
@@ -621,7 +621,7 @@ exports[`CartPreview rendering tests CartPreview - cart with one item - test 1`]
           data-testid="cart-link"
           href="/cart"
         >
-          View Full Cart
+          Warenkorb anzeigen
         </a>
       </div>
     </div>

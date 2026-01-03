@@ -47,7 +47,7 @@ export const main = async () => {
                0,
                100
             )}...`,
-            price: 9.99,
+            price: 1.99,
             type: "TEMPLATE",
             status: "ACTIVE",
             features: {

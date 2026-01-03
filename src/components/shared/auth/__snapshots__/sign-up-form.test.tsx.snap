@@ -29,7 +29,7 @@ exports[`SignUpForm rendering tests SignUpForm - callbackUrl defined -  rendered
           data-slot="field-label"
           for="name"
         >
-          Full Name
+          Vollständiger Name
         </label>
         <div
           class="relative"
@@ -67,7 +67,7 @@ exports[`SignUpForm rendering tests SignUpForm - callbackUrl defined -  rendered
             data-slot="input"
             id="name"
             name="name"
-            placeholder="John Doe"
+            placeholder="Max Mustermann"
             value=""
           />
         </div>
@@ -85,7 +85,7 @@ exports[`SignUpForm rendering tests SignUpForm - callbackUrl defined -  rendered
           data-slot="field-label"
           for="email"
         >
-          Email Address
+          E-Mail-Adresse
         </label>
         <div
           class="relative"
@@ -125,7 +125,7 @@ exports[`SignUpForm rendering tests SignUpForm - callbackUrl defined -  rendered
             data-slot="input"
             id="email"
             name="email"
-            placeholder="you@example.com"
+            placeholder="ihre@beispiel.com"
             value=""
           />
         </div>
@@ -143,7 +143,7 @@ exports[`SignUpForm rendering tests SignUpForm - callbackUrl defined -  rendered
           data-slot="field-label"
           for="password"
         >
-          Password
+          Passwort
         </label>
         <div
           class="relative"
@@ -184,12 +184,12 @@ exports[`SignUpForm rendering tests SignUpForm - callbackUrl defined -  rendered
             data-slot="input"
             id="password"
             name="password"
-            placeholder="Create a strong password"
+            placeholder="Erstellen Sie ein sicheres Passwort"
             type="password"
             value=""
           />
           <button
-            aria-label="Show password"
+            aria-label="Passwort anzeigen"
             class="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded p-0.5"
             data-testid="toggle-password-visibility"
             type="button"
@@ -233,7 +233,7 @@ exports[`SignUpForm rendering tests SignUpForm - callbackUrl defined -  rendered
           data-slot="field-label"
           for="confirmPassword"
         >
-          Confirm Password
+          Passwort bestätigen
         </label>
         <div
           class="relative"
@@ -266,12 +266,12 @@ exports[`SignUpForm rendering tests SignUpForm - callbackUrl defined -  rendered
             data-slot="input"
             id="confirmPassword"
             name="confirmPassword"
-            placeholder="Confirm your password"
+            placeholder="Bestätigen Sie Ihr Passwort"
             type="password"
             value=""
           />
           <button
-            aria-label="Show password"
+            aria-label="Passwort anzeigen"
             class="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded p-0.5"
             data-testid="toggle-confirm-password-visibility"
             type="button"
@@ -314,14 +314,14 @@ exports[`SignUpForm rendering tests SignUpForm - callbackUrl defined -  rendered
           data-testid="sign-up-btn"
           type="submit"
         >
-          Create Account
+          Konto erstellen
         </button>
       </div>
     </div>
     <div
       class="text-sm text-center text-muted-foreground pt-2"
     >
-      Already have an account?
+      Bereits ein Konto?
        
       <a
         class="font-medium text-primary hover:text-primary/80 transition-colors underline-offset-4 hover:underline"
@@ -329,7 +329,7 @@ exports[`SignUpForm rendering tests SignUpForm - callbackUrl defined -  rendered
         href="/sign-in"
         target="_self"
       >
-        Sign in
+        Anmelden
       </a>
     </div>
   </form>
@@ -365,7 +365,7 @@ exports[`SignUpForm rendering tests SignUpForm - callbackUrl undefined -  render
           data-slot="field-label"
           for="name"
         >
-          Full Name
+          Vollständiger Name
         </label>
         <div
           class="relative"
@@ -403,7 +403,7 @@ exports[`SignUpForm rendering tests SignUpForm - callbackUrl undefined -  render
             data-slot="input"
             id="name"
             name="name"
-            placeholder="John Doe"
+            placeholder="Max Mustermann"
             value=""
           />
         </div>
@@ -421,7 +421,7 @@ exports[`SignUpForm rendering tests SignUpForm - callbackUrl undefined -  render
           data-slot="field-label"
           for="email"
         >
-          Email Address
+          E-Mail-Adresse
         </label>
         <div
           class="relative"
@@ -461,7 +461,7 @@ exports[`SignUpForm rendering tests SignUpForm - callbackUrl undefined -  render
             data-slot="input"
             id="email"
             name="email"
-            placeholder="you@example.com"
+            placeholder="ihre@beispiel.com"
             value=""
           />
         </div>
@@ -479,7 +479,7 @@ exports[`SignUpForm rendering tests SignUpForm - callbackUrl undefined -  render
           data-slot="field-label"
           for="password"
         >
-          Password
+          Passwort
         </label>
         <div
           class="relative"
@@ -520,12 +520,12 @@ exports[`SignUpForm rendering tests SignUpForm - callbackUrl undefined -  render
             data-slot="input"
             id="password"
             name="password"
-            placeholder="Create a strong password"
+            placeholder="Erstellen Sie ein sicheres Passwort"
             type="password"
             value=""
           />
           <button
-            aria-label="Show password"
+            aria-label="Passwort anzeigen"
             class="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded p-0.5"
             data-testid="toggle-password-visibility"
             type="button"
@@ -569,7 +569,7 @@ exports[`SignUpForm rendering tests SignUpForm - callbackUrl undefined -  render
           data-slot="field-label"
           for="confirmPassword"
         >
-          Confirm Password
+          Passwort bestätigen
         </label>
         <div
           class="relative"
@@ -602,12 +602,12 @@ exports[`SignUpForm rendering tests SignUpForm - callbackUrl undefined -  render
             data-slot="input"
             id="confirmPassword"
             name="confirmPassword"
-            placeholder="Confirm your password"
+            placeholder="Bestätigen Sie Ihr Passwort"
             type="password"
             value=""
           />
           <button
-            aria-label="Show password"
+            aria-label="Passwort anzeigen"
             class="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded p-0.5"
             data-testid="toggle-confirm-password-visibility"
             type="button"
@@ -650,14 +650,14 @@ exports[`SignUpForm rendering tests SignUpForm - callbackUrl undefined -  render
           data-testid="sign-up-btn"
           type="submit"
         >
-          Create Account
+          Konto erstellen
         </button>
       </div>
     </div>
     <div
       class="text-sm text-center text-muted-foreground pt-2"
     >
-      Already have an account?
+      Bereits ein Konto?
        
       <a
         class="font-medium text-primary hover:text-primary/80 transition-colors underline-offset-4 hover:underline"
@@ -665,7 +665,7 @@ exports[`SignUpForm rendering tests SignUpForm - callbackUrl undefined -  render
         href="/sign-in"
         target="_self"
       >
-        Sign in
+        Anmelden
       </a>
     </div>
   </form>

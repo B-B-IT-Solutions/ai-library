@@ -1,10 +1,12 @@
 import { FC } from "react";
 import { isEmpty, map } from "es-toolkit/compat";
+import { Info } from "lucide-react";
+import Link from "next/link";
 
+import { Button } from "@/components/shadcn/button";
 import { Card } from "@/components/shadcn/card";
 import { DProduct } from "@/data/types/domain/product";
 import { AddToCartButton } from "../buttons/add-to-cart-button";
-import { ShowDetailsButton } from "../buttons/show-details-button";
 import { getTypeBadgeColor, resolveUniqCategories } from "../utils";
 
 type ProductListItemProps = {
@@ -52,7 +54,7 @@ export const ProductListItem: FC<ProductListItemProps> = ({
       if (product.type === "BUNDLE") {
          return (
             <span className="flex items-center gap-1">
-               {`${productItems.length} templates included`}
+               {`${productItems.length} Vorlagen enthalten`}
             </span>
          );
       }
@@ -90,11 +92,17 @@ export const ProductListItem: FC<ProductListItemProps> = ({
                </p>
 
                <div className="flex gap-2 w-full sm:w-auto">
-                  <ShowDetailsButton
-                     product={product}
-                     isInCart={isInCart}
-                     size="sm"
-                  />
+                  <Button
+                     variant="outline"
+                     className="flex-1 sm:flex-initial"
+                     asChild
+                     data-testid="view-details-btn"
+                  >
+                     <Link href={`/products/${product.id}`}>
+                        <Info className="w-4 h-4 sm:mr-1" />
+                        <span className="hidden sm:inline">Einzelheiten</span>
+                     </Link>
+                  </Button>
                   <AddToCartButton
                      product={product}
                      isInCart={isInCart}

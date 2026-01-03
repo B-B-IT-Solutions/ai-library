@@ -10,7 +10,7 @@ import { Button } from "@/components/shadcn/button";
 import { getOrders } from "@/data/actions/order";
 
 export const metadata: Metadata = {
-   title: "Orders",
+   title: "Bestellverlauf",
 };
 
 export const OrdersPage = async () => {
@@ -25,18 +25,19 @@ export const OrdersPage = async () => {
       return (
          <div className="container mx-auto px-4 py-8" data-testid="order-page">
             <h1 className="text-3xl font-bold text-slate-900 mb-8">
-               Order History
+               Bestellverlauf
             </h1>
             <div className="text-center py-12" data-testid="orders-empty">
                <Package className="w-16 h-16 mx-auto text-slate-300 mb-4" />
                <h2 className="text-xl font-semibold text-slate-900 mb-2">
-                  No orders yet
+                  Noch keine Bestellungen
                </h2>
                <p className="text-slate-600 mb-6">
-                  Start shopping to create your first order
+                  Beginnen Sie mit dem Einkaufen, um Ihre erste Bestellung zu
+                  erstellen
                </p>
                <Link href="/marketplace" data-testid="market-place-link">
-                  <Button>Browse Marketplace</Button>
+                  <Button>Marktplatz durchsuchen</Button>
                </Link>
             </div>
          </div>
@@ -47,9 +48,12 @@ export const OrdersPage = async () => {
       <div className="container mx-auto px-4 py-8" data-testid="order-page">
          <div className="mb-8">
             <h1 className="text-3xl font-bold text-slate-900 mb-2">
-               Order History
+               Bestellverlauf
             </h1>
-            <p className="text-slate-600">View and manage your past orders</p>
+            <p className="text-slate-600">
+               Zeigen Sie Ihre vergangenen Bestellungen an und verwalten Sie
+               diese
+            </p>
          </div>
 
          <div

@@ -46,7 +46,7 @@ export const AddToCartButton: FC<AddToCartButtonProps> = ({
                   className={cn("w-4 h-4", size == "sm" ? "sm:mr-1" : "mr-2")}
                />
                <span className={size == "sm" ? "hidden sm:inline" : undefined}>
-                  In Cart
+                  Im Warenkorb
                </span>
             </>
          );
@@ -62,7 +62,7 @@ export const AddToCartButton: FC<AddToCartButtonProps> = ({
                   )}
                />
                <span className={size == "sm" ? "hidden sm:inline" : undefined}>
-                  Adding...
+                  Wird hinzugefügt...
                </span>
             </>
          );
@@ -74,7 +74,7 @@ export const AddToCartButton: FC<AddToCartButtonProps> = ({
                className={cn("w-4 h-4", size == "sm" ? "sm:mr-1" : "mr-2")}
             />
             <span className={size == "sm" ? "hidden sm:inline" : undefined}>
-               {size == "sm" ? "Add" : "  Add to Cart"}
+               {size == "sm" ? "Hinzufügen" : "In den Warenkorb"}
             </span>
          </>
       );

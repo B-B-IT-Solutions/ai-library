@@ -7,7 +7,7 @@ exports[`LoadingPage rendering tests LoadingPage rendered 1`] = `
     style="display: flex; justify-content: center; align-items: center; height: 100vh; width: 100vw;"
   >
     <img
-      alt="Loading..."
+      alt="Lädt..."
       data-nimg="1"
       decoding="async"
       height="150"

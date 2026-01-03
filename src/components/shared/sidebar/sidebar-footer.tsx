@@ -48,13 +48,13 @@ export const SidebarFooter: FC<SidebarFooterProps> = ({ user }) => {
                         className="px-2 py-1.5 cursor-pointer rounded-lg"
                         data-testid="account"
                      >
-                        <span>Account</span>
+                        <span>Konto</span>
                      </DropdownMenuItem>
                      <DropdownMenuItem
                         className="px-2 py-1.5 cursor-pointer rounded-lg"
                         data-testid="billing"
                      >
-                        <span>Billing</span>
+                        <span>Abrechnung</span>
                      </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator className="mx-2 my-1.5" />
@@ -64,7 +64,7 @@ export const SidebarFooter: FC<SidebarFooterProps> = ({ user }) => {
                      data-testid="sign-out"
                   >
                      <LogOut />
-                     <span>Sign out</span>
+                     <span>Abmelden</span>
                   </DropdownMenuItem>
                </DropdownMenuContent>
             </DropdownMenu>

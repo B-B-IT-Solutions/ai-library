@@ -13,7 +13,7 @@ exports[`TemplateSelector rendering tests TemplateSelector rendered test 1`] = `
       <span
         class="font-medium text-blue-900"
       >
-        📋 Start from Template
+        📋 Von Vorlage starten
       </span>
       <svg
         aria-hidden="true"

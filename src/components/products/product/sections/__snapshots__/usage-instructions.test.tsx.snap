@@ -29,7 +29,7 @@ exports[`UsageInstructions rendering tests UsageInstructions - features defined 
           d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"
         />
       </svg>
-      How to Use
+      Verwendung
     </h3>
     <div
       class="space-y-3"
@@ -191,10 +191,10 @@ exports[`UsageInstructions rendering tests UsageInstructions - features defined 
         <span
           class="font-semibold shrink-0"
         >
-          💡 Tip:
+          💡 Tipp:
         </span>
         <span>
-          Customize the template to match your specific needs and tone. The placeholders are suggestions - feel free to adapt them!
+          Passen Sie die Vorlage an Ihre spezifischen Bedürfnisse und Ihren Ton an. Die Platzhalter sind Vorschläge - passen Sie sie gerne an!
         </span>
       </p>
     </div>

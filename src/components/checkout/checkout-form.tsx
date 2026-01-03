@@ -59,7 +59,7 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
    };
 
    const btnText = () => {
-      return isSubmitted ? "Redirecting to Stripe..." : "Proceed to Payment";
+      return isSubmitted ? "Weiterleitung zu Stripe..." : "Zur Zahlung";
    };
 
    return (
@@ -70,10 +70,9 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
             data-testid="checkout-form"
          >
             <div className="space-y-4">
-               <h3 className="text-lg font-semibold">Payment Information</h3>
+               <h3 className="text-lg font-semibold">Zahlungsinformationen</h3>
                <p className="text-sm text-slate-600">
-                  You will be redirected to Stripe to securely complete your
-                  payment.
+                  Sie werden zu Stripe weitergeleitet, um Ihre Zahlung sicher abzuschließen.
                </p>
             </div>
 
@@ -92,7 +91,7 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
                         </FormControl>
                         <div className="space-y-1 leading-none">
                            <FormLabel>
-                              I agree to the terms and conditions
+                              Ich stimme den Allgemeinen Geschäftsbedingungen zu
                            </FormLabel>
                            <FormMessage data-testid="error-message" />
                         </div>

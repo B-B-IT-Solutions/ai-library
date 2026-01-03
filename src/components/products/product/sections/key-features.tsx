@@ -24,7 +24,7 @@ export const KeyFeatures: FC<KeyFeaturesProps> = ({ product }) => {
       <section className="space-y-3" data-testid="key-features">
          <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
             <Icons.Sparkles className="h-5 w-5 text-indigo-600" />
-            Key Features
+            Hauptmerkmale
          </h3>
          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {map(features, (feature, index) => {

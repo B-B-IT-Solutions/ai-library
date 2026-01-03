@@ -30,7 +30,7 @@ export const TemplateSelector: FC<TemplateSelectorProps> = ({ onSelect }) => {
             data-testid="show-templates-btn"
          >
             <span className="font-medium text-blue-900">
-               {showTemplates ? "📋 Hide Templates" : "📋 Start from Template"}
+               {showTemplates ? "📋 Vorlagen ausblenden" : "📋 Von Vorlage starten"}
             </span>
             {showTemplates ? (
                <ChevronDown className="w-5 h-5 text-blue-900" />

@@ -14,7 +14,7 @@ exports[`CartSummary rendering tests CartSummary rendered test 1`] = `
       <h3
         class="text-lg font-semibold"
       >
-        Order Summary
+        Bestellübersicht
       </h3>
     </div>
     <div
@@ -27,7 +27,7 @@ exports[`CartSummary rendering tests CartSummary rendered test 1`] = `
         <span
           class="text-slate-600"
         >
-          Items (
+          Artikel (
           3
           )
         </span>
@@ -44,7 +44,7 @@ exports[`CartSummary rendering tests CartSummary rendered test 1`] = `
         <span
           class="font-semibold"
         >
-          Total
+          Gesamt
         </span>
         <span
           class="font-bold text-lg"
@@ -59,7 +59,7 @@ exports[`CartSummary rendering tests CartSummary rendered test 1`] = `
         data-testid="checkout-link"
         href="/checkout"
       >
-        Proceed to Checkout
+        Zur Kasse
       </a>
     </div>
   </div>

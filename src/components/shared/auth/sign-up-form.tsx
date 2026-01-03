@@ -112,7 +112,7 @@ export const SignUpForm = () => {
                      data-testid="name-field"
                   >
                      <FieldLabel htmlFor="name" className="text-sm font-medium">
-                        Full Name
+                        Vollständiger Name
                      </FieldLabel>
                      <div className="relative">
                         <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
@@ -122,7 +122,7 @@ export const SignUpForm = () => {
                            {...field}
                            id="name"
                            autoComplete="name"
-                           placeholder="John Doe"
+                           placeholder="Max Mustermann"
                            aria-invalid={fieldState.invalid}
                            className="pl-10 h-11 text-foreground transition-all focus:ring-2 focus:ring-primary/20"
                         />
@@ -145,7 +145,7 @@ export const SignUpForm = () => {
                         htmlFor="email"
                         className="text-sm font-medium"
                      >
-                        Email Address
+                        E-Mail-Adresse
                      </FieldLabel>
                      <div className="relative">
                         <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
@@ -155,7 +155,7 @@ export const SignUpForm = () => {
                            {...field}
                            id="email"
                            autoComplete="email"
-                           placeholder="you@example.com"
+                           placeholder="ihre@beispiel.com"
                            aria-invalid={fieldState.invalid}
                            className="pl-10 h-11 text-foreground transition-all focus:ring-2 focus:ring-primary/20"
                         />
@@ -178,7 +178,7 @@ export const SignUpForm = () => {
                         htmlFor="password"
                         className="text-sm font-medium"
                      >
-                        Password
+                        Passwort
                      </FieldLabel>
                      <div className="relative">
                         <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
@@ -189,7 +189,7 @@ export const SignUpForm = () => {
                            id="password"
                            autoComplete="new-password"
                            type={showPassword ? "text" : "password"}
-                           placeholder="Create a strong password"
+                           placeholder="Erstellen Sie ein sicheres Passwort"
                            aria-invalid={fieldState.invalid}
                            className="pl-10 pr-10 h-11 text-foreground transition-all focus:ring-2 focus:ring-primary/20"
                         />
@@ -198,7 +198,7 @@ export const SignUpForm = () => {
                            onClick={togglePasswordVisibility}
                            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded p-0.5"
                            aria-label={
-                              showPassword ? "Hide password" : "Show password"
+                              showPassword ? "Passwort verbergen" : "Passwort anzeigen"
                            }
                            data-testid="toggle-password-visibility"
                         >
@@ -224,7 +224,7 @@ export const SignUpForm = () => {
                               </div>
                            </div>
                            <p className="text-xs text-muted-foreground capitalize">
-                              Password strength:{" "}
+                              Passwortstärke:{" "}
                               <span className="font-medium">
                                  {passwordStrength}
                               </span>
@@ -249,7 +249,7 @@ export const SignUpForm = () => {
                         htmlFor="confirmPassword"
                         className="text-sm font-medium"
                      >
-                        Confirm Password
+                        Passwort bestätigen
                      </FieldLabel>
                      <div className="relative">
                         <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
@@ -260,7 +260,7 @@ export const SignUpForm = () => {
                            id="confirmPassword"
                            type={showConfirmPassword ? "text" : "password"}
                            autoComplete="new-password"
-                           placeholder="Confirm your password"
+                           placeholder="Bestätigen Sie Ihr Passwort"
                            aria-invalid={fieldState.invalid}
                            className="pl-10 pr-10 h-11 text-foreground transition-all focus:ring-2 focus:ring-primary/20"
                         />
@@ -270,8 +270,8 @@ export const SignUpForm = () => {
                            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded p-0.5"
                            aria-label={
                               showConfirmPassword
-                                 ? "Hide password"
-                                 : "Show password"
+                                 ? "Passwort verbergen"
+                                 : "Passwort anzeigen"
                            }
                            data-testid="toggle-confirm-password-visibility"
                         >
@@ -309,24 +309,24 @@ export const SignUpForm = () => {
                   {isSubmitting ? (
                      <span className="flex items-center gap-2">
                         <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                        Creating account...
+                        Konto wird erstellt...
                      </span>
                   ) : (
-                     "Create Account"
+                     "Konto erstellen"
                   )}
                </Button>
             </Field>
          </FieldGroup>
 
          <div className="text-sm text-center text-muted-foreground pt-2">
-            Already have an account?{" "}
+            Bereits ein Konto?{" "}
             <Link
                href="/sign-in"
                target="_self"
                className="font-medium text-primary hover:text-primary/80 transition-colors underline-offset-4 hover:underline"
                data-testid="sign-in-link"
             >
-               Sign in
+               Anmelden
             </Link>
          </div>
       </form>

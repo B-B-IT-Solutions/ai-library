@@ -19,7 +19,7 @@ export const UsageInstructions: FC<UsageInstructionsProps> = ({ product }) => {
       <section className="space-y-3" data-testid="usage-instructions">
          <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
             <BookOpen className="h-5 w-5 text-indigo-600" />
-            How to Use
+            Verwendung
          </h3>
 
          <div className="space-y-3">
@@ -56,10 +56,10 @@ export const UsageInstructions: FC<UsageInstructionsProps> = ({ product }) => {
 
          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm text-blue-800">
             <p className="flex items-start gap-2">
-               <span className="font-semibold shrink-0">💡 Tip:</span>
+               <span className="font-semibold shrink-0">💡 Tipp:</span>
                <span>
-                  Customize the template to match your specific needs and tone.
-                  The placeholders are suggestions - feel free to adapt them!
+                  Passen Sie die Vorlage an Ihre spezifischen Bedürfnisse und Ihren Ton an.
+                  Die Platzhalter sind Vorschläge - passen Sie sie gerne an!
                </span>
             </p>
          </div>

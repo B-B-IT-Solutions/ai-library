@@ -6,7 +6,7 @@ import { ChevronDown, ChevronUp, Folder, Sparkles } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
 import { DProductItem } from "@/data/types/domain/product";
-import type { BundleItemGroup } from "../product-details-dialog/types";
+import type { BundleItemGroup } from "../types";
 
 interface BundleItemsProps {
    items: DProductItem[];
@@ -36,7 +36,7 @@ export const BundleItems: FC<BundleItemsProps> = ({
       if (!groupByCategory) {
          return [
             {
-               category: "All Templates",
+               category: "Alle Vorlagen",
                items,
             },
          ];
@@ -47,7 +47,7 @@ export const BundleItems: FC<BundleItemsProps> = ({
       items.forEach((item) => {
          const categories = item.template?.categories || [];
          if (categories.length === 0) {
-            const key = "Other";
+            const key = "Sonstige";
             if (!groups[key]) {
                groups[key] = [];
             }
@@ -75,7 +75,7 @@ export const BundleItems: FC<BundleItemsProps> = ({
       <section className="space-y-3" data-testid="bundle-items">
          <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
             <Folder className="h-5 w-5 text-indigo-600" />
-            Included Templates ({items.length})
+            Enthaltene Vorlagen ({items.length})
          </h3>
 
          <div className="space-y-4">
@@ -85,8 +85,7 @@ export const BundleItems: FC<BundleItemsProps> = ({
                      <h4 className="font-semibold text-sm text-slate-700 mb-2 flex items-center gap-2">
                         <Badge variant="outline">{group.category}</Badge>
                         <span className="text-xs text-slate-500">
-                           {group.items.length} template
-                           {group.items.length > 1 ? "s" : ""}
+                           {group.items.length} {group.items.length > 1 ? "Vorlagen" : "Vorlage"}
                         </span>
                      </h4>
                   )}

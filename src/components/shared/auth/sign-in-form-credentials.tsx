@@ -77,7 +77,7 @@ export const CredentialsSignInForm = () => {
                         htmlFor="email"
                         className="text-sm font-medium"
                      >
-                        Email Address
+                        E-Mail-Adresse
                      </FieldLabel>
                      <div className="relative">
                         <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
@@ -87,7 +87,7 @@ export const CredentialsSignInForm = () => {
                            {...field}
                            id="email"
                            autoComplete="email"
-                           placeholder="you@example.com"
+                           placeholder="ihre@beispiel.com"
                            aria-invalid={fieldState.invalid}
                            className="pl-10 h-11 text-foreground transition-all focus:ring-2 focus:ring-primary/20"
                         />
@@ -111,14 +111,14 @@ export const CredentialsSignInForm = () => {
                            htmlFor="password"
                            className="text-sm font-medium"
                         >
-                           Password
+                           Passwort
                         </FieldLabel>
                         <Link
                            href="/forgot-password"
                            className="text-xs text-primary hover:text-primary/80 transition-colors"
                            data-testid="forgot-password-link"
                         >
-                           Forgot password?
+                           Passwort vergessen?
                         </Link>
                      </div>
                      <div className="relative">
@@ -130,7 +130,7 @@ export const CredentialsSignInForm = () => {
                            id="password"
                            autoComplete="current-password"
                            type={showPassword ? "text" : "password"}
-                           placeholder="Enter your password"
+                           placeholder="Geben Sie Ihr Passwort ein"
                            aria-invalid={fieldState.invalid}
                            className="pl-10 pr-10 h-11 text-foreground transition-all focus:ring-2 focus:ring-primary/20"
                         />
@@ -139,7 +139,7 @@ export const CredentialsSignInForm = () => {
                            onClick={togglePasswordVisibility}
                            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded p-0.5"
                            aria-label={
-                              showPassword ? "Hide password" : "Show password"
+                              showPassword ? "Passwort verbergen" : "Passwort anzeigen"
                            }
                            data-testid="toggle-password-visibility"
                         >
@@ -177,24 +177,24 @@ export const CredentialsSignInForm = () => {
                   {isSubmitting ? (
                      <span className="flex items-center gap-2">
                         <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                        Signing in...
+                        Wird angemeldet...
                      </span>
                   ) : (
-                     "Sign In"
+                     "Anmelden"
                   )}
                </Button>
             </Field>
          </FieldGroup>
 
          <div className="text-sm text-center text-muted-foreground pt-2">
-            Don&apos;t have an account?{" "}
+            Noch kein Konto?{" "}
             <Link
                href="/sign-up"
                target="_self"
                className="font-medium text-primary hover:text-primary/80 transition-colors underline-offset-4 hover:underline"
                data-testid="sign-up-link"
             >
-               Sign up
+               Registrieren
             </Link>
          </div>
       </form>
