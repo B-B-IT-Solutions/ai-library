@@ -35,7 +35,7 @@ exports[`Marketplace rendering tests Marketplace - viewMode grid - rendered test
         >
           3
            
-          Products
+          Produkte
         </h2>
         <div
           class="flex items-center gap-1 bg-slate-100 p-1 rounded-lg"
@@ -610,7 +610,7 @@ exports[`Marketplace rendering tests Marketplace - viewMode list - rendered test
         >
           3
            
-          Products
+          Produkte
         </h2>
         <div
           class="flex items-center gap-1 bg-slate-100 p-1 rounded-lg"

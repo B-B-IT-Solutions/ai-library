@@ -20,18 +20,18 @@ export default async function LibraryPage() {
       return (
          <div className="container mx-auto px-4 py-8">
             <h1 className="text-3xl font-bold text-slate-900 mb-8">
-               My Library
+               Meine Bibliothek
             </h1>
             <div className="text-center py-12">
                <BookOpen className="w-16 h-16 mx-auto text-slate-300 mb-4" />
                <h2 className="text-xl font-semibold text-slate-900 mb-2">
-                  Your library is empty
+                  Ihre Bibliothek ist leer
                </h2>
                <p className="text-slate-600 mb-6">
-                  Purchase templates or subscribe to access your library
+                  Kaufen Sie Vorlagen oder abonnieren Sie, um auf Ihre Bibliothek zuzugreifen
                </p>
                <Link href="/marketplace">
-                  <Button>Browse Marketplace</Button>
+                  <Button>Marktplatz durchsuchen</Button>
                </Link>
             </div>
          </div>
@@ -42,10 +42,10 @@ export default async function LibraryPage() {
       <div className="container mx-auto px-4 py-8">
          <div className="mb-8">
             <h1 className="text-3xl font-bold text-slate-900 mb-2">
-               My Library
+               Meine Bibliothek
             </h1>
             <p className="text-slate-600">
-               Access and manage your purchased templates
+               Greifen Sie auf Ihre gekauften Vorlagen zu und verwalten Sie diese
             </p>
          </div>
 

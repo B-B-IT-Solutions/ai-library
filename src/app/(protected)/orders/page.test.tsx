@@ -23,7 +23,7 @@ const getOrdersMock = getOrders as jest.MockedFunction<typeof getOrders>;
 const redirectMock = redirect as jest.MockedFunction<typeof redirect>;
 
 export const expectedMetadata: Metadata = {
-   title: "Orders",
+   title: "Bestellverlauf",
 };
 
 const assertRendered = () => {

@@ -12,12 +12,12 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
       <h1
         class="text-3xl font-bold text-slate-900 mb-2"
       >
-        Marketplace
+        Marktplatz
       </h1>
       <p
         class="text-slate-600"
       >
-        Browse and purchase prompt templates and bundles
+        Durchsuchen und kaufen Sie Prompt-Vorlagen und Bundles
       </p>
     </div>
     <div
@@ -34,7 +34,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
           >
             3
              
-            Products
+            Produkte
           </h2>
           <div
             class="flex items-center gap-1 bg-slate-100 p-1 rounded-lg"
@@ -606,12 +606,12 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
       <h1
         class="text-3xl font-bold text-slate-900 mb-2"
       >
-        Marketplace
+        Marktplatz
       </h1>
       <p
         class="text-slate-600"
       >
-        Browse and purchase prompt templates and bundles
+        Durchsuchen und kaufen Sie Prompt-Vorlagen und Bundles
       </p>
     </div>
     <div
@@ -628,7 +628,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
           >
             3
              
-            Products
+            Produkte
           </h2>
           <div
             class="flex items-center gap-1 bg-slate-100 p-1 rounded-lg"

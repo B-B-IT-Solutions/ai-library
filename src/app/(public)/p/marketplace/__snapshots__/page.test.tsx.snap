@@ -34,7 +34,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - session null - props 
           >
             3
              
-            Products
+            Produkte
           </h2>
           <div
             class="flex items-center gap-1 bg-slate-100 p-1 rounded-lg"
@@ -628,7 +628,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - session.user undefine
           >
             3
              
-            Products
+            Produkte
           </h2>
           <div
             class="flex items-center gap-1 bg-slate-100 p-1 rounded-lg"

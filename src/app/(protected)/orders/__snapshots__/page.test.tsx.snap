@@ -12,12 +12,12 @@ exports[`OrdersPage rendering tests OrdersPage - cart with items - rendered test
       <h1
         class="text-3xl font-bold text-slate-900 mb-2"
       >
-        Order History
+        Bestellverlauf
       </h1>
       <p
         class="text-slate-600"
       >
-        View and manage your past orders
+        Zeigen Sie Ihre vergangenen Bestellungen an und verwalten Sie diese
       </p>
     </div>
     <div
@@ -227,7 +227,7 @@ exports[`OrdersPage rendering tests OrdersPage - orders empty - redirects to hom
     <h1
       class="text-3xl font-bold text-slate-900 mb-8"
     >
-      Order History
+      Bestellverlauf
     </h1>
     <div
       class="text-center py-12"
@@ -262,12 +262,12 @@ exports[`OrdersPage rendering tests OrdersPage - orders empty - redirects to hom
       <h2
         class="text-xl font-semibold text-slate-900 mb-2"
       >
-        No orders yet
+        Noch keine Bestellungen
       </h2>
       <p
         class="text-slate-600 mb-6"
       >
-        Start shopping to create your first order
+        Beginnen Sie mit dem Einkaufen, um Ihre erste Bestellung zu erstellen
       </p>
       <a
         data-testid="market-place-link"
@@ -277,7 +277,7 @@ exports[`OrdersPage rendering tests OrdersPage - orders empty - redirects to hom
           class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3"
           data-slot="button"
         >
-          Browse Marketplace
+          Marktplatz durchsuchen
         </button>
       </a>
     </div>

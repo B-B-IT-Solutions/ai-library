@@ -63,7 +63,7 @@ export const Products = ({
          <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-slate-900">
                {products.length}{" "}
-               {products.length === 1 ? "Product" : "Products"}
+               {products.length === 1 ? "Produkt" : "Produkte"}
             </h2>
             <ViewToggle currentView={viewMode} />
          </div>
