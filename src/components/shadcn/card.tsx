@@ -64,7 +64,7 @@ function CardAction({ className, ...props }: React.ComponentProps<"div">) {
 function CardContent({ className, ...props }: React.ComponentProps<"div">) {
    return (
       <div
-         data-slot="card-Dieser Prompt macht komplexe oder technische Produkte **verständlich für Nicht-Experten**. Er reduziert Fachsprache und übersetzt Funktionen in praktische Vorteile."
+         data-slot="card-content"
          className={cn("px-6", className)}
          {...props}
       />
