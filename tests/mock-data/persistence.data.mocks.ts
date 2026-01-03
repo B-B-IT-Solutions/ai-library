@@ -39,7 +39,6 @@ import {
 } from "@/generated/prisma/client";
 import {
    PromptCreateInput,
-   PromptDescriptorCreateInput,
    PromptUpdateInput,
 } from "@/generated/prisma/models";
 
@@ -282,7 +281,7 @@ export const pLibraryEntryWithTemplate = (
 ): LibraryEntryWithTemplate => {
    const template = pPromptTemplateDescriptorWithCategories(index);
    return {
-      id: `library-entry-${index}`,
+      id: `f99e7f4d-8653-45ee-b2fe-c158a562895${index}`,
       orderId: `2d4daf38-5571-4c0a-9d32-4435bdf6280${index}`,
       userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
       templateId: `52e59bcf-7651-45f8-91bf-63b8a4e06d8${index}`,
@@ -367,6 +366,7 @@ export const pPromptTemplateDescriptor = (
    return {
       id: `334db648-f300-4284-8149-075ff465d75${index}`,
       title: `title ${index}`,
+      description: `description ${index}`,
       recommendedModel: `model ${index}`,
       updatedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),

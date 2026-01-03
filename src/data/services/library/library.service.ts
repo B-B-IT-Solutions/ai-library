@@ -34,12 +34,10 @@ export class LibraryService {
       }
    }
 
-   async getLibraryEntryByTemplateId(
-      templateId: string
-   ): Promise<DLibraryEntry | null> {
+   async getLibraryEntry(entryId: string): Promise<DLibraryEntry | null> {
       const user = await requireUser();
       const entries = await this.libraryRepository.pGetLibraryEntries(user.id);
-      const entry = entries.find((e) => e.templateId === templateId);
+      const entry = entries.find((e) => e.id === entryId);
 
       if (!entry) {
          return null;

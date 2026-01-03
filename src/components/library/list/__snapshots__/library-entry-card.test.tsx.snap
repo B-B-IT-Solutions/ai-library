@@ -14,7 +14,7 @@ exports[`LibraryEntryCard rendering tests LibraryEntryCard - viewMode grid - ren
       <a
         class="group/title"
         data-testid="mock-link"
-        href="/library/334db648-f300-4284-8149-075ff465d751"
+        href="/library/457bf695-6f74-44aa-9b3a-e179ea9e8171"
       >
         <h4
           class="font-semibold text-lg text-slate-900 leading-tight hover:text-blue-700 transition-colors cursor-pointer"
@@ -56,7 +56,9 @@ exports[`LibraryEntryCard rendering tests LibraryEntryCard - viewMode grid - ren
       </div>
       <p
         class="text-sm text-slate-700 line-clamp-3 leading-relaxed"
-      />
+      >
+        description 1
+      </p>
       <div
         class="flex gap-2 pt-2"
       >

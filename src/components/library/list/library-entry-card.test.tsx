@@ -77,7 +77,7 @@ describe("LibraryEntryCard functionality tests", () => {
       userEvent.click(viewDetailsLink);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual(`/library/${entry.template.id}`);
+         expect(mockRouter.pathname).toEqual(`/library/${entry.id}`);
       });
    });
 });

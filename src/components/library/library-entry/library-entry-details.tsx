@@ -18,7 +18,10 @@ export const LibraryEntryDetails: FC<LibraryEntryDetailsProps> = ({
 }) => {
    const { template } = entry;
    return (
-      <div className="container mx-auto px-4 py-8">
+      <div
+         className="container mx-auto px-4 py-8"
+         data-testid="library-entry-details"
+      >
          <div className="mb-6">
             <Link
                href="/library"

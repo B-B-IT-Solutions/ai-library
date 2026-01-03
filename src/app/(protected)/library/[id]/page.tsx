@@ -1,31 +1,40 @@
+import { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 import { LibraryEntryDetails } from "@/components/library";
-import { getLibraryEntryByTemplateId } from "@/data/actions/library/library.actions";
+import { getLibraryEntry } from "@/data/actions/library";
 
-type LibraryDetailPage = {
-   params: Promise<{
-      id: string;
-   }>;
+export const metadata: Metadata = {
+   title: "Vorlage",
 };
 
-export default async function LibraryDetailPage({ params }: LibraryDetailPage) {
+export type LibraryEntryPageParams = {
+   id: string;
+};
+
+export type LibraryEntryPageProps = {
+   params: Promise<LibraryEntryPageParams>;
+};
+
+export const LibraryEntryPage = async ({ params }: LibraryEntryPageProps) => {
    const session = await auth();
    if (!session?.user?.id) {
       return redirect("/");
    }
 
-   const { id } = await params;
-   const result = await getLibraryEntryByTemplateId(id);
+   const { id: entryId } = await params;
+   const entry = await getLibraryEntry(entryId);
 
-   if (!result.success || !result.data) {
+   if (!entry) {
       return notFound();
    }
 
    return (
       <div data-testid="library-entry-page">
-         <LibraryEntryDetails entry={result.data} />
+         <LibraryEntryDetails entry={entry} />
       </div>
    );
-}
+};
+
+export default LibraryEntryPage;

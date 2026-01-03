@@ -43,7 +43,7 @@ export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
          data-testid="library-entry-card"
       >
          <CardHeader className="p-5 pb-3 gap-3 border-b border-slate-200">
-            <Link href={`/library/${template.id}`} className="group/title">
+            <Link href={`/library/${entry.id}`} className="group/title">
                <h4 className="font-semibold text-lg text-slate-900 leading-tight hover:text-blue-700 transition-colors cursor-pointer">
                   {template.title}
                </h4>
@@ -77,7 +77,7 @@ export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
                   <DropdownMenuContent align="end">
                      <DropdownMenuItem asChild>
                         <Link
-                           href={`/library/${template.id}`}
+                           href={`/library/${entry.id}`}
                            className="cursor-pointer"
                            data-testid="view-details-link"
                         >

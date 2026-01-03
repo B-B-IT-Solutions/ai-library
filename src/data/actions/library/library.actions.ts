@@ -12,30 +12,15 @@ export const getLibraryEntries = async (): Promise<DLibraryEntry[]> => {
    return service.getLibraryEntries();
 };
 
-export const getLibraryEntryByTemplateId = async (
-   templateId: string
-): Promise<ActionResult<DLibraryEntry>> => {
+export const getLibraryEntry = async (
+   entryId: string
+): Promise<DLibraryEntry | null> => {
    try {
       const service = getLibrarySevice();
-      const entry = await service.getLibraryEntryByTemplateId(templateId);
-
-      if (!entry) {
-         return {
-            success: false,
-            message: "Template not found or you do not have access to it.",
-         };
-      }
-
-      return {
-         success: true,
-         message: "Template found.",
-         data: entry,
-      };
+      return await service.getLibraryEntry(entryId);
    } catch (error) {
-      return {
-         success: false,
-         message: formatError(error),
-      };
+      console.error(formatError(error));
+      return null;
    }
 };
 
