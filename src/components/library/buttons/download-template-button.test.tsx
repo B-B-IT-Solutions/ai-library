@@ -18,8 +18,8 @@ const downloadTemplateMock = downloadTemplate as jest.MockedFunction<
 >;
 
 const assertRendered = () => {
-   const createPromptBtn = screen.getByTestId("create-prompt-btn");
-   assertInDocument(createPromptBtn);
+   const downloadMenuItem = screen.getByTestId("download-template-menu-item");
+   assertInDocument(downloadMenuItem);
 };
 
 describe("DownloadTemplateButton rendering tests", () => {
@@ -42,10 +42,11 @@ describe("DownloadTemplateButton functionality tests", () => {
       jest.resetAllMocks();
    });
 
-   it("DownloadTemplateButton - create prompt btn clicked - result.success true - test", async () => {
+   it("DownloadTemplateButton - download template btn clicked - result.success true - test", async () => {
       const addResult = {
          success: true,
-         message: "prompt created",
+         message: "data ready",
+         data: "prompt template text",
       };
       downloadTemplateMock.mockResolvedValue(addResult);
 
@@ -57,8 +58,8 @@ describe("DownloadTemplateButton functionality tests", () => {
          expect(downloadTemplateMock).not.toHaveBeenCalled();
       });
 
-      const createPromptBtn = screen.getByTestId("create-prompt-btn");
-      await userEvent.click(createPromptBtn);
+      const menuItem = screen.getByTestId("download-template-menu-item");
+      await userEvent.click(menuItem);
 
       await waitFor(() => {
          expect(downloadTemplateMock).toHaveBeenCalledTimes(1);
@@ -68,10 +69,10 @@ describe("DownloadTemplateButton functionality tests", () => {
       });
    });
 
-   it("DownloadTemplateButton - create prompt btn clicked - result.success false - test", async () => {
+   it("DownloadTemplateButton - download template btn clicked - result.success false - test", async () => {
       const addResult = {
          success: false,
-         message: "prompt not created",
+         message: "template cannot be downloaded",
       };
       downloadTemplateMock.mockResolvedValue(addResult);
 
@@ -83,8 +84,8 @@ describe("DownloadTemplateButton functionality tests", () => {
          expect(downloadTemplateMock).not.toHaveBeenCalled();
       });
 
-      const createPromptBtn = screen.getByTestId("create-prompt-btn");
-      await userEvent.click(createPromptBtn);
+      const menuItem = screen.getByTestId("download-template-menu-item");
+      await userEvent.click(menuItem);
 
       await waitFor(() => {
          expect(downloadTemplateMock).toHaveBeenCalledTimes(1);

@@ -62,7 +62,7 @@ export const DownloadTemplateButton: FC<DownloadTemplateButtonProps> = ({
          onClick={handleDownload}
          disabled={isPending}
          className="cursor-pointer"
-         data-testid="download-menu-item"
+         data-testid="download-template-menu-item"
       >
          {label()}
       </DropdownMenuItem>
