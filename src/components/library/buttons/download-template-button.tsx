@@ -6,21 +6,20 @@ import { toast } from "sonner";
 
 import { DropdownMenuItem } from "@/components/shadcn/dropdown-menu";
 import { downloadTemplate } from "@/data/actions/library";
+import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 type DownloadTemplateButtonProps = {
-   templateId: string;
-   templateTitle: string;
+   descriptor: DPromptTemplateDescriptor;
 };
 
 export const DownloadTemplateButton: FC<DownloadTemplateButtonProps> = ({
-   templateId,
-   templateTitle,
+   descriptor,
 }) => {
    const [isPending, startTransition] = useTransition();
 
    const handleDownload = () => {
       startTransition(async () => {
-         const result = await downloadTemplate(templateId);
+         const result = await downloadTemplate(descriptor.id);
          if (result.success && result.data) {
             const blob = new Blob([result.data], {
                type: "application/json",
@@ -28,7 +27,7 @@ export const DownloadTemplateButton: FC<DownloadTemplateButtonProps> = ({
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
-            a.download = `${templateTitle.replace(/\s+/g, "_")}.json`;
+            a.download = `${descriptor.title.replace(/\s+/g, "_")}.json`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -40,6 +39,24 @@ export const DownloadTemplateButton: FC<DownloadTemplateButtonProps> = ({
       });
    };
 
+   const label = () => {
+      if (isPending) {
+         return (
+            <>
+               <Loader className="w-4 h-4 mr-1.5 animate-spin" />
+               <span>Herunterladen</span>
+            </>
+         );
+      }
+
+      return (
+         <>
+            <Download className="w-4 h-4 mr-2" />
+            <span>Herunterladen</span>
+         </>
+      );
+   };
+
    return (
       <DropdownMenuItem
          onClick={handleDownload}
@@ -47,12 +64,7 @@ export const DownloadTemplateButton: FC<DownloadTemplateButtonProps> = ({
          className="cursor-pointer"
          data-testid="download-menu-item"
       >
-         {isPending ? (
-            <Loader className="w-4 h-4 mr-2 animate-spin" />
-         ) : (
-            <Download className="w-4 h-4 mr-2" />
-         )}
-         Herunterladen
+         {label()}
       </DropdownMenuItem>
    );
 };

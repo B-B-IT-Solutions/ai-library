@@ -9,17 +9,17 @@ import { createPromptFromTemplate } from "@/data/actions/library";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 type CreatePromptButtonProps = {
-   templateDescriptor: DPromptTemplateDescriptor;
+   descriptor: DPromptTemplateDescriptor;
 };
 
 export const CreatePromptButton: FC<CreatePromptButtonProps> = ({
-   templateDescriptor,
+   descriptor,
 }) => {
    const [isPending, startTransition] = useTransition();
 
    const handleCopyToPrompts = () => {
       startTransition(async () => {
-         const result = await createPromptFromTemplate(templateDescriptor.id);
+         const result = await createPromptFromTemplate(descriptor.id);
          if (result.success) {
             toast.success(result.message);
          } else {
