@@ -1,6 +1,7 @@
 "use client";
 
 import { FC, useTransition } from "react";
+import { saveAs } from "file-saver";
 import { Download, Loader } from "lucide-react";
 import { toast } from "sonner";
 
@@ -24,15 +25,9 @@ export const DownloadTemplateButton: FC<DownloadTemplateButtonProps> = ({
             const blob = new Blob([result.data], {
                type: "application/json",
             });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = `${descriptor.title.replace(/\s+/g, "_")}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            toast.success("Template downloaded!");
+            const fileName = `${descriptor.title.replace(/\s+/g, "_")}.json`;
+            saveAs(blob, fileName);
+            toast.success("Vorlage heruntergeladen!");
          } else {
             toast.error(result.message);
          }
