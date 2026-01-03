@@ -7,13 +7,16 @@ import { toast } from "sonner";
 import { Button } from "@/components/shadcn/button";
 import { createPromptFromTemplate } from "@/data/actions/library";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
+import { cn } from "@/lib/utils";
 
 type CreatePromptButtonProps = {
    descriptor: DPromptTemplateDescriptor;
+   className?: string;
 };
 
 export const CreatePromptButton: FC<CreatePromptButtonProps> = ({
    descriptor,
+   className,
 }) => {
    const [isPending, startTransition] = useTransition();
 
@@ -52,7 +55,10 @@ export const CreatePromptButton: FC<CreatePromptButtonProps> = ({
          size="sm"
          onClick={handleCopyToPrompts}
          disabled={isPending}
-         className="flex-1 cursor-pointer bg-blue-600 hover:bg-blue-700 text-white"
+         className={cn(
+            "cursor-pointer bg-blue-600 hover:bg-blue-700 text-white",
+            className
+         )}
          data-testid="create-prompt-btn"
       >
          {label()}

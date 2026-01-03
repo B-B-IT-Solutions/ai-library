@@ -51,7 +51,7 @@ describe("CreatePromptButton functionality tests", () => {
       createPromptFromTemplateMock.mockResolvedValue(addResult);
 
       const descriptor = dtestData.dPromptTemplateDescriptor();
-      render(<CreatePromptButton descriptor={descriptor} />);
+      render(<CreatePromptButton descriptor={descriptor} className="flex-1" />);
 
       await waitFor(() => {
          assertRendered();
@@ -79,7 +79,7 @@ describe("CreatePromptButton functionality tests", () => {
       createPromptFromTemplateMock.mockResolvedValue(addResult);
 
       const descriptor = dtestData.dPromptTemplateDescriptor();
-      render(<CreatePromptButton descriptor={descriptor} />);
+      render(<CreatePromptButton descriptor={descriptor} className="flex-1" />);
 
       await waitFor(() => {
          assertRendered();

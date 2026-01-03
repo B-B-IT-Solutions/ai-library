@@ -20,20 +20,38 @@ const downloadTemplateMock = downloadTemplate as jest.MockedFunction<
    typeof downloadTemplate
 >;
 
-const assertRendered = () => {
+const assertRenderedMenuItem = () => {
    const downloadMenuItem = screen.getByTestId("download-template-menu-item");
    assertInDocument(downloadMenuItem);
 };
 
+const assertRenderedBtn = () => {
+   const downloadBtn = screen.getByTestId("download-template-btn");
+   assertInDocument(downloadBtn);
+};
+
 describe("DownloadTemplateButton rendering tests", () => {
-   it("DownloadTemplateButton rendered test", async () => {
+   it("DownloadTemplateButton - asMenuItem true - rendered test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptor();
       const { container } = render(
-         <DownloadTemplateButton descriptor={descriptor} />
+         <DownloadTemplateButton descriptor={descriptor} asMenuItem={true} />
       );
 
       await waitFor(() => {
-         assertRendered();
+         assertRenderedMenuItem();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("DownloadTemplateButton - asMenuItem true - rendered test", async () => {
+      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const { container } = render(
+         <DownloadTemplateButton descriptor={descriptor} asMenuItem={false} />
+      );
+
+      await waitFor(() => {
+         assertRenderedBtn();
       });
 
       expect(container).toMatchSnapshot();
@@ -54,10 +72,12 @@ describe("DownloadTemplateButton functionality tests", () => {
       downloadTemplateMock.mockResolvedValue(result);
 
       const descriptor = dtestData.dPromptTemplateDescriptor();
-      render(<DownloadTemplateButton descriptor={descriptor} />);
+      render(
+         <DownloadTemplateButton descriptor={descriptor} asMenuItem={true} />
+      );
 
       await waitFor(() => {
-         assertRendered();
+         assertRenderedMenuItem();
          expect(downloadTemplateMock).not.toHaveBeenCalled();
       });
 
@@ -92,12 +112,12 @@ describe("DownloadTemplateButton functionality tests", () => {
       render(<DownloadTemplateButton descriptor={descriptor} />);
 
       await waitFor(() => {
-         assertRendered();
+         assertRenderedBtn();
          expect(downloadTemplateMock).not.toHaveBeenCalled();
       });
 
-      const menuItem = screen.getByTestId("download-template-menu-item");
-      await userEvent.click(menuItem);
+      const downloadBtn = screen.getByTestId("download-template-btn");
+      await userEvent.click(downloadBtn);
 
       await waitFor(() => {
          expect(downloadTemplateMock).toHaveBeenCalledTimes(1);

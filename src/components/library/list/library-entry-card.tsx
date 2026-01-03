@@ -62,7 +62,7 @@ export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
             </p>
 
             <div className="flex gap-2 pt-2">
-               <CreatePromptButton descriptor={template} />
+               <CreatePromptButton descriptor={template} className="flex-1" />
                <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                      <Button
@@ -85,7 +85,10 @@ export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
                            Details anzeigen
                         </Link>
                      </DropdownMenuItem>
-                     <DownloadTemplateButton descriptor={template} />
+                     <DownloadTemplateButton
+                        descriptor={template}
+                        asMenuItem={true}
+                     />
                   </DropdownMenuContent>
                </DropdownMenu>
             </div>

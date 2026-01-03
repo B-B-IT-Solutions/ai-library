@@ -21,7 +21,6 @@ module.exports = {
          statements: 100,
       },
    },
-   //  setupFiles: ["react-app-polyfill/jsdom"],
    setupFilesAfterEnv: [
       "<rootDir>/tests/jest.setup.ts",
       "<rootDir>/tests/jest.setup.env.ts",
@@ -37,7 +36,7 @@ module.exports = {
       "^.+\\.(png|jpg|jpeg|svg)$": "jest-transform-stub",
    },
    transformIgnorePatterns: [
-      "/node_modules/(?!(@auth|next-auth|oauth4webapi|jose|@panva|preact-render-to-string|preact|uuid)/)",
+      "/node_modules/(?!(@auth|next-auth|oauth4webapi|jose|@panva|preact-render-to-string|preact|uuid|react-markdown)/)",
       "^.+\\.module\\.(css|sass|scss)$",
    ],
    moduleNameMapper: {

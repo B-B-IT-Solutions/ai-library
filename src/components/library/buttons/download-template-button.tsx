@@ -5,16 +5,19 @@ import { saveAs } from "file-saver";
 import { Download, Loader } from "lucide-react";
 import { toast } from "sonner";
 
+import { Button } from "@/components/shadcn/button";
 import { DropdownMenuItem } from "@/components/shadcn/dropdown-menu";
 import { downloadTemplate } from "@/data/actions/library";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 type DownloadTemplateButtonProps = {
    descriptor: DPromptTemplateDescriptor;
+   asMenuItem?: boolean;
 };
 
 export const DownloadTemplateButton: FC<DownloadTemplateButtonProps> = ({
    descriptor,
+   asMenuItem,
 }) => {
    const [isPending, startTransition] = useTransition();
 
@@ -39,7 +42,7 @@ export const DownloadTemplateButton: FC<DownloadTemplateButtonProps> = ({
          return (
             <>
                <Loader className="w-4 h-4 mr-1.5 animate-spin" />
-               <span>Herunterladen</span>
+               <span>Herunterladen...</span>
             </>
          );
       }
@@ -52,14 +55,28 @@ export const DownloadTemplateButton: FC<DownloadTemplateButtonProps> = ({
       );
    };
 
+   if (asMenuItem) {
+      return (
+         <DropdownMenuItem
+            onClick={handleDownload}
+            disabled={isPending}
+            className="cursor-pointer"
+            data-testid="download-template-menu-item"
+         >
+            {label()}
+         </DropdownMenuItem>
+      );
+   }
+
    return (
-      <DropdownMenuItem
+      <Button
+         variant="outline"
          onClick={handleDownload}
          disabled={isPending}
          className="cursor-pointer"
-         data-testid="download-template-menu-item"
+         data-testid="download-template-btn"
       >
          {label()}
-      </DropdownMenuItem>
+      </Button>
    );
 };
