@@ -1,13 +1,15 @@
 import { FC } from "react";
+import { isEmpty, map } from "es-toolkit/compat";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
-import { PromptTextDisplay } from "@/components/library/prompt-text-display";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import { MarkdownRenderer } from "@/components/shared/markdown-renderer";
 import { DLibraryEntry } from "@/data/types/domain/library";
 import { CreatePromptButton } from "../buttons/create-prompt-button";
 import { DownloadTemplateButton } from "../buttons/download-template-button";
+
+import { PromptTextDisplay } from "./prompt-text-display";
 
 type LibraryEntryDetailsProps = {
    entry: DLibraryEntry;
@@ -17,6 +19,24 @@ export const LibraryEntryDetails: FC<LibraryEntryDetailsProps> = ({
    entry,
 }) => {
    const { template } = entry;
+
+   const categories = () => {
+      if (!isEmpty(template.categories)) {
+         return (
+            <div className="flex flex-wrap gap-2 mt-4">
+               {map(template.categories, (cat) => (
+                  <span
+                     key={cat.name}
+                     className="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
+                  >
+                     {cat.name}
+                  </span>
+               ))}
+            </div>
+         );
+      }
+   };
+
    return (
       <div
          className="container mx-auto px-4 py-8"
@@ -40,24 +60,12 @@ export const LibraryEntryDetails: FC<LibraryEntryDetailsProps> = ({
                         <h1 className="text-3xl font-bold text-slate-900 mb-3">
                            {template.title}
                         </h1>
-                        <span className="inline-block text-sm px-3 py-1 bg-blue-100 text-blue-700 rounded border border-blue-200">
-                           🤖 {template.recommendedModel}
+                        <span className="inline-block text-sm px-3 py-1 bg-blue-100 text-blue-700 rounded-md border border-blue-200">
+                           {template.recommendedModel}
                         </span>
                      </div>
                   </div>
-
-                  {template.categories && template.categories.length > 0 && (
-                     <div className="flex flex-wrap gap-2 mt-4">
-                        {template.categories.map((cat) => (
-                           <span
-                              key={cat.name}
-                              className="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded border border-slate-200"
-                           >
-                              {cat.name}
-                           </span>
-                        ))}
-                     </div>
-                  )}
+                  {categories()}
                </CardHeader>
 
                <CardContent className="p-6 space-y-6">

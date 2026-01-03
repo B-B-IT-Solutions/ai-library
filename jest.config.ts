@@ -36,7 +36,7 @@ module.exports = {
       "^.+\\.(png|jpg|jpeg|svg)$": "jest-transform-stub",
    },
    transformIgnorePatterns: [
-      "/node_modules/(?!(@auth|next-auth|oauth4webapi|jose|@panva|preact-render-to-string|preact|uuid|react-markdown|devlop|hast-util-to-jsx-runtime|comma-separated-tokens|estree-util-is-identifier-name|hast-util-whitespace|property-information|space-separated-tokens|unist-util-position|vfile-message|unist-util-stringify-position|html-url-attributes)/)",
+      "/node_modules/(?!(@auth|next-auth|oauth4webapi|jose|@panva|preact-render-to-string|preact|uuid)/)",
       "^.+\\.module\\.(css|sass|scss)$",
    ],
    moduleNameMapper: {
@@ -46,6 +46,7 @@ module.exports = {
       "^next/navigation$": "<rootDir>/__mocks__/next/navigation.tsx",
       "^next/font/google$": "<rootDir>/__mocks__/next/font/google.ts",
       "^next-auth/react$": "<rootDir>/__mocks__/next-auth/react.tsx",
+      "^react-markdown$": "<rootDir>/__mocks__/react-markdown.tsx",
       "^@/auth$": "<rootDir>/__mocks__/@/auth.ts",
       "^@/components/shared/auth$":
          "<rootDir>/__mocks__/@/components/shared/auth.tsx",

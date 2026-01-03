@@ -9,7 +9,7 @@ import {
    renderAsyncRSC,
 } from "@tests";
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 import { getLibraryEntry } from "@/data/actions/library";
@@ -26,6 +26,7 @@ const getLibraryEntryMock = getLibraryEntry as jest.MockedFunction<
    typeof getLibraryEntry
 >;
 const redirectMock = redirect as jest.MockedFunction<typeof redirect>;
+const notFoundMock = notFound as jest.MockedFunction<typeof notFound>;
 
 export const expectedMetadata: Metadata = {
    title: "Vorlage",
@@ -121,10 +122,9 @@ describe("LibraryEntryPage rendering tests", () => {
       const { container } = await renderAsyncRSC(LibraryEntryPage, props);
 
       await waitFor(() => {
-         assertRendered();
          expect(authMock).toHaveBeenCalledTimes(1);
          expect(getLibraryEntryMock).toHaveBeenCalledTimes(1);
-         expect(redirectMock).not.toHaveBeenCalled();
+         expect(notFoundMock).toHaveBeenCalledTimes(1);
       });
 
       expect(container).toMatchSnapshot();
