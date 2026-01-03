@@ -2,12 +2,18 @@
 
 import { FC, useTransition } from "react";
 import { map } from "es-toolkit/compat";
-import { ArrowRight, Download, Plus } from "lucide-react";
+import { Download, Eye, MoreVertical, Plus } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
+import {
+   DropdownMenu,
+   DropdownMenuContent,
+   DropdownMenuItem,
+   DropdownMenuTrigger,
+} from "@/components/shadcn/dropdown-menu";
 import {
    copyTemplateToPrompts,
    downloadTemplate,
@@ -93,42 +99,53 @@ export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
                {template.description}
             </p>
 
-            <div className="grid grid-cols-2 gap-2 pt-2">
+            <div className="flex gap-2 pt-2">
                <Button
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={handleCopyToPrompts}
                   disabled={isCopying}
-                  className="cursor-pointer hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 transition-colors"
+                  className="flex-1 cursor-pointer bg-blue-600 hover:bg-blue-700 text-white"
                   data-testid="create-prompt-button"
                >
                   <Plus className="w-4 h-4 mr-1.5" />
                   {isCopying ? "Erstellen..." : "Prompt erstellen"}
                </Button>
-               <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleDownload}
-                  disabled={isDownloading}
-                  className="cursor-pointer hover:bg-slate-100 hover:text-slate-900 transition-colors"
-                  data-testid="download-button"
-               >
-                  <Download className="w-4 h-4 mr-1.5" />
-                  {isDownloading ? "Laden..." : "Download"}
-               </Button>
-            </div>
 
-            <Link href={`/library/${template.id}`} className="w-full">
-               <Button
-                  variant="default"
-                  size="sm"
-                  className="w-full cursor-pointer bg-slate-900 hover:bg-slate-800 text-white"
-                  data-testid="view-details-button"
-               >
-                  Vollständige Details anzeigen
-                  <ArrowRight className="w-4 h-4 ml-2" />
-               </Button>
-            </Link>
+               <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                     <Button
+                        variant="outline"
+                        size="sm"
+                        className="cursor-pointer"
+                        data-testid="more-actions-button"
+                     >
+                        <MoreVertical className="w-4 h-4" />
+                     </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                     <DropdownMenuItem asChild>
+                        <Link
+                           href={`/library/${template.id}`}
+                           className="cursor-pointer"
+                           data-testid="view-details-menu-item"
+                        >
+                           <Eye className="w-4 h-4 mr-2" />
+                           Details anzeigen
+                        </Link>
+                     </DropdownMenuItem>
+                     <DropdownMenuItem
+                        onClick={handleDownload}
+                        disabled={isDownloading}
+                        className="cursor-pointer"
+                        data-testid="download-menu-item"
+                     >
+                        <Download className="w-4 h-4 mr-2" />
+                        Herunterladen
+                     </DropdownMenuItem>
+                  </DropdownMenuContent>
+               </DropdownMenu>
+            </div>
          </CardContent>
       </Card>
    );
