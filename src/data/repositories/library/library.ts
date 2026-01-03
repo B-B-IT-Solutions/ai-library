@@ -19,6 +19,7 @@ export class LibraryRepository {
             template: {
                include: {
                   categories: true,
+                  promptTemplate: true,
                },
             },
          },

@@ -28,7 +28,8 @@ export default async function LibraryPage() {
                   Ihre Bibliothek ist leer
                </h2>
                <p className="text-slate-600 mb-6">
-                  Kaufen Sie Vorlagen oder abonnieren Sie, um auf Ihre Bibliothek zuzugreifen
+                  Kaufen Sie Vorlagen oder abonnieren Sie, um auf Ihre
+                  Bibliothek zuzugreifen
                </p>
                <Link href="/marketplace">
                   <Button>Marktplatz durchsuchen</Button>
@@ -45,7 +46,7 @@ export default async function LibraryPage() {
                Meine Bibliothek
             </h1>
             <p className="text-slate-600">
-               Greifen Sie auf Ihre gekauften Vorlagen zu und verwalten Sie diese
+               Greifen Sie auf Ihre Vorlagen zu und verwalten Sie diese
             </p>
          </div>
 

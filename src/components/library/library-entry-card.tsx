@@ -1,16 +1,12 @@
 "use client";
 
-import { FC, useTransition } from "react";
+import { FC } from "react";
 import { map } from "es-toolkit/compat";
-import { Copy, Download } from "lucide-react";
-import { toast } from "sonner";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
-import {
-   copyTemplateToPrompts,
-   downloadTemplate,
-} from "@/data/actions/library/library.actions";
 import { DLibraryEntry } from "@/data/types/domain/library";
 
 type LibraryEntryCardProps = {
@@ -18,44 +14,7 @@ type LibraryEntryCardProps = {
 };
 
 export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
-   const [isCopying, startCopyTransition] = useTransition();
-   const [isDownloading, startDownloadTransition] = useTransition();
-
    const { template } = entry;
-
-   const handleCopy = () => {
-      startCopyTransition(async () => {
-         const result = await copyTemplateToPrompts(template.id);
-         if (result.success) {
-            toast.success(result.message);
-         } else {
-            toast.error(result.message);
-         }
-      });
-   };
-
-   const handleDownload = () => {
-      startDownloadTransition(async () => {
-         const result = await downloadTemplate(template.id);
-         if (result.success && result.data) {
-            // Create download
-            const blob = new Blob([result.data], {
-               type: "application/json",
-            });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = `${template.title.replace(/\s+/g, "_")}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            toast.success("Template downloaded!");
-         } else {
-            toast.error(result.message);
-         }
-      });
-   };
 
    const categories = () => {
       return (
@@ -86,32 +45,21 @@ export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
          <CardContent className="p-0 grid gap-3">
             {categories()}
             <p className="text-sm text-slate-600 line-clamp-3">
-               {template.content}
+               {template.description}
             </p>
 
             <div className="flex gap-2 mt-2">
-               <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleCopy}
-                  disabled={isCopying}
-                  className="cursor-pointer"
-                  data-testid="copy-button"
-               >
-                  <Copy className="w-4 h-4 mr-1" />
-                  {isCopying ? "Copying..." : "Copy"}
-               </Button>
-               <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleDownload}
-                  disabled={isDownloading}
-                  className="cursor-pointer"
-                  data-testid="download-button"
-               >
-                  <Download className="w-4 h-4 mr-1" />
-                  Download
-               </Button>
+               <Link href={`/library/${template.id}`} className="flex-1">
+                  <Button
+                     variant="default"
+                     size="sm"
+                     className="w-full cursor-pointer"
+                     data-testid="view-details-button"
+                  >
+                     Details anzeigen
+                     <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+               </Link>
             </div>
          </CardContent>
       </Card>

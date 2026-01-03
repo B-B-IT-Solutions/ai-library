@@ -12,6 +12,33 @@ export const getLibraryEntries = async (): Promise<DLibraryEntry[]> => {
    return service.getLibraryEntries();
 };
 
+export const getLibraryEntryByTemplateId = async (
+   templateId: string
+): Promise<ActionResult<DLibraryEntry>> => {
+   try {
+      const service = getLibrarySevice();
+      const entry = await service.getLibraryEntryByTemplateId(templateId);
+
+      if (!entry) {
+         return {
+            success: false,
+            message: "Template not found or you do not have access to it.",
+         };
+      }
+
+      return {
+         success: true,
+         message: "Template found.",
+         data: entry,
+      };
+   } catch (error) {
+      return {
+         success: false,
+         message: formatError(error),
+      };
+   }
+};
+
 export const copyTemplateToPrompts = async (
    templateId: string
 ): Promise<ActionResult> => {

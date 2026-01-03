@@ -28,6 +28,8 @@ export const toDPromptTemplateDescriptor = (
       recommendedModel: prompt.recommendedModel,
       updatedAt: prompt.updatedAt.toISOString(),
       createdAt: prompt.createdAt.toISOString(),
+      promptText: (prompt as any).promptTemplate?.promptText,
+      detailedDescription: (prompt as any).promptTemplate?.detailedDescription,
    };
 };
 

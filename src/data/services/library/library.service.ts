@@ -34,6 +34,20 @@ export class LibraryService {
       }
    }
 
+   async getLibraryEntryByTemplateId(
+      templateId: string
+   ): Promise<DLibraryEntry | null> {
+      const user = await requireUser();
+      const entries = await this.libraryRepository.pGetLibraryEntries(user.id);
+      const entry = entries.find((e) => e.templateId === templateId);
+
+      if (!entry) {
+         return null;
+      }
+
+      return toDLibraryEntries([entry])[0];
+   }
+
    async createLibraryEntries(order: OrderProducts): Promise<void> {
       for (const item of order.items) {
          const { product } = item;
@@ -90,7 +104,7 @@ export class LibraryService {
 
       // Create prompt from template
       const promptData: DPromptCreate = {
-         content: template.content,
+         content: template.promptText || "",
          title: template.title,
          recommendedModel: template.recommendedModel,
          categories: map(template.categories, (cat) => cat.name),
@@ -128,7 +142,7 @@ export class LibraryService {
       const downloadData = JSON.stringify(
          {
             title: template.title,
-            content: template.content,
+            content: template.promptText || "",
             categories: template.categories.map((c) => c.name),
             recommendedModel: template.recommendedModel,
          },
