@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useTransition } from "react";
-import { Copy, Download } from "lucide-react";
+import { Download, Plus } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
@@ -54,13 +54,13 @@ export const TemplateActions: FC<TemplateActionsProps> = ({ templateId }) => {
    return (
       <>
          <Button
-            variant="outline"
+            variant="default"
             onClick={handleCopy}
             disabled={isCopying}
-            className="cursor-pointer"
+            className="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white"
          >
-            <Copy className="w-4 h-4 mr-2" />
-            {isCopying ? "Kopieren..." : "In meine Prompts kopieren"}
+            <Plus className="w-4 h-4 mr-1.5" />
+            {isCopying ? "Erstellen..." : "Prompt erstellen"}
          </Button>
          <Button
             variant="outline"
@@ -69,7 +69,7 @@ export const TemplateActions: FC<TemplateActionsProps> = ({ templateId }) => {
             className="cursor-pointer"
          >
             <Download className="w-4 h-4 mr-2" />
-            {isDownloading ? "Herunterladen..." : "Als JSON herunterladen"}
+            {isDownloading ? "Herunterladen..." : "Herunterladen"}
          </Button>
       </>
    );
