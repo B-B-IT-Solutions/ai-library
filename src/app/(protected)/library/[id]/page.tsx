@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
 import { auth } from "@/auth";
+import { PromptTextDisplay } from "@/components/library/prompt-text-display";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import { MarkdownRenderer } from "@/components/shared/markdown-renderer";
 import { getLibraryEntryByTemplateId } from "@/data/actions/library/library.actions";
@@ -90,16 +91,7 @@ export default async function LibraryDetailPage({ params }: PageProps) {
                   )}
 
                   {template.promptText && (
-                     <div>
-                        <h2 className="text-xl font-semibold text-slate-900 mb-3">
-                           Prompt-Text
-                        </h2>
-                        <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
-                           <pre className="text-sm text-slate-800 whitespace-pre-wrap font-mono overflow-x-auto">
-                              {template.promptText}
-                           </pre>
-                        </div>
-                     </div>
+                     <PromptTextDisplay content={template.promptText} />
                   )}
 
                   <div className="flex gap-3 pt-4 border-t border-slate-200">
