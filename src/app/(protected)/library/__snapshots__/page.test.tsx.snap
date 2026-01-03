@@ -25,7 +25,7 @@ exports[`LibraryPage rendering tests LibraryPage - library items - test 1`] = `
       </div>
       <div
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        data-testid="library-items"
+        data-testid="library-entries"
       >
         <div
           class="text-card-foreground flex flex-col shadow-sm group p-0 gap-0 bg-white border border-slate-300 rounded-lg hover:border-slate-400 hover:shadow-md transition-all duration-200"
@@ -439,7 +439,7 @@ exports[`LibraryPage rendering tests LibraryPage - library items empty - test 1`
       </h1>
       <div
         class="text-center py-12"
-        data-testid="library-items-empty"
+        data-testid="library-empty"
       >
         <svg
           aria-hidden="true"
@@ -472,7 +472,7 @@ exports[`LibraryPage rendering tests LibraryPage - library items empty - test 1`
           Kaufen Sie Vorlagen oder abonnieren Sie, um auf Ihre Bibliothek zuzugreifen
         </p>
         <a
-          data-testid="mock-link"
+          data-testid="marketplace-link"
           href="/marketplace"
         >
           <button
