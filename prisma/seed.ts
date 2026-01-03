@@ -41,12 +41,7 @@ export const main = async () => {
       const product = await prisma.product.create({
          data: {
             name: descriptor.title,
-            description: `Get access to the "${
-               descriptor.title
-            }" template. ${descriptor.promptTemplate!.content.substring(
-               0,
-               100
-            )}...`,
+            description: descriptor.description,
             price: 1.99,
             type: "TEMPLATE",
             status: "ACTIVE",

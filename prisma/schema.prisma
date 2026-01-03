@@ -101,7 +101,8 @@ model PromptCategory {
 
 model PromptTemplateDescriptor {
   id               String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title            String                   @db.VarChar(500)
+  title            String                   @db.VarChar(250)
+  description      String                   @db.VarChar(750)
   categories       PromptTemplateCategory[]
   recommendedModel String                   @map("recommended_model") @db.VarChar(250)
   createdAt        DateTime                 @default(now()) @map("created_at") @db.Timestamp(6)
@@ -114,9 +115,10 @@ model PromptTemplateDescriptor {
 }
 
 model PromptTemplate {
-  id         String                   @id @db.Uuid
-  content    String                   @db.Text
-  descriptor PromptTemplateDescriptor @relation(fields: [id], references: [id], onDelete: Cascade)
+  id                  String                   @id @db.Uuid
+  detailedDescription String                   @map("detailed_description") @db.Text
+  promptText          String                   @map("prompt_text") @db.Text
+  descriptor          PromptTemplateDescriptor @relation(fields: [id], references: [id], onDelete: Cascade)
 
   @@map("prompt_template")
 }

@@ -11,6 +11,7 @@ export type DPromptTemplateCreate = z.infer<typeof createPromptTemplateSchema>;
 export type DPromptTemplateDescriptor = {
    id: string;
    title: string;
+   description: string;
    recommendedModel: string;
    categories: DPromptTemplateCategory[];
    updatedAt: string;

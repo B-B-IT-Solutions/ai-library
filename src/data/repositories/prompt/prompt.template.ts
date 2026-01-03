@@ -70,7 +70,7 @@ export class PromptTemplateRepository {
               },
               {
                  promptTemplate: {
-                    content: {
+                    promptText: {
                        contains: search,
                        mode: "insensitive",
                     },

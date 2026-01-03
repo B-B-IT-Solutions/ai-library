@@ -23,6 +23,7 @@ export const toDPromptTemplateDescriptor = (
    return {
       id: prompt.id,
       title: prompt.title,
+      description: prompt.description,
       categories: prompt.categories,
       recommendedModel: prompt.recommendedModel,
       updatedAt: prompt.updatedAt.toISOString(),

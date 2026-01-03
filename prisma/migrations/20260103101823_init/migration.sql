@@ -92,7 +92,8 @@ CREATE TABLE "prompt_category" (
 -- CreateTable
 CREATE TABLE "prompt_template_descriptor" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
-    "title" VARCHAR(500) NOT NULL,
+    "title" VARCHAR(250) NOT NULL,
+    "description" VARCHAR(750) NOT NULL,
     "recommended_model" VARCHAR(250) NOT NULL,
     "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
@@ -103,7 +104,8 @@ CREATE TABLE "prompt_template_descriptor" (
 -- CreateTable
 CREATE TABLE "prompt_template" (
     "id" UUID NOT NULL,
-    "content" TEXT NOT NULL,
+    "detailed_description" TEXT NOT NULL,
+    "prompt_text" TEXT NOT NULL,
 
     CONSTRAINT "prompt_template_pkey" PRIMARY KEY ("id")
 );
