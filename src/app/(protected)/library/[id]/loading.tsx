@@ -1,6 +1,9 @@
 export const LibraryDetailLoading = () => {
    return (
-      <div className="container mx-auto px-4 py-8">
+      <div
+         className="container mx-auto px-4 py-8"
+         data-testid="library-item-loading"
+      >
          {/* Back Button Skeleton */}
          <div className="mb-6">
             <div className="h-5 bg-slate-200 rounded w-48 animate-pulse" />
