@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 import { Library } from "@/components/library";
+import { getLibraryEntries } from "@/data/actions/library";
 
 export const metadata: Metadata = {
    title: "Meine Bibliothek",
@@ -14,9 +15,11 @@ export const LibraryPage = async () => {
       return redirect("/");
    }
 
+   const entries = await getLibraryEntries();
+
    return (
       <div data-testid="library-page">
-         <Library />
+         <Library entries={entries} />
       </div>
    );
 };

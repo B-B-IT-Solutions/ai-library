@@ -88,7 +88,24 @@ describe("LibraryPage rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("LibraryPage - library rendered - test", async () => {
+   it("LibraryPage - library items empty - test", async () => {
+      const session = ntestData.session();
+      authMock.mockResolvedValue(session);
+      getLibraryEntriesMock.mockResolvedValue([]);
+
+      const { container } = await renderAsyncRSC(LibraryPage, {});
+
+      await waitFor(() => {
+         assertRendered();
+         expect(authMock).toHaveBeenCalledTimes(1);
+         expect(getLibraryEntriesMock).toHaveBeenCalledTimes(1);
+         expect(redirectMock).not.toHaveBeenCalled();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("LibraryPage - library items - test", async () => {
       const session = ntestData.session();
       const libraryEntries = dtestData.dLibraryEntries();
       authMock.mockResolvedValue(session);

@@ -1,16 +1,17 @@
+import { FC } from "react";
 import { isEmpty, map } from "es-toolkit/compat";
 import { BookOpen } from "lucide-react";
 import Link from "next/link";
 
 import { LibraryEntryCard } from "@/components/library/library-entry-card";
 import { Button } from "@/components/shadcn/button";
-import { getLibraryEntries } from "@/data/actions/library";
+import { DLibraryEntry } from "@/data/types/domain/library";
 
-export const Library = async () => {
-   const entries = await getLibraryEntries();
+type LibraryProps = {
+   entries: DLibraryEntry[];
+};
 
-   console.log("entries");
-
+export const Library: FC<LibraryProps> = ({ entries }) => {
    if (isEmpty(entries)) {
       return (
          <div className="container mx-auto px-4 py-8" data-testid="library">
