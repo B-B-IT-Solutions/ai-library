@@ -8,15 +8,20 @@ import {
    createPromptFromTemplate,
    downloadTemplate,
    getLibraryEntries,
+   getLibraryEntry,
 } from "./library.actions";
 
 const sGetLibraryEntries = LibraryService.prototype.getLibraryEntries;
+const sgetLibraryEntry = LibraryService.prototype.getLibraryEntry;
 const sCreatePromptFromTemplate =
    LibraryService.prototype.createPromptFromTemplate;
 const sDownloadTemplate = LibraryService.prototype.downloadTemplate;
 
 const sGetLibraryEntriesMock = sGetLibraryEntries as jest.MockedFunction<
    typeof sGetLibraryEntries
+>;
+const sgetLibraryEntryMock = sgetLibraryEntry as jest.MockedFunction<
+   typeof sgetLibraryEntry
 >;
 const sCreatePromptFromTemplateMock =
    sCreatePromptFromTemplate as jest.MockedFunction<
@@ -42,7 +47,58 @@ describe("getLibraryEntries tests", () => {
    });
 });
 
-describe("copyTemplateToPrompts tests", () => {
+describe("getLibraryEntry tests", () => {
+   const originalConsoleError = console.error;
+
+   beforeEach(() => {
+      jest.clearAllMocks();
+      console.error = jest.fn();
+   });
+
+   afterEach(() => {
+      console.error = originalConsoleError;
+   });
+
+   it("getLibraryEntry - error - test", async () => {
+      const errorMessage = "db error";
+      const error = new Error(errorMessage);
+      sgetLibraryEntryMock.mockRejectedValue(error);
+      const entryId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
+
+      const result = await getLibraryEntry(entryId);
+
+      expect(result).toBeNull();
+      expect(sgetLibraryEntryMock).toHaveBeenCalledTimes(1);
+      expect(sgetLibraryEntryMock).toHaveBeenCalledWith(entryId);
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(errorMessage);
+   });
+
+   it("getLibraryEntry - entry null - test", async () => {
+      sgetLibraryEntryMock.mockResolvedValue(null);
+      const entryId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
+
+      const result = await getLibraryEntry(entryId);
+
+      expect(result).toBeNull();
+      expect(sgetLibraryEntryMock).toHaveBeenCalledTimes(1);
+      expect(sgetLibraryEntryMock).toHaveBeenCalledWith(entryId);
+   });
+
+   it("getLibraryEntry - entry retrieved - test", async () => {
+      const entry = dtestData.dLibraryEntry();
+      sgetLibraryEntryMock.mockResolvedValue(entry);
+      const entryId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
+
+      const result = await getLibraryEntry(entryId);
+
+      expect(result).toEqual(entry);
+      expect(sgetLibraryEntryMock).toHaveBeenCalledTimes(1);
+      expect(sgetLibraryEntryMock).toHaveBeenCalledWith(entryId);
+   });
+});
+
+describe("createPromptFromTemplate tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });

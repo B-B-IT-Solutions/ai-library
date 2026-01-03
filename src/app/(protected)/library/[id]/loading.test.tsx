@@ -9,8 +9,8 @@ const assertRendered = () => {
    assertInDocument(loading);
 };
 
-describe("OrdersLoading rendering tests", () => {
-   it("OrdersLoading rendered test", async () => {
+describe("LibraryDetailLoading rendering tests", () => {
+   it("LibraryDetailLoading rendered test", async () => {
       const { container } = render(<LibraryDetailLoading />);
 
       await waitFor(() => {
