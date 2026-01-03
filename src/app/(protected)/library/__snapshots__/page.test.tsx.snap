@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`LibraryPage rendering tests LibraryPage - session null - redirects to home 1`] = `<div />`;
+
+exports[`LibraryPage rendering tests LibraryPage - session.user undefined - redirects to home 1`] = `<div />`;
+
+exports[`LibraryPage rendering tests LibraryPage - session.user.id undefined - redirects to home 1`] = `<div />`;
