@@ -80,7 +80,7 @@ export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
    return (
       <Card
          className="group p-0 gap-0 bg-white border border-slate-300 rounded-lg hover:border-slate-400 hover:shadow-md transition-all duration-200"
-         data-testid="purchased-template-card"
+         data-testid="library-entry-card"
       >
          <CardHeader className="p-5 pb-3 gap-3 border-b border-slate-200">
             <Link href={`/library/${template.id}`} className="group/title">

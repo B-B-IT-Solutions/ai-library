@@ -30,7 +30,7 @@ exports[`LibraryPage rendering tests LibraryPage - library items - test 1`] = `
         <div
           class="text-card-foreground flex flex-col shadow-sm group p-0 gap-0 bg-white border border-slate-300 rounded-lg hover:border-slate-400 hover:shadow-md transition-all duration-200"
           data-slot="card"
-          data-testid="purchased-template-card"
+          data-testid="library-entry-card"
         >
           <div
             class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 p-5 pb-3 gap-3 border-b border-slate-200"
@@ -160,7 +160,7 @@ exports[`LibraryPage rendering tests LibraryPage - library items - test 1`] = `
         <div
           class="text-card-foreground flex flex-col shadow-sm group p-0 gap-0 bg-white border border-slate-300 rounded-lg hover:border-slate-400 hover:shadow-md transition-all duration-200"
           data-slot="card"
-          data-testid="purchased-template-card"
+          data-testid="library-entry-card"
         >
           <div
             class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 p-5 pb-3 gap-3 border-b border-slate-200"
@@ -290,7 +290,7 @@ exports[`LibraryPage rendering tests LibraryPage - library items - test 1`] = `
         <div
           class="text-card-foreground flex flex-col shadow-sm group p-0 gap-0 bg-white border border-slate-300 rounded-lg hover:border-slate-400 hover:shadow-md transition-all duration-200"
           data-slot="card"
-          data-testid="purchased-template-card"
+          data-testid="library-entry-card"
         >
           <div
             class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 p-5 pb-3 gap-3 border-b border-slate-200"
