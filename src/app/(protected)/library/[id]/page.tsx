@@ -1,10 +1,10 @@
-import { ArrowLeft, Copy, Download } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
 import { auth } from "@/auth";
-import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
+import { MarkdownRenderer } from "@/components/shared/markdown-renderer";
 import { getLibraryEntryByTemplateId } from "@/data/actions/library/library.actions";
 
 import { TemplateActions } from "./template-actions";
@@ -75,9 +75,10 @@ export default async function LibraryDetailPage({ params }: PageProps) {
                      <h2 className="text-xl font-semibold text-slate-900 mb-3">
                         Beschreibung
                      </h2>
-                     <p className="text-slate-700 leading-relaxed">
-                        {template.description}
-                     </p>
+                     <MarkdownRenderer
+                        content={template.description}
+                        className="text-slate-700 leading-relaxed"
+                     />
                   </div>
 
                   {template.detailedDescription && (
@@ -85,11 +86,10 @@ export default async function LibraryDetailPage({ params }: PageProps) {
                         <h2 className="text-xl font-semibold text-slate-900 mb-3">
                            Detaillierte Beschreibung
                         </h2>
-                        <div className="prose prose-slate max-w-none">
-                           <p className="text-slate-700 leading-relaxed whitespace-pre-wrap">
-                              {template.detailedDescription}
-                           </p>
-                        </div>
+                        <MarkdownRenderer
+                           content={template.detailedDescription}
+                           className="text-slate-700 leading-relaxed"
+                        />
                      </div>
                   )}
 
