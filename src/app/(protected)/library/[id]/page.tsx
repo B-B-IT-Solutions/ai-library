@@ -75,10 +75,7 @@ export default async function LibraryDetailPage({ params }: PageProps) {
                      <h2 className="text-xl font-semibold text-slate-900 mb-3">
                         Beschreibung
                      </h2>
-                     <MarkdownRenderer
-                        content={template.description}
-                        className="text-slate-700 leading-relaxed"
-                     />
+                     <MarkdownRenderer content={template.description} />
                   </div>
 
                   {template.detailedDescription && (
@@ -88,7 +85,6 @@ export default async function LibraryDetailPage({ params }: PageProps) {
                         </h2>
                         <MarkdownRenderer
                            content={template.detailedDescription}
-                           className="text-slate-700 leading-relaxed"
                         />
                      </div>
                   )}
