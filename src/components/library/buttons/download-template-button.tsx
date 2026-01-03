@@ -5,7 +5,7 @@ import { Download, Loader } from "lucide-react";
 import { toast } from "sonner";
 
 import { DropdownMenuItem } from "@/components/shadcn/dropdown-menu";
-import { downloadTemplate } from "@/data/actions/library/library.actions";
+import { downloadTemplate } from "@/data/actions/library";
 
 type DownloadTemplateButtonProps = {
    templateId: string;

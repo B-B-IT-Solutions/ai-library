@@ -1,1 +1,5 @@
-export { getLibraryEntries } from "./library.actions";
+export {
+   getLibraryEntries,
+   createPromptFromTemplate,
+   downloadTemplate,
+} from "./library.actions";

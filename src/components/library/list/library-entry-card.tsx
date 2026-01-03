@@ -60,7 +60,7 @@ export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
             </p>
 
             <div className="flex gap-2 pt-2">
-               <CreatePromptButton templateId={template.id} />
+               <CreatePromptButton templateDescriptor={template} />
                <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                      <Button
