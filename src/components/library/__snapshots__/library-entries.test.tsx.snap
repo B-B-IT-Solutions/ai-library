@@ -26,15 +26,16 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode grid - rendere
             title 0
           </h4>
         </a>
-        <span
-          class="text-xs px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md border border-blue-200 self-start font-medium"
-        >
-          🤖 
-          model 0
-        </span>
+        <div>
+          <span
+            class="text-xs px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md border border-blue-200 self-start font-medium"
+          >
+            model 0
+          </span>
+        </div>
       </div>
       <div
-        class="p-5 grid gap-4"
+        class="p-5 grid gap-3"
         data-slot="card-content"
       >
         <div
@@ -42,17 +43,17 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode grid - rendere
           data-testid="categories"
         >
           <span
-            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
           >
             category 0
           </span>
           <span
-            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
           >
             category 1
           </span>
           <span
-            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
           >
             category 2
           </span>
@@ -66,7 +67,7 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode grid - rendere
           <button
             class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 cursor-pointer bg-blue-600 hover:bg-blue-700 text-white"
             data-slot="button"
-            data-testid="create-prompt-button"
+            data-testid="create-prompt-btn"
           >
             <svg
               aria-hidden="true"
@@ -88,7 +89,9 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode grid - rendere
                 d="M12 5v14"
               />
             </svg>
-            Prompt erstellen
+            <span>
+              Prompt erstellen
+            </span>
           </button>
           <div
             data-slot="dropdown-menu"
@@ -97,7 +100,7 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode grid - rendere
             <button
               class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
               data-slot="button"
-              data-testid="more-actions-button"
+              data-testid="dropdown-menu-btn"
             >
               <svg
                 aria-hidden="true"
@@ -156,15 +159,16 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode grid - rendere
             title 1
           </h4>
         </a>
-        <span
-          class="text-xs px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md border border-blue-200 self-start font-medium"
-        >
-          🤖 
-          model 1
-        </span>
+        <div>
+          <span
+            class="text-xs px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md border border-blue-200 self-start font-medium"
+          >
+            model 1
+          </span>
+        </div>
       </div>
       <div
-        class="p-5 grid gap-4"
+        class="p-5 grid gap-3"
         data-slot="card-content"
       >
         <div
@@ -172,17 +176,17 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode grid - rendere
           data-testid="categories"
         >
           <span
-            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
           >
             category 0
           </span>
           <span
-            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
           >
             category 1
           </span>
           <span
-            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
           >
             category 2
           </span>
@@ -196,7 +200,7 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode grid - rendere
           <button
             class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 cursor-pointer bg-blue-600 hover:bg-blue-700 text-white"
             data-slot="button"
-            data-testid="create-prompt-button"
+            data-testid="create-prompt-btn"
           >
             <svg
               aria-hidden="true"
@@ -218,7 +222,9 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode grid - rendere
                 d="M12 5v14"
               />
             </svg>
-            Prompt erstellen
+            <span>
+              Prompt erstellen
+            </span>
           </button>
           <div
             data-slot="dropdown-menu"
@@ -227,7 +233,7 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode grid - rendere
             <button
               class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
               data-slot="button"
-              data-testid="more-actions-button"
+              data-testid="dropdown-menu-btn"
             >
               <svg
                 aria-hidden="true"
@@ -286,15 +292,16 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode grid - rendere
             title 2
           </h4>
         </a>
-        <span
-          class="text-xs px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md border border-blue-200 self-start font-medium"
-        >
-          🤖 
-          model 2
-        </span>
+        <div>
+          <span
+            class="text-xs px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md border border-blue-200 self-start font-medium"
+          >
+            model 2
+          </span>
+        </div>
       </div>
       <div
-        class="p-5 grid gap-4"
+        class="p-5 grid gap-3"
         data-slot="card-content"
       >
         <div
@@ -302,17 +309,17 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode grid - rendere
           data-testid="categories"
         >
           <span
-            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
           >
             category 0
           </span>
           <span
-            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
           >
             category 1
           </span>
           <span
-            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
           >
             category 2
           </span>
@@ -326,7 +333,7 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode grid - rendere
           <button
             class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 cursor-pointer bg-blue-600 hover:bg-blue-700 text-white"
             data-slot="button"
-            data-testid="create-prompt-button"
+            data-testid="create-prompt-btn"
           >
             <svg
               aria-hidden="true"
@@ -348,7 +355,9 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode grid - rendere
                 d="M12 5v14"
               />
             </svg>
-            Prompt erstellen
+            <span>
+              Prompt erstellen
+            </span>
           </button>
           <div
             data-slot="dropdown-menu"
@@ -357,7 +366,7 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode grid - rendere
             <button
               class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
               data-slot="button"
-              data-testid="more-actions-button"
+              data-testid="dropdown-menu-btn"
             >
               <svg
                 aria-hidden="true"
@@ -426,15 +435,16 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode list - rendere
             title 0
           </h4>
         </a>
-        <span
-          class="text-xs px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md border border-blue-200 self-start font-medium"
-        >
-          🤖 
-          model 0
-        </span>
+        <div>
+          <span
+            class="text-xs px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md border border-blue-200 self-start font-medium"
+          >
+            model 0
+          </span>
+        </div>
       </div>
       <div
-        class="p-5 grid gap-4"
+        class="p-5 grid gap-3"
         data-slot="card-content"
       >
         <div
@@ -442,17 +452,17 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode list - rendere
           data-testid="categories"
         >
           <span
-            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
           >
             category 0
           </span>
           <span
-            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
           >
             category 1
           </span>
           <span
-            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
           >
             category 2
           </span>
@@ -466,7 +476,7 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode list - rendere
           <button
             class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 cursor-pointer bg-blue-600 hover:bg-blue-700 text-white"
             data-slot="button"
-            data-testid="create-prompt-button"
+            data-testid="create-prompt-btn"
           >
             <svg
               aria-hidden="true"
@@ -488,7 +498,9 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode list - rendere
                 d="M12 5v14"
               />
             </svg>
-            Prompt erstellen
+            <span>
+              Prompt erstellen
+            </span>
           </button>
           <div
             data-slot="dropdown-menu"
@@ -497,7 +509,7 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode list - rendere
             <button
               class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
               data-slot="button"
-              data-testid="more-actions-button"
+              data-testid="dropdown-menu-btn"
             >
               <svg
                 aria-hidden="true"
@@ -556,15 +568,16 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode list - rendere
             title 1
           </h4>
         </a>
-        <span
-          class="text-xs px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md border border-blue-200 self-start font-medium"
-        >
-          🤖 
-          model 1
-        </span>
+        <div>
+          <span
+            class="text-xs px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md border border-blue-200 self-start font-medium"
+          >
+            model 1
+          </span>
+        </div>
       </div>
       <div
-        class="p-5 grid gap-4"
+        class="p-5 grid gap-3"
         data-slot="card-content"
       >
         <div
@@ -572,17 +585,17 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode list - rendere
           data-testid="categories"
         >
           <span
-            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
           >
             category 0
           </span>
           <span
-            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
           >
             category 1
           </span>
           <span
-            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
           >
             category 2
           </span>
@@ -596,7 +609,7 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode list - rendere
           <button
             class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 cursor-pointer bg-blue-600 hover:bg-blue-700 text-white"
             data-slot="button"
-            data-testid="create-prompt-button"
+            data-testid="create-prompt-btn"
           >
             <svg
               aria-hidden="true"
@@ -618,7 +631,9 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode list - rendere
                 d="M12 5v14"
               />
             </svg>
-            Prompt erstellen
+            <span>
+              Prompt erstellen
+            </span>
           </button>
           <div
             data-slot="dropdown-menu"
@@ -627,7 +642,7 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode list - rendere
             <button
               class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
               data-slot="button"
-              data-testid="more-actions-button"
+              data-testid="dropdown-menu-btn"
             >
               <svg
                 aria-hidden="true"
@@ -686,15 +701,16 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode list - rendere
             title 2
           </h4>
         </a>
-        <span
-          class="text-xs px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md border border-blue-200 self-start font-medium"
-        >
-          🤖 
-          model 2
-        </span>
+        <div>
+          <span
+            class="text-xs px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md border border-blue-200 self-start font-medium"
+          >
+            model 2
+          </span>
+        </div>
       </div>
       <div
-        class="p-5 grid gap-4"
+        class="p-5 grid gap-3"
         data-slot="card-content"
       >
         <div
@@ -702,17 +718,17 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode list - rendere
           data-testid="categories"
         >
           <span
-            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
           >
             category 0
           </span>
           <span
-            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
           >
             category 1
           </span>
           <span
-            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+            class="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
           >
             category 2
           </span>
@@ -726,7 +742,7 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode list - rendere
           <button
             class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 flex-1 cursor-pointer bg-blue-600 hover:bg-blue-700 text-white"
             data-slot="button"
-            data-testid="create-prompt-button"
+            data-testid="create-prompt-btn"
           >
             <svg
               aria-hidden="true"
@@ -748,7 +764,9 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode list - rendere
                 d="M12 5v14"
               />
             </svg>
-            Prompt erstellen
+            <span>
+              Prompt erstellen
+            </span>
           </button>
           <div
             data-slot="dropdown-menu"
@@ -757,7 +775,7 @@ exports[`LibraryEntries rendering tests LibraryEntries - viewMode list - rendere
             <button
               class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
               data-slot="button"
-              data-testid="more-actions-button"
+              data-testid="dropdown-menu-btn"
             >
               <svg
                 aria-hidden="true"

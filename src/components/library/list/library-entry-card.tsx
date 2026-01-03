@@ -28,7 +28,7 @@ export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
             {map(template.categories, (cat) => (
                <span
                   key={cat.name}
-                  className="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-200"
+                  className="text-xs px-2 py-0.5 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
                >
                   {cat.name}
                </span>
@@ -48,12 +48,14 @@ export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
                   {template.title}
                </h4>
             </Link>
-            <span className="text-xs px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md border border-blue-200 self-start font-medium">
-               🤖 {template.recommendedModel}
-            </span>
+            <div>
+               <span className="text-xs px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md border border-blue-200 self-start font-medium">
+                  {template.recommendedModel}
+               </span>
+            </div>
          </CardHeader>
 
-         <CardContent className="p-5 grid gap-4">
+         <CardContent className="p-5 grid gap-3">
             {categories()}
             <p className="text-sm text-slate-700 line-clamp-3 leading-relaxed">
                {template.description}
@@ -67,7 +69,7 @@ export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
                         variant="outline"
                         size="sm"
                         className="cursor-pointer"
-                        data-testid="more-actions-button"
+                        data-testid="dropdown-menu-btn"
                      >
                         <MoreVertical className="w-4 h-4" />
                      </Button>
@@ -77,7 +79,7 @@ export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
                         <Link
                            href={`/library/${template.id}`}
                            className="cursor-pointer"
-                           data-testid="view-details-menu-item"
+                           data-testid="view-details-link"
                         >
                            <Eye className="w-4 h-4 mr-2" />
                            Details anzeigen
