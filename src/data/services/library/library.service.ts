@@ -77,7 +77,7 @@ export class LibraryService {
       }
    }
 
-   async copyTemplateToPrompts(templateId: string) {
+   async createPromptFromTemplate(templateId: string) {
       if (!isValidUuid(templateId)) {
          throw new Error("Invalid template ID.");
       }

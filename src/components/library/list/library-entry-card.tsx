@@ -1,10 +1,7 @@
-"use client";
-
-import { FC, useTransition } from "react";
+import { FC } from "react";
 import { map } from "es-toolkit/compat";
-import { Download, Eye, MoreVertical, Plus } from "lucide-react";
+import { Eye, MoreVertical } from "lucide-react";
 import Link from "next/link";
-import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
@@ -14,11 +11,9 @@ import {
    DropdownMenuItem,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import {
-   copyTemplateToPrompts,
-   downloadTemplate,
-} from "@/data/actions/library/library.actions";
 import { DLibraryEntry } from "@/data/types/domain/library";
+import { CreatePromptButton } from "../buttons/create-prompt-button";
+import { DownloadTemplateButton } from "../buttons/download-template-button";
 
 type LibraryEntryCardProps = {
    entry: DLibraryEntry;
@@ -26,41 +21,6 @@ type LibraryEntryCardProps = {
 
 export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
    const { template } = entry;
-   const [isCopying, startCopyTransition] = useTransition();
-   const [isDownloading, startDownloadTransition] = useTransition();
-
-   const handleCopyToPrompts = () => {
-      startCopyTransition(async () => {
-         const result = await copyTemplateToPrompts(template.id);
-         if (result.success) {
-            toast.success(result.message);
-         } else {
-            toast.error(result.message);
-         }
-      });
-   };
-
-   const handleDownload = () => {
-      startDownloadTransition(async () => {
-         const result = await downloadTemplate(template.id);
-         if (result.success && result.data) {
-            const blob = new Blob([result.data], {
-               type: "application/json",
-            });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = `${template.title.replace(/\s+/g, "_")}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            toast.success("Template downloaded!");
-         } else {
-            toast.error(result.message);
-         }
-      });
-   };
 
    const categories = () => {
       return (
@@ -100,18 +60,7 @@ export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
             </p>
 
             <div className="flex gap-2 pt-2">
-               <Button
-                  variant="default"
-                  size="sm"
-                  onClick={handleCopyToPrompts}
-                  disabled={isCopying}
-                  className="flex-1 cursor-pointer bg-blue-600 hover:bg-blue-700 text-white"
-                  data-testid="create-prompt-button"
-               >
-                  <Plus className="w-4 h-4 mr-1.5" />
-                  {isCopying ? "Erstellen..." : "Prompt erstellen"}
-               </Button>
-
+               <CreatePromptButton templateId={template.id} />
                <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                      <Button
@@ -134,15 +83,10 @@ export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
                            Details anzeigen
                         </Link>
                      </DropdownMenuItem>
-                     <DropdownMenuItem
-                        onClick={handleDownload}
-                        disabled={isDownloading}
-                        className="cursor-pointer"
-                        data-testid="download-menu-item"
-                     >
-                        <Download className="w-4 h-4 mr-2" />
-                        Herunterladen
-                     </DropdownMenuItem>
+                     <DownloadTemplateButton
+                        templateId={template.id}
+                        templateTitle={template.title}
+                     />
                   </DropdownMenuContent>
                </DropdownMenu>
             </div>

@@ -39,12 +39,12 @@ export const getLibraryEntryByTemplateId = async (
    }
 };
 
-export const copyTemplateToPrompts = async (
+export const createPromptFromTemplate = async (
    templateId: string
 ): Promise<ActionResult> => {
    try {
       const service = getLibrarySevice();
-      await service.copyTemplateToPrompts(templateId);
+      await service.createPromptFromTemplate(templateId);
 
       return {
          success: true,

@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
 import {
-   copyTemplateToPrompts,
+   createPromptFromTemplate,
    downloadTemplate,
 } from "@/data/actions/library/library.actions";
 
@@ -20,7 +20,7 @@ export const TemplateActions: FC<TemplateActionsProps> = ({ templateId }) => {
 
    const handleCopy = () => {
       startCopyTransition(async () => {
-         const result = await copyTemplateToPrompts(templateId);
+         const result = await createPromptFromTemplate(templateId);
          if (result.success) {
             toast.success(result.message);
          } else {
