@@ -2,7 +2,10 @@ import { range } from "es-toolkit";
 
 import { Sort } from "@/data/types/common";
 import { DCart, DCartItem } from "@/data/types/domain/cart";
-import { DLibraryEntry } from "@/data/types/domain/library";
+import {
+   DLibraryEntry,
+   DLibraryEntryWithPromptTemplate,
+} from "@/data/types/domain/library";
 import { DOrder, DOrderItem } from "@/data/types/domain/order";
 import {
    DExample,
@@ -22,8 +25,10 @@ import {
    DPromptVersion,
 } from "@/data/types/domain/prompt";
 import {
+   DPromptTemplate,
    DPromptTemplateCategory,
    DPromptTemplateDescriptor,
+   DPromptTemplateDescriptorWithPrompt,
 } from "@/data/types/domain/prompt.template";
 import { DUserUpdateData } from "@/data/types/domain/user";
 import { LoginUser } from "@/data/types/next-auth";
@@ -38,19 +43,30 @@ export const dUserUpdateData = (index = 1): DUserUpdateData => {
    };
 };
 
+export const dLibraryEntryWithPromptTemplate = (
+   index = 1
+): DLibraryEntryWithPromptTemplate => {
+   const entry = dLibraryEntry(index);
+   const templateDescriptor = dPromptTemplateDescriptorWithPrompt(index);
+   return {
+      ...entry,
+      templateDescriptor,
+   };
+};
+
 export const dLibraryEntries = (count = 3): DLibraryEntry[] => {
    return range(0, count).map((i) => dLibraryEntry(i));
 };
 
 export const dLibraryEntry = (index = 1): DLibraryEntry => {
-   const template = dPromptTemplateDescriptor(index);
+   const templateDescriptor = dPromptTemplateDescriptor(index);
    return {
       id: `457bf695-6f74-44aa-9b3a-e179ea9e817${index}`,
       orderId: `2d4daf38-5571-4c0a-9d32-4435bdf6280${index}`,
       userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
       templateDescriptorId: `52e59bcf-7651-45f8-91bf-63b8a4e06d8${index}`,
       productId: `419682c2-d8be-433e-a15f-f7ab3663346${index}`,
-      templateDescriptor: template,
+      templateDescriptor,
       createdAt: new Date("2025-09-27").toISOString(),
    };
 };
@@ -209,6 +225,17 @@ export const dInstruction = (index = 1): DInstruction => {
    };
 };
 
+export const dPromptTemplateDescriptorWithPrompt = (
+   index = 1
+): DPromptTemplateDescriptorWithPrompt => {
+   const descriptor = dPromptTemplateDescriptor(index);
+   const promptTemplate = dPromptTemplate(index);
+   return {
+      ...descriptor,
+      promptTemplate,
+   };
+};
+
 export const dPromptTemplateDescriptors = (
    count = 3
 ): DPromptTemplateDescriptor[] => {
@@ -224,6 +251,16 @@ export const dPromptTemplateDescriptor = (
       description: `description ${index}`,
       categories: dPromptTemplateCategories(),
       recommendedModel: `model ${index}`,
+      updatedAt: new Date("2025-09-27").toISOString(),
+      createdAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dPromptTemplate = (index = 1): DPromptTemplate => {
+   return {
+      id: `7c1c8898-199c-4274-8139-a883efdc676${index}`,
+      promptText: `promptText ${index}`,
+      detailedDescription: `detailedDescription ${index}`,
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
    };

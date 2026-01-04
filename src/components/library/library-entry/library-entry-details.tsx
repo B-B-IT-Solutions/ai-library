@@ -5,26 +5,26 @@ import Link from "next/link";
 
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import { MarkdownRenderer } from "@/components/shared/markdown-renderer";
-import { DLibraryEntry } from "@/data/types/domain/library";
+import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
 import { CreatePromptButton } from "../buttons/create-prompt-button";
 import { DownloadTemplateButton } from "../buttons/download-template-button";
 
 import { PromptTextDisplay } from "./prompt-text-display";
 
 type LibraryEntryDetailsProps = {
-   entry: DLibraryEntry;
+   entry: DLibraryEntryWithPromptTemplate;
 };
 
 export const LibraryEntryDetails: FC<LibraryEntryDetailsProps> = ({
    entry,
 }) => {
-   const { templateDescriptor: template } = entry;
+   const { templateDescriptor: descriptor } = entry;
 
    const categories = () => {
-      if (!isEmpty(template.categories)) {
+      if (!isEmpty(descriptor.categories)) {
          return (
             <div className="flex flex-wrap gap-2 mt-4">
-               {map(template.categories, (cat) => (
+               {map(descriptor.categories, (cat) => (
                   <span
                      key={cat.name}
                      className="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
@@ -58,10 +58,10 @@ export const LibraryEntryDetails: FC<LibraryEntryDetailsProps> = ({
                   <div className="flex items-start justify-between">
                      <div className="flex-1">
                         <h1 className="text-3xl font-bold text-slate-900 mb-3">
-                           {template.title}
+                           {descriptor.title}
                         </h1>
                         <span className="inline-block text-sm px-3 py-1 bg-blue-100 text-blue-700 rounded-md border border-blue-200">
-                           {template.recommendedModel}
+                           {descriptor.recommendedModel}
                         </span>
                      </div>
                   </div>
@@ -73,27 +73,25 @@ export const LibraryEntryDetails: FC<LibraryEntryDetailsProps> = ({
                      <h2 className="text-xl font-semibold text-slate-900 mb-3">
                         Beschreibung
                      </h2>
-                     <MarkdownRenderer content={template.description} />
+                     <MarkdownRenderer content={descriptor.description} />
                   </div>
 
-                  {template.detailedDescription && (
-                     <div>
-                        <h2 className="text-xl font-semibold text-slate-900 mb-3">
-                           Detaillierte Beschreibung
-                        </h2>
-                        <MarkdownRenderer
-                           content={template.detailedDescription}
-                        />
-                     </div>
-                  )}
+                  <div>
+                     <h2 className="text-xl font-semibold text-slate-900 mb-3">
+                        Detaillierte Beschreibung
+                     </h2>
+                     <MarkdownRenderer
+                        content={descriptor.promptTemplate.detailedDescription}
+                     />
+                  </div>
 
-                  {template.promptText && (
-                     <PromptTextDisplay content={template.promptText} />
-                  )}
+                  <PromptTextDisplay
+                     content={descriptor.promptTemplate.promptText}
+                  />
 
                   <div className="flex gap-3 pt-4 border-t border-slate-200">
-                     <CreatePromptButton descriptor={template} />
-                     <DownloadTemplateButton descriptor={template} />
+                     <CreatePromptButton descriptor={descriptor} />
+                     <DownloadTemplateButton descriptor={descriptor} />
                   </div>
                </CardContent>
             </Card>

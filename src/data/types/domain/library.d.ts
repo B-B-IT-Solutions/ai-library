@@ -1,4 +1,7 @@
-import { DPromptTemplateDescriptor } from "./prompt.template";
+import {
+   DPromptTemplateDescriptor,
+   DPromptTemplateDescriptorWithPrompt,
+} from "./prompt.template";
 
 export type DLibraryEntry = {
    id: string;

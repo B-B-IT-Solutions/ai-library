@@ -132,7 +132,7 @@ describe("LibraryEntryPage rendering tests", () => {
 
    it("LibraryEntryPage - library entry defined - test", async () => {
       const session = ntestData.session();
-      const libraryEntry = dtestData.dLibraryEntry();
+      const libraryEntry = dtestData.dLibraryEntryWithPromptTemplate();
       authMock.mockResolvedValue(session);
       getLibraryEntryMock.mockResolvedValue(libraryEntry);
 
