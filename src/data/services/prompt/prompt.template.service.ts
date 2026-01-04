@@ -4,7 +4,7 @@ import {
    DPromptTemplateDescriptor,
 } from "@/data/types/domain/prompt.template";
 
-import { toDPromptTemplateDescriptors } from "./prompt.mapper";
+import { toDPromptTemplateDescriptors } from "./prompt.template.mapper";
 
 type DGetPromptTemplatesDescriptorsParams = {
    search?: string;

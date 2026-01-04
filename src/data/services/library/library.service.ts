@@ -5,10 +5,16 @@ import { requireUser } from "@/data/actions/auth-utils";
 import { LibraryRepository } from "@/data/repositories/library";
 import { PromptService } from "@/data/services/prompt";
 import { OrderProducts } from "@/data/types/db/order";
-import { DLibraryEntry } from "@/data/types/domain/library";
+import {
+   DLibraryEntry,
+   DLibraryEntryWithPromptTemplate,
+} from "@/data/types/domain/library";
 import { DPromptCreate } from "@/data/types/domain/prompt";
 
-import { toDLibraryEntries, toDLibraryEntry } from "./library.mapper";
+import {
+   toDLibraryEntries,
+   toDLibraryEntryWithPromptTemplate,
+} from "./library.mapper";
 
 export class LibraryService {
    private libraryRepository: LibraryRepository;
@@ -34,7 +40,9 @@ export class LibraryService {
       }
    }
 
-   async getLibraryEntry(entryId: string): Promise<DLibraryEntry | null> {
+   async getLibraryEntry(
+      entryId: string
+   ): Promise<DLibraryEntryWithPromptTemplate | null> {
       const user = await requireUser();
       const entry = await this.libraryRepository.pGetLibraryEntry(
          entryId,
@@ -42,7 +50,7 @@ export class LibraryService {
       );
 
       if (entry) {
-         return toDLibraryEntry(entry);
+         return toDLibraryEntryWithPromptTemplate(entry);
       }
       return null;
    }

@@ -6,7 +6,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import { PromptTemplateRepository } from "@/data/repositories/prompt/prompt.template";
 
-import { toDPromptTemplateDescriptors } from "./prompt.mapper";
+import { toDPromptTemplateDescriptors } from "./prompt.template.mapper";
 import { PromptTemplateService } from "./prompt.template.service";
 
 const promptTemplateRepo = new PromptTemplateRepository(prisma);

@@ -4,8 +4,12 @@ export type DLibraryEntry = {
    id: string;
    userId: string;
    orderId: string;
-   templateId: string;
+   templateDescriptorId: string;
    productId: string;
    templateDescriptor: DPromptTemplateDescriptor;
    createdAt: string;
+};
+
+export type DLibraryEntryWithPromptTemplate = DLibraryEntry & {
+   templateDescriptor: DPromptTemplateDescriptorWithPrompt;
 };

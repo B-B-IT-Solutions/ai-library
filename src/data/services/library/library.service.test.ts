@@ -12,7 +12,10 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { PromptService } from "@/data/services/prompt";
 
-import { toDLibraryEntries } from "./library.mapper";
+import {
+   toDLibraryEntries,
+   toDLibraryEntryWithPromptTemplate,
+} from "./library.mapper";
 import { LibraryService } from "./library.service";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
@@ -71,6 +74,80 @@ describe("getLibraryEntries tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pGetLibraryEntries).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pGetLibraryEntries).toHaveBeenCalledWith(user.id);
+   });
+});
+
+describe("getLibraryEntry tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("getLibraryEntry - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+      const entryId = "entry-id-1";
+
+      const fn = async () => await libraryService.getLibraryEntry(entryId);
+
+      await expect(fn).rejects.toThrow(error);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryEntry).not.toHaveBeenCalled();
+   });
+
+   it("getLibraryEntry - db error - test", async () => {
+      const user = dtestData.dLoginUser();
+      const error = new Error("Unknow user");
+      requireUserMock.mockResolvedValue(user);
+      libraryRepoMock.pGetLibraryEntry.mockRejectedValue(error);
+
+      const entryId = "entry-id-1";
+
+      const fn = async () => await libraryService.getLibraryEntry(entryId);
+
+      await expect(fn).rejects.toThrow(error);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
+         entryId,
+         user.id
+      );
+   });
+
+   it("getLibraryEntry - entry null - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(null);
+
+      const entryId = "entry-id-1";
+
+      const result = await libraryService.getLibraryEntry(entryId);
+
+      expect(result).toBeNull();
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
+         entryId,
+         user.id
+      );
+   });
+
+   it("getLibraryEntry - entry retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      const entry = ptestData.pLibraryEntryWithPromptTemplate();
+      requireUserMock.mockResolvedValue(user);
+      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(entry);
+
+      const result = await libraryService.getLibraryEntry(entry.id);
+
+      const expectedResult = toDLibraryEntryWithPromptTemplate(entry);
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
+         entry.id,
+         user.id
+      );
    });
 });
 
