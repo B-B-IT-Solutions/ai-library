@@ -16,6 +16,4 @@ export type DPromptTemplateDescriptor = {
    categories: DPromptTemplateCategory[];
    updatedAt: string;
    createdAt: string;
-   promptText?: string;
-   detailedDescription?: string;
 };

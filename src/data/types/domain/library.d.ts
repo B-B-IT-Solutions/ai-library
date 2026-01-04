@@ -6,6 +6,6 @@ export type DLibraryEntry = {
    orderId: string;
    templateId: string;
    productId: string;
-   template: DPromptTemplateDescriptor;
+   templateDescriptor: DPromptTemplateDescriptor;
    createdAt: string;
 };

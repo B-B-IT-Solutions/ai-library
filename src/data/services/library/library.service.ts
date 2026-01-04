@@ -8,7 +8,7 @@ import { OrderProducts } from "@/data/types/db/order";
 import { DLibraryEntry } from "@/data/types/domain/library";
 import { DPromptCreate } from "@/data/types/domain/prompt";
 
-import { toDLibraryEntries } from "./library.mapper";
+import { toDLibraryEntries, toDLibraryEntry } from "./library.mapper";
 
 export class LibraryService {
    private libraryRepository: LibraryRepository;
@@ -36,14 +36,15 @@ export class LibraryService {
 
    async getLibraryEntry(entryId: string): Promise<DLibraryEntry | null> {
       const user = await requireUser();
-      const entries = await this.libraryRepository.pGetLibraryEntries(user.id);
-      const entry = entries.find((e) => e.id === entryId);
+      const entry = await this.libraryRepository.pGetLibraryEntry(
+         entryId,
+         user.id
+      );
 
-      if (!entry) {
-         return null;
+      if (entry) {
+         return toDLibraryEntry(entry);
       }
-
-      return toDLibraryEntries([entry])[0];
+      return null;
    }
 
    async createLibraryEntries(order: OrderProducts): Promise<void> {

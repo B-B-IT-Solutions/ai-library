@@ -20,7 +20,7 @@ type LibraryEntryCardProps = {
 };
 
 export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
-   const { template } = entry;
+   const { templateDescriptor: template } = entry;
 
    const categories = () => {
       return (

@@ -19,12 +19,30 @@ export class LibraryRepository {
             template: {
                include: {
                   categories: true,
-                  promptTemplate: true,
                },
             },
          },
          orderBy: {
             createdAt: "desc",
+         },
+      });
+   }
+   async pGetLibraryEntry(
+      entryId: string,
+      userId: string
+   ): Promise<LibraryEntryWithTemplate | null> {
+      return await this.prisma.libraryEntry.findFirst({
+         where: {
+            id: entryId,
+            userId,
+         },
+         include: {
+            template: {
+               include: {
+                  categories: true,
+                  promptTemplate: true,
+               },
+            },
          },
       });
    }

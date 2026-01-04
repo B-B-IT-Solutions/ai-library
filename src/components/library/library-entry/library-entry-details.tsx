@@ -18,7 +18,7 @@ type LibraryEntryDetailsProps = {
 export const LibraryEntryDetails: FC<LibraryEntryDetailsProps> = ({
    entry,
 }) => {
-   const { template } = entry;
+   const { templateDescriptor: template } = entry;
 
    const categories = () => {
       if (!isEmpty(template.categories)) {

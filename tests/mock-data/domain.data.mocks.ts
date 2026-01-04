@@ -50,7 +50,7 @@ export const dLibraryEntry = (index = 1): DLibraryEntry => {
       userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
       templateId: `52e59bcf-7651-45f8-91bf-63b8a4e06d8${index}`,
       productId: `419682c2-d8be-433e-a15f-f7ab3663346${index}`,
-      template,
+      templateDescriptor: template,
       createdAt: new Date("2025-09-27").toISOString(),
    };
 };
