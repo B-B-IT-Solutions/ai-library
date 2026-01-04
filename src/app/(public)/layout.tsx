@@ -45,7 +45,7 @@ const PublicLayout = async (props: Readonly<PublicLayoutProps>) => {
                </div>
             </div>
          </header>
-         <main className="flex-1 wrapper">{children}</main>
+         <main className="flex-1">{children}</main>
       </div>
    );
 };
