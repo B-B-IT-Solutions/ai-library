@@ -95,9 +95,9 @@ CREATE TABLE "prompt_template_descriptor" (
     "title" VARCHAR(250) NOT NULL,
     "description" VARCHAR(750) NOT NULL,
     "recommended_model" VARCHAR(250) NOT NULL,
+    "prompt_template_id" UUID NOT NULL,
     "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
-    "prompt_template_id" UUID NOT NULL,
 
     CONSTRAINT "prompt_template_descriptor_pkey" PRIMARY KEY ("id")
 );

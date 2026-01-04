@@ -33,7 +33,7 @@ describe("getLibraryEntries tests", () => {
    });
 
    it("getLibraryEntries - user undefined - test", async () => {
-      const entries = ptestData.pLibraryEntriesWithTemplate();
+      const entries = ptestData.pLibraryEntriesWithTemplateDescriptor();
       requireUserMock.mockRejectedValue("Unknow user");
       libraryRepoMock.pGetLibraryEntries.mockResolvedValue(entries);
 
@@ -59,7 +59,7 @@ describe("getLibraryEntries tests", () => {
 
    it("getLibraryEntries - entries retrieved - test", async () => {
       const user = dtestData.dLoginUser();
-      const entries = ptestData.pLibraryEntriesWithTemplate();
+      const entries = ptestData.pLibraryEntriesWithTemplateDescriptor();
       requireUserMock.mockResolvedValue(user);
       libraryRepoMock.pGetLibraryEntries.mockResolvedValue(entries);
 

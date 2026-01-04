@@ -3,7 +3,10 @@ import { range } from "es-toolkit";
 import { map } from "es-toolkit/compat";
 
 import { CartWithItems } from "@/data/types/db/cart";
-import { LibraryEntryWithPromptTemplateDescriptor } from "@/data/types/db/library";
+import {
+   LibraryEntryWithPromptTemplate,
+   LibraryEntryWithPromptTemplateDescriptor,
+} from "@/data/types/db/library";
 import {
    OrderItemProduct,
    OrderProducts,
@@ -18,7 +21,10 @@ import {
    PromptDescriptorsPage,
    PromptDescriptorWithCategories,
 } from "@/data/types/db/prompt";
-import { PromptTemplateDescriptorWithCategories } from "@/data/types/db/prompt.template";
+import {
+   PromptTemplateDescriptorWithCategories,
+   PromptTemplateDescriptorWithPrompt,
+} from "@/data/types/db/prompt.template";
 import { UserUpdateData } from "@/data/types/db/user";
 import { Order } from "@/generated/prisma/browser";
 import {
@@ -33,6 +39,7 @@ import {
    ProductUseCase,
    PromptCategory,
    PromptDescriptor,
+   PromptTemplate,
    PromptTemplateCategory,
    PromptTemplateDescriptor,
    User,
@@ -270,13 +277,28 @@ export const pOrderItem = (index = 1): OrderItem => {
    };
 };
 
-export const pLibraryEntriesWithTemplate = (
-   count = 3
-): LibraryEntryWithPromptTemplateDescriptor[] => {
-   return range(0, count).map((i) => pLibraryEntryWithTemplate(i));
+export const pLibraryEntryWithPromptTemplate = (
+   index = 1
+): LibraryEntryWithPromptTemplate => {
+   const templateDescriptor = pPromptTemplateDescriptorWithPrompt(index);
+   return {
+      id: `f99e7f4d-8653-45ee-b2fe-c158a562895${index}`,
+      orderId: `2d4daf38-5571-4c0a-9d32-4435bdf6280${index}`,
+      userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
+      templateDescriptorId: `52e59bcf-7651-45f8-91bf-63b8a4e06d8${index}`,
+      productId: `419682c2-d8be-433e-a15f-f7ab3663346${index}`,
+      templateDescriptor,
+      createdAt: new Date("2025-09-27"),
+   };
 };
 
-export const pLibraryEntryWithTemplate = (
+export const pLibraryEntriesWithTemplateDescriptor = (
+   count = 3
+): LibraryEntryWithPromptTemplateDescriptor[] => {
+   return range(0, count).map((i) => pLibraryEntryWithTemplateDescriptor(i));
+};
+
+export const pLibraryEntryWithTemplateDescriptor = (
    index = 1
 ): LibraryEntryWithPromptTemplateDescriptor => {
    const templateDescriptor = pPromptTemplateDescriptorWithCategories(index);
@@ -284,7 +306,7 @@ export const pLibraryEntryWithTemplate = (
       id: `f99e7f4d-8653-45ee-b2fe-c158a562895${index}`,
       orderId: `2d4daf38-5571-4c0a-9d32-4435bdf6280${index}`,
       userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
-      templateId: `52e59bcf-7651-45f8-91bf-63b8a4e06d8${index}`,
+      templateDescriptorId: `52e59bcf-7651-45f8-91bf-63b8a4e06d8${index}`,
       productId: `419682c2-d8be-433e-a15f-f7ab3663346${index}`,
       templateDescriptor,
       createdAt: new Date("2025-09-27"),
@@ -300,7 +322,7 @@ export const pLibraryEntry = (index = 1): LibraryEntry => {
       id: `library-entry-${index}`,
       orderId: `2d4daf38-5571-4c0a-9d32-4435bdf6280${index}`,
       userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
-      templateId: `52e59bcf-7651-45f8-91bf-63b8a4e06d8${index}`,
+      templateDescriptorId: `52e59bcf-7651-45f8-91bf-63b8a4e06d8${index}`,
       productId: `419682c2-d8be-433e-a15f-f7ab3663346${index}`,
       createdAt: new Date("2025-09-27"),
    };
@@ -335,6 +357,17 @@ export const pCartItem = (index = 1): CartItem => {
    };
 };
 
+export const pPromptTemplateDescriptorWithPrompt = (
+   index = 1
+): PromptTemplateDescriptorWithPrompt => {
+   const templateDescriptor = pPromptTemplateDescriptorWithCategories(index);
+   const promptTemplate = pPromptTemplate(index);
+   return {
+      ...templateDescriptor,
+      promptTemplate,
+   };
+};
+
 export const pPromptTemplateDescriptorsWithCategories = (
    count = 3
 ): PromptTemplateDescriptorWithCategories[] => {
@@ -346,10 +379,10 @@ export const pPromptTemplateDescriptorsWithCategories = (
 export const pPromptTemplateDescriptorWithCategories = (
    index = 1
 ): PromptTemplateDescriptorWithCategories => {
-   const template = pPromptTemplateDescriptor(index);
+   const templateDescriptor = pPromptTemplateDescriptor(index);
    const categories = pPromptTemplateCategories();
    return {
-      ...template,
+      ...templateDescriptor,
       categories,
    };
 };
@@ -368,6 +401,17 @@ export const pPromptTemplateDescriptor = (
       title: `title ${index}`,
       description: `description ${index}`,
       recommendedModel: `model ${index}`,
+      promptTemplateId: `18821adc-b6c7-4239-a32e-c824c51c19d${index}`,
+      updatedAt: new Date("2025-09-27"),
+      createdAt: new Date("2025-09-27"),
+   };
+};
+
+export const pPromptTemplate = (index = 1): PromptTemplate => {
+   return {
+      id: `8b82ebb2-5966-4788-8fed-3ad18c08e28${index}`,
+      promptText: `promptText ${index}`,
+      detailedDescription: `detailedDescription ${index}`,
       updatedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),
    };

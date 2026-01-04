@@ -1,11 +1,12 @@
 import { PrismaClient } from "@prisma/client";
 import { ptestData } from "@tests";
 import { map } from "es-toolkit/compat";
-import { DeepMockProxy, mockReset } from "jest-mock-extended";
+import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import {
    LibraryEntryCreateManyArgs,
+   LibraryEntryFindFirstArgs,
    LibraryEntryFindManyArgs,
    LibraryEntryFindUniqueArgs,
 } from "@/generated/prisma/models";
@@ -17,12 +18,12 @@ const libraryRepository = new LibraryRepository(prismaMock);
 
 describe("pGetLibraryEntries tests", () => {
    beforeEach(() => {
-      mockReset(prismaMock);
+      jest.clearAllMocks();
    });
 
    test("pGetLibraryEntries test", async () => {
       const userId = "user-id-1";
-      const libraryEntries = ptestData.pLibraryEntriesWithTemplate();
+      const libraryEntries = ptestData.pLibraryEntriesWithTemplateDescriptor();
       prismaMock.libraryEntry.findMany.mockResolvedValue(libraryEntries);
 
       const result = await libraryRepository.pGetLibraryEntries(userId);
@@ -49,9 +50,46 @@ describe("pGetLibraryEntries tests", () => {
    });
 });
 
+describe("pGetLibraryEntry tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("pGetLibraryEntry test", async () => {
+      const libraryEntry = ptestData.pLibraryEntryWithPromptTemplate();
+      prismaMock.libraryEntry.findFirst.mockResolvedValue(libraryEntry);
+
+      const entryId = libraryEntry.id;
+      const userId = "user-id-1";
+
+      const result = await libraryRepository.pGetLibraryEntry(entryId, userId);
+
+      const expectedFindFirstArgs: LibraryEntryFindFirstArgs = {
+         where: {
+            id: entryId,
+            userId,
+         },
+         include: {
+            templateDescriptor: {
+               include: {
+                  categories: true,
+                  promptTemplate: true,
+               },
+            },
+         },
+      };
+
+      expect(result).toEqual(libraryEntry);
+      expect(prismaMock.libraryEntry.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryEntry.findFirst).toHaveBeenCalledWith(
+         expectedFindFirstArgs
+      );
+   });
+});
+
 describe("pCreateLibraryEntries tests", () => {
    beforeEach(() => {
-      mockReset(prismaMock);
+      jest.clearAllMocks();
    });
 
    test("pCreateLibraryEntries test", async () => {
@@ -88,7 +126,7 @@ describe("pCreateLibraryEntries tests", () => {
 
 describe("pCheckUserHasTemplate tests", () => {
    beforeEach(() => {
-      mockReset(prismaMock);
+      jest.clearAllMocks();
    });
 
    test("pCheckUserHasTemplate - template not found - test", async () => {
