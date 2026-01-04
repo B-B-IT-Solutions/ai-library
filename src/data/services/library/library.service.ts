@@ -2,7 +2,10 @@ import { isEmpty, map } from "es-toolkit/compat";
 import { validate as isValidUuid } from "uuid";
 
 import { requireUser } from "@/data/actions/auth-utils";
-import { LibraryRepository } from "@/data/repositories/library";
+import {
+   GetLibraryEntryParams,
+   LibraryRepository,
+} from "@/data/repositories/library";
 import { PromptService } from "@/data/services/prompt";
 import { OrderProducts } from "@/data/types/db/order";
 import {
@@ -44,10 +47,8 @@ export class LibraryService {
       entryId: string
    ): Promise<DLibraryEntryWithPromptTemplate | null> {
       const user = await requireUser();
-      const entry = await this.libraryRepository.pGetLibraryEntry(
-         entryId,
-         user.id
-      );
+      const params: GetLibraryEntryParams = { entryId, userId: user.id };
+      const entry = await this.libraryRepository.pGetLibraryEntry(params);
 
       if (entry) {
          return toDLibraryEntryWithPromptTemplate(entry);
@@ -72,90 +73,57 @@ export class LibraryService {
       }
    }
 
-   async hasAccessToTemplate(templateId: string): Promise<boolean> {
-      try {
-         const user = await requireUser();
-         return await this.libraryRepository.pCheckUserHasTemplate(
-            user.id,
-            templateId
-         );
-      } catch {
-         return false;
-      }
-   }
-
    async createPromptFromTemplate(templateDescriptorId: string) {
       if (!isValidUuid(templateDescriptorId)) {
          throw new Error("Invalid template ID.");
       }
-
       const user = await requireUser();
 
-      // Check access
-      const hasAccess = await this.hasAccessToTemplate(templateDescriptorId);
-      if (!hasAccess) {
-         throw new Error("You do not have access to this template.");
-      }
+      const params: GetLibraryEntryParams = {
+         templateDescriptorId,
+         userId: user.id,
+      };
+      const entry = await this.libraryRepository.pGetLibraryEntry(params);
 
-      // Get template
-      const purchases = await this.libraryRepository.pGetLibraryEntries(
-         user.id
-      );
-      const purchase = purchases.find(
-         (p) => p.templateDescriptorId === templateDescriptorId
-      );
-
-      if (!purchase) {
+      if (!entry) {
          throw new Error("Template not found");
       }
 
-      const template = purchase.templateDescriptor;
-
-      // Create prompt from template
+      const { templateDescriptor: descriptor } = entry;
       const promptData: DPromptCreate = {
-         content: template.promptText || "",
-         title: template.title,
-         recommendedModel: template.recommendedModel,
-         categories: map(template.categories, (cat) => cat.name),
+         content: descriptor.promptTemplate.promptText,
+         title: descriptor.title,
+         recommendedModel: descriptor.recommendedModel,
+         categories: map(descriptor.categories, (cat) => cat.name),
       };
 
       await this.promptService.createPrompt(promptData);
    }
 
-   async downloadTemplate(templateDescriptorId: string): Promise<string> {
+   async downloadPromptTemplate(templateDescriptorId: string): Promise<string> {
       if (!isValidUuid(templateDescriptorId)) {
          throw new Error("Invalid template ID.");
       }
 
       const user = await requireUser();
 
-      // Check access
-      const hasAccess = await this.hasAccessToTemplate(templateDescriptorId);
-      if (!hasAccess) {
-         throw new Error("You do not have access to this template.");
+      const params: GetLibraryEntryParams = {
+         templateDescriptorId,
+         userId: user.id,
+      };
+      const entry = await this.libraryRepository.pGetLibraryEntry(params);
+
+      if (!entry) {
+         throw new Error("Template not found");
       }
 
-      // Get template
-      const purchases = await this.libraryRepository.pGetLibraryEntries(
-         user.id
-      );
-      const purchase = purchases.find(
-         (p) => p.templateDescriptorId === templateDescriptorId
-      );
-
-      if (!purchase) {
-         throw new Error("Template not found.");
-      }
-
-      const template = purchase.templateDescriptor;
-
-      // Create JSON download data
+      const { templateDescriptor: descriptor } = entry;
       const downloadData = JSON.stringify(
          {
-            title: template.title,
-            content: template.promptText || "",
-            categories: template.categories.map((c) => c.name),
-            recommendedModel: template.recommendedModel,
+            title: descriptor.title,
+            content: descriptor.promptTemplate.promptText,
+            categories: descriptor.categories.map((c) => c.name),
+            recommendedModel: descriptor.recommendedModel,
          },
          null,
          2

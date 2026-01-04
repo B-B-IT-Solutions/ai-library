@@ -5,6 +5,14 @@ import {
    LibraryEntryWithPromptTemplate,
    LibraryEntryWithPromptTemplateDescriptor,
 } from "@/data/types/db/library";
+import { LibraryEntryWhereUniqueInput } from "@/generated/prisma/models";
+
+export type GetLibraryEntryParams = {
+   userId: string;
+} & (
+   | { entryId: string; templateDescriptorId?: never }
+   | { templateDescriptorId: string; entryId?: never }
+);
 
 export class LibraryRepository {
    private prisma: DbClient;
@@ -30,15 +38,13 @@ export class LibraryRepository {
          },
       });
    }
+
    async pGetLibraryEntry(
-      entryId: string,
-      userId: string
+      params: GetLibraryEntryParams
    ): Promise<LibraryEntryWithPromptTemplate | null> {
-      return await this.prisma.libraryEntry.findFirst({
-         where: {
-            id: entryId,
-            userId,
-         },
+      const where = this.getLibraryEntryParamsToWhereFindUniqueInput(params);
+      return await this.prisma.libraryEntry.findUnique({
+         where: where,
          include: {
             templateDescriptor: {
                include: {
@@ -69,16 +75,23 @@ export class LibraryRepository {
       });
    }
 
-   async pCheckUserHasTemplate(userId: string, templateDescriptorId: string) {
-      const entry = await this.prisma.libraryEntry.findUnique({
-         where: {
-            userId_templateDescriptorId: {
-               userId,
-               templateDescriptorId,
-            },
-         },
-      });
+   private getLibraryEntryParamsToWhereFindUniqueInput = (
+      params: GetLibraryEntryParams
+   ): LibraryEntryWhereUniqueInput => {
+      const { userId, entryId, templateDescriptorId } = params;
 
-      return entry !== null;
-   }
+      if (entryId) {
+         return {
+            id: entryId,
+            userId,
+         };
+      }
+
+      return {
+         userId_templateDescriptorId: {
+            userId,
+            templateDescriptorId: templateDescriptorId as string,
+         },
+      };
+   };
 }

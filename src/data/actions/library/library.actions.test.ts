@@ -15,7 +15,7 @@ const sGetLibraryEntries = LibraryService.prototype.getLibraryEntries;
 const sgetLibraryEntry = LibraryService.prototype.getLibraryEntry;
 const sCreatePromptFromTemplate =
    LibraryService.prototype.createPromptFromTemplate;
-const sDownloadTemplate = LibraryService.prototype.downloadTemplate;
+const sDownloadTemplate = LibraryService.prototype.downloadPromptTemplate;
 
 const sGetLibraryEntriesMock = sGetLibraryEntries as jest.MockedFunction<
    typeof sGetLibraryEntries
