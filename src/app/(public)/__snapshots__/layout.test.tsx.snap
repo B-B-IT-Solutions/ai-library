@@ -60,7 +60,7 @@ exports[`PublicLayout rendering tests PublicLayout rendered test 1`] = `
       </div>
     </header>
     <main
-      class="flex-1 wrapper"
+      class="flex-1"
     >
       <div
         data-testid="test-1"
