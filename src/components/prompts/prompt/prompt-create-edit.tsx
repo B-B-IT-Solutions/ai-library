@@ -20,18 +20,7 @@ export const PromptCreateEdit: FC<PromptCreateEditProps> = ({ prompt }) => {
 
    const editForm = () => {
       return (
-         <div className="bg-white rounded-lg p-6 border border-slate-200 shadow-sm">
-            {isEditing && (
-               <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-2xl font-bold text-slate-900">
-                     {prompt ? "Update Prompt" : "Create New Prompt"}
-                  </h2>
-                  <button className="p-2 hover:bg-slate-100 rounded-lg transition-colors">
-                     <X className="w-5 h-5 text-slate-600" />
-                  </button>
-               </div>
-            )}
-
+         <div className="space-y-6">
             {/* Template Selector */}
             {!prompt && <TemplateSelector onSelect={setTemplate} />}
             <PromptFormEdit prompt={prompt} />
@@ -40,11 +29,8 @@ export const PromptCreateEdit: FC<PromptCreateEditProps> = ({ prompt }) => {
    };
 
    return (
-      <div
-         className="h-full rounded-lg bg-slate-50 text-slate-900 flex"
-         data-testid="prompt-create-edit"
-      >
-         <div className="flex-1 p-6">{editForm()}</div>
+      <div data-testid="prompt-create-edit">
+         {editForm()}
       </div>
    );
 };

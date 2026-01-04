@@ -24,25 +24,30 @@ const PromptsPage = async () => {
    await queryClient.prefetchQuery(preloadPromptTemplateCategoriesOptions());
 
    return (
-      <div
-         className="h-full w-full text-slate-900 flex flex-col"
-         data-testid="prompts-page"
-      >
-         <div className="flex-1">
-            <header className="mb-8">
-               <h2 className="text-3xl font-bold text-slate-900 mb-2">
-                  All Prompts
-               </h2>
-               <p className="text-slate-600">
-                  Create, version, and organize your AI prompts
-               </p>
-            </header>
+      <div className="h-screen flex flex-col bg-slate-50" data-testid="prompts-page">
+         {/* Top Navigation Bar */}
+         <div className="bg-white border-b border-slate-200 px-6 py-4">
+            <div className="flex items-center justify-between">
+               <div>
+                  <h1 className="text-2xl font-bold text-slate-900">Prompts</h1>
+                  <p className="text-sm text-slate-600 mt-0.5">
+                     Manage your AI prompt library with version control
+                  </p>
+               </div>
+            </div>
+         </div>
+
+         {/* Main Content Area */}
+         <div className="flex-1 flex overflow-hidden">
             <HydrationBoundary state={dehydrate(queryClient)}>
-               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                  <div className="lg:col-span-1">
-                     <PromptsList />
-                  </div>
-                  <div className="lg:col-span-2">
+               {/* Sidebar List */}
+               <div className="w-96 bg-white border-r border-slate-200 flex flex-col">
+                  <PromptsList />
+               </div>
+
+               {/* Main Content Panel */}
+               <div className="flex-1 overflow-y-auto bg-slate-50">
+                  <div className="max-w-5xl mx-auto p-8">
                      <PromptView />
                   </div>
                </div>

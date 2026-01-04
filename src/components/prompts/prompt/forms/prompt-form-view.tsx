@@ -20,8 +20,8 @@ type PromptFomProps = {
 export const PromptFormView: FC<PromptFomProps> = ({ prompt }) => {
    const viewForm = () => {
       return (
-         <div className="space-y-6 bg-white rounded-lg p-6 border border-slate-200 shadow-sm">
-            <div className="flex justify-between items-start mb-6">
+         <div className="space-y-6 bg-white rounded-xl p-8 border border-slate-200 shadow-sm">
+            <div className="flex justify-between items-start pb-6 border-b border-slate-100">
                <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
                      <h2 className="text-2xl font-bold text-slate-900">
@@ -90,9 +90,5 @@ export const PromptFormView: FC<PromptFomProps> = ({ prompt }) => {
       );
    };
 
-   return (
-      <div className="lg:col-span-2" data-testid="prompt-form-view">
-         {viewForm()}
-      </div>
-   );
+   return <div data-testid="prompt-form-view">{viewForm()}</div>;
 };

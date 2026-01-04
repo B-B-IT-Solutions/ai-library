@@ -23,17 +23,25 @@ const EditPromptPage = async (props: EditPromptPageProps) => {
    }
 
    return (
-      <div className="h-full w-full" data-testid="edit-prompt-page">
-         <header className="mb-6">
-            <h2 className="text-3xl font-bold text-slate-900 mb-2">
-               Edit Prompt
-            </h2>
-            <p className="text-slate-600">
-               Update your prompt. A new version will be created if you modify
-               the content.
-            </p>
-         </header>
-         <PromptFormEdit prompt={prompt} mode="edit" />
+      <div className="h-screen flex flex-col bg-slate-50" data-testid="edit-prompt-page">
+         {/* Top Navigation Bar */}
+         <div className="bg-white border-b border-slate-200 px-6 py-4">
+            <div className="flex items-center justify-between">
+               <div>
+                  <h1 className="text-2xl font-bold text-slate-900">Edit Prompt</h1>
+                  <p className="text-sm text-slate-600 mt-0.5">
+                     Update your prompt. A new version will be created if you modify the content.
+                  </p>
+               </div>
+            </div>
+         </div>
+
+         {/* Main Content Area */}
+         <div className="flex-1 overflow-y-auto bg-slate-50">
+            <div className="max-w-5xl mx-auto p-8">
+               <PromptFormEdit prompt={prompt} mode="edit" />
+            </div>
+         </div>
       </div>
    );
 };

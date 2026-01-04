@@ -41,7 +41,13 @@ export const PromptListItem: FC<PromptListItemProps> = ({ prompt }) => {
                e.stopPropagation();
                handleToggleFavorite();
             }}
-            className="ml-2 p-1 bg-background hover:bg-slate-100 rounded transition-colors z-20"
+            size="sm"
+            variant="ghost"
+            className={`h-6 w-6 p-0 flex-shrink-0 ${
+               prompt.isFavorite
+                  ? "opacity-100"
+                  : "opacity-0 group-hover:opacity-100"
+            } transition-opacity`}
             title={
                prompt.isFavorite ? "Remove from favorites" : "Add to favorites"
             }
@@ -49,13 +55,13 @@ export const PromptListItem: FC<PromptListItemProps> = ({ prompt }) => {
             disabled={isPending}
          >
             {isPending ? (
-               <Loader className="w-4 h-4 animate-spin" />
+               <Loader className="w-3.5 h-3.5 animate-spin text-slate-400" />
             ) : (
                <Star
-                  className={`w-5 h-5 ${
+                  className={`w-3.5 h-3.5 ${
                      prompt.isFavorite
-                        ? "fill-yellow-400 text-yellow-400"
-                        : "text-slate-400"
+                        ? "fill-yellow-400 text-yellow-500"
+                        : "text-slate-400 hover:text-yellow-500"
                   }`}
                />
             )}
@@ -66,42 +72,51 @@ export const PromptListItem: FC<PromptListItemProps> = ({ prompt }) => {
    return (
       <Link href={href}>
          <div
-            className={`p-4 cursor-pointer transition-colors hover:bg-slate-50 ${
-               isSelected ? "bg-blue-50 border-l-4 border-l-blue-600" : ""
+            className={`group px-4 py-3 cursor-pointer transition-all border-l-2 hover:bg-slate-50 ${
+               isSelected
+                  ? "bg-blue-50 border-l-blue-600"
+                  : "border-l-transparent"
             }`}
             data-testid="prompt-list-item"
          >
-            <div className="flex items-start justify-between">
-               <div className="flex-1">
-                  <h3 className="font-medium mb-1 text-slate-900">
-                     {prompt.title}
-                  </h3>
-                  <div className="flex flex-wrap gap-1 mb-2">
-                     {prompt.categories.map((cat, idx) => (
-                        <span
-                           key={idx}
-                           className="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded border border-slate-200"
-                        >
-                           {cat.name}
-                        </span>
-                     ))}
+            <div className="flex items-start gap-3">
+               <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1.5">
+                     <h3 className="font-medium text-sm text-slate-900 truncate flex-1">
+                        {prompt.title}
+                     </h3>
+                     {addFavoriteBtn()}
                   </div>
-                  <div className="text-xs text-slate-500 flex items-center gap-3">
-                     <span className="font-medium">
-                        v{prompt.currentVersion}
+
+                  {prompt.categories.length > 0 && (
+                     <div className="flex flex-wrap gap-1 mb-1.5">
+                        {prompt.categories.slice(0, 2).map((cat, idx) => (
+                           <span
+                              key={idx}
+                              className="text-xs px-1.5 py-0.5 bg-slate-100 text-slate-600 rounded"
+                           >
+                              {cat.name}
+                           </span>
+                        ))}
+                        {prompt.categories.length > 2 && (
+                           <span className="text-xs px-1.5 py-0.5 text-slate-500">
+                              +{prompt.categories.length - 2}
+                           </span>
+                        )}
+                     </div>
+                  )}
+
+                  <div className="flex items-center gap-2 text-xs text-slate-500">
+                     <span className="inline-flex items-center gap-1">
+                        <span className="font-medium">v{prompt.currentVersion}</span>
                      </span>
-                     {prompt.recommendedModel && (
-                        <span className="flex items-center gap-1 text-blue-600 font-medium">
-                           🤖 {prompt.recommendedModel}
-                        </span>
-                     )}
-                     <span className="flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
+                     <span className="text-slate-300">•</span>
+                     <span className="inline-flex items-center gap-1 truncate">
+                        <Clock className="w-3 h-3 flex-shrink-0" />
                         {formatDateTime(prompt.updatedAt).dateTime}
                      </span>
                   </div>
                </div>
-               {addFavoriteBtn()}
             </div>
          </div>
       </Link>

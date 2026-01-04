@@ -30,18 +30,27 @@ export const PromptsList: FC = () => {
    const promptItemsHeader = () => {
       return (
          <div
-            className="p-4 rounded-t-lg border-b border-slate-200 flex justify-between items-center bg-slate-50"
+            className="px-4 py-3 border-b border-slate-200 flex justify-between items-center bg-white sticky top-0 z-10"
             data-testid="prompts-list-header"
          >
-            <h2 className="font-semibold text-slate-900">Prompts ({count})</h2>
+            <div className="flex items-center gap-2">
+               <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+                  Library
+               </h3>
+               <span className="text-xs text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">
+                  {count}
+               </span>
+            </div>
 
             <Button
                asChild={true}
-               className="p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-sm"
+               size="sm"
+               className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm"
                data-testid="add-prompt-btn"
             >
-               <Link href="/prompts/new">
-                  <Plus className="w-4 h-4" />
+               <Link href="/prompts/new" className="flex items-center gap-1.5">
+                  <Plus className="w-3.5 h-3.5" />
+                  <span className="text-xs font-medium">New</span>
                </Link>
             </Button>
          </div>
@@ -51,7 +60,7 @@ export const PromptsList: FC = () => {
    const promptItems = () => {
       return (
          <div
-            className="divide-y divide-slate-200 max-h-[500px] overflow-y-auto"
+            className="flex-1 overflow-y-auto"
             data-testid="prompts-list-items"
          >
             {map(pages, (page) => {
@@ -66,8 +75,8 @@ export const PromptsList: FC = () => {
                threshold={0.7}
             >
                {hasNextPage && (
-                  <div className="flex flex-center">
-                     <Loader2 className="my-4 h-8 w-8 animate-spin flex items-center" />
+                  <div className="flex justify-center py-4">
+                     <Loader2 className="h-6 w-6 animate-spin text-slate-400" />
                   </div>
                )}
             </InfiniteScroll>
@@ -75,23 +84,19 @@ export const PromptsList: FC = () => {
       );
    };
 
-   const promptItemsList = () => {
+   const promptFilters = () => {
       return (
-         <div className="bg-white rounded-lg border border-slate-200 shadow-sm">
-            {promptItemsHeader()}
-            {promptItems()}
+         <div className="px-4 py-3 border-b border-slate-200 bg-slate-50">
+            <PromptFilters onFiltersUpdate={setFilters} />
          </div>
       );
    };
 
-   const promptFilters = () => {
-      return <PromptFilters onFiltersUpdate={setFilters} />;
-   };
-
    return (
-      <div className="space-y-4" data-testid="prompts-list">
+      <div className="flex flex-col h-full" data-testid="prompts-list">
+         {promptItemsHeader()}
          {promptFilters()}
-         {promptItemsList()}
+         {promptItems()}
       </div>
    );
 };

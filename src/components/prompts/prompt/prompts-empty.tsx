@@ -7,22 +7,31 @@ import { Button } from "@/components/shadcn/button";
 export const PromptsEmpty: FC = () => {
    return (
       <div
-         className="bg-white rounded-lg p-12 border border-slate-200 shadow-sm text-center"
+         className="bg-white rounded-xl p-16 border border-slate-200 shadow-sm text-center w-full"
          data-testid="prompts-empty"
       >
-         <div className="text-slate-500 mb-4">
-            <Plus className="w-16 h-16 mx-auto mb-4 opacity-50" />
-            <h3 className="text-xl font-semibold text-slate-900 mb-2">
-               Kein Prompt ausgewählt
+         <div className="text-slate-500">
+            <Plus className="w-20 h-20 mx-auto mb-6 opacity-40 text-slate-400" />
+            <h3 className="text-2xl font-semibold text-slate-900 mb-3">
+               No Prompt Selected
             </h3>
-            <p>Wählen Sie einen Prompt aus der Liste oder erstellen Sie einen neuen</p>
+            <p className="text-slate-600 mb-8">
+               Select a prompt from the library or create a new one to get
+               started
+            </p>
          </div>
          <Button
             asChild={true}
-            className="mt-4 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm"
+            size="lg"
+            className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm"
          >
-            <Link href="/prompts/new" data-testid="create-prompt-btn">
-               <Plus className="w-4 h-4" /> Prompt erstellen
+            <Link
+               href="/prompts/new"
+               className="flex items-center gap-2"
+               data-testid="create-prompt-btn"
+            >
+               <Plus className="w-5 h-5" />
+               Create Prompt
             </Link>
          </Button>
       </div>
