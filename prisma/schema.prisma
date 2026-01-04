@@ -308,9 +308,9 @@ model LibraryEntry {
   productId  String   @map("product_id") @db.Uuid
   createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(6)
 
-  user     User                     @relation(fields: [userId], references: [id])
-  order    Order                    @relation(fields: [orderId], references: [id])
-  template PromptTemplateDescriptor @relation(fields: [templateId], references: [id])
+  user               User                     @relation(fields: [userId], references: [id])
+  order              Order                    @relation(fields: [orderId], references: [id])
+  templateDescriptor PromptTemplateDescriptor @relation(fields: [templateId], references: [id])
 
   product Product @relation(fields: [productId], references: [id])
 

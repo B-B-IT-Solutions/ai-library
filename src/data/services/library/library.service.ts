@@ -26,7 +26,7 @@ export class LibraryService {
       try {
          const user = await requireUser();
          const entries = await this.libraryRepository.pGetLibraryEntries(
-            user.id!
+            user.id
          );
          return toDLibraryEntries(entries);
       } catch {
@@ -99,7 +99,7 @@ export class LibraryService {
          throw new Error("Template not found");
       }
 
-      const template = purchase.template;
+      const template = purchase.templateDescriptor;
 
       // Create prompt from template
       const promptData: DPromptCreate = {
@@ -135,7 +135,7 @@ export class LibraryService {
          throw new Error("Template not found.");
       }
 
-      const template = purchase.template;
+      const template = purchase.templateDescriptor;
 
       // Create JSON download data
       const downloadData = JSON.stringify(

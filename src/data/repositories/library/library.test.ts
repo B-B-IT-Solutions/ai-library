@@ -30,7 +30,7 @@ describe("pGetLibraryEntries tests", () => {
       const expectedFindManyArgs: LibraryEntryFindManyArgs = {
          where: { userId },
          include: {
-            template: {
+            templateDescriptor: {
                include: {
                   categories: true,
                },

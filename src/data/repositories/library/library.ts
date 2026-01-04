@@ -16,7 +16,7 @@ export class LibraryRepository {
       return await this.prisma.libraryEntry.findMany({
          where: { userId },
          include: {
-            template: {
+            templateDescriptor: {
                include: {
                   categories: true,
                },
@@ -37,7 +37,7 @@ export class LibraryRepository {
             userId,
          },
          include: {
-            template: {
+            templateDescriptor: {
                include: {
                   categories: true,
                   promptTemplate: true,

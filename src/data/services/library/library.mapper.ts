@@ -19,7 +19,7 @@ export const toDLibraryEntry = (
       orderId: entry.orderId,
       templateId: entry.templateId,
       productId: entry.productId,
-      templateDescriptor: toDPromptTemplateDescriptor(entry.template),
+      templateDescriptor: toDPromptTemplateDescriptor(entry.templateDescriptor),
       createdAt: entry.createdAt.toISOString(),
    };
 };
