@@ -280,15 +280,11 @@ export const pOrderItem = (index = 1): OrderItem => {
 export const pLibraryEntryWithPromptTemplate = (
    index = 1
 ): LibraryEntryWithPromptTemplate => {
+   const libraryEntry = pLibraryEntry(index);
    const templateDescriptor = pPromptTemplateDescriptorWithPrompt(index);
    return {
-      id: `f99e7f4d-8653-45ee-b2fe-c158a562895${index}`,
-      orderId: `2d4daf38-5571-4c0a-9d32-4435bdf6280${index}`,
-      userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
-      templateDescriptorId: `52e59bcf-7651-45f8-91bf-63b8a4e06d8${index}`,
-      productId: `419682c2-d8be-433e-a15f-f7ab3663346${index}`,
+      ...libraryEntry,
       templateDescriptor,
-      createdAt: new Date("2025-09-27"),
    };
 };
 
@@ -301,15 +297,11 @@ export const pLibraryEntriesWithTemplateDescriptor = (
 export const pLibraryEntryWithTemplateDescriptor = (
    index = 1
 ): LibraryEntryWithPromptTemplateDescriptor => {
+   const libraryEntry = pLibraryEntry(index);
    const templateDescriptor = pPromptTemplateDescriptorWithCategories(index);
    return {
-      id: `f99e7f4d-8653-45ee-b2fe-c158a562895${index}`,
-      orderId: `2d4daf38-5571-4c0a-9d32-4435bdf6280${index}`,
-      userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
-      templateDescriptorId: `52e59bcf-7651-45f8-91bf-63b8a4e06d8${index}`,
-      productId: `419682c2-d8be-433e-a15f-f7ab3663346${index}`,
+      ...libraryEntry,
       templateDescriptor,
-      createdAt: new Date("2025-09-27"),
    };
 };
 
