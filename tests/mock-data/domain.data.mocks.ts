@@ -251,6 +251,7 @@ export const dPromptTemplateDescriptor = (
       description: `description ${index}`,
       categories: dPromptTemplateCategories(),
       recommendedModel: `model ${index}`,
+      promptTemplateId: `a8367fc3-b556-4838-b3af-f971af96b40${index}`,
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
    };

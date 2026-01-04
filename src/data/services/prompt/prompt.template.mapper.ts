@@ -37,6 +37,7 @@ export const toDPromptTemplateDescriptor = (
       description: prompt.description,
       categories: prompt.categories,
       recommendedModel: prompt.recommendedModel,
+      promptTemplateId: prompt.promptTemplateId,
       updatedAt: prompt.updatedAt.toISOString(),
       createdAt: prompt.createdAt.toISOString(),
    };

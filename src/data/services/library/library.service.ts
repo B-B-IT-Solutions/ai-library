@@ -84,15 +84,15 @@ export class LibraryService {
       }
    }
 
-   async createPromptFromTemplate(templateId: string) {
-      if (!isValidUuid(templateId)) {
+   async createPromptFromTemplate(templateDescriptorId: string) {
+      if (!isValidUuid(templateDescriptorId)) {
          throw new Error("Invalid template ID.");
       }
 
       const user = await requireUser();
 
       // Check access
-      const hasAccess = await this.hasAccessToTemplate(templateId);
+      const hasAccess = await this.hasAccessToTemplate(templateDescriptorId);
       if (!hasAccess) {
          throw new Error("You do not have access to this template.");
       }
@@ -101,7 +101,9 @@ export class LibraryService {
       const purchases = await this.libraryRepository.pGetLibraryEntries(
          user.id
       );
-      const purchase = purchases.find((p) => p.templateId === templateId);
+      const purchase = purchases.find(
+         (p) => p.templateDescriptorId === templateDescriptorId
+      );
 
       if (!purchase) {
          throw new Error("Template not found");
@@ -120,15 +122,15 @@ export class LibraryService {
       await this.promptService.createPrompt(promptData);
    }
 
-   async downloadTemplate(templateId: string): Promise<string> {
-      if (!isValidUuid(templateId)) {
+   async downloadTemplate(templateDescriptorId: string): Promise<string> {
+      if (!isValidUuid(templateDescriptorId)) {
          throw new Error("Invalid template ID.");
       }
 
       const user = await requireUser();
 
       // Check access
-      const hasAccess = await this.hasAccessToTemplate(templateId);
+      const hasAccess = await this.hasAccessToTemplate(templateDescriptorId);
       if (!hasAccess) {
          throw new Error("You do not have access to this template.");
       }
@@ -137,7 +139,9 @@ export class LibraryService {
       const purchases = await this.libraryRepository.pGetLibraryEntries(
          user.id
       );
-      const purchase = purchases.find((p) => p.templateId === templateId);
+      const purchase = purchases.find(
+         (p) => p.templateDescriptorId === templateDescriptorId
+      );
 
       if (!purchase) {
          throw new Error("Template not found.");

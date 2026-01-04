@@ -16,6 +16,7 @@ export type DPromptTemplateDescriptor = {
    description: string;
    recommendedModel: string;
    categories: DPromptTemplateCategory[];
+   promptTemplateId: string;
    updatedAt: string;
    createdAt: string;
 };
