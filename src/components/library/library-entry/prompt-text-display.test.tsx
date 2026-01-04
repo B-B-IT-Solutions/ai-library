@@ -47,6 +47,11 @@ describe("PromptTextDisplay rendering tests", () => {
 });
 
 describe("PromptTextDisplay functionality tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+      jest.clearAllMocks();
+   });
+
    it("PromptTextDisplay - expand btn clicked - test", async () => {
       const template = dtestData.dPromptTemplate();
 
@@ -110,12 +115,11 @@ describe("PromptTextDisplay functionality tests", () => {
    });
 
    it("PromptTextDisplay - copy btn clicked - failed - test", async () => {
-      const template = dtestData.dPromptTemplate();
-      const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
-
       const error = new Error("Clipboard error");
       writeTextMock.mockRejectedValue(error);
+      const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
 
+      const template = dtestData.dPromptTemplate();
       render(<PromptTextDisplay template={template} />);
 
       await waitFor(() => {
@@ -129,13 +133,9 @@ describe("PromptTextDisplay functionality tests", () => {
          expect(consoleErrorSpy).toHaveBeenCalledWith("Failed to copy:", error);
          expect(copyBtn).toHaveTextContent("Kopieren");
       });
-
-      consoleErrorSpy.mockReset();
    });
 
    it("PromptTextDisplay - copy btn clicked - copied state resets after 2 seconds - test", async () => {
-      jest.useFakeTimers();
-
       const template = dtestData.dPromptTemplate();
 
       render(<PromptTextDisplay template={template} />);
@@ -152,12 +152,9 @@ describe("PromptTextDisplay functionality tests", () => {
          expect(copyBtn).toHaveTextContent("Kopiert!");
       });
 
-      // Fast-forward 3 seconds
-      jest.advanceTimersByTime(3000);
+      const options = { timeout: 3000 };
       await waitFor(() => {
          expect(copyBtn).toHaveTextContent("Kopieren");
-      });
-
-      jest.useRealTimers();
+      }, options);
    });
 });
