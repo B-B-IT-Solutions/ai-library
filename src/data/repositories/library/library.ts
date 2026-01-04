@@ -54,13 +54,13 @@ export class LibraryRepository {
       orderId: string,
       userId: string,
       productId: string,
-      templateIds: string[]
+      templateDescriptorIds: string[]
    ) {
-      const entries = map(templateIds, (templateId) => ({
+      const entries = map(templateDescriptorIds, (templateDescriptorId) => ({
          orderId,
          userId,
          productId,
-         templateId,
+         templateDescriptorId,
       }));
 
       await this.prisma.libraryEntry.createMany({
@@ -69,12 +69,12 @@ export class LibraryRepository {
       });
    }
 
-   async pCheckUserHasTemplate(userId: string, templateId: string) {
+   async pCheckUserHasTemplate(userId: string, templateDescriptorId: string) {
       const entry = await this.prisma.libraryEntry.findUnique({
          where: {
-            userId_templateId: {
+            userId_templateDescriptorId: {
                userId,
-               templateId,
+               templateDescriptorId,
             },
          },
       });

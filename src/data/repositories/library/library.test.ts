@@ -96,21 +96,24 @@ describe("pCreateLibraryEntries tests", () => {
       const orderId = "order-id-1";
       const userId = "user-id-1";
       const productId = "product-id-1";
-      const templateIds = ["1", "2", "3"];
+      const templateDescriptorIds = ["1", "2", "3"];
 
       await libraryRepository.pCreateLibraryEntries(
          orderId,
          userId,
          productId,
-         templateIds
+         templateDescriptorIds
       );
 
-      const expectedEntries = map(templateIds, (templateId) => ({
-         orderId,
-         userId,
-         productId,
-         templateId,
-      }));
+      const expectedEntries = map(
+         templateDescriptorIds,
+         (templateDescriptorId) => ({
+            orderId,
+            userId,
+            productId,
+            templateDescriptorId,
+         })
+      );
 
       const expectedCreateManyArgs: LibraryEntryCreateManyArgs = {
          data: expectedEntries,
@@ -131,19 +134,19 @@ describe("pCheckUserHasTemplate tests", () => {
 
    test("pCheckUserHasTemplate - template not found - test", async () => {
       const userId = "user-id-123";
-      const templateId = "template-id-123";
+      const templateDescriptorId = "template-id-123";
       prismaMock.libraryEntry.findUnique.mockResolvedValue(null);
 
       const result = await libraryRepository.pCheckUserHasTemplate(
          userId,
-         templateId
+         templateDescriptorId
       );
 
       const expectedFindUniqueArgs: LibraryEntryFindUniqueArgs = {
          where: {
-            userId_templateId: {
+            userId_templateDescriptorId: {
                userId,
-               templateId,
+               templateDescriptorId,
             },
          },
       };
@@ -157,20 +160,20 @@ describe("pCheckUserHasTemplate tests", () => {
 
    test("pCheckUserHasTemplate - template found - test", async () => {
       const userId = "user-id-456";
-      const templateId = "template-id-456";
+      const templateDescriptorId = "template-id-456";
       const entry = ptestData.pLibraryEntry();
       prismaMock.libraryEntry.findUnique.mockResolvedValue(entry);
 
       const result = await libraryRepository.pCheckUserHasTemplate(
          userId,
-         templateId
+         templateDescriptorId
       );
 
       const expectedFindUniqueArgs: LibraryEntryFindUniqueArgs = {
          where: {
-            userId_templateId: {
+            userId_templateDescriptorId: {
                userId,
-               templateId,
+               templateDescriptorId,
             },
          },
       };
