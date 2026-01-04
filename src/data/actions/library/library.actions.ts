@@ -48,7 +48,7 @@ export const downloadTemplate = async (
 ): Promise<ActionResult<string>> => {
    try {
       const service = getLibrarySevice();
-      const downloadData = await service.downloadTemplate(templateId);
+      const downloadData = await service.downloadPromptTemplate(templateId);
 
       return {
          success: true,
