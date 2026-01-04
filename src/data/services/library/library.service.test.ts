@@ -209,3 +209,176 @@ describe("createLibraryEntries tests", () => {
       });
    });
 });
+
+describe("createPromptFromTemplate tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("createPromptFromTemplate - invalid UUID - test", async () => {
+      const invalidId = "invalid-uuid";
+
+      const fn = async () =>
+         await libraryService.createPromptFromTemplate(invalidId);
+
+      await expect(fn).rejects.toThrow("Invalid template ID.");
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(libraryRepoMock.pGetLibraryEntry).not.toHaveBeenCalled();
+      expect(promptServiceMock.createPrompt).not.toHaveBeenCalled();
+   });
+
+   it("createPromptFromTemplate - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      const templateDescriptorId = "123e4567-e89b-12d3-a456-426614174000";
+      requireUserMock.mockRejectedValue(error);
+
+      const fn = async () =>
+         await libraryService.createPromptFromTemplate(templateDescriptorId);
+
+      await expect(fn).rejects.toThrow(error);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryEntry).not.toHaveBeenCalled();
+      expect(promptServiceMock.createPrompt).not.toHaveBeenCalled();
+   });
+
+   it("createPromptFromTemplate - template not found - test", async () => {
+      const user = dtestData.dLoginUser();
+      const templateDescriptorId = "123e4567-e89b-12d3-a456-426614174000";
+      requireUserMock.mockResolvedValue(user);
+      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(null);
+
+      const fn = async () =>
+         await libraryService.createPromptFromTemplate(templateDescriptorId);
+
+      const expectedGetEntryPayload: GetLibraryEntryParams = {
+         templateDescriptorId,
+         userId: user.id,
+      };
+
+      await expect(fn).rejects.toThrow("Template not found");
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
+         expectedGetEntryPayload
+      );
+      expect(promptServiceMock.createPrompt).not.toHaveBeenCalled();
+   });
+
+   it("createPromptFromTemplate - prompt created - test", async () => {
+      const user = dtestData.dLoginUser();
+      const entry = ptestData.pLibraryEntryWithPromptTemplate();
+      const templateDescriptorId = entry.templateDescriptorId;
+      requireUserMock.mockResolvedValue(user);
+      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(entry);
+
+      await libraryService.createPromptFromTemplate(templateDescriptorId);
+
+      const expectedGetEntryPayload: GetLibraryEntryParams = {
+         templateDescriptorId,
+         userId: user.id,
+      };
+      const { templateDescriptor } = entry;
+      const expectedPromptData = {
+         content: templateDescriptor.promptTemplate.promptText,
+         title: templateDescriptor.title,
+         recommendedModel: templateDescriptor.recommendedModel,
+         categories: map(templateDescriptor.categories, (cat) => cat.name),
+      };
+
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
+         expectedGetEntryPayload
+      );
+      expect(promptServiceMock.createPrompt).toHaveBeenCalledTimes(1);
+      expect(promptServiceMock.createPrompt).toHaveBeenCalledWith(
+         expectedPromptData
+      );
+   });
+});
+
+describe("downloadPromptTemplate tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("downloadPromptTemplate - invalid UUID - test", async () => {
+      const invalidId = "invalid-uuid";
+
+      const fn = async () =>
+         await libraryService.downloadPromptTemplate(invalidId);
+
+      await expect(fn).rejects.toThrow("Invalid template ID.");
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(libraryRepoMock.pGetLibraryEntry).not.toHaveBeenCalled();
+   });
+
+   it("downloadPromptTemplate - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      const templateDescriptorId = "123e4567-e89b-12d3-a456-426614174000";
+      requireUserMock.mockRejectedValue(error);
+
+      const fn = async () =>
+         await libraryService.downloadPromptTemplate(templateDescriptorId);
+
+      await expect(fn).rejects.toThrow(error);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryEntry).not.toHaveBeenCalled();
+   });
+
+   it("downloadPromptTemplate - template not found - test", async () => {
+      const user = dtestData.dLoginUser();
+      const templateDescriptorId = "123e4567-e89b-12d3-a456-426614174000";
+      requireUserMock.mockResolvedValue(user);
+      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(null);
+
+      const fn = async () =>
+         await libraryService.downloadPromptTemplate(templateDescriptorId);
+
+      const expectedGetEntryPayload: GetLibraryEntryParams = {
+         templateDescriptorId,
+         userId: user.id,
+      };
+
+      await expect(fn).rejects.toThrow("Template not found");
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
+         expectedGetEntryPayload
+      );
+   });
+
+   it("downloadPromptTemplate - template downloaded - test", async () => {
+      const user = dtestData.dLoginUser();
+      const entry = ptestData.pLibraryEntryWithPromptTemplate();
+      const templateDescriptorId = entry.templateDescriptorId;
+      requireUserMock.mockResolvedValue(user);
+      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(entry);
+
+      const result = await libraryService.downloadPromptTemplate(
+         templateDescriptorId
+      );
+
+      const expectedGetEntryPayload: GetLibraryEntryParams = {
+         templateDescriptorId,
+         userId: user.id,
+      };
+      const expectedDownloadData = JSON.stringify(
+         {
+            title: entry.templateDescriptor.title,
+            content: entry.templateDescriptor.promptTemplate.promptText,
+            categories: entry.templateDescriptor.categories.map((c) => c.name),
+            recommendedModel: entry.templateDescriptor.recommendedModel,
+         },
+         null,
+         2
+      );
+
+      expect(result).toEqual(expectedDownloadData);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
+         expectedGetEntryPayload
+      );
+   });
+});

@@ -90,9 +90,8 @@ export class LibraryService {
       }
 
       const { templateDescriptor: descriptor } = entry;
-
       const promptData: DPromptCreate = {
-         content: descriptor.promptTemplate.promptText || "",
+         content: descriptor.promptTemplate.promptText,
          title: descriptor.title,
          recommendedModel: descriptor.recommendedModel,
          categories: map(descriptor.categories, (cat) => cat.name),
@@ -119,11 +118,10 @@ export class LibraryService {
       }
 
       const { templateDescriptor: descriptor } = entry;
-
       const downloadData = JSON.stringify(
          {
             title: descriptor.title,
-            content: descriptor.promptTemplate.promptText || "",
+            content: descriptor.promptTemplate.promptText,
             categories: descriptor.categories.map((c) => c.name),
             recommendedModel: descriptor.recommendedModel,
          },
