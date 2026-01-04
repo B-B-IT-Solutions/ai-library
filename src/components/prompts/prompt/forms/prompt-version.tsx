@@ -30,7 +30,7 @@ export const PromptVersion: FC<PromptVersionProps> = ({
          >
             <Button
                onClick={toggleExpanded}
-               className="w-full p-4 flex justify-between items-center hover:bg-slate-100 transition-colors"
+               className="w-full p-4 flex justify-between items-center bg-slate-100 hover:bg-slate-200 transition-colors"
                data-testid="expand-btn"
             >
                <div className="flex items-center gap-3">
