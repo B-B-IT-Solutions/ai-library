@@ -123,7 +123,7 @@ export class PromptRepository {
             await tx.promptVersion.create({
                data: {
                   promptId,
-                  version: current.currentVersion,
+                  version: newVersion,
                   content: current.content,
                   title: current.title,
                   categories: current.categories.map((c) => c.name),
@@ -137,7 +137,9 @@ export class PromptRepository {
             where: { id: promptId },
             data: {
                ...data,
-               currentVersion: createVersion ? newVersion : current.currentVersion,
+               currentVersion: createVersion
+                  ? newVersion
+                  : current.currentVersion,
             },
             include: {
                categories: true,

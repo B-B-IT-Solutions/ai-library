@@ -1,10 +1,10 @@
 "use client";
 
 import { FC } from "react";
-import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { map } from "es-toolkit/compat";
 import { Loader, Plus, Save, X } from "lucide-react";
+import { useRouter } from "next/navigation";
 import {
    ControllerRenderProps,
    SubmitHandler,
@@ -32,9 +32,19 @@ import {
    SelectTrigger,
    SelectValue,
 } from "@/components/shadcn/select";
-import { createPrompt, updatePrompt } from "@/data/actions/prompt/prompt.actions";
-import { DPromptCreate, DPromptDescriptor, DPromptUpdate } from "@/data/types/domain/prompt";
-import { createPromptSchema, updatePromptSchema } from "@/data/types/validators/prompt.schema";
+import {
+   createPrompt,
+   updatePrompt,
+} from "@/data/actions/prompt/prompt.actions";
+import {
+   DPromptCreate,
+   DPromptDescriptor,
+   DPromptUpdate,
+} from "@/data/types/domain/prompt";
+import {
+   createPromptSchema,
+   updatePromptSchema,
+} from "@/data/types/validators/prompt.schema";
 
 const AI_MODELS = [
    "Claude Sonnet 4.5",
@@ -59,10 +69,12 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
    mode = "create",
 }) => {
    const router = useRouter();
-   const isEditMode = mode === "edit" && prompt;
+   const isEditMode = mode === "edit" && !!prompt;
 
    const form = useForm<DPromptCreate | DPromptUpdate>({
-      resolver: zodResolver(isEditMode ? updatePromptSchema : createPromptSchema),
+      resolver: zodResolver(
+         isEditMode ? updatePromptSchema : createPromptSchema
+      ),
       defaultValues: isEditMode
          ? {
               id: prompt.id,
@@ -338,7 +350,10 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
    };
 
    return (
-      <div className="bg-white rounded-lg p-6 border border-slate-200 shadow-sm" data-testid="prompt-form">
+      <div
+         className="bg-white rounded-lg p-6 border border-slate-200 shadow-sm"
+         data-testid="prompt-form"
+      >
          {editForm()}
       </div>
    );
