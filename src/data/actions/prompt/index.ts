@@ -3,6 +3,8 @@ export {
    getPrompts,
    getPromptCategories,
    createPrompt,
+   deletePrompt,
+   toggleFavorite,
 } from "./prompt.actions";
 
 export {

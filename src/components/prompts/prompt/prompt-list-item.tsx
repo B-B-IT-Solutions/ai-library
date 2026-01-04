@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
+import { toggleFavorite } from "@/data/actions/prompt";
 import { DPromptDescriptor } from "@/data/types/domain/prompt";
 import { formatDateTime } from "@/lib/utils";
 
@@ -21,9 +22,14 @@ export const PromptListItem: FC<PromptListItemProps> = ({ prompt }) => {
    const href = `/prompts/${prompt.id}`;
    const isSelected = pathname.startsWith(href);
 
-   const toggleFavorite = () => {
+   const handleToggleFavorite = () => {
       startTransition(async () => {
-         toast("Prompt added to favorite");
+         const result = await toggleFavorite(prompt.id, !prompt.isFavorite);
+         if (result.success) {
+            toast.success(result.message);
+         } else {
+            toast.error(result.message);
+         }
       });
    };
 
@@ -31,14 +37,16 @@ export const PromptListItem: FC<PromptListItemProps> = ({ prompt }) => {
       return (
          <Button
             onClick={(e) => {
+               e.preventDefault();
                e.stopPropagation();
-               toggleFavorite();
+               handleToggleFavorite();
             }}
             className="ml-2 p-1 bg-background hover:bg-slate-100 rounded transition-colors z-20"
             title={
                prompt.isFavorite ? "Remove from favorites" : "Add to favorites"
             }
             data-testid="toggle-favorite-btn"
+            disabled={isPending}
          >
             {isPending ? (
                <Loader className="w-4 h-4 animate-spin" />

@@ -8,11 +8,18 @@ import {
    DPromptDescriptor,
    DPromptDescriptorsPage,
    DPromptDescriptorsPageQuery,
+   DPromptUpdate,
 } from "@/data/types/domain/prompt";
-import { createPromptSchema } from "@/data/types/validators/prompt.schema";
+import {
+   createPromptSchema,
+   deletePromptSchema,
+   toggleFavoriteSchema,
+   updatePromptSchema,
+} from "@/data/types/validators/prompt.schema";
 import {
    PromptCategoryCreateOrConnectWithoutPromptsInput,
-   PromptCreateInput,
+   PromptDescriptorCreateInput,
+   PromptFollowUpCreateWithoutPromptInput,
 } from "@/generated/prisma/models";
 
 import { toDPromptDescriptor, toDPromptDescriptorsPage } from "./prompt.mapper";
@@ -48,20 +55,81 @@ export class PromptService {
    async createPrompt(data: DPromptCreate) {
       const prompt = createPromptSchema.parse(data);
       const categories = this.createOrConnectCategories(prompt.categories);
+      const followUps = this.createFollowUps(prompt.followUpPrompts || []);
 
-      const toSave: PromptCreateInput = {
+      const toSave: PromptDescriptorCreateInput = {
+         title: prompt.title,
          content: prompt.content,
-         descriptor: {
+         recommendedModel: prompt.recommendedModel,
+         currentVersion: 1,
+         categories: {
+            connectOrCreate: categories,
+         },
+         followUpPrompts: {
+            create: followUps,
+         },
+         versions: {
             create: {
+               version: 1,
+               content: prompt.content,
                title: prompt.title,
-               recommendedModel: prompt.recommendedModel,
-               categories: {
-                  connectOrCreate: categories,
-               },
+               categories: prompt.categories,
             },
          },
       };
+
       await this.promptRepository.pCreatePrompt(toSave);
+   }
+
+   async updatePrompt(data: DPromptUpdate) {
+      const prompt = updatePromptSchema.parse(data);
+      const categories = this.createOrConnectCategories(prompt.categories);
+      const followUps = this.createFollowUps(prompt.followUpPrompts || []);
+
+      // Check if content changed to determine versioning
+      const current = await this.promptRepository.pGetPromptDescriptor({
+         id: prompt.id,
+      });
+
+      if (!current) {
+         throw new Error("Prompt not found");
+      }
+
+      const contentChanged = current.content !== prompt.content;
+
+      const toSave = {
+         title: prompt.title,
+         content: prompt.content,
+         recommendedModel: prompt.recommendedModel,
+         categories: {
+            set: [],
+            connectOrCreate: categories,
+         },
+         followUpPrompts: {
+            deleteMany: {},
+            create: followUps,
+         },
+      };
+
+      await this.promptRepository.pUpdatePrompt(
+         prompt.id,
+         toSave,
+         contentChanged
+      );
+   }
+
+   async deletePrompt(id: string) {
+      const validated = deletePromptSchema.parse({ id });
+      await this.promptRepository.pDeletePrompt(validated.id);
+   }
+
+   async toggleFavorite(id: string, isFavorite: boolean) {
+      const validated = toggleFavoriteSchema.parse({ id, isFavorite });
+      const updated = await this.promptRepository.pToggleFavorite(
+         validated.id,
+         validated.isFavorite
+      );
+      return toDPromptDescriptor(updated);
    }
 
    private createOrConnectCategories(
@@ -75,6 +143,17 @@ export class PromptService {
             create: {
                name: cat,
             },
+         };
+      });
+   }
+
+   private createFollowUps(
+      followUpPrompts: string[]
+   ): PromptFollowUpCreateWithoutPromptInput[] {
+      return map(followUpPrompts, (content: string, index: number) => {
+         return {
+            content,
+            order: index,
          };
       });
    }

@@ -1,12 +1,17 @@
 import { FC } from "react";
 import { map } from "es-toolkit/compat";
 import { Edit2, Tag } from "lucide-react";
+import Link from "next/link";
 
+import { Button } from "@/components/shadcn/button";
 import { DPromptDescriptor } from "@/data/types/domain/prompt";
 import { formatDateTime } from "@/lib/utils";
 
+import { DeletePromptButton } from "./delete-prompt-button";
 import { PromptContent } from "./prompt-content";
+import { PromptFollowUps } from "./prompt-follow-ups";
 import { PromptVersions } from "./prompt-versions";
+import { ToggleFavoriteButton } from "./toggle-favorite-button";
 
 type PromptFomProps = {
    prompt: DPromptDescriptor;
@@ -17,10 +22,16 @@ export const PromptFormView: FC<PromptFomProps> = ({ prompt }) => {
       return (
          <div className="space-y-6 bg-white rounded-lg p-6 border border-slate-200 shadow-sm">
             <div className="flex justify-between items-start mb-6">
-               <div>
-                  <h2 className="text-2xl font-bold mb-2 text-slate-900">
-                     {prompt.title}
-                  </h2>
+               <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-2">
+                     <h2 className="text-2xl font-bold text-slate-900">
+                        {prompt.title}
+                     </h2>
+                     <ToggleFavoriteButton
+                        promptId={prompt.id}
+                        isFavorite={prompt.isFavorite}
+                     />
+                  </div>
                   <div className="flex flex-wrap gap-2 mb-3">
                      {map(prompt.categories, (cat, idx) => (
                         <span
@@ -57,12 +68,23 @@ export const PromptFormView: FC<PromptFomProps> = ({ prompt }) => {
                      )}
                   </div>
                </div>
-               <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-sm">
-                  <Edit2 className="w-4 h-4" />
-                  Edit
-               </button>
+               <div className="flex gap-2">
+                  <Button
+                     asChild
+                     className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-sm"
+                  >
+                     <Link href={`/prompts/${prompt.id}/edit`}>
+                        <Edit2 className="w-4 h-4" />
+                        Edit
+                     </Link>
+                  </Button>
+                  <DeletePromptButton promptId={prompt.id} />
+               </div>
             </div>
             <PromptContent prompt={prompt} />
+            {prompt.followUpPrompts.length > 0 && (
+               <PromptFollowUps followUps={prompt.followUpPrompts} />
+            )}
             <PromptVersions prompt={prompt} />
          </div>
       );

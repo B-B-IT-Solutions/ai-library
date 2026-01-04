@@ -1,15 +1,17 @@
 "use client";
 
 import { FC } from "react";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { map } from "es-toolkit/compat";
-import { Plus, Save, X } from "lucide-react";
+import { Loader, Plus, Save, X } from "lucide-react";
 import {
    ControllerRenderProps,
    SubmitHandler,
    useFieldArray,
    useForm,
 } from "react-hook-form";
+import { toast } from "sonner";
 
 import { AutosizeTextarea } from "@/components/shadcn/autosize-textarea";
 import { Button } from "@/components/shadcn/button";
@@ -30,9 +32,9 @@ import {
    SelectTrigger,
    SelectValue,
 } from "@/components/shadcn/select";
-import { createPrompt } from "@/data/actions/prompt/prompt.actions";
-import { DPromptCreate } from "@/data/types/domain/prompt";
-import { createPromptSchema } from "@/data/types/validators/prompt.schema";
+import { createPrompt, updatePrompt } from "@/data/actions/prompt/prompt.actions";
+import { DPromptCreate, DPromptDescriptor, DPromptUpdate } from "@/data/types/domain/prompt";
+import { createPromptSchema, updatePromptSchema } from "@/data/types/validators/prompt.schema";
 
 const AI_MODELS = [
    "Claude Sonnet 4.5",
@@ -47,14 +49,36 @@ const AI_MODELS = [
    "Other",
 ];
 
-type PromptFomProps = {
-   prompt: DPromptCreate;
+type PromptFormEditProps = {
+   prompt?: DPromptDescriptor;
+   mode?: "create" | "edit";
 };
 
-export const PromptFormEdit: FC<PromptFomProps> = ({ prompt }) => {
-   const form = useForm<DPromptCreate>({
-      resolver: zodResolver(createPromptSchema),
-      defaultValues: prompt,
+export const PromptFormEdit: FC<PromptFormEditProps> = ({
+   prompt,
+   mode = "create",
+}) => {
+   const router = useRouter();
+   const isEditMode = mode === "edit" && prompt;
+
+   const form = useForm<DPromptCreate | DPromptUpdate>({
+      resolver: zodResolver(isEditMode ? updatePromptSchema : createPromptSchema),
+      defaultValues: isEditMode
+         ? {
+              id: prompt.id,
+              title: prompt.title,
+              content: prompt.content,
+              categories: prompt.categories.map((c) => c.name),
+              recommendedModel: prompt.recommendedModel,
+              followUpPrompts: prompt.followUpPrompts.map((f) => f.content),
+           }
+         : {
+              title: "",
+              content: "",
+              categories: [],
+              recommendedModel: "",
+              followUpPrompts: [],
+           },
    });
 
    const {
@@ -75,14 +99,33 @@ export const PromptFormEdit: FC<PromptFomProps> = ({ prompt }) => {
       name: "followUpPrompts",
    });
 
-   const onSubmit: SubmitHandler<DPromptCreate> = async (values) => {
-      await createPrompt(values);
+   const onSubmit: SubmitHandler<DPromptCreate | DPromptUpdate> = async (
+      values
+   ) => {
+      const result = isEditMode
+         ? await updatePrompt(values as DPromptUpdate)
+         : await createPrompt(values as DPromptCreate);
+
+      if (result.success) {
+         toast.success(result.message);
+         if (isEditMode) {
+            router.push(`/prompts/${prompt.id}`);
+         } else {
+            router.push("/prompts");
+         }
+      } else {
+         toast.error(result.message);
+      }
    };
 
    const editForm = () => {
       return (
          <Form {...form}>
-            <div className="space-y-4" data-testid="edit-form">
+            <form
+               onSubmit={form.handleSubmit(onSubmit)}
+               className="space-y-4"
+               data-testid="edit-form"
+            >
                <div>
                   <FormField
                      control={form.control}
@@ -200,6 +243,11 @@ export const PromptFormEdit: FC<PromptFomProps> = ({ prompt }) => {
                            <FormLabel className="block text-sm font-medium mb-1 text-slate-700">
                               Prompt Content
                            </FormLabel>
+                           {isEditMode && (
+                              <FormDescription>
+                                 Changing the content will create a new version.
+                              </FormDescription>
+                           )}
                            <FormControl>
                               <AutosizeTextarea
                                  placeholder="Enter your prompt content..."
@@ -256,20 +304,41 @@ export const PromptFormEdit: FC<PromptFomProps> = ({ prompt }) => {
                   </FormItem>
                </div>
 
-               <button
-                  onClick={form.handleSubmit(onSubmit)}
-                  className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm"
-               >
-                  <Save className="w-4 h-4" />
-                  {prompt ? "Save New Version" : "Create Prompt"}
-               </button>
-            </div>
+               <div className="flex gap-3">
+                  <Button
+                     type="submit"
+                     disabled={form.formState.isSubmitting}
+                     className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm"
+                  >
+                     {form.formState.isSubmitting ? (
+                        <>
+                           <Loader className="w-4 h-4 animate-spin" />
+                           {isEditMode ? "Saving..." : "Creating..."}
+                        </>
+                     ) : (
+                        <>
+                           <Save className="w-4 h-4" />
+                           {isEditMode ? "Save Changes" : "Create Prompt"}
+                        </>
+                     )}
+                  </Button>
+                  <Button
+                     type="button"
+                     variant="outline"
+                     onClick={() => router.back()}
+                     disabled={form.formState.isSubmitting}
+                     className="px-6 py-3"
+                  >
+                     Cancel
+                  </Button>
+               </div>
+            </form>
          </Form>
       );
    };
 
    return (
-      <div className="lg:col-span-2" data-testid="prompt-form">
+      <div className="bg-white rounded-lg p-6 border border-slate-200 shadow-sm" data-testid="prompt-form">
          {editForm()}
       </div>
    );

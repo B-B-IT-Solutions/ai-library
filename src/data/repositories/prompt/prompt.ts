@@ -4,12 +4,12 @@ import { DbClient } from "@/data/types/db/common";
 import {
    PromptDescriptorsPage,
    PromptDescriptorsPageQuery,
-   PromptDescriptorWithCategories,
+   PromptDescriptorWithRelations,
 } from "@/data/types/db/prompt";
 import {
-   PromptCreateInput,
+   PromptDescriptorCreateInput,
+   PromptDescriptorUpdateInput,
    PromptDescriptorWhereInput,
-   PromptUpdateInput,
 } from "@/generated/prisma/models";
 import { DEFAULT_PAGINATION } from "../utils";
 
@@ -39,7 +39,14 @@ export class PromptRepository {
             take: pageSize,
             include: {
                categories: true,
+               versions: {
+                  orderBy: { version: "desc" },
+               },
+               followUpPrompts: {
+                  orderBy: { order: "asc" },
+               },
             },
+            orderBy: { updatedAt: "desc" },
          }),
          this.prisma.promptDescriptor.count({
             where: whereClause,
@@ -58,12 +65,18 @@ export class PromptRepository {
 
    async pGetPromptDescriptor(
       query: GetPromptQuery
-   ): Promise<PromptDescriptorWithCategories | null> {
+   ): Promise<PromptDescriptorWithRelations | null> {
       const { id } = query;
       return await this.prisma.promptDescriptor.findFirst({
          where: { id },
          include: {
             categories: true,
+            versions: {
+               orderBy: { version: "desc" },
+            },
+            followUpPrompts: {
+               orderBy: { order: "asc" },
+            },
          },
       });
    }
@@ -76,21 +89,81 @@ export class PromptRepository {
       });
    }
 
-   async pCreatePrompt(data: PromptCreateInput) {
-      return await this.prisma.prompt.create({
-         data: {
-            content: data.content,
-            descriptor: data.descriptor,
+   async pCreatePrompt(data: PromptDescriptorCreateInput) {
+      return await this.prisma.promptDescriptor.create({
+         data,
+         include: {
+            categories: true,
+            versions: true,
+            followUpPrompts: true,
          },
       });
    }
 
-   async pUpdatePrompt(promptId: string, data: PromptUpdateInput) {
-      return await this.prisma.prompt.update({
+   async pUpdatePrompt(
+      promptId: string,
+      data: PromptDescriptorUpdateInput,
+      createVersion: boolean = true
+   ) {
+      // Get current prompt to create version
+      const current = await this.prisma.promptDescriptor.findUnique({
          where: { id: promptId },
-         data: {
-            content: data.content,
-            descriptor: data.descriptor,
+         include: { categories: true },
+      });
+
+      if (!current) {
+         throw new Error("Prompt not found");
+      }
+
+      const newVersion = current.currentVersion + 1;
+
+      return await this.prisma.$transaction(async (tx) => {
+         // Create version record if content changed
+         if (createVersion) {
+            await tx.promptVersion.create({
+               data: {
+                  promptId,
+                  version: current.currentVersion,
+                  content: current.content,
+                  title: current.title,
+                  categories: current.categories.map((c) => c.name),
+                  createdAt: current.updatedAt,
+               },
+            });
+         }
+
+         // Update prompt descriptor
+         const updated = await tx.promptDescriptor.update({
+            where: { id: promptId },
+            data: {
+               ...data,
+               currentVersion: createVersion ? newVersion : current.currentVersion,
+            },
+            include: {
+               categories: true,
+               versions: { orderBy: { version: "desc" } },
+               followUpPrompts: { orderBy: { order: "asc" } },
+            },
+         });
+
+         return updated;
+      });
+   }
+
+   async pDeletePrompt(promptId: string) {
+      return await this.prisma.promptDescriptor.delete({
+         where: { id: promptId },
+      });
+   }
+
+   async pToggleFavorite(promptId: string, isFavorite: boolean) {
+      return await this.prisma.promptDescriptor.update({
+         where: { id: promptId },
+         data: { isFavorite },
+         include: {
+            categories: true,
+            versions: { orderBy: { version: "desc" } },
+            followUpPrompts: { orderBy: { order: "asc" } },
          },
       });
    }
@@ -102,8 +175,8 @@ export class PromptRepository {
          return undefined;
       }
 
-      const { globalFilter } = query;
-      const { categories } = query.filter || {};
+      const { globalFilter, filter } = query;
+      const { categories, isFavorite } = filter || {};
 
       const searchClause: PromptDescriptorWhereInput[] | undefined =
          globalFilter
@@ -115,11 +188,9 @@ export class PromptRepository {
                     },
                  },
                  {
-                    prompt: {
-                       content: {
-                          contains: globalFilter,
-                          mode: "insensitive",
-                       },
+                    content: {
+                       contains: globalFilter,
+                       mode: "insensitive",
                     },
                  },
               ]
@@ -141,9 +212,13 @@ export class PromptRepository {
               ]
             : undefined;
 
+      const favoriteClause =
+         isFavorite !== undefined ? { isFavorite } : undefined;
+
       return {
          OR: searchClause,
          AND: categoriesClause,
+         ...favoriteClause,
       };
    }
 }
