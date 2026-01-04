@@ -1,7 +1,10 @@
 import { map } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
-import { LibraryEntryWithTemplate } from "@/data/types/db/library";
+import {
+   LibraryEntryWithPromptTemplate,
+   LibraryEntryWithPromptTemplateDescriptor,
+} from "@/data/types/db/library";
 
 export class LibraryRepository {
    private prisma: DbClient;
@@ -12,7 +15,7 @@ export class LibraryRepository {
 
    async pGetLibraryEntries(
       userId: string
-   ): Promise<LibraryEntryWithTemplate[]> {
+   ): Promise<LibraryEntryWithPromptTemplateDescriptor[]> {
       return await this.prisma.libraryEntry.findMany({
          where: { userId },
          include: {
@@ -30,7 +33,7 @@ export class LibraryRepository {
    async pGetLibraryEntry(
       entryId: string,
       userId: string
-   ): Promise<LibraryEntryWithTemplate | null> {
+   ): Promise<LibraryEntryWithPromptTemplate | null> {
       return await this.prisma.libraryEntry.findFirst({
          where: {
             id: entryId,

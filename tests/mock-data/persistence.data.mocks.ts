@@ -3,7 +3,7 @@ import { range } from "es-toolkit";
 import { map } from "es-toolkit/compat";
 
 import { CartWithItems } from "@/data/types/db/cart";
-import { LibraryEntryWithTemplate } from "@/data/types/db/library";
+import { LibraryEntryWithPromptTemplateDescriptor } from "@/data/types/db/library";
 import {
    OrderItemProduct,
    OrderProducts,
@@ -272,13 +272,13 @@ export const pOrderItem = (index = 1): OrderItem => {
 
 export const pLibraryEntriesWithTemplate = (
    count = 3
-): LibraryEntryWithTemplate[] => {
+): LibraryEntryWithPromptTemplateDescriptor[] => {
    return range(0, count).map((i) => pLibraryEntryWithTemplate(i));
 };
 
 export const pLibraryEntryWithTemplate = (
    index = 1
-): LibraryEntryWithTemplate => {
+): LibraryEntryWithPromptTemplateDescriptor => {
    const templateDescriptor = pPromptTemplateDescriptorWithCategories(index);
    return {
       id: `f99e7f4d-8653-45ee-b2fe-c158a562895${index}`,

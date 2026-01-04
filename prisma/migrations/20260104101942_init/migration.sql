@@ -97,13 +97,14 @@ CREATE TABLE "prompt_template_descriptor" (
     "recommended_model" VARCHAR(250) NOT NULL,
     "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
+    "prompt_template_id" UUID NOT NULL,
 
     CONSTRAINT "prompt_template_descriptor_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "prompt_template" (
-    "id" UUID NOT NULL,
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "detailed_description" TEXT NOT NULL,
     "prompt_text" TEXT NOT NULL,
 
@@ -256,7 +257,7 @@ CREATE TABLE "library_entry" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "user_id" UUID NOT NULL,
     "order_id" UUID NOT NULL,
-    "template_id" UUID NOT NULL,
+    "template_descriptor_id" UUID NOT NULL,
     "product_id" UUID NOT NULL,
     "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -286,6 +287,9 @@ CREATE UNIQUE INDEX "user_email_idx" ON "user"("email");
 CREATE UNIQUE INDEX "prompt_category_name_key" ON "prompt_category"("name");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "prompt_template_descriptor_prompt_template_id_key" ON "prompt_template_descriptor"("prompt_template_id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "prompt_template_category_name_key" ON "prompt_template_category"("name");
 
 -- CreateIndex
@@ -301,7 +305,7 @@ CREATE UNIQUE INDEX "cart_item_cart_id_product_id_key" ON "cart_item"("cart_id",
 CREATE UNIQUE INDEX "order_stripe_checkout_session_id_key" ON "order"("stripe_checkout_session_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "library_entry_user_id_template_id_key" ON "library_entry"("user_id", "template_id");
+CREATE UNIQUE INDEX "library_entry_user_id_template_descriptor_id_key" ON "library_entry"("user_id", "template_descriptor_id");
 
 -- CreateIndex
 CREATE INDEX "_PromptCategoryToPromptDescriptor_B_index" ON "_PromptCategoryToPromptDescriptor"("B");
@@ -319,7 +323,7 @@ ALTER TABLE "session" ADD CONSTRAINT "session_user_id_fkey" FOREIGN KEY ("user_i
 ALTER TABLE "prompt" ADD CONSTRAINT "prompt_id_fkey" FOREIGN KEY ("id") REFERENCES "prompt_descriptor"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "prompt_template" ADD CONSTRAINT "prompt_template_id_fkey" FOREIGN KEY ("id") REFERENCES "prompt_template_descriptor"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "prompt_template_descriptor" ADD CONSTRAINT "prompt_template_descriptor_prompt_template_id_fkey" FOREIGN KEY ("prompt_template_id") REFERENCES "prompt_template"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "product_feature" ADD CONSTRAINT "product_feature_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -364,7 +368,7 @@ ALTER TABLE "library_entry" ADD CONSTRAINT "library_entry_user_id_fkey" FOREIGN 
 ALTER TABLE "library_entry" ADD CONSTRAINT "library_entry_order_id_fkey" FOREIGN KEY ("order_id") REFERENCES "order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "library_entry" ADD CONSTRAINT "library_entry_template_id_fkey" FOREIGN KEY ("template_id") REFERENCES "prompt_template_descriptor"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "library_entry" ADD CONSTRAINT "library_entry_template_descriptor_id_fkey" FOREIGN KEY ("template_descriptor_id") REFERENCES "prompt_template_descriptor"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "library_entry" ADD CONSTRAINT "library_entry_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

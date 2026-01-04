@@ -1,17 +1,17 @@
 import { map } from "es-toolkit/compat";
 
 import { toDPromptTemplateDescriptor } from "@/data/services/prompt/prompt.mapper";
-import { LibraryEntryWithTemplate } from "@/data/types/db/library";
+import { LibraryEntryWithPromptTemplateDescriptor } from "@/data/types/db/library";
 import { DLibraryEntry } from "@/data/types/domain/library";
 
 export const toDLibraryEntries = (
-   entries: LibraryEntryWithTemplate[]
+   entries: LibraryEntryWithPromptTemplateDescriptor[]
 ): DLibraryEntry[] => {
    return map(entries, (p) => toDLibraryEntry(p));
 };
 
 export const toDLibraryEntry = (
-   entry: LibraryEntryWithTemplate
+   entry: LibraryEntryWithPromptTemplateDescriptor
 ): DLibraryEntry => {
    return {
       id: entry.id,
