@@ -73,16 +73,18 @@ export const LibraryEntryDetails: FC<LibraryEntryDetailsProps> = ({
                      <h2 className="text-xl font-semibold text-slate-900 mb-3">
                         Beschreibung
                      </h2>
-                     <MarkdownRenderer content={descriptor.description} />
+                     <MarkdownRenderer>
+                        {descriptor.description}
+                     </MarkdownRenderer>
                   </div>
 
                   <div data-testid="long-description">
                      <h2 className="text-xl font-semibold text-slate-900 mb-3">
                         Detaillierte Beschreibung
                      </h2>
-                     <MarkdownRenderer
-                        content={descriptor.promptTemplate.detailedDescription}
-                     />
+                     <MarkdownRenderer>
+                        {descriptor.promptTemplate.detailedDescription}
+                     </MarkdownRenderer>
                   </div>
 
                   <PromptTextDisplay template={descriptor.promptTemplate} />
