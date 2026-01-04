@@ -7,7 +7,10 @@ import { forEach, map } from "es-toolkit/compat";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import { requireUser } from "@/data/actions/auth-utils";
-import { LibraryRepository } from "@/data/repositories/library";
+import {
+   GetLibraryEntryParams,
+   LibraryRepository,
+} from "@/data/repositories/library";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { PromptService } from "@/data/services/prompt";
@@ -104,12 +107,15 @@ describe("getLibraryEntry tests", () => {
 
       const fn = async () => await libraryService.getLibraryEntry(entryId);
 
+      const expectedGetEntryPayload: GetLibraryEntryParams = {
+         entryId,
+         userId: user.id,
+      };
       await expect(fn).rejects.toThrow(error);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
-         entryId,
-         user.id
+         expectedGetEntryPayload
       );
    });
 
@@ -122,12 +128,15 @@ describe("getLibraryEntry tests", () => {
 
       const result = await libraryService.getLibraryEntry(entryId);
 
+      const expectedGetEntryPayload: GetLibraryEntryParams = {
+         entryId,
+         userId: user.id,
+      };
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
-         entryId,
-         user.id
+         expectedGetEntryPayload
       );
    });
 
@@ -140,13 +149,16 @@ describe("getLibraryEntry tests", () => {
       const result = await libraryService.getLibraryEntry(entry.id);
 
       const expectedResult = toDLibraryEntryWithPromptTemplate(entry);
+      const expectedGetEntryPayload: GetLibraryEntryParams = {
+         entryId: entry.id,
+         userId: user.id,
+      };
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
-         entry.id,
-         user.id
+         expectedGetEntryPayload
       );
    });
 });
