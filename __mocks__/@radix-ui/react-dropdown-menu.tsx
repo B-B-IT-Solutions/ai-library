@@ -106,6 +106,7 @@ const Item: React.FC<{
    children: React.ReactNode;
    onSelect: () => void;
 }> = ({ children, onSelect, ...props }) => {
+   clearProps(props);
    const ctx = React.useContext(DropdownContext)!;
 
    return (

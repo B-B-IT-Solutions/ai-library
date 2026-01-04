@@ -21,7 +21,6 @@ module.exports = {
          statements: 100,
       },
    },
-   //  setupFiles: ["react-app-polyfill/jsdom"],
    setupFilesAfterEnv: [
       "<rootDir>/tests/jest.setup.ts",
       "<rootDir>/tests/jest.setup.env.ts",
@@ -47,6 +46,7 @@ module.exports = {
       "^next/navigation$": "<rootDir>/__mocks__/next/navigation.tsx",
       "^next/font/google$": "<rootDir>/__mocks__/next/font/google.ts",
       "^next-auth/react$": "<rootDir>/__mocks__/next-auth/react.tsx",
+      "^react-markdown$": "<rootDir>/__mocks__/react-markdown.tsx",
       "^@/auth$": "<rootDir>/__mocks__/@/auth.ts",
       "^@/components/shared/auth$":
          "<rootDir>/__mocks__/@/components/shared/auth.tsx",

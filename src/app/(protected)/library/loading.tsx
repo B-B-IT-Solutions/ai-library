@@ -3,9 +3,12 @@ import {
    TemplateCardSkeleton,
 } from "@/components/shared/skeletons";
 
-export default function LibraryLoading() {
+export const LibraryLoading = () => {
    return (
-      <div className="container mx-auto px-4 py-8">
+      <div
+         className="container mx-auto px-4 py-8"
+         data-testid="library-loading"
+      >
          <PageHeaderSkeleton />
 
          {/* Subscription Banner Skeleton */}
@@ -27,4 +30,6 @@ export default function LibraryLoading() {
          </div>
       </div>
    );
-}
+};
+
+export default LibraryLoading;

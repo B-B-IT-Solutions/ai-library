@@ -1,7 +1,10 @@
 import { map } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
-import { LibraryEntryWithTemplate } from "@/data/types/db/library";
+import {
+   LibraryEntryWithPromptTemplate,
+   LibraryEntryWithPromptTemplateDescriptor,
+} from "@/data/types/db/library";
 
 export class LibraryRepository {
    private prisma: DbClient;
@@ -12,11 +15,11 @@ export class LibraryRepository {
 
    async pGetLibraryEntries(
       userId: string
-   ): Promise<LibraryEntryWithTemplate[]> {
+   ): Promise<LibraryEntryWithPromptTemplateDescriptor[]> {
       return await this.prisma.libraryEntry.findMany({
          where: { userId },
          include: {
-            template: {
+            templateDescriptor: {
                include: {
                   categories: true,
                },
@@ -27,18 +30,37 @@ export class LibraryRepository {
          },
       });
    }
+   async pGetLibraryEntry(
+      entryId: string,
+      userId: string
+   ): Promise<LibraryEntryWithPromptTemplate | null> {
+      return await this.prisma.libraryEntry.findFirst({
+         where: {
+            id: entryId,
+            userId,
+         },
+         include: {
+            templateDescriptor: {
+               include: {
+                  categories: true,
+                  promptTemplate: true,
+               },
+            },
+         },
+      });
+   }
 
    async pCreateLibraryEntries(
       orderId: string,
       userId: string,
       productId: string,
-      templateIds: string[]
+      templateDescriptorIds: string[]
    ) {
-      const entries = map(templateIds, (templateId) => ({
+      const entries = map(templateDescriptorIds, (templateDescriptorId) => ({
          orderId,
          userId,
          productId,
-         templateId,
+         templateDescriptorId,
       }));
 
       await this.prisma.libraryEntry.createMany({
@@ -47,12 +69,12 @@ export class LibraryRepository {
       });
    }
 
-   async pCheckUserHasTemplate(userId: string, templateId: string) {
+   async pCheckUserHasTemplate(userId: string, templateDescriptorId: string) {
       const entry = await this.prisma.libraryEntry.findUnique({
          where: {
-            userId_templateId: {
+            userId_templateDescriptorId: {
                userId,
-               templateId,
+               templateDescriptorId,
             },
          },
       });

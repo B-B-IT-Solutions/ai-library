@@ -12,12 +12,24 @@ export const getLibraryEntries = async (): Promise<DLibraryEntry[]> => {
    return service.getLibraryEntries();
 };
 
-export const copyTemplateToPrompts = async (
+export const getLibraryEntry = async (
+   entryId: string
+): Promise<DLibraryEntry | null> => {
+   try {
+      const service = getLibrarySevice();
+      return await service.getLibraryEntry(entryId);
+   } catch (error) {
+      console.error(formatError(error));
+      return null;
+   }
+};
+
+export const createPromptFromTemplate = async (
    templateId: string
 ): Promise<ActionResult> => {
    try {
       const service = getLibrarySevice();
-      await service.copyTemplateToPrompts(templateId);
+      await service.createPromptFromTemplate(templateId);
 
       return {
          success: true,

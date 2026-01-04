@@ -1,11 +1,12 @@
 import { PrismaClient } from "@prisma/client";
 import { ptestData } from "@tests";
 import { map } from "es-toolkit/compat";
-import { DeepMockProxy, mockReset } from "jest-mock-extended";
+import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import {
    LibraryEntryCreateManyArgs,
+   LibraryEntryFindFirstArgs,
    LibraryEntryFindManyArgs,
    LibraryEntryFindUniqueArgs,
 } from "@/generated/prisma/models";
@@ -17,12 +18,12 @@ const libraryRepository = new LibraryRepository(prismaMock);
 
 describe("pGetLibraryEntries tests", () => {
    beforeEach(() => {
-      mockReset(prismaMock);
+      jest.clearAllMocks();
    });
 
    test("pGetLibraryEntries test", async () => {
       const userId = "user-id-1";
-      const libraryEntries = ptestData.pLibraryEntriesWithTemplate();
+      const libraryEntries = ptestData.pLibraryEntriesWithTemplateDescriptor();
       prismaMock.libraryEntry.findMany.mockResolvedValue(libraryEntries);
 
       const result = await libraryRepository.pGetLibraryEntries(userId);
@@ -30,7 +31,7 @@ describe("pGetLibraryEntries tests", () => {
       const expectedFindManyArgs: LibraryEntryFindManyArgs = {
          where: { userId },
          include: {
-            template: {
+            templateDescriptor: {
                include: {
                   categories: true,
                },
@@ -49,30 +50,70 @@ describe("pGetLibraryEntries tests", () => {
    });
 });
 
+describe("pGetLibraryEntry tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("pGetLibraryEntry test", async () => {
+      const libraryEntry = ptestData.pLibraryEntryWithPromptTemplate();
+      prismaMock.libraryEntry.findFirst.mockResolvedValue(libraryEntry);
+
+      const entryId = libraryEntry.id;
+      const userId = "user-id-1";
+
+      const result = await libraryRepository.pGetLibraryEntry(entryId, userId);
+
+      const expectedFindFirstArgs: LibraryEntryFindFirstArgs = {
+         where: {
+            id: entryId,
+            userId,
+         },
+         include: {
+            templateDescriptor: {
+               include: {
+                  categories: true,
+                  promptTemplate: true,
+               },
+            },
+         },
+      };
+
+      expect(result).toEqual(libraryEntry);
+      expect(prismaMock.libraryEntry.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryEntry.findFirst).toHaveBeenCalledWith(
+         expectedFindFirstArgs
+      );
+   });
+});
+
 describe("pCreateLibraryEntries tests", () => {
    beforeEach(() => {
-      mockReset(prismaMock);
+      jest.clearAllMocks();
    });
 
    test("pCreateLibraryEntries test", async () => {
       const orderId = "order-id-1";
       const userId = "user-id-1";
       const productId = "product-id-1";
-      const templateIds = ["1", "2", "3"];
+      const templateDescriptorIds = ["1", "2", "3"];
 
       await libraryRepository.pCreateLibraryEntries(
          orderId,
          userId,
          productId,
-         templateIds
+         templateDescriptorIds
       );
 
-      const expectedEntries = map(templateIds, (templateId) => ({
-         orderId,
-         userId,
-         productId,
-         templateId,
-      }));
+      const expectedEntries = map(
+         templateDescriptorIds,
+         (templateDescriptorId) => ({
+            orderId,
+            userId,
+            productId,
+            templateDescriptorId,
+         })
+      );
 
       const expectedCreateManyArgs: LibraryEntryCreateManyArgs = {
          data: expectedEntries,
@@ -88,24 +129,24 @@ describe("pCreateLibraryEntries tests", () => {
 
 describe("pCheckUserHasTemplate tests", () => {
    beforeEach(() => {
-      mockReset(prismaMock);
+      jest.clearAllMocks();
    });
 
    test("pCheckUserHasTemplate - template not found - test", async () => {
       const userId = "user-id-123";
-      const templateId = "template-id-123";
+      const templateDescriptorId = "template-id-123";
       prismaMock.libraryEntry.findUnique.mockResolvedValue(null);
 
       const result = await libraryRepository.pCheckUserHasTemplate(
          userId,
-         templateId
+         templateDescriptorId
       );
 
       const expectedFindUniqueArgs: LibraryEntryFindUniqueArgs = {
          where: {
-            userId_templateId: {
+            userId_templateDescriptorId: {
                userId,
-               templateId,
+               templateDescriptorId,
             },
          },
       };
@@ -119,20 +160,20 @@ describe("pCheckUserHasTemplate tests", () => {
 
    test("pCheckUserHasTemplate - template found - test", async () => {
       const userId = "user-id-456";
-      const templateId = "template-id-456";
+      const templateDescriptorId = "template-id-456";
       const entry = ptestData.pLibraryEntry();
       prismaMock.libraryEntry.findUnique.mockResolvedValue(entry);
 
       const result = await libraryRepository.pCheckUserHasTemplate(
          userId,
-         templateId
+         templateDescriptorId
       );
 
       const expectedFindUniqueArgs: LibraryEntryFindUniqueArgs = {
          where: {
-            userId_templateId: {
+            userId_templateDescriptorId: {
                userId,
-               templateId,
+               templateDescriptorId,
             },
          },
       };

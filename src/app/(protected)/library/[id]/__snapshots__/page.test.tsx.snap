@@ -1,0 +1,297 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`LibraryEntryPage rendering tests LibraryEntryPage - library entry defined - test 1`] = `
+<div>
+  <div
+    data-testid="library-entry-page"
+  >
+    <div
+      class="container mx-auto px-4 py-8"
+      data-testid="library-entry-details"
+    >
+      <div
+        class="mb-6"
+      >
+        <a
+          class="inline-flex items-center text-slate-600 hover:text-slate-900"
+          data-testid="mock-link"
+          href="/library"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-arrow-left w-4 h-4 mr-2"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="m12 19-7-7 7-7"
+            />
+            <path
+              d="M19 12H5"
+            />
+          </svg>
+          Zurück zur Bibliothek
+        </a>
+      </div>
+      <div
+        class="max-w-4xl mx-auto"
+      >
+        <div
+          class="text-card-foreground flex flex-col gap-6 py-6 shadow-sm bg-white border border-slate-300 rounded-lg"
+          data-slot="card"
+        >
+          <div
+            class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 border-b border-slate-200"
+            data-slot="card-header"
+          >
+            <div
+              class="flex items-start justify-between"
+            >
+              <div
+                class="flex-1"
+              >
+                <h1
+                  class="text-3xl font-bold text-slate-900 mb-3"
+                >
+                  title 1
+                </h1>
+                <span
+                  class="inline-block text-sm px-3 py-1 bg-blue-100 text-blue-700 rounded-md border border-blue-200"
+                >
+                  model 1
+                </span>
+              </div>
+            </div>
+            <div
+              class="flex flex-wrap gap-2 mt-4"
+              data-testid="categories"
+            >
+              <span
+                class="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
+              >
+                category 0
+              </span>
+              <span
+                class="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
+              >
+                category 1
+              </span>
+              <span
+                class="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
+              >
+                category 2
+              </span>
+            </div>
+          </div>
+          <div
+            class="p-6 space-y-6"
+            data-slot="card-content"
+          >
+            <div
+              data-testid="short-description"
+            >
+              <h2
+                class="text-xl font-semibold text-slate-900 mb-3"
+              >
+                Beschreibung
+              </h2>
+              <div
+                class="text-slate-700 leading-relaxed"
+                data-testid="markdown-renderer"
+              >
+                <div
+                  data-testid="react-markdown-mock"
+                >
+                  description 1
+                </div>
+              </div>
+            </div>
+            <div
+              data-testid="long-description"
+            >
+              <h2
+                class="text-xl font-semibold text-slate-900 mb-3"
+              >
+                Detaillierte Beschreibung
+              </h2>
+              <div
+                class="text-slate-700 leading-relaxed"
+                data-testid="markdown-renderer"
+              >
+                <div
+                  data-testid="react-markdown-mock"
+                >
+                  detailedDescription 1
+                </div>
+              </div>
+            </div>
+            <div
+              data-testid="prompt-text"
+            >
+              <div
+                class="w-full flex items-center justify-between p-4 bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-colors cursor-pointer rounded-t-lg"
+                data-testid="expand-toggle"
+              >
+                <div
+                  class="flex items-center gap-2"
+                  data-testid="headline"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-chevron-down w-5 h-5 text-slate-600"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="m6 9 6 6 6-6"
+                    />
+                  </svg>
+                  <span
+                    class="font-semibold text-slate-900"
+                  >
+                    Prompt-Text
+                  </span>
+                </div>
+                <button
+                  class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-8 px-3 hover:bg-slate-200"
+                  data-slot="button"
+                  data-testid="copy-btn"
+                  title="In Zwischenablage kopieren"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-copy w-4 h-4 text-slate-600 mr-2"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect
+                      height="14"
+                      rx="2"
+                      ry="2"
+                      width="14"
+                      x="8"
+                      y="8"
+                    />
+                    <path
+                      d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                    />
+                  </svg>
+                  <span
+                    class="text-sm text-slate-600"
+                  >
+                    Kopieren
+                  </span>
+                </button>
+              </div>
+              <div
+                class="p-4 bg-white border border-t-0 border-slate-200 rounded-b-lg"
+                data-testid="content"
+              >
+                <pre
+                  class="text-sm text-slate-800 whitespace-pre-wrap font-mono overflow-x-auto max-h-96 overflow-y-auto"
+                >
+                  promptText 1
+                </pre>
+              </div>
+            </div>
+            <div
+              class="flex gap-3 pt-4 border-t border-slate-200"
+            >
+              <button
+                class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer bg-blue-600 hover:bg-blue-700 text-white"
+                data-slot="button"
+                data-testid="create-prompt-btn"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-plus w-4 h-4 mr-1.5"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M5 12h14"
+                  />
+                  <path
+                    d="M12 5v14"
+                  />
+                </svg>
+                <span>
+                  Prompt erstellen
+                </span>
+              </button>
+              <button
+                class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+                data-slot="button"
+                data-testid="download-template-btn"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-download w-4 h-4 mr-2"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 15V3"
+                  />
+                  <path
+                    d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                  />
+                  <path
+                    d="m7 10 5 5 5-5"
+                  />
+                </svg>
+                <span>
+                  Herunterladen
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`LibraryEntryPage rendering tests LibraryEntryPage - library entry null - test 1`] = `<div />`;
+
+exports[`LibraryEntryPage rendering tests LibraryEntryPage - session null - redirects to home 1`] = `<div />`;
+
+exports[`LibraryEntryPage rendering tests LibraryEntryPage - session.user undefined - redirects to home 1`] = `<div />`;
+
+exports[`LibraryEntryPage rendering tests LibraryEntryPage - session.user.id undefined - redirects to home 1`] = `<div />`;

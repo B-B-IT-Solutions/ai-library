@@ -101,22 +101,29 @@ model PromptCategory {
 
 model PromptTemplateDescriptor {
   id               String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title            String                   @db.VarChar(500)
+  title            String                   @db.VarChar(250)
+  description      String                   @db.VarChar(750)
   categories       PromptTemplateCategory[]
   recommendedModel String                   @map("recommended_model") @db.VarChar(250)
+  promptTemplateId String                   @unique @map("prompt_template_id") @db.Uuid
   createdAt        DateTime                 @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt        DateTime                 @updatedAt @map("updated_at")
-  promptTemplate   PromptTemplate?
-  productItems     ProductItem[]
-  libraries        LibraryEntry[]
+
+  promptTemplate PromptTemplate @relation(fields: [promptTemplateId], references: [id], onDelete: Cascade)
+  productItems   ProductItem[]
+  libraries      LibraryEntry[]
 
   @@map("prompt_template_descriptor")
 }
 
 model PromptTemplate {
-  id         String                   @id @db.Uuid
-  content    String                   @db.Text
-  descriptor PromptTemplateDescriptor @relation(fields: [id], references: [id], onDelete: Cascade)
+  id                  String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  detailedDescription String   @map("detailed_description") @db.Text
+  promptText          String   @map("prompt_text") @db.Text
+  createdAt           DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt           DateTime @updatedAt @map("updated_at")
+
+  promptTemplateDescriptor PromptTemplateDescriptor?
 
   @@map("prompt_template")
 }
@@ -299,19 +306,19 @@ model OrderItem {
 }
 
 model LibraryEntry {
-  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId     String   @map("user_id") @db.Uuid
-  orderId    String   @map("order_id") @db.Uuid
-  templateId String   @map("template_id") @db.Uuid
-  productId  String   @map("product_id") @db.Uuid
-  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  id                   String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId               String   @map("user_id") @db.Uuid
+  orderId              String   @map("order_id") @db.Uuid
+  templateDescriptorId String   @map("template_descriptor_id") @db.Uuid
+  productId            String   @map("product_id") @db.Uuid
+  createdAt            DateTime @default(now()) @map("created_at") @db.Timestamp(6)
 
-  user     User                     @relation(fields: [userId], references: [id])
-  order    Order                    @relation(fields: [orderId], references: [id])
-  template PromptTemplateDescriptor @relation(fields: [templateId], references: [id])
+  user               User                     @relation(fields: [userId], references: [id])
+  order              Order                    @relation(fields: [orderId], references: [id])
+  templateDescriptor PromptTemplateDescriptor @relation(fields: [templateDescriptorId], references: [id])
 
   product Product @relation(fields: [productId], references: [id])
 
-  @@unique([userId, templateId])
+  @@unique([userId, templateDescriptorId])
   @@map("library_entry")
 }

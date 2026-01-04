@@ -4,31 +4,10 @@ import {
    PromptDescriptorsPage,
    PromptDescriptorWithCategories,
 } from "@/data/types/db/prompt";
-import { PromptTemplateDescriptorWithCategories } from "@/data/types/db/prompt.template";
 import {
    DPromptDescriptor,
    DPromptDescriptorsPage,
 } from "@/data/types/domain/prompt";
-import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
-
-export const toDPromptTemplateDescriptors = (
-   pPrompts: PromptTemplateDescriptorWithCategories[]
-): DPromptTemplateDescriptor[] => {
-   return map(pPrompts, (dbP) => toDPromptTemplateDescriptor(dbP));
-};
-
-export const toDPromptTemplateDescriptor = (
-   prompt: PromptTemplateDescriptorWithCategories
-): DPromptTemplateDescriptor => {
-   return {
-      id: prompt.id,
-      title: prompt.title,
-      categories: prompt.categories,
-      recommendedModel: prompt.recommendedModel,
-      updatedAt: prompt.updatedAt.toISOString(),
-      createdAt: prompt.createdAt.toISOString(),
-   };
-};
 
 export const toDPromptDescriptorsPage = (
    pPromptsPage: PromptDescriptorsPage
