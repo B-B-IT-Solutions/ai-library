@@ -71,6 +71,7 @@ exports[`LibraryEntryPage rendering tests LibraryEntryPage - library entry defin
             </div>
             <div
               class="flex flex-wrap gap-2 mt-4"
+              data-testid="categories"
             >
               <span
                 class="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
@@ -93,7 +94,9 @@ exports[`LibraryEntryPage rendering tests LibraryEntryPage - library entry defin
             class="p-6 space-y-6"
             data-slot="card-content"
           >
-            <div>
+            <div
+              data-testid="short-description"
+            >
               <h2
                 class="text-xl font-semibold text-slate-900 mb-3"
               >
@@ -109,7 +112,9 @@ exports[`LibraryEntryPage rendering tests LibraryEntryPage - library entry defin
                 </div>
               </div>
             </div>
-            <div>
+            <div
+              data-testid="long-description"
+            >
               <h2
                 class="text-xl font-semibold text-slate-900 mb-3"
               >
@@ -125,12 +130,16 @@ exports[`LibraryEntryPage rendering tests LibraryEntryPage - library entry defin
                 </div>
               </div>
             </div>
-            <div>
+            <div
+              data-testid="prompt-text"
+            >
               <div
                 class="w-full flex items-center justify-between p-4 bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-colors cursor-pointer rounded-t-lg"
+                data-testid="expand-toggle"
               >
                 <div
                   class="flex items-center gap-2"
+                  data-testid="headline"
                 >
                   <svg
                     aria-hidden="true"
@@ -158,6 +167,7 @@ exports[`LibraryEntryPage rendering tests LibraryEntryPage - library entry defin
                 <button
                   class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-8 px-3 hover:bg-slate-200"
                   data-slot="button"
+                  data-testid="copy-btn"
                   title="In Zwischenablage kopieren"
                 >
                   <svg
@@ -194,6 +204,7 @@ exports[`LibraryEntryPage rendering tests LibraryEntryPage - library entry defin
               </div>
               <div
                 class="p-4 bg-white border border-t-0 border-slate-200 rounded-b-lg"
+                data-testid="content"
               >
                 <pre
                   class="text-sm text-slate-800 whitespace-pre-wrap font-mono overflow-x-auto max-h-96 overflow-y-auto"

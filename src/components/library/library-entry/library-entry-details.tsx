@@ -23,7 +23,7 @@ export const LibraryEntryDetails: FC<LibraryEntryDetailsProps> = ({
    const categories = () => {
       if (!isEmpty(descriptor.categories)) {
          return (
-            <div className="flex flex-wrap gap-2 mt-4">
+            <div className="flex flex-wrap gap-2 mt-4" data-testid="categories">
                {map(descriptor.categories, (cat) => (
                   <span
                      key={cat.name}
@@ -69,14 +69,14 @@ export const LibraryEntryDetails: FC<LibraryEntryDetailsProps> = ({
                </CardHeader>
 
                <CardContent className="p-6 space-y-6">
-                  <div>
+                  <div data-testid="short-description">
                      <h2 className="text-xl font-semibold text-slate-900 mb-3">
                         Beschreibung
                      </h2>
                      <MarkdownRenderer content={descriptor.description} />
                   </div>
 
-                  <div>
+                  <div data-testid="long-description">
                      <h2 className="text-xl font-semibold text-slate-900 mb-3">
                         Detaillierte Beschreibung
                      </h2>
@@ -85,9 +85,7 @@ export const LibraryEntryDetails: FC<LibraryEntryDetailsProps> = ({
                      />
                   </div>
 
-                  <PromptTextDisplay
-                     content={descriptor.promptTemplate.promptText}
-                  />
+                  <PromptTextDisplay template={descriptor.promptTemplate} />
 
                   <div className="flex gap-3 pt-4 border-t border-slate-200">
                      <CreatePromptButton descriptor={descriptor} />
