@@ -43,6 +43,11 @@ export const PromptFormView: FC<PromptFomProps> = ({ prompt }) => {
                         </span>
                      ))}
                   </div>
+                  <div className="flex items-center gap-2 my-2">
+                     <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded-lg text-xs font-medium border border-blue-200">
+                        {prompt.recommendedModel}
+                     </span>
+                  </div>
                   <div className="text-sm text-slate-600 space-y-1">
                      <div>
                         <span className="font-medium">Created:</span>{" "}
@@ -52,20 +57,6 @@ export const PromptFormView: FC<PromptFomProps> = ({ prompt }) => {
                         <span className="font-medium">Last Updated:</span>{" "}
                         {formatDateTime(prompt.updatedAt).dateTime}
                      </div>
-                     <div>
-                        <span className="font-medium">Current Version:</span> v
-                        {prompt.currentVersion}
-                     </div>
-                     {prompt.recommendedModel && (
-                        <div className="flex items-center gap-2 mt-2">
-                           <span className="text-blue-700 font-medium">
-                              🤖 Recommended Model:
-                           </span>
-                           <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs font-medium border border-blue-200">
-                              {prompt.recommendedModel}
-                           </span>
-                        </div>
-                     )}
                   </div>
                </div>
                <div className="flex gap-2">
