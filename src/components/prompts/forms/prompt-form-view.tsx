@@ -149,8 +149,12 @@ export const PromptFormView: FC<PromptFomProps> = ({ prompt }) => {
                   </>
                )}
 
-               <Separator />
-               <PromptVersions prompt={prompt} />
+               {prompt.versions && prompt.versions.length > 0 && (
+                  <>
+                     <Separator />
+                     <PromptVersions prompt={prompt} />
+                  </>
+               )}
             </CardContent>
          </Card>
       </div>

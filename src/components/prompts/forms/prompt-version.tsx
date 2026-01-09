@@ -1,9 +1,9 @@
 "use client";
 
 import { FC, useState } from "react";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { Calendar, ChevronDown, ChevronRight } from "lucide-react";
 
-import { Button } from "@/components/shadcn/button";
+import { Badge } from "@/components/shadcn/badge";
 import { DPromptVersion } from "@/data/types/domain/prompt";
 import { formatDateTime } from "@/lib/utils";
 
@@ -18,55 +18,46 @@ export const PromptVersion: FC<PromptVersionProps> = ({
 }) => {
    const [expanded, setExpanded] = useState(false);
 
-   const toggleExpanded = () => {
-      setExpanded((prev) => !prev);
-   };
-
    return (
-      <div data-testid="prompt-version">
-         <div
-            key={version.version}
-            className="bg-slate-50 rounded-lg border border-slate-200 overflow-hidden"
+      <div
+         data-testid="prompt-version"
+         className="rounded-lg border bg-card overflow-hidden"
+      >
+         <button
+            onClick={() => setExpanded((prev) => !prev)}
+            className="w-full px-4 py-3 flex items-center justify-between gap-4 hover:bg-muted/50 transition-colors text-left"
+            data-testid="expand-btn"
          >
-            <Button
-               onClick={toggleExpanded}
-               className="w-full p-4 flex justify-between items-center bg-slate-100 hover:bg-slate-200 transition-colors"
-               data-testid="expand-btn"
-            >
-               <div className="flex items-center gap-3">
-                  {expanded ? (
-                     <ChevronDown
-                        className="w-4 h-4 text-slate-600"
-                        data-testid="chevron-down"
-                     />
-                  ) : (
-                     <ChevronRight
-                        className="w-4 h-4 text-slate-600"
-                        data-testid="chevron-right"
-                     />
-                  )}
-                  <span className="font-medium text-slate-900">
-                     Version {version.version}
-                  </span>
-                  {isCurrent && (
-                     <span className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs border border-green-200">
-                        Current
-                     </span>
-                  )}
-               </div>
-               <span className="text-sm text-slate-600">
-                  {formatDateTime(version.createdAt).dateTime}
+            <div className="flex items-center gap-3 min-w-0">
+               {expanded ? (
+                  <ChevronDown
+                     className="size-4 shrink-0 text-muted-foreground"
+                     data-testid="chevron-down"
+                  />
+               ) : (
+                  <ChevronRight
+                     className="size-4 shrink-0 text-muted-foreground"
+                     data-testid="chevron-right"
+                  />
+               )}
+               <span className="font-medium text-foreground">
+                  v{version.version}
                </span>
-            </Button>
+               {isCurrent && <Badge>Current</Badge>}
+            </div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground shrink-0">
+               <Calendar className="size-3.5" />
+               <span>{formatDateTime(version.createdAt).dateTime}</span>
+            </div>
+         </button>
 
-            {expanded && (
-               <div className="p-4 border-t border-slate-200 bg-white">
-                  <pre className="whitespace-pre-wrap text-sm text-slate-700 font-mono">
-                     {version.content}
-                  </pre>
-               </div>
-            )}
-         </div>
+         {expanded && (
+            <div className="px-4 pb-4 pt-2 border-t bg-muted/30">
+               <pre className="whitespace-pre-wrap text-sm font-mono text-foreground">
+                  {version.content}
+               </pre>
+            </div>
+         )}
       </div>
    );
 };
