@@ -4,8 +4,8 @@ import { assertInDocument, dtestData } from "@tests";
 import { PromptView } from "./prompt-view";
 
 const assertRendered = () => {
-   const form = screen.getByTestId("prompt-form-view");
-   assertInDocument(form);
+   const view = screen.getByTestId("prompt-view");
+   assertInDocument(view);
 };
 
 describe("PromptView rendering tests", () => {

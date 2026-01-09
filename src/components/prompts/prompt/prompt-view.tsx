@@ -1,16 +1,6 @@
-"use client";
-
-import { FC, useState } from "react";
+import { FC } from "react";
 import { map } from "es-toolkit/compat";
-import {
-   Calendar,
-   Check,
-   Clock,
-   Copy,
-   Cpu,
-   Edit2,
-   MoreVertical,
-} from "lucide-react";
+import { Calendar, Clock, Cpu, Edit2, MoreVertical } from "lucide-react";
 import Link from "next/link";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -43,25 +33,13 @@ import { PromptFollowUps } from "./prompt-follow-ups";
 import { PromptVersions } from "./prompt-versions";
 import { ToggleFavoriteButton } from "./toggle-favorite-button";
 
-type PromptProps = {
+type PromptViewProps = {
    prompt: DPromptDescriptor;
 };
 
-export const PromptView: FC<PromptProps> = ({ prompt }) => {
-   const [copied, setCopied] = useState(false);
-
-   const copyToClipboard = async () => {
-      try {
-         await navigator.clipboard.writeText(prompt.content);
-         setCopied(true);
-         setTimeout(() => setCopied(false), 2000);
-      } catch (error) {
-         console.error("Failed to copy:", error);
-      }
-   };
-
+export const PromptView: FC<PromptViewProps> = ({ prompt }) => {
    return (
-      <div data-testid="prompt-form-view">
+      <div data-testid="prompt-view">
          <Card>
             <CardHeader className="border-b pb-6">
                <div className="space-y-4">
@@ -121,25 +99,6 @@ export const PromptView: FC<PromptProps> = ({ prompt }) => {
                         size="sm"
                         showLabel={true}
                      />
-                     <Tooltip>
-                        <TooltipTrigger asChild>
-                           <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={copyToClipboard}
-                           >
-                              {copied ? (
-                                 <Check className="size-4 text-green-600" />
-                              ) : (
-                                 <Copy className="size-4" />
-                              )}
-                              {copied ? "Kopiert" : "Kopieren"}
-                           </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                           Prompt in Zwischenablage kopieren
-                        </TooltipContent>
-                     </Tooltip>
                      <DropdownMenu>
                         <Tooltip>
                            <TooltipTrigger asChild>
