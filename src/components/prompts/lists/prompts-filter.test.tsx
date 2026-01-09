@@ -6,7 +6,7 @@ import { assertInDocument, getElementById, renderWithReactQuery } from "@tests";
 
 import { getPromptCategories } from "@/data/actions/prompt/prompt.actions";
 
-import { Filters, PromptFilters } from "./prompts-filter";
+import { Filters, PromptFilters } from "../prompts-filter";
 
 const getPromptCategoriesMock = getPromptCategories as jest.MockedFunction<
    typeof getPromptCategories

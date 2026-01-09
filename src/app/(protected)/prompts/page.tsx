@@ -4,7 +4,7 @@ import {
    QueryClient,
 } from "@tanstack/react-query";
 
-import { PromptsList, PromptView } from "@/components/prompts/prompt";
+import { PromptsList, PromptView } from "@/components/prompts";
 import {
    preloadPromptCategoriesOptions,
    preloadPromptsOptions,
@@ -24,7 +24,10 @@ const PromptsPage = async () => {
    await queryClient.prefetchQuery(preloadPromptTemplateCategoriesOptions());
 
    return (
-      <div className="h-screen flex flex-col bg-slate-50" data-testid="prompts-page">
+      <div
+         className="h-screen flex flex-col bg-slate-50"
+         data-testid="prompts-page"
+      >
          {/* Top Navigation Bar */}
          <div className="bg-white border-b border-slate-200 px-6 py-4">
             <div className="flex items-center justify-between">

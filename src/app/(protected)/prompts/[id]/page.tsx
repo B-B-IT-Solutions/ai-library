@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-query";
 import { notFound } from "next/navigation";
 
-import { PromptFormView, PromptsList } from "@/components/prompts/prompt";
+import { PromptFormView, PromptsList } from "@/components/prompts";
 import { getPrompt } from "@/data/actions/prompt";
 import {
    preloadPromptCategoriesOptions,
@@ -37,7 +37,10 @@ const PromptPage = async (props: PromptPageProps) => {
    await queryClient.prefetchQuery(preloadPromptCategoriesOptions());
 
    return (
-      <div className="h-screen flex flex-col bg-slate-50" data-testid="prompt-page">
+      <div
+         className="h-screen flex flex-col bg-slate-50"
+         data-testid="prompt-page"
+      >
          {/* Top Navigation Bar */}
          <div className="bg-white border-b border-slate-200 px-6 py-4">
             <div className="flex items-center justify-between">

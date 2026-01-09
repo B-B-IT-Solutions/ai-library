@@ -1,10 +1,9 @@
 "use client";
 
 import { FC, useState } from "react";
-import { X } from "lucide-react";
 
-import { PromptFormEdit } from "@/components/prompts/prompt";
-import { TemplateSelector } from "@/components/prompts/template";
+import { TemplateSelector } from "@/components/prompt-templates";
+import { PromptFormEdit } from "@/components/prompts";
 import { DPrompt } from "@/data/types/domain/prompt";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
@@ -28,9 +27,5 @@ export const PromptCreateEdit: FC<PromptCreateEditProps> = ({ prompt }) => {
       );
    };
 
-   return (
-      <div data-testid="prompt-create-edit">
-         {editForm()}
-      </div>
-   );
+   return <div data-testid="prompt-create-edit">{editForm()}</div>;
 };

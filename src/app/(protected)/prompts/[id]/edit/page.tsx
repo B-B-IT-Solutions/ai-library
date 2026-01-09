@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-import { PromptFormEdit } from "@/components/prompts/prompt";
+import { PromptFormEdit } from "@/components/prompts";
 import { getPrompt } from "@/data/actions/prompt";
 
 export const metadata = {

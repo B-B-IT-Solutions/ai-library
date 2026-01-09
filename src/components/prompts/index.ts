@@ -1,9 +1,9 @@
 export { PromptFormEdit } from "./forms/prompt-form-edit";
 export { PromptFormView } from "./forms/prompt-form-view";
-export { PromptListItem } from "./prompt-list-item";
+export { PromptListItem } from "./lists/prompt-list-item";
 export { PromptsEmpty } from "./prompts-empty";
-export { PromptFilters } from "./prompts-filter";
-export { PromptsList } from "./prompts-list";
+export { PromptFilters } from "./lists/prompts-filter";
+export { PromptsList } from "./lists/prompts-list";
 export { PromptView } from "./prompt-view";
 export { PromptCreateEdit } from "./prompt-create-edit";
 export { ToggleFavoriteButton } from "./forms/toggle-favorite-button";

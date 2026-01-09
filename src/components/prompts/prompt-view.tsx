@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { PromptsEmpty } from "@/components/prompts/prompt";
+import { PromptsEmpty } from "@/components/prompts";
 
 export const PromptView: FC = () => {
    return (
