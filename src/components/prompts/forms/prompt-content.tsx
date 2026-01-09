@@ -30,14 +30,16 @@ export const PromptContent: FC<PromptContentProps> = ({ prompt }) => {
 
    return (
       <div data-testid="prompt-content" className="space-y-3">
-         <div className="flex items-center justify-between">
-            <h3 className="font-semibold text-foreground">Prompt Content</h3>
+         <h3 className="font-semibold text-foreground">Prompt Content</h3>
+
+         <div className="group relative rounded-lg border bg-muted/50 p-4">
             <Tooltip>
                <TooltipTrigger asChild>
                   <Button
                      variant="outline"
                      size="icon-sm"
                      onClick={copyToClipboard}
+                     className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-background"
                      data-testid="copy-btn"
                   >
                      {copied ? (
@@ -54,10 +56,8 @@ export const PromptContent: FC<PromptContentProps> = ({ prompt }) => {
                   {copied ? "Copied!" : "Copy to clipboard"}
                </TooltipContent>
             </Tooltip>
-         </div>
 
-         <div className="rounded-lg border bg-muted/50 p-4">
-            <pre className="whitespace-pre-wrap text-sm font-mono text-foreground">
+            <pre className="whitespace-pre-wrap text-sm font-mono text-foreground pr-10">
                {prompt.content}
             </pre>
          </div>
