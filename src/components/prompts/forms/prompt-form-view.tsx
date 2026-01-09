@@ -57,7 +57,9 @@ export const PromptFormView: FC<PromptFomProps> = ({ prompt }) => {
             <CardHeader className="border-b pb-6">
                <div className="space-y-4">
                   <div className="flex items-start gap-3">
-                     <CardTitle className="text-2xl">{prompt.title}</CardTitle>
+                     <CardTitle className="text-3xl font-bold text-slate-900">
+                        {prompt.title}
+                     </CardTitle>
                      <ToggleFavoriteButton
                         promptId={prompt.id}
                         isFavorite={prompt.isFavorite}
@@ -74,9 +76,9 @@ export const PromptFormView: FC<PromptFomProps> = ({ prompt }) => {
                      </div>
                   )}
 
-                  <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
+                  <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-slate-600">
                      <div className="flex items-center gap-2">
-                        <Cpu className="size-4" />
+                        <Cpu className="size-4 text-indigo-600" />
                         <Badge variant="outline">{prompt.recommendedModel}</Badge>
                      </div>
                      <div className="flex items-center gap-2">

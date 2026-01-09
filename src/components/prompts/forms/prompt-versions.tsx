@@ -23,23 +23,21 @@ export const PromptVersions: FC<PromptVersionsProps> = ({ prompt }) => {
    const versions = reverse(prompt.versions);
 
    return (
-      <div data-testid="prompt-versions">
+      <section data-testid="prompt-versions">
          <button
             onClick={() => setExpanded((prev) => !prev)}
-            className="w-full flex items-center justify-between py-2 hover:bg-muted/50 -mx-2 px-2 rounded-lg transition-colors"
+            className="w-full flex items-center justify-between py-2 hover:bg-slate-50 -mx-2 px-2 rounded-lg transition-colors"
             data-testid="versions-toggle"
          >
-            <div className="flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
                {expanded ? (
-                  <ChevronDown className="size-4 text-muted-foreground" />
+                  <ChevronDown className="h-5 w-5 text-slate-600" />
                ) : (
-                  <ChevronRight className="size-4 text-muted-foreground" />
+                  <ChevronRight className="h-5 w-5 text-slate-600" />
                )}
-               <History className="size-4 text-muted-foreground" />
-               <span className="font-semibold text-foreground">
-                  Version History
-               </span>
-            </div>
+               <History className="h-5 w-5 text-indigo-600" />
+               Version History
+            </h3>
             <Badge variant="secondary">{prompt.versions.length}</Badge>
          </button>
 
@@ -54,6 +52,6 @@ export const PromptVersions: FC<PromptVersionsProps> = ({ prompt }) => {
                ))}
             </div>
          )}
-      </div>
+      </section>
    );
 };

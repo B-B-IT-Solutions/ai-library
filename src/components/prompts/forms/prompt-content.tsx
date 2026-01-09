@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useState } from "react";
-import { Check, Copy } from "lucide-react";
+import { Check, Copy, FileText } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
 import {
@@ -29,17 +29,20 @@ export const PromptContent: FC<PromptContentProps> = ({ prompt }) => {
    };
 
    return (
-      <div data-testid="prompt-content" className="space-y-3">
-         <h3 className="font-semibold text-foreground">Prompt Content</h3>
+      <section data-testid="prompt-content" className="space-y-3">
+         <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
+            <FileText className="h-5 w-5 text-indigo-600" />
+            Prompt Content
+         </h3>
 
-         <div className="group relative rounded-lg border bg-muted/50 p-4">
+         <div className="group relative bg-slate-50 border border-slate-200 rounded-lg p-4">
             <Tooltip>
                <TooltipTrigger asChild>
                   <Button
                      variant="outline"
                      size="icon-sm"
                      onClick={copyToClipboard}
-                     className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-background"
+                     className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-white"
                      data-testid="copy-btn"
                   >
                      {copied ? (
@@ -57,10 +60,10 @@ export const PromptContent: FC<PromptContentProps> = ({ prompt }) => {
                </TooltipContent>
             </Tooltip>
 
-            <pre className="whitespace-pre-wrap text-sm font-mono text-foreground pr-10">
+            <pre className="whitespace-pre-wrap text-sm font-mono text-slate-700 pr-10">
                {prompt.content}
             </pre>
          </div>
-      </div>
+      </section>
    );
 };
