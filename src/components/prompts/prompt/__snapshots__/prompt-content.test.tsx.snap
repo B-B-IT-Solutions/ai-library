@@ -39,7 +39,7 @@ exports[`PromptContent rendering tests PromptContent rendered test 1`] = `
           d="M16 17H8"
         />
       </svg>
-      Prompt-Inhalt
+      Prompt
     </h3>
     <div
       class="group relative bg-slate-50 border border-slate-200 rounded-lg p-4"

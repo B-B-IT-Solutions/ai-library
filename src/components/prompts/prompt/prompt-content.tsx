@@ -16,7 +16,7 @@ export const PromptContent: FC<PromptContentProps> = ({ prompt }) => {
             data-testid="headline"
          >
             <FileText className="h-5 w-5 text-indigo-600" />
-            Prompt-Inhalt
+            Prompt
          </h3>
 
          <div className="group relative bg-slate-50 border border-slate-200 rounded-lg p-4">
