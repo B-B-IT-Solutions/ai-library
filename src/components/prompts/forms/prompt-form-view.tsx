@@ -1,9 +1,30 @@
-import { FC } from "react";
+"use client";
+
+import { FC, useState } from "react";
 import { map } from "es-toolkit/compat";
-import { Edit2, Tag } from "lucide-react";
+import { Calendar, Check, Clock, Copy, Cpu, Edit2, MoreVertical } from "lucide-react";
 import Link from "next/link";
 
+import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
+import {
+   Card,
+   CardAction,
+   CardContent,
+   CardHeader,
+   CardTitle,
+} from "@/components/shadcn/card";
+import {
+   DropdownMenu,
+   DropdownMenuContent,
+   DropdownMenuTrigger,
+} from "@/components/shadcn/dropdown-menu";
+import { Separator } from "@/components/shadcn/separator";
+import {
+   Tooltip,
+   TooltipContent,
+   TooltipTrigger,
+} from "@/components/shadcn/tooltip";
 import { DPromptDescriptor } from "@/data/types/domain/prompt";
 import { formatDateTime } from "@/lib/utils";
 
@@ -18,68 +39,120 @@ type PromptFomProps = {
 };
 
 export const PromptFormView: FC<PromptFomProps> = ({ prompt }) => {
-   const viewForm = () => {
-      return (
-         <div className="space-y-6 bg-white rounded-xl p-8 border border-slate-200 shadow-sm">
-            <div className="flex justify-between items-start pb-6 border-b border-slate-100">
-               <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
-                     <h2 className="text-2xl font-bold text-slate-900">
-                        {prompt.title}
-                     </h2>
+   const [copied, setCopied] = useState(false);
+
+   const copyToClipboard = async () => {
+      try {
+         await navigator.clipboard.writeText(prompt.content);
+         setCopied(true);
+         setTimeout(() => setCopied(false), 2000);
+      } catch (error) {
+         console.error("Failed to copy:", error);
+      }
+   };
+
+   return (
+      <div data-testid="prompt-form-view">
+         <Card>
+            <CardHeader className="border-b pb-6">
+               <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                     <CardTitle className="text-2xl">{prompt.title}</CardTitle>
                      <ToggleFavoriteButton
                         promptId={prompt.id}
                         isFavorite={prompt.isFavorite}
                      />
                   </div>
-                  <div className="flex flex-wrap gap-2 mb-3">
-                     {map(prompt.categories, (cat, idx) => (
-                        <span
-                           key={idx}
-                           className="flex items-center gap-1 px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm border border-slate-200"
-                        >
-                           <Tag className="w-3 h-3" />
-                           {cat.name}
-                        </span>
-                     ))}
-                  </div>
-                  <div className="flex items-center gap-2 my-2">
-                     <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded-lg text-xs font-medium border border-blue-200">
-                        {prompt.recommendedModel}
-                     </span>
-                  </div>
-                  <div className="text-sm text-slate-600 space-y-1">
-                     <div>
-                        <span className="font-medium">Created:</span>{" "}
-                        {formatDateTime(prompt.createdAt).dateTime}
-                     </div>
-                     <div>
-                        <span className="font-medium">Last Updated:</span>{" "}
-                        {formatDateTime(prompt.updatedAt).dateTime}
-                     </div>
-                  </div>
-               </div>
-               <div className="flex gap-2">
-                  <Button
-                     asChild
-                     className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-sm"
-                  >
-                     <Link href={`/prompts/${prompt.id}/edit`}>
-                        <Edit2 className="w-4 h-4" />
-                        Edit
-                     </Link>
-                  </Button>
-                  <DeletePromptButton promptId={prompt.id} />
-               </div>
-            </div>
-            <PromptContent prompt={prompt} />
-            {prompt.followUpPrompts.length > 0 && (
-               <PromptFollowUps followUps={prompt.followUpPrompts} />
-            )}
-            <PromptVersions prompt={prompt} />
-         </div>
-      );
-   };
 
-   return <div data-testid="prompt-form-view">{viewForm()}</div>;
+                  {prompt.categories.length > 0 && (
+                     <div className="flex flex-wrap gap-2">
+                        {map(prompt.categories, (cat, idx) => (
+                           <Badge key={idx} variant="secondary">
+                              {cat.name}
+                           </Badge>
+                        ))}
+                     </div>
+                  )}
+
+                  <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
+                     <div className="flex items-center gap-2">
+                        <Cpu className="size-4" />
+                        <Badge variant="outline">{prompt.recommendedModel}</Badge>
+                     </div>
+                     <div className="flex items-center gap-2">
+                        <Calendar className="size-4" />
+                        <span>{formatDateTime(prompt.createdAt).dateTime}</span>
+                     </div>
+                     <div className="flex items-center gap-2">
+                        <Clock className="size-4" />
+                        <span>{formatDateTime(prompt.updatedAt).dateTime}</span>
+                     </div>
+                  </div>
+               </div>
+
+               <CardAction>
+                  <div className="flex items-center gap-2">
+                     <Tooltip>
+                        <TooltipTrigger asChild>
+                           <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={copyToClipboard}
+                           >
+                              {copied ? (
+                                 <Check className="size-4 text-green-600" />
+                              ) : (
+                                 <Copy className="size-4" />
+                              )}
+                              {copied ? "Copied" : "Copy"}
+                           </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>Copy prompt to clipboard</TooltipContent>
+                     </Tooltip>
+                     <Tooltip>
+                        <TooltipTrigger asChild>
+                           <Button asChild size="sm">
+                              <Link href={`/prompts/${prompt.id}/edit`}>
+                                 <Edit2 className="size-4" />
+                                 Edit
+                              </Link>
+                           </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>Edit this prompt</TooltipContent>
+                     </Tooltip>
+                     <DropdownMenu>
+                        <Tooltip>
+                           <TooltipTrigger asChild>
+                              <DropdownMenuTrigger asChild>
+                                 <Button variant="outline" size="icon-sm">
+                                    <MoreVertical className="size-4" />
+                                 </Button>
+                              </DropdownMenuTrigger>
+                           </TooltipTrigger>
+                           <TooltipContent>More options</TooltipContent>
+                        </Tooltip>
+                        <DropdownMenuContent align="end">
+                           <DeletePromptButton promptId={prompt.id} />
+                        </DropdownMenuContent>
+                     </DropdownMenu>
+                  </div>
+               </CardAction>
+            </CardHeader>
+
+            <CardContent className="space-y-6">
+               <PromptContent prompt={prompt} />
+
+               {prompt.followUpPrompts.length > 0 && (
+                  <>
+                     <Separator />
+                     <PromptFollowUps followUps={prompt.followUpPrompts} />
+                  </>
+               )}
+
+               <Separator />
+               <PromptVersions prompt={prompt} />
+            </CardContent>
+         </Card>
+      </div>
+   );
 };

@@ -1,9 +1,14 @@
 "use client";
 
 import { FC, useState } from "react";
-import { Check, ChevronDown, ChevronRight, Copy } from "lucide-react";
+import { Check, Copy } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
+import {
+   Tooltip,
+   TooltipContent,
+   TooltipTrigger,
+} from "@/components/shadcn/tooltip";
 import { DPromptDescriptor } from "@/data/types/domain/prompt";
 
 type PromptContentProps = {
@@ -11,12 +16,7 @@ type PromptContentProps = {
 };
 
 export const PromptContent: FC<PromptContentProps> = ({ prompt }) => {
-   const [expanded, setExpanded] = useState(false);
    const [copied, setCopied] = useState(false);
-
-   const toggleExpanded = () => {
-      setExpanded((prev) => !prev);
-   };
 
    const copyToClipboard = async () => {
       try {
@@ -29,58 +29,38 @@ export const PromptContent: FC<PromptContentProps> = ({ prompt }) => {
    };
 
    return (
-      <div data-testid="prompt-content">
-         <div
-            onClick={toggleExpanded}
-            className="w-full flex items-center justify-between p-4 bg-slate-50 rounded-lg border border-slate-200 hover:bg-slate-100 transition-colors"
-            data-testid="expand-toggle"
-         >
-            <span className="font-semibold text-slate-900 flex items-center gap-2">
-               Current Prompt Content
-            </span>
-            <div className="flex items-center gap-2">
-               <Button
-                  onClick={(e) => {
-                     e.stopPropagation();
-                     copyToClipboard();
-                  }}
-                  className="p-2 bg-slate-50 hover:bg-slate-200 rounded transition-colors"
-                  title="Copy to clipboard"
-                  data-testid="copy-btn"
-               >
-                  {copied ? (
-                     <Check
-                        className="w-4 h-4 text-green-600"
-                        data-testid="check-icon"
-                     />
-                  ) : (
-                     <Copy
-                        className="w-4 h-4 text-slate-600"
-                        data-testid="copy-icon"
-                     />
-                  )}
-               </Button>
-               {expanded ? (
-                  <ChevronDown
-                     className="w-5 h-5 text-slate-600"
-                     data-testid="chevron-down"
-                  />
-               ) : (
-                  <ChevronRight
-                     className="w-5 h-5 text-slate-600"
-                     data-testid="chevron-right"
-                  />
-               )}
-            </div>
+      <div data-testid="prompt-content" className="space-y-3">
+         <div className="flex items-center justify-between">
+            <h3 className="font-semibold text-foreground">Prompt Content</h3>
+            <Tooltip>
+               <TooltipTrigger asChild>
+                  <Button
+                     variant="outline"
+                     size="icon-sm"
+                     onClick={copyToClipboard}
+                     data-testid="copy-btn"
+                  >
+                     {copied ? (
+                        <Check
+                           className="size-4 text-green-600"
+                           data-testid="check-icon"
+                        />
+                     ) : (
+                        <Copy className="size-4" data-testid="copy-icon" />
+                     )}
+                  </Button>
+               </TooltipTrigger>
+               <TooltipContent>
+                  {copied ? "Copied!" : "Copy to clipboard"}
+               </TooltipContent>
+            </Tooltip>
          </div>
 
-         {expanded && (
-            <div className="mt-2 p-4 bg-white border border-slate-200 rounded-lg">
-               <pre className="whitespace-pre-wrap text-sm text-slate-700 font-mono">
-                  {prompt.content}
-               </pre>
-            </div>
-         )}
+         <div className="rounded-lg border bg-muted/50 p-4">
+            <pre className="whitespace-pre-wrap text-sm font-mono text-foreground">
+               {prompt.content}
+            </pre>
+         </div>
       </div>
    );
 };

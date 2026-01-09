@@ -14,9 +14,8 @@ import {
    AlertDialogFooter,
    AlertDialogHeader,
    AlertDialogTitle,
-   AlertDialogTrigger,
 } from "@/components/shadcn/alert-dialog";
-import { Button } from "@/components/shadcn/button";
+import { DropdownMenuItem } from "@/components/shadcn/dropdown-menu";
 import { deletePrompt } from "@/data/actions/prompt";
 
 type DeletePromptButtonProps = {
@@ -45,16 +44,17 @@ export const DeletePromptButton: FC<DeletePromptButtonProps> = ({
 
    return (
       <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-         <AlertDialogTrigger asChild>
-            <Button
-               variant="outline"
-               className="flex items-center gap-2 px-4 py-2 border-red-300 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-               data-testid="delete-prompt-btn"
-            >
-               <Trash2 className="w-4 h-4" />
-               Delete
-            </Button>
-         </AlertDialogTrigger>
+         <DropdownMenuItem
+            variant="destructive"
+            onSelect={(e) => {
+               e.preventDefault();
+               setIsOpen(true);
+            }}
+            data-testid="delete-prompt-btn"
+         >
+            <Trash2 className="size-4" />
+            Delete
+         </DropdownMenuItem>
          <AlertDialogContent>
             <AlertDialogHeader>
                <AlertDialogTitle>Delete Prompt</AlertDialogTitle>
@@ -65,9 +65,7 @@ export const DeletePromptButton: FC<DeletePromptButtonProps> = ({
                </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-               <AlertDialogCancel disabled={isPending}>
-                  Cancel
-               </AlertDialogCancel>
+               <AlertDialogCancel disabled={isPending}>Cancel</AlertDialogCancel>
                <AlertDialogAction
                   onClick={handleDelete}
                   disabled={isPending}
@@ -75,7 +73,7 @@ export const DeletePromptButton: FC<DeletePromptButtonProps> = ({
                >
                   {isPending ? (
                      <>
-                        <Loader className="w-4 h-4 mr-2 animate-spin" />
+                        <Loader className="size-4 mr-2 animate-spin" />
                         Deleting...
                      </>
                   ) : (
