@@ -10,13 +10,20 @@ import {
    TooltipTrigger,
 } from "@/components/shadcn/tooltip";
 import { DPromptDescriptor } from "@/data/types/domain/prompt";
+import { cn } from "@/lib/utils";
 
 type CopyPromptButtonProps = {
    prompt: DPromptDescriptor;
+   size: "sm" | "icon-sm";
+   showLabel?: boolean;
+   className?: string;
 };
 
 export const CopyPromptButton: FC<CopyPromptButtonProps> = ({
    prompt: prompt,
+   size,
+   showLabel,
+   className,
 }) => {
    const [copied, setCopied] = useState(false);
 
@@ -39,17 +46,30 @@ export const CopyPromptButton: FC<CopyPromptButtonProps> = ({
       return <Copy className="size-4" data-testid="copy-icon" />;
    };
 
+   const label = () => {
+      if (showLabel) {
+         const l = copied ? "Kopiert" : "Kopieren";
+         return (
+            <>
+               {icon()}
+               <span>{l}</span>
+            </>
+         );
+      }
+      return icon();
+   };
+
    return (
       <Tooltip>
-         <TooltipTrigger asChild>
+         <TooltipTrigger asChild={true}>
             <Button
                variant="outline"
-               size="icon-sm"
+               size={size}
                onClick={copyToClipboard}
-               className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-white cursor-pointer"
+               className={cn("cursor-pointer", className)}
                data-testid="copy-prompt-btn"
             >
-               {icon()}
+               {label()}
             </Button>
          </TooltipTrigger>
          <TooltipContent>

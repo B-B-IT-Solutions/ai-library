@@ -27,7 +27,25 @@ describe("CopyPromptButton rendering tests", () => {
    it("CopyPromptButton rendered", async () => {
       const prompt = dtestData.dPromptDescriptor();
       const { container } = renderWithRouter(
-         <CopyPromptButton prompt={prompt} />
+         <CopyPromptButton
+            prompt={prompt}
+            size="icon-sm"
+            className="absolute top-2 right-2 opacity-0"
+         />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertCopyIcon();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("CopyPromptButton rendered", async () => {
+      const prompt = dtestData.dPromptDescriptor();
+      const { container } = renderWithRouter(
+         <CopyPromptButton prompt={prompt} size="sm" showLabel={true} />
       );
 
       await waitFor(() => {
@@ -44,9 +62,9 @@ describe("CopyPromptButton functionality tests", () => {
       jest.resetAllMocks();
    });
 
-   it("CopyPromptButton - copy btn clicked - success - test", async () => {
+   it("CopyPromptButton - showLabel false - copy btn clicked - success - test", async () => {
       const prompt = dtestData.dPromptDescriptor();
-      renderWithRouter(<CopyPromptButton prompt={prompt} />);
+      renderWithRouter(<CopyPromptButton prompt={prompt} size="icon-sm" />);
 
       await waitFor(() => {
          assertRendered();
@@ -54,12 +72,33 @@ describe("CopyPromptButton functionality tests", () => {
       });
 
       const copyBtn = screen.getByTestId("copy-prompt-btn");
-      // expect(copyBtn).toHaveTextContent("Prompt in Zwischenablage kopieren");
+      await userEvent.click(copyBtn);
+
+      await waitFor(() => {
+         expect(writeTextMock).toHaveBeenCalledWith(prompt.content);
+         assertCheckIcon();
+      });
+   });
+
+   it("CopyPromptButton - showLabel true - copy btn clicked - success - test", async () => {
+      const prompt = dtestData.dPromptDescriptor();
+      renderWithRouter(
+         <CopyPromptButton prompt={prompt} size="sm" showLabel={true} />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertCopyIcon();
+      });
+
+      const copyBtn = screen.getByTestId("copy-prompt-btn");
+      expect(copyBtn).toHaveTextContent("Kopieren");
 
       await userEvent.click(copyBtn);
 
       await waitFor(() => {
          expect(writeTextMock).toHaveBeenCalledWith(prompt.content);
+         expect(copyBtn).toHaveTextContent("Kopiert");
          assertCheckIcon();
       });
    });
@@ -70,7 +109,7 @@ describe("CopyPromptButton functionality tests", () => {
       const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
 
       const prompt = dtestData.dPromptDescriptor();
-      renderWithRouter(<CopyPromptButton prompt={prompt} />);
+      renderWithRouter(<CopyPromptButton prompt={prompt} size="icon-sm" />);
 
       await waitFor(() => {
          assertRendered();
@@ -88,7 +127,7 @@ describe("CopyPromptButton functionality tests", () => {
 
    it("CopyPromptButton - copy btn clicked - copied state resets after 2 seconds - test", async () => {
       const prompt = dtestData.dPromptDescriptor();
-      renderWithRouter(<CopyPromptButton prompt={prompt} />);
+      renderWithRouter(<CopyPromptButton prompt={prompt} size="icon-sm" />);
 
       await waitFor(() => {
          assertRendered();

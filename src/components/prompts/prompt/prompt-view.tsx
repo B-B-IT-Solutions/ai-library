@@ -2,7 +2,15 @@
 
 import { FC, useState } from "react";
 import { map } from "es-toolkit/compat";
-import { Calendar, Check, Clock, Copy, Cpu, Edit2, MoreVertical } from "lucide-react";
+import {
+   Calendar,
+   Check,
+   Clock,
+   Copy,
+   Cpu,
+   Edit2,
+   MoreVertical,
+} from "lucide-react";
 import Link from "next/link";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -27,6 +35,7 @@ import {
 } from "@/components/shadcn/tooltip";
 import { DPromptDescriptor } from "@/data/types/domain/prompt";
 import { formatDateTime } from "@/lib/utils";
+import { CopyPromptButton } from "../buttons/copy-prompt-button";
 
 import { DeletePromptButton } from "./delete-prompt-button";
 import { PromptContent } from "./prompt-content";
@@ -34,11 +43,11 @@ import { PromptFollowUps } from "./prompt-follow-ups";
 import { PromptVersions } from "./prompt-versions";
 import { ToggleFavoriteButton } from "./toggle-favorite-button";
 
-type PromptFomProps = {
+type PromptProps = {
    prompt: DPromptDescriptor;
 };
 
-export const PromptFormView: FC<PromptFomProps> = ({ prompt }) => {
+export const PromptView: FC<PromptProps> = ({ prompt }) => {
    const [copied, setCopied] = useState(false);
 
    const copyToClipboard = async () => {
@@ -79,7 +88,9 @@ export const PromptFormView: FC<PromptFomProps> = ({ prompt }) => {
                   <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-slate-600">
                      <div className="flex items-center gap-2">
                         <Cpu className="size-4 text-indigo-600" />
-                        <Badge variant="outline">{prompt.recommendedModel}</Badge>
+                        <Badge variant="outline">
+                           {prompt.recommendedModel}
+                        </Badge>
                      </div>
                      <div className="flex items-center gap-2">
                         <Calendar className="size-4" />
@@ -96,6 +107,22 @@ export const PromptFormView: FC<PromptFomProps> = ({ prompt }) => {
                   <div className="flex items-center gap-2">
                      <Tooltip>
                         <TooltipTrigger asChild>
+                           <Button asChild size="sm">
+                              <Link href={`/prompts/${prompt.id}/edit`}>
+                                 <Edit2 className="size-4" />
+                                 Bearbeiten
+                              </Link>
+                           </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>Prompt bearbeiten</TooltipContent>
+                     </Tooltip>
+                     <CopyPromptButton
+                        prompt={prompt}
+                        size="sm"
+                        showLabel={true}
+                     />
+                     <Tooltip>
+                        <TooltipTrigger asChild>
                            <Button
                               variant="outline"
                               size="sm"
@@ -109,18 +136,9 @@ export const PromptFormView: FC<PromptFomProps> = ({ prompt }) => {
                               {copied ? "Kopiert" : "Kopieren"}
                            </Button>
                         </TooltipTrigger>
-                        <TooltipContent>Prompt in Zwischenablage kopieren</TooltipContent>
-                     </Tooltip>
-                     <Tooltip>
-                        <TooltipTrigger asChild>
-                           <Button asChild size="sm">
-                              <Link href={`/prompts/${prompt.id}/edit`}>
-                                 <Edit2 className="size-4" />
-                                 Bearbeiten
-                              </Link>
-                           </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>Prompt bearbeiten</TooltipContent>
+                        <TooltipContent>
+                           Prompt in Zwischenablage kopieren
+                        </TooltipContent>
                      </Tooltip>
                      <DropdownMenu>
                         <Tooltip>
