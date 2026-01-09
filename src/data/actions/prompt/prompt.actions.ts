@@ -42,7 +42,7 @@ export const createPrompt = async (data: DPromptCreate) => {
       revalidatePath("/prompts");
       return {
          success: true,
-         message: "Prompt created successfully.",
+         message: "Prompt erfolgreich erstellt.",
       };
    } catch (error) {
       return {
@@ -61,8 +61,8 @@ export const updatePrompt = async (data: DPromptUpdate) => {
       return {
          success: true,
          message: data.createNewVersion
-            ? "Prompt updated successfully. New version created."
-            : "Prompt updated successfully.",
+            ? "Prompt erfolgreich aktualisiert. Neue Version erstellt."
+            : "Prompt erfolgreich aktualisiert.",
       };
    } catch (error) {
       return {
@@ -79,7 +79,7 @@ export const deletePrompt = async (id: string) => {
       revalidatePath("/prompts");
       return {
          success: true,
-         message: "Prompt deleted successfully.",
+         message: "Prompt erfolgreich gelöscht.",
       };
    } catch (error) {
       return {
@@ -97,7 +97,9 @@ export const toggleFavorite = async (id: string, isFavorite: boolean) => {
       revalidatePath(`/prompts/${id}`);
       return {
          success: true,
-         message: isFavorite ? "Added to favorites" : "Removed from favorites",
+         message: isFavorite
+            ? "Zu Favoriten hinzugefügt"
+            : "Aus Favoriten entfernt",
       };
    } catch (error) {
       return {

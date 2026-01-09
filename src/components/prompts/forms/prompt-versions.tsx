@@ -36,7 +36,7 @@ export const PromptVersions: FC<PromptVersionsProps> = ({ prompt }) => {
                   <ChevronRight className="h-5 w-5 text-slate-600" />
                )}
                <History className="h-5 w-5 text-indigo-600" />
-               Version History
+               Versionsverlauf
             </h3>
             <Badge variant="secondary">{prompt.versions.length}</Badge>
          </button>

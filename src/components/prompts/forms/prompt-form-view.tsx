@@ -106,21 +106,21 @@ export const PromptFormView: FC<PromptFomProps> = ({ prompt }) => {
                               ) : (
                                  <Copy className="size-4" />
                               )}
-                              {copied ? "Copied" : "Copy"}
+                              {copied ? "Kopiert" : "Kopieren"}
                            </Button>
                         </TooltipTrigger>
-                        <TooltipContent>Copy prompt to clipboard</TooltipContent>
+                        <TooltipContent>Prompt in Zwischenablage kopieren</TooltipContent>
                      </Tooltip>
                      <Tooltip>
                         <TooltipTrigger asChild>
                            <Button asChild size="sm">
                               <Link href={`/prompts/${prompt.id}/edit`}>
                                  <Edit2 className="size-4" />
-                                 Edit
+                                 Bearbeiten
                               </Link>
                            </Button>
                         </TooltipTrigger>
-                        <TooltipContent>Edit this prompt</TooltipContent>
+                        <TooltipContent>Prompt bearbeiten</TooltipContent>
                      </Tooltip>
                      <DropdownMenu>
                         <Tooltip>
@@ -131,7 +131,7 @@ export const PromptFormView: FC<PromptFomProps> = ({ prompt }) => {
                                  </Button>
                               </DropdownMenuTrigger>
                            </TooltipTrigger>
-                           <TooltipContent>More options</TooltipContent>
+                           <TooltipContent>Weitere Optionen</TooltipContent>
                         </Tooltip>
                         <DropdownMenuContent align="end">
                            <DeletePromptButton promptId={prompt.id} />

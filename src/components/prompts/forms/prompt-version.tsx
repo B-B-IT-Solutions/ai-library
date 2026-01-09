@@ -43,7 +43,7 @@ export const PromptVersion: FC<PromptVersionProps> = ({
                <span className="font-medium text-slate-900">
                   v{version.version}
                </span>
-               {isCurrent && <Badge>Current</Badge>}
+               {isCurrent && <Badge>Aktuell</Badge>}
             </div>
             <div className="flex items-center gap-2 text-sm text-slate-600 shrink-0">
                <Calendar className="h-3.5 w-3.5" />

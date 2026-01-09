@@ -69,12 +69,12 @@ import {
 
 const formSchema = z.object({
    id: z.string().optional(),
-   title: z.string().min(3, "Title must be at least 3 characters"),
-   content: z.string().min(1, "Content is required"),
+   title: z.string().min(3, "Titel muss mindestens 3 Zeichen lang sein"),
+   content: z.string().min(1, "Inhalt ist erforderlich"),
    categories: z.array(z.string()),
    recommendedModel: z
       .string()
-      .min(3, "Recommended model must be at least 3 characters"),
+      .min(3, "Empfohlenes Modell muss mindestens 3 Zeichen lang sein"),
    followUpPrompts: z.array(z.string()),
 });
 
@@ -180,7 +180,7 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
       <Card data-testid="prompt-form">
          <CardHeader className="border-b pb-6">
             <CardTitle className="text-2xl font-bold text-slate-900">
-               {isEditMode ? "Edit Prompt" : "Create New Prompt"}
+               {isEditMode ? "Prompt bearbeiten" : "Neuen Prompt erstellen"}
             </CardTitle>
          </CardHeader>
 
@@ -195,7 +195,7 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                   <section className="space-y-4">
                      <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
                         <Type className="h-5 w-5 text-indigo-600" />
-                        Basic Information
+                        Allgemeine Informationen
                      </h3>
 
                      <div className="grid gap-4 sm:grid-cols-2">
@@ -209,11 +209,11 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                            }) => (
                               <FormItem>
                                  <FormLabel className="text-sm font-medium text-slate-700">
-                                    Title
+                                    Titel
                                  </FormLabel>
                                  <FormControl>
                                     <Input
-                                       placeholder="Enter prompt title..."
+                                       placeholder="Prompt-Titel eingeben..."
                                        {...field}
                                     />
                                  </FormControl>
@@ -236,7 +236,7 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                               <FormItem>
                                  <FormLabel className="text-sm font-medium text-slate-700 flex items-center gap-1.5">
                                     <Cpu className="h-4 w-4 text-indigo-600" />
-                                    Recommended Model
+                                    Empfohlenes Modell
                                  </FormLabel>
                                  <Select
                                     onValueChange={field.onChange}
@@ -244,7 +244,7 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                                  >
                                     <FormControl>
                                        <SelectTrigger>
-                                          <SelectValue placeholder="Select a model" />
+                                          <SelectValue placeholder="Modell auswählen" />
                                        </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
@@ -269,7 +269,7 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                      <div className="flex items-center justify-between">
                         <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
                            <Tag className="h-5 w-5 text-indigo-600" />
-                           Categories
+                           Kategorien
                         </h3>
                         <Button
                            type="button"
@@ -278,7 +278,7 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                            onClick={() => addCategory("")}
                         >
                            <Plus className="h-4 w-4" />
-                           Add
+                           Hinzufügen
                         </Button>
                      </div>
 
@@ -288,7 +288,7 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                               <div key={field.id} className="flex gap-2">
                                  <Input
                                     {...form.register(`categories.${index}`)}
-                                    placeholder="Enter category name"
+                                    placeholder="Kategoriename eingeben"
                                     className="flex-1"
                                  />
                                  <Button
@@ -305,7 +305,7 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                         </div>
                      ) : (
                         <p className="text-sm text-slate-500 italic">
-                           No categories added yet.
+                           Noch keine Kategorien hinzugefügt.
                         </p>
                      )}
                   </section>
@@ -317,12 +317,12 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                      <div>
                         <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
                            <FileText className="h-5 w-5 text-indigo-600" />
-                           Prompt Content
+                           Prompt-Inhalt
                         </h3>
                         {isEditMode && (
                            <p className="text-sm text-slate-500 mt-1">
-                              Use &quot;Save as New Version&quot; to create a version
-                              snapshot.
+                              Verwenden Sie &quot;Als neue Version speichern&quot; um
+                              einen Versions-Snapshot zu erstellen.
                            </p>
                         )}
                      </div>
@@ -338,7 +338,7 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                            <FormItem>
                               <FormControl>
                                  <AutosizeTextarea
-                                    placeholder="Enter your prompt content..."
+                                    placeholder="Prompt-Inhalt eingeben..."
                                     minHeight={200}
                                     className="font-mono text-sm"
                                     {...field}
@@ -358,10 +358,10 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                         <div>
                            <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
                               <MessageSquarePlus className="h-5 w-5 text-indigo-600" />
-                              Follow-up Prompts
+                              Folge-Prompts
                            </h3>
                            <p className="text-sm text-slate-500 mt-1">
-                              Suggested follow-up questions users might want to ask.
+                              Vorgeschlagene Folgefragen, die Benutzer stellen könnten.
                            </p>
                         </div>
                         <Button
@@ -371,7 +371,7 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                            onClick={() => addFollowUpPrompt("")}
                         >
                            <Plus className="h-4 w-4" />
-                           Add
+                           Hinzufügen
                         </Button>
                      </div>
 
@@ -381,7 +381,7 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                               <div key={field.id} className="flex gap-2">
                                  <Input
                                     {...form.register(`followUpPrompts.${idx}`)}
-                                    placeholder="Enter follow-up prompt"
+                                    placeholder="Folge-Prompt eingeben"
                                     className="flex-1"
                                  />
                                  <Button
@@ -398,7 +398,7 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                         </div>
                      ) : (
                         <p className="text-sm text-slate-500 italic">
-                           No follow-up prompts added yet.
+                           Noch keine Folge-Prompts hinzugefügt.
                         </p>
                      )}
                   </section>
@@ -413,7 +413,7 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                         onClick={() => router.back()}
                         disabled={form.formState.isSubmitting}
                      >
-                        Cancel
+                        Abbrechen
                      </Button>
 
                      {isEditMode ? (
@@ -426,12 +426,12 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                               {form.formState.isSubmitting ? (
                                  <>
                                     <Loader className="h-4 w-4 animate-spin" />
-                                    Saving...
+                                    Wird gespeichert...
                                  </>
                               ) : (
                                  <>
                                     <Save className="h-4 w-4" />
-                                    Save
+                                    Speichern
                                  </>
                               )}
                            </Button>
@@ -451,7 +451,7 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                                     disabled={form.formState.isSubmitting}
                                  >
                                     <History className="h-4 w-4" />
-                                    Save as New Version
+                                    Als neue Version speichern
                                  </DropdownMenuItem>
                               </DropdownMenuContent>
                            </DropdownMenu>
@@ -464,12 +464,12 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                            {form.formState.isSubmitting ? (
                               <>
                                  <Loader className="h-4 w-4 animate-spin" />
-                                 Creating...
+                                 Wird erstellt...
                               </>
                            ) : (
                               <>
                                  <Save className="h-4 w-4" />
-                                 Create Prompt
+                                 Prompt erstellen
                               </>
                            )}
                         </Button>

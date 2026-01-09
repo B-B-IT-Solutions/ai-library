@@ -53,19 +53,19 @@ export const DeletePromptButton: FC<DeletePromptButtonProps> = ({
             data-testid="delete-prompt-btn"
          >
             <Trash2 className="size-4" />
-            Delete
+            Löschen
          </DropdownMenuItem>
          <AlertDialogContent>
             <AlertDialogHeader>
-               <AlertDialogTitle>Delete Prompt</AlertDialogTitle>
+               <AlertDialogTitle>Prompt löschen</AlertDialogTitle>
                <AlertDialogDescription>
-                  Are you sure you want to delete this prompt? This action
-                  cannot be undone. All versions and follow-up prompts will be
-                  deleted.
+                  Sind Sie sicher, dass Sie diesen Prompt löschen möchten? Diese
+                  Aktion kann nicht rückgängig gemacht werden. Alle Versionen
+                  und Folge-Prompts werden ebenfalls gelöscht.
                </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-               <AlertDialogCancel disabled={isPending}>Cancel</AlertDialogCancel>
+               <AlertDialogCancel disabled={isPending}>Abbrechen</AlertDialogCancel>
                <AlertDialogAction
                   onClick={handleDelete}
                   disabled={isPending}
@@ -74,10 +74,10 @@ export const DeletePromptButton: FC<DeletePromptButtonProps> = ({
                   {isPending ? (
                      <>
                         <Loader className="size-4 mr-2 animate-spin" />
-                        Deleting...
+                        Wird gelöscht...
                      </>
                   ) : (
-                     "Delete"
+                     "Löschen"
                   )}
                </AlertDialogAction>
             </AlertDialogFooter>

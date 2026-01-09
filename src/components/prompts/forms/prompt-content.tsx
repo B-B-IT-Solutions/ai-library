@@ -32,7 +32,7 @@ export const PromptContent: FC<PromptContentProps> = ({ prompt }) => {
       <section data-testid="prompt-content" className="space-y-3">
          <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
             <FileText className="h-5 w-5 text-indigo-600" />
-            Prompt Content
+            Prompt-Inhalt
          </h3>
 
          <div className="group relative bg-slate-50 border border-slate-200 rounded-lg p-4">
@@ -56,7 +56,7 @@ export const PromptContent: FC<PromptContentProps> = ({ prompt }) => {
                   </Button>
                </TooltipTrigger>
                <TooltipContent>
-                  {copied ? "Copied!" : "Copy to clipboard"}
+                  {copied ? "Kopiert!" : "In Zwischenablage kopieren"}
                </TooltipContent>
             </Tooltip>
 
