@@ -11,6 +11,7 @@ import mockRouter from "next-router-mock";
 import { MemoryRouterProvider } from "next-router-mock/MemoryRouterProvider/next-13.5";
 
 import { SidebarProvider } from "@/components/shadcn/sidebar";
+import { TooltipProvider } from "@/components/shadcn/tooltip";
 
 export const renderAsyncRSC = async <T,>(
    asyncComponent: (props: T) => Promise<JSX.Element>,
@@ -53,7 +54,9 @@ export const renderWithRouter = (
    return {
       ...render(
          <QueryClientProvider client={queryClient}>
-            <MemoryRouterProvider url={url}>{component}</MemoryRouterProvider>
+            <MemoryRouterProvider url={url}>
+               <TooltipProvider>{component}</TooltipProvider>
+            </MemoryRouterProvider>
          </QueryClientProvider>
       ),
    };
