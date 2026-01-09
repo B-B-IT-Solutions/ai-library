@@ -4,8 +4,10 @@ import { FC } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { map } from "es-toolkit/compat";
 import {
+   ChevronDown,
    Cpu,
    FileText,
+   History,
    Loader,
    MessageSquarePlus,
    Plus,
@@ -22,6 +24,7 @@ import {
    useForm,
 } from "react-hook-form";
 import { toast } from "sonner";
+import z from "zod";
 
 import { AutosizeTextarea } from "@/components/shadcn/autosize-textarea";
 import { Button } from "@/components/shadcn/button";
@@ -31,6 +34,12 @@ import {
    CardHeader,
    CardTitle,
 } from "@/components/shadcn/card";
+import {
+   DropdownMenu,
+   DropdownMenuContent,
+   DropdownMenuItem,
+   DropdownMenuTrigger,
+} from "@/components/shadcn/dropdown-menu";
 import {
    Form,
    FormControl,
@@ -56,12 +65,18 @@ import {
 import {
    DPromptCreate,
    DPromptDescriptor,
-   DPromptUpdate,
 } from "@/data/types/domain/prompt";
-import {
-   createPromptSchema,
-   updatePromptSchema,
-} from "@/data/types/validators/prompt.schema";
+
+const formSchema = z.object({
+   id: z.string().optional(),
+   title: z.string().min(3, "Title must be at least 3 characters"),
+   content: z.string().min(1, "Content is required"),
+   categories: z.array(z.string()),
+   recommendedModel: z
+      .string()
+      .min(3, "Recommended model must be at least 3 characters"),
+   followUpPrompts: z.array(z.string()),
+});
 
 const AI_MODELS = [
    "Claude Sonnet 4.5",
@@ -81,6 +96,8 @@ type PromptFormEditProps = {
    mode?: "create" | "edit";
 };
 
+type PromptFormValues = z.infer<typeof formSchema>;
+
 export const PromptFormEdit: FC<PromptFormEditProps> = ({
    prompt,
    mode = "create",
@@ -88,10 +105,8 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
    const router = useRouter();
    const isEditMode = mode === "edit" && !!prompt;
 
-   const form = useForm<DPromptCreate | DPromptUpdate>({
-      resolver: zodResolver(
-         isEditMode ? updatePromptSchema : createPromptSchema
-      ),
+   const form = useForm<PromptFormValues>({
+      resolver: zodResolver(formSchema),
       defaultValues: isEditMode
          ? {
               id: prompt.id,
@@ -116,7 +131,7 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
       remove: removeCategory,
    } = useFieldArray({
       control: form.control,
-      name: "categories",
+      name: "categories" as never,
    });
 
    const {
@@ -125,14 +140,24 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
       remove: removeFollowUpPrompt,
    } = useFieldArray({
       control: form.control,
-      name: "followUpPrompts",
+      name: "followUpPrompts" as never,
    });
 
-   const onSubmit: SubmitHandler<DPromptCreate | DPromptUpdate> = async (
-      values
-   ) => {
+   const handleSave = async (createNewVersion: boolean = false) => {
+      const isValid = await form.trigger();
+      if (!isValid) return;
+
+      const values = form.getValues();
       const result = isEditMode
-         ? await updatePrompt(values as DPromptUpdate)
+         ? await updatePrompt({
+              id: values.id!,
+              title: values.title,
+              content: values.content,
+              categories: values.categories,
+              recommendedModel: values.recommendedModel,
+              followUpPrompts: values.followUpPrompts,
+              createNewVersion,
+           })
          : await createPrompt(values as DPromptCreate);
 
       if (result.success) {
@@ -145,6 +170,10 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
       } else {
          toast.error(result.message);
       }
+   };
+
+   const onSubmit: SubmitHandler<PromptFormValues> = async () => {
+      await handleSave(false);
    };
 
    return (
@@ -176,7 +205,7 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                            render={({
                               field,
                            }: {
-                              field: ControllerRenderProps<DPromptCreate, "title">;
+                              field: ControllerRenderProps<PromptFormValues, "title">;
                            }) => (
                               <FormItem>
                                  <FormLabel className="text-sm font-medium text-slate-700">
@@ -200,7 +229,7 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                               field,
                            }: {
                               field: ControllerRenderProps<
-                                 DPromptCreate,
+                                 PromptFormValues,
                                  "recommendedModel"
                               >;
                            }) => (
@@ -285,10 +314,18 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
 
                   {/* Prompt Content Section */}
                   <section className="space-y-4">
-                     <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
-                        <FileText className="h-5 w-5 text-indigo-600" />
-                        Prompt Content
-                     </h3>
+                     <div>
+                        <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
+                           <FileText className="h-5 w-5 text-indigo-600" />
+                           Prompt Content
+                        </h3>
+                        {isEditMode && (
+                           <p className="text-sm text-slate-500 mt-1">
+                              Use &quot;Save as New Version&quot; to create a version
+                              snapshot.
+                           </p>
+                        )}
+                     </div>
 
                      <FormField
                         control={form.control}
@@ -296,14 +333,9 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                         render={({
                            field,
                         }: {
-                           field: ControllerRenderProps<DPromptCreate, "content">;
+                           field: ControllerRenderProps<PromptFormValues, "content">;
                         }) => (
                            <FormItem>
-                              {isEditMode && (
-                                 <FormDescription className="text-amber-600 bg-amber-50 border border-amber-200 rounded-md px-3 py-2 text-sm">
-                                    Changing the content will create a new version.
-                                 </FormDescription>
-                              )}
                               <FormControl>
                                  <AutosizeTextarea
                                     placeholder="Enter your prompt content..."
@@ -383,22 +415,65 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                      >
                         Cancel
                      </Button>
-                     <Button
-                        type="submit"
-                        disabled={form.formState.isSubmitting}
-                     >
-                        {form.formState.isSubmitting ? (
-                           <>
-                              <Loader className="h-4 w-4 animate-spin" />
-                              {isEditMode ? "Saving..." : "Creating..."}
-                           </>
-                        ) : (
-                           <>
-                              <Save className="h-4 w-4" />
-                              {isEditMode ? "Save Changes" : "Create Prompt"}
-                           </>
-                        )}
-                     </Button>
+
+                     {isEditMode ? (
+                        <div className="flex">
+                           <Button
+                              type="submit"
+                              disabled={form.formState.isSubmitting}
+                              className="rounded-r-none"
+                           >
+                              {form.formState.isSubmitting ? (
+                                 <>
+                                    <Loader className="h-4 w-4 animate-spin" />
+                                    Saving...
+                                 </>
+                              ) : (
+                                 <>
+                                    <Save className="h-4 w-4" />
+                                    Save
+                                 </>
+                              )}
+                           </Button>
+                           <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                 <Button
+                                    type="button"
+                                    disabled={form.formState.isSubmitting}
+                                    className="rounded-l-none border-l border-primary-foreground/20 px-2"
+                                 >
+                                    <ChevronDown className="h-4 w-4" />
+                                 </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                 <DropdownMenuItem
+                                    onClick={() => handleSave(true)}
+                                    disabled={form.formState.isSubmitting}
+                                 >
+                                    <History className="h-4 w-4" />
+                                    Save as New Version
+                                 </DropdownMenuItem>
+                              </DropdownMenuContent>
+                           </DropdownMenu>
+                        </div>
+                     ) : (
+                        <Button
+                           type="submit"
+                           disabled={form.formState.isSubmitting}
+                        >
+                           {form.formState.isSubmitting ? (
+                              <>
+                                 <Loader className="h-4 w-4 animate-spin" />
+                                 Creating...
+                              </>
+                           ) : (
+                              <>
+                                 <Save className="h-4 w-4" />
+                                 Create Prompt
+                              </>
+                           )}
+                        </Button>
+                     )}
                   </div>
                </form>
             </Form>

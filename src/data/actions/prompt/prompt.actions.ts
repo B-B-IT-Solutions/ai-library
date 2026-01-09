@@ -60,7 +60,9 @@ export const updatePrompt = async (data: DPromptUpdate) => {
       revalidatePath(`/prompts/${data.id}`);
       return {
          success: true,
-         message: "Prompt updated successfully. New version created.",
+         message: data.createNewVersion
+            ? "Prompt updated successfully. New version created."
+            : "Prompt updated successfully.",
       };
    } catch (error) {
       return {

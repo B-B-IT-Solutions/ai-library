@@ -19,6 +19,7 @@ export const updatePromptSchema = z.object({
       .string()
       .min(3, "Recommended model must be at least 3 characters"),
    followUpPrompts: z.array(z.string()).optional().default([]),
+   createNewVersion: z.boolean().optional().default(false),
 });
 
 export const deletePromptSchema = z.object({
