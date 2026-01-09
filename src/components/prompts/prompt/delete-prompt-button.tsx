@@ -65,7 +65,9 @@ export const DeletePromptButton: FC<DeletePromptButtonProps> = ({
                </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-               <AlertDialogCancel disabled={isPending}>Abbrechen</AlertDialogCancel>
+               <AlertDialogCancel disabled={isPending}>
+                  Abbrechen
+               </AlertDialogCancel>
                <AlertDialogAction
                   onClick={handleDelete}
                   disabled={isPending}

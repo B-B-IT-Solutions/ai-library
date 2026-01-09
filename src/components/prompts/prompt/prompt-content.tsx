@@ -42,7 +42,7 @@ export const PromptContent: FC<PromptContentProps> = ({ prompt }) => {
                      variant="outline"
                      size="icon-sm"
                      onClick={copyToClipboard}
-                     className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-white"
+                     className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-white cursor-pointer"
                      data-testid="copy-btn"
                   >
                      {copied ? (
