@@ -1,14 +1,14 @@
 "use client";
 
 import { FC, useState } from "react";
+import { Check, Copy } from "lucide-react";
+
+import { Button } from "@/components/shadcn/button";
 import {
    Tooltip,
    TooltipContent,
    TooltipTrigger,
-} from "@radix-ui/react-tooltip";
-import { Check, Copy } from "lucide-react";
-
-import { Button } from "@/components/shadcn/button";
+} from "@/components/shadcn/tooltip";
 import { DPromptDescriptor } from "@/data/types/domain/prompt";
 
 type CopyPromptButtonProps = {
@@ -41,7 +41,7 @@ export const CopyPromptButton: FC<CopyPromptButtonProps> = ({
 
    return (
       <Tooltip>
-         <TooltipTrigger asChild={true}>
+         <TooltipTrigger asChild>
             <Button
                variant="outline"
                size="icon-sm"
