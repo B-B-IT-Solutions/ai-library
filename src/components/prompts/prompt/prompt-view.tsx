@@ -1,7 +1,6 @@
 import { FC } from "react";
 import { map } from "es-toolkit/compat";
-import { Calendar, Clock, Cpu, Edit2, MoreVertical } from "lucide-react";
-import Link from "next/link";
+import { Calendar, Clock, Cpu, MoreVertical } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
