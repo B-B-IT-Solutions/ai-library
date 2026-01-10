@@ -26,6 +26,7 @@ import {
 import { DPromptDescriptor } from "@/data/types/domain/prompt";
 import { formatDateTime } from "@/lib/utils";
 import { CopyPromptButton, ToggleFavoriteButton } from "../buttons";
+import { EditPromptButton } from "../buttons/edit-prompt-button";
 
 import { DeletePromptButton } from "./delete-prompt-button";
 import { PromptContent } from "./prompt-content";
@@ -79,17 +80,7 @@ export const PromptView: FC<PromptViewProps> = ({ prompt }) => {
 
                <CardAction>
                   <div className="flex items-center gap-2">
-                     <Tooltip>
-                        <TooltipTrigger asChild>
-                           <Button asChild size="sm">
-                              <Link href={`/prompts/${prompt.id}/edit`}>
-                                 <Edit2 className="size-4" />
-                                 Bearbeiten
-                              </Link>
-                           </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>Prompt bearbeiten</TooltipContent>
-                     </Tooltip>
+                     <EditPromptButton prompt={prompt} />
                      <CopyPromptButton
                         prompt={prompt}
                         size="sm"

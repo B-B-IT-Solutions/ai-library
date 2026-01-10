@@ -6,9 +6,11 @@ import { PromptView } from "./prompt-view";
 const assertRendered = () => {
    const view = screen.getByTestId("prompt-view");
    const toggleBtn = screen.getByTestId("toggle-favorite-btn");
+   const editBtn = screen.getByTestId("edit-prompt-btn");
 
    assertInDocument(view);
    assertInDocument(toggleBtn);
+   assertInDocument(editBtn);
 };
 
 describe("PromptView rendering tests", () => {
