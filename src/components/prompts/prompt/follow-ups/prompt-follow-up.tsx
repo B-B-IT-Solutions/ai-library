@@ -5,6 +5,7 @@ import { Check, Copy } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
 import { DPromptFollowUp } from "@/data/types/domain/prompt";
+import { CopyPromptFollowUpButton } from "../../buttons";
 
 type PromptFollowUpProps = {
    followUp: DPromptFollowUp;
@@ -43,6 +44,7 @@ export const PromptFollowUp: FC<PromptFollowUpProps> = ({ followUp }) => {
                <Copy className="w-4 h-4 text-slate-600" />
             )}
          </Button>
+         <CopyPromptFollowUpButton followUp={followUp} />
       </div>
    );
 };

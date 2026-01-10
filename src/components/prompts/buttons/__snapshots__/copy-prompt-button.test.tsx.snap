@@ -3,7 +3,7 @@
 exports[`CopyPromptButton rendering tests CopyPromptButton rendered 1`] = `
 <div>
   <button
-    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-8 cursor-pointer absolute top-2 right-2 opacity-0"
+    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-8 cursor-pointer absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-white"
     data-slot="tooltip-trigger"
     data-state="closed"
     data-testid="copy-prompt-btn"
@@ -56,7 +56,7 @@ exports[`CopyPromptButton rendering tests CopyPromptButton rendered 1`] = `
             data-state="closed"
             style="--radix-tooltip-content-transform-origin: var(--radix-popper-transform-origin); --radix-tooltip-content-available-width: var(--radix-popper-available-width); --radix-tooltip-content-available-height: var(--radix-popper-available-height); --radix-tooltip-trigger-width: var(--radix-popper-anchor-width); --radix-tooltip-trigger-height: var(--radix-popper-anchor-height);"
           >
-            Prompt in Zwischenablage kopieren
+            In Zwischenablage kopieren
             <span
               style="position: absolute; bottom: 0px; transform: translateY(100%); left: 0px;"
             >
@@ -78,7 +78,7 @@ exports[`CopyPromptButton rendering tests CopyPromptButton rendered 1`] = `
               role="tooltip"
               style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
             >
-              Prompt in Zwischenablage kopieren
+              In Zwischenablage kopieren
             </span>
           </div>
         </div>
@@ -147,7 +147,7 @@ exports[`CopyPromptButton rendering tests CopyPromptButton rendered 2`] = `
             data-state="closed"
             style="--radix-tooltip-content-transform-origin: var(--radix-popper-transform-origin); --radix-tooltip-content-available-width: var(--radix-popper-available-width); --radix-tooltip-content-available-height: var(--radix-popper-available-height); --radix-tooltip-trigger-width: var(--radix-popper-anchor-width); --radix-tooltip-trigger-height: var(--radix-popper-anchor-height);"
           >
-            Prompt in Zwischenablage kopieren
+            In Zwischenablage kopieren
             <span
               style="position: absolute; bottom: 0px; transform: translateY(100%); left: 0px;"
             >
@@ -169,7 +169,7 @@ exports[`CopyPromptButton rendering tests CopyPromptButton rendered 2`] = `
               role="tooltip"
               style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
             >
-              Prompt in Zwischenablage kopieren
+              In Zwischenablage kopieren
             </span>
           </div>
         </div>

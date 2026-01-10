@@ -1,6 +1,6 @@
 import { screen, waitFor } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, dtestData, renderWithTooltip } from "@tests";
+import { assertInDocument, renderWithTooltip } from "@tests";
 
 import { CopyButton } from "./copy-button";
 
@@ -25,10 +25,10 @@ const assertCopyIcon = () => {
 
 describe("CopyButton rendering tests", () => {
    it("CopyButton rendered", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const content = "content 123";
       const { container } = renderWithTooltip(
          <CopyButton
-            prompt={prompt}
+            content={content}
             size="icon-sm"
             className="absolute top-2 right-2 opacity-0"
          />
@@ -43,9 +43,9 @@ describe("CopyButton rendering tests", () => {
    });
 
    it("CopyButton rendered", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const content = "content 456";
       const { container } = renderWithTooltip(
-         <CopyButton prompt={prompt} size="sm" showLabel={true} />
+         <CopyButton content={content} size="sm" showLabel={true} />
       );
 
       await waitFor(() => {
@@ -63,8 +63,8 @@ describe("CopyButton functionality tests", () => {
    });
 
    it("CopyButton - showLabel false - copy btn clicked - success - test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
-      renderWithTooltip(<CopyButton prompt={prompt} size="icon-sm" />);
+      const content = "content 123-1";
+      renderWithTooltip(<CopyButton content={content} size="icon-sm" />);
 
       await waitFor(() => {
          assertRendered();
@@ -75,15 +75,15 @@ describe("CopyButton functionality tests", () => {
       await userEvent.click(copyBtn);
 
       await waitFor(() => {
-         expect(writeTextMock).toHaveBeenCalledWith(prompt.content);
+         expect(writeTextMock).toHaveBeenCalledWith(content);
          assertCheckIcon();
       });
    });
 
    it("CopyButton - showLabel true - copy btn clicked - success - test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
+      const content = "content 123-2";
       renderWithTooltip(
-         <CopyButton prompt={prompt} size="sm" showLabel={true} />
+         <CopyButton content={content} size="sm" showLabel={true} />
       );
 
       await waitFor(() => {
@@ -97,7 +97,7 @@ describe("CopyButton functionality tests", () => {
       await userEvent.click(copyBtn);
 
       await waitFor(() => {
-         expect(writeTextMock).toHaveBeenCalledWith(prompt.content);
+         expect(writeTextMock).toHaveBeenCalledWith(content);
          expect(copyBtn).toHaveTextContent("Kopiert");
          assertCheckIcon();
       });
@@ -108,8 +108,8 @@ describe("CopyButton functionality tests", () => {
       writeTextMock.mockRejectedValue(error);
       const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
 
-      const prompt = dtestData.dPromptDescriptor();
-      renderWithTooltip(<CopyButton prompt={prompt} size="icon-sm" />);
+      const content = "content 123-3";
+      renderWithTooltip(<CopyButton content={content} size="icon-sm" />);
 
       await waitFor(() => {
          assertRendered();
@@ -126,8 +126,8 @@ describe("CopyButton functionality tests", () => {
    });
 
    it("CopyButton - copy btn clicked - copied state resets after 2 seconds - test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
-      renderWithTooltip(<CopyButton prompt={prompt} size="icon-sm" />);
+      const content = "content 123-3";
+      renderWithTooltip(<CopyButton content={content} size="icon-sm" />);
 
       await waitFor(() => {
          assertRendered();
@@ -138,7 +138,7 @@ describe("CopyButton functionality tests", () => {
       await userEvent.click(copyBtn);
 
       await waitFor(() => {
-         expect(writeTextMock).toHaveBeenCalledWith(prompt.content);
+         expect(writeTextMock).toHaveBeenCalledWith(content);
          assertCheckIcon();
       });
 

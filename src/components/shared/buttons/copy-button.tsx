@@ -9,27 +9,28 @@ import {
    TooltipContent,
    TooltipTrigger,
 } from "@/components/shadcn/tooltip";
-import { DPromptDescriptor } from "@/data/types/domain/prompt";
 import { cn } from "@/lib/utils";
 
 type CopyButtonProps = {
-   prompt: DPromptDescriptor;
+   content: string;
    size: "sm" | "icon-sm";
    showLabel?: boolean;
    className?: string;
+   "data-testid"?: string;
 };
 
 export const CopyButton: FC<CopyButtonProps> = ({
-   prompt,
+   content,
    size,
    showLabel,
    className,
+   "data-testid": dataTestId = "copy-btn",
 }) => {
    const [copied, setCopied] = useState(false);
 
    const copyToClipboard = async () => {
       try {
-         await navigator.clipboard.writeText(prompt.content);
+         await navigator.clipboard.writeText(content);
          setCopied(true);
          setTimeout(() => setCopied(false), 2000);
       } catch (error) {
@@ -67,7 +68,7 @@ export const CopyButton: FC<CopyButtonProps> = ({
                size={size}
                onClick={copyToClipboard}
                className={cn("cursor-pointer", className)}
-               data-testid="copy-btn"
+               data-testid={dataTestId}
             >
                {label()}
             </Button>
