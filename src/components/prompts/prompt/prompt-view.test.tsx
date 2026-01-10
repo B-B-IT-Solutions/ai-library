@@ -5,7 +5,10 @@ import { PromptView } from "./prompt-view";
 
 const assertRendered = () => {
    const view = screen.getByTestId("prompt-view");
+   const toggleBtn = screen.getByTestId("toggle-favorite-btn");
+
    assertInDocument(view);
+   assertInDocument(toggleBtn);
 };
 
 describe("PromptView rendering tests", () => {
