@@ -35,12 +35,10 @@ import { PromptContentSection } from "./prompt-content-section";
 
 const formSchema = z.object({
    id: z.string().optional(),
-   title: z.string().min(3, "Titel muss mindestens 3 Zeichen lang sein"),
-   content: z.string().min(1, "Inhalt ist erforderlich"),
+   title: z.string().min(3, "Titel ist erforderlich"),
+   content: z.string(),
    categories: z.array(z.string()),
-   recommendedModel: z
-      .string()
-      .min(3, "Empfohlenes Modell muss mindestens 3 Zeichen lang sein"),
+   recommendedModel: z.string(),
    followUpPrompts: z.array(z.string()),
 });
 
