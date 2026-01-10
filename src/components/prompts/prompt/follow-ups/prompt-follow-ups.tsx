@@ -6,16 +6,18 @@ import { ChevronDown, ChevronLeft, MessageSquarePlus } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Separator } from "@/components/shadcn/separator";
-import { DPromptFollowUp } from "@/data/types/domain/prompt";
+import { DPromptDescriptor } from "@/data/types/domain/prompt";
 
 import { PromptFollowUp } from "./prompt-follow-up";
 
 type PromptFollowUpsProps = {
-   followUps: DPromptFollowUp[];
+   prompt: DPromptDescriptor;
 };
 
-export const PromptFollowUps: FC<PromptFollowUpsProps> = ({ followUps }) => {
+export const PromptFollowUps: FC<PromptFollowUpsProps> = ({ prompt }) => {
    const [expanded, setExpanded] = useState(false);
+
+   const { followUpPrompts: followUps } = prompt;
 
    if (isEmpty(followUps)) {
       return null;

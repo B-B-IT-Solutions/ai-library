@@ -16,7 +16,6 @@ import {
    DropdownMenuContent,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import { Separator } from "@/components/shadcn/separator";
 import { DPromptDescriptor } from "@/data/types/domain/prompt";
 import { formatDateTime } from "@/lib/utils";
 import {
@@ -72,17 +71,6 @@ export const PromptView: FC<PromptViewProps> = ({ prompt }) => {
       }
    };
 
-   const followUps = () => {
-      if (!isEmpty(prompt.followUpPrompts)) {
-         return (
-            <>
-               <Separator />
-               <PromptFollowUps followUps={prompt.followUpPrompts} />
-            </>
-         );
-      }
-   };
-
    return (
       <div data-testid="prompt-view">
          <Card>
@@ -116,7 +104,7 @@ export const PromptView: FC<PromptViewProps> = ({ prompt }) => {
             </CardHeader>
             <CardContent className="space-y-6">
                <PromptContent prompt={prompt} />
-               {followUps()}
+               <PromptFollowUps prompt={prompt} />
                <PromptVersions prompt={prompt} />
             </CardContent>
          </Card>
