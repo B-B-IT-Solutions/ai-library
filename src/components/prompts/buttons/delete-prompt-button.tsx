@@ -44,8 +44,8 @@ export const DeletePromptButton: FC<DeletePromptButtonProps> = ({ prompt }) => {
    const alertDialog = () => {
       return (
          <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-            <AlertDialogContent data-testid="delete-prompt-dialog-content">
-               <AlertDialogHeader>
+            <AlertDialogContent data-testid="delete-dialog-content">
+               <AlertDialogHeader data-testid="delete-dialog-header">
                   <AlertDialogTitle>Prompt löschen</AlertDialogTitle>
                   <AlertDialogDescription>
                      Möchten Sie diesen Prompt wirklich löschen? Diese Aktion
@@ -53,10 +53,11 @@ export const DeletePromptButton: FC<DeletePromptButtonProps> = ({ prompt }) => {
                      Folge-Prompts werden ebenfalls gelöscht.
                   </AlertDialogDescription>
                </AlertDialogHeader>
-               <AlertDialogFooter data-testid="delete-prompt-dialog-header">
+               <AlertDialogFooter data-testid="delete-dialog-footer">
                   <AlertDialogCancel
                      disabled={isPending}
                      className="cursor-pointer"
+                     data-testid="cancel-btn"
                   >
                      Abbrechen
                   </AlertDialogCancel>
@@ -64,6 +65,7 @@ export const DeletePromptButton: FC<DeletePromptButtonProps> = ({ prompt }) => {
                      onClick={handleDelete}
                      disabled={isPending}
                      className="bg-red-600 hover:bg-red-700 cursor-pointer"
+                     data-testid="confirm-btn"
                   >
                      {isPending ? (
                         <>

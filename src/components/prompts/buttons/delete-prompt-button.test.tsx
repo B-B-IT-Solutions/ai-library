@@ -28,19 +28,31 @@ const assertRendered = () => {
 };
 
 const assertDialogOpen = () => {
-   const content = screen.getByTestId("delete-prompt-dialog-content");
-   const header = screen.getByTestId("delete-prompt-dialog-header");
+   const content = screen.getByTestId("delete-dialog-content");
+   const header = screen.getByTestId("delete-dialog-header");
+   const footer = screen.getByTestId("delete-dialog-footer");
+   const cancelBtn = screen.getByTestId("cancel-btn");
+   const confirmBtn = screen.getByTestId("confirm-btn");
 
    assertInDocument(content);
    assertInDocument(header);
+   assertInDocument(footer);
+   assertInDocument(cancelBtn);
+   assertInDocument(confirmBtn);
 };
 
 const assertDialogClosed = () => {
-   const content = screen.queryByTestId("delete-prompt-dialog-content");
-   const header = screen.queryByTestId("delete-prompt-dialog-header");
+   const content = screen.queryByTestId("delete-dialog-content");
+   const header = screen.queryByTestId("delete-dialog-header");
+   const footer = screen.queryByTestId("delete-dialog-footer");
+   const cancelBtn = screen.queryByTestId("cancel-btn");
+   const confirmBtn = screen.queryByTestId("confirm-btn");
 
    assertNotInDocument(content);
    assertNotInDocument(header);
+   assertNotInDocument(footer);
+   assertNotInDocument(cancelBtn);
+   assertNotInDocument(confirmBtn);
 };
 
 describe("DeletePromptButton rendering tests", () => {
@@ -64,47 +76,7 @@ describe("DeletePromptButton functionality tests", () => {
       mockRouter.push("/prompts/test-id");
    });
 
-   it("DeletePromptButton - delete btn clicked - opens dialog - test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
-      renderWithTooltip(<DeletePromptButton prompt={prompt} />);
-
-      await waitFor(() => {
-         assertRendered();
-         assertDialogClosed();
-      });
-
-      const deleteBtn = screen.getByTestId("delete-prompt-btn");
-      await userEvent.click(deleteBtn);
-
-      await waitFor(() => {
-         assertDialogOpen();
-      });
-   });
-
-   it("DeletePromptButton - cancel btn clicked - closes dialog - test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
-      renderWithTooltip(<DeletePromptButton prompt={prompt} />);
-
-      await waitFor(() => {
-         assertRendered();
-      });
-
-      const deleteBtn = screen.getByTestId("delete-prompt-btn");
-      await userEvent.click(deleteBtn);
-
-      await waitFor(() => {
-         assertDialogOpen();
-      });
-
-      const cancelBtn = screen.getByTestId("mock-react-alert-dialog-cancel");
-      await userEvent.click(cancelBtn);
-
-      await waitFor(() => {
-         assertDialogClosed();
-      });
-   });
-
-   it("DeletePromptButton - confirm delete - result.success true - test", async () => {
+   it("DeletePromptButton - confirm btn clicked - result.success true - test", async () => {
       const actionResult = {
          success: true,
          message: "Prompt erfolgreich gelöscht.",
@@ -124,12 +96,14 @@ describe("DeletePromptButton functionality tests", () => {
 
       await waitFor(() => {
          assertDialogOpen();
+         expect(deletePromptMock).not.toHaveBeenCalled();
       });
 
-      const confirmBtn = screen.getByTestId("mock-react-alert-dialog-action");
+      const confirmBtn = screen.getByTestId("confirm-btn");
       await userEvent.click(confirmBtn);
 
       await waitFor(() => {
+         assertDialogClosed();
          expect(deletePromptMock).toHaveBeenCalledTimes(1);
          expect(deletePromptMock).toHaveBeenCalledWith(prompt.id);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
@@ -138,7 +112,7 @@ describe("DeletePromptButton functionality tests", () => {
       });
    });
 
-   it("DeletePromptButton - confirm delete - result.success false - test", async () => {
+   it("DeletePromptButton - confirm btn clicked - result.success false - test", async () => {
       const actionResult = {
          success: false,
          message: "Prompt konnte nicht gelöscht werden.",
@@ -158,31 +132,29 @@ describe("DeletePromptButton functionality tests", () => {
 
       await waitFor(() => {
          assertDialogOpen();
+         expect(deletePromptMock).not.toHaveBeenCalled();
       });
 
-      const confirmBtn = screen.getByTestId("mock-react-alert-dialog-action");
+      const confirmBtn = screen.getByTestId("confirm-btn");
       await userEvent.click(confirmBtn);
 
       await waitFor(() => {
+         assertDialogClosed();
          expect(deletePromptMock).toHaveBeenCalledTimes(1);
          expect(deletePromptMock).toHaveBeenCalledWith(prompt.id);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(actionResult.message);
+         expect(mockRouter.pathname).toEqual("/prompts/test-id");
       });
    });
 
-   it("DeletePromptButton - dialog closes after delete - test", async () => {
-      const actionResult = {
-         success: true,
-         message: "Prompt erfolgreich gelöscht.",
-      };
-      deletePromptMock.mockResolvedValue(actionResult);
-
+   it("DeletePromptButton - cancel btn clicked - closes dialog - test", async () => {
       const prompt = dtestData.dPromptDescriptor();
       renderWithTooltip(<DeletePromptButton prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
+         expect(deletePromptMock).not.toHaveBeenCalled();
       });
 
       const deleteBtn = screen.getByTestId("delete-prompt-btn");
@@ -190,13 +162,16 @@ describe("DeletePromptButton functionality tests", () => {
 
       await waitFor(() => {
          assertDialogOpen();
+         expect(deletePromptMock).not.toHaveBeenCalled();
       });
 
-      const confirmBtn = screen.getByTestId("mock-react-alert-dialog-action");
-      await userEvent.click(confirmBtn);
+      const cancelBtn = screen.getByTestId("cancel-btn");
+      await userEvent.click(cancelBtn);
 
       await waitFor(() => {
          assertDialogClosed();
+         expect(deletePromptMock).not.toHaveBeenCalled();
+         expect(mockRouter.pathname).toEqual("/prompts/test-id");
       });
    });
 });
