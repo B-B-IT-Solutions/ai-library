@@ -136,8 +136,7 @@ export const PromptEdit: FC<PromptEditProps> = ({
                {isEditMode ? "Prompt bearbeiten" : "Neuen Prompt erstellen"}
             </CardTitle>
          </CardHeader>
-
-         <CardContent className="pt-6">
+         <CardContent>
             <Form {...form}>
                <form
                   onSubmit={form.handleSubmit(onSubmit)}

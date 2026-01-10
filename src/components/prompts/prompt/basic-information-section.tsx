@@ -2,7 +2,7 @@
 
 import { FC } from "react";
 import { map } from "es-toolkit/compat";
-import { Cpu, Plus, Tag, Type, X } from "lucide-react";
+import { BookType, Cpu, Plus, Tag, X } from "lucide-react";
 import { Control, FieldArrayWithId, UseFormRegister } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
@@ -62,7 +62,7 @@ export const BasicInformationSection: FC<BasicInformationSectionProps> = ({
    return (
       <section className="space-y-4">
          <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
-            <Type className="h-5 w-5 text-indigo-600" />
+            <BookType className="h-5 w-5 text-indigo-600" />
             Allgemeine Informationen
          </h3>
 
@@ -75,10 +75,7 @@ export const BasicInformationSection: FC<BasicInformationSectionProps> = ({
                      Titel
                   </FormLabel>
                   <FormControl>
-                     <Input
-                        placeholder="Prompt-Titel eingeben..."
-                        {...field}
-                     />
+                     <Input placeholder="Prompt-Titel eingeben..." {...field} />
                   </FormControl>
                   <FormMessage />
                </FormItem>
