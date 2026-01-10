@@ -60,9 +60,9 @@ export const DeletePromptButton: FC<DeletePromptButtonProps> = ({
             <AlertDialogHeader>
                <AlertDialogTitle>Prompt löschen</AlertDialogTitle>
                <AlertDialogDescription>
-                  Sind Sie sicher, dass Sie diesen Prompt löschen möchten? Diese
-                  Aktion kann nicht rückgängig gemacht werden. Alle Versionen
-                  und Folge-Prompts werden ebenfalls gelöscht.
+                  Möchten Sie diesen Prompt wirklich löschen? Diese Aktion kann
+                  nicht rückgängig gemacht werden. Alle Versionen und
+                  Folge-Prompts werden ebenfalls gelöscht.
                </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
