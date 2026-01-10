@@ -2,7 +2,7 @@
 
 import { FC, useState } from "react";
 import { map, sum } from "es-toolkit/compat";
-import { FileText, Loader2, Plus } from "lucide-react";
+import { FileText, Filter, Loader2, Plus } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
@@ -14,6 +14,7 @@ import { Filters, PromptFilters } from "./prompts-filter";
 
 export const PromptsList: FC = () => {
    const [filters, setFilters] = useState<Filters>({});
+   const [showFilters, setShowFilters] = useState<boolean>(false);
 
    const {
       data: { pages = [] } = {},
@@ -28,6 +29,10 @@ export const PromptsList: FC = () => {
    const count = sum(map(pages, (p) => p.numberOfElements));
 
    const promptItemsHeader = () => {
+      const activeFilterCount =
+         (filters.search ? 1 : 0) +
+         (filters.categories?.length || 0);
+
       return (
          <div
             className="px-6 py-4 border-b border-slate-200/80 flex justify-between items-center bg-gradient-to-r from-white to-slate-50/50 sticky top-0 z-10 backdrop-blur-sm"
@@ -42,17 +47,39 @@ export const PromptsList: FC = () => {
                </span>
             </div>
 
-            <Button
-               asChild={true}
-               size="sm"
-               className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-md hover:shadow-lg transition-all duration-200"
-               data-testid="add-prompt-btn"
-            >
-               <Link href="/prompts/new" className="flex items-center gap-2">
-                  <Plus className="w-4 h-4" />
-                  <span className="text-sm font-medium">Neu</span>
-               </Link>
-            </Button>
+            <div className="flex items-center gap-2">
+               <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => setShowFilters(!showFilters)}
+                  className={`relative transition-all duration-200 ${
+                     showFilters
+                        ? "bg-blue-50 border-blue-300 text-blue-700 hover:bg-blue-100"
+                        : "hover:bg-slate-50"
+                  }`}
+                  data-testid="toggle-filters-btn"
+               >
+                  <Filter className="w-4 h-4 mr-2" />
+                  <span className="text-sm font-medium">Filter</span>
+                  {activeFilterCount > 0 && (
+                     <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-md">
+                        {activeFilterCount}
+                     </span>
+                  )}
+               </Button>
+
+               <Button
+                  asChild={true}
+                  size="sm"
+                  className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-md hover:shadow-lg transition-all duration-200"
+                  data-testid="add-prompt-btn"
+               >
+                  <Link href="/prompts/new" className="flex items-center gap-2">
+                     <Plus className="w-4 h-4" />
+                     <span className="text-sm font-medium">Neu</span>
+                  </Link>
+               </Button>
+            </div>
          </div>
       );
    };
@@ -116,8 +143,13 @@ export const PromptsList: FC = () => {
    };
 
    const promptFilters = () => {
+      if (!showFilters) return null;
+
       return (
-         <div className="px-6 py-4 border-b border-slate-200/80 bg-white">
+         <div
+            className="px-6 py-4 border-b border-slate-200/80 bg-white animate-in slide-in-from-top-4 duration-200"
+            data-testid="prompts-filter-container"
+         >
             <PromptFilters onFiltersUpdate={setFilters} />
          </div>
       );
