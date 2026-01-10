@@ -140,7 +140,7 @@ describe("createPrompt tests", () => {
       const result = await createPrompt(promptCreate);
       const expectedResult = {
          success: true,
-         message: "Prompt created sucessfully.",
+         message: "Prompt erfolgreich erstellt.",
       };
 
       expect(result).toEqual(expectedResult);
