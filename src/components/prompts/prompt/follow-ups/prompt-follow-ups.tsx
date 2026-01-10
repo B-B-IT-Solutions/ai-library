@@ -59,14 +59,14 @@ export const PromptFollowUps: FC<PromptFollowUpsProps> = ({ followUps }) => {
                className="w-full flex items-center justify-between py-2 hover:bg-slate-50 -mx-2 px-2 rounded-lg transition-colors cursor-pointer"
                data-testid="expand-btn"
             >
-               <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
-                  <MessageSquarePlus className="h-5 w-5 text-indigo-600" />
-                  Folge-Prompts
-               </h3>
                <div className="flex items-center gap-2">
+                  <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
+                     <MessageSquarePlus className="h-5 w-5 text-indigo-600" />
+                     Folge-Prompts
+                  </h3>
                   <Badge variant="secondary">{followUps.length}</Badge>
-                  {expandIcon()}
                </div>
+               {expandIcon()}
             </button>
             {content()}
          </div>
