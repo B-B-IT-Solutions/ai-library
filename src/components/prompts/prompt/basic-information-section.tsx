@@ -2,15 +2,7 @@
 
 import { FC, useState } from "react";
 import { map } from "es-toolkit/compat";
-import {
-   BookType,
-   Check,
-   ChevronsUpDown,
-   Cpu,
-   Plus,
-   Tag,
-   X,
-} from "lucide-react";
+import { BookType, Check, ChevronsUpDown, Plus, X } from "lucide-react";
 import { Control, FieldArrayWithId, UseFormRegister } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
@@ -104,7 +96,6 @@ export const BasicInformationSection: FC<BasicInformationSectionProps> = ({
             render={({ field }) => (
                <FormItem className="flex flex-col">
                   <FormLabel className="text-sm font-medium text-slate-700 flex items-center gap-1.5">
-                     <Cpu className="h-4 w-4 text-indigo-600" />
                      Empfohlenes Modell
                   </FormLabel>
                   <Popover open={open} onOpenChange={setOpen}>
@@ -181,7 +172,6 @@ export const BasicInformationSection: FC<BasicInformationSectionProps> = ({
          <div className="space-y-2">
             <div className="flex items-center justify-between">
                <FormLabel className="text-sm font-medium text-slate-700 flex items-center gap-1.5">
-                  <Tag className="h-4 w-4 text-indigo-600" />
                   Kategorien
                </FormLabel>
                <Button
