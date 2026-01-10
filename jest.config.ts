@@ -50,6 +50,8 @@ module.exports = {
       "^@/auth$": "<rootDir>/__mocks__/@/auth.ts",
       "^@/components/shared/auth$":
          "<rootDir>/__mocks__/@/components/shared/auth.tsx",
+      "^@radix-ui/react-alert-dialog$":
+         "<rootDir>/__mocks__/@radix-ui/react-alert-dialog.tsx",
       "^@radix-ui/react-dialog$":
          "<rootDir>/__mocks__/@radix-ui/react-dialog.tsx",
       "^@radix-ui/react-dropdown-menu$":

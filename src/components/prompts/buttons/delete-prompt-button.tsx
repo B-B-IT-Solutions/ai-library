@@ -41,11 +41,50 @@ export const DeletePromptButton: FC<DeletePromptButtonProps> = ({ prompt }) => {
       });
    };
 
+   const alertDialog = () => {
+      return (
+         <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+            <AlertDialogContent data-testid="delete-prompt-dialog-content">
+               <AlertDialogHeader>
+                  <AlertDialogTitle>Prompt löschen</AlertDialogTitle>
+                  <AlertDialogDescription>
+                     Möchten Sie diesen Prompt wirklich löschen? Diese Aktion
+                     kann nicht rückgängig gemacht werden. Alle Versionen und
+                     Folge-Prompts werden ebenfalls gelöscht.
+                  </AlertDialogDescription>
+               </AlertDialogHeader>
+               <AlertDialogFooter data-testid="delete-prompt-dialog-header">
+                  <AlertDialogCancel
+                     disabled={isPending}
+                     className="cursor-pointer"
+                  >
+                     Abbrechen
+                  </AlertDialogCancel>
+                  <AlertDialogAction
+                     onClick={handleDelete}
+                     disabled={isPending}
+                     className="bg-red-600 hover:bg-red-700 cursor-pointer"
+                  >
+                     {isPending ? (
+                        <>
+                           <Loader className="size-4 mr-2 animate-spin" />
+                           Wird gelöscht...
+                        </>
+                     ) : (
+                        "Löschen"
+                     )}
+                  </AlertDialogAction>
+               </AlertDialogFooter>
+            </AlertDialogContent>
+         </AlertDialog>
+      );
+   };
+
    return (
-      <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+      <>
          <DropdownMenuItem
             variant="destructive"
-            onSelect={(e) => {
+            onClick={(e) => {
                e.preventDefault();
                setIsOpen(true);
             }}
@@ -55,38 +94,7 @@ export const DeletePromptButton: FC<DeletePromptButtonProps> = ({ prompt }) => {
             <Trash2 className="size-4" />
             Löschen
          </DropdownMenuItem>
-         <AlertDialogContent>
-            <AlertDialogHeader>
-               <AlertDialogTitle>Prompt löschen</AlertDialogTitle>
-               <AlertDialogDescription>
-                  Möchten Sie diesen Prompt wirklich löschen? Diese Aktion kann
-                  nicht rückgängig gemacht werden. Alle Versionen und
-                  Folge-Prompts werden ebenfalls gelöscht.
-               </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-               <AlertDialogCancel
-                  disabled={isPending}
-                  className="cursor-pointer"
-               >
-                  Abbrechen
-               </AlertDialogCancel>
-               <AlertDialogAction
-                  onClick={handleDelete}
-                  disabled={isPending}
-                  className="bg-red-600 hover:bg-red-700 cursor-pointer"
-               >
-                  {isPending ? (
-                     <>
-                        <Loader className="size-4 mr-2 animate-spin" />
-                        Wird gelöscht...
-                     </>
-                  ) : (
-                     "Löschen"
-                  )}
-               </AlertDialogAction>
-            </AlertDialogFooter>
-         </AlertDialogContent>
-      </AlertDialog>
+         {alertDialog()}
+      </>
    );
 };
