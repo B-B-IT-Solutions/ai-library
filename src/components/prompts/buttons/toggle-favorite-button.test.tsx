@@ -23,8 +23,23 @@ const assertRendered = () => {
 };
 
 describe("ToggleFavoriteButton rendering tests", () => {
-   it("ToggleFavoriteButton rendered test", async () => {
+   it("ToggleFavoriteButton - isFavorite true - test", async () => {
       const prompt = dtestData.dPromptDescriptor();
+      prompt.isFavorite = true;
+
+      const { container } = render(<ToggleFavoriteButton prompt={prompt} />);
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("ToggleFavoriteButton - isFavorite false - test", async () => {
+      const prompt = dtestData.dPromptDescriptor();
+      prompt.isFavorite = false;
+
       const { container } = render(<ToggleFavoriteButton prompt={prompt} />);
 
       await waitFor(() => {
