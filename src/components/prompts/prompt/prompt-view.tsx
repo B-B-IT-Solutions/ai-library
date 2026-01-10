@@ -26,8 +26,8 @@ import {
    ToggleFavoriteButton,
 } from "../buttons";
 
+import { PromptContent } from "./content/prompt-content";
 import { PromptFollowUps } from "./follow-ups/prompt-follow-ups";
-import { PromptContent } from "./prompt-content";
 import { PromptVersions } from "./versions/prompt-versions";
 
 type PromptViewProps = {

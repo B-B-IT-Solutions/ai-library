@@ -2,7 +2,7 @@ import { FC } from "react";
 import { FileText } from "lucide-react";
 
 import { DPromptDescriptor } from "@/data/types/domain/prompt";
-import { CopyPromptButton } from "../buttons/copy-prompt-button";
+import { CopyPromptButton } from "../../buttons/copy-prompt-button";
 
 type PromptContentProps = {
    prompt: DPromptDescriptor;
