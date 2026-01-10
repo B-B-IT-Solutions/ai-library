@@ -22,6 +22,7 @@ import {
    DPromptDescriptorsFilter,
    DPromptDescriptorsPage,
    DPromptDescriptorsPageQuery,
+   DPromptFollowUp,
    DPromptVersion,
 } from "@/data/types/domain/prompt";
 import {
@@ -302,6 +303,8 @@ export const dPromptDescriptor = (index = 1): DPromptDescriptor => {
       categories: dPromptCategories(),
       recommendedModel: `model ${index}`,
       isFavorite: true,
+      followUpPrompts: dPromptFollowUps(),
+      versions: dPromptVersions(),
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
    };
@@ -323,6 +326,18 @@ export const dPromptCategories = (count = 3): DPromptCategory[] => {
 export const dPromptCategory = (index = 1): DPromptCategory => {
    return {
       name: `category ${index}`,
+   };
+};
+
+export const dPromptFollowUps = (count = 3): DPromptFollowUp[] => {
+   return range(0, count).map((i) => dPromptFollowUp(i));
+};
+
+export const dPromptFollowUp = (index = 1): DPromptFollowUp => {
+   return {
+      id: `f23c15c7-7d2d-40a2-a895-6a78516b9b3${index}`,
+      content: `content ${index}`,
+      order: index,
    };
 };
 

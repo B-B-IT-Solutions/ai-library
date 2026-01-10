@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { map } from "es-toolkit/compat";
+import { isEmpty, map } from "es-toolkit/compat";
 import { Calendar, Clock, Cpu, MoreVertical } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -17,11 +17,6 @@ import {
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
 import { Separator } from "@/components/shadcn/separator";
-import {
-   Tooltip,
-   TooltipContent,
-   TooltipTrigger,
-} from "@/components/shadcn/tooltip";
 import { DPromptDescriptor } from "@/data/types/domain/prompt";
 import { formatDateTime } from "@/lib/utils";
 import {
@@ -31,9 +26,9 @@ import {
    ToggleFavoriteButton,
 } from "../buttons";
 
+import { PromptFollowUps } from "./follow-ups/prompt-follow-ups";
 import { PromptContent } from "./prompt-content";
-import { PromptFollowUps } from "./prompt-follow-ups";
-import { PromptVersions } from "./prompt-versions";
+import { PromptVersions } from "./versions/prompt-versions";
 
 type PromptViewProps = {
    prompt: DPromptDescriptor;
@@ -45,27 +40,58 @@ export const PromptView: FC<PromptViewProps> = ({ prompt }) => {
          <div className="flex items-center gap-2">
             <EditPromptButton prompt={prompt} />
             <CopyPromptButton prompt={prompt} size="sm" showLabel={true} />
-            <DropdownMenu>
-               <Tooltip>
-                  <TooltipTrigger asChild>
-                     <DropdownMenuTrigger asChild>
-                        <Button
-                           variant="outline"
-                           size="icon-sm"
-                           className="cursor-pointer"
-                        >
-                           <MoreVertical className="size-4" />
-                        </Button>
-                     </DropdownMenuTrigger>
-                  </TooltipTrigger>
-                  <TooltipContent>Weitere Optionen</TooltipContent>
-               </Tooltip>
+            <DropdownMenu data-testid="actions-context-menu">
+               <DropdownMenuTrigger asChild={true}>
+                  <Button
+                     variant="outline"
+                     size="icon-sm"
+                     className="cursor-pointer"
+                  >
+                     <MoreVertical className="size-4" />
+                  </Button>
+               </DropdownMenuTrigger>
                <DropdownMenuContent align="end">
                   <DeletePromptButton prompt={prompt} />
                </DropdownMenuContent>
             </DropdownMenu>
          </div>
       );
+   };
+
+   const categories = () => {
+      if (!isEmpty(prompt.categories)) {
+         return (
+            <div className="flex flex-wrap gap-2">
+               {map(prompt.categories, (cat, idx) => (
+                  <Badge key={idx} variant="secondary">
+                     {cat.name}
+                  </Badge>
+               ))}
+            </div>
+         );
+      }
+   };
+
+   const followUps = () => {
+      if (!isEmpty(prompt.followUpPrompts)) {
+         return (
+            <>
+               <Separator />
+               <PromptFollowUps followUps={prompt.followUpPrompts} />
+            </>
+         );
+      }
+   };
+
+   const versions = () => {
+      if (!isEmpty(prompt.versions)) {
+         return (
+            <>
+               <Separator />
+               <PromptVersions prompt={prompt} />
+            </>
+         );
+      }
    };
 
    return (
@@ -79,17 +105,7 @@ export const PromptView: FC<PromptViewProps> = ({ prompt }) => {
                      </CardTitle>
                      <ToggleFavoriteButton prompt={prompt} />
                   </div>
-
-                  {prompt.categories.length > 0 && (
-                     <div className="flex flex-wrap gap-2">
-                        {map(prompt.categories, (cat, idx) => (
-                           <Badge key={idx} variant="secondary">
-                              {cat.name}
-                           </Badge>
-                        ))}
-                     </div>
-                  )}
-
+                  {categories()}
                   <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-slate-600">
                      <div className="flex items-center gap-2">
                         <Cpu className="size-4 text-indigo-600" />
@@ -109,23 +125,10 @@ export const PromptView: FC<PromptViewProps> = ({ prompt }) => {
                </div>
                <CardAction>{actions()}</CardAction>
             </CardHeader>
-
             <CardContent className="space-y-6">
                <PromptContent prompt={prompt} />
-
-               {prompt.followUpPrompts.length > 0 && (
-                  <>
-                     <Separator />
-                     <PromptFollowUps followUps={prompt.followUpPrompts} />
-                  </>
-               )}
-
-               {prompt.versions && prompt.versions.length > 0 && (
-                  <>
-                     <Separator />
-                     <PromptVersions prompt={prompt} />
-                  </>
-               )}
+               {followUps()}
+               {versions()}
             </CardContent>
          </Card>
       </div>
