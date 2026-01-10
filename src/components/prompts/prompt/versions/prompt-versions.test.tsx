@@ -23,7 +23,7 @@ const assertExpanded = () => {
 };
 
 const assertNotExpanded = () => {
-   const chevron = screen.getByTestId("chevron-right");
+   const chevron = screen.getByTestId("chevron-left");
    assertInDocument(chevron);
 };
 

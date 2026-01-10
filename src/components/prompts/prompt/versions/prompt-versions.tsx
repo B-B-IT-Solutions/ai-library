@@ -2,7 +2,7 @@
 
 import { FC, useState } from "react";
 import { isEmpty, map, reverse } from "es-toolkit/compat";
-import { ChevronDown, ChevronRight, History } from "lucide-react";
+import { ChevronDown, ChevronLeft, History } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Separator } from "@/components/shadcn/separator";
@@ -33,9 +33,9 @@ export const PromptVersions: FC<PromptVersionsProps> = ({ prompt }) => {
          );
       }
       return (
-         <ChevronRight
+         <ChevronLeft
             className="h-5 w-5 text-slate-600"
-            data-testid="chevron-right"
+            data-testid="chevron-left"
          />
       );
    };

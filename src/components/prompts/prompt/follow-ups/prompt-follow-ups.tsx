@@ -2,7 +2,7 @@
 
 import { FC, useState } from "react";
 import { isEmpty, map } from "es-toolkit/compat";
-import { ChevronDown, ChevronRight, MessageSquarePlus } from "lucide-react";
+import { ChevronDown, ChevronLeft, MessageSquarePlus } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Separator } from "@/components/shadcn/separator";
@@ -31,9 +31,9 @@ export const PromptFollowUps: FC<PromptFollowUpsProps> = ({ followUps }) => {
          );
       }
       return (
-         <ChevronRight
+         <ChevronLeft
             className="h-5 w-5 text-slate-600"
-            data-testid="chevron-right"
+            data-testid="chevron-left"
          />
       );
    };
