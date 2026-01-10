@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`PromptFollowUp rendering tests PromptFollowUp rendered test 1`] = `
+<div>
+  <div
+    class="flex items-center justify-between p-3 bg-slate-50 rounded-lg border border-slate-200 hover:bg-slate-100 transition-colors"
+    data-testid="prompt-follow-up"
+  >
+    <span
+      class="text-sm text-slate-700 flex-1"
+    >
+      content 1
+    </span>
+    <button
+      class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-9 has-[>svg]:px-3 ml-3 p-2 bg-white hover:bg-slate-200 rounded transition-colors"
+      data-slot="button"
+      title="Copy to clipboard"
+    >
+      <svg
+        aria-hidden="true"
+        class="lucide lucide-copy w-4 h-4 text-slate-600"
+        fill="none"
+        height="24"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect
+          height="14"
+          rx="2"
+          ry="2"
+          width="14"
+          x="8"
+          y="8"
+        />
+        <path
+          d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+        />
+      </svg>
+    </button>
+  </div>
+</div>
+`;
