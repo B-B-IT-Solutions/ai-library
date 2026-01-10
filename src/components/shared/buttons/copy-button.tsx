@@ -12,14 +12,14 @@ import {
 import { DPromptDescriptor } from "@/data/types/domain/prompt";
 import { cn } from "@/lib/utils";
 
-type CopyPromptButtonProps = {
+type CopyButtonProps = {
    prompt: DPromptDescriptor;
    size: "sm" | "icon-sm";
    showLabel?: boolean;
    className?: string;
 };
 
-export const CopyPromptButton: FC<CopyPromptButtonProps> = ({
+export const CopyButton: FC<CopyButtonProps> = ({
    prompt,
    size,
    showLabel,
@@ -67,7 +67,7 @@ export const CopyPromptButton: FC<CopyPromptButtonProps> = ({
                size={size}
                onClick={copyToClipboard}
                className={cn("cursor-pointer", className)}
-               data-testid="copy-prompt-btn"
+               data-testid="copy-btn"
             >
                {label()}
             </Button>
