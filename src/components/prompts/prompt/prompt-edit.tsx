@@ -260,54 +260,52 @@ export const PromptEdit: FC<PromptEditProps> = ({
                            )}
                         />
                      </div>
-                  </section>
 
-                  <Separator />
-
-                  {/* Categories Section */}
-                  <section className="space-y-4">
-                     <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
-                           <Tag className="h-5 w-5 text-indigo-600" />
-                           Kategorien
-                        </h3>
-                        <Button
-                           type="button"
-                           variant="outline"
-                           size="sm"
-                           onClick={() => addCategory("")}
-                        >
-                           <Plus className="h-4 w-4" />
-                           Hinzufügen
-                        </Button>
-                     </div>
-
-                     {categories.length > 0 ? (
-                        <div className="space-y-2">
-                           {map(categories, (field, index) => (
-                              <div key={field.id} className="flex gap-2">
-                                 <Input
-                                    {...form.register(`categories.${index}`)}
-                                    placeholder="Kategoriename eingeben"
-                                    className="flex-1"
-                                 />
-                                 <Button
-                                    type="button"
-                                    variant="outline"
-                                    size="icon"
-                                    onClick={() => removeCategory(index)}
-                                    className="shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
-                                 >
-                                    <X className="h-4 w-4" />
-                                 </Button>
-                              </div>
-                           ))}
+                     {/* Categories Field */}
+                     <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                           <FormLabel className="text-sm font-medium text-slate-700 flex items-center gap-1.5">
+                              <Tag className="h-4 w-4 text-indigo-600" />
+                              Kategorien
+                           </FormLabel>
+                           <Button
+                              type="button"
+                              variant="outline"
+                              size="sm"
+                              onClick={() => addCategory("")}
+                           >
+                              <Plus className="h-4 w-4" />
+                              Hinzufügen
+                           </Button>
                         </div>
-                     ) : (
-                        <p className="text-sm text-slate-500 italic">
-                           Noch keine Kategorien hinzugefügt.
-                        </p>
-                     )}
+
+                        {categories.length > 0 ? (
+                           <div className="space-y-2">
+                              {map(categories, (field, index) => (
+                                 <div key={field.id} className="flex gap-2">
+                                    <Input
+                                       {...form.register(`categories.${index}`)}
+                                       placeholder="Kategoriename eingeben"
+                                       className="flex-1"
+                                    />
+                                    <Button
+                                       type="button"
+                                       variant="outline"
+                                       size="icon"
+                                       onClick={() => removeCategory(index)}
+                                       className="shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+                                    >
+                                       <X className="h-4 w-4" />
+                                    </Button>
+                                 </div>
+                              ))}
+                           </div>
+                        ) : (
+                           <p className="text-sm text-slate-500 italic">
+                              Noch keine Kategorien hinzugefügt.
+                           </p>
+                        )}
+                     </div>
                   </section>
 
                   <Separator />
