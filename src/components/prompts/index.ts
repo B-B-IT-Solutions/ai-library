@@ -6,6 +6,3 @@ export { PromptFilters } from "./lists/prompts-filter";
 export { PromptsList } from "./lists/prompts-list";
 export { PromptView } from "./prompt-view";
 export { PromptCreateEdit } from "./prompt-create-edit";
-export { ToggleFavoriteButton } from "./prompt/toggle-favorite-button";
-export { DeletePromptButton } from "./prompt/delete-prompt-button";
-export { PromptFollowUps } from "./prompt/prompt-follow-ups";

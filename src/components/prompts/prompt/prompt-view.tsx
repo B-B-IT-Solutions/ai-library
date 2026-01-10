@@ -25,13 +25,12 @@ import {
 } from "@/components/shadcn/tooltip";
 import { DPromptDescriptor } from "@/data/types/domain/prompt";
 import { formatDateTime } from "@/lib/utils";
-import { CopyPromptButton } from "../buttons/copy-prompt-button";
+import { CopyPromptButton, ToggleFavoriteButton } from "../buttons";
 
 import { DeletePromptButton } from "./delete-prompt-button";
 import { PromptContent } from "./prompt-content";
 import { PromptFollowUps } from "./prompt-follow-ups";
 import { PromptVersions } from "./prompt-versions";
-import { ToggleFavoriteButton } from "./toggle-favorite-button";
 
 type PromptViewProps = {
    prompt: DPromptDescriptor;
@@ -47,10 +46,7 @@ export const PromptView: FC<PromptViewProps> = ({ prompt }) => {
                      <CardTitle className="text-3xl font-bold text-slate-900">
                         {prompt.title}
                      </CardTitle>
-                     <ToggleFavoriteButton
-                        promptId={prompt.id}
-                        isFavorite={prompt.isFavorite}
-                     />
+                     <ToggleFavoriteButton prompt={prompt} />
                   </div>
 
                   {prompt.categories.length > 0 && (

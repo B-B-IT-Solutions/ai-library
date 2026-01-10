@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-query";
 import { notFound } from "next/navigation";
 
-import { PromptFormView, PromptsList } from "@/components/prompts";
+import { PromptView, PromptsList } from "@/components/prompts";
 import { getPrompt } from "@/data/actions/prompt";
 import {
    preloadPromptCategoriesOptions,
@@ -64,7 +64,7 @@ const PromptPage = async (props: PromptPageProps) => {
                {/* Main Content Panel */}
                <div className="flex-1 overflow-y-auto bg-slate-50">
                   <div className="max-w-5xl mx-auto p-8">
-                     <PromptFormView prompt={prompt} />
+                     <PromptView prompt={prompt} />
                   </div>
                </div>
             </HydrationBoundary>
