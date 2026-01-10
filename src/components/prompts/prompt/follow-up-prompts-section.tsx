@@ -54,7 +54,7 @@ export const FollowUpPromptsSection: FC<FollowUpPromptsSectionProps> = ({
          </div>
 
          {followUpPrompts.length > 0 ? (
-            <div className="space-y-2">
+            <div className="space-y-4">
                {map(followUpPrompts, (field, idx) => (
                   <FormField
                      key={field.id}
