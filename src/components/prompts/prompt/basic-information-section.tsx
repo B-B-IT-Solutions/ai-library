@@ -176,20 +176,9 @@ export const BasicInformationSection: FC<BasicInformationSectionProps> = ({
 
          {/* Categories Field */}
          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-               <FormLabel className="text-sm font-medium text-slate-700 flex items-center gap-1.5">
-                  Kategorien
-               </FormLabel>
-               <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => addCategory("")}
-               >
-                  <Plus className="h-4 w-4" />
-                  Hinzufügen
-               </Button>
-            </div>
+            <FormLabel className="text-sm font-medium text-slate-700 flex items-center gap-1.5">
+               Kategorien
+            </FormLabel>
 
             {categories.length > 0 ? (
                <div className="space-y-2">
@@ -217,6 +206,18 @@ export const BasicInformationSection: FC<BasicInformationSectionProps> = ({
                   Noch keine Kategorien hinzugefügt.
                </p>
             )}
+
+            <div className="flex justify-end">
+               <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => addCategory("")}
+               >
+                  <Plus className="h-4 w-4" />
+                  Hinzufügen
+               </Button>
+            </div>
          </div>
       </section>
    );

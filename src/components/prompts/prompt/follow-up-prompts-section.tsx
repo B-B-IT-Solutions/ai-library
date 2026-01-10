@@ -43,25 +43,14 @@ export const FollowUpPromptsSection: FC<FollowUpPromptsSectionProps> = ({
 
    return (
       <section className="space-y-4">
-         <div className="flex items-center justify-between">
-            <div>
-               <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
-                  <MessageSquarePlus className="h-5 w-5 text-indigo-600" />
-                  Folge-Prompts
-               </h3>
-               <p className="text-sm text-slate-500 mt-1">
-                  Vorgeschlagene Folgefragen, die Benutzer stellen könnten.
-               </p>
-            </div>
-            <Button
-               type="button"
-               variant="outline"
-               size="sm"
-               onClick={() => addFollowUpPrompt("")}
-            >
-               <Plus className="h-4 w-4" />
-               Hinzufügen
-            </Button>
+         <div>
+            <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
+               <MessageSquarePlus className="h-5 w-5 text-indigo-600" />
+               Folge-Prompts
+            </h3>
+            <p className="text-sm text-slate-500 mt-1">
+               Vorgeschlagene Folgefragen, die Benutzer stellen könnten.
+            </p>
          </div>
 
          {followUpPrompts.length > 0 ? (
@@ -90,6 +79,18 @@ export const FollowUpPromptsSection: FC<FollowUpPromptsSectionProps> = ({
                Noch keine Folge-Prompts hinzugefügt.
             </p>
          )}
+
+         <div className="flex justify-end">
+            <Button
+               type="button"
+               variant="outline"
+               size="sm"
+               onClick={() => addFollowUpPrompt("")}
+            >
+               <Plus className="h-4 w-4" />
+               Hinzufügen
+            </Button>
+         </div>
       </section>
    );
 };
