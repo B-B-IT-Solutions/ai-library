@@ -30,7 +30,7 @@ export const PromptVersion: FC<PromptVersionProps> = ({
       }
    };
 
-   const btnIcon = () => {
+   const expandIcon = () => {
       if (expanded) {
          return (
             <ChevronDown
@@ -47,7 +47,7 @@ export const PromptVersion: FC<PromptVersionProps> = ({
       );
    };
 
-   const btnBadge = () => {
+   const currentBadge = () => {
       if (isCurrent) {
          return <Badge>Aktuell</Badge>;
       }
@@ -64,11 +64,11 @@ export const PromptVersion: FC<PromptVersionProps> = ({
             data-testid="expand-btn"
          >
             <div className="flex items-center gap-3 min-w-0">
-               {btnIcon()}
+               {expandIcon()}
                <span className="font-medium text-slate-900">
                   v{version.version}
                </span>
-               {btnBadge()}
+               {currentBadge()}
             </div>
             <div className="flex items-center gap-2 text-sm text-slate-600 shrink-0">
                <Calendar className="h-3.5 w-3.5" />

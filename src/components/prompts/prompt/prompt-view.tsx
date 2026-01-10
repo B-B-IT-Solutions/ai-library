@@ -83,17 +83,6 @@ export const PromptView: FC<PromptViewProps> = ({ prompt }) => {
       }
    };
 
-   const versions = () => {
-      if (!isEmpty(prompt.versions)) {
-         return (
-            <>
-               <Separator />
-               <PromptVersions prompt={prompt} />
-            </>
-         );
-      }
-   };
-
    return (
       <div data-testid="prompt-view">
          <Card>
@@ -128,7 +117,7 @@ export const PromptView: FC<PromptViewProps> = ({ prompt }) => {
             <CardContent className="space-y-6">
                <PromptContent prompt={prompt} />
                {followUps()}
-               {versions()}
+               <PromptVersions prompt={prompt} />
             </CardContent>
          </Card>
       </div>

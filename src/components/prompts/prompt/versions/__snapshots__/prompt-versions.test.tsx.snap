@@ -1,13 +1,21 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
+exports[`PromptVersion rendering tests PromptVersion not rendered test 1`] = `<div />`;
+
 exports[`PromptVersion rendering tests PromptVersion rendered test 1`] = `
 <div>
-  <section
+  <div
+    class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px"
+    data-orientation="horizontal"
+    data-slot="separator"
+    role="none"
+  />
+  <div
     data-testid="prompt-versions"
   >
     <button
-      class="w-full flex items-center justify-between py-2 hover:bg-slate-50 -mx-2 px-2 rounded-lg transition-colors"
-      data-testid="versions-toggle"
+      class="w-full flex items-center justify-between py-2 hover:bg-slate-50 -mx-2 px-2 rounded-lg transition-colors cursor-pointer"
+      data-testid="expand-btn"
     >
       <h3
         class="text-lg font-semibold text-slate-900 flex items-center gap-2"
@@ -15,6 +23,7 @@ exports[`PromptVersion rendering tests PromptVersion rendered test 1`] = `
         <svg
           aria-hidden="true"
           class="lucide lucide-chevron-right h-5 w-5 text-slate-600"
+          data-testid="chevron-right"
           fill="none"
           height="24"
           stroke="currentColor"
@@ -61,6 +70,6 @@ exports[`PromptVersion rendering tests PromptVersion rendered test 1`] = `
         3
       </span>
     </button>
-  </section>
+  </div>
 </div>
 `;
