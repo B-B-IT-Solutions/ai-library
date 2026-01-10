@@ -66,54 +66,52 @@ export const BasicInformationSection: FC<BasicInformationSectionProps> = ({
             Allgemeine Informationen
          </h3>
 
-         <div className="grid gap-4 sm:grid-cols-2">
-            <FormField
-               control={control}
-               name="title"
-               render={({ field }) => (
-                  <FormItem>
-                     <FormLabel className="text-sm font-medium text-slate-700">
-                        Titel
-                     </FormLabel>
-                     <FormControl>
-                        <Input
-                           placeholder="Prompt-Titel eingeben..."
-                           {...field}
-                        />
-                     </FormControl>
-                     <FormMessage />
-                  </FormItem>
-               )}
-            />
+         <FormField
+            control={control}
+            name="title"
+            render={({ field }) => (
+               <FormItem>
+                  <FormLabel className="text-sm font-medium text-slate-700">
+                     Titel
+                  </FormLabel>
+                  <FormControl>
+                     <Input
+                        placeholder="Prompt-Titel eingeben..."
+                        {...field}
+                     />
+                  </FormControl>
+                  <FormMessage />
+               </FormItem>
+            )}
+         />
 
-            <FormField
-               control={control}
-               name="recommendedModel"
-               render={({ field }) => (
-                  <FormItem>
-                     <FormLabel className="text-sm font-medium text-slate-700 flex items-center gap-1.5">
-                        <Cpu className="h-4 w-4 text-indigo-600" />
-                        Empfohlenes Modell
-                     </FormLabel>
-                     <Select onValueChange={field.onChange} value={field.value}>
-                        <FormControl>
-                           <SelectTrigger>
-                              <SelectValue placeholder="Modell auswählen" />
-                           </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                           {AI_MODELS.map((model) => (
-                              <SelectItem key={model} value={model}>
-                                 {model}
-                              </SelectItem>
-                           ))}
-                        </SelectContent>
-                     </Select>
-                     <FormMessage />
-                  </FormItem>
-               )}
-            />
-         </div>
+         <FormField
+            control={control}
+            name="recommendedModel"
+            render={({ field }) => (
+               <FormItem>
+                  <FormLabel className="text-sm font-medium text-slate-700 flex items-center gap-1.5">
+                     <Cpu className="h-4 w-4 text-indigo-600" />
+                     Empfohlenes Modell
+                  </FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                     <FormControl>
+                        <SelectTrigger>
+                           <SelectValue placeholder="Modell auswählen" />
+                        </SelectTrigger>
+                     </FormControl>
+                     <SelectContent>
+                        {AI_MODELS.map((model) => (
+                           <SelectItem key={model} value={model}>
+                              {model}
+                           </SelectItem>
+                        ))}
+                     </SelectContent>
+                  </Select>
+                  <FormMessage />
+               </FormItem>
+            )}
+         />
 
          {/* Categories Field */}
          <div className="space-y-2">
