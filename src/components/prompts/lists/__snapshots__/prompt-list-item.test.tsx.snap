@@ -7,32 +7,32 @@ exports[`PromptListItem rendering tests PromptListItem - isSelected false - rend
     href="/prompts/334db648-f300-4284-8149-075ff465d751"
   >
     <div
-      class="group px-4 py-3 cursor-pointer transition-all border-l-2 hover:bg-slate-50 border-l-transparent"
+      class="group relative rounded-lg cursor-pointer transition-all duration-200 border bg-white border-slate-200/60 hover:border-slate-300 hover:shadow-md"
       data-testid="prompt-list-item"
     >
       <div
-        class="flex items-start gap-3"
+        class="flex items-start gap-3 px-4 py-3.5"
       >
         <div
           class="flex-1 min-w-0"
         >
           <div
-            class="flex items-center gap-2 mb-1.5"
+            class="flex items-center gap-2 mb-2"
           >
             <h3
-              class="font-medium text-sm text-slate-900 truncate flex-1"
+              class="font-semibold text-sm text-slate-900 truncate flex-1 group-hover:text-blue-700 transition-colors"
             >
               title 1
             </h3>
             <button
-              class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-6 w-6 p-0 flex-shrink-0 opacity-100 transition-opacity"
+              class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:text-accent-foreground dark:hover:bg-accent/50 gap-1.5 has-[>svg]:px-2.5 h-7 w-7 p-0 flex-shrink-0 rounded-md hover:bg-slate-100 opacity-100 transition-all duration-200"
               data-slot="button"
               data-testid="toggle-favorite-btn"
-              title="Remove from favorites"
+              title="Aus Favoriten entfernen"
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-star w-3.5 h-3.5 fill-yellow-400 text-yellow-500"
+                class="lucide lucide-star w-4 h-4 transition-all fill-yellow-400 text-yellow-500 scale-110"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -50,33 +50,34 @@ exports[`PromptListItem rendering tests PromptListItem - isSelected false - rend
             </button>
           </div>
           <div
-            class="flex flex-wrap gap-1 mb-1.5"
+            class="flex flex-wrap gap-1.5 mb-2.5"
           >
             <span
-              class="text-xs px-1.5 py-0.5 bg-slate-100 text-slate-600 rounded"
+              class="text-xs px-2 py-0.5 bg-gradient-to-r from-slate-100 to-slate-50 text-slate-700 rounded-md font-medium border border-slate-200/50"
             >
               category 0
             </span>
             <span
-              class="text-xs px-1.5 py-0.5 bg-slate-100 text-slate-600 rounded"
+              class="text-xs px-2 py-0.5 bg-gradient-to-r from-slate-100 to-slate-50 text-slate-700 rounded-md font-medium border border-slate-200/50"
             >
               category 1
             </span>
             <span
-              class="text-xs px-1.5 py-0.5 text-slate-500"
+              class="text-xs px-2 py-0.5 text-slate-500 font-medium"
             >
               +
               1
+               mehr
             </span>
           </div>
           <div
-            class="flex items-center gap-2 text-xs text-slate-500"
+            class="flex items-center gap-2.5 text-xs text-slate-500"
           >
             <span
-              class="inline-flex items-center gap-1"
+              class="inline-flex items-center gap-1 px-2 py-0.5 bg-slate-50 rounded-md border border-slate-200/50"
             >
               <span
-                class="font-medium"
+                class="font-semibold text-slate-600"
               >
                 v
               </span>
@@ -87,11 +88,11 @@ exports[`PromptListItem rendering tests PromptListItem - isSelected false - rend
               •
             </span>
             <span
-              class="inline-flex items-center gap-1 truncate"
+              class="inline-flex items-center gap-1.5 truncate"
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-clock w-3 h-3 flex-shrink-0"
+                class="lucide lucide-clock w-3.5 h-3.5 flex-shrink-0 text-slate-400"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -111,7 +112,11 @@ exports[`PromptListItem rendering tests PromptListItem - isSelected false - rend
                   r="10"
                 />
               </svg>
-              27. Sept. 2025, 02:00 AM
+              <span
+                class="font-medium"
+              >
+                27. Sept. 2025, 02:00 AM
+              </span>
             </span>
           </div>
         </div>
@@ -128,32 +133,35 @@ exports[`PromptListItem rendering tests PromptListItem - isSelected true - rende
     href="/prompts/334db648-f300-4284-8149-075ff465d751"
   >
     <div
-      class="group px-4 py-3 cursor-pointer transition-all border-l-2 hover:bg-slate-50 bg-blue-50 border-l-blue-600"
+      class="group relative rounded-lg cursor-pointer transition-all duration-200 border bg-blue-50/60 border-blue-200 shadow-md"
       data-testid="prompt-list-item"
     >
       <div
-        class="flex items-start gap-3"
+        class="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-blue-600 rounded-l-lg"
+      />
+      <div
+        class="flex items-start gap-3 px-4 py-3.5"
       >
         <div
           class="flex-1 min-w-0"
         >
           <div
-            class="flex items-center gap-2 mb-1.5"
+            class="flex items-center gap-2 mb-2"
           >
             <h3
-              class="font-medium text-sm text-slate-900 truncate flex-1"
+              class="font-semibold text-sm text-slate-900 truncate flex-1 group-hover:text-blue-700 transition-colors"
             >
               title 1
             </h3>
             <button
-              class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-6 w-6 p-0 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
+              class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:text-accent-foreground dark:hover:bg-accent/50 gap-1.5 has-[>svg]:px-2.5 h-7 w-7 p-0 flex-shrink-0 rounded-md hover:bg-slate-100 opacity-0 group-hover:opacity-100 transition-all duration-200"
               data-slot="button"
               data-testid="toggle-favorite-btn"
-              title="Add to favorites"
+              title="Zu Favoriten hinzufügen"
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-star w-3.5 h-3.5 text-slate-400 hover:text-yellow-500"
+                class="lucide lucide-star w-4 h-4 transition-all text-slate-400 hover:text-yellow-500 hover:scale-110"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -171,33 +179,34 @@ exports[`PromptListItem rendering tests PromptListItem - isSelected true - rende
             </button>
           </div>
           <div
-            class="flex flex-wrap gap-1 mb-1.5"
+            class="flex flex-wrap gap-1.5 mb-2.5"
           >
             <span
-              class="text-xs px-1.5 py-0.5 bg-slate-100 text-slate-600 rounded"
+              class="text-xs px-2 py-0.5 bg-gradient-to-r from-slate-100 to-slate-50 text-slate-700 rounded-md font-medium border border-slate-200/50"
             >
               category 0
             </span>
             <span
-              class="text-xs px-1.5 py-0.5 bg-slate-100 text-slate-600 rounded"
+              class="text-xs px-2 py-0.5 bg-gradient-to-r from-slate-100 to-slate-50 text-slate-700 rounded-md font-medium border border-slate-200/50"
             >
               category 1
             </span>
             <span
-              class="text-xs px-1.5 py-0.5 text-slate-500"
+              class="text-xs px-2 py-0.5 text-slate-500 font-medium"
             >
               +
               1
+               mehr
             </span>
           </div>
           <div
-            class="flex items-center gap-2 text-xs text-slate-500"
+            class="flex items-center gap-2.5 text-xs text-slate-500"
           >
             <span
-              class="inline-flex items-center gap-1"
+              class="inline-flex items-center gap-1 px-2 py-0.5 bg-slate-50 rounded-md border border-slate-200/50"
             >
               <span
-                class="font-medium"
+                class="font-semibold text-slate-600"
               >
                 v
               </span>
@@ -208,11 +217,11 @@ exports[`PromptListItem rendering tests PromptListItem - isSelected true - rende
               •
             </span>
             <span
-              class="inline-flex items-center gap-1 truncate"
+              class="inline-flex items-center gap-1.5 truncate"
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-clock w-3 h-3 flex-shrink-0"
+                class="lucide lucide-clock w-3.5 h-3.5 flex-shrink-0 text-slate-400"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -232,7 +241,11 @@ exports[`PromptListItem rendering tests PromptListItem - isSelected true - rende
                   r="10"
                 />
               </svg>
-              27. Sept. 2025, 02:00 AM
+              <span
+                class="font-medium"
+              >
+                27. Sept. 2025, 02:00 AM
+              </span>
             </span>
           </div>
         </div>

@@ -30,8 +30,7 @@ export const PromptsList: FC = () => {
 
    const promptItemsHeader = () => {
       const activeFilterCount =
-         (filters.search ? 1 : 0) +
-         (filters.categories?.length || 0);
+         (filters.search ? 1 : 0) + (filters.categories?.length || 0);
 
       return (
          <div
@@ -104,7 +103,10 @@ export const PromptsList: FC = () => {
                      asChild={true}
                      className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-md hover:shadow-lg transition-all duration-200"
                   >
-                     <Link href="/prompts/new" className="flex items-center gap-2">
+                     <Link
+                        href="/prompts/new"
+                        className="flex items-center gap-2"
+                     >
                         <Plus className="w-4 h-4" />
                         <span>Prompt erstellen</span>
                      </Link>
@@ -116,10 +118,10 @@ export const PromptsList: FC = () => {
 
       return (
          <div
-            className="flex-1 overflow-y-auto bg-slate-50/30"
+            className="flex-1 px-1 pt-1 overflow-y-auto bg-slate-50/30"
             data-testid="prompts-list-items"
          >
-            <div className="p-3 space-y-2">
+            <div className="flex flex-col space-y-1">
                {map(pages, (page) => {
                   return map(page.content, (prompt) => {
                      return <PromptListItem key={prompt.id} prompt={prompt} />;
