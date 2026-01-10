@@ -60,11 +60,13 @@ export const PromptFollowUps: FC<PromptFollowUpsProps> = ({ followUps }) => {
                data-testid="expand-btn"
             >
                <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
-                  {expandIcon()}
                   <MessageSquarePlus className="h-5 w-5 text-indigo-600" />
                   Folge-Prompts
                </h3>
-               <Badge variant="secondary">{followUps.length}</Badge>
+               <div className="flex items-center gap-2">
+                  <Badge variant="secondary">{followUps.length}</Badge>
+                  {expandIcon()}
+               </div>
             </button>
             {content()}
          </div>
