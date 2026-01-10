@@ -79,7 +79,7 @@ describe("DeletePromptButton functionality tests", () => {
    it("DeletePromptButton - confirm btn clicked - result.success true - test", async () => {
       const actionResult = {
          success: true,
-         message: "Prompt erfolgreich gelöscht.",
+         message: "Prompt deleted",
       };
       deletePromptMock.mockResolvedValue(actionResult);
 
@@ -115,7 +115,7 @@ describe("DeletePromptButton functionality tests", () => {
    it("DeletePromptButton - confirm btn clicked - result.success false - test", async () => {
       const actionResult = {
          success: false,
-         message: "Prompt konnte nicht gelöscht werden.",
+         message: "Prompt couldn't be deleted",
       };
       deletePromptMock.mockResolvedValue(actionResult);
 
