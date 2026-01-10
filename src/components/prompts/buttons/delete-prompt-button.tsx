@@ -25,9 +25,9 @@ type DeletePromptButtonProps = {
 export const DeletePromptButton: FC<DeletePromptButtonProps> = ({
    promptId,
 }) => {
-   const router = useRouter();
    const [isPending, startTransition] = useTransition();
    const [isOpen, setIsOpen] = useState(false);
+   const router = useRouter();
 
    const handleDelete = () => {
       startTransition(async () => {
@@ -50,6 +50,7 @@ export const DeletePromptButton: FC<DeletePromptButtonProps> = ({
                e.preventDefault();
                setIsOpen(true);
             }}
+            className="cursor-pointer"
             data-testid="delete-prompt-btn"
          >
             <Trash2 className="size-4" />
@@ -65,13 +66,16 @@ export const DeletePromptButton: FC<DeletePromptButtonProps> = ({
                </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-               <AlertDialogCancel disabled={isPending}>
+               <AlertDialogCancel
+                  disabled={isPending}
+                  className="cursor-pointer"
+               >
                   Abbrechen
                </AlertDialogCancel>
                <AlertDialogAction
                   onClick={handleDelete}
                   disabled={isPending}
-                  className="bg-red-600 hover:bg-red-700"
+                  className="bg-red-600 hover:bg-red-700 cursor-pointer"
                >
                   {isPending ? (
                      <>

@@ -24,10 +24,13 @@ import {
 } from "@/components/shadcn/tooltip";
 import { DPromptDescriptor } from "@/data/types/domain/prompt";
 import { formatDateTime } from "@/lib/utils";
-import { CopyPromptButton, ToggleFavoriteButton } from "../buttons";
-import { EditPromptButton } from "../buttons/edit-prompt-button";
+import {
+   CopyPromptButton,
+   DeletePromptButton,
+   EditPromptButton,
+   ToggleFavoriteButton,
+} from "../buttons";
 
-import { DeletePromptButton } from "./delete-prompt-button";
 import { PromptContent } from "./prompt-content";
 import { PromptFollowUps } from "./prompt-follow-ups";
 import { PromptVersions } from "./prompt-versions";
@@ -37,6 +40,34 @@ type PromptViewProps = {
 };
 
 export const PromptView: FC<PromptViewProps> = ({ prompt }) => {
+   const actions = () => {
+      return (
+         <div className="flex items-center gap-2">
+            <EditPromptButton prompt={prompt} />
+            <CopyPromptButton prompt={prompt} size="sm" showLabel={true} />
+            <DropdownMenu>
+               <Tooltip>
+                  <TooltipTrigger asChild>
+                     <DropdownMenuTrigger asChild>
+                        <Button
+                           variant="outline"
+                           size="icon-sm"
+                           className="cursor-pointer"
+                        >
+                           <MoreVertical className="size-4" />
+                        </Button>
+                     </DropdownMenuTrigger>
+                  </TooltipTrigger>
+                  <TooltipContent>Weitere Optionen</TooltipContent>
+               </Tooltip>
+               <DropdownMenuContent align="end">
+                  <DeletePromptButton promptId={prompt.id} />
+               </DropdownMenuContent>
+            </DropdownMenu>
+         </div>
+      );
+   };
+
    return (
       <div data-testid="prompt-view">
          <Card>
@@ -76,36 +107,7 @@ export const PromptView: FC<PromptViewProps> = ({ prompt }) => {
                      </div>
                   </div>
                </div>
-
-               <CardAction>
-                  <div className="flex items-center gap-2">
-                     <EditPromptButton prompt={prompt} />
-                     <CopyPromptButton
-                        prompt={prompt}
-                        size="sm"
-                        showLabel={true}
-                     />
-                     <DropdownMenu>
-                        <Tooltip>
-                           <TooltipTrigger asChild>
-                              <DropdownMenuTrigger asChild>
-                                 <Button
-                                    variant="outline"
-                                    size="icon-sm"
-                                    className="cursor-pointer"
-                                 >
-                                    <MoreVertical className="size-4" />
-                                 </Button>
-                              </DropdownMenuTrigger>
-                           </TooltipTrigger>
-                           <TooltipContent>Weitere Optionen</TooltipContent>
-                        </Tooltip>
-                        <DropdownMenuContent align="end">
-                           <DeletePromptButton promptId={prompt.id} />
-                        </DropdownMenuContent>
-                     </DropdownMenu>
-                  </div>
-               </CardAction>
+               <CardAction>{actions()}</CardAction>
             </CardHeader>
 
             <CardContent className="space-y-6">
