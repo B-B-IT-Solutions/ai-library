@@ -3,11 +3,11 @@
 import { FC, useEffect } from "react";
 import { map } from "es-toolkit/compat";
 import { MessageSquarePlus, Plus, X } from "lucide-react";
-import { FieldArrayWithId, UseFormRegister } from "react-hook-form";
+import { Control, FieldArrayWithId } from "react-hook-form";
 
+import { AutosizeTextarea } from "@/components/shadcn/autosize-textarea";
 import { Button } from "@/components/shadcn/button";
-import { FormLabel } from "@/components/shadcn/form";
-import { Input } from "@/components/shadcn/input";
+import { FormControl, FormField, FormItem } from "@/components/shadcn/form";
 
 type PromptFormValues = {
    id?: string;
@@ -19,7 +19,7 @@ type PromptFormValues = {
 };
 
 type FollowUpPromptsSectionProps = {
-   register: UseFormRegister<PromptFormValues>;
+   control: Control<PromptFormValues>;
    followUpPrompts: FieldArrayWithId<
       PromptFormValues,
       "followUpPrompts",
@@ -30,7 +30,7 @@ type FollowUpPromptsSectionProps = {
 };
 
 export const FollowUpPromptsSection: FC<FollowUpPromptsSectionProps> = ({
-   register,
+   control,
    followUpPrompts,
    addFollowUpPrompt,
    removeFollowUpPrompt,
@@ -56,22 +56,34 @@ export const FollowUpPromptsSection: FC<FollowUpPromptsSectionProps> = ({
          {followUpPrompts.length > 0 ? (
             <div className="space-y-2">
                {map(followUpPrompts, (field, idx) => (
-                  <div key={field.id} className="flex gap-2">
-                     <Input
-                        {...register(`followUpPrompts.${idx}`)}
-                        placeholder="Folge-Prompt eingeben"
-                        className="flex-1"
-                     />
-                     <Button
-                        type="button"
-                        variant="outline"
-                        size="icon"
-                        onClick={() => removeFollowUpPrompt(idx)}
-                        className="shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
-                     >
-                        <X className="h-4 w-4" />
-                     </Button>
-                  </div>
+                  <FormField
+                     key={field.id}
+                     control={control}
+                     name={`followUpPrompts.${idx}`}
+                     render={({ field: formField }) => (
+                        <FormItem>
+                           <div className="flex gap-2 items-start">
+                              <FormControl>
+                                 <AutosizeTextarea
+                                    placeholder="Folge-Prompt eingeben"
+                                    className="flex-1"
+                                    minHeight={60}
+                                    {...formField}
+                                 />
+                              </FormControl>
+                              <Button
+                                 type="button"
+                                 variant="outline"
+                                 size="icon"
+                                 onClick={() => removeFollowUpPrompt(idx)}
+                                 className="shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+                              >
+                                 <X className="h-4 w-4" />
+                              </Button>
+                           </div>
+                        </FormItem>
+                     )}
+                  />
                ))}
             </div>
          ) : (

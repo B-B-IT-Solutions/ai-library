@@ -177,7 +177,7 @@ export const PromptEdit: FC<PromptEditProps> = ({
 
                   {/* Follow-up Prompts Section */}
                   <FollowUpPromptsSection
-                     register={form.register}
+                     control={form.control}
                      followUpPrompts={followUpPrompts}
                      addFollowUpPrompt={addFollowUpPrompt}
                      removeFollowUpPrompt={removeFollowUpPrompt}
