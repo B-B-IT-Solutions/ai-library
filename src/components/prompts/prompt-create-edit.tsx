@@ -3,7 +3,7 @@
 import { FC, useState } from "react";
 
 import { TemplateSelector } from "@/components/prompt-templates";
-import { PromptFormEdit } from "@/components/prompts";
+import { PromptEdit } from "@/components/prompts";
 import { DPrompt } from "@/data/types/domain/prompt";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
@@ -22,7 +22,7 @@ export const PromptCreateEdit: FC<PromptCreateEditProps> = ({ prompt }) => {
          <div className="space-y-6">
             {/* Template Selector */}
             {!prompt && <TemplateSelector onSelect={setTemplate} />}
-            <PromptFormEdit prompt={prompt} />
+            <PromptEdit prompt={prompt} />
          </div>
       );
    };

@@ -62,10 +62,7 @@ import {
    createPrompt,
    updatePrompt,
 } from "@/data/actions/prompt/prompt.actions";
-import {
-   DPromptCreate,
-   DPromptDescriptor,
-} from "@/data/types/domain/prompt";
+import { DPromptCreate, DPromptDescriptor } from "@/data/types/domain/prompt";
 
 const formSchema = z.object({
    id: z.string().optional(),
@@ -91,14 +88,14 @@ const AI_MODELS = [
    "Other",
 ];
 
-type PromptFormEditProps = {
+type PromptEditProps = {
    prompt?: DPromptDescriptor;
    mode?: "create" | "edit";
 };
 
 type PromptFormValues = z.infer<typeof formSchema>;
 
-export const PromptFormEdit: FC<PromptFormEditProps> = ({
+export const PromptEdit: FC<PromptEditProps> = ({
    prompt,
    mode = "create",
 }) => {
@@ -205,7 +202,10 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                            render={({
                               field,
                            }: {
-                              field: ControllerRenderProps<PromptFormValues, "title">;
+                              field: ControllerRenderProps<
+                                 PromptFormValues,
+                                 "title"
+                              >;
                            }) => (
                               <FormItem>
                                  <FormLabel className="text-sm font-medium text-slate-700">
@@ -317,12 +317,13 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                      <div>
                         <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
                            <FileText className="h-5 w-5 text-indigo-600" />
-                           Prompt-Inhalt
+                           Prompt
                         </h3>
                         {isEditMode && (
                            <p className="text-sm text-slate-500 mt-1">
-                              Verwenden Sie &quot;Als neue Version speichern&quot; um
-                              einen Versions-Snapshot zu erstellen.
+                              Verwenden Sie &quot;Als neue Version
+                              speichern&quot; um einen Versions-Snapshot zu
+                              erstellen.
                            </p>
                         )}
                      </div>
@@ -333,7 +334,10 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                         render={({
                            field,
                         }: {
-                           field: ControllerRenderProps<PromptFormValues, "content">;
+                           field: ControllerRenderProps<
+                              PromptFormValues,
+                              "content"
+                           >;
                         }) => (
                            <FormItem>
                               <FormControl>
@@ -361,7 +365,8 @@ export const PromptFormEdit: FC<PromptFormEditProps> = ({
                               Folge-Prompts
                            </h3>
                            <p className="text-sm text-slate-500 mt-1">
-                              Vorgeschlagene Folgefragen, die Benutzer stellen könnten.
+                              Vorgeschlagene Folgefragen, die Benutzer stellen
+                              könnten.
                            </p>
                         </div>
                         <Button

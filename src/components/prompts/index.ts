@@ -1,4 +1,4 @@
-export { PromptFormEdit } from "./prompt/prompt-form-edit";
+export { PromptEdit } from "./prompt/prompt-edit";
 export { PromptView as PromptFormView } from "./prompt/prompt-view";
 export { PromptListItem } from "./lists/prompt-list-item";
 export { PromptsEmpty } from "./prompts-empty";

@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-import { PromptFormEdit } from "@/components/prompts";
+import { PromptEdit } from "@/components/prompts";
 import { getPrompt } from "@/data/actions/prompt";
 
 export const metadata = {
@@ -45,7 +45,7 @@ const EditPromptPage = async (props: EditPromptPageProps) => {
          {/* Main Content Area */}
          <div className="flex-1 overflow-y-auto bg-slate-50">
             <div className="max-w-5xl mx-auto p-8">
-               <PromptFormEdit prompt={prompt} mode="edit" />
+               <PromptEdit prompt={prompt} mode="edit" />
             </div>
          </div>
       </div>
