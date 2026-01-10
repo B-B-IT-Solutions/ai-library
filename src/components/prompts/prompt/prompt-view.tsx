@@ -61,7 +61,7 @@ export const PromptView: FC<PromptViewProps> = ({ prompt }) => {
                   <TooltipContent>Weitere Optionen</TooltipContent>
                </Tooltip>
                <DropdownMenuContent align="end">
-                  <DeletePromptButton promptId={prompt.id} />
+                  <DeletePromptButton prompt={prompt} />
                </DropdownMenuContent>
             </DropdownMenu>
          </div>

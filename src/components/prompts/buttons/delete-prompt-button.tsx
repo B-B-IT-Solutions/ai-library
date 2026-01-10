@@ -17,21 +17,20 @@ import {
 } from "@/components/shadcn/alert-dialog";
 import { DropdownMenuItem } from "@/components/shadcn/dropdown-menu";
 import { deletePrompt } from "@/data/actions/prompt";
+import { DPromptDescriptor } from "@/data/types/domain/prompt";
 
 type DeletePromptButtonProps = {
-   promptId: string;
+   prompt: DPromptDescriptor;
 };
 
-export const DeletePromptButton: FC<DeletePromptButtonProps> = ({
-   promptId,
-}) => {
+export const DeletePromptButton: FC<DeletePromptButtonProps> = ({ prompt }) => {
    const [isPending, startTransition] = useTransition();
    const [isOpen, setIsOpen] = useState(false);
    const router = useRouter();
 
    const handleDelete = () => {
       startTransition(async () => {
-         const result = await deletePrompt(promptId);
+         const result = await deletePrompt(prompt.id);
          if (result.success) {
             toast.success(result.message);
             router.push("/prompts");
