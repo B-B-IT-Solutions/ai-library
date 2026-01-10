@@ -389,7 +389,7 @@ exports[`PromptView rendering tests PromptView - followUpPrompts empty - rendere
                       data-state="closed"
                       style="--radix-tooltip-content-transform-origin: var(--radix-popper-transform-origin); --radix-tooltip-content-available-width: var(--radix-popper-available-width); --radix-tooltip-content-available-height: var(--radix-popper-available-height); --radix-tooltip-trigger-width: var(--radix-popper-anchor-width); --radix-tooltip-trigger-height: var(--radix-popper-anchor-height);"
                     >
-                      Prompt in Zwischenablage kopieren
+                      In Zwischenablage kopieren
                       <span
                         style="position: absolute; bottom: 0px; transform: translateY(100%); left: 0px;"
                       >
@@ -411,7 +411,7 @@ exports[`PromptView rendering tests PromptView - followUpPrompts empty - rendere
                         role="tooltip"
                         style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
                       >
-                        Prompt in Zwischenablage kopieren
+                        In Zwischenablage kopieren
                       </span>
                     </div>
                   </div>
@@ -563,7 +563,7 @@ exports[`PromptView rendering tests PromptView - followUpPrompts empty - rendere
                       data-state="closed"
                       style="--radix-tooltip-content-transform-origin: var(--radix-popper-transform-origin); --radix-tooltip-content-available-width: var(--radix-popper-available-width); --radix-tooltip-content-available-height: var(--radix-popper-available-height); --radix-tooltip-trigger-width: var(--radix-popper-anchor-width); --radix-tooltip-trigger-height: var(--radix-popper-anchor-height);"
                     >
-                      Prompt in Zwischenablage kopieren
+                      In Zwischenablage kopieren
                       <span
                         style="position: absolute; bottom: 0px; transform: translateY(100%); left: 0px;"
                       >
@@ -585,7 +585,7 @@ exports[`PromptView rendering tests PromptView - followUpPrompts empty - rendere
                         role="tooltip"
                         style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
                       >
-                        Prompt in Zwischenablage kopieren
+                        In Zwischenablage kopieren
                       </span>
                     </div>
                   </div>
@@ -1086,7 +1086,7 @@ exports[`PromptView rendering tests PromptView - versions empty - rendered test 
                       data-state="closed"
                       style="--radix-tooltip-content-transform-origin: var(--radix-popper-transform-origin); --radix-tooltip-content-available-width: var(--radix-popper-available-width); --radix-tooltip-content-available-height: var(--radix-popper-available-height); --radix-tooltip-trigger-width: var(--radix-popper-anchor-width); --radix-tooltip-trigger-height: var(--radix-popper-anchor-height);"
                     >
-                      Prompt in Zwischenablage kopieren
+                      In Zwischenablage kopieren
                       <span
                         style="position: absolute; bottom: 0px; transform: translateY(100%); left: 0px;"
                       >
@@ -1108,7 +1108,7 @@ exports[`PromptView rendering tests PromptView - versions empty - rendered test 
                         role="tooltip"
                         style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
                       >
-                        Prompt in Zwischenablage kopieren
+                        In Zwischenablage kopieren
                       </span>
                     </div>
                   </div>
@@ -1260,7 +1260,7 @@ exports[`PromptView rendering tests PromptView - versions empty - rendered test 
                       data-state="closed"
                       style="--radix-tooltip-content-transform-origin: var(--radix-popper-transform-origin); --radix-tooltip-content-available-width: var(--radix-popper-available-width); --radix-tooltip-content-available-height: var(--radix-popper-available-height); --radix-tooltip-trigger-width: var(--radix-popper-anchor-width); --radix-tooltip-trigger-height: var(--radix-popper-anchor-height);"
                     >
-                      Prompt in Zwischenablage kopieren
+                      In Zwischenablage kopieren
                       <span
                         style="position: absolute; bottom: 0px; transform: translateY(100%); left: 0px;"
                       >
@@ -1282,7 +1282,7 @@ exports[`PromptView rendering tests PromptView - versions empty - rendered test 
                         role="tooltip"
                         style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
                       >
-                        Prompt in Zwischenablage kopieren
+                        In Zwischenablage kopieren
                       </span>
                     </div>
                   </div>
@@ -1783,7 +1783,7 @@ exports[`PromptView rendering tests PromptView rendered test 1`] = `
                       data-state="closed"
                       style="--radix-tooltip-content-transform-origin: var(--radix-popper-transform-origin); --radix-tooltip-content-available-width: var(--radix-popper-available-width); --radix-tooltip-content-available-height: var(--radix-popper-available-height); --radix-tooltip-trigger-width: var(--radix-popper-anchor-width); --radix-tooltip-trigger-height: var(--radix-popper-anchor-height);"
                     >
-                      Prompt in Zwischenablage kopieren
+                      In Zwischenablage kopieren
                       <span
                         style="position: absolute; bottom: 0px; transform: translateY(100%); left: 0px;"
                       >
@@ -1805,7 +1805,7 @@ exports[`PromptView rendering tests PromptView rendered test 1`] = `
                         role="tooltip"
                         style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
                       >
-                        Prompt in Zwischenablage kopieren
+                        In Zwischenablage kopieren
                       </span>
                     </div>
                   </div>
@@ -1957,7 +1957,7 @@ exports[`PromptView rendering tests PromptView rendered test 1`] = `
                       data-state="closed"
                       style="--radix-tooltip-content-transform-origin: var(--radix-popper-transform-origin); --radix-tooltip-content-available-width: var(--radix-popper-available-width); --radix-tooltip-content-available-height: var(--radix-popper-available-height); --radix-tooltip-trigger-width: var(--radix-popper-anchor-width); --radix-tooltip-trigger-height: var(--radix-popper-anchor-height);"
                     >
-                      Prompt in Zwischenablage kopieren
+                      In Zwischenablage kopieren
                       <span
                         style="position: absolute; bottom: 0px; transform: translateY(100%); left: 0px;"
                       >
@@ -1979,7 +1979,7 @@ exports[`PromptView rendering tests PromptView rendered test 1`] = `
                         role="tooltip"
                         style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
                       >
-                        Prompt in Zwischenablage kopieren
+                        In Zwischenablage kopieren
                       </span>
                     </div>
                   </div>
