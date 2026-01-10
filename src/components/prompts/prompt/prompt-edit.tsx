@@ -101,17 +101,30 @@ export const PromptEdit: FC<PromptEditProps> = ({
       if (!isValid) return;
 
       const values = form.getValues();
+
+      // Filter out empty strings from categories and followUpPrompts
+      const filteredCategories = values.categories.filter(
+         (cat) => cat.trim() !== ""
+      );
+      const filteredFollowUpPrompts = values.followUpPrompts.filter(
+         (prompt) => prompt.trim() !== ""
+      );
+
       const result = isEditMode
          ? await updatePrompt({
               id: values.id!,
               title: values.title,
               content: values.content,
-              categories: values.categories,
+              categories: filteredCategories,
               recommendedModel: values.recommendedModel,
-              followUpPrompts: values.followUpPrompts,
+              followUpPrompts: filteredFollowUpPrompts,
               createNewVersion,
            })
-         : await createPrompt(values as DPromptCreate);
+         : await createPrompt({
+              ...values,
+              categories: filteredCategories,
+              followUpPrompts: filteredFollowUpPrompts,
+           } as DPromptCreate);
 
       if (result.success) {
          toast.success(result.message);

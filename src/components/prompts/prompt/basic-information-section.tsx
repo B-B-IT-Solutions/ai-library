@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { map } from "es-toolkit/compat";
 import { BookType, Check, ChevronsUpDown, Plus, X } from "lucide-react";
 import { Control, FieldArrayWithId, UseFormRegister } from "react-hook-form";
@@ -66,6 +66,12 @@ export const BasicInformationSection: FC<BasicInformationSectionProps> = ({
 }) => {
    const [open, setOpen] = useState(false);
    const [customModel, setCustomModel] = useState("");
+
+   useEffect(() => {
+      if (categories.length === 0) {
+         addCategory("");
+      }
+   }, [categories.length, addCategory]);
 
    return (
       <section className="space-y-4">

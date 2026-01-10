@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { map } from "es-toolkit/compat";
 import { MessageSquarePlus, Plus, X } from "lucide-react";
 import { FieldArrayWithId, UseFormRegister } from "react-hook-form";
@@ -35,6 +35,12 @@ export const FollowUpPromptsSection: FC<FollowUpPromptsSectionProps> = ({
    addFollowUpPrompt,
    removeFollowUpPrompt,
 }) => {
+   useEffect(() => {
+      if (followUpPrompts.length === 0) {
+         addFollowUpPrompt("");
+      }
+   }, [followUpPrompts.length, addFollowUpPrompt]);
+
    return (
       <section className="space-y-4">
          <div className="flex items-center justify-between">
