@@ -5,6 +5,11 @@ import { Loader, Star } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
+import {
+   Tooltip,
+   TooltipContent,
+   TooltipTrigger,
+} from "@/components/shadcn/tooltip";
 import { toggleFavorite } from "@/data/actions/prompt";
 import { DPromptDescriptor } from "@/data/types/domain/prompt";
 import { cn } from "@/lib/utils";
@@ -42,16 +47,20 @@ export const ToggleFavoriteButton: FC<ToggleFavoriteButtonProps> = ({
    };
 
    return (
-      <Button
-         onClick={handleToggle}
-         disabled={isPending}
-         className="p-1 bg-transparent hover:bg-slate-100 rounded transition-colors cursor-pointer"
-         title={
-            isFavorite ? "Aus Favoriten entfernen" : "Zu Favoriten hinzufügen"
-         }
-         data-testid="toggle-favorite-btn"
-      >
-         {icon()}
-      </Button>
+      <Tooltip>
+         <TooltipTrigger asChild={true}>
+            <Button
+               onClick={handleToggle}
+               disabled={isPending}
+               className="p-1 bg-transparent hover:bg-slate-100 rounded transition-colors cursor-pointer"
+               data-testid="toggle-favorite-btn"
+            >
+               {icon()}
+            </Button>
+         </TooltipTrigger>
+         <TooltipContent>
+            {isFavorite ? "Aus Favoriten entfernen" : "Zu Favoriten hinzufügen"}
+         </TooltipContent>
+      </Tooltip>
    );
 };

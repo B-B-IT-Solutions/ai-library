@@ -2,9 +2,8 @@ jest.mock("@/data/actions/prompt");
 jest.mock("sonner");
 
 import { screen, waitFor } from "@testing-library/dom";
-import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, dtestData } from "@tests";
+import { assertInDocument, dtestData, renderWithTooltip } from "@tests";
 import { toast } from "sonner";
 
 import { toggleFavorite } from "@/data/actions/prompt";
@@ -27,7 +26,9 @@ describe("ToggleFavoriteButton rendering tests", () => {
       const prompt = dtestData.dPromptDescriptor();
       prompt.isFavorite = true;
 
-      const { container } = render(<ToggleFavoriteButton prompt={prompt} />);
+      const { container } = renderWithTooltip(
+         <ToggleFavoriteButton prompt={prompt} />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -40,7 +41,9 @@ describe("ToggleFavoriteButton rendering tests", () => {
       const prompt = dtestData.dPromptDescriptor();
       prompt.isFavorite = false;
 
-      const { container } = render(<ToggleFavoriteButton prompt={prompt} />);
+      const { container } = renderWithTooltip(
+         <ToggleFavoriteButton prompt={prompt} />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -63,7 +66,7 @@ describe("ToggleFavoriteButton functionality tests", () => {
       toggleFavoriteMock.mockResolvedValue(actionResult);
 
       const prompt = dtestData.dPromptDescriptor();
-      render(<ToggleFavoriteButton prompt={prompt} />);
+      renderWithTooltip(<ToggleFavoriteButton prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -92,7 +95,7 @@ describe("ToggleFavoriteButton functionality tests", () => {
       toggleFavoriteMock.mockResolvedValue(actionResult);
 
       const prompt = dtestData.dPromptDescriptor();
-      render(<ToggleFavoriteButton prompt={prompt} />);
+      renderWithTooltip(<ToggleFavoriteButton prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
