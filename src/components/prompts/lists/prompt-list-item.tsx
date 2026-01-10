@@ -43,25 +43,25 @@ export const PromptListItem: FC<PromptListItemProps> = ({ prompt }) => {
             }}
             size="sm"
             variant="ghost"
-            className={`h-6 w-6 p-0 flex-shrink-0 ${
+            className={`h-7 w-7 p-0 flex-shrink-0 rounded-md hover:bg-slate-100 ${
                prompt.isFavorite
                   ? "opacity-100"
                   : "opacity-0 group-hover:opacity-100"
-            } transition-opacity`}
+            } transition-all duration-200`}
             title={
-               prompt.isFavorite ? "Remove from favorites" : "Add to favorites"
+               prompt.isFavorite ? "Aus Favoriten entfernen" : "Zu Favoriten hinzufügen"
             }
             data-testid="toggle-favorite-btn"
             disabled={isPending}
          >
             {isPending ? (
-               <Loader className="w-3.5 h-3.5 animate-spin text-slate-400" />
+               <Loader className="w-4 h-4 animate-spin text-slate-400" />
             ) : (
                <Star
-                  className={`w-3.5 h-3.5 ${
+                  className={`w-4 h-4 transition-all ${
                      prompt.isFavorite
-                        ? "fill-yellow-400 text-yellow-500"
-                        : "text-slate-400 hover:text-yellow-500"
+                        ? "fill-yellow-400 text-yellow-500 scale-110"
+                        : "text-slate-400 hover:text-yellow-500 hover:scale-110"
                   }`}
                />
             )}
@@ -72,48 +72,51 @@ export const PromptListItem: FC<PromptListItemProps> = ({ prompt }) => {
    return (
       <Link href={href}>
          <div
-            className={`group px-4 py-3 cursor-pointer transition-all border-l-2 hover:bg-slate-50 ${
+            className={`group relative rounded-lg cursor-pointer transition-all duration-200 border ${
                isSelected
-                  ? "bg-blue-50 border-l-blue-600"
-                  : "border-l-transparent"
+                  ? "bg-blue-50/60 border-blue-200 shadow-md"
+                  : "bg-white border-slate-200/60 hover:border-slate-300 hover:shadow-md"
             }`}
             data-testid="prompt-list-item"
          >
-            <div className="flex items-start gap-3">
+            {isSelected && (
+               <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-blue-600 rounded-l-lg" />
+            )}
+            <div className="flex items-start gap-3 px-4 py-3.5">
                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1.5">
-                     <h3 className="font-medium text-sm text-slate-900 truncate flex-1">
+                  <div className="flex items-center gap-2 mb-2">
+                     <h3 className="font-semibold text-sm text-slate-900 truncate flex-1 group-hover:text-blue-700 transition-colors">
                         {prompt.title}
                      </h3>
                      {addFavoriteBtn()}
                   </div>
 
                   {prompt.categories.length > 0 && (
-                     <div className="flex flex-wrap gap-1 mb-1.5">
+                     <div className="flex flex-wrap gap-1.5 mb-2.5">
                         {prompt.categories.slice(0, 2).map((cat, idx) => (
                            <span
                               key={idx}
-                              className="text-xs px-1.5 py-0.5 bg-slate-100 text-slate-600 rounded"
+                              className="text-xs px-2 py-0.5 bg-gradient-to-r from-slate-100 to-slate-50 text-slate-700 rounded-md font-medium border border-slate-200/50"
                            >
                               {cat.name}
                            </span>
                         ))}
                         {prompt.categories.length > 2 && (
-                           <span className="text-xs px-1.5 py-0.5 text-slate-500">
-                              +{prompt.categories.length - 2}
+                           <span className="text-xs px-2 py-0.5 text-slate-500 font-medium">
+                              +{prompt.categories.length - 2} mehr
                            </span>
                         )}
                      </div>
                   )}
 
-                  <div className="flex items-center gap-2 text-xs text-slate-500">
-                     <span className="inline-flex items-center gap-1">
-                        <span className="font-medium">v{prompt.currentVersion}</span>
+                  <div className="flex items-center gap-2.5 text-xs text-slate-500">
+                     <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-slate-50 rounded-md border border-slate-200/50">
+                        <span className="font-semibold text-slate-600">v{prompt.currentVersion}</span>
                      </span>
                      <span className="text-slate-300">•</span>
-                     <span className="inline-flex items-center gap-1 truncate">
-                        <Clock className="w-3 h-3 flex-shrink-0" />
-                        {formatDateTime(prompt.updatedAt).dateTime}
+                     <span className="inline-flex items-center gap-1.5 truncate">
+                        <Clock className="w-3.5 h-3.5 flex-shrink-0 text-slate-400" />
+                        <span className="font-medium">{formatDateTime(prompt.updatedAt).dateTime}</span>
                      </span>
                   </div>
                </div>

@@ -2,7 +2,7 @@
 
 import { FC, useState } from "react";
 import { map, sum } from "es-toolkit/compat";
-import { Loader2, Plus } from "lucide-react";
+import { FileText, Loader2, Plus } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
@@ -30,14 +30,14 @@ export const PromptsList: FC = () => {
    const promptItemsHeader = () => {
       return (
          <div
-            className="px-4 py-3 border-b border-slate-200 flex justify-between items-center bg-white sticky top-0 z-10"
+            className="px-6 py-4 border-b border-slate-200/80 flex justify-between items-center bg-gradient-to-r from-white to-slate-50/50 sticky top-0 z-10 backdrop-blur-sm"
             data-testid="prompts-list-header"
          >
-            <div className="flex items-center gap-2">
-               <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
-                  Library
+            <div className="flex items-center gap-3">
+               <h3 className="text-base font-bold text-slate-800 tracking-tight">
+                  Bibliothek
                </h3>
-               <span className="text-xs text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">
+               <span className="text-xs font-medium text-slate-600 bg-slate-100 px-2.5 py-1 rounded-full shadow-sm">
                   {count}
                </span>
             </div>
@@ -45,12 +45,12 @@ export const PromptsList: FC = () => {
             <Button
                asChild={true}
                size="sm"
-               className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm"
+               className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-md hover:shadow-lg transition-all duration-200"
                data-testid="add-prompt-btn"
             >
-               <Link href="/prompts/new" className="flex items-center gap-1.5">
-                  <Plus className="w-3.5 h-3.5" />
-                  <span className="text-xs font-medium">New</span>
+               <Link href="/prompts/new" className="flex items-center gap-2">
+                  <Plus className="w-4 h-4" />
+                  <span className="text-sm font-medium">Neu</span>
                </Link>
             </Button>
          </div>
@@ -58,16 +58,47 @@ export const PromptsList: FC = () => {
    };
 
    const promptItems = () => {
+      const hasPrompts = pages.some((page) => page.content.length > 0);
+
+      if (!hasPrompts) {
+         return (
+            <div className="flex-1 flex items-center justify-center p-8">
+               <div className="text-center max-w-md">
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 mb-4">
+                     <FileText className="w-8 h-8 text-slate-400" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-slate-700 mb-2">
+                     Keine Prompts gefunden
+                  </h3>
+                  <p className="text-sm text-slate-500 mb-6">
+                     Beginnen Sie, indem Sie Ihren ersten Prompt erstellen.
+                  </p>
+                  <Button
+                     asChild={true}
+                     className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-md hover:shadow-lg transition-all duration-200"
+                  >
+                     <Link href="/prompts/new" className="flex items-center gap-2">
+                        <Plus className="w-4 h-4" />
+                        <span>Prompt erstellen</span>
+                     </Link>
+                  </Button>
+               </div>
+            </div>
+         );
+      }
+
       return (
          <div
-            className="flex-1 overflow-y-auto"
+            className="flex-1 overflow-y-auto bg-slate-50/30"
             data-testid="prompts-list-items"
          >
-            {map(pages, (page) => {
-               return map(page.content, (prompt) => {
-                  return <PromptListItem key={prompt.id} prompt={prompt} />;
-               });
-            })}
+            <div className="p-3 space-y-2">
+               {map(pages, (page) => {
+                  return map(page.content, (prompt) => {
+                     return <PromptListItem key={prompt.id} prompt={prompt} />;
+                  });
+               })}
+            </div>
             <InfiniteScroll
                hasMore={hasNextPage}
                isLoading={isFetchingNextPage}
@@ -75,8 +106,8 @@ export const PromptsList: FC = () => {
                threshold={0.7}
             >
                {hasNextPage && (
-                  <div className="flex justify-center py-4">
-                     <Loader2 className="h-6 w-6 animate-spin text-slate-400" />
+                  <div className="flex justify-center py-6">
+                     <Loader2 className="h-6 w-6 animate-spin text-blue-500" />
                   </div>
                )}
             </InfiniteScroll>
@@ -86,14 +117,14 @@ export const PromptsList: FC = () => {
 
    const promptFilters = () => {
       return (
-         <div className="px-4 py-3 border-b border-slate-200 bg-slate-50">
+         <div className="px-6 py-4 border-b border-slate-200/80 bg-white">
             <PromptFilters onFiltersUpdate={setFilters} />
          </div>
       );
    };
 
    return (
-      <div className="flex flex-col h-full" data-testid="prompts-list">
+      <div className="flex flex-col h-full bg-white" data-testid="prompts-list">
          {promptItemsHeader()}
          {promptFilters()}
          {promptItems()}
