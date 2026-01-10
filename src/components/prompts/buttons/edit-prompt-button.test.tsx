@@ -1,11 +1,6 @@
 import { screen, waitFor } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
-import {
-   assertInDocument,
-   dtestData,
-   renderWithRouter,
-   renderWithTooltip,
-} from "@tests";
+import { assertInDocument, dtestData, renderWithTooltip } from "@tests";
 import mockRouter from "next-router-mock";
 
 import { EditPromptButton } from "./edit-prompt-button";
@@ -18,7 +13,7 @@ const assertRendered = () => {
 describe("EditPromptButton rendering tests", () => {
    it("EditPromptButton rendered test", async () => {
       const prompt = dtestData.dPromptDescriptor();
-      const { container } = renderWithRouter(
+      const { container } = renderWithTooltip(
          <EditPromptButton prompt={prompt} />
       );
 
@@ -38,7 +33,7 @@ describe("EditPromptButton functionality tests", () => {
 
    it("EditPromptButton - edit btn clicked - test", async () => {
       const prompt = dtestData.dPromptDescriptor();
-      renderWithRouter(<EditPromptButton prompt={prompt} />);
+      renderWithTooltip(<EditPromptButton prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();

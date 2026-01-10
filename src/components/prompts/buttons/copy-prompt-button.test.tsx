@@ -1,6 +1,6 @@
 import { screen, waitFor } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, dtestData, renderWithRouter } from "@tests";
+import { assertInDocument, dtestData, renderWithTooltip } from "@tests";
 
 import { CopyPromptButton } from "./copy-prompt-button";
 
@@ -26,7 +26,7 @@ const assertCopyIcon = () => {
 describe("CopyPromptButton rendering tests", () => {
    it("CopyPromptButton rendered", async () => {
       const prompt = dtestData.dPromptDescriptor();
-      const { container } = renderWithRouter(
+      const { container } = renderWithTooltip(
          <CopyPromptButton
             prompt={prompt}
             size="icon-sm"
@@ -44,7 +44,7 @@ describe("CopyPromptButton rendering tests", () => {
 
    it("CopyPromptButton rendered", async () => {
       const prompt = dtestData.dPromptDescriptor();
-      const { container } = renderWithRouter(
+      const { container } = renderWithTooltip(
          <CopyPromptButton prompt={prompt} size="sm" showLabel={true} />
       );
 
@@ -64,7 +64,7 @@ describe("CopyPromptButton functionality tests", () => {
 
    it("CopyPromptButton - showLabel false - copy btn clicked - success - test", async () => {
       const prompt = dtestData.dPromptDescriptor();
-      renderWithRouter(<CopyPromptButton prompt={prompt} size="icon-sm" />);
+      renderWithTooltip(<CopyPromptButton prompt={prompt} size="icon-sm" />);
 
       await waitFor(() => {
          assertRendered();
@@ -82,7 +82,7 @@ describe("CopyPromptButton functionality tests", () => {
 
    it("CopyPromptButton - showLabel true - copy btn clicked - success - test", async () => {
       const prompt = dtestData.dPromptDescriptor();
-      renderWithRouter(
+      renderWithTooltip(
          <CopyPromptButton prompt={prompt} size="sm" showLabel={true} />
       );
 
@@ -109,7 +109,7 @@ describe("CopyPromptButton functionality tests", () => {
       const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
 
       const prompt = dtestData.dPromptDescriptor();
-      renderWithRouter(<CopyPromptButton prompt={prompt} size="icon-sm" />);
+      renderWithTooltip(<CopyPromptButton prompt={prompt} size="icon-sm" />);
 
       await waitFor(() => {
          assertRendered();
@@ -127,7 +127,7 @@ describe("CopyPromptButton functionality tests", () => {
 
    it("CopyPromptButton - copy btn clicked - copied state resets after 2 seconds - test", async () => {
       const prompt = dtestData.dPromptDescriptor();
-      renderWithRouter(<CopyPromptButton prompt={prompt} size="icon-sm" />);
+      renderWithTooltip(<CopyPromptButton prompt={prompt} size="icon-sm" />);
 
       await waitFor(() => {
          assertRendered();

@@ -17,7 +17,7 @@ type EditPromptButtonProps = {
 export const EditPromptButton: FC<EditPromptButtonProps> = ({ prompt }) => {
    return (
       <Tooltip>
-         <TooltipTrigger asChild={true}>
+         <TooltipTrigger>
             <Button asChild={true} size="sm" data-testid="edit-prompt-btn">
                <Link href={`/prompts/${prompt.id}/edit`}>
                   <Edit2 className="size-4" />
