@@ -99,7 +99,11 @@ export const PromptView: FC<PromptViewProps> = ({ prompt }) => {
                         <Tooltip>
                            <TooltipTrigger asChild>
                               <DropdownMenuTrigger asChild>
-                                 <Button variant="outline" size="icon-sm">
+                                 <Button
+                                    variant="outline"
+                                    size="icon-sm"
+                                    className="cursor-pointer"
+                                 >
                                     <MoreVertical className="size-4" />
                                  </Button>
                               </DropdownMenuTrigger>

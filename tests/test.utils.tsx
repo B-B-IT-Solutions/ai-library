@@ -45,6 +45,17 @@ export const renderWithReactQuery = (component: React.ReactNode) => {
    };
 };
 
+export const renderWithTooltip = (component: React.ReactNode) => {
+   const queryClient = testQueryClient();
+   return {
+      ...render(
+         <QueryClientProvider client={queryClient}>
+            <TooltipProvider>{component}</TooltipProvider>
+         </QueryClientProvider>
+      ),
+   };
+};
+
 export const renderWithRouter = (
    component: React.ReactNode,
    url: string = "/"

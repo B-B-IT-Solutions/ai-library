@@ -17,6 +17,7 @@ export {
    renderAsyncRSC,
    renderWithRouter,
    renderWithSidebar,
+   renderWithTooltip,
    renderHookWithReactQuery,
    renderWithReactQuery,
    getElementById,
