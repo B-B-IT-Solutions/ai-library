@@ -43,7 +43,7 @@ exports[`PromptManager rendering tests PromptManager rendered test 1`] = `
       <div
         class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
         data-slot="card"
-        data-testid="prompt-form"
+        data-testid="prompt-edit"
       >
         <div
           class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 border-b pb-6"
@@ -57,11 +57,11 @@ exports[`PromptManager rendering tests PromptManager rendered test 1`] = `
           </div>
         </div>
         <div
-          class="px-6 pt-6"
+          class="px-6"
           data-slot="card-content"
         >
           <form
-            class="space-y-8"
+            class="space-y-6"
             data-testid="edit-form"
           >
             <section
@@ -72,7 +72,7 @@ exports[`PromptManager rendering tests PromptManager rendered test 1`] = `
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-type h-5 w-5 text-indigo-600"
+                  class="lucide lucide-book-type h-5 w-5 text-indigo-600"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -84,269 +84,72 @@ exports[`PromptManager rendering tests PromptManager rendered test 1`] = `
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M12 4v16"
+                    d="M10 13h4"
                   />
                   <path
-                    d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2"
+                    d="M12 6v7"
                   />
                   <path
-                    d="M9 20h6"
+                    d="M16 8V6H8v2"
+                  />
+                  <path
+                    d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"
                   />
                 </svg>
                 Allgemeine Informationen
               </h3>
               <div
-                class="grid gap-4 sm:grid-cols-2"
+                class="grid gap-2"
+                data-slot="form-item"
               >
-                <div
-                  class="grid gap-2"
-                  data-slot="form-item"
+                <label
+                  class="flex items-center gap-2 select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive text-sm font-medium text-slate-700"
+                  data-error="false"
+                  data-slot="form-label"
+                  for="_r_0_-form-item"
                 >
-                  <label
-                    class="flex items-center gap-2 select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive text-sm font-medium text-slate-700"
-                    data-error="false"
-                    data-slot="form-label"
-                    for="_r_0_-form-item"
-                  >
-                    Titel
-                  </label>
-                  <input
-                    aria-describedby="_r_0_-form-item-description"
-                    aria-invalid="false"
-                    class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
-                    data-slot="form-control"
-                    id="_r_0_-form-item"
-                    name="title"
-                    placeholder="Prompt-Titel eingeben..."
-                    value=""
-                  />
-                </div>
-                <div
-                  class="grid gap-2"
-                  data-slot="form-item"
-                >
-                  <label
-                    class="select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive text-sm font-medium text-slate-700 flex items-center gap-1.5"
-                    data-error="false"
-                    data-slot="form-label"
-                    for="_r_1_-form-item"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="lucide lucide-cpu h-4 w-4 text-indigo-600"
-                      fill="none"
-                      height="24"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M12 20v2"
-                      />
-                      <path
-                        d="M12 2v2"
-                      />
-                      <path
-                        d="M17 20v2"
-                      />
-                      <path
-                        d="M17 2v2"
-                      />
-                      <path
-                        d="M2 12h2"
-                      />
-                      <path
-                        d="M2 17h2"
-                      />
-                      <path
-                        d="M2 7h2"
-                      />
-                      <path
-                        d="M20 12h2"
-                      />
-                      <path
-                        d="M20 17h2"
-                      />
-                      <path
-                        d="M20 7h2"
-                      />
-                      <path
-                        d="M7 20v2"
-                      />
-                      <path
-                        d="M7 2v2"
-                      />
-                      <rect
-                        height="16"
-                        rx="2"
-                        width="16"
-                        x="4"
-                        y="4"
-                      />
-                      <rect
-                        height="8"
-                        rx="1"
-                        width="8"
-                        x="8"
-                        y="8"
-                      />
-                    </svg>
-                    Empfohlenes Modell
-                  </label>
-                  <button
-                    aria-autocomplete="none"
-                    aria-controls="radix-_r_2_"
-                    aria-describedby="_r_1_-form-item-description"
-                    aria-expanded="false"
-                    aria-invalid="false"
-                    class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
-                    data-placeholder=""
-                    data-size="default"
-                    data-slot="form-control"
-                    data-state="closed"
-                    dir="ltr"
-                    id="_r_1_-form-item"
-                    role="combobox"
-                    type="button"
-                  >
-                    <span
-                      data-slot="select-value"
-                      style="pointer-events: none;"
-                    >
-                      Modell auswählen
-                    </span>
-                    <svg
-                      aria-hidden="true"
-                      class="lucide lucide-chevron-down size-4 opacity-50"
-                      fill="none"
-                      height="24"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="m6 9 6 6 6-6"
-                      />
-                    </svg>
-                  </button>
-                  <div
-                    data-testid="mock-react-portal"
-                  />
-                  <select
-                    aria-hidden="true"
-                    style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
-                    tabindex="-1"
-                  >
-                    <option
-                      value="Claude Sonnet 4.5"
-                    >
-                      Claude Sonnet 4.5
-                    </option>
-                    <option
-                      value="Claude Opus 4"
-                    >
-                      Claude Opus 4
-                    </option>
-                    <option
-                      value="GPT-4"
-                    >
-                      GPT-4
-                    </option>
-                    <option
-                      value="GPT-4 Turbo"
-                    >
-                      GPT-4 Turbo
-                    </option>
-                    <option
-                      value="GPT-3.5"
-                    >
-                      GPT-3.5
-                    </option>
-                    <option
-                      value="Gemini Pro"
-                    >
-                      Gemini Pro
-                    </option>
-                    <option
-                      value="Gemini Ultra"
-                    >
-                      Gemini Ultra
-                    </option>
-                    <option
-                      value="Llama 3"
-                    >
-                      Llama 3
-                    </option>
-                    <option
-                      value="Mistral Large"
-                    >
-                      Mistral Large
-                    </option>
-                    <option
-                      value="Other"
-                    >
-                      Other
-                    </option>
-                  </select>
-                </div>
+                  Titel
+                </label>
+                <input
+                  aria-describedby="_r_0_-form-item-description"
+                  aria-invalid="false"
+                  class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                  data-slot="form-control"
+                  id="_r_0_-form-item"
+                  name="title"
+                  placeholder="Prompt-Titel eingeben..."
+                  value=""
+                />
               </div>
-            </section>
-            <div
-              class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px"
-              data-orientation="horizontal"
-              data-slot="separator"
-              role="none"
-            />
-            <section
-              class="space-y-4"
-            >
               <div
-                class="flex items-center justify-between"
+                class="gap-2 flex flex-col"
+                data-slot="form-item"
               >
-                <h3
-                  class="text-lg font-semibold text-slate-900 flex items-center gap-2"
+                <label
+                  class="select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive text-sm font-medium text-slate-700 flex items-center gap-1.5"
+                  data-error="false"
+                  data-slot="form-label"
+                  for="_r_1_-form-item"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="lucide lucide-tag h-5 w-5 text-indigo-600"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"
-                    />
-                    <circle
-                      cx="7.5"
-                      cy="7.5"
-                      fill="currentColor"
-                      r=".5"
-                    />
-                  </svg>
-                  Kategorien
-                </h3>
+                  Empfohlenes Modell
+                </label>
                 <button
-                  class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
-                  data-slot="button"
+                  aria-controls="radix-_r_2_"
+                  aria-describedby="_r_1_-form-item-description"
+                  aria-expanded="false"
+                  aria-haspopup="dialog"
+                  aria-invalid="false"
+                  class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full justify-between font-normal"
+                  data-slot="popover-trigger"
+                  data-state="closed"
+                  id="_r_1_-form-item"
+                  role="combobox"
                   type="button"
                 >
+                  Modell auswählen...
                   <svg
                     aria-hidden="true"
-                    class="lucide lucide-plus h-4 w-4"
+                    class="lucide lucide-chevrons-up-down ml-2 h-4 w-4 shrink-0 opacity-50"
                     fill="none"
                     height="24"
                     stroke="currentColor"
@@ -358,20 +161,489 @@ exports[`PromptManager rendering tests PromptManager rendered test 1`] = `
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      d="M5 12h14"
+                      d="m7 15 5 5 5-5"
                     />
                     <path
-                      d="M12 5v14"
+                      d="m7 9 5-5 5 5"
                     />
                   </svg>
-                  Hinzufügen
                 </button>
+                <div
+                  data-testid="mock-react-presence"
+                >
+                  <div
+                    data-testid="mock-react-portal"
+                  >
+                    <div
+                      data-testid="mock-react-presence"
+                    >
+                      <div
+                        data-radix-popper-content-wrapper=""
+                        style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 4px); min-width: max-content; --radix-popper-available-width: -16px; --radix-popper-available-height: -4px; --radix-popper-anchor-width: 0px; --radix-popper-anchor-height: 0px; --radix-popper-transform-origin: 0% 0px;"
+                      >
+                        <div
+                          class="bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 origin-(--radix-popover-content-transform-origin) rounded-md border shadow-md outline-hidden w-full p-0"
+                          data-align="start"
+                          data-side="bottom"
+                          data-slot="popover-content"
+                          data-state="closed"
+                          id="radix-_r_2_"
+                          role="dialog"
+                          style="--radix-popover-content-transform-origin: var(--radix-popper-transform-origin); --radix-popover-content-available-width: var(--radix-popper-available-width); --radix-popover-content-available-height: var(--radix-popper-available-height); --radix-popover-trigger-width: var(--radix-popper-anchor-width); --radix-popover-trigger-height: var(--radix-popper-anchor-height);"
+                          tabindex="-1"
+                        >
+                          <div
+                            class="bg-popover text-popover-foreground flex h-full w-full flex-col overflow-hidden rounded-md"
+                            cmdk-root=""
+                            data-slot="command"
+                            tabindex="-1"
+                          >
+                            <label
+                              cmdk-label=""
+                              for="radix-_r_5_"
+                              id="radix-_r_4_"
+                              style="position: absolute; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border-width: 0px;"
+                            />
+                            <div
+                              class="flex h-9 items-center gap-2 border-b px-3"
+                              data-slot="command-input-wrapper"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                class="lucide lucide-search size-4 shrink-0 opacity-50"
+                                fill="none"
+                                height="24"
+                                stroke="currentColor"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                viewBox="0 0 24 24"
+                                width="24"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="m21 21-4.34-4.34"
+                                />
+                                <circle
+                                  cx="11"
+                                  cy="11"
+                                  r="8"
+                                />
+                              </svg>
+                              <input
+                                aria-autocomplete="list"
+                                aria-controls="radix-_r_3_"
+                                aria-expanded="true"
+                                aria-labelledby="radix-_r_4_"
+                                autocomplete="off"
+                                autocorrect="off"
+                                class="placeholder:text-muted-foreground flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
+                                cmdk-input=""
+                                data-slot="command-input"
+                                id="radix-_r_5_"
+                                placeholder="Modell suchen oder eingeben..."
+                                role="combobox"
+                                spellcheck="false"
+                                type="text"
+                                value=""
+                              />
+                            </div>
+                            <div
+                              aria-label="Suggestions"
+                              class="max-h-[300px] scroll-py-1 overflow-x-hidden overflow-y-auto"
+                              cmdk-list=""
+                              data-slot="command-list"
+                              id="radix-_r_3_"
+                              role="listbox"
+                              tabindex="-1"
+                            >
+                              <div
+                                cmdk-list-sizer=""
+                              >
+                                <div
+                                  class="text-foreground [&_[cmdk-group-heading]]:text-muted-foreground overflow-hidden p-1 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium"
+                                  cmdk-group=""
+                                  data-slot="command-group"
+                                  data-value="undefined"
+                                  role="presentation"
+                                >
+                                  <div
+                                    cmdk-group-items=""
+                                    role="group"
+                                  >
+                                    <div
+                                      aria-disabled="false"
+                                      aria-selected="true"
+                                      class="data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+                                      cmdk-item=""
+                                      data-disabled="false"
+                                      data-selected="true"
+                                      data-slot="command-item"
+                                      data-value="Claude Sonnet 4.5"
+                                      id="radix-_r_8_"
+                                      role="option"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="lucide lucide-check mr-2 h-4 w-4 opacity-0"
+                                        fill="none"
+                                        height="24"
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        viewBox="0 0 24 24"
+                                        width="24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M20 6 9 17l-5-5"
+                                        />
+                                      </svg>
+                                      Claude Sonnet 4.5
+                                    </div>
+                                    <div
+                                      aria-disabled="false"
+                                      aria-selected="false"
+                                      class="data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+                                      cmdk-item=""
+                                      data-disabled="false"
+                                      data-selected="false"
+                                      data-slot="command-item"
+                                      data-value="Claude Opus 4"
+                                      id="radix-_r_9_"
+                                      role="option"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="lucide lucide-check mr-2 h-4 w-4 opacity-0"
+                                        fill="none"
+                                        height="24"
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        viewBox="0 0 24 24"
+                                        width="24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M20 6 9 17l-5-5"
+                                        />
+                                      </svg>
+                                      Claude Opus 4
+                                    </div>
+                                    <div
+                                      aria-disabled="false"
+                                      aria-selected="false"
+                                      class="data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+                                      cmdk-item=""
+                                      data-disabled="false"
+                                      data-selected="false"
+                                      data-slot="command-item"
+                                      data-value="GPT-4"
+                                      id="radix-_r_a_"
+                                      role="option"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="lucide lucide-check mr-2 h-4 w-4 opacity-0"
+                                        fill="none"
+                                        height="24"
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        viewBox="0 0 24 24"
+                                        width="24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M20 6 9 17l-5-5"
+                                        />
+                                      </svg>
+                                      GPT-4
+                                    </div>
+                                    <div
+                                      aria-disabled="false"
+                                      aria-selected="false"
+                                      class="data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+                                      cmdk-item=""
+                                      data-disabled="false"
+                                      data-selected="false"
+                                      data-slot="command-item"
+                                      data-value="GPT-4 Turbo"
+                                      id="radix-_r_b_"
+                                      role="option"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="lucide lucide-check mr-2 h-4 w-4 opacity-0"
+                                        fill="none"
+                                        height="24"
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        viewBox="0 0 24 24"
+                                        width="24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M20 6 9 17l-5-5"
+                                        />
+                                      </svg>
+                                      GPT-4 Turbo
+                                    </div>
+                                    <div
+                                      aria-disabled="false"
+                                      aria-selected="false"
+                                      class="data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+                                      cmdk-item=""
+                                      data-disabled="false"
+                                      data-selected="false"
+                                      data-slot="command-item"
+                                      data-value="GPT-3.5"
+                                      id="radix-_r_c_"
+                                      role="option"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="lucide lucide-check mr-2 h-4 w-4 opacity-0"
+                                        fill="none"
+                                        height="24"
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        viewBox="0 0 24 24"
+                                        width="24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M20 6 9 17l-5-5"
+                                        />
+                                      </svg>
+                                      GPT-3.5
+                                    </div>
+                                    <div
+                                      aria-disabled="false"
+                                      aria-selected="false"
+                                      class="data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+                                      cmdk-item=""
+                                      data-disabled="false"
+                                      data-selected="false"
+                                      data-slot="command-item"
+                                      data-value="Gemini Pro"
+                                      id="radix-_r_d_"
+                                      role="option"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="lucide lucide-check mr-2 h-4 w-4 opacity-0"
+                                        fill="none"
+                                        height="24"
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        viewBox="0 0 24 24"
+                                        width="24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M20 6 9 17l-5-5"
+                                        />
+                                      </svg>
+                                      Gemini Pro
+                                    </div>
+                                    <div
+                                      aria-disabled="false"
+                                      aria-selected="false"
+                                      class="data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+                                      cmdk-item=""
+                                      data-disabled="false"
+                                      data-selected="false"
+                                      data-slot="command-item"
+                                      data-value="Gemini Ultra"
+                                      id="radix-_r_e_"
+                                      role="option"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="lucide lucide-check mr-2 h-4 w-4 opacity-0"
+                                        fill="none"
+                                        height="24"
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        viewBox="0 0 24 24"
+                                        width="24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M20 6 9 17l-5-5"
+                                        />
+                                      </svg>
+                                      Gemini Ultra
+                                    </div>
+                                    <div
+                                      aria-disabled="false"
+                                      aria-selected="false"
+                                      class="data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+                                      cmdk-item=""
+                                      data-disabled="false"
+                                      data-selected="false"
+                                      data-slot="command-item"
+                                      data-value="Llama 3"
+                                      id="radix-_r_f_"
+                                      role="option"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="lucide lucide-check mr-2 h-4 w-4 opacity-0"
+                                        fill="none"
+                                        height="24"
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        viewBox="0 0 24 24"
+                                        width="24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M20 6 9 17l-5-5"
+                                        />
+                                      </svg>
+                                      Llama 3
+                                    </div>
+                                    <div
+                                      aria-disabled="false"
+                                      aria-selected="false"
+                                      class="data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+                                      cmdk-item=""
+                                      data-disabled="false"
+                                      data-selected="false"
+                                      data-slot="command-item"
+                                      data-value="Mistral Large"
+                                      id="radix-_r_g_"
+                                      role="option"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="lucide lucide-check mr-2 h-4 w-4 opacity-0"
+                                        fill="none"
+                                        height="24"
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        viewBox="0 0 24 24"
+                                        width="24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M20 6 9 17l-5-5"
+                                        />
+                                      </svg>
+                                      Mistral Large
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <p
-                class="text-sm text-slate-500 italic"
+              <div
+                class="space-y-2"
               >
-                Noch keine Kategorien hinzugefügt.
-              </p>
+                <label
+                  class="select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive text-sm font-medium text-slate-700 flex items-center gap-1.5"
+                  data-error="false"
+                  data-slot="form-label"
+                  for="undefined-form-item"
+                >
+                  Kategorien
+                </label>
+                <div
+                  class="space-y-2"
+                >
+                  <div
+                    class="flex gap-2"
+                  >
+                    <input
+                      class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive flex-1"
+                      data-slot="input"
+                      name="categories.0"
+                      placeholder="Kategoriename eingeben"
+                    />
+                    <button
+                      class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+                      data-slot="button"
+                      type="button"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="lucide lucide-x h-4 w-4"
+                        fill="none"
+                        height="24"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M18 6 6 18"
+                        />
+                        <path
+                          d="m6 6 12 12"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div
+                  class="flex justify-end"
+                >
+                  <button
+                    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
+                    data-slot="button"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-plus h-4 w-4"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M5 12h14"
+                      />
+                      <path
+                        d="M12 5v14"
+                      />
+                    </svg>
+                    Hinzufügen
+                  </button>
+                </div>
+              </div>
             </section>
             <div
               class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px"
@@ -415,7 +687,7 @@ exports[`PromptManager rendering tests PromptManager rendered test 1`] = `
                       d="M16 17H8"
                     />
                   </svg>
-                  Prompt-Inhalt
+                  Prompt
                 </h3>
               </div>
               <div
@@ -423,11 +695,11 @@ exports[`PromptManager rendering tests PromptManager rendered test 1`] = `
                 data-slot="form-item"
               >
                 <textarea
-                  aria-describedby="_r_3_-form-item-description"
+                  aria-describedby="_r_h_-form-item-description"
                   aria-invalid="false"
                   class="flex w-full rounded-md border border-input bg-background px-3 py-2 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 font-mono text-sm"
                   data-slot="form-control"
-                  id="_r_3_-form-item"
+                  id="_r_h_-form-item"
                   name="content"
                   placeholder="Prompt-Inhalt eingeben..."
                   style="min-height: 206px; max-height: 9007199254740991px; height: 6px;"
@@ -443,44 +715,93 @@ exports[`PromptManager rendering tests PromptManager rendered test 1`] = `
             <section
               class="space-y-4"
             >
+              <div>
+                <h3
+                  class="text-lg font-semibold text-slate-900 flex items-center gap-2"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-message-square-plus h-5 w-5 text-indigo-600"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"
+                    />
+                    <path
+                      d="M12 8v6"
+                    />
+                    <path
+                      d="M9 11h6"
+                    />
+                  </svg>
+                  Folge-Prompts
+                </h3>
+                <p
+                  class="text-sm text-slate-500 mt-1"
+                >
+                  Vorgeschlagene Folgefragen, die Benutzer stellen könnten.
+                </p>
+              </div>
               <div
-                class="flex items-center justify-between"
+                class="space-y-4"
               >
-                <div>
-                  <h3
-                    class="text-lg font-semibold text-slate-900 flex items-center gap-2"
+                <div
+                  class="grid gap-2"
+                  data-slot="form-item"
+                >
+                  <div
+                    class="flex gap-2 items-start"
                   >
-                    <svg
-                      aria-hidden="true"
-                      class="lucide lucide-message-square-plus h-5 w-5 text-indigo-600"
-                      fill="none"
-                      height="24"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      xmlns="http://www.w3.org/2000/svg"
+                    <textarea
+                      aria-describedby="_r_i_-form-item-description"
+                      aria-invalid="false"
+                      class="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1"
+                      data-slot="form-control"
+                      id="_r_i_-form-item"
+                      name="followUpPrompts.0"
+                      placeholder="Folge-Prompt eingeben"
+                      style="min-height: 66px; max-height: 9007199254740991px; height: 6px;"
+                    />
+                    <button
+                      class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+                      data-slot="button"
+                      type="button"
                     >
-                      <path
-                        d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"
-                      />
-                      <path
-                        d="M12 8v6"
-                      />
-                      <path
-                        d="M9 11h6"
-                      />
-                    </svg>
-                    Folge-Prompts
-                  </h3>
-                  <p
-                    class="text-sm text-slate-500 mt-1"
-                  >
-                    Vorgeschlagene Folgefragen, die Benutzer stellen könnten.
-                  </p>
+                      <svg
+                        aria-hidden="true"
+                        class="lucide lucide-x h-4 w-4"
+                        fill="none"
+                        height="24"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M18 6 6 18"
+                        />
+                        <path
+                          d="m6 6 12 12"
+                        />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
+              </div>
+              <div
+                class="flex justify-end"
+              >
                 <button
                   class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
                   data-slot="button"
@@ -509,11 +830,6 @@ exports[`PromptManager rendering tests PromptManager rendered test 1`] = `
                   Hinzufügen
                 </button>
               </div>
-              <p
-                class="text-sm text-slate-500 italic"
-              >
-                Noch keine Folge-Prompts hinzugefügt.
-              </p>
             </section>
             <div
               class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px"

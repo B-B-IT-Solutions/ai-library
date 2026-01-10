@@ -143,7 +143,7 @@ export const PromptEdit: FC<PromptEditProps> = ({
    };
 
    return (
-      <Card data-testid="prompt-form">
+      <Card data-testid="prompt-edit">
          <CardHeader className="border-b pb-6">
             <CardTitle className="text-2xl font-bold text-slate-900">
                {isEditMode ? "Prompt bearbeiten" : "Neuen Prompt erstellen"}
