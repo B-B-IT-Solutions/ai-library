@@ -297,6 +297,106 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
       },
    },
    {
+      title: "Psychological Trigger Landing Page",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+            "CRO",
+            "Conversion Optimisation",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Erstelle eine Landing Page, die gezielt psychologische Trigger nutzt, um Conversion zu maximieren.\r\nAngebot: [Angebot einf\u00FCgen]\r\n\r\nTrigger, die eingebaut werden m\u00FCssen:\r\n\u2013 Klarheit\r\n\u2013 Social Proof\r\n\u2013 Autorit\u00E4t\r\n\u2013 Verlustangst\r\n\u2013 Einfachheit\r\n\r\nStruktur:\r\n\r\nHeadline mit klarer Transformation\r\n\r\nSubheadline mit sozialer Best\u00E4tigung\r\n\r\nDarstellung der einfachen L\u00F6sung\r\n\r\nVorteile & Ergebnisse\r\n\r\nBeweise (Zahlen, Aussagen, Referenzen)\r\n\r\nCTA mit Dringlichkeit\r\n\r\nZiel:\r\n\u2013 Nutzer versteht sofort den Nutzen\r\n\u2013 Nutzer f\u00FChlt sich sicher\r\n\u2013 Nutzer handelt",
+         },
+      },
+   },
+   {
+      title: "Short-Form High-Conversion Landing Page",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+            "CRO",
+            "Conversion Optimisation",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Erstelle eine kurze, extrem fokussierte Landing Page f\u00FCr folgendes Angebot:\r\n[Angebot einf\u00FCgen]\r\n\r\nZiel: Conversion in unter 30 Sekunden Lesezeit.\r\n\r\nInhalt:\r\n\r\nStarke Headline mit klarem Nutzen\r\n\r\nSubheadline: F\u00FCr wen + Ergebnis\r\n\r\n3\u20135 starke Benefits\r\n\r\n1\u20132 Social-Proof-Elemente\r\n\r\nKlarer CTA\r\n\r\nStil:\r\n\u2013 Sehr kurz\r\n\u2013 Kein unn\u00F6tiger Text\r\n\u2013 Jede Zeile verkauft",
+         },
+      },
+   },
+   {
+      title: "Objection-Killer Landing Page",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+            "CRO",
+            "Conversion Optimisation",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Erstelle eine Landing Page, die gezielt Einw\u00E4nde und Zweifel ausr\u00E4umt.\r\nAngebot: [Produkt / Service einf\u00FCgen]\r\n\r\nZiel: Conversion durch Vertrauen & Klarheit.\r\n\r\nStruktur:\r\n\r\nKlare Value Proposition im Hero\r\n\r\nKurz: Was das Angebot macht (1\u20132 S\u00E4tze)\r\n\r\nTypische Einw\u00E4nde der Zielgruppe (\u201EZu teuer\u201C, \u201EZu kompliziert\u201C, \u201EZu riskant\u201C)\r\n\r\nDirekte Antworten auf jeden Einwand\r\n\r\nVorteile & Ergebnisse\r\n\r\nSocial Proof + Glaubw\u00FCrdigkeit\r\n\r\nRisiko-freie CTA-Formulierung\r\n\r\nRegel:\r\n\u2013 Keine Marketingfloskeln\r\n\u2013 Klare Aussagen\r\n\u2013 Fokus auf Vertrauen",
+         },
+      },
+   },
+   {
+      title: "Pain-Driven Conversion Landing Page",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+            "CRO",
+            "Conversion Optimisation",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Erstelle eine Landing Page, die stark \u00FCber Pain Points verkauft.\r\nAngebot: [Angebot einf\u00FCgen]\r\n\r\nFokus: Maximale Identifikation des Nutzers mit seinem Problem.\r\n\r\nAufbau:\r\n\r\nHeadline, die den gr\u00F6\u00DFten Schmerz der Zielgruppe anspricht\r\n\r\nBeschreibung der negativen Konsequenzen, wenn nichts ge\u00E4ndert wird\r\n\r\nWarum bisherige L\u00F6sungen scheitern\r\n\r\nEinf\u00FChrung des Angebots als einfache, klare L\u00F6sung\r\n\r\nKonkrete Ergebnisse nach Nutzung\r\n\r\nBeweise (Social Proof / Zahlen / Aussagen)\r\n\r\nKlarer CTA mit Ergebnisversprechen\r\n\r\nTon:\r\n\u2013 Emotional, aber seri\u00F6s\r\n\u2013 Direkt, ohne Umschweife\r\n\u2013 Nutzer f\u00FChlt sich \u201Everstanden\u201C",
+         },
+      },
+   },
+   {
+      title: "High-Conversion Landing Page (CRO-Framework)",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+            "CRO",
+            "Conversion Optimisation",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Erstelle eine hochkonvertierende Landing Page f\u00FCr folgendes Angebot:\r\n[Produkt / Service einf\u00FCgen]\r\n\r\nZiel ist maximale Conversion (Lead / Kauf / Demo).\r\n\r\nConversion-Struktur:\r\n\r\nHero mit klarer Nutzen-Headline (Ergebnis > Funktion)\r\n\r\nSubheadline: F\u00FCr wen + welches Problem gel\u00F6st wird\r\n\r\nPrim\u00E4rer CTA oberhalb der Fold\r\n\r\nProblem-Agitation (Warum der Status quo nicht funktioniert)\r\n\r\nL\u00F6sung + USP (Warum genau dieses Angebot)\r\n\r\nBenefits statt Features (Transformation klar benennen)\r\n\r\nSocial Proof (Testimonials, Zahlen, Logos \u2013 realistisch generieren)\r\n\r\nRisiko-Umkehr (Garantie, Testphase, kein Risiko)\r\n\r\nWiederholter CTA mit Dringlichkeit\r\n\r\nStil:\r\n\u2013 Direkt, klar, aktiv\r\n\u2013 Keine Buzzwords\r\n\u2013 Jede Sektion muss zur Conversion f\u00FChren",
+         },
+      },
+   },
+   {
       title: "SEO-optimierte Landing Page",
       description: "",
       recommendedModel: "GPT-5",
