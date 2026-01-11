@@ -297,6 +297,99 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
       },
    },
    {
+      title: "SEO-optimierte Landing Page",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+            "SaaS",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Erstelle eine SEO-optimierte Landing Page f\u00FCr folgendes Thema:\r\n[Keyword / Produkt / Dienstleistung einf\u00FCgen]\r\n\r\nZiel ist es, organischen Traffic zu generieren und Besucher zu konvertieren.\r\n\r\nAnforderungen:\r\n\u2013 Nutze ein Haupt-Keyword + relevante Neben-Keywords\r\n\u2013 Saubere H1\u2013H3-Struktur\r\n\u2013 Lesefreundliche Abs\u00E4tze und Bulletpoints\r\n\r\nInhalt:\r\n\r\nKeyword-optimierte Headline\r\n\r\nEinleitung mit klarem Nutzen\r\n\r\nDetaillierte Problemerkl\u00E4rung\r\n\r\nL\u00F6sungsansatz durch das Angebot\r\n\r\nVorteile & Features\r\n\r\nFAQ-Bereich (SEO-relevant)\r\n\r\nStarker CTA\r\n\r\nOutput:\r\n\u2013 Strukturierter Text in Markdown\r\n\u2013 Inklusive Meta Title & Meta Description",
+         },
+      },
+   },
+   {
+      title: "Minimalistische High-End Landing Page",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+            "SaaS",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Erstelle eine minimalistische, hochwertige Landing Page f\u00FCr folgendes Premium-Angebot:\r\n[Angebot einf\u00FCgen]\r\n\r\nFokus liegt auf Klarheit, Design und Exklusivit\u00E4t.\r\n\r\nStruktur:\r\n\r\nSehr kurze, starke Headline mit klarer Aussage\r\n\r\nSubheadline mit Nutzenversprechen\r\n\r\n3\u20135 zentrale Vorteile in Bullet-Form\r\n\r\nKurze Erkl\u00E4rung, f\u00FCr wen das Angebot gedacht ist\r\n\r\nVertrauenselemente (Zahlen, Marken, Aussagen)\r\n\r\nReduzierter CTA (z. B. \u201EZugang anfragen\u201C)\r\n\r\nStil:\r\n\u2013 Kurz, pr\u00E4zise, selbstbewusst\r\n\u2013 Keine unn\u00F6tigen Erkl\u00E4rungen\r\n\u2013 Fokus auf Wirkung statt Textmenge",
+         },
+      },
+   },
+   {
+      title: "SaaS / Tech Landing Page",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+            "SaaS",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Erstelle eine moderne Landing Page f\u00FCr ein SaaS- oder Tech-Produkt:\r\n[Name & Kurzbeschreibung einf\u00FCgen]\r\n\r\nZiel ist es, den Nutzen des Produkts in Sekunden verst\u00E4ndlich zu machen.\r\n\r\nStruktur:\r\n\r\nKlare Value Proposition im Hero-Bereich\r\n\r\nKurze Erkl\u00E4rung: \u201EWas ist das Produkt?\u201C\r\n\r\nHauptprobleme der Zielgruppe + passende Produktl\u00F6sung\r\n\r\nKernfunktionen mit kurzen Erkl\u00E4rungen\r\n\r\nIntegrationen / Kompatibilit\u00E4t (falls relevant)\r\n\r\nSicherheit, Datenschutz & Vertrauen\r\n\r\nCTA (Demo buchen / Kostenlos testen)\r\n\r\nExtras:\r\n\u2013 Schreibe klar, sachlich, aber \u00FCberzeugend\r\n\u2013 Vermeide technische \u00DCberladung\r\n\u2013 Optional: Pricing-Teaser & FAQ",
+         },
+      },
+   },
+   {
+      title: "Storytelling Landing Page",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Erstelle eine Landing Page f\u00FCr folgendes Angebot mit starkem Storytelling-Fokus:\r\n[Angebot einf\u00FCgen]\r\n\r\nDie Landing Page soll den Besucher emotional abholen und logisch zur Conversion f\u00FChren.\r\n\r\nAufbau:\r\n\r\nEinstieg mit einer Story oder Alltagssituation der Zielgruppe\r\n\r\nDarstellung des Problems und der bisherigen erfolglosen L\u00F6sungsversuche\r\n\r\nEinf\u00FChrung des Angebots als Wendepunkt\r\n\r\nErkl\u00E4rung, wie das Angebot funktioniert (Schritt-f\u00FCr-Schritt)\r\n\r\nVorteile & Ergebnisse f\u00FCr den Nutzer\r\n\r\nErfahrungsberichte / Erfolgsgeschichten\r\n\r\nStarker CTA mit klarer Nutzenargumentation\r\n\r\nStil:\r\n\u2013 Emotional, glaubw\u00FCrdig, klar\r\n\u2013 Direkte Ansprache der Zielgruppe\r\n\u2013 Leicht verst\u00E4ndlich, ohne Buzzwords",
+         },
+      },
+   },
+   {
+      title: "Conversion-fokussierte Landing Page",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Erstelle eine conversion-optimierte Landing Page f\u00FCr folgendes Angebot:\r\n[Produkt / Service / SaaS / Tool einf\u00FCgen]\r\n\r\nZiel der Seite ist es, Besucher zu Leads oder K\u00E4ufern zu konvertieren.\r\n\r\nStruktur:\r\n\r\nHero-Sektion mit emotionalem Hauptversprechen, Subheadline und prim\u00E4rem CTA\r\n\r\nKlare Darstellung des Kernproblems der Zielgruppe\r\n\r\nPr\u00E4sentation der L\u00F6sung inkl. einzigartigem Nutzen (USP)\r\n\r\nFeatures & Benefits (klar getrennt)\r\n\r\nSocial Proof (Kundenstimmen, Logos, Zahlen)\r\n\r\nSekund\u00E4rer CTA nach jedem Hauptabschnitt\r\n\r\nAbschlusssektion mit Risiko-Umkehr (z. B. Garantie, Testphase)\r\n\r\nAnforderungen:\r\n\u2013 Schreibe pr\u00E4gnant, nutzerzentriert und handlungsauffordernd\r\n\u2013 Verwende psychologische Trigger (Vertrauen, Dringlichkeit, Klarheit)\r\n\u2013 Strukturierter Output in Markdown",
+         },
+      },
+   },
+   {
       title: "Universeller Prompt zur Erstellung einer Landing Page",
       description: "",
       recommendedModel: "GPT-5",
