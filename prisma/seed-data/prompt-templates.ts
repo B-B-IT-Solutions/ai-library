@@ -17,6 +17,209 @@ const promptTemplateCategories = (categories: string[]) => {
 
 export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
+      title: "SaaS-Landingpage mit Social Proof & Trust Signals",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+            "SaaS",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Schreibe eine SaaS-Landingpage f\u00FCr [Software-Name], die stark auf Vertrauen setzt. Integriere Kundenlogos, Testimonials, Case Studies, Sicherheitsstandards, Datenschutz-Hinweise und einen klaren Call-to-Action.",
+         },
+      },
+   },
+   {
+      title: "SaaS-Landingpage mit Feature-zu-Benefit-Mapping",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+            "SaaS",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Erstelle eine SaaS-Landingpage f\u00FCr [Software-Name], bei der jede Hauptfunktion direkt in einen konkreten Kundennutzen \u00FCbersetzt wird. Strukturiere die Inhalte \u00FCbersichtlich und conversion-orientiert.",
+         },
+      },
+   },
+   {
+      title: "SaaS-Landingpage für B2B-Entscheider",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+            "SaaS",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Entwickle Inhalte f\u00FCr eine B2B-SaaS-Landingpage, die sich an Entscheider und Manager richtet. Fokus auf ROI, Effizienzsteigerung, Integration, Sicherheit und Skalierbarkeit von [Software-Name].",
+         },
+      },
+   },
+   {
+      title: "SaaS-Landingpage mit Problem–Lösungs-Ansatz",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+            "SaaS",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Schreibe eine SaaS-Landingpage f\u00FCr [Software-Name], die ein zentrales Problem von [Zielgruppe] klar benennt und zeigt, wie die Software dieses effizient l\u00F6st. Nutze klare Use-Cases, Vorteile und eine \u00FCberzeugende Produktpositionierung.",
+         },
+      },
+   },
+   {
+      title: "SaaS-Landingpage für Free-Trial-Conversion",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+            "SaaS",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Erstelle eine SaaS-Landingpage f\u00FCr [Software-Name], die Nutzer zur Anmeldung f\u00FCr eine kostenlose Testversion motiviert. Hebe den Hauptnutzen, Kernfunktionen, einfache Einrichtung, Risikofreiheit und einen klaren Call-to-Action hervor.",
+         },
+      },
+   },
+   {
+      title: "Conversion-orientierte Landingpage mit Fokus auf Vertrauen",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Erstelle eine Landingpage f\u00FCr [Produkt/Dienstleistung], die stark auf Vertrauen und Glaubw\u00FCrdigkeit abzielt. Integriere Kundenbewertungen, Testimonials, Garantien, Siegel und eine \u00FCberzeugende Call-to-Action.",
+         },
+      },
+   },
+   {
+      title: "SEO-optimierte Landingpage",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Schreibe Inhalte f\u00FCr eine SEO-optimierte Landingpage zum Thema [Produkt/Dienstleistung]. Integriere das Haupt-Keyword [Keyword], passende Nebenkeywords, Meta-Titel, Meta-Beschreibung und eine logische Seitenstruktur.",
+         },
+      },
+   },
+   {
+      title: "Landingpage nach AIDA-Modell",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Entwickle eine Landingpage f\u00FCr [Produkt/Dienstleistung] nach dem AIDA-Prinzip (Attention, Interest, Desire, Action). Formuliere pr\u00E4gnante \u00DCberschriften, Zwischen\u00FCberschriften und Call-to-Actions.",
+         },
+      },
+   },
+   {
+      title: "Verkaufsstarke Landingpage-Texte",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Erstelle \u00FCberzeugende Landingpage-Texte f\u00FCr [Produkt/Dienstleistung] mit Fokus auf Kundennutzen und klare Handlungsaufforderungen. Zielgruppe ist [Zielgruppe]",
+         },
+      },
+   },
+   {
+      title: "Landingpage-Grundstruktur",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Schreibe eine klare und conversion-optimierte Struktur f\u00FCr eine Landingpage, die [Produkt/Dienstleistung] verkauft. Ber\u00FCcksichtige Hero-Bereich, Nutzenargumente, Features, Social Proof, Call-to-Action und FAQ.",
+         },
+      },
+   },
+   {
+      title: "Universeller Prompt zur Erstellung einer Landing Page",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Erstelle eine vollst\u00E4ndig ausgearbeitete Landing Page f\u00FCr folgendes Angebot:\r\n[Hier dein Produkt/Service/Angebot einf\u00FCgen]\r\n\r\nVerwende eine moderne, klare und \u00FCberzeugende Schreibweise.\r\n\r\nStruktur der Landing Page:\r\n\r\nHero-Sektion mit starkem Haupt-Claim, Subheadline und CTA.\r\n\r\nProblem- > L\u00F6sung-Logik: Beschreibe das Problem der Zielgruppe und wie das Angebot es l\u00F6st.\r\n\r\nFeature-Highlights: Liste die wichtigsten Funktionen/Benefits klar strukturiert auf.\r\n\r\nSocial Proof: Testimonials, Trust-Elemente oder G\u00FCtesiegel einf\u00FCgen (falls keine vorhanden, generiere realistische Beispiele).\r\n\r\nDetailbeschreibung des Angebots inkl. Value Proposition.\r\n\r\nFAQ-Bereich mit typischen Kundenfragen.\r\n\r\nAbschlie\u00DFender CTA mit Dringlichkeit/Mehrwert.\r\n\r\nTonality & Style:\r\n\u2013 Professionell, vertrauensw\u00FCrdig, inspirierend\r\n\u2013 Klar, ohne Fachjargon\r\n\u2013 Conversion-optimiert\r\n\r\nSEO:\r\n\u2013 Verwende relevante Keywords\r\n\u2013 Nutze sprechende Zwischen\u00FCberschriften\r\n\u2013 F\u00FCge Meta Title & Meta Description hinzu\r\n\r\nOutput:\r\n\u2013 Saubere, formatierte Struktur in Markdown\r\n\u2013 Optional auch HTML-Variante erstellen (falls gew\u00FCnscht)",
+         },
+      },
+   },
+   {
       title: "Schreibe eine verkaufende Landingpage",
       description:
          "Dieser Prompt erm\u00F6glicht es, **vollst\u00E4ndige, verkaufspsychologisch optimierte Landingpages** zu generieren \u2013 von der Hero-Section bis zum Call-to-Action. Er zwingt die KI dazu, strukturiert nach Direct-Response-Prinzipien zu arbeiten und alle entscheidenden Conversion-Elemente zu ber\u00FCcksichtigen: Schmerzpunkte, Nutzenargumente, Einwandbehandlung und Social Proof. Ideal f\u00FCr Marketer, Copywriter und Gr\u00FCnder, die schnell hochwertige Landingpages erstellen wollen, ohne jedes Mal bei null zu beginnen.",
