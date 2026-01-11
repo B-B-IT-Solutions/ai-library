@@ -17,6 +17,101 @@ const promptTemplateCategories = (categories: string[]) => {
 
 export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
+      title: "AI-SaaS Landingpage mit „Why Us“- & Differenzierungs-Fokus",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+            "SaaS",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Erstelle eine Landingpage f\u00FCr ein AI-SaaS-Produkt ([Produktname]), die sich klar von Wettbewerbern abgrenzt.\r\nStrukturiere die Seite mit:\r\n\r\npr\u00E4gnantem Hero mit klarem Nutzenversprechen,\r\n\r\nVergleichssektion (Warum [Produktname] vs. klassische Tools / andere KI-L\u00F6sungen),\r\n\r\nAlleinstellungsmerkmalen der KI (z. B. bessere Modelle, spezifischer Use Case, geringerer Setup-Aufwand),\r\n\r\nkonkreten Ergebnissen f\u00FCr [Zielgruppe],\r\n\r\neindeutiger Call-to-Action.\r\nVermeide generische KI-Buzzwords und formuliere konkret, \u00FCberpr\u00FCfbar und nutzenorientiert.",
+         },
+      },
+   },
+   {
+      title: "AI-SaaS Landingpage für B2B-Entscheider mit ROI-Fokus",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+            "SaaS",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Erstelle eine B2B-Landingpage f\u00FCr ein AI-SaaS-Produkt, das Prozesse automatisiert oder Entscheidungen verbessert.\r\nFokus auf Business-Impact, ROI, Skalierbarkeit und Integration in bestehende Systeme. Verwende faktenbasierte Argumente, KPIs und eine CTA wie Beratung anfragen.",
+         },
+      },
+   },
+   {
+      title: "AI-SaaS Landingpage mit Fokus auf Vertrauen & Sicherheit",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+            "SaaS",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Schreibe eine Landingpage f\u00FCr ein AI-SaaS-Produkt, bei dem Vertrauen entscheidend ist.\r\nGehe explizit auf Datenschutz (z. B. DSGVO), Datenverarbeitung, Modelltraining und Sicherheitsstandards ein. Erg\u00E4nze Trust-Elemente wie Kundenstimmen, Zertifikate und klare Aussagen zur Datennutzung.",
+         },
+      },
+   },
+   {
+      title: "AI-SaaS Landingpage für erklärungsbedürftige KI-Produkte",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+            "SaaS",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Erstelle eine Landingpage f\u00FCr ein erkl\u00E4rungsbed\u00FCrftiges AI-SaaS-Tool, das [Use Case] automatisiert.\r\nErkl\u00E4re verst\u00E4ndlich, was die KI macht, was sie nicht macht, und wie der Nutzer sie einsetzt. Verwende einfache Sprache, visuelle Abschnitts\u00FCberschriften und einen sekund\u00E4ren CTA (Demo ansehen).",
+         },
+      },
+   },
+   {
+      title: "AI-SaaS Landingpage mit klarem Value Proposition-Fokus",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "Landingpage",
+            "SaaS",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Erstelle eine conversion-optimierte Landingpage f\u00FCr ein AI-SaaS-Produkt ([Produktname]).\r\nFormuliere eine klare Value Proposition im Hero-Bereich (1 Headline, 1 Subheadline), erkl\u00E4re konkret, welches Problem die KI l\u00F6st und welchen messbaren Mehrwert sie liefert. Integriere einen prim\u00E4ren CTA (z. B. Kostenlos testen). Zielgruppe: [Zielgruppe].",
+         },
+      },
+   },
+   {
       title: "SaaS-Landingpage mit Social Proof & Trust Signals",
       description: "",
       recommendedModel: "GPT-5",
