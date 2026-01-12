@@ -17,6 +17,197 @@ const promptTemplateCategories = (categories: string[]) => {
 
 export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
+      title: "Content-Struktur basierend auf Keyword-Daten",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "SEO",
+            "Keyword-Recherche",
+            "Content-Struktur",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Nutze die Keyword-Recherche zum Thema [Thema einsetzen], um eine SEO-optimierte Blogstruktur (H1\u2013H3) zu entwickeln. Ber\u00FCcksichtige Suchintention, Nutzerfragen, semantische Keywords und Featured-Snippet-Potenzial.",
+         },
+      },
+   },
+   {
+      title: "Keyword-Recherche für transaktionalen Content",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "SEO",
+            "Keyword-Recherche",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Erstelle eine Keyword-Liste zum Thema [Thema einsetzen] mit Fokus auf kaufnahe Suchanfragen, die zu [Produkt/Dienstleistung] f\u00FChren. Sortiere die Keywords nach Kaufintention, Wettbewerb und Eignung f\u00FCr Blog-, Vergleichs- oder Ratgeber-Content.",
+         },
+      },
+   },
+   {
+      title: "Wettbewerbsorientierte Keyword-Recherche",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "SEO",
+            "Keyword-Recherche",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "\u00DCbernimm die Rolle eines SEO-Strategen und analysiere die Top-5 Google-Ergebnisse zum Thema [Thema einsetzen]. Leite daraus Keyword-Schwerpunkte, vernachl\u00E4ssigte Suchanfragen und Differenzierungspotenziale f\u00FCr einen neuen Blogartikel ab.\u201C",
+         },
+      },
+   },
+   {
+      title: "SEO-Keywords für bestehenden Blogartikel optimieren",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "SEO",
+            "Keyword-Recherche",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Analysiere das Thema [Thema einsetzen] im Kontext eines bestehenden Blogartikels, der aktuell auf Seite 2 bei Google rankt. Schlage erg\u00E4nzende Long-Tail-Keywords, semantisch verwandte Begriffe (LSI) und Fragen vor, um die Top-10-Rankings zu erreichen.",
+         },
+      },
+   },
+   {
+      title: "Keyword-Recherche mit Zielgruppe & Funnel-Stufe",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "SEO",
+            "Keyword-Recherche",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "F\u00FChre eine Keyword-Recherche zum Thema [Thema einsetzen] durch f\u00FCr [Zielgruppe, z. B. Selbstst\u00E4ndige / Marketing-Manager / Einsteiger] in der [Awareness-/Consideration-/Decision-Phase]. Priorisiere Keywords mit klarer Suchintention und erkl\u00E4re kurz, warum sie f\u00FCr diese Funnel-Stufe geeignet sind.",
+         },
+      },
+   },
+   {
+      title: "Keywords nach SEO-Priorität clustern",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "SEO",
+            "Keyword-Recherche",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Cluster die relevantesten Keywords zum Thema [Thema einsetzen] in sinnvolle Themenbl\u00F6cke f\u00FCr einen SEO-Blogartikel und priorisiere sie nach Relevanz und gesch\u00E4tztem Ranking-Potenzial.",
+         },
+      },
+   },
+   {
+      title: "Keyword-Gaps & Content-Chancen finden",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "SEO",
+            "Keyword-Recherche",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Identifiziere m\u00F6gliche Keyword-Gaps und Content-Chancen zum Thema [Thema einsetzen], die von bestehenden Top-Rankings h\u00E4ufig nicht ausreichend abgedeckt werden.",
+         },
+      },
+   },
+   {
+      title: "Fragen & W-Keywords generieren",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "SEO",
+            "Keyword-Recherche",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Erstelle eine Liste h\u00E4ufig gesuchter W-Fragen und Problemstellungen rund um [Thema einsetzen], die sich als Unter\u00FCberschriften (H2/H3) f\u00FCr einen SEO-Blogartikel eignen.",
+         },
+      },
+   },
+   {
+      title: "Suchintention verstehen",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "SEO",
+            "Keyword-Recherche",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Ordne die wichtigsten Keywords zum Thema [Thema einsetzen] nach Suchintention (informational, transactional, navigational, commercial) und erkl\u00E4re kurz, welche Content-Art sich f\u00FCr jedes Keyword eignet.",
+         },
+      },
+   },
+   {
+      title: "Haupt- & Nebenkeywords identifizieren",
+      description: "",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptTemplateCategories([
+            "Copywriting",
+            "SEO",
+            "Keyword-Recherche",
+         ]),
+      },
+      promptTemplate: {
+         create: {
+            detailedDescription: "",
+            promptText:
+               "Analysiere das Thema [Thema einsetzen] und erstelle eine Liste relevanter Hauptkeywords, Nebenkeywords und Long-Tail-Keywords mit hoher Suchintention f\u00FCr einen SEO-Blogartikel.",
+         },
+      },
+   },
+   {
       title: "AI-SaaS Landingpage mit „Why Us“- & Differenzierungs-Fokus",
       description: "",
       recommendedModel: "GPT-5",
