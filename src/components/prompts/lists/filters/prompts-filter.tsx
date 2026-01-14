@@ -15,7 +15,7 @@ export const PromptFilters: FC = () => {
    if (!filtersContext) {
       return null;
    }
-   const { setFilters, activeFilters } = filtersContext;
+   const { setFilters, hasActiveFilters } = filtersContext;
 
    const clearAllFilters = () => {
       setFilters({});
@@ -27,7 +27,7 @@ export const PromptFilters: FC = () => {
             <Button
                variant="ghost"
                size="sm"
-               disabled={!activeFilters}
+               disabled={!hasActiveFilters}
                onClick={clearAllFilters}
                className="text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                data-testid="reset-btn"

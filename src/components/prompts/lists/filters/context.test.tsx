@@ -1,25 +1,14 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { assertInDocument } from "@tests";
+import { DPromptDescriptorsFilter } from "@/data/types/domain/prompt";
 
-import { FiltersContextProvider } from "./context";
+import { initFilters } from "./context";
 
-const assertRendered = () => {
-   const section = screen.getByTestId("test-1");
-   assertInDocument(section);
+const expectedInitFilters: DPromptDescriptorsFilter = {
+   search: "",
+   categories: [],
 };
 
-describe("FiltersContextProvider rendering tests", () => {
-   test("FiltersContextProvider rendered test", async () => {
-      const { container } = render(
-         <FiltersContextProvider>
-            <div data-testid="test-1"></div>
-         </FiltersContextProvider>
-      );
-
-      await waitFor(() => {
-         assertRendered();
-      });
-
-      expect(container).toMatchSnapshot();
+describe("FiltersContext tests", () => {
+   test("expectedInitFilters test", async () => {
+      expect(initFilters).toEqual(expectedInitFilters);
    });
 });

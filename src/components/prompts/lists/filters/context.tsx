@@ -1,4 +1,4 @@
-import { createContext, FC, ReactNode, useState } from "react";
+import { createContext } from "react";
 
 import { DPromptDescriptorsFilter } from "@/data/types/domain/prompt";
 
@@ -10,24 +10,3 @@ export const initFilters: DPromptDescriptorsFilter = {
 };
 
 export const FiltersContext = createContext<DFiltersContext | null>(null);
-
-type FiltersContextProviderProps = {
-   children: ReactNode;
-};
-
-export const FiltersContextProvider: FC<FiltersContextProviderProps> = ({
-   children,
-}) => {
-   const [filters, setFilters] = useState(initFilters);
-
-   const context: DFiltersContext = {
-      filters,
-      setFilters,
-   };
-
-   return (
-      <FiltersContext.Provider value={context}>
-         {children}
-      </FiltersContext.Provider>
-   );
-};

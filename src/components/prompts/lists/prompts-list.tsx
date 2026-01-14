@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useState } from "react";
-import { map, sum } from "es-toolkit/compat";
+import { isEmpty, map, sum } from "es-toolkit/compat";
 import { FileText, Filter, Loader2, Plus } from "lucide-react";
 import Link from "next/link";
 
@@ -18,15 +18,21 @@ export const PromptsList: FC = () => {
    const [showFilters, setShowFilters] = useState<boolean>(false);
    const [filters, setFilters] = useState(initFilters);
 
-   const activeFilterCount =
-      (filters.search ? 1 : 0) + (filters.categories?.length || 0);
+   const calculateFiltersCount = () => {
+      let count = 0;
+      count += filters.search ? 1 : 0;
+      count += !isEmpty(filters.categories) ? 1 : 0;
+      return count;
+   };
 
-   const activeFilters = activeFilterCount > 0;
+   const activeFilterCount = calculateFiltersCount();
+
+   const hasActiveFilters = activeFilterCount > 0;
 
    const fitlerContext: DFiltersContext = {
       filters,
       setFilters,
-      activeFilters,
+      hasActiveFilters,
    };
 
    const {
@@ -69,7 +75,7 @@ export const PromptsList: FC = () => {
                >
                   <Filter className="w-4 h-4 mr-2" />
                   <span className="text-sm font-medium">Filter</span>
-                  {activeFilterCount > 0 && (
+                  {hasActiveFilters && (
                      <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-md">
                         {activeFilterCount}
                      </span>

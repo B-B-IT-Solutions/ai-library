@@ -25,7 +25,7 @@ const mockFiltersContext = (categories: string[] = []): DFiltersContext => ({
       categories,
    },
    setFilters: jest.fn(),
-   activeFilters: false,
+   hasActiveFilters: false,
 });
 
 const renderWithContext = (contextValue: DFiltersContext | null) => {
