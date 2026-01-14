@@ -5,6 +5,7 @@ exports[`PromptFilters rendering tests PromptFilters - filterContext null - test
 exports[`PromptFilters rendering tests PromptFilters - reset btn disabled - rendered test 1`] = `
 <div>
   <div
+    class="px-6 py-4 border-b border-slate-200/80 bg-white animate-in slide-in-from-top-4 duration-200"
     data-testid="prompts-filter"
   >
     <div
@@ -226,6 +227,7 @@ exports[`PromptFilters rendering tests PromptFilters - reset btn disabled - rend
 exports[`PromptFilters rendering tests PromptFilters - reset btn enabled - rendered test 1`] = `
 <div>
   <div
+    class="px-6 py-4 border-b border-slate-200/80 bg-white animate-in slide-in-from-top-4 duration-200"
     data-testid="prompts-filter"
   >
     <div

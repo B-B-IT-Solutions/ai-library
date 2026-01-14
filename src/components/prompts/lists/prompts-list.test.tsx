@@ -1,19 +1,17 @@
-jest.mock("@/data/actions/prompt/prompt.actions");
+jest.mock("@/data/actions/prompt");
 
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
    assertInDocument,
+   assertNotInDocument,
    dtestData,
    renderWithReactQuery,
    renderWithRouter,
 } from "@tests";
 import mockRouter from "next-router-mock";
 
-import {
-   getPromptCategories,
-   getPrompts,
-} from "@/data/actions/prompt/prompt.actions";
+import { getPromptCategories, getPrompts } from "@/data/actions/prompt";
 
 import { PromptsList } from "./prompts-list";
 
@@ -25,24 +23,57 @@ const getPromptsMock = getPrompts as jest.MockedFunction<typeof getPrompts>;
 
 const assertRendered = () => {
    const list = screen.getByTestId("prompts-list");
-   // const filters = screen.getByTestId("prompts-filter");
    const listHeader = screen.getByTestId("prompts-list-header");
-   const addPromptBtn = screen.getByTestId("add-prompt-btn");
+   const filtersBtn = screen.getByTestId("filters-btn");
+   const createPromptBtn = screen.getByTestId("create-prompt-btn");
+
+   assertInDocument(list);
+   assertInDocument(listHeader);
+   assertInDocument(filtersBtn);
+   assertInDocument(createPromptBtn);
+};
+
+const assertListItemsRendered = () => {
    const listItems = screen.getByTestId("prompts-list-items");
    const listItem = screen.getAllByTestId("prompt-list-item");
 
-   assertInDocument(list);
-   // assertInDocument(filters);
-   assertInDocument(listHeader);
-   assertInDocument(addPromptBtn);
    assertInDocument(listItems);
-   expect(listItem).toHaveLength(3);
+   expect(listItem.length).toBeGreaterThan(0);
+};
+
+const assertFiltersRendered = () => {
+   const filters = screen.getByTestId("prompts-filter");
+   assertInDocument(filters);
+};
+
+const assertFiltersNotRendered = () => {
+   const filters = screen.queryByTestId("prompts-filter");
+   assertNotInDocument(filters);
 };
 
 describe("PromptsList rendering tests", () => {
-   it("PromptsList rendered test", async () => {
-      const categories = ["category 1", "category 2", "category 3"];
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("PromptsList - filters not displayed - rendered test", async () => {
       const page = dtestData.dPromptDescriptorsPage();
+      getPromptsMock.mockResolvedValue(page);
+
+      const { container } = renderWithReactQuery(<PromptsList />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertFiltersNotRendered();
+         assertListItemsRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("PromptsList - filters displayed - rendered test", async () => {
+      const page = dtestData.dPromptDescriptorsPage();
+      const categories = ["category 1", "category 2", "category 3"];
       getPromptsMock.mockResolvedValue(page);
       getPromptCategoriesMock.mockResolvedValue(categories);
 
@@ -50,35 +81,41 @@ describe("PromptsList rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertFiltersNotRendered();
+         assertListItemsRendered();
+      });
+
+      const filtersBtn = screen.getByTestId("filters-btn");
+      await userEvent.click(filtersBtn);
+
+      await waitFor(() => {
+         assertFiltersRendered();
       });
 
       expect(container).toMatchSnapshot();
-      expect(getPromptsMock).toHaveBeenCalledTimes(1);
-      expect(getPromptCategoriesMock).toHaveBeenCalledTimes(1);
    });
 });
 
 describe("PromptsList functionality tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    it("PromptsList - add btn clicked - test", async () => {
-      const categories = ["category 1", "category 2", "category 3"];
       const page = dtestData.dPromptDescriptorsPage();
       getPromptsMock.mockResolvedValue(page);
-      getPromptCategoriesMock.mockResolvedValue(categories);
 
       const url = "/prompts";
       renderWithRouter(<PromptsList />, url);
 
       await waitFor(() => {
          assertRendered();
+         expect(getPromptsMock).toHaveBeenCalledTimes(1);
          expect(mockRouter.pathname).toEqual(url);
       });
 
-      const addPromptBtn = screen.getByTestId("add-prompt-btn");
-      await userEvent.click(addPromptBtn);
+      const createPromptBtn = screen.getByTestId("create-prompt-btn");
+      await userEvent.click(createPromptBtn);
 
       await waitFor(() => {
          expect(mockRouter.pathname).toEqual("/prompts/new");

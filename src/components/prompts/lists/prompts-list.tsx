@@ -2,17 +2,19 @@
 
 import { FC, useState } from "react";
 import { isEmpty, map, sum } from "es-toolkit/compat";
-import { FileText, Filter, Loader2, Plus } from "lucide-react";
+import { Filter, Loader2, Plus } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
 import { useInfiniteLoadPrompts } from "@/data/ts-queries/prompt";
+import { cn } from "@/lib/utils";
 
 import { FiltersContext, initFilters } from "./filters/context";
 import { PromptFilters } from "./filters/prompts-filter";
 import { DFiltersContext } from "./filters/types";
-import { PromptListItem } from "./prompt-list-item";
+import { PromptListItem } from "./items/prompt-list-item";
+import { EmptyPromptListItems } from "./items/prompt-list-items-empty";
 
 export const PromptsList: FC = () => {
    const [showFilters, setShowFilters] = useState<boolean>(false);
@@ -45,6 +47,46 @@ export const PromptsList: FC = () => {
 
    const count = sum(map(pages, (p) => p.numberOfElements));
 
+   const filtersBtn = () => {
+      const styles = showFilters
+         ? "bg-blue-50 border-blue-300 text-blue-700 hover:bg-blue-100"
+         : "hover:bg-slate-50";
+
+      return (
+         <Button
+            size="sm"
+            variant="outline"
+            onClick={() => setShowFilters(!showFilters)}
+            className={cn("relative transition-all duration-200", styles)}
+            data-testid="filters-btn"
+         >
+            <Filter className="w-4 h-4 mr-2" />
+            <span className="text-sm font-medium">Filter</span>
+            {hasActiveFilters && !showFilters && (
+               <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-md">
+                  {activeFilterCount}
+               </span>
+            )}
+         </Button>
+      );
+   };
+
+   const createPromptBtn = () => {
+      return (
+         <Button
+            asChild={true}
+            size="sm"
+            className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-md hover:shadow-lg transition-all duration-200"
+            data-testid="create-prompt-btn"
+         >
+            <Link href="/prompts/new" className="flex items-center gap-2">
+               <Plus className="w-4 h-4" />
+               <span className="text-sm font-medium">Neu</span>
+            </Link>
+         </Button>
+      );
+   };
+
    const promptItemsHeader = () => {
       return (
          <div
@@ -59,39 +101,9 @@ export const PromptsList: FC = () => {
                   {count}
                </span>
             </div>
-
             <div className="flex items-center gap-2">
-               <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => setShowFilters(!showFilters)}
-                  className={`relative transition-all duration-200 ${
-                     showFilters
-                        ? "bg-blue-50 border-blue-300 text-blue-700 hover:bg-blue-100"
-                        : "hover:bg-slate-50"
-                  }`}
-                  data-testid="toggle-filters-btn"
-               >
-                  <Filter className="w-4 h-4 mr-2" />
-                  <span className="text-sm font-medium">Filter</span>
-                  {hasActiveFilters && (
-                     <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-md">
-                        {activeFilterCount}
-                     </span>
-                  )}
-               </Button>
-
-               <Button
-                  asChild={true}
-                  size="sm"
-                  className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-md hover:shadow-lg transition-all duration-200"
-                  data-testid="add-prompt-btn"
-               >
-                  <Link href="/prompts/new" className="flex items-center gap-2">
-                     <Plus className="w-4 h-4" />
-                     <span className="text-sm font-medium">Neu</span>
-                  </Link>
-               </Button>
+               {filtersBtn()}
+               {createPromptBtn()}
             </div>
          </div>
       );
@@ -101,48 +113,14 @@ export const PromptsList: FC = () => {
       if (!showFilters) {
          return null;
       }
-
-      return (
-         <div
-            className="px-6 py-4 border-b border-slate-200/80 bg-white animate-in slide-in-from-top-4 duration-200"
-            data-testid="prompts-filter-container"
-         >
-            <PromptFilters />
-         </div>
-      );
+      return <PromptFilters />;
    };
 
    const promptItems = () => {
       const hasPrompts = pages.some((page) => page.content.length > 0);
 
       if (!hasPrompts) {
-         return (
-            <div className="flex-1 flex items-center justify-center p-8">
-               <div className="text-center max-w-md">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 mb-4">
-                     <FileText className="w-8 h-8 text-slate-400" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-slate-700 mb-2">
-                     Keine Prompts gefunden
-                  </h3>
-                  <p className="text-sm text-slate-500 mb-6">
-                     Beginnen Sie, indem Sie Ihren ersten Prompt erstellen.
-                  </p>
-                  <Button
-                     asChild={true}
-                     className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-md hover:shadow-lg transition-all duration-200"
-                  >
-                     <Link
-                        href="/prompts/new"
-                        className="flex items-center gap-2"
-                     >
-                        <Plus className="w-4 h-4" />
-                        <span>Prompt erstellen</span>
-                     </Link>
-                  </Button>
-               </div>
-            </div>
-         );
+         return <EmptyPromptListItems />;
       }
 
       return (

@@ -60,7 +60,7 @@ exports[`PromptsLayout rendering tests PromptsLayout rendered test 1`] = `
               <button
                 class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 relative transition-all duration-200 hover:bg-slate-50"
                 data-slot="button"
-                data-testid="toggle-filters-btn"
+                data-testid="filters-btn"
               >
                 <svg
                   aria-hidden="true"
@@ -88,7 +88,7 @@ exports[`PromptsLayout rendering tests PromptsLayout rendered test 1`] = `
               <a
                 class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-2"
                 data-slot="button"
-                data-testid="add-prompt-btn"
+                data-testid="create-prompt-btn"
                 href="/prompts/new"
               >
                 <svg

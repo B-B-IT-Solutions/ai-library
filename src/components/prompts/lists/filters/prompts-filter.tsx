@@ -40,7 +40,10 @@ export const PromptFilters: FC = () => {
    };
 
    return (
-      <div data-testid="prompts-filter">
+      <div
+         className="px-6 py-4 border-b border-slate-200/80 bg-white animate-in slide-in-from-top-4 duration-200"
+         data-testid="prompts-filter"
+      >
          {filterHeader()}
          <div className="flex flex-col gap-2">
             <SearchFilter />
