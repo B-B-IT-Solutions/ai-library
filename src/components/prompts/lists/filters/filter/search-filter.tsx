@@ -22,7 +22,10 @@ export const SearchFilter: FC = () => {
       const input = document.getElementById(
          "search-prompts"
       ) as HTMLInputElement;
-      input.value = "";
+
+      if (input) {
+         input.value = "";
+      }
    }
 
    const onSearchUpdate = debounce((value: string) => {

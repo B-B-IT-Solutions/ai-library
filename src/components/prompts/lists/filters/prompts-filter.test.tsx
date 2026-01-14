@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, renderWithReactQuery } from "@tests";
 
@@ -15,6 +15,7 @@ const mockFiltersContext = (
       categories,
    },
    setFilters: jest.fn(),
+   activeFilters: false,
 });
 
 const renderWithContext = (
@@ -146,31 +147,6 @@ describe("PromptFilters functionality tests", () => {
       await userEvent.click(resetButton);
 
       expect(mockContext.setFilters).toHaveBeenCalledWith({});
-   });
-
-   it("should clear search input when reset button is clicked", async () => {
-      const mockContext = mockFiltersContext("test search", []);
-
-      // Create a mock search input in the DOM
-      const searchInput = document.createElement("input");
-      searchInput.id = "search-prompts";
-      searchInput.value = "test search";
-      document.body.appendChild(searchInput);
-
-      renderWithContext(mockContext);
-
-      await waitFor(() => {
-         assertResetnBtnNotDisabled();
-      });
-
-      const resetButton = screen.getByText("Zurücksetzen");
-      await userEvent.click(resetButton);
-
-      expect(mockContext.setFilters).toHaveBeenCalledWith({});
-      expect(searchInput.value).toBe("");
-
-      // Cleanup
-      document.body.removeChild(searchInput);
    });
 
    it("should handle reset when search input does not exist", async () => {

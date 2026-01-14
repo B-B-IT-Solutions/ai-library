@@ -18,9 +18,15 @@ export const PromptsList: FC = () => {
    const [showFilters, setShowFilters] = useState<boolean>(false);
    const [filters, setFilters] = useState(initFilters);
 
+   const activeFilterCount =
+      (filters.search ? 1 : 0) + (filters.categories?.length || 0);
+
+   const activeFilters = activeFilterCount > 0;
+
    const fitlerContext: DFiltersContext = {
       filters,
       setFilters,
+      activeFilters,
    };
 
    const {
@@ -35,9 +41,6 @@ export const PromptsList: FC = () => {
    const count = sum(map(pages, (p) => p.numberOfElements));
 
    const promptItemsHeader = () => {
-      const activeFilterCount =
-         (filters.search ? 1 : 0) + (filters.categories?.length || 0);
-
       return (
          <div
             className="px-6 py-4 border-b border-slate-200/80 flex justify-between items-center bg-gradient-to-r from-white to-slate-50/50 sticky top-0 z-10 backdrop-blur-sm"

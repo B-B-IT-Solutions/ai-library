@@ -25,11 +25,10 @@ const mockFiltersContext = (categories: string[] = []): DFiltersContext => ({
       categories,
    },
    setFilters: jest.fn(),
+   activeFilters: false,
 });
 
-const renderWithContext = (
-   contextValue: DFiltersContext | null = mockFiltersContext()
-) => {
+const renderWithContext = (contextValue: DFiltersContext | null) => {
    return render(
       <FiltersContext.Provider value={contextValue}>
          <CategoriesFilter />
@@ -104,7 +103,8 @@ describe("CategoriesFilter rendering tests", () => {
       const categoryOptions = queryResult(undefined);
       useLoadPromptCategoriesMock.mockReturnValue(categoryOptions);
 
-      const { container } = renderWithContext();
+      const mockContext = mockFiltersContext();
+      const { container } = renderWithContext(mockContext);
 
       await waitFor(() => {
          assertRendered();
@@ -117,7 +117,9 @@ describe("CategoriesFilter rendering tests", () => {
       const categoryOptions = queryResult([]);
       useLoadPromptCategoriesMock.mockReturnValue(categoryOptions);
 
-      const { container } = renderWithContext();
+      const mockContext = mockFiltersContext();
+      mockContext.filters.categories = undefined;
+      const { container } = renderWithContext(mockContext);
 
       await waitFor(() => {
          assertRendered();
@@ -138,7 +140,8 @@ describe("CategoriesFilter rendering tests", () => {
       const categoryOptions = queryResult(categories);
       useLoadPromptCategoriesMock.mockReturnValue(categoryOptions);
 
-      const { container } = renderWithContext();
+      const mockContext = mockFiltersContext();
+      const { container } = renderWithContext(mockContext);
 
       await waitFor(() => {
          assertRendered();
