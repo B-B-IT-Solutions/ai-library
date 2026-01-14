@@ -5,5 +5,5 @@ export type DFilters = {
 
 export type DFiltersContext = {
    filters: DFilters;
-   setFilters: (DFilters) => void;
+   setFilters: (filters: DFilters) => void;
 };
