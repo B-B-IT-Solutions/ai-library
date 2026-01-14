@@ -7,9 +7,10 @@ import { assertInDocument, assertNotInDocument } from "@tests";
 import { forEach } from "es-toolkit/compat";
 
 import { useLoadPromptCategories } from "@/data/ts-queries/prompt";
+import { DPromptDescriptorsFilter } from "@/data/types/domain/prompt";
 import { toTestId } from "@/lib/utils";
 import { FiltersContext } from "../context";
-import { DFilters, DFiltersContext } from "../types";
+import { DFiltersContext } from "../types";
 
 import { CategoriesFilter } from "./categories-filter";
 
@@ -106,8 +107,7 @@ describe("CategoriesFilter rendering tests", () => {
       const { container } = renderWithContext();
 
       await waitFor(() => {
-         const filter = screen.getByTestId("categories-filter");
-         expect(filter).toBeInTheDocument();
+         assertRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -198,7 +198,7 @@ describe("CategoriesFilter functionality tests", () => {
       );
       await userEvent.click(option);
 
-      const expectedFiltersPayload: DFilters = {
+      const expectedFiltersPayload: DPromptDescriptorsFilter = {
          search: "",
          categories: ["Category 1"],
       };
@@ -236,7 +236,7 @@ describe("CategoriesFilter functionality tests", () => {
       );
       await userEvent.click(option);
 
-      const expectedFiltersPayload: DFilters = {
+      const expectedFiltersPayload: DPromptDescriptorsFilter = {
          search: "",
          categories: [],
       };
@@ -274,7 +274,7 @@ describe("CategoriesFilter functionality tests", () => {
       );
       await userEvent.click(option);
 
-      const expectedFiltersPayload: DFilters = {
+      const expectedFiltersPayload: DPromptDescriptorsFilter = {
          search: "",
          categories: ["Category 1", "Category 2"],
       };
@@ -316,7 +316,7 @@ describe("CategoriesFilter functionality tests", () => {
       );
       await userEvent.click(option);
 
-      const expectedFiltersPayload: DFilters = {
+      const expectedFiltersPayload: DPromptDescriptorsFilter = {
          search: "",
          categories: [selectedOption1],
       };

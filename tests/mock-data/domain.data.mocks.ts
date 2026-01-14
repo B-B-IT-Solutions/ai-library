@@ -16,6 +16,7 @@ import {
    DUseCase,
 } from "@/data/types/domain/product";
 import {
+   DFilters,
    DPromptCategory,
    DPromptCreate,
    DPromptDescriptor,
@@ -366,7 +367,9 @@ export const dPromptsPageQuery = (): DPromptDescriptorsPageQuery => {
 
 export const dPromptsFilter = (): DPromptDescriptorsFilter => {
    return {
+      search: "search-1",
       categories: ["cat 1", "cat 2", "cat 3"],
+      isFavorite: false,
    };
 };
 

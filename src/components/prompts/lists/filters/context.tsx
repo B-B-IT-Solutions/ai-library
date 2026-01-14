@@ -1,8 +1,10 @@
 import { createContext, FC, ReactNode, useState } from "react";
 
-import { DFilters, DFiltersContext } from "./types";
+import { DPromptDescriptorsFilter } from "@/data/types/domain/prompt";
 
-export const initFilters: DFilters = {
+import { DFiltersContext } from "./types";
+
+export const initFilters: DPromptDescriptorsFilter = {
    search: "",
    categories: [],
 };
@@ -23,11 +25,9 @@ export const FiltersContextProvider: FC<FiltersContextProviderProps> = ({
       setFilters,
    };
 
-   console.log("categories", filters.categories);
-
    return (
       <FiltersContext.Provider value={context}>
-         <div key={filters.categories.length}> {children}</div>
+         {children}
       </FiltersContext.Provider>
    );
 };

@@ -39,7 +39,7 @@ export const CategoriesFilter: FC = () => {
       return null;
    }
    const { filters, setFilters } = filtersContext;
-   const { categories } = filters;
+   const { categories = [] } = filters;
 
    const setCategories = (newCategories: string[]) => {
       setFilters({ ...filters, categories: newCategories });

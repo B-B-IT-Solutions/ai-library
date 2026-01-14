@@ -1,9 +1,6 @@
-export type DFilters = {
-   search: string;
-   categories: string[];
-};
+import { DPromptDescriptorsFilter } from "@/data/types/domain/prompt";
 
 export type DFiltersContext = {
-   filters: DFilters;
-   setFilters: (filters: DFilters) => void;
+   filters: DPromptDescriptorsFilter;
+   setFilters: (filters: DPromptDescriptorsFilter) => void;
 };
