@@ -49,7 +49,9 @@ export const PromptListItem: FC<PromptListItemProps> = ({ prompt }) => {
                   : "opacity-0 group-hover:opacity-100"
             } transition-all duration-200`}
             title={
-               prompt.isFavorite ? "Aus Favoriten entfernen" : "Zu Favoriten hinzufügen"
+               prompt.isFavorite
+                  ? "Aus Favoriten entfernen"
+                  : "Zu Favoriten hinzufügen"
             }
             data-testid="toggle-favorite-btn"
             disabled={isPending}
@@ -111,12 +113,16 @@ export const PromptListItem: FC<PromptListItemProps> = ({ prompt }) => {
 
                   <div className="flex items-center gap-2.5 text-xs text-slate-500">
                      <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-slate-50 rounded-md border border-slate-200/50">
-                        <span className="font-semibold text-slate-600">v{prompt.currentVersion}</span>
+                        <span className="font-semibold text-slate-600">
+                           v{prompt.currentVersion}
+                        </span>
                      </span>
                      <span className="text-slate-300">•</span>
                      <span className="inline-flex items-center gap-1.5 truncate">
                         <Clock className="w-3.5 h-3.5 flex-shrink-0 text-slate-400" />
-                        <span className="font-medium">{formatDateTime(prompt.updatedAt).dateTime}</span>
+                        <span className="font-medium">
+                           {formatDateTime(prompt.updatedAt).dateTime}
+                        </span>
                      </span>
                   </div>
                </div>
