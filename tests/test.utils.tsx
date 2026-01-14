@@ -36,12 +36,20 @@ export const renderAsyncRSC = async <T,>(
 
 export const renderWithReactQuery = (component: React.ReactNode) => {
    const queryClient = testQueryClient();
+   const { rerender: origRerender, ...rest } = render(
+      <QueryClientProvider client={queryClient}>
+         {component}
+      </QueryClientProvider>
+   );
    return {
-      ...render(
-         <QueryClientProvider client={queryClient}>
-            {component}
-         </QueryClientProvider>
-      ),
+      ...rest,
+      rerender: (component: JSX.Element) => {
+         return origRerender(
+            <QueryClientProvider client={queryClient}>
+               {component}
+            </QueryClientProvider>
+         );
+      },
    };
 };
 

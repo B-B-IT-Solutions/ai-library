@@ -1,6 +1,10 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertHasAttributeWithValue, assertInDocument } from "@tests";
+import {
+   assertHasAttributeWithValue,
+   assertHasNoAttribute,
+   assertInDocument,
+} from "@tests";
 
 import { DPromptDescriptorsFilter } from "@/data/types/domain/prompt";
 import { FiltersContext } from "../context";
@@ -34,6 +38,15 @@ const assertRendered = () => {
    assertInDocument(input);
    assertHasAttributeWithValue(input, "type", "text");
    assertHasAttributeWithValue(input, "id", "search-prompts");
+};
+
+const assertInputValue = (value: string | null) => {
+   const input = screen.getByTestId("search-input");
+   if (value) {
+      assertHasAttributeWithValue(input, "value", value);
+   } else {
+      assertHasNoAttribute(input, "value");
+   }
 };
 
 describe("SearchFilter rendering tests", () => {
@@ -80,6 +93,10 @@ describe("SearchFilter functionality tests", () => {
       const mockContext = mockFiltersContext("");
       renderWithContext(mockContext);
 
+      await waitFor(() => {
+         assertRendered();
+      });
+
       const searchText = "test search - test@#$%&*()";
       const input = screen.getByTestId("search-input");
       await userEvent.type(input, searchText);
@@ -105,6 +122,10 @@ describe("SearchFilter functionality tests", () => {
    it("SearchFilter - search filter updated - multiple rapid changes debounced - test", async () => {
       const mockContext = mockFiltersContext("");
       renderWithContext(mockContext);
+
+      await waitFor(() => {
+         assertRendered();
+      });
 
       const input = screen.getByTestId("search-input");
 
@@ -133,6 +154,10 @@ describe("SearchFilter functionality tests", () => {
    it("SearchFilter - search filter updated - multiple separate searches with debouncing - test", async () => {
       const mockContext = mockFiltersContext("");
       renderWithContext(mockContext);
+
+      await waitFor(() => {
+         assertRendered();
+      });
 
       const input = screen.getByTestId("search-input");
 
@@ -164,5 +189,29 @@ describe("SearchFilter functionality tests", () => {
             expectedFiltersPayload2
          );
       }, options);
+   });
+
+   it("SearchFilter - reset btn click resets search value - test", async () => {
+      const mockContext = mockFiltersContext("initial");
+      const { rerender } = renderWithContext(mockContext);
+
+      await waitFor(() => {
+         assertRendered();
+         assertInputValue("initial");
+      });
+
+      // Update context
+      mockContext.filters.search = undefined;
+
+      rerender(
+         <FiltersContext.Provider value={mockContext}>
+            <SearchFilter />
+         </FiltersContext.Provider>
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertInputValue(null);
+      });
    });
 });

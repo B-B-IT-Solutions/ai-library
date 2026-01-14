@@ -1,6 +1,7 @@
 "use client";
 
 import { FC, useContext } from "react";
+import { isUndefined } from "es-toolkit";
 import { debounce } from "es-toolkit/compat";
 import { Search } from "lucide-react";
 
@@ -15,6 +16,14 @@ export const SearchFilter: FC = () => {
    }
 
    const { filters, setFilters } = filtersContext;
+   const { search } = filters;
+
+   if (isUndefined(search)) {
+      const input = document.getElementById(
+         "search-prompts"
+      ) as HTMLInputElement;
+      input.value = "";
+   }
 
    const onSearchUpdate = debounce((value: string) => {
       setFilters({ ...filters, search: value });
@@ -34,7 +43,7 @@ export const SearchFilter: FC = () => {
                id="search-prompts"
                type="text"
                placeholder="Nach Titel suchen..."
-               defaultValue={filters.search}
+               defaultValue={search}
                onChange={(e) => onSearchUpdate(e.target.value)}
                className="w-full pl-10 pr-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-lg text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-400 focus:bg-white transition-all shadow-sm"
                data-testid="search-input"

@@ -20,11 +20,6 @@ export const PromptFilters: FC = () => {
 
    const clearAllFilters = () => {
       setFilters({});
-      // Reset search input
-      const searchInput = document.getElementById(
-         "search-prompts"
-      ) as HTMLInputElement;
-      if (searchInput) searchInput.value = "";
    };
 
    const hasActiveFilters = search || categories.length > 0;
@@ -38,6 +33,7 @@ export const PromptFilters: FC = () => {
                disabled={!hasActiveFilters}
                onClick={clearAllFilters}
                className="text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+               data-testid="reset-btn"
             >
                <RotateCcw className="w-3.5 h-3.5 mr-1.5" />
                <span className="text-xs font-medium">Zurücksetzen</span>
