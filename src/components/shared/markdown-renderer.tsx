@@ -22,10 +22,10 @@ const components: Components = {
          align === "center"
             ? "text-center"
             : align === "right"
-              ? "text-right"
-              : align === "left"
-                ? "text-left"
-                : "";
+            ? "text-right"
+            : align === "left"
+            ? "text-left"
+            : "";
       return <p className={`my-2 ${textAlignClass}`}>{children}</p>;
    },
    h1: ({ children, node }) => {
@@ -34,10 +34,10 @@ const components: Components = {
          align === "center"
             ? "text-center"
             : align === "right"
-              ? "text-right"
-              : align === "left"
-                ? "text-left"
-                : "";
+            ? "text-right"
+            : align === "left"
+            ? "text-left"
+            : "";
       return (
          <h1 className={`text-2xl font-bold my-3 ${textAlignClass}`}>
             {children}
@@ -50,10 +50,10 @@ const components: Components = {
          align === "center"
             ? "text-center"
             : align === "right"
-              ? "text-right"
-              : align === "left"
-                ? "text-left"
-                : "";
+            ? "text-right"
+            : align === "left"
+            ? "text-left"
+            : "";
       return (
          <h2 className={`text-xl font-bold my-2 ${textAlignClass}`}>
             {children}
@@ -66,10 +66,10 @@ const components: Components = {
          align === "center"
             ? "text-center"
             : align === "right"
-              ? "text-right"
-              : align === "left"
-                ? "text-left"
-                : "";
+            ? "text-right"
+            : align === "left"
+            ? "text-left"
+            : "";
       return (
          <h3 className={`text-lg font-bold my-2 ${textAlignClass}`}>
             {children}

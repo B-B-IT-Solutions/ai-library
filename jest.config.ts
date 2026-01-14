@@ -47,6 +47,7 @@ module.exports = {
       "^next/font/google$": "<rootDir>/__mocks__/next/font/google.ts",
       "^next-auth/react$": "<rootDir>/__mocks__/next-auth/react.tsx",
       "^react-markdown$": "<rootDir>/__mocks__/react-markdown.tsx",
+      "^remark-gfm$": "<rootDir>/__mocks__/remark-gfm.ts",
       "^@/auth$": "<rootDir>/__mocks__/@/auth.ts",
       "^@/components/shared/auth$":
          "<rootDir>/__mocks__/@/components/shared/auth.tsx",
