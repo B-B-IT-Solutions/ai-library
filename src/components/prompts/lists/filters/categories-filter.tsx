@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
 import { cloneDeep } from "es-toolkit";
 import { concat, includes, isEqual, map, remove } from "es-toolkit/compat";
 import { ChevronsUpDown, X } from "lucide-react";
@@ -21,34 +21,37 @@ import {
 import { useLoadPromptCategories } from "@/data/ts-queries/prompt";
 import { cn } from "@/lib/utils";
 
+import { FiltersContext } from "./context";
+
 export type Filters = {
    search?: string;
    categories?: string[];
 };
 
-type CategoriesFilterProps = {
-   onFiltersUpdate: (filters: Filters) => void;
-};
-
-export const CategoriesFilter: FC<CategoriesFilterProps> = ({
-   onFiltersUpdate,
-}) => {
-   const [search, setSearch] = useState<string>("");
-   const [categories, setCategories] = useState<string[]>([]);
+export const CategoriesFilter: FC = () => {
    const [open, setOpen] = useState(false);
-
    const { data: loadedCategories = [] } = useLoadPromptCategories();
+
+   const filtersContext = useContext(FiltersContext);
+
+   if (!filtersContext) {
+      return null;
+   }
+   const { filters, setFilters } = filtersContext;
+   const { categories } = filters;
+
+   const setCategories = (newCategories: string[]) => {
+      setFilters({ ...filters, categories: newCategories });
+   };
 
    const toggleCategory = (value: string) => {
       if (includes(categories, value)) {
          const newCats = cloneDeep(categories);
          remove(newCats, (prev) => isEqual(prev, value));
          setCategories(newCats);
-         onFiltersUpdate({ search, categories: newCats });
       } else {
          const newCats = concat(categories, value);
          setCategories(newCats);
-         onFiltersUpdate({ search, categories: newCats });
       }
    };
 

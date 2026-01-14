@@ -9,6 +9,7 @@ import { Button } from "@/components/shadcn/button";
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
 import { useInfiniteLoadPrompts } from "@/data/ts-queries/prompt";
 
+import { FiltersContextProvider } from "./filters/context";
 import { Filters, PromptFilters } from "./filters/prompts-filter";
 import { PromptListItem } from "./prompt-list-item";
 
@@ -145,7 +146,9 @@ export const PromptsList: FC = () => {
    };
 
    const promptFilters = () => {
-      if (!showFilters) return null;
+      if (!showFilters) {
+         return null;
+      }
 
       return (
          <div
@@ -159,9 +162,11 @@ export const PromptsList: FC = () => {
 
    return (
       <div className="flex flex-col h-full bg-white" data-testid="prompts-list">
-         {promptItemsHeader()}
-         {promptFilters()}
-         {promptItems()}
+         <FiltersContextProvider>
+            {promptItemsHeader()}
+            {promptFilters()}
+            {promptItems()}
+         </FiltersContextProvider>
       </div>
    );
 };
