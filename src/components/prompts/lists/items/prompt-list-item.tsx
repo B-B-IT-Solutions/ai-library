@@ -2,7 +2,7 @@
 
 import { FC } from "react";
 import { isEmpty } from "es-toolkit/compat";
-import { Clock } from "lucide-react";
+import { Clock, Star } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -18,6 +18,20 @@ export const PromptListItem: FC<PromptListItemProps> = ({ prompt }) => {
 
    const href = `/prompts/${prompt.id}`;
    const isSelected = pathname.startsWith(href);
+
+   const isFavorite = () => {
+      return (
+         <div data-testid="is-favorite">
+            <Star
+               className={`w-4 h-4 transition-all ${
+                  prompt.isFavorite
+                     ? "fill-yellow-400 text-yellow-500 scale-110"
+                     : "text-slate-400"
+               }`}
+            />
+         </div>
+      );
+   };
 
    const categories = () => {
       if (!isEmpty(prompt.categories)) {
@@ -63,6 +77,7 @@ export const PromptListItem: FC<PromptListItemProps> = ({ prompt }) => {
                      <h3 className="font-semibold text-sm text-slate-900 truncate flex-1 group-hover:text-blue-700 transition-colors">
                         {prompt.title}
                      </h3>
+                     {isFavorite()}
                   </div>
                   {categories()}
                   <div className="flex justify-end items-center gap-2.5 text-xs text-slate-500">

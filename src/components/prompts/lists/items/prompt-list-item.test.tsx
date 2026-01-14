@@ -14,7 +14,10 @@ import { PromptListItem } from "./prompt-list-item";
 
 const assertRendered = () => {
    const listItem = screen.getByTestId("prompt-list-item");
+   const isFavorite = screen.getByTestId("is-favorite");
+
    assertInDocument(listItem);
+   assertInDocument(isFavorite);
 };
 
 const assertCategoriesRendered = () => {
@@ -34,6 +37,8 @@ describe("PromptListItem rendering tests", () => {
 
    it("PromptListItem - isSelected false - rendered test", async () => {
       const prompt = dtestData.dPromptDescriptor();
+      prompt.categories = [];
+      prompt.isFavorite = false;
 
       const url = `/prompts/random-prompt-id-123`;
       const { container } = renderWithRouter(
@@ -43,7 +48,7 @@ describe("PromptListItem rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertCategoriesRendered();
+         assertCategoriesNotRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -51,7 +56,6 @@ describe("PromptListItem rendering tests", () => {
 
    it("PromptListItem - isSelected true - rendered test", async () => {
       const prompt = dtestData.dPromptDescriptor();
-      prompt.categories = [];
 
       const url = `/prompts/${prompt.id}`;
       const { container } = renderWithRouter(
@@ -60,7 +64,43 @@ describe("PromptListItem rendering tests", () => {
       );
       await waitFor(() => {
          assertRendered();
-         assertCategoriesNotRendered();
+         assertCategoriesRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("PromptListItem - categories 1 - rendered test", async () => {
+      const prompt = dtestData.dPromptDescriptor();
+      const categories = dtestData.dPromptCategories(1);
+      prompt.categories = categories;
+
+      const url = `/prompts/${prompt.id}`;
+      const { container } = renderWithRouter(
+         <PromptListItem prompt={prompt} />,
+         url
+      );
+      await waitFor(() => {
+         assertRendered();
+         assertCategoriesRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("PromptListItem - categories 2 - rendered test", async () => {
+      const prompt = dtestData.dPromptDescriptor();
+      const categories = dtestData.dPromptCategories(3);
+      prompt.categories = categories;
+
+      const url = `/prompts/${prompt.id}`;
+      const { container } = renderWithRouter(
+         <PromptListItem prompt={prompt} />,
+         url
+      );
+      await waitFor(() => {
+         assertRendered();
+         assertCategoriesRendered();
       });
 
       expect(container).toMatchSnapshot();

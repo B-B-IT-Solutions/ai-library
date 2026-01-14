@@ -23,7 +23,7 @@ export const PromptFilters: FC = () => {
 
    const filterHeader = () => {
       return (
-         <div className="flex items-center justify-end mb-4 pb-3 border-b border-slate-200">
+         <div className="flex items-center justify-end pb-1">
             <Button
                variant="ghost"
                size="sm"
@@ -41,7 +41,7 @@ export const PromptFilters: FC = () => {
 
    return (
       <div
-         className="px-6 py-4 border-b border-slate-200/80 bg-white animate-in slide-in-from-top-4 duration-200"
+         className="px-5 pt-1 pb-3 border-b border-slate-200/80 bg-white animate-in slide-in-from-top-4 duration-200"
          data-testid="prompts-filter"
       >
          {filterHeader()}
