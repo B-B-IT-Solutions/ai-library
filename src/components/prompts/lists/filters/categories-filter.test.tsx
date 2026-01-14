@@ -37,7 +37,7 @@ const renderWithContext = (
    );
 };
 
-const queryResult = (categories: string[]) => {
+const queryResult = (categories?: string[]) => {
    return { data: categories } as unknown as UseQueryResult<string[]>;
 };
 
@@ -123,18 +123,12 @@ describe("CategoriesFilter rendering tests", () => {
 describe("CategoriesFilter functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      jest.spyOn(console, "log").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
    });
 
    it("should open popover when clicking on combo box", async () => {
       const categories = ["Category 1", "Category 2", "Category 3"];
-      useLoadPromptCategoriesMock.mockReturnValue({
-         data: categories,
-      } as any);
+      const categoryOptions = queryResult(categories);
+      useLoadPromptCategoriesMock.mockReturnValue(categoryOptions);
 
       renderWithContext();
 
@@ -151,10 +145,10 @@ describe("CategoriesFilter functionality tests", () => {
 
    it("should select a category when clicked", async () => {
       const categories = ["Category 1", "Category 2", "Category 3"];
+      const categoryOptions = queryResult(categories);
+      useLoadPromptCategoriesMock.mockReturnValue(categoryOptions);
+
       const mockContext = mockFiltersContext([]);
-      useLoadPromptCategoriesMock.mockReturnValue({
-         data: categories,
-      } as any);
 
       renderWithContext(mockContext);
 
@@ -179,10 +173,9 @@ describe("CategoriesFilter functionality tests", () => {
 
    it("should deselect a category when clicked again", async () => {
       const categories = ["Category 1", "Category 2", "Category 3"];
+      const categoryOptions = queryResult(categories);
+      useLoadPromptCategoriesMock.mockReturnValue(categoryOptions);
       const mockContext = mockFiltersContext(["Category 1"]);
-      useLoadPromptCategoriesMock.mockReturnValue({
-         data: categories,
-      } as any);
 
       renderWithContext(mockContext);
 
@@ -208,10 +201,10 @@ describe("CategoriesFilter functionality tests", () => {
 
    it("should select multiple categories sequentially", async () => {
       const categories = ["Category 1", "Category 2", "Category 3"];
+      const categoryOptions = queryResult(categories);
+      useLoadPromptCategoriesMock.mockReturnValue(categoryOptions);
+
       const mockContext = mockFiltersContext(["Category 1"]);
-      useLoadPromptCategoriesMock.mockReturnValue({
-         data: categories,
-      } as any);
 
       renderWithContext(mockContext);
 
@@ -236,10 +229,10 @@ describe("CategoriesFilter functionality tests", () => {
 
    it("should show checked state for selected categories", async () => {
       const categories = ["Category 1", "Category 2", "Category 3"];
+      const categoryOptions = queryResult(categories);
+      useLoadPromptCategoriesMock.mockReturnValue(categoryOptions);
+
       const mockContext = mockFiltersContext(["Category 1", "Category 2"]);
-      useLoadPromptCategoriesMock.mockReturnValue({
-         data: categories,
-      } as any);
 
       renderWithContext(mockContext);
 
@@ -258,9 +251,8 @@ describe("CategoriesFilter functionality tests", () => {
    });
 
    it("should display empty state when no categories are available", async () => {
-      useLoadPromptCategoriesMock.mockReturnValue({
-         data: [],
-      } as any);
+      const categoryOptions = queryResult([]);
+      useLoadPromptCategoriesMock.mockReturnValue(categoryOptions);
 
       renderWithContext();
 
@@ -274,9 +266,8 @@ describe("CategoriesFilter functionality tests", () => {
    });
 
    it("should handle undefined categories data from hook", async () => {
-      useLoadPromptCategoriesMock.mockReturnValue({
-         data: undefined,
-      } as any);
+      const categoryOptions = queryResult(undefined);
+      useLoadPromptCategoriesMock.mockReturnValue(categoryOptions);
 
       const { container } = renderWithContext();
 
