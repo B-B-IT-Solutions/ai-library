@@ -4,7 +4,7 @@ import { FC } from "react";
 import { FileText } from "lucide-react";
 import { Control } from "react-hook-form";
 
-import { AutosizeTextarea } from "@/components/shadcn/autosize-textarea";
+import { TiptapEditor } from "@/components/editor/tiptap-editor";
 import {
    FormControl,
    FormField,
@@ -51,11 +51,11 @@ export const PromptContentSection: FC<PromptContentSectionProps> = ({
             render={({ field }) => (
                <FormItem>
                   <FormControl>
-                     <AutosizeTextarea
+                     <TiptapEditor
+                        value={field.value}
+                        onChange={field.onChange}
                         placeholder="Prompt-Inhalt eingeben..."
                         minHeight={200}
-                        className="font-mono text-sm"
-                        {...field}
                      />
                   </FormControl>
                   <FormMessage />

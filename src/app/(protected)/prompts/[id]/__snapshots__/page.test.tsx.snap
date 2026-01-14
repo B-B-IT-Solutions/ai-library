@@ -618,10 +618,14 @@ exports[`PromptPage rendering tests PromptPage - prompt found - rendered test 1`
                   </div>
                 </div>
               </div>
-              <pre
-                class="whitespace-pre-wrap text-sm font-mono text-slate-700 pr-10"
+              <div
+                class="text-slate-700 leading-relaxed"
                 data-testid="text"
-              />
+              >
+                <div
+                  data-testid="react-markdown-mock"
+                />
+              </div>
             </div>
           </section>
           <div

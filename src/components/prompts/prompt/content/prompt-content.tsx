@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { FileText } from "lucide-react";
 
+import { MarkdownRenderer } from "@/components/shared/markdown-renderer";
 import { DPromptDescriptor } from "@/data/types/domain/prompt";
 import { CopyPromptButton } from "../../buttons/copy-prompt-button";
 
@@ -21,12 +22,9 @@ export const PromptContent: FC<PromptContentProps> = ({ prompt }) => {
 
          <div className="group relative bg-slate-50 border border-slate-200 rounded-lg p-4">
             <CopyPromptButton prompt={prompt} size="icon-sm" />
-            <pre
-               className="whitespace-pre-wrap text-sm font-mono text-slate-700 pr-10"
-               data-testid="text"
-            >
+            <MarkdownRenderer data-testid="text">
                {prompt.content}
-            </pre>
+            </MarkdownRenderer>
          </div>
       </section>
    );
