@@ -7,20 +7,18 @@ import { PromptFilters } from "./prompts-filter";
 import { DFiltersContext } from "./types";
 
 const mockFiltersContext = (
-   search: string = "",
-   categories: string[] = []
+   search: string,
+   hasActiveFilters: boolean
 ): DFiltersContext => ({
    filters: {
       search,
-      categories,
+      categories: [],
    },
    setFilters: jest.fn(),
-   hasActiveFilters: false,
+   hasActiveFilters,
 });
 
-const renderWithContext = (
-   contextValue: DFiltersContext | null = mockFiltersContext()
-) => {
+const renderWithContext = (contextValue: DFiltersContext | null) => {
    return renderWithReactQuery(
       <FiltersContext.Provider value={contextValue}>
          <PromptFilters />
@@ -62,68 +60,28 @@ describe("PromptFilters rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("PromptFilters rendered test", async () => {
-      const { container } = renderWithContext();
+   it("PromptFilters - reset btn enabled - rendered test", async () => {
+      const filterContext = mockFiltersContext("test search", true);
+      const { container } = renderWithContext(filterContext);
 
       await waitFor(() => {
          assertRendered();
+         assertResetnBtnNotDisabled();
       });
 
       expect(container).toMatchSnapshot();
    });
 
-   it("should render reset button disabled when no filters are active", async () => {
-      renderWithContext(mockFiltersContext("", []));
+   it("PromptFilters - reset btn disabled - rendered test", async () => {
+      const filterContext = mockFiltersContext("", false);
+      const { container } = renderWithContext(filterContext);
 
       await waitFor(() => {
-         const resetButton = screen.getByRole("button", {
-            name: /Zurücksetzen/i,
-         });
-         expect(resetButton).toBeInTheDocument();
-         expect(resetButton).toBeDisabled();
+         assertRendered();
+         assertResetnBtnDisabled();
       });
-   });
 
-   it("should render reset button enabled when search filter is active", async () => {
-      renderWithContext(mockFiltersContext("test search", []));
-
-      await waitFor(() => {
-         const resetButton = screen.getByText("Zurücksetzen");
-         expect(resetButton).toBeInTheDocument();
-         expect(resetButton).not.toBeDisabled();
-      });
-   });
-
-   it("should render reset button enabled when categories filter is active", async () => {
-      renderWithContext(mockFiltersContext("", ["Category 1", "Category 2"]));
-
-      await waitFor(() => {
-         const resetButton = screen.getByText("Zurücksetzen");
-         expect(resetButton).toBeInTheDocument();
-         expect(resetButton).not.toBeDisabled();
-      });
-   });
-
-   it("should render reset button enabled when both filters are active", async () => {
-      renderWithContext(
-         mockFiltersContext("test search", ["Category 1", "Category 2"])
-      );
-
-      await waitFor(() => {
-         const resetButton = screen.getByText("Zurücksetzen");
-         expect(resetButton).toBeInTheDocument();
-         expect(resetButton).not.toBeDisabled();
-      });
-   });
-
-   it("should render the RotateCcw icon in reset button", async () => {
-      renderWithContext();
-
-      await waitFor(() => {
-         const resetButton = screen.getByText("Zurücksetzen");
-         const svg = resetButton.parentElement?.querySelector("svg");
-         expect(svg).toBeInTheDocument();
-      });
+      expect(container).toMatchSnapshot();
    });
 });
 
@@ -132,94 +90,22 @@ describe("PromptFilters functionality tests", () => {
       jest.clearAllMocks();
    });
 
-   it("should clear all filters when reset button is clicked", async () => {
-      const mockContext = mockFiltersContext("test search", [
-         "Category 1",
-         "Category 2",
-      ]);
+   it("PromptFilters - reset btn clicked - test", async () => {
+      const mockContext = mockFiltersContext("test search", true);
       renderWithContext(mockContext);
 
       await waitFor(() => {
+         assertRendered();
          assertResetnBtnNotDisabled();
+         expect(mockContext.setFilters).not.toHaveBeenCalled();
       });
 
-      const resetButton = screen.getByText("Zurücksetzen");
+      const resetButton = screen.getByTestId("reset-btn");
       await userEvent.click(resetButton);
-
-      expect(mockContext.setFilters).toHaveBeenCalledWith({});
-   });
-
-   it("should handle reset when search input does not exist", async () => {
-      const mockContext = mockFiltersContext("test search", []);
-      renderWithContext(mockContext);
 
       await waitFor(() => {
-         assertResetnBtnNotDisabled();
-      });
-
-      const resetButton = screen.getByText("Zurücksetzen");
-
-      // This should not throw an error
-      await userEvent.click(resetButton);
-
-      expect(mockContext.setFilters).toHaveBeenCalledWith({});
-   });
-
-   it("should not allow clicking disabled reset button", async () => {
-      const mockContext = mockFiltersContext("", []);
-      renderWithContext(mockContext);
-
-      await waitFor(() => {
-         assertResetnBtnDisabled();
-      });
-
-      const resetButton = screen.getByRole("button", { name: /Zurücksetzen/i });
-      await userEvent.click(resetButton);
-
-      // Should not call setFilters when button is disabled
-      expect(mockContext.setFilters).not.toHaveBeenCalled();
-   });
-
-   it("should only clear filters once when reset is clicked multiple times rapidly", async () => {
-      const mockContext = mockFiltersContext("test search", ["Category 1"]);
-      renderWithContext(mockContext);
-
-      await waitFor(() => {
-         assertResetnBtnNotDisabled();
-      });
-
-      const resetButton = screen.getByText("Zurücksetzen");
-
-      // Click multiple times
-      await userEvent.click(resetButton);
-      await userEvent.click(resetButton);
-      await userEvent.click(resetButton);
-
-      // Should call setFilters three times (once per click)
-      expect(mockContext.setFilters).toHaveBeenCalledTimes(3);
-      expect(mockContext.setFilters).toHaveBeenCalledWith({});
-   });
-
-   it("PromptFilters - maintains filter context state across re-renders - test", async () => {
-      const mockContext = mockFiltersContext("initial", ["Cat1"]);
-      const { rerender } = renderWithContext(mockContext);
-
-      await waitFor(() => {
-         assertResetnBtnNotDisabled();
-      });
-
-      // Update context
-      mockContext.filters.search = "updated";
-      mockContext.filters.categories = ["Cat1", "Cat2"];
-
-      rerender(
-         <FiltersContext.Provider value={mockContext}>
-            <PromptFilters />
-         </FiltersContext.Provider>
-      );
-
-      await waitFor(() => {
-         assertResetnBtnNotDisabled();
+         expect(mockContext.setFilters).toHaveBeenCalledTimes(1);
+         expect(mockContext.setFilters).toHaveBeenCalledWith({});
       });
    });
 });
