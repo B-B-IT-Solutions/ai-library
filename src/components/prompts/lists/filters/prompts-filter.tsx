@@ -79,26 +79,17 @@ export const PromptFilters: FC<PromptFiltersProps> = ({ onFiltersUpdate }) => {
 
    const filterHeader = () => {
       return (
-         <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-200">
-            <div>
-               <h4 className="text-sm font-bold text-slate-800">
-                  Filtern & Suchen
-               </h4>
-               <p className="text-xs text-slate-500 mt-0.5">
-                  Verfeinern Sie Ihre Prompt-Auswahl
-               </p>
-            </div>
-            {hasActiveFilters && (
-               <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={clearAllFilters}
-                  className="text-slate-600 hover:text-slate-900 hover:bg-slate-100"
-               >
-                  <RotateCcw className="w-3.5 h-3.5 mr-1.5" />
-                  <span className="text-xs font-medium">Zurücksetzen</span>
-               </Button>
-            )}
+         <div className="flex items-center justify-end mb-4 pb-3 border-b border-slate-200">
+            <Button
+               variant="ghost"
+               size="sm"
+               disabled={!hasActiveFilters}
+               onClick={clearAllFilters}
+               className="text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+            >
+               <RotateCcw className="w-3.5 h-3.5 mr-1.5" />
+               <span className="text-xs font-medium">Zurücksetzen</span>
+            </Button>
          </div>
       );
    };
@@ -106,7 +97,7 @@ export const PromptFilters: FC<PromptFiltersProps> = ({ onFiltersUpdate }) => {
    const searchInput = () => {
       return (
          <div className="space-y-2">
-            <label className="text-xs font-semibold text-slate-700 uppercase tracking-wide">
+            <label className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
                Suchbegriff
             </label>
             <div className="relative" data-testid="search-input">
@@ -207,14 +198,9 @@ export const PromptFilters: FC<PromptFiltersProps> = ({ onFiltersUpdate }) => {
    return (
       <div data-testid="prompts-filter">
          {filterHeader()}
-
-         {/* Filter Grid - Scalable for future filters */}
          <div className="flex flex-col gap-2">
             {searchInput()}
             {categoriesFilter()}
-
-            {/* Future filters can be added here */}
-            {/* Example: Date range filter, Status filter, Tags filter, etc. */}
          </div>
       </div>
    );

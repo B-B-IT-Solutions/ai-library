@@ -9,8 +9,8 @@ import { Button } from "@/components/shadcn/button";
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
 import { useInfiniteLoadPrompts } from "@/data/ts-queries/prompt";
 
+import { Filters, PromptFilters } from "./filters/prompts-filter";
 import { PromptListItem } from "./prompt-list-item";
-import { Filters, PromptFilters } from "./prompts-filter";
 
 export const PromptsList: FC = () => {
    const [filters, setFilters] = useState<Filters>({});
