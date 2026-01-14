@@ -2,20 +2,29 @@ jest.mock("sonner");
 
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, dtestData, renderWithRouter } from "@tests";
+import {
+   assertInDocument,
+   assertNotInDocument,
+   dtestData,
+   renderWithRouter,
+} from "@tests";
 import mockRouter from "next-router-mock";
-import { toast } from "sonner";
 
 import { PromptListItem } from "./prompt-list-item";
 
-const toastMock = toast as jest.MockedFunction<typeof toast>;
-
 const assertRendered = () => {
    const listItem = screen.getByTestId("prompt-list-item");
-   const toggleFavoriteBtn = screen.getByTestId("toggle-favorite-btn");
-
    assertInDocument(listItem);
-   assertInDocument(toggleFavoriteBtn);
+};
+
+const assertCategoriesRendered = () => {
+   const categories = screen.getByTestId("categories");
+   assertInDocument(categories);
+};
+
+const assertCategoriesNotRendered = () => {
+   const categories = screen.queryByTestId("categories");
+   assertNotInDocument(categories);
 };
 
 describe("PromptListItem rendering tests", () => {
@@ -25,7 +34,6 @@ describe("PromptListItem rendering tests", () => {
 
    it("PromptListItem - isSelected false - rendered test", async () => {
       const prompt = dtestData.dPromptDescriptor();
-      prompt.isFavorite = true;
 
       const url = `/prompts/random-prompt-id-123`;
       const { container } = renderWithRouter(
@@ -35,6 +43,7 @@ describe("PromptListItem rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertCategoriesRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -42,7 +51,7 @@ describe("PromptListItem rendering tests", () => {
 
    it("PromptListItem - isSelected true - rendered test", async () => {
       const prompt = dtestData.dPromptDescriptor();
-      prompt.isFavorite = false;
+      prompt.categories = [];
 
       const url = `/prompts/${prompt.id}`;
       const { container } = renderWithRouter(
@@ -51,6 +60,7 @@ describe("PromptListItem rendering tests", () => {
       );
       await waitFor(() => {
          assertRendered();
+         assertCategoriesNotRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -78,26 +88,6 @@ describe("PromptListItem functionality tests", () => {
 
       await waitFor(() => {
          expect(mockRouter.pathname).toEqual(`/prompts/${prompt.id}`);
-      });
-   });
-
-   it("PromptListItem - addTofavorite toggled - test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
-
-      renderWithRouter(<PromptListItem prompt={prompt} />);
-
-      await waitFor(() => {
-         assertRendered();
-         expect(toastMock).not.toHaveBeenCalled();
-      });
-
-      const toggleFavoriteBtn = screen.getByTestId("toggle-favorite-btn");
-      userEvent.click(toggleFavoriteBtn);
-
-      await waitFor(() => {
-         assertRendered();
-         expect(toastMock).toHaveBeenCalledTimes(1);
-         expect(toastMock).toHaveBeenCalledWith("Prompt added to favorite");
       });
    });
 });
