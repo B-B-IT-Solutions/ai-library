@@ -2,6 +2,11 @@ import { createContext, FC, ReactNode, useState } from "react";
 
 import { DFilters, DFiltersContext } from "./types";
 
+export const initFilters: DFilters = {
+   search: "",
+   categories: [],
+};
+
 export const FiltersContext = createContext<DFiltersContext | null>(null);
 
 type FiltersContextProviderProps = {
@@ -11,11 +16,6 @@ type FiltersContextProviderProps = {
 export const FiltersContextProvider: FC<FiltersContextProviderProps> = ({
    children,
 }) => {
-   const initFilters: DFilters = {
-      search: "",
-      categories: [],
-   };
-
    const [filters, setFilters] = useState(initFilters);
 
    const context: DFiltersContext = {
@@ -23,9 +23,11 @@ export const FiltersContextProvider: FC<FiltersContextProviderProps> = ({
       setFilters,
    };
 
+   console.log("categories", filters.categories);
+
    return (
       <FiltersContext.Provider value={context}>
-         {children}
+         <div key={filters.categories.length}> {children}</div>
       </FiltersContext.Provider>
    );
 };
