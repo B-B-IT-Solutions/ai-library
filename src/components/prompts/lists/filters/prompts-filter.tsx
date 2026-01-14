@@ -22,6 +22,8 @@ type PromptFiltersProps = {
 export const PromptFilters: FC<PromptFiltersProps> = ({ onFiltersUpdate }) => {
    const filtersContext = useContext(FiltersContext);
 
+   console.log("PromptFilters", filtersContext);
+
    const [search, setSearch] = useState<string>("");
    const [categories, setCategories] = useState<string[]>([]);
 

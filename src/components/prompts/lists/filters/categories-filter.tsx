@@ -26,7 +26,7 @@ import {
    PopoverTrigger,
 } from "@/components/shadcn/popover";
 import { useLoadPromptCategories } from "@/data/ts-queries/prompt";
-import { cn } from "@/lib/utils";
+import { cn, toTestId } from "@/lib/utils";
 
 import { FiltersContext } from "./context";
 
@@ -63,6 +63,7 @@ export const CategoriesFilter: FC = () => {
             key={cat}
             variant="secondary"
             className="flex items-center gap-1.5 bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 border border-blue-200 hover:bg-blue-100 px-2.5 py-1"
+            data-testid={`selected-category-${toTestId(cat)}`}
          >
             <span className="font-medium">{cat}</span>
             <X
@@ -82,7 +83,10 @@ export const CategoriesFilter: FC = () => {
             )}
          >
             {isEmpty(categories) && (
-               <span className="text-slate-400 text-sm">
+               <span
+                  className="text-slate-400 text-sm"
+                  data-testid="no-selected-category"
+               >
                   Kategorien auswählen...
                </span>
             )}
@@ -98,6 +102,7 @@ export const CategoriesFilter: FC = () => {
             key={idx}
             onSelect={() => toggleCategory(cat)}
             className="flex items-center gap-3 px-3 py-2.5 cursor-pointer hover:bg-slate-50"
+            data-testid="category-option"
          >
             <div
                className={cn(
@@ -119,7 +124,7 @@ export const CategoriesFilter: FC = () => {
    const renderCategoryOptions = () => {
       return (
          <Command>
-            <CommandList>
+            <CommandList data-testid="category-options">
                <CommandEmpty className="py-6 text-sm text-slate-500">
                   Keine Kategorien gefunden.
                </CommandEmpty>
@@ -135,11 +140,14 @@ export const CategoriesFilter: FC = () => {
 
    return (
       <div className="space-y-2" data-testid="categories-filter">
-         <label className="text-xs font-semibold text-slate-700 uppercase tracking-wide">
+         <label
+            className="text-xs font-semibold text-slate-700 uppercase tracking-wide"
+            data-testid="filter-label"
+         >
             Kategorien
          </label>
          <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild={true} data-testid="categories-combo-box">
+            <PopoverTrigger asChild={true} data-testid="popover-trigger">
                {renderSelectedCategories()}
             </PopoverTrigger>
             <PopoverContent className="w-72 p-0 shadow-lg border-slate-200">
