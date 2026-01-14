@@ -41,6 +41,16 @@ const assertListItemsRendered = () => {
    expect(listItem.length).toBeGreaterThan(0);
 };
 
+const assertListItemsEmptyRendered = () => {
+   const itemsEmpty = screen.getByTestId("prompt-list-items-empty");
+   const listItems = screen.queryByTestId("prompts-list-items");
+   const listItem = screen.queryByTestId("prompt-list-item");
+
+   assertInDocument(itemsEmpty);
+   assertNotInDocument(listItems);
+   assertNotInDocument(listItem);
+};
+
 const assertFiltersRendered = () => {
    const filters = screen.getByTestId("prompts-filter");
    assertInDocument(filters);
@@ -94,6 +104,24 @@ describe("PromptsList rendering tests", () => {
 
       expect(container).toMatchSnapshot();
    });
+
+   it("PromptsList - list items empty - rendered test", async () => {
+      const page = dtestData.dPromptDescriptorsPage();
+      page.content = [];
+      page.numberOfElements = 0;
+      page.totalElements = 0;
+      getPromptsMock.mockResolvedValue(page);
+
+      const { container } = renderWithReactQuery(<PromptsList />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertFiltersNotRendered();
+         assertListItemsEmptyRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
 });
 
 describe("PromptsList functionality tests", () => {
@@ -101,7 +129,44 @@ describe("PromptsList functionality tests", () => {
       jest.clearAllMocks();
    });
 
-   it("PromptsList - add btn clicked - test", async () => {
+   it("PromptsList - active filters - test", async () => {
+      const page = dtestData.dPromptDescriptorsPage();
+      const categories = ["category 1", "category 2", "category 3"];
+      getPromptsMock.mockResolvedValue(page);
+      getPromptCategoriesMock.mockResolvedValue(categories);
+
+      renderWithReactQuery(<PromptsList />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertFiltersNotRendered();
+         expect(getPromptsMock).toHaveBeenCalledTimes(1);
+      });
+
+      const filtersBtn = screen.getByTestId("filters-btn");
+      await userEvent.click(filtersBtn);
+
+      await waitFor(() => {
+         assertFiltersRendered();
+      });
+
+      const searchText = "test search 1";
+      const input = screen.getByTestId("search-input");
+      await userEvent.type(input, searchText);
+
+      const options = { timeout: 1000 };
+      await waitFor(() => {
+         const text = screen.getByDisplayValue(searchText);
+         assertInDocument(text);
+      }, options);
+
+      await userEvent.click(filtersBtn);
+      await waitFor(() => {
+         assertFiltersNotRendered();
+      });
+   });
+
+   it("PromptsList - create prompt btn clicked - test", async () => {
       const page = dtestData.dPromptDescriptorsPage();
       getPromptsMock.mockResolvedValue(page);
 

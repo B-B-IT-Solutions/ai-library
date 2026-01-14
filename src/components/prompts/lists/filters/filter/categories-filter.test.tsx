@@ -91,10 +91,6 @@ describe("CategoriesFilter rendering tests", () => {
 
       const { container } = renderWithContext(null);
 
-      await waitFor(() => {
-         // expect(useLoadPromptCategoriesMock).toHaveBeenCalledWith(1);
-      });
-
       expect(container.firstChild).toBeNull();
       expect(container).toMatchSnapshot();
    });

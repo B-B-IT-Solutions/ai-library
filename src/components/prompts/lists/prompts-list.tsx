@@ -46,6 +46,7 @@ export const PromptsList: FC = () => {
    });
 
    const count = sum(map(pages, (p) => p.numberOfElements));
+   const hasPrompts = pages.some((page) => page.content.length > 0);
 
    const filtersBtn = () => {
       const styles = showFilters
@@ -117,8 +118,6 @@ export const PromptsList: FC = () => {
    };
 
    const promptItems = () => {
-      const hasPrompts = pages.some((page) => page.content.length > 0);
-
       if (!hasPrompts) {
          return <EmptyPromptListItems />;
       }
