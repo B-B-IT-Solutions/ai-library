@@ -75,6 +75,11 @@ const assertOptionsCategories = (optionCategories: string[]) => {
    });
 };
 
+const assertCategoryOptionsEmpty = () => {
+   const optionsEmpty = screen.getByTestId("category-options-empty");
+   assertInDocument(optionsEmpty);
+};
+
 describe("CategoriesFilter rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -103,6 +108,26 @@ describe("CategoriesFilter rendering tests", () => {
       await waitFor(() => {
          const filter = screen.getByTestId("categories-filter");
          expect(filter).toBeInTheDocument();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("CategoriesFilter - category options empty - test", async () => {
+      const categoryOptions = queryResult([]);
+      useLoadPromptCategoriesMock.mockReturnValue(categoryOptions);
+
+      const { container } = renderWithContext();
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      const comboBox = screen.getByTestId("popover-trigger");
+      await userEvent.click(comboBox);
+
+      await waitFor(() => {
+         assertCategoryOptionsEmpty();
       });
 
       expect(container).toMatchSnapshot();
@@ -167,8 +192,9 @@ describe("CategoriesFilter functionality tests", () => {
          assertOptionsCategories(categories);
       });
 
+      const selectedOption = categories[0];
       const option = screen.getByTestId(
-         `category-option-${toTestId(categories[0])}`
+         `category-option-${toTestId(selectedOption)}`
       );
       await userEvent.click(option);
 
@@ -222,13 +248,56 @@ describe("CategoriesFilter functionality tests", () => {
       });
    });
 
-   it("should select multiple categories sequentially", async () => {
+   it("CategoriesFilter - multiple category options selected - test", async () => {
       const categories = ["Category 1", "Category 2", "Category 3"];
       const categoryOptions = queryResult(categories);
       useLoadPromptCategoriesMock.mockReturnValue(categoryOptions);
 
       const mockContext = mockFiltersContext(["Category 1"]);
+      renderWithContext(mockContext);
 
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      const popover = screen.getByTestId("popover-trigger");
+      await userEvent.click(popover);
+
+      await waitFor(() => {
+         assertOptionsCategories(categories);
+      });
+
+      const selectedOption = categories[1];
+
+      const option = screen.getByTestId(
+         `category-option-${toTestId(selectedOption)}`
+      );
+      await userEvent.click(option);
+
+      const expectedFiltersPayload: DFilters = {
+         search: "",
+         categories: ["Category 1", "Category 2"],
+      };
+      await waitFor(() => {
+         expect(mockContext.setFilters).toHaveBeenCalledTimes(1);
+         expect(mockContext.setFilters).toHaveBeenCalledWith(
+            expectedFiltersPayload
+         );
+      });
+   });
+
+   it("CategoriesFilter - multiple category option unselected - test", async () => {
+      const categories = ["Category 1", "Category 2", "Category 3"];
+      const categoryOptions = queryResult(categories);
+      useLoadPromptCategoriesMock.mockReturnValue(categoryOptions);
+
+      const selectedOption1 = categories[0];
+      const selectedOption2 = categories[1];
+
+      const mockContext = mockFiltersContext([
+         selectedOption1,
+         selectedOption2,
+      ]);
       renderWithContext(mockContext);
 
       await waitFor(() => {
@@ -239,37 +308,23 @@ describe("CategoriesFilter functionality tests", () => {
       await userEvent.click(comboBox);
 
       await waitFor(() => {
-         const option = screen.getAllByText("Category 2");
-         expect(option.length).toBeGreaterThan(0);
+         assertOptionsCategories(categories);
       });
 
-      const option = screen.getAllByText("Category 2")[0];
+      const option = screen.getByTestId(
+         `category-option-${toTestId(selectedOption2)}`
+      );
       await userEvent.click(option);
 
+      const expectedFiltersPayload: DFilters = {
+         search: "",
+         categories: [selectedOption1],
+      };
       await waitFor(() => {
-         expect(mockContext.setFilters).toHaveBeenCalledWith({
-            search: "",
-            categories: ["Category 1", "Category 2"],
-         });
-      });
-   });
-
-   it("should display empty state when no categories are available", async () => {
-      const categoryOptions = queryResult([]);
-      useLoadPromptCategoriesMock.mockReturnValue(categoryOptions);
-
-      renderWithContext();
-
-      await waitFor(() => {
-         assertRendered();
-      });
-
-      const comboBox = screen.getByTestId("popover-trigger");
-      await userEvent.click(comboBox);
-
-      await waitFor(() => {
-         const emptyMessage = screen.getByText("Keine Kategorien gefunden.");
-         expect(emptyMessage).toBeInTheDocument();
+         expect(mockContext.setFilters).toHaveBeenCalledTimes(1);
+         expect(mockContext.setFilters).toHaveBeenCalledWith(
+            expectedFiltersPayload
+         );
       });
    });
 });

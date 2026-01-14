@@ -125,7 +125,10 @@ export const CategoriesFilter: FC = () => {
       return (
          <Command>
             <CommandList data-testid="category-options">
-               <CommandEmpty className="py-6 text-sm text-slate-500">
+               <CommandEmpty
+                  className="py-6 text-sm text-slate-500"
+                  data-testid="category-options-empty"
+               >
                   Keine Kategorien gefunden.
                </CommandEmpty>
                <CommandGroup>
