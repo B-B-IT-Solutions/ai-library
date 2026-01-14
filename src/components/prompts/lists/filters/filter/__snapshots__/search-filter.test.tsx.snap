@@ -1,8 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`SearchFilter rendering tests SearchFilter - filtersContext null - test 1`] = `<div />`;
-
-exports[`SearchFilter rendering tests SearchFilter rendered tests 1`] = `
+exports[`SearchFilter rendering tests SearchFilter - default value defined - rendered tests 1`] = `
 <div>
   <div
     class="space-y-2"
@@ -46,8 +44,62 @@ exports[`SearchFilter rendering tests SearchFilter rendered tests 1`] = `
         id="search-prompts"
         placeholder="Nach Titel suchen..."
         type="text"
+        value="search 1"
       />
     </div>
   </div>
 </div>
 `;
+
+exports[`SearchFilter rendering tests SearchFilter - default value empty - rendered tests 1`] = `
+<div>
+  <div
+    class="space-y-2"
+    data-testid="search-filter"
+  >
+    <label
+      class="text-sm font-semibold text-slate-700 uppercase tracking-wide"
+      data-testid="filter-label"
+    >
+      Suchbegriff
+    </label>
+    <div
+      class="relative"
+    >
+      <svg
+        aria-hidden="true"
+        class="lucide lucide-search absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
+        fill="none"
+        height="24"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="m21 21-4.34-4.34"
+        />
+        <circle
+          cx="11"
+          cy="11"
+          r="8"
+        />
+      </svg>
+      <input
+        class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 h-9 min-w-0 px-3 outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive w-full pl-10 pr-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-lg text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-400 focus:bg-white transition-all shadow-sm"
+        data-slot="input"
+        data-testid="search-input"
+        id="search-prompts"
+        placeholder="Nach Titel suchen..."
+        type="text"
+        value=""
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SearchFilter rendering tests SearchFilter - filtersContext null - test 1`] = `<div />`;

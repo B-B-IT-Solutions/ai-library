@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useContext, useState } from "react";
+import { FC, useState } from "react";
 import { map, sum } from "es-toolkit/compat";
 import { FileText, Filter, Loader2, Plus } from "lucide-react";
 import Link from "next/link";
@@ -9,23 +9,19 @@ import { Button } from "@/components/shadcn/button";
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
 import { useInfiniteLoadPrompts } from "@/data/ts-queries/prompt";
 
-import {
-   FiltersContext,
-   FiltersContextProvider,
-   initFilters,
-} from "./filters/context";
+import { FiltersContext, initFilters } from "./filters/context";
 import { PromptFilters } from "./filters/prompts-filter";
+import { DFiltersContext } from "./filters/types";
 import { PromptListItem } from "./prompt-list-item";
 
 export const PromptsList: FC = () => {
    const [showFilters, setShowFilters] = useState<boolean>(false);
+   const [filters, setFilters] = useState(initFilters);
 
-   const filtersContext = useContext(FiltersContext);
-   console.log("filtersContext", filtersContext);
-
-   const { filters } = filtersContext || { filters: initFilters };
-
-   console.log(filters);
+   const fitlerContext: DFiltersContext = {
+      filters,
+      setFilters,
+   };
 
    const {
       data: { pages = [] } = {},
@@ -33,8 +29,7 @@ export const PromptsList: FC = () => {
       hasNextPage,
       isFetchingNextPage,
    } = useInfiniteLoadPrompts({
-      search: filters.search,
-      categories: filters.categories,
+      ...filters,
    });
 
    const count = sum(map(pages, (p) => p.numberOfElements));
@@ -104,7 +99,7 @@ export const PromptsList: FC = () => {
             className="px-6 py-4 border-b border-slate-200/80 bg-white animate-in slide-in-from-top-4 duration-200"
             data-testid="prompts-filter-container"
          >
-            <PromptFilters onFiltersUpdate={() => {}} />
+            <PromptFilters />
          </div>
       );
    };
@@ -172,11 +167,11 @@ export const PromptsList: FC = () => {
 
    return (
       <div className="flex flex-col h-full bg-white" data-testid="prompts-list">
-         <FiltersContextProvider>
+         <FiltersContext.Provider value={fitlerContext}>
             {promptItemsHeader()}
             {promptFilters()}
             {promptItems()}
-         </FiltersContextProvider>
+         </FiltersContext.Provider>
       </div>
    );
 };

@@ -16,9 +16,7 @@ const mockFiltersContext = (search: string = ""): DFiltersContext => ({
    setFilters: jest.fn(),
 });
 
-const renderWithContext = (
-   contextValue: DFiltersContext | null = mockFiltersContext()
-) => {
+const renderWithContext = (contextValue: DFiltersContext | null) => {
    return render(
       <FiltersContext.Provider value={contextValue}>
          <SearchFilter />
@@ -50,8 +48,20 @@ describe("SearchFilter rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("SearchFilter rendered tests", async () => {
-      const { container } = renderWithContext();
+   it("SearchFilter - default value empty - rendered tests", async () => {
+      const mockContext = mockFiltersContext("");
+      const { container } = renderWithContext(mockContext);
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("SearchFilter - default value defined - rendered tests", async () => {
+      const mockContext = mockFiltersContext("search 1");
+      const { container } = renderWithContext(mockContext);
 
       await waitFor(() => {
          assertRendered();

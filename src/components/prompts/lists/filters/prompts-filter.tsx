@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useContext, useState } from "react";
+import { FC, useContext } from "react";
 import { RotateCcw } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
@@ -12,14 +12,14 @@ import { SearchFilter } from "./filter/search-filter";
 export const PromptFilters: FC = () => {
    const filtersContext = useContext(FiltersContext);
 
-   console.log("PromptFilters", filtersContext?.filters);
-
-   const [search, setSearch] = useState<string>("");
-   const [categories, setCategories] = useState<string[]>([]);
+   if (!filtersContext) {
+      return null;
+   }
+   const { filters, setFilters } = filtersContext;
+   const { search, categories = [] } = filters;
 
    const clearAllFilters = () => {
-      setSearch("");
-      setCategories([]);
+      setFilters({});
       // Reset search input
       const searchInput = document.getElementById(
          "search-prompts"
