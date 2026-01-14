@@ -12,8 +12,9 @@ import {
 import mockRouter from "next-router-mock";
 
 import { getPromptCategories, getPrompts } from "@/data/actions/prompt";
+import { DPromptDescriptorsFilter } from "@/data/types/domain/prompt";
 
-import { PromptsList } from "./prompts-list";
+import { calculateFiltersCount, PromptsList } from "./prompts-list";
 
 const getPromptCategoriesMock = getPromptCategories as jest.MockedFunction<
    typeof getPromptCategories
@@ -59,6 +60,16 @@ const assertFiltersRendered = () => {
 const assertFiltersNotRendered = () => {
    const filters = screen.queryByTestId("prompts-filter");
    assertNotInDocument(filters);
+};
+
+const assertFiltersCountRendered = () => {
+   const count = screen.getByTestId("filters-count-badge");
+   assertInDocument(count);
+};
+
+const assertFiltersCountNotRendered = () => {
+   const count = screen.queryByTestId("filters-count-badge");
+   assertNotInDocument(count);
 };
 
 describe("PromptsList rendering tests", () => {
@@ -129,7 +140,31 @@ describe("PromptsList functionality tests", () => {
       jest.clearAllMocks();
    });
 
-   it("PromptsList - active filters - test", async () => {
+   it("PromptsList - calculateFiltersCount - test", async () => {
+      const filters1: DPromptDescriptorsFilter = {};
+      const result1 = calculateFiltersCount(filters1);
+      expect(result1).toEqual(0);
+
+      const filters2: DPromptDescriptorsFilter = { search: "", categories: [] };
+      const result2 = calculateFiltersCount(filters2);
+      expect(result2).toEqual(0);
+
+      const filters3: DPromptDescriptorsFilter = {
+         search: "t",
+         categories: [],
+      };
+      const result3 = calculateFiltersCount(filters3);
+      expect(result3).toEqual(1);
+
+      const filters4: DPromptDescriptorsFilter = {
+         search: "t",
+         categories: ["Category 1"],
+      };
+      const result4 = calculateFiltersCount(filters4);
+      expect(result4).toEqual(2);
+   });
+
+   it("PromptsList - active filters - badge displayed when filters closed - test", async () => {
       const page = dtestData.dPromptDescriptorsPage();
       const categories = ["category 1", "category 2", "category 3"];
       getPromptsMock.mockResolvedValue(page);
@@ -158,11 +193,13 @@ describe("PromptsList functionality tests", () => {
       await waitFor(() => {
          const text = screen.getByDisplayValue(searchText);
          assertInDocument(text);
+         assertFiltersCountNotRendered();
       }, options);
 
       await userEvent.click(filtersBtn);
       await waitFor(() => {
          assertFiltersNotRendered();
+         assertFiltersCountRendered();
       });
    });
 

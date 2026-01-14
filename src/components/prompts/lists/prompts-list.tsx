@@ -8,6 +8,7 @@ import Link from "next/link";
 import { Button } from "@/components/shadcn/button";
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
 import { useInfiniteLoadPrompts } from "@/data/ts-queries/prompt";
+import { DPromptDescriptorsFilter } from "@/data/types/domain/prompt";
 import { cn } from "@/lib/utils";
 
 import { FiltersContext, initFilters } from "./filters/context";
@@ -16,18 +17,18 @@ import { DFiltersContext } from "./filters/types";
 import { PromptListItem } from "./items/prompt-list-item";
 import { EmptyPromptListItems } from "./items/prompt-list-items-empty";
 
+export const calculateFiltersCount = (filters: DPromptDescriptorsFilter) => {
+   let count = 0;
+   count += filters.search ? 1 : 0;
+   count += !isEmpty(filters.categories) ? 1 : 0;
+   return count;
+};
+
 export const PromptsList: FC = () => {
    const [showFilters, setShowFilters] = useState<boolean>(false);
    const [filters, setFilters] = useState(initFilters);
 
-   const calculateFiltersCount = () => {
-      let count = 0;
-      count += filters.search ? 1 : 0;
-      count += !isEmpty(filters.categories) ? 1 : 0;
-      return count;
-   };
-
-   const activeFilterCount = calculateFiltersCount();
+   const activeFilterCount = calculateFiltersCount(filters);
    const hasActiveFilters = activeFilterCount > 0;
 
    const fitlerContext: DFiltersContext = {
@@ -64,7 +65,10 @@ export const PromptsList: FC = () => {
             <Filter className="w-4 h-4 mr-2" />
             <span className="text-sm font-medium">Filter</span>
             {hasActiveFilters && !showFilters && (
-               <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-md">
+               <span
+                  className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-md"
+                  data-testid="filters-count-badge"
+               >
                   {activeFilterCount}
                </span>
             )}
