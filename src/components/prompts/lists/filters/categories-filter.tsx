@@ -102,7 +102,7 @@ export const CategoriesFilter: FC = () => {
             key={idx}
             onSelect={() => toggleCategory(cat)}
             className="flex items-center gap-3 px-3 py-2.5 cursor-pointer hover:bg-slate-50"
-            data-testid="category-option"
+            data-testid={`category-option-${toTestId(cat)}`}
          >
             <div
                className={cn(

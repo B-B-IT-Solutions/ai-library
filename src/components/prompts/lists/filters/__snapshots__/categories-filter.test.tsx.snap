@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`CategoriesFilter functionality tests should handle undefined categories data from hook 1`] = `
+exports[`CategoriesFilter rendering tests CategoriesFilter - categories not selected - test 1`] = `
 <div>
   <div
     class="space-y-2"
@@ -13,7 +13,7 @@ exports[`CategoriesFilter functionality tests should handle undefined categories
       Kategorien
     </label>
     <div
-      aria-controls="radix-_r_25_"
+      aria-controls="radix-_r_6_"
       aria-expanded="false"
       aria-haspopup="dialog"
       class="w-full min-h-[42px] cursor-pointer rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white hover:border-slate-300 px-3 py-2 flex items-center flex-wrap gap-2 transition-all shadow-sm"
@@ -68,7 +68,7 @@ exports[`CategoriesFilter functionality tests should handle undefined categories
               data-side="bottom"
               data-slot="popover-content"
               data-state="closed"
-              id="radix-_r_25_"
+              id="radix-_r_6_"
               role="dialog"
               style="--radix-popover-content-transform-origin: var(--radix-popper-transform-origin); --radix-popover-content-available-width: var(--radix-popper-available-width); --radix-popover-content-available-height: var(--radix-popper-available-height); --radix-popover-trigger-width: var(--radix-popper-anchor-width); --radix-popover-trigger-height: var(--radix-popper-anchor-height);"
               tabindex="-1"
@@ -81,8 +81,8 @@ exports[`CategoriesFilter functionality tests should handle undefined categories
               >
                 <label
                   cmdk-label=""
-                  for="radix-_r_28_"
-                  id="radix-_r_27_"
+                  for="radix-_r_9_"
+                  id="radix-_r_8_"
                   style="position: absolute; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border-width: 0px;"
                 />
                 <div
@@ -91,21 +91,13 @@ exports[`CategoriesFilter functionality tests should handle undefined categories
                   cmdk-list=""
                   data-slot="command-list"
                   data-testid="category-options"
-                  id="radix-_r_26_"
+                  id="radix-_r_7_"
                   role="listbox"
                   tabindex="-1"
                 >
                   <div
                     cmdk-list-sizer=""
                   >
-                    <div
-                      class="py-6 text-sm text-slate-500"
-                      cmdk-empty=""
-                      data-slot="command-empty"
-                      role="presentation"
-                    >
-                      Keine Kategorien gefunden.
-                    </div>
                     <div
                       class="text-foreground [&_[cmdk-group-heading]]:text-muted-foreground overflow-hidden p-1 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium"
                       cmdk-group=""
@@ -116,7 +108,74 @@ exports[`CategoriesFilter functionality tests should handle undefined categories
                       <div
                         cmdk-group-items=""
                         role="group"
-                      />
+                      >
+                        <div
+                          aria-disabled="false"
+                          aria-selected="true"
+                          class="data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative rounded-sm text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 flex items-center gap-3 px-3 py-2.5 cursor-pointer hover:bg-slate-50"
+                          cmdk-item=""
+                          data-disabled="false"
+                          data-selected="true"
+                          data-slot="command-item"
+                          data-testid="category-option-category-1"
+                          data-value="Category 1"
+                          id="radix-_r_c_"
+                          role="option"
+                        >
+                          <div
+                            class="h-4 w-4 rounded border-2 transition-all flex items-center justify-center border-slate-300"
+                          />
+                          <span
+                            class="text-sm font-medium text-slate-700"
+                          >
+                            Category 1
+                          </span>
+                        </div>
+                        <div
+                          aria-disabled="false"
+                          aria-selected="false"
+                          class="data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative rounded-sm text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 flex items-center gap-3 px-3 py-2.5 cursor-pointer hover:bg-slate-50"
+                          cmdk-item=""
+                          data-disabled="false"
+                          data-selected="false"
+                          data-slot="command-item"
+                          data-testid="category-option-category-2"
+                          data-value="Category 2"
+                          id="radix-_r_d_"
+                          role="option"
+                        >
+                          <div
+                            class="h-4 w-4 rounded border-2 transition-all flex items-center justify-center border-slate-300"
+                          />
+                          <span
+                            class="text-sm font-medium text-slate-700"
+                          >
+                            Category 2
+                          </span>
+                        </div>
+                        <div
+                          aria-disabled="false"
+                          aria-selected="false"
+                          class="data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative rounded-sm text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 flex items-center gap-3 px-3 py-2.5 cursor-pointer hover:bg-slate-50"
+                          cmdk-item=""
+                          data-disabled="false"
+                          data-selected="false"
+                          data-slot="command-item"
+                          data-testid="category-option-category-3"
+                          data-value="Category 3"
+                          id="radix-_r_e_"
+                          role="option"
+                        >
+                          <div
+                            class="h-4 w-4 rounded border-2 transition-all flex items-center justify-center border-slate-300"
+                          />
+                          <span
+                            class="text-sm font-medium text-slate-700"
+                          >
+                            Category 3
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -143,7 +202,7 @@ exports[`CategoriesFilter rendering tests CategoriesFilter - categories selected
       Kategorien
     </label>
     <div
-      aria-controls="radix-_r_9_"
+      aria-controls="radix-_r_f_"
       aria-expanded="false"
       aria-haspopup="dialog"
       class="w-full min-h-[42px] cursor-pointer rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white hover:border-slate-300 px-3 py-2 flex items-center flex-wrap gap-2 transition-all shadow-sm"
@@ -254,7 +313,7 @@ exports[`CategoriesFilter rendering tests CategoriesFilter - categories selected
               data-side="bottom"
               data-slot="popover-content"
               data-state="closed"
-              id="radix-_r_9_"
+              id="radix-_r_f_"
               role="dialog"
               style="--radix-popover-content-transform-origin: var(--radix-popper-transform-origin); --radix-popover-content-available-width: var(--radix-popper-available-width); --radix-popover-content-available-height: var(--radix-popper-available-height); --radix-popover-trigger-width: var(--radix-popper-anchor-width); --radix-popover-trigger-height: var(--radix-popper-anchor-height);"
               tabindex="-1"
@@ -267,8 +326,8 @@ exports[`CategoriesFilter rendering tests CategoriesFilter - categories selected
               >
                 <label
                   cmdk-label=""
-                  for="radix-_r_c_"
-                  id="radix-_r_b_"
+                  for="radix-_r_i_"
+                  id="radix-_r_h_"
                   style="position: absolute; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border-width: 0px;"
                 />
                 <div
@@ -277,7 +336,7 @@ exports[`CategoriesFilter rendering tests CategoriesFilter - categories selected
                   cmdk-list=""
                   data-slot="command-list"
                   data-testid="category-options"
-                  id="radix-_r_a_"
+                  id="radix-_r_g_"
                   role="listbox"
                   tabindex="-1"
                 >
@@ -303,9 +362,9 @@ exports[`CategoriesFilter rendering tests CategoriesFilter - categories selected
                           data-disabled="false"
                           data-selected="true"
                           data-slot="command-item"
-                          data-testid="category-option"
+                          data-testid="category-option-category-1"
                           data-value="Category 1"
-                          id="radix-_r_f_"
+                          id="radix-_r_l_"
                           role="option"
                         >
                           <div
@@ -329,9 +388,9 @@ exports[`CategoriesFilter rendering tests CategoriesFilter - categories selected
                           data-disabled="false"
                           data-selected="false"
                           data-slot="command-item"
-                          data-testid="category-option"
+                          data-testid="category-option-category-2"
                           data-value="Category 2"
-                          id="radix-_r_g_"
+                          id="radix-_r_m_"
                           role="option"
                         >
                           <div
@@ -355,9 +414,9 @@ exports[`CategoriesFilter rendering tests CategoriesFilter - categories selected
                           data-disabled="false"
                           data-selected="false"
                           data-slot="command-item"
-                          data-testid="category-option"
+                          data-testid="category-option-category-3"
                           data-value="Category 3"
-                          id="radix-_r_h_"
+                          id="radix-_r_n_"
                           role="option"
                         >
                           <div
@@ -383,7 +442,7 @@ exports[`CategoriesFilter rendering tests CategoriesFilter - categories selected
 </div>
 `;
 
-exports[`CategoriesFilter rendering tests CategoriesFilter - category not selected - test 1`] = `
+exports[`CategoriesFilter rendering tests CategoriesFilter - category options undefined - test 1`] = `
 <div>
   <div
     class="space-y-2"
@@ -482,6 +541,14 @@ exports[`CategoriesFilter rendering tests CategoriesFilter - category not select
                     cmdk-list-sizer=""
                   >
                     <div
+                      class="py-6 text-sm text-slate-500"
+                      cmdk-empty=""
+                      data-slot="command-empty"
+                      role="presentation"
+                    >
+                      Keine Kategorien gefunden.
+                    </div>
+                    <div
                       class="text-foreground [&_[cmdk-group-heading]]:text-muted-foreground overflow-hidden p-1 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium"
                       cmdk-group=""
                       data-slot="command-group"
@@ -491,74 +558,7 @@ exports[`CategoriesFilter rendering tests CategoriesFilter - category not select
                       <div
                         cmdk-group-items=""
                         role="group"
-                      >
-                        <div
-                          aria-disabled="false"
-                          aria-selected="true"
-                          class="data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative rounded-sm text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 flex items-center gap-3 px-3 py-2.5 cursor-pointer hover:bg-slate-50"
-                          cmdk-item=""
-                          data-disabled="false"
-                          data-selected="true"
-                          data-slot="command-item"
-                          data-testid="category-option"
-                          data-value="Category 1"
-                          id="radix-_r_6_"
-                          role="option"
-                        >
-                          <div
-                            class="h-4 w-4 rounded border-2 transition-all flex items-center justify-center border-slate-300"
-                          />
-                          <span
-                            class="text-sm font-medium text-slate-700"
-                          >
-                            Category 1
-                          </span>
-                        </div>
-                        <div
-                          aria-disabled="false"
-                          aria-selected="false"
-                          class="data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative rounded-sm text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 flex items-center gap-3 px-3 py-2.5 cursor-pointer hover:bg-slate-50"
-                          cmdk-item=""
-                          data-disabled="false"
-                          data-selected="false"
-                          data-slot="command-item"
-                          data-testid="category-option"
-                          data-value="Category 2"
-                          id="radix-_r_7_"
-                          role="option"
-                        >
-                          <div
-                            class="h-4 w-4 rounded border-2 transition-all flex items-center justify-center border-slate-300"
-                          />
-                          <span
-                            class="text-sm font-medium text-slate-700"
-                          >
-                            Category 2
-                          </span>
-                        </div>
-                        <div
-                          aria-disabled="false"
-                          aria-selected="false"
-                          class="data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative rounded-sm text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 flex items-center gap-3 px-3 py-2.5 cursor-pointer hover:bg-slate-50"
-                          cmdk-item=""
-                          data-disabled="false"
-                          data-selected="false"
-                          data-slot="command-item"
-                          data-testid="category-option"
-                          data-value="Category 3"
-                          id="radix-_r_8_"
-                          role="option"
-                        >
-                          <div
-                            class="h-4 w-4 rounded border-2 transition-all flex items-center justify-center border-slate-300"
-                          />
-                          <span
-                            class="text-sm font-medium text-slate-700"
-                          >
-                            Category 3
-                          </span>
-                        </div>
-                      </div>
+                      />
                     </div>
                   </div>
                 </div>
