@@ -26,7 +26,6 @@ export const PromptsList: FC = () => {
    };
 
    const activeFilterCount = calculateFiltersCount();
-
    const hasActiveFilters = activeFilterCount > 0;
 
    const fitlerContext: DFiltersContext = {

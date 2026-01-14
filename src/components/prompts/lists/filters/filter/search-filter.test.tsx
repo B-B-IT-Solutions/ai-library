@@ -12,7 +12,7 @@ import { DFiltersContext } from "../types";
 
 import { SearchFilter } from "./search-filter";
 
-const mockFiltersContext = (search: string = ""): DFiltersContext => ({
+const mockFiltersContext = (search?: string): DFiltersContext => ({
    filters: {
       search,
       categories: ["Category 1", "Category 2"],
@@ -214,5 +214,23 @@ describe("SearchFilter functionality tests", () => {
          assertRendered();
          assertInputValue(null);
       });
+   });
+
+   it("SearchFilter - search undefined - html input element null - test", async () => {
+      const originalGetElementById = document.getElementById;
+      const mockGetElementById = jest.fn(() => null);
+      document.getElementById = mockGetElementById;
+
+      const mockContext = mockFiltersContext(undefined);
+      const { container } = renderWithContext(mockContext);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(mockGetElementById).toHaveBeenCalledTimes(1);
+         expect(mockGetElementById).toHaveBeenCalledWith("search-prompts");
+      });
+
+      expect(container.firstChild).not.toBeNull();
+      document.getElementById = originalGetElementById;
    });
 });
