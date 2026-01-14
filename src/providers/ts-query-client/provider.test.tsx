@@ -2,9 +2,9 @@ import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import { assertInDocument } from "@tests";
 
-import * as queryClient from "@/providers/get-query-client";
+import * as queryClient from "@/providers/ts-query-client/get-query-client";
 
-import { TsQueryClientProvider } from "./query-client-provider";
+import { TsQueryClientProvider } from "./provider";
 
 const assertRendered = () => {
    const test1 = screen.getByTestId("test-1");
