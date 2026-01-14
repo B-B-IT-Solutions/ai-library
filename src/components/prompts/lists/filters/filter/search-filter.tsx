@@ -21,7 +21,7 @@ export const SearchFilter: FC = () => {
    if (isUndefined(search)) {
       const input = document.getElementById(
          "search-prompts"
-      ) as HTMLInputElement;
+      ) as HTMLInputElement | null;
 
       if (input) {
          input.value = "";
