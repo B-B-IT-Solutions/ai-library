@@ -27,8 +27,7 @@ import {
 } from "@/components/shadcn/popover";
 import { useLoadPromptCategories } from "@/data/ts-queries/prompt";
 import { cn, toTestId } from "@/lib/utils";
-
-import { FiltersContext } from "./context";
+import { FiltersContext } from "../context";
 
 export const CategoriesFilter: FC = () => {
    const [open, setOpen] = useState(false);

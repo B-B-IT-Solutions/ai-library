@@ -8,10 +8,10 @@ import { forEach } from "es-toolkit/compat";
 
 import { useLoadPromptCategories } from "@/data/ts-queries/prompt";
 import { toTestId } from "@/lib/utils";
+import { FiltersContext } from "../context";
+import { DFilters, DFiltersContext } from "../types";
 
 import { CategoriesFilter } from "./categories-filter";
-import { FiltersContext } from "./context";
-import { DFilters, DFiltersContext } from "./types";
 
 const useLoadPromptCategoriesMock =
    useLoadPromptCategories as jest.MockedFunction<

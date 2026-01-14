@@ -7,8 +7,9 @@ import { RotateCcw, Search, X } from "lucide-react";
 import { Button } from "@/components/shadcn/button";
 import { Input } from "@/components/shadcn/input";
 
-import { CategoriesFilter } from "./categories-filter";
 import { FiltersContext } from "./context";
+import { CategoriesFilter } from "./filter/categories-filter";
+import { SearchFilter } from "./filter/search-filter";
 
 export type Filters = {
    search?: string;
@@ -22,7 +23,7 @@ type PromptFiltersProps = {
 export const PromptFilters: FC<PromptFiltersProps> = ({ onFiltersUpdate }) => {
    const filtersContext = useContext(FiltersContext);
 
-   console.log("PromptFilters", filtersContext);
+   console.log("PromptFilters", filtersContext?.filters);
 
    const [search, setSearch] = useState<string>("");
    const [categories, setCategories] = useState<string[]>([]);
@@ -86,7 +87,7 @@ export const PromptFilters: FC<PromptFiltersProps> = ({ onFiltersUpdate }) => {
       <div data-testid="prompts-filter">
          {filterHeader()}
          <div className="flex flex-col gap-2">
-            {searchInput()}
+            <SearchFilter />
             <CategoriesFilter />
          </div>
       </div>

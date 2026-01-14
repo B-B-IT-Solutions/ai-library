@@ -2,8 +2,11 @@
 
 exports[`FiltersContextProvider rendering tests FiltersContextProvider rendered test 1`] = `
 <div>
-  <div
-    data-testid="test-1"
-  />
+  <div>
+     
+    <div
+      data-testid="test-1"
+    />
+  </div>
 </div>
 `;
