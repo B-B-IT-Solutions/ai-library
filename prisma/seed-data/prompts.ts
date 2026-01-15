@@ -1,9 +1,6 @@
 import { map } from "es-toolkit/compat";
 
-import {
-   PromptDescriptorCreateInput,
-   PromptTemplateDescriptorCreateInput,
-} from "@/generated/prisma/models";
+import { PromptDescriptorCreateInput } from "@/generated/prisma/models";
 
 const promptCategories = (categories: string[]) => {
    return map(categories, (cat: string) => {
@@ -19,6 +16,24 @@ const promptCategories = (categories: string[]) => {
 };
 
 export const promptsData: PromptDescriptorCreateInput[] = [
+   {
+      title: "Vision Notes - Produktbeschreibung",
+      content:
+         "Du bist ein Verkauf-Experte. Ich habe ein Prompt App entwickelt, die erm\u00F6glicht den Nutzers ihre eigene Prompt Bibliothek erstellen und verwalten. Die App hat 3 Hauptbestandteile.\r\n\r\n1. KI Prompt Builder\r\n2. KI Prompt Bibliothek\r\n3. KI Prompt Vorlagen\r\n\r\nIch brauche f\u00FCr jeden Teil einen Namen und eine kurze knackige Produktbeschreibung (ein Satz), wie sie in der Megamenuliste der App erschienen soll. Der Name und die Beschreibung soll Interesse wecken und den Mehrwert vermitteln.\\\r\n\\\r\nWichtig meine App ist auf Deutsch und zielt auf DACH Region ab.",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptCategories(["reddit"]),
+      },
+   },
+   {
+      title: "Universeller Prompt zur Erstellung einer Landing Page",
+      content:
+         "Erstelle eine vollst\u00E4ndig ausgearbeitete Landing Page f\u00FCr folgendes Angebot:\r\n\r\n- Name des Produkts: Prompt Studio\r\n- Beschreibung des Produkts: Entwickle hochwertige KI-Prompts mit System \u2013 von der Idee bis zur perfekten Ausf\u00FChrung\r\n\r\nVerwende eine moderne, klare und \u00FCberzeugende Schreibweise.\r\n\r\nStruktur der Landing Page:\r\n\r\n- Hero-Sektion mit starkem Haupt-Claim, Subheadline und CTA.\r\n- Problem- &gt; L\u00F6sung-Logik: Beschreibe das Problem der Zielgruppe und wie das Angebot es l\u00F6st.\r\n- Feature-Highlights: Liste die wichtigsten Funktionen/Benefits klar strukturiert auf.\r\n- Social Proof: Testimonials, Trust-Elemente oder G\u00FCtesiegel einf\u00FCgen (falls keine vorhanden, generiere realistische Beispiele).\r\n- Detailbeschreibung des Angebots inkl. Value Proposition.\r\n- FAQ-Bereich mit typischen Kundenfragen.\r\n- Abschlie\u00DFender CTA mit Dringlichkeit/Mehrwert.\r\n\r\nTonality & Style: \u2013 Professionell, vertrauensw\u00FCrdig, inspirierend \u2013 Klar, ohne Fachjargon \u2013 Conversion-optimiert\r\n\r\nSEO: \u2013 Verwende relevante Keywords \u2013 Nutze sprechende Zwischen\u00FCberschriften \u2013 F\u00FCge Meta Title & Meta Description hinzu\r\n\r\nOutput: \u2013 Saubere, formatierte Struktur.  Vermeide Aufz\u00E4hlungen. Jede Feature und andere Beschreibunge sollen ein Uberschirft, Unterschift und kurze Ekl\u00E4rung erhalten.",
+      recommendedModel: "GPT-5",
+      categories: {
+         connectOrCreate: promptCategories(["reddit"]),
+      },
+   },
    {
       title: "SEO Blogartikel Erfassung",
       content:
