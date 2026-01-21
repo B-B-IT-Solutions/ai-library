@@ -74,7 +74,10 @@ export const TiptapEditor: FC<TiptapEditorProps> = ({
    }
 
    return (
-      <div className="border border-slate-200 rounded-lg overflow-hidden bg-white">
+      <div
+         className="border border-slate-200 rounded-lg overflow-hidden bg-white"
+         data-testid="tiptap-editor"
+      >
          <Toolbar editor={editor} />
          <EditorContent editor={editor} />
       </div>
