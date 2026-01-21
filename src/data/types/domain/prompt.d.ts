@@ -54,3 +54,12 @@ export interface DPromptDescriptorsFilter extends Filter {
    categories?: string[];
    isFavorite?: boolean;
 }
+
+export type PromptFormValues = {
+   id?: string;
+   title: string;
+   content: string;
+   categories: string[];
+   recommendedModel: string;
+   followUpPrompts: string[];
+};

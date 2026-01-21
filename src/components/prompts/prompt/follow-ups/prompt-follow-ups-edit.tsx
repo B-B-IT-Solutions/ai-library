@@ -6,17 +6,9 @@ import { MessageSquarePlus, Plus } from "lucide-react";
 import { Control, FieldArrayWithId } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
+import { PromptFormValues } from "@/data/types/domain/prompt";
 
 import { FollowUpPromptEdit } from "./prompt-follow-up-edit";
-
-export type PromptFormValues = {
-   id?: string;
-   title: string;
-   content: string;
-   categories: string[];
-   recommendedModel: string;
-   followUpPrompts: string[];
-};
 
 type FollowUpPromptsEditProps = {
    control: Control<PromptFormValues>;

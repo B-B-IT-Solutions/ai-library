@@ -2,16 +2,9 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { assertInDocument, assertNotInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { PromptContentEdit } from "./prompt-content-edit";
+import { PromptFormValues } from "@/data/types/domain/prompt";
 
-type PromptFormValues = {
-   id?: string;
-   title: string;
-   content: string;
-   categories: string[];
-   recommendedModel: string;
-   followUpPrompts: string[];
-};
+import { PromptContentEdit } from "./prompt-content-edit";
 
 const TestWrapper = ({ isEdit = false }: { isEdit?: boolean }) => {
    const methods = useForm<PromptFormValues>({

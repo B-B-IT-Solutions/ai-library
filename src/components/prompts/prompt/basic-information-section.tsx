@@ -27,6 +27,7 @@ import {
    PopoverContent,
    PopoverTrigger,
 } from "@/components/shadcn/popover";
+import { PromptFormValues } from "@/data/types/domain/prompt";
 
 const AI_MODELS = [
    "Claude Sonnet 4.5",
@@ -39,15 +40,6 @@ const AI_MODELS = [
    "Llama 3",
    "Mistral Large",
 ];
-
-type PromptFormValues = {
-   id?: string;
-   title: string;
-   content: string;
-   categories: string[];
-   recommendedModel: string;
-   followUpPrompts: string[];
-};
 
 type BasicInformationSectionProps = {
    control: Control<PromptFormValues>;

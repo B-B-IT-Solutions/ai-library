@@ -3,8 +3,9 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
+import { PromptFormValues } from "@/data/types/domain/prompt";
+
 import { FollowUpPromptEdit } from "./prompt-follow-up-edit";
-import { PromptFormValues } from "./prompt-follow-ups-edit";
 
 const TestWrapper = ({
    index = 0,

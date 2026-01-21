@@ -11,15 +11,7 @@ import {
    FormMessage,
 } from "@/components/shadcn/form";
 import { MDEditor } from "@/components/shared/md";
-
-type PromptFormValues = {
-   id?: string;
-   title: string;
-   content: string;
-   categories: string[];
-   recommendedModel: string;
-   followUpPrompts: string[];
-};
+import { PromptFormValues } from "@/data/types/domain/prompt";
 
 type PromptContentEditProps = {
    control: Control<PromptFormValues>;
