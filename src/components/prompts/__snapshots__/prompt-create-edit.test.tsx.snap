@@ -696,9 +696,11 @@ exports[`PromptManager rendering tests PromptManager rendered test 1`] = `
               >
                 <div
                   class="border border-slate-200 rounded-lg overflow-hidden bg-white"
+                  data-testid="tiptap-editor"
                 >
                   <div
                     class="flex flex-wrap gap-1 p-2 border-b border-slate-200 bg-slate-50"
+                    data-testid="toolbar"
                   >
                     <button
                       class="p-2 rounded hover:bg-slate-100 transition-colors text-slate-700"
@@ -1204,23 +1206,10 @@ exports[`PromptManager rendering tests PromptManager rendered test 1`] = `
                       </svg>
                     </button>
                   </div>
-                  <div>
-                    <div
-                      class="tiptap ProseMirror prose prose-sm max-w-none focus:outline-none px-4 py-3"
-                      contenteditable="true"
-                      style="min-height: 200px;"
-                      tabindex="0"
-                      translate="no"
-                    >
-                      <p
-                        class="is-empty is-editor-empty"
-                        data-placeholder="Prompt-Inhalt eingeben..."
-                      >
-                        <br
-                          class="ProseMirror-trailingBreak"
-                        />
-                      </p>
-                    </div>
+                  <div
+                    data-testid="editor-content"
+                  >
+                    Editor Content
                   </div>
                 </div>
               </div>

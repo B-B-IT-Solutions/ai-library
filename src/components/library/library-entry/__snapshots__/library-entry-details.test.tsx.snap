@@ -81,7 +81,7 @@ exports[`LibraryEntryDetails rendering tests LibraryEntryDetails - categories em
             </h2>
             <div
               class="text-slate-700 leading-relaxed"
-              data-testid="markdown-renderer"
+              data-testid="react-md"
             >
               <div
                 data-testid="react-markdown-mock"
@@ -100,7 +100,7 @@ exports[`LibraryEntryDetails rendering tests LibraryEntryDetails - categories em
             </h2>
             <div
               class="text-slate-700 leading-relaxed"
-              data-testid="markdown-renderer"
+              data-testid="react-md"
             >
               <div
                 data-testid="react-markdown-mock"
@@ -365,7 +365,7 @@ exports[`LibraryEntryDetails rendering tests LibraryEntryDetails - with categori
             </h2>
             <div
               class="text-slate-700 leading-relaxed"
-              data-testid="markdown-renderer"
+              data-testid="react-md"
             >
               <div
                 data-testid="react-markdown-mock"
@@ -384,7 +384,7 @@ exports[`LibraryEntryDetails rendering tests LibraryEntryDetails - with categori
             </h2>
             <div
               class="text-slate-700 leading-relaxed"
-              data-testid="markdown-renderer"
+              data-testid="react-md"
             >
               <div
                 data-testid="react-markdown-mock"

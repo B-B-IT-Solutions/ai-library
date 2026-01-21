@@ -171,7 +171,7 @@ describe("TiptapEditor functionality tests", () => {
    });
 
    it("TiptapEditor - onChange called when editor updates - test", async () => {
-      const editor = new Editor("Updated content");
+      const editor = new Editor({ content: "Updated content" });
       mockUseEditor.mockReturnValue(editor);
 
       const onChangeFn = jest.fn();

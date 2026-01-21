@@ -1,5 +1,5 @@
-// Re-export types from the actual @tiptap/react package
 export type { UseEditorOptions } from "@tiptap/react";
+import * as tiptap from "@tiptap/react";
 
 export class Editor {
    public storage: any;
@@ -8,10 +8,10 @@ export class Editor {
    public chain: jest.Mock;
    private _chainMethods: any;
 
-   constructor(content: string = "") {
+   constructor(options: Partial<tiptap.EditorOptions> = {}) {
       this.storage = {
          markdown: {
-            getMarkdown: jest.fn(() => content),
+            getMarkdown: jest.fn(() => options.content || ""),
          },
       };
 
@@ -43,10 +43,6 @@ export class Editor {
       this.isActive = jest.fn(() => false);
    }
 }
-
-export const createMockEditor = (content: string = "") => {
-   return new Editor(content);
-};
 
 export const useEditor = jest.fn().mockReturnValue(new Editor());
 
