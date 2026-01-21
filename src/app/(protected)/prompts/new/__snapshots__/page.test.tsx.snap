@@ -96,6 +96,7 @@ exports[`CreatePromptPage rendering tests CreatePromptPage - prompt found -rende
                 >
                   <section
                     class="space-y-4"
+                    data-testid="basic-info-edit"
                   >
                     <h3
                       class="text-lg font-semibold text-slate-900 flex items-center gap-2"
@@ -131,6 +132,7 @@ exports[`CreatePromptPage rendering tests CreatePromptPage - prompt found -rende
                     <div
                       class="grid gap-2"
                       data-slot="form-item"
+                      data-testid="title"
                     >
                       <label
                         class="flex items-center gap-2 select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive text-sm font-medium text-slate-700"
@@ -154,6 +156,7 @@ exports[`CreatePromptPage rendering tests CreatePromptPage - prompt found -rende
                     <div
                       class="gap-2 flex flex-col"
                       data-slot="form-item"
+                      data-testid="recommended-model"
                     >
                       <label
                         class="select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive text-sm font-medium text-slate-700 flex items-center gap-1.5"
@@ -172,6 +175,7 @@ exports[`CreatePromptPage rendering tests CreatePromptPage - prompt found -rende
                         class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full justify-between font-normal"
                         data-slot="popover-trigger"
                         data-state="closed"
+                        data-testid="recommended-model-trigger-btn"
                         id="_r_1_-form-item"
                         role="combobox"
                         type="button"
@@ -270,6 +274,7 @@ exports[`CreatePromptPage rendering tests CreatePromptPage - prompt found -rende
                                       class="placeholder:text-muted-foreground flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
                                       cmdk-input=""
                                       data-slot="command-input"
+                                      data-testid="model-input"
                                       id="radix-_r_5_"
                                       placeholder="Modell suchen oder eingeben..."
                                       role="combobox"
@@ -593,6 +598,7 @@ exports[`CreatePromptPage rendering tests CreatePromptPage - prompt found -rende
                     </div>
                     <div
                       class="space-y-2"
+                      data-testid="categories"
                     >
                       <label
                         class="select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive text-sm font-medium text-slate-700 flex items-center gap-1.5"
@@ -617,6 +623,7 @@ exports[`CreatePromptPage rendering tests CreatePromptPage - prompt found -rende
                           <button
                             class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
                             data-slot="button"
+                            data-testid="remove-category-btn-0"
                             type="button"
                           >
                             <svg
@@ -648,6 +655,7 @@ exports[`CreatePromptPage rendering tests CreatePromptPage - prompt found -rende
                         <button
                           class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
                           data-slot="button"
+                          data-testid="add-category-btn"
                           type="button"
                         >
                           <svg

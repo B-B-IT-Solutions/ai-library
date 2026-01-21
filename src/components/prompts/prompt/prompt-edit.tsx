@@ -165,7 +165,6 @@ export const PromptEdit: FC<PromptEditProps> = ({
 
                   <Separator />
 
-                  {/* Prompt Content Section */}
                   <PromptContentEdit
                      control={form.control}
                      isEdit={isEditMode}
@@ -173,7 +172,6 @@ export const PromptEdit: FC<PromptEditProps> = ({
 
                   <Separator />
 
-                  {/* Follow-up Prompts Section */}
                   <PromptFollowUpsEdit
                      control={form.control}
                      followUpPrompts={followUpPrompts}
@@ -183,7 +181,6 @@ export const PromptEdit: FC<PromptEditProps> = ({
 
                   <Separator />
 
-                  {/* Form Actions */}
                   <div className="flex items-center justify-end gap-3 pt-2">
                      <Button
                         type="button"
