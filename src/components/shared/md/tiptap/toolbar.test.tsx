@@ -6,23 +6,29 @@ import { isObject } from "es-toolkit/compat";
 
 import { Toolbar } from "./toolbar";
 
-const createMockEditor = (activeStates: Record<string, boolean> = {}) => {
-   const editor = new Editor();
+class CustomMockEditor extends Editor {
+   private activeStates: Record<string, boolean>;
 
-   // Override isActive to handle activeStates
-   editor.isActive = jest.fn((format: string | object, params?: any) => {
-      if (params) {
-         const key = `${format as string}-${JSON.stringify(params)}`;
-         return activeStates[key] || false;
-      }
+   constructor(activeStates: Record<string, boolean> = {}) {
+      super();
+      this.activeStates = activeStates;
+   }
+
+   isActive = jest.fn((format: string | object, params?: any) => {
       if (isObject(format)) {
          const key = JSON.stringify(format);
-         return activeStates[key] || false;
+         return this.activeStates[key] || false;
       }
-      return activeStates[format as string] || false;
+      if (params) {
+         const key = `${format as string}-${JSON.stringify(params)}`;
+         return this.activeStates[key] || false;
+      }
+      return this.activeStates[format as string] || false;
    });
+}
 
-   return editor;
+const createMockEditor = (activeStates: Record<string, boolean> = {}) => {
+   return new CustomMockEditor(activeStates);
 };
 
 const assertRendered = () => {
