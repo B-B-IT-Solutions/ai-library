@@ -38,7 +38,10 @@ export const PromptContentEdit: FC<PromptContentEditProps> = ({
                Prompt
             </h3>
             {isEdit && (
-               <p className="text-sm text-slate-500 mt-1">
+               <p
+                  className="text-sm text-slate-500 mt-1"
+                  data-testid="version-notice"
+               >
                   Verwenden Sie &quot;Als neue Version speichern&quot; um einen
                   Versions-Snapshot zu erstellen.
                </p>

@@ -1,4 +1,4 @@
-export type { UseEditorOptions } from "@tiptap/react";
+export { type UseEditorOptions } from "@tiptap/react";
 import * as tiptap from "@tiptap/react";
 
 export class Editor {
