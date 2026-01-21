@@ -12,7 +12,6 @@ type PromptCreateEditProps = {
 };
 
 export const PromptCreateEdit: FC<PromptCreateEditProps> = ({ prompt }) => {
-   const [isEditing, setIsEditing] = useState(false);
    const [template, setTemplate] = useState<
       DPromptTemplateDescriptor | undefined
    >();

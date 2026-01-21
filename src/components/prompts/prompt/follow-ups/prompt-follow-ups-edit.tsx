@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useEffect } from "react";
-import { isEmpty, map } from "es-toolkit/compat";
+import { map } from "es-toolkit/compat";
 import { MessageSquarePlus, Plus } from "lucide-react";
 import { Control, FieldArrayWithId } from "react-hook-form";
 
@@ -34,13 +34,6 @@ export const FollowUpPromptsEdit: FC<FollowUpPromptsEditProps> = ({
    }, [followUpPrompts.length, addFollowUpPrompt]);
 
    const prompts = () => {
-      if (isEmpty(followUpPrompts)) {
-         return (
-            <p className="text-sm text-slate-500 italic">
-               Noch keine Folge-Prompts hinzugefügt.
-            </p>
-         );
-      }
       return (
          <div className="space-y-4">
             {map(followUpPrompts, (_, idx) => (
@@ -63,6 +56,7 @@ export const FollowUpPromptsEdit: FC<FollowUpPromptsEditProps> = ({
                variant="outline"
                size="sm"
                onClick={() => addFollowUpPrompt("")}
+               data-testid="add-btn"
             >
                <Plus className="h-4 w-4" />
                Hinzufügen
@@ -79,7 +73,7 @@ export const FollowUpPromptsEdit: FC<FollowUpPromptsEditProps> = ({
                Folge-Prompts
             </h3>
             <p className="text-sm text-slate-500 mt-1">
-               Vorgeschlagene Folgefragen, die Benutzer stellen könnten.
+               Vorgeschlagene Prompts, die du als nächste stellen könntest.
             </p>
          </div>
          {prompts()}
