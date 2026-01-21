@@ -4,13 +4,13 @@ import { FC } from "react";
 import { FileText } from "lucide-react";
 import { Control } from "react-hook-form";
 
-import { TiptapEditor } from "@/components/editor/tiptap-editor";
 import {
    FormControl,
    FormField,
    FormItem,
    FormMessage,
 } from "@/components/shadcn/form";
+import { MDEditor } from "@/components/shared/md";
 
 type PromptFormValues = {
    id?: string;
@@ -51,7 +51,7 @@ export const PromptContentSection: FC<PromptContentSectionProps> = ({
             render={({ field }) => (
                <FormItem>
                   <FormControl>
-                     <TiptapEditor
+                     <MDEditor
                         value={field.value}
                         onChange={field.onChange}
                         placeholder="Prompt-Inhalt eingeben..."

@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`MarkdownRenderer rendering tests MarkdownRenderer - classnem defined - rendered test 1`] = `
+<div>
+  <div
+    class="flex-1"
+    data-testid="markdown-renderer"
+  >
+    <div
+      data-testid="react-markdown-mock"
+    >
+       text 1
+    </div>
+  </div>
+</div>
+`;
+
+exports[`MarkdownRenderer rendering tests MarkdownRenderer - classnem undefined - rendered test 1`] = `
+<div>
+  <div
+    class="text-slate-700 leading-relaxed"
+    data-testid="markdown-renderer"
+  >
+    <div
+      data-testid="react-markdown-mock"
+    >
+       text 1
+    </div>
+  </div>
+</div>
+`;
