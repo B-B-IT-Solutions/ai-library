@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { assertInDocument, dtestData } from "@tests";
 
-import { PromptFollowUp } from "./prompt-follow-up";
+import { PromptFollowUp } from "./prompt-follow-up-view";
 
 const assertRendered = () => {
    const followUp = screen.getByTestId("prompt-follow-up");

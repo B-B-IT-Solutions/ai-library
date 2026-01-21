@@ -4,7 +4,7 @@ import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 
 import { DPromptDescriptor } from "@/data/types/domain/prompt";
 
-import { PromptFollowUps } from "./prompt-follow-ups";
+import { PromptFollowUps } from "./prompt-follow-ups-view";
 
 const assertRendered = () => {
    const followUps = screen.getByTestId("prompt-follow-ups");

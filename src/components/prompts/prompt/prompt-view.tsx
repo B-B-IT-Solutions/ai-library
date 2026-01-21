@@ -26,7 +26,7 @@ import {
 } from "../buttons";
 
 import { PromptContent } from "./content/prompt-content-view";
-import { PromptFollowUps } from "./follow-ups/prompt-follow-ups";
+import { PromptFollowUps } from "./follow-ups/prompt-follow-ups-view";
 import { PromptVersions } from "./versions/prompt-versions";
 
 type PromptViewProps = {
