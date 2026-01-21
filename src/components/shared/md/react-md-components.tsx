@@ -1,14 +1,6 @@
 import type { Components } from "react-markdown";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 
-type MarkdownRendererProps = {
-   children: string;
-   className?: string;
-   "data-testid"?: string;
-};
-
-const components: Components = {
+export const components: Components = {
    ul: ({ children }) => (
       <ul className="list-disc list-inside space-y-1 my-2">{children}</ul>
    ),
@@ -22,10 +14,10 @@ const components: Components = {
          align === "center"
             ? "text-center"
             : align === "right"
-            ? "text-right"
-            : align === "left"
-            ? "text-left"
-            : "";
+              ? "text-right"
+              : align === "left"
+                ? "text-left"
+                : "";
       return <p className={`my-2 ${textAlignClass}`}>{children}</p>;
    },
    h1: ({ children, node }) => {
@@ -34,10 +26,10 @@ const components: Components = {
          align === "center"
             ? "text-center"
             : align === "right"
-            ? "text-right"
-            : align === "left"
-            ? "text-left"
-            : "";
+              ? "text-right"
+              : align === "left"
+                ? "text-left"
+                : "";
       return (
          <h1 className={`text-2xl font-bold my-3 ${textAlignClass}`}>
             {children}
@@ -50,10 +42,10 @@ const components: Components = {
          align === "center"
             ? "text-center"
             : align === "right"
-            ? "text-right"
-            : align === "left"
-            ? "text-left"
-            : "";
+              ? "text-right"
+              : align === "left"
+                ? "text-left"
+                : "";
       return (
          <h2 className={`text-xl font-bold my-2 ${textAlignClass}`}>
             {children}
@@ -66,10 +58,10 @@ const components: Components = {
          align === "center"
             ? "text-center"
             : align === "right"
-            ? "text-right"
-            : align === "left"
-            ? "text-left"
-            : "";
+              ? "text-right"
+              : align === "left"
+                ? "text-left"
+                : "";
       return (
          <h3 className={`text-lg font-bold my-2 ${textAlignClass}`}>
             {children}
@@ -105,17 +97,3 @@ const components: Components = {
    hr: () => <hr className="my-4 border-slate-300" />,
    br: () => <br />,
 };
-
-export function MarkdownRenderer({
-   children,
-   className = "text-slate-700 leading-relaxed",
-   "data-testid": testid = "markdown-renderer",
-}: MarkdownRendererProps) {
-   return (
-      <div className={className} data-testid={testid}>
-         <ReactMarkdown components={components} remarkPlugins={[remarkGfm]}>
-            {children}
-         </ReactMarkdown>
-      </div>
-   );
-}
