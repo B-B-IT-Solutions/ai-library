@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`ToolbarButton rendering tests ToolbarButton - renders in active state 1`] = `
+<div>
+  <button
+    class="p-2 rounded hover:bg-slate-100 transition-colors bg-slate-200 text-blue-600"
+    title="Active Button"
+    type="button"
+  >
+    <span
+      data-testid="mock-icon"
+    >
+      Icon
+    </span>
+  </button>
+</div>
+`;
+
+exports[`ToolbarButton rendering tests ToolbarButton - renders in inactive state 1`] = `
+<div>
+  <button
+    class="p-2 rounded hover:bg-slate-100 transition-colors text-slate-700"
+    title="Inactive Button"
+    type="button"
+  >
+    <span
+      data-testid="mock-icon"
+    >
+      Icon
+    </span>
+  </button>
+</div>
+`;
+
+exports[`ToolbarButton rendering tests ToolbarButton - renders with basic props 1`] = `
+<div>
+  <button
+    class="p-2 rounded hover:bg-slate-100 transition-colors text-slate-700"
+    title="Test Button"
+    type="button"
+  >
+    <span
+      data-testid="mock-icon"
+    >
+      Icon
+    </span>
+  </button>
+</div>
+`;

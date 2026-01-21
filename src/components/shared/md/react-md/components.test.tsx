@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 
-import { components } from "./react-md-components";
+import { components } from "./components";
 
 describe("List components rendering tests", () => {
    it("ul - renders unordered list with correct classes", () => {

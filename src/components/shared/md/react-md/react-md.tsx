@@ -2,7 +2,7 @@ import { FC } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-import { components } from "./react-md-components";
+import { components } from "./components";
 
 type ReactMdProps = {
    children: string;
