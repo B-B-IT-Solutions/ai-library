@@ -11,22 +11,22 @@ import { FormControl, FormField, FormItem } from "@/components/shadcn/form";
 import { PromptFormValues } from "./follow-up-prompts-edit";
 
 type FollowUpPromptEditProps = {
+   index: number;
    control: Control<PromptFormValues>;
-   idx: number;
    removeFollowUpPrompt: (index: number) => void;
 };
 
 export const FollowUpPromptEdit: FC<FollowUpPromptEditProps> = ({
+   index,
    control,
-   idx,
    removeFollowUpPrompt,
 }) => {
    return (
       <FormField
          control={control}
-         name={`followUpPrompts.${idx}`}
+         name={`followUpPrompts.${index}`}
          render={({ field }) => (
-            <FormItem>
+            <FormItem data-testid="follow-up-prompt-edit">
                <div className="flex gap-2 items-start">
                   <FormControl>
                      <AutosizeTextarea
@@ -40,7 +40,7 @@ export const FollowUpPromptEdit: FC<FollowUpPromptEditProps> = ({
                      type="button"
                      variant="outline"
                      size="icon"
-                     onClick={() => removeFollowUpPrompt(idx)}
+                     onClick={() => removeFollowUpPrompt(index)}
                      className="shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
                   >
                      <X className="h-4 w-4" />

@@ -1,13 +1,13 @@
 "use client";
 
 import { FC, useEffect } from "react";
-import { map } from "es-toolkit/compat";
-import { MessageSquarePlus, Plus, X } from "lucide-react";
+import { isEmpty, map } from "es-toolkit/compat";
+import { MessageSquarePlus, Plus } from "lucide-react";
 import { Control, FieldArrayWithId } from "react-hook-form";
 
-import { AutosizeTextarea } from "@/components/shadcn/autosize-textarea";
 import { Button } from "@/components/shadcn/button";
-import { FormControl, FormField, FormItem } from "@/components/shadcn/form";
+
+import { FollowUpPromptEdit } from "./follow-up-prompt-edit";
 
 export type PromptFormValues = {
    id?: string;
@@ -41,57 +41,30 @@ export const FollowUpPromptsEdit: FC<FollowUpPromptsEditProps> = ({
       }
    }, [followUpPrompts.length, addFollowUpPrompt]);
 
-   return (
-      <section className="space-y-4">
-         <div>
-            <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
-               <MessageSquarePlus className="h-5 w-5 text-indigo-600" />
-               Folge-Prompts
-            </h3>
-            <p className="text-sm text-slate-500 mt-1">
-               Vorgeschlagene Folgefragen, die Benutzer stellen könnten.
-            </p>
-         </div>
-
-         {followUpPrompts.length > 0 ? (
-            <div className="space-y-4">
-               {map(followUpPrompts, (field, idx) => (
-                  <FormField
-                     key={field.id}
-                     control={control}
-                     name={`followUpPrompts.${idx}`}
-                     render={({ field }) => (
-                        <FormItem>
-                           <div className="flex gap-2 items-start">
-                              <FormControl>
-                                 <AutosizeTextarea
-                                    placeholder="Folge-Prompt eingeben"
-                                    className="flex-1"
-                                    minHeight={60}
-                                    {...field}
-                                 />
-                              </FormControl>
-                              <Button
-                                 type="button"
-                                 variant="outline"
-                                 size="icon"
-                                 onClick={() => removeFollowUpPrompt(idx)}
-                                 className="shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
-                              >
-                                 <X className="h-4 w-4" />
-                              </Button>
-                           </div>
-                        </FormItem>
-                     )}
-                  />
-               ))}
-            </div>
-         ) : (
+   const prompts = () => {
+      if (isEmpty(followUpPrompts)) {
+         return (
             <p className="text-sm text-slate-500 italic">
                Noch keine Folge-Prompts hinzugefügt.
             </p>
-         )}
+         );
+      }
+      return (
+         <div className="space-y-4">
+            {map(followUpPrompts, (_, idx) => (
+               <FollowUpPromptEdit
+                  key={idx}
+                  control={control}
+                  index={idx}
+                  removeFollowUpPrompt={removeFollowUpPrompt}
+               />
+            ))}
+         </div>
+      );
+   };
 
+   const addBtn = () => {
+      return (
          <div className="flex justify-end">
             <Button
                type="button"
@@ -103,6 +76,22 @@ export const FollowUpPromptsEdit: FC<FollowUpPromptsEditProps> = ({
                Hinzufügen
             </Button>
          </div>
+      );
+   };
+
+   return (
+      <section className="space-y-4" data-testid="follow-up-prompts-edit">
+         <div>
+            <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
+               <MessageSquarePlus className="h-5 w-5 text-indigo-600" />
+               Folge-Prompts
+            </h3>
+            <p className="text-sm text-slate-500 mt-1">
+               Vorgeschlagene Folgefragen, die Benutzer stellen könnten.
+            </p>
+         </div>
+         {prompts()}
+         {addBtn()}
       </section>
    );
 };

@@ -1223,6 +1223,7 @@ exports[`PromptManager rendering tests PromptManager rendered test 1`] = `
             />
             <section
               class="space-y-4"
+              data-testid="follow-up-prompts-edit"
             >
               <div>
                 <h3
@@ -1265,6 +1266,7 @@ exports[`PromptManager rendering tests PromptManager rendered test 1`] = `
                 <div
                   class="grid gap-2"
                   data-slot="form-item"
+                  data-testid="follow-up-prompt-edit"
                 >
                   <div
                     class="flex gap-2 items-start"
