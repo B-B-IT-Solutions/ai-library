@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { assertInDocument, dtestData } from "@tests";
 
-import { PromptContent } from "./prompt-content";
+import { PromptContent } from "./prompt-content-view";
 
 const assertRendered = () => {
    const content = screen.getByTestId("prompt-content");

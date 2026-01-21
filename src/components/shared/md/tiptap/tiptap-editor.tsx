@@ -15,19 +15,21 @@ import { cn } from "@/lib/utils";
 import { Toolbar } from "./toolbar";
 
 type TiptapEditorProps = {
-   value: string;
+   value?: string;
    onChange: (value: string) => void;
    placeholder?: string;
    minHeight?: number;
    className?: string;
+   "data-testid"?: string;
 };
 
 export const TiptapEditor: FC<TiptapEditorProps> = ({
-   value,
+   value = "",
    onChange,
    placeholder = "Start typing...",
    minHeight = 200,
    className,
+   "data-testid": testid = "tiptap-editor",
 }) => {
    const editor = useEditor({
       immediatelyRender: false,
@@ -76,7 +78,7 @@ export const TiptapEditor: FC<TiptapEditorProps> = ({
    return (
       <div
          className="border border-slate-200 rounded-lg overflow-hidden bg-white"
-         data-testid="tiptap-editor"
+         data-testid={testid}
       >
          <Toolbar editor={editor} />
          <EditorContent editor={editor} />

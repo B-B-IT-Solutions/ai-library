@@ -176,7 +176,7 @@ describe("TiptapEditor functionality tests", () => {
 
       const onChangeFn = jest.fn();
 
-      render(<TiptapEditor value="" onChange={onChangeFn} />);
+      render(<TiptapEditor onChange={onChangeFn} />);
 
       await waitFor(() => {
          assertRendered();

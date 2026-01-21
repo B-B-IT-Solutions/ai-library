@@ -21,23 +21,23 @@ type PromptFormValues = {
    followUpPrompts: string[];
 };
 
-type PromptContentSectionProps = {
+type PromptContentEditProps = {
    control: Control<PromptFormValues>;
-   isEditMode: boolean;
+   isEdit: boolean;
 };
 
-export const PromptContentSection: FC<PromptContentSectionProps> = ({
+export const PromptContentEdit: FC<PromptContentEditProps> = ({
    control,
-   isEditMode,
+   isEdit,
 }) => {
    return (
-      <section className="space-y-4">
+      <section className="space-y-4" data-testid="prompt-content-edit">
          <div>
             <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
                <FileText className="h-5 w-5 text-indigo-600" />
                Prompt
             </h3>
-            {isEditMode && (
+            {isEdit && (
                <p className="text-sm text-slate-500 mt-1">
                   Verwenden Sie &quot;Als neue Version speichern&quot; um einen
                   Versions-Snapshot zu erstellen.
@@ -56,6 +56,7 @@ export const PromptContentSection: FC<PromptContentSectionProps> = ({
                         onChange={field.onChange}
                         placeholder="Prompt-Inhalt eingeben..."
                         minHeight={200}
+                        data-testid="prompt-editor"
                      />
                   </FormControl>
                   <FormMessage />

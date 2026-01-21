@@ -30,8 +30,8 @@ import {
 import { DPromptCreate, DPromptDescriptor } from "@/data/types/domain/prompt";
 
 import { BasicInformationSection } from "./basic-information-section";
+import { PromptContentEdit } from "./content/prompt-content-edit";
 import { FollowUpPromptsSection } from "./follow-up-prompts-section";
-import { PromptContentSection } from "./prompt-content-section";
 
 const formSchema = z.object({
    id: z.string().optional(),
@@ -166,9 +166,9 @@ export const PromptEdit: FC<PromptEditProps> = ({
                   <Separator />
 
                   {/* Prompt Content Section */}
-                  <PromptContentSection
+                  <PromptContentEdit
                      control={form.control}
-                     isEditMode={isEditMode}
+                     isEdit={isEditMode}
                   />
 
                   <Separator />

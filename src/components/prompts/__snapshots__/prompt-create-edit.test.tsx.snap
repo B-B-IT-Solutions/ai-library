@@ -653,6 +653,7 @@ exports[`PromptManager rendering tests PromptManager rendered test 1`] = `
             />
             <section
               class="space-y-4"
+              data-testid="prompt-content-edit"
             >
               <div>
                 <h3
@@ -696,7 +697,7 @@ exports[`PromptManager rendering tests PromptManager rendered test 1`] = `
               >
                 <div
                   class="border border-slate-200 rounded-lg overflow-hidden bg-white"
-                  data-testid="tiptap-editor"
+                  data-testid="prompt-editor"
                 >
                   <div
                     class="flex flex-wrap gap-1 p-2 border-b border-slate-200 bg-slate-50"
