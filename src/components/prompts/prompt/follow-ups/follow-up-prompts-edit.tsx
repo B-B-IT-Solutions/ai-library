@@ -9,7 +9,7 @@ import { AutosizeTextarea } from "@/components/shadcn/autosize-textarea";
 import { Button } from "@/components/shadcn/button";
 import { FormControl, FormField, FormItem } from "@/components/shadcn/form";
 
-type PromptFormValues = {
+export type PromptFormValues = {
    id?: string;
    title: string;
    content: string;
@@ -18,7 +18,7 @@ type PromptFormValues = {
    followUpPrompts: string[];
 };
 
-type FollowUpPromptsSectionProps = {
+type FollowUpPromptsEditProps = {
    control: Control<PromptFormValues>;
    followUpPrompts: FieldArrayWithId<
       PromptFormValues,
@@ -29,7 +29,7 @@ type FollowUpPromptsSectionProps = {
    removeFollowUpPrompt: (index: number) => void;
 };
 
-export const FollowUpPromptsSection: FC<FollowUpPromptsSectionProps> = ({
+export const FollowUpPromptsEdit: FC<FollowUpPromptsEditProps> = ({
    control,
    followUpPrompts,
    addFollowUpPrompt,
@@ -60,7 +60,7 @@ export const FollowUpPromptsSection: FC<FollowUpPromptsSectionProps> = ({
                      key={field.id}
                      control={control}
                      name={`followUpPrompts.${idx}`}
-                     render={({ field: formField }) => (
+                     render={({ field }) => (
                         <FormItem>
                            <div className="flex gap-2 items-start">
                               <FormControl>
@@ -68,7 +68,7 @@ export const FollowUpPromptsSection: FC<FollowUpPromptsSectionProps> = ({
                                     placeholder="Folge-Prompt eingeben"
                                     className="flex-1"
                                     minHeight={60}
-                                    {...formField}
+                                    {...field}
                                  />
                               </FormControl>
                               <Button

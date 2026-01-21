@@ -31,7 +31,7 @@ import { DPromptCreate, DPromptDescriptor } from "@/data/types/domain/prompt";
 
 import { BasicInformationSection } from "./basic-information-section";
 import { PromptContentEdit } from "./content/prompt-content-edit";
-import { FollowUpPromptsSection } from "./follow-up-prompts-section";
+import { FollowUpPromptsEdit } from "./follow-ups/follow-up-prompts-edit";
 
 const formSchema = z.object({
    id: z.string().optional(),
@@ -174,7 +174,7 @@ export const PromptEdit: FC<PromptEditProps> = ({
                   <Separator />
 
                   {/* Follow-up Prompts Section */}
-                  <FollowUpPromptsSection
+                  <FollowUpPromptsEdit
                      control={form.control}
                      followUpPrompts={followUpPrompts}
                      addFollowUpPrompt={addFollowUpPrompt}
