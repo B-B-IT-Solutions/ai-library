@@ -8,7 +8,7 @@ import { AutosizeTextarea } from "@/components/shadcn/autosize-textarea";
 import { Button } from "@/components/shadcn/button";
 import { FormControl, FormField, FormItem } from "@/components/shadcn/form";
 
-import { PromptFormValues } from "./prompts-follow-up-edit";
+import { PromptFormValues } from "./prompt-follow-ups-edit";
 
 type FollowUpPromptEditProps = {
    index: number;

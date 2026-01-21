@@ -4,7 +4,7 @@ import { assertInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { FollowUpPromptEdit } from "./prompt-follow-up-edit";
-import { PromptFormValues } from "./prompts-follow-up-edit";
+import { PromptFormValues } from "./prompt-follow-ups-edit";
 
 const TestWrapper = ({
    index = 0,
