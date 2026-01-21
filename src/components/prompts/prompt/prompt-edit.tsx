@@ -29,9 +29,9 @@ import {
 } from "@/data/actions/prompt/prompt.actions";
 import { DPromptCreate, DPromptDescriptor } from "@/data/types/domain/prompt";
 
-import { BasicInformationSection } from "./basic-information-section";
 import { PromptContentEdit } from "./content/prompt-content-edit";
-import { FollowUpPromptsEdit } from "./follow-ups/prompt-follow-ups-edit";
+import { PromptFollowUpsEdit } from "./follow-ups/prompt-follow-ups-edit";
+import { BasicInfoEdit } from "./header/basic-info-edit";
 
 const formSchema = z.object({
    id: z.string().optional(),
@@ -155,7 +155,7 @@ export const PromptEdit: FC<PromptEditProps> = ({
                   data-testid="edit-form"
                >
                   {/* Basic Information Section */}
-                  <BasicInformationSection
+                  <BasicInfoEdit
                      control={form.control}
                      register={form.register}
                      categories={categories}
@@ -174,7 +174,7 @@ export const PromptEdit: FC<PromptEditProps> = ({
                   <Separator />
 
                   {/* Follow-up Prompts Section */}
-                  <FollowUpPromptsEdit
+                  <PromptFollowUpsEdit
                      control={form.control}
                      followUpPrompts={followUpPrompts}
                      addFollowUpPrompt={addFollowUpPrompt}

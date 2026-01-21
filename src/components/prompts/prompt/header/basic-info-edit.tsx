@@ -41,7 +41,7 @@ const AI_MODELS = [
    "Mistral Large",
 ];
 
-type BasicInformationSectionProps = {
+type BasicInfoEditProps = {
    control: Control<PromptFormValues>;
    register: UseFormRegister<PromptFormValues>;
    categories: FieldArrayWithId<PromptFormValues, "categories", "id">[];
@@ -49,7 +49,7 @@ type BasicInformationSectionProps = {
    removeCategory: (index: number) => void;
 };
 
-export const BasicInformationSection: FC<BasicInformationSectionProps> = ({
+export const BasicInfoEdit: FC<BasicInfoEditProps> = ({
    control,
    register,
    categories,
@@ -65,18 +65,13 @@ export const BasicInformationSection: FC<BasicInformationSectionProps> = ({
       }
    }, [categories.length, addCategory]);
 
-   return (
-      <section className="space-y-4">
-         <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
-            <BookType className="h-5 w-5 text-indigo-600" />
-            Allgemeine Informationen
-         </h3>
-
+   const titel = () => {
+      return (
          <FormField
             control={control}
             name="title"
             render={({ field }) => (
-               <FormItem>
+               <FormItem data-testid="title">
                   <FormLabel className="text-sm font-medium text-slate-700">
                      Titel
                   </FormLabel>
@@ -87,12 +82,19 @@ export const BasicInformationSection: FC<BasicInformationSectionProps> = ({
                </FormItem>
             )}
          />
+      );
+   };
 
+   const recommendedModel = () => {
+      return (
          <FormField
             control={control}
             name="recommendedModel"
             render={({ field }) => (
-               <FormItem className="flex flex-col">
+               <FormItem
+                  className="flex flex-col"
+                  data-testid="recommended-model"
+               >
                   <FormLabel className="text-sm font-medium text-slate-700 flex items-center gap-1.5">
                      Empfohlenes Modell
                   </FormLabel>
@@ -165,52 +167,61 @@ export const BasicInformationSection: FC<BasicInformationSectionProps> = ({
                </FormItem>
             )}
          />
+      );
+   };
 
-         {/* Categories Field */}
-         <div className="space-y-2">
+   const renderCategories = () => {
+      return (
+         <div className="space-y-2" data-testid="categories">
             <FormLabel className="text-sm font-medium text-slate-700 flex items-center gap-1.5">
                Kategorien
             </FormLabel>
-
-            {categories.length > 0 ? (
-               <div className="space-y-2">
-                  {map(categories, (field, index) => (
-                     <div key={field.id} className="flex gap-2">
-                        <Input
-                           {...register(`categories.${index}`)}
-                           placeholder="Kategoriename eingeben"
-                           className="flex-1"
-                        />
-                        <Button
-                           type="button"
-                           variant="outline"
-                           size="icon"
-                           onClick={() => removeCategory(index)}
-                           className="shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
-                        >
-                           <X className="h-4 w-4" />
-                        </Button>
-                     </div>
-                  ))}
-               </div>
-            ) : (
-               <p className="text-sm text-slate-500 italic">
-                  Noch keine Kategorien hinzugefügt.
-               </p>
-            )}
-
+            <div className="space-y-2">
+               {map(categories, (field, index) => (
+                  <div key={field.id} className="flex gap-2">
+                     <Input
+                        {...register(`categories.${index}`)}
+                        placeholder="Kategoriename eingeben"
+                        className="flex-1"
+                     />
+                     <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        onClick={() => removeCategory(index)}
+                        className="shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+                     >
+                        <X className="h-4 w-4" />
+                     </Button>
+                  </div>
+               ))}
+            </div>
             <div className="flex justify-end">
                <Button
                   type="button"
                   variant="outline"
                   size="sm"
                   onClick={() => addCategory("")}
+                  data-testid="add-category-btn"
                >
                   <Plus className="h-4 w-4" />
                   Hinzufügen
                </Button>
             </div>
          </div>
+      );
+   };
+
+   return (
+      <section className="space-y-4" data-testid="basic-info-edit">
+         <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
+            <BookType className="h-5 w-5 text-indigo-600" />
+            Allgemeine Informationen
+         </h3>
+
+         {titel()}
+         {recommendedModel()}
+         {renderCategories()}
       </section>
    );
 };

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`FollowUpPromptsEdit rendering tests FollowUpPromptsEdit - empty array - rendered test 1`] = `
+exports[`PromptFollowUpsEdit rendering tests PromptFollowUpsEdit - empty array - rendered test 1`] = `
 <div>
   <section
     class="space-y-4"
@@ -128,7 +128,7 @@ exports[`FollowUpPromptsEdit rendering tests FollowUpPromptsEdit - empty array -
 </div>
 `;
 
-exports[`FollowUpPromptsEdit rendering tests FollowUpPromptsEdit - with prompts - rendered test 1`] = `
+exports[`PromptFollowUpsEdit rendering tests PromptFollowUpsEdit - with prompts - rendered test 1`] = `
 <div>
   <section
     class="space-y-4"

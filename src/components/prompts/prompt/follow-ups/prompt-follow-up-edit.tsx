@@ -9,13 +9,13 @@ import { Button } from "@/components/shadcn/button";
 import { FormControl, FormField, FormItem } from "@/components/shadcn/form";
 import { PromptFormValues } from "@/data/types/domain/prompt";
 
-type FollowUpPromptEditProps = {
+type PromptFollowUpEditProps = {
    index: number;
    control: Control<PromptFormValues>;
    removeFollowUpPrompt: (index: number) => void;
 };
 
-export const FollowUpPromptEdit: FC<FollowUpPromptEditProps> = ({
+export const PromptFollowUpEdit: FC<PromptFollowUpEditProps> = ({
    index,
    control,
    removeFollowUpPrompt,

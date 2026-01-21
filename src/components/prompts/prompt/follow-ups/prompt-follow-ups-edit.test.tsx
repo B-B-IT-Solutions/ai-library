@@ -5,7 +5,7 @@ import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 
 import { PromptFormValues } from "@/data/types/domain/prompt";
 
-import { FollowUpPromptsEdit } from "./prompt-follow-ups-edit";
+import { PromptFollowUpsEdit } from "./prompt-follow-ups-edit";
 
 const TestWrapper = ({
    followUpPrompts = [],
@@ -37,7 +37,7 @@ const TestWrapper = ({
 
    return (
       <FormProvider {...methods}>
-         <FollowUpPromptsEdit
+         <PromptFollowUpsEdit
             control={methods.control}
             followUpPrompts={fields}
             addFollowUpPrompt={addFollowUpPrompt}
@@ -60,12 +60,12 @@ const assertFollowUpsRendered = (count: number) => {
    expect(followUps).toHaveLength(count);
 };
 
-describe("FollowUpPromptsEdit rendering tests", () => {
+describe("PromptFollowUpsEdit rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("FollowUpPromptsEdit - empty array - rendered test", async () => {
+   it("PromptFollowUpsEdit - empty array - rendered test", async () => {
       const { container } = render(<TestWrapper followUpPrompts={[]} />);
 
       await waitFor(() => {
@@ -76,7 +76,7 @@ describe("FollowUpPromptsEdit rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("FollowUpPromptsEdit - with prompts - rendered test", async () => {
+   it("PromptFollowUpsEdit - with prompts - rendered test", async () => {
       const prompts = ["Prompt 1", "Prompt 2"];
       const { container } = render(<TestWrapper followUpPrompts={prompts} />);
 
@@ -89,12 +89,12 @@ describe("FollowUpPromptsEdit rendering tests", () => {
    });
 });
 
-describe("FollowUpPromptsEdit functionality tests", () => {
+describe("PromptFollowUpsEdit functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("FollowUpPromptsEdit - add btn clicked - test", async () => {
+   it("PromptFollowUpsEdit - add btn clicked - test", async () => {
       const prompts = ["Prompt 1"];
       render(<TestWrapper followUpPrompts={prompts} />);
 
@@ -111,7 +111,7 @@ describe("FollowUpPromptsEdit functionality tests", () => {
       });
    });
 
-   it("FollowUpPromptsEdit - remove button removes prompt", async () => {
+   it("PromptFollowUpsEdit - remove button removes prompt", async () => {
       const prompts = ["Prompt 1", "Prompt 2"];
       render(<TestWrapper followUpPrompts={prompts} />);
 

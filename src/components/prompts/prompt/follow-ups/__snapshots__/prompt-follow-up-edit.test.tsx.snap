@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`FollowUpPromptEdit rendering tests FollowUpPromptEdit rendered test 1`] = `
+exports[`PromptFollowUpEdit rendering tests PromptFollowUpEdit rendered test 1`] = `
 <div>
   <div
     class="grid gap-2"

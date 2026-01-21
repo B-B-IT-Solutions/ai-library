@@ -8,9 +8,9 @@ import { Control, FieldArrayWithId } from "react-hook-form";
 import { Button } from "@/components/shadcn/button";
 import { PromptFormValues } from "@/data/types/domain/prompt";
 
-import { FollowUpPromptEdit } from "./prompt-follow-up-edit";
+import { PromptFollowUpEdit } from "./prompt-follow-up-edit";
 
-type FollowUpPromptsEditProps = {
+type PromptFollowUpsEditProps = {
    control: Control<PromptFormValues>;
    followUpPrompts: FieldArrayWithId<
       PromptFormValues,
@@ -21,7 +21,7 @@ type FollowUpPromptsEditProps = {
    removeFollowUpPrompt: (index: number) => void;
 };
 
-export const FollowUpPromptsEdit: FC<FollowUpPromptsEditProps> = ({
+export const PromptFollowUpsEdit: FC<PromptFollowUpsEditProps> = ({
    control,
    followUpPrompts,
    addFollowUpPrompt,
@@ -37,7 +37,7 @@ export const FollowUpPromptsEdit: FC<FollowUpPromptsEditProps> = ({
       return (
          <div className="space-y-4">
             {map(followUpPrompts, (_, idx) => (
-               <FollowUpPromptEdit
+               <PromptFollowUpEdit
                   key={idx}
                   control={control}
                   index={idx}
