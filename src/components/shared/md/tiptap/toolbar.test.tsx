@@ -6,50 +6,23 @@ import { isObject } from "es-toolkit/compat";
 
 import { Toolbar } from "./toolbar";
 
-// Create chainable mock methods
-const createChainableMock = () => {
-   const methods = {
-      focus: jest.fn(),
-      toggleBold: jest.fn(),
-      toggleItalic: jest.fn(),
-      toggleUnderline: jest.fn(),
-      toggleStrike: jest.fn(),
-      toggleHeading: jest.fn(),
-      toggleBulletList: jest.fn(),
-      toggleOrderedList: jest.fn(),
-      setTextAlign: jest.fn(),
-      toggleCodeBlock: jest.fn(),
-      toggleBlockquote: jest.fn(),
-      undo: jest.fn(),
-      redo: jest.fn(),
-      run: jest.fn(),
-   };
+const createMockEditor = (activeStates: Record<string, boolean> = {}) => {
+   const editor = new Editor();
 
-   // Make all methods return the methods object for chaining
-   Object.keys(methods).forEach((key) => {
-      methods[key as keyof typeof methods].mockReturnValue(methods);
+   // Override isActive to handle activeStates
+   editor.isActive = jest.fn((format: string | object, params?: any) => {
+      if (params) {
+         const key = `${format as string}-${JSON.stringify(params)}`;
+         return activeStates[key] || false;
+      }
+      if (isObject(format)) {
+         const key = JSON.stringify(format);
+         return activeStates[key] || false;
+      }
+      return activeStates[format as string] || false;
    });
 
-   return methods;
-};
-
-const createMockEditor = (activeStates: Record<string, boolean> = {}) => {
-   const chainMethods = createChainableMock();
-
-   return {
-      chain: jest.fn(() => chainMethods),
-      isActive: jest.fn((format: string, params?: any) => {
-         if (params) {
-            const key = `${format}-${JSON.stringify(params)}`;
-            return activeStates[key] || false;
-         }
-         if (isObject(format)) {
-            const key = JSON.stringify(format);
-            return activeStates[key] || false;
-         }
-         return activeStates[format] || false;
-      }),
-   } as unknown as Editor;
+   return editor;
 };
 
 const assertRendered = () => {

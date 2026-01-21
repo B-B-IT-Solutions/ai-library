@@ -7,7 +7,7 @@ import {
 import Placeholder from "@tiptap/extension-placeholder";
 import TextAlign from "@tiptap/extension-text-align";
 import Underline from "@tiptap/extension-underline";
-import { useEditor, UseEditorOptions } from "@tiptap/react";
+import { Editor, useEditor, UseEditorOptions } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Markdown } from "tiptap-markdown";
 
@@ -16,25 +16,6 @@ import { cn } from "@/lib/utils";
 import { TiptapEditor } from "./tiptap-editor";
 
 const mockUseEditor = useEditor as jest.MockedFunction<typeof useEditor>;
-
-const createMockEditor = (content: string = "") => {
-   return {
-      storage: {
-         markdown: {
-            getMarkdown: jest.fn(() => content),
-         },
-      },
-      commands: {
-         setContent: jest.fn(),
-      },
-      chain: jest.fn(() => ({
-         focus: jest.fn().mockReturnThis(),
-         toggleBold: jest.fn().mockReturnThis(),
-         run: jest.fn(),
-      })),
-      isActive: jest.fn(() => false),
-   };
-};
 
 const createEditorConfig = (
    value: string,
@@ -107,7 +88,7 @@ describe("TiptapEditor rendering tests", () => {
    });
 
    it("TiptapEditor - editor null - test", async () => {
-      mockUseEditor.mockReturnValue(null as any);
+      mockUseEditor.mockReturnValue(null as unknown as Editor);
 
       const onChangeFn = jest.fn();
       const { container } = render(
@@ -117,14 +98,15 @@ describe("TiptapEditor rendering tests", () => {
       await waitFor(() => {
          assertNotRendered();
          expect(container.firstChild).toBeNull();
+         expect(mockUseEditor).toHaveBeenCalledTimes(1);
       });
 
       expect(container).toMatchSnapshot();
    });
 
    it("TiptapEditor - renders with default props - test", async () => {
-      const mockEditor = createMockEditor();
-      mockUseEditor.mockReturnValue(mockEditor as any);
+      const editor = new Editor();
+      mockUseEditor.mockReturnValue(editor);
 
       const value = "test 123";
       const onChangeFn = jest.fn();
@@ -145,8 +127,8 @@ describe("TiptapEditor rendering tests", () => {
    });
 
    it("TiptapEditor - renders with custom props - test", async () => {
-      const mockEditor = createMockEditor();
-      mockUseEditor.mockReturnValue(mockEditor as any);
+      const editor = new Editor();
+      mockUseEditor.mockReturnValue(editor);
 
       const value = "test 456";
       const placeholder = "placeholder 456";
@@ -189,8 +171,8 @@ describe("TiptapEditor functionality tests", () => {
    });
 
    it("TiptapEditor - onChange called when editor updates - test", async () => {
-      const mockEditor = createMockEditor("Updated content");
-      mockUseEditor.mockReturnValue(mockEditor as any);
+      const editor = new Editor("Updated content");
+      mockUseEditor.mockReturnValue(editor);
 
       const onChangeFn = jest.fn();
 
@@ -204,10 +186,10 @@ describe("TiptapEditor functionality tests", () => {
       const onUpdateCallback = mockUseEditor.mock.calls[0][0].onUpdate;
       // Simulate editor update
       if (onUpdateCallback) {
-         onUpdateCallback({ editor: mockEditor as any });
+         onUpdateCallback({ editor });
       }
 
-      expect(mockEditor.storage.markdown.getMarkdown).toHaveBeenCalled();
+      expect(editor.storage.markdown.getMarkdown).toHaveBeenCalled();
       expect(onChangeFn).toHaveBeenCalledWith("Updated content");
    });
 });
