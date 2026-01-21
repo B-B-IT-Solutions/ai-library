@@ -15,13 +15,6 @@ import { cn } from "@/lib/utils";
 
 import { TiptapEditor } from "./tiptap-editor";
 
-// Mock the Toolbar component
-jest.mock("./toolbar", () => ({
-   Toolbar: ({ editor }: { editor: any }) => (
-      <div data-testid="toolbar">Toolbar</div>
-   ),
-}));
-
 const mockUseEditor = useEditor as jest.MockedFunction<typeof useEditor>;
 
 const createMockEditor = (content: string = "") => {
