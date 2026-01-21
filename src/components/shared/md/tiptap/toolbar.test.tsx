@@ -2,6 +2,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument } from "@tests";
 import { Editor } from "@tiptap/react";
+import { isObject } from "es-toolkit/compat";
 
 import { Toolbar } from "./toolbar";
 
@@ -40,6 +41,10 @@ const createMockEditor = (activeStates: Record<string, boolean> = {}) => {
       isActive: jest.fn((format: string, params?: any) => {
          if (params) {
             const key = `${format}-${JSON.stringify(params)}`;
+            return activeStates[key] || false;
+         }
+         if (isObject(format)) {
+            const key = JSON.stringify(format);
             return activeStates[key] || false;
          }
          return activeStates[format] || false;
@@ -150,8 +155,9 @@ describe("Toolbar button active states", () => {
    });
 
    it("Toolbar - alignment buttons are active based on text alignment", async () => {
+      const textAlignKey = JSON.stringify({ textAlign: "center" });
       const mockEditor = createMockEditor({
-         '{"textAlign":"center"}': true,
+         [textAlignKey]: true,
       });
       render(<Toolbar editor={mockEditor} />);
 
