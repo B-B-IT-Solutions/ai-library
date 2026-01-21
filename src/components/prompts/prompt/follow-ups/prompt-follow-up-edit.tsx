@@ -8,7 +8,7 @@ import { AutosizeTextarea } from "@/components/shadcn/autosize-textarea";
 import { Button } from "@/components/shadcn/button";
 import { FormControl, FormField, FormItem } from "@/components/shadcn/form";
 
-import { PromptFormValues } from "./follow-up-prompts-edit";
+import { PromptFormValues } from "./prompts-follow-up-edit";
 
 type FollowUpPromptEditProps = {
    index: number;
@@ -42,6 +42,7 @@ export const FollowUpPromptEdit: FC<FollowUpPromptEditProps> = ({
                      size="icon"
                      onClick={() => removeFollowUpPrompt(index)}
                      className="shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+                     data-testid="remove-btn"
                   >
                      <X className="h-4 w-4" />
                   </Button>

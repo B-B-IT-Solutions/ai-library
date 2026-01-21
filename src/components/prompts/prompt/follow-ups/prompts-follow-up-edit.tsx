@@ -7,7 +7,7 @@ import { Control, FieldArrayWithId } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
 
-import { FollowUpPromptEdit } from "./follow-up-prompt-edit";
+import { FollowUpPromptEdit } from "./prompt-follow-up-edit";
 
 export type PromptFormValues = {
    id?: string;

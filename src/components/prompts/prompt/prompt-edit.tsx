@@ -31,7 +31,7 @@ import { DPromptCreate, DPromptDescriptor } from "@/data/types/domain/prompt";
 
 import { BasicInformationSection } from "./basic-information-section";
 import { PromptContentEdit } from "./content/prompt-content-edit";
-import { FollowUpPromptsEdit } from "./follow-ups/follow-up-prompts-edit";
+import { FollowUpPromptsEdit } from "./follow-ups/prompts-follow-up-edit";
 
 const formSchema = z.object({
    id: z.string().optional(),
