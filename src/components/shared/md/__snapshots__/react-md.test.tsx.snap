@@ -24,8 +24,7 @@ exports[`ReactMd rendering tests ReactMd - classnem undefined - rendered test 1`
     <div
       data-testid="react-markdown-mock"
     >
-       
-      &lt;h1&gt;text 1&lt;/&gt;
+       text 1
     </div>
   </div>
 </div>
