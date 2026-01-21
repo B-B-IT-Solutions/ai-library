@@ -21,23 +21,23 @@ const assertRendered = (title: string) => {
 
    assertHasAttributeWithValue(button, "title", title);
    assertHasAttributeWithValue(button, "type", "button");
-   assertHasClass(button, "p-2");
-   assertHasClass(button, "rounded");
-   assertHasClass(button, "hover:bg-slate-100");
-   assertHasClass(button, "transition-colors");
+   assertHasClass(button, [
+      "p-2",
+      "rounded",
+      "hover:bg-slate-100",
+      "transition-colors",
+   ]);
 };
 
 const assertActiveTrue = () => {
    const button = screen.getByRole("button");
-   assertHasClass(button, "bg-slate-200");
-   assertHasClass(button, "text-blue-600");
+   assertHasClass(button, ["bg-slate-200", "text-blue-600"]);
    assertHasNoClass(button, "text-slate-700");
 };
 
 const assertActiveFalse = () => {
    const button = screen.getByRole("button");
-   assertHasNoClass(button, "bg-slate-200");
-   assertHasNoClass(button, "text-blue-600");
+   assertHasNoClass(button, ["bg-slate-200", "text-blue-600"]);
    assertHasClass(button, "text-slate-700");
 };
 

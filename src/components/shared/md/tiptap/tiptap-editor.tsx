@@ -30,24 +30,7 @@ import { Markdown } from "tiptap-markdown";
 
 import { cn } from "@/lib/utils";
 
-const ToolbarButton: FC<{
-   onClick: () => void;
-   isActive?: boolean;
-   icon: React.ReactNode;
-   title: string;
-}> = ({ onClick, isActive, icon, title }) => (
-   <button
-      type="button"
-      onClick={onClick}
-      title={title}
-      className={cn(
-         "p-2 rounded hover:bg-slate-100 transition-colors",
-         isActive ? "bg-slate-200 text-blue-600" : "text-slate-700"
-      )}
-   >
-      {icon}
-   </button>
-);
+import { ToolbarButton } from "./toolbar-button";
 
 type TiptapEditorProps = {
    value: string;
@@ -110,7 +93,6 @@ export const TiptapEditor: FC<TiptapEditorProps> = ({
 
    return (
       <div className="border border-slate-200 rounded-lg overflow-hidden bg-white">
-         {/* Toolbar */}
          <div className="flex flex-wrap gap-1 p-2 border-b border-slate-200 bg-slate-50">
             <ToolbarButton
                onClick={() => editor.chain().focus().toggleBold().run()}
@@ -235,7 +217,6 @@ export const TiptapEditor: FC<TiptapEditorProps> = ({
             />
          </div>
 
-         {/* Editor Content */}
          <EditorContent editor={editor} />
       </div>
    );
