@@ -7,7 +7,7 @@ import {
 import Placeholder from "@tiptap/extension-placeholder";
 import TextAlign from "@tiptap/extension-text-align";
 import Underline from "@tiptap/extension-underline";
-import { useEditor } from "@tiptap/react";
+import { useEditor, UseEditorOptions } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Markdown } from "tiptap-markdown";
 
@@ -35,8 +35,6 @@ const createMockEditor = (content: string = "") => {
       isActive: jest.fn(() => false),
    };
 };
-
-type EditorConfigType = ReturnType<typeof createEditorConfig>;
 
 const createEditorConfig = (
    value: string,
@@ -92,8 +90,8 @@ const assertNotRendered = () => {
 };
 
 const assertEditorConfig = (
-   expectedConfig: EditorConfigType,
-   actualConfig: EditorConfigType
+   expectedConfig: UseEditorOptions,
+   actualConfig: UseEditorOptions
 ) => {
    expect(actualConfig.immediatelyRender).toEqual(
       expectedConfig.immediatelyRender
@@ -139,7 +137,7 @@ describe("TiptapEditor rendering tests", () => {
          assertRendered();
          expect(mockUseEditor).toHaveBeenCalledTimes(1);
          const actualConfig = mockUseEditor.mock
-            .calls[0][0] as EditorConfigType;
+            .calls[0][0] as UseEditorOptions;
          assertEditorConfig(expectedConfig, actualConfig);
       });
 
@@ -177,7 +175,7 @@ describe("TiptapEditor rendering tests", () => {
          assertRendered();
          expect(mockUseEditor).toHaveBeenCalledTimes(1);
          const actualConfig = mockUseEditor.mock
-            .calls[0][0] as EditorConfigType;
+            .calls[0][0] as UseEditorOptions;
          assertEditorConfig(expectedConfig, actualConfig);
       });
 
