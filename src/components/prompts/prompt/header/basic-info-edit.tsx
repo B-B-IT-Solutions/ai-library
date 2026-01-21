@@ -106,6 +106,7 @@ export const BasicInfoEdit: FC<BasicInfoEditProps> = ({
                               role="combobox"
                               aria-expanded={open}
                               className="w-full justify-between font-normal"
+                              data-testid="recommended-model-trigger-btn"
                            >
                               {field.value || "Modell auswählen..."}
                               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -190,6 +191,7 @@ export const BasicInfoEdit: FC<BasicInfoEditProps> = ({
                         size="icon"
                         onClick={() => removeCategory(index)}
                         className="shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+                        data-testid={`remove-category-btn-${index}`}
                      >
                         <X className="h-4 w-4" />
                      </Button>
