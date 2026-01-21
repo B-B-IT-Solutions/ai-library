@@ -1,6 +1,17 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import { assertInDocument } from "@tests";
+import {
+   assertInDocument,
+   assertNotInDocument,
+   assertStringifyEqual,
+} from "@tests";
+import Placeholder from "@tiptap/extension-placeholder";
+import TextAlign from "@tiptap/extension-text-align";
+import Underline from "@tiptap/extension-underline";
 import { useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import { Markdown } from "tiptap-markdown";
+
+import { cn } from "@/lib/utils";
 
 import { TiptapEditor } from "./tiptap-editor";
 
@@ -32,14 +43,71 @@ const createMockEditor = (content: string = "") => {
    };
 };
 
+type EditorConfigType = ReturnType<typeof createEditorConfig>;
+
+const createEditorConfig = (
+   value: string,
+   placeholder = "Start typing...",
+   minHeight = 200,
+   className?: string
+) => {
+   return {
+      immediatelyRender: false,
+      extensions: [
+         StarterKit.configure({
+            heading: {
+               levels: [1, 2, 3],
+            },
+         }),
+         Markdown,
+         Placeholder.configure({
+            placeholder,
+         }),
+         Underline,
+         TextAlign.configure({
+            types: ["heading", "paragraph"],
+         }),
+      ],
+      content: value,
+      editorProps: {
+         attributes: {
+            class: cn(
+               "prose prose-sm max-w-none focus:outline-none",
+               "px-4 py-3",
+               className
+            ),
+            style: `min-height: ${minHeight}px`,
+         },
+      },
+      onUpdate: expect.any(Function),
+   };
+};
+
 const assertRendered = () => {
    const editor = screen.getByTestId("tiptap-editor");
    const toolbar = screen.getByTestId("toolbar");
-   // const editorContent = screen.getByTestId("editor-content");
+   const editorContent = screen.getByTestId("editor-content");
 
    assertInDocument(toolbar);
    assertInDocument(editor);
-   // assertInDocument(editorContent);
+   assertInDocument(editorContent);
+};
+
+const assertNotRendered = () => {
+   const editor = screen.queryByTestId("tiptap-editor");
+   assertNotInDocument(editor);
+};
+
+const assertEditorConfig = (
+   expectedConfig: EditorConfigType,
+   actualConfig: EditorConfigType
+) => {
+   expect(actualConfig.immediatelyRender).toEqual(
+      expectedConfig.immediatelyRender
+   );
+   assertStringifyEqual(actualConfig.extensions, expectedConfig.extensions);
+   expect(actualConfig.content).toEqual(expectedConfig.content);
+   expect(actualConfig.editorProps).toEqual(expectedConfig.editorProps);
 };
 
 describe("TiptapEditor rendering tests", () => {
@@ -47,145 +115,81 @@ describe("TiptapEditor rendering tests", () => {
       jest.clearAllMocks();
    });
 
-   it("TiptapEditor - renders with default props - test", async () => {
-      const mockEditor = createMockEditor();
-      mockUseEditor.mockReturnValue(mockEditor as any);
+   it("TiptapEditor - editor null - test", async () => {
+      mockUseEditor.mockReturnValue(null as any);
 
-      const mockOnChange = jest.fn();
+      const onChangeFn = jest.fn();
       const { container } = render(
-         <TiptapEditor value="" onChange={mockOnChange} />
+         <TiptapEditor value="" onChange={onChangeFn} />
       );
 
       await waitFor(() => {
-         assertRendered();
+         assertNotRendered();
+         expect(container.firstChild).toBeNull();
       });
 
       expect(container).toMatchSnapshot();
    });
 
-   // it("TiptapEditor - renders with custom placeholder - test", async () => {
-   //    const mockEditor = createMockEditor();
-   //    mockUseEditor.mockReturnValue(mockEditor as any);
+   it("TiptapEditor - renders with default props - test", async () => {
+      const mockEditor = createMockEditor();
+      mockUseEditor.mockReturnValue(mockEditor as any);
 
-   //    const mockOnChange = jest.fn();
-   //    const placeholder = "Custom placeholder text";
+      const value = "test 123";
+      const onChangeFn = jest.fn();
+      const { container } = render(
+         <TiptapEditor value={value} onChange={onChangeFn} />
+      );
 
-   //    render(
-   //       <TiptapEditor
-   //          value=""
-   //          onChange={mockOnChange}
-   //          placeholder={placeholder}
-   //       />
-   //    );
+      const expectedConfig = createEditorConfig(value);
+      await waitFor(() => {
+         assertRendered();
+         expect(mockUseEditor).toHaveBeenCalledTimes(1);
+         const actualConfig = mockUseEditor.mock
+            .calls[0][0] as EditorConfigType;
+         assertEditorConfig(expectedConfig, actualConfig);
+      });
 
-   //    await waitFor(() => {
-   //       assertRendered();
-   //    });
+      expect(container).toMatchSnapshot();
+   });
 
-   //    // Verify useEditor was called with correct placeholder config
-   //    expect(mockUseEditor).toHaveBeenCalledWith(
-   //       expect.objectContaining({
-   //          extensions: expect.arrayContaining([
-   //             expect.objectContaining({
-   //                name: "placeholder",
-   //             }),
-   //          ]),
-   //       })
-   //    );
-   // });
+   it("TiptapEditor - renders with custom props - test", async () => {
+      const mockEditor = createMockEditor();
+      mockUseEditor.mockReturnValue(mockEditor as any);
 
-   // it("TiptapEditor - renders with custom minHeight - test", async () => {
-   //    const mockEditor = createMockEditor();
-   //    mockUseEditor.mockReturnValue(mockEditor as any);
+      const value = "test 456";
+      const placeholder = "placeholder 456";
+      const minHeight = 500;
+      const className = "flex-1";
+      const onChangeFn = jest.fn();
 
-   //    const mockOnChange = jest.fn();
-   //    const minHeight = 300;
+      const { container } = render(
+         <TiptapEditor
+            value={value}
+            placeholder={placeholder}
+            minHeight={minHeight}
+            className={className}
+            onChange={onChangeFn}
+         />
+      );
 
-   //    render(
-   //       <TiptapEditor value="" onChange={mockOnChange} minHeight={minHeight} />
-   //    );
+      const expectedConfig = createEditorConfig(
+         value,
+         placeholder,
+         minHeight,
+         className
+      );
 
-   //    await waitFor(() => {
-   //       const toolbar = screen.getByTestId("toolbar");
-   //       assertInDocument(toolbar);
-   //    });
+      await waitFor(() => {
+         assertRendered();
+         expect(mockUseEditor).toHaveBeenCalledTimes(1);
+         const actualConfig = mockUseEditor.mock
+            .calls[0][0] as EditorConfigType;
+         assertEditorConfig(expectedConfig, actualConfig);
+      });
 
-   //    // Verify useEditor was called with correct style
-   //    expect(mockUseEditor).toHaveBeenCalledWith(
-   //       expect.objectContaining({
-   //          editorProps: expect.objectContaining({
-   //             attributes: expect.objectContaining({
-   //                style: `min-height: ${minHeight}px`,
-   //             }),
-   //          }),
-   //       })
-   //    );
-   // });
-
-   // it("TiptapEditor - renders with custom className - test", async () => {
-   //    const mockEditor = createMockEditor();
-   //    mockUseEditor.mockReturnValue(mockEditor as any);
-
-   //    const mockOnChange = jest.fn();
-   //    const className = "custom-class";
-
-   //    render(
-   //       <TiptapEditor value="" onChange={mockOnChange} className={className} />
-   //    );
-
-   //    await waitFor(() => {
-   //       const toolbar = screen.getByTestId("toolbar");
-   //       assertInDocument(toolbar);
-   //    });
-
-   //    // Verify useEditor was called with className in attributes
-   //    expect(mockUseEditor).toHaveBeenCalledWith(
-   //       expect.objectContaining({
-   //          editorProps: expect.objectContaining({
-   //             attributes: expect.objectContaining({
-   //                class: expect.stringContaining(className),
-   //             }),
-   //          }),
-   //       })
-   //    );
-   // });
-
-   // it("TiptapEditor - returns null when editor is not initialized - test", () => {
-   //    mockUseEditor.mockReturnValue(null as any);
-
-   //    const mockOnChange = jest.fn();
-   //    const { container } = render(
-   //       <TiptapEditor value="" onChange={mockOnChange} />
-   //    );
-
-   //    expect(container.firstChild).toBeNull();
-   //    expect(screen.queryByTestId("toolbar")).not.toBeInTheDocument();
-   //    expect(screen.queryByTestId("editor-content")).not.toBeInTheDocument();
-   // });
-
-   // it("TiptapEditor - renders container with correct classes - test", async () => {
-   //    const mockEditor = createMockEditor();
-   //    mockUseEditor.mockReturnValue(mockEditor as any);
-
-   //    const mockOnChange = jest.fn();
-   //    const { container } = render(
-   //       <TiptapEditor value="" onChange={mockOnChange} />
-   //    );
-
-   //    await waitFor(() => {
-   //       const toolbar = screen.getByTestId("toolbar");
-   //       assertInDocument(toolbar);
-   //    });
-
-   //    const wrapper = container.querySelector("div");
-   //    expect(wrapper).toHaveClass(
-   //       "border",
-   //       "border-slate-200",
-   //       "rounded-lg",
-   //       "overflow-hidden",
-   //       "bg-white"
-   //    );
-   // });
+      expect(container).toMatchSnapshot();
+   });
 });
 
 // describe("TiptapEditor functionality tests", () => {
