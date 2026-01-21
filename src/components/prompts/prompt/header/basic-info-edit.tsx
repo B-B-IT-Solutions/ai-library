@@ -119,6 +119,7 @@ export const BasicInfoEdit: FC<BasicInfoEditProps> = ({
                               placeholder="Modell suchen oder eingeben..."
                               value={customModel}
                               onValueChange={setCustomModel}
+                              data-testid="model-input"
                            />
                            <CommandList>
                               <CommandEmpty className="p-0">
@@ -132,6 +133,7 @@ export const BasicInfoEdit: FC<BasicInfoEditProps> = ({
                                           setOpen(false);
                                           setCustomModel("");
                                        }}
+                                       data-testid="add-new-model"
                                     >
                                        <Plus className="mr-1 h-4 w-4" />
                                        &quot;{customModel}&quot; verwenden

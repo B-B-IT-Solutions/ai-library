@@ -119,7 +119,6 @@ describe("BasicInfoEdit functionality tests", () => {
    });
 
    it("BasicInfoEdit - recommended model selected - test", async () => {
-      const user = userEvent.setup();
       render(<TestWrapper />);
 
       await waitFor(() => {
@@ -127,11 +126,11 @@ describe("BasicInfoEdit functionality tests", () => {
       });
 
       const triggerBtn = screen.getByTestId("recommended-model-trigger-btn");
-      await user.click(triggerBtn);
+      await userEvent.click(triggerBtn);
 
       await waitFor(() => {
          const gpt4 = screen.getByText("GPT-4");
-         expect(gpt4).toBeInTheDocument();
+         assertInDocument(gpt4);
       });
 
       const gpt4 = screen.getByText("GPT-4");
@@ -139,6 +138,37 @@ describe("BasicInfoEdit functionality tests", () => {
 
       await waitFor(() => {
          expect(triggerBtn).toHaveTextContent("GPT-4");
+      });
+   });
+
+   it("BasicInfoEdit - new recommended model added - test", async () => {
+      render(<TestWrapper />);
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      const triggerBtn = screen.getByTestId("recommended-model-trigger-btn");
+      await userEvent.click(triggerBtn);
+
+      await waitFor(() => {
+         const input = screen.getByTestId("model-input");
+         assertInDocument(input);
+      });
+
+      const input = screen.getByTestId("model-input");
+      await userEvent.type(input, "GPT-4-123");
+
+      await waitFor(() => {
+         const addModel = screen.getByTestId("add-new-model");
+         assertInDocument(addModel);
+      });
+
+      const addModel = screen.getByTestId("add-new-model");
+      await userEvent.click(addModel);
+
+      await waitFor(() => {
+         expect(triggerBtn).toHaveTextContent("GPT-4-123");
       });
    });
 
