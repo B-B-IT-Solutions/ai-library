@@ -19,7 +19,7 @@ import {
 } from "@/data/types/db/product";
 import {
    PromptDescriptorsPage,
-   PromptDescriptorWithCategories,
+   PromptDescriptorWithRelations,
 } from "@/data/types/db/prompt";
 import {
    PromptTemplateDescriptorWithCategories,
@@ -39,9 +39,11 @@ import {
    ProductUseCase,
    PromptCategory,
    PromptDescriptor,
+   PromptFollowUp,
    PromptTemplate,
    PromptTemplateCategory,
    PromptTemplateDescriptor,
+   PromptVersion,
    User,
 } from "@/generated/prisma/client";
 import {
@@ -423,7 +425,7 @@ export const pPromptTemplateCategory = (index = 1): PromptTemplateCategory => {
 };
 
 export const pPromptDescriptorsPage = (): PromptDescriptorsPage => {
-   const descriptors = pPromptDescriptorssWithCategories();
+   const descriptors = pPromptDescriptorsWithRelations();
    return {
       content: descriptors,
       numberOfElements: descriptors.length,
@@ -434,20 +436,24 @@ export const pPromptDescriptorsPage = (): PromptDescriptorsPage => {
    };
 };
 
-export const pPromptDescriptorssWithCategories = (
+export const pPromptDescriptorsWithRelations = (
    count = 3
-): PromptDescriptorWithCategories[] => {
-   return range(0, count).map((i) => pPromptDescriptorWithCategories(i));
+): PromptDescriptorWithRelations[] => {
+   return range(0, count).map((i) => pPromptDescriptorWithRelations(i));
 };
 
-export const pPromptDescriptorWithCategories = (
+export const pPromptDescriptorWithRelations = (
    index = 1
-): PromptDescriptorWithCategories => {
+): PromptDescriptorWithRelations => {
    const descriptor = pPromptDescriptor(index);
    const categories = pPromptCategories();
+   const promptFollowUps = pPromptFollowUps();
+   const versions = pPromptVersions();
    return {
       ...descriptor,
       categories,
+      followUpPrompts: promptFollowUps,
+      versions,
    };
 };
 
@@ -459,8 +465,10 @@ export const pPromptDescriptor = (index = 1): PromptDescriptor => {
    return {
       id: `334db648-f300-4284-8149-075ff465d75${index}`,
       title: `title ${index}`,
+      content: `content ${index}`,
       recommendedModel: `model ${index}`,
       isFavorite: true,
+      currentVersion: index,
       updatedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),
    };
@@ -500,5 +508,33 @@ export const pPromptCategory = (index = 1): PromptCategory => {
    return {
       id: Math.random(),
       name: `category ${index}`,
+   };
+};
+
+export const pPromptFollowUps = (count = 3): PromptFollowUp[] => {
+   return range(0, count).map((i) => pPromptFollowUp(i));
+};
+
+export const pPromptFollowUp = (index = 1): PromptFollowUp => {
+   return {
+      id: `f23c15c7-7d2d-40a2-a895-6a78516b9b3${index}`,
+      promptId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      content: `content ${index}`,
+      order: index,
+      createdAt: new Date("2025-09-27"),
+   };
+};
+
+export const pPromptVersions = (count = 3): PromptVersion[] => {
+   return range(0, count).map((i) => pPromptVersion(i));
+};
+
+export const pPromptVersion = (index = 1): PromptVersion => {
+   return {
+      id: `db4079a0-c783-4d41-9bb3-0a1c45edeb7${index}`,
+      promptId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      version: index,
+      content: `content ${index}`,
+      createdAt: new Date("2025-09-27"),
    };
 };

@@ -38,11 +38,29 @@ export const toDPromptDescriptor = (
       recommendedModel: prompt.recommendedModel,
       isFavorite: prompt.isFavorite,
       currentVersion: prompt.currentVersion,
-      versions: map(prompt.versions, toDPromptVersion),
-      followUpPrompts: map(prompt.followUpPrompts, toDPromptFollowUp),
+      followUpPrompts: toDPromptFollowUps(prompt.followUpPrompts),
+      versions: toDPromptVersions(prompt.versions),
       updatedAt: prompt.updatedAt.toISOString(),
       createdAt: prompt.createdAt.toISOString(),
    };
+};
+
+const toDPromptFollowUps = (
+   pFollowUps: PromptFollowUp[]
+): DPromptFollowUp[] => {
+   return map(pFollowUps, (f) => toDPromptFollowUp(f));
+};
+
+const toDPromptFollowUp = (followUp: PromptFollowUp): DPromptFollowUp => {
+   return {
+      id: followUp.id,
+      content: followUp.content,
+      order: followUp.order,
+   };
+};
+
+const toDPromptVersions = (pVersions: PromptVersion[]): DPromptVersion[] => {
+   return map(pVersions, (v) => toDPromptVersion(v));
 };
 
 const toDPromptVersion = (version: PromptVersion): DPromptVersion => {
@@ -51,13 +69,5 @@ const toDPromptVersion = (version: PromptVersion): DPromptVersion => {
       version: version.version,
       content: version.content,
       createdAt: version.createdAt.toISOString(),
-   };
-};
-
-const toDPromptFollowUp = (followUp: PromptFollowUp): DPromptFollowUp => {
-   return {
-      id: followUp.id,
-      content: followUp.content,
-      order: followUp.order,
    };
 };

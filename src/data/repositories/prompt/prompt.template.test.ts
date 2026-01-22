@@ -209,13 +209,12 @@ describe("pGetPromptTemplateDescriptor tests", () => {
    });
 
    test("pGetPromptTemplateDescriptor - id defined - test", async () => {
-      const prompt = ptestData.pPromptDescriptorWithCategories();
+      const prompt = ptestData.pPromptDescriptorWithRelations();
       prismaMock.promptTemplateDescriptor.findFirst.mockResolvedValue(prompt);
 
       const promptTemplateId = "1";
-      const result = await repository.pGetPromptTemplateDescriptor(
-         promptTemplateId
-      );
+      const result =
+         await repository.pGetPromptTemplateDescriptor(promptTemplateId);
 
       const expectedWhere: PromptTemplateDescriptorFindFirstArgs = {
          where: {

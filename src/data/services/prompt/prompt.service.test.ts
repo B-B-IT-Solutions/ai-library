@@ -108,7 +108,7 @@ describe("getPrompt tests", () => {
    });
 
    it("getPrompt  - product defined - test", async () => {
-      const prompt = ptestData.pPromptDescriptorWithCategories();
+      const prompt = ptestData.pPromptDescriptorWithRelations();
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(prompt);
 
       const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
@@ -242,21 +242,22 @@ describe("updatePrompt tests", () => {
 
    it("updatePrompt - error - test", async () => {
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const prompt = dtestData.dPromptUpdate();
-      const currentPrompt = ptestData.pPromptDescriptorWithCategories();
+      const promptUpdate = dtestData.dPromptUpdate();
+      const currentPrompt = ptestData.pPromptDescriptorWithRelations();
       currentPrompt.currentVersion = 1;
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
       const error = new Error("db error");
       promptRepoMock.pUpdatePrompt.mockRejectedValue(error);
 
-      const fn = async () => promptService.updatePrompt(promptId, prompt, true);
+      const fn = async () =>
+         promptService.updatePrompt(promptId, promptUpdate, true);
 
       await expect(fn).rejects.toThrow("db error");
 
       const expectedData: PromptDescriptorUpdateInput = {
-         title: prompt.title,
-         content: prompt.content,
-         recommendedModel: prompt.recommendedModel,
+         title: promptUpdate.title,
+         content: promptUpdate.content,
+         recommendedModel: promptUpdate.recommendedModel,
          currentVersion: 2,
          categories: {
             set: [],
@@ -291,7 +292,7 @@ describe("updatePrompt tests", () => {
          versions: {
             create: {
                version: 2,
-               content: prompt.content,
+               content: promptUpdate.content,
             },
          },
       };
@@ -306,18 +307,18 @@ describe("updatePrompt tests", () => {
 
    it("updatePrompt - content not changed - createVersion false - test", async () => {
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const prompt = dtestData.dPromptUpdate();
-      const currentPrompt = ptestData.pPromptDescriptorWithCategories();
-      currentPrompt.content = prompt.content;
+      const promptUpdate = dtestData.dPromptUpdate();
+      const currentPrompt = ptestData.pPromptDescriptorWithRelations();
+      currentPrompt.content = promptUpdate.content;
       currentPrompt.currentVersion = 1;
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
 
-      await promptService.updatePrompt(promptId, prompt, false);
+      await promptService.updatePrompt(promptId, promptUpdate, false);
 
       const expectedData: PromptDescriptorUpdateInput = {
-         title: prompt.title,
-         content: prompt.content,
-         recommendedModel: prompt.recommendedModel,
+         title: promptUpdate.title,
+         content: promptUpdate.content,
+         recommendedModel: promptUpdate.recommendedModel,
          currentVersion: 1,
          categories: {
             set: [],
@@ -362,18 +363,18 @@ describe("updatePrompt tests", () => {
 
    it("updatePrompt - content not changed - createVersion true - test", async () => {
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const prompt = dtestData.dPromptUpdate();
-      const currentPrompt = ptestData.pPromptDescriptorWithCategories();
-      currentPrompt.content = prompt.content;
+      const promptUpdate = dtestData.dPromptUpdate();
+      const currentPrompt = ptestData.pPromptDescriptorWithRelations();
+      currentPrompt.content = promptUpdate.content;
       currentPrompt.currentVersion = 1;
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
 
-      await promptService.updatePrompt(promptId, prompt, true);
+      await promptService.updatePrompt(promptId, promptUpdate, true);
 
       const expectedData: PromptDescriptorUpdateInput = {
-         title: prompt.title,
-         content: prompt.content,
-         recommendedModel: prompt.recommendedModel,
+         title: promptUpdate.title,
+         content: promptUpdate.content,
+         recommendedModel: promptUpdate.recommendedModel,
          currentVersion: 1,
          categories: {
             set: [],
@@ -418,17 +419,17 @@ describe("updatePrompt tests", () => {
 
    it("updatePrompt - content changed - createVersion false - test", async () => {
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const prompt = dtestData.dPromptUpdate();
-      const currentPrompt = ptestData.pPromptDescriptorWithCategories();
+      const promptUpdate = dtestData.dPromptUpdate();
+      const currentPrompt = ptestData.pPromptDescriptorWithRelations();
       currentPrompt.currentVersion = 1;
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
 
-      await promptService.updatePrompt(promptId, prompt, false);
+      await promptService.updatePrompt(promptId, promptUpdate, false);
 
       const expectedData: PromptDescriptorUpdateInput = {
-         title: prompt.title,
-         content: prompt.content,
-         recommendedModel: prompt.recommendedModel,
+         title: promptUpdate.title,
+         content: promptUpdate.content,
+         recommendedModel: promptUpdate.recommendedModel,
          currentVersion: 1,
          categories: {
             set: [],
@@ -473,17 +474,17 @@ describe("updatePrompt tests", () => {
 
    it("updatePrompt - content changed - createVersion true - test", async () => {
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const prompt = dtestData.dPromptUpdate();
-      const currentPrompt = ptestData.pPromptDescriptorWithCategories();
+      const promptUpdate = dtestData.dPromptUpdate();
+      const currentPrompt = ptestData.pPromptDescriptorWithRelations();
       currentPrompt.currentVersion = 1;
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
 
-      await promptService.updatePrompt(promptId, prompt, true);
+      await promptService.updatePrompt(promptId, promptUpdate, true);
 
       const expectedData: PromptDescriptorUpdateInput = {
-         title: prompt.title,
-         content: prompt.content,
-         recommendedModel: prompt.recommendedModel,
+         title: promptUpdate.title,
+         content: promptUpdate.content,
+         recommendedModel: promptUpdate.recommendedModel,
          currentVersion: 2,
          categories: {
             set: [],
@@ -518,7 +519,7 @@ describe("updatePrompt tests", () => {
          versions: {
             create: {
                version: 2,
-               content: prompt.content,
+               content: promptUpdate.content,
             },
          },
       };

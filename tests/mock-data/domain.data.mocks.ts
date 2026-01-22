@@ -315,7 +315,7 @@ export const dPromptDescriptor = (index = 1): DPromptDescriptor => {
 export const dPromptUpdate = (index = 1): DPromptUpdate => {
    return {
       title: `title ${index}`,
-      content: `content ${index}`,
+      content: `updated content ${index}`,
       categories: ["category 1"],
       recommendedModel: `model ${index}`,
       followUpPrompts: dFollowUpPrompts(),
@@ -354,6 +354,7 @@ export const dPromptVersions = (count = 3): DPromptVersion[] => {
 
 export const dPromptVersion = (index = 1): DPromptVersion => {
    return {
+      id: `db4079a0-c783-4d41-9bb3-0a1c45edeb7${index}`,
       version: index,
       content: `content ${index}`,
       createdAt: new Date("2025-09-27").toISOString(),

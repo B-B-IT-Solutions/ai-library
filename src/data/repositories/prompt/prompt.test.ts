@@ -30,7 +30,7 @@ describe("pGetPromptDescriptors tests", () => {
    });
 
    test("pGetPromptDescriptors - query undefined - test", async () => {
-      const prompts = ptestData.pPromptDescriptorssWithCategories();
+      const prompts = ptestData.pPromptDescriptorsWithRelations();
       prismaMock.promptDescriptor.findMany.mockResolvedValue(prompts);
       prismaMock.promptDescriptor.count.mockResolvedValue(prompts.length);
 
@@ -71,7 +71,7 @@ describe("pGetPromptDescriptors tests", () => {
    });
 
    test("pGetPromptDescriptors - query empty - test", async () => {
-      const prompts = ptestData.pPromptDescriptorssWithCategories();
+      const prompts = ptestData.pPromptDescriptorsWithRelations();
       prismaMock.promptDescriptor.findMany.mockResolvedValue(prompts);
       prismaMock.promptDescriptor.count.mockResolvedValue(prompts.length);
 
@@ -113,7 +113,7 @@ describe("pGetPromptDescriptors tests", () => {
    });
 
    test("pGetPromptDescriptors - query.globalFilter defined - test", async () => {
-      const prompts = ptestData.pPromptDescriptorssWithCategories(21);
+      const prompts = ptestData.pPromptDescriptorsWithRelations(21);
       prismaMock.promptDescriptor.findMany.mockResolvedValue(prompts);
       prismaMock.promptDescriptor.count.mockResolvedValue(prompts.length);
 
@@ -173,7 +173,7 @@ describe("pGetPromptDescriptors tests", () => {
    });
 
    test("pGetPromptDescriptors - query.filter defined - test", async () => {
-      const prompts = ptestData.pPromptDescriptorssWithCategories(21);
+      const prompts = ptestData.pPromptDescriptorsWithRelations(21);
       prismaMock.promptDescriptor.findMany.mockResolvedValue(prompts);
       prismaMock.promptDescriptor.count.mockResolvedValue(prompts.length);
 
@@ -232,7 +232,7 @@ describe("pGetPromptDescriptors tests", () => {
    });
 
    test("pGetPromptDescriptors - query defined - test", async () => {
-      const prompts = ptestData.pPromptDescriptorssWithCategories(21);
+      const prompts = ptestData.pPromptDescriptorsWithRelations(21);
       prismaMock.promptDescriptor.findMany.mockResolvedValue(prompts);
       prismaMock.promptDescriptor.count.mockResolvedValue(prompts.length);
 
@@ -312,7 +312,7 @@ describe("pGetPromptDescriptor tests", () => {
    });
 
    test("pGetPromptDescriptor - id defiend - slug undefined - test", async () => {
-      const prompt = ptestData.pPromptDescriptorWithCategories();
+      const prompt = ptestData.pPromptDescriptorWithRelations();
       prismaMock.promptDescriptor.findFirst.mockResolvedValue(prompt);
 
       const query: GetPromptQuery = { id: "1" };

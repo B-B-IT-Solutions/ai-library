@@ -3,7 +3,7 @@ import { map } from "es-toolkit/compat";
 
 import {
    PromptDescriptorsPage,
-   PromptDescriptorWithCategories,
+   PromptDescriptorWithRelations,
 } from "@/data/types/db/prompt";
 import {
    DPromptDescriptor,
@@ -29,7 +29,7 @@ const toDPromptDescriptorsPageInternal = (
 };
 
 const toDPromptDescriptorsInternal = (
-   pPrompts: PromptDescriptorWithCategories[]
+   pPrompts: PromptDescriptorWithRelations[]
 ): DPromptDescriptor[] => {
    return map(pPrompts, (dbP) => toDPromptDescriptor(dbP));
 };
@@ -54,7 +54,7 @@ const toDPromptFollowUpInternal = (
 };
 
 const toDPromptDescriptorInternal = (
-   prompt: PromptDescriptorWithCategories
+   prompt: PromptDescriptorWithRelations
 ): DPromptDescriptor => {
    return {
       id: prompt.id,
@@ -84,14 +84,14 @@ describe("toDPromptDescriptors tests", () => {
    });
 
    it("toDPromptDescriptors test", async () => {
-      const prompts = ptestData.pPromptDescriptorssWithCategories();
+      const prompts = ptestData.pPromptDescriptorsWithRelations();
       const result = toDPromptDescriptors(prompts);
       const expectedResult = toDPromptDescriptorsInternal(prompts);
       expect(result).toEqual(expectedResult);
    });
 
    it("toDPromptDescriptor test", async () => {
-      const prompt = ptestData.pPromptDescriptorWithCategories();
+      const prompt = ptestData.pPromptDescriptorWithRelations();
       const result = toDPromptDescriptor(prompt);
       const expectedResult = toDPromptDescriptorInternal(prompt);
       expect(result).toEqual(expectedResult);
