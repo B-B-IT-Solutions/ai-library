@@ -33,17 +33,19 @@ import { PromptContentEdit } from "./content/prompt-content-edit";
 import { PromptFollowUpsEdit } from "./follow-ups/prompt-follow-ups-edit";
 import { BasicInfoEdit } from "./header/basic-info-edit";
 
-type PromptEditProps = {
-   prompt?: DPromptDescriptor;
-   mode?: "create" | "edit";
-};
+type PromptEditProps =
+   | {
+        prompt?: DPromptDescriptor;
+        mode: "create";
+     }
+   | {
+        prompt: DPromptDescriptor;
+        mode: "edit";
+     };
 
-export const PromptEdit: FC<PromptEditProps> = ({
-   prompt,
-   mode = "create",
-}) => {
+export const PromptEdit: FC<PromptEditProps> = ({ prompt, mode }) => {
    const router = useRouter();
-   const isEdit = mode === "edit" && !!prompt;
+   const isEdit = mode === "edit";
 
    const initValues = () => {
       if (isEdit) {

@@ -4,14 +4,9 @@ import { FC, useState } from "react";
 
 import { TemplateSelector } from "@/components/prompt-templates";
 import { PromptEdit } from "@/components/prompts";
-import { DPrompt } from "@/data/types/domain/prompt";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
-type PromptCreateEditProps = {
-   prompt?: DPrompt;
-};
-
-export const PromptCreateEdit: FC<PromptCreateEditProps> = ({ prompt }) => {
+export const PromptCreateEdit: FC = () => {
    const [template, setTemplate] = useState<
       DPromptTemplateDescriptor | undefined
    >();
@@ -19,9 +14,8 @@ export const PromptCreateEdit: FC<PromptCreateEditProps> = ({ prompt }) => {
    const editForm = () => {
       return (
          <div className="space-y-6">
-            {/* Template Selector */}
-            {!prompt && <TemplateSelector onSelect={setTemplate} />}
-            <PromptEdit prompt={prompt} />
+            <TemplateSelector onSelect={setTemplate} />
+            <PromptEdit mode="create" />
          </div>
       );
    };
