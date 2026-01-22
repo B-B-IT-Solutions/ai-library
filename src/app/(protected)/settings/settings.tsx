@@ -35,11 +35,11 @@ export const SettingsContent = ({ user }: SettingsContentProps) => {
       >
          <div className="container mx-auto px-4 py-8 max-w-7xl">
             {/* Header */}
-            <div className="mb-12">
-               <h1 className="text-4xl font-bold text-slate-900 dark:text-slate-100 mb-3">
+            <div className="mb-8">
+               <h1 className="text-3xl font-bold text-slate-900 mb-2">
                   Einstellungen
                </h1>
-               <p className="text-lg text-muted-foreground">
+               <p className="text-slate-600">
                   Verwalten Sie Ihre Kontoeinstellungen und Präferenzen
                </p>
             </div>
