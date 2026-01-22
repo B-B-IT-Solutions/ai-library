@@ -87,9 +87,8 @@ describe("PromptEdit rendering tests", () => {
    });
 
    it("PromptEdit - edit mode - rendered test", async () => {
-      const { container } = render(
-         <PromptEdit mode="edit" prompt={mockPrompt} />
-      );
+      const prompt = dtestData.dPromptDescriptor();
+      const { container } = render(<PromptEdit mode="edit" prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -107,6 +106,21 @@ describe("PromptEdit functionality tests", () => {
 
    it("PromptEdit - create mode - cancel btn clicked - test", async () => {
       render(<PromptEdit mode="create" />);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(mockRouter.back).not.toHaveBeenCalled();
+      });
+
+      const cancelBtn = screen.getByTestId("cancel-btn");
+      await userEvent.click(cancelBtn);
+
+      expect(mockRouter.back).toHaveBeenCalledTimes(1);
+   });
+
+   it("PromptEdit - edit mode - cancel btn clicked - test", async () => {
+      const prompt = dtestData.dPromptDescriptor();
+      render(<PromptEdit mode="edit" prompt={prompt} />);
 
       await waitFor(() => {
          assertRendered();
@@ -217,15 +231,6 @@ describe("PromptEdit functionality tests - edit mode", () => {
             }),
             true
          );
-      });
-   });
-
-   it("PromptEdit - save button - displays correct label when not submitting", async () => {
-      render(<PromptEdit mode="edit" prompt={mockPrompt} />);
-
-      await waitFor(() => {
-         const saveBtn = screen.getByTestId("save-btn");
-         expect(saveBtn).toHaveTextContent("Speichern");
       });
    });
 

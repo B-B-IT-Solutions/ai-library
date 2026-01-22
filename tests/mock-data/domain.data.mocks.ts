@@ -300,6 +300,8 @@ export const dPromptDescriptor = (index = 1): DPromptDescriptor => {
    return {
       id: `334db648-f300-4284-8149-075ff465d75${index}`,
       title: `title ${index}`,
+      currentVersion: 1,
+      content: "content 1",
       categories: dPromptCategories(),
       recommendedModel: `model ${index}`,
       isFavorite: true,

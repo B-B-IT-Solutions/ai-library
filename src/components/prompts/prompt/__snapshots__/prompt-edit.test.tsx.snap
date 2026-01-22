@@ -1451,7 +1451,7 @@ exports[`PromptEdit rendering tests PromptEdit - edit mode - rendered test 1`] =
               id="_r_j_-form-item"
               name="title"
               placeholder="Prompt-Titel eingeben..."
-              value="Test Prompt Title"
+              value="title 1"
             />
           </div>
           <div
@@ -1481,7 +1481,7 @@ exports[`PromptEdit rendering tests PromptEdit - edit mode - rendered test 1`] =
               role="combobox"
               type="button"
             >
-              Claude Sonnet 4.5
+              model 1
               <svg
                 aria-hidden="true"
                 class="lucide lucide-chevrons-up-down ml-2 h-4 w-4 shrink-0 opacity-50"
@@ -1621,7 +1621,7 @@ exports[`PromptEdit rendering tests PromptEdit - edit mode - rendered test 1`] =
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="lucide lucide-check mr-2 h-4 w-4 opacity-100"
+                                    class="lucide lucide-check mr-2 h-4 w-4 opacity-0"
                                     fill="none"
                                     height="24"
                                     stroke="currentColor"
@@ -1962,6 +1962,43 @@ exports[`PromptEdit rendering tests PromptEdit - edit mode - rendered test 1`] =
                   class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
                   data-slot="button"
                   data-testid="remove-category-btn-1"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-x h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M18 6 6 18"
+                    />
+                    <path
+                      d="m6 6 12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div
+                class="flex gap-2"
+              >
+                <input
+                  class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive flex-1"
+                  data-slot="input"
+                  name="categories.2"
+                  placeholder="Kategoriename eingeben"
+                />
+                <button
+                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+                  data-slot="button"
+                  data-testid="remove-category-btn-2"
                   type="button"
                 >
                   <svg
@@ -2663,7 +2700,7 @@ exports[`PromptEdit rendering tests PromptEdit - edit mode - rendered test 1`] =
                   placeholder="Folge-Prompt eingeben"
                   style="min-height: 66px; max-height: 9007199254740991px; height: 6px;"
                 >
-                  Follow up 1
+                  content 0
                 </textarea>
                 <button
                   class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
@@ -2712,7 +2749,56 @@ exports[`PromptEdit rendering tests PromptEdit - edit mode - rendered test 1`] =
                   placeholder="Folge-Prompt eingeben"
                   style="min-height: 66px; max-height: 9007199254740991px; height: 6px;"
                 >
-                  Follow up 2
+                  content 1
+                </textarea>
+                <button
+                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+                  data-slot="button"
+                  data-testid="remove-btn"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-x h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M18 6 6 18"
+                    />
+                    <path
+                      d="m6 6 12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div
+              class="grid gap-2"
+              data-slot="form-item"
+              data-testid="follow-up-prompt-edit"
+            >
+              <div
+                class="flex gap-2 items-start"
+              >
+                <textarea
+                  aria-describedby="_r_17_-form-item-description"
+                  aria-invalid="false"
+                  class="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1"
+                  data-slot="form-control"
+                  id="_r_17_-form-item"
+                  name="followUpPrompts.2"
+                  placeholder="Folge-Prompt eingeben"
+                  style="min-height: 66px; max-height: 9007199254740991px; height: 6px;"
+                >
+                  content 2
                 </textarea>
                 <button
                   class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
