@@ -26,11 +26,7 @@ import {
    createPrompt,
    updatePrompt,
 } from "@/data/actions/prompt/prompt.actions";
-import {
-   DPromptCreate,
-   DPromptDescriptor,
-   DPromptUpdate,
-} from "@/data/types/domain/prompt";
+import { DPromptDescriptor, DPromptUpdate } from "@/data/types/domain/prompt";
 import { updatePromptSchema } from "@/data/types/validators/prompt";
 
 import { PromptContentEdit } from "./content/prompt-content-edit";
@@ -123,7 +119,7 @@ export const PromptEdit: FC<PromptEditProps> = ({
               ...values,
               categories: filteredCategories,
               followUpPrompts: filteredFollowUpPrompts,
-           } as DPromptCreate);
+           });
 
       if (result.success) {
          toast.success(result.message);

@@ -16,14 +16,13 @@ import {
    DUseCase,
 } from "@/data/types/domain/product";
 import {
-   DFilters,
    DPromptCategory,
-   DPromptCreate,
    DPromptDescriptor,
    DPromptDescriptorsFilter,
    DPromptDescriptorsPage,
    DPromptDescriptorsPageQuery,
    DPromptFollowUp,
+   DPromptUpdate,
    DPromptVersion,
 } from "@/data/types/domain/prompt";
 import {
@@ -311,13 +310,18 @@ export const dPromptDescriptor = (index = 1): DPromptDescriptor => {
    };
 };
 
-export const dPromptCreate = (index = 1): DPromptCreate => {
+export const dPromptUpdate = (index = 1): DPromptUpdate => {
    return {
       title: `title ${index}`,
       content: `content ${index}`,
       categories: ["category 1"],
       recommendedModel: `model ${index}`,
+      followUpPrompts: dFollowUpPrompts(),
    };
+};
+
+export const dFollowUpPrompts = (count = 3): string[] => {
+   return range(0, count).map((i) => `prompt follow up ${i}`);
 };
 
 export const dPromptCategories = (count = 3): DPromptCategory[] => {

@@ -6,7 +6,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import { PromptRepository } from "@/data/repositories/prompt";
 import { DPromptDescriptorsPageQuery } from "@/data/types/domain/prompt";
-import { PromptCreateInput } from "@/generated/prisma/models";
+import { PromptDescriptorCreateInput } from "@/generated/prisma/models";
 
 import { toDPromptDescriptor, toDPromptDescriptorsPage } from "./prompt.mapper";
 import { PromptService } from "./prompt.service";
@@ -124,31 +124,52 @@ describe("createPrompt tests", () => {
    });
 
    it("createPrompt - error - test", async () => {
-      const prompt = dtestData.dPromptCreate();
+      const prompt = dtestData.dPromptUpdate();
       promptRepoMock.pCreatePrompt.mockRejectedValue(new Error("db error"));
 
       await expect(promptService.createPrompt(prompt)).rejects.toThrow(
          "db error"
       );
 
-      const promptToSave: PromptCreateInput = {
+      const promptToSave: PromptDescriptorCreateInput = {
+         title: prompt.title,
          content: prompt.content,
-         descriptor: {
-            create: {
-               title: prompt.title,
-               recommendedModel: prompt.recommendedModel,
-               categories: {
-                  connectOrCreate: [
-                     {
-                        where: {
-                           name: "category 1",
-                        },
-                        create: {
-                           name: "category 1",
-                        },
-                     },
-                  ],
+         recommendedModel: prompt.recommendedModel,
+         currentVersion: 1,
+         categories: {
+            connectOrCreate: [
+               {
+                  where: {
+                     name: "category 1",
+                  },
+                  create: {
+                     name: "category 1",
+                  },
                },
+            ],
+         },
+         followUpPrompts: {
+            create: [
+               {
+                  content: "prompt follow up 0",
+                  order: 0,
+               },
+               {
+                  content: "prompt follow up 1",
+                  order: 1,
+               },
+               {
+                  content: "prompt follow up 2",
+                  order: 2,
+               },
+            ],
+         },
+         versions: {
+            create: {
+               version: 1,
+               content: prompt.content,
+               title: prompt.title,
+               categories: prompt.categories,
             },
          },
       };
@@ -158,28 +179,49 @@ describe("createPrompt tests", () => {
    });
 
    it("createPrompt - prompt created  - test", async () => {
-      const prompt = dtestData.dPromptCreate();
+      const prompt = dtestData.dPromptUpdate();
 
       await promptService.createPrompt(prompt);
 
-      const promptToSave: PromptCreateInput = {
+      const promptToSave: PromptDescriptorCreateInput = {
+         title: prompt.title,
          content: prompt.content,
-         descriptor: {
-            create: {
-               title: prompt.title,
-               recommendedModel: prompt.recommendedModel,
-               categories: {
-                  connectOrCreate: [
-                     {
-                        where: {
-                           name: "category 1",
-                        },
-                        create: {
-                           name: "category 1",
-                        },
-                     },
-                  ],
+         recommendedModel: prompt.recommendedModel,
+         currentVersion: 1,
+         categories: {
+            connectOrCreate: [
+               {
+                  where: {
+                     name: "category 1",
+                  },
+                  create: {
+                     name: "category 1",
+                  },
                },
+            ],
+         },
+         followUpPrompts: {
+            create: [
+               {
+                  content: "prompt follow up 0",
+                  order: 0,
+               },
+               {
+                  content: "prompt follow up 1",
+                  order: 1,
+               },
+               {
+                  content: "prompt follow up 2",
+                  order: 2,
+               },
+            ],
+         },
+         versions: {
+            create: {
+               version: 1,
+               content: prompt.content,
+               title: prompt.title,
+               categories: prompt.categories,
             },
          },
       };

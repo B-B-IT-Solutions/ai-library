@@ -4,14 +4,12 @@ import { validate as isValidUuid } from "uuid";
 import { PromptRepository } from "@/data/repositories/prompt";
 import {
    DPromptCategory,
-   DPromptCreate,
    DPromptDescriptor,
    DPromptDescriptorsPage,
    DPromptDescriptorsPageQuery,
    DPromptUpdate,
 } from "@/data/types/domain/prompt";
 import {
-   createPromptSchema,
    deletePromptSchema,
    toggleFavoriteSchema,
    updatePromptSchema,
@@ -52,8 +50,8 @@ export class PromptService {
       return await this.promptRepository.pGetPromptCategories();
    }
 
-   async createPrompt(data: DPromptCreate) {
-      const prompt = createPromptSchema.parse(data);
+   async createPrompt(data: DPromptUpdate) {
+      const prompt = updatePromptSchema.parse(data);
       const categories = this.createOrConnectCategories(prompt.categories);
       const followUps = this.createFollowUps(prompt.followUpPrompts || []);
 

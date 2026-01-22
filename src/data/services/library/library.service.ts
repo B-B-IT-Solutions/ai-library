@@ -12,7 +12,7 @@ import {
    DLibraryEntry,
    DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
-import { DPromptCreate } from "@/data/types/domain/prompt";
+import { DPromptUpdate } from "@/data/types/domain/prompt";
 
 import {
    toDLibraryEntries,
@@ -90,7 +90,7 @@ export class LibraryService {
       }
 
       const { templateDescriptor: descriptor } = entry;
-      const promptData: DPromptCreate = {
+      const promptData: DPromptUpdate = {
          content: descriptor.promptTemplate.promptText,
          title: descriptor.title,
          recommendedModel: descriptor.recommendedModel,

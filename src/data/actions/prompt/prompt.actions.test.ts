@@ -120,10 +120,10 @@ describe("createPrompt tests", () => {
    });
 
    it("createPrompt - error - test", async () => {
-      const promptCreate = dtestData.dPromptCreate();
+      const prompt = dtestData.dPromptUpdate();
       sCreatePromptMock.mockRejectedValue(new Error("db error"));
 
-      const result = await createPrompt(promptCreate);
+      const result = await createPrompt(prompt);
       const expectedResult = {
          success: false,
          message: "db error",
@@ -131,13 +131,13 @@ describe("createPrompt tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(sCreatePromptMock).toHaveBeenCalledTimes(1);
-      expect(sCreatePromptMock).toHaveBeenCalledWith(promptCreate);
+      expect(sCreatePromptMock).toHaveBeenCalledWith(prompt);
    });
 
    it("createPrompt - prompt created  - test", async () => {
-      const promptCreate = dtestData.dPromptCreate();
+      const prompt = dtestData.dPromptUpdate();
 
-      const result = await createPrompt(promptCreate);
+      const result = await createPrompt(prompt);
       const expectedResult = {
          success: true,
          message: "Prompt erfolgreich erstellt.",
@@ -145,6 +145,6 @@ describe("createPrompt tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(sCreatePromptMock).toHaveBeenCalledTimes(1);
-      expect(sCreatePromptMock).toHaveBeenCalledWith(promptCreate);
+      expect(sCreatePromptMock).toHaveBeenCalledWith(prompt);
    });
 });

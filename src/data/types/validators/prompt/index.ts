@@ -1,5 +1,4 @@
 export {
-   createPromptSchema,
    deletePromptSchema,
    toggleFavoriteSchema,
    updatePromptSchema,

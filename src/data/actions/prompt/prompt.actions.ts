@@ -7,7 +7,6 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
-   DPromptCreate,
    DPromptDescriptor,
    DPromptDescriptorsPage,
    DPromptDescriptorsPageQuery,
@@ -35,7 +34,7 @@ export const getPromptCategories = async (): Promise<string[]> => {
    return map(categories, (c) => c.name);
 };
 
-export const createPrompt = async (data: DPromptCreate) => {
+export const createPrompt = async (data: DPromptUpdate) => {
    try {
       const service = getPromptSevice();
       await service.createPrompt(data);
