@@ -126,7 +126,9 @@ describe("loadPrompts hooks tests", () => {
       const expectedQuery: DPromptDescriptorsPageQuery = {
          pagination: { pageNumber: 0, pageSize: 10 },
          globalFilter: params.search,
-         filter: filter,
+         filter: {
+            categories: params.categories,
+         },
       };
 
       await waitFor(() => {
