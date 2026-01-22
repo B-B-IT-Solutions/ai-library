@@ -32,6 +32,7 @@ import { updatePromptSchema } from "@/data/types/validators/prompt";
 import { PromptContentEdit } from "./content/prompt-content-edit";
 import { PromptFollowUpsEdit } from "./follow-ups/prompt-follow-ups-edit";
 import { BasicInfoEdit } from "./header/basic-info-edit";
+import { removeEmpty } from "./utils";
 
 type PromptEditProps =
    | {
@@ -90,38 +91,25 @@ export const PromptEdit: FC<PromptEditProps> = ({ prompt, mode }) => {
       name: "followUpPrompts" as never,
    });
 
-   const handleSave = async (createNewVersion: boolean = false) => {
+   const handleSave = async (createVersion = false) => {
       const isValid = await form.trigger();
       if (!isValid) {
          return;
       }
       const values = form.getValues();
 
-      // Filter out empty strings from categories and followUpPrompts
-      const filteredCategories = values.categories.filter(
-         (cat) => cat.trim() !== ""
-      );
-      const filteredFollowUpPrompts = values.followUpPrompts.filter(
-         (prompt) => prompt.trim() !== ""
-      );
+      const filteredCategories = removeEmpty(values.categories);
+      const filteredFollowUpPrompts = removeEmpty(values.followUpPrompts);
+
+      const payload: DPromptUpdate = {
+         ...values,
+         categories: filteredCategories,
+         followUpPrompts: filteredFollowUpPrompts,
+      };
 
       const result = isEdit
-         ? await updatePrompt(
-              {
-                 id: values.id!,
-                 title: values.title,
-                 content: values.content,
-                 categories: filteredCategories,
-                 recommendedModel: values.recommendedModel,
-                 followUpPrompts: filteredFollowUpPrompts,
-              },
-              createNewVersion
-           )
-         : await createPrompt({
-              ...values,
-              categories: filteredCategories,
-              followUpPrompts: filteredFollowUpPrompts,
-           });
+         ? await updatePrompt(payload, createVersion)
+         : await createPrompt(payload);
 
       if (result.success) {
          toast.success(result.message);
