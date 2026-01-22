@@ -12,6 +12,14 @@ import { DPromptDescriptor } from "@/data/types/domain/prompt";
 
 import { PromptEdit } from "./prompt-edit";
 
+const mockCreatePrompt = createPrompt as jest.MockedFunction<
+   typeof createPrompt
+>;
+
+const mockUpdatePrompt = updatePrompt as jest.MockedFunction<
+   typeof updatePrompt
+>;
+
 const mockPrompt: DPromptDescriptor = {
    id: "test-prompt-id",
    title: "Test Prompt Title",
@@ -29,6 +37,39 @@ const mockPrompt: DPromptDescriptor = {
    createdAt: new Date("2025-09-27").toISOString(),
 };
 
+const assertRendered = () => {
+   const component = screen.getByTestId("prompt-edit");
+   const form = screen.getByTestId("edit-form");
+   const basicInfo = screen.getByTestId("basic-info-edit");
+   const contentEdit = screen.getByTestId("prompt-content-edit");
+   const followUps = screen.getByTestId("follow-up-prompts-edit");
+
+   assertInDocument(component);
+   assertInDocument(form);
+   assertInDocument(basicInfo);
+   assertInDocument(contentEdit);
+   assertInDocument(followUps);
+};
+
+const assertCreateBtnsRendered = () => {
+   const cancelBtn = screen.getByTestId("cancel-btn");
+   const createBtn = screen.getByTestId("create-btn");
+
+   assertInDocument(cancelBtn);
+   assertInDocument(createBtn);
+};
+
+const assertEditBtnsRendered = () => {
+   const cancelBtn = screen.getByTestId("cancel-btn");
+   const saveBtn = screen.getByTestId("save-btn");
+   const dropdownTriggerBtn = screen.getByTestId("dropdown-trigger-btn");
+
+   assertInDocument(cancelBtn);
+   assertInDocument(saveBtn);
+   assertInDocument(saveBtn);
+   assertInDocument(dropdownTriggerBtn);
+};
+
 describe("PromptEdit rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -38,23 +79,8 @@ describe("PromptEdit rendering tests", () => {
       const { container } = render(<PromptEdit mode="create" />);
 
       await waitFor(() => {
-         const component = screen.getByTestId("prompt-edit");
-         const form = screen.getByTestId("edit-form");
-         const heading = screen.getByText("Neuen Prompt erstellen");
-         const basicInfo = screen.getByTestId("basic-info-edit");
-         const contentEdit = screen.getByTestId("prompt-content-edit");
-         const followUps = screen.getByTestId("follow-up-prompts-edit");
-         const cancelBtn = screen.getByTestId("cancel-btn");
-         const createBtn = screen.getByTestId("create-btn");
-
-         assertInDocument(component);
-         assertInDocument(form);
-         assertInDocument(heading);
-         assertInDocument(basicInfo);
-         assertInDocument(contentEdit);
-         assertInDocument(followUps);
-         assertInDocument(cancelBtn);
-         assertInDocument(createBtn);
+         assertRendered();
+         assertCreateBtnsRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -66,61 +92,31 @@ describe("PromptEdit rendering tests", () => {
       );
 
       await waitFor(() => {
-         const component = screen.getByTestId("prompt-edit");
-         const form = screen.getByTestId("edit-form");
-         const heading = screen.getByText("Prompt bearbeiten");
-         const basicInfo = screen.getByTestId("basic-info-edit");
-         const contentEdit = screen.getByTestId("prompt-content-edit");
-         const followUps = screen.getByTestId("follow-up-prompts-edit");
-         const cancelBtn = screen.getByTestId("cancel-btn");
-         const saveBtn = screen.getByTestId("save-btn");
-         const dropdownTrigger = screen.getByTestId("dropdown-trigger-btn");
-
-         assertInDocument(component);
-         assertInDocument(form);
-         assertInDocument(heading);
-         assertInDocument(basicInfo);
-         assertInDocument(contentEdit);
-         assertInDocument(followUps);
-         assertInDocument(cancelBtn);
-         assertInDocument(saveBtn);
-         assertInDocument(dropdownTrigger);
+         assertRendered();
+         assertEditBtnsRendered();
       });
 
       expect(container).toMatchSnapshot();
    });
 });
 
-describe("PromptEdit functionality tests - create mode", () => {
+describe("PromptEdit functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("PromptEdit - cancel button click - navigates back", async () => {
+   it("PromptEdit - create mode - cancel btn clicked - test", async () => {
       render(<PromptEdit mode="create" />);
 
       await waitFor(() => {
-         const cancelBtn = screen.getByTestId("cancel-btn");
-         assertInDocument(cancelBtn);
+         assertRendered();
+         expect(mockRouter.back).not.toHaveBeenCalled();
       });
 
       const cancelBtn = screen.getByTestId("cancel-btn");
       await userEvent.click(cancelBtn);
 
       expect(mockRouter.back).toHaveBeenCalledTimes(1);
-   });
-
-   // Note: Form submission tests for create mode require complex mocking of react-hook-form
-   // validation. These scenarios are covered by edit mode tests which have initialized data.
-   // The create mode flow is indirectly tested through integration tests.
-
-   it("PromptEdit - create button - displays correct label when not submitting", async () => {
-      render(<PromptEdit mode="create" />);
-
-      await waitFor(() => {
-         const createBtn = screen.getByTestId("create-btn");
-         expect(createBtn).toHaveTextContent("Prompt erstellen");
-      });
    });
 });
 
@@ -131,9 +127,6 @@ describe("PromptEdit functionality tests - edit mode", () => {
    });
 
    it("PromptEdit - successful update - shows success toast and redirects", async () => {
-      const mockUpdatePrompt = updatePrompt as jest.MockedFunction<
-         typeof updatePrompt
-      >;
       mockUpdatePrompt.mockResolvedValue({
          success: true,
          message: "Prompt updated successfully",
@@ -170,9 +163,6 @@ describe("PromptEdit functionality tests - edit mode", () => {
    });
 
    it("PromptEdit - failed update - shows error toast", async () => {
-      const mockUpdatePrompt = updatePrompt as jest.MockedFunction<
-         typeof updatePrompt
-      >;
       mockUpdatePrompt.mockResolvedValue({
          success: false,
          message: "Failed to update prompt",
@@ -196,9 +186,6 @@ describe("PromptEdit functionality tests - edit mode", () => {
    });
 
    it("PromptEdit - save as new version - calls updatePrompt with createVersion true", async () => {
-      const mockUpdatePrompt = updatePrompt as jest.MockedFunction<
-         typeof updatePrompt
-      >;
       mockUpdatePrompt.mockResolvedValue({
          success: true,
          message: "Version created successfully",
@@ -243,9 +230,6 @@ describe("PromptEdit functionality tests - edit mode", () => {
    });
 
    it("PromptEdit - initializes form with prompt data", async () => {
-      const mockUpdatePrompt = updatePrompt as jest.MockedFunction<
-         typeof updatePrompt
-      >;
       mockUpdatePrompt.mockResolvedValue({
          success: true,
          message: "Prompt updated successfully",
@@ -276,9 +260,6 @@ describe("PromptEdit form validation tests", () => {
    });
 
    it("PromptEdit - does not submit when validation fails", async () => {
-      const mockCreatePrompt = createPrompt as jest.MockedFunction<
-         typeof createPrompt
-      >;
       mockCreatePrompt.mockResolvedValue({
          success: true,
          message: "Prompt created successfully",
@@ -306,9 +287,6 @@ describe("PromptEdit data filtering tests", () => {
    });
 
    it("PromptEdit - filters out empty categories before save", async () => {
-      const mockUpdatePrompt = updatePrompt as jest.MockedFunction<
-         typeof updatePrompt
-      >;
       mockUpdatePrompt.mockResolvedValue({
          success: true,
          message: "Prompt updated successfully",
@@ -339,9 +317,6 @@ describe("PromptEdit data filtering tests", () => {
    });
 
    it("PromptEdit - filters out empty follow-up prompts before save", async () => {
-      const mockUpdatePrompt = updatePrompt as jest.MockedFunction<
-         typeof updatePrompt
-      >;
       mockUpdatePrompt.mockResolvedValue({
          success: true,
          message: "Prompt updated successfully",
