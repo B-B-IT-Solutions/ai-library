@@ -6,7 +6,10 @@ import { DeepMockProxy } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import { PromptRepository } from "@/data/repositories/prompt";
 import { DPromptDescriptorsPageQuery } from "@/data/types/domain/prompt";
-import { PromptDescriptorCreateInput } from "@/generated/prisma/models";
+import {
+   PromptDescriptorCreateInput,
+   PromptDescriptorUpdateInput,
+} from "@/generated/prisma/models";
 
 import { toDPromptDescriptor, toDPromptDescriptorsPage } from "./prompt.mapper";
 import { PromptService } from "./prompt.service";
@@ -212,5 +215,381 @@ describe("createPrompt tests", () => {
 
       expect(promptRepoMock.pCreatePrompt).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pCreatePrompt).toHaveBeenCalledWith(promptToSave);
+   });
+});
+
+describe("updatePrompt tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   it("updatePrompt - prompt not found - test", async () => {
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const prompt = dtestData.dPromptUpdate();
+      promptRepoMock.pGetPromptDescriptor.mockResolvedValue(null);
+
+      await expect(
+         promptService.updatePrompt(promptId, prompt, false)
+      ).rejects.toThrow("Prompt not found");
+
+      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith({
+         id: promptId,
+      });
+      expect(promptRepoMock.pUpdatePrompt).not.toHaveBeenCalled();
+   });
+
+   it("updatePrompt - error - test", async () => {
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const prompt = dtestData.dPromptUpdate();
+      const currentPrompt = ptestData.pPromptDescriptorWithCategories();
+      currentPrompt.currentVersion = 1;
+      promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
+      promptRepoMock.pUpdatePrompt.mockRejectedValue(new Error("db error"));
+
+      await expect(
+         promptService.updatePrompt(promptId, prompt, true)
+      ).rejects.toThrow("db error");
+
+      const expectedData: PromptDescriptorUpdateInput = {
+         title: prompt.title,
+         content: prompt.content,
+         recommendedModel: prompt.recommendedModel,
+         currentVersion: 2,
+         categories: {
+            set: [],
+            connectOrCreate: [
+               {
+                  where: {
+                     name: "category 1",
+                  },
+                  create: {
+                     name: "category 1",
+                  },
+               },
+            ],
+         },
+         followUpPrompts: {
+            deleteMany: {},
+            create: [
+               {
+                  content: "prompt follow up 0",
+                  order: 0,
+               },
+               {
+                  content: "prompt follow up 1",
+                  order: 1,
+               },
+               {
+                  content: "prompt follow up 2",
+                  order: 2,
+               },
+            ],
+         },
+         versions: {
+            create: {
+               version: 2,
+               content: prompt.content,
+            },
+         },
+      };
+
+      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
+         promptId,
+         expectedData
+      );
+   });
+
+   it("updatePrompt - content not changed - createVersion false - test", async () => {
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const prompt = dtestData.dPromptUpdate();
+      const currentPrompt = ptestData.pPromptDescriptorWithCategories();
+      currentPrompt.content = prompt.content;
+      currentPrompt.currentVersion = 1;
+      promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
+
+      await promptService.updatePrompt(promptId, prompt, false);
+
+      const expectedData: PromptDescriptorUpdateInput = {
+         title: prompt.title,
+         content: prompt.content,
+         recommendedModel: prompt.recommendedModel,
+         currentVersion: 1,
+         categories: {
+            set: [],
+            connectOrCreate: [
+               {
+                  where: {
+                     name: "category 1",
+                  },
+                  create: {
+                     name: "category 1",
+                  },
+               },
+            ],
+         },
+         followUpPrompts: {
+            deleteMany: {},
+            create: [
+               {
+                  content: "prompt follow up 0",
+                  order: 0,
+               },
+               {
+                  content: "prompt follow up 1",
+                  order: 1,
+               },
+               {
+                  content: "prompt follow up 2",
+                  order: 2,
+               },
+            ],
+         },
+         versions: undefined,
+      };
+
+      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
+         promptId,
+         expectedData
+      );
+   });
+
+   it("updatePrompt - content not changed - createVersion true - test", async () => {
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const prompt = dtestData.dPromptUpdate();
+      const currentPrompt = ptestData.pPromptDescriptorWithCategories();
+      currentPrompt.content = prompt.content;
+      currentPrompt.currentVersion = 1;
+      promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
+
+      await promptService.updatePrompt(promptId, prompt, true);
+
+      const expectedData: PromptDescriptorUpdateInput = {
+         title: prompt.title,
+         content: prompt.content,
+         recommendedModel: prompt.recommendedModel,
+         currentVersion: 1,
+         categories: {
+            set: [],
+            connectOrCreate: [
+               {
+                  where: {
+                     name: "category 1",
+                  },
+                  create: {
+                     name: "category 1",
+                  },
+               },
+            ],
+         },
+         followUpPrompts: {
+            deleteMany: {},
+            create: [
+               {
+                  content: "prompt follow up 0",
+                  order: 0,
+               },
+               {
+                  content: "prompt follow up 1",
+                  order: 1,
+               },
+               {
+                  content: "prompt follow up 2",
+                  order: 2,
+               },
+            ],
+         },
+         versions: undefined,
+      };
+
+      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
+         promptId,
+         expectedData
+      );
+   });
+
+   it("updatePrompt - content changed - createVersion false - test", async () => {
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const prompt = dtestData.dPromptUpdate();
+      const currentPrompt = ptestData.pPromptDescriptorWithCategories();
+      currentPrompt.currentVersion = 1;
+      promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
+
+      await promptService.updatePrompt(promptId, prompt, false);
+
+      const expectedData: PromptDescriptorUpdateInput = {
+         title: prompt.title,
+         content: prompt.content,
+         recommendedModel: prompt.recommendedModel,
+         currentVersion: 1,
+         categories: {
+            set: [],
+            connectOrCreate: [
+               {
+                  where: {
+                     name: "category 1",
+                  },
+                  create: {
+                     name: "category 1",
+                  },
+               },
+            ],
+         },
+         followUpPrompts: {
+            deleteMany: {},
+            create: [
+               {
+                  content: "prompt follow up 0",
+                  order: 0,
+               },
+               {
+                  content: "prompt follow up 1",
+                  order: 1,
+               },
+               {
+                  content: "prompt follow up 2",
+                  order: 2,
+               },
+            ],
+         },
+         versions: undefined,
+      };
+
+      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
+         promptId,
+         expectedData
+      );
+   });
+
+   it("updatePrompt - content changed - createVersion true - test", async () => {
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const prompt = dtestData.dPromptUpdate();
+      const currentPrompt = ptestData.pPromptDescriptorWithCategories();
+      currentPrompt.currentVersion = 1;
+      promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
+
+      await promptService.updatePrompt(promptId, prompt, true);
+
+      const expectedData: PromptDescriptorUpdateInput = {
+         title: prompt.title,
+         content: prompt.content,
+         recommendedModel: prompt.recommendedModel,
+         currentVersion: 2,
+         categories: {
+            set: [],
+            connectOrCreate: [
+               {
+                  where: {
+                     name: "category 1",
+                  },
+                  create: {
+                     name: "category 1",
+                  },
+               },
+            ],
+         },
+         followUpPrompts: {
+            deleteMany: {},
+            create: [
+               {
+                  content: "prompt follow up 0",
+                  order: 0,
+               },
+               {
+                  content: "prompt follow up 1",
+                  order: 1,
+               },
+               {
+                  content: "prompt follow up 2",
+                  order: 2,
+               },
+            ],
+         },
+         versions: {
+            create: {
+               version: 2,
+               content: prompt.content,
+            },
+         },
+      };
+
+      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
+         promptId,
+         expectedData
+      );
+   });
+});
+
+describe("deletePrompt tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   it("deletePrompt - error - test", async () => {
+      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const error = new Error("db error");
+      promptRepoMock.pDeletePrompt.mockRejectedValue(error);
+
+      const fn = async () => promptService.deletePrompt(id);
+      await expect(fn).rejects.toThrow("db error");
+
+      expect(promptRepoMock.pDeletePrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pDeletePrompt).toHaveBeenCalledWith(id);
+   });
+
+   it("deletePrompt - prompt deleted - test", async () => {
+      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+
+      await promptService.deletePrompt(id);
+
+      expect(promptRepoMock.pDeletePrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pDeletePrompt).toHaveBeenCalledWith(id);
+   });
+});
+
+describe("toggleFavorite tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   it("toggleFavorite - error - test", async () => {
+      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const error = new Error("db error");
+      promptRepoMock.pToggleFavorite.mockRejectedValue(error);
+
+      const fn = async () => promptService.toggleFavorite(id, true);
+
+      await expect(fn).rejects.toThrow("db error");
+
+      expect(promptRepoMock.pToggleFavorite).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pToggleFavorite).toHaveBeenCalledWith(id, true);
+   });
+
+   it("toggleFavorite - add to favorites - test", async () => {
+      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+
+      await promptService.toggleFavorite(id, true);
+
+      expect(promptRepoMock.pToggleFavorite).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pToggleFavorite).toHaveBeenCalledWith(id, true);
+   });
+
+   it("toggleFavorite - remove from favorites - test", async () => {
+      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+
+      await promptService.toggleFavorite(id, false);
+
+      expect(promptRepoMock.pToggleFavorite).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pToggleFavorite).toHaveBeenCalledWith(id, false);
    });
 });
