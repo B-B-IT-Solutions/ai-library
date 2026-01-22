@@ -88,13 +88,12 @@ export const PromptEdit: FC<PromptEditProps> = ({ prompt, mode }) => {
       name: "followUpPrompts" as never,
    });
 
-   const handleSave = async (createVersion = false) => {
-      const values = form.getValues();
-      const filteredCategories = removeEmpty(values.categories);
-      const filteredFollowUpPrompts = removeEmpty(values.followUpPrompts);
+   const handleSave = async (data: DPromptUpdate, createVersion = false) => {
+      const filteredCategories = removeEmpty(data.categories);
+      const filteredFollowUpPrompts = removeEmpty(data.followUpPrompts);
 
       const payload: DPromptUpdate = {
-         ...values,
+         ...data,
          categories: filteredCategories,
          followUpPrompts: filteredFollowUpPrompts,
       };
@@ -115,8 +114,8 @@ export const PromptEdit: FC<PromptEditProps> = ({ prompt, mode }) => {
       }
    };
 
-   const onSubmit: SubmitHandler<DPromptUpdate> = async () => {
-      await handleSave(false);
+   const onSubmit = (newVersion = false): SubmitHandler<DPromptUpdate> => {
+      return async (data) => await handleSave(data, newVersion);
    };
 
    const cancelBtn = () => {
@@ -192,7 +191,7 @@ export const PromptEdit: FC<PromptEditProps> = ({ prompt, mode }) => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                      <DropdownMenuItem
-                        onClick={() => handleSave(true)}
+                        onClick={form.handleSubmit(onSubmit(true))}
                         disabled={form.formState.isSubmitting}
                         data-testid="save-with-version-btn"
                      >
@@ -234,7 +233,7 @@ export const PromptEdit: FC<PromptEditProps> = ({ prompt, mode }) => {
          <CardContent>
             <Form {...form}>
                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
+                  onSubmit={form.handleSubmit(onSubmit())}
                   className="space-y-6"
                   data-testid="edit-form"
                >
