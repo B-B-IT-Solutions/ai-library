@@ -181,6 +181,7 @@ describe("pGetPromptDescriptors tests", () => {
          pagination: { pageNumber: 3, pageSize: 5 },
          filter: {
             categories: ["cat 123"],
+            isFavorite: true,
          },
       };
       const result = await promptRepository.pGetPromptDescriptors(query);
@@ -205,6 +206,7 @@ describe("pGetPromptDescriptors tests", () => {
                },
             },
          ],
+         isFavorite: true,
       };
       const expectedFindManyArgs: PromptDescriptorFindManyArgs = {
          where: expectedWhereClause,
