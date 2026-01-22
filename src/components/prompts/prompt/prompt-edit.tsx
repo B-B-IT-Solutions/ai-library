@@ -127,73 +127,107 @@ export const PromptEdit: FC<PromptEditProps> = ({ prompt, mode }) => {
       await handleSave(false);
    };
 
+   const cancelBtn = () => {
+      return (
+         <Button
+            type="button"
+            variant="outline"
+            onClick={() => router.back()}
+            disabled={form.formState.isSubmitting}
+            data-testid="cancel-btn"
+         >
+            Abbrechen
+         </Button>
+      );
+   };
+
+   const saveBtnLabel = () => {
+      if (form.formState.isSubmitting) {
+         return (
+            <>
+               <Loader className="h-4 w-4 animate-spin" />
+               Wird gespeichert...
+            </>
+         );
+      }
+      return (
+         <>
+            <Save className="h-4 w-4" />
+            Speichern
+         </>
+      );
+   };
+
+   const createBtnLabel = () => {
+      if (form.formState.isSubmitting) {
+         return (
+            <>
+               <Loader className="h-4 w-4 animate-spin" />
+               Wird erstellt...
+            </>
+         );
+      }
+      return (
+         <>
+            <Save className="h-4 w-4" />
+            Prompt erstellen
+         </>
+      );
+   };
+
+   const saveBtns = () => {
+      if (isEdit) {
+         return (
+            <div className="flex">
+               <Button
+                  type="submit"
+                  disabled={form.formState.isSubmitting}
+                  className="rounded-r-none"
+                  data-testid="save-btn"
+               >
+                  {saveBtnLabel()}
+               </Button>
+               <DropdownMenu>
+                  <DropdownMenuTrigger asChild={true}>
+                     <Button
+                        type="button"
+                        disabled={form.formState.isSubmitting}
+                        className="rounded-l-none border-l border-primary-foreground/20 px-2"
+                        data-testid="dropdown-trigger-btn"
+                     >
+                        <ChevronDown className="h-4 w-4" />
+                     </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                     <DropdownMenuItem
+                        onClick={() => handleSave(true)}
+                        disabled={form.formState.isSubmitting}
+                        data-testid="save-with-version-btn"
+                     >
+                        <History className="h-4 w-4" />
+                        Als neue Version speichern
+                     </DropdownMenuItem>
+                  </DropdownMenuContent>
+               </DropdownMenu>
+            </div>
+         );
+      }
+      return (
+         <Button
+            type="submit"
+            disabled={form.formState.isSubmitting}
+            data-testid="create-btn"
+         >
+            {createBtnLabel()}
+         </Button>
+      );
+   };
+
    const actionBtns = () => {
       return (
          <div className="flex items-center justify-end gap-3 pt-2">
-            <Button
-               type="button"
-               variant="outline"
-               onClick={() => router.back()}
-               disabled={form.formState.isSubmitting}
-            >
-               Abbrechen
-            </Button>
-
-            {isEdit ? (
-               <div className="flex">
-                  <Button
-                     type="submit"
-                     disabled={form.formState.isSubmitting}
-                     className="rounded-r-none"
-                  >
-                     {form.formState.isSubmitting ? (
-                        <>
-                           <Loader className="h-4 w-4 animate-spin" />
-                           Wird gespeichert...
-                        </>
-                     ) : (
-                        <>
-                           <Save className="h-4 w-4" />
-                           Speichern
-                        </>
-                     )}
-                  </Button>
-                  <DropdownMenu>
-                     <DropdownMenuTrigger asChild>
-                        <Button
-                           type="button"
-                           disabled={form.formState.isSubmitting}
-                           className="rounded-l-none border-l border-primary-foreground/20 px-2"
-                        >
-                           <ChevronDown className="h-4 w-4" />
-                        </Button>
-                     </DropdownMenuTrigger>
-                     <DropdownMenuContent align="end">
-                        <DropdownMenuItem
-                           onClick={() => handleSave(true)}
-                           disabled={form.formState.isSubmitting}
-                        >
-                           <History className="h-4 w-4" />
-                           Als neue Version speichern
-                        </DropdownMenuItem>
-                     </DropdownMenuContent>
-                  </DropdownMenu>
-               </div>
-            ) : (
-               <Button type="submit" disabled={form.formState.isSubmitting}>
-                  {form.formState.isSubmitting ? (
-                     <>
-                        <Loader className="h-4 w-4 animate-spin" />
-                        Wird erstellt...
-                     </>
-                  ) : (
-                     <>
-                        <Save className="h-4 w-4" />
-                        Prompt erstellen
-                     </>
-                  )}
-               </Button>
-            )}
+            {cancelBtn()}
+            {saveBtns()}
          </div>
       );
    };
