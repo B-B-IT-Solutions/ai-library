@@ -532,33 +532,6 @@ describe("updatePrompt tests", () => {
    });
 });
 
-describe("deletePrompt tests", () => {
-   beforeEach(() => {
-      jest.resetAllMocks();
-   });
-
-   it("deletePrompt - error - test", async () => {
-      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const error = new Error("db error");
-      promptRepoMock.pDeletePrompt.mockRejectedValue(error);
-
-      const fn = async () => promptService.deletePrompt(id);
-      await expect(fn).rejects.toThrow("db error");
-
-      expect(promptRepoMock.pDeletePrompt).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pDeletePrompt).toHaveBeenCalledWith(id);
-   });
-
-   it("deletePrompt - prompt deleted - test", async () => {
-      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-
-      await promptService.deletePrompt(id);
-
-      expect(promptRepoMock.pDeletePrompt).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pDeletePrompt).toHaveBeenCalledWith(id);
-   });
-});
-
 describe("toggleFavorite tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
@@ -593,5 +566,32 @@ describe("toggleFavorite tests", () => {
 
       expect(promptRepoMock.pToggleFavorite).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pToggleFavorite).toHaveBeenCalledWith(id, false);
+   });
+});
+
+describe("deletePrompt tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   it("deletePrompt - error - test", async () => {
+      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const error = new Error("db error");
+      promptRepoMock.pDeletePrompt.mockRejectedValue(error);
+
+      const fn = async () => promptService.deletePrompt(id);
+      await expect(fn).rejects.toThrow("db error");
+
+      expect(promptRepoMock.pDeletePrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pDeletePrompt).toHaveBeenCalledWith(id);
+   });
+
+   it("deletePrompt - prompt deleted - test", async () => {
+      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+
+      await promptService.deletePrompt(id);
+
+      expect(promptRepoMock.pDeletePrompt).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pDeletePrompt).toHaveBeenCalledWith(id);
    });
 });

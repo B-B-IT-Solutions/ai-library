@@ -45,8 +45,8 @@ import {
    User,
 } from "@/generated/prisma/client";
 import {
-   PromptCreateInput,
-   PromptUpdateInput,
+   PromptDescriptorCreateInput,
+   PromptDescriptorUpdateInput,
 } from "@/generated/prisma/models";
 
 export const pUser = (index = 1): User => {
@@ -466,33 +466,29 @@ export const pPromptDescriptor = (index = 1): PromptDescriptor => {
    };
 };
 
-export const pPromptCreateInput = (index = 1): PromptCreateInput => {
+export const pPromptDescriptorCreateInput = (
+   index = 1
+): PromptDescriptorCreateInput => {
    return {
+      title: `title ${index}`,
       content: `content ${index}`,
-      descriptor: {
-         create: {
-            title: `title ${index}`,
-            recommendedModel: `model ${index}`,
-            isFavorite: true,
-            updatedAt: new Date("2025-09-27"),
-            createdAt: new Date("2025-09-27"),
-         },
-      },
+      recommendedModel: `model ${index}`,
+      isFavorite: true,
+      updatedAt: new Date("2025-09-27"),
+      createdAt: new Date("2025-09-27"),
    };
 };
 
-export const pPromptUpdateInput = (index = 1): PromptUpdateInput => {
+export const pPromptDescriptorUpdateInput = (
+   index = 1
+): PromptDescriptorUpdateInput => {
    return {
       content: `content ${index}`,
-      descriptor: {
-         create: {
-            title: `title ${index}`,
-            recommendedModel: `model ${index}`,
-            isFavorite: true,
-            updatedAt: new Date("2025-09-27"),
-            createdAt: new Date("2025-09-27"),
-         },
-      },
+      title: `title ${index}`,
+      recommendedModel: `model ${index}`,
+      isFavorite: true,
+      updatedAt: new Date("2025-09-27"),
+      createdAt: new Date("2025-09-27"),
    };
 };
 

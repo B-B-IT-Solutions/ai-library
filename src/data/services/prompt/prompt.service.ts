@@ -118,12 +118,12 @@ export class PromptService {
       await this.promptRepository.pUpdatePrompt(promptId, toSave);
    }
 
-   async deletePrompt(id: string) {
-      await this.promptRepository.pDeletePrompt(id);
-   }
-
    async toggleFavorite(id: string, isFavorite: boolean) {
       await this.promptRepository.pToggleFavorite(id, isFavorite);
+   }
+
+   async deletePrompt(id: string) {
+      await this.promptRepository.pDeletePrompt(id);
    }
 
    private createOrConnectCategories(

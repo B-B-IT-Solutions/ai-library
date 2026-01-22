@@ -221,41 +221,6 @@ describe("updatePrompt tests", () => {
    });
 });
 
-describe("deletePrompt tests", () => {
-   beforeEach(() => {
-      jest.resetAllMocks();
-   });
-
-   it("deletePrompt - error - test", async () => {
-      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      sDeletePromptMock.mockRejectedValue(new Error("db error"));
-
-      const result = await deletePrompt(id);
-      const expectedResult = {
-         success: false,
-         message: "db error",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sDeletePromptMock).toHaveBeenCalledTimes(1);
-      expect(sDeletePromptMock).toHaveBeenCalledWith(id);
-   });
-
-   it("deletePrompt - prompt deleted - test", async () => {
-      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-
-      const result = await deletePrompt(id);
-      const expectedResult = {
-         success: true,
-         message: "Prompt erfolgreich gelöscht.",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sDeletePromptMock).toHaveBeenCalledTimes(1);
-      expect(sDeletePromptMock).toHaveBeenCalledWith(id);
-   });
-});
-
 describe("toggleFavorite tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
@@ -305,5 +270,40 @@ describe("toggleFavorite tests", () => {
       expect(revalidatePathMock).toHaveBeenCalledTimes(1);
       expect(sToggleFavoriteMock).toHaveBeenCalledTimes(1);
       expect(sToggleFavoriteMock).toHaveBeenCalledWith(id, false);
+   });
+});
+
+describe("deletePrompt tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   it("deletePrompt - error - test", async () => {
+      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      sDeletePromptMock.mockRejectedValue(new Error("db error"));
+
+      const result = await deletePrompt(id);
+      const expectedResult = {
+         success: false,
+         message: "db error",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sDeletePromptMock).toHaveBeenCalledTimes(1);
+      expect(sDeletePromptMock).toHaveBeenCalledWith(id);
+   });
+
+   it("deletePrompt - prompt deleted - test", async () => {
+      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+
+      const result = await deletePrompt(id);
+      const expectedResult = {
+         success: true,
+         message: "Prompt erfolgreich gelöscht.",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sDeletePromptMock).toHaveBeenCalledTimes(1);
+      expect(sDeletePromptMock).toHaveBeenCalledWith(id);
    });
 });

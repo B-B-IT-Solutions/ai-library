@@ -7,13 +7,14 @@ import {
    PromptDescriptorsPage,
    PromptDescriptorsPageQuery,
 } from "@/data/types/db/prompt";
-import { Prisma } from "@/generated/prisma/client";
 import {
    PromptCategoryFindManyArgs,
-   PromptCreateArgs,
    PromptDescriptorCountArgs,
+   PromptDescriptorCreateArgs,
+   PromptDescriptorDeleteArgs,
    PromptDescriptorFindFirstArgs,
    PromptDescriptorFindManyArgs,
+   PromptDescriptorUpdateArgs,
    PromptDescriptorWhereInput,
 } from "@/generated/prisma/models";
 
@@ -51,6 +52,7 @@ describe("pGetPromptDescriptors tests", () => {
          include: {
             categories: true,
          },
+         orderBy: { updatedAt: "desc" },
       };
       const expedtedCountArgs: PromptDescriptorCountArgs = {
          where: expectedWhereClause,
@@ -92,6 +94,7 @@ describe("pGetPromptDescriptors tests", () => {
          include: {
             categories: true,
          },
+         orderBy: { updatedAt: "desc" },
       };
       const expedtedCountArgs: PromptDescriptorCountArgs = {
          where: expectedWhereClause,
@@ -137,11 +140,9 @@ describe("pGetPromptDescriptors tests", () => {
                },
             },
             {
-               prompt: {
-                  content: {
-                     contains: query.globalFilter,
-                     mode: "insensitive",
-                  },
+               content: {
+                  contains: query.globalFilter,
+                  mode: "insensitive",
                },
             },
          ],
@@ -153,6 +154,7 @@ describe("pGetPromptDescriptors tests", () => {
          include: {
             categories: true,
          },
+         orderBy: { updatedAt: "desc" },
       };
       const expedtedCountArgs: PromptDescriptorCountArgs = {
          where: expectedWhereClause,
@@ -211,6 +213,7 @@ describe("pGetPromptDescriptors tests", () => {
          include: {
             categories: true,
          },
+         orderBy: { updatedAt: "desc" },
       };
       const expedtedCountArgs: PromptDescriptorCountArgs = {
          where: expectedWhereClause,
@@ -259,11 +262,9 @@ describe("pGetPromptDescriptors tests", () => {
                },
             },
             {
-               prompt: {
-                  content: {
-                     contains: query.globalFilter,
-                     mode: "insensitive",
-                  },
+               content: {
+                  contains: query.globalFilter,
+                  mode: "insensitive",
                },
             },
          ],
@@ -286,6 +287,7 @@ describe("pGetPromptDescriptors tests", () => {
          include: {
             categories: true,
          },
+         orderBy: { updatedAt: "desc" },
       };
       const expedtedCountArgs: PromptDescriptorCountArgs = {
          where: expectedWhereClause,
@@ -322,6 +324,12 @@ describe("pGetPromptDescriptor tests", () => {
          },
          include: {
             categories: true,
+            versions: {
+               orderBy: { version: "desc" },
+            },
+            followUpPrompts: {
+               orderBy: { order: "asc" },
+            },
          },
       };
       expect(result).toEqual(prompt);
@@ -343,6 +351,12 @@ describe("pGetPromptDescriptor tests", () => {
          },
          include: {
             categories: true,
+            versions: {
+               orderBy: { version: "desc" },
+            },
+            followUpPrompts: {
+               orderBy: { order: "asc" },
+            },
          },
       };
 
@@ -379,47 +393,107 @@ describe("getPromptCategories queries tests", () => {
    });
 });
 
-describe("createPrompt tests", () => {
+describe("pCreatePrompt tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   test("createPrompt - prompt created - test", async () => {
-      const input = ptestData.pPromptCreateInput();
-      prismaMock.prompt.create.mockResolvedValue(input);
+   test("pCreatePrompt - prompt created - test", async () => {
+      const input = ptestData.pPromptDescriptorCreateInput();
+      prismaMock.promptDescriptor.create.mockResolvedValue(input);
       const result = await promptRepository.pCreatePrompt(input);
 
-      const expectedCreateArgs: PromptCreateArgs = {
-         data: {
-            content: input.content,
-            descriptor: input.descriptor,
-         },
+      const expectedCreateArgs: PromptDescriptorCreateArgs = {
+         data: input,
       };
 
       expect(result).toEqual(input);
-      expect(prismaMock.prompt.create).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.create).toHaveBeenCalledWith(expectedCreateArgs);
+      expect(prismaMock.promptDescriptor.create).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptDescriptor.create).toHaveBeenCalledWith(
+         expectedCreateArgs
+      );
    });
 });
 
-describe("updatePrompt tests", () => {
+describe("pUpdatePrompt tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   test("updatePrompt - prompt updated - test", async () => {
+   test("pUpdatePrompt - prompt updated - test", async () => {
       const promptId = "prompt-id-1";
-      const input = ptestData.pPromptUpdateInput();
-      prismaMock.prompt.update.mockResolvedValue(input);
+      const input = ptestData.pPromptDescriptorUpdateInput();
+      prismaMock.promptDescriptor.update.mockResolvedValue(input);
       const result = await promptRepository.pUpdatePrompt(promptId, input);
 
-      const expectedUpdateArgs: Prisma.PromptUpdateArgs = {
+      const expectedUpdateArgs: PromptDescriptorUpdateArgs = {
          where: { id: promptId },
          data: input,
       };
 
       expect(result).toEqual(input);
-      expect(prismaMock.prompt.update).toHaveBeenCalledTimes(1);
-      expect(prismaMock.prompt.update).toHaveBeenCalledWith(expectedUpdateArgs);
+      expect(prismaMock.promptDescriptor.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptDescriptor.update).toHaveBeenCalledWith(
+         expectedUpdateArgs
+      );
+   });
+});
+
+describe("pToggleFavorite tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pToggleFavorite - isFavorite true - test", async () => {
+      const promptId = "prompt-id-1";
+
+      await promptRepository.pToggleFavorite(promptId, true);
+
+      const expectedUpdateArgs: PromptDescriptorUpdateArgs = {
+         where: { id: promptId },
+         data: { isFavorite: true },
+      };
+
+      expect(prismaMock.promptDescriptor.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptDescriptor.update).toHaveBeenCalledWith(
+         expectedUpdateArgs
+      );
+   });
+
+   test("pToggleFavorite - isFavorite false - test", async () => {
+      const promptId = "prompt-id-1";
+
+      await promptRepository.pToggleFavorite(promptId, false);
+
+      const expectedUpdateArgs: PromptDescriptorUpdateArgs = {
+         where: { id: promptId },
+         data: { isFavorite: false },
+      };
+
+      expect(prismaMock.promptDescriptor.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptDescriptor.update).toHaveBeenCalledWith(
+         expectedUpdateArgs
+      );
+   });
+});
+
+describe("pDeletePrompt tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pDeletePrompt - prompt deleted - test", async () => {
+      const promptId = "prompt-id-1";
+
+      await promptRepository.pDeletePrompt(promptId);
+
+      const expectedUpdateArgs: PromptDescriptorDeleteArgs = {
+         where: { id: promptId },
+      };
+
+      expect(prismaMock.promptDescriptor.delete).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptDescriptor.delete).toHaveBeenCalledWith(
+         expectedUpdateArgs
+      );
    });
 });

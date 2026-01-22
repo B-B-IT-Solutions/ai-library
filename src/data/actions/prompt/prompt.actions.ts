@@ -70,22 +70,6 @@ export const updatePrompt = async (
    }
 };
 
-export const deletePrompt = async (id: string) => {
-   try {
-      const service = getPromptSevice();
-      await service.deletePrompt(id);
-      return {
-         success: true,
-         message: "Prompt erfolgreich gelöscht.",
-      };
-   } catch (error) {
-      return {
-         success: false,
-         message: formatError(error),
-      };
-   }
-};
-
 export const toggleFavorite = async (id: string, isFavorite: boolean) => {
    try {
       const service = getPromptSevice();
@@ -96,6 +80,22 @@ export const toggleFavorite = async (id: string, isFavorite: boolean) => {
          message: isFavorite
             ? "Zu Favoriten hinzugefügt"
             : "Aus Favoriten entfernt",
+      };
+   } catch (error) {
+      return {
+         success: false,
+         message: formatError(error),
+      };
+   }
+};
+
+export const deletePrompt = async (id: string) => {
+   try {
+      const service = getPromptSevice();
+      await service.deletePrompt(id);
+      return {
+         success: true,
+         message: "Prompt erfolgreich gelöscht.",
       };
    } catch (error) {
       return {

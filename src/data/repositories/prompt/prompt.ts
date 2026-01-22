@@ -39,12 +39,6 @@ export class PromptRepository {
             take: pageSize,
             include: {
                categories: true,
-               versions: {
-                  orderBy: { version: "desc" },
-               },
-               followUpPrompts: {
-                  orderBy: { order: "asc" },
-               },
             },
             orderBy: { updatedAt: "desc" },
          }),
@@ -92,11 +86,6 @@ export class PromptRepository {
    async pCreatePrompt(data: PromptDescriptorCreateInput) {
       return await this.prisma.promptDescriptor.create({
          data,
-         include: {
-            categories: true,
-            versions: true,
-            followUpPrompts: true,
-         },
       });
    }
 
@@ -107,16 +96,16 @@ export class PromptRepository {
       });
    }
 
-   async pDeletePrompt(promptId: string) {
-      await this.prisma.promptDescriptor.delete({
-         where: { id: promptId },
-      });
-   }
-
    async pToggleFavorite(promptId: string, isFavorite: boolean) {
       await this.prisma.promptDescriptor.update({
          where: { id: promptId },
          data: { isFavorite },
+      });
+   }
+
+   async pDeletePrompt(promptId: string) {
+      await this.prisma.promptDescriptor.delete({
+         where: { id: promptId },
       });
    }
 
