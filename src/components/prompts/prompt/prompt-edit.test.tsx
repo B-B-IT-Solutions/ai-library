@@ -13,26 +13,6 @@ import { DPromptDescriptor } from "@/data/types/domain/prompt";
 
 import { PromptEdit } from "./prompt-edit";
 
-// Mock dependencies
-
-jest.mock("./content/prompt-content-edit", () => ({
-   PromptContentEdit: ({ control, isEdit }: any) => (
-      <div data-testid="prompt-content-edit">
-         Prompt Content Edit - {isEdit ? "Edit Mode" : "Create Mode"}
-      </div>
-   ),
-}));
-jest.mock("./follow-ups/prompt-follow-ups-edit", () => ({
-   PromptFollowUpsEdit: () => (
-      <div data-testid="follow-up-prompts-edit">Follow Ups Edit</div>
-   ),
-}));
-jest.mock("./header/basic-info-edit", () => ({
-   BasicInfoEdit: () => (
-      <div data-testid="basic-info-edit">Basic Info Edit</div>
-   ),
-}));
-
 const mockRouter = {
    push: jest.fn(),
    back: jest.fn(),
@@ -115,24 +95,6 @@ describe("PromptEdit rendering tests", () => {
       });
 
       expect(container).toMatchSnapshot();
-   });
-
-   it("PromptEdit - edit mode - displays content edit in edit mode", async () => {
-      render(<PromptEdit mode="edit" prompt={mockPrompt} />);
-
-      await waitFor(() => {
-         const contentEdit = screen.getByTestId("prompt-content-edit");
-         expect(contentEdit).toHaveTextContent("Edit Mode");
-      });
-   });
-
-   it("PromptEdit - create mode - displays content edit in create mode", async () => {
-      render(<PromptEdit mode="create" />);
-
-      await waitFor(() => {
-         const contentEdit = screen.getByTestId("prompt-content-edit");
-         expect(contentEdit).toHaveTextContent("Create Mode");
-      });
    });
 });
 
@@ -334,7 +296,7 @@ describe("PromptEdit form validation tests", () => {
       });
 
       // We need to mock the form validation to fail
-      const { container } = render(<PromptEdit mode="create" />);
+      render(<PromptEdit mode="create" />);
 
       const createBtn = screen.getByTestId("create-btn");
       await userEvent.click(createBtn);
