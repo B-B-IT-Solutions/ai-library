@@ -71,15 +71,15 @@ model VerificationToken {
 }
 
 model PromptDescriptor {
-  id               String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title            String            @db.VarChar(500)
-  content          String            @db.Text
+  id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title            String           @db.VarChar(500)
+  content          String           @db.Text
   categories       PromptCategory[]
-  recommendedModel String            @map("recommended_model") @db.VarChar(250)
-  isFavorite       Boolean           @default(false) @map("is_favorite")
-  currentVersion   Int               @default(1) @map("current_version")
-  createdAt        DateTime          @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt        DateTime          @updatedAt @map("updated_at")
+  recommendedModel String           @map("recommended_model") @db.VarChar(250)
+  isFavorite       Boolean          @default(false) @map("is_favorite")
+  currentVersion   Int              @default(1) @map("current_version")
+  createdAt        DateTime         @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt        DateTime         @updatedAt @map("updated_at")
   prompt           Prompt?
   versions         PromptVersion[]
   followUpPrompts  PromptFollowUp[]
@@ -104,14 +104,12 @@ model PromptCategory {
 }
 
 model PromptVersion {
-  id         String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  promptId   String           @map("prompt_id") @db.Uuid
-  version    Int
-  content    String           @db.Text
-  title      String           @db.VarChar(500)
-  categories String[]         @db.VarChar(250)
-  createdAt  DateTime         @default(now()) @map("created_at") @db.Timestamp(6)
-  prompt     PromptDescriptor @relation(fields: [promptId], references: [id], onDelete: Cascade)
+  id        String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  promptId  String           @map("prompt_id") @db.Uuid
+  version   Int
+  content   String           @db.Text
+  createdAt DateTime         @default(now()) @map("created_at") @db.Timestamp(6)
+  prompt    PromptDescriptor @relation(fields: [promptId], references: [id], onDelete: Cascade)
 
   @@unique([promptId, version])
   @@index([promptId])
@@ -121,7 +119,7 @@ model PromptVersion {
 model PromptFollowUp {
   id        String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   promptId  String           @map("prompt_id") @db.Uuid
-  content   String           @db.VarChar(500)
+  content   String           @db.Text
   order     Int              @default(0)
   createdAt DateTime         @default(now()) @map("created_at") @db.Timestamp(6)
   prompt    PromptDescriptor @relation(fields: [promptId], references: [id], onDelete: Cascade)

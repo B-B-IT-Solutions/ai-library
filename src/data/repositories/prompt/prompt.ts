@@ -125,7 +125,6 @@ export class PromptRepository {
                   version: newVersion,
                   content: current.content,
                   title: current.title,
-                  categories: current.categories.map((c) => c.name),
                   createdAt: current.updatedAt,
                },
             });

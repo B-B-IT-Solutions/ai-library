@@ -14,8 +14,6 @@ CREATE TABLE "prompt_version" (
     "prompt_id" UUID NOT NULL,
     "version" INTEGER NOT NULL,
     "content" TEXT NOT NULL,
-    "title" VARCHAR(500) NOT NULL,
-    "categories" VARCHAR(250)[],
     "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "prompt_version_pkey" PRIMARY KEY ("id")
@@ -25,7 +23,7 @@ CREATE TABLE "prompt_version" (
 CREATE TABLE "prompt_follow_up" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "prompt_id" UUID NOT NULL,
-    "content" VARCHAR(500) NOT NULL,
+    "content" TEXT NOT NULL,
     "order" INTEGER NOT NULL DEFAULT 0,
     "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
