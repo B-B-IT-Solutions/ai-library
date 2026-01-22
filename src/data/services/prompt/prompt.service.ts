@@ -50,7 +50,7 @@ export class PromptService {
    async createPrompt(data: DPromptUpdate) {
       const prompt = updatePromptSchema.parse(data);
       const categories = this.createOrConnectCategories(prompt.categories);
-      const followUps = this.createFollowUps(prompt.followUpPrompts || []);
+      const followUps = this.createFollowUps(prompt.followUpPrompts);
 
       const toSave: PromptDescriptorCreateInput = {
          title: prompt.title,
@@ -97,7 +97,7 @@ export class PromptService {
       }
 
       const categories = this.createOrConnectCategories(update.categories);
-      const followUps = this.createFollowUps(update.followUpPrompts || []);
+      const followUps = this.createFollowUps(update.followUpPrompts);
 
       const toSave: PromptDescriptorUpdateInput = {
          title: update.title,
