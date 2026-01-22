@@ -118,7 +118,6 @@ export class PromptRepository {
       const newVersion = current.currentVersion + 1;
 
       return await this.prisma.$transaction(async (tx) => {
-         // Create version record if content changed
          if (createVersion) {
             await tx.promptVersion.create({
                data: {
@@ -132,7 +131,6 @@ export class PromptRepository {
             });
          }
 
-         // Update prompt descriptor
          const updated = await tx.promptDescriptor.update({
             where: { id: promptId },
             data: {
@@ -141,11 +139,6 @@ export class PromptRepository {
                   ? newVersion
                   : current.currentVersion,
             },
-            include: {
-               categories: true,
-               versions: { orderBy: { version: "desc" } },
-               followUpPrompts: { orderBy: { order: "asc" } },
-            },
          });
 
          return updated;
@@ -153,20 +146,15 @@ export class PromptRepository {
    }
 
    async pDeletePrompt(promptId: string) {
-      return await this.prisma.promptDescriptor.delete({
+      await this.prisma.promptDescriptor.delete({
          where: { id: promptId },
       });
    }
 
    async pToggleFavorite(promptId: string, isFavorite: boolean) {
-      return await this.prisma.promptDescriptor.update({
+      await this.prisma.promptDescriptor.update({
          where: { id: promptId },
          data: { isFavorite },
-         include: {
-            categories: true,
-            versions: { orderBy: { version: "desc" } },
-            followUpPrompts: { orderBy: { order: "asc" } },
-         },
       });
    }
 
