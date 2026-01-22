@@ -79,7 +79,7 @@ export class PromptService {
       await this.promptRepository.pCreatePrompt(toSave);
    }
 
-   async updatePrompt(data: DPromptUpdate) {
+   async updatePrompt(data: DPromptUpdate, createVersion: boolean) {
       const prompt = updatePromptSchema.parse(data);
       const categories = this.createOrConnectCategories(prompt.categories);
       const followUps = this.createFollowUps(prompt.followUpPrompts || []);

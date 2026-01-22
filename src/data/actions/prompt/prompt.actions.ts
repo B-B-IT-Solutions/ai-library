@@ -38,7 +38,6 @@ export const createPrompt = async (data: DPromptUpdate) => {
    try {
       const service = getPromptSevice();
       await service.createPrompt(data);
-      revalidatePath("/prompts");
       return {
          success: true,
          message: "Prompt erfolgreich erstellt.",
@@ -53,18 +52,14 @@ export const createPrompt = async (data: DPromptUpdate) => {
 
 export const updatePrompt = async (
    data: DPromptUpdate,
-   createNewVersion: boolean
+   createVersion: boolean
 ) => {
    try {
       const service = getPromptSevice();
-      await service.updatePrompt(data);
-      revalidatePath("/prompts");
-      revalidatePath(`/prompts/${data.id}`);
+      await service.updatePrompt(data, createVersion);
       return {
          success: true,
-         message: createNewVersion
-            ? "Prompt erfolgreich aktualisiert. Neue Version erstellt."
-            : "Prompt erfolgreich aktualisiert.",
+         message: "Prompt erfolgreich aktualisiert.",
       };
    } catch (error) {
       return {
@@ -78,7 +73,6 @@ export const deletePrompt = async (id: string) => {
    try {
       const service = getPromptSevice();
       await service.deletePrompt(id);
-      revalidatePath("/prompts");
       return {
          success: true,
          message: "Prompt erfolgreich gelöscht.",
@@ -95,7 +89,6 @@ export const toggleFavorite = async (id: string, isFavorite: boolean) => {
    try {
       const service = getPromptSevice();
       await service.toggleFavorite(id, isFavorite);
-      revalidatePath("/prompts");
       revalidatePath(`/prompts/${id}`);
       return {
          success: true,
