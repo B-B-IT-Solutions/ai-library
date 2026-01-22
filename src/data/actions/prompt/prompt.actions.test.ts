@@ -2,21 +2,28 @@ jest.mock("@/data/services/prompt");
 
 import { dtestData } from "@tests";
 import { map } from "es-toolkit/compat";
+import { revalidatePath } from "next/cache";
 
 import { PromptService } from "@/data/services/prompt";
 import { DPromptDescriptorsPageQuery } from "@/data/types/domain/prompt";
 
 import {
    createPrompt,
+   deletePrompt,
    getPrompt,
    getPromptCategories,
    getPrompts,
+   toggleFavorite,
+   updatePrompt,
 } from "./prompt.actions";
 
 const sGetPrompts = PromptService.prototype.getPrompts;
 const sGetPrompt = PromptService.prototype.getPrompt;
 const sGetPromptCategories = PromptService.prototype.getPromptCategories;
 const sCreatePrompt = PromptService.prototype.createPrompt;
+const sUpdatePrompt = PromptService.prototype.updatePrompt;
+const sDeletePrompt = PromptService.prototype.deletePrompt;
+const sToggleFavorite = PromptService.prototype.toggleFavorite;
 
 const sGetPromptsMock = sGetPrompts as jest.MockedFunction<typeof sGetPrompts>;
 const sGetPromptMock = sGetPrompt as jest.MockedFunction<typeof sGetPrompt>;
@@ -25,6 +32,19 @@ const sGetPromptCategoriesMock = sGetPromptCategories as jest.MockedFunction<
 >;
 const sCreatePromptMock = sCreatePrompt as jest.MockedFunction<
    typeof sCreatePrompt
+>;
+const sUpdatePromptMock = sUpdatePrompt as jest.MockedFunction<
+   typeof sUpdatePrompt
+>;
+const sDeletePromptMock = sDeletePrompt as jest.MockedFunction<
+   typeof sDeletePrompt
+>;
+const sToggleFavoriteMock = sToggleFavorite as jest.MockedFunction<
+   typeof sToggleFavorite
+>;
+
+const revalidatePathMock = revalidatePath as jest.MockedFunction<
+   typeof revalidatePath
 >;
 
 describe("getPromptss tests", () => {
@@ -146,5 +166,141 @@ describe("createPrompt tests", () => {
       expect(result).toEqual(expectedResult);
       expect(sCreatePromptMock).toHaveBeenCalledTimes(1);
       expect(sCreatePromptMock).toHaveBeenCalledWith(prompt);
+   });
+});
+
+describe("updatePrompt tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   it("updatePrompt - error - test", async () => {
+      const prompt = dtestData.dPromptUpdate();
+      sUpdatePromptMock.mockRejectedValue(new Error("db error"));
+
+      const result = await updatePrompt(prompt, false);
+      const expectedResult = {
+         success: false,
+         message: "db error",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sUpdatePromptMock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePromptMock).toHaveBeenCalledWith(prompt, false);
+   });
+
+   it("updatePrompt - prompt updated - createVersion false - test", async () => {
+      const prompt = dtestData.dPromptUpdate();
+
+      const result = await updatePrompt(prompt, false);
+      const expectedResult = {
+         success: true,
+         message: "Prompt erfolgreich aktualisiert.",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sUpdatePromptMock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePromptMock).toHaveBeenCalledWith(prompt, false);
+   });
+
+   it("updatePrompt - prompt updated - createVersion true - test", async () => {
+      const prompt = dtestData.dPromptUpdate();
+
+      const result = await updatePrompt(prompt, true);
+      const expectedResult = {
+         success: true,
+         message: "Prompt erfolgreich aktualisiert.",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sUpdatePromptMock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePromptMock).toHaveBeenCalledWith(prompt, true);
+   });
+});
+
+describe("deletePrompt tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   it("deletePrompt - error - test", async () => {
+      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      sDeletePromptMock.mockRejectedValue(new Error("db error"));
+
+      const result = await deletePrompt(id);
+      const expectedResult = {
+         success: false,
+         message: "db error",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sDeletePromptMock).toHaveBeenCalledTimes(1);
+      expect(sDeletePromptMock).toHaveBeenCalledWith(id);
+   });
+
+   it("deletePrompt - prompt deleted - test", async () => {
+      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+
+      const result = await deletePrompt(id);
+      const expectedResult = {
+         success: true,
+         message: "Prompt erfolgreich gelöscht.",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sDeletePromptMock).toHaveBeenCalledTimes(1);
+      expect(sDeletePromptMock).toHaveBeenCalledWith(id);
+   });
+});
+
+describe("toggleFavorite tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   it("toggleFavorite - error - test", async () => {
+      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      sToggleFavoriteMock.mockRejectedValue(new Error("db error"));
+
+      const result = await toggleFavorite(id, true);
+      const expectedResult = {
+         success: false,
+         message: "db error",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(revalidatePathMock).not.toHaveBeenCalled();
+      expect(sToggleFavoriteMock).toHaveBeenCalledTimes(1);
+      expect(sToggleFavoriteMock).toHaveBeenCalledWith(id, true);
+   });
+
+   it("toggleFavorite - add to favorites - test", async () => {
+      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+
+      const result = await toggleFavorite(id, true);
+      const expectedResult = {
+         success: true,
+         message: "Zu Favoriten hinzugefügt",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(revalidatePathMock).toHaveBeenCalledTimes(1);
+      expect(sToggleFavoriteMock).toHaveBeenCalledTimes(1);
+      expect(sToggleFavoriteMock).toHaveBeenCalledWith(id, true);
+   });
+
+   it("toggleFavorite - remove from favorites - test", async () => {
+      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+
+      const result = await toggleFavorite(id, false);
+      const expectedResult = {
+         success: true,
+         message: "Aus Favoriten entfernt",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(revalidatePathMock).toHaveBeenCalledTimes(1);
+      expect(sToggleFavoriteMock).toHaveBeenCalledTimes(1);
+      expect(sToggleFavoriteMock).toHaveBeenCalledWith(id, false);
    });
 });
