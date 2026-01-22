@@ -18,7 +18,12 @@ export const updateProfile = async (name: string): Promise<ActionResult> => {
    try {
       const validatedData = updateProfileSchema.parse({ name });
       const userService = getUserService();
-      return await userService.updateProfile(validatedData.name);
+      await userService.updateProfile(validatedData.name);
+
+      return {
+         success: true,
+         message: "Profil erfolgreich aktualisiert",
+      };
    } catch (error) {
       if (isRedirectError(error)) {
          throw error;
