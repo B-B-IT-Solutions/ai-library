@@ -6,7 +6,6 @@ import { ChevronDown, History, Loader, Save } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import z from "zod";
 
 import { Button } from "@/components/shadcn/button";
 import {
@@ -27,53 +26,52 @@ import {
    createPrompt,
    updatePrompt,
 } from "@/data/actions/prompt/prompt.actions";
-import { DPromptCreate, DPromptDescriptor } from "@/data/types/domain/prompt";
+import {
+   DPromptCreate,
+   DPromptDescriptor,
+   DPromptUpdate,
+} from "@/data/types/domain/prompt";
+import { updatePromptSchema } from "@/data/types/validators/prompt";
 
 import { PromptContentEdit } from "./content/prompt-content-edit";
 import { PromptFollowUpsEdit } from "./follow-ups/prompt-follow-ups-edit";
 import { BasicInfoEdit } from "./header/basic-info-edit";
-
-const formSchema = z.object({
-   id: z.string().optional(),
-   title: z.string().min(3, "Titel ist erforderlich"),
-   content: z.string(),
-   categories: z.array(z.string()),
-   recommendedModel: z.string(),
-   followUpPrompts: z.array(z.string()),
-});
 
 type PromptEditProps = {
    prompt?: DPromptDescriptor;
    mode?: "create" | "edit";
 };
 
-type PromptFormValues = z.infer<typeof formSchema>;
-
 export const PromptEdit: FC<PromptEditProps> = ({
    prompt,
    mode = "create",
 }) => {
    const router = useRouter();
-   const isEditMode = mode === "edit" && !!prompt;
+   const isEdit = mode === "edit" && !!prompt;
 
-   const form = useForm<PromptFormValues>({
-      resolver: zodResolver(formSchema),
-      defaultValues: isEditMode
-         ? {
-              id: prompt.id,
-              title: prompt.title,
-              content: prompt.content,
-              categories: prompt.categories.map((c) => c.name),
-              recommendedModel: prompt.recommendedModel,
-              followUpPrompts: prompt.followUpPrompts.map((f) => f.content),
-           }
-         : {
-              title: "",
-              content: "",
-              categories: [],
-              recommendedModel: "",
-              followUpPrompts: [],
-           },
+   const initValues = () => {
+      if (isEdit) {
+         return {
+            id: prompt.id,
+            title: prompt.title,
+            content: prompt.content,
+            categories: prompt.categories.map((c) => c.name),
+            recommendedModel: prompt.recommendedModel,
+            followUpPrompts: prompt.followUpPrompts.map((f) => f.content),
+         };
+      }
+      return {
+         title: "",
+         content: "",
+         categories: [],
+         recommendedModel: "",
+         followUpPrompts: [],
+      };
+   };
+
+   const form = useForm<DPromptUpdate>({
+      resolver: zodResolver(updatePromptSchema),
+      defaultValues: initValues(),
    });
 
    const {
@@ -96,8 +94,9 @@ export const PromptEdit: FC<PromptEditProps> = ({
 
    const handleSave = async (createNewVersion: boolean = false) => {
       const isValid = await form.trigger();
-      if (!isValid) return;
-
+      if (!isValid) {
+         return;
+      }
       const values = form.getValues();
 
       // Filter out empty strings from categories and followUpPrompts
@@ -108,16 +107,18 @@ export const PromptEdit: FC<PromptEditProps> = ({
          (prompt) => prompt.trim() !== ""
       );
 
-      const result = isEditMode
-         ? await updatePrompt({
-              id: values.id!,
-              title: values.title,
-              content: values.content,
-              categories: filteredCategories,
-              recommendedModel: values.recommendedModel,
-              followUpPrompts: filteredFollowUpPrompts,
-              createNewVersion,
-           })
+      const result = isEdit
+         ? await updatePrompt(
+              {
+                 id: values.id!,
+                 title: values.title,
+                 content: values.content,
+                 categories: filteredCategories,
+                 recommendedModel: values.recommendedModel,
+                 followUpPrompts: filteredFollowUpPrompts,
+              },
+              createNewVersion
+           )
          : await createPrompt({
               ...values,
               categories: filteredCategories,
@@ -126,7 +127,7 @@ export const PromptEdit: FC<PromptEditProps> = ({
 
       if (result.success) {
          toast.success(result.message);
-         if (isEditMode) {
+         if (isEdit) {
             router.push(`/prompts/${prompt.id}`);
          } else {
             router.push("/prompts");
@@ -136,15 +137,86 @@ export const PromptEdit: FC<PromptEditProps> = ({
       }
    };
 
-   const onSubmit: SubmitHandler<PromptFormValues> = async () => {
+   const onSubmit: SubmitHandler<DPromptUpdate> = async () => {
       await handleSave(false);
+   };
+
+   const actionBtns = () => {
+      return (
+         <div className="flex items-center justify-end gap-3 pt-2">
+            <Button
+               type="button"
+               variant="outline"
+               onClick={() => router.back()}
+               disabled={form.formState.isSubmitting}
+            >
+               Abbrechen
+            </Button>
+
+            {isEdit ? (
+               <div className="flex">
+                  <Button
+                     type="submit"
+                     disabled={form.formState.isSubmitting}
+                     className="rounded-r-none"
+                  >
+                     {form.formState.isSubmitting ? (
+                        <>
+                           <Loader className="h-4 w-4 animate-spin" />
+                           Wird gespeichert...
+                        </>
+                     ) : (
+                        <>
+                           <Save className="h-4 w-4" />
+                           Speichern
+                        </>
+                     )}
+                  </Button>
+                  <DropdownMenu>
+                     <DropdownMenuTrigger asChild>
+                        <Button
+                           type="button"
+                           disabled={form.formState.isSubmitting}
+                           className="rounded-l-none border-l border-primary-foreground/20 px-2"
+                        >
+                           <ChevronDown className="h-4 w-4" />
+                        </Button>
+                     </DropdownMenuTrigger>
+                     <DropdownMenuContent align="end">
+                        <DropdownMenuItem
+                           onClick={() => handleSave(true)}
+                           disabled={form.formState.isSubmitting}
+                        >
+                           <History className="h-4 w-4" />
+                           Als neue Version speichern
+                        </DropdownMenuItem>
+                     </DropdownMenuContent>
+                  </DropdownMenu>
+               </div>
+            ) : (
+               <Button type="submit" disabled={form.formState.isSubmitting}>
+                  {form.formState.isSubmitting ? (
+                     <>
+                        <Loader className="h-4 w-4 animate-spin" />
+                        Wird erstellt...
+                     </>
+                  ) : (
+                     <>
+                        <Save className="h-4 w-4" />
+                        Prompt erstellen
+                     </>
+                  )}
+               </Button>
+            )}
+         </div>
+      );
    };
 
    return (
       <Card data-testid="prompt-edit">
          <CardHeader className="border-b pb-6">
             <CardTitle className="text-2xl font-bold text-slate-900">
-               {isEditMode ? "Prompt bearbeiten" : "Neuen Prompt erstellen"}
+               {isEdit ? "Prompt bearbeiten" : "Neuen Prompt erstellen"}
             </CardTitle>
          </CardHeader>
          <CardContent>
@@ -154,7 +226,6 @@ export const PromptEdit: FC<PromptEditProps> = ({
                   className="space-y-6"
                   data-testid="edit-form"
                >
-                  {/* Basic Information Section */}
                   <BasicInfoEdit
                      control={form.control}
                      register={form.register}
@@ -164,92 +235,16 @@ export const PromptEdit: FC<PromptEditProps> = ({
                   />
 
                   <Separator />
-
-                  <PromptContentEdit
-                     control={form.control}
-                     isEdit={isEditMode}
-                  />
-
+                  <PromptContentEdit control={form.control} isEdit={isEdit} />
                   <Separator />
-
                   <PromptFollowUpsEdit
                      control={form.control}
                      followUpPrompts={followUpPrompts}
                      addFollowUpPrompt={addFollowUpPrompt}
                      removeFollowUpPrompt={removeFollowUpPrompt}
                   />
-
                   <Separator />
-
-                  <div className="flex items-center justify-end gap-3 pt-2">
-                     <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => router.back()}
-                        disabled={form.formState.isSubmitting}
-                     >
-                        Abbrechen
-                     </Button>
-
-                     {isEditMode ? (
-                        <div className="flex">
-                           <Button
-                              type="submit"
-                              disabled={form.formState.isSubmitting}
-                              className="rounded-r-none"
-                           >
-                              {form.formState.isSubmitting ? (
-                                 <>
-                                    <Loader className="h-4 w-4 animate-spin" />
-                                    Wird gespeichert...
-                                 </>
-                              ) : (
-                                 <>
-                                    <Save className="h-4 w-4" />
-                                    Speichern
-                                 </>
-                              )}
-                           </Button>
-                           <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                 <Button
-                                    type="button"
-                                    disabled={form.formState.isSubmitting}
-                                    className="rounded-l-none border-l border-primary-foreground/20 px-2"
-                                 >
-                                    <ChevronDown className="h-4 w-4" />
-                                 </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end">
-                                 <DropdownMenuItem
-                                    onClick={() => handleSave(true)}
-                                    disabled={form.formState.isSubmitting}
-                                 >
-                                    <History className="h-4 w-4" />
-                                    Als neue Version speichern
-                                 </DropdownMenuItem>
-                              </DropdownMenuContent>
-                           </DropdownMenu>
-                        </div>
-                     ) : (
-                        <Button
-                           type="submit"
-                           disabled={form.formState.isSubmitting}
-                        >
-                           {form.formState.isSubmitting ? (
-                              <>
-                                 <Loader className="h-4 w-4 animate-spin" />
-                                 Wird erstellt...
-                              </>
-                           ) : (
-                              <>
-                                 <Save className="h-4 w-4" />
-                                 Prompt erstellen
-                              </>
-                           )}
-                        </Button>
-                     )}
-                  </div>
+                  {actionBtns()}
                </form>
             </Form>
          </CardContent>

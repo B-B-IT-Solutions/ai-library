@@ -52,7 +52,10 @@ export const createPrompt = async (data: DPromptCreate) => {
    }
 };
 
-export const updatePrompt = async (data: DPromptUpdate) => {
+export const updatePrompt = async (
+   data: DPromptUpdate,
+   createNewVersion: boolean
+) => {
    try {
       const service = getPromptSevice();
       await service.updatePrompt(data);
@@ -60,7 +63,7 @@ export const updatePrompt = async (data: DPromptUpdate) => {
       revalidatePath(`/prompts/${data.id}`);
       return {
          success: true,
-         message: data.createNewVersion
+         message: createNewVersion
             ? "Prompt erfolgreich aktualisiert. Neue Version erstellt."
             : "Prompt erfolgreich aktualisiert.",
       };
