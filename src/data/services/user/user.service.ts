@@ -1,11 +1,60 @@
 import { requireUser } from "@/data/actions/auth-utils";
 import { formatError } from "@/data/actions/utils";
 import * as userRepository from "@/data/repositories/user/user";
+import { DUserUpdateData } from "@/data/types/domain/user";
 import { ActionResult } from "@/data/types/utils";
-import { User } from "@/generated/prisma/client";
+import { Prisma, User } from "@/generated/prisma/client";
 import { compare, hash } from "@/lib/encrypt";
 
 export class UserService {
+   async signUpUser(
+      name: string,
+      email: string,
+      password: string
+   ): Promise<ActionResult<{ user: User; plainPassword: string }>> {
+      try {
+         const hashedPassword = await hash(password);
+
+         const newUser: Prisma.UserCreateInput = {
+            name,
+            email,
+            password: hashedPassword,
+         };
+
+         const user = await userRepository.createUser(newUser);
+
+         return {
+            success: true,
+            message: "User registered successfully",
+            data: {
+               user,
+               plainPassword: password,
+            },
+         };
+      } catch (error) {
+         return {
+            success: false,
+            message: formatError(error),
+         };
+      }
+   }
+
+   async getUserById(userId: string): Promise<User> {
+      const user = await userRepository.getUserById(userId);
+      if (!user) {
+         throw new Error("User not found");
+      }
+      return user;
+   }
+
+   async getUserByEmail(email: string): Promise<User | null> {
+      return await userRepository.getUserByEmail(email);
+   }
+
+   async updateUser(userId: string, data: DUserUpdateData): Promise<void> {
+      await userRepository.updateUser(userId, data);
+   }
+
    async updateProfile(name: string): Promise<User> {
       const loginUser = await requireUser();
       return await userRepository.updateUser(loginUser.id, { name });
@@ -23,6 +72,14 @@ export class UserService {
             return {
                success: false,
                message: "Benutzer nicht gefunden",
+            };
+         }
+
+         // Check if user has a password
+         if (!user.password) {
+            return {
+               success: false,
+               message: "Benutzer hat kein Passwort",
             };
          }
 
@@ -72,6 +129,14 @@ export class UserService {
             return {
                success: false,
                message: "Benutzer nicht gefunden",
+            };
+         }
+
+         // Check if user has a password
+         if (!user.password) {
+            return {
+               success: false,
+               message: "Benutzer hat kein Passwort",
             };
          }
 

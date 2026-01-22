@@ -3,12 +3,9 @@
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 import { signIn, signOut } from "@/auth";
-import {
-   createUser,
-   getUserByEmail as pGetUserByEmail,
-   getUserById as pGetUserById,
-   updateUser as pUpdateUser,
-} from "@/data/repositories/user";
+import prisma from "@/data/repositories/prisma";
+import { ServiceFactory } from "@/data/services";
+import { DbClient } from "@/data/types/db/common";
 import {
    DSignInFormData,
    DSignUpFormData,
@@ -18,9 +15,7 @@ import {
    signInFormSchema,
    signUpFormSchema,
 } from "@/data/types/validators/user.schema";
-import { Prisma } from "@/generated/prisma/client";
-import { hash } from "@/lib/encrypt";
-import { formatError } from "../utils";
+import { User } from "@/generated/prisma/client";
 
 export const signInWithCredentials = async (formData: DSignInFormData) => {
    try {
@@ -48,20 +43,21 @@ export const signOutUser = async () => {
 export const signUpUser = async (formData: DSignUpFormData) => {
    try {
       const singUpValues = signUpFormSchema.parse(formData);
-      const plainPassword = singUpValues.password;
-      singUpValues.password = await hash(singUpValues.password);
 
-      const newUser: Prisma.UserCreateInput = {
-         name: singUpValues.name,
-         email: singUpValues.email,
-         password: singUpValues.password,
-      };
+      const service = getUserService();
+      const result = await service.signUpUser(
+         singUpValues.name,
+         singUpValues.email,
+         singUpValues.password
+      );
 
-      await createUser(newUser);
+      if (!result.success || !result.data) {
+         return result;
+      }
 
       await signIn("credentials", {
-         email: singUpValues.email,
-         password: plainPassword,
+         email: result.data.user.email,
+         password: result.data.plainPassword,
       });
 
       return {
@@ -74,27 +70,30 @@ export const signUpUser = async (formData: DSignUpFormData) => {
       }
       return {
          success: false,
-         message: formatError(error),
+         message: "An error occurred during sign up",
       };
    }
 };
 
-export const getUserById = async (userId: string) => {
-   const user = await pGetUserById(userId);
-   if (!user) {
-      throw new Error("User not found");
-   }
-   return user;
+export const getUserById = async (userId: string): Promise<User> => {
+   const service = getUserService();
+   return service.getUserById(userId);
 };
 
-export const getUserByEmail = async (email: string) => {
-   const user = await pGetUserByEmail(email);
-   if (!user) {
-      return null;
-   }
-   return user;
+export const getUserByEmail = async (email: string): Promise<User | null> => {
+   const service = getUserService();
+   return service.getUserByEmail(email);
 };
 
-export const updateUser = async (userId: string, data: DUserUpdateData) => {
-   await pUpdateUser(userId, data);
+export const updateUser = async (
+   userId: string,
+   data: DUserUpdateData
+): Promise<void> => {
+   const service = getUserService();
+   return service.updateUser(userId, data);
+};
+
+const getUserService = (dbClient: DbClient = prisma) => {
+   const factory = new ServiceFactory(dbClient);
+   return factory.getUserService();
 };
