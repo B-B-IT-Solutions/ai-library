@@ -1,21 +1,20 @@
+jest.mock("next/navigation");
+jest.mock("sonner");
+jest.mock("@/data/actions/prompt");
+
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData } from "@tests";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-import {
-   createPrompt,
-   updatePrompt,
-} from "@/data/actions/prompt/prompt.actions";
+import { createPrompt, updatePrompt } from "@/data/actions/prompt";
 import { DPromptDescriptor } from "@/data/types/domain/prompt";
 
 import { PromptEdit } from "./prompt-edit";
 
 // Mock dependencies
-jest.mock("next/navigation");
-jest.mock("sonner");
-jest.mock("@/data/actions/prompt/prompt.actions");
+
 jest.mock("./content/prompt-content-edit", () => ({
    PromptContentEdit: ({ control, isEdit }: any) => (
       <div data-testid="prompt-content-edit">
