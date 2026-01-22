@@ -1,4 +1,4 @@
-import { map } from "es-toolkit/compat";
+import { isEqual, map } from "es-toolkit/compat";
 import { validate as isValidUuid } from "uuid";
 
 import { PromptRepository } from "@/data/repositories/prompt";
@@ -13,6 +13,7 @@ import { updatePromptSchema } from "@/data/types/validators/prompt";
 import {
    PromptCategoryCreateOrConnectWithoutPromptsInput,
    PromptDescriptorCreateInput,
+   PromptDescriptorUpdateInput,
    PromptFollowUpCreateWithoutPromptInput,
 } from "@/generated/prisma/models";
 
@@ -55,7 +56,7 @@ export class PromptService {
          title: prompt.title,
          content: prompt.content,
          recommendedModel: prompt.recommendedModel,
-         currentVersion: 1,
+         currentVersion: 0,
          categories: {
             connectOrCreate: categories,
          },
@@ -72,10 +73,6 @@ export class PromptService {
       data: DPromptUpdate,
       createVersion: boolean
    ) {
-      const prompt = updatePromptSchema.parse(data);
-      const categories = this.createOrConnectCategories(prompt.categories);
-      const followUps = this.createFollowUps(prompt.followUpPrompts || []);
-
       const current = await this.promptRepository.pGetPromptDescriptor({
          id: promptId,
       });
@@ -83,13 +80,30 @@ export class PromptService {
       if (!current) {
          throw new Error("Prompt not found");
       }
+      const update = updatePromptSchema.parse(data);
+      const { content, currentVersion } = current;
+      const updateVersions = createVersion && !isEqual(content, update.content);
 
-      const newVersion = createVersion && current.content !== prompt.content;
+      const versionIdx = updateVersions ? currentVersion + 1 : currentVersion;
 
-      const toSave = {
-         title: prompt.title,
-         content: prompt.content,
-         recommendedModel: prompt.recommendedModel,
+      let versions = undefined;
+      if (updateVersions) {
+         versions = {
+            create: {
+               version: versionIdx,
+               content: update.content,
+            },
+         };
+      }
+
+      const categories = this.createOrConnectCategories(update.categories);
+      const followUps = this.createFollowUps(update.followUpPrompts || []);
+
+      const toSave: PromptDescriptorUpdateInput = {
+         title: update.title,
+         content: update.content,
+         recommendedModel: update.recommendedModel,
+         currentVersion: versionIdx,
          categories: {
             set: [],
             connectOrCreate: categories,
@@ -98,9 +112,10 @@ export class PromptService {
             deleteMany: {},
             create: followUps,
          },
+         versions,
       };
 
-      await this.promptRepository.pUpdatePrompt(promptId, toSave, newVersion);
+      await this.promptRepository.pUpdatePrompt(promptId, toSave);
    }
 
    async deletePrompt(id: string) {

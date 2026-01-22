@@ -77,7 +77,7 @@ model PromptDescriptor {
   categories       PromptCategory[]
   recommendedModel String           @map("recommended_model") @db.VarChar(250)
   isFavorite       Boolean          @default(false) @map("is_favorite")
-  currentVersion   Int              @default(1) @map("current_version")
+  currentVersion   Int              @default(0) @map("current_version")
   createdAt        DateTime         @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt        DateTime         @updatedAt @map("updated_at")
   prompt           Prompt?
@@ -106,8 +106,8 @@ model PromptCategory {
 model PromptVersion {
   id        String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   promptId  String           @map("prompt_id") @db.Uuid
-  version   Int
   content   String           @db.Text
+  version   Int
   createdAt DateTime         @default(now()) @map("created_at") @db.Timestamp(6)
   prompt    PromptDescriptor @relation(fields: [promptId], references: [id], onDelete: Cascade)
 

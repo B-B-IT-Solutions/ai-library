@@ -100,47 +100,10 @@ export class PromptRepository {
       });
    }
 
-   async pUpdatePrompt(
-      promptId: string,
-      data: PromptDescriptorUpdateInput,
-      createVersion: boolean
-   ) {
-      // Get current prompt to create version
-      const current = await this.prisma.promptDescriptor.findUnique({
+   async pUpdatePrompt(promptId: string, data: PromptDescriptorUpdateInput) {
+      return await this.prisma.promptDescriptor.update({
          where: { id: promptId },
-         include: { categories: true },
-      });
-
-      if (!current) {
-         throw new Error("Prompt not found");
-      }
-
-      const newVersion = current.currentVersion + 1;
-
-      return await this.prisma.$transaction(async (tx) => {
-         if (createVersion) {
-            await tx.promptVersion.create({
-               data: {
-                  promptId,
-                  version: newVersion,
-                  content: current.content,
-                  title: current.title,
-                  createdAt: current.updatedAt,
-               },
-            });
-         }
-
-         const updated = await tx.promptDescriptor.update({
-            where: { id: promptId },
-            data: {
-               ...data,
-               currentVersion: createVersion
-                  ? newVersion
-                  : current.currentVersion,
-            },
-         });
-
-         return updated;
+         data,
       });
    }
 

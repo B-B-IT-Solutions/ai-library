@@ -135,7 +135,7 @@ describe("createPrompt tests", () => {
          title: prompt.title,
          content: prompt.content,
          recommendedModel: prompt.recommendedModel,
-         currentVersion: 1,
+         currentVersion: 0,
          categories: {
             connectOrCreate: [
                {
@@ -179,7 +179,7 @@ describe("createPrompt tests", () => {
          title: prompt.title,
          content: prompt.content,
          recommendedModel: prompt.recommendedModel,
-         currentVersion: 1,
+         currentVersion: 0,
          categories: {
             connectOrCreate: [
                {
