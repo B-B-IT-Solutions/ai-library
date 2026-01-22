@@ -44,6 +44,25 @@ export const updateUser = async (userId: string, data: UserUpdateData) => {
    });
 };
 
+export const changePassword = async (userId: string, newPasswordHash: string) => {
+   return await prisma.user.update({
+      where: { id: userId },
+      data: { password: newPasswordHash },
+   });
+};
+
+export const hardDeleteUser = async (userId: string) => {
+   return await prisma.$transaction(async (tx) => {
+      // Delete in dependency order
+      await tx.session.deleteMany({ where: { userId } });
+      await tx.cart.deleteMany({ where: { userId } });
+      await tx.libraryEntry.deleteMany({ where: { userId } });
+      await tx.order.deleteMany({ where: { userId } });
+      await tx.account.deleteMany({ where: { userId } });
+      await tx.user.delete({ where: { id: userId } });
+   });
+};
+
 const resolveGetUserParams = (
    params: PGeUserParams
 ): UserWhereInput | undefined => {

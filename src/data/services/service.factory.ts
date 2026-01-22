@@ -4,6 +4,7 @@ import { LibraryService } from "@/data/services/library";
 import { OrderService } from "@/data/services/order";
 import { PromptService, PromptTemplateService } from "@/data/services/prompt";
 import { StripeService } from "@/data/services/stripe";
+import { UserService } from "@/data/services/user";
 import { DbClient } from "@/data/types/db/common";
 
 export class ServiceFactory {
@@ -14,6 +15,7 @@ export class ServiceFactory {
    private stripeService?: StripeService;
    private promptService?: PromptService;
    private promptTemplateService?: PromptTemplateService;
+   private userService?: UserService;
 
    constructor(prisma: DbClient) {
       this.repositories = new RepositoryFactory(prisma);
@@ -73,5 +75,12 @@ export class ServiceFactory {
          );
       }
       return this.promptTemplateService;
+   }
+
+   getUserService(): UserService {
+      if (!this.userService) {
+         this.userService = new UserService();
+      }
+      return this.userService;
    }
 }
