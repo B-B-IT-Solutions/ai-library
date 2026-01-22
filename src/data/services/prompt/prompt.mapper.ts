@@ -50,8 +50,6 @@ const toDPromptVersion = (version: PromptVersion): DPromptVersion => {
       id: version.id,
       version: version.version,
       content: version.content,
-      title: version.title,
-      categories: version.categories,
       createdAt: version.createdAt.toISOString(),
    };
 };

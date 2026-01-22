@@ -31,8 +31,6 @@ export type DPromptVersion = {
    id: string;
    version: number;
    content: string;
-   title: string;
-   categories: string[];
    createdAt: string;
 };
 
