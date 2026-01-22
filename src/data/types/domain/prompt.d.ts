@@ -4,7 +4,7 @@ import { Filter, Page, PageQuery } from "@/data/types/common";
 import {
    createPromptSchema,
    updatePromptSchema,
-} from "@/data/types/validators/prompt.schema";
+} from "@/data/types/validators/prompt";
 
 export type DPromptCreate = z.infer<typeof createPromptSchema>;
 export type DPromptUpdate = z.infer<typeof updatePromptSchema>;

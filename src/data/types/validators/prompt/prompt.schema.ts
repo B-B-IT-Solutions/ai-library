@@ -22,6 +22,15 @@ export const updatePromptSchema = z.object({
    createNewVersion: z.boolean().optional().default(false),
 });
 
+const formSchema = z.object({
+   id: z.string().optional(),
+   title: z.string().min(3, "Titel ist erforderlich"),
+   content: z.string(),
+   categories: z.array(z.string()),
+   recommendedModel: z.string(),
+   followUpPrompts: z.array(z.string()),
+});
+
 export const deletePromptSchema = z.object({
    id: z.string().uuid(),
 });

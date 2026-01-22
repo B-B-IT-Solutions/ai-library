@@ -15,7 +15,7 @@ import {
    deletePromptSchema,
    toggleFavoriteSchema,
    updatePromptSchema,
-} from "@/data/types/validators/prompt.schema";
+} from "@/data/types/validators/prompt";
 import {
    PromptCategoryCreateOrConnectWithoutPromptsInput,
    PromptDescriptorCreateInput,
