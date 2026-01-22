@@ -5,12 +5,7 @@ import { dtestData, ptestData } from "@tests";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 import { signIn, signOut } from "@/auth";
-import {
-   pCreateUser,
-   pGetUserByEmail,
-   pGetUserById,
-   pUpdateUser,
-} from "@/data/repositories/user";
+import { UserRepository } from "@/data/repositories/user";
 import { DSignInFormData, DSignUpFormData } from "@/data/types/domain/user";
 import { Prisma } from "@/generated/prisma/client";
 import { hash } from "@/lib/encrypt";
@@ -23,6 +18,11 @@ import {
    signUpUser,
    updateUser,
 } from "./user.actions";
+
+const pCreateUser = UserRepository.prototype.pCreateUser;
+const pGetUserById = UserRepository.prototype.pGetUserById;
+const pGetUserByEmail = UserRepository.prototype.pGetUserByEmail;
+const pUpdateUser = UserRepository.prototype.pUpdateUser;
 
 const isRedirectErrorock = isRedirectError as jest.MockedFunction<
    typeof isRedirectError
