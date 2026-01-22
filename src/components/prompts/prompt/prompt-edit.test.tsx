@@ -1,22 +1,16 @@
-jest.mock("next/navigation");
-jest.mock("sonner");
 jest.mock("@/data/actions/prompt");
+jest.mock("sonner");
 
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData } from "@tests";
-import { useRouter } from "next/navigation";
+import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
 import { createPrompt, updatePrompt } from "@/data/actions/prompt";
 import { DPromptDescriptor } from "@/data/types/domain/prompt";
 
 import { PromptEdit } from "./prompt-edit";
-
-const mockRouter = {
-   push: jest.fn(),
-   back: jest.fn(),
-};
 
 const mockPrompt: DPromptDescriptor = {
    id: "test-prompt-id",
@@ -38,7 +32,6 @@ const mockPrompt: DPromptDescriptor = {
 describe("PromptEdit rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      (useRouter as jest.Mock).mockReturnValue(mockRouter);
    });
 
    it("PromptEdit - create mode - rendered test", async () => {
@@ -101,7 +94,6 @@ describe("PromptEdit rendering tests", () => {
 describe("PromptEdit functionality tests - create mode", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      (useRouter as jest.Mock).mockReturnValue(mockRouter);
    });
 
    it("PromptEdit - cancel button click - navigates back", async () => {
@@ -135,7 +127,7 @@ describe("PromptEdit functionality tests - create mode", () => {
 describe("PromptEdit functionality tests - edit mode", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      (useRouter as jest.Mock).mockReturnValue(mockRouter);
+      mockRouter.push("/");
    });
 
    it("PromptEdit - successful update - shows success toast and redirects", async () => {
@@ -173,9 +165,7 @@ describe("PromptEdit functionality tests - edit mode", () => {
          expect(toast.success).toHaveBeenCalledWith(
             "Prompt updated successfully"
          );
-         expect(mockRouter.push).toHaveBeenCalledWith(
-            `/prompts/${mockPrompt.id}`
-         );
+         expect(mockRouter.pathname).toEqual(`/prompts/${mockPrompt.id}`);
       });
    });
 
@@ -201,7 +191,7 @@ describe("PromptEdit functionality tests - edit mode", () => {
       await waitFor(() => {
          expect(mockUpdatePrompt).toHaveBeenCalledTimes(1);
          expect(toast.error).toHaveBeenCalledWith("Failed to update prompt");
-         expect(mockRouter.push).not.toHaveBeenCalled();
+         expect(mockRouter.pathname).toEqual("/");
       });
    });
 
@@ -283,7 +273,6 @@ describe("PromptEdit functionality tests - edit mode", () => {
 describe("PromptEdit form validation tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      (useRouter as jest.Mock).mockReturnValue(mockRouter);
    });
 
    it("PromptEdit - does not submit when validation fails", async () => {
@@ -314,7 +303,6 @@ describe("PromptEdit form validation tests", () => {
 describe("PromptEdit data filtering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      (useRouter as jest.Mock).mockReturnValue(mockRouter);
    });
 
    it("PromptEdit - filters out empty categories before save", async () => {
