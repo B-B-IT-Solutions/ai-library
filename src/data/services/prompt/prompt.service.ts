@@ -9,11 +9,7 @@ import {
    DPromptDescriptorsPageQuery,
    DPromptUpdate,
 } from "@/data/types/domain/prompt";
-import {
-   deletePromptSchema,
-   toggleFavoriteSchema,
-   updatePromptSchema,
-} from "@/data/types/validators/prompt";
+import { updatePromptSchema } from "@/data/types/validators/prompt";
 import {
    PromptCategoryCreateOrConnectWithoutPromptsInput,
    PromptDescriptorCreateInput,
@@ -96,7 +92,7 @@ export class PromptService {
          throw new Error("Prompt not found");
       }
 
-      const contentChanged = current.content !== prompt.content;
+      const newVersion = createVersion && current.content !== prompt.content;
 
       const toSave = {
          title: prompt.title,
@@ -112,25 +108,15 @@ export class PromptService {
          },
       };
 
-      await this.promptRepository.pUpdatePrompt(
-         promptId,
-         toSave,
-         contentChanged
-      );
+      await this.promptRepository.pUpdatePrompt(promptId, toSave, newVersion);
    }
 
    async deletePrompt(id: string) {
-      const validated = deletePromptSchema.parse({ id });
-      await this.promptRepository.pDeletePrompt(validated.id);
+      await this.promptRepository.pDeletePrompt(id);
    }
 
    async toggleFavorite(id: string, isFavorite: boolean) {
-      const validated = toggleFavoriteSchema.parse({ id, isFavorite });
-      const updated = await this.promptRepository.pToggleFavorite(
-         validated.id,
-         validated.isFavorite
-      );
-      return toDPromptDescriptor(updated);
+      await this.promptRepository.pToggleFavorite(id, isFavorite);
    }
 
    private createOrConnectCategories(

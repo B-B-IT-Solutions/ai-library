@@ -103,7 +103,7 @@ export class PromptRepository {
    async pUpdatePrompt(
       promptId: string,
       data: PromptDescriptorUpdateInput,
-      createVersion: boolean = true
+      createVersion: boolean
    ) {
       // Get current prompt to create version
       const current = await this.prisma.promptDescriptor.findUnique({

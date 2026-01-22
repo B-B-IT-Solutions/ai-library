@@ -8,15 +8,6 @@ export const updatePromptSchema = z.object({
    followUpPrompts: z.array(z.string()),
 });
 
-export const deletePromptSchema = z.object({
-   id: z.string().uuid(),
-});
-
-export const toggleFavoriteSchema = z.object({
-   id: z.string().uuid(),
-   isFavorite: z.boolean(),
-});
-
 export const createPromptTemplateSchema = z.object({
    title: z.string().min(3, "Title must be at least 3 characters"),
    content: z.string().min(3, "Content must be at least 3 characters"),
