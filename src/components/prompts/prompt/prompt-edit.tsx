@@ -88,7 +88,7 @@ export const PromptEdit: FC<PromptEditProps> = ({ prompt, mode }) => {
       name: "followUpPrompts" as never,
    });
 
-   const handleSave = async (data: DPromptUpdate, createVersion = false) => {
+   const handleSave = async (data: DPromptUpdate, createVersion: boolean) => {
       const filteredCategories = removeEmpty(data.categories);
       const filteredFollowUpPrompts = removeEmpty(data.followUpPrompts);
 
@@ -114,7 +114,7 @@ export const PromptEdit: FC<PromptEditProps> = ({ prompt, mode }) => {
       }
    };
 
-   const onSubmit = (newVersion = false): SubmitHandler<DPromptUpdate> => {
+   const onSubmit = (newVersion: boolean): SubmitHandler<DPromptUpdate> => {
       return async (data) => await handleSave(data, newVersion);
    };
 
@@ -233,7 +233,7 @@ export const PromptEdit: FC<PromptEditProps> = ({ prompt, mode }) => {
          <CardContent>
             <Form {...form}>
                <form
-                  onSubmit={form.handleSubmit(onSubmit())}
+                  onSubmit={form.handleSubmit(onSubmit(false))}
                   className="space-y-6"
                   data-testid="edit-form"
                >
