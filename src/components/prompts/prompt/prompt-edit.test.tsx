@@ -102,6 +102,7 @@ describe("PromptEdit rendering tests", () => {
 describe("PromptEdit functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      mockRouter.push("/");
    });
 
    it("PromptEdit - create mode - cancel btn clicked - test", async () => {
@@ -132,71 +133,88 @@ describe("PromptEdit functionality tests", () => {
 
       expect(mockRouter.back).toHaveBeenCalledTimes(1);
    });
+
+   it("PromptEdit - edit mode - update success - test", async () => {
+      const actionResult = {
+         success: true,
+         message: "Prompt updated successfully",
+      };
+      mockUpdatePrompt.mockResolvedValue(actionResult);
+
+      const prompt = dtestData.dPromptDescriptor();
+      render(<PromptEdit mode="edit" prompt={prompt} />);
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      const saveBtn = screen.getByTestId("save-btn");
+      await userEvent.click(saveBtn);
+
+      const expectedPromptPayload = {
+         id: prompt.id,
+         title: prompt.title,
+         content: prompt.content,
+         categories: prompt.categories.map((c) => c.name),
+         recommendedModel: prompt.recommendedModel,
+         followUpPrompts: prompt.followUpPrompts.map((f) => f.content),
+      };
+
+      await waitFor(() => {
+         expect(mockUpdatePrompt).toHaveBeenCalledTimes(1);
+         expect(mockUpdatePrompt).toHaveBeenCalledWith(
+            expectedPromptPayload,
+            false
+         );
+         expect(toast.success).toHaveBeenCalledTimes(1);
+         expect(toast.success).toHaveBeenCalledWith(actionResult.message);
+         expect(mockRouter.pathname).toEqual(`/prompts/${prompt.id}`);
+      });
+   });
+
+   it("PromptEdit - edit mode - update failed - test", async () => {
+      const actionResult = {
+         success: false,
+         message: "Failed to update prompt",
+      };
+      mockUpdatePrompt.mockResolvedValue(actionResult);
+
+      const prompt = dtestData.dPromptDescriptor();
+      render(<PromptEdit mode="edit" prompt={prompt} />);
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      const saveBtn = screen.getByTestId("save-btn");
+      await userEvent.click(saveBtn);
+
+      const expectedPromptPayload = {
+         id: prompt.id,
+         title: prompt.title,
+         content: prompt.content,
+         categories: prompt.categories.map((c) => c.name),
+         recommendedModel: prompt.recommendedModel,
+         followUpPrompts: prompt.followUpPrompts.map((f) => f.content),
+      };
+
+      await waitFor(() => {
+         expect(mockUpdatePrompt).toHaveBeenCalledTimes(1);
+         expect(mockUpdatePrompt).toHaveBeenCalledWith(
+            expectedPromptPayload,
+            false
+         );
+         expect(toast.error).toHaveBeenCalledTimes(1);
+         expect(toast.error).toHaveBeenCalledWith(actionResult.message);
+         expect(mockRouter.pathname).toEqual("/");
+      });
+   });
 });
 
 describe("PromptEdit functionality tests - edit mode", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       mockRouter.push("/");
-   });
-
-   it("PromptEdit - successful update - shows success toast and redirects", async () => {
-      mockUpdatePrompt.mockResolvedValue({
-         success: true,
-         message: "Prompt updated successfully",
-      });
-
-      render(<PromptEdit mode="edit" prompt={mockPrompt} />);
-
-      await waitFor(() => {
-         const form = screen.getByTestId("edit-form");
-         assertInDocument(form);
-      });
-
-      const saveBtn = screen.getByTestId("save-btn");
-      await userEvent.click(saveBtn);
-
-      await waitFor(() => {
-         expect(mockUpdatePrompt).toHaveBeenCalledTimes(1);
-         expect(mockUpdatePrompt).toHaveBeenCalledWith(
-            expect.objectContaining({
-               id: mockPrompt.id,
-               title: mockPrompt.title,
-               content: mockPrompt.content,
-               categories: ["Category 1", "Category 2"],
-               recommendedModel: mockPrompt.recommendedModel,
-               followUpPrompts: ["Follow up 1", "Follow up 2"],
-            }),
-            false
-         );
-         expect(toast.success).toHaveBeenCalledWith(
-            "Prompt updated successfully"
-         );
-         expect(mockRouter.pathname).toEqual(`/prompts/${mockPrompt.id}`);
-      });
-   });
-
-   it("PromptEdit - failed update - shows error toast", async () => {
-      mockUpdatePrompt.mockResolvedValue({
-         success: false,
-         message: "Failed to update prompt",
-      });
-
-      render(<PromptEdit mode="edit" prompt={mockPrompt} />);
-
-      await waitFor(() => {
-         const form = screen.getByTestId("edit-form");
-         assertInDocument(form);
-      });
-
-      const saveBtn = screen.getByTestId("save-btn");
-      await userEvent.click(saveBtn);
-
-      await waitFor(() => {
-         expect(mockUpdatePrompt).toHaveBeenCalledTimes(1);
-         expect(toast.error).toHaveBeenCalledWith("Failed to update prompt");
-         expect(mockRouter.pathname).toEqual("/");
-      });
    });
 
    it("PromptEdit - save as new version - calls updatePrompt with createVersion true", async () => {
@@ -230,30 +248,6 @@ describe("PromptEdit functionality tests - edit mode", () => {
                id: mockPrompt.id,
             }),
             true
-         );
-      });
-   });
-
-   it("PromptEdit - initializes form with prompt data", async () => {
-      mockUpdatePrompt.mockResolvedValue({
-         success: true,
-         message: "Prompt updated successfully",
-      });
-
-      render(<PromptEdit mode="edit" prompt={mockPrompt} />);
-
-      const saveBtn = screen.getByTestId("save-btn");
-      await userEvent.click(saveBtn);
-
-      await waitFor(() => {
-         expect(mockUpdatePrompt).toHaveBeenCalledWith(
-            expect.objectContaining({
-               id: mockPrompt.id,
-               title: mockPrompt.title,
-               content: mockPrompt.content,
-               recommendedModel: mockPrompt.recommendedModel,
-            }),
-            false
          );
       });
    });
