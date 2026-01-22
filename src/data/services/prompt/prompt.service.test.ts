@@ -228,9 +228,10 @@ describe("updatePrompt tests", () => {
       const prompt = dtestData.dPromptUpdate();
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(null);
 
-      await expect(
-         promptService.updatePrompt(promptId, prompt, false)
-      ).rejects.toThrow("Prompt not found");
+      const fn = async () =>
+         promptService.updatePrompt(promptId, prompt, false);
+
+      await expect(fn).rejects.toThrow("Prompt not found");
 
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith({
@@ -245,11 +246,12 @@ describe("updatePrompt tests", () => {
       const currentPrompt = ptestData.pPromptDescriptorWithCategories();
       currentPrompt.currentVersion = 1;
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
-      promptRepoMock.pUpdatePrompt.mockRejectedValue(new Error("db error"));
+      const error = new Error("db error");
+      promptRepoMock.pUpdatePrompt.mockRejectedValue(error);
 
-      await expect(
-         promptService.updatePrompt(promptId, prompt, true)
-      ).rejects.toThrow("db error");
+      const fn = async () => promptService.updatePrompt(promptId, prompt, true);
+
+      await expect(fn).rejects.toThrow("db error");
 
       const expectedData: PromptDescriptorUpdateInput = {
          title: prompt.title,
