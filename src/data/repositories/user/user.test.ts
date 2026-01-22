@@ -6,15 +6,10 @@ import prisma from "@/data/repositories/prisma";
 import { Prisma } from "@/generated/prisma/client";
 import { UserUpdateArgs } from "@/generated/prisma/models";
 
-import {
-   pCreateUser,
-   pGetUser,
-   pGetUserByEmail,
-   pGetUserById,
-   pUpdateUser,
-} from "./user";
+import { UserRepository } from "./user";
 
-export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
+const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
+const userRepository = new UserRepository(prismaMock);
 
 describe("pGetUser tests", () => {
    beforeEach(() => {
@@ -25,7 +20,7 @@ describe("pGetUser tests", () => {
       const user = ptestData.pUser();
       prismaMock.user.findFirst.mockResolvedValue(user);
 
-      const result = await pGetUserById(user.id);
+      const result = await userRepository.pGetUserById(user.id);
 
       const expectedFindFirstArgs: Prisma.UserFindFirstArgs = {
          where: { id: user.id },
@@ -42,7 +37,7 @@ describe("pGetUser tests", () => {
       const user = ptestData.pUser();
       prismaMock.user.findFirst.mockResolvedValue(user);
 
-      const result = await pGetUserByEmail(user.email);
+      const result = await userRepository.pGetUserByEmail(user.email);
 
       const expectedFindFirstArgs: Prisma.UserFindFirstArgs = {
          where: { email: user.email },
@@ -59,7 +54,7 @@ describe("pGetUser tests", () => {
       const user = ptestData.pUser();
       prismaMock.user.findFirst.mockResolvedValue(user);
 
-      const result = await pGetUser({ userId: user.id });
+      const result = await userRepository.pGetUser({ userId: user.id });
 
       const expectedFindFirstArgs: Prisma.UserFindFirstArgs = {
          where: { id: user.id },
@@ -76,7 +71,7 @@ describe("pGetUser tests", () => {
       const user = ptestData.pUser();
       prismaMock.user.findFirst.mockResolvedValue(user);
 
-      const result = await pGetUser({ email: user.email });
+      const result = await userRepository.pGetUser({ email: user.email });
 
       const expectedFindFirstArgs: Prisma.UserFindFirstArgs = {
          where: { email: user.email },
@@ -93,7 +88,7 @@ describe("pGetUser tests", () => {
       const user = ptestData.pUser();
       prismaMock.user.findFirst.mockResolvedValue(user);
 
-      const result = await pGetUser({});
+      const result = await userRepository.pGetUser({});
 
       expect(result).toBeNull();
       expect(prismaMock.user.findFirst).not.toHaveBeenCalled();
@@ -108,7 +103,7 @@ describe("pCreateUser tests", () => {
    test("pCreateUser - user created - test", async () => {
       const user = ptestData.pUser();
       prismaMock.user.create.mockResolvedValue(user);
-      const result = await pCreateUser(user);
+      const result = await userRepository.pCreateUser(user);
 
       const expectedCreateArgs: Prisma.UserCreateArgs = {
          data: {
@@ -134,7 +129,7 @@ describe("pUpdateUser tests", () => {
       const data = ptestData.pUserUpdateData();
       prismaMock.user.update.mockResolvedValue(data);
 
-      const result = await pUpdateUser(userId, data);
+      const result = await userRepository.pUpdateUser(userId, data);
 
       const expectedUpdateArgs: UserUpdateArgs = {
          where: { id: userId },

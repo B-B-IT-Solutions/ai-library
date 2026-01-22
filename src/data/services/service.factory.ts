@@ -9,16 +9,23 @@ import { DbClient } from "@/data/types/db/common";
 
 export class ServiceFactory {
    private repositories: RepositoryFactory;
+   private userService?: UserService;
    private cartService?: CartService;
    private libraryService?: LibraryService;
    private orderService?: OrderService;
    private stripeService?: StripeService;
    private promptService?: PromptService;
    private promptTemplateService?: PromptTemplateService;
-   private userService?: UserService;
 
    constructor(prisma: DbClient) {
       this.repositories = new RepositoryFactory(prisma);
+   }
+
+   getUserService(): UserService {
+      if (!this.userService) {
+         this.userService = new UserService(this.repositories.userRepository());
+      }
+      return this.userService;
    }
 
    getCartService(): CartService {
@@ -75,12 +82,5 @@ export class ServiceFactory {
          );
       }
       return this.promptTemplateService;
-   }
-
-   getUserService(): UserService {
-      if (!this.userService) {
-         this.userService = new UserService();
-      }
-      return this.userService;
    }
 }

@@ -1,12 +1,18 @@
 import { requireUser } from "@/data/actions/auth-utils";
 import { formatError } from "@/data/actions/utils";
-import * as userRepository from "@/data/repositories/user";
+import { UserRepository } from "@/data/repositories/user";
 import { DUserUpdateData } from "@/data/types/domain/user";
 import { ActionResult } from "@/data/types/utils";
 import { Prisma, User } from "@/generated/prisma/client";
 import { compare, hash } from "@/lib/encrypt";
 
 export class UserService {
+   private userRepository: UserRepository;
+
+   constructor(userRepository: UserRepository) {
+      this.userRepository = userRepository;
+   }
+
    async signUpUser(
       name: string,
       email: string,
@@ -21,7 +27,7 @@ export class UserService {
             password: hashedPassword,
          };
 
-         const user = await userRepository.pCreateUser(newUser);
+         const user = await this.userRepository.pCreateUser(newUser);
 
          return {
             success: true,
@@ -40,7 +46,7 @@ export class UserService {
    }
 
    async getUserById(userId: string): Promise<User> {
-      const user = await userRepository.pGetUserById(userId);
+      const user = await this.userRepository.pGetUserById(userId);
       if (!user) {
          throw new Error("User not found");
       }
@@ -48,16 +54,16 @@ export class UserService {
    }
 
    async getUserByEmail(email: string): Promise<User | null> {
-      return await userRepository.pGetUserByEmail(email);
+      return await this.userRepository.pGetUserByEmail(email);
    }
 
    async updateUser(userId: string, data: DUserUpdateData): Promise<void> {
-      await userRepository.pUpdateUser(userId, data);
+      await this.userRepository.pUpdateUser(userId, data);
    }
 
    async updateProfile(name: string): Promise<User> {
       const loginUser = await requireUser();
-      return await userRepository.pUpdateUser(loginUser.id, { name });
+      return await this.userRepository.pUpdateUser(loginUser.id, { name });
    }
 
    async changePassword(
@@ -67,7 +73,7 @@ export class UserService {
    ): Promise<ActionResult> {
       try {
          // Get user
-         const user = await userRepository.pGetUserById(userId);
+         const user = await this.userRepository.pGetUserById(userId);
          if (!user) {
             return {
                success: false,
@@ -104,7 +110,7 @@ export class UserService {
          const hashedPassword = await hash(newPassword);
 
          // Update password
-         await userRepository.pChangePassword(userId, hashedPassword);
+         await this.userRepository.pChangePassword(userId, hashedPassword);
 
          return {
             success: true,
@@ -124,7 +130,7 @@ export class UserService {
    ): Promise<ActionResult> {
       try {
          // Get user
-         const user = await userRepository.pGetUserById(userId);
+         const user = await this.userRepository.pGetUserById(userId);
          if (!user) {
             return {
                success: false,
@@ -150,7 +156,7 @@ export class UserService {
          }
 
          // Hard delete user and all related data
-         await userRepository.pHardDeleteUser(userId);
+         await this.userRepository.pHardDeleteUser(userId);
 
          return {
             success: true,
