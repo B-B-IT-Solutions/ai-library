@@ -62,14 +62,6 @@ export class PromptService {
          followUpPrompts: {
             create: followUps,
          },
-         versions: {
-            create: {
-               version: 1,
-               content: prompt.content,
-               title: prompt.title,
-               categories: prompt.categories,
-            },
-         },
       };
 
       await this.promptRepository.pCreatePrompt(toSave);

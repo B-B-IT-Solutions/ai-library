@@ -164,14 +164,6 @@ describe("createPrompt tests", () => {
                },
             ],
          },
-         versions: {
-            create: {
-               version: 1,
-               content: prompt.content,
-               title: prompt.title,
-               categories: prompt.categories,
-            },
-         },
       };
 
       expect(promptRepoMock.pCreatePrompt).toHaveBeenCalledTimes(1);
@@ -215,14 +207,6 @@ describe("createPrompt tests", () => {
                   order: 2,
                },
             ],
-         },
-         versions: {
-            create: {
-               version: 1,
-               content: prompt.content,
-               title: prompt.title,
-               categories: prompt.categories,
-            },
          },
       };
 
