@@ -7,25 +7,25 @@ import { Prisma } from "@/generated/prisma/client";
 import { UserUpdateArgs } from "@/generated/prisma/models";
 
 import {
-   createUser,
-   getUser,
-   getUserByEmail,
-   getUserById,
-   updateUser,
+   pCreateUser,
+   pGetUser,
+   pGetUserByEmail,
+   pGetUserById,
+   pUpdateUser,
 } from "./user";
 
 export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
-describe("getUser tests", () => {
+describe("pGetUser tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   test("getUserById test", async () => {
+   test("pGetUserById test", async () => {
       const user = ptestData.pUser();
       prismaMock.user.findFirst.mockResolvedValue(user);
 
-      const result = await getUserById(user.id);
+      const result = await pGetUserById(user.id);
 
       const expectedFindFirstArgs: Prisma.UserFindFirstArgs = {
          where: { id: user.id },
@@ -38,11 +38,11 @@ describe("getUser tests", () => {
       );
    });
 
-   test("getUserByEmail test", async () => {
+   test("pGetUserByEmail test", async () => {
       const user = ptestData.pUser();
       prismaMock.user.findFirst.mockResolvedValue(user);
 
-      const result = await getUserByEmail(user.email);
+      const result = await pGetUserByEmail(user.email);
 
       const expectedFindFirstArgs: Prisma.UserFindFirstArgs = {
          where: { email: user.email },
@@ -55,11 +55,11 @@ describe("getUser tests", () => {
       );
    });
 
-   test("getUser - by userId - test", async () => {
+   test("pGetUser - by userId - test", async () => {
       const user = ptestData.pUser();
       prismaMock.user.findFirst.mockResolvedValue(user);
 
-      const result = await getUser({ userId: user.id });
+      const result = await pGetUser({ userId: user.id });
 
       const expectedFindFirstArgs: Prisma.UserFindFirstArgs = {
          where: { id: user.id },
@@ -72,11 +72,11 @@ describe("getUser tests", () => {
       );
    });
 
-   test("getUser - by email - test", async () => {
+   test("pGetUser - by email - test", async () => {
       const user = ptestData.pUser();
       prismaMock.user.findFirst.mockResolvedValue(user);
 
-      const result = await getUser({ email: user.email });
+      const result = await pGetUser({ email: user.email });
 
       const expectedFindFirstArgs: Prisma.UserFindFirstArgs = {
          where: { email: user.email },
@@ -89,26 +89,26 @@ describe("getUser tests", () => {
       );
    });
 
-   test("getUser - params undefined - test", async () => {
+   test("pGetUser - params undefined - test", async () => {
       const user = ptestData.pUser();
       prismaMock.user.findFirst.mockResolvedValue(user);
 
-      const result = await getUser({});
+      const result = await pGetUser({});
 
       expect(result).toBeNull();
       expect(prismaMock.user.findFirst).not.toHaveBeenCalled();
    });
 });
 
-describe("createUser tests", () => {
+describe("pCreateUser tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   test("createUser - user created - test", async () => {
+   test("pCreateUser - user created - test", async () => {
       const user = ptestData.pUser();
       prismaMock.user.create.mockResolvedValue(user);
-      const result = await createUser(user);
+      const result = await pCreateUser(user);
 
       const expectedCreateArgs: Prisma.UserCreateArgs = {
          data: {
@@ -124,17 +124,17 @@ describe("createUser tests", () => {
    });
 });
 
-describe("updateUser tests", () => {
+describe("pUpdateUser tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   test("updateUser - user updated - test", async () => {
+   test("pUpdateUser - user updated - test", async () => {
       const userId = "user-id-1";
       const data = ptestData.pUserUpdateData();
       prismaMock.user.update.mockResolvedValue(data);
 
-      const result = await updateUser(userId, data);
+      const result = await pUpdateUser(userId, data);
 
       const expectedUpdateArgs: UserUpdateArgs = {
          where: { id: userId },

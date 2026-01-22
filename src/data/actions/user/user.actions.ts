@@ -3,6 +3,7 @@
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 import { signIn, signOut } from "@/auth";
+import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
@@ -56,8 +57,8 @@ export const signUpUser = async (formData: DSignUpFormData) => {
       }
 
       await signIn("credentials", {
-         email: result.data.user.email,
-         password: result.data.plainPassword,
+         email: formData.email,
+         password: formData.password,
       });
 
       return {
@@ -70,7 +71,7 @@ export const signUpUser = async (formData: DSignUpFormData) => {
       }
       return {
          success: false,
-         message: "An error occurred during sign up",
+         message: formatError(error),
       };
    }
 };

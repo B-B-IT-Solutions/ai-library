@@ -5,7 +5,7 @@ import { Metadata } from "next";
 import SettingsPage, { metadata } from "./page";
 
 export const expectedMetadata: Metadata = {
-   title: "Settings",
+   title: "Einstellungen",
 };
 
 const assertRendered = () => {

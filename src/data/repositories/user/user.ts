@@ -8,15 +8,15 @@ type PGeUserParams = {
    email?: string;
 };
 
-export const getUserById = async (userId: string): Promise<User | null> => {
-   return getUser({ userId });
+export const pGetUserById = async (userId: string): Promise<User | null> => {
+   return pGetUser({ userId });
 };
 
-export const getUserByEmail = async (email: string): Promise<User | null> => {
-   return getUser({ email });
+export const pGetUserByEmail = async (email: string): Promise<User | null> => {
+   return pGetUser({ email });
 };
 
-export const getUser = async (params: PGeUserParams): Promise<User | null> => {
+export const pGetUser = async (params: PGeUserParams): Promise<User | null> => {
    const whereClause = resolveGetUserParams(params);
 
    if (whereClause) {
@@ -27,7 +27,7 @@ export const getUser = async (params: PGeUserParams): Promise<User | null> => {
    return null;
 };
 
-export const createUser = async (user: UserCreateInput) => {
+export const pCreateUser = async (user: UserCreateInput) => {
    return await prisma.user.create({
       data: {
          name: user.name,
@@ -37,21 +37,24 @@ export const createUser = async (user: UserCreateInput) => {
    });
 };
 
-export const updateUser = async (userId: string, data: UserUpdateData) => {
+export const pUpdateUser = async (userId: string, data: UserUpdateData) => {
    return await prisma.user.update({
       where: { id: userId },
       data: data,
    });
 };
 
-export const changePassword = async (userId: string, newPasswordHash: string) => {
+export const pChangePassword = async (
+   userId: string,
+   newPasswordHash: string
+) => {
    return await prisma.user.update({
       where: { id: userId },
       data: { password: newPasswordHash },
    });
 };
 
-export const hardDeleteUser = async (userId: string) => {
+export const pHardDeleteUser = async (userId: string) => {
    return await prisma.$transaction(async (tx) => {
       // Delete in dependency order
       await tx.session.deleteMany({ where: { userId } });

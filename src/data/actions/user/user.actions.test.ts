@@ -6,10 +6,10 @@ import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 import { signIn, signOut } from "@/auth";
 import {
-   createUser,
-   getUserByEmail as pGetUserByEmail,
-   getUserById as pGetUserById,
-   updateUser as pUpdateUser,
+   pCreateUser,
+   pGetUserByEmail,
+   pGetUserById,
+   pUpdateUser,
 } from "@/data/repositories/user";
 import { DSignInFormData, DSignUpFormData } from "@/data/types/domain/user";
 import { Prisma } from "@/generated/prisma/client";
@@ -36,7 +36,7 @@ const getUserByIdMock = pGetUserById as jest.MockedFunction<
 const pGetUserByEmailMock = pGetUserByEmail as jest.MockedFunction<
    typeof pGetUserByEmail
 >;
-const createUserMock = createUser as jest.MockedFunction<typeof createUser>;
+const createUserMock = pCreateUser as jest.MockedFunction<typeof pCreateUser>;
 
 describe("signInWithCredentials tests", () => {
    beforeEach(() => {
