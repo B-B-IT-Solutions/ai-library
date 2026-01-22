@@ -16,21 +16,9 @@ import {
 
 export const updateProfile = async (name: string): Promise<ActionResult> => {
    try {
-      const session = await auth();
-      if (!session?.user?.id) {
-         return {
-            success: false,
-            message: "Nicht authentifiziert",
-         };
-      }
-
       const validatedData = updateProfileSchema.parse({ name });
       const userService = getUserService();
-
-      return await userService.updateProfile(
-         session.user.id,
-         validatedData.name
-      );
+      return await userService.updateProfile(validatedData.name);
    } catch (error) {
       if (isRedirectError(error)) {
          throw error;
@@ -107,7 +95,6 @@ export const deleteAccount = async (
       );
 
       if (result.success) {
-         // Sign out user and redirect to public page
          await signOut({ redirect: false });
          redirect("/p");
       }

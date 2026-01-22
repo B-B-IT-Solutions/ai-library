@@ -1,32 +1,14 @@
+import { requireUser } from "@/data/actions/auth-utils";
 import { formatError } from "@/data/actions/utils";
 import * as userRepository from "@/data/repositories/user/user";
 import { ActionResult } from "@/data/types/utils";
+import { User } from "@/generated/prisma/client";
 import { compare, hash } from "@/lib/encrypt";
 
 export class UserService {
-   async updateProfile(userId: string, name: string): Promise<ActionResult> {
-      try {
-         // Validate name length
-         if (name.length < 3) {
-            return {
-               success: false,
-               message: "Name muss mindestens 3 Zeichen lang sein",
-            };
-         }
-
-         const user = await userRepository.updateUser(userId, { name });
-
-         return {
-            success: true,
-            message: "Profil erfolgreich aktualisiert",
-            data: user,
-         };
-      } catch (error) {
-         return {
-            success: false,
-            message: formatError(error),
-         };
-      }
+   async updateProfile(name: string): Promise<User> {
+      const loginUser = await requireUser();
+      return await userRepository.updateUser(loginUser.id, { name });
    }
 
    async changePassword(
@@ -79,7 +61,10 @@ export class UserService {
       }
    }
 
-   async deleteAccount(userId: string, password: string): Promise<ActionResult> {
+   async deleteAccount(
+      userId: string,
+      password: string
+   ): Promise<ActionResult> {
       try {
          // Get user
          const user = await userRepository.getUserById(userId);
