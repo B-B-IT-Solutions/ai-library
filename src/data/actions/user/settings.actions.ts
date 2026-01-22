@@ -7,16 +7,14 @@ import { auth, signOut } from "@/auth";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
+import { ActionResult } from "@/data/types/utils";
 import {
    changePasswordSchema,
    deleteAccountSchema,
    updateProfileSchema,
 } from "@/data/types/validators/settings.schema";
-import { ActionResult } from "@/data/types/utils";
 
-export const updateProfile = async (
-   name: string
-): Promise<ActionResult> => {
+export const updateProfile = async (name: string): Promise<ActionResult> => {
    try {
       const session = await auth();
       if (!session?.user?.id) {
@@ -29,7 +27,10 @@ export const updateProfile = async (
       const validatedData = updateProfileSchema.parse({ name });
       const userService = getUserService();
 
-      return await userService.updateProfile(session.user.id, validatedData.name);
+      return await userService.updateProfile(
+         session.user.id,
+         validatedData.name
+      );
    } catch (error) {
       if (isRedirectError(error)) {
          throw error;
@@ -85,7 +86,9 @@ export const changePassword = async (
    }
 };
 
-export const deleteAccount = async (password: string): Promise<ActionResult> => {
+export const deleteAccount = async (
+   password: string
+): Promise<ActionResult> => {
    try {
       const session = await auth();
       if (!session?.user?.id) {
