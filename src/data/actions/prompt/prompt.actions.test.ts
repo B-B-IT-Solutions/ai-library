@@ -175,10 +175,11 @@ describe("updatePrompt tests", () => {
    });
 
    it("updatePrompt - error - test", async () => {
+      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const prompt = dtestData.dPromptUpdate();
       sUpdatePromptMock.mockRejectedValue(new Error("db error"));
 
-      const result = await updatePrompt(prompt, false);
+      const result = await updatePrompt(id, prompt, false);
       const expectedResult = {
          success: false,
          message: "db error",
@@ -186,13 +187,14 @@ describe("updatePrompt tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(sUpdatePromptMock).toHaveBeenCalledTimes(1);
-      expect(sUpdatePromptMock).toHaveBeenCalledWith(prompt, false);
+      expect(sUpdatePromptMock).toHaveBeenCalledWith(id, prompt, false);
    });
 
    it("updatePrompt - prompt updated - createVersion false - test", async () => {
+      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const prompt = dtestData.dPromptUpdate();
 
-      const result = await updatePrompt(prompt, false);
+      const result = await updatePrompt(id, prompt, false);
       const expectedResult = {
          success: true,
          message: "Prompt erfolgreich aktualisiert.",
@@ -200,13 +202,14 @@ describe("updatePrompt tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(sUpdatePromptMock).toHaveBeenCalledTimes(1);
-      expect(sUpdatePromptMock).toHaveBeenCalledWith(prompt, false);
+      expect(sUpdatePromptMock).toHaveBeenCalledWith(id, prompt, false);
    });
 
    it("updatePrompt - prompt updated - createVersion true - test", async () => {
+      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const prompt = dtestData.dPromptUpdate();
 
-      const result = await updatePrompt(prompt, true);
+      const result = await updatePrompt(id, prompt, true);
       const expectedResult = {
          success: true,
          message: "Prompt erfolgreich aktualisiert.",
@@ -214,7 +217,7 @@ describe("updatePrompt tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(sUpdatePromptMock).toHaveBeenCalledTimes(1);
-      expect(sUpdatePromptMock).toHaveBeenCalledWith(prompt, true);
+      expect(sUpdatePromptMock).toHaveBeenCalledWith(id, prompt, true);
    });
 });
 

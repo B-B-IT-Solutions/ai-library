@@ -51,12 +51,13 @@ export const createPrompt = async (data: DPromptUpdate) => {
 };
 
 export const updatePrompt = async (
+   promptId: string,
    data: DPromptUpdate,
    createVersion: boolean
 ) => {
    try {
       const service = getPromptSevice();
-      await service.updatePrompt(data, createVersion);
+      await service.updatePrompt(promptId, data, createVersion);
       return {
          success: true,
          message: "Prompt erfolgreich aktualisiert.",

@@ -48,7 +48,6 @@ export const PromptEdit: FC<PromptEditProps> = ({ prompt, mode }) => {
    const initValues = () => {
       if (isEdit) {
          return {
-            id: prompt.id,
             title: prompt.title,
             content: prompt.content,
             categories: prompt.categories.map((c) => c.name),
@@ -99,7 +98,7 @@ export const PromptEdit: FC<PromptEditProps> = ({ prompt, mode }) => {
       };
 
       const result = isEdit
-         ? await updatePrompt(payload, createVersion)
+         ? await updatePrompt(prompt.id, payload, createVersion)
          : await createPrompt(payload);
 
       if (result.success) {

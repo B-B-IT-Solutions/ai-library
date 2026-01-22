@@ -3,7 +3,7 @@ jest.mock("sonner");
 
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
+import { assertInDocument, dtestData } from "@tests";
 import { cloneDeep } from "es-toolkit";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
@@ -181,7 +181,6 @@ describe("PromptEdit functionality tests", () => {
       await userEvent.click(saveBtn);
 
       const expectedPromptPayload: DPromptUpdate = {
-         id: prompt.id,
          title: prompt.title,
          content: prompt.content,
          categories: prompt.categories.map((c) => c.name),
@@ -192,6 +191,7 @@ describe("PromptEdit functionality tests", () => {
       await waitFor(() => {
          expect(mockUpdatePrompt).toHaveBeenCalledTimes(1);
          expect(mockUpdatePrompt).toHaveBeenCalledWith(
+            prompt.id,
             expectedPromptPayload,
             false
          );
@@ -228,7 +228,6 @@ describe("PromptEdit functionality tests", () => {
       await userEvent.click(saveBtn);
 
       const expectedPromptPayload: DPromptUpdate = {
-         id: prompt.id,
          title: prompt.title,
          content: prompt.content,
          categories: prompt.categories.map((c) => c.name),
@@ -239,6 +238,7 @@ describe("PromptEdit functionality tests", () => {
       await waitFor(() => {
          expect(mockUpdatePrompt).toHaveBeenCalledTimes(1);
          expect(mockUpdatePrompt).toHaveBeenCalledWith(
+            prompt.id,
             expectedPromptPayload,
             true
          );
@@ -272,7 +272,6 @@ describe("PromptEdit functionality tests", () => {
       await userEvent.click(saveBtn);
 
       const expectedPromptPayload: DPromptUpdate = {
-         id: prompt1.id,
          title: prompt1.title,
          content: prompt1.content,
          categories: prompt1.categories.map((c) => c.name),
@@ -283,6 +282,7 @@ describe("PromptEdit functionality tests", () => {
       await waitFor(() => {
          expect(mockUpdatePrompt).toHaveBeenCalledTimes(1);
          expect(mockUpdatePrompt).toHaveBeenCalledWith(
+            prompt1.id,
             expectedPromptPayload,
             false
          );

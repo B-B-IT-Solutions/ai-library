@@ -1,7 +1,6 @@
 import z from "zod";
 
 export const updatePromptSchema = z.object({
-   id: z.string().optional(),
    title: z.string().min(3, "Titel ist erforderlich"),
    content: z.string(),
    categories: z.array(z.string()),

@@ -79,14 +79,17 @@ export class PromptService {
       await this.promptRepository.pCreatePrompt(toSave);
    }
 
-   async updatePrompt(data: DPromptUpdate, createVersion: boolean) {
+   async updatePrompt(
+      promptId: string,
+      data: DPromptUpdate,
+      createVersion: boolean
+   ) {
       const prompt = updatePromptSchema.parse(data);
       const categories = this.createOrConnectCategories(prompt.categories);
       const followUps = this.createFollowUps(prompt.followUpPrompts || []);
 
-      // Check if content changed to determine versioning
       const current = await this.promptRepository.pGetPromptDescriptor({
-         id: prompt.id,
+         id: promptId,
       });
 
       if (!current) {
@@ -110,7 +113,7 @@ export class PromptService {
       };
 
       await this.promptRepository.pUpdatePrompt(
-         prompt.id,
+         promptId,
          toSave,
          contentChanged
       );
