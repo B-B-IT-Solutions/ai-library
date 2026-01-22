@@ -4,7 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
-import { MarkdownRenderer } from "@/components/shared/markdown-renderer";
+import { MDRenderer } from "@/components/shared/md";
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
 import { CreatePromptButton } from "../buttons/create-prompt-button";
 import { DownloadTemplateButton } from "../buttons/download-template-button";
@@ -73,18 +73,16 @@ export const LibraryEntryDetails: FC<LibraryEntryDetailsProps> = ({
                      <h2 className="text-xl font-semibold text-slate-900 mb-3">
                         Beschreibung
                      </h2>
-                     <MarkdownRenderer>
-                        {descriptor.description}
-                     </MarkdownRenderer>
+                     <MDRenderer>{descriptor.description}</MDRenderer>
                   </div>
 
                   <div data-testid="long-description">
                      <h2 className="text-xl font-semibold text-slate-900 mb-3">
                         Detaillierte Beschreibung
                      </h2>
-                     <MarkdownRenderer>
+                     <MDRenderer>
                         {descriptor.promptTemplate.detailedDescription}
-                     </MarkdownRenderer>
+                     </MDRenderer>
                   </div>
 
                   <PromptTextDisplay template={descriptor.promptTemplate} />

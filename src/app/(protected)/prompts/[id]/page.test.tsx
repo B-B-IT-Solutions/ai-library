@@ -19,10 +19,10 @@ export const expectedMetadata: Metadata = {
 
 const assertRendered = () => {
    const page = screen.getByTestId("prompt-page");
-   const form = screen.getByTestId("prompt-form-view");
+   const promptView = screen.getByTestId("prompt-view");
 
    assertInDocument(page);
-   assertInDocument(form);
+   assertInDocument(promptView);
 };
 
 describe("PromptPage rendering tests", () => {

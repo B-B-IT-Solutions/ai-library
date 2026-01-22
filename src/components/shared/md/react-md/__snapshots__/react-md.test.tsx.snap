@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`ReactMd rendering tests ReactMd - classnem defined - rendered test 1`] = `
+<div>
+  <div
+    class="flex-1"
+    data-testid="react-md"
+  >
+    <div
+      data-testid="react-markdown-mock"
+    >
+       text 1
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ReactMd rendering tests ReactMd - classnem undefined - rendered test 1`] = `
+<div>
+  <div
+    class="text-slate-700 leading-relaxed"
+    data-testid="react-md"
+  >
+    <div
+      data-testid="react-markdown-mock"
+    >
+       text 1
+    </div>
+  </div>
+</div>
+`;

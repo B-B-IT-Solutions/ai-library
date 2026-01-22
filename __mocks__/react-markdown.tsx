@@ -2,9 +2,16 @@ import { FC, ReactNode } from "react";
 
 type ReactMarkdownProps = {
    children: ReactNode;
+   components?: any;
+   remarkPlugins?: any[];
 };
 
-const ReactMarkdown: FC<ReactMarkdownProps> = ({ children, ...props }) => {
+const ReactMarkdown: FC<ReactMarkdownProps> = ({
+   children,
+   components,
+   remarkPlugins,
+   ...props
+}) => {
    return (
       <div data-testid="react-markdown-mock" {...props}>
          {children}

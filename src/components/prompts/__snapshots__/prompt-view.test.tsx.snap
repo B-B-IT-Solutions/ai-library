@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`PromptView rendering tests PromptView rendered test 1`] = `
+<div>
+  <div
+    class="h-full flex items-center justify-center"
+    data-testid="prompt-view"
+  >
+    <div
+      class="bg-white rounded-xl p-16 border border-slate-200 shadow-sm text-center w-full"
+      data-testid="prompts-empty"
+    >
+      <div
+        class="text-slate-500"
+      >
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-plus w-20 h-20 mx-auto mb-6 opacity-40 text-slate-400"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M5 12h14"
+          />
+          <path
+            d="M12 5v14"
+          />
+        </svg>
+        <h3
+          class="text-2xl font-semibold text-slate-900 mb-3"
+        >
+          No Prompt Selected
+        </h3>
+        <p
+          class="text-slate-600 mb-8"
+        >
+          Select a prompt from the library or create a new one to get started
+        </p>
+      </div>
+      <a
+        class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-10 rounded-md px-6 has-[>svg]:px-4 bg-blue-600 hover:bg-blue-700 text-white shadow-sm flex items-center gap-2"
+        data-slot="button"
+        data-testid="create-prompt-btn"
+        href="/prompts/new"
+      >
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-plus w-5 h-5"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M5 12h14"
+          />
+          <path
+            d="M12 5v14"
+          />
+        </svg>
+        Create Prompt
+      </a>
+    </div>
+  </div>
+</div>
+`;

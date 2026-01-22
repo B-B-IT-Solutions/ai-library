@@ -17,11 +17,12 @@ import {
 } from "@/data/types/domain/product";
 import {
    DPromptCategory,
-   DPromptCreate,
    DPromptDescriptor,
    DPromptDescriptorsFilter,
    DPromptDescriptorsPage,
    DPromptDescriptorsPageQuery,
+   DPromptFollowUp,
+   DPromptUpdate,
    DPromptVersion,
 } from "@/data/types/domain/prompt";
 import {
@@ -299,21 +300,30 @@ export const dPromptDescriptor = (index = 1): DPromptDescriptor => {
    return {
       id: `334db648-f300-4284-8149-075ff465d75${index}`,
       title: `title ${index}`,
+      currentVersion: 1,
+      content: "content 1",
       categories: dPromptCategories(),
       recommendedModel: `model ${index}`,
       isFavorite: true,
+      followUpPrompts: dPromptFollowUps(),
+      versions: dPromptVersions(),
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
    };
 };
 
-export const dPromptCreate = (index = 1): DPromptCreate => {
+export const dPromptUpdate = (index = 1): DPromptUpdate => {
    return {
       title: `title ${index}`,
-      content: `content ${index}`,
+      content: `updated content ${index}`,
       categories: ["category 1"],
       recommendedModel: `model ${index}`,
+      followUpPrompts: dFollowUpPrompts(),
    };
+};
+
+export const dFollowUpPrompts = (count = 3): string[] => {
+   return range(0, count).map((i) => `prompt follow up ${i}`);
 };
 
 export const dPromptCategories = (count = 3): DPromptCategory[] => {
@@ -326,12 +336,25 @@ export const dPromptCategory = (index = 1): DPromptCategory => {
    };
 };
 
+export const dPromptFollowUps = (count = 3): DPromptFollowUp[] => {
+   return range(0, count).map((i) => dPromptFollowUp(i));
+};
+
+export const dPromptFollowUp = (index = 1): DPromptFollowUp => {
+   return {
+      id: `f23c15c7-7d2d-40a2-a895-6a78516b9b3${index}`,
+      content: `content ${index}`,
+      order: index,
+   };
+};
+
 export const dPromptVersions = (count = 3): DPromptVersion[] => {
    return range(0, count).map((i) => dPromptVersion(i));
 };
 
 export const dPromptVersion = (index = 1): DPromptVersion => {
    return {
+      id: `db4079a0-c783-4d41-9bb3-0a1c45edeb7${index}`,
       version: index,
       content: `content ${index}`,
       createdAt: new Date("2025-09-27").toISOString(),
@@ -351,7 +374,9 @@ export const dPromptsPageQuery = (): DPromptDescriptorsPageQuery => {
 
 export const dPromptsFilter = (): DPromptDescriptorsFilter => {
    return {
+      search: "search-1",
       categories: ["cat 1", "cat 2", "cat 3"],
+      isFavorite: false,
    };
 };
 

@@ -3,6 +3,9 @@ export {
    getPrompts,
    getPromptCategories,
    createPrompt,
+   updatePrompt,
+   deletePrompt,
+   toggleFavorite,
 } from "./prompt.actions";
 
 export {

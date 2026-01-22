@@ -3,6 +3,7 @@ import { PrismaClient } from "@/generated/prisma/client";
 import { bundlesData } from "./seed-data/bundles";
 import { templateProductMetadata } from "./seed-data/product-metadata";
 import { promptTemplatesData } from "./seed-data/prompt-templates";
+import { promptsData } from "./seed-data/prompts";
 
 const prisma = new PrismaClient();
 
@@ -18,9 +19,10 @@ export const main = async () => {
    await prisma.promptDescriptor.deleteMany();
    await prisma.promptCategory.deleteMany();
 
-   console.log("Starting to seed...");
+   console.log("Starting data inserts...");
 
-   // Seed prompt templates
+   console.log("\nCreating prompt templates...");
+
    const createdTemplateDesciptors = [];
    for (const pt of promptTemplatesData) {
       const templateDescriptor = await prisma.promptTemplateDescriptor.create({
@@ -31,14 +33,23 @@ export const main = async () => {
       });
 
       createdTemplateDesciptors.push(templateDescriptor);
-      console.log(`Created template: ${templateDescriptor.title}`);
+   }
+
+   console.log("\nCreating prompts...");
+   const createdPrompts = [];
+   for (const pt of promptsData) {
+      const promptDescriptor = await prisma.promptDescriptor.create({
+         data: pt,
+      });
+
+      createdPrompts.push(promptDescriptor);
    }
 
    console.log("\nCreating products...");
 
    // Create individual template products with sample metadata
    for (const descriptor of createdTemplateDesciptors) {
-      const product = await prisma.product.create({
+      await prisma.product.create({
          data: {
             name: descriptor.title,
             description: descriptor.description,
@@ -64,7 +75,6 @@ export const main = async () => {
             },
          },
       });
-      console.log(`Created product: ${product.name} ($${product.price})`);
    }
 
    // Create bundle products
@@ -75,7 +85,7 @@ export const main = async () => {
          bundleConfig.templateTitles.includes(t.title)
       );
 
-      const bundle = await prisma.product.create({
+      await prisma.product.create({
          data: {
             name: bundleConfig.name,
             description: bundleConfig.description,
@@ -99,12 +109,12 @@ export const main = async () => {
             },
          },
       });
-      console.log(`Created bundle: ${bundle.name} ($${bundle.price})`);
    }
 
-   console.log("\n✅ Seeding finished successfully!");
+   console.log("\n✅ Data inserts finished successfully!");
    console.log(`\nSummary:`);
    console.log(`- ${createdTemplateDesciptors.length} templates`);
+   console.log(`- ${createdPrompts.length} prompts`);
    console.log(`- ${createdTemplateDesciptors.length} individual products`);
    console.log(`- ${bundlesData.length} bundles`);
 };

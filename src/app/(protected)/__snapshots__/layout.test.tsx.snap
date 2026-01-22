@@ -527,7 +527,7 @@ exports[`MainLayout rendering tests MainLayout - session defined - rendered 1`] 
         </div>
       </div>
       <main
-        class="flex-1 wrapper"
+        class="flex-1"
       >
         <div
           data-testid="test-1"
@@ -1006,7 +1006,7 @@ exports[`MainLayout rendering tests MainLayout - session undefined - rendered 1`
         </div>
       </div>
       <main
-        class="flex-1 wrapper"
+        class="flex-1"
       >
         <div
           data-testid="test-1"

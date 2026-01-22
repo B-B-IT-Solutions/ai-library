@@ -3,12 +3,15 @@ import { map } from "es-toolkit/compat";
 
 import {
    PromptDescriptorsPage,
-   PromptDescriptorWithCategories,
+   PromptDescriptorWithRelations,
 } from "@/data/types/db/prompt";
 import {
    DPromptDescriptor,
    DPromptDescriptorsPage,
+   DPromptFollowUp,
+   DPromptVersion,
 } from "@/data/types/domain/prompt";
+import { PromptFollowUp, PromptVersion } from "@/generated/prisma/client";
 
 import {
    toDPromptDescriptor,
@@ -26,20 +29,43 @@ const toDPromptDescriptorsPageInternal = (
 };
 
 const toDPromptDescriptorsInternal = (
-   pPrompts: PromptDescriptorWithCategories[]
+   pPrompts: PromptDescriptorWithRelations[]
 ): DPromptDescriptor[] => {
    return map(pPrompts, (dbP) => toDPromptDescriptor(dbP));
 };
 
+const toDPromptVersionInternal = (version: PromptVersion): DPromptVersion => {
+   return {
+      id: version.id,
+      version: version.version,
+      content: version.content,
+      createdAt: version.createdAt.toISOString(),
+   };
+};
+
+const toDPromptFollowUpInternal = (
+   followUp: PromptFollowUp
+): DPromptFollowUp => {
+   return {
+      id: followUp.id,
+      content: followUp.content,
+      order: followUp.order,
+   };
+};
+
 const toDPromptDescriptorInternal = (
-   prompt: PromptDescriptorWithCategories
+   prompt: PromptDescriptorWithRelations
 ): DPromptDescriptor => {
    return {
       id: prompt.id,
       title: prompt.title,
+      content: prompt.content,
       categories: prompt.categories,
       recommendedModel: prompt.recommendedModel,
       isFavorite: prompt.isFavorite,
+      currentVersion: prompt.currentVersion,
+      versions: map(prompt.versions, toDPromptVersionInternal),
+      followUpPrompts: map(prompt.followUpPrompts, toDPromptFollowUpInternal),
       updatedAt: prompt.updatedAt.toISOString(),
       createdAt: prompt.createdAt.toISOString(),
    };
@@ -58,14 +84,14 @@ describe("toDPromptDescriptors tests", () => {
    });
 
    it("toDPromptDescriptors test", async () => {
-      const prompts = ptestData.pPromptDescriptorssWithCategories();
+      const prompts = ptestData.pPromptDescriptorsWithRelations();
       const result = toDPromptDescriptors(prompts);
       const expectedResult = toDPromptDescriptorsInternal(prompts);
       expect(result).toEqual(expectedResult);
    });
 
    it("toDPromptDescriptor test", async () => {
-      const prompt = ptestData.pPromptDescriptorWithCategories();
+      const prompt = ptestData.pPromptDescriptorWithRelations();
       const result = toDPromptDescriptor(prompt);
       const expectedResult = toDPromptDescriptorInternal(prompt);
       expect(result).toEqual(expectedResult);

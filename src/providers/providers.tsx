@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { ThemeProvider } from "next-themes";
 
-import { TsQueryClientProvider } from "./query-client-provider";
+import { TsQueryClientProvider } from "./ts-query-client/provider";
 
 type ProvidersProps = {
    children: React.ReactNode;

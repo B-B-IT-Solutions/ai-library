@@ -11,6 +11,7 @@ import mockRouter from "next-router-mock";
 import { MemoryRouterProvider } from "next-router-mock/MemoryRouterProvider/next-13.5";
 
 import { SidebarProvider } from "@/components/shadcn/sidebar";
+import { TooltipProvider } from "@/components/shadcn/tooltip";
 
 export const renderAsyncRSC = async <T,>(
    asyncComponent: (props: T) => Promise<JSX.Element>,
@@ -35,10 +36,29 @@ export const renderAsyncRSC = async <T,>(
 
 export const renderWithReactQuery = (component: React.ReactNode) => {
    const queryClient = testQueryClient();
+   const { rerender: origRerender, ...rest } = render(
+      <QueryClientProvider client={queryClient}>
+         {component}
+      </QueryClientProvider>
+   );
+   return {
+      ...rest,
+      rerender: (component: JSX.Element) => {
+         return origRerender(
+            <QueryClientProvider client={queryClient}>
+               {component}
+            </QueryClientProvider>
+         );
+      },
+   };
+};
+
+export const renderWithTooltip = (component: React.ReactNode) => {
+   const queryClient = testQueryClient();
    return {
       ...render(
          <QueryClientProvider client={queryClient}>
-            {component}
+            <TooltipProvider>{component}</TooltipProvider>
          </QueryClientProvider>
       ),
    };
@@ -53,7 +73,9 @@ export const renderWithRouter = (
    return {
       ...render(
          <QueryClientProvider client={queryClient}>
-            <MemoryRouterProvider url={url}>{component}</MemoryRouterProvider>
+            <MemoryRouterProvider url={url}>
+               <TooltipProvider>{component}</TooltipProvider>
+            </MemoryRouterProvider>
          </QueryClientProvider>
       ),
    };

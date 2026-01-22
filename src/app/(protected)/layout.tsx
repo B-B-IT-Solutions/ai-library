@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 
 import { auth } from "@/auth";
-import { SidebarProvider, SidebarTrigger } from "@/components/shadcn/sidebar";
+import { SidebarProvider } from "@/components/shadcn/sidebar";
 import { Sidebar } from "@/components/shared";
 
 export type MainLayoutProps = {
@@ -20,7 +20,7 @@ const MainLayout = async (props: Readonly<MainLayoutProps>) => {
       <div className="h-full flex flex-row" data-testid="main-layout">
          <SidebarProvider defaultOpen={defaultOpen}>
             <Sidebar user={session?.user} />
-            <main className="flex-1 wrapper">{children}</main>
+            <main className="flex-1">{children}</main>
          </SidebarProvider>
       </div>
    );

@@ -1,3 +1,5 @@
+import { isArray } from "es-toolkit/compat";
+
 export const assertInDocument = (component: HTMLElement | SVGSVGElement) => {
    expect(component).toBeInTheDocument();
 };
@@ -16,12 +18,26 @@ export const assertNotVisible = (component: HTMLElement | null) => {
    expect(component).not.toBeVisible();
 };
 
-export const assertHasClass = (component: HTMLElement, cssClass: string) => {
-   expect(component).toHaveClass(cssClass);
+export const assertHasClass = (
+   component: HTMLElement,
+   cssClasses: string | string[]
+) => {
+   if (isArray(cssClasses)) {
+      expect(component).toHaveClass(...cssClasses);
+   } else {
+      expect(component).toHaveClass(cssClasses);
+   }
 };
 
-export const assertHasNoClass = (component: HTMLElement, cssClass: string) => {
-   expect(component).not.toHaveClass(cssClass);
+export const assertHasNoClass = (
+   component: HTMLElement,
+   cssClasses: string | string[]
+) => {
+   if (isArray(cssClasses)) {
+      expect(component).not.toHaveClass(...cssClasses);
+   } else {
+      expect(component).not.toHaveClass(cssClasses);
+   }
 };
 
 export const assertHasAttributeWithValue = (

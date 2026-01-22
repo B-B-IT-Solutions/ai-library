@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-import { PromptFormView } from "@/components/prompts/prompt";
+import { PromptFormView } from "@/components/prompts";
 import { getPrompt } from "@/data/actions/prompt";
 
 export const metadata = {
@@ -23,7 +23,10 @@ const PromptPage = async (props: PromptPageProps) => {
    }
 
    return (
-      <div data-testid="prompt-page">
+      <div
+         className="h-screen flex flex-col bg-slate-50"
+         data-testid="prompt-page"
+      >
          <PromptFormView prompt={prompt} />
       </div>
    );

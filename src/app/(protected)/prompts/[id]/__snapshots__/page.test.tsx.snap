@@ -3,33 +3,41 @@
 exports[`PromptPage rendering tests PromptPage - prompt found - rendered test 1`] = `
 <div>
   <div
+    class="h-screen flex flex-col bg-slate-50"
     data-testid="prompt-page"
   >
     <div
-      class="lg:col-span-2"
-      data-testid="prompt-form-view"
+      data-testid="prompt-view"
     >
       <div
-        class="space-y-6 bg-white rounded-lg p-6 border border-slate-200 shadow-sm"
+        class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
+        data-slot="card"
       >
         <div
-          class="flex justify-between items-start mb-6"
+          class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 border-b pb-6"
+          data-slot="card-header"
         >
-          <div>
-            <h2
-              class="text-2xl font-bold mb-2 text-slate-900"
-            >
-              title 1
-            </h2>
+          <div
+            class="space-y-4"
+          >
             <div
-              class="flex flex-wrap gap-2 mb-3"
+              class="flex items-start gap-3"
             >
-              <span
-                class="flex items-center gap-1 px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm border border-slate-200"
+              <div
+                class="text-3xl font-bold text-slate-900"
+                data-slot="card-title"
+              >
+                title 1
+              </div>
+              <button
+                class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-9 has-[>svg]:px-3 p-1 bg-transparent hover:bg-slate-100 rounded transition-colors cursor-pointer"
+                data-slot="tooltip-trigger"
+                data-state="closed"
+                data-testid="toggle-favorite-btn"
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-tag w-3 h-3"
+                  class="lucide lucide-star w-5 h-5 fill-yellow-400 text-yellow-400"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -41,166 +49,501 @@ exports[`PromptPage rendering tests PromptPage - prompt found - rendered test 1`
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"
-                  />
-                  <circle
-                    cx="7.5"
-                    cy="7.5"
-                    fill="currentColor"
-                    r=".5"
+                    d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"
                   />
                 </svg>
+              </button>
+              <div
+                data-testid="mock-react-presence"
+              >
+                <div
+                  data-testid="mock-react-portal"
+                >
+                  <div
+                    data-testid="mock-react-presence"
+                  >
+                    <div
+                      data-radix-popper-content-wrapper=""
+                      style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px); min-width: max-content; --radix-popper-available-width: -16px; --radix-popper-available-height: 0px; --radix-popper-anchor-width: 0px; --radix-popper-anchor-height: 0px; --radix-popper-transform-origin: 0px 0px;"
+                    >
+                      <div
+                        class="bg-foreground text-background animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md px-3 py-1.5 text-xs text-balance"
+                        data-align="center"
+                        data-side="top"
+                        data-slot="tooltip-content"
+                        data-state="closed"
+                        style="--radix-tooltip-content-transform-origin: var(--radix-popper-transform-origin); --radix-tooltip-content-available-width: var(--radix-popper-available-width); --radix-tooltip-content-available-height: var(--radix-popper-available-height); --radix-tooltip-trigger-width: var(--radix-popper-anchor-width); --radix-tooltip-trigger-height: var(--radix-popper-anchor-height);"
+                      >
+                        Aus Favoriten entfernen
+                        <span
+                          style="position: absolute; bottom: 0px; transform: translateY(100%); left: 0px;"
+                        >
+                          <svg
+                            class="bg-foreground fill-foreground z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]"
+                            height="5"
+                            preserveAspectRatio="none"
+                            style="display: block;"
+                            viewBox="0 0 30 10"
+                            width="10"
+                          >
+                            <polygon
+                              points="0,0 30,0 15,10"
+                            />
+                          </svg>
+                        </span>
+                        <span
+                          id="radix-_r_0_"
+                          role="tooltip"
+                          style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
+                        >
+                          Aus Favoriten entfernen
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="flex flex-wrap gap-2"
+            >
+              <span
+                class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90"
+                data-slot="badge"
+              >
                 category 0
               </span>
               <span
-                class="flex items-center gap-1 px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm border border-slate-200"
+                class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90"
+                data-slot="badge"
               >
-                <svg
-                  aria-hidden="true"
-                  class="lucide lucide-tag w-3 h-3"
-                  fill="none"
-                  height="24"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"
-                  />
-                  <circle
-                    cx="7.5"
-                    cy="7.5"
-                    fill="currentColor"
-                    r=".5"
-                  />
-                </svg>
                 category 1
               </span>
               <span
-                class="flex items-center gap-1 px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm border border-slate-200"
+                class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90"
+                data-slot="badge"
               >
-                <svg
-                  aria-hidden="true"
-                  class="lucide lucide-tag w-3 h-3"
-                  fill="none"
-                  height="24"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"
-                  />
-                  <circle
-                    cx="7.5"
-                    cy="7.5"
-                    fill="currentColor"
-                    r=".5"
-                  />
-                </svg>
                 category 2
               </span>
             </div>
             <div
-              class="text-sm text-slate-600 space-y-1"
+              class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-slate-600"
             >
-              <div>
-                <span
-                  class="font-medium"
-                >
-                  Created:
-                </span>
-                 
-                27. Sept. 2025, 02:00 AM
-              </div>
-              <div>
-                <span
-                  class="font-medium"
-                >
-                  Last Updated:
-                </span>
-                 
-                27. Sept. 2025, 02:00 AM
-              </div>
-              <div>
-                <span
-                  class="font-medium"
-                >
-                  Current Version:
-                </span>
-                 v
-              </div>
               <div
-                class="flex items-center gap-2 mt-2"
+                class="flex items-center gap-2"
               >
-                <span
-                  class="text-blue-700 font-medium"
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-cpu size-4 text-indigo-600"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  🤖 Recommended Model:
-                </span>
+                  <path
+                    d="M12 20v2"
+                  />
+                  <path
+                    d="M12 2v2"
+                  />
+                  <path
+                    d="M17 20v2"
+                  />
+                  <path
+                    d="M17 2v2"
+                  />
+                  <path
+                    d="M2 12h2"
+                  />
+                  <path
+                    d="M2 17h2"
+                  />
+                  <path
+                    d="M2 7h2"
+                  />
+                  <path
+                    d="M20 12h2"
+                  />
+                  <path
+                    d="M20 17h2"
+                  />
+                  <path
+                    d="M20 7h2"
+                  />
+                  <path
+                    d="M7 20v2"
+                  />
+                  <path
+                    d="M7 2v2"
+                  />
+                  <rect
+                    height="16"
+                    rx="2"
+                    width="16"
+                    x="4"
+                    y="4"
+                  />
+                  <rect
+                    height="8"
+                    rx="1"
+                    width="8"
+                    x="8"
+                    y="8"
+                  />
+                </svg>
                 <span
-                  class="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs font-medium border border-blue-200"
+                  class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground"
+                  data-slot="badge"
                 >
                   model 1
                 </span>
               </div>
+              <div
+                class="flex items-center gap-2"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-calendar size-4"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M8 2v4"
+                  />
+                  <path
+                    d="M16 2v4"
+                  />
+                  <rect
+                    height="18"
+                    rx="2"
+                    width="18"
+                    x="3"
+                    y="4"
+                  />
+                  <path
+                    d="M3 10h18"
+                  />
+                </svg>
+                <span>
+                  27. Sept. 2025, 02:00 AM
+                </span>
+              </div>
+              <div
+                class="flex items-center gap-2"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-clock size-4"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 6v6l4 2"
+                  />
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                  />
+                </svg>
+                <span>
+                  27. Sept. 2025, 02:00 AM
+                </span>
+              </div>
             </div>
           </div>
-          <button
-            class="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-sm"
-          >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-pen w-4 h-4"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
-              />
-            </svg>
-            Edit
-          </button>
-        </div>
-        <div
-          data-testid="prompt-content"
-        >
           <div
-            class="w-full flex items-center justify-between p-4 bg-slate-50 rounded-lg border border-slate-200 hover:bg-slate-100 transition-colors"
-            data-testid="expand-toggle"
+            class="col-start-2 row-span-2 row-start-1 self-start justify-self-end"
+            data-slot="card-action"
           >
-            <span
-              class="font-semibold text-slate-900 flex items-center gap-2"
-            >
-              Current Prompt Content
-            </span>
             <div
               class="flex items-center gap-2"
             >
               <button
-                class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-9 has-[>svg]:px-3 p-2 bg-slate-50 hover:bg-slate-200 rounded transition-colors"
-                data-slot="button"
-                data-testid="copy-btn"
-                title="Copy to clipboard"
+                data-slot="tooltip-trigger"
+                data-state="closed"
+              >
+                <a
+                  class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
+                  data-slot="button"
+                  data-testid="edit-prompt-btn"
+                  href="/prompts/334db648-f300-4284-8149-075ff465d751/edit"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-pen size-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                    />
+                  </svg>
+                  Bearbeiten
+                </a>
+              </button>
+              <div
+                data-testid="mock-react-presence"
+              >
+                <div
+                  data-testid="mock-react-portal"
+                >
+                  <div
+                    data-testid="mock-react-presence"
+                  >
+                    <div
+                      data-radix-popper-content-wrapper=""
+                      style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px); min-width: max-content; --radix-popper-available-width: -16px; --radix-popper-available-height: 0px; --radix-popper-anchor-width: 0px; --radix-popper-anchor-height: 0px; --radix-popper-transform-origin: 0px 0px;"
+                    >
+                      <div
+                        class="bg-foreground text-background animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md px-3 py-1.5 text-xs text-balance"
+                        data-align="center"
+                        data-side="top"
+                        data-slot="tooltip-content"
+                        data-state="closed"
+                        style="--radix-tooltip-content-transform-origin: var(--radix-popper-transform-origin); --radix-tooltip-content-available-width: var(--radix-popper-available-width); --radix-tooltip-content-available-height: var(--radix-popper-available-height); --radix-tooltip-trigger-width: var(--radix-popper-anchor-width); --radix-tooltip-trigger-height: var(--radix-popper-anchor-height);"
+                      >
+                        Prompt bearbeiten
+                        <span
+                          style="position: absolute; bottom: 0px; transform: translateY(100%); left: 0px;"
+                        >
+                          <svg
+                            class="bg-foreground fill-foreground z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]"
+                            height="5"
+                            preserveAspectRatio="none"
+                            style="display: block;"
+                            viewBox="0 0 30 10"
+                            width="10"
+                          >
+                            <polygon
+                              points="0,0 30,0 15,10"
+                            />
+                          </svg>
+                        </span>
+                        <span
+                          id="radix-_r_1_"
+                          role="tooltip"
+                          style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
+                        >
+                          Prompt bearbeiten
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button
+                class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
+                data-slot="tooltip-trigger"
+                data-state="closed"
+                data-testid="copy-prompt-btn"
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-copy w-4 h-4 text-slate-600"
+                  class="lucide lucide-copy size-4"
+                  data-testid="copy-icon"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    height="14"
+                    rx="2"
+                    ry="2"
+                    width="14"
+                    x="8"
+                    y="8"
+                  />
+                  <path
+                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                  />
+                </svg>
+                <span>
+                  Kopieren
+                </span>
+              </button>
+              <div
+                data-testid="mock-react-presence"
+              >
+                <div
+                  data-testid="mock-react-portal"
+                >
+                  <div
+                    data-testid="mock-react-presence"
+                  >
+                    <div
+                      data-radix-popper-content-wrapper=""
+                      style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px); min-width: max-content; --radix-popper-available-width: -16px; --radix-popper-available-height: 0px; --radix-popper-anchor-width: 0px; --radix-popper-anchor-height: 0px; --radix-popper-transform-origin: 0px 0px;"
+                    >
+                      <div
+                        class="bg-foreground text-background animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md px-3 py-1.5 text-xs text-balance"
+                        data-align="center"
+                        data-side="top"
+                        data-slot="tooltip-content"
+                        data-state="closed"
+                        style="--radix-tooltip-content-transform-origin: var(--radix-popper-transform-origin); --radix-tooltip-content-available-width: var(--radix-popper-available-width); --radix-tooltip-content-available-height: var(--radix-popper-available-height); --radix-tooltip-trigger-width: var(--radix-popper-anchor-width); --radix-tooltip-trigger-height: var(--radix-popper-anchor-height);"
+                      >
+                        In Zwischenablage kopieren
+                        <span
+                          style="position: absolute; bottom: 0px; transform: translateY(100%); left: 0px;"
+                        >
+                          <svg
+                            class="bg-foreground fill-foreground z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]"
+                            height="5"
+                            preserveAspectRatio="none"
+                            style="display: block;"
+                            viewBox="0 0 30 10"
+                            width="10"
+                          >
+                            <polygon
+                              points="0,0 30,0 15,10"
+                            />
+                          </svg>
+                        </span>
+                        <span
+                          id="radix-_r_2_"
+                          role="tooltip"
+                          style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
+                        >
+                          In Zwischenablage kopieren
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                data-slot="dropdown-menu"
+                data-testid="actions-context-menu"
+              >
+                <button
+                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-8 cursor-pointer"
+                  data-slot="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-ellipsis-vertical size-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="1"
+                    />
+                    <circle
+                      cx="12"
+                      cy="5"
+                      r="1"
+                    />
+                    <circle
+                      cx="12"
+                      cy="19"
+                      r="1"
+                    />
+                  </svg>
+                </button>
+                <div
+                  data-testid="mock-react-dropdown-menu-portal"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="px-6 space-y-6"
+          data-slot="card-content"
+        >
+          <section
+            class="space-y-3"
+            data-testid="prompt-content"
+          >
+            <h3
+              class="text-lg font-semibold text-slate-900 flex items-center gap-2"
+              data-testid="headline"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-file-text h-5 w-5 text-indigo-600"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
+                />
+                <path
+                  d="M14 2v5a1 1 0 0 0 1 1h5"
+                />
+                <path
+                  d="M10 9H8"
+                />
+                <path
+                  d="M16 13H8"
+                />
+                <path
+                  d="M16 17H8"
+                />
+              </svg>
+              Prompt
+            </h3>
+            <div
+              class="group relative bg-slate-50 border border-slate-200 rounded-lg p-4"
+            >
+              <button
+                class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-8 cursor-pointer absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-white"
+                data-slot="tooltip-trigger"
+                data-state="closed"
+                data-testid="copy-prompt-btn"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-copy size-4"
                   data-testid="copy-icon"
                   fill="none"
                   height="24"
@@ -225,10 +568,123 @@ exports[`PromptPage rendering tests PromptPage - prompt found - rendered test 1`
                   />
                 </svg>
               </button>
+              <div
+                data-testid="mock-react-presence"
+              >
+                <div
+                  data-testid="mock-react-portal"
+                >
+                  <div
+                    data-testid="mock-react-presence"
+                  >
+                    <div
+                      data-radix-popper-content-wrapper=""
+                      style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px); min-width: max-content; --radix-popper-available-width: -16px; --radix-popper-available-height: 0px; --radix-popper-anchor-width: 0px; --radix-popper-anchor-height: 0px; --radix-popper-transform-origin: 0px 0px;"
+                    >
+                      <div
+                        class="bg-foreground text-background animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md px-3 py-1.5 text-xs text-balance"
+                        data-align="center"
+                        data-side="top"
+                        data-slot="tooltip-content"
+                        data-state="closed"
+                        style="--radix-tooltip-content-transform-origin: var(--radix-popper-transform-origin); --radix-tooltip-content-available-width: var(--radix-popper-available-width); --radix-tooltip-content-available-height: var(--radix-popper-available-height); --radix-tooltip-trigger-width: var(--radix-popper-anchor-width); --radix-tooltip-trigger-height: var(--radix-popper-anchor-height);"
+                      >
+                        In Zwischenablage kopieren
+                        <span
+                          style="position: absolute; bottom: 0px; transform: translateY(100%); left: 0px;"
+                        >
+                          <svg
+                            class="bg-foreground fill-foreground z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]"
+                            height="5"
+                            preserveAspectRatio="none"
+                            style="display: block;"
+                            viewBox="0 0 30 10"
+                            width="10"
+                          >
+                            <polygon
+                              points="0,0 30,0 15,10"
+                            />
+                          </svg>
+                        </span>
+                        <span
+                          id="radix-_r_3_"
+                          role="tooltip"
+                          style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
+                        >
+                          In Zwischenablage kopieren
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="text-slate-700 leading-relaxed"
+                data-testid="text"
+              >
+                <div
+                  data-testid="react-markdown-mock"
+                >
+                  content 1
+                </div>
+              </div>
+            </div>
+          </section>
+          <div
+            class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px"
+            data-orientation="horizontal"
+            data-slot="separator"
+            role="none"
+          />
+          <div
+            data-testid="prompt-follow-ups"
+          >
+            <button
+              class="w-full flex items-center justify-between py-2 hover:bg-slate-50 -mx-2 px-2 rounded-lg transition-colors cursor-pointer"
+              data-testid="expand-btn"
+            >
+              <div
+                class="flex items-center gap-2"
+              >
+                <h3
+                  class="text-lg font-semibold text-slate-900 flex items-center gap-2"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-message-square-plus h-5 w-5 text-indigo-600"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"
+                    />
+                    <path
+                      d="M12 8v6"
+                    />
+                    <path
+                      d="M9 11h6"
+                    />
+                  </svg>
+                  Folge-Prompts
+                </h3>
+                <span
+                  class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90"
+                  data-slot="badge"
+                >
+                  3
+                </span>
+              </div>
               <svg
                 aria-hidden="true"
-                class="lucide lucide-chevron-right w-5 h-5 text-slate-600"
-                data-testid="chevron-right"
+                class="lucide lucide-chevron-left h-5 w-5 text-slate-600"
+                data-testid="chevron-left"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -240,22 +696,82 @@ exports[`PromptPage rendering tests PromptPage - prompt found - rendered test 1`
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="m9 18 6-6-6-6"
+                  d="m15 18-6-6 6-6"
                 />
               </svg>
-            </div>
+            </button>
           </div>
-        </div>
-        <div
-          class="space-y-4"
-          data-testid="prompt-versions"
-        >
-          <h3
-            class="text-lg font-semibold flex items-center gap-2 text-slate-900"
+          <div
+            class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px"
+            data-orientation="horizontal"
+            data-slot="separator"
+            role="none"
+          />
+          <div
+            data-testid="prompt-versions"
           >
-            Version History (
-            )
-          </h3>
+            <button
+              class="w-full flex items-center justify-between py-2 hover:bg-slate-50 -mx-2 px-2 rounded-lg transition-colors cursor-pointer"
+              data-testid="expand-btn"
+            >
+              <div
+                class="flex items-center gap-2"
+              >
+                <h3
+                  class="text-lg font-semibold text-slate-900 flex items-center gap-2"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-history h-5 w-5 text-indigo-600"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                    />
+                    <path
+                      d="M3 3v5h5"
+                    />
+                    <path
+                      d="M12 7v5l4 2"
+                    />
+                  </svg>
+                  Versionsverlauf
+                </h3>
+                <span
+                  class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90"
+                  data-slot="badge"
+                >
+                  3
+                </span>
+              </div>
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-chevron-left h-5 w-5 text-slate-600"
+                data-testid="chevron-left"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="m15 18-6-6 6-6"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>

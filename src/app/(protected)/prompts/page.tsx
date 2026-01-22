@@ -1,53 +1,13 @@
-import {
-   dehydrate,
-   HydrationBoundary,
-   QueryClient,
-} from "@tanstack/react-query";
-
-import { PromptsList, PromptView } from "@/components/prompts/prompt";
-import {
-   preloadPromptCategoriesOptions,
-   preloadPromptsOptions,
-   preloadPromptTemplateCategoriesOptions,
-   preloadPromptTemplatesOptions,
-} from "@/data/ts-queries/prompt";
+import { PromptView } from "@/components/prompts";
 
 export const metadata = {
    title: "Prompts",
 };
 
 const PromptsPage = async () => {
-   const queryClient = new QueryClient();
-   await queryClient.prefetchQuery(preloadPromptsOptions());
-   await queryClient.prefetchQuery(preloadPromptCategoriesOptions());
-   await queryClient.prefetchQuery(preloadPromptTemplatesOptions());
-   await queryClient.prefetchQuery(preloadPromptTemplateCategoriesOptions());
-
    return (
-      <div
-         className="h-full w-full text-slate-900 flex flex-col"
-         data-testid="prompts-page"
-      >
-         <div className="flex-1">
-            <header className="mb-8">
-               <h2 className="text-3xl font-bold text-slate-900 mb-2">
-                  All Prompts
-               </h2>
-               <p className="text-slate-600">
-                  Create, version, and organize your AI prompts
-               </p>
-            </header>
-            <HydrationBoundary state={dehydrate(queryClient)}>
-               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                  <div className="lg:col-span-1">
-                     <PromptsList />
-                  </div>
-                  <div className="lg:col-span-2">
-                     <PromptView />
-                  </div>
-               </div>
-            </HydrationBoundary>
-         </div>
+      <div className="flex flex-col bg-slate-50" data-testid="prompts-page">
+         <PromptView />
       </div>
    );
 };
