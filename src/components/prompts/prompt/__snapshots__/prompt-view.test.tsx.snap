@@ -598,7 +598,9 @@ exports[`PromptView rendering tests PromptView - followUpPrompts empty - rendere
             >
               <div
                 data-testid="react-markdown-mock"
-              />
+              >
+                content 1
+              </div>
             </div>
           </div>
         </section>
@@ -1299,7 +1301,9 @@ exports[`PromptView rendering tests PromptView - versions empty - rendered test 
             >
               <div
                 data-testid="react-markdown-mock"
-              />
+              >
+                content 1
+              </div>
             </div>
           </div>
         </section>
@@ -2000,7 +2004,9 @@ exports[`PromptView rendering tests PromptView rendered test 1`] = `
             >
               <div
                 data-testid="react-markdown-mock"
-              />
+              >
+                content 1
+              </div>
             </div>
           </div>
         </section>

@@ -3,12 +3,13 @@ jest.mock("sonner");
 
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, dtestData } from "@tests";
+import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
+import { cloneDeep } from "es-toolkit";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
 import { createPrompt, updatePrompt } from "@/data/actions/prompt";
-import { DPromptDescriptor } from "@/data/types/domain/prompt";
+import { DPromptUpdate } from "@/data/types/domain/prompt";
 
 import { PromptEdit } from "./prompt-edit";
 
@@ -19,23 +20,6 @@ const mockCreatePrompt = createPrompt as jest.MockedFunction<
 const mockUpdatePrompt = updatePrompt as jest.MockedFunction<
    typeof updatePrompt
 >;
-
-const mockPrompt: DPromptDescriptor = {
-   id: "test-prompt-id",
-   title: "Test Prompt Title",
-   content: "Test prompt content",
-   categories: [{ name: "Category 1" }, { name: "Category 2" }],
-   recommendedModel: "Claude Sonnet 4.5",
-   followUpPrompts: [
-      { id: "1", content: "Follow up 1", order: 1 },
-      { id: "2", content: "Follow up 2", order: 2 },
-   ],
-   isFavorite: false,
-   currentVersion: 1,
-   versions: [],
-   updatedAt: new Date("2025-09-27").toISOString(),
-   createdAt: new Date("2025-09-27").toISOString(),
-};
 
 const assertRendered = () => {
    const component = screen.getByTestId("prompt-edit");
@@ -134,7 +118,51 @@ describe("PromptEdit functionality tests", () => {
       expect(mockRouter.back).toHaveBeenCalledTimes(1);
    });
 
-   it("PromptEdit - edit mode - update success - test", async () => {
+   it("PromptEdit - create mode - save success - test", async () => {
+      const actionResult = {
+         success: true,
+         message: "Prompt created successfully",
+      };
+      mockCreatePrompt.mockResolvedValue(actionResult);
+
+      render(<PromptEdit mode="create" />);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(mockCreatePrompt).not.toHaveBeenCalled();
+      });
+
+      const createBtn = screen.getByTestId("create-btn");
+      await userEvent.click(createBtn);
+
+      await waitFor(() => {
+         expect(mockCreatePrompt).not.toHaveBeenCalled();
+      });
+
+      const title = screen.getByTestId("title-input");
+      await userEvent.type(title, "Test Title");
+      expect(title).toHaveValue("Test Title");
+
+      await userEvent.click(createBtn);
+
+      const expectedPromptPayload: DPromptUpdate = {
+         title: "Test Title",
+         content: "",
+         categories: [],
+         recommendedModel: "",
+         followUpPrompts: [],
+      };
+
+      await waitFor(() => {
+         expect(mockCreatePrompt).toHaveBeenCalledTimes(1);
+         expect(mockCreatePrompt).toHaveBeenCalledWith(expectedPromptPayload);
+         expect(toast.success).toHaveBeenCalledTimes(1);
+         expect(toast.success).toHaveBeenCalledWith(actionResult.message);
+         expect(mockRouter.pathname).toEqual(`/prompts`);
+      });
+   });
+
+   it("PromptEdit - edit mode - save success - test", async () => {
       const actionResult = {
          success: true,
          message: "Prompt updated successfully",
@@ -146,12 +174,13 @@ describe("PromptEdit functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         expect(mockUpdatePrompt).not.toHaveBeenCalled();
       });
 
       const saveBtn = screen.getByTestId("save-btn");
       await userEvent.click(saveBtn);
 
-      const expectedPromptPayload = {
+      const expectedPromptPayload: DPromptUpdate = {
          id: prompt.id,
          title: prompt.title,
          content: prompt.content,
@@ -172,10 +201,10 @@ describe("PromptEdit functionality tests", () => {
       });
    });
 
-   it("PromptEdit - edit mode - update failed - test", async () => {
+   it("PromptEdit - edit mode - save new version success - test", async () => {
       const actionResult = {
-         success: false,
-         message: "Failed to update prompt",
+         success: true,
+         message: "Prompt updated successfully",
       };
       mockUpdatePrompt.mockResolvedValue(actionResult);
 
@@ -184,12 +213,21 @@ describe("PromptEdit functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         expect(mockUpdatePrompt).not.toHaveBeenCalled();
       });
 
-      const saveBtn = screen.getByTestId("save-btn");
+      const triggerBtn = screen.getByTestId("dropdown-trigger-btn");
+      await userEvent.click(triggerBtn);
+
+      await waitFor(() => {
+         const saveBtn = screen.getByTestId("save-with-version-btn");
+         assertInDocument(saveBtn);
+      });
+
+      const saveBtn = screen.getByTestId("save-with-version-btn");
       await userEvent.click(saveBtn);
 
-      const expectedPromptPayload = {
+      const expectedPromptPayload: DPromptUpdate = {
          id: prompt.id,
          title: prompt.title,
          content: prompt.content,
@@ -202,146 +240,55 @@ describe("PromptEdit functionality tests", () => {
          expect(mockUpdatePrompt).toHaveBeenCalledTimes(1);
          expect(mockUpdatePrompt).toHaveBeenCalledWith(
             expectedPromptPayload,
+            true
+         );
+         expect(toast.success).toHaveBeenCalledTimes(1);
+         expect(toast.success).toHaveBeenCalledWith(actionResult.message);
+         expect(mockRouter.pathname).toEqual(`/prompts/${prompt.id}`);
+      });
+   });
+
+   it("PromptEdit - edit mode - save failed - test", async () => {
+      const actionResult = {
+         success: false,
+         message: "Failed to update prompt",
+      };
+      mockUpdatePrompt.mockResolvedValue(actionResult);
+
+      const prompt1 = dtestData.dPromptDescriptor();
+
+      const prompt2 = cloneDeep(prompt1);
+      prompt2.categories.push({ name: " " });
+      prompt2.followUpPrompts.push({ id: "0", order: 10, content: " " });
+
+      render(<PromptEdit mode="edit" prompt={prompt2} />);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(mockUpdatePrompt).not.toHaveBeenCalled();
+      });
+
+      const saveBtn = screen.getByTestId("save-btn");
+      await userEvent.click(saveBtn);
+
+      const expectedPromptPayload: DPromptUpdate = {
+         id: prompt1.id,
+         title: prompt1.title,
+         content: prompt1.content,
+         categories: prompt1.categories.map((c) => c.name),
+         recommendedModel: prompt1.recommendedModel,
+         followUpPrompts: prompt1.followUpPrompts.map((f) => f.content),
+      };
+
+      await waitFor(() => {
+         expect(mockUpdatePrompt).toHaveBeenCalledTimes(1);
+         expect(mockUpdatePrompt).toHaveBeenCalledWith(
+            expectedPromptPayload,
             false
          );
          expect(toast.error).toHaveBeenCalledTimes(1);
          expect(toast.error).toHaveBeenCalledWith(actionResult.message);
          expect(mockRouter.pathname).toEqual("/");
-      });
-   });
-});
-
-describe("PromptEdit functionality tests - edit mode", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      mockRouter.push("/");
-   });
-
-   it("PromptEdit - save as new version - calls updatePrompt with createVersion true", async () => {
-      mockUpdatePrompt.mockResolvedValue({
-         success: true,
-         message: "Version created successfully",
-      });
-
-      render(<PromptEdit mode="edit" prompt={mockPrompt} />);
-
-      await waitFor(() => {
-         const dropdownTrigger = screen.getByTestId("dropdown-trigger-btn");
-         assertInDocument(dropdownTrigger);
-      });
-
-      const dropdownTrigger = screen.getByTestId("dropdown-trigger-btn");
-      await userEvent.click(dropdownTrigger);
-
-      await waitFor(() => {
-         const saveWithVersionBtn = screen.getByTestId("save-with-version-btn");
-         assertInDocument(saveWithVersionBtn);
-      });
-
-      const saveWithVersionBtn = screen.getByTestId("save-with-version-btn");
-      await userEvent.click(saveWithVersionBtn);
-
-      await waitFor(() => {
-         expect(mockUpdatePrompt).toHaveBeenCalledTimes(1);
-         expect(mockUpdatePrompt).toHaveBeenCalledWith(
-            expect.objectContaining({
-               id: mockPrompt.id,
-            }),
-            true
-         );
-      });
-   });
-});
-
-describe("PromptEdit form validation tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("PromptEdit - does not submit when validation fails", async () => {
-      mockCreatePrompt.mockResolvedValue({
-         success: true,
-         message: "Prompt created successfully",
-      });
-
-      // We need to mock the form validation to fail
-      render(<PromptEdit mode="create" />);
-
-      const createBtn = screen.getByTestId("create-btn");
-      await userEvent.click(createBtn);
-
-      // If validation fails, createPrompt should not be called
-      // This will depend on the actual validation schema
-      // For now, we're just checking the structure exists
-      await waitFor(() => {
-         const form = screen.getByTestId("edit-form");
-         assertInDocument(form);
-      });
-   });
-});
-
-describe("PromptEdit data filtering tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("PromptEdit - filters out empty categories before save", async () => {
-      mockUpdatePrompt.mockResolvedValue({
-         success: true,
-         message: "Prompt updated successfully",
-      });
-
-      const promptWithEmptyCategories: DPromptDescriptor = {
-         ...mockPrompt,
-         categories: [
-            { name: "Category 1" },
-            { name: "" },
-            { name: "Category 2" },
-         ],
-      };
-
-      render(<PromptEdit mode="edit" prompt={promptWithEmptyCategories} />);
-
-      const saveBtn = screen.getByTestId("save-btn");
-      await userEvent.click(saveBtn);
-
-      await waitFor(() => {
-         expect(mockUpdatePrompt).toHaveBeenCalledWith(
-            expect.objectContaining({
-               categories: ["Category 1", "Category 2"],
-            }),
-            false
-         );
-      });
-   });
-
-   it("PromptEdit - filters out empty follow-up prompts before save", async () => {
-      mockUpdatePrompt.mockResolvedValue({
-         success: true,
-         message: "Prompt updated successfully",
-      });
-
-      const promptWithEmptyFollowUps: DPromptDescriptor = {
-         ...mockPrompt,
-         followUpPrompts: [
-            { id: "1", content: "Follow up 1", order: 1 },
-            { id: "2", content: "", order: 2 },
-            { id: "3", content: "Follow up 2", order: 3 },
-         ],
-      };
-
-      render(<PromptEdit mode="edit" prompt={promptWithEmptyFollowUps} />);
-
-      const saveBtn = screen.getByTestId("save-btn");
-      await userEvent.click(saveBtn);
-
-      await waitFor(() => {
-         expect(mockUpdatePrompt).toHaveBeenCalledWith(
-            expect.objectContaining({
-               followUpPrompts: ["Follow up 1", "Follow up 2"],
-            }),
-            false
-         );
       });
    });
 });

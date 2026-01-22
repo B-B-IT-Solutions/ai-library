@@ -112,7 +112,7 @@ describe("BasicInfoEdit functionality tests", () => {
          assertRendered();
       });
 
-      const input = screen.getByPlaceholderText("Prompt-Titel eingeben...");
+      const input = screen.getByTestId("title-input");
       await userEvent.type(input, "My Test Title");
 
       expect(input).toHaveValue("My Test Title");

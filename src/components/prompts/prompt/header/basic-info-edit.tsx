@@ -76,9 +76,13 @@ export const BasicInfoEdit: FC<BasicInfoEditProps> = ({
                      Titel
                   </FormLabel>
                   <FormControl>
-                     <Input placeholder="Prompt-Titel eingeben..." {...field} />
+                     <Input
+                        {...field}
+                        placeholder="Prompt-Titel eingeben..."
+                        data-testid="title-input"
+                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage data-testid="title-form-message" />
                </FormItem>
             )}
          />

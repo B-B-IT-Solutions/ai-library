@@ -624,7 +624,9 @@ exports[`PromptPage rendering tests PromptPage - prompt found - rendered test 1`
               >
                 <div
                   data-testid="react-markdown-mock"
-                />
+                >
+                  content 1
+                </div>
               </div>
             </div>
           </section>

@@ -89,12 +89,7 @@ export const PromptEdit: FC<PromptEditProps> = ({ prompt, mode }) => {
    });
 
    const handleSave = async (createVersion = false) => {
-      const isValid = await form.trigger();
-      if (!isValid) {
-         return;
-      }
       const values = form.getValues();
-
       const filteredCategories = removeEmpty(values.categories);
       const filteredFollowUpPrompts = removeEmpty(values.followUpPrompts);
 
