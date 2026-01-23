@@ -96,6 +96,13 @@ export const UpdatePassword = () => {
       );
    };
 
+   const inputIcon = (visible: boolean) => {
+      if (visible) {
+         return <EyeOff className="h-4 w-4" data-testid="eye-off-icon" />;
+      }
+      return <Eye className="h-4 w-4" data-testid="eye-icon" />;
+   };
+
    return (
       <Card data-testid="update-password">
          <CardHeader>
@@ -147,17 +154,7 @@ export const UpdatePassword = () => {
                                     }
                                     data-testid="currentPassword-visibility-btn"
                                  >
-                                    {showCurrentPassword ? (
-                                       <EyeOff
-                                          className="h-4 w-4"
-                                          data-testid="eye-off-icon"
-                                       />
-                                    ) : (
-                                       <Eye
-                                          className="h-4 w-4"
-                                          data-testid="eye-icon"
-                                       />
-                                    )}
+                                    {inputIcon(showCurrentPassword)}
                                  </button>
                               </div>
                            </FormControl>
@@ -203,17 +200,7 @@ export const UpdatePassword = () => {
                                        }
                                        data-testid="newPassword-visibility-btn"
                                     >
-                                       {showNewPassword ? (
-                                          <EyeOff
-                                             className="h-4 w-4"
-                                             data-testid="eye-off-icon"
-                                          />
-                                       ) : (
-                                          <Eye
-                                             className="h-4 w-4"
-                                             data-testid="eye-icon"
-                                          />
-                                       )}
+                                       {inputIcon(showNewPassword)}
                                     </button>
                                  </div>
                                  {newPassword && passwordStrength && (
@@ -281,17 +268,7 @@ export const UpdatePassword = () => {
                                     }
                                     data-testid="confirmPassword-visibility-btn"
                                  >
-                                    {showConfirmPassword ? (
-                                       <EyeOff
-                                          className="h-4 w-4"
-                                          data-testid="eye-off-icon"
-                                       />
-                                    ) : (
-                                       <Eye
-                                          className="h-4 w-4"
-                                          data-testid="eye-icon"
-                                       />
-                                    )}
+                                    {inputIcon(showConfirmPassword)}
                                  </button>
                               </div>
                            </FormControl>
