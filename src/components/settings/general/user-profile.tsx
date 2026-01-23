@@ -23,15 +23,11 @@ import {
 } from "@/components/shadcn/field";
 import { Input } from "@/components/shadcn/input";
 import { updateProfile } from "@/data/actions/user/settings.actions";
-import { DUser } from "@/data/types/domain/user";
+import { DUser, DUserUpdateData } from "@/data/types/domain/user";
 import { updateProfileSchema } from "@/data/types/validators/settings.schema";
 
 type ProfileSectionProps = {
    user: DUser;
-};
-
-type UpdateProfileFormData = {
-   name: string;
 };
 
 export const ProfileSection: FC<ProfileSectionProps> = ({ user }) => {
@@ -42,14 +38,14 @@ export const ProfileSection: FC<ProfileSectionProps> = ({ user }) => {
       handleSubmit,
       formState: { isSubmitting },
       control,
-   } = useForm<UpdateProfileFormData>({
+   } = useForm<DUserUpdateData>({
       resolver: zodResolver(updateProfileSchema),
       defaultValues: {
          name: user.name,
       },
    });
 
-   const onSubmit: SubmitHandler<UpdateProfileFormData> = async (data) => {
+   const onSubmit: SubmitHandler<DUserUpdateData> = async (data) => {
       startTransition(async () => {
          const result = await updateProfile(data.name);
          if (result.success) {

@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { assertInDocument, dtestData } from "@tests";
 
-import { GeneralSettings } from "./general";
+import { GeneralSettings } from "./general-settings";
 
 const assertRendered = () => {
    const settings = screen.getByTestId("general-settings");

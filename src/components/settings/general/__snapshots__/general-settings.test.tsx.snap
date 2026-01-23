@@ -1,0 +1,631 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`GeneralSettings rendering tests GeneralSettings rendered test 1`] = `
+<div>
+  <div
+    class="flex-col space-y-6"
+    data-testid="general-settings"
+  >
+    <div
+      class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
+      data-slot="card"
+      data-testid="user-profile"
+    >
+      <div
+        class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6"
+        data-slot="card-header"
+      >
+        <div
+          class="leading-none font-semibold"
+          data-slot="card-title"
+        >
+          Profil
+        </div>
+        <div
+          class="text-muted-foreground text-sm"
+          data-slot="card-description"
+        >
+          Verwalten Sie Ihre persönlichen Informationen
+        </div>
+      </div>
+      <div
+        class="px-6"
+        data-slot="card-content"
+      >
+        <form
+          class="space-y-6"
+        >
+          <div
+            class="group/field-group @container/field-group flex w-full flex-col gap-7 data-[slot=checkbox-group]:gap-3 [&>[data-slot=field-group]]:gap-4"
+            data-slot="field-group"
+          >
+            <div
+              class="group/field flex w-full gap-3 data-[invalid=true]:text-destructive flex-col [&>*]:w-full [&>.sr-only]:w-auto"
+              data-invalid="false"
+              data-orientation="vertical"
+              data-slot="field"
+              role="group"
+            >
+              <label
+                class="items-center select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 group/field-label peer/field-label flex w-fit gap-2 group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border [&>*]:data-[slot=field]:p-4 has-data-[state=checked]:bg-primary/5 has-data-[state=checked]:border-primary dark:has-data-[state=checked]:bg-primary/10 text-sm font-medium"
+                data-slot="field-label"
+                for="name"
+              >
+                Name
+              </label>
+              <div
+                class="relative"
+              >
+                <div
+                  class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-user h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"
+                    />
+                    <circle
+                      cx="12"
+                      cy="7"
+                      r="4"
+                    />
+                  </svg>
+                </div>
+                <input
+                  aria-invalid="false"
+                  autocomplete="name"
+                  class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive pl-10 h-11"
+                  data-slot="input"
+                  id="name"
+                  name="name"
+                  value="name-1"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="space-y-4"
+          >
+            <div>
+              <label
+                class="items-center select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 group/field-label peer/field-label flex w-fit gap-2 group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border [&>*]:data-[slot=field]:p-4 has-data-[state=checked]:bg-primary/5 has-data-[state=checked]:border-primary dark:has-data-[state=checked]:bg-primary/10 text-sm font-medium"
+                data-slot="field-label"
+              >
+                E-Mail-Adresse
+              </label>
+              <input
+                class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-11 bg-muted cursor-not-allowed"
+                data-slot="input"
+                disabled=""
+                value="test@email.com"
+              />
+              <p
+                class="text-xs text-muted-foreground mt-1"
+              >
+                Ihre E-Mail-Adresse kann nicht geändert werden
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex justify-end"
+          >
+            <button
+              class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+              data-slot="button"
+              type="submit"
+            >
+              Aktualisieren
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div
+      class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
+      data-slot="card"
+      data-testid="update-password"
+    >
+      <div
+        class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6"
+        data-slot="card-header"
+      >
+        <div
+          class="leading-none font-semibold"
+          data-slot="card-title"
+        >
+          Sicherheit
+        </div>
+        <div
+          class="text-muted-foreground text-sm"
+          data-slot="card-description"
+        >
+          Ändern Sie Ihr Passwort
+        </div>
+      </div>
+      <div
+        class="px-6"
+        data-slot="card-content"
+      >
+        <form
+          class="space-y-6"
+        >
+          <div
+            class="group/field-group @container/field-group flex w-full flex-col gap-7 data-[slot=checkbox-group]:gap-3 [&>[data-slot=field-group]]:gap-4"
+            data-slot="field-group"
+          >
+            <div
+              class="group/field flex w-full gap-3 data-[invalid=true]:text-destructive flex-col [&>*]:w-full [&>.sr-only]:w-auto"
+              data-invalid="false"
+              data-orientation="vertical"
+              data-slot="field"
+              role="group"
+            >
+              <label
+                class="items-center select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 group/field-label peer/field-label flex w-fit gap-2 group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border [&>*]:data-[slot=field]:p-4 has-data-[state=checked]:bg-primary/5 has-data-[state=checked]:border-primary dark:has-data-[state=checked]:bg-primary/10 text-sm font-medium"
+                data-slot="field-label"
+                for="currentPassword"
+              >
+                Aktuelles Passwort
+              </label>
+              <div
+                class="relative"
+              >
+                <div
+                  class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-lock h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect
+                      height="11"
+                      rx="2"
+                      ry="2"
+                      width="18"
+                      x="3"
+                      y="11"
+                    />
+                    <path
+                      d="M7 11V7a5 5 0 0 1 10 0v4"
+                    />
+                  </svg>
+                </div>
+                <input
+                  aria-invalid="false"
+                  autocomplete="current-password"
+                  class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive pl-10 pr-10 h-11"
+                  data-slot="input"
+                  id="currentPassword"
+                  name="currentPassword"
+                  type="password"
+                  value=""
+                />
+                <button
+                  aria-label="Passwort anzeigen"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded p-0.5"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-eye h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                    />
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="3"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div
+              class="group/field flex w-full gap-3 data-[invalid=true]:text-destructive flex-col [&>*]:w-full [&>.sr-only]:w-auto"
+              data-invalid="false"
+              data-orientation="vertical"
+              data-slot="field"
+              role="group"
+            >
+              <label
+                class="items-center select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 group/field-label peer/field-label flex w-fit gap-2 group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border [&>*]:data-[slot=field]:p-4 has-data-[state=checked]:bg-primary/5 has-data-[state=checked]:border-primary dark:has-data-[state=checked]:bg-primary/10 text-sm font-medium"
+                data-slot="field-label"
+                for="newPassword"
+              >
+                Neues Passwort
+              </label>
+              <div
+                class="relative"
+              >
+                <div
+                  class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-lock h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect
+                      height="11"
+                      rx="2"
+                      ry="2"
+                      width="18"
+                      x="3"
+                      y="11"
+                    />
+                    <path
+                      d="M7 11V7a5 5 0 0 1 10 0v4"
+                    />
+                  </svg>
+                </div>
+                <input
+                  aria-invalid="false"
+                  autocomplete="new-password"
+                  class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive pl-10 pr-10 h-11"
+                  data-slot="input"
+                  id="newPassword"
+                  name="newPassword"
+                  type="password"
+                  value=""
+                />
+                <button
+                  aria-label="Passwort anzeigen"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded p-0.5"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-eye h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                    />
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="3"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div
+              class="group/field flex w-full gap-3 data-[invalid=true]:text-destructive flex-col [&>*]:w-full [&>.sr-only]:w-auto"
+              data-invalid="false"
+              data-orientation="vertical"
+              data-slot="field"
+              role="group"
+            >
+              <label
+                class="items-center select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 group/field-label peer/field-label flex w-fit gap-2 group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border [&>*]:data-[slot=field]:p-4 has-data-[state=checked]:bg-primary/5 has-data-[state=checked]:border-primary dark:has-data-[state=checked]:bg-primary/10 text-sm font-medium"
+                data-slot="field-label"
+                for="confirmPassword"
+              >
+                Passwort bestätigen
+              </label>
+              <div
+                class="relative"
+              >
+                <div
+                  class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-lock h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect
+                      height="11"
+                      rx="2"
+                      ry="2"
+                      width="18"
+                      x="3"
+                      y="11"
+                    />
+                    <path
+                      d="M7 11V7a5 5 0 0 1 10 0v4"
+                    />
+                  </svg>
+                </div>
+                <input
+                  aria-invalid="false"
+                  autocomplete="new-password"
+                  class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive pl-10 pr-10 h-11"
+                  data-slot="input"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type="password"
+                  value=""
+                />
+                <button
+                  aria-label="Passwort anzeigen"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded p-0.5"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-eye h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                    />
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="3"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex justify-end"
+          >
+            <button
+              class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+              data-slot="button"
+              type="submit"
+            >
+              Passwort ändern
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div
+      class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
+      data-slot="card"
+      data-testid="appearance"
+    >
+      <div
+        class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6"
+        data-slot="card-header"
+      >
+        <div
+          class="leading-none font-semibold"
+          data-slot="card-title"
+        >
+          Erscheinungsbild
+        </div>
+        <div
+          class="text-muted-foreground text-sm"
+          data-slot="card-description"
+        >
+          Wählen Sie Ihr bevorzugtes Farbschema
+        </div>
+      </div>
+      <div
+        class="px-6"
+        data-slot="card-content"
+      >
+        <div
+          class="space-y-3"
+        >
+          <label
+            class="items-center select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 group/field-label peer/field-label flex w-fit gap-2 group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border [&>*]:data-[slot=field]:p-4 has-data-[state=checked]:bg-primary/5 has-data-[state=checked]:border-primary dark:has-data-[state=checked]:bg-primary/10 text-sm font-medium"
+            data-slot="field-label"
+          >
+            Farbschema
+          </label>
+          <div
+            class="grid grid-cols-1 sm:grid-cols-3 gap-3"
+          >
+            <button
+              class="flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all cursor-pointer border-primary bg-primary/5"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-sun h-6 w-6 text-primary"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="4"
+                />
+                <path
+                  d="M12 2v2"
+                />
+                <path
+                  d="M12 20v2"
+                />
+                <path
+                  d="m4.93 4.93 1.41 1.41"
+                />
+                <path
+                  d="m17.66 17.66 1.41 1.41"
+                />
+                <path
+                  d="M2 12h2"
+                />
+                <path
+                  d="M20 12h2"
+                />
+                <path
+                  d="m6.34 17.66-1.41 1.41"
+                />
+                <path
+                  d="m19.07 4.93-1.41 1.41"
+                />
+              </svg>
+              <div
+                class="text-center"
+              >
+                <p
+                  class="text-sm font-medium text-primary"
+                >
+                  Licht
+                </p>
+                <p
+                  class="text-xs text-muted-foreground"
+                >
+                  Helles Farbschema
+                </p>
+              </div>
+            </button>
+            <button
+              class="flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all cursor-pointer border-border hover:border-primary/50 hover:bg-accent"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-moon h-6 w-6 text-muted-foreground"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"
+                />
+              </svg>
+              <div
+                class="text-center"
+              >
+                <p
+                  class="text-sm font-medium text-foreground"
+                >
+                  Dunkel
+                </p>
+                <p
+                  class="text-xs text-muted-foreground"
+                >
+                  Dunkles Farbschema
+                </p>
+              </div>
+            </button>
+            <button
+              class="flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all cursor-pointer border-border hover:border-primary/50 hover:bg-accent"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-monitor h-6 w-6 text-muted-foreground"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  height="14"
+                  rx="2"
+                  width="20"
+                  x="2"
+                  y="3"
+                />
+                <line
+                  x1="8"
+                  x2="16"
+                  y1="21"
+                  y2="21"
+                />
+                <line
+                  x1="12"
+                  x2="12"
+                  y1="17"
+                  y2="21"
+                />
+              </svg>
+              <div
+                class="text-center"
+              >
+                <p
+                  class="text-sm font-medium text-foreground"
+                >
+                  System
+                </p>
+                <p
+                  class="text-xs text-muted-foreground"
+                >
+                  Folgt den Systemeinstellungen
+                </p>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
