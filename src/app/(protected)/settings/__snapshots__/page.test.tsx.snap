@@ -32,6 +32,7 @@ exports[`SettingsPage rendering tests SettingsPage - user retrieved - test 1`] =
     >
       <aside
         class="lg:col-span-3"
+        data-testid="tabs"
       >
         <nav
           class="sticky top-8 space-y-1 bg-card rounded-lg border p-4 shadow-sm"
@@ -43,6 +44,7 @@ exports[`SettingsPage rendering tests SettingsPage - user retrieved - test 1`] =
           </h2>
           <button
             class="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-md transition-all cursor-pointer bg-primary text-primary-foreground shadow-sm"
+            data-testid="general-tab"
           >
             <span
               class="font-medium"
@@ -52,6 +54,7 @@ exports[`SettingsPage rendering tests SettingsPage - user retrieved - test 1`] =
           </button>
           <button
             class="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-md transition-all cursor-pointer hover:bg-accent hover:text-accent-foreground"
+            data-testid="account-tab"
           >
             <span
               class="font-medium"

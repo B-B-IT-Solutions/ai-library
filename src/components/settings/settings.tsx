@@ -3,6 +3,7 @@
 import { FC, useState } from "react";
 
 import { DUser } from "@/data/types/domain/user";
+import { cn } from "@/lib/utils";
 
 import { AccountSettings } from "./account";
 import { GeneralSettings } from "./general";
@@ -28,15 +29,17 @@ export const Settings: FC<SettingsProps> = ({ user }) => {
 
    const tab = (entry: TabEntry) => {
       const isActive = activeTab === entry.id;
+      const styles = isActive
+         ? "bg-primary text-primary-foreground shadow-sm"
+         : "hover:bg-accent hover:text-accent-foreground";
       return (
          <button
             key={entry.id}
             onClick={() => setActiveTab(entry.id)}
-            className={`w-full flex items-center gap-3 px-3 py-2 text-sm rounded-md transition-all cursor-pointer ${
-               isActive
-                  ? "bg-primary text-primary-foreground shadow-sm"
-                  : "hover:bg-accent hover:text-accent-foreground"
-            }`}
+            className={cn(
+               "w-full flex items-center gap-3 px-3 py-2 text-sm rounded-md transition-all cursor-pointer",
+               styles
+            )}
             data-testid={`${entry.id}-tab`}
          >
             <span className="font-medium">{entry.label}</span>
