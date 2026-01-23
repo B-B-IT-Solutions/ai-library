@@ -35,7 +35,7 @@ type ChangePasswordFormData = {
    confirmPassword: string;
 };
 
-export const SecuritySection = () => {
+export const UpdatePassword = () => {
    const router = useRouter();
    const [isPending, startTransition] = useTransition();
    const [showCurrentPassword, setShowCurrentPassword] = useState(false);
