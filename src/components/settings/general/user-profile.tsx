@@ -57,6 +57,18 @@ export const UserProfile: FC<UserProfileProps> = ({ user }) => {
       });
    };
 
+   const submitBtnLabel = () => {
+      if (isSubmitting || isPending) {
+         return (
+            <span className="flex items-center gap-2">
+               <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+               Wird aktualisiert...
+            </span>
+         );
+      }
+      return "Aktualisieren";
+   };
+
    const submitBtn = () => {
       return (
          <Button
@@ -65,14 +77,7 @@ export const UserProfile: FC<UserProfileProps> = ({ user }) => {
             className="cursor-pointer"
             data-testid="submit-btn"
          >
-            {isSubmitting || isPending ? (
-               <span className="flex items-center gap-2">
-                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                  Wird aktualisiert...
-               </span>
-            ) : (
-               "Aktualisieren"
-            )}
+            {submitBtnLabel()}
          </Button>
       );
    };
@@ -92,7 +97,10 @@ export const UserProfile: FC<UserProfileProps> = ({ user }) => {
                      name="name"
                      control={control}
                      render={({ field, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid}>
+                        <Field
+                           data-invalid={fieldState.invalid}
+                           data-testid="name"
+                        >
                            <FieldLabel
                               htmlFor="name"
                               className="text-sm font-medium"
@@ -119,22 +127,19 @@ export const UserProfile: FC<UserProfileProps> = ({ user }) => {
                   />
                </FieldGroup>
 
-               <div className="space-y-4">
-                  <div>
-                     <FieldLabel className="text-sm font-medium">
-                        E-Mail-Adresse
-                     </FieldLabel>
-                     <Input
-                        value={user.email}
-                        disabled
-                        className="h-11 bg-muted cursor-not-allowed"
-                     />
-                     <p className="text-xs text-muted-foreground mt-1">
-                        Ihre E-Mail-Adresse kann nicht geändert werden
-                     </p>
-                  </div>
+               <div className="space-y-3" data-testid="email">
+                  <FieldLabel className="text-sm font-medium">
+                     E-Mail-Adresse
+                  </FieldLabel>
+                  <Input
+                     value={user.email}
+                     disabled
+                     className="h-11 bg-muted cursor-not-allowed"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                     Ihre E-Mail-Adresse kann nicht geändert werden
+                  </p>
                </div>
-
                <div className="flex justify-end">{submitBtn()}</div>
             </form>
          </CardContent>
