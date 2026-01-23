@@ -77,10 +77,7 @@ describe("UserProfile functionality tests", () => {
       const expectPayload: DUserUpdateData = { name };
       await waitFor(() => {
          expect(updateUserProfileMock).toHaveBeenCalledTimes(1);
-         expect(updateUserProfileMock).toHaveBeenCalledWith(
-            user.id,
-            expectPayload
-         );
+         expect(updateUserProfileMock).toHaveBeenCalledWith(expectPayload);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
          expect(mockRouter.refresh).toHaveBeenCalledTimes(1);
@@ -116,10 +113,7 @@ describe("UserProfile functionality tests", () => {
 
       await waitFor(() => {
          expect(updateUserProfileMock).toHaveBeenCalledTimes(1);
-         expect(updateUserProfileMock).toHaveBeenCalledWith(
-            user.id,
-            expectPayload
-         );
+         expect(updateUserProfileMock).toHaveBeenCalledWith(expectPayload);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
          expect(mockRouter.refresh).toHaveBeenCalledTimes(1);

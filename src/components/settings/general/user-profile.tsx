@@ -47,7 +47,7 @@ export const UserProfile: FC<UserProfileProps> = ({ user }) => {
 
    const onSubmit: SubmitHandler<DUserUpdateData> = async (data) => {
       startTransition(async () => {
-         const result = await updateUserProfile(user.id, data);
+         const result = await updateUserProfile(data);
          if (result.success) {
             toast.success(result.message);
          } else {

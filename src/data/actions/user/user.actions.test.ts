@@ -1,10 +1,12 @@
 jest.mock("@/data/services/user");
+jest.mock("@/data/actions/auth-utils");
 jest.mock("next/dist/client/components/redirect-error");
 
 import { dtestData } from "@tests";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 import { signIn, signOut } from "@/auth";
+import { requireUser } from "@/data/actions/auth-utils";
 import { UserService } from "@/data/services/user";
 import {
    DUserSignIn,
@@ -23,6 +25,8 @@ import {
 const sSignUpUser = UserService.prototype.signUpUser;
 const sGetUserById = UserService.prototype.getUserById;
 const sUpdateUser = UserService.prototype.updateUser;
+
+const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
 const isRedirectErrorock = isRedirectError as jest.MockedFunction<
    typeof isRedirectError
@@ -226,13 +230,32 @@ describe("updateUserProfile tests", () => {
       jest.clearAllMocks();
    });
 
-   it("updateUserProfile - valid data - test", async () => {
-      const userId = "user-id-1";
+   it("updateUserProfile - user undefined - test", async () => {
+      requireUserMock.mockRejectedValue("Unknow user");
+
       const data: DUserUpdateData = {
          name: "Test 1",
       };
 
-      const result = await updateUserProfile(userId, data);
+      const result = await updateUserProfile(data);
+
+      const expectedResult = {
+         success: false,
+         message: "Fehler beim Aktualisieren des Profils",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sUpdateUserMock).not.toHaveBeenCalled();
+   });
+
+   it("updateUserProfile - valid data - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      const data: DUserUpdateData = {
+         name: "Test 1",
+      };
+
+      const result = await updateUserProfile(data);
 
       const expectedResult = {
          success: true,
@@ -241,16 +264,17 @@ describe("updateUserProfile tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(sUpdateUserMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateUserMock).toHaveBeenCalledWith(userId, data);
+      expect(sUpdateUserMock).toHaveBeenCalledWith(user.id, data);
    });
 
    it("updateUserProfile - invalid data - test", async () => {
-      const userId = "user-id-1";
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
       const data: DUserUpdateData = {
          name: "T",
       };
 
-      const result = await updateUserProfile(userId, data);
+      const result = await updateUserProfile(data);
 
       const expectedResult = {
          success: false,

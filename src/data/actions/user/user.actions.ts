@@ -85,14 +85,14 @@ export const getUserById = async (userId: string): Promise<DUser> => {
 };
 
 export const updateUserProfile = async (
-   userId: string,
    data: DUserUpdateData
 ): Promise<ActionResult> => {
    try {
+      const user = await requireUser();
       const validatedData = updateProfileSchema.parse(data);
 
       const service = getUserService();
-      service.updateUser(userId, validatedData);
+      service.updateUser(user.id, validatedData);
 
       return {
          success: true,
