@@ -7,6 +7,7 @@ import { auth, signOut } from "@/auth";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
+import { DUserPasswordUpdate } from "@/data/types/domain/user";
 import { ActionResult } from "@/data/types/utils";
 import {
    deleteAccountSchema,
@@ -35,10 +36,8 @@ export const updateProfile = async (name: string): Promise<ActionResult> => {
    }
 };
 
-export const changePassword = async (
-   currentPassword: string,
-   newPassword: string,
-   confirmPassword: string
+export const updatePassword = async (
+   data: DUserPasswordUpdate
 ): Promise<ActionResult> => {
    try {
       const session = await auth();
@@ -49,11 +48,7 @@ export const changePassword = async (
          };
       }
 
-      const validatedData = updatePasswordSchema.parse({
-         currentPassword,
-         newPassword,
-         confirmPassword,
-      });
+      const validatedData = updatePasswordSchema.parse(data);
 
       const userService = getUserService();
       const result = await userService.changePassword(

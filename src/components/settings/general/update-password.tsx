@@ -29,7 +29,7 @@ import {
    getStrengthColor,
    getStrengthWidth,
 } from "@/components/shared/auth/utils";
-import { changePassword } from "@/data/actions/user/settings.actions";
+import { updatePassword } from "@/data/actions/user";
 import { DUserPasswordUpdate } from "@/data/types/domain/user";
 import { updatePasswordSchema } from "@/data/types/validators/user";
 
@@ -59,11 +59,7 @@ export const UpdatePassword = () => {
 
    const onSubmit: SubmitHandler<DUserPasswordUpdate> = async (data) => {
       startTransition(async () => {
-         const result = await changePassword(
-            data.currentPassword,
-            data.newPassword,
-            data.confirmPassword
-         );
+         const result = await updatePassword(data);
          if (result.success) {
             toast.success(result.message);
             form.reset();
@@ -73,6 +69,31 @@ export const UpdatePassword = () => {
             toast.error(result.message);
          }
       });
+   };
+
+   const submitBtnLabel = () => {
+      if (isSubmitting || isPending) {
+         return (
+            <span className="flex items-center gap-2">
+               <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+               Wird geändert...
+            </span>
+         );
+      }
+      return "Passwort ändern";
+   };
+
+   const submitBtn = () => {
+      return (
+         <Button
+            disabled={isSubmitting || isPending}
+            type="submit"
+            className="cursor-pointer"
+            data-testid="submit-btn"
+         >
+            {submitBtnLabel()}
+         </Button>
+      );
    };
 
    return (
@@ -255,22 +276,7 @@ export const UpdatePassword = () => {
                      )}
                   />
 
-                  <div className="flex justify-end">
-                     <Button
-                        disabled={isSubmitting || isPending}
-                        type="submit"
-                        className="cursor-pointer"
-                     >
-                        {isSubmitting || isPending ? (
-                           <span className="flex items-center gap-2">
-                              <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                              Wird geändert...
-                           </span>
-                        ) : (
-                           "Passwort ändern"
-                        )}
-                     </Button>
-                  </div>
+                  <div className="flex justify-end">{submitBtn()}</div>
                </form>
             </Form>
          </CardContent>
