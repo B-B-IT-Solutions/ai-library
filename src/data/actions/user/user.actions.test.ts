@@ -13,7 +13,6 @@ import {
 } from "@/data/types/domain/user";
 
 import {
-   getUserByEmail,
    getUserById,
    signInWithCredentials,
    signOutUser,
@@ -23,7 +22,6 @@ import {
 
 const sSignUpUser = UserService.prototype.signUpUser;
 const sGetUserById = UserService.prototype.getUserById;
-const sGetUserByEmail = UserService.prototype.getUserByEmail;
 const sUpdateUser = UserService.prototype.updateUser;
 
 const isRedirectErrorock = isRedirectError as jest.MockedFunction<
@@ -36,10 +34,6 @@ const sSignUpUserMock = sSignUpUser as jest.MockedFunction<typeof sSignUpUser>;
 
 const sGetUserByIdMock = sGetUserById as jest.MockedFunction<
    typeof sGetUserById
->;
-
-const sGetUserByEmailMock = sGetUserByEmail as jest.MockedFunction<
-   typeof sGetUserByEmail
 >;
 
 const sUpdateUserMock = sUpdateUser as jest.MockedFunction<typeof sUpdateUser>;
@@ -224,34 +218,6 @@ describe("getUserById tests", () => {
       await expect(fn).rejects.toThrow(Error);
       expect(sGetUserByIdMock).toHaveBeenCalledTimes(1);
       expect(sGetUserByIdMock).toHaveBeenCalledWith(userId);
-   });
-});
-
-describe("getUserByEmail tests", () => {
-   beforeEach(() => {
-      jest.resetAllMocks();
-   });
-
-   it("getUserByEmail - user found - test", async () => {
-      const user = dtestData.dUser();
-      sGetUserByEmailMock.mockResolvedValue(user);
-
-      const result = await getUserByEmail(user.email);
-
-      expect(result).toEqual(user);
-      expect(sGetUserByEmailMock).toHaveBeenCalledTimes(1);
-      expect(sGetUserByEmailMock).toHaveBeenCalledWith(user.email);
-   });
-
-   it("getUserByEmail - user null - test", async () => {
-      sGetUserByEmailMock.mockResolvedValue(null);
-      const email = "invalid-email-1";
-
-      const result = await getUserByEmail(email);
-
-      expect(result).toBeNull();
-      expect(sGetUserByEmailMock).toHaveBeenCalledTimes(1);
-      expect(sGetUserByEmailMock).toHaveBeenCalledWith(email);
    });
 });
 

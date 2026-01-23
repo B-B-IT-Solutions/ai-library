@@ -5,9 +5,11 @@ import type { NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import { migrateSessionCartToUser } from "@/data/actions/cart";
-import { getUserByEmail, updateUserProfile } from "@/data/actions/user";
+import { updateUserProfile } from "@/data/actions/user";
 import prisma from "@/data/repositories/prisma";
-import { compare } from "@/lib/encrypt";
+import { ServiceFactory } from "@/data/services";
+import { DbClient } from "@/data/types/db/common";
+import { DUserSignIn } from "@/data/types/domain/user";
 
 export const authConfig: NextAuthConfig = {
    pages: {
@@ -30,23 +32,13 @@ export const authConfig: NextAuthConfig = {
                return null;
             }
 
-            const email = credentials.email as string;
-            const user = await getUserByEmail(email);
+            const data: DUserSignIn = {
+               email: credentials.email as string,
+               password: credentials.password as string,
+            };
 
-            if (user && user.password) {
-               const password = credentials.password as string;
-               const isMatch = await compare(password, user.password);
-
-               if (isMatch) {
-                  return {
-                     id: user.id,
-                     name: user.name,
-                     email: user.email,
-                     role: user.role,
-                  };
-               }
-            }
-            return null;
+            const userService = getUserService();
+            return await userService.singInUser(data);
          },
       }),
    ],
@@ -141,4 +133,9 @@ export const authConfig: NextAuthConfig = {
          return token;
       },
    },
+};
+
+const getUserService = (dbClient: DbClient = prisma) => {
+   const factory = new ServiceFactory(dbClient);
+   return factory.getUserService();
 };

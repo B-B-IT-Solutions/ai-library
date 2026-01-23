@@ -84,11 +84,6 @@ export const getUserById = async (userId: string): Promise<DUser> => {
    return user;
 };
 
-export const getUserByEmail = async (email: string): Promise<DUser | null> => {
-   const service = getUserService();
-   return await service.getUserByEmail(email);
-};
-
 export const updateUserProfile = async (
    userId: string,
    data: DUserUpdateData

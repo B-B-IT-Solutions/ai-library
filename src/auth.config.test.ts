@@ -1,6 +1,6 @@
+jest.mock("@/data/services/user");
 jest.mock("@/data/actions/user");
 jest.mock("@/data/actions/cart");
-jest.mock("@/lib/encrypt");
 
 import { ntestData, ptestData } from "@tests";
 import { forEach } from "es-toolkit/compat";
@@ -12,8 +12,8 @@ import { JWT } from "next-auth/jwt";
 import { CredentialsConfig } from "next-auth/providers/credentials";
 
 import { migrateSessionCartToUser } from "@/data/actions/cart";
-import { getUserByEmail, updateUserProfile } from "@/data/actions/user";
-import { compare } from "@/lib/encrypt";
+import { updateUserProfile } from "@/data/actions/user";
+import { UserService } from "@/data/services/user";
 
 import { authConfig } from "./auth.config";
 
@@ -23,9 +23,9 @@ type CredentialsConfigExtended = CredentialsConfig & {
    options: Partial<CredentialsConfig>;
 };
 
-const getUserByEmailMock = getUserByEmail as jest.MockedFunction<
-   typeof getUserByEmail
->;
+const sSingInUser = UserService.prototype.singInUser;
+
+const sSingInUserMock = sSingInUser as jest.MockedFunction<typeof sSingInUser>;
 
 const updateUserMock = updateUserProfile as jest.MockedFunction<
    typeof updateUserProfile
@@ -35,8 +35,6 @@ const migrateSessionCartToUserMock =
    migrateSessionCartToUser as jest.MockedFunction<
       typeof migrateSessionCartToUser
    >;
-
-const compareMock = compare as jest.MockedFunction<typeof compare>;
 
 const cookiesMock = cookies as jest.MockedFunction<typeof cookies>;
 
@@ -96,7 +94,7 @@ describe("auth.config - CredentialsProvider - tests", () => {
    });
 
    it("authorize - user null - test", async () => {
-      getUserByEmailMock.mockResolvedValue(null);
+      sSingInUserMock.mockResolvedValue(null);
 
       const credentials: CredentailsType = {
          email: "test@example.com",
@@ -107,79 +105,32 @@ describe("auth.config - CredentialsProvider - tests", () => {
       const result = await authorize(credentials, request);
 
       expect(result).toBeNull();
-      expect(getUserByEmailMock).toHaveBeenCalledTimes(1);
-      expect(getUserByEmailMock).toHaveBeenCalledWith(credentials.email);
+      expect(sSingInUserMock).toHaveBeenCalledTimes(1);
+      expect(sSingInUserMock).toHaveBeenCalledWith(credentials);
    });
 
-   it("authorize - user.password is null - test", async () => {
+   it("authorize - user logged in - test", async () => {
       const user = ptestData.pUser();
-      user.password = null;
-      getUserByEmailMock.mockResolvedValue(user);
-
-      const credentials: CredentailsType = {
-         email: "test@example.com",
-         password: "password123",
-      };
-      const request = ntestData.nextRequest();
-
-      const result = await authorize(credentials, request);
-
-      expect(result).toBeNull();
-      expect(getUserByEmailMock).toHaveBeenCalledTimes(1);
-      expect(getUserByEmailMock).toHaveBeenCalledWith(credentials.email);
-   });
-
-   it("authorize - user.password compare false - test", async () => {
-      const user = ptestData.pUser();
-      getUserByEmailMock.mockResolvedValue(user);
-      compareMock.mockResolvedValue(false);
-
-      const credentials: CredentailsType = {
-         email: "test@example.com",
-         password: "password123",
-      };
-      const request = ntestData.nextRequest();
-
-      const result = await authorize(credentials, request);
-
-      expect(result).toBeNull();
-      expect(getUserByEmailMock).toHaveBeenCalledTimes(1);
-      expect(getUserByEmailMock).toHaveBeenCalledWith(credentials.email);
-      expect(compareMock).toHaveBeenCalledTimes(1);
-      expect(compareMock).toHaveBeenCalledWith(
-         credentials.password,
-         user.password
-      );
-   });
-
-   it("authorize - user.password compare true - test", async () => {
-      const user = ptestData.pUser();
-      getUserByEmailMock.mockResolvedValue(user);
-      compareMock.mockResolvedValue(true);
-
-      const credentials: CredentailsType = {
-         email: "test@example.com",
-         password: "password123",
-      };
-      const request = ntestData.nextRequest();
-
-      const result = await authorize(credentials, request);
-
-      const expectedResult = {
+      const loggedInUser = {
          id: user.id,
          name: user.name,
          email: user.email,
          role: user.role,
       };
 
-      expect(result).toEqual(expectedResult);
-      expect(getUserByEmailMock).toHaveBeenCalledTimes(1);
-      expect(getUserByEmailMock).toHaveBeenCalledWith(credentials.email);
-      expect(compareMock).toHaveBeenCalledTimes(1);
-      expect(compareMock).toHaveBeenCalledWith(
-         credentials.password,
-         user.password
-      );
+      sSingInUserMock.mockResolvedValue(loggedInUser);
+
+      const credentials: CredentailsType = {
+         email: "test@example.com",
+         password: "password123",
+      };
+      const request = ntestData.nextRequest();
+
+      const result = await authorize(credentials, request);
+
+      expect(result).toEqual(loggedInUser);
+      expect(sSingInUserMock).toHaveBeenCalledTimes(1);
+      expect(sSingInUserMock).toHaveBeenCalledWith(credentials);
    });
 });
 

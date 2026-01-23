@@ -2,6 +2,7 @@ import { UserRepository } from "@/data/repositories/user";
 import {
    DUser,
    DUserPasswordUpdate,
+   DUserSignIn,
    DUserSignUp,
    DUserUpdateData,
 } from "@/data/types/domain/user";
@@ -29,16 +30,25 @@ export class UserService {
       return toDUser(createdUser);
    }
 
-   async getUserById(userId: string): Promise<DUser | null> {
-      const user = await this.userRepository.pGetUserById(userId);
-      if (user) {
-         return toDUser(user);
+   async singInUser(data: DUserSignIn) {
+      const user = await this.userRepository.pGetUserByEmail(data.email);
+      if (user && user.password) {
+         const isMatch = await compare(data.password, user.password);
+
+         if (isMatch) {
+            return {
+               id: user.id,
+               name: user.name,
+               email: user.email,
+               role: user.role,
+            };
+         }
       }
       return null;
    }
 
-   async getUserByEmail(email: string): Promise<DUser | null> {
-      const user = await this.userRepository.pGetUserByEmail(email);
+   async getUserById(userId: string): Promise<DUser | null> {
+      const user = await this.userRepository.pGetUserById(userId);
       if (user) {
          return toDUser(user);
       }
