@@ -2,8 +2,6 @@
 
 import { FC, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { format } from "date-fns";
-import { de } from "date-fns/locale";
 import { User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -42,9 +40,8 @@ export const ProfileSection: FC<ProfileSectionProps> = ({ user }) => {
 
    const {
       handleSubmit,
-      formState: { isSubmitting, errors },
+      formState: { isSubmitting },
       control,
-      setError,
    } = useForm<UpdateProfileFormData>({
       resolver: zodResolver(updateProfileSchema),
       defaultValues: {
@@ -62,17 +59,6 @@ export const ProfileSection: FC<ProfileSectionProps> = ({ user }) => {
             toast.error(result.message);
          }
       });
-   };
-
-   const getRoleBadgeColor = (role: string) => {
-      switch (role) {
-         case "ADMIN":
-            return "bg-red-100 text-red-800 border-red-200";
-         case "MANAGER":
-            return "bg-blue-100 text-blue-800 border-blue-200";
-         default:
-            return "bg-gray-100 text-gray-800 border-gray-200";
-      }
    };
 
    return (
@@ -129,32 +115,6 @@ export const ProfileSection: FC<ProfileSectionProps> = ({ user }) => {
                      />
                      <p className="text-xs text-muted-foreground mt-1">
                         Ihre E-Mail-Adresse kann nicht geändert werden
-                     </p>
-                  </div>
-
-                  <div>
-                     <FieldLabel className="text-sm font-medium">
-                        Rolle
-                     </FieldLabel>
-                     <div className="mt-2">
-                        <span
-                           className={`inline-flex items-center px-3 py-1 rounded-md text-sm font-medium border ${getRoleBadgeColor(
-                              user.role
-                           )}`}
-                        >
-                           {user.role}
-                        </span>
-                     </div>
-                  </div>
-
-                  <div>
-                     <FieldLabel className="text-sm font-medium">
-                        Konto erstellt am
-                     </FieldLabel>
-                     <p className="text-sm text-muted-foreground mt-1">
-                        {format(new Date(user.createdAt), "PPP", {
-                           locale: de,
-                        })}
                      </p>
                   </div>
                </div>

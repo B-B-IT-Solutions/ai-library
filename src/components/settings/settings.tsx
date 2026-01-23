@@ -4,23 +4,24 @@ import { FC, useState } from "react";
 
 import { DUser } from "@/data/types/domain/user";
 
-import { AccountSettings } from "./account/account";
-import { GeneralSettings } from "./general/general";
-
-type SettingsProps = {
-   user: DUser;
-};
+import { AccountSettings } from "./account";
+import { GeneralSettings } from "./general";
 
 type TabId = "general" | "account";
+
 type TabEntry = {
    id: TabId;
    label: string;
 };
 
+type SettingsProps = {
+   user: DUser;
+};
+
 export const Settings: FC<SettingsProps> = ({ user }) => {
    const [activeTab, setActiveTab] = useState<TabId>("general");
 
-   const sections: TabEntry[] = [
+   const entries: TabEntry[] = [
       { id: "general" as TabId, label: "Allgemein" },
       { id: "account" as TabId, label: "Konto" },
    ];
@@ -49,22 +50,7 @@ export const Settings: FC<SettingsProps> = ({ user }) => {
                <h2 className="px-3 mb-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                   Navigation
                </h2>
-               {sections.map((section) => {
-                  const isActive = activeTab === section.id;
-                  return (
-                     <button
-                        key={section.id}
-                        onClick={() => setActiveTab(section.id)}
-                        className={`w-full flex items-center gap-3 px-3 py-2 text-sm rounded-md transition-all cursor-pointer ${
-                           isActive
-                              ? "bg-primary text-primary-foreground shadow-sm"
-                              : "hover:bg-accent hover:text-accent-foreground"
-                        }`}
-                     >
-                        <span className="font-medium">{section.label}</span>
-                     </button>
-                  );
-               })}
+               {entries.map((entry) => tab(entry))}
             </nav>
          </aside>
       );

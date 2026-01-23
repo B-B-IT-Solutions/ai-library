@@ -8,7 +8,6 @@ import { toast } from "sonner";
 
 import {
    AlertDialog,
-   AlertDialogAction,
    AlertDialogCancel,
    AlertDialogContent,
    AlertDialogDescription,
@@ -95,7 +94,7 @@ export const DeleteAcount = () => {
                      Diese Aktion kann nicht rückgängig gemacht werden.
                   </p>
                   <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-                     <AlertDialogTrigger asChild>
+                     <AlertDialogTrigger asChild={true}>
                         <Button
                            variant="destructive"
                            className="cursor-pointer"

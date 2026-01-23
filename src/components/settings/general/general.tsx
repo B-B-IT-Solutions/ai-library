@@ -12,7 +12,7 @@ type GeneralSettingsProps = {
 
 export const GeneralSettings: FC<GeneralSettingsProps> = ({ user }) => {
    return (
-      <div data-testid="account-settings">
+      <div className="flex-col space-y-6" data-testid="account-settings">
          <ProfileSection user={user} />
          <SecuritySection />
          <AppearanceSection />
