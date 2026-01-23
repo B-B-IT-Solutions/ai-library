@@ -10,15 +10,13 @@ import {
 } from "@tests";
 import { toast } from "sonner";
 
-import { deleteAccount } from "@/data/actions/user";
+import { deleteUser } from "@/data/actions/user";
 import { DUserAccountDelete } from "@/data/types/domain/user";
 import { ActionResult } from "@/data/types/utils";
 
 import { DeleteAcount } from "./delete-account";
 
-const mockDeleteAccount = deleteAccount as jest.MockedFunction<
-   typeof deleteAccount
->;
+const deleteUserMock = deleteUser as jest.MockedFunction<typeof deleteUser>;
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
@@ -80,14 +78,14 @@ describe("DeleteAcount functionality tests", () => {
          success: true,
          message: "Account deleted",
       };
-      mockDeleteAccount.mockResolvedValue(result);
+      deleteUserMock.mockResolvedValue(result);
 
       render(<DeleteAcount />);
 
       await waitFor(() => {
          assertRendered();
          assertPasswordNotRendered();
-         expect(mockDeleteAccount).not.toHaveBeenCalled();
+         expect(deleteUserMock).not.toHaveBeenCalled();
       });
 
       const deleteBtn = screen.getByTestId("delete-btn");
@@ -95,14 +93,14 @@ describe("DeleteAcount functionality tests", () => {
 
       await waitFor(() => {
          assertPasswordRendered();
-         expect(mockDeleteAccount).not.toHaveBeenCalled();
+         expect(deleteUserMock).not.toHaveBeenCalled();
       });
 
       const submitBtn = screen.getByTestId("submit-btn");
       await userEvent.click(submitBtn);
 
       await waitFor(() => {
-         expect(mockDeleteAccount).not.toHaveBeenCalled();
+         expect(deleteUserMock).not.toHaveBeenCalled();
       });
 
       const value = "123456789";
@@ -110,7 +108,7 @@ describe("DeleteAcount functionality tests", () => {
       await userEvent.type(currentPassword, value);
 
       expect(currentPassword).toHaveValue(value);
-      expect(mockDeleteAccount).not.toHaveBeenCalled();
+      expect(deleteUserMock).not.toHaveBeenCalled();
 
       await userEvent.click(submitBtn);
 
@@ -119,8 +117,8 @@ describe("DeleteAcount functionality tests", () => {
       };
 
       await waitFor(() => {
-         expect(mockDeleteAccount).toHaveBeenCalledTimes(1);
-         expect(mockDeleteAccount).toHaveBeenCalledWith(expectedPayload);
+         expect(deleteUserMock).toHaveBeenCalledTimes(1);
+         expect(deleteUserMock).toHaveBeenCalledWith(expectedPayload);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
       });
@@ -131,14 +129,14 @@ describe("DeleteAcount functionality tests", () => {
          success: false,
          message: "Account couldn't be deleted",
       };
-      mockDeleteAccount.mockResolvedValue(result);
+      deleteUserMock.mockResolvedValue(result);
 
       render(<DeleteAcount />);
 
       await waitFor(() => {
          assertRendered();
          assertPasswordNotRendered();
-         expect(mockDeleteAccount).not.toHaveBeenCalled();
+         expect(deleteUserMock).not.toHaveBeenCalled();
       });
 
       const deleteBtn = screen.getByTestId("delete-btn");
@@ -146,14 +144,14 @@ describe("DeleteAcount functionality tests", () => {
 
       await waitFor(() => {
          assertPasswordRendered();
-         expect(mockDeleteAccount).not.toHaveBeenCalled();
+         expect(deleteUserMock).not.toHaveBeenCalled();
       });
 
       const submitBtn = screen.getByTestId("submit-btn");
       await userEvent.click(submitBtn);
 
       await waitFor(() => {
-         expect(mockDeleteAccount).not.toHaveBeenCalled();
+         expect(deleteUserMock).not.toHaveBeenCalled();
       });
 
       const value = "123456789";
@@ -161,7 +159,7 @@ describe("DeleteAcount functionality tests", () => {
       await userEvent.type(currentPassword, value);
 
       expect(currentPassword).toHaveValue(value);
-      expect(mockDeleteAccount).not.toHaveBeenCalled();
+      expect(deleteUserMock).not.toHaveBeenCalled();
 
       await userEvent.click(submitBtn);
 
@@ -170,8 +168,8 @@ describe("DeleteAcount functionality tests", () => {
       };
 
       await waitFor(() => {
-         expect(mockDeleteAccount).toHaveBeenCalledTimes(1);
-         expect(mockDeleteAccount).toHaveBeenCalledWith(expectedPayload);
+         expect(deleteUserMock).toHaveBeenCalledTimes(1);
+         expect(deleteUserMock).toHaveBeenCalledWith(expectedPayload);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
       });
@@ -182,14 +180,14 @@ describe("DeleteAcount functionality tests", () => {
          success: false,
          message: "Account couldn't be deleted",
       };
-      mockDeleteAccount.mockResolvedValue(result);
+      deleteUserMock.mockResolvedValue(result);
 
       render(<DeleteAcount />);
 
       await waitFor(() => {
          assertRendered();
          assertPasswordNotRendered();
-         expect(mockDeleteAccount).not.toHaveBeenCalled();
+         expect(deleteUserMock).not.toHaveBeenCalled();
       });
 
       const deleteBtn = screen.getByTestId("delete-btn");
@@ -197,14 +195,14 @@ describe("DeleteAcount functionality tests", () => {
 
       await waitFor(() => {
          assertPasswordRendered();
-         expect(mockDeleteAccount).not.toHaveBeenCalled();
+         expect(deleteUserMock).not.toHaveBeenCalled();
       });
 
       const cancelBtn = screen.getByTestId("cancel-btn");
       await userEvent.click(cancelBtn);
 
       await waitFor(() => {
-         expect(mockDeleteAccount).not.toHaveBeenCalled();
+         expect(deleteUserMock).not.toHaveBeenCalled();
          expect(toastMock.error).not.toHaveBeenCalled();
       });
    });
@@ -215,7 +213,7 @@ describe("DeleteAcount functionality tests", () => {
       await waitFor(() => {
          assertRendered();
          assertPasswordNotRendered();
-         expect(mockDeleteAccount).not.toHaveBeenCalled();
+         expect(deleteUserMock).not.toHaveBeenCalled();
       });
 
       const deleteBtn = screen.getByTestId("delete-btn");
@@ -224,7 +222,7 @@ describe("DeleteAcount functionality tests", () => {
       await waitFor(() => {
          assertPasswordRendered();
          assertPasswordNotVisible();
-         expect(mockDeleteAccount).not.toHaveBeenCalled();
+         expect(deleteUserMock).not.toHaveBeenCalled();
       });
 
       const value = "123456789";
@@ -232,7 +230,7 @@ describe("DeleteAcount functionality tests", () => {
       await userEvent.type(password, value);
 
       expect(password).toHaveValue(value);
-      expect(mockDeleteAccount).not.toHaveBeenCalled();
+      expect(deleteUserMock).not.toHaveBeenCalled();
 
       const showPwdBtn = screen.getByTestId("password-visibility-btn");
       userEvent.click(showPwdBtn);

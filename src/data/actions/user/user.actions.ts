@@ -130,7 +130,7 @@ export const updatePassword = async (
    }
 };
 
-export const deleteAccount = async (
+export const deleteUser = async (
    data: DUserAccountDelete
 ): Promise<ActionResult> => {
    try {
@@ -138,7 +138,7 @@ export const deleteAccount = async (
       const validatedData = deleteAccountSchema.parse(data);
 
       const userService = getUserService();
-      await userService.deleteAccount(user.id, validatedData);
+      await userService.deleteUser(user.id, validatedData);
 
       await signOut({ redirectTo: "/p" });
 

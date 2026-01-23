@@ -4,7 +4,6 @@ jest.mock("next/dist/client/components/redirect-error");
 
 import { dtestData } from "@tests";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
-import { redirect } from "next/dist/server/api-utils";
 
 import { signIn, signOut } from "@/auth";
 import { requireUser } from "@/data/actions/auth-utils";
@@ -18,7 +17,7 @@ import {
 } from "@/data/types/domain/user";
 
 import {
-   deleteAccount,
+   deleteUser,
    getUserById,
    signInWithCredentials,
    signOutUser,
@@ -31,7 +30,7 @@ const sSignUpUser = UserService.prototype.signUpUser;
 const sGetUserById = UserService.prototype.getUserById;
 const sUpdateUser = UserService.prototype.updateUser;
 const sUpdatePassword = UserService.prototype.updatePassword;
-const sDeleteAccount = UserService.prototype.deleteAccount;
+const sDeleteUser = UserService.prototype.deleteUser;
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
@@ -53,9 +52,7 @@ const sUpdatePasswordMock = sUpdatePassword as jest.MockedFunction<
    typeof sUpdatePassword
 >;
 
-const sDeleteAccountMock = sDeleteAccount as jest.MockedFunction<
-   typeof sDeleteAccount
->;
+const sDeleteUserMock = sDeleteUser as jest.MockedFunction<typeof sDeleteUser>;
 
 describe("signInWithCredentials tests", () => {
    beforeEach(() => {
@@ -386,7 +383,7 @@ describe("deleteAccount tests", () => {
          password: "test123",
       };
 
-      const result = await deleteAccount(data);
+      const result = await deleteUser(data);
 
       const expectedResult = {
          success: false,
@@ -394,7 +391,7 @@ describe("deleteAccount tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(sDeleteAccountMock).not.toHaveBeenCalled();
+      expect(sDeleteUserMock).not.toHaveBeenCalled();
       expect(signOutMock).not.toHaveBeenCalled();
    });
 
@@ -406,7 +403,7 @@ describe("deleteAccount tests", () => {
          password: "test123",
       };
 
-      const result = await deleteAccount(data);
+      const result = await deleteUser(data);
 
       const expectedResult = {
          success: true,
@@ -414,8 +411,8 @@ describe("deleteAccount tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(sDeleteAccountMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteAccountMock).toHaveBeenCalledWith(user.id, data);
+      expect(sDeleteUserMock).toHaveBeenCalledTimes(1);
+      expect(sDeleteUserMock).toHaveBeenCalledWith(user.id, data);
       expect(signOutMock).toHaveBeenCalledTimes(1);
       expect(signOutMock).toHaveBeenCalledWith({ redirectTo: "/p" });
    });
@@ -428,7 +425,7 @@ describe("deleteAccount tests", () => {
          password: "",
       };
 
-      const result = await deleteAccount(data);
+      const result = await deleteUser(data);
 
       const expectedResult = {
          success: false,
@@ -436,7 +433,7 @@ describe("deleteAccount tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(sDeleteAccountMock).not.toHaveBeenCalled();
+      expect(sDeleteUserMock).not.toHaveBeenCalled();
       expect(signOutMock).not.toHaveBeenCalled();
    });
 });

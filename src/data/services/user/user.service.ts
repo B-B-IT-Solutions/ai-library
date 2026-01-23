@@ -66,12 +66,12 @@ export class UserService {
    ): Promise<void> {
       const user = await this.userRepository.pGetUserById(userId);
       if (!user) {
-         throw new Error("Benutzer nicht gefunden");
+         throw new Error("User not found");
       }
 
       if (!user.password) {
          // e.g. when using google login
-         throw new Error("Benutzer hat kein Passwort");
+         throw new Error("User doesn't have a password");
       }
 
       const isPasswordValid = await compare(
@@ -79,7 +79,7 @@ export class UserService {
          user.password
       );
       if (!isPasswordValid) {
-         throw new Error("Aktuelles Passwort ist falsch");
+         throw new Error("Password cannot be updated");
       }
 
       const hashedPassword = await hash(data.newPassword);
@@ -87,23 +87,20 @@ export class UserService {
       await this.userRepository.pChangePassword(userId, hashedPassword);
    }
 
-   async deleteAccount(
-      userId: string,
-      data: DUserAccountDelete
-   ): Promise<void> {
+   async deleteUser(userId: string, data: DUserAccountDelete): Promise<void> {
       const user = await this.userRepository.pGetUserById(userId);
       if (!user) {
-         throw new Error("Benutzer nicht gefunden");
+         throw new Error("User not found");
       }
 
       if (!user.password) {
          // e.g. when using google login
-         throw new Error("Benutzer hat kein Passwort");
+         throw new Error("User doesn't have a password");
       }
 
       const isPasswordValid = await compare(data.password, user.password);
       if (!isPasswordValid) {
-         throw new Error("Passwort ist falsch");
+         throw new Error("Account cannot be deleted");
       }
 
       // Hard delete user and all related data

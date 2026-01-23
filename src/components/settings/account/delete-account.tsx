@@ -33,7 +33,7 @@ import {
    FormMessage,
 } from "@/components/shadcn/form";
 import { Input } from "@/components/shadcn/input";
-import { deleteAccount } from "@/data/actions/user";
+import { deleteUser } from "@/data/actions/user";
 import { DUserAccountDelete } from "@/data/types/domain/user";
 import { deleteAccountSchema } from "@/data/types/validators/user";
 
@@ -57,7 +57,7 @@ export const DeleteAcount = () => {
 
    const onSubmit: SubmitHandler<DUserAccountDelete> = async (data) => {
       startTransition(async () => {
-         const result = await deleteAccount(data);
+         const result = await deleteUser(data);
          if (result.success) {
             toast.success(result.message);
             setIsOpen(false);

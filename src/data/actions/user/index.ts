@@ -5,5 +5,5 @@ export {
    signUpUser,
    updateUserProfile,
    updatePassword,
-   deleteAccount,
+   deleteUser,
 } from "./user.actions";
