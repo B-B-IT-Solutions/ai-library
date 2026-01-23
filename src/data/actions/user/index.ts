@@ -7,4 +7,8 @@ export {
    updateUser,
 } from "./user.actions";
 
-export { updateProfile, updatePassword } from "./settings.actions";
+export {
+   updateProfile,
+   updatePassword,
+   deleteAccount,
+} from "./settings.actions";

@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertTriangle, Eye, EyeOff } from "lucide-react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import {
@@ -25,13 +25,15 @@ import {
    CardTitle,
 } from "@/components/shadcn/card";
 import {
-   Field,
-   FieldError,
-   FieldGroup,
-   FieldLabel,
-} from "@/components/shadcn/field";
+   Form,
+   FormControl,
+   FormField,
+   FormItem,
+   FormLabel,
+   FormMessage,
+} from "@/components/shadcn/form";
 import { Input } from "@/components/shadcn/input";
-import { deleteAccount } from "@/data/actions/user/settings.actions";
+import { deleteAccount } from "@/data/actions/user";
 import { deleteAccountSchema } from "@/data/types/validators/user";
 
 type DeleteAccountFormData = {
@@ -43,17 +45,18 @@ export const DeleteAcount = () => {
    const [isPending, startTransition] = useTransition();
    const [showPassword, setShowPassword] = useState(false);
 
-   const {
-      handleSubmit,
-      formState: { isSubmitting },
-      control,
-      reset,
-   } = useForm<DeleteAccountFormData>({
+   const toggleShowPassword = () => {
+      setShowPassword(!showPassword);
+   };
+
+   const form = useForm<DeleteAccountFormData>({
       resolver: zodResolver(deleteAccountSchema),
       defaultValues: {
          password: "",
       },
    });
+
+   const { isSubmitting } = form.formState;
 
    const onSubmit: SubmitHandler<DeleteAccountFormData> = async (data) => {
       startTransition(async () => {
@@ -61,7 +64,6 @@ export const DeleteAcount = () => {
          if (result.success) {
             toast.success(result.message);
             setIsOpen(false);
-            // User will be redirected to /p by the action
          } else {
             toast.error(result.message);
          }
@@ -70,7 +72,7 @@ export const DeleteAcount = () => {
 
    const handleCancel = () => {
       setIsOpen(false);
-      reset();
+      form.reset();
       setShowPassword(false);
    };
 
@@ -108,92 +110,92 @@ export const DeleteAcount = () => {
                <Button
                   variant="destructive"
                   className="cursor-pointer"
-                  data-testid="delete-account-btn"
+                  data-testid="delete-btn"
                >
                   Konto löschen
                </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
-               <form onSubmit={handleSubmit(onSubmit)}>
-                  <AlertDialogHeader>
-                     <AlertDialogTitle>
-                        Sind Sie absolut sicher?
-                     </AlertDialogTitle>
-                     <AlertDialogDescription className="space-y-3">
-                        <p>
-                           Diese Aktion kann nicht rückgängig gemacht werden.
-                           Ihr Konto, alle Bestellungen und Bibliothekseinträge
-                           werden dauerhaft gelöscht.
-                        </p>
-                        <p className="bg-destructive/10 border border-destructive/20 rounded-md p-3 text-sm font-medium text-destructive">
-                           Warnung: Dies ist eine dauerhafte Löschung!
-                        </p>
-                     </AlertDialogDescription>
-                  </AlertDialogHeader>
-
-                  <div className="my-4">
-                     <FieldGroup>
-                        <Controller
+               <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)}>
+                     <AlertDialogHeader>
+                        <AlertDialogTitle>
+                           Sind Sie absolut sicher?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription asChild={true}>
+                           <div className="space-y-3">
+                              <p>
+                                 Diese Aktion kann nicht rückgängig gemacht
+                                 werden. Ihr Konto, alle Bestellungen und
+                                 Bibliothekseinträge werden dauerhaft gelöscht.
+                              </p>
+                              <p className="bg-destructive/10 border border-destructive/20 rounded-md p-3 text-sm font-medium text-destructive">
+                                 Warnung: Dies ist eine dauerhafte Löschung!
+                              </p>
+                           </div>
+                        </AlertDialogDescription>
+                     </AlertDialogHeader>
+                     <div className="my-4">
+                        <FormField
+                           control={form.control}
                            name="password"
-                           control={control}
                            render={({ field, fieldState }) => (
-                              <Field data-invalid={fieldState.invalid}>
-                                 <FieldLabel
-                                    htmlFor="delete-password"
-                                    className="text-sm font-medium"
-                                 >
+                              <FormItem data-testid="password">
+                                 <FormLabel className="text-sm font-medium">
                                     Geben Sie Ihr Passwort ein, um zu bestätigen
-                                 </FieldLabel>
-                                 <div className="relative">
-                                    <Input
-                                       {...field}
-                                       id="delete-password"
-                                       type={inputType(showPassword)}
-                                       autoComplete="current-password"
-                                       placeholder="Passwort eingeben"
-                                       aria-invalid={fieldState.invalid}
-                                       className="pr-10 h-11"
-                                    />
-                                    <button
-                                       type="button"
-                                       onClick={() =>
-                                          setShowPassword(!showPassword)
-                                       }
-                                       className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded p-0.5"
-                                       aria-label={inputAriaLabel(showPassword)}
-                                    >
-                                       {inputIcon(showPassword)}
-                                    </button>
-                                 </div>
-                                 {fieldState.invalid && (
-                                    <FieldError errors={[fieldState.error]} />
-                                 )}
-                              </Field>
+                                 </FormLabel>
+                                 <FormControl>
+                                    <div className="relative">
+                                       <Input
+                                          {...field}
+                                          id="delete-password"
+                                          type={inputType(showPassword)}
+                                          autoComplete="current-password"
+                                          placeholder="Passwort eingeben"
+                                          aria-invalid={fieldState.invalid}
+                                          className="pr-10 h-11"
+                                          data-testid="password-input"
+                                       />
+                                       <button
+                                          type="button"
+                                          onClick={toggleShowPassword}
+                                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded p-0.5"
+                                          aria-label={inputAriaLabel(
+                                             showPassword
+                                          )}
+                                          data-testid="password-visibility-btn"
+                                       >
+                                          {inputIcon(showPassword)}
+                                       </button>
+                                    </div>
+                                 </FormControl>
+                                 <FormMessage data-testid="error-message" />
+                              </FormItem>
                            )}
                         />
-                     </FieldGroup>
-                  </div>
+                     </div>
 
-                  <AlertDialogFooter>
-                     <AlertDialogCancel
-                        type="button"
-                        onClick={handleCancel}
-                        disabled={isSubmitting || isPending}
-                        data-testid="cancel-btn"
-                     >
-                        Abbrechen
-                     </AlertDialogCancel>
-                     <Button
-                        type="submit"
-                        variant="destructive"
-                        disabled={isSubmitting || isPending}
-                        className="cursor-pointer"
-                        data-testid="submit-btn"
-                     >
-                        {submitBtnLabel()}
-                     </Button>
-                  </AlertDialogFooter>
-               </form>
+                     <AlertDialogFooter>
+                        <AlertDialogCancel
+                           type="button"
+                           onClick={handleCancel}
+                           disabled={isSubmitting || isPending}
+                           data-testid="cancel-btn"
+                        >
+                           Abbrechen
+                        </AlertDialogCancel>
+                        <Button
+                           type="submit"
+                           variant="destructive"
+                           disabled={isSubmitting || isPending}
+                           className="cursor-pointer"
+                           data-testid="submit-btn"
+                        >
+                           {submitBtnLabel()}
+                        </Button>
+                     </AlertDialogFooter>
+                  </form>
+               </Form>
             </AlertDialogContent>
          </AlertDialog>
       );
