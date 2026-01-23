@@ -18,29 +18,6 @@ import {
 } from "@/data/types/validators/user.schema";
 import { User } from "@/generated/prisma/client";
 
-export const signInWithCredentials = async (data: DUserSignIn) => {
-   try {
-      const singInValues = signInSchema.parse(data);
-      await signIn("credentials", singInValues);
-      return {
-         success: true,
-         message: "Signed in successfully",
-      };
-   } catch (error) {
-      if (isRedirectError(error)) {
-         throw error;
-      }
-      return {
-         success: false,
-         message: "Invalid email or password",
-      };
-   }
-};
-
-export const signOutUser = async () => {
-   await signOut({ redirectTo: "/p" });
-};
-
 export const signUpUser = async (data: DUserSignUp) => {
    try {
       const validatedData: DUserSignUp = signUpSchema.parse(data);
@@ -66,6 +43,29 @@ export const signUpUser = async (data: DUserSignUp) => {
          message: formatError(error),
       };
    }
+};
+
+export const signInWithCredentials = async (data: DUserSignIn) => {
+   try {
+      const singInValues = signInSchema.parse(data);
+      await signIn("credentials", singInValues);
+      return {
+         success: true,
+         message: "Signed in successfully",
+      };
+   } catch (error) {
+      if (isRedirectError(error)) {
+         throw error;
+      }
+      return {
+         success: false,
+         message: "Invalid email or password",
+      };
+   }
+};
+
+export const signOutUser = async () => {
+   await signOut({ redirectTo: "/p" });
 };
 
 export const getUserById = async (userId: string): Promise<User> => {
