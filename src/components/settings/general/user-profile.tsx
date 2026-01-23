@@ -62,7 +62,7 @@ export const ProfileSection: FC<ProfileSectionProps> = ({ user }) => {
    };
 
    return (
-      <Card>
+      <Card data-testid="user-profile">
          <CardHeader>
             <CardTitle>Profil</CardTitle>
             <CardDescription>

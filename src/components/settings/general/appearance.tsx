@@ -37,7 +37,7 @@ export const AppearanceSection = () => {
    ];
 
    return (
-      <Card>
+      <Card data-testid="appearance">
          <CardHeader>
             <CardTitle>Erscheinungsbild</CardTitle>
             <CardDescription>

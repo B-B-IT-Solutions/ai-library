@@ -104,7 +104,7 @@ export const SecuritySection = () => {
    };
 
    return (
-      <Card>
+      <Card data-testid="update-password">
          <CardHeader>
             <CardTitle>Sicherheit</CardTitle>
             <CardDescription>Ändern Sie Ihr Passwort</CardDescription>
