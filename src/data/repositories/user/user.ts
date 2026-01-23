@@ -51,7 +51,7 @@ export class UserRepository {
       });
    }
 
-   async pChangePassword(userId: string, newPasswordHash: string) {
+   async pUpdatePassword(userId: string, newPasswordHash: string) {
       return await this.prisma.user.update({
          where: { id: userId },
          data: { password: newPasswordHash },

@@ -6,7 +6,12 @@ import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import { UserRepository } from "@/data/repositories/user";
-import { DUserSignIn, DUserSignUp } from "@/data/types/domain/user";
+import {
+   DUserPasswordUpdate,
+   DUserSignIn,
+   DUserSignUp,
+   DUserUpdateData,
+} from "@/data/types/domain/user";
 import { UserCreateInput } from "@/generated/prisma/models";
 import { compare, hash } from "@/lib/encrypt";
 
@@ -14,6 +19,7 @@ import { toDUser } from "./user.mapper";
 import { UserService } from "./user.service";
 
 const compareMock = compare as jest.MockedFunction<typeof compare>;
+const hashMock = hash as jest.MockedFunction<typeof hash>;
 
 const userRepo = new UserRepository(prisma);
 const userRepoMock = userRepo as DeepMockProxy<UserRepository>;
@@ -132,5 +138,148 @@ describe("singInUser tests", () => {
       expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledWith(data.email);
       expect(compareMock).toHaveBeenCalledTimes(1);
       expect(compareMock).toHaveBeenCalledWith(data.password, user.password);
+   });
+});
+
+describe("getUserById tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("getUserById - user null - test", async () => {
+      const userId = "user-id-1";
+      userRepoMock.pGetUserById.mockResolvedValue(null);
+
+      const result = await userService.getUserById(userId);
+
+      expect(result).toBeNull();
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(userId);
+   });
+
+   it("getUserById - user retrieved - test", async () => {
+      const user = ptestData.pUser();
+      userRepoMock.pGetUserById.mockResolvedValue(user);
+
+      const result = await userService.getUserById(user.id);
+
+      const expectedResult = toDUser(user);
+
+      expect(result).toEqual(expectedResult);
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(user.id);
+   });
+});
+
+describe("updateUser tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("updateUser - user updated - test", async () => {
+      const user = ptestData.pUser();
+      const data: DUserUpdateData = {
+         name: "test 1",
+      };
+
+      await userService.updateUser(user.id, data);
+
+      expect(userRepoMock.pUpdateUser).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pUpdateUser).toHaveBeenCalledWith(user.id, data);
+   });
+});
+
+describe("updatePassword tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("updatePassword - user null - test", async () => {
+      const user = ptestData.pUser();
+      userRepoMock.pGetUserById.mockResolvedValue(null);
+
+      const data: DUserPasswordUpdate = {
+         currentPassword: "test123",
+         newPassword: "12345679",
+         confirmPassword: "12345679",
+      };
+
+      const fn = async () => await userService.updatePassword(user.id, data);
+
+      expect(fn).rejects.toThrow("User not found");
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(user.id);
+      expect(compareMock).not.toHaveBeenCalled();
+      expect(hashMock).not.toHaveBeenCalled();
+   });
+
+   it("updatePassword - user.password null - test", async () => {
+      const user = ptestData.pUser();
+      user.password = null;
+      userRepoMock.pGetUserById.mockResolvedValue(user);
+
+      const data: DUserPasswordUpdate = {
+         currentPassword: "test123",
+         newPassword: "12345679",
+         confirmPassword: "12345679",
+      };
+
+      const fn = async () => await userService.updatePassword(user.id, data);
+
+      expect(fn).rejects.toThrow("User doesn't have a password");
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(user.id);
+      expect(compareMock).not.toHaveBeenCalled();
+      expect(hashMock).not.toHaveBeenCalled();
+   });
+
+   it("updatePassword - current password invalid - test", async () => {
+      const user = ptestData.pUser();
+      userRepoMock.pGetUserById.mockResolvedValue(user);
+      compareMock.mockResolvedValue(false);
+
+      const data: DUserPasswordUpdate = {
+         currentPassword: "test123",
+         newPassword: "12345679",
+         confirmPassword: "12345679",
+      };
+
+      const fn = async () => await userService.updatePassword(user.id, data);
+
+      expect(fn).rejects.toThrow("Password cannot be updated");
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(user.id);
+      expect(hashMock).not.toHaveBeenCalled();
+   });
+
+   it("updatePassword - password updated - test", async () => {
+      const user = ptestData.pUser();
+      userRepoMock.pGetUserById.mockResolvedValue(user);
+      compareMock.mockResolvedValue(true);
+      const hashedPassword = "hashed-password-1";
+      hashMock.mockResolvedValue(hashedPassword);
+
+      const data: DUserPasswordUpdate = {
+         currentPassword: "test123",
+         newPassword: "12345679",
+         confirmPassword: "12345679",
+      };
+
+      await userService.updatePassword(user.id, data);
+
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(user.id);
+      expect(userRepoMock.pUpdatePassword).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pUpdatePassword).toHaveBeenCalledWith(
+         user.id,
+         hashedPassword
+      );
+      expect(compareMock).toHaveBeenCalledTimes(1);
+      expect(compareMock).toHaveBeenCalledWith(
+         data.currentPassword,
+         user.password
+      );
+      expect(hashMock).toHaveBeenCalledTimes(1);
+      expect(hashMock).toHaveBeenCalledWith(data.newPassword);
    });
 });

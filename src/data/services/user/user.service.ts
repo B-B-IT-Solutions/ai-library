@@ -84,7 +84,7 @@ export class UserService {
 
       const hashedPassword = await hash(data.newPassword);
 
-      await this.userRepository.pChangePassword(userId, hashedPassword);
+      await this.userRepository.pUpdatePassword(userId, hashedPassword);
    }
 
    async deleteUser(userId: string, data: DUserAccountDelete): Promise<void> {
