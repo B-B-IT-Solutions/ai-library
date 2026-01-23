@@ -1,6 +1,7 @@
 import z from "zod";
 
 import {
+   deleteAccountSchema,
    signInSchema,
    signUpSchema,
    updatePasswordSchema,
@@ -24,3 +25,5 @@ export type DUser = {
 };
 
 export type DUserPasswordUpdate = z.infer<typeof updatePasswordSchema>;
+
+export type DUserAccountDelete = z.infer<typeof deleteAccountSchema>;

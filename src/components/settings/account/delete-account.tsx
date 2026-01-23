@@ -34,11 +34,8 @@ import {
 } from "@/components/shadcn/form";
 import { Input } from "@/components/shadcn/input";
 import { deleteAccount } from "@/data/actions/user";
+import { DUserAccountDelete } from "@/data/types/domain/user";
 import { deleteAccountSchema } from "@/data/types/validators/user";
-
-type DeleteAccountFormData = {
-   password: string;
-};
 
 export const DeleteAcount = () => {
    const [isOpen, setIsOpen] = useState(false);
@@ -49,7 +46,7 @@ export const DeleteAcount = () => {
       setShowPassword(!showPassword);
    };
 
-   const form = useForm<DeleteAccountFormData>({
+   const form = useForm<DUserAccountDelete>({
       resolver: zodResolver(deleteAccountSchema),
       defaultValues: {
          password: "",
@@ -58,9 +55,9 @@ export const DeleteAcount = () => {
 
    const { isSubmitting } = form.formState;
 
-   const onSubmit: SubmitHandler<DeleteAccountFormData> = async (data) => {
+   const onSubmit: SubmitHandler<DUserAccountDelete> = async (data) => {
       startTransition(async () => {
-         const result = await deleteAccount(data.password);
+         const result = await deleteAccount(data);
          if (result.success) {
             toast.success(result.message);
             setIsOpen(false);

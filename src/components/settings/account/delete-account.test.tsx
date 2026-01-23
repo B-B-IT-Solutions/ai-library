@@ -11,6 +11,7 @@ import {
 import { toast } from "sonner";
 
 import { deleteAccount } from "@/data/actions/user";
+import { DUserAccountDelete } from "@/data/types/domain/user";
 import { ActionResult } from "@/data/types/utils";
 
 import { DeleteAcount } from "./delete-account";
@@ -104,18 +105,22 @@ describe("DeleteAcount functionality tests", () => {
          expect(mockDeleteAccount).not.toHaveBeenCalled();
       });
 
-      const currntValue = "123456789";
+      const value = "123456789";
       const currentPassword = screen.getByTestId("password-input");
-      await userEvent.type(currentPassword, currntValue);
+      await userEvent.type(currentPassword, value);
 
-      expect(currentPassword).toHaveValue(currntValue);
+      expect(currentPassword).toHaveValue(value);
       expect(mockDeleteAccount).not.toHaveBeenCalled();
 
       await userEvent.click(submitBtn);
 
+      const expectedPayload: DUserAccountDelete = {
+         password: value,
+      };
+
       await waitFor(() => {
          expect(mockDeleteAccount).toHaveBeenCalledTimes(1);
-         expect(mockDeleteAccount).toHaveBeenCalledWith(currntValue);
+         expect(mockDeleteAccount).toHaveBeenCalledWith(expectedPayload);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
       });
@@ -151,18 +156,22 @@ describe("DeleteAcount functionality tests", () => {
          expect(mockDeleteAccount).not.toHaveBeenCalled();
       });
 
-      const currntValue = "123456789";
+      const value = "123456789";
       const currentPassword = screen.getByTestId("password-input");
-      await userEvent.type(currentPassword, currntValue);
+      await userEvent.type(currentPassword, value);
 
-      expect(currentPassword).toHaveValue(currntValue);
+      expect(currentPassword).toHaveValue(value);
       expect(mockDeleteAccount).not.toHaveBeenCalled();
 
       await userEvent.click(submitBtn);
 
+      const expectedPayload: DUserAccountDelete = {
+         password: value,
+      };
+
       await waitFor(() => {
          expect(mockDeleteAccount).toHaveBeenCalledTimes(1);
-         expect(mockDeleteAccount).toHaveBeenCalledWith(currntValue);
+         expect(mockDeleteAccount).toHaveBeenCalledWith(expectedPayload);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
       });
