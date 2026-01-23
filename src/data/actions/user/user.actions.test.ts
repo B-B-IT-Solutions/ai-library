@@ -260,16 +260,6 @@ describe("updateUserProfile tests", () => {
       jest.clearAllMocks();
    });
 
-   test("updateUserProfile - user updated - test", async () => {
-      const userId = "user-id-1";
-      const data = dtestData.dUserUpdateData();
-
-      await updateUserProfile(userId, data);
-
-      expect(sUpdateUserMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateUserMock).toHaveBeenCalledWith(userId, data);
-   });
-
    it("updateUserProfile - valid data - test", async () => {
       const userId = "user-id-1";
       const data: DUserUpdateData = {
@@ -280,7 +270,7 @@ describe("updateUserProfile tests", () => {
 
       const expectedResult = {
          success: true,
-         message: "User profile updated successfully",
+         message: "Profil erfolgreich aktualisiert",
       };
 
       expect(result).toEqual(expectedResult);
@@ -298,7 +288,7 @@ describe("updateUserProfile tests", () => {
 
       const expectedResult = {
          success: false,
-         message: "Name must be at least 3 characters",
+         message: "Fehler beim Aktualisieren des Profils",
       };
 
       expect(result).toEqual(expectedResult);

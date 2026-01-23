@@ -7,13 +7,14 @@ import { assertInDocument, dtestData } from "@tests";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
-import { updateProfile } from "@/data/actions/user";
+import { updateUserProfile } from "@/data/actions/user";
+import { DUserUpdateData } from "@/data/types/domain/user";
 import { ActionResult } from "@/data/types/utils";
 
 import { UserProfile } from "./user-profile";
 
-const mockUpdateProfile = updateProfile as jest.MockedFunction<
-   typeof updateProfile
+const updateUserProfileMock = updateUserProfile as jest.MockedFunction<
+   typeof updateUserProfile
 >;
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
@@ -53,29 +54,33 @@ describe("UserProfile functionality tests", () => {
          success: true,
          message: "Profile updated",
       };
-      mockUpdateProfile.mockResolvedValue(result);
+      updateUserProfileMock.mockResolvedValue(result);
 
       const user = dtestData.dUser();
       render(<UserProfile user={user} />);
 
       await waitFor(() => {
          assertRendered();
-         expect(mockUpdateProfile).not.toHaveBeenCalled();
+         expect(updateUserProfileMock).not.toHaveBeenCalled();
       });
 
       const input = screen.getByTestId("name-input");
       await userEvent.type(input, " updated 1");
 
-      const expectedName = "name-1 updated 1";
-      expect(input).toHaveValue(expectedName);
-      expect(mockUpdateProfile).not.toHaveBeenCalled();
+      const name = "name-1 updated 1";
+      expect(input).toHaveValue(name);
+      expect(updateUserProfileMock).not.toHaveBeenCalled();
 
       const submitBtn = screen.getByTestId("submit-btn");
       await userEvent.click(submitBtn);
 
+      const expectPayload: DUserUpdateData = { name };
       await waitFor(() => {
-         expect(mockUpdateProfile).toHaveBeenCalledTimes(1);
-         expect(mockUpdateProfile).toHaveBeenCalledWith(expectedName);
+         expect(updateUserProfileMock).toHaveBeenCalledTimes(1);
+         expect(updateUserProfileMock).toHaveBeenCalledWith(
+            user.id,
+            expectPayload
+         );
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
          expect(mockRouter.refresh).toHaveBeenCalledTimes(1);
@@ -87,29 +92,34 @@ describe("UserProfile functionality tests", () => {
          success: false,
          message: "Profile couldn't be updated",
       };
-      mockUpdateProfile.mockResolvedValue(result);
+      updateUserProfileMock.mockResolvedValue(result);
 
       const user = dtestData.dUser();
       render(<UserProfile user={user} />);
 
       await waitFor(() => {
          assertRendered();
-         expect(mockUpdateProfile).not.toHaveBeenCalled();
+         expect(updateUserProfileMock).not.toHaveBeenCalled();
       });
 
       const input = screen.getByTestId("name-input");
       await userEvent.type(input, " updated 123");
 
-      const expectedName = "name-1 updated 123";
-      expect(input).toHaveValue(expectedName);
-      expect(mockUpdateProfile).not.toHaveBeenCalled();
+      const name = "name-1 updated 123";
+      expect(input).toHaveValue(name);
+      expect(updateUserProfileMock).not.toHaveBeenCalled();
 
       const submitBtn = screen.getByTestId("submit-btn");
       await userEvent.click(submitBtn);
 
+      const expectPayload: DUserUpdateData = { name };
+
       await waitFor(() => {
-         expect(mockUpdateProfile).toHaveBeenCalledTimes(1);
-         expect(mockUpdateProfile).toHaveBeenCalledWith(expectedName);
+         expect(updateUserProfileMock).toHaveBeenCalledTimes(1);
+         expect(updateUserProfileMock).toHaveBeenCalledWith(
+            user.id,
+            expectPayload
+         );
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
          expect(mockRouter.refresh).toHaveBeenCalledTimes(1);

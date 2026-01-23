@@ -98,10 +98,10 @@ export const updateUserProfile = async (
          success: true,
          message: "Profil erfolgreich aktualisiert",
       };
-   } catch (error) {
+   } catch {
       return {
          success: false,
-         message: formatError(error),
+         message: "Fehler beim Aktualisieren des Profils",
       };
    }
 };

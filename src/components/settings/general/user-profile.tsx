@@ -24,7 +24,7 @@ import {
    FormMessage,
 } from "@/components/shadcn/form";
 import { Input } from "@/components/shadcn/input";
-import { updateProfile } from "@/data/actions/user";
+import { updateUserProfile } from "@/data/actions/user";
 import { DUser, DUserUpdateData } from "@/data/types/domain/user";
 import { updateProfileSchema } from "@/data/types/validators/user";
 
@@ -47,7 +47,7 @@ export const UserProfile: FC<UserProfileProps> = ({ user }) => {
 
    const onSubmit: SubmitHandler<DUserUpdateData> = async (data) => {
       startTransition(async () => {
-         const result = await updateProfile(data.name);
+         const result = await updateUserProfile(user.id, data);
          if (result.success) {
             toast.success(result.message);
          } else {

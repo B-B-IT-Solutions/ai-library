@@ -48,11 +48,6 @@ export class UserService {
       await this.userRepository.pUpdateUser(userId, data);
    }
 
-   async updateProfile(name: string): Promise<User> {
-      const loginUser = await requireUser();
-      return await this.userRepository.pUpdateUser(loginUser.id, { name });
-   }
-
    async changePassword(
       userId: string,
       currentPassword: string,

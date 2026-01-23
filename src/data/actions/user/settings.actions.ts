@@ -15,29 +15,7 @@ import { ActionResult } from "@/data/types/utils";
 import {
    deleteAccountSchema,
    updatePasswordSchema,
-   updateProfileSchema,
 } from "@/data/types/validators/user";
-
-export const updateProfile = async (name: string): Promise<ActionResult> => {
-   try {
-      const validatedData = updateProfileSchema.parse({ name });
-      const userService = getUserService();
-      await userService.updateProfile(validatedData.name);
-
-      return {
-         success: true,
-         message: "Profil erfolgreich aktualisiert",
-      };
-   } catch (error) {
-      if (isRedirectError(error)) {
-         throw error;
-      }
-      return {
-         success: false,
-         message: "Fehler beim Aktualisieren des Profils",
-      };
-   }
-};
 
 export const updatePassword = async (
    data: DUserPasswordUpdate
