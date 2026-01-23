@@ -1,0 +1,21 @@
+import { FC } from "react";
+
+import { DUser } from "@/data/types/domain/user";
+
+import { AppearanceSection } from "./appearance";
+import { SecuritySection } from "./security";
+import { ProfileSection } from "./user-profile";
+
+type GeneralSettingsProps = {
+   user: DUser;
+};
+
+export const GeneralSettings: FC<GeneralSettingsProps> = ({ user }) => {
+   return (
+      <div data-testid="account-settings">
+         <ProfileSection user={user} />
+         <SecuritySection />
+         <AppearanceSection />
+      </div>
+   );
+};

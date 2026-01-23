@@ -39,7 +39,7 @@ type DeleteAccountFormData = {
    password: string;
 };
 
-export const DangerZoneSection = () => {
+export const DeleteAcount = () => {
    const [isOpen, setIsOpen] = useState(false);
    const [isPending, startTransition] = useTransition();
    const [showPassword, setShowPassword] = useState(false);
