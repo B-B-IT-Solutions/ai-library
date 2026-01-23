@@ -1,11 +1,13 @@
 import { requireUser } from "@/data/actions/auth-utils";
 import { formatError } from "@/data/actions/utils";
 import { UserRepository } from "@/data/repositories/user";
-import { DUserSignUp, DUserUpdateData } from "@/data/types/domain/user";
+import { DUser, DUserSignUp, DUserUpdateData } from "@/data/types/domain/user";
 import { ActionResult } from "@/data/types/utils";
 import { User } from "@/generated/prisma/client";
 import { UserCreateInput } from "@/generated/prisma/models";
 import { compare, hash } from "@/lib/encrypt";
+
+import { toDUser } from "./user.mapper";
 
 export class UserService {
    private userRepository: UserRepository;
@@ -25,12 +27,12 @@ export class UserService {
       return await this.userRepository.pCreateUser(newUser);
    }
 
-   async getUserById(userId: string): Promise<User> {
+   async getUserById(userId: string): Promise<DUser> {
       const user = await this.userRepository.pGetUserById(userId);
       if (!user) {
          throw new Error("User not found");
       }
-      return user;
+      return toDUser(user);
    }
 
    async getUserByEmail(email: string): Promise<User | null> {

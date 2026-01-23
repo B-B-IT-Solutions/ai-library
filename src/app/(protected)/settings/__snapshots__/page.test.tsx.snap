@@ -104,84 +104,87 @@ exports[`SettingsPage rendering tests SettingsPage - user retrieved - test 1`] =
                   class="space-y-6"
                 >
                   <div
-                    class="group/field-group @container/field-group flex w-full flex-col gap-7 data-[slot=checkbox-group]:gap-3 [&>[data-slot=field-group]]:gap-4"
-                    data-slot="field-group"
+                    class="grid gap-2"
+                    data-slot="form-item"
+                    data-testid="name"
                   >
-                    <div
-                      class="group/field flex w-full gap-3 data-[invalid=true]:text-destructive flex-col [&>*]:w-full [&>.sr-only]:w-auto"
-                      data-invalid="false"
-                      data-orientation="vertical"
-                      data-slot="field"
-                      data-testid="name"
-                      role="group"
+                    <label
+                      class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+                      data-error="false"
+                      data-slot="form-label"
+                      for="_r_0_-form-item"
                     >
-                      <label
-                        class="items-center select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 group/field-label peer/field-label flex w-fit gap-2 group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border [&>*]:data-[slot=field]:p-4 has-data-[state=checked]:bg-primary/5 has-data-[state=checked]:border-primary dark:has-data-[state=checked]:bg-primary/10 text-sm font-medium"
-                        data-slot="field-label"
-                        for="name"
-                      >
-                        Name
-                      </label>
+                      Name
+                    </label>
+                    <div
+                      aria-describedby="_r_0_-form-item-description"
+                      aria-invalid="false"
+                      class="relative"
+                      data-slot="form-control"
+                      id="_r_0_-form-item"
+                    >
                       <div
-                        class="relative"
+                        class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
                       >
-                        <div
-                          class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-user h-4 w-4"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
                         >
-                          <svg
-                            aria-hidden="true"
-                            class="lucide lucide-user h-4 w-4"
-                            fill="none"
-                            height="24"
-                            stroke="currentColor"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            viewBox="0 0 24 24"
-                            width="24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"
-                            />
-                            <circle
-                              cx="12"
-                              cy="7"
-                              r="4"
-                            />
-                          </svg>
-                        </div>
-                        <input
-                          aria-invalid="false"
-                          autocomplete="name"
-                          class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive pl-10 h-11"
-                          data-slot="input"
-                          data-testid="name-input"
-                          id="name"
-                          name="name"
-                          value="name-1"
-                        />
+                          <path
+                            d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"
+                          />
+                          <circle
+                            cx="12"
+                            cy="7"
+                            r="4"
+                          />
+                        </svg>
                       </div>
+                      <input
+                        aria-invalid="false"
+                        autocomplete="name"
+                        class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive pl-10 h-11"
+                        data-slot="input"
+                        data-testid="name-input"
+                        id="name"
+                        name="name"
+                        value="name-1"
+                      />
                     </div>
                   </div>
                   <div
-                    class="space-y-3"
+                    class="grid gap-2"
+                    data-slot="form-item"
                     data-testid="email"
                   >
                     <label
-                      class="items-center select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 group/field-label peer/field-label flex w-fit gap-2 group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border [&>*]:data-[slot=field]:p-4 has-data-[state=checked]:bg-primary/5 has-data-[state=checked]:border-primary dark:has-data-[state=checked]:bg-primary/10 text-sm font-medium"
-                      data-slot="field-label"
+                      class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+                      data-error="false"
+                      data-slot="form-label"
+                      for="_r_1_-form-item"
                     >
                       E-Mail-Adresse
                     </label>
                     <input
+                      aria-describedby="_r_1_-form-item-description"
+                      aria-invalid="false"
                       class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-11 bg-muted cursor-not-allowed"
-                      data-slot="input"
+                      data-slot="form-control"
                       disabled=""
+                      id="_r_1_-form-item"
                       value="test@email.com"
                     />
                     <p
-                      class="text-xs text-muted-foreground mt-1"
+                      class="text-xs text-muted-foreground"
                     >
                       Ihre E-Mail-Adresse kann nicht geändert werden
                     </p>
