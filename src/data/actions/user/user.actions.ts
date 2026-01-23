@@ -13,14 +13,14 @@ import {
    DUserUpdateData,
 } from "@/data/types/domain/user";
 import {
-   signInFormSchema,
-   signUpFormSchema,
+   signInSchema,
+   signUpSchema,
 } from "@/data/types/validators/user.schema";
 import { User } from "@/generated/prisma/client";
 
-export const signInWithCredentials = async (formData: DUserSignIn) => {
+export const signInWithCredentials = async (data: DUserSignIn) => {
    try {
-      const singInValues = signInFormSchema.parse(formData);
+      const singInValues = signInSchema.parse(data);
       await signIn("credentials", singInValues);
       return {
          success: true,
@@ -43,7 +43,7 @@ export const signOutUser = async () => {
 
 export const signUpUser = async (data: DUserSignUp) => {
    try {
-      const validatedData: DUserSignUp = signUpFormSchema.parse(data);
+      const validatedData: DUserSignUp = signUpSchema.parse(data);
 
       const service = getUserService();
       await service.signUpUser(validatedData);

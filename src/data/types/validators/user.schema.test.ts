@@ -1,11 +1,33 @@
 import { ZodError } from "zod";
 
-import { DUserSignUp } from "@/data/types/domain/user";
+import { DUserSignIn, DUserSignUp } from "@/data/types/domain/user";
 
-import { signUpFormSchema } from "./user.schema";
+import { signInSchema, signUpSchema } from "./user.schema";
 
-describe("signUpFormSchema tests", () => {
-   it("signUpFormSchema - form data valid - test", async () => {
+describe("signInSchema tests", () => {
+   it("signInSchema - data valid - test", async () => {
+      const formData: DUserSignIn = {
+         email: "test1@email.com",
+         password: "123456",
+      };
+
+      const validatedValues = signInSchema.parse(formData);
+      expect(validatedValues).toEqual(formData);
+   });
+
+   it("signInSchema - data invalid - test", async () => {
+      const formData: DUserSignIn = {
+         email: "email.com",
+         password: "123456",
+      };
+
+      const fn = () => signInSchema.parse(formData);
+      expect(fn).toThrow(ZodError);
+   });
+});
+
+describe("signUpSchema tests", () => {
+   it("signUpSchema - data valid - test", async () => {
       const formData: DUserSignUp = {
          name: "Test 1",
          email: "test1@email.com",
@@ -13,11 +35,11 @@ describe("signUpFormSchema tests", () => {
          confirmPassword: "123456",
       };
 
-      const validatedValues = signUpFormSchema.parse(formData);
+      const validatedValues = signUpSchema.parse(formData);
       expect(validatedValues).toEqual(formData);
    });
 
-   it("signUpFormSchema - form data invalid - test", async () => {
+   it("signUpSchema - data invalid - test", async () => {
       const formData: DUserSignUp = {
          name: "Test 1",
          email: "email.com",
@@ -25,7 +47,7 @@ describe("signUpFormSchema tests", () => {
          confirmPassword: "123",
       };
 
-      const fn = () => signUpFormSchema.parse(formData);
+      const fn = () => signUpSchema.parse(formData);
       expect(fn).toThrow(ZodError);
    });
 });

@@ -17,7 +17,7 @@ import {
 import { Input } from "@/components/shadcn/input";
 import { signInWithCredentials } from "@/data/actions/user";
 import { DUserSignIn } from "@/data/types/domain/user";
-import { signInFormSchema } from "@/data/types/validators/user.schema";
+import { signInSchema } from "@/data/types/validators/user.schema";
 
 export const CredentialsSignInForm = () => {
    const [showPassword, setShowPassword] = useState(false);
@@ -28,7 +28,7 @@ export const CredentialsSignInForm = () => {
       control,
       setError,
    } = useForm<DUserSignIn>({
-      resolver: zodResolver(signInFormSchema),
+      resolver: zodResolver(signInSchema),
       defaultValues: {
          email: "",
          password: "",
