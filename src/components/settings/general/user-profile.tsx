@@ -22,7 +22,7 @@ import {
    FieldLabel,
 } from "@/components/shadcn/field";
 import { Input } from "@/components/shadcn/input";
-import { updateProfile } from "@/data/actions/user/settings.actions";
+import { updateProfile } from "@/data/actions/user";
 import { DUser, DUserUpdateData } from "@/data/types/domain/user";
 import { updateProfileSchema } from "@/data/types/validators/user";
 
@@ -50,10 +50,10 @@ export const UserProfile: FC<UserProfileProps> = ({ user }) => {
          const result = await updateProfile(data.name);
          if (result.success) {
             toast.success(result.message);
-            router.refresh();
          } else {
             toast.error(result.message);
          }
+         router.refresh();
       });
    };
 
@@ -117,6 +117,7 @@ export const UserProfile: FC<UserProfileProps> = ({ user }) => {
                                  autoComplete="name"
                                  aria-invalid={fieldState.invalid}
                                  className="pl-10 h-11"
+                                 data-testid="name-input"
                               />
                            </div>
                            {fieldState.invalid && (

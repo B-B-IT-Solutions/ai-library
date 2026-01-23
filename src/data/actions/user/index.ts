@@ -6,3 +6,5 @@ export {
    signUpUser,
    updateUser,
 } from "./user.actions";
+
+export { updateProfile } from "./settings.actions";
