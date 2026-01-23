@@ -30,3 +30,25 @@ export const getPasswordStrength = (password: string): PasswordStrength => {
    }
    return "strong";
 };
+
+export const getStrengthColor = (strength: PasswordStrength) => {
+   switch (strength) {
+      case "weak":
+         return "bg-red-500";
+      case "medium":
+         return "bg-yellow-500";
+      case "strong":
+         return "bg-green-500";
+   }
+};
+
+export const getStrengthWidth = (strength: PasswordStrength) => {
+   switch (strength) {
+      case "weak":
+         return "w-1/3";
+      case "medium":
+         return "w-2/3";
+      case "strong":
+         return "w-full";
+   }
+};

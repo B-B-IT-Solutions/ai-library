@@ -24,7 +24,8 @@ import {
 import { Input } from "@/components/shadcn/input";
 import {
    getPasswordStrength,
-   PasswordStrength,
+   getStrengthColor,
+   getStrengthWidth,
 } from "@/components/shared/auth/utils";
 import { changePassword } from "@/data/actions/user/settings.actions";
 import { changePasswordSchema } from "@/data/types/validators/user";
@@ -79,28 +80,6 @@ export const UpdatePassword = () => {
             toast.error(result.message);
          }
       });
-   };
-
-   const getStrengthColor = (strength: PasswordStrength) => {
-      switch (strength) {
-         case "weak":
-            return "bg-red-500";
-         case "medium":
-            return "bg-yellow-500";
-         case "strong":
-            return "bg-green-500";
-      }
-   };
-
-   const getStrengthWidth = (strength: PasswordStrength) => {
-      switch (strength) {
-         case "weak":
-            return "w-1/3";
-         case "medium":
-            return "w-2/3";
-         case "strong":
-            return "w-full";
-      }
    };
 
    return (

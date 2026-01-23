@@ -19,7 +19,11 @@ import { signUpUser } from "@/data/actions/user";
 import { DUserSignUp } from "@/data/types/domain/user";
 import { signUpSchema } from "@/data/types/validators/user";
 
-import { getPasswordStrength, PasswordStrength } from "./utils";
+import {
+   getPasswordStrength,
+   getStrengthColor,
+   getStrengthWidth,
+} from "./utils";
 
 export const SignUpForm = () => {
    const [showPassword, setShowPassword] = useState(false);
@@ -66,28 +70,6 @@ export const SignUpForm = () => {
 
    const toggleConfirmPasswordVisibility = () => {
       setShowConfirmPassword(!showConfirmPassword);
-   };
-
-   const getStrengthColor = (strength: PasswordStrength) => {
-      switch (strength) {
-         case "weak":
-            return "bg-red-500";
-         case "medium":
-            return "bg-yellow-500";
-         case "strong":
-            return "bg-green-500";
-      }
-   };
-
-   const getStrengthWidth = (strength: PasswordStrength) => {
-      switch (strength) {
-         case "weak":
-            return "w-1/3";
-         case "medium":
-            return "w-2/3";
-         case "strong":
-            return "w-full";
-      }
    };
 
    return (
