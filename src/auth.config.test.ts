@@ -1,5 +1,4 @@
 jest.mock("@/data/services/user");
-jest.mock("@/data/actions/user");
 jest.mock("@/data/actions/cart");
 
 import { ntestData, ptestData } from "@tests";
@@ -12,7 +11,6 @@ import { JWT } from "next-auth/jwt";
 import { CredentialsConfig } from "next-auth/providers/credentials";
 
 import { migrateSessionCartToUser } from "@/data/actions/cart";
-import { updateUserProfile } from "@/data/actions/user";
 import { UserService } from "@/data/services/user";
 
 import { authConfig } from "./auth.config";
@@ -24,12 +22,11 @@ type CredentialsConfigExtended = CredentialsConfig & {
 };
 
 const sSingInUser = UserService.prototype.singInUser;
+const sUpdateUser = UserService.prototype.updateUser;
 
 const sSingInUserMock = sSingInUser as jest.MockedFunction<typeof sSingInUser>;
 
-const updateUserMock = updateUserProfile as jest.MockedFunction<
-   typeof updateUserProfile
->;
+const sUpdateUserMock = sUpdateUser as jest.MockedFunction<typeof sUpdateUser>;
 
 const migrateSessionCartToUserMock =
    migrateSessionCartToUser as jest.MockedFunction<
@@ -388,8 +385,8 @@ describe("auth.config - callback.jwt - tests", () => {
       });
 
       expect(result!.name).toBe("test");
-      expect(updateUserMock).toHaveBeenCalledTimes(1);
-      expect(updateUserMock).toHaveBeenCalledWith(user.id, { name: "test" });
+      expect(sUpdateUserMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateUserMock).toHaveBeenCalledWith(user.id, { name: "test" });
    });
 
    it("jwt - trigger signIn - sessionCartId defined - test", async () => {

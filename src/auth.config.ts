@@ -5,11 +5,10 @@ import type { NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import { migrateSessionCartToUser } from "@/data/actions/cart";
-import { updateUserProfile } from "@/data/actions/user";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
-import { DUserSignIn } from "@/data/types/domain/user";
+import { DUserSignIn, DUserUpdateData } from "@/data/types/domain/user";
 
 export const authConfig: NextAuthConfig = {
    pages: {
@@ -110,8 +109,12 @@ export const authConfig: NextAuthConfig = {
 
                // Update database to reflect the token name
                const userId = user.id as string;
-               const data = { name: token.name };
-               await updateUserProfile(userId, data);
+               const data: DUserUpdateData = {
+                  name: token.name,
+               };
+
+               const userService = getUserService();
+               await userService.updateUser(userId, data);
             }
 
             if (trigger === "signIn" || trigger === "signUp") {
