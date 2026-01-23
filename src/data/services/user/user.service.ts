@@ -1,9 +1,10 @@
 import { requireUser } from "@/data/actions/auth-utils";
 import { formatError } from "@/data/actions/utils";
 import { UserRepository } from "@/data/repositories/user";
-import { DUserUpdateData } from "@/data/types/domain/user";
+import { DUserSignUp, DUserUpdateData } from "@/data/types/domain/user";
 import { ActionResult } from "@/data/types/utils";
-import { Prisma, User } from "@/generated/prisma/client";
+import { User } from "@/generated/prisma/client";
+import { UserCreateInput } from "@/generated/prisma/models";
 import { compare, hash } from "@/lib/encrypt";
 
 export class UserService {
@@ -13,36 +14,15 @@ export class UserService {
       this.userRepository = userRepository;
    }
 
-   async signUpUser(
-      name: string,
-      email: string,
-      password: string
-   ): Promise<ActionResult<{ user: User; plainPassword: string }>> {
-      try {
-         const hashedPassword = await hash(password);
+   async signUpUser(data: DUserSignUp): Promise<User> {
+      const hashedPassword = await hash(data.password);
 
-         const newUser: Prisma.UserCreateInput = {
-            name,
-            email,
-            password: hashedPassword,
-         };
-
-         const user = await this.userRepository.pCreateUser(newUser);
-
-         return {
-            success: true,
-            message: "User registered successfully",
-            data: {
-               user,
-               plainPassword: password,
-            },
-         };
-      } catch (error) {
-         return {
-            success: false,
-            message: formatError(error),
-         };
-      }
+      const newUser: UserCreateInput = {
+         name: data.name,
+         email: data.email,
+         password: hashedPassword,
+      };
+      return await this.userRepository.pCreateUser(newUser);
    }
 
    async getUserById(userId: string): Promise<User> {

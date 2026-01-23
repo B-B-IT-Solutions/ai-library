@@ -6,7 +6,7 @@ import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 import { signIn, signOut } from "@/auth";
 import { UserRepository } from "@/data/repositories/user";
-import { DSignInFormData, DSignUpFormData } from "@/data/types/domain/user";
+import { DUserSignIn, DUserSignUp } from "@/data/types/domain/user";
 import { Prisma } from "@/generated/prisma/client";
 import { hash } from "@/lib/encrypt";
 
@@ -44,7 +44,7 @@ describe("signInWithCredentials tests", () => {
    });
 
    it("signInWithCredentials - valid email/password - test", async () => {
-      const formData: DSignInFormData = {
+      const formData: DUserSignIn = {
          email: "test1@email.com",
          password: "password123",
       };
@@ -62,7 +62,7 @@ describe("signInWithCredentials tests", () => {
    });
 
    it("signInWithCredentials - invalid email/password - test", async () => {
-      const formData: DSignInFormData = {
+      const formData: DUserSignIn = {
          email: "test1email.com",
          password: "p123",
       };
@@ -80,7 +80,7 @@ describe("signInWithCredentials tests", () => {
    });
 
    it("signInWithCredentials - redirect error - test", async () => {
-      const formData: DSignInFormData = {
+      const formData: DUserSignIn = {
          email: "test1@email.com",
          password: "password123",
       };
@@ -114,7 +114,7 @@ describe("signUpUser tests", () => {
    });
 
    it("signUpUser - valid form values - test", async () => {
-      const formData: DSignUpFormData = {
+      const formData: DUserSignUp = {
          name: "Test 1",
          email: "test1@email.com",
          password: "123456",
@@ -148,7 +148,7 @@ describe("signUpUser tests", () => {
    });
 
    it("signUpUser - invalid form values - test", async () => {
-      const formData: DSignUpFormData = {
+      const formData: DUserSignUp = {
          name: "Test 1",
          email: "email.com",
          password: "123456",
@@ -170,7 +170,7 @@ describe("signUpUser tests", () => {
    });
 
    it("signUpUser - redirect error - test", async () => {
-      const signUpData: DSignUpFormData = {
+      const signUpData: DUserSignUp = {
          name: "Test 1",
          email: "test1@email.com",
          password: "123456",

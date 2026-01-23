@@ -110,12 +110,12 @@ export const DangerZoneSection = () => {
                                  Sind Sie absolut sicher?
                               </AlertDialogTitle>
                               <AlertDialogDescription className="space-y-3">
-                                 <p>
+                                 <div>
                                     Diese Aktion kann nicht rückgängig gemacht
                                     werden. Ihr Konto, alle Bestellungen und
                                     Bibliothekseinträge werden dauerhaft
                                     gelöscht.
-                                 </p>
+                                 </div>
                                  <div className="bg-destructive/10 border border-destructive/20 rounded-md p-3">
                                     <p className="text-sm font-medium text-destructive">
                                        Warnung: Dies ist eine dauerhafte

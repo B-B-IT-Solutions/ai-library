@@ -1,12 +1,12 @@
 import { ZodError } from "zod";
 
-import { DSignUpFormData } from "@/data/types/domain/user";
+import { DUserSignUp } from "@/data/types/domain/user";
 
 import { signUpFormSchema } from "./user.schema";
 
 describe("signUpFormSchema tests", () => {
    it("signUpFormSchema - form data valid - test", async () => {
-      const formData: DSignUpFormData = {
+      const formData: DUserSignUp = {
          name: "Test 1",
          email: "test1@email.com",
          password: "123456",
@@ -18,7 +18,7 @@ describe("signUpFormSchema tests", () => {
    });
 
    it("signUpFormSchema - form data invalid - test", async () => {
-      const formData: DSignUpFormData = {
+      const formData: DUserSignUp = {
          name: "Test 1",
          email: "email.com",
          password: "123456",

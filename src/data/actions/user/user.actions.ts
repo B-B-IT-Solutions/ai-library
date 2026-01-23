@@ -8,8 +8,8 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
-   DSignInFormData,
-   DSignUpFormData,
+   DUserSignIn,
+   DUserSignUp,
    DUserUpdateData,
 } from "@/data/types/domain/user";
 import {
@@ -18,7 +18,7 @@ import {
 } from "@/data/types/validators/user.schema";
 import { User } from "@/generated/prisma/client";
 
-export const signInWithCredentials = async (formData: DSignInFormData) => {
+export const signInWithCredentials = async (formData: DUserSignIn) => {
    try {
       const singInValues = signInFormSchema.parse(formData);
       await signIn("credentials", singInValues);
@@ -41,24 +41,16 @@ export const signOutUser = async () => {
    await signOut({ redirectTo: "/p" });
 };
 
-export const signUpUser = async (formData: DSignUpFormData) => {
+export const signUpUser = async (data: DUserSignUp) => {
    try {
-      const singUpValues = signUpFormSchema.parse(formData);
+      const validatedData: DUserSignUp = signUpFormSchema.parse(data);
 
       const service = getUserService();
-      const result = await service.signUpUser(
-         singUpValues.name,
-         singUpValues.email,
-         singUpValues.password
-      );
-
-      if (!result.success || !result.data) {
-         return result;
-      }
+      await service.signUpUser(validatedData);
 
       await signIn("credentials", {
-         email: formData.email,
-         password: formData.password,
+         email: data.email,
+         password: data.password,
       });
 
       return {

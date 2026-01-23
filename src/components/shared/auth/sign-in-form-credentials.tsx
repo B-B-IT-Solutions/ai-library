@@ -16,7 +16,7 @@ import {
 } from "@/components/shadcn/field";
 import { Input } from "@/components/shadcn/input";
 import { signInWithCredentials } from "@/data/actions/user";
-import { DSignInFormData } from "@/data/types/domain/user";
+import { DUserSignIn } from "@/data/types/domain/user";
 import { signInFormSchema } from "@/data/types/validators/user.schema";
 
 export const CredentialsSignInForm = () => {
@@ -27,7 +27,7 @@ export const CredentialsSignInForm = () => {
       formState: { isSubmitting, errors },
       control,
       setError,
-   } = useForm<DSignInFormData>({
+   } = useForm<DUserSignIn>({
       resolver: zodResolver(signInFormSchema),
       defaultValues: {
          email: "",
@@ -38,7 +38,7 @@ export const CredentialsSignInForm = () => {
    const searchParams = useSearchParams();
    const callbackUrl = searchParams.get("callbackUrl") || "/";
 
-   const onSubmit: SubmitHandler<DSignInFormData> = async (data) => {
+   const onSubmit: SubmitHandler<DUserSignIn> = async (data) => {
       const result = await signInWithCredentials(data);
       if (!result.success) {
          setError("root.serverError", {
@@ -139,7 +139,9 @@ export const CredentialsSignInForm = () => {
                            onClick={togglePasswordVisibility}
                            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded p-0.5"
                            aria-label={
-                              showPassword ? "Passwort verbergen" : "Passwort anzeigen"
+                              showPassword
+                                 ? "Passwort verbergen"
+                                 : "Passwort anzeigen"
                            }
                            data-testid="toggle-password-visibility"
                         >
