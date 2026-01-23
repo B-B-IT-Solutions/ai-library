@@ -145,11 +145,18 @@ export const UpdatePassword = () => {
                                           ? "Passwort verbergen"
                                           : "Passwort anzeigen"
                                     }
+                                    data-testid="currentPassword-visibility-btn"
                                  >
                                     {showCurrentPassword ? (
-                                       <EyeOff className="h-4 w-4" />
+                                       <EyeOff
+                                          className="h-4 w-4"
+                                          data-testid="eye-off-icon"
+                                       />
                                     ) : (
-                                       <Eye className="h-4 w-4" />
+                                       <Eye
+                                          className="h-4 w-4"
+                                          data-testid="eye-icon"
+                                       />
                                     )}
                                  </button>
                               </div>
@@ -194,11 +201,18 @@ export const UpdatePassword = () => {
                                              ? "Passwort verbergen"
                                              : "Passwort anzeigen"
                                        }
+                                       data-testid="newPassword-visibility-btn"
                                     >
                                        {showNewPassword ? (
-                                          <EyeOff className="h-4 w-4" />
+                                          <EyeOff
+                                             className="h-4 w-4"
+                                             data-testid="eye-off-icon"
+                                          />
                                        ) : (
-                                          <Eye className="h-4 w-4" />
+                                          <Eye
+                                             className="h-4 w-4"
+                                             data-testid="eye-icon"
+                                          />
                                        )}
                                     </button>
                                  </div>
@@ -265,11 +279,18 @@ export const UpdatePassword = () => {
                                           ? "Passwort verbergen"
                                           : "Passwort anzeigen"
                                     }
+                                    data-testid="confirmPassword-visibility-btn"
                                  >
                                     {showConfirmPassword ? (
-                                       <EyeOff className="h-4 w-4" />
+                                       <EyeOff
+                                          className="h-4 w-4"
+                                          data-testid="eye-off-icon"
+                                       />
                                     ) : (
-                                       <Eye className="h-4 w-4" />
+                                       <Eye
+                                          className="h-4 w-4"
+                                          data-testid="eye-icon"
+                                       />
                                     )}
                                  </button>
                               </div>

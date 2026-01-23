@@ -1,9 +1,9 @@
 jest.mock("@/data/actions/user");
 jest.mock("sonner");
 
-import { render, screen, waitFor } from "@testing-library/react";
+import { getByTestId, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument } from "@tests";
+import { assertHasAttributeWithValue, assertInDocument } from "@tests";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
@@ -30,6 +30,24 @@ const assertRendered = () => {
    assertInDocument(newPassword);
    assertInDocument(confirmPassword);
    assertInDocument(submitBtn);
+};
+
+const assertPasswordVisible = (field: string) => {
+   const passwordField = screen.getByTestId(field);
+   const passwordInput = screen.getByTestId(`${field}-input`);
+   const icon = getByTestId(passwordField, "eye-off-icon");
+
+   assertHasAttributeWithValue(passwordInput, "type", "text");
+   assertInDocument(icon);
+};
+
+const assertPasswordNotVisible = (field: string) => {
+   const passwordField = screen.getByTestId(field);
+   const passwordInput = screen.getByTestId(`${field}-input`);
+   const icon = getByTestId(passwordField, "eye-icon");
+
+   assertHasAttributeWithValue(passwordInput, "type", "password");
+   assertInDocument(icon);
 };
 
 describe("UpdatePassword rendering tests", () => {
@@ -178,6 +196,73 @@ describe("UpdatePassword functionality tests", () => {
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
          expect(mockRouter.pathname).toEqual("/");
+      });
+   });
+
+   it("UpdatePassword - show password btns clicked - test", async () => {
+      render(<UpdatePassword />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertPasswordNotVisible("currentPassword");
+         assertPasswordNotVisible("newPassword");
+         assertPasswordNotVisible("confirmPassword");
+         expect(mokcUpdatePassword).not.toHaveBeenCalled();
+      });
+
+      const currntValue = "123456789";
+      const currentPassword = screen.getByTestId("currentPassword-input");
+      await userEvent.type(currentPassword, currntValue);
+
+      expect(currentPassword).toHaveValue(currntValue);
+      expect(mokcUpdatePassword).not.toHaveBeenCalled();
+
+      const newValue = "pwd789456";
+      const newPassword = screen.getByTestId("newPassword-input");
+      await userEvent.type(newPassword, newValue);
+
+      expect(newPassword).toHaveValue(newValue);
+      expect(mokcUpdatePassword).not.toHaveBeenCalled();
+
+      const confirmPassword = screen.getByTestId("confirmPassword-input");
+      await userEvent.type(confirmPassword, newValue);
+
+      expect(confirmPassword).toHaveValue(newValue);
+      expect(mokcUpdatePassword).not.toHaveBeenCalled();
+
+      const showCurrentBtn = screen.getByTestId(
+         "currentPassword-visibility-btn"
+      );
+      userEvent.click(showCurrentBtn);
+
+      await waitFor(() => {
+         assertPasswordVisible("currentPassword");
+         assertPasswordNotVisible("newPassword");
+         assertPasswordNotVisible("confirmPassword");
+      });
+
+      userEvent.click(showCurrentBtn);
+
+      const showNewBtn = screen.getByTestId("newPassword-visibility-btn");
+      userEvent.click(showNewBtn);
+
+      await waitFor(() => {
+         assertPasswordVisible("newPassword");
+         assertPasswordNotVisible("currentPassword");
+         assertPasswordNotVisible("confirmPassword");
+      });
+
+      userEvent.click(showNewBtn);
+
+      const showConfirmBtn = screen.getByTestId(
+         "confirmPassword-visibility-btn"
+      );
+      userEvent.click(showConfirmBtn);
+
+      await waitFor(() => {
+         assertPasswordVisible("confirmPassword");
+         assertPasswordNotVisible("currentPassword");
+         assertPasswordNotVisible("newPassword");
       });
    });
 });
