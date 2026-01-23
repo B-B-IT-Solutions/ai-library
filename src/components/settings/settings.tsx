@@ -10,7 +10,7 @@ import {
    DangerZoneSection,
    ProfileSection,
    SecuritySection,
-} from "./components";
+} from "./sections";
 
 type SettingsProps = {
    user: DUser;
