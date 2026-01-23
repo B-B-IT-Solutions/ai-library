@@ -130,6 +130,7 @@ export const UpdatePassword = () => {
                                     autoComplete="current-password"
                                     aria-invalid={fieldState.invalid}
                                     className="pl-10 pr-10 h-11"
+                                    data-testid="currentPassword-input"
                                  />
                                  <button
                                     type="button"
@@ -180,6 +181,7 @@ export const UpdatePassword = () => {
                                        autoComplete="new-password"
                                        aria-invalid={fieldState.invalid}
                                        className="pl-10 pr-10 h-11"
+                                       data-testid="newPassword-input"
                                     />
                                     <button
                                        type="button"
@@ -248,6 +250,7 @@ export const UpdatePassword = () => {
                                     autoComplete="new-password"
                                     aria-invalid={fieldState.invalid}
                                     className="pl-10 pr-10 h-11"
+                                    data-testid="confirmPassword-input"
                                  />
                                  <button
                                     type="button"

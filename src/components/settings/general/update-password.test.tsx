@@ -4,9 +4,11 @@ jest.mock("sonner");
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument } from "@tests";
+import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
 import { updatePassword } from "@/data/actions/user";
+import { DUserPasswordUpdate } from "@/data/types/domain/user";
 
 import { UpdatePassword } from "./update-password";
 
@@ -42,7 +44,12 @@ describe("UpdatePassword rendering tests", () => {
 });
 
 describe("UpdatePassword functionality tests", () => {
-   it("UpdatePassword - submit failed - missing data - test", async () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      mockRouter.push("/");
+   });
+
+   it("UpdatePassword - submit btn clicked - missing data - test", async () => {
       render(<UpdatePassword />);
 
       await waitFor(() => {
@@ -55,6 +62,122 @@ describe("UpdatePassword functionality tests", () => {
 
       await waitFor(() => {
          expect(mokcUpdatePassword).not.toHaveBeenCalled();
+      });
+   });
+
+   it("UpdatePassword - submit btn clicked - success true - test", async () => {
+      const result = {
+         success: true,
+         message: "Password updated",
+      };
+      mokcUpdatePassword.mockResolvedValue(result);
+
+      render(<UpdatePassword />);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(mokcUpdatePassword).not.toHaveBeenCalled();
+      });
+
+      const submitBtn = screen.getByTestId("submit-btn");
+      await userEvent.click(submitBtn);
+
+      await waitFor(() => {
+         expect(mokcUpdatePassword).not.toHaveBeenCalled();
+      });
+
+      const currntValue = "123456789";
+      const currentPassword = screen.getByTestId("currentPassword-input");
+      await userEvent.type(currentPassword, currntValue);
+
+      expect(currentPassword).toHaveValue(currntValue);
+      expect(mokcUpdatePassword).not.toHaveBeenCalled();
+
+      const newValue = "pwd789456";
+      const newPassword = screen.getByTestId("newPassword-input");
+      await userEvent.type(newPassword, newValue);
+
+      expect(newPassword).toHaveValue(newValue);
+      expect(mokcUpdatePassword).not.toHaveBeenCalled();
+
+      const confirmPassword = screen.getByTestId("confirmPassword-input");
+      await userEvent.type(confirmPassword, newValue);
+
+      expect(confirmPassword).toHaveValue(newValue);
+      expect(mokcUpdatePassword).not.toHaveBeenCalled();
+
+      userEvent.click(submitBtn);
+
+      const expectedData: DUserPasswordUpdate = {
+         currentPassword: currntValue,
+         newPassword: newValue,
+         confirmPassword: newValue,
+      };
+
+      await waitFor(() => {
+         expect(mokcUpdatePassword).toHaveBeenCalledTimes(1);
+         expect(mokcUpdatePassword).toHaveBeenCalledWith(expectedData);
+         expect(toastMock.success).toHaveBeenCalledTimes(1);
+         expect(toastMock.success).toHaveBeenCalledWith(result.message);
+         expect(mockRouter.pathname).toEqual("/sign-in");
+      });
+   });
+
+   it("UpdatePassword - submit btn clicked - success false - test", async () => {
+      const result = {
+         success: false,
+         message: "Password couldn't be updated",
+      };
+      mokcUpdatePassword.mockResolvedValue(result);
+
+      render(<UpdatePassword />);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(mokcUpdatePassword).not.toHaveBeenCalled();
+      });
+
+      const submitBtn = screen.getByTestId("submit-btn");
+      await userEvent.click(submitBtn);
+
+      await waitFor(() => {
+         expect(mokcUpdatePassword).not.toHaveBeenCalled();
+      });
+
+      const currntValue = "123456";
+      const currentPassword = screen.getByTestId("currentPassword-input");
+      await userEvent.type(currentPassword, currntValue);
+
+      expect(currentPassword).toHaveValue(currntValue);
+      expect(mokcUpdatePassword).not.toHaveBeenCalled();
+
+      const newValue = "pwd997899";
+      const newPassword = screen.getByTestId("newPassword-input");
+      await userEvent.type(newPassword, newValue);
+
+      expect(newPassword).toHaveValue(newValue);
+      expect(mokcUpdatePassword).not.toHaveBeenCalled();
+
+      const confirmPassword = screen.getByTestId("confirmPassword-input");
+      await userEvent.type(confirmPassword, newValue);
+
+      expect(confirmPassword).toHaveValue(newValue);
+      expect(mokcUpdatePassword).not.toHaveBeenCalled();
+
+      userEvent.click(submitBtn);
+
+      const expectedData: DUserPasswordUpdate = {
+         currentPassword: currntValue,
+         newPassword: newValue,
+         confirmPassword: newValue,
+      };
+
+      await waitFor(() => {
+         expect(mokcUpdatePassword).toHaveBeenCalledTimes(1);
+         expect(mokcUpdatePassword).toHaveBeenCalledWith(expectedData);
+         expect(toastMock.error).toHaveBeenCalledTimes(1);
+         expect(toastMock.error).toHaveBeenCalledWith(result.message);
+         expect(mockRouter.pathname).toEqual("/");
       });
    });
 });
