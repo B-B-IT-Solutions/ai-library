@@ -24,13 +24,13 @@ import {
 import { Input } from "@/components/shadcn/input";
 import { updateProfile } from "@/data/actions/user/settings.actions";
 import { DUser, DUserUpdateData } from "@/data/types/domain/user";
-import { updateProfileSchema } from "@/data/types/validators/settings.schema";
+import { updateProfileSchema } from "@/data/types/validators/user";
 
-type ProfileSectionProps = {
+type UserProfileProps = {
    user: DUser;
 };
 
-export const ProfileSection: FC<ProfileSectionProps> = ({ user }) => {
+export const UserProfile: FC<UserProfileProps> = ({ user }) => {
    const router = useRouter();
    const [isPending, startTransition] = useTransition();
 

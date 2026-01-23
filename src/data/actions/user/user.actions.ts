@@ -13,10 +13,7 @@ import {
    DUserSignUp,
    DUserUpdateData,
 } from "@/data/types/domain/user";
-import {
-   signInSchema,
-   signUpSchema,
-} from "@/data/types/validators/user.schema";
+import { signInSchema, signUpSchema } from "@/data/types/validators/user";
 import { User } from "@/generated/prisma/client";
 
 export const signUpUser = async (data: DUserSignUp) => {

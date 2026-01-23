@@ -17,7 +17,7 @@ import {
 import { Input } from "@/components/shadcn/input";
 import { signUpUser } from "@/data/actions/user";
 import { DUserSignUp } from "@/data/types/domain/user";
-import { signUpSchema } from "@/data/types/validators/user.schema";
+import { signUpSchema } from "@/data/types/validators/user";
 
 import { getPasswordStrength, PasswordStrength } from "./utils";
 

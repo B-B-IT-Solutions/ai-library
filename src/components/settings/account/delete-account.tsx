@@ -32,7 +32,7 @@ import {
 } from "@/components/shadcn/field";
 import { Input } from "@/components/shadcn/input";
 import { deleteAccount } from "@/data/actions/user/settings.actions";
-import { deleteAccountSchema } from "@/data/types/validators/settings.schema";
+import { deleteAccountSchema } from "@/data/types/validators/user";
 
 type DeleteAccountFormData = {
    password: string;

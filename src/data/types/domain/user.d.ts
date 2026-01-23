@@ -1,9 +1,6 @@
 import z from "zod";
 
-import {
-   signInSchema,
-   signUpSchema,
-} from "@/data/types/validators/user.schema";
+import { signInSchema, signUpSchema } from "@/data/types/validators/user";
 
 export type DUserSignIn = z.infer<typeof signInSchema>;
 

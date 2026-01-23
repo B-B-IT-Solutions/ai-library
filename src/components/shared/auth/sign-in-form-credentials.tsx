@@ -17,7 +17,7 @@ import {
 import { Input } from "@/components/shadcn/input";
 import { signInWithCredentials } from "@/data/actions/user";
 import { DUserSignIn } from "@/data/types/domain/user";
-import { signInSchema } from "@/data/types/validators/user.schema";
+import { signInSchema } from "@/data/types/validators/user";
 
 export const CredentialsSignInForm = () => {
    const [showPassword, setShowPassword] = useState(false);

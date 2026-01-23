@@ -12,7 +12,7 @@ import {
    changePasswordSchema,
    deleteAccountSchema,
    updateProfileSchema,
-} from "@/data/types/validators/settings.schema";
+} from "@/data/types/validators/user";
 
 export const updateProfile = async (name: string): Promise<ActionResult> => {
    try {

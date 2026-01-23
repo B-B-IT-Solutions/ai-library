@@ -27,7 +27,7 @@ import {
    PasswordStrength,
 } from "@/components/shared/auth/utils";
 import { changePassword } from "@/data/actions/user/settings.actions";
-import { changePasswordSchema } from "@/data/types/validators/settings.schema";
+import { changePasswordSchema } from "@/data/types/validators/user";
 
 type ChangePasswordFormData = {
    currentPassword: string;
