@@ -1,6 +1,10 @@
 import z from "zod";
 
-import { signInSchema, signUpSchema } from "@/data/types/validators/user";
+import {
+   signInSchema,
+   signUpSchema,
+   updatePasswordSchema,
+} from "@/data/types/validators/user";
 
 export type DUserSignIn = z.infer<typeof signInSchema>;
 
@@ -18,3 +22,5 @@ export type DUser = {
    updatedAt: string;
    createdAt: string;
 };
+
+export type DUserPasswordUpdate = z.infer<typeof updatePasswordSchema>;

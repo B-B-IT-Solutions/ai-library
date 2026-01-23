@@ -23,7 +23,7 @@ export const updateProfileSchema = z.object({
    name: z.string().min(3, "Name must be at least 3 characters"),
 });
 
-export const changePasswordSchema = z
+export const updatePasswordSchema = z
    .object({
       currentPassword: z.string().min(1, "Aktuelles Passwort ist erforderlich"),
       newPassword: z

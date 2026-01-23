@@ -2,6 +2,6 @@ export {
    signInSchema,
    signUpSchema,
    updateProfileSchema,
-   changePasswordSchema,
+   updatePasswordSchema,
    deleteAccountSchema,
 } from "./user.schema";

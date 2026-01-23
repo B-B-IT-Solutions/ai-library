@@ -28,13 +28,8 @@ import {
    getStrengthWidth,
 } from "@/components/shared/auth/utils";
 import { changePassword } from "@/data/actions/user/settings.actions";
-import { changePasswordSchema } from "@/data/types/validators/user";
-
-type ChangePasswordFormData = {
-   currentPassword: string;
-   newPassword: string;
-   confirmPassword: string;
-};
+import { DUserPasswordUpdate } from "@/data/types/domain/user";
+import { updatePasswordSchema } from "@/data/types/validators/user";
 
 export const UpdatePassword = () => {
    const router = useRouter();
@@ -49,8 +44,8 @@ export const UpdatePassword = () => {
       control,
       reset,
       watch,
-   } = useForm<ChangePasswordFormData>({
-      resolver: zodResolver(changePasswordSchema),
+   } = useForm<DUserPasswordUpdate>({
+      resolver: zodResolver(updatePasswordSchema),
       defaultValues: {
          currentPassword: "",
          newPassword: "",
@@ -64,7 +59,7 @@ export const UpdatePassword = () => {
       [newPassword]
    );
 
-   const onSubmit: SubmitHandler<ChangePasswordFormData> = async (data) => {
+   const onSubmit: SubmitHandler<DUserPasswordUpdate> = async (data) => {
       startTransition(async () => {
          const result = await changePassword(
             data.currentPassword,

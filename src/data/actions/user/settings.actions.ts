@@ -9,8 +9,8 @@ import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import { ActionResult } from "@/data/types/utils";
 import {
-   changePasswordSchema,
    deleteAccountSchema,
+   updatePasswordSchema,
    updateProfileSchema,
 } from "@/data/types/validators/user";
 
@@ -49,7 +49,7 @@ export const changePassword = async (
          };
       }
 
-      const validatedData = changePasswordSchema.parse({
+      const validatedData = updatePasswordSchema.parse({
          currentPassword,
          newPassword,
          confirmPassword,

@@ -1,8 +1,16 @@
 import { ZodError } from "zod";
 
-import { DUserSignIn, DUserSignUp } from "@/data/types/domain/user";
+import {
+   DUserPasswordUpdate,
+   DUserSignIn,
+   DUserSignUp,
+} from "@/data/types/domain/user";
 
-import { signInSchema, signUpSchema } from "./user.schema";
+import {
+   signInSchema,
+   signUpSchema,
+   updatePasswordSchema,
+} from "./user.schema";
 
 describe("signInSchema tests", () => {
    it("signInSchema - data valid - test", async () => {
@@ -48,6 +56,52 @@ describe("signUpSchema tests", () => {
       };
 
       const fn = () => signUpSchema.parse(formData);
+      expect(fn).toThrow(ZodError);
+   });
+});
+
+describe("updatePasswordSchema tests", () => {
+   it("updatePasswordSchema - data valid - test", async () => {
+      const formData: DUserPasswordUpdate = {
+         currentPassword: "123456",
+         newPassword: "789456",
+         confirmPassword: "789456",
+      };
+
+      const validatedValues = updatePasswordSchema.parse(formData);
+      expect(validatedValues).toEqual(formData);
+   });
+
+   it("updatePasswordSchema - data invalid - password not updated - test", async () => {
+      const formData: DUserPasswordUpdate = {
+         currentPassword: "123456",
+         newPassword: "123456",
+         confirmPassword: "123456",
+      };
+
+      const fn = () => updatePasswordSchema.parse(formData);
+      expect(fn).toThrow(ZodError);
+   });
+
+   it("updatePasswordSchema - data invalid - passwords different - test", async () => {
+      const formData: DUserPasswordUpdate = {
+         currentPassword: "123456",
+         newPassword: "789456",
+         confirmPassword: "123456",
+      };
+
+      const fn = () => updatePasswordSchema.parse(formData);
+      expect(fn).toThrow(ZodError);
+   });
+
+   it("updatePasswordSchema - data invalid - password not long enough - test", async () => {
+      const formData: DUserPasswordUpdate = {
+         currentPassword: "123456",
+         newPassword: "78945",
+         confirmPassword: "78945",
+      };
+
+      const fn = () => updatePasswordSchema.parse(formData);
       expect(fn).toThrow(ZodError);
    });
 });
