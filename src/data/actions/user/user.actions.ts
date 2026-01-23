@@ -3,20 +3,25 @@
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 import { signIn, signOut } from "@/auth";
+import { requireUser } from "@/data/actions/auth-utils";
 import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
    DUser,
+   DUserAccountDelete,
+   DUserPasswordUpdate,
    DUserSignIn,
    DUserSignUp,
    DUserUpdateData,
 } from "@/data/types/domain/user";
 import { ActionResult } from "@/data/types/utils";
 import {
+   deleteAccountSchema,
    signInSchema,
    signUpSchema,
+   updatePasswordSchema,
    updateProfileSchema,
 } from "@/data/types/validators/user";
 
@@ -102,6 +107,60 @@ export const updateUserProfile = async (
       return {
          success: false,
          message: "Fehler beim Aktualisieren des Profils",
+      };
+   }
+};
+
+export const updatePassword = async (
+   data: DUserPasswordUpdate
+): Promise<ActionResult> => {
+   try {
+      const user = await requireUser();
+      const validatedData = updatePasswordSchema.parse(data);
+
+      const userService = getUserService();
+      await userService.changePassword(user.id, validatedData);
+
+      await signOut({ redirect: false });
+
+      return {
+         success: true,
+         message: "Passwort erfolgreich geändert",
+      };
+   } catch (error) {
+      if (isRedirectError(error)) {
+         throw error;
+      }
+      return {
+         success: false,
+         message: "Fehler beim Ändern des Passworts",
+      };
+   }
+};
+
+export const deleteAccount = async (
+   data: DUserAccountDelete
+): Promise<ActionResult> => {
+   try {
+      const user = await requireUser();
+      const validatedData = deleteAccountSchema.parse(data);
+
+      const userService = getUserService();
+      await userService.deleteAccount(user.id, validatedData.password);
+
+      await signOut({ redirectTo: "/p" });
+
+      return {
+         success: false,
+         message: "Konto wurde gelöscht",
+      };
+   } catch (error) {
+      if (isRedirectError(error)) {
+         throw error;
+      }
+      return {
+         success: false,
+         message: "Fehler beim Löschen des Kontos",
       };
    }
 };

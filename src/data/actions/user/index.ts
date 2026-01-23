@@ -5,6 +5,6 @@ export {
    signOutUser,
    signUpUser,
    updateUserProfile,
+   updatePassword,
+   deleteAccount,
 } from "./user.actions";
-
-export { updatePassword, deleteAccount } from "./settings.actions";
