@@ -114,7 +114,7 @@ export const updatePassword = async (
       const validatedData = updatePasswordSchema.parse(data);
 
       const userService = getUserService();
-      await userService.changePassword(user.id, validatedData);
+      await userService.updatePassword(user.id, validatedData);
 
       await signOut({ redirect: false });
 
@@ -122,10 +122,7 @@ export const updatePassword = async (
          success: true,
          message: "Passwort erfolgreich geändert",
       };
-   } catch (error) {
-      if (isRedirectError(error)) {
-         throw error;
-      }
+   } catch {
       return {
          success: false,
          message: "Fehler beim Ändern des Passworts",
@@ -141,18 +138,15 @@ export const deleteAccount = async (
       const validatedData = deleteAccountSchema.parse(data);
 
       const userService = getUserService();
-      await userService.deleteAccount(user.id, validatedData.password);
+      await userService.deleteAccount(user.id, validatedData);
 
       await signOut({ redirectTo: "/p" });
 
       return {
-         success: false,
+         success: true,
          message: "Konto wurde gelöscht",
       };
-   } catch (error) {
-      if (isRedirectError(error)) {
-         throw error;
-      }
+   } catch {
       return {
          success: false,
          message: "Fehler beim Löschen des Kontos",

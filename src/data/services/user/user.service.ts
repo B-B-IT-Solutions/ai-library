@@ -1,6 +1,7 @@
 import { UserRepository } from "@/data/repositories/user";
 import {
    DUser,
+   DUserAccountDelete,
    DUserPasswordUpdate,
    DUserSignIn,
    DUserSignUp,
@@ -59,7 +60,7 @@ export class UserService {
       await this.userRepository.pUpdateUser(userId, data);
    }
 
-   async changePassword(
+   async updatePassword(
       userId: string,
       data: DUserPasswordUpdate
    ): Promise<void> {
@@ -86,7 +87,10 @@ export class UserService {
       await this.userRepository.pChangePassword(userId, hashedPassword);
    }
 
-   async deleteAccount(userId: string, password: string): Promise<void> {
+   async deleteAccount(
+      userId: string,
+      data: DUserAccountDelete
+   ): Promise<void> {
       const user = await this.userRepository.pGetUserById(userId);
       if (!user) {
          throw new Error("Benutzer nicht gefunden");
@@ -97,7 +101,7 @@ export class UserService {
          throw new Error("Benutzer hat kein Passwort");
       }
 
-      const isPasswordValid = await compare(password, user.password);
+      const isPasswordValid = await compare(data.password, user.password);
       if (!isPasswordValid) {
          throw new Error("Passwort ist falsch");
       }

@@ -4,27 +4,34 @@ jest.mock("next/dist/client/components/redirect-error");
 
 import { dtestData } from "@tests";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
+import { redirect } from "next/dist/server/api-utils";
 
 import { signIn, signOut } from "@/auth";
 import { requireUser } from "@/data/actions/auth-utils";
 import { UserService } from "@/data/services/user";
 import {
+   DUserAccountDelete,
+   DUserPasswordUpdate,
    DUserSignIn,
    DUserSignUp,
    DUserUpdateData,
 } from "@/data/types/domain/user";
 
 import {
+   deleteAccount,
    getUserById,
    signInWithCredentials,
    signOutUser,
    signUpUser,
+   updatePassword,
    updateUserProfile,
 } from "./user.actions";
 
 const sSignUpUser = UserService.prototype.signUpUser;
 const sGetUserById = UserService.prototype.getUserById;
 const sUpdateUser = UserService.prototype.updateUser;
+const sUpdatePassword = UserService.prototype.updatePassword;
+const sDeleteAccount = UserService.prototype.deleteAccount;
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
@@ -41,6 +48,14 @@ const sGetUserByIdMock = sGetUserById as jest.MockedFunction<
 >;
 
 const sUpdateUserMock = sUpdateUser as jest.MockedFunction<typeof sUpdateUser>;
+
+const sUpdatePasswordMock = sUpdatePassword as jest.MockedFunction<
+   typeof sUpdatePassword
+>;
+
+const sDeleteAccountMock = sDeleteAccount as jest.MockedFunction<
+   typeof sDeleteAccount
+>;
 
 describe("signInWithCredentials tests", () => {
    beforeEach(() => {
@@ -283,5 +298,145 @@ describe("updateUserProfile tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(sUpdateUserMock).not.toHaveBeenCalled();
+   });
+});
+
+describe("updatePassword tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("updatePassword - user undefined - test", async () => {
+      requireUserMock.mockRejectedValue("Unknow user");
+
+      const data: DUserPasswordUpdate = {
+         currentPassword: "test123",
+         newPassword: "12345679",
+         confirmPassword: "12345679",
+      };
+
+      const result = await updatePassword(data);
+
+      const expectedResult = {
+         success: false,
+         message: "Fehler beim Ändern des Passworts",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sUpdatePasswordMock).not.toHaveBeenCalled();
+      expect(signOutMock).not.toHaveBeenCalled();
+   });
+
+   it("updateUserProfile - valid data - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const data: DUserPasswordUpdate = {
+         currentPassword: "test123",
+         newPassword: "12345679",
+         confirmPassword: "12345679",
+      };
+
+      const result = await updatePassword(data);
+
+      const expectedResult = {
+         success: true,
+         message: "Passwort erfolgreich geändert",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sUpdatePasswordMock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePasswordMock).toHaveBeenCalledWith(user.id, data);
+      expect(signOutMock).toHaveBeenCalledTimes(1);
+      expect(signOutMock).toHaveBeenCalledWith({ redirect: false });
+   });
+
+   it("updateUserProfile - invalid data - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const data: DUserPasswordUpdate = {
+         currentPassword: "test123",
+         newPassword: "12345679",
+         confirmPassword: "test123",
+      };
+
+      const result = await updatePassword(data);
+
+      const expectedResult = {
+         success: false,
+         message: "Fehler beim Ändern des Passworts",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sUpdatePasswordMock).not.toHaveBeenCalled();
+      expect(signOutMock).not.toHaveBeenCalled();
+   });
+});
+
+describe("deleteAccount tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("deleteAccount - user undefined - test", async () => {
+      requireUserMock.mockRejectedValue("Unknow user");
+
+      const data: DUserAccountDelete = {
+         password: "test123",
+      };
+
+      const result = await deleteAccount(data);
+
+      const expectedResult = {
+         success: false,
+         message: "Fehler beim Löschen des Kontos",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sDeleteAccountMock).not.toHaveBeenCalled();
+      expect(signOutMock).not.toHaveBeenCalled();
+   });
+
+   it("deleteAccount - valid data - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const data: DUserAccountDelete = {
+         password: "test123",
+      };
+
+      const result = await deleteAccount(data);
+
+      const expectedResult = {
+         success: true,
+         message: "Konto wurde gelöscht",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sDeleteAccountMock).toHaveBeenCalledTimes(1);
+      expect(sDeleteAccountMock).toHaveBeenCalledWith(user.id, data);
+      expect(signOutMock).toHaveBeenCalledTimes(1);
+      expect(signOutMock).toHaveBeenCalledWith({ redirectTo: "/p" });
+   });
+
+   it("deleteAccount - invalid data - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const data: DUserAccountDelete = {
+         password: "",
+      };
+
+      const result = await deleteAccount(data);
+
+      const expectedResult = {
+         success: false,
+         message: "Fehler beim Löschen des Kontos",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sDeleteAccountMock).not.toHaveBeenCalled();
+      expect(signOutMock).not.toHaveBeenCalled();
    });
 });
