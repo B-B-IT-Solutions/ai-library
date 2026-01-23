@@ -101,7 +101,9 @@ export const UserProfile: FC<UserProfileProps> = ({ user }) => {
                      name="name"
                      render={({ field, fieldState }) => (
                         <FormItem data-testid="name">
-                           <FormLabel>Name</FormLabel>
+                           <FormLabel className="text-sm font-medium">
+                              Name
+                           </FormLabel>
                            <FormControl>
                               <div className="relative">
                                  <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
@@ -123,7 +125,9 @@ export const UserProfile: FC<UserProfileProps> = ({ user }) => {
                   />
 
                   <FormItem data-testid="email">
-                     <FormLabel>E-Mail-Adresse</FormLabel>
+                     <FormLabel className="text-sm font-medium">
+                        E-Mail-Adresse
+                     </FormLabel>
                      <FormControl>
                         <Input
                            value={user.email}

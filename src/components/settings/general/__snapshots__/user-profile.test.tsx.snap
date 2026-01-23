@@ -37,7 +37,7 @@ exports[`UserProfile rendering tests UserProfile rendered test 1`] = `
           data-testid="name"
         >
           <label
-            class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+            class="flex items-center gap-2 select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive text-sm font-medium"
             data-error="false"
             data-slot="form-label"
             for="_r_0_-form-item"
@@ -95,7 +95,7 @@ exports[`UserProfile rendering tests UserProfile rendered test 1`] = `
           data-testid="email"
         >
           <label
-            class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+            class="flex items-center gap-2 select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive text-sm font-medium"
             data-error="false"
             data-slot="form-label"
             for="_r_1_-form-item"
