@@ -37,6 +37,7 @@ export const Settings: FC<SettingsProps> = ({ user }) => {
                   ? "bg-primary text-primary-foreground shadow-sm"
                   : "hover:bg-accent hover:text-accent-foreground"
             }`}
+            data-testid={`${entry.id}-tab`}
          >
             <span className="font-medium">{entry.label}</span>
          </button>
@@ -45,7 +46,7 @@ export const Settings: FC<SettingsProps> = ({ user }) => {
 
    const tabs = () => {
       return (
-         <aside className="lg:col-span-3">
+         <aside className="lg:col-span-3" data-testid="tabs">
             <nav className="sticky top-8 space-y-1 bg-card rounded-lg border p-4 shadow-sm">
                <h2 className="px-3 mb-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                   Navigation
