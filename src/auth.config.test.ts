@@ -12,7 +12,7 @@ import { JWT } from "next-auth/jwt";
 import { CredentialsConfig } from "next-auth/providers/credentials";
 
 import { migrateSessionCartToUser } from "@/data/actions/cart";
-import { getUserByEmail, updateUser } from "@/data/actions/user";
+import { getUserByEmail, updateUserProfile } from "@/data/actions/user";
 import { compare } from "@/lib/encrypt";
 
 import { authConfig } from "./auth.config";
@@ -27,7 +27,9 @@ const getUserByEmailMock = getUserByEmail as jest.MockedFunction<
    typeof getUserByEmail
 >;
 
-const updateUserMock = updateUser as jest.MockedFunction<typeof updateUser>;
+const updateUserMock = updateUserProfile as jest.MockedFunction<
+   typeof updateUserProfile
+>;
 
 const migrateSessionCartToUserMock =
    migrateSessionCartToUser as jest.MockedFunction<

@@ -84,7 +84,7 @@ export const getUserByEmail = async (email: string): Promise<DUser | null> => {
    return await service.getUserByEmail(email);
 };
 
-export const updateUser = async (
+export const updateUserProfile = async (
    userId: string,
    data: DUserUpdateData
 ): Promise<ActionResult> => {
@@ -96,7 +96,7 @@ export const updateUser = async (
 
       return {
          success: true,
-         message: "User profile updated successfully",
+         message: "Profil erfolgreich aktualisiert",
       };
    } catch (error) {
       return {

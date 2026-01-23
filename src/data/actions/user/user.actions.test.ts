@@ -18,7 +18,7 @@ import {
    signInWithCredentials,
    signOutUser,
    signUpUser,
-   updateUser,
+   updateUserProfile,
 } from "./user.actions";
 
 const sSignUpUser = UserService.prototype.signUpUser;
@@ -255,28 +255,28 @@ describe("getUserByEmail tests", () => {
    });
 });
 
-describe("updateUser tests", () => {
+describe("updateUserProfile tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   test("updateUser - user updated - test", async () => {
+   test("updateUserProfile - user updated - test", async () => {
       const userId = "user-id-1";
       const data = dtestData.dUserUpdateData();
 
-      await updateUser(userId, data);
+      await updateUserProfile(userId, data);
 
       expect(sUpdateUserMock).toHaveBeenCalledTimes(1);
       expect(sUpdateUserMock).toHaveBeenCalledWith(userId, data);
    });
 
-   it("updateUser - valid data - test", async () => {
+   it("updateUserProfile - valid data - test", async () => {
       const userId = "user-id-1";
       const data: DUserUpdateData = {
          name: "Test 1",
       };
 
-      const result = await updateUser(userId, data);
+      const result = await updateUserProfile(userId, data);
 
       const expectedResult = {
          success: true,
@@ -288,13 +288,13 @@ describe("updateUser tests", () => {
       expect(sUpdateUserMock).toHaveBeenCalledWith(userId, data);
    });
 
-   it("updateUser - invalid data - test", async () => {
+   it("updateUserProfile - invalid data - test", async () => {
       const userId = "user-id-1";
       const data: DUserUpdateData = {
          name: "T",
       };
 
-      const result = await updateUser(userId, data);
+      const result = await updateUserProfile(userId, data);
 
       const expectedResult = {
          success: false,

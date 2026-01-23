@@ -5,7 +5,7 @@ import type { NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import { migrateSessionCartToUser } from "@/data/actions/cart";
-import { getUserByEmail, updateUser } from "@/data/actions/user";
+import { getUserByEmail, updateUserProfile } from "@/data/actions/user";
 import prisma from "@/data/repositories/prisma";
 import { compare } from "@/lib/encrypt";
 
@@ -119,7 +119,7 @@ export const authConfig: NextAuthConfig = {
                // Update database to reflect the token name
                const userId = user.id as string;
                const data = { name: token.name };
-               await updateUser(userId, data);
+               await updateUserProfile(userId, data);
             }
 
             if (trigger === "signIn" || trigger === "signUp") {
