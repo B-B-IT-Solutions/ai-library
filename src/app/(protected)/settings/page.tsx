@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
-import { SettingsContent } from "@/components/settings";
+import { Settings } from "@/components/settings";
 import { getUserById } from "@/data/actions/user";
 
 export const metadata = {
@@ -29,7 +29,7 @@ const SettingsPage = async () => {
                Verwalten Sie Ihre Kontoeinstellungen und Präferenzen
             </p>
          </div>
-         <SettingsContent user={user} />
+         <Settings user={user} />
       </div>
    );
 };

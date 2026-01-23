@@ -12,13 +12,13 @@ import {
    SecuritySection,
 } from "./components";
 
-type SettingsContentProps = {
+type SettingsProps = {
    user: DUser;
 };
 
 type TabId = "profile" | "security" | "appearance" | "danger";
 
-export const SettingsView: FC<SettingsContentProps> = ({ user }) => {
+export const Settings: FC<SettingsProps> = ({ user }) => {
    const [activeTab, setActiveTab] = useState<TabId>("profile");
 
    const sections = [
