@@ -1,1 +1,1 @@
-export { AccountSettings } from "./account";
+export { AccountSettings } from "./account-settings";
