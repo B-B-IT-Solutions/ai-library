@@ -57,6 +57,26 @@ export const UserProfile: FC<UserProfileProps> = ({ user }) => {
       });
    };
 
+   const submitBtn = () => {
+      return (
+         <Button
+            disabled={isSubmitting || isPending}
+            type="submit"
+            className="cursor-pointer"
+            data-testid="submit-btn"
+         >
+            {isSubmitting || isPending ? (
+               <span className="flex items-center gap-2">
+                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                  Wird aktualisiert...
+               </span>
+            ) : (
+               "Aktualisieren"
+            )}
+         </Button>
+      );
+   };
+
    return (
       <Card data-testid="user-profile">
          <CardHeader>
@@ -115,22 +135,7 @@ export const UserProfile: FC<UserProfileProps> = ({ user }) => {
                   </div>
                </div>
 
-               <div className="flex justify-end">
-                  <Button
-                     disabled={isSubmitting || isPending}
-                     type="submit"
-                     className="cursor-pointer"
-                  >
-                     {isSubmitting || isPending ? (
-                        <span className="flex items-center gap-2">
-                           <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                           Wird aktualisiert...
-                        </span>
-                     ) : (
-                        "Aktualisieren"
-                     )}
-                  </Button>
-               </div>
+               <div className="flex justify-end">{submitBtn()}</div>
             </form>
          </CardContent>
       </Card>
