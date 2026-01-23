@@ -7,6 +7,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import { UserRepository } from "@/data/repositories/user";
 import {
+   DUserAccountDelete,
    DUserPasswordUpdate,
    DUserSignIn,
    DUserSignUp,
@@ -281,5 +282,79 @@ describe("updatePassword tests", () => {
       );
       expect(hashMock).toHaveBeenCalledTimes(1);
       expect(hashMock).toHaveBeenCalledWith(data.newPassword);
+   });
+});
+
+describe("deleteUser tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("deleteUser - user null - test", async () => {
+      const user = ptestData.pUser();
+      userRepoMock.pGetUserById.mockResolvedValue(null);
+
+      const data: DUserAccountDelete = {
+         password: "test123",
+      };
+
+      const fn = async () => await userService.deleteUser(user.id, data);
+
+      expect(fn).rejects.toThrow("User not found");
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(user.id);
+      expect(compareMock).not.toHaveBeenCalled();
+   });
+
+   it("deleteUser - user.password null - test", async () => {
+      const user = ptestData.pUser();
+      user.password = null;
+      userRepoMock.pGetUserById.mockResolvedValue(user);
+
+      const data: DUserAccountDelete = {
+         password: "test123",
+      };
+
+      const fn = async () => await userService.deleteUser(user.id, data);
+
+      expect(fn).rejects.toThrow("User doesn't have a password");
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(user.id);
+      expect(compareMock).not.toHaveBeenCalled();
+   });
+
+   it("deleteUser - password invalid - test", async () => {
+      const user = ptestData.pUser();
+      userRepoMock.pGetUserById.mockResolvedValue(user);
+      compareMock.mockResolvedValue(false);
+
+      const data: DUserAccountDelete = {
+         password: "test123",
+      };
+
+      const fn = async () => await userService.deleteUser(user.id, data);
+
+      expect(fn).rejects.toThrow("Account cannot be deleted");
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(user.id);
+   });
+
+   it("deleteUser - user deleted - test", async () => {
+      const user = ptestData.pUser();
+      userRepoMock.pGetUserById.mockResolvedValue(user);
+      compareMock.mockResolvedValue(true);
+
+      const data: DUserAccountDelete = {
+         password: "test123",
+      };
+
+      await userService.deleteUser(user.id, data);
+
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(user.id);
+      expect(userRepoMock.pHardDeleteUser).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pHardDeleteUser).toHaveBeenCalledWith(user.id);
+      expect(compareMock).toHaveBeenCalledTimes(1);
+      expect(compareMock).toHaveBeenCalledWith(data.password, user.password);
    });
 });
