@@ -13,8 +13,12 @@ import {
    DUserSignUp,
    DUserUpdateData,
 } from "@/data/types/domain/user";
-import { signInSchema, signUpSchema } from "@/data/types/validators/user";
-import { User } from "@/generated/prisma/client";
+import { ActionResult } from "@/data/types/utils";
+import {
+   signInSchema,
+   signUpSchema,
+   updateProfileSchema,
+} from "@/data/types/validators/user";
 
 export const signUpUser = async (data: DUserSignUp) => {
    try {
@@ -68,20 +72,38 @@ export const signOutUser = async () => {
 
 export const getUserById = async (userId: string): Promise<DUser> => {
    const service = getUserService();
-   return service.getUserById(userId);
+   const user = await service.getUserById(userId);
+   if (!user) {
+      throw new Error("User not found");
+   }
+   return user;
 };
 
-export const getUserByEmail = async (email: string): Promise<User | null> => {
+export const getUserByEmail = async (email: string): Promise<DUser | null> => {
    const service = getUserService();
-   return service.getUserByEmail(email);
+   return await service.getUserByEmail(email);
 };
 
 export const updateUser = async (
    userId: string,
    data: DUserUpdateData
-): Promise<void> => {
-   const service = getUserService();
-   return service.updateUser(userId, data);
+): Promise<ActionResult> => {
+   try {
+      const validatedData = updateProfileSchema.parse(data);
+
+      const service = getUserService();
+      service.updateUser(userId, validatedData);
+
+      return {
+         success: true,
+         message: "User profile updated successfully",
+      };
+   } catch (error) {
+      return {
+         success: false,
+         message: formatError(error),
+      };
+   }
 };
 
 const getUserService = (dbClient: DbClient = prisma) => {

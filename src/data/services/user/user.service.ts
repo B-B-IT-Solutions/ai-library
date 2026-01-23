@@ -16,7 +16,7 @@ export class UserService {
       this.userRepository = userRepository;
    }
 
-   async signUpUser(data: DUserSignUp): Promise<User> {
+   async signUpUser(data: DUserSignUp): Promise<DUser> {
       const hashedPassword = await hash(data.password);
 
       const newUser: UserCreateInput = {
@@ -24,19 +24,24 @@ export class UserService {
          email: data.email,
          password: hashedPassword,
       };
-      return await this.userRepository.pCreateUser(newUser);
+      const createdUser = await this.userRepository.pCreateUser(newUser);
+      return toDUser(createdUser);
    }
 
-   async getUserById(userId: string): Promise<DUser> {
+   async getUserById(userId: string): Promise<DUser | null> {
       const user = await this.userRepository.pGetUserById(userId);
-      if (!user) {
-         throw new Error("User not found");
+      if (user) {
+         return toDUser(user);
       }
-      return toDUser(user);
+      return null;
    }
 
-   async getUserByEmail(email: string): Promise<User | null> {
-      return await this.userRepository.pGetUserByEmail(email);
+   async getUserByEmail(email: string): Promise<DUser | null> {
+      const user = await this.userRepository.pGetUserByEmail(email);
+      if (user) {
+         return toDUser(user);
+      }
+      return null;
    }
 
    async updateUser(userId: string, data: DUserUpdateData): Promise<void> {
