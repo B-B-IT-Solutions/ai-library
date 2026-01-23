@@ -8,6 +8,7 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
+   DUser,
    DUserSignIn,
    DUserSignUp,
    DUserUpdateData,
@@ -68,7 +69,7 @@ export const signOutUser = async () => {
    await signOut({ redirectTo: "/p" });
 };
 
-export const getUserById = async (userId: string): Promise<User> => {
+export const getUserById = async (userId: string): Promise<DUser> => {
    const service = getUserService();
    return service.getUserById(userId);
 };

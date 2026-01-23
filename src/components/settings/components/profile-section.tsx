@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { FC, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
@@ -25,18 +25,18 @@ import {
 } from "@/components/shadcn/field";
 import { Input } from "@/components/shadcn/input";
 import { updateProfile } from "@/data/actions/user/settings.actions";
+import { DUser } from "@/data/types/domain/user";
 import { updateProfileSchema } from "@/data/types/validators/settings.schema";
-import { User as UserType } from "@/generated/prisma/client";
 
 type ProfileSectionProps = {
-   user: UserType;
+   user: DUser;
 };
 
 type UpdateProfileFormData = {
    name: string;
 };
 
-export const ProfileSection = ({ user }: ProfileSectionProps) => {
+export const ProfileSection: FC<ProfileSectionProps> = ({ user }) => {
    const router = useRouter();
    const [isPending, startTransition] = useTransition();
 
