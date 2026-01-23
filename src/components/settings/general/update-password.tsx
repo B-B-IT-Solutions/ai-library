@@ -96,11 +96,19 @@ export const UpdatePassword = () => {
       );
    };
 
+   const inputType = (visible: boolean) => {
+      return visible ? "text" : "password";
+   };
+
    const inputIcon = (visible: boolean) => {
       if (visible) {
          return <EyeOff className="h-4 w-4" data-testid="eye-off-icon" />;
       }
       return <Eye className="h-4 w-4" data-testid="eye-icon" />;
+   };
+
+   const inputAriaLabel = (visible: boolean) => {
+      return visible ? "Passwort verbergen" : "Passwort anzeigen";
    };
 
    return (
@@ -131,9 +139,7 @@ export const UpdatePassword = () => {
                                  <Input
                                     {...field}
                                     id="currentPassword"
-                                    type={
-                                       showCurrentPassword ? "text" : "password"
-                                    }
+                                    type={inputType(showCurrentPassword)}
                                     autoComplete="current-password"
                                     aria-invalid={fieldState.invalid}
                                     className="pl-10 pr-10 h-11"
@@ -147,11 +153,9 @@ export const UpdatePassword = () => {
                                        )
                                     }
                                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded p-0.5"
-                                    aria-label={
+                                    aria-label={inputAriaLabel(
                                        showCurrentPassword
-                                          ? "Passwort verbergen"
-                                          : "Passwort anzeigen"
-                                    }
+                                    )}
                                     data-testid="currentPassword-visibility-btn"
                                  >
                                     {inputIcon(showCurrentPassword)}
@@ -179,9 +183,7 @@ export const UpdatePassword = () => {
                                     <Input
                                        {...field}
                                        id="newPassword"
-                                       type={
-                                          showNewPassword ? "text" : "password"
-                                       }
+                                       type={inputType(showNewPassword)}
                                        autoComplete="new-password"
                                        aria-invalid={fieldState.invalid}
                                        className="pl-10 pr-10 h-11"
@@ -193,11 +195,9 @@ export const UpdatePassword = () => {
                                           setShowNewPassword(!showNewPassword)
                                        }
                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded p-0.5"
-                                       aria-label={
+                                       aria-label={inputAriaLabel(
                                           showNewPassword
-                                             ? "Passwort verbergen"
-                                             : "Passwort anzeigen"
-                                       }
+                                       )}
                                        data-testid="newPassword-visibility-btn"
                                     >
                                        {inputIcon(showNewPassword)}
@@ -245,9 +245,7 @@ export const UpdatePassword = () => {
                                  <Input
                                     {...field}
                                     id="confirmPassword"
-                                    type={
-                                       showConfirmPassword ? "text" : "password"
-                                    }
+                                    type={inputType(showConfirmPassword)}
                                     autoComplete="new-password"
                                     aria-invalid={fieldState.invalid}
                                     className="pl-10 pr-10 h-11"
@@ -261,11 +259,9 @@ export const UpdatePassword = () => {
                                        )
                                     }
                                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded p-0.5"
-                                    aria-label={
+                                    aria-label={inputAriaLabel(
                                        showConfirmPassword
-                                          ? "Passwort verbergen"
-                                          : "Passwort anzeigen"
-                                    }
+                                    )}
                                     data-testid="confirmPassword-visibility-btn"
                                  >
                                     {inputIcon(showConfirmPassword)}
