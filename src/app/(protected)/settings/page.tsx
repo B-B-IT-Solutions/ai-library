@@ -2,9 +2,7 @@ import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 import { Settings } from "@/components/settings";
-import { SubscriptionStatus } from "@/components/subscription/subscription-status";
 import { getUserById } from "@/data/actions/user";
-import { getUserSubscription } from "@/data/actions/subscription";
 
 export const metadata = {
    title: "Einstellungen",
@@ -18,18 +16,13 @@ const SettingsPage = async () => {
 
    const user = await getUserById(session.user.id);
 
-   // Fetch subscription
-   const subscriptionResult = await getUserSubscription();
-   const subscription =
-      subscriptionResult.success ? subscriptionResult.data : null;
-
    return (
       <div
-         className="container min-h-screen mx-auto px-4 py-8 max-w-7xl "
+         className="container mx-auto min-h-screen max-w-7xl px-4 py-8"
          data-testid="settings-page"
       >
          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">
+            <h1 className="mb-2 text-3xl font-bold text-slate-900">
                Einstellungen
             </h1>
             <p className="text-slate-600">
@@ -38,7 +31,6 @@ const SettingsPage = async () => {
          </div>
 
          <div className="space-y-6">
-            <SubscriptionStatus subscription={subscription} />
             <Settings user={user} />
          </div>
       </div>
