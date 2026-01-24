@@ -11,6 +11,7 @@ import { UserCreateInput } from "@/generated/prisma/models";
 import { compare, hash } from "@/lib/encrypt";
 import { CartService } from "../cart";
 import { LibraryService } from "../library";
+import { OrderService } from "../order";
 
 import { toDUser } from "./user.mapper";
 
@@ -18,15 +19,18 @@ export class UserService {
    private userRepository: UserRepository;
    private cartService: CartService;
    private libraryService: LibraryService;
+   private orderService: OrderService;
 
    constructor(
       userRepository: UserRepository,
       cartService: CartService,
-      libraryService: LibraryService
+      libraryService: LibraryService,
+      orderService: OrderService
    ) {
       this.userRepository = userRepository;
       this.cartService = cartService;
       this.libraryService = libraryService;
+      this.orderService = orderService;
    }
 
    async signUpUser(data: DUserSignUp): Promise<DUser> {
@@ -116,6 +120,7 @@ export class UserService {
       // Hard delete user and all related data
       await this.cartService.deleteCarts(userId);
       await this.libraryService.deleteLibraryEntries(userId);
-      await this.userRepository.pHardDeleteUser(userId);
+      await this.orderService.deleteOrders(userId);
+      await this.userRepository.pDeleteUser(userId);
    }
 }

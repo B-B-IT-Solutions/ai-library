@@ -7,6 +7,7 @@ import prisma from "@/data/repositories/prisma";
 import {
    OrderCreateArgs,
    OrderCreateInput,
+   OrderDeleteManyArgs,
    OrderFindFirstArgs,
    OrderFindManyArgs,
    OrderFindUniqueArgs,
@@ -86,9 +87,8 @@ describe("pGetOrderByPaymentIntentId tests", () => {
       const order = ptestData.pOrder();
       prismaMock.order.findFirst.mockResolvedValue(order);
 
-      const result = await orderRepository.pGetOrderByPaymentIntentId(
-         paymentIntentId
-      );
+      const result =
+         await orderRepository.pGetOrderByPaymentIntentId(paymentIntentId);
 
       const expectedFindFirstArgs: OrderFindFirstArgs = {
          where: {
@@ -244,5 +244,25 @@ describe("pUpdateOrder tests", () => {
       expect(result).toEqual(order);
       expect(prismaMock.order.update).toHaveBeenCalledTimes(1);
       expect(prismaMock.order.update).toHaveBeenCalledWith(expectedUpdateArgs);
+   });
+});
+
+describe("pDeleteOrders tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("pDeleteOrders test", async () => {
+      const userId = "user-id-1";
+      await orderRepository.pDeleteOrders(userId);
+
+      const expectedDeleteManyArgs: OrderDeleteManyArgs = {
+         where: { userId },
+      };
+
+      expect(prismaMock.order.deleteMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.order.deleteMany).toHaveBeenCalledWith(
+         expectedDeleteManyArgs
+      );
    });
 });

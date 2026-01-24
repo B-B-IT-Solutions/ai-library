@@ -4,7 +4,12 @@ import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import { Prisma } from "@/generated/prisma/client";
-import { UserUpdateArgs } from "@/generated/prisma/models";
+import {
+   AccountDeleteManyArgs,
+   SessionDeleteManyArgs,
+   UserDeleteArgs,
+   UserUpdateArgs,
+} from "@/generated/prisma/models";
 
 import { UserRepository } from "./user";
 
@@ -163,5 +168,41 @@ describe("pUpdatePassword tests", () => {
       expect(result).toEqual(data);
       expect(prismaMock.user.update).toHaveBeenCalledTimes(1);
       expect(prismaMock.user.update).toHaveBeenCalledWith(expectedUpdateArgs);
+   });
+});
+
+describe("pDeleteUser tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pDeleteUser - user deleted - test", async () => {
+      const userId = "user-id-1";
+
+      await userRepository.pDeleteUser(userId);
+
+      const expectedSessionDeleteArgs: SessionDeleteManyArgs = {
+         where: { userId },
+      };
+      const expectedAccountDeleteArgs: AccountDeleteManyArgs = {
+         where: { userId },
+      };
+
+      const expectedUserDeleteArgs: UserDeleteArgs = {
+         where: { id: userId },
+      };
+
+      expect(prismaMock.session.deleteMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.session.deleteMany).toHaveBeenCalledWith(
+         expectedSessionDeleteArgs
+      );
+      expect(prismaMock.account.deleteMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.account.deleteMany).toHaveBeenCalledWith(
+         expectedAccountDeleteArgs
+      );
+      expect(prismaMock.user.delete).toHaveBeenCalledTimes(1);
+      expect(prismaMock.user.delete).toHaveBeenCalledWith(
+         expectedUserDeleteArgs
+      );
    });
 });

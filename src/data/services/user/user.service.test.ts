@@ -1,6 +1,7 @@
 jest.mock("@/data/repositories/user");
 jest.mock("@/data/services/cart");
 jest.mock("@/data/services/library");
+jest.mock("@/data/services/order");
 jest.mock("@/lib/encrypt");
 
 import { ptestData } from "@tests";
@@ -19,6 +20,7 @@ import { UserCreateInput } from "@/generated/prisma/models";
 import { compare, hash } from "@/lib/encrypt";
 import { CartService } from "../cart";
 import { LibraryService } from "../library";
+import { OrderService } from "../order";
 import { ServiceFactory } from "../service.factory";
 
 import { toDUser } from "./user.mapper";
@@ -30,9 +32,11 @@ const hashMock = hash as jest.MockedFunction<typeof hash>;
 const serviceFactory = new ServiceFactory(prisma);
 const cartService = serviceFactory.getCartService();
 const libraryService = serviceFactory.getLibraryService();
+const orderService = serviceFactory.getOrderService();
 
 const cartServiceMock = cartService as DeepMockProxy<CartService>;
 const libraryServiceMock = libraryService as DeepMockProxy<LibraryService>;
+const orderServiceMock = orderService as DeepMockProxy<OrderService>;
 
 const userRepo = new UserRepository(prisma);
 const userRepoMock = userRepo as DeepMockProxy<UserRepository>;
@@ -40,7 +44,8 @@ const userRepoMock = userRepo as DeepMockProxy<UserRepository>;
 const userService = new UserService(
    userRepoMock,
    cartServiceMock,
-   libraryServiceMock
+   libraryServiceMock,
+   orderServiceMock
 );
 
 describe("signUpUser tests", () => {
@@ -322,7 +327,8 @@ describe("deleteUser tests", () => {
       expect(compareMock).not.toHaveBeenCalled();
       expect(cartServiceMock.deleteCarts).not.toHaveBeenCalled();
       expect(libraryServiceMock.deleteLibraryEntries).not.toHaveBeenCalled();
-      expect(userRepoMock.pHardDeleteUser).not.toHaveBeenCalled();
+      expect(orderServiceMock.deleteOrders).not.toHaveBeenCalled();
+      expect(userRepoMock.pDeleteUser).not.toHaveBeenCalled();
    });
 
    it("deleteUser - user.password null - test", async () => {
@@ -342,7 +348,8 @@ describe("deleteUser tests", () => {
       expect(compareMock).not.toHaveBeenCalled();
       expect(cartServiceMock.deleteCarts).not.toHaveBeenCalled();
       expect(libraryServiceMock.deleteLibraryEntries).not.toHaveBeenCalled();
-      expect(userRepoMock.pHardDeleteUser).not.toHaveBeenCalled();
+      expect(orderServiceMock.deleteOrders).not.toHaveBeenCalled();
+      expect(userRepoMock.pDeleteUser).not.toHaveBeenCalled();
    });
 
    it("deleteUser - password invalid - test", async () => {
@@ -361,7 +368,8 @@ describe("deleteUser tests", () => {
       expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(user.id);
       expect(cartServiceMock.deleteCarts).not.toHaveBeenCalled();
       expect(libraryServiceMock.deleteLibraryEntries).not.toHaveBeenCalled();
-      expect(userRepoMock.pHardDeleteUser).not.toHaveBeenCalled();
+      expect(orderServiceMock.deleteOrders).not.toHaveBeenCalled();
+      expect(userRepoMock.pDeleteUser).not.toHaveBeenCalled();
    });
 
    it("deleteUser - user deleted - test", async () => {
@@ -383,8 +391,10 @@ describe("deleteUser tests", () => {
       expect(libraryServiceMock.deleteLibraryEntries).toHaveBeenCalledWith(
          user.id
       );
-      expect(userRepoMock.pHardDeleteUser).toHaveBeenCalledTimes(1);
-      expect(userRepoMock.pHardDeleteUser).toHaveBeenCalledWith(user.id);
+      expect(orderServiceMock.deleteOrders).toHaveBeenCalledTimes(1);
+      expect(orderServiceMock.deleteOrders).toHaveBeenCalledWith(user.id);
+      expect(userRepoMock.pDeleteUser).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pDeleteUser).toHaveBeenCalledWith(user.id);
       expect(compareMock).toHaveBeenCalledTimes(1);
       expect(compareMock).toHaveBeenCalledWith(data.password, user.password);
    });
