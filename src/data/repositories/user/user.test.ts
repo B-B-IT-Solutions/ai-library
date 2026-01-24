@@ -4,28 +4,28 @@ import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import { Prisma } from "@/generated/prisma/client";
-import { UserUpdateArgs } from "@/generated/prisma/models";
-
 import {
-   createUser,
-   getUser,
-   getUserByEmail,
-   getUserById,
-   updateUser,
-} from "./user";
+   AccountDeleteManyArgs,
+   SessionDeleteManyArgs,
+   UserDeleteArgs,
+   UserUpdateArgs,
+} from "@/generated/prisma/models";
 
-export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
+import { UserRepository } from "./user";
 
-describe("getUser tests", () => {
+const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
+const userRepository = new UserRepository(prismaMock);
+
+describe("pGetUser tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   test("getUserById test", async () => {
+   test("pGetUserById test", async () => {
       const user = ptestData.pUser();
       prismaMock.user.findFirst.mockResolvedValue(user);
 
-      const result = await getUserById(user.id);
+      const result = await userRepository.pGetUserById(user.id);
 
       const expectedFindFirstArgs: Prisma.UserFindFirstArgs = {
          where: { id: user.id },
@@ -38,11 +38,11 @@ describe("getUser tests", () => {
       );
    });
 
-   test("getUserByEmail test", async () => {
+   test("pGetUserByEmail test", async () => {
       const user = ptestData.pUser();
       prismaMock.user.findFirst.mockResolvedValue(user);
 
-      const result = await getUserByEmail(user.email);
+      const result = await userRepository.pGetUserByEmail(user.email);
 
       const expectedFindFirstArgs: Prisma.UserFindFirstArgs = {
          where: { email: user.email },
@@ -55,11 +55,11 @@ describe("getUser tests", () => {
       );
    });
 
-   test("getUser - by userId - test", async () => {
+   test("pGetUser - by userId - test", async () => {
       const user = ptestData.pUser();
       prismaMock.user.findFirst.mockResolvedValue(user);
 
-      const result = await getUser({ userId: user.id });
+      const result = await userRepository.pGetUser({ userId: user.id });
 
       const expectedFindFirstArgs: Prisma.UserFindFirstArgs = {
          where: { id: user.id },
@@ -72,11 +72,11 @@ describe("getUser tests", () => {
       );
    });
 
-   test("getUser - by email - test", async () => {
+   test("pGetUser - by email - test", async () => {
       const user = ptestData.pUser();
       prismaMock.user.findFirst.mockResolvedValue(user);
 
-      const result = await getUser({ email: user.email });
+      const result = await userRepository.pGetUser({ email: user.email });
 
       const expectedFindFirstArgs: Prisma.UserFindFirstArgs = {
          where: { email: user.email },
@@ -89,26 +89,26 @@ describe("getUser tests", () => {
       );
    });
 
-   test("getUser - params undefined - test", async () => {
+   test("pGetUser - params undefined - test", async () => {
       const user = ptestData.pUser();
       prismaMock.user.findFirst.mockResolvedValue(user);
 
-      const result = await getUser({});
+      const result = await userRepository.pGetUser({});
 
       expect(result).toBeNull();
       expect(prismaMock.user.findFirst).not.toHaveBeenCalled();
    });
 });
 
-describe("createUser tests", () => {
+describe("pCreateUser tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   test("createUser - user created - test", async () => {
+   test("pCreateUser - user created - test", async () => {
       const user = ptestData.pUser();
       prismaMock.user.create.mockResolvedValue(user);
-      const result = await createUser(user);
+      const result = await userRepository.pCreateUser(user);
 
       const expectedCreateArgs: Prisma.UserCreateArgs = {
          data: {
@@ -124,17 +124,17 @@ describe("createUser tests", () => {
    });
 });
 
-describe("updateUser tests", () => {
+describe("pUpdateUser tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   test("updateUser - user updated - test", async () => {
+   test("pUpdateUser - user updated - test", async () => {
       const userId = "user-id-1";
       const data = ptestData.pUserUpdateData();
       prismaMock.user.update.mockResolvedValue(data);
 
-      const result = await updateUser(userId, data);
+      const result = await userRepository.pUpdateUser(userId, data);
 
       const expectedUpdateArgs: UserUpdateArgs = {
          where: { id: userId },
@@ -144,5 +144,65 @@ describe("updateUser tests", () => {
       expect(result).toEqual(data);
       expect(prismaMock.user.update).toHaveBeenCalledTimes(1);
       expect(prismaMock.user.update).toHaveBeenCalledWith(expectedUpdateArgs);
+   });
+});
+
+describe("pUpdatePassword tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pUpdatePassword - password updated - test", async () => {
+      const userId = "user-id-1";
+      const password = "pwd-123";
+      const data = ptestData.pUserUpdateData();
+      prismaMock.user.update.mockResolvedValue(data);
+
+      const result = await userRepository.pUpdatePassword(userId, password);
+
+      const expectedUpdateArgs: UserUpdateArgs = {
+         where: { id: userId },
+         data: { password },
+      };
+
+      expect(result).toEqual(data);
+      expect(prismaMock.user.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.user.update).toHaveBeenCalledWith(expectedUpdateArgs);
+   });
+});
+
+describe("pDeleteUser tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pDeleteUser - user deleted - test", async () => {
+      const userId = "user-id-1";
+
+      await userRepository.pDeleteUser(userId);
+
+      const expectedSessionDeleteArgs: SessionDeleteManyArgs = {
+         where: { userId },
+      };
+      const expectedAccountDeleteArgs: AccountDeleteManyArgs = {
+         where: { userId },
+      };
+
+      const expectedUserDeleteArgs: UserDeleteArgs = {
+         where: { id: userId },
+      };
+
+      expect(prismaMock.session.deleteMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.session.deleteMany).toHaveBeenCalledWith(
+         expectedSessionDeleteArgs
+      );
+      expect(prismaMock.account.deleteMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.account.deleteMany).toHaveBeenCalledWith(
+         expectedAccountDeleteArgs
+      );
+      expect(prismaMock.user.delete).toHaveBeenCalledTimes(1);
+      expect(prismaMock.user.delete).toHaveBeenCalledWith(
+         expectedUserDeleteArgs
+      );
    });
 });

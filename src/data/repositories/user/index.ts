@@ -1,1 +1,1 @@
-export { getUserById, getUserByEmail, createUser, updateUser } from "./user";
+export { UserRepository } from "./user";

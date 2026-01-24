@@ -3,28 +3,58 @@
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 import { signIn, signOut } from "@/auth";
+import { requireUser } from "@/data/actions/auth-utils";
+import { formatError } from "@/data/actions/utils";
+import prisma from "@/data/repositories/prisma";
+import { ServiceFactory } from "@/data/services";
+import { DbClient } from "@/data/types/db/common";
 import {
-   createUser,
-   getUserByEmail as pGetUserByEmail,
-   getUserById as pGetUserById,
-   updateUser as pUpdateUser,
-} from "@/data/repositories/user";
-import {
-   DSignInFormData,
-   DSignUpFormData,
+   DUser,
+   DUserAccountDelete,
+   DUserPasswordUpdate,
+   DUserSignIn,
+   DUserSignUp,
    DUserUpdateData,
 } from "@/data/types/domain/user";
+import { ActionResult } from "@/data/types/utils";
 import {
-   signInFormSchema,
-   signUpFormSchema,
-} from "@/data/types/validators/user.schema";
-import { Prisma } from "@/generated/prisma/client";
-import { hash } from "@/lib/encrypt";
-import { formatError } from "../utils";
+   deleteAccountSchema,
+   signInSchema,
+   signUpSchema,
+   updatePasswordSchema,
+   updateProfileSchema,
+} from "@/data/types/validators/user";
 
-export const signInWithCredentials = async (formData: DSignInFormData) => {
+export const signUpUser = async (data: DUserSignUp) => {
    try {
-      const singInValues = signInFormSchema.parse(formData);
+      const validatedData: DUserSignUp = signUpSchema.parse(data);
+
+      const service = getUserService();
+      await service.signUpUser(validatedData);
+
+      await signIn("credentials", {
+         email: data.email,
+         password: data.password,
+      });
+
+      return {
+         success: true,
+         message: "User registered successfully",
+      };
+   } catch (error) {
+      if (isRedirectError(error)) {
+         throw error;
+      }
+      return {
+         success: false,
+         message: formatError(error),
+      };
+   }
+};
+
+export const signInWithCredentials = async (data: DUserSignIn) => {
+   try {
+      const singInValues = signInSchema.parse(data);
       await signIn("credentials", singInValues);
       return {
          success: true,
@@ -45,28 +75,28 @@ export const signOutUser = async () => {
    await signOut({ redirectTo: "/p" });
 };
 
-export const signUpUser = async (formData: DSignUpFormData) => {
+export const getUserById = async (userId: string): Promise<DUser> => {
+   const service = getUserService();
+   const user = await service.getUserById(userId);
+   if (!user) {
+      throw new Error("User not found");
+   }
+   return user;
+};
+
+export const updateUserProfile = async (
+   data: DUserUpdateData
+): Promise<ActionResult> => {
    try {
-      const singUpValues = signUpFormSchema.parse(formData);
-      const plainPassword = singUpValues.password;
-      singUpValues.password = await hash(singUpValues.password);
+      const user = await requireUser();
+      const validatedData = updateProfileSchema.parse(data);
 
-      const newUser: Prisma.UserCreateInput = {
-         name: singUpValues.name,
-         email: singUpValues.email,
-         password: singUpValues.password,
-      };
-
-      await createUser(newUser);
-
-      await signIn("credentials", {
-         email: singUpValues.email,
-         password: plainPassword,
-      });
+      const service = getUserService();
+      service.updateUser(user.id, validatedData);
 
       return {
          success: true,
-         message: "User registered successfully",
+         message: "Profil erfolgreich aktualisiert",
       };
    } catch (error) {
       if (isRedirectError(error)) {
@@ -74,27 +104,68 @@ export const signUpUser = async (formData: DSignUpFormData) => {
       }
       return {
          success: false,
-         message: formatError(error),
+         message: "Fehler beim Aktualisieren des Profils",
       };
    }
 };
 
-export const getUserById = async (userId: string) => {
-   const user = await pGetUserById(userId);
-   if (!user) {
-      throw new Error("User not found");
+export const updatePassword = async (
+   data: DUserPasswordUpdate
+): Promise<ActionResult> => {
+   try {
+      const user = await requireUser();
+      const validatedData = updatePasswordSchema.parse(data);
+
+      const userService = getUserService();
+      await userService.updatePassword(user.id, validatedData);
+
+      await signOut({ redirect: false });
+
+      return {
+         success: true,
+         message: "Passwort erfolgreich geändert",
+      };
+   } catch (error) {
+      if (isRedirectError(error)) {
+         throw error;
+      }
+      return {
+         success: false,
+         message: "Fehler beim Ändern des Passworts",
+      };
    }
-   return user;
 };
 
-export const getUserByEmail = async (email: string) => {
-   const user = await pGetUserByEmail(email);
-   if (!user) {
-      return null;
+export const deleteUser = async (
+   data: DUserAccountDelete
+): Promise<ActionResult> => {
+   try {
+      const user = await requireUser();
+      const validatedData = deleteAccountSchema.parse(data);
+
+      await prisma.$transaction(async (tx) => {
+         const userService = getUserService(tx);
+         await userService.deleteUser(user.id, validatedData);
+      });
+
+      await signOut({ redirectTo: "/p" });
+
+      return {
+         success: true,
+         message: "Konto wurde gelöscht",
+      };
+   } catch (error) {
+      if (isRedirectError(error)) {
+         throw error;
+      }
+      return {
+         success: false,
+         message: "Fehler beim Löschen des Kontos",
+      };
    }
-   return user;
 };
 
-export const updateUser = async (userId: string, data: DUserUpdateData) => {
-   await pUpdateUser(userId, data);
+const getUserService = (dbClient: DbClient = prisma) => {
+   const factory = new ServiceFactory(dbClient);
+   return factory.getUserService();
 };

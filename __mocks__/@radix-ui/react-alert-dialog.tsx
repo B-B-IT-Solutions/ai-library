@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import { clearProps } from "./utils";
+
 type AlertDialogContextType = {
    open: boolean;
    setOpen: (v: boolean) => void;
@@ -104,6 +106,7 @@ const Title: React.FC<{
 const Description: React.FC<{
    children: React.ReactNode;
 }> = ({ children, ...props }) => {
+   clearProps(props);
    return (
       <div data-testid="mock-react-alert-dialog-description" {...props}>
          {children}

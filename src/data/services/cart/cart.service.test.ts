@@ -296,6 +296,21 @@ describe("clearCart tests", () => {
    });
 });
 
+describe("deleteCarts tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("deleteCarts - carts deleted - test", async () => {
+      const userId = "user-id-1";
+
+      await cartService.deleteCarts(userId);
+
+      expect(cartRepoMock.pDeleteCarts).toHaveBeenCalledTimes(1);
+      expect(cartRepoMock.pDeleteCarts).toHaveBeenCalledWith(userId);
+   });
+});
+
 describe("migrateSessionCartToUser tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();

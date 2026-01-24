@@ -1,4 +1,4 @@
-import prisma from "@/data/repositories/prisma";
+import { DbClient } from "@/data/types/db/common";
 import { UserUpdateData } from "@/data/types/db/user";
 import { User } from "@/generated/prisma/client";
 import { UserCreateInput, UserWhereInput } from "@/generated/prisma/models";
@@ -8,52 +8,79 @@ type PGeUserParams = {
    email?: string;
 };
 
-export const getUserById = async (userId: string): Promise<User | null> => {
-   return getUser({ userId });
-};
+export class UserRepository {
+   private prisma: DbClient;
 
-export const getUserByEmail = async (email: string): Promise<User | null> => {
-   return getUser({ email });
-};
+   constructor(prisma: DbClient) {
+      this.prisma = prisma;
+   }
 
-export const getUser = async (params: PGeUserParams): Promise<User | null> => {
-   const whereClause = resolveGetUserParams(params);
+   async pGetUserById(userId: string): Promise<User | null> {
+      return this.pGetUser({ userId });
+   }
 
-   if (whereClause) {
-      return await prisma.user.findFirst({
-         where: whereClause,
+   async pGetUserByEmail(email: string): Promise<User | null> {
+      return this.pGetUser({ email });
+   }
+
+   async pGetUser(params: PGeUserParams): Promise<User | null> {
+      const whereClause = this.resolveGetUserParams(params);
+
+      if (whereClause) {
+         return await this.prisma.user.findFirst({
+            where: whereClause,
+         });
+      }
+      return null;
+   }
+
+   async pCreateUser(user: UserCreateInput) {
+      return await this.prisma.user.create({
+         data: {
+            name: user.name,
+            email: user.email,
+            password: user.password,
+         },
       });
    }
-   return null;
-};
 
-export const createUser = async (user: UserCreateInput) => {
-   return await prisma.user.create({
-      data: {
-         name: user.name,
-         email: user.email,
-         password: user.password,
-      },
-   });
-};
-
-export const updateUser = async (userId: string, data: UserUpdateData) => {
-   return await prisma.user.update({
-      where: { id: userId },
-      data: data,
-   });
-};
-
-const resolveGetUserParams = (
-   params: PGeUserParams
-): UserWhereInput | undefined => {
-   const { userId, email } = params;
-
-   if (userId) {
-      return { id: userId };
+   async pUpdateUser(userId: string, data: UserUpdateData) {
+      return await this.prisma.user.update({
+         where: { id: userId },
+         data: data,
+      });
    }
-   if (email) {
-      return { email: email };
+
+   async pUpdatePassword(userId: string, newPasswordHash: string) {
+      return await this.prisma.user.update({
+         where: { id: userId },
+         data: { password: newPasswordHash },
+      });
    }
-   return undefined;
-};
+
+   async pDeleteUser(userId: string) {
+      await this.prisma.session.deleteMany({
+         where: { userId },
+      });
+      await this.prisma.account.deleteMany({
+         where: { userId },
+      });
+      await this.prisma.user.delete({
+         where: { id: userId },
+      });
+   }
+
+   private resolveGetUserParams(
+      params: PGeUserParams
+   ): UserWhereInput | undefined {
+      const { userId, email } = params;
+
+      if (userId) {
+         return { id: userId };
+      }
+      if (email) {
+         return { email: email };
+      }
+      return undefined;
+   }
+}

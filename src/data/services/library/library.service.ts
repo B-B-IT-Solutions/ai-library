@@ -73,6 +73,10 @@ export class LibraryService {
       }
    }
 
+   async deleteLibraryEntries(userId: string) {
+      await this.libraryRepository.pDeleteLibraryEntries(userId);
+   }
+
    async createPromptFromTemplate(templateDescriptorId: string) {
       if (!isValidUuid(templateDescriptorId)) {
          throw new Error("Invalid template ID.");
@@ -95,6 +99,7 @@ export class LibraryService {
          title: descriptor.title,
          recommendedModel: descriptor.recommendedModel,
          categories: map(descriptor.categories, (cat) => cat.name),
+         followUpPrompts: [],
       };
 
       await this.promptService.createPrompt(promptData);

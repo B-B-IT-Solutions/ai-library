@@ -4,10 +4,12 @@ import { LibraryService } from "@/data/services/library";
 import { OrderService } from "@/data/services/order";
 import { PromptService, PromptTemplateService } from "@/data/services/prompt";
 import { StripeService } from "@/data/services/stripe";
+import { UserService } from "@/data/services/user";
 import { DbClient } from "@/data/types/db/common";
 
 export class ServiceFactory {
    private repositories: RepositoryFactory;
+   private userService?: UserService;
    private cartService?: CartService;
    private libraryService?: LibraryService;
    private orderService?: OrderService;
@@ -17,6 +19,18 @@ export class ServiceFactory {
 
    constructor(prisma: DbClient) {
       this.repositories = new RepositoryFactory(prisma);
+   }
+
+   getUserService(): UserService {
+      if (!this.userService) {
+         this.userService = new UserService(
+            this.repositories.userRepository(),
+            this.getCartService(),
+            this.getLibraryService(),
+            this.getOrderService()
+         );
+      }
+      return this.userService;
    }
 
    getCartService(): CartService {

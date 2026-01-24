@@ -14,6 +14,7 @@ import {
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { PromptService } from "@/data/services/prompt";
+import { DPromptUpdate } from "@/data/types/domain/prompt";
 
 import {
    toDLibraryEntries,
@@ -210,6 +211,23 @@ describe("createLibraryEntries tests", () => {
    });
 });
 
+describe("deleteLibraryEntries tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("deleteLibraryEntries - entriey deleted - test", async () => {
+      const userId = "user-id-1";
+
+      await libraryService.deleteLibraryEntries(userId);
+
+      expect(libraryRepoMock.pDeleteLibraryEntries).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pDeleteLibraryEntries).toHaveBeenCalledWith(
+         userId
+      );
+   });
+});
+
 describe("createPromptFromTemplate tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -278,11 +296,12 @@ describe("createPromptFromTemplate tests", () => {
          userId: user.id,
       };
       const { templateDescriptor } = entry;
-      const expectedPromptData = {
+      const expectedPromptData: DPromptUpdate = {
          content: templateDescriptor.promptTemplate.promptText,
          title: templateDescriptor.title,
          recommendedModel: templateDescriptor.recommendedModel,
          categories: map(templateDescriptor.categories, (cat) => cat.name),
+         followUpPrompts: [],
       };
 
       expect(requireUserMock).toHaveBeenCalledTimes(1);
@@ -355,9 +374,8 @@ describe("downloadPromptTemplate tests", () => {
       requireUserMock.mockResolvedValue(user);
       libraryRepoMock.pGetLibraryEntry.mockResolvedValue(entry);
 
-      const result = await libraryService.downloadPromptTemplate(
-         templateDescriptorId
-      );
+      const result =
+         await libraryService.downloadPromptTemplate(templateDescriptorId);
 
       const expectedGetEntryPayload: GetLibraryEntryParams = {
          templateDescriptorId,

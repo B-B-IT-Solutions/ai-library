@@ -94,6 +94,10 @@ export class OrderService {
       await this.orderRepository.pUpdateOrder(orderId, update);
    }
 
+   async deleteOrders(userId: string) {
+      await this.orderRepository.pDeleteOrders(userId);
+   }
+
    async handleStripeCheckoutCompleted(
       orderId: string,
       paymentIntentId: string,
@@ -125,9 +129,8 @@ export class OrderService {
    }
 
    async handleStripePaymentFailed(paymentIntentId: string) {
-      const order = await this.orderRepository.pGetOrderByPaymentIntentId(
-         paymentIntentId
-      );
+      const order =
+         await this.orderRepository.pGetOrderByPaymentIntentId(paymentIntentId);
 
       if (!order) {
          throw new Error(

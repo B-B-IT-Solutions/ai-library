@@ -75,6 +75,12 @@ export class LibraryRepository {
       });
    }
 
+   async pDeleteLibraryEntries(userId: string) {
+      return await this.prisma.libraryEntry.deleteMany({
+         where: { userId },
+      });
+   }
+
    private getLibraryEntryParamsToWhereFindUniqueInput = (
       params: GetLibraryEntryParams
    ): LibraryEntryWhereUniqueInput => {

@@ -124,6 +124,12 @@ export class CartRepository {
       });
    }
 
+   async pDeleteCarts(userId: string) {
+      return await this.prisma.cart.deleteMany({
+         where: { userId },
+      });
+   }
+
    async pMigrateSessionCartToUser(sessionCartId: string, userId: string) {
       const sessionCart = await this.prisma.cart.findUnique({
          where: { sessionCartId },

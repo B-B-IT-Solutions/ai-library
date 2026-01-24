@@ -1,8 +1,9 @@
 export {
    getUserById,
-   getUserByEmail,
    signInWithCredentials,
    signOutUser,
    signUpUser,
-   updateUser,
+   updateUserProfile,
+   updatePassword,
+   deleteUser,
 } from "./user.actions";

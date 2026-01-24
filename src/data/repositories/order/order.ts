@@ -88,4 +88,10 @@ export class OrderRepository {
          data: data,
       });
    }
+
+   async pDeleteOrders(userId: string) {
+      return await this.prisma.order.deleteMany({
+         where: { userId },
+      });
+   }
 }

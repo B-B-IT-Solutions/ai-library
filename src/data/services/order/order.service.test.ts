@@ -259,6 +259,21 @@ describe("updateOrder tests", () => {
    });
 });
 
+describe("deleteOrders tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("deleteOrders - orders deleted - test", async () => {
+      const userId = "user-id-1";
+
+      await orderService.deleteOrders(userId);
+
+      expect(orderRepoMock.pDeleteOrders).toHaveBeenCalledTimes(1);
+      expect(orderRepoMock.pDeleteOrders).toHaveBeenCalledWith(userId);
+   });
+});
+
 describe("handleStripeCheckoutCompleted tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();

@@ -16,10 +16,14 @@ import {
 } from "@/components/shadcn/field";
 import { Input } from "@/components/shadcn/input";
 import { signUpUser } from "@/data/actions/user";
-import { DSignUpFormData } from "@/data/types/domain/user";
-import { signUpFormSchema } from "@/data/types/validators/user.schema";
+import { DUserSignUp } from "@/data/types/domain/user";
+import { signUpSchema } from "@/data/types/validators/user";
 
-import { getPasswordStrength, PasswordStrength } from "./utils";
+import {
+   getPasswordStrength,
+   getStrengthColor,
+   getStrengthWidth,
+} from "./utils";
 
 export const SignUpForm = () => {
    const [showPassword, setShowPassword] = useState(false);
@@ -31,8 +35,8 @@ export const SignUpForm = () => {
       control,
       setError,
       watch,
-   } = useForm<DSignUpFormData>({
-      resolver: zodResolver(signUpFormSchema),
+   } = useForm<DUserSignUp>({
+      resolver: zodResolver(signUpSchema),
       defaultValues: {
          name: "",
          email: "",
@@ -50,7 +54,7 @@ export const SignUpForm = () => {
       [password]
    );
 
-   const onSubmit: SubmitHandler<DSignUpFormData> = async (data) => {
+   const onSubmit: SubmitHandler<DUserSignUp> = async (data) => {
       const result = await signUpUser(data);
       if (!result.success) {
          setError("root.serverError", {
@@ -66,28 +70,6 @@ export const SignUpForm = () => {
 
    const toggleConfirmPasswordVisibility = () => {
       setShowConfirmPassword(!showConfirmPassword);
-   };
-
-   const getStrengthColor = (strength: PasswordStrength) => {
-      switch (strength) {
-         case "weak":
-            return "bg-red-500";
-         case "medium":
-            return "bg-yellow-500";
-         case "strong":
-            return "bg-green-500";
-      }
-   };
-
-   const getStrengthWidth = (strength: PasswordStrength) => {
-      switch (strength) {
-         case "weak":
-            return "w-1/3";
-         case "medium":
-            return "w-2/3";
-         case "strong":
-            return "w-full";
-      }
    };
 
    return (
@@ -198,7 +180,9 @@ export const SignUpForm = () => {
                            onClick={togglePasswordVisibility}
                            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded p-0.5"
                            aria-label={
-                              showPassword ? "Passwort verbergen" : "Passwort anzeigen"
+                              showPassword
+                                 ? "Passwort verbergen"
+                                 : "Passwort anzeigen"
                            }
                            data-testid="toggle-password-visibility"
                         >

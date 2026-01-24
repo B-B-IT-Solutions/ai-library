@@ -1,4 +1,9 @@
-import { getPasswordStrength, PasswordStrength } from "./utils";
+import {
+   getPasswordStrength,
+   getStrengthColor,
+   getStrengthWidth,
+   PasswordStrength,
+} from "./utils";
 
 describe("password tests", () => {
    it("should return null for null or empty string", () => {
@@ -40,7 +45,7 @@ describe("password tests", () => {
    });
 });
 
-describe("edge cases", () => {
+describe("password - edge cases - tests", () => {
    it("should handle password with only special characters", () => {
       expect(getPasswordStrength("!@#$%^")).toBe("weak");
    });
@@ -78,7 +83,7 @@ describe("edge cases", () => {
    });
 });
 
-describe("strength criteria validation", () => {
+describe("password - strength criteria validation - tests", () => {
    it("should count length >= 8 as strength point", () => {
       // 8 chars only = 1 point = weak
       expect(getPasswordStrength("aaaaaaaa")).toBe("weak");
@@ -115,7 +120,7 @@ describe("strength criteria validation", () => {
    });
 });
 
-describe("return type validation", () => {
+describe("password - return type validation - tests", () => {
    it("should return PasswordStrength type for valid passwords", () => {
       const result: PasswordStrength = getPasswordStrength("Test123!");
       expect(["weak", "medium", "strong", null]).toContain(result);
@@ -133,7 +138,7 @@ describe("return type validation", () => {
    });
 });
 
-describe("common password patterns", () => {
+describe("password - common password patterns - tests", () => {
    it("should rate common weak patterns as weak", () => {
       expect(getPasswordStrength("password")).toBe("weak");
       expect(getPasswordStrength("123456")).toBe("weak");
@@ -153,7 +158,7 @@ describe("common password patterns", () => {
    });
 });
 
-describe("special character detection", () => {
+describe("password - special character detection - tests", () => {
    it("should detect common special characters", () => {
       expect(getPasswordStrength("Pass!word8")).toBe("strong");
       expect(getPasswordStrength("Pass@word8")).toBe("strong");
@@ -168,5 +173,19 @@ describe("special character detection", () => {
       expect(getPasswordStrength("Pass-word8")).toBe("strong");
       expect(getPasswordStrength("Pass_word8")).toBe("strong");
       expect(getPasswordStrength("Pass+word8")).toBe("strong");
+   });
+});
+
+describe("utils tests", () => {
+   it("getStrengthColor test", () => {
+      expect(getStrengthColor("weak")).toBe("bg-red-500");
+      expect(getStrengthColor("medium")).toBe("bg-yellow-500");
+      expect(getStrengthColor("strong")).toBe("bg-green-500");
+   });
+
+   it("getStrengthWidth test", () => {
+      expect(getStrengthWidth("weak")).toBe("w-1/3");
+      expect(getStrengthWidth("medium")).toBe("w-2/3");
+      expect(getStrengthWidth("strong")).toBe("w-full");
    });
 });

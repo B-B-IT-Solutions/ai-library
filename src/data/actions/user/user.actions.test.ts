@@ -1,28 +1,43 @@
-jest.mock("@/data/repositories/user");
+jest.mock("@/data/services/user");
+jest.mock("@/data/actions/auth-utils");
 jest.mock("next/dist/client/components/redirect-error");
 
-import { dtestData, ptestData } from "@tests";
+import { PrismaClient } from "@prisma/client";
+import { dtestData } from "@tests";
+import { DeepMockProxy } from "jest-mock-extended";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 import { signIn, signOut } from "@/auth";
+import { requireUser } from "@/data/actions/auth-utils";
+import prisma from "@/data/repositories/prisma";
+import { UserService } from "@/data/services/user";
 import {
-   createUser,
-   getUserByEmail as pGetUserByEmail,
-   getUserById as pGetUserById,
-   updateUser as pUpdateUser,
-} from "@/data/repositories/user";
-import { DSignInFormData, DSignUpFormData } from "@/data/types/domain/user";
-import { Prisma } from "@/generated/prisma/client";
-import { hash } from "@/lib/encrypt";
+   DUserAccountDelete,
+   DUserPasswordUpdate,
+   DUserSignIn,
+   DUserSignUp,
+   DUserUpdateData,
+} from "@/data/types/domain/user";
 
 import {
-   getUserByEmail,
+   deleteUser,
    getUserById,
    signInWithCredentials,
    signOutUser,
    signUpUser,
-   updateUser,
+   updatePassword,
+   updateUserProfile,
 } from "./user.actions";
+
+const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
+
+const sSignUpUser = UserService.prototype.signUpUser;
+const sGetUserById = UserService.prototype.getUserById;
+const sUpdateUser = UserService.prototype.updateUser;
+const sUpdatePassword = UserService.prototype.updatePassword;
+const sDeleteUser = UserService.prototype.deleteUser;
+
+const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
 const isRedirectErrorock = isRedirectError as jest.MockedFunction<
    typeof isRedirectError
@@ -30,21 +45,31 @@ const isRedirectErrorock = isRedirectError as jest.MockedFunction<
 const signInMock = signIn as jest.MockedFunction<typeof signIn>;
 const signOutMock = signOut as jest.MockedFunction<typeof signOut>;
 
-const getUserByIdMock = pGetUserById as jest.MockedFunction<
-   typeof pGetUserById
+const sSignUpUserMock = sSignUpUser as jest.MockedFunction<typeof sSignUpUser>;
+
+const sGetUserByIdMock = sGetUserById as jest.MockedFunction<
+   typeof sGetUserById
 >;
-const pGetUserByEmailMock = pGetUserByEmail as jest.MockedFunction<
-   typeof pGetUserByEmail
+
+const sUpdateUserMock = sUpdateUser as jest.MockedFunction<typeof sUpdateUser>;
+
+const sUpdatePasswordMock = sUpdatePassword as jest.MockedFunction<
+   typeof sUpdatePassword
 >;
-const createUserMock = createUser as jest.MockedFunction<typeof createUser>;
+
+const sDeleteUserMock = sDeleteUser as jest.MockedFunction<typeof sDeleteUser>;
 
 describe("signInWithCredentials tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
+   });
+
+   afterEach(() => {
+      signInMock.mockReset();
    });
 
    it("signInWithCredentials - valid email/password - test", async () => {
-      const formData: DSignInFormData = {
+      const formData: DUserSignIn = {
          email: "test1@email.com",
          password: "password123",
       };
@@ -62,7 +87,7 @@ describe("signInWithCredentials tests", () => {
    });
 
    it("signInWithCredentials - invalid email/password - test", async () => {
-      const formData: DSignInFormData = {
+      const formData: DUserSignIn = {
          email: "test1email.com",
          password: "p123",
       };
@@ -80,7 +105,7 @@ describe("signInWithCredentials tests", () => {
    });
 
    it("signInWithCredentials - redirect error - test", async () => {
-      const formData: DSignInFormData = {
+      const formData: DUserSignIn = {
          email: "test1@email.com",
          password: "password123",
       };
@@ -98,7 +123,7 @@ describe("signInWithCredentials tests", () => {
 
 describe("signOutUser tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    it("signOutUser - test", async () => {
@@ -110,36 +135,31 @@ describe("signOutUser tests", () => {
 
 describe("signUpUser tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
+      isRedirectErrorock.mockReset();
    });
 
    it("signUpUser - valid form values - test", async () => {
-      const formData: DSignUpFormData = {
+      const data: DUserSignUp = {
          name: "Test 1",
          email: "test1@email.com",
          password: "123456",
          confirmPassword: "123456",
       };
-      const result = await signUpUser(formData);
+      const result = await signUpUser(data);
 
       const expectedResult = {
          success: true,
          message: "User registered successfully",
       };
 
-      const newUser: Prisma.UserCreateInput = {
-         name: formData.name,
-         email: formData.email,
-         password: await hash(formData.password),
-      };
-
       const expectedSignInData = {
-         email: formData.email,
-         password: formData.password,
+         email: data.email,
+         password: data.password,
       };
       expect(result).toEqual(expectedResult);
-      expect(createUserMock).toHaveBeenCalledTimes(1);
-      expect(createUserMock).toHaveBeenCalledWith(newUser);
+      expect(sSignUpUserMock).toHaveBeenCalledTimes(1);
+      expect(sSignUpUserMock).toHaveBeenCalledWith(data);
       expect(signInMock).toHaveBeenCalledTimes(1);
       expect(signInMock).toHaveBeenCalledWith(
          "credentials",
@@ -148,7 +168,7 @@ describe("signUpUser tests", () => {
    });
 
    it("signUpUser - invalid form values - test", async () => {
-      const formData: DSignUpFormData = {
+      const data: DUserSignUp = {
          name: "Test 1",
          email: "email.com",
          password: "123456",
@@ -156,7 +176,7 @@ describe("signUpUser tests", () => {
       };
       isRedirectErrorock.mockReturnValue(false);
 
-      const result = await signUpUser(formData);
+      const result = await signUpUser(data);
 
       const expectedResult = {
          success: false,
@@ -165,12 +185,12 @@ describe("signUpUser tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(createUserMock).not.toHaveBeenCalled();
+      expect(sSignUpUserMock).not.toHaveBeenCalled();
       expect(signInMock).not.toHaveBeenCalled();
    });
 
    it("signUpUser - redirect error - test", async () => {
-      const signUpData: DSignUpFormData = {
+      const data: DUserSignUp = {
          name: "Test 1",
          email: "test1@email.com",
          password: "123456",
@@ -181,22 +201,16 @@ describe("signUpUser tests", () => {
       signInMock.mockRejectedValue(error);
       isRedirectErrorock.mockReturnValue(true);
 
-      const fn = () => signUpUser(signUpData);
-
-      const newUser: Prisma.UserCreateInput = {
-         name: signUpData.name,
-         email: signUpData.email,
-         password: await hash(signUpData.password),
-      };
+      const fn = () => signUpUser(data);
 
       const expectedSignInData = {
-         email: signUpData.email,
-         password: signUpData.password,
+         email: data.email,
+         password: data.password,
       };
 
       await expect(fn).rejects.toThrow(Error);
-      expect(createUserMock).toHaveBeenCalledTimes(1);
-      expect(createUserMock).toHaveBeenCalledWith(newUser);
+      expect(sSignUpUserMock).toHaveBeenCalledTimes(1);
+      expect(sSignUpUserMock).toHaveBeenCalledWith(data);
       expect(signInMock).toHaveBeenCalledTimes(1);
       expect(signInMock).toHaveBeenCalledWith(
          "credentials",
@@ -207,72 +221,282 @@ describe("signUpUser tests", () => {
 
 describe("getUserById tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    it("getUserById - user found - test", async () => {
-      const user = ptestData.pUser();
-      getUserByIdMock.mockResolvedValue(user);
+      const user = dtestData.dUser();
+      sGetUserByIdMock.mockResolvedValue(user);
 
       const result = await getUserById(user.id);
 
       expect(result).toEqual(user);
-      expect(getUserByIdMock).toHaveBeenCalledTimes(1);
-      expect(getUserByIdMock).toHaveBeenCalledWith(user.id);
+      expect(sGetUserByIdMock).toHaveBeenCalledTimes(1);
+      expect(sGetUserByIdMock).toHaveBeenCalledWith(user.id);
    });
 
    it("getUserById - user null - test", async () => {
-      getUserByIdMock.mockResolvedValue(null);
+      sGetUserByIdMock.mockResolvedValue(null);
       const userId = "invalid-id-1";
 
       const fn = () => getUserById(userId);
 
       await expect(fn).rejects.toThrow(Error);
-      expect(getUserByIdMock).toHaveBeenCalledTimes(1);
-      expect(getUserByIdMock).toHaveBeenCalledWith(userId);
+      expect(sGetUserByIdMock).toHaveBeenCalledTimes(1);
+      expect(sGetUserByIdMock).toHaveBeenCalledWith(userId);
    });
 });
 
-describe("getUserByEmail tests", () => {
+describe("updateUserProfile tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
+      isRedirectErrorock.mockReset();
    });
 
-   it("getUserByEmail - user found - test", async () => {
-      const user = ptestData.pUser();
-      pGetUserByEmailMock.mockResolvedValue(user);
+   it("updateUserProfile - user undefined - test", async () => {
+      requireUserMock.mockRejectedValue("Unknow user");
 
-      const result = await getUserByEmail(user.email);
+      const data: DUserUpdateData = {
+         name: "Test 1",
+      };
 
-      expect(result).toEqual(user);
-      expect(pGetUserByEmailMock).toHaveBeenCalledTimes(1);
-      expect(pGetUserByEmailMock).toHaveBeenCalledWith(user.email);
+      const result = await updateUserProfile(data);
+
+      const expectedResult = {
+         success: false,
+         message: "Fehler beim Aktualisieren des Profils",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sUpdateUserMock).not.toHaveBeenCalled();
    });
 
-   it("getUserByEmail - user null - test", async () => {
-      pGetUserByEmailMock.mockResolvedValue(null);
-      const email = "invalid-email-1";
+   it("updateUserProfile - valid data - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      const data: DUserUpdateData = {
+         name: "Test 1",
+      };
 
-      const result = await getUserByEmail(email);
+      const result = await updateUserProfile(data);
 
-      expect(result).toBeNull();
-      expect(pGetUserByEmailMock).toHaveBeenCalledTimes(1);
-      expect(pGetUserByEmailMock).toHaveBeenCalledWith(email);
+      const expectedResult = {
+         success: true,
+         message: "Profil erfolgreich aktualisiert",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sUpdateUserMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateUserMock).toHaveBeenCalledWith(user.id, data);
+   });
+
+   it("updateUserProfile - invalid data - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      const data: DUserUpdateData = {
+         name: "T",
+      };
+
+      const result = await updateUserProfile(data);
+
+      const expectedResult = {
+         success: false,
+         message: "Fehler beim Aktualisieren des Profils",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sUpdateUserMock).not.toHaveBeenCalled();
+   });
+
+   it("updateUserProfile - redirect error - test", async () => {
+      const error = new Error("redirect error");
+      requireUserMock.mockRejectedValue(error);
+      isRedirectErrorock.mockReturnValue(true);
+
+      const data: DUserUpdateData = {
+         name: "test 1",
+      };
+
+      const fn = () => updateUserProfile(data);
+
+      await expect(fn).rejects.toThrow(Error);
+      expect(sUpdateUserMock).not.toHaveBeenCalled();
    });
 });
 
-describe("updateUser tests", () => {
+describe("updatePassword tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
+      isRedirectErrorock.mockReset();
    });
 
-   test("updateUser - user updated - test", async () => {
-      const userId = "user-id-1";
-      const data = dtestData.dUserUpdateData();
+   it("updatePassword - user undefined - test", async () => {
+      requireUserMock.mockRejectedValue("Unknow user");
 
-      await updateUser(userId, data);
+      const data: DUserPasswordUpdate = {
+         currentPassword: "test123",
+         newPassword: "12345679",
+         confirmPassword: "12345679",
+      };
 
-      expect(pUpdateUser).toHaveBeenCalledTimes(1);
-      expect(pUpdateUser).toHaveBeenCalledWith(userId, data);
+      const result = await updatePassword(data);
+
+      const expectedResult = {
+         success: false,
+         message: "Fehler beim Ändern des Passworts",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sUpdatePasswordMock).not.toHaveBeenCalled();
+      expect(signOutMock).not.toHaveBeenCalled();
+   });
+
+   it("updatePassword - valid data - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const data: DUserPasswordUpdate = {
+         currentPassword: "test123",
+         newPassword: "12345679",
+         confirmPassword: "12345679",
+      };
+
+      const result = await updatePassword(data);
+
+      const expectedResult = {
+         success: true,
+         message: "Passwort erfolgreich geändert",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sUpdatePasswordMock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePasswordMock).toHaveBeenCalledWith(user.id, data);
+      expect(signOutMock).toHaveBeenCalledTimes(1);
+      expect(signOutMock).toHaveBeenCalledWith({ redirect: false });
+   });
+
+   it("updatePassword - invalid data - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const data: DUserPasswordUpdate = {
+         currentPassword: "test123",
+         newPassword: "12345679",
+         confirmPassword: "test123",
+      };
+
+      const result = await updatePassword(data);
+
+      const expectedResult = {
+         success: false,
+         message: "Fehler beim Ändern des Passworts",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sUpdatePasswordMock).not.toHaveBeenCalled();
+      expect(signOutMock).not.toHaveBeenCalled();
+   });
+
+   it("updatePassword - redirect error - test", async () => {
+      const error = new Error("redirect error");
+      requireUserMock.mockRejectedValue(error);
+      isRedirectErrorock.mockReturnValue(true);
+
+      const data: DUserPasswordUpdate = {
+         currentPassword: "test123",
+         newPassword: "12345679",
+         confirmPassword: "test123",
+      };
+
+      const fn = () => updatePassword(data);
+
+      await expect(fn).rejects.toThrow(Error);
+      expect(sUpdatePasswordMock).not.toHaveBeenCalled();
+      expect(signOutMock).not.toHaveBeenCalled();
+   });
+});
+
+describe("deleteUser tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      isRedirectErrorock.mockReset();
+   });
+
+   it("deleteUser - user undefined - test", async () => {
+      requireUserMock.mockRejectedValue("Unknow user");
+
+      const data: DUserAccountDelete = {
+         password: "test123",
+      };
+
+      const result = await deleteUser(data);
+
+      const expectedResult = {
+         success: false,
+         message: "Fehler beim Löschen des Kontos",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sDeleteUserMock).not.toHaveBeenCalled();
+      expect(signOutMock).not.toHaveBeenCalled();
+   });
+
+   it("deleteUser - valid data - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const data: DUserAccountDelete = {
+         password: "test123",
+      };
+
+      const result = await deleteUser(data);
+
+      const expectedResult = {
+         success: true,
+         message: "Konto wurde gelöscht",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
+      expect(sDeleteUserMock).toHaveBeenCalledTimes(1);
+      expect(sDeleteUserMock).toHaveBeenCalledWith(user.id, data);
+      expect(signOutMock).toHaveBeenCalledTimes(1);
+      expect(signOutMock).toHaveBeenCalledWith({ redirectTo: "/p" });
+   });
+
+   it("deleteUser - invalid data - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const data: DUserAccountDelete = {
+         password: "",
+      };
+
+      const result = await deleteUser(data);
+
+      const expectedResult = {
+         success: false,
+         message: "Fehler beim Löschen des Kontos",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sDeleteUserMock).not.toHaveBeenCalled();
+      expect(signOutMock).not.toHaveBeenCalled();
+   });
+
+   it("deleteUser - redirect error - test", async () => {
+      const error = new Error("redirect error");
+      requireUserMock.mockRejectedValue(error);
+      isRedirectErrorock.mockReturnValue(true);
+
+      const data: DUserAccountDelete = {
+         password: "test123",
+      };
+
+      const fn = () => deleteUser(data);
+
+      await expect(fn).rejects.toThrow(Error);
+      expect(sDeleteUserMock).not.toHaveBeenCalled();
+      expect(signOutMock).not.toHaveBeenCalled();
    });
 });
