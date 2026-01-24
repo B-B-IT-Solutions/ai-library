@@ -30,11 +30,7 @@ export const Settings: FC<SettingsProps> = ({ user, section }) => {
          data-testid="settings-view"
       >
          <SettingsNavigation active={section} />
-         <main className="lg:col-span-9">
-            <div className="animate-in duration-300 fade-in-50">
-               {content()}
-            </div>
-         </main>
+         <main className="lg:col-span-9">{content()}</main>
       </div>
    );
 };
