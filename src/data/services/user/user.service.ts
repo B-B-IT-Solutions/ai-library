@@ -107,6 +107,7 @@ export class UserService {
       }
 
       // Hard delete user and all related data
+      await this.cartService.deleteCarts(userId);
       await this.userRepository.pHardDeleteUser(userId);
    }
 }

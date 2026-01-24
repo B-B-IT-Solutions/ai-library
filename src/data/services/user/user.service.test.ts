@@ -1,4 +1,5 @@
 jest.mock("@/data/repositories/user");
+jest.mock("@/data/services/cart");
 jest.mock("@/lib/encrypt");
 
 import { ptestData } from "@tests";
@@ -15,6 +16,8 @@ import {
 } from "@/data/types/domain/user";
 import { UserCreateInput } from "@/generated/prisma/models";
 import { compare, hash } from "@/lib/encrypt";
+import { CartService } from "../cart";
+import { ServiceFactory } from "../service.factory";
 
 import { toDUser } from "./user.mapper";
 import { UserService } from "./user.service";
@@ -22,10 +25,15 @@ import { UserService } from "./user.service";
 const compareMock = compare as jest.MockedFunction<typeof compare>;
 const hashMock = hash as jest.MockedFunction<typeof hash>;
 
+const serviceFactory = new ServiceFactory(prisma);
+const cartService = serviceFactory.getCartService();
+
+const cartServiceMock = cartService as DeepMockProxy<CartService>;
+
 const userRepo = new UserRepository(prisma);
 const userRepoMock = userRepo as DeepMockProxy<UserRepository>;
 
-const userService = new UserService(userRepoMock);
+const userService = new UserService(userRepoMock, cartServiceMock);
 
 describe("signUpUser tests", () => {
    beforeEach(() => {
@@ -304,6 +312,8 @@ describe("deleteUser tests", () => {
       expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
       expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(user.id);
       expect(compareMock).not.toHaveBeenCalled();
+      expect(cartServiceMock.deleteCarts).not.toHaveBeenCalled();
+      expect(userRepoMock.pHardDeleteUser).not.toHaveBeenCalled();
    });
 
    it("deleteUser - user.password null - test", async () => {
@@ -321,6 +331,8 @@ describe("deleteUser tests", () => {
       expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
       expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(user.id);
       expect(compareMock).not.toHaveBeenCalled();
+      expect(cartServiceMock.deleteCarts).not.toHaveBeenCalled();
+      expect(userRepoMock.pHardDeleteUser).not.toHaveBeenCalled();
    });
 
    it("deleteUser - password invalid - test", async () => {
@@ -337,6 +349,8 @@ describe("deleteUser tests", () => {
       expect(fn).rejects.toThrow("Account cannot be deleted");
       expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
       expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(user.id);
+      expect(cartServiceMock.deleteCarts).not.toHaveBeenCalled();
+      expect(userRepoMock.pHardDeleteUser).not.toHaveBeenCalled();
    });
 
    it("deleteUser - user deleted - test", async () => {
@@ -352,6 +366,8 @@ describe("deleteUser tests", () => {
 
       expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
       expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(user.id);
+      expect(cartServiceMock.deleteCarts).toHaveBeenCalledTimes(1);
+      expect(cartServiceMock.deleteCarts).toHaveBeenCalledWith(user.id);
       expect(userRepoMock.pHardDeleteUser).toHaveBeenCalledTimes(1);
       expect(userRepoMock.pHardDeleteUser).toHaveBeenCalledWith(user.id);
       expect(compareMock).toHaveBeenCalledTimes(1);
