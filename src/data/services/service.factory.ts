@@ -23,7 +23,10 @@ export class ServiceFactory {
 
    getUserService(): UserService {
       if (!this.userService) {
-         this.userService = new UserService(this.repositories.userRepository());
+         this.userService = new UserService(
+            this.repositories.userRepository(),
+            this.getCartService()
+         );
       }
       return this.userService;
    }

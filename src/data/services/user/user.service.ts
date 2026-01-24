@@ -9,14 +9,17 @@ import {
 } from "@/data/types/domain/user";
 import { UserCreateInput } from "@/generated/prisma/models";
 import { compare, hash } from "@/lib/encrypt";
+import { CartService } from "../cart";
 
 import { toDUser } from "./user.mapper";
 
 export class UserService {
    private userRepository: UserRepository;
+   private cartService: CartService;
 
-   constructor(userRepository: UserRepository) {
+   constructor(userRepository: UserRepository, cartService: CartService) {
       this.userRepository = userRepository;
+      this.cartService = cartService;
    }
 
    async signUpUser(data: DUserSignUp): Promise<DUser> {

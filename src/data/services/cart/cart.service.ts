@@ -88,6 +88,10 @@ export class CartService {
       }
    }
 
+   async deleteCarts(userId: string) {
+      await this.cartRepository.pDeleteCarts(userId);
+   }
+
    async migrateSessionCartToUser(sessionCartId: string, userId: string) {
       await this.cartRepository.pMigrateSessionCartToUser(
          sessionCartId,

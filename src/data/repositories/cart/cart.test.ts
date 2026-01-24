@@ -210,28 +210,6 @@ describe("pCreateCart tests", () => {
    });
 });
 
-describe("pClearCart tests", () => {
-   beforeEach(() => {
-      mockReset(prismaMock);
-   });
-
-   it("pClearCart test", async () => {
-      const cartId = "cart-1";
-      await cartRepository.pClearCart(cartId);
-
-      const expectedDeleteManyArgs = {
-         where: { cartId },
-      };
-
-      await waitFor(() => {
-         expect(prismaMock.cartItem.deleteMany).toHaveBeenCalledTimes(1);
-         expect(prismaMock.cartItem.deleteMany).toHaveBeenCalledWith(
-            expectedDeleteManyArgs
-         );
-      });
-   });
-});
-
 describe("pAddItemToCart tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
@@ -379,6 +357,50 @@ describe("pRemoveCartItem tests", () => {
          "Record not found"
       );
       expect(prismaMock.cartItem.delete).toHaveBeenCalledTimes(1);
+   });
+});
+
+describe("pClearCart tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("pClearCart test", async () => {
+      const cartId = "cart-1";
+      await cartRepository.pClearCart(cartId);
+
+      const expectedDeleteManyArgs = {
+         where: { cartId },
+      };
+
+      await waitFor(() => {
+         expect(prismaMock.cartItem.deleteMany).toHaveBeenCalledTimes(1);
+         expect(prismaMock.cartItem.deleteMany).toHaveBeenCalledWith(
+            expectedDeleteManyArgs
+         );
+      });
+   });
+});
+
+describe("pDeleteCarts tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("pDeleteCarts test", async () => {
+      const userId = "user-id-1";
+      await cartRepository.pDeleteCarts(userId);
+
+      const expectedDeleteManyArgs = {
+         where: { userId },
+      };
+
+      await waitFor(() => {
+         expect(prismaMock.cart.deleteMany).toHaveBeenCalledTimes(1);
+         expect(prismaMock.cart.deleteMany).toHaveBeenCalledWith(
+            expectedDeleteManyArgs
+         );
+      });
    });
 });
 

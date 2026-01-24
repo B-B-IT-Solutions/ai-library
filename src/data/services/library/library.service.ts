@@ -95,6 +95,7 @@ export class LibraryService {
          title: descriptor.title,
          recommendedModel: descriptor.recommendedModel,
          categories: map(descriptor.categories, (cat) => cat.name),
+         followUpPrompts: [],
       };
 
       await this.promptService.createPrompt(promptData);
