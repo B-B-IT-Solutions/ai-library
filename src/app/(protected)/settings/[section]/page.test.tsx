@@ -14,7 +14,11 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getUserById } from "@/data/actions/user";
 
-import SettingsPage, { metadata } from "./page";
+import SettingsPage, {
+   metadata,
+   SettingsPageProps,
+   SettingsParams,
+} from "./page";
 
 const authMock = auth as unknown as AuthMockedFunction;
 
@@ -41,7 +45,12 @@ describe("SettingsPage rendering tests", () => {
    it("SettingsPage - session null - redirects to home", async () => {
       authMock.mockResolvedValue(null);
 
-      const { container } = await renderAsyncRSC(SettingsPage, {});
+      const params: SettingsParams = { section: "general" };
+      const props: SettingsPageProps = {
+         params: Promise.resolve(params),
+      };
+
+      const { container } = await renderAsyncRSC(SettingsPage, props);
 
       await waitFor(() => {
          expect(authMock).toHaveBeenCalledTimes(1);
@@ -58,7 +67,12 @@ describe("SettingsPage rendering tests", () => {
       session.user = undefined;
       authMock.mockResolvedValue(session);
 
-      const { container } = await renderAsyncRSC(SettingsPage, {});
+      const params: SettingsParams = { section: "general" };
+      const props: SettingsPageProps = {
+         params: Promise.resolve(params),
+      };
+
+      const { container } = await renderAsyncRSC(SettingsPage, props);
 
       await waitFor(() => {
          expect(authMock).toHaveBeenCalledTimes(1);
@@ -75,7 +89,12 @@ describe("SettingsPage rendering tests", () => {
       session.user.id = undefined;
       authMock.mockResolvedValue(session);
 
-      const { container } = await renderAsyncRSC(SettingsPage, {});
+      const params: SettingsParams = { section: "general" };
+      const props: SettingsPageProps = {
+         params: Promise.resolve(params),
+      };
+
+      const { container } = await renderAsyncRSC(SettingsPage, props);
 
       await waitFor(() => {
          expect(authMock).toHaveBeenCalledTimes(1);
@@ -93,7 +112,12 @@ describe("SettingsPage rendering tests", () => {
       authMock.mockResolvedValue(session);
       getUserByIdMock.mockResolvedValue(user);
 
-      const { container } = await renderAsyncRSC(SettingsPage, {});
+      const params: SettingsParams = { section: "general" };
+      const props: SettingsPageProps = {
+         params: Promise.resolve(params),
+      };
+
+      const { container } = await renderAsyncRSC(SettingsPage, props);
 
       await waitFor(() => {
          assertRendered();

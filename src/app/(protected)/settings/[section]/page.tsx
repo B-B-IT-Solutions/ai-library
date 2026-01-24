@@ -3,16 +3,27 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { Settings } from "@/components/settings";
 import { getUserById } from "@/data/actions/user";
+import { DSettingsSection } from "@/data/types/domain/settings";
 
 export const metadata = {
    title: "Einstellungen",
 };
 
-const SettingsPage = async () => {
+export type SettingsParams = {
+   section: DSettingsSection;
+};
+
+export type SettingsPageProps = {
+   params: Promise<SettingsParams>;
+};
+
+const SettingsPage = async (props: SettingsPageProps) => {
    const session = await auth();
    if (!session?.user?.id) {
       return redirect("/");
    }
+
+   const { section } = await props.params;
 
    const user = await getUserById(session.user.id);
 
@@ -31,7 +42,7 @@ const SettingsPage = async () => {
          </div>
 
          <div className="space-y-6">
-            <Settings user={user} />
+            <Settings user={user} section={section} />
          </div>
       </div>
    );
