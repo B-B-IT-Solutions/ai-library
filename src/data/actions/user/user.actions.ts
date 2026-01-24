@@ -137,8 +137,10 @@ export const deleteUser = async (
       const user = await requireUser();
       const validatedData = deleteAccountSchema.parse(data);
 
-      const userService = getUserService();
-      await userService.deleteUser(user.id, validatedData);
+      await prisma.$transaction(async (tx) => {
+         const userService = getUserService(tx);
+         await userService.deleteUser(user.id, validatedData);
+      });
 
       await signOut({ redirectTo: "/p" });
 

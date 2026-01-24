@@ -2,11 +2,14 @@ jest.mock("@/data/services/user");
 jest.mock("@/data/actions/auth-utils");
 jest.mock("next/dist/client/components/redirect-error");
 
+import { PrismaClient } from "@prisma/client";
 import { dtestData } from "@tests";
+import { DeepMockProxy } from "jest-mock-extended";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 import { signIn, signOut } from "@/auth";
 import { requireUser } from "@/data/actions/auth-utils";
+import prisma from "@/data/repositories/prisma";
 import { UserService } from "@/data/services/user";
 import {
    DUserAccountDelete,
@@ -25,6 +28,8 @@ import {
    updatePassword,
    updateUserProfile,
 } from "./user.actions";
+
+const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
 const sSignUpUser = UserService.prototype.signUpUser;
 const sGetUserById = UserService.prototype.getUserById;
@@ -56,7 +61,11 @@ const sDeleteUserMock = sDeleteUser as jest.MockedFunction<typeof sDeleteUser>;
 
 describe("signInWithCredentials tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
+   });
+
+   afterEach(() => {
+      signInMock.mockReset();
    });
 
    it("signInWithCredentials - valid email/password - test", async () => {
@@ -114,7 +123,7 @@ describe("signInWithCredentials tests", () => {
 
 describe("signOutUser tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    it("signOutUser - test", async () => {
@@ -126,7 +135,7 @@ describe("signOutUser tests", () => {
 
 describe("signUpUser tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    it("signUpUser - valid form values - test", async () => {
@@ -211,7 +220,7 @@ describe("signUpUser tests", () => {
 
 describe("getUserById tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    it("getUserById - user found - test", async () => {
@@ -371,12 +380,12 @@ describe("updatePassword tests", () => {
    });
 });
 
-describe("deleteAccount tests", () => {
+describe("deleteUser tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("deleteAccount - user undefined - test", async () => {
+   it("deleteUser - user undefined - test", async () => {
       requireUserMock.mockRejectedValue("Unknow user");
 
       const data: DUserAccountDelete = {
@@ -395,7 +404,7 @@ describe("deleteAccount tests", () => {
       expect(signOutMock).not.toHaveBeenCalled();
    });
 
-   it("deleteAccount - valid data - test", async () => {
+   it("deleteUser - valid data - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -411,13 +420,14 @@ describe("deleteAccount tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
+      expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
       expect(sDeleteUserMock).toHaveBeenCalledTimes(1);
       expect(sDeleteUserMock).toHaveBeenCalledWith(user.id, data);
       expect(signOutMock).toHaveBeenCalledTimes(1);
       expect(signOutMock).toHaveBeenCalledWith({ redirectTo: "/p" });
    });
 
-   it("deleteAccount - invalid data - test", async () => {
+   it("deleteUser - invalid data - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
