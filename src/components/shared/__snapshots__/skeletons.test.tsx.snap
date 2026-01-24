@@ -3,40 +3,40 @@
 exports[`CartItemSkeleton rendering tests CartItemSkeleton rendered test 1`] = `
 <div>
   <div
-    class="flex items-center gap-4 p-4 border border-slate-200 rounded-lg"
+    class="flex items-center gap-4 rounded-lg border border-slate-200 p-4"
   >
     <div
       class="flex-1 space-y-2"
     >
       <div
-        class="h-5 bg-slate-200 rounded w-3/4 animate-pulse"
+        class="h-5 w-3/4 animate-pulse rounded bg-slate-200"
       />
       <div
-        class="h-4 bg-slate-200 rounded w-1/2 animate-pulse"
+        class="h-4 w-1/2 animate-pulse rounded bg-slate-200"
       />
     </div>
     <div
       class="flex items-center gap-2"
     >
       <div
-        class="h-9 w-9 bg-slate-200 rounded animate-pulse"
+        class="h-9 w-9 animate-pulse rounded bg-slate-200"
       />
       <div
-        class="h-5 w-8 bg-slate-200 rounded animate-pulse"
+        class="h-5 w-8 animate-pulse rounded bg-slate-200"
       />
       <div
-        class="h-9 w-9 bg-slate-200 rounded animate-pulse"
+        class="h-9 w-9 animate-pulse rounded bg-slate-200"
       />
     </div>
     <div
       class="w-24"
     >
       <div
-        class="h-6 bg-slate-200 rounded animate-pulse"
+        class="h-6 animate-pulse rounded bg-slate-200"
       />
     </div>
     <div
-      class="h-9 w-9 bg-slate-200 rounded animate-pulse"
+      class="h-9 w-9 animate-pulse rounded bg-slate-200"
     />
   </div>
 </div>
@@ -45,40 +45,40 @@ exports[`CartItemSkeleton rendering tests CartItemSkeleton rendered test 1`] = `
 exports[`OrderCardSkeleton rendering tests OrderCardSkeleton rendered test 1`] = `
 <div>
   <div
-    class="h-48 bg-slate-100 rounded-lg border border-slate-200 p-4"
+    class="h-48 rounded-lg border border-slate-200 bg-slate-100 p-4"
   >
     <div
-      class="flex justify-between items-start mb-3"
+      class="mb-3 flex items-start justify-between"
     >
       <div
         class="space-y-2"
       >
         <div
-          class="h-5 bg-slate-200 rounded w-32 animate-pulse"
+          class="h-5 w-32 animate-pulse rounded bg-slate-200"
         />
         <div
-          class="h-4 bg-slate-200 rounded w-24 animate-pulse"
+          class="h-4 w-24 animate-pulse rounded bg-slate-200"
         />
       </div>
       <div
-        class="h-6 bg-slate-200 rounded w-20 animate-pulse"
+        class="h-6 w-20 animate-pulse rounded bg-slate-200"
       />
     </div>
     <div
       class="space-y-2"
     >
       <div
-        class="h-4 bg-slate-100 rounded w-full animate-pulse"
+        class="h-4 w-full animate-pulse rounded bg-slate-100"
       />
       <div
-        class="h-4 bg-slate-100 rounded w-3/4 animate-pulse"
+        class="h-4 w-3/4 animate-pulse rounded bg-slate-100"
       />
     </div>
     <div
-      class="mt-4 pt-4 border-t"
+      class="mt-4 border-t pt-4"
     >
       <div
-        class="h-6 bg-slate-200 rounded w-24 animate-pulse"
+        class="h-6 w-24 animate-pulse rounded bg-slate-200"
       />
     </div>
   </div>
@@ -91,10 +91,10 @@ exports[`PageHeaderSkeleton rendering tests PageHeaderSkeleton rendered test 1`]
     class="mb-8"
   >
     <div
-      class="h-8 bg-slate-200 rounded w-48 mb-2 animate-pulse"
+      class="mb-2 h-8 w-48 animate-pulse rounded bg-slate-200"
     />
     <div
-      class="h-4 bg-slate-200 rounded w-96 animate-pulse"
+      class="h-4 w-96 animate-pulse rounded bg-slate-200"
     />
   </div>
 </div>
@@ -103,55 +103,55 @@ exports[`PageHeaderSkeleton rendering tests PageHeaderSkeleton rendered test 1`]
 exports[`ProductCardSkeleton rendering tests ProductCardSkeleton rendered test 1`] = `
 <div>
   <div
-    class="text-card-foreground flex flex-col shadow-sm p-4 gap-0 bg-white border border-slate-300 rounded-lg"
+    class="text-card-foreground flex flex-col shadow-sm gap-0 rounded-lg border border-slate-300 bg-white p-4"
     data-slot="card"
   >
     <div
-      class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 p-0 gap-2 mb-3"
+      class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 mb-3 gap-2 p-0"
       data-slot="card-header"
     >
       <div
         class="flex items-start justify-between gap-2"
       >
         <div
-          class="h-5 bg-slate-200 rounded w-3/4 animate-pulse"
+          class="h-5 w-3/4 animate-pulse rounded bg-slate-200"
         />
         <div
-          class="h-5 bg-slate-200 rounded w-16 animate-pulse"
+          class="h-5 w-16 animate-pulse rounded bg-slate-200"
         />
       </div>
       <div
-        class="h-8 bg-slate-200 rounded w-20 animate-pulse"
+        class="h-8 w-20 animate-pulse rounded bg-slate-200"
       />
     </div>
     <div
-      class="p-0 grid gap-2"
+      class="grid gap-2 p-0"
       data-slot="card-content"
     >
       <div
-        class="flex gap-1 mb-2"
+        class="mb-2 flex gap-1"
       >
         <div
-          class="h-5 bg-slate-100 rounded w-16 animate-pulse"
+          class="h-5 w-16 animate-pulse rounded bg-slate-100"
         />
         <div
-          class="h-5 bg-slate-100 rounded w-20 animate-pulse"
+          class="h-5 w-20 animate-pulse rounded bg-slate-100"
         />
       </div>
       <div
-        class="h-4 bg-slate-100 rounded w-full animate-pulse"
+        class="h-4 w-full animate-pulse rounded bg-slate-100"
       />
       <div
-        class="h-4 bg-slate-100 rounded w-2/3 animate-pulse mb-2"
+        class="mb-2 h-4 w-2/3 animate-pulse rounded bg-slate-100"
       />
       <div
         class="flex gap-2"
       >
         <div
-          class="h-9 bg-slate-200 rounded flex-1 animate-pulse"
+          class="h-9 flex-1 animate-pulse rounded bg-slate-200"
         />
         <div
-          class="h-9 bg-slate-200 rounded flex-1 animate-pulse"
+          class="h-9 flex-1 animate-pulse rounded bg-slate-200"
         />
       </div>
     </div>
@@ -162,55 +162,55 @@ exports[`ProductCardSkeleton rendering tests ProductCardSkeleton rendered test 1
 exports[`TemplateCardSkeleton rendering tests TemplateCardSkeleton rendered test 1`] = `
 <div>
   <div
-    class="text-card-foreground flex flex-col shadow-sm p-4 gap-0 bg-white border border-slate-300 rounded-lg"
+    class="text-card-foreground flex flex-col shadow-sm gap-0 rounded-lg border border-slate-300 bg-white p-4"
     data-slot="card"
   >
     <div
-      class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 p-0 gap-2 mb-3"
+      class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 mb-3 gap-2 p-0"
       data-slot="card-header"
     >
       <div
-        class="h-5 bg-slate-200 rounded w-3/4 animate-pulse"
+        class="h-5 w-3/4 animate-pulse rounded bg-slate-200"
       />
       <div
-        class="h-5 bg-slate-200 rounded w-32 animate-pulse"
+        class="h-5 w-32 animate-pulse rounded bg-slate-200"
       />
     </div>
     <div
-      class="p-0 grid gap-3"
+      class="grid gap-3 p-0"
       data-slot="card-content"
     >
       <div
-        class="flex gap-1 mb-2"
+        class="mb-2 flex gap-1"
       >
         <div
-          class="h-5 bg-slate-100 rounded w-16 animate-pulse"
+          class="h-5 w-16 animate-pulse rounded bg-slate-100"
         />
         <div
-          class="h-5 bg-slate-100 rounded w-20 animate-pulse"
+          class="h-5 w-20 animate-pulse rounded bg-slate-100"
         />
       </div>
       <div
         class="space-y-2"
       >
         <div
-          class="h-4 bg-slate-100 rounded w-full animate-pulse"
+          class="h-4 w-full animate-pulse rounded bg-slate-100"
         />
         <div
-          class="h-4 bg-slate-100 rounded w-full animate-pulse"
+          class="h-4 w-full animate-pulse rounded bg-slate-100"
         />
         <div
-          class="h-4 bg-slate-100 rounded w-2/3 animate-pulse"
+          class="h-4 w-2/3 animate-pulse rounded bg-slate-100"
         />
       </div>
       <div
-        class="flex gap-2 mt-2"
+        class="mt-2 flex gap-2"
       >
         <div
-          class="h-8 bg-slate-200 rounded flex-1 animate-pulse"
+          class="h-8 flex-1 animate-pulse rounded bg-slate-200"
         />
         <div
-          class="h-8 bg-slate-200 rounded flex-1 animate-pulse"
+          class="h-8 flex-1 animate-pulse rounded bg-slate-200"
         />
       </div>
     </div>

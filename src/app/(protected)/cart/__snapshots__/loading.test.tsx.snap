@@ -16,114 +16,114 @@ exports[`CartLoading rendering tests CartLoading - products empty - test 1`] = `
         class="lg:col-span-2 space-y-4"
       >
         <div
-          class="flex items-center gap-4 p-4 border border-slate-200 rounded-lg"
+          class="flex items-center gap-4 rounded-lg border border-slate-200 p-4"
         >
           <div
             class="flex-1 space-y-2"
           >
             <div
-              class="h-5 bg-slate-200 rounded w-3/4 animate-pulse"
+              class="h-5 w-3/4 animate-pulse rounded bg-slate-200"
             />
             <div
-              class="h-4 bg-slate-200 rounded w-1/2 animate-pulse"
+              class="h-4 w-1/2 animate-pulse rounded bg-slate-200"
             />
           </div>
           <div
             class="flex items-center gap-2"
           >
             <div
-              class="h-9 w-9 bg-slate-200 rounded animate-pulse"
+              class="h-9 w-9 animate-pulse rounded bg-slate-200"
             />
             <div
-              class="h-5 w-8 bg-slate-200 rounded animate-pulse"
+              class="h-5 w-8 animate-pulse rounded bg-slate-200"
             />
             <div
-              class="h-9 w-9 bg-slate-200 rounded animate-pulse"
+              class="h-9 w-9 animate-pulse rounded bg-slate-200"
             />
           </div>
           <div
             class="w-24"
           >
             <div
-              class="h-6 bg-slate-200 rounded animate-pulse"
+              class="h-6 animate-pulse rounded bg-slate-200"
             />
           </div>
           <div
-            class="h-9 w-9 bg-slate-200 rounded animate-pulse"
+            class="h-9 w-9 animate-pulse rounded bg-slate-200"
           />
         </div>
         <div
-          class="flex items-center gap-4 p-4 border border-slate-200 rounded-lg"
+          class="flex items-center gap-4 rounded-lg border border-slate-200 p-4"
         >
           <div
             class="flex-1 space-y-2"
           >
             <div
-              class="h-5 bg-slate-200 rounded w-3/4 animate-pulse"
+              class="h-5 w-3/4 animate-pulse rounded bg-slate-200"
             />
             <div
-              class="h-4 bg-slate-200 rounded w-1/2 animate-pulse"
+              class="h-4 w-1/2 animate-pulse rounded bg-slate-200"
             />
           </div>
           <div
             class="flex items-center gap-2"
           >
             <div
-              class="h-9 w-9 bg-slate-200 rounded animate-pulse"
+              class="h-9 w-9 animate-pulse rounded bg-slate-200"
             />
             <div
-              class="h-5 w-8 bg-slate-200 rounded animate-pulse"
+              class="h-5 w-8 animate-pulse rounded bg-slate-200"
             />
             <div
-              class="h-9 w-9 bg-slate-200 rounded animate-pulse"
+              class="h-9 w-9 animate-pulse rounded bg-slate-200"
             />
           </div>
           <div
             class="w-24"
           >
             <div
-              class="h-6 bg-slate-200 rounded animate-pulse"
+              class="h-6 animate-pulse rounded bg-slate-200"
             />
           </div>
           <div
-            class="h-9 w-9 bg-slate-200 rounded animate-pulse"
+            class="h-9 w-9 animate-pulse rounded bg-slate-200"
           />
         </div>
         <div
-          class="flex items-center gap-4 p-4 border border-slate-200 rounded-lg"
+          class="flex items-center gap-4 rounded-lg border border-slate-200 p-4"
         >
           <div
             class="flex-1 space-y-2"
           >
             <div
-              class="h-5 bg-slate-200 rounded w-3/4 animate-pulse"
+              class="h-5 w-3/4 animate-pulse rounded bg-slate-200"
             />
             <div
-              class="h-4 bg-slate-200 rounded w-1/2 animate-pulse"
+              class="h-4 w-1/2 animate-pulse rounded bg-slate-200"
             />
           </div>
           <div
             class="flex items-center gap-2"
           >
             <div
-              class="h-9 w-9 bg-slate-200 rounded animate-pulse"
+              class="h-9 w-9 animate-pulse rounded bg-slate-200"
             />
             <div
-              class="h-5 w-8 bg-slate-200 rounded animate-pulse"
+              class="h-5 w-8 animate-pulse rounded bg-slate-200"
             />
             <div
-              class="h-9 w-9 bg-slate-200 rounded animate-pulse"
+              class="h-9 w-9 animate-pulse rounded bg-slate-200"
             />
           </div>
           <div
             class="w-24"
           >
             <div
-              class="h-6 bg-slate-200 rounded animate-pulse"
+              class="h-6 animate-pulse rounded bg-slate-200"
             />
           </div>
           <div
-            class="h-9 w-9 bg-slate-200 rounded animate-pulse"
+            class="h-9 w-9 animate-pulse rounded bg-slate-200"
           />
         </div>
         <div

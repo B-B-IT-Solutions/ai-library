@@ -3,5 +3,7 @@
    "tabWidth": 3,
    "semi": true,
    "singleQuote": false,
-   "endOfLine": "lf"
+   "endOfLine": "lf",
+   "tailwindStylesheet": "./src/assets/styles/globals.css",
+   "plugins": ["prettier-plugin-tailwindcss"]
 }
