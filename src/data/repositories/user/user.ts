@@ -62,8 +62,8 @@ export class UserRepository {
       return await this.prisma.$transaction(async (tx) => {
          // Delete in dependency order
          await tx.session.deleteMany({ where: { userId } });
-         await tx.cart.deleteMany({ where: { userId } });
-         await tx.libraryEntry.deleteMany({ where: { userId } });
+         // await tx.cart.deleteMany({ where: { userId } });
+         // await tx.libraryEntry.deleteMany({ where: { userId } });
          await tx.order.deleteMany({ where: { userId } });
          await tx.account.deleteMany({ where: { userId } });
          await tx.user.delete({ where: { id: userId } });

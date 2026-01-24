@@ -73,6 +73,10 @@ export class LibraryService {
       }
    }
 
+   async deleteLibraryEntries(userId: string) {
+      await this.libraryRepository.pDeleteLibraryEntries(userId);
+   }
+
    async createPromptFromTemplate(templateDescriptorId: string) {
       if (!isValidUuid(templateDescriptorId)) {
          throw new Error("Invalid template ID.");

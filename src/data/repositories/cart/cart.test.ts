@@ -6,6 +6,7 @@ import { DeepMockProxy, mockReset } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import {
    CartCreateInput,
+   CartDeleteManyArgs,
    CartFindFirstArgs,
    CartFindUniqueArgs,
    CartItemFindUniqueArgs,
@@ -391,7 +392,7 @@ describe("pDeleteCarts tests", () => {
       const userId = "user-id-1";
       await cartRepository.pDeleteCarts(userId);
 
-      const expectedDeleteManyArgs = {
+      const expectedDeleteManyArgs: CartDeleteManyArgs = {
          where: { userId },
       };
 

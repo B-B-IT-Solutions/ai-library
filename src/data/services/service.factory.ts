@@ -25,7 +25,8 @@ export class ServiceFactory {
       if (!this.userService) {
          this.userService = new UserService(
             this.repositories.userRepository(),
-            this.getCartService()
+            this.getCartService(),
+            this.getLibraryService()
          );
       }
       return this.userService;

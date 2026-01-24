@@ -6,6 +6,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import {
    LibraryEntryCreateManyArgs,
+   LibraryEntryDeleteManyArgs,
    LibraryEntryFindManyArgs,
    LibraryEntryFindUniqueArgs,
 } from "@/generated/prisma/models";
@@ -155,6 +156,26 @@ describe("pCreateLibraryEntries tests", () => {
       expect(prismaMock.libraryEntry.createMany).toHaveBeenCalledTimes(1);
       expect(prismaMock.libraryEntry.createMany).toHaveBeenCalledWith(
          expectedCreateManyArgs
+      );
+   });
+});
+
+describe("pDeleteLibraryEntries tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("pDeleteLibraryEntries test", async () => {
+      const userId = "user-id-1";
+      await libraryRepository.pDeleteLibraryEntries(userId);
+
+      const expectedDeleteManyArgs: LibraryEntryDeleteManyArgs = {
+         where: { userId },
+      };
+
+      expect(prismaMock.libraryEntry.deleteMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryEntry.deleteMany).toHaveBeenCalledWith(
+         expectedDeleteManyArgs
       );
    });
 });

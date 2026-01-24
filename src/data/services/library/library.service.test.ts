@@ -211,6 +211,23 @@ describe("createLibraryEntries tests", () => {
    });
 });
 
+describe("deleteLibraryEntries tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("deleteLibraryEntries - entriey deleted - test", async () => {
+      const userId = "user-id-1";
+
+      await libraryService.deleteLibraryEntries(userId);
+
+      expect(libraryRepoMock.pDeleteLibraryEntries).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pDeleteLibraryEntries).toHaveBeenCalledWith(
+         userId
+      );
+   });
+});
+
 describe("createPromptFromTemplate tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
