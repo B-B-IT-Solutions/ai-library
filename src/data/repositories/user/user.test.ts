@@ -141,3 +141,27 @@ describe("pUpdateUser tests", () => {
       expect(prismaMock.user.update).toHaveBeenCalledWith(expectedUpdateArgs);
    });
 });
+
+describe("pUpdatePassword tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pUpdatePassword - password updated - test", async () => {
+      const userId = "user-id-1";
+      const password = "pwd-123";
+      const data = ptestData.pUserUpdateData();
+      prismaMock.user.update.mockResolvedValue(data);
+
+      const result = await userRepository.pUpdatePassword(userId, password);
+
+      const expectedUpdateArgs: UserUpdateArgs = {
+         where: { id: userId },
+         data: { password },
+      };
+
+      expect(result).toEqual(data);
+      expect(prismaMock.user.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.user.update).toHaveBeenCalledWith(expectedUpdateArgs);
+   });
+});
