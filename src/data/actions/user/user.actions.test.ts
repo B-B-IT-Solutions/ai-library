@@ -136,6 +136,7 @@ describe("signOutUser tests", () => {
 describe("signUpUser tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      isRedirectErrorock.mockReset();
    });
 
    it("signUpUser - valid form values - test", async () => {
@@ -249,6 +250,7 @@ describe("getUserById tests", () => {
 describe("updateUserProfile tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      isRedirectErrorock.mockReset();
    });
 
    it("updateUserProfile - user undefined - test", async () => {
@@ -305,11 +307,27 @@ describe("updateUserProfile tests", () => {
       expect(result).toEqual(expectedResult);
       expect(sUpdateUserMock).not.toHaveBeenCalled();
    });
+
+   it("updateUserProfile - redirect error - test", async () => {
+      const error = new Error("redirect error");
+      requireUserMock.mockRejectedValue(error);
+      isRedirectErrorock.mockReturnValue(true);
+
+      const data: DUserUpdateData = {
+         name: "test 1",
+      };
+
+      const fn = () => updateUserProfile(data);
+
+      await expect(fn).rejects.toThrow(Error);
+      expect(sUpdateUserMock).not.toHaveBeenCalled();
+   });
 });
 
 describe("updatePassword tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      isRedirectErrorock.mockReset();
    });
 
    it("updatePassword - user undefined - test", async () => {
@@ -333,7 +351,7 @@ describe("updatePassword tests", () => {
       expect(signOutMock).not.toHaveBeenCalled();
    });
 
-   it("updateUserProfile - valid data - test", async () => {
+   it("updatePassword - valid data - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -357,7 +375,7 @@ describe("updatePassword tests", () => {
       expect(signOutMock).toHaveBeenCalledWith({ redirect: false });
    });
 
-   it("updateUserProfile - invalid data - test", async () => {
+   it("updatePassword - invalid data - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -378,11 +396,30 @@ describe("updatePassword tests", () => {
       expect(sUpdatePasswordMock).not.toHaveBeenCalled();
       expect(signOutMock).not.toHaveBeenCalled();
    });
+
+   it("updatePassword - redirect error - test", async () => {
+      const error = new Error("redirect error");
+      requireUserMock.mockRejectedValue(error);
+      isRedirectErrorock.mockReturnValue(true);
+
+      const data: DUserPasswordUpdate = {
+         currentPassword: "test123",
+         newPassword: "12345679",
+         confirmPassword: "test123",
+      };
+
+      const fn = () => updatePassword(data);
+
+      await expect(fn).rejects.toThrow(Error);
+      expect(sUpdatePasswordMock).not.toHaveBeenCalled();
+      expect(signOutMock).not.toHaveBeenCalled();
+   });
 });
 
 describe("deleteUser tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      isRedirectErrorock.mockReset();
    });
 
    it("deleteUser - user undefined - test", async () => {
@@ -443,6 +480,22 @@ describe("deleteUser tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
+      expect(sDeleteUserMock).not.toHaveBeenCalled();
+      expect(signOutMock).not.toHaveBeenCalled();
+   });
+
+   it("deleteUser - redirect error - test", async () => {
+      const error = new Error("redirect error");
+      requireUserMock.mockRejectedValue(error);
+      isRedirectErrorock.mockReturnValue(true);
+
+      const data: DUserAccountDelete = {
+         password: "test123",
+      };
+
+      const fn = () => deleteUser(data);
+
+      await expect(fn).rejects.toThrow(Error);
       expect(sDeleteUserMock).not.toHaveBeenCalled();
       expect(signOutMock).not.toHaveBeenCalled();
    });

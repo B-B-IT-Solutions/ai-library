@@ -98,7 +98,10 @@ export const updateUserProfile = async (
          success: true,
          message: "Profil erfolgreich aktualisiert",
       };
-   } catch {
+   } catch (error) {
+      if (isRedirectError(error)) {
+         throw error;
+      }
       return {
          success: false,
          message: "Fehler beim Aktualisieren des Profils",
@@ -122,7 +125,10 @@ export const updatePassword = async (
          success: true,
          message: "Passwort erfolgreich geändert",
       };
-   } catch {
+   } catch (error) {
+      if (isRedirectError(error)) {
+         throw error;
+      }
       return {
          success: false,
          message: "Fehler beim Ändern des Passworts",
@@ -148,7 +154,10 @@ export const deleteUser = async (
          success: true,
          message: "Konto wurde gelöscht",
       };
-   } catch {
+   } catch (error) {
+      if (isRedirectError(error)) {
+         throw error;
+      }
       return {
          success: false,
          message: "Fehler beim Löschen des Kontos",
