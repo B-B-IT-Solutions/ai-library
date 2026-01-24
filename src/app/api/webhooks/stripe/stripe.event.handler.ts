@@ -10,7 +10,13 @@ export const handleStripeEvent = async (event: Stripe.Event) => {
       switch (event.type) {
          case "checkout.session.completed": {
             const session = event.data.object as Stripe.Checkout.Session;
-            await handleCheckoutCompleted(session);
+
+            // Distinguish between payment and subscription checkout
+            if (session.mode === "subscription") {
+               await handleSubscriptionCheckoutCompleted(session);
+            } else if (session.mode === "payment") {
+               await handleCheckoutCompleted(session);
+            }
             break;
          }
 
@@ -23,6 +29,31 @@ export const handleStripeEvent = async (event: Stripe.Event) => {
          case "payment_intent.payment_failed": {
             const paymentIntent = event.data.object as Stripe.PaymentIntent;
             await handlePaymentFailed(paymentIntent);
+            break;
+         }
+
+         case "customer.subscription.created":
+         case "customer.subscription.updated": {
+            const subscription = event.data.object as Stripe.Subscription;
+            await handleSubscriptionUpdated(subscription);
+            break;
+         }
+
+         case "customer.subscription.deleted": {
+            const subscription = event.data.object as Stripe.Subscription;
+            await handleSubscriptionDeleted(subscription);
+            break;
+         }
+
+         case "invoice.payment_succeeded": {
+            const invoice = event.data.object as Stripe.Invoice;
+            await handleInvoicePaymentSucceeded(invoice);
+            break;
+         }
+
+         case "invoice.payment_failed": {
+            const invoice = event.data.object as Stripe.Invoice;
+            await handleInvoicePaymentFailed(invoice);
             break;
          }
 
@@ -90,4 +121,68 @@ const handlePaymentFailed = async (paymentIntent: Stripe.PaymentIntent) => {
 const getOrderSevice = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getOrderService();
+};
+
+const getSubscriptionService = (dbClient: DbClient = prisma) => {
+   const factory = new ServiceFactory(dbClient);
+   return factory.getSubscriptionService();
+};
+
+// Subscription webhook handlers
+
+const handleSubscriptionCheckoutCompleted = async (
+   session: Stripe.Checkout.Session
+) => {
+   try {
+      await prisma.$transaction(async (tx) => {
+         const service = getSubscriptionService(tx);
+         return service.handleCheckoutCompleted(session);
+      });
+   } catch (error) {
+      console.error("Error handling subscription checkout:", error);
+   }
+};
+
+const handleSubscriptionUpdated = async (subscription: Stripe.Subscription) => {
+   try {
+      await prisma.$transaction(async (tx) => {
+         const service = getSubscriptionService(tx);
+         return service.handleSubscriptionUpdated(subscription);
+      });
+   } catch (error) {
+      console.error("Error handling subscription update:", error);
+   }
+};
+
+const handleSubscriptionDeleted = async (subscription: Stripe.Subscription) => {
+   try {
+      await prisma.$transaction(async (tx) => {
+         const service = getSubscriptionService(tx);
+         return service.handleSubscriptionDeleted(subscription);
+      });
+   } catch (error) {
+      console.error("Error handling subscription deletion:", error);
+   }
+};
+
+const handleInvoicePaymentSucceeded = async (invoice: Stripe.Invoice) => {
+   try {
+      await prisma.$transaction(async (tx) => {
+         const service = getSubscriptionService(tx);
+         return service.handleInvoicePaymentSucceeded(invoice);
+      });
+   } catch (error) {
+      console.error("Error handling invoice payment succeeded:", error);
+   }
+};
+
+const handleInvoicePaymentFailed = async (invoice: Stripe.Invoice) => {
+   try {
+      await prisma.$transaction(async (tx) => {
+         const service = getSubscriptionService(tx);
+         return service.handleInvoicePaymentFailed(invoice);
+      });
+   } catch (error) {
+      console.error("Error handling invoice payment failed:", error);
+   }
 };

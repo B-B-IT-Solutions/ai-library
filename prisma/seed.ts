@@ -4,6 +4,7 @@ import { bundlesData } from "./seed-data/bundles";
 import { templateProductMetadata } from "./seed-data/product-metadata";
 import { promptTemplatesData } from "./seed-data/prompt-templates";
 import { promptsData } from "./seed-data/prompts";
+import { subscriptionPlansData } from "./seed-data/subscription-plans";
 
 const prisma = new PrismaClient();
 
@@ -18,8 +19,16 @@ export const main = async () => {
    await prisma.prompt.deleteMany();
    await prisma.promptDescriptor.deleteMany();
    await prisma.promptCategory.deleteMany();
+   await prisma.subscriptionPlan.deleteMany();
 
    console.log("Starting data inserts...");
+
+   console.log("\nCreating subscription plans...");
+   for (const plan of subscriptionPlansData) {
+      await prisma.subscriptionPlan.create({
+         data: plan,
+      });
+   }
 
    console.log("\nCreating prompt templates...");
 
@@ -113,6 +122,7 @@ export const main = async () => {
 
    console.log("\n✅ Data inserts finished successfully!");
    console.log(`\nSummary:`);
+   console.log(`- ${subscriptionPlansData.length} subscription plans`);
    console.log(`- ${createdTemplateDesciptors.length} templates`);
    console.log(`- ${createdPrompts.length} prompts`);
    console.log(`- ${createdTemplateDesciptors.length} individual products`);

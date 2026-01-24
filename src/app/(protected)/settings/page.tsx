@@ -2,7 +2,9 @@ import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 import { Settings } from "@/components/settings";
+import { SubscriptionStatus } from "@/components/subscription/subscription-status";
 import { getUserById } from "@/data/actions/user";
+import { getUserSubscription } from "@/data/actions/subscription";
 
 export const metadata = {
    title: "Einstellungen",
@@ -15,6 +17,11 @@ const SettingsPage = async () => {
    }
 
    const user = await getUserById(session.user.id);
+
+   // Fetch subscription
+   const subscriptionResult = await getUserSubscription();
+   const subscription =
+      subscriptionResult.success ? subscriptionResult.data : null;
 
    return (
       <div
@@ -29,7 +36,11 @@ const SettingsPage = async () => {
                Verwalten Sie Ihre Kontoeinstellungen und Präferenzen
             </p>
          </div>
-         <Settings user={user} />
+
+         <div className="space-y-6">
+            <SubscriptionStatus subscription={subscription} />
+            <Settings user={user} />
+         </div>
       </div>
    );
 };

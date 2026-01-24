@@ -4,6 +4,7 @@ import { LibraryService } from "@/data/services/library";
 import { OrderService } from "@/data/services/order";
 import { PromptService, PromptTemplateService } from "@/data/services/prompt";
 import { StripeService } from "@/data/services/stripe";
+import { SubscriptionService } from "@/data/services/subscription";
 import { UserService } from "@/data/services/user";
 import { DbClient } from "@/data/types/db/common";
 
@@ -14,6 +15,7 @@ export class ServiceFactory {
    private libraryService?: LibraryService;
    private orderService?: OrderService;
    private stripeService?: StripeService;
+   private subscriptionService?: SubscriptionService;
    private promptService?: PromptService;
    private promptTemplateService?: PromptTemplateService;
 
@@ -87,5 +89,14 @@ export class ServiceFactory {
          );
       }
       return this.promptTemplateService;
+   }
+
+   getSubscriptionService(): SubscriptionService {
+      if (!this.subscriptionService) {
+         this.subscriptionService = new SubscriptionService(
+            this.repositories.subscriptionRepository()
+         );
+      }
+      return this.subscriptionService;
    }
 }

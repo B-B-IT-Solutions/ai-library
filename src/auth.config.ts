@@ -89,6 +89,7 @@ export const authConfig: NextAuthConfig = {
          session.user.id = token.sub;
          session.user.role = token.role;
          session.user.name = token.name;
+         session.user.subscriptionTier = token.subscriptionTier;
 
          // If there is an update, set the user name
          if (trigger === "update") {
@@ -128,6 +129,13 @@ export const authConfig: NextAuthConfig = {
             }
          }
 
+         // Get user's subscription tier
+         if (token.sub) {
+            const subscriptionService = getSubscriptionService();
+            const tier = await subscriptionService.getUserTier(token.sub);
+            token.subscriptionTier = tier;
+         }
+
          // Handle session updates
          if (session?.user.name && trigger === "update") {
             token.name = session.user.name;
@@ -141,4 +149,9 @@ export const authConfig: NextAuthConfig = {
 const getUserService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getUserService();
+};
+
+const getSubscriptionService = (dbClient: DbClient = prisma) => {
+   const factory = new ServiceFactory(dbClient);
+   return factory.getSubscriptionService();
 };
