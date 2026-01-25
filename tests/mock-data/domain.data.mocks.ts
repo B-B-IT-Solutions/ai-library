@@ -73,10 +73,14 @@ export const dSubscription = (index = 1): DSubscription => {
    };
 };
 
+export const dSubscriptionPlans = (count = 3): DSubscriptionPlan[] => {
+   return range(0, count).map((i) => dSubscriptionPlan(i));
+};
+
 export const dSubscriptionPlan = (index = 1): DSubscriptionPlan => {
    return {
       id: `df964a3c-bfa2-4484-97c3-219c2158380${index}`,
-      tier: "PRO",
+      tier: index % 2 === 0 ? "BASIC" : "PRO",
       name: `name-${index}`,
       description: `description-${index}`,
       monthlyPrice: 9.99,

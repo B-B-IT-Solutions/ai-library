@@ -1,6 +1,5 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
-import { pl } from "zod/v4/locales";
 
 import { PricingPlan } from "./pricing-plan";
 

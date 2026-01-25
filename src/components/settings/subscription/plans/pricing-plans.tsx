@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { FC, useState } from "react";
+import { map } from "es-toolkit/compat";
 
 import { Badge } from "@/components/shadcn/badge";
 import {
@@ -16,60 +17,75 @@ type Props = {
    currentSubscription: DSubscription | null;
 };
 
-export const PricingPlans = ({ plans, currentSubscription }: Props) => {
-   const [billingInterval, setBillingInterval] =
-      useState<DBillingInterval>("YEARLY");
-
-   const isCurrentPlan = (planTier: string) => {
-      return currentSubscription?.plan.tier === planTier;
-   };
+export const PricingPlans: FC<Props> = ({ plans, currentSubscription }) => {
+   const [interval, setInterval] = useState<DBillingInterval>("YEARLY");
 
    const sortedPlans = [...plans].sort((a, b) => {
       const tierOrder = { FREE: 0, BASIC: 1, PRO: 2 };
       return tierOrder[a.tier] - tierOrder[b.tier];
    });
 
-   return (
-      <div>
-         <div className="mb-8 flex justify-center">
-            <div className="inline-flex rounded-lg border p-1">
-               <button
-                  onClick={() => setBillingInterval("MONTHLY")}
-                  className={`rounded-md px-4 py-2 transition-colors ${
-                     billingInterval === "MONTHLY"
-                        ? "bg-primary text-primary-foreground"
-                        : "hover:bg-muted"
-                  }`}
-               >
-                  Monthly
-               </button>
-               <button
-                  onClick={() => setBillingInterval("YEARLY")}
-                  className={`rounded-md px-4 py-2 transition-colors ${
-                     billingInterval === "YEARLY"
-                        ? "bg-primary text-primary-foreground"
-                        : "hover:bg-muted"
-                  }`}
-               >
-                  Yearly
-                  <Badge variant="secondary" className="ml-2">
-                     Save 17%
-                  </Badge>
-               </button>
-            </div>
-         </div>
+   const isCurrent = (planTier: string) => {
+      return currentSubscription?.plan.tier === planTier;
+   };
 
+   const billingIntervalSwitch = () => {
+      const isMonthly = interval === "MONTHLY";
+      const isYearly = interval === "YEARLY";
+
+      return (
+         <div className="inline-flex rounded-lg border p-1">
+            <button
+               onClick={() => setInterval("MONTHLY")}
+               className={`rounded-md px-4 py-2 transition-colors ${
+                  isMonthly
+                     ? "bg-primary text-primary-foreground"
+                     : "hover:bg-muted"
+               }`}
+               data-active={isMonthly}
+               data-testid="monthly-btn"
+            >
+               Monthly
+            </button>
+            <button
+               onClick={() => setInterval("YEARLY")}
+               className={`rounded-md px-4 py-2 transition-colors ${
+                  isYearly
+                     ? "bg-primary text-primary-foreground"
+                     : "hover:bg-muted"
+               }`}
+               data-active={isYearly}
+               data-testid="yearly-btn"
+            >
+               Yearly
+               <Badge variant="secondary" className="ml-2">
+                  Save 17%
+               </Badge>
+            </button>
+         </div>
+      );
+   };
+
+   const pricingPlans = () => {
+      return map(sortedPlans, (plan) => {
+         return (
+            <PricingPlan
+               key={plan.id}
+               plan={plan}
+               billingInterval={interval}
+               isCurrent={isCurrent(plan.tier)}
+            />
+         );
+      });
+   };
+
+   return (
+      <div data-testid="pricing-plans">
+         <div className="mb-8 flex justify-center">
+            {billingIntervalSwitch()}
+         </div>
          <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
-            {sortedPlans.map((plan) => {
-               return (
-                  <PricingPlan
-                     key={plan.id}
-                     plan={plan}
-                     billingInterval={billingInterval}
-                     isCurrent={isCurrentPlan(plan.tier)}
-                  />
-               );
-            })}
+            {pricingPlans()}
          </div>
       </div>
    );
