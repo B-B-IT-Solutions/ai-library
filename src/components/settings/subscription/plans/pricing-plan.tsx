@@ -66,6 +66,7 @@ export const PricingPlan = ({
          setLoadingPlanId(null);
       }
    };
+
    return (
       <Card
          className={`relative ${isPopular ? "border-primary shadow-lg" : ""}`}
