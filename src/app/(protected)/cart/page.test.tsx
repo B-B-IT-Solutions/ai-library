@@ -17,7 +17,7 @@ import CartPage, { metadata } from "./page";
 
 const getCartMock = getCart as jest.MockedFunction<typeof getCart>;
 
-export const expectedMetadata: Metadata = {
+const expectedMetadata: Metadata = {
    title: "Cart",
 };
 

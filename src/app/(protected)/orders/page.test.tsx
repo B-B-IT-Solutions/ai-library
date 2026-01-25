@@ -22,7 +22,7 @@ const authMock = auth as unknown as AuthMockedFunction;
 const getOrdersMock = getOrders as jest.MockedFunction<typeof getOrders>;
 const redirectMock = redirect as jest.MockedFunction<typeof redirect>;
 
-export const expectedMetadata: Metadata = {
+const expectedMetadata: Metadata = {
    title: "Bestellverlauf",
 };
 

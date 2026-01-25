@@ -20,7 +20,7 @@ const authMock = auth as unknown as AuthMockedFunction;
 const getCartMock = getCart as jest.MockedFunction<typeof getCart>;
 const redirectMock = redirect as jest.MockedFunction<typeof redirect>;
 
-export const expectedMetadata: Metadata = {
+const expectedMetadata: Metadata = {
    title: "Checkout",
 };
 

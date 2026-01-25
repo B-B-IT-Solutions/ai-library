@@ -22,7 +22,7 @@ const getLibraryEntriesMock = getLibraryEntries as jest.MockedFunction<
 >;
 const redirectMock = redirect as jest.MockedFunction<typeof redirect>;
 
-export const expectedMetadata: Metadata = {
+const expectedMetadata: Metadata = {
    title: "Meine Bibliothek",
 };
 

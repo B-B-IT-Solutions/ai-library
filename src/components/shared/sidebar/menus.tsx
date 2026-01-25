@@ -55,6 +55,6 @@ export const navigationMenu2: DMenuItem[] = [
       id: "/settings",
       title: "Einstellungen",
       icon: Settings,
-      url: "/settings",
+      url: "/settings/general",
    },
 ];

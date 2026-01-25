@@ -19,7 +19,7 @@ const getCartMock = getCart as jest.MockedFunction<typeof getCart>;
 
 const getProductMock = getProduct as jest.MockedFunction<typeof getProduct>;
 
-export const expectedMetadata: Metadata = {
+const expectedMetadata: Metadata = {
    title: "Product",
 };
 
