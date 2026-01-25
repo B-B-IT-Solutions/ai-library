@@ -1,22 +1,7 @@
-"use client";
-
-import { FC, useState } from "react";
-import { AlertCircle, CheckCircle, Loader2 } from "lucide-react";
+import { FC } from "react";
+import { AlertCircle, CheckCircle } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 
-import {
-   AlertDialog,
-   AlertDialogAction,
-   AlertDialogCancel,
-   AlertDialogContent,
-   AlertDialogDescription,
-   AlertDialogFooter,
-   AlertDialogHeader,
-   AlertDialogTitle,
-   AlertDialogTrigger,
-} from "@/components/shadcn/alert-dialog";
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
 import {
@@ -26,7 +11,6 @@ import {
    CardHeader,
    CardTitle,
 } from "@/components/shadcn/card";
-import { cancelSubscription } from "@/data/actions/subscription";
 import { DSubscription } from "@/data/types/domain/subscription";
 import { formatDateTime } from "@/lib/utils";
 
@@ -43,12 +27,6 @@ type SubscriptionStatusProps = {
 export const SubscriptionStatus: FC<SubscriptionStatusProps> = ({
    subscription,
 }) => {
-   const router = useRouter();
-   const [isLoading, setIsLoading] = useState(false);
-   const [actionType, setActionType] = useState<
-      "cancel" | "reactivate" | "portal" | null
-   >(null);
-
    if (!subscription) {
       return (
          <Card>
@@ -66,29 +44,6 @@ export const SubscriptionStatus: FC<SubscriptionStatusProps> = ({
          </Card>
       );
    }
-
-   const handleCancel = async () => {
-      setIsLoading(true);
-      setActionType("cancel");
-
-      try {
-         const result = await cancelSubscription();
-
-         if (result.success) {
-            toast.success(
-               "Subscription will be canceled at the end of the period"
-            );
-            router.refresh();
-         } else {
-            toast.error(result.message);
-         }
-      } catch {
-         toast.error("Failed to cancel subscription");
-      } finally {
-         setIsLoading(false);
-         setActionType(null);
-      }
-   };
 
    const formatDate = (dateString: string | null) => {
       if (!dateString) {
@@ -189,43 +144,10 @@ export const SubscriptionStatus: FC<SubscriptionStatusProps> = ({
 
             <div className="flex gap-2 pt-4">
                <ManageBillingButton />
-               <CancelSubscriptionButton subscription={subscription} />
                {subscription.cancelAtPeriodEnd ? (
                   <ReactivateSubscriptionButton />
                ) : (
-                  <AlertDialog>
-                     <AlertDialogTrigger asChild>
-                        <Button variant="destructive" disabled={isLoading}>
-                           Cancel Subscription
-                        </Button>
-                     </AlertDialogTrigger>
-                     <AlertDialogContent>
-                        <AlertDialogHeader>
-                           <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                           <AlertDialogDescription>
-                              Your subscription will be canceled at the end of
-                              the current billing period. You'll continue to
-                              have access until{" "}
-                              {formatDate(subscription.currentPeriodEnd)}.
-                           </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                           <AlertDialogCancel>
-                              Keep Subscription
-                           </AlertDialogCancel>
-                           <AlertDialogAction onClick={handleCancel}>
-                              {isLoading && actionType === "cancel" ? (
-                                 <>
-                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    Canceling...
-                                 </>
-                              ) : (
-                                 "Cancel Subscription"
-                              )}
-                           </AlertDialogAction>
-                        </AlertDialogFooter>
-                     </AlertDialogContent>
-                  </AlertDialog>
+                  <CancelSubscriptionButton subscription={subscription} />
                )}
             </div>
          </CardContent>
