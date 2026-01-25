@@ -16,7 +16,6 @@ import { ActionResult } from "@/data/types/utils";
 
 export const getSubscriptionPlans = async (): Promise<DSubscriptionPlan[]> => {
    await requireUser();
-   console.log("test 1");
    const subscriptionService = getSubscriptionService();
    return await subscriptionService.getAvailablePlans();
 };
