@@ -11,16 +11,10 @@ export default async function PricingPage() {
    const plansResult = await getSubscriptionPlans();
 
    if (!plansResult.success) {
-      throw new Error(plansResult.error);
+      throw new Error(plansResult.message);
    }
 
-   let currentSubscription = null;
-   if (session?.user?.id) {
-      const subResult = await getUserSubscription();
-      if (subResult.success) {
-         currentSubscription = subResult.data;
-      }
-   }
+   const currentSubscription = await getUserSubscription();
 
    return (
       <div className="container mx-auto px-4 py-16">

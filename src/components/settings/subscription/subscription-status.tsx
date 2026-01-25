@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { FC, useState } from "react";
 import { AlertCircle, CheckCircle, ExternalLink, Loader2 } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -31,12 +32,15 @@ import {
    reactivateSubscription,
 } from "@/data/actions/subscription";
 import { DSubscription } from "@/data/types/domain/subscription";
+import { formatDateTime } from "@/lib/utils";
 
-type Props = {
+type SubscriptionStatusProps = {
    subscription: DSubscription | null;
 };
 
-export const SubscriptionStatus = ({ subscription }: Props) => {
+export const SubscriptionStatus: FC<SubscriptionStatusProps> = ({
+   subscription,
+}) => {
    const router = useRouter();
    const [isLoading, setIsLoading] = useState(false);
    const [actionType, setActionType] = useState<
@@ -53,8 +57,8 @@ export const SubscriptionStatus = ({ subscription }: Props) => {
                </CardDescription>
             </CardHeader>
             <CardContent>
-               <Button onClick={() => router.push("/subscription/pricing")}>
-                  View Plans
+               <Button asChild={true}>
+                  <Link href="/subscription/pricing"> View Plans</Link>
                </Button>
             </CardContent>
          </Card>
@@ -71,11 +75,11 @@ export const SubscriptionStatus = ({ subscription }: Props) => {
          if (result.success) {
             window.location.href = result.data.url;
          } else {
-            toast.error(result.error);
+            toast.error(result.message);
             setIsLoading(false);
             setActionType(null);
          }
-      } catch (error) {
+      } catch {
          toast.error("Failed to open billing portal");
          setIsLoading(false);
          setActionType(null);
@@ -95,9 +99,9 @@ export const SubscriptionStatus = ({ subscription }: Props) => {
             );
             router.refresh();
          } else {
-            toast.error(result.error);
+            toast.error(result.message);
          }
-      } catch (error) {
+      } catch {
          toast.error("Failed to cancel subscription");
       } finally {
          setIsLoading(false);
@@ -116,9 +120,9 @@ export const SubscriptionStatus = ({ subscription }: Props) => {
             toast.success("Subscription reactivated successfully");
             router.refresh();
          } else {
-            toast.error(result.error);
+            toast.error(result.message);
          }
-      } catch (error) {
+      } catch {
          toast.error("Failed to reactivate subscription");
       } finally {
          setIsLoading(false);
@@ -127,15 +131,13 @@ export const SubscriptionStatus = ({ subscription }: Props) => {
    };
 
    const formatDate = (dateString: string | null) => {
-      if (!dateString) return "N/A";
-      return new Date(dateString).toLocaleDateString("en-US", {
-         year: "numeric",
-         month: "long",
-         day: "numeric",
-      });
+      if (!dateString) {
+         return "N/A";
+      }
+      return formatDateTime(dateString).dateTime;
    };
 
-   const getStatusBadge = () => {
+   const statusBadge = () => {
       switch (subscription.status) {
          case "ACTIVE":
             return (
@@ -173,7 +175,7 @@ export const SubscriptionStatus = ({ subscription }: Props) => {
                      Manage your subscription plan
                   </CardDescription>
                </div>
-               {getStatusBadge()}
+               {statusBadge()}
             </div>
          </CardHeader>
 

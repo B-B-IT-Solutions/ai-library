@@ -10,26 +10,12 @@ import {
    DSubscriptionPlan,
    DSubscriptionTier,
 } from "@/data/types/domain/subscription";
+import { ActionResult } from "@/data/types/utils";
 
-export type ActionResult<T> =
-   | { success: true; data: T }
-   | { success: false; error: string };
-
-// Read Operations
-
-export const getUserSubscription = async (): Promise<
-   ActionResult<DSubscription | null>
-> => {
-   try {
-      const user = await requireUser();
-      const subscriptionService = getSubscriptionService();
-      const subscription = await subscriptionService.getUserSubscription(
-         user.id
-      );
-      return { success: true, data: subscription };
-   } catch (error) {
-      return { success: false, error: formatError(error) };
-   }
+export const getUserSubscription = async (): Promise<DSubscription | null> => {
+   const user = await requireUser();
+   const subscriptionService = getSubscriptionService();
+   return await subscriptionService.getUserSubscription(user.id);
 };
 
 export const getSubscriptionPlans = async (): Promise<
@@ -38,9 +24,13 @@ export const getSubscriptionPlans = async (): Promise<
    try {
       const subscriptionService = getSubscriptionService();
       const plans = await subscriptionService.getAvailablePlans();
-      return { success: true, data: plans };
+      return {
+         success: true,
+         message: "",
+         data: plans,
+      };
    } catch (error) {
-      return { success: false, error: formatError(error) };
+      return { success: false, message: formatError(error) };
    }
 };
 
@@ -51,9 +41,13 @@ export const getUserTier = async (): Promise<
       const user = await requireUser();
       const subscriptionService = getSubscriptionService();
       const tier = await subscriptionService.getUserTier(user.id);
-      return { success: true, data: tier };
+      return {
+         success: true,
+         message: "",
+         data: tier,
+      };
    } catch (error) {
-      return { success: false, error: formatError(error) };
+      return { success: false, message: formatError(error) };
    }
 };
 
@@ -64,9 +58,13 @@ export const hasActiveSubscription = async (): Promise<
       const user = await requireUser();
       const subscriptionService = getSubscriptionService();
       const hasAccess = await subscriptionService.hasActiveAccess(user.id);
-      return { success: true, data: hasAccess };
+      return {
+         success: true,
+         message: "",
+         data: hasAccess,
+      };
    } catch (error) {
-      return { success: false, error: formatError(error) };
+      return { success: false, message: formatError(error) };
    }
 };
 
@@ -87,9 +85,13 @@ export const createSubscriptionCheckout = async (params: {
          billingInterval: params.billingInterval,
       });
 
-      return { success: true, data: result };
+      return {
+         success: true,
+         message: "",
+         data: result,
+      };
    } catch (error) {
-      return { success: false, error: formatError(error) };
+      return { success: false, message: formatError(error) };
    }
 };
 
@@ -100,9 +102,13 @@ export const createCustomerPortal = async (): Promise<
       const user = await requireUser();
       const subscriptionService = getSubscriptionService();
       const result = await subscriptionService.createPortalSession(user.id);
-      return { success: true, data: result };
+      return {
+         success: true,
+         message: "",
+         data: result,
+      };
    } catch (error) {
-      return { success: false, error: formatError(error) };
+      return { success: false, message: formatError(error) };
    }
 };
 
@@ -111,9 +117,13 @@ export const cancelSubscription = async (): Promise<ActionResult<void>> => {
       const user = await requireUser();
       const subscriptionService = getSubscriptionService();
       await subscriptionService.cancelSubscription(user.id);
-      return { success: true, data: undefined };
+      return {
+         success: true,
+         message: "",
+         data: undefined,
+      };
    } catch (error) {
-      return { success: false, error: formatError(error) };
+      return { success: false, message: formatError(error) };
    }
 };
 
@@ -124,7 +134,7 @@ export const reactivateSubscription = async (): Promise<ActionResult<void>> => {
       await subscriptionService.reactivateSubscription(user.id);
       return { success: true, data: undefined };
    } catch (error) {
-      return { success: false, error: formatError(error) };
+      return { success: false, message: formatError(error) };
    }
 };
 
