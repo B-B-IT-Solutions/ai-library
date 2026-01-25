@@ -5,7 +5,7 @@ import { DUser } from "@/data/types/domain/user";
 
 import { AccountSettings } from "./account";
 import { GeneralSettings } from "./general";
-import { SettingsNavigation } from "./navigation";
+import { Navigation } from "./navigation";
 import { Subscription } from "./subscription";
 
 type SettingsProps = {
@@ -29,7 +29,7 @@ export const Settings: FC<SettingsProps> = ({ user, section }) => {
          className="grid grid-cols-1 gap-8 lg:grid-cols-12"
          data-testid="settings-view"
       >
-         <SettingsNavigation active={section} />
+         <Navigation active={section} />
          <main className="lg:col-span-9">{content()}</main>
       </div>
    );

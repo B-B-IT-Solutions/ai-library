@@ -9,11 +9,11 @@ type NavigationItem = {
    label: string;
 };
 
-type SettingsNavigationProps = {
+type NavigationProps = {
    active: DSettingsSection;
 };
 
-export const SettingsNavigation: FC<SettingsNavigationProps> = ({ active }) => {
+export const Navigation: FC<NavigationProps> = ({ active }) => {
    const items: NavigationItem[] = [
       { section: "general", label: "Allgemein" },
       { section: "account", label: "Konto" },

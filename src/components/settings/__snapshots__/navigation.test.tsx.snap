@@ -1,0 +1,157 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Navigation rendering tests Navigation - active account - test 1`] = `
+<div>
+  <aside
+    class="lg:col-span-3"
+    data-testid="navigation"
+  >
+    <nav
+      class="sticky top-8 space-y-1 rounded-lg border bg-card p-4 shadow-sm"
+    >
+      <h2
+        class="mb-3 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase"
+      >
+        Navigation
+      </h2>
+      <a
+        class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground"
+        data-testid="general-link"
+        href="general"
+      >
+        <span
+          class="font-medium"
+        >
+          Allgemein
+        </span>
+      </a>
+      <a
+        class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all bg-primary text-primary-foreground shadow-sm"
+        data-testid="account-link"
+        href="account"
+      >
+        <span
+          class="font-medium"
+        >
+          Konto
+        </span>
+      </a>
+      <a
+        class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground"
+        data-testid="subscription-link"
+        href="subscription"
+      >
+        <span
+          class="font-medium"
+        >
+          Abrechnung
+        </span>
+      </a>
+    </nav>
+  </aside>
+</div>
+`;
+
+exports[`Navigation rendering tests Navigation - active general - test 1`] = `
+<div>
+  <aside
+    class="lg:col-span-3"
+    data-testid="navigation"
+  >
+    <nav
+      class="sticky top-8 space-y-1 rounded-lg border bg-card p-4 shadow-sm"
+    >
+      <h2
+        class="mb-3 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase"
+      >
+        Navigation
+      </h2>
+      <a
+        class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all bg-primary text-primary-foreground shadow-sm"
+        data-testid="general-link"
+        href="general"
+      >
+        <span
+          class="font-medium"
+        >
+          Allgemein
+        </span>
+      </a>
+      <a
+        class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground"
+        data-testid="account-link"
+        href="account"
+      >
+        <span
+          class="font-medium"
+        >
+          Konto
+        </span>
+      </a>
+      <a
+        class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground"
+        data-testid="subscription-link"
+        href="subscription"
+      >
+        <span
+          class="font-medium"
+        >
+          Abrechnung
+        </span>
+      </a>
+    </nav>
+  </aside>
+</div>
+`;
+
+exports[`Navigation rendering tests Navigation - active subscription - test 1`] = `
+<div>
+  <aside
+    class="lg:col-span-3"
+    data-testid="navigation"
+  >
+    <nav
+      class="sticky top-8 space-y-1 rounded-lg border bg-card p-4 shadow-sm"
+    >
+      <h2
+        class="mb-3 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase"
+      >
+        Navigation
+      </h2>
+      <a
+        class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground"
+        data-testid="general-link"
+        href="general"
+      >
+        <span
+          class="font-medium"
+        >
+          Allgemein
+        </span>
+      </a>
+      <a
+        class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground"
+        data-testid="account-link"
+        href="account"
+      >
+        <span
+          class="font-medium"
+        >
+          Konto
+        </span>
+      </a>
+      <a
+        class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all bg-primary text-primary-foreground shadow-sm"
+        data-testid="subscription-link"
+        href="subscription"
+      >
+        <span
+          class="font-medium"
+        >
+          Abrechnung
+        </span>
+      </a>
+    </nav>
+  </aside>
+</div>
+`;
