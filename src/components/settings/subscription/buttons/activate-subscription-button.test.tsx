@@ -66,7 +66,7 @@ describe("CreateSubscriptionButton rendering tests", () => {
 describe("CreateSubscriptionButton functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      // mockRouter.push("/");
+      mockRouter.push("/");
    });
 
    it("CreateSubscriptionButton - btn clicked - result.success true - test", async () => {
@@ -75,7 +75,7 @@ describe("CreateSubscriptionButton functionality tests", () => {
          message: "subscripton activated",
          data: {
             sessionId: "session-id-1",
-            url: "http://checkout.success.stripe",
+            url: "/checkout.stripe/success",
          },
       };
       createSubscriptionCheckoutMock.mockResolvedValue(result);
@@ -101,14 +101,11 @@ describe("CreateSubscriptionButton functionality tests", () => {
 
       const expectedPayload = { planId, billingInterval };
 
-      await waitFor(() => {
-         expect(createSubscriptionCheckoutMock).toHaveBeenCalledTimes(1);
-         expect(createSubscriptionCheckoutMock).toHaveBeenCalledWith(
-            expectedPayload
-         );
-
-         expect(mockRouter.pathname).toEqual(result.data?.url);
-      });
+      expect(createSubscriptionCheckoutMock).toHaveBeenCalledTimes(1);
+      expect(createSubscriptionCheckoutMock).toHaveBeenCalledWith(
+         expectedPayload
+      );
+      expect(mockRouter.pathname).toEqual(result.data!.url);
    });
 
    it("CreateSubscriptionButton - btn clicked - result.success false - test", async () => {

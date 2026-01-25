@@ -29,10 +29,7 @@ export const ActivateSubscriptionButton: FC<
          });
 
          if (result.success && result.data) {
-            // console.log(result.data.url);
-            // console.log(router);
             router.push(result.data.url);
-            // console.log(router);
          } else {
             toast.error(result.message);
          }
