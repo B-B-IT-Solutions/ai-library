@@ -212,20 +212,7 @@ export const SubscriptionStatus: FC<SubscriptionStatusProps> = ({
                <ReactivateSubscriptionButton />
 
                {subscription.cancelAtPeriodEnd ? (
-                  <Button
-                     onClick={handleReactivate}
-                     disabled={isLoading}
-                     variant="default"
-                  >
-                     {isLoading && actionType === "reactivate" ? (
-                        <>
-                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                           Loading...
-                        </>
-                     ) : (
-                        "Reactivate"
-                     )}
-                  </Button>
+                  <ReactivateSubscriptionButton />
                ) : (
                   <AlertDialog>
                      <AlertDialogTrigger asChild>
