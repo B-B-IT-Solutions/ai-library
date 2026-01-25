@@ -8,11 +8,7 @@ import {
 export default async function PricingPage() {
    const session = await auth();
 
-   const plansResult = await getSubscriptionPlans();
-
-   if (!plansResult.success) {
-      throw new Error(plansResult.message);
-   }
+   const plans = await getSubscriptionPlans();
 
    const currentSubscription = await getUserSubscription();
 
@@ -27,7 +23,7 @@ export default async function PricingPage() {
          </div>
 
          <PricingPlans
-            plans={plansResult.data}
+            plans={plans}
             currentSubscription={currentSubscription}
          />
       </div>

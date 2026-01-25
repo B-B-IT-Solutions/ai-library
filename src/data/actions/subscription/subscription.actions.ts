@@ -1,6 +1,7 @@
 "use server";
 
 import { requireUser } from "@/data/actions/auth-utils";
+import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
@@ -13,26 +14,17 @@ import {
 } from "@/data/types/domain/subscription";
 import { ActionResult } from "@/data/types/utils";
 
+export const getSubscriptionPlans = async (): Promise<DSubscriptionPlan[]> => {
+   await requireUser();
+   console.log("test 1");
+   const subscriptionService = getSubscriptionService();
+   return await subscriptionService.getAvailablePlans();
+};
+
 export const getUserSubscription = async (): Promise<DSubscription | null> => {
    const user = await requireUser();
    const subscriptionService = getSubscriptionService();
    return await subscriptionService.getUserSubscription(user.id);
-};
-
-export const getSubscriptionPlans = async (): Promise<
-   ActionResult<DSubscriptionPlan[]>
-> => {
-   try {
-      const subscriptionService = getSubscriptionService();
-      const plans = await subscriptionService.getAvailablePlans();
-      return {
-         success: true,
-         message: "",
-         data: plans,
-      };
-   } catch (error) {
-      return { success: false, message: formatError(error) };
-   }
 };
 
 export const getUserTier = async (): Promise<
@@ -133,22 +125,13 @@ export const reactivateSubscription = async (): Promise<ActionResult<void>> => {
       const user = await requireUser();
       const subscriptionService = getSubscriptionService();
       await subscriptionService.reactivateSubscription(user.id);
-      return { success: true, data: undefined };
+      return { success: true, message: "", data: undefined };
    } catch (error) {
       return { success: false, message: formatError(error) };
    }
 };
 
-// Helper Functions
-
 const getSubscriptionService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getSubscriptionService();
-};
-
-const formatError = (error: unknown): string => {
-   if (error instanceof Error) {
-      return error.message;
-   }
-   return "An unexpected error occurred";
 };
