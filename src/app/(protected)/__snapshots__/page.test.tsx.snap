@@ -3,7 +3,7 @@
 exports[`MainPage rendering tests MainPage rendered test 1`] = `
 <div>
   <div
-    class="h-full flex flex-center"
+    class="flex-center flex h-full"
     data-testid="main-page"
   >
     main page

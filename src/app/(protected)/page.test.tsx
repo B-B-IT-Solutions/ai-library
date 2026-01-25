@@ -5,7 +5,7 @@ import { Metadata } from "next";
 import MainPage, { metadata } from "./page";
 
 const expectedMetadata: Metadata = {
-   title: "Home",
+   title: "Startseite",
 };
 
 const assertRendered = () => {
