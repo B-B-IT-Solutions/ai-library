@@ -46,12 +46,12 @@ export const PricingPlan = ({
    const isPopular = plan.tier === "PRO";
    const isFree = plan.tier === "FREE";
 
-   const handleSubscribe = async (planId: string) => {
-      setLoadingPlanId(planId);
+   const handleSubscribe = async () => {
+      setLoadingPlanId(plan.id);
 
       try {
          const result = await createSubscriptionCheckout({
-            planId,
+            planId: plan.id,
             billingInterval,
          });
 
@@ -67,15 +67,85 @@ export const PricingPlan = ({
       }
    };
 
+   const popularBadge = () => {
+      if (isPopular) {
+         return (
+            <Badge
+               className="absolute -top-3 left-1/2 -translate-x-1/2"
+               data-testid="popular-badge"
+            >
+               Most Popular
+            </Badge>
+         );
+      }
+   };
+
+   const feature = (label: string) => {
+      return (
+         <li className="flex items-start" data-testid="feature">
+            <Check className="mt-0.5 mr-2 h-5 w-5 text-primary" />
+            <span>{label}</span>
+         </li>
+      );
+   };
+
+   const featurePrompts = () => {
+      if (plan.features.maxPrompts === -1) {
+         return feature("Unlimited prompts");
+      }
+      return feature(`Up to ${plan.features.maxPrompts} prompts`);
+   };
+
+   const featureMaxLibraryItems = () => {
+      if (plan.features.maxLibraryItems === -1) {
+         return feature("Unlimited library items");
+      }
+      return feature(`Up to ${plan.features.maxLibraryItems} library items`);
+   };
+
+   const featureMarketplaceAccess = () => {
+      if (plan.features.canAccessMarketplace) {
+         return feature("Access to marketplace");
+      }
+   };
+
+   const featureItemsPurchase = () => {
+      if (plan.features.canPurchaseItems) {
+         return feature("Purchase premium items");
+      }
+   };
+
+   const featureExportPrompts = () => {
+      if (plan.features.canPurchaseItems) {
+         return feature("Export prompts");
+      }
+   };
+
+   const featuredvancedFeatures = () => {
+      if (plan.features.canUseAdvancedFeatures) {
+         return feature("Advanced features");
+      }
+   };
+
+   const features = () => {
+      return (
+         <ul className="space-y-3" data-testid="features">
+            {featurePrompts()}
+            {featureMaxLibraryItems()}
+            {featureMarketplaceAccess()}
+            {featureItemsPurchase()}
+            {featureExportPrompts()}
+            {featuredvancedFeatures()}
+         </ul>
+      );
+   };
+
    return (
       <Card
          className={`relative ${isPopular ? "border-primary shadow-lg" : ""}`}
+         data-testid="pricing-plan"
       >
-         {isPopular && (
-            <Badge className="absolute -top-3 left-1/2 -translate-x-1/2">
-               Most Popular
-            </Badge>
-         )}
+         {popularBadge()}
 
          <CardHeader>
             <CardTitle className="text-2xl">{plan.name}</CardTitle>
@@ -93,83 +163,28 @@ export const PricingPlan = ({
                   </span>
                )}
             </div>
-
-            <ul className="space-y-3">
-               {plan.features.maxPrompts === -1 ? (
-                  <li className="flex items-start">
-                     <Check className="mt-0.5 mr-2 h-5 w-5 text-primary" />
-                     <span>Unlimited prompts</span>
-                  </li>
-               ) : (
-                  <li className="flex items-start">
-                     <Check className="mt-0.5 mr-2 h-5 w-5 text-primary" />
-                     <span>Up to {plan.features.maxPrompts} prompts</span>
-                  </li>
-               )}
-
-               {plan.features.maxLibraryItems === -1 ? (
-                  <li className="flex items-start">
-                     <Check className="mt-0.5 mr-2 h-5 w-5 text-primary" />
-                     <span>Unlimited library items</span>
-                  </li>
-               ) : (
-                  <li className="flex items-start">
-                     <Check className="mt-0.5 mr-2 h-5 w-5 text-primary" />
-                     <span>
-                        Up to {plan.features.maxLibraryItems} library items
-                     </span>
-                  </li>
-               )}
-
-               {plan.features.canAccessMarketplace && (
-                  <li className="flex items-start">
-                     <Check className="mt-0.5 mr-2 h-5 w-5 text-primary" />
-                     <span>Access to marketplace</span>
-                  </li>
-               )}
-
-               {plan.features.canPurchaseItems && (
-                  <li className="flex items-start">
-                     <Check className="mt-0.5 mr-2 h-5 w-5 text-primary" />
-                     <span>Purchase premium items</span>
-                  </li>
-               )}
-
-               {plan.features.canExportPrompts && (
-                  <li className="flex items-start">
-                     <Check className="mt-0.5 mr-2 h-5 w-5 text-primary" />
-                     <span>Export prompts</span>
-                  </li>
-               )}
-
-               {plan.features.canUseAdvancedFeatures && (
-                  <li className="flex items-start">
-                     <Check className="mt-0.5 mr-2 h-5 w-5 text-primary" />
-                     <span>Advanced features</span>
-                  </li>
-               )}
-            </ul>
+            {features()}
          </CardContent>
 
          <CardFooter>
             {isFree ? (
                <Button
                   variant={isCurrent ? "outline" : "default"}
+                  disabled={true}
                   className="w-full"
-                  disabled
                >
                   {isCurrent ? "Current Plan" : "Free Forever"}
                </Button>
             ) : isCurrent ? (
-               <Button variant="outline" className="w-full" disabled>
+               <Button variant="outline" disabled={true} className="w-full">
                   Current Plan
                </Button>
             ) : (
                <Button
                   variant={isPopular ? "default" : "outline"}
-                  className="w-full"
-                  onClick={() => handleSubscribe(plan.id)}
+                  onClick={handleSubscribe}
                   disabled={loadingPlanId !== null}
+                  className="w-full"
                >
                   {loadingPlanId === plan.id ? (
                      <>
