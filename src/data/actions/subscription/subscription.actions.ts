@@ -7,6 +7,7 @@ import { DbClient } from "@/data/types/db/common";
 import {
    DBillingInterval,
    DSubscription,
+   DSubscriptionCheckoutResult,
    DSubscriptionPlan,
    DSubscriptionTier,
 } from "@/data/types/domain/subscription";
@@ -73,7 +74,7 @@ export const hasActiveSubscription = async (): Promise<
 export const createSubscriptionCheckout = async (params: {
    planId: string;
    billingInterval: DBillingInterval;
-}): Promise<ActionResult<{ sessionId: string; url: string }>> => {
+}): Promise<ActionResult<DSubscriptionCheckoutResult>> => {
    try {
       const user = await requireUser();
       const subscriptionService = getSubscriptionService();
