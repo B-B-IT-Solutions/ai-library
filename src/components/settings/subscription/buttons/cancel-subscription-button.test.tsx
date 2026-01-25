@@ -23,8 +23,8 @@ const assertRendered = () => {
    const dialog = screen.getByTestId("dialog");
    const cancelSubscriptionBtn = screen.getByTestId("cancel-subscription-btn");
 
-   assertInDocument(cancelSubscriptionBtn);
    assertInDocument(dialog);
+   assertInDocument(cancelSubscriptionBtn);
 };
 
 const assertDialogContentRendered = () => {

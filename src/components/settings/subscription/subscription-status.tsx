@@ -86,7 +86,7 @@ export const SubscriptionStatus: FC<SubscriptionStatusProps> = ({
             ? "Expires On"
             : "Next Billing Date";
          return (
-            <div>
+            <div data-testid="current-period-end">
                <div className="mb-1 text-sm font-medium text-muted-foreground">
                   {text}
                </div>
@@ -99,7 +99,10 @@ export const SubscriptionStatus: FC<SubscriptionStatusProps> = ({
    const cancelAtPeriodEnd = () => {
       if (subscription.cancelAtPeriodEnd) {
          return (
-            <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 dark:border-amber-800 dark:bg-amber-950">
+            <div
+               className="rounded-lg border border-amber-200 bg-amber-50 p-4 dark:border-amber-800 dark:bg-amber-950"
+               data-testid="cancel-at-period-end"
+            >
                <div className="flex items-start">
                   <AlertCircle className="mt-0.5 mr-2 h-5 w-5 text-amber-600 dark:text-amber-400" />
                   <div>
