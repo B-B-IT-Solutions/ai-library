@@ -1,9 +1,7 @@
 import { FC } from "react";
 import { AlertCircle, CheckCircle } from "lucide-react";
-import Link from "next/link";
 
 import { Badge } from "@/components/shadcn/badge";
-import { Button } from "@/components/shadcn/button";
 import {
    Card,
    CardContent,
@@ -18,6 +16,7 @@ import {
    CancelSubscriptionButton,
    ManageBillingButton,
    ReactivateSubscriptionButton,
+   ViewPlansLink,
 } from "./buttons";
 
 type SubscriptionStatusProps = {
@@ -37,9 +36,7 @@ export const SubscriptionStatus: FC<SubscriptionStatusProps> = ({
                </CardDescription>
             </CardHeader>
             <CardContent>
-               <Button asChild={true} data-testid="view-plans-btn">
-                  <Link href="/subscription/pricing"> View Plans</Link>
-               </Button>
+               <ViewPlansLink />
             </CardContent>
          </Card>
       );

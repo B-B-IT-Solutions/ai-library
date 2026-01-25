@@ -6,10 +6,10 @@ import { SubscriptionStatus } from "./subscription-status";
 
 const assertFreeRendered = () => {
    const status = screen.getByTestId("subscription-free-plan");
-   const viewPlansBtn = screen.getByTestId("view-plans-btn");
+   const viewPlansLink = screen.getByTestId("view-plans-link");
 
    assertInDocument(status);
-   assertInDocument(viewPlansBtn);
+   assertInDocument(viewPlansLink);
 };
 
 const assertPaidRendered = () => {
