@@ -2,7 +2,7 @@ import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 
-import { SubscriptionStatus } from "./subscription-status";
+import { ActivePlan } from "./active-plan";
 
 const assertFreeRendered = () => {
    const status = screen.getByTestId("subscription-free-plan");
@@ -64,7 +64,7 @@ const assertReactivateBtnNotRendered = () => {
 
 describe("SubscriptionStatus rendering tests", () => {
    it("Subscription - free plan - test", async () => {
-      const { container } = render(<SubscriptionStatus subscription={null} />);
+      const { container } = render(<ActivePlan subscription={null} />);
 
       await waitFor(() => {
          assertFreeRendered();
@@ -78,9 +78,7 @@ describe("SubscriptionStatus rendering tests", () => {
       subscription.status = "ACTIVE";
       subscription.cancelAtPeriodEnd = false;
 
-      const { container } = render(
-         <SubscriptionStatus subscription={subscription} />
-      );
+      const { container } = render(<ActivePlan subscription={subscription} />);
 
       await waitFor(() => {
          assertPaidRendered();
@@ -98,9 +96,7 @@ describe("SubscriptionStatus rendering tests", () => {
       subscription.status = "CANCELED";
       subscription.cancelAtPeriodEnd = true;
 
-      const { container } = render(
-         <SubscriptionStatus subscription={subscription} />
-      );
+      const { container } = render(<ActivePlan subscription={subscription} />);
 
       await waitFor(() => {
          assertPaidRendered();
@@ -118,9 +114,7 @@ describe("SubscriptionStatus rendering tests", () => {
       subscription.status = "PAST_DUE";
       subscription.cancelAtPeriodEnd = false;
 
-      const { container } = render(
-         <SubscriptionStatus subscription={subscription} />
-      );
+      const { container } = render(<ActivePlan subscription={subscription} />);
 
       await waitFor(() => {
          assertPaidRendered();
@@ -138,9 +132,7 @@ describe("SubscriptionStatus rendering tests", () => {
       subscription.cancelAtPeriodEnd = false;
       subscription.currentPeriodEnd = null;
 
-      const { container } = render(
-         <SubscriptionStatus subscription={subscription} />
-      );
+      const { container } = render(<ActivePlan subscription={subscription} />);
 
       await waitFor(() => {
          assertPaidRendered();

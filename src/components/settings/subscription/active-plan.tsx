@@ -19,13 +19,11 @@ import {
    ViewPlansLink,
 } from "./buttons";
 
-type SubscriptionStatusProps = {
+type ActivePlanProps = {
    subscription: DSubscription | null;
 };
 
-export const SubscriptionStatus: FC<SubscriptionStatusProps> = ({
-   subscription,
-}) => {
+export const ActivePlan: FC<ActivePlanProps> = ({ subscription }) => {
    if (!subscription) {
       return (
          <Card data-testid="subscription-free-plan">
