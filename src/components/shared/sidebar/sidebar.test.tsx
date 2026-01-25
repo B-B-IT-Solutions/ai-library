@@ -127,7 +127,7 @@ describe("Sidebar functionality tests", () => {
       await assertNavigateToMenuItem("Marktplatz", "/marketplace");
       await assertNavigateToMenuItem("Feedback", "/feedback");
       await assertNavigateToMenuItem("Personen einladen", "/invite-people");
-      await assertNavigateToMenuItem("Einstellungen", "/settings");
+      await assertNavigateToMenuItem("Einstellungen", "/settings/general");
    });
 
    it("Sidebar - active menu item highlighted - test", async () => {
