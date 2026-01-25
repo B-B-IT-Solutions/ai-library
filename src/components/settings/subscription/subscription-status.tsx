@@ -34,6 +34,8 @@ import {
 import { DSubscription } from "@/data/types/domain/subscription";
 import { formatDateTime } from "@/lib/utils";
 
+import { ManageBillingButton } from "./buttons/manage-billing-button";
+
 type SubscriptionStatusProps = {
    subscription: DSubscription | null;
 };
@@ -245,6 +247,7 @@ export const SubscriptionStatus: FC<SubscriptionStatusProps> = ({
                      </>
                   )}
                </Button>
+               <ManageBillingButton />
 
                {subscription.cancelAtPeriodEnd ? (
                   <Button
