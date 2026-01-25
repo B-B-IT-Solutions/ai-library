@@ -29,7 +29,7 @@ export const SubscriptionStatus: FC<SubscriptionStatusProps> = ({
 }) => {
    if (!subscription) {
       return (
-         <Card>
+         <Card data-testid="subscription-free-plan">
             <CardHeader>
                <CardTitle>Subscription</CardTitle>
                <CardDescription>
@@ -37,7 +37,7 @@ export const SubscriptionStatus: FC<SubscriptionStatusProps> = ({
                </CardDescription>
             </CardHeader>
             <CardContent>
-               <Button asChild={true}>
+               <Button asChild={true} data-testid="view-plans-btn">
                   <Link href="/subscription/pricing"> View Plans</Link>
                </Button>
             </CardContent>
@@ -80,6 +80,44 @@ export const SubscriptionStatus: FC<SubscriptionStatusProps> = ({
       }
    };
 
+   const currentPeriodEnd = () => {
+      if (subscription.currentPeriodEnd) {
+         const text = subscription.cancelAtPeriodEnd
+            ? "Expires On"
+            : "Next Billing Date";
+         return (
+            <div>
+               <div className="mb-1 text-sm font-medium text-muted-foreground">
+                  {text}
+               </div>
+               <div>{formatDate(subscription.currentPeriodEnd)}</div>
+            </div>
+         );
+      }
+   };
+
+   const cancelAtPeriodEnd = () => {
+      if (subscription.cancelAtPeriodEnd) {
+         return (
+            <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 dark:border-amber-800 dark:bg-amber-950">
+               <div className="flex items-start">
+                  <AlertCircle className="mt-0.5 mr-2 h-5 w-5 text-amber-600 dark:text-amber-400" />
+                  <div>
+                     <div className="font-medium text-amber-900 dark:text-amber-100">
+                        Subscription Ending
+                     </div>
+                     <div className="mt-1 text-sm text-amber-800 dark:text-amber-200">
+                        Your subscription will end on{" "}
+                        {formatDate(subscription.currentPeriodEnd)}. You'll
+                        still have access until then.
+                     </div>
+                  </div>
+               </div>
+            </div>
+         );
+      }
+   };
+
    const actionBtns = () => {
       return (
          <div className="flex gap-2 pt-4">
@@ -94,7 +132,7 @@ export const SubscriptionStatus: FC<SubscriptionStatusProps> = ({
    };
 
    return (
-      <Card>
+      <Card data-testid="subscription-paid-plan">
          <CardHeader>
             <div className="flex items-center justify-between">
                <div className="space-y-2">
@@ -126,34 +164,8 @@ export const SubscriptionStatus: FC<SubscriptionStatusProps> = ({
                </div>
             </div>
 
-            {subscription.currentPeriodEnd && (
-               <div>
-                  <div className="mb-1 text-sm font-medium text-muted-foreground">
-                     {subscription.cancelAtPeriodEnd
-                        ? "Expires On"
-                        : "Next Billing Date"}
-                  </div>
-                  <div>{formatDate(subscription.currentPeriodEnd)}</div>
-               </div>
-            )}
-
-            {subscription.cancelAtPeriodEnd && (
-               <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 dark:border-amber-800 dark:bg-amber-950">
-                  <div className="flex items-start">
-                     <AlertCircle className="mt-0.5 mr-2 h-5 w-5 text-amber-600 dark:text-amber-400" />
-                     <div>
-                        <div className="font-medium text-amber-900 dark:text-amber-100">
-                           Subscription Ending
-                        </div>
-                        <div className="mt-1 text-sm text-amber-800 dark:text-amber-200">
-                           Your subscription will end on{" "}
-                           {formatDate(subscription.currentPeriodEnd)}. You'll
-                           still have access until then.
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            )}
+            {currentPeriodEnd()}
+            {cancelAtPeriodEnd()}
 
             {actionBtns()}
          </CardContent>
