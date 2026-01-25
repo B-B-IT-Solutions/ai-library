@@ -29,10 +29,8 @@ export const PricingPlan: FC<PricingPlanProps> = ({
    isCurrent,
 }) => {
    const getPrice = () => {
-      if (billingInterval === "MONTHLY") {
-         return plan.monthlyPrice;
-      }
-      return plan.yearlyPrice;
+      const { monthlyPrice, yearlyPrice } = plan;
+      return billingInterval === "MONTHLY" ? monthlyPrice : yearlyPrice;
    };
 
    const price = getPrice();
@@ -88,7 +86,7 @@ export const PricingPlan: FC<PricingPlanProps> = ({
    };
 
    const featureExportPrompts = () => {
-      if (plan.features.canPurchaseItems) {
+      if (plan.features.canExportPrompts) {
          return feature("Export prompts");
       }
    };
@@ -109,6 +107,42 @@ export const PricingPlan: FC<PricingPlanProps> = ({
             {featureExportPrompts()}
             {featuredvancedFeatures()}
          </ul>
+      );
+   };
+
+   const footerBtn = () => {
+      if (isFree) {
+         return (
+            <Button
+               variant={isCurrent ? "outline" : "default"}
+               disabled={true}
+               className="w-full"
+               data-testid="free-btn"
+            >
+               {isCurrent ? "Current Plan" : "Free Forever"}
+            </Button>
+         );
+      }
+
+      if (isCurrent) {
+         return (
+            <Button
+               variant="outline"
+               disabled={true}
+               className="w-full"
+               data-testid="current-btn"
+            >
+               Current Plan
+            </Button>
+         );
+      }
+
+      return (
+         <ActivateSubscriptionButton
+            planId={plan.id}
+            billingInterval={billingInterval}
+            isPopular={isPopular}
+         />
       );
    };
 
@@ -138,27 +172,7 @@ export const PricingPlan: FC<PricingPlanProps> = ({
             {features()}
          </CardContent>
 
-         <CardFooter>
-            {isFree ? (
-               <Button
-                  variant={isCurrent ? "outline" : "default"}
-                  disabled={true}
-                  className="w-full"
-               >
-                  {isCurrent ? "Current Plan" : "Free Forever"}
-               </Button>
-            ) : isCurrent ? (
-               <Button variant="outline" disabled={true} className="w-full">
-                  Current Plan
-               </Button>
-            ) : (
-               <ActivateSubscriptionButton
-                  planId={plan.id}
-                  billingInterval={billingInterval}
-                  isPopular={isPopular}
-               />
-            )}
-         </CardFooter>
+         <CardFooter>{footerBtn()}</CardFooter>
       </Card>
    );
 };

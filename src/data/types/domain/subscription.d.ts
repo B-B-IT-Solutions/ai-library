@@ -21,10 +21,19 @@ export type DSubscriptionPlan = {
    stripePriceIdMonthly: string | null;
    stripePriceIdYearly: string | null;
    stripeProductId: string | null;
-   features: Record<string, any>;
+   features: DSubscriptionPlanFeatures;
    isActive: boolean;
    createdAt: string;
    updatedAt: string;
+};
+
+export type DSubscriptionPlanFeatures = {
+   maxPrompts: number;
+   maxLibraryItems: number;
+   canAccessMarketplace: boolean;
+   canPurchaseItems: boolean;
+   canExportPrompts: boolean;
+   canUseAdvancedFeatures: boolean;
 };
 
 export type DSubscription = {
