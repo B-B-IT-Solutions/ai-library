@@ -45,7 +45,7 @@ export const PricingPlans = ({ plans, currentSubscription }: Props) => {
          if (result.success) {
             router.push(result.data.url);
          } else {
-            toast.error(result.error);
+            toast.error(result.message);
             setLoadingPlanId(null);
          }
       } catch (error) {

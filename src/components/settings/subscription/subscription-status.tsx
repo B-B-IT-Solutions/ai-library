@@ -80,11 +80,24 @@ export const SubscriptionStatus: FC<SubscriptionStatusProps> = ({
       }
    };
 
+   const actionBtns = () => {
+      return (
+         <div className="flex gap-2 pt-4">
+            <ManageBillingButton />
+            {subscription.cancelAtPeriodEnd ? (
+               <ReactivateSubscriptionButton />
+            ) : (
+               <CancelSubscriptionButton subscription={subscription} />
+            )}
+         </div>
+      );
+   };
+
    return (
       <Card>
          <CardHeader>
             <div className="flex items-center justify-between">
-               <div>
+               <div className="space-y-2">
                   <CardTitle>Subscription</CardTitle>
                   <CardDescription>
                      Manage your subscription plan
@@ -142,14 +155,7 @@ export const SubscriptionStatus: FC<SubscriptionStatusProps> = ({
                </div>
             )}
 
-            <div className="flex gap-2 pt-4">
-               <ManageBillingButton />
-               {subscription.cancelAtPeriodEnd ? (
-                  <ReactivateSubscriptionButton />
-               ) : (
-                  <CancelSubscriptionButton subscription={subscription} />
-               )}
-            </div>
+            {actionBtns()}
          </CardContent>
       </Card>
    );
