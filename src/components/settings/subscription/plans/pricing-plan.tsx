@@ -23,21 +23,28 @@ import {
 
 type PricingPlanProps = {
    plan: DSubscriptionPlan;
+   billingInterval: DBillingInterval;
    isCurrent: boolean;
-   isPopular: boolean;
-   isFree: boolean;
 };
 
 export const PricingPlan = ({
    plan,
+   billingInterval,
    isCurrent,
-   isPopular,
-   isFree,
 }: PricingPlanProps) => {
    const router = useRouter();
-   const [billingInterval, setBillingInterval] =
-      useState<DBillingInterval>("YEARLY");
    const [loadingPlanId, setLoadingPlanId] = useState<string | null>(null);
+
+   const getPrice = () => {
+      if (billingInterval === "MONTHLY") {
+         return plan.monthlyPrice;
+      }
+      return plan.yearlyPrice;
+   };
+
+   const price = getPrice();
+   const isPopular = plan.tier === "PRO";
+   const isFree = plan.tier === "FREE";
 
    const handleSubscribe = async (planId: string) => {
       setLoadingPlanId(planId);
@@ -61,7 +68,6 @@ export const PricingPlan = ({
    };
    return (
       <Card
-         key={plan.id}
          className={`relative ${isPopular ? "border-primary shadow-lg" : ""}`}
       >
          {isPopular && (
