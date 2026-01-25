@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useState } from "react";
-import { AlertCircle, CheckCircle, ExternalLink, Loader2 } from "lucide-react";
+import { AlertCircle, CheckCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -28,13 +28,12 @@ import {
 } from "@/components/shadcn/card";
 import {
    cancelSubscription,
-   createCustomerPortal,
    reactivateSubscription,
 } from "@/data/actions/subscription";
 import { DSubscription } from "@/data/types/domain/subscription";
 import { formatDateTime } from "@/lib/utils";
 
-import { ManageBillingButton } from "./buttons/manage-billing-button";
+import { ManageBillingButton } from "./buttons";
 
 type SubscriptionStatusProps = {
    subscription: DSubscription | null;
@@ -66,27 +65,6 @@ export const SubscriptionStatus: FC<SubscriptionStatusProps> = ({
          </Card>
       );
    }
-
-   const handleManageBilling = async () => {
-      setIsLoading(true);
-      setActionType("portal");
-
-      try {
-         const result = await createCustomerPortal();
-
-         if (result.success) {
-            window.location.href = result.data.url;
-         } else {
-            toast.error(result.message);
-            setIsLoading(false);
-            setActionType(null);
-         }
-      } catch {
-         toast.error("Failed to open billing portal");
-         setIsLoading(false);
-         setActionType(null);
-      }
-   };
 
    const handleCancel = async () => {
       setIsLoading(true);
@@ -230,23 +208,6 @@ export const SubscriptionStatus: FC<SubscriptionStatusProps> = ({
             )}
 
             <div className="flex gap-2 pt-4">
-               <Button
-                  variant="outline"
-                  onClick={handleManageBilling}
-                  disabled={isLoading}
-               >
-                  {isLoading && actionType === "portal" ? (
-                     <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Loading...
-                     </>
-                  ) : (
-                     <>
-                        <ExternalLink className="mr-2 h-4 w-4" />
-                        Manage Billing
-                     </>
-                  )}
-               </Button>
                <ManageBillingButton />
 
                {subscription.cancelAtPeriodEnd ? (
