@@ -26,14 +26,15 @@ import {
    CardHeader,
    CardTitle,
 } from "@/components/shadcn/card";
-import {
-   cancelSubscription,
-   reactivateSubscription,
-} from "@/data/actions/subscription";
+import { cancelSubscription } from "@/data/actions/subscription";
 import { DSubscription } from "@/data/types/domain/subscription";
 import { formatDateTime } from "@/lib/utils";
 
-import { ManageBillingButton, ReactivateSubscriptionButton } from "./buttons";
+import {
+   CancelSubscriptionButton,
+   ManageBillingButton,
+   ReactivateSubscriptionButton,
+} from "./buttons";
 
 type SubscriptionStatusProps = {
    subscription: DSubscription | null;
@@ -83,27 +84,6 @@ export const SubscriptionStatus: FC<SubscriptionStatusProps> = ({
          }
       } catch {
          toast.error("Failed to cancel subscription");
-      } finally {
-         setIsLoading(false);
-         setActionType(null);
-      }
-   };
-
-   const handleReactivate = async () => {
-      setIsLoading(true);
-      setActionType("reactivate");
-
-      try {
-         const result = await reactivateSubscription();
-
-         if (result.success) {
-            toast.success("Subscription reactivated successfully");
-            router.refresh();
-         } else {
-            toast.error(result.message);
-         }
-      } catch {
-         toast.error("Failed to reactivate subscription");
       } finally {
          setIsLoading(false);
          setActionType(null);
@@ -209,8 +189,7 @@ export const SubscriptionStatus: FC<SubscriptionStatusProps> = ({
 
             <div className="flex gap-2 pt-4">
                <ManageBillingButton />
-               <ReactivateSubscriptionButton />
-
+               <CancelSubscriptionButton subscription={subscription} />
                {subscription.cancelAtPeriodEnd ? (
                   <ReactivateSubscriptionButton />
                ) : (
