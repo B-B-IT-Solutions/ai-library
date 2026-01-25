@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { PricingPlans } from "@/components/settings/subscription/pricing-plans";
+import { PricingPlans } from "@/components/settings";
 import {
    getSubscriptionPlans,
    getUserSubscription,

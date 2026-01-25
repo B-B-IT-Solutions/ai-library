@@ -48,7 +48,7 @@ export const PricingPlans = ({ plans, currentSubscription }: Props) => {
             toast.error(result.message);
             setLoadingPlanId(null);
          }
-      } catch (error) {
+      } catch {
          toast.error("Failed to start checkout");
          setLoadingPlanId(null);
       }
