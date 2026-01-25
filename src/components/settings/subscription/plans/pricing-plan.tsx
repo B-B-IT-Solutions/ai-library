@@ -1,9 +1,5 @@
-"use client";
-
-import { useState } from "react";
-import { Check, Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { FC } from "react";
+import { Check } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
@@ -15,11 +11,11 @@ import {
    CardHeader,
    CardTitle,
 } from "@/components/shadcn/card";
-import { createSubscriptionCheckout } from "@/data/actions/subscription";
 import {
    DBillingInterval,
    DSubscriptionPlan,
 } from "@/data/types/domain/subscription";
+import { ActivateSubscriptionButton } from "../buttons";
 
 type PricingPlanProps = {
    plan: DSubscriptionPlan;
@@ -27,14 +23,11 @@ type PricingPlanProps = {
    isCurrent: boolean;
 };
 
-export const PricingPlan = ({
+export const PricingPlan: FC<PricingPlanProps> = ({
    plan,
    billingInterval,
    isCurrent,
-}: PricingPlanProps) => {
-   const router = useRouter();
-   const [loadingPlanId, setLoadingPlanId] = useState<string | null>(null);
-
+}) => {
    const getPrice = () => {
       if (billingInterval === "MONTHLY") {
          return plan.monthlyPrice;
@@ -45,27 +38,6 @@ export const PricingPlan = ({
    const price = getPrice();
    const isPopular = plan.tier === "PRO";
    const isFree = plan.tier === "FREE";
-
-   const handleSubscribe = async () => {
-      setLoadingPlanId(plan.id);
-
-      try {
-         const result = await createSubscriptionCheckout({
-            planId: plan.id,
-            billingInterval,
-         });
-
-         if (result.success) {
-            router.push(result.data.url);
-         } else {
-            toast.error(result.message);
-            setLoadingPlanId(null);
-         }
-      } catch {
-         toast.error("Failed to start checkout");
-         setLoadingPlanId(null);
-      }
-   };
 
    const popularBadge = () => {
       if (isPopular) {
@@ -180,21 +152,11 @@ export const PricingPlan = ({
                   Current Plan
                </Button>
             ) : (
-               <Button
-                  variant={isPopular ? "default" : "outline"}
-                  onClick={handleSubscribe}
-                  disabled={loadingPlanId !== null}
-                  className="w-full"
-               >
-                  {loadingPlanId === plan.id ? (
-                     <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Loading...
-                     </>
-                  ) : (
-                     "Subscribe"
-                  )}
-               </Button>
+               <ActivateSubscriptionButton
+                  planId={plan.id}
+                  billingInterval={billingInterval}
+                  isPopular={isPopular}
+               />
             )}
          </CardFooter>
       </Card>
