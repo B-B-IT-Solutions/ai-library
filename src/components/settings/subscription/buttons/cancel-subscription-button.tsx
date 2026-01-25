@@ -33,7 +33,7 @@ import {
 import { DSubscription } from "@/data/types/domain/subscription";
 import { formatDateTime } from "@/lib/utils";
 
-import { ManageBillingButton, ReactivateSubscriptionButton } from "./buttons";
+import { ManageBillingButton } from "./buttons";
 
 type SubscriptionStatusProps = {
    subscription: DSubscription | null;
@@ -209,7 +209,6 @@ export const SubscriptionStatus: FC<SubscriptionStatusProps> = ({
 
             <div className="flex gap-2 pt-4">
                <ManageBillingButton />
-               <ReactivateSubscriptionButton />
 
                {subscription.cancelAtPeriodEnd ? (
                   <Button
