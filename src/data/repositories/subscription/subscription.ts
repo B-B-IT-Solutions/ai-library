@@ -6,7 +6,6 @@ import {
    SubscriptionWithPlan,
 } from "@/data/types/db/subscription";
 import {
-   Subscription,
    SubscriptionHistory,
    SubscriptionPlan,
    SubscriptionTier,
@@ -61,8 +60,8 @@ export class SubscriptionRepository {
       });
    }
 
-   async pCreateSubscription(data: SubscriptionCreate): Promise<Subscription> {
-      return await this.prisma.subscription.create({
+   async pCreateSubscription(data: SubscriptionCreate) {
+      await this.prisma.subscription.create({
          data: {
             userId: data.userId,
             planId: data.planId,
@@ -74,11 +73,8 @@ export class SubscriptionRepository {
       });
    }
 
-   async pUpdateSubscription(
-      userId: string,
-      data: SubscriptionUpdate
-   ): Promise<Subscription> {
-      return await this.prisma.subscription.update({
+   async pUpdateSubscription(userId: string, data: SubscriptionUpdate) {
+      await this.prisma.subscription.update({
          where: { userId },
          data: {
             status: data.status,
@@ -93,8 +89,8 @@ export class SubscriptionRepository {
       });
    }
 
-   async pDeleteSubscription(userId: string): Promise<Subscription> {
-      return await this.prisma.subscription.delete({
+   async pDeleteSubscription(userId: string) {
+      await this.prisma.subscription.delete({
          where: { userId },
       });
    }
@@ -108,10 +104,8 @@ export class SubscriptionRepository {
       });
    }
 
-   async pCreateSubscriptionHistory(
-      data: SubscriptionHistoryCreate
-   ): Promise<SubscriptionHistory> {
-      return await this.prisma.subscriptionHistory.create({
+   async pCreateSubscriptionHistory(data: SubscriptionHistoryCreate) {
+      await this.prisma.subscriptionHistory.create({
          data: {
             userId: data.userId,
             eventType: data.eventType,
