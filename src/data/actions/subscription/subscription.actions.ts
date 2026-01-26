@@ -100,13 +100,12 @@ export const reactivateSubscription = async (): Promise<ActionResult<void>> => {
       await subscriptionService.reactivateSubscription(user.id);
       return {
          success: true,
-         message: "",
-         data: undefined,
+         message: "Subscription reactivated successfully",
       };
-   } catch (error) {
+   } catch {
       return {
          success: false,
-         message: formatError(error),
+         message: "Subscription couldn't be reactivated",
       };
    }
 };
