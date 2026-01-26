@@ -7,14 +7,15 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import { toast } from "sonner";
 
-import { createCheckoutSession } from "@/data/actions/stripe";
+import { createOrderCheckoutSession } from "@/data/actions/stripe";
 import { navigateToExternalUrl } from "@/lib/utils";
 
 import { CheckoutForm } from "./checkout-form";
 
-const createCheckoutSessionMock = createCheckoutSession as jest.MockedFunction<
-   typeof createCheckoutSession
->;
+const createOrderCheckoutSessionMock =
+   createOrderCheckoutSession as jest.MockedFunction<
+      typeof createOrderCheckoutSession
+   >;
 const navigateToExternalUrlMock = navigateToExternalUrl as jest.MockedFunction<
    typeof navigateToExternalUrl
 >;
@@ -82,7 +83,7 @@ describe("CheckoutForm functionality tests", () => {
          message: "payment link created",
       };
 
-      createCheckoutSessionMock.mockResolvedValue(stripeResult);
+      createOrderCheckoutSessionMock.mockResolvedValue(stripeResult);
 
       const cart = dtestData.dCart();
       render(<CheckoutForm cart={cart} />);
@@ -90,7 +91,7 @@ describe("CheckoutForm functionality tests", () => {
       await waitFor(() => {
          assertRendered();
          assertErrorNotRendered();
-         expect(createCheckoutSessionMock).not.toHaveBeenCalled();
+         expect(createOrderCheckoutSessionMock).not.toHaveBeenCalled();
       });
 
       const paymentBtn = screen.getByTestId("proceed-to-payment-btn");
@@ -98,7 +99,7 @@ describe("CheckoutForm functionality tests", () => {
 
       await waitFor(() => {
          assertErrorRendered();
-         expect(createCheckoutSessionMock).not.toHaveBeenCalled();
+         expect(createOrderCheckoutSessionMock).not.toHaveBeenCalled();
       });
 
       const terms = screen.getByTestId("terms-checkbox");
@@ -106,13 +107,13 @@ describe("CheckoutForm functionality tests", () => {
 
       await waitFor(() => {
          assertErrorNotRendered();
-         expect(createCheckoutSessionMock).not.toHaveBeenCalled();
+         expect(createOrderCheckoutSessionMock).not.toHaveBeenCalled();
       });
 
       await userEvent.click(paymentBtn);
 
       await waitFor(() => {
-         expect(createCheckoutSessionMock).toHaveBeenCalledTimes(1);
+         expect(createOrderCheckoutSessionMock).toHaveBeenCalledTimes(1);
          expect(navigateToExternalUrlMock).toHaveBeenCalledTimes(1);
          expect(navigateToExternalUrlMock).toHaveBeenCalledWith(
             stripeResult.data.url
@@ -125,7 +126,7 @@ describe("CheckoutForm functionality tests", () => {
          success: false,
          message: "cart is empty.",
       };
-      createCheckoutSessionMock.mockResolvedValue(stripeResult);
+      createOrderCheckoutSessionMock.mockResolvedValue(stripeResult);
 
       const cart = dtestData.dCart();
       render(<CheckoutForm cart={cart} />);
@@ -133,7 +134,7 @@ describe("CheckoutForm functionality tests", () => {
       await waitFor(() => {
          assertRendered();
          assertErrorNotRendered();
-         expect(createCheckoutSessionMock).not.toHaveBeenCalled();
+         expect(createOrderCheckoutSessionMock).not.toHaveBeenCalled();
       });
 
       const paymentBtn = screen.getByTestId("proceed-to-payment-btn");
@@ -141,7 +142,7 @@ describe("CheckoutForm functionality tests", () => {
 
       await waitFor(() => {
          assertErrorRendered();
-         expect(createCheckoutSessionMock).not.toHaveBeenCalled();
+         expect(createOrderCheckoutSessionMock).not.toHaveBeenCalled();
       });
 
       const terms = screen.getByTestId("terms-checkbox");
@@ -149,13 +150,13 @@ describe("CheckoutForm functionality tests", () => {
 
       await waitFor(() => {
          assertErrorNotRendered();
-         expect(createCheckoutSessionMock).not.toHaveBeenCalled();
+         expect(createOrderCheckoutSessionMock).not.toHaveBeenCalled();
       });
 
       await userEvent.click(paymentBtn);
 
       await waitFor(() => {
-         expect(createCheckoutSessionMock).toHaveBeenCalledTimes(1);
+         expect(createOrderCheckoutSessionMock).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(stripeResult.message);
          expect(navigateToExternalUrlMock).not.toHaveBeenCalled();

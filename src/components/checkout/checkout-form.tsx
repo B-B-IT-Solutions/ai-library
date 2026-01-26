@@ -17,7 +17,7 @@ import {
    FormLabel,
    FormMessage,
 } from "@/components/shadcn/form";
-import { createCheckoutSession } from "@/data/actions/stripe";
+import { createOrderCheckoutSession } from "@/data/actions/stripe";
 import { DCart } from "@/data/types/domain/cart";
 import { DCheckoutForm } from "@/data/types/domain/checkout";
 import { checkoutSchema } from "@/data/types/validators/checkout.schema";
@@ -41,7 +41,7 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
    const onSubmit = (data: DCheckoutForm) => {
       startTransition(async () => {
          setSubmited(true);
-         const result = await createCheckoutSession();
+         const result = await createOrderCheckoutSession();
          if (result.success && result.data) {
             // Redirect to Stripe Checkout
             navigateToExternalUrl(result.data.url);
@@ -54,7 +54,7 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
 
    const btnIcon = () => {
       if (isSubmitted) {
-         return <Loader className="w-4 h-4 animate-spin" />;
+         return <Loader className="h-4 w-4 animate-spin" />;
       }
    };
 
@@ -72,7 +72,8 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
             <div className="space-y-4">
                <h3 className="text-lg font-semibold">Zahlungsinformationen</h3>
                <p className="text-sm text-slate-600">
-                  Sie werden zu Stripe weitergeleitet, um Ihre Zahlung sicher abzuschließen.
+                  Sie werden zu Stripe weitergeleitet, um Ihre Zahlung sicher
+                  abzuschließen.
                </p>
             </div>
 
@@ -81,7 +82,7 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ cart }) => {
                   control={form.control}
                   name="agreeToTerms"
                   render={({ field }) => (
-                     <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                     <FormItem className="flex flex-row items-start space-y-0 space-x-3">
                         <FormControl>
                            <Checkbox
                               checked={field.value}

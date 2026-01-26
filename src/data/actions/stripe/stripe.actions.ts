@@ -11,12 +11,12 @@ type CheckoutResponse = {
    url: string;
 };
 
-export const createCheckoutSession = async (): Promise<
+export const createOrderCheckoutSession = async (): Promise<
    ActionResult<CheckoutResponse>
 > => {
    try {
       const stripeService = getStripeService();
-      const result = await stripeService.createCheckoutSession();
+      const result = await stripeService.createOrderCheckoutSession();
 
       return {
          success: true,

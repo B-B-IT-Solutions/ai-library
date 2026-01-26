@@ -1,1 +1,1 @@
-export { createCheckoutSession } from "./stripe.actions";
+export { createOrderCheckoutSession } from "./stripe.actions";

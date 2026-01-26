@@ -23,7 +23,7 @@ export class StripeService {
       this.orderService = orderService;
    }
 
-   async createCheckoutSession(): Promise<CheckoutResponse> {
+   async createOrderCheckoutSession(): Promise<CheckoutResponse> {
       const user = await requireUser();
       const cart = await this.cartService.getCart();
 
