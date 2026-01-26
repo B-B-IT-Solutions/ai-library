@@ -176,10 +176,13 @@ export class StripeService {
          throw new Error("No Stripe subscription found");
       }
 
-      // Update Stripe subscription to cancel at period end
-      await stripe.subscriptions.update(subscription.stripeSubscriptionId, {
+      const stripeSubscriptionUpdate: Stripe.SubscriptionUpdateParams = {
          cancel_at_period_end: true,
-      });
+      };
+      await stripe.subscriptions.update(
+         subscription.stripeSubscriptionId,
+         stripeSubscriptionUpdate
+      );
 
       const subscriptionUpdate: DSubscriptionUpdate = {
          cancelAtPeriodEnd: true,

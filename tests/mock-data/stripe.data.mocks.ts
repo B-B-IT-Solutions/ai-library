@@ -15,6 +15,15 @@ export const stripeCustomer = (index = 1): Stripe.Response<Stripe.Customer> => {
    } as unknown as Stripe.Response<Stripe.Customer>;
 };
 
+export const stripeSubscription = (
+   index = 1
+): Stripe.Response<Stripe.Subscription> => {
+   return {
+      id: `sub_test123_${index}`,
+      cancel_at_period_end: true,
+   } as unknown as Stripe.Response<Stripe.Subscription>;
+};
+
 export const checkoutSessionCompletedEvent = (): Stripe.Event => {
    return {
       type: "checkout.session.completed",

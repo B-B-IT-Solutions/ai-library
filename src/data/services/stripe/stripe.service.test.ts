@@ -21,6 +21,8 @@ import { DStripeCheckoutResponse } from "@/data/types/domain/stripe";
 import {
    DCreateSubscriptionCheckout,
    DSubscriptionCreate,
+   DSubscriptionHistoryCreate,
+   DSubscriptionUpdate,
 } from "@/data/types/domain/subscription";
 import { stripe } from "@/lib/stripe/stripe-server";
 
@@ -837,6 +839,334 @@ describe("createSubscriptionCheckoutSession tests", () => {
       expect(
          subscriptionServiceMock.createUserSubscription
       ).toHaveBeenCalledTimes(1);
+   });
+});
+
+describe("cancelSubscription tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   it("cancelSubscription - successful cancellation - test", async () => {
+      const userId = "user-1";
+      const stripeSubscription = stripeTestData.stripeSubscription();
+      const subscription = dtestData.dSubscription(1);
+      subscription.stripeSubscriptionId = stripeSubscription.id;
+      subscription.status = "ACTIVE";
+      subscription.currentPeriodEnd = new Date("2026-01-26").toISOString();
+
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
+         subscription
+      );
+      stripeMock.subscriptions.update.mockResolvedValue(stripeSubscription);
+
+      await stripeService.cancelSubscription(userId);
+
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         userId
+      );
+
+      const expectedStripeUpdateParams: Stripe.SubscriptionUpdateParams = {
+         cancel_at_period_end: true,
+      };
+      expect(stripeMock.subscriptions.update).toHaveBeenCalledTimes(1);
+      expect(stripeMock.subscriptions.update).toHaveBeenCalledWith(
+         subscription.stripeSubscriptionId,
+         expectedStripeUpdateParams
+      );
+
+      const expectedUpdateParams: DSubscriptionUpdate = {
+         cancelAtPeriodEnd: true,
+         canceledAt: expect.any(Date),
+      };
+      expect(
+         subscriptionServiceMock.updateUserSubscription
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.updateUserSubscription
+      ).toHaveBeenCalledWith(userId, expectedUpdateParams);
+
+      const expectedHistoryParams: DSubscriptionHistoryCreate = {
+         userId,
+         eventType: "canceled",
+         fromStatus: subscription.status,
+         toStatus: subscription.status,
+         metadata: {
+            cancelAtPeriodEnd: true,
+            currentPeriodEnd: subscription.currentPeriodEnd,
+         },
+      };
+      expect(
+         subscriptionServiceMock.createUserSubscriptionHistory
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.createUserSubscriptionHistory
+      ).toHaveBeenCalledWith(expectedHistoryParams);
+   });
+
+   it("cancelSubscription - throws error when no subscription found - test", async () => {
+      const userId = "user-1";
+
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(null);
+
+      const fn = () => stripeService.cancelSubscription(userId);
+
+      await expect(fn).rejects.toThrow("No subscription found");
+
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         userId
+      );
+      expect(stripeMock.subscriptions.update).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.updateUserSubscription
+      ).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.createUserSubscriptionHistory
+      ).not.toHaveBeenCalled();
+   });
+
+   it("cancelSubscription - throws error when no Stripe subscription ID - test", async () => {
+      const userId = "user-1";
+      const subscription = dtestData.dSubscription(1);
+      subscription.stripeSubscriptionId = null;
+
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
+         subscription
+      );
+
+      const fn = () => stripeService.cancelSubscription(userId);
+
+      await expect(fn).rejects.toThrow("No Stripe subscription found");
+
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         userId
+      );
+      expect(stripeMock.subscriptions.update).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.updateUserSubscription
+      ).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.createUserSubscriptionHistory
+      ).not.toHaveBeenCalled();
+   });
+
+   it("cancelSubscription - getUserSubscription throws error - test", async () => {
+      const userId = "user-1";
+      const error = new Error("Database error");
+
+      subscriptionServiceMock.getUserSubscription.mockRejectedValue(error);
+
+      const fn = () => stripeService.cancelSubscription(userId);
+
+      await expect(fn).rejects.toThrow("Database error");
+
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         userId
+      );
+      expect(stripeMock.subscriptions.update).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.updateUserSubscription
+      ).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.createUserSubscriptionHistory
+      ).not.toHaveBeenCalled();
+   });
+
+   it("cancelSubscription - stripe.subscriptions.update throws error - test", async () => {
+      const userId = "user-1";
+      const subscription = dtestData.dSubscription(1);
+      subscription.stripeSubscriptionId = "sub_test123";
+      const error = new Error("Stripe API error");
+
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
+         subscription
+      );
+      stripeMock.subscriptions.update.mockRejectedValue(error);
+
+      const fn = () => stripeService.cancelSubscription(userId);
+
+      await expect(fn).rejects.toThrow("Stripe API error");
+
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         userId
+      );
+
+      const expectedStripeUpdateParams: Stripe.SubscriptionUpdateParams = {
+         cancel_at_period_end: true,
+      };
+      expect(stripeMock.subscriptions.update).toHaveBeenCalledTimes(1);
+      expect(stripeMock.subscriptions.update).toHaveBeenCalledWith(
+         subscription.stripeSubscriptionId,
+         expectedStripeUpdateParams
+      );
+      expect(
+         subscriptionServiceMock.updateUserSubscription
+      ).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.createUserSubscriptionHistory
+      ).not.toHaveBeenCalled();
+   });
+
+   it("cancelSubscription - updateUserSubscription throws error - test", async () => {
+      const userId = "user-1";
+      const stripeSubscription = stripeTestData.stripeSubscription();
+      const subscription = dtestData.dSubscription(1);
+      subscription.stripeSubscriptionId = stripeSubscription.id;
+      const error = new Error("Failed to update subscription");
+
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
+         subscription
+      );
+      stripeMock.subscriptions.update.mockResolvedValue(stripeSubscription);
+      subscriptionServiceMock.updateUserSubscription.mockRejectedValue(error);
+
+      const fn = () => stripeService.cancelSubscription(userId);
+
+      await expect(fn).rejects.toThrow("Failed to update subscription");
+
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         userId
+      );
+
+      const expectedStripeUpdateParams: Stripe.SubscriptionUpdateParams = {
+         cancel_at_period_end: true,
+      };
+      expect(stripeMock.subscriptions.update).toHaveBeenCalledTimes(1);
+      expect(stripeMock.subscriptions.update).toHaveBeenCalledWith(
+         subscription.stripeSubscriptionId,
+         expectedStripeUpdateParams
+      );
+
+      const expectedUpdateParams: DSubscriptionUpdate = {
+         cancelAtPeriodEnd: true,
+         canceledAt: expect.any(Date),
+      };
+      expect(
+         subscriptionServiceMock.updateUserSubscription
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.updateUserSubscription
+      ).toHaveBeenCalledWith(userId, expectedUpdateParams);
+      expect(
+         subscriptionServiceMock.createUserSubscriptionHistory
+      ).not.toHaveBeenCalled();
+   });
+
+   it("cancelSubscription - createUserSubscriptionHistory throws error - test", async () => {
+      const userId = "user-1";
+      const stripeSubscription = stripeTestData.stripeSubscription();
+      const subscription = dtestData.dSubscription(1);
+      subscription.stripeSubscriptionId = stripeSubscription.id;
+      subscription.status = "ACTIVE";
+      subscription.currentPeriodEnd = new Date("2026-01-26").toISOString();
+      const error = new Error("Failed to create history");
+
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
+         subscription
+      );
+      stripeMock.subscriptions.update.mockResolvedValue(stripeSubscription);
+      subscriptionServiceMock.createUserSubscriptionHistory.mockRejectedValue(
+         error
+      );
+
+      const fn = () => stripeService.cancelSubscription(userId);
+
+      await expect(fn).rejects.toThrow("Failed to create history");
+
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         userId
+      );
+
+      const expectedStripeUpdateParams: Stripe.SubscriptionUpdateParams = {
+         cancel_at_period_end: true,
+      };
+      expect(stripeMock.subscriptions.update).toHaveBeenCalledTimes(1);
+      expect(stripeMock.subscriptions.update).toHaveBeenCalledWith(
+         subscription.stripeSubscriptionId,
+         expectedStripeUpdateParams
+      );
+
+      const expectedUpdateParams: DSubscriptionUpdate = {
+         cancelAtPeriodEnd: true,
+         canceledAt: expect.any(Date),
+      };
+      expect(
+         subscriptionServiceMock.updateUserSubscription
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.updateUserSubscription
+      ).toHaveBeenCalledWith(userId, expectedUpdateParams);
+
+      const expectedHistoryParams: DSubscriptionHistoryCreate = {
+         userId,
+         eventType: "canceled",
+         fromStatus: subscription.status,
+         toStatus: subscription.status,
+         metadata: {
+            cancelAtPeriodEnd: true,
+            currentPeriodEnd: subscription.currentPeriodEnd,
+         },
+      };
+      expect(
+         subscriptionServiceMock.createUserSubscriptionHistory
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.createUserSubscriptionHistory
+      ).toHaveBeenCalledWith(expectedHistoryParams);
+   });
+
+   it("cancelSubscription - handles subscription with different statuses - test", async () => {
+      const userId = "user-1";
+      const subscription = dtestData.dSubscription(1);
+      subscription.stripeSubscriptionId = "sub_test123";
+      subscription.status = "PAST_DUE";
+      subscription.currentPeriodEnd = new Date("2026-01-26").toISOString();
+
+      const stripeSubscription = {
+         id: "sub_test123",
+         cancel_at_period_end: true,
+      } as Stripe.Subscription;
+
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
+         subscription
+      );
+      stripeMock.subscriptions.update.mockResolvedValue(stripeSubscription);
+
+      await stripeService.cancelSubscription(userId);
+
+      expect(
+         subscriptionServiceMock.createUserSubscriptionHistory
+      ).toHaveBeenCalledWith({
+         userId,
+         eventType: "canceled",
+         fromStatus: "PAST_DUE",
+         toStatus: "PAST_DUE",
+         metadata: {
+            cancelAtPeriodEnd: true,
+            currentPeriodEnd: subscription.currentPeriodEnd,
+         },
+      });
    });
 });
 
