@@ -173,12 +173,13 @@ export class StripeService {
          return stripeCustomerId;
       }
 
-      const customer = await stripe.customers.create({
-         email,
+      const data: Stripe.CustomerCreateParams = {
+         email: email,
          metadata: {
             userId,
          },
-      });
+      };
+      const customer = await stripe.customers.create(data);
 
       await this.userService.updateUserStripeCustomerId(userId, customer.id);
 

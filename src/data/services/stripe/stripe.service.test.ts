@@ -17,6 +17,7 @@ import { OrderService } from "@/data/services/order";
 import { SubscriptionService } from "@/data/services/subscription";
 import { UserService } from "@/data/services/user";
 import { DOrderUpdate } from "@/data/types/domain/order";
+import { DStripeCheckoutResponse } from "@/data/types/domain/stripe";
 import {
    DCreateSubscriptionCheckout,
    DSubscriptionUpdate,
@@ -386,7 +387,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
       const result =
          await stripeService.createSubscriptionCheckoutSession(params);
 
-      const expectedResult = {
+      const expectedResult: DStripeCheckoutResponse = {
          sessionId: "session-1",
          url: "https://checkout.stripe.com/session-1",
       };
@@ -473,7 +474,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
       const result =
          await stripeService.createSubscriptionCheckoutSession(params);
 
-      const expectedResult = {
+      const expectedResult: DStripeCheckoutResponse = {
          sessionId: "session-1",
          url: "https://checkout.stripe.com/session-1",
       };
@@ -541,8 +542,8 @@ describe("createSubscriptionCheckoutSession tests", () => {
 
    it("createSubscriptionCheckoutSession - creates new Stripe customer if none exists - test", async () => {
       const plan = dtestData.dSubscriptionPlan(1);
-      const checkoutSession = stripeTestData.stripeCheckoutSession();
       const stripeCustomer = stripeTestData.stripeCustomer();
+      const checkoutSession = stripeTestData.stripeCheckoutSession();
       const params: DCreateSubscriptionCheckout = {
          userId: "user-1",
          userEmail: "test@email.com",
@@ -559,21 +560,31 @@ describe("createSubscriptionCheckoutSession tests", () => {
       const result =
          await stripeService.createSubscriptionCheckoutSession(params);
 
-      expect(result).toEqual({
+      const expectedResult: DStripeCheckoutResponse = {
          sessionId: "session-1",
          url: "https://checkout.stripe.com/session-1",
-      });
+      };
 
-      expect(stripeMock.customers.create).toHaveBeenCalledWith({
+      expect(result).toEqual(expectedResult);
+
+      const expectedCreateCustomerData: Stripe.CustomerCreateParams = {
          email: params.userEmail,
          metadata: {
             userId: params.userId,
          },
-      });
+      };
+      expect(stripeMock.customers.create).toHaveBeenCalledTimes(1);
+      expect(stripeMock.customers.create).toHaveBeenCalledWith(
+         expectedCreateCustomerData
+      );
+      expect(userServiceMock.updateUserStripeCustomerId).toHaveBeenCalledTimes(
+         1
+      );
       expect(userServiceMock.updateUserStripeCustomerId).toHaveBeenCalledWith(
          params.userId,
          stripeCustomer.id
       );
+      expect(stripeMock.checkout.sessions.create).toHaveBeenCalledTimes(1);
       expect(stripeMock.checkout.sessions.create).toHaveBeenCalledWith(
          expect.objectContaining({
             customer: stripeCustomer.id,
@@ -606,11 +617,15 @@ describe("createSubscriptionCheckoutSession tests", () => {
       const result =
          await stripeService.createSubscriptionCheckoutSession(params);
 
-      expect(result).toEqual({
+      const expectedResult: DStripeCheckoutResponse = {
          sessionId: "session-1",
          url: "https://checkout.stripe.com/session-1",
-      });
+      };
+      expect(result).toEqual(expectedResult);
 
+      expect(
+         subscriptionServiceMock.deleteUserSubscription
+      ).toHaveBeenCalledTimes(1);
       expect(
          subscriptionServiceMock.deleteUserSubscription
       ).toHaveBeenCalledWith(params.userId);
@@ -641,10 +656,12 @@ describe("createSubscriptionCheckoutSession tests", () => {
       const result =
          await stripeService.createSubscriptionCheckoutSession(params);
 
-      expect(result).toEqual({
+      const expectedResult: DStripeCheckoutResponse = {
          sessionId: "session-1",
          url: "https://checkout.stripe.com/session-1",
-      });
+      };
+
+      expect(result).toEqual(expectedResult);
 
       expect(
          subscriptionServiceMock.deleteUserSubscription
@@ -667,8 +684,15 @@ describe("createSubscriptionCheckoutSession tests", () => {
          stripeService.createSubscriptionCheckoutSession(params)
       ).rejects.toThrow("No Stripe price configured for MONTHLY billing");
 
+      expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledTimes(1);
       expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledWith(plan.id);
       expect(userServiceMock.getUserStripeCustomerId).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.getUserSubscription
+      ).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.createUserSubscription
+      ).not.toHaveBeenCalled();
       expect(stripeMock.checkout.sessions.create).not.toHaveBeenCalled();
    });
 
@@ -687,6 +711,17 @@ describe("createSubscriptionCheckoutSession tests", () => {
       await expect(
          stripeService.createSubscriptionCheckoutSession(params)
       ).rejects.toThrow("No Stripe price configured for YEARLY billing");
+
+      expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledWith(plan.id);
+      expect(userServiceMock.getUserStripeCustomerId).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.getUserSubscription
+      ).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.createUserSubscription
+      ).not.toHaveBeenCalled();
+      expect(stripeMock.checkout.sessions.create).not.toHaveBeenCalled();
    });
 
    it("createSubscriptionCheckoutSession - getPlanById throws error - test", async () => {
@@ -704,10 +739,17 @@ describe("createSubscriptionCheckoutSession tests", () => {
          stripeService.createSubscriptionCheckoutSession(params)
       ).rejects.toThrow("Plan not found");
 
+      expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledTimes(1);
       expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledWith(
          params.planId
       );
       expect(userServiceMock.getUserStripeCustomerId).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.getUserSubscription
+      ).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.createUserSubscription
+      ).not.toHaveBeenCalled();
       expect(stripeMock.checkout.sessions.create).not.toHaveBeenCalled();
    });
 
@@ -732,6 +774,19 @@ describe("createSubscriptionCheckoutSession tests", () => {
       await expect(
          stripeService.createSubscriptionCheckoutSession(params)
       ).rejects.toThrow("Stripe API error");
+
+      expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledWith(plan.id);
+      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledWith(
+         params.userId
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         params.userId
+      );
 
       expect(stripeMock.checkout.sessions.create).toHaveBeenCalledTimes(1);
       expect(
@@ -762,6 +817,20 @@ describe("createSubscriptionCheckoutSession tests", () => {
       await expect(
          stripeService.createSubscriptionCheckoutSession(params)
       ).rejects.toThrow("Failed to create subscription");
+
+      expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledWith(plan.id);
+      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledWith(
+         params.userId
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         params.userId
+      );
+      expect(stripeMock.checkout.sessions.create).toHaveBeenCalledTimes(1);
 
       expect(
          subscriptionServiceMock.createUserSubscription
