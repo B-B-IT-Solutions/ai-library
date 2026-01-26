@@ -81,16 +81,6 @@ export class ServiceFactory {
       return this.promptTemplateService;
    }
 
-   getStripeService(): StripeService {
-      if (!this.stripeService) {
-         this.stripeService = new StripeService(
-            this.getCartService(),
-            this.getOrderService()
-         );
-      }
-      return this.stripeService;
-   }
-
    getSubscriptionService(): SubscriptionService {
       if (!this.subscriptionService) {
          this.subscriptionService = new SubscriptionService(
@@ -98,5 +88,16 @@ export class ServiceFactory {
          );
       }
       return this.subscriptionService;
+   }
+
+   getStripeService(): StripeService {
+      if (!this.stripeService) {
+         this.stripeService = new StripeService(
+            this.getCartService(),
+            this.getOrderService(),
+            this.getSubscriptionService()
+         );
+      }
+      return this.stripeService;
    }
 }

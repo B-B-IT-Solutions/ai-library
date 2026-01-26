@@ -89,19 +89,6 @@ describe("getPromptTemplateService tests", () => {
    });
 });
 
-describe("getStripeService tests", () => {
-   it("getStripeService - new instance - test", () => {
-      const service = serviceFactory.getStripeService();
-      expect(service).toBeInstanceOf(StripeService);
-   });
-
-   it("getStripeService - existing instance - test", () => {
-      const service1 = serviceFactory.getStripeService();
-      const service2 = serviceFactory.getStripeService();
-      expect(service1).toBe(service2);
-   });
-});
-
 describe("getSubscriptionService tests", () => {
    it("getSubscriptionService - new instance - test", () => {
       const service = serviceFactory.getSubscriptionService();
@@ -111,6 +98,19 @@ describe("getSubscriptionService tests", () => {
    it("getSubscriptionService - existing instance - test", () => {
       const service1 = serviceFactory.getSubscriptionService();
       const service2 = serviceFactory.getSubscriptionService();
+      expect(service1).toBe(service2);
+   });
+});
+
+describe("getStripeService tests", () => {
+   it("getStripeService - new instance - test", () => {
+      const service = serviceFactory.getStripeService();
+      expect(service).toBeInstanceOf(StripeService);
+   });
+
+   it("getStripeService - existing instance - test", () => {
+      const service1 = serviceFactory.getStripeService();
+      const service2 = serviceFactory.getStripeService();
       expect(service1).toBe(service2);
    });
 });

@@ -7,6 +7,7 @@ import {
    DSubscriptionCheckoutResult,
    DSubscriptionPlan,
    DSubscriptionTier,
+   DSubscriptionUpdate,
 } from "@/data/types/domain/subscription";
 import { SubscriptionStatus } from "@/generated/prisma/client";
 import { APP_URL } from "@/lib/constants";
@@ -37,10 +38,48 @@ export class SubscriptionService {
       return plan ? toDSubscriptionPlan(plan) : null;
    }
 
+   async getPlanById(planId: string): Promise<DSubscriptionPlan> {
+      const plan = await this.subscriptionRepo.pGetPlanById(planId);
+
+      if (!plan) {
+         throw new Error("Subscription plan not found");
+      }
+
+      if (!plan.isActive) {
+         throw new Error("This subscription plan is not available");
+      }
+      return toDSubscriptionPlan(plan);
+   }
+
    async getUserSubscription(userId: string): Promise<DSubscription | null> {
       const subscription =
          await this.subscriptionRepo.pGetUserSubscription(userId);
       return subscription ? toDSubscription(subscription) : null;
+   }
+
+   async createUserSubscription(data: DSubscriptionUpdate): Promise<void> {
+      await this.subscriptionRepo.pCreateSubscription({
+         userId: data.userId,
+         planId: data.planId,
+         billingInterval: data.billingInterval,
+         stripeCheckoutSessionId: data.stripeCheckoutSessionId,
+         stripeCustomerId: data.stripeCustomerId,
+      });
+
+      await this.subscriptionRepo.pCreateHistory({
+         userId: data.userId,
+         eventType: "checkout_created",
+         toTier: data.tier,
+         toStatus: "INCOMPLETE",
+         metadata: {
+            checkoutSessionId: data.stripeCheckoutSessionId,
+            billingInterval: data.billingInterval,
+         },
+      });
+   }
+
+   async deleteUserSubscription(userId: string): Promise<void> {
+      await this.subscriptionRepo.pDeleteSubscription(userId);
    }
 
    async getUserTier(userId: string): Promise<DSubscriptionTier> {

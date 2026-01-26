@@ -16,6 +16,7 @@ model User {
   image               String?
   password            String?               @db.VarChar(250)
   role                String                @default("user") @db.VarChar(50)
+  stripeCustomerId    String?               @unique @map("stripe_customer_id") @db.VarChar(250)
   createdAt           DateTime              @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt           DateTime              @updatedAt @map("updated_at")
   accounts            Account[]
