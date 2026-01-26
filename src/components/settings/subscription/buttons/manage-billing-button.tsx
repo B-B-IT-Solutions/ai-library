@@ -5,7 +5,7 @@ import { ExternalLink, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
-import { createCustomerPortal } from "@/data/actions/subscription";
+import { createCustomerPortal } from "@/data/actions/stripe";
 import { navigateToExternalUrl } from "@/lib/utils";
 
 export const ManageBillingButton: FC = () => {

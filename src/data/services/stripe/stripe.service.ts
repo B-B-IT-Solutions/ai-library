@@ -7,7 +7,10 @@ import { OrderService } from "@/data/services/order";
 import { SubscriptionService } from "@/data/services/subscription";
 import { UserService } from "@/data/services/user";
 import { DOrderUpdate } from "@/data/types/domain/order";
-import { DStripeCheckoutResponse } from "@/data/types/domain/stripe";
+import {
+   DStripeBillingPortalSessionResponse,
+   DStripeCheckoutResponse,
+} from "@/data/types/domain/stripe";
 import {
    DBillingInterval,
    DSubscriptionCreate,
@@ -253,6 +256,26 @@ export class StripeService {
       await this.subscriptionService.createUserSubscriptionHistory(
          historyCreate
       );
+   }
+
+   async createPortalSession(
+      userId: string
+   ): Promise<DStripeBillingPortalSessionResponse> {
+      const subscription =
+         await this.subscriptionService.getUserSubscription(userId);
+
+      if (!subscription?.stripeCustomerId) {
+         throw new Error("No active subscription found");
+      }
+
+      const session = await stripe.billingPortal.sessions.create({
+         customer: subscription.stripeCustomerId,
+         return_url: `${APP_URL}/settings/subscription`,
+      });
+
+      return {
+         url: session.url,
+      };
    }
 
    async getOrCreateStripeCustomer(

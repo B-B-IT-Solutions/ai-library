@@ -31,7 +31,10 @@ import {
    DPromptTemplateDescriptor,
    DPromptTemplateDescriptorWithPrompt,
 } from "@/data/types/domain/prompt.template";
-import { DStripeCheckoutResponse } from "@/data/types/domain/stripe";
+import {
+   DStripeBillingPortalSessionResponse,
+   DStripeCheckoutResponse,
+} from "@/data/types/domain/stripe";
 import {
    DSubscription,
    DSubscriptionPlan,
@@ -58,6 +61,14 @@ export const dStripeCheckoutResponse = (index = 1): DStripeCheckoutResponse => {
    return {
       sessionId: `5f367e25-12a4-4de4-af0b-6dcdd5ac005${index}`,
       url: `http://checkout.stripe/subcription-${index}`,
+   };
+};
+
+export const dStripeBillingPortalSessionResponse = (
+   index = 1
+): DStripeBillingPortalSessionResponse => {
+   return {
+      url: `https://billing.stripe.com/session/123-${index}`,
    };
 };
 

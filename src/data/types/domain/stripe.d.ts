@@ -3,6 +3,6 @@ export type DStripeCheckoutResponse = {
    url: string;
 };
 
-export type DStripePortalSessionResponse = {
+export type DStripeBillingPortalSessionResponse = {
    url: string;
 };

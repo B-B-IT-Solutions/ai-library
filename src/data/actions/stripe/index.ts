@@ -3,4 +3,5 @@ export {
    createSubscriptionCheckoutSession,
    cancelSubscription,
    reactivateSubscription,
+   createCustomerPortal,
 } from "./stripe.actions";

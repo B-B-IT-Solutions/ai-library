@@ -4,7 +4,10 @@ jest.mock("@/data/actions/auth-utils");
 import { dtestData } from "@tests";
 
 import { StripeService } from "@/data/services/stripe";
-import { DStripeCheckoutResponse } from "@/data/types/domain/stripe";
+import {
+   DStripeBillingPortalSessionResponse,
+   DStripeCheckoutResponse,
+} from "@/data/types/domain/stripe";
 import {
    DCreateSubscriptionCheckout,
    DSubscriptionCheckoutRequest,
@@ -14,6 +17,7 @@ import { requireUser } from "../auth-utils";
 
 import {
    cancelSubscription,
+   createCustomerPortal,
    createOrderCheckoutSession,
    createSubscriptionCheckoutSession,
    reactivateSubscription,
@@ -25,6 +29,7 @@ const sCreateSubscriptionCheckoutSession =
    StripeService.prototype.createSubscriptionCheckoutSession;
 const sCancelSubscription = StripeService.prototype.cancelSubscription;
 const sReactivateSubscription = StripeService.prototype.reactivateSubscription;
+const sCreatePortalSession = StripeService.prototype.createPortalSession;
 
 const sCreateOrderCheckoutSessionMock =
    sCreateOrderCheckoutSession as jest.MockedFunction<
@@ -43,6 +48,9 @@ const sReactivateSubscriptionMock =
    sReactivateSubscription as jest.MockedFunction<
       typeof sReactivateSubscription
    >;
+const sCreatePortalSessionMock = sCreatePortalSession as jest.MockedFunction<
+   typeof sCreatePortalSession
+>;
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
@@ -308,5 +316,65 @@ describe("reactivateSubscription tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sReactivateSubscriptionMock).toHaveBeenCalledTimes(1);
       expect(sReactivateSubscriptionMock).toHaveBeenCalledWith(user.id);
+   });
+});
+
+describe("createCustomerPortal tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("createCustomerPortal - user undefined - test", async () => {
+      const error = new Error("Unknown user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await createCustomerPortal();
+
+      const expectResult: ActionResult = {
+         success: false,
+         message: "Billing Portal session couldn't be established",
+      };
+
+      expect(result).toEqual(expectResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePortalSessionMock).not.toHaveBeenCalled();
+   });
+
+   it("createCustomerPortal - portal session creation error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sCreatePortalSessionMock.mockRejectedValue("portal session error");
+
+      const result = await createCustomerPortal();
+
+      const expectResult: ActionResult = {
+         success: false,
+         message: "Billing Portal session couldn't be established",
+      };
+
+      expect(result).toEqual(expectResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePortalSessionMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePortalSessionMock).toHaveBeenCalledWith(user.id);
+   });
+
+   it("createCustomerPortal - portal session created successfully - test", async () => {
+      const user = dtestData.dLoginUser();
+      const portalSession = dtestData.dStripeBillingPortalSessionResponse();
+      requireUserMock.mockResolvedValue(user);
+      sCreatePortalSessionMock.mockResolvedValue(portalSession);
+
+      const result = await createCustomerPortal();
+
+      const expectResult: ActionResult<DStripeBillingPortalSessionResponse> = {
+         success: true,
+         message: "Billing Portal session created established",
+         data: portalSession,
+      };
+
+      expect(result).toEqual(expectResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePortalSessionMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePortalSessionMock).toHaveBeenCalledWith(user.id);
    });
 });

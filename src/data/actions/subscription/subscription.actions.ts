@@ -5,7 +5,7 @@ import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
-import { DStripePortalSessionResponse } from "@/data/types/domain/stripe";
+import { DStripeBillingPortalSessionResponse } from "@/data/types/domain/stripe";
 import {
    DSubscription,
    DSubscriptionPlan,
@@ -48,7 +48,7 @@ export const getUserSubscription = async (): Promise<DSubscription | null> => {
 // };
 
 export const createCustomerPortal = async (): Promise<
-   ActionResult<DStripePortalSessionResponse>
+   ActionResult<DStripeBillingPortalSessionResponse>
 > => {
    try {
       const user = await requireUser();

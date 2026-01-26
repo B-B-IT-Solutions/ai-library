@@ -24,6 +24,15 @@ export const stripeSubscription = (
    } as unknown as Stripe.Response<Stripe.Subscription>;
 };
 
+export const billingPortalSession = (
+   index = 1
+): Stripe.Response<Stripe.BillingPortal.Session> => {
+   return {
+      id: `bps_test123_${index}`,
+      url: `https://billing.stripe.com/session/${index}`,
+   } as unknown as Stripe.Response<Stripe.BillingPortal.Session>;
+};
+
 export const checkoutSessionCompletedEvent = (): Stripe.Event => {
    return {
       type: "checkout.session.completed",

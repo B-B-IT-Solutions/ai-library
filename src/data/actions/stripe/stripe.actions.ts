@@ -4,7 +4,10 @@ import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
-import { DStripeCheckoutResponse } from "@/data/types/domain/stripe";
+import {
+   DStripeBillingPortalSessionResponse,
+   DStripeCheckoutResponse,
+} from "@/data/types/domain/stripe";
 import {
    DCreateSubscriptionCheckout,
    DSubscriptionCheckoutRequest,
@@ -90,6 +93,26 @@ export const reactivateSubscription = async (): Promise<ActionResult<void>> => {
       return {
          success: false,
          message: "Subscription couldn't be reactivated",
+      };
+   }
+};
+
+export const createCustomerPortal = async (): Promise<
+   ActionResult<DStripeBillingPortalSessionResponse>
+> => {
+   try {
+      const user = await requireUser();
+      const stripeService = getStripeService();
+      const data = await stripeService.createPortalSession(user.id);
+      return {
+         success: true,
+         message: "Billing Portal session created established",
+         data,
+      };
+   } catch {
+      return {
+         success: false,
+         message: "Billing Portal session couldn't be established",
       };
    }
 };

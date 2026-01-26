@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/subscription");
+jest.mock("@/data/actions/stripe");
 jest.mock("@/lib/utils");
 jest.mock("sonner");
 
@@ -8,7 +8,7 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument } from "@tests";
 import { toast } from "sonner";
 
-import { createCustomerPortal } from "@/data/actions/subscription";
+import { createCustomerPortal } from "@/data/actions/stripe";
 import { navigateToExternalUrl } from "@/lib/utils";
 
 import { ManageBillingButton } from "./manage-billing-button";

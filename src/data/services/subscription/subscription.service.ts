@@ -5,7 +5,7 @@ import {
    SubscriptionHistoryCreate,
    SubscriptionUpdate,
 } from "@/data/types/db/subscription";
-import { DStripePortalSessionResponse } from "@/data/types/domain/stripe";
+import { DStripeBillingPortalSessionResponse } from "@/data/types/domain/stripe";
 import {
    DSubscription,
    DSubscriptionCreate,
@@ -325,7 +325,7 @@ export class SubscriptionService {
 
    async createPortalSession(
       userId: string
-   ): Promise<DStripePortalSessionResponse> {
+   ): Promise<DStripeBillingPortalSessionResponse> {
       const subscription =
          await this.subscriptionRepo.pGetUserSubscription(userId);
 

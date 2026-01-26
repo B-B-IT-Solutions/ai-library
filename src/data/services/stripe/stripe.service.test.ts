@@ -17,7 +17,10 @@ import { OrderService } from "@/data/services/order";
 import { SubscriptionService } from "@/data/services/subscription";
 import { UserService } from "@/data/services/user";
 import { DOrderUpdate } from "@/data/types/domain/order";
-import { DStripeCheckoutResponse } from "@/data/types/domain/stripe";
+import {
+   DStripeBillingPortalSessionResponse,
+   DStripeCheckoutResponse,
+} from "@/data/types/domain/stripe";
 import {
    DCreateSubscriptionCheckout,
    DSubscriptionCreate,
@@ -1493,6 +1496,184 @@ describe("reactivateSubscription tests", () => {
       expect(
          subscriptionServiceMock.createUserSubscriptionHistory
       ).toHaveBeenCalledWith(expectedHistoryParams);
+   });
+});
+
+describe("createPortalSession tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   it("createPortalSession - successful portal session creation - test", async () => {
+      const userId = "user-1";
+      const subscription = dtestData.dSubscription(1);
+      subscription.stripeCustomerId = "cus_test123";
+      const billingPortalSession = stripeTestData.billingPortalSession();
+
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
+         subscription
+      );
+      stripeMock.billingPortal.sessions.create.mockResolvedValue(
+         billingPortalSession
+      );
+
+      const result = await stripeService.createPortalSession(userId);
+
+      const expectedResult: DStripeBillingPortalSessionResponse = {
+         url: billingPortalSession.url,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         userId
+      );
+
+      const expectedParams: Stripe.BillingPortal.SessionCreateParams = {
+         customer: subscription.stripeCustomerId,
+         return_url: "http://localhost:3000/settings/subscription",
+      };
+      expect(stripeMock.billingPortal.sessions.create).toHaveBeenCalledTimes(1);
+      expect(stripeMock.billingPortal.sessions.create).toHaveBeenCalledWith(
+         expectedParams
+      );
+   });
+
+   it("createPortalSession - throws error when no subscription found - test", async () => {
+      const userId = "user-1";
+
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(null);
+
+      const fn = () => stripeService.createPortalSession(userId);
+
+      await expect(fn).rejects.toThrow("No active subscription found");
+
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         userId
+      );
+      expect(stripeMock.billingPortal.sessions.create).not.toHaveBeenCalled();
+   });
+
+   it("createPortalSession - throws error when subscription has no stripe customer ID - test", async () => {
+      const userId = "user-1";
+      const subscription = dtestData.dSubscription(1);
+      subscription.stripeCustomerId = null;
+
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
+         subscription
+      );
+
+      const fn = () => stripeService.createPortalSession(userId);
+
+      await expect(fn).rejects.toThrow("No active subscription found");
+
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         userId
+      );
+      expect(stripeMock.billingPortal.sessions.create).not.toHaveBeenCalled();
+   });
+
+   it("createPortalSession - throws error when subscription has undefined stripe customer ID - test", async () => {
+      const userId = "user-1";
+      const subscription = dtestData.dSubscription(1);
+      subscription.stripeCustomerId = null;
+
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
+         subscription
+      );
+
+      const fn = () => stripeService.createPortalSession(userId);
+
+      await expect(fn).rejects.toThrow("No active subscription found");
+
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         userId
+      );
+      expect(stripeMock.billingPortal.sessions.create).not.toHaveBeenCalled();
+   });
+
+   it("createPortalSession - throws error when subscription has empty string stripe customer ID - test", async () => {
+      const userId = "user-1";
+      const subscription = dtestData.dSubscription(1);
+      subscription.stripeCustomerId = "";
+
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
+         subscription
+      );
+
+      const fn = () => stripeService.createPortalSession(userId);
+
+      await expect(fn).rejects.toThrow("No active subscription found");
+
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         userId
+      );
+      expect(stripeMock.billingPortal.sessions.create).not.toHaveBeenCalled();
+   });
+
+   it("createPortalSession - getUserSubscription throws error - test", async () => {
+      const userId = "user-1";
+      const error = new Error("Database error");
+
+      subscriptionServiceMock.getUserSubscription.mockRejectedValue(error);
+
+      const fn = () => stripeService.createPortalSession(userId);
+
+      await expect(fn).rejects.toThrow("Database error");
+
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         userId
+      );
+      expect(stripeMock.billingPortal.sessions.create).not.toHaveBeenCalled();
+   });
+
+   it("createPortalSession - stripe.billingPortal.sessions.create throws error - test", async () => {
+      const userId = "user-1";
+      const subscription = dtestData.dSubscription(1);
+      subscription.stripeCustomerId = "cus_test123";
+      const error = new Error("Stripe API error");
+
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
+         subscription
+      );
+      stripeMock.billingPortal.sessions.create.mockRejectedValue(error);
+
+      const fn = () => stripeService.createPortalSession(userId);
+
+      await expect(fn).rejects.toThrow("Stripe API error");
+
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         userId
+      );
+
+      const expectedParams: Stripe.BillingPortal.SessionCreateParams = {
+         customer: subscription.stripeCustomerId,
+         return_url: "http://localhost:3000/settings/subscription",
+      };
+      expect(stripeMock.billingPortal.sessions.create).toHaveBeenCalledTimes(1);
+      expect(stripeMock.billingPortal.sessions.create).toHaveBeenCalledWith(
+         expectedParams
+      );
    });
 });
 
