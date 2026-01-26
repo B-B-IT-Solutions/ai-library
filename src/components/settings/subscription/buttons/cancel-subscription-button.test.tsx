@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/subscription");
+jest.mock("@/data/actions/stripe");
 jest.mock("sonner");
 
 import { screen, waitFor } from "@testing-library/dom";
@@ -8,7 +8,7 @@ import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
-import { cancelSubscription } from "@/data/actions/subscription";
+import { cancelSubscription } from "@/data/actions/stripe";
 import { ActionResult } from "@/data/types/utils";
 
 import { CancelSubscriptionButton } from "./cancel-subscription-button";

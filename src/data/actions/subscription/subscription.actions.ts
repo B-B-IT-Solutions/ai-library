@@ -46,23 +46,6 @@ export const getUserSubscription = async (): Promise<DSubscription | null> => {
 //    }
 // };
 
-export const cancelSubscription = async (): Promise<ActionResult<void>> => {
-   try {
-      const user = await requireUser();
-      const subscriptionService = getSubscriptionService();
-      await subscriptionService.cancelSubscription(user.id);
-      return {
-         success: true,
-         message: "Subscription cancelled successfully",
-      };
-   } catch {
-      return {
-         success: false,
-         message: "Subscription couldn't be cancelled",
-      };
-   }
-};
-
 export const reactivateSubscription = async (): Promise<ActionResult<void>> => {
    try {
       const user = await requireUser();

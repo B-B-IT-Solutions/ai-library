@@ -17,7 +17,7 @@ import {
    AlertDialogTrigger,
 } from "@/components/shadcn/alert-dialog";
 import { Button } from "@/components/shadcn/button";
-import { cancelSubscription } from "@/data/actions/subscription";
+import { cancelSubscription } from "@/data/actions/stripe";
 import { DSubscription } from "@/data/types/domain/subscription";
 import { formatDateTime } from "@/lib/utils";
 

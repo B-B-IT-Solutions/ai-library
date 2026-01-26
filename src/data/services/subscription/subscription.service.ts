@@ -247,41 +247,41 @@ export class SubscriptionService {
    //    };
    // }
 
-   async cancelSubscription(userId: string): Promise<void> {
-      const subscription =
-         await this.subscriptionRepo.pGetUserSubscription(userId);
+   // async cancelSubscription(userId: string): Promise<void> {
+   //    const subscription =
+   //       await this.subscriptionRepo.pGetUserSubscription(userId);
 
-      if (!subscription) {
-         throw new Error("No subscription found");
-      }
+   //    if (!subscription) {
+   //       throw new Error("No subscription found");
+   //    }
 
-      if (!subscription.stripeSubscriptionId) {
-         throw new Error("No Stripe subscription found");
-      }
+   //    if (!subscription.stripeSubscriptionId) {
+   //       throw new Error("No Stripe subscription found");
+   //    }
 
-      // Update Stripe subscription to cancel at period end
-      await stripe.subscriptions.update(subscription.stripeSubscriptionId, {
-         cancel_at_period_end: true,
-      });
+   //    // Update Stripe subscription to cancel at period end
+   //    await stripe.subscriptions.update(subscription.stripeSubscriptionId, {
+   //       cancel_at_period_end: true,
+   //    });
 
-      // Update local subscription
-      await this.subscriptionRepo.pUpdateSubscription(userId, {
-         cancelAtPeriodEnd: true,
-         canceledAt: new Date(),
-      });
+   //    // Update local subscription
+   //    await this.subscriptionRepo.pUpdateSubscription(userId, {
+   //       cancelAtPeriodEnd: true,
+   //       canceledAt: new Date(),
+   //    });
 
-      // Create history entry
-      await this.subscriptionRepo.pCreateHistory({
-         userId,
-         eventType: "canceled",
-         fromStatus: subscription.status,
-         toStatus: subscription.status,
-         metadata: {
-            cancelAtPeriodEnd: true,
-            currentPeriodEnd: subscription.currentPeriodEnd,
-         },
-      });
-   }
+   //    // Create history entry
+   //    await this.subscriptionRepo.pCreateHistory({
+   //       userId,
+   //       eventType: "canceled",
+   //       fromStatus: subscription.status,
+   //       toStatus: subscription.status,
+   //       metadata: {
+   //          cancelAtPeriodEnd: true,
+   //          currentPeriodEnd: subscription.currentPeriodEnd,
+   //       },
+   //    });
+   // }
 
    async reactivateSubscription(userId: string): Promise<void> {
       const subscription =

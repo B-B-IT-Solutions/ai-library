@@ -60,6 +60,23 @@ export const createSubscriptionCheckoutSession = async (
    }
 };
 
+export const cancelSubscription = async (): Promise<ActionResult<void>> => {
+   try {
+      const user = await requireUser();
+      const stripeService = getStripeService();
+      await stripeService.cancelSubscription(user.id);
+      return {
+         success: true,
+         message: "Subscription cancelled successfully",
+      };
+   } catch {
+      return {
+         success: false,
+         message: "Subscription couldn't be cancelled",
+      };
+   }
+};
+
 const getStripeService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getStripeService();
