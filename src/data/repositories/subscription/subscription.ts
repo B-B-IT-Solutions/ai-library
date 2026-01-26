@@ -121,23 +121,4 @@ export class SubscriptionRepository {
          orderBy: { createdAt: "desc" },
       });
    }
-
-   async pUpdateUserStripeCustomerId(
-      userId: string,
-      stripeCustomerId: string
-   ): Promise<void> {
-      await this.prisma.user.update({
-         where: { id: userId },
-         data: { stripeCustomerId },
-      });
-   }
-
-   async pGetUserByStripeCustomerId(
-      stripeCustomerId: string
-   ): Promise<{ id: string; email: string } | null> {
-      return await this.prisma.user.findUnique({
-         where: { stripeCustomerId },
-         select: { id: true, email: true },
-      });
-   }
 }

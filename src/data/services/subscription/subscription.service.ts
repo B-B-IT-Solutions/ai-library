@@ -1,9 +1,7 @@
 import Stripe from "stripe";
 
 import { SubscriptionRepository } from "@/data/repositories/subscription";
-import { DStripeCheckoutResponse } from "@/data/types/domain/stripe";
 import {
-   DBillingInterval,
    DSubscription,
    DSubscriptionPlan,
    DSubscriptionTier,
@@ -295,13 +293,6 @@ export class SubscriptionService {
    }
 
    async createPortalSession(userId: string): Promise<{ url: string }> {
-      const user =
-         await this.subscriptionRepo.pGetUserByStripeCustomerId(userId);
-
-      if (!user) {
-         throw new Error("User not found");
-      }
-
       const subscription =
          await this.subscriptionRepo.pGetUserSubscription(userId);
 
@@ -311,7 +302,7 @@ export class SubscriptionService {
 
       const portalSession = await stripe.billingPortal.sessions.create({
          customer: subscription.stripeCustomerId,
-         return_url: `${APP_URL}/settings`,
+         return_url: `${APP_URL}/settings/subscription`,
       });
 
       return { url: portalSession.url };
