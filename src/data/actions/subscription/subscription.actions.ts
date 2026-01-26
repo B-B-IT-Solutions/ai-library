@@ -1,16 +1,13 @@
 "use server";
 
 import { requireUser } from "@/data/actions/auth-utils";
-import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
-import { DStripeBillingPortalSessionResponse } from "@/data/types/domain/stripe";
 import {
    DSubscription,
    DSubscriptionPlan,
 } from "@/data/types/domain/subscription";
-import { ActionResult } from "@/data/types/utils";
 
 export const getSubscriptionPlans = async (): Promise<DSubscriptionPlan[]> => {
    await requireUser();
@@ -46,26 +43,6 @@ export const getUserSubscription = async (): Promise<DSubscription | null> => {
 //       return { success: false, message: formatError(error) };
 //    }
 // };
-
-export const createCustomerPortal = async (): Promise<
-   ActionResult<DStripeBillingPortalSessionResponse>
-> => {
-   try {
-      const user = await requireUser();
-      const subscriptionService = getSubscriptionService();
-      const data = await subscriptionService.createPortalSession(user.id);
-      return {
-         success: true,
-         message: "",
-         data,
-      };
-   } catch (error) {
-      return {
-         success: false,
-         message: formatError(error),
-      };
-   }
-};
 
 const getSubscriptionService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);

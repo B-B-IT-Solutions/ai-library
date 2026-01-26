@@ -323,25 +323,25 @@ export class SubscriptionService {
    //    });
    // }
 
-   async createPortalSession(
-      userId: string
-   ): Promise<DStripeBillingPortalSessionResponse> {
-      const subscription =
-         await this.subscriptionRepo.pGetUserSubscription(userId);
+   // async createPortalSession(
+   //    userId: string
+   // ): Promise<DStripeBillingPortalSessionResponse> {
+   //    const subscription =
+   //       await this.subscriptionRepo.pGetUserSubscription(userId);
 
-      if (!subscription?.stripeCustomerId) {
-         throw new Error("No active subscription found");
-      }
+   //    if (!subscription?.stripeCustomerId) {
+   //       throw new Error("No active subscription found");
+   //    }
 
-      const portalSession = await stripe.billingPortal.sessions.create({
-         customer: subscription.stripeCustomerId,
-         return_url: `${APP_URL}/settings/subscription`,
-      });
+   //    const portalSession = await stripe.billingPortal.sessions.create({
+   //       customer: subscription.stripeCustomerId,
+   //       return_url: `${APP_URL}/settings/subscription`,
+   //    });
 
-      return {
-         url: portalSession.url,
-      };
-   }
+   //    return {
+   //       url: portalSession.url,
+   //    };
+   // }
 
    // Webhook Handlers
 
