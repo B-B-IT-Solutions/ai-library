@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/stripe/stripe.actions");
+jest.mock("@/data/actions/stripe");
 jest.mock("@/lib/utils");
 jest.mock("sonner");
 
