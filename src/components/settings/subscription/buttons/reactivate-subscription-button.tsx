@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
-import { reactivateSubscription } from "@/data/actions/subscription";
+import { reactivateSubscription } from "@/data/actions/stripe";
 
 export const ReactivateSubscriptionButton: FC = () => {
    const router = useRouter();

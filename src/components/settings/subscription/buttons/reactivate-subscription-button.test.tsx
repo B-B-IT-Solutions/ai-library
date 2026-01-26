@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/subscription");
+jest.mock("@/data/actions/stripe");
 jest.mock("sonner");
 
 import { screen, waitFor } from "@testing-library/dom";
@@ -8,7 +8,7 @@ import { assertInDocument } from "@tests";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
-import { reactivateSubscription } from "@/data/actions/subscription";
+import { reactivateSubscription } from "@/data/actions/stripe";
 import { ActionResult } from "@/data/types/utils";
 
 import { ReactivateSubscriptionButton } from "./reactivate-subscription-button";

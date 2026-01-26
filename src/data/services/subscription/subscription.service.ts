@@ -335,7 +335,9 @@ export class SubscriptionService {
          return_url: `${APP_URL}/settings/subscription`,
       });
 
-      return { url: portalSession.url };
+      return {
+         url: portalSession.url,
+      };
    }
 
    // Webhook Handlers

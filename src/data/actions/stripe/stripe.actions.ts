@@ -77,6 +77,23 @@ export const cancelSubscription = async (): Promise<ActionResult<void>> => {
    }
 };
 
+export const reactivateSubscription = async (): Promise<ActionResult<void>> => {
+   try {
+      const user = await requireUser();
+      const stripeService = getStripeService();
+      await stripeService.reactivateSubscription(user.id);
+      return {
+         success: true,
+         message: "Subscription reactivated successfully",
+      };
+   } catch {
+      return {
+         success: false,
+         message: "Subscription couldn't be reactivated",
+      };
+   }
+};
+
 const getStripeService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getStripeService();

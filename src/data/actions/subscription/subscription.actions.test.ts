@@ -5,18 +5,14 @@ import { dtestData } from "@tests";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { SubscriptionService } from "@/data/services/subscription";
-import { ActionResult } from "@/data/types/utils";
 
 import {
    getSubscriptionPlans,
    getUserSubscription,
-   reactivateSubscription,
 } from "./subscription.actions";
 
 const sGetAvailablePlans = SubscriptionService.prototype.getAvailablePlans;
 const sGetUserSubscription = SubscriptionService.prototype.getUserSubscription;
-const sReactivateSubscription =
-   SubscriptionService.prototype.reactivateSubscription;
 
 const sGetAvailablePlansMock = sGetAvailablePlans as jest.MockedFunction<
    typeof sGetAvailablePlans
@@ -24,10 +20,6 @@ const sGetAvailablePlansMock = sGetAvailablePlans as jest.MockedFunction<
 const sGetUserSubscriptionMock = sGetUserSubscription as jest.MockedFunction<
    typeof sGetUserSubscription
 >;
-const sReactivateSubscriptionMock =
-   sReactivateSubscription as jest.MockedFunction<
-      typeof sReactivateSubscription
-   >;
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
@@ -91,63 +83,5 @@ describe("getUserSubscription tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetUserSubscriptionMock).toHaveBeenCalledTimes(1);
       expect(sGetUserSubscriptionMock).toHaveBeenCalledWith(user.id);
-   });
-});
-
-describe("reactivateSubscription tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("reactivateSubscription - user undefined - test", async () => {
-      const error = new Error("Unknown user");
-      requireUserMock.mockRejectedValue(error);
-
-      const result = await reactivateSubscription();
-
-      const expectResult: ActionResult = {
-         success: false,
-         message: "Subscription couldn't be reactivated",
-      };
-
-      expect(result).toEqual(expectResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sReactivateSubscriptionMock).not.toHaveBeenCalled();
-   });
-
-   it("reactivateSubscription - stripe reactivation error - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      sReactivateSubscriptionMock.mockRejectedValue("reactivation error");
-
-      const result = await reactivateSubscription();
-
-      const expectResult: ActionResult = {
-         success: false,
-         message: "Subscription couldn't be reactivated",
-      };
-
-      expect(result).toEqual(expectResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sReactivateSubscriptionMock).toHaveBeenCalledTimes(1);
-      expect(sReactivateSubscriptionMock).toHaveBeenCalledWith(user.id);
-   });
-
-   it("reactivateSubscription - stripe reactivation succeded - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      sReactivateSubscriptionMock.mockResolvedValue();
-
-      const result = await reactivateSubscription();
-
-      const expectResult: ActionResult = {
-         success: true,
-         message: "Subscription reactivated successfully",
-      };
-
-      expect(result).toEqual(expectResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sReactivateSubscriptionMock).toHaveBeenCalledTimes(1);
-      expect(sReactivateSubscriptionMock).toHaveBeenCalledWith(user.id);
    });
 });

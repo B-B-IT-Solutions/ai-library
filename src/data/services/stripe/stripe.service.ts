@@ -208,6 +208,53 @@ export class StripeService {
       );
    }
 
+   async reactivateSubscription(userId: string): Promise<void> {
+      const subscription =
+         await this.subscriptionService.getUserSubscription(userId);
+
+      if (!subscription) {
+         throw new Error("No subscription found");
+      }
+
+      if (!subscription.stripeSubscriptionId) {
+         throw new Error("No Stripe subscription found");
+      }
+
+      if (!subscription.cancelAtPeriodEnd) {
+         throw new Error("Subscription is not set to cancel");
+      }
+
+      const stripeSubscriptionUpdate: Stripe.SubscriptionUpdateParams = {
+         cancel_at_period_end: false,
+      };
+      await stripe.subscriptions.update(
+         subscription.stripeSubscriptionId,
+         stripeSubscriptionUpdate
+      );
+
+      const subscriptionUpdate: DSubscriptionUpdate = {
+         cancelAtPeriodEnd: false,
+         canceledAt: null,
+      };
+      await this.subscriptionService.updateUserSubscription(
+         userId,
+         subscriptionUpdate
+      );
+
+      const historyCreate: DSubscriptionHistoryCreate = {
+         userId,
+         eventType: "reactivated",
+         fromStatus: subscription.status,
+         toStatus: subscription.status,
+         metadata: {
+            cancelAtPeriodEnd: false,
+         },
+      };
+      await this.subscriptionService.createUserSubscriptionHistory(
+         historyCreate
+      );
+   }
+
    async getOrCreateStripeCustomer(
       userId: string,
       email: string

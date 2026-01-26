@@ -1170,6 +1170,332 @@ describe("cancelSubscription tests", () => {
    });
 });
 
+describe("reactivateSubscription tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   it("reactivateSubscription - successful reactivation - test", async () => {
+      const userId = "user-1";
+      const stripeSubscription = stripeTestData.stripeSubscription();
+      stripeSubscription.cancel_at_period_end = false;
+      const subscription = dtestData.dSubscription(1);
+      subscription.stripeSubscriptionId = stripeSubscription.id;
+      subscription.status = "ACTIVE";
+      subscription.cancelAtPeriodEnd = true;
+
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
+         subscription
+      );
+      stripeMock.subscriptions.update.mockResolvedValue(stripeSubscription);
+
+      await stripeService.reactivateSubscription(userId);
+
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         userId
+      );
+
+      const expectedStripeUpdateParams: Stripe.SubscriptionUpdateParams = {
+         cancel_at_period_end: false,
+      };
+      expect(stripeMock.subscriptions.update).toHaveBeenCalledTimes(1);
+      expect(stripeMock.subscriptions.update).toHaveBeenCalledWith(
+         subscription.stripeSubscriptionId,
+         expectedStripeUpdateParams
+      );
+
+      const expectedUpdateParams: DSubscriptionUpdate = {
+         cancelAtPeriodEnd: false,
+         canceledAt: null,
+      };
+      expect(
+         subscriptionServiceMock.updateUserSubscription
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.updateUserSubscription
+      ).toHaveBeenCalledWith(userId, expectedUpdateParams);
+
+      const expectedHistoryParams: DSubscriptionHistoryCreate = {
+         userId,
+         eventType: "reactivated",
+         fromStatus: subscription.status,
+         toStatus: subscription.status,
+         metadata: {
+            cancelAtPeriodEnd: false,
+         },
+      };
+      expect(
+         subscriptionServiceMock.createUserSubscriptionHistory
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.createUserSubscriptionHistory
+      ).toHaveBeenCalledWith(expectedHistoryParams);
+   });
+
+   it("reactivateSubscription - throws error when no subscription found - test", async () => {
+      const userId = "user-1";
+
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(null);
+
+      const fn = () => stripeService.reactivateSubscription(userId);
+
+      await expect(fn).rejects.toThrow("No subscription found");
+
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         userId
+      );
+      expect(stripeMock.subscriptions.update).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.updateUserSubscription
+      ).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.createUserSubscriptionHistory
+      ).not.toHaveBeenCalled();
+   });
+
+   it("reactivateSubscription - throws error when no Stripe subscription ID - test", async () => {
+      const userId = "user-1";
+      const subscription = dtestData.dSubscription(1);
+      subscription.stripeSubscriptionId = null;
+      subscription.cancelAtPeriodEnd = true;
+
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
+         subscription
+      );
+
+      const fn = () => stripeService.reactivateSubscription(userId);
+
+      await expect(fn).rejects.toThrow("No Stripe subscription found");
+
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         userId
+      );
+      expect(stripeMock.subscriptions.update).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.updateUserSubscription
+      ).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.createUserSubscriptionHistory
+      ).not.toHaveBeenCalled();
+   });
+
+   it("reactivateSubscription - throws error when subscription is not set to cancel - test", async () => {
+      const userId = "user-1";
+      const subscription = dtestData.dSubscription(1);
+      subscription.stripeSubscriptionId = "sub_test123";
+      subscription.cancelAtPeriodEnd = false;
+
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
+         subscription
+      );
+
+      const fn = () => stripeService.reactivateSubscription(userId);
+
+      await expect(fn).rejects.toThrow("Subscription is not set to cancel");
+
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         userId
+      );
+      expect(stripeMock.subscriptions.update).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.updateUserSubscription
+      ).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.createUserSubscriptionHistory
+      ).not.toHaveBeenCalled();
+   });
+
+   it("reactivateSubscription - getUserSubscription throws error - test", async () => {
+      const userId = "user-1";
+      const error = new Error("Database error");
+
+      subscriptionServiceMock.getUserSubscription.mockRejectedValue(error);
+
+      const fn = () => stripeService.reactivateSubscription(userId);
+
+      await expect(fn).rejects.toThrow("Database error");
+
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         userId
+      );
+      expect(stripeMock.subscriptions.update).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.updateUserSubscription
+      ).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.createUserSubscriptionHistory
+      ).not.toHaveBeenCalled();
+   });
+
+   it("reactivateSubscription - stripe.subscriptions.update throws error - test", async () => {
+      const userId = "user-1";
+      const subscription = dtestData.dSubscription(1);
+      subscription.stripeSubscriptionId = "sub_test123";
+      subscription.cancelAtPeriodEnd = true;
+      const error = new Error("Stripe API error");
+
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
+         subscription
+      );
+      stripeMock.subscriptions.update.mockRejectedValue(error);
+
+      const fn = () => stripeService.reactivateSubscription(userId);
+
+      await expect(fn).rejects.toThrow("Stripe API error");
+
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         userId
+      );
+
+      const expectedStripeUpdateParams: Stripe.SubscriptionUpdateParams = {
+         cancel_at_period_end: false,
+      };
+      expect(stripeMock.subscriptions.update).toHaveBeenCalledTimes(1);
+      expect(stripeMock.subscriptions.update).toHaveBeenCalledWith(
+         subscription.stripeSubscriptionId,
+         expectedStripeUpdateParams
+      );
+      expect(
+         subscriptionServiceMock.updateUserSubscription
+      ).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.createUserSubscriptionHistory
+      ).not.toHaveBeenCalled();
+   });
+
+   it("reactivateSubscription - updateUserSubscription throws error - test", async () => {
+      const userId = "user-1";
+      const stripeSubscription = stripeTestData.stripeSubscription();
+      const subscription = dtestData.dSubscription(1);
+      subscription.stripeSubscriptionId = stripeSubscription.id;
+      subscription.cancelAtPeriodEnd = true;
+      const error = new Error("Failed to update subscription");
+
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
+         subscription
+      );
+      stripeMock.subscriptions.update.mockResolvedValue(stripeSubscription);
+      subscriptionServiceMock.updateUserSubscription.mockRejectedValue(error);
+
+      const fn = () => stripeService.reactivateSubscription(userId);
+
+      await expect(fn).rejects.toThrow("Failed to update subscription");
+
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         userId
+      );
+
+      const expectedStripeUpdateParams: Stripe.SubscriptionUpdateParams = {
+         cancel_at_period_end: false,
+      };
+      expect(stripeMock.subscriptions.update).toHaveBeenCalledTimes(1);
+      expect(stripeMock.subscriptions.update).toHaveBeenCalledWith(
+         subscription.stripeSubscriptionId,
+         expectedStripeUpdateParams
+      );
+
+      const expectedUpdateParams: DSubscriptionUpdate = {
+         cancelAtPeriodEnd: false,
+         canceledAt: null,
+      };
+      expect(
+         subscriptionServiceMock.updateUserSubscription
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.updateUserSubscription
+      ).toHaveBeenCalledWith(userId, expectedUpdateParams);
+      expect(
+         subscriptionServiceMock.createUserSubscriptionHistory
+      ).not.toHaveBeenCalled();
+   });
+
+   it("reactivateSubscription - createUserSubscriptionHistory throws error - test", async () => {
+      const userId = "user-1";
+      const stripeSubscription = stripeTestData.stripeSubscription();
+      const subscription = dtestData.dSubscription(1);
+      subscription.stripeSubscriptionId = stripeSubscription.id;
+      subscription.status = "ACTIVE";
+      subscription.cancelAtPeriodEnd = true;
+      const error = new Error("Failed to create history");
+
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
+         subscription
+      );
+      stripeMock.subscriptions.update.mockResolvedValue(stripeSubscription);
+      subscriptionServiceMock.createUserSubscriptionHistory.mockRejectedValue(
+         error
+      );
+
+      const fn = () => stripeService.reactivateSubscription(userId);
+
+      await expect(fn).rejects.toThrow("Failed to create history");
+
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         userId
+      );
+
+      const expectedStripeUpdateParams: Stripe.SubscriptionUpdateParams = {
+         cancel_at_period_end: false,
+      };
+      expect(stripeMock.subscriptions.update).toHaveBeenCalledTimes(1);
+      expect(stripeMock.subscriptions.update).toHaveBeenCalledWith(
+         subscription.stripeSubscriptionId,
+         expectedStripeUpdateParams
+      );
+
+      const expectedUpdateParams: DSubscriptionUpdate = {
+         cancelAtPeriodEnd: false,
+         canceledAt: null,
+      };
+      expect(
+         subscriptionServiceMock.updateUserSubscription
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.updateUserSubscription
+      ).toHaveBeenCalledWith(userId, expectedUpdateParams);
+
+      const expectedHistoryParams: DSubscriptionHistoryCreate = {
+         userId,
+         eventType: "reactivated",
+         fromStatus: subscription.status,
+         toStatus: subscription.status,
+         metadata: {
+            cancelAtPeriodEnd: false,
+         },
+      };
+      expect(
+         subscriptionServiceMock.createUserSubscriptionHistory
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.createUserSubscriptionHistory
+      ).toHaveBeenCalledWith(expectedHistoryParams);
+   });
+});
+
 describe("getOrCreateStripeCustomer tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
