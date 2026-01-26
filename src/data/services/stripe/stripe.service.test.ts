@@ -858,6 +858,7 @@ describe("getOrCreateStripeCustomer tests", () => {
       );
 
       expect(result).toBe(existingCustomerId);
+      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledTimes(1);
       expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledWith(
          userId
       );
@@ -868,59 +869,76 @@ describe("getOrCreateStripeCustomer tests", () => {
    it("getOrCreateStripeCustomer - creates new customer when none exists - test", async () => {
       const userId = "user-1";
       const email = "test@email.com";
-      const newCustomerId = "cus_new123";
+      const stripeCustomer = stripeTestData.stripeCustomer();
 
       userServiceMock.getUserStripeCustomerId.mockResolvedValue(null);
-      stripeMock.customers.create.mockResolvedValue({
-         id: newCustomerId,
-      } as Stripe.Response<Stripe.Customer>);
+      stripeMock.customers.create.mockResolvedValue(stripeCustomer);
 
       const result = await stripeService.getOrCreateStripeCustomer(
          userId,
          email
       );
 
-      expect(result).toBe(newCustomerId);
-      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledWith(
-         userId
-      );
-      expect(stripeMock.customers.create).toHaveBeenCalledWith({
+      const expectedCustomerData: Stripe.CustomerCreateParams = {
          email,
          metadata: {
             userId,
          },
-      });
+      };
+
+      expect(result).toBe(stripeCustomer.id);
+      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledWith(
+         userId
+      );
+      expect(stripeMock.customers.create).toHaveBeenCalledTimes(1);
+      expect(stripeMock.customers.create).toHaveBeenCalledWith(
+         expectedCustomerData
+      );
+      expect(userServiceMock.updateUserStripeCustomerId).toHaveBeenCalledTimes(
+         1
+      );
       expect(userServiceMock.updateUserStripeCustomerId).toHaveBeenCalledWith(
          userId,
-         newCustomerId
+         stripeCustomer.id
       );
    });
 
    it("getOrCreateStripeCustomer - creates new customer when customer ID is empty string - test", async () => {
       const userId = "user-1";
       const email = "test@email.com";
-      const newCustomerId = "cus_new123";
+      const stripeCustomer = stripeTestData.stripeCustomer();
 
       userServiceMock.getUserStripeCustomerId.mockResolvedValue("");
-      stripeMock.customers.create.mockResolvedValue({
-         id: newCustomerId,
-      } as Stripe.Response<Stripe.Customer>);
+      stripeMock.customers.create.mockResolvedValue(stripeCustomer);
 
       const result = await stripeService.getOrCreateStripeCustomer(
          userId,
          email
       );
 
-      expect(result).toBe(newCustomerId);
-      expect(stripeMock.customers.create).toHaveBeenCalledWith({
+      const expectedCustomerData: Stripe.CustomerCreateParams = {
          email,
          metadata: {
             userId,
          },
-      });
+      };
+
+      expect(result).toBe(stripeCustomer.id);
+      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledWith(
+         userId
+      );
+      expect(stripeMock.customers.create).toHaveBeenCalledTimes(1);
+      expect(stripeMock.customers.create).toHaveBeenCalledWith(
+         expectedCustomerData
+      );
+      expect(userServiceMock.updateUserStripeCustomerId).toHaveBeenCalledTimes(
+         1
+      );
       expect(userServiceMock.updateUserStripeCustomerId).toHaveBeenCalledWith(
          userId,
-         newCustomerId
+         stripeCustomer.id
       );
    });
 
@@ -931,10 +949,10 @@ describe("getOrCreateStripeCustomer tests", () => {
 
       userServiceMock.getUserStripeCustomerId.mockRejectedValue(error);
 
-      await expect(
-         stripeService.getOrCreateStripeCustomer(userId, email)
-      ).rejects.toThrow("Database error");
+      const fn = () => stripeService.getOrCreateStripeCustomer(userId, email);
+      await expect(fn).rejects.toThrow("Database error");
 
+      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledTimes(1);
       expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledWith(
          userId
       );
@@ -950,50 +968,61 @@ describe("getOrCreateStripeCustomer tests", () => {
       userServiceMock.getUserStripeCustomerId.mockResolvedValue(null);
       stripeMock.customers.create.mockRejectedValue(error);
 
-      await expect(
-         stripeService.getOrCreateStripeCustomer(userId, email)
-      ).rejects.toThrow("Stripe API error");
+      const fn = () => stripeService.getOrCreateStripeCustomer(userId, email);
+      await expect(fn).rejects.toThrow("Stripe API error");
 
-      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledWith(
-         userId
-      );
-      expect(stripeMock.customers.create).toHaveBeenCalledWith({
+      const expectedCustomerData: Stripe.CustomerCreateParams = {
          email,
          metadata: {
             userId,
          },
-      });
+      };
+
+      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledWith(
+         userId
+      );
+      expect(stripeMock.customers.create).toHaveBeenCalledTimes(1);
+      expect(stripeMock.customers.create).toHaveBeenCalledWith(
+         expectedCustomerData
+      );
       expect(userServiceMock.updateUserStripeCustomerId).not.toHaveBeenCalled();
    });
 
    it("getOrCreateStripeCustomer - updateUserStripeCustomerId throws error - test", async () => {
       const userId = "user-1";
       const email = "test@email.com";
-      const newCustomerId = "cus_new123";
+      const stripeCustomer = stripeTestData.stripeCustomer();
       const error = new Error("Failed to update user");
 
       userServiceMock.getUserStripeCustomerId.mockResolvedValue(null);
-      stripeMock.customers.create.mockResolvedValue({
-         id: newCustomerId,
-      } as Stripe.Response<Stripe.Customer>);
+      stripeMock.customers.create.mockResolvedValue(stripeCustomer);
       userServiceMock.updateUserStripeCustomerId.mockRejectedValue(error);
 
-      await expect(
-         stripeService.getOrCreateStripeCustomer(userId, email)
-      ).rejects.toThrow("Failed to update user");
+      const fn = () => stripeService.getOrCreateStripeCustomer(userId, email);
+      await expect(fn).rejects.toThrow("Failed to update user");
 
-      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledWith(
-         userId
-      );
-      expect(stripeMock.customers.create).toHaveBeenCalledWith({
+      const expectedCustomerData: Stripe.CustomerCreateParams = {
          email,
          metadata: {
             userId,
          },
-      });
+      };
+
+      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledWith(
+         userId
+      );
+      expect(stripeMock.customers.create).toHaveBeenCalledTimes(1);
+      expect(stripeMock.customers.create).toHaveBeenCalledWith(
+         expectedCustomerData
+      );
+      expect(userServiceMock.updateUserStripeCustomerId).toHaveBeenCalledTimes(
+         1
+      );
       expect(userServiceMock.updateUserStripeCustomerId).toHaveBeenCalledWith(
          userId,
-         newCustomerId
+         stripeCustomer.id
       );
    });
 });
