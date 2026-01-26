@@ -15,7 +15,7 @@ export const handleStripeEvent = async (event: Stripe.Event) => {
             if (session.mode === "subscription") {
                await handleSubscriptionCheckoutCompleted(session);
             } else if (session.mode === "payment") {
-               await handleCheckoutCompleted(session);
+               await handlePaymentCheckoutCompleted(session);
             }
             break;
          }
@@ -71,7 +71,9 @@ export const handleStripeEvent = async (event: Stripe.Event) => {
    }
 };
 
-const handleCheckoutCompleted = async (session: Stripe.Checkout.Session) => {
+const handlePaymentCheckoutCompleted = async (
+   session: Stripe.Checkout.Session
+) => {
    const orderId = session.metadata?.orderId;
    if (!orderId) {
       throw new Error("No orderId in session metadata");
@@ -80,7 +82,7 @@ const handleCheckoutCompleted = async (session: Stripe.Checkout.Session) => {
    try {
       await prisma.$transaction(async (tx) => {
          const service = getOrderSevice(tx);
-         return service.handleStripeCheckoutCompleted(
+         return service.handlePaymentCheckoutCompleted(
             orderId,
             session.payment_intent as string,
             session.payment_status

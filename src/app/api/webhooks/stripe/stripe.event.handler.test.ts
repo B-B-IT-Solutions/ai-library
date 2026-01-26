@@ -10,15 +10,15 @@ import { OrderService } from "@/data/services/order";
 
 import { handleStripeEvent } from "./stripe.event.handler";
 
-const sStripeCheckoutCompleted =
-   OrderService.prototype.handleStripeCheckoutCompleted;
+const sPaymentCheckoutCompleted =
+   OrderService.prototype.handlePaymentCheckoutCompleted;
 const sStripeCheckoutExpired =
    OrderService.prototype.handleStripeCheckoutExpired;
 const sStripePaymentFailed = OrderService.prototype.handleStripePaymentFailed;
 
-const sStripeCheckoutCompletedMock =
-   sStripeCheckoutCompleted as jest.MockedFunction<
-      typeof sStripeCheckoutCompleted
+const sPaymentCheckoutCompletedMock =
+   sPaymentCheckoutCompleted as jest.MockedFunction<
+      typeof sPaymentCheckoutCompleted
    >;
 const sStripeCheckoutExpiredMock =
    sStripeCheckoutExpired as jest.MockedFunction<typeof sStripeCheckoutExpired>;
@@ -60,13 +60,13 @@ describe("handleStripeEvent tests", () => {
             expectedStatus
          );
 
-         expect(sStripeCheckoutCompletedMock).not.toHaveBeenCalled();
+         expect(sPaymentCheckoutCompletedMock).not.toHaveBeenCalled();
          expect(console.error).toHaveBeenCalledTimes(1);
       });
 
       it("stripe - checkout.session.completed - processing error - test", async () => {
          const event = stripeTestData.checkoutSessionCompletedEvent();
-         sStripeCheckoutCompletedMock.mockRejectedValue(
+         sPaymentCheckoutCompletedMock.mockRejectedValue(
             new Error("processing error")
          );
 
@@ -81,8 +81,8 @@ describe("handleStripeEvent tests", () => {
             expectedStatus
          );
 
-         expect(sStripeCheckoutCompletedMock).toHaveBeenCalledTimes(1);
-         expect(sStripeCheckoutCompletedMock).toHaveBeenCalledWith(
+         expect(sPaymentCheckoutCompletedMock).toHaveBeenCalledTimes(1);
+         expect(sPaymentCheckoutCompletedMock).toHaveBeenCalledWith(
             "order-id-1",
             "pi_test_123",
             "paid"
@@ -92,7 +92,7 @@ describe("handleStripeEvent tests", () => {
 
       it("stripe - checkout.session.completed - success - test", async () => {
          const event = stripeTestData.checkoutSessionCompletedEvent();
-         sStripeCheckoutCompletedMock.mockResolvedValue(undefined);
+         sPaymentCheckoutCompletedMock.mockResolvedValue(undefined);
 
          await handleStripeEvent(event);
 
@@ -105,8 +105,8 @@ describe("handleStripeEvent tests", () => {
             expectedStatus
          );
 
-         expect(sStripeCheckoutCompletedMock).toHaveBeenCalledTimes(1);
-         expect(sStripeCheckoutCompletedMock).toHaveBeenCalledWith(
+         expect(sPaymentCheckoutCompletedMock).toHaveBeenCalledTimes(1);
+         expect(sPaymentCheckoutCompletedMock).toHaveBeenCalledWith(
             "order-id-1",
             "pi_test_123",
             "paid"

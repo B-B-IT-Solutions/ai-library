@@ -274,12 +274,12 @@ describe("deleteOrders tests", () => {
    });
 });
 
-describe("handleStripeCheckoutCompleted tests", () => {
+describe("handlePaymentCheckoutCompleted tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("handleStripeCheckoutCompleted - order not found - test", async () => {
+   it("handlePaymentCheckoutCompleted - order not found - test", async () => {
       const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
       const paymentIntentId = "pi_123456";
       const paymentStatus = "succeeded";
@@ -287,7 +287,7 @@ describe("handleStripeCheckoutCompleted tests", () => {
       orderRepoMock.pGetOrderProducts.mockResolvedValue(null);
 
       const fn = () =>
-         orderService.handleStripeCheckoutCompleted(
+         orderService.handlePaymentCheckoutCompleted(
             orderId,
             paymentIntentId,
             paymentStatus
@@ -302,7 +302,7 @@ describe("handleStripeCheckoutCompleted tests", () => {
       expect(cartServiceMock.clearCart).not.toHaveBeenCalled();
    });
 
-   it("handleStripeCheckoutCompleted - order already completed - test", async () => {
+   it("handlePaymentCheckoutCompleted - order already completed - test", async () => {
       const order = ptestData.pOrderProducts();
       order.status = "COMPLETED";
       const paymentIntentId = "pi_123456";
@@ -310,7 +310,7 @@ describe("handleStripeCheckoutCompleted tests", () => {
 
       orderRepoMock.pGetOrderProducts.mockResolvedValue(order);
 
-      await orderService.handleStripeCheckoutCompleted(
+      await orderService.handlePaymentCheckoutCompleted(
          order.id,
          paymentIntentId,
          paymentStatus
@@ -323,7 +323,7 @@ describe("handleStripeCheckoutCompleted tests", () => {
       expect(cartServiceMock.clearCart).not.toHaveBeenCalled();
    });
 
-   it("handleStripeCheckoutCompleted - order completed successfully - test", async () => {
+   it("handlePaymentCheckoutCompleted - order completed successfully - test", async () => {
       const order = ptestData.pOrderProducts();
       order.status = "PENDING";
       const paymentIntentId = "pi_123456";
@@ -331,7 +331,7 @@ describe("handleStripeCheckoutCompleted tests", () => {
 
       orderRepoMock.pGetOrderProducts.mockResolvedValue(order);
 
-      await orderService.handleStripeCheckoutCompleted(
+      await orderService.handlePaymentCheckoutCompleted(
          order.id,
          paymentIntentId,
          paymentStatus

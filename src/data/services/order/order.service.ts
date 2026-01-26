@@ -98,7 +98,7 @@ export class OrderService {
       await this.orderRepository.pDeleteOrders(userId);
    }
 
-   async handleStripeCheckoutCompleted(
+   async handlePaymentCheckoutCompleted(
       orderId: string,
       paymentIntentId: string,
       paymentStatus: string
