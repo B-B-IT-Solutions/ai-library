@@ -1,5 +1,20 @@
 import Stripe from "stripe";
 
+export const stripeCheckoutSession = (
+   index = 1
+): Stripe.Response<Stripe.Checkout.Session> => {
+   return {
+      id: "session-1",
+      url: `https://checkout.stripe.com/session-${index}`,
+   } as unknown as Stripe.Response<Stripe.Checkout.Session>;
+};
+
+export const stripeCustomer = (index = 1): Stripe.Response<Stripe.Customer> => {
+   return {
+      id: `cus_new123_${index}`,
+   } as unknown as Stripe.Response<Stripe.Customer>;
+};
+
 export const checkoutSessionCompletedEvent = (): Stripe.Event => {
    return {
       type: "checkout.session.completed",

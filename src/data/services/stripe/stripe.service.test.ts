@@ -5,7 +5,7 @@ jest.mock("@/data/services/user");
 jest.mock("@/lib/stripe/stripe-server");
 jest.mock("@/data/actions/auth-utils");
 
-import { dtestData } from "@tests";
+import { dtestData, stripeTestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 import Stripe from "stripe";
 
@@ -57,13 +57,6 @@ const stripeService = new StripeService(
    userServiceMock
 );
 
-const stripeCheckoutSession = (): Stripe.Response<Stripe.Checkout.Session> => {
-   return {
-      id: "session-1",
-      url: "https://checkout.stripe.com/session-1",
-   } as unknown as Stripe.Response<Stripe.Checkout.Session>;
-};
-
 describe("createOrderCheckoutSession tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
@@ -106,7 +99,7 @@ describe("createOrderCheckoutSession tests", () => {
       const cart = dtestData.dCart(1, 1);
 
       const order = dtestData.dOrder();
-      const checkoutSession = stripeCheckoutSession();
+      const checkoutSession = stripeTestData.stripeCheckoutSession();
 
       requireUserMock.mockResolvedValue(user);
       cartServiceMock.getCart.mockResolvedValue(cart);
@@ -179,7 +172,7 @@ describe("createOrderCheckoutSession tests", () => {
       const item2 = cart.items[1];
       item2.productDescription = undefined;
 
-      const checkoutSession = stripeCheckoutSession();
+      const checkoutSession = stripeTestData.stripeCheckoutSession();
 
       requireUserMock.mockResolvedValue(user);
       cartServiceMock.getCart.mockResolvedValue(cart);
@@ -319,7 +312,7 @@ describe("createOrderCheckoutSession tests", () => {
       const user = dtestData.dLoginUser();
       const cart = dtestData.dCart(1, 1);
       const order = dtestData.dOrder(1);
-      const checkoutSession = stripeCheckoutSession();
+      const checkoutSession = stripeTestData.stripeCheckoutSession();
       const error = new Error("Failed to update order");
 
       requireUserMock.mockResolvedValue(user);
@@ -345,7 +338,7 @@ describe("createOrderCheckoutSession tests", () => {
       user.email = null;
       const cart = dtestData.dCart(1, 1);
       const order = dtestData.dOrder(1);
-      const checkoutSession = stripeCheckoutSession();
+      const checkoutSession = stripeTestData.stripeCheckoutSession();
 
       requireUserMock.mockResolvedValue(user);
       cartServiceMock.getCart.mockResolvedValue(cart);
@@ -374,8 +367,8 @@ describe("createSubscriptionCheckoutSession tests", () => {
 
    it("createSubscriptionCheckoutSession - successful checkout with monthly billing - test", async () => {
       const plan = dtestData.dSubscriptionPlan(1);
-      const stripeCustomerId = "cus_test123";
-      const checkoutSession = stripeCheckoutSession();
+      const stripeCustomer = stripeTestData.stripeCustomer();
+      const checkoutSession = stripeTestData.stripeCheckoutSession();
       const params: DCreateSubscriptionCheckout = {
          userId: "user-1",
          userEmail: "test@email.com",
@@ -385,7 +378,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
 
       subscriptionServiceMock.getPlanById.mockResolvedValue(plan);
       userServiceMock.getUserStripeCustomerId.mockResolvedValue(
-         stripeCustomerId
+         stripeCustomer.id
       );
       subscriptionServiceMock.getUserSubscription.mockResolvedValue(null);
       stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
@@ -421,7 +414,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
                quantity: 1,
             },
          ],
-         customer: stripeCustomerId,
+         customer: stripeCustomer.id,
          client_reference_id: params.userId,
          metadata: {
             userId: params.userId,
@@ -449,7 +442,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
          billingInterval: params.billingInterval,
          tier: plan.tier,
          stripeCheckoutSessionId: checkoutSession.id,
-         stripeCustomerId,
+         stripeCustomerId: stripeCustomer.id,
       };
       expect(
          subscriptionServiceMock.createUserSubscription
@@ -461,8 +454,8 @@ describe("createSubscriptionCheckoutSession tests", () => {
 
    it("createSubscriptionCheckoutSession - successful checkout with yearly billing - test", async () => {
       const plan = dtestData.dSubscriptionPlan(1);
-      const stripeCustomerId = "cus_test123";
-      const checkoutSession = stripeCheckoutSession();
+      const stripeCustomer = stripeTestData.stripeCustomer();
+      const checkoutSession = stripeTestData.stripeCheckoutSession();
       const params: DCreateSubscriptionCheckout = {
          userId: "user-1",
          userEmail: "test@email.com",
@@ -472,7 +465,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
 
       subscriptionServiceMock.getPlanById.mockResolvedValue(plan);
       userServiceMock.getUserStripeCustomerId.mockResolvedValue(
-         stripeCustomerId
+         stripeCustomer.id
       );
       subscriptionServiceMock.getUserSubscription.mockResolvedValue(null);
       stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
@@ -508,7 +501,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
                quantity: 1,
             },
          ],
-         customer: stripeCustomerId,
+         customer: stripeCustomer.id,
          client_reference_id: params.userId,
          metadata: {
             userId: params.userId,
@@ -536,7 +529,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
          billingInterval: params.billingInterval,
          tier: plan.tier,
          stripeCheckoutSessionId: checkoutSession.id,
-         stripeCustomerId,
+         stripeCustomerId: stripeCustomer.id,
       };
       expect(
          subscriptionServiceMock.createUserSubscription
@@ -548,20 +541,18 @@ describe("createSubscriptionCheckoutSession tests", () => {
 
    it("createSubscriptionCheckoutSession - creates new Stripe customer if none exists - test", async () => {
       const plan = dtestData.dSubscriptionPlan(1);
-      const newCustomerId = "cus_new123";
-      const checkoutSession = stripeCheckoutSession();
+      const checkoutSession = stripeTestData.stripeCheckoutSession();
+      const stripeCustomer = stripeTestData.stripeCustomer();
       const params: DCreateSubscriptionCheckout = {
          userId: "user-1",
          userEmail: "test@email.com",
          planId: plan.id,
-         billingInterval: "MONTHLY" as const,
+         billingInterval: "MONTHLY",
       };
 
       subscriptionServiceMock.getPlanById.mockResolvedValue(plan);
       userServiceMock.getUserStripeCustomerId.mockResolvedValue(null);
-      stripeMock.customers.create.mockResolvedValue({
-         id: newCustomerId,
-      } as Stripe.Response<Stripe.Customer>);
+      stripeMock.customers.create.mockResolvedValue(stripeCustomer);
       subscriptionServiceMock.getUserSubscription.mockResolvedValue(null);
       stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
 
@@ -581,19 +572,19 @@ describe("createSubscriptionCheckoutSession tests", () => {
       });
       expect(userServiceMock.updateUserStripeCustomerId).toHaveBeenCalledWith(
          params.userId,
-         newCustomerId
+         stripeCustomer.id
       );
       expect(stripeMock.checkout.sessions.create).toHaveBeenCalledWith(
          expect.objectContaining({
-            customer: newCustomerId,
+            customer: stripeCustomer.id,
          })
       );
    });
 
    it("createSubscriptionCheckoutSession - deletes existing incomplete subscription - test", async () => {
       const plan = dtestData.dSubscriptionPlan(1);
-      const stripeCustomerId = "cus_test123";
-      const checkoutSession = stripeCheckoutSession();
+      const stripeCustomer = stripeTestData.stripeCustomer();
+      const checkoutSession = stripeTestData.stripeCheckoutSession();
       const existingSubscription = dtestData.dSubscription(1);
       existingSubscription.status = "INCOMPLETE";
       const params: DCreateSubscriptionCheckout = {
@@ -605,7 +596,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
 
       subscriptionServiceMock.getPlanById.mockResolvedValue(plan);
       userServiceMock.getUserStripeCustomerId.mockResolvedValue(
-         stripeCustomerId
+         stripeCustomer.id
       );
       subscriptionServiceMock.getUserSubscription.mockResolvedValue(
          existingSubscription
@@ -627,8 +618,8 @@ describe("createSubscriptionCheckoutSession tests", () => {
 
    it("createSubscriptionCheckoutSession - does not delete existing active subscription - test", async () => {
       const plan = dtestData.dSubscriptionPlan(1);
-      const stripeCustomerId = "cus_test123";
-      const checkoutSession = stripeCheckoutSession();
+      const stripeCustomer = stripeTestData.stripeCustomer();
+      const checkoutSession = stripeTestData.stripeCheckoutSession();
       const existingSubscription = dtestData.dSubscription(1);
       existingSubscription.status = "ACTIVE";
       const params: DCreateSubscriptionCheckout = {
@@ -640,7 +631,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
 
       subscriptionServiceMock.getPlanById.mockResolvedValue(plan);
       userServiceMock.getUserStripeCustomerId.mockResolvedValue(
-         stripeCustomerId
+         stripeCustomer.id
       );
       subscriptionServiceMock.getUserSubscription.mockResolvedValue(
          existingSubscription
@@ -722,7 +713,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
 
    it("createSubscriptionCheckoutSession - stripe.checkout.sessions.create throws error - test", async () => {
       const plan = dtestData.dSubscriptionPlan(1);
-      const stripeCustomerId = "cus_test123";
+      const stripeCustomer = stripeTestData.stripeCustomer();
       const error = new Error("Stripe API error");
       const params: DCreateSubscriptionCheckout = {
          userId: "user-1",
@@ -733,7 +724,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
 
       subscriptionServiceMock.getPlanById.mockResolvedValue(plan);
       userServiceMock.getUserStripeCustomerId.mockResolvedValue(
-         stripeCustomerId
+         stripeCustomer.id
       );
       subscriptionServiceMock.getUserSubscription.mockResolvedValue(null);
       stripeMock.checkout.sessions.create.mockRejectedValue(error);
@@ -751,7 +742,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
    it("createSubscriptionCheckoutSession - createUserSubscription throws error - test", async () => {
       const plan = dtestData.dSubscriptionPlan(1);
       const stripeCustomerId = "cus_test123";
-      const checkoutSession = stripeCheckoutSession();
+      const checkoutSession = stripeTestData.stripeCheckoutSession();
       const error = new Error("Failed to create subscription");
       const params: DCreateSubscriptionCheckout = {
          userId: "user-1",
