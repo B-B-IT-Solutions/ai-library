@@ -1,9 +1,3 @@
-/*
-  Warnings:
-
-  - A unique constraint covering the columns `[stripe_customer_id]` on the table `user` will be added. If there are existing duplicate values, this will fail.
-
-*/
 -- CreateEnum
 CREATE TYPE "SubscriptionTier" AS ENUM ('FREE', 'BASIC', 'PRO');
 
@@ -12,9 +6,6 @@ CREATE TYPE "BillingInterval" AS ENUM ('MONTHLY', 'YEARLY');
 
 -- CreateEnum
 CREATE TYPE "SubscriptionStatus" AS ENUM ('ACTIVE', 'CANCELED', 'INCOMPLETE', 'PAST_DUE', 'UNPAID', 'TRIALING', 'PAUSED');
-
--- AlterTable
-ALTER TABLE "user" ADD COLUMN     "stripe_customer_id" VARCHAR(250);
 
 -- CreateTable
 CREATE TABLE "subscription_plan" (
@@ -94,9 +85,6 @@ CREATE INDEX "subscription_history_user_id_idx" ON "subscription_history"("user_
 
 -- CreateIndex
 CREATE INDEX "subscription_history_stripe_event_id_idx" ON "subscription_history"("stripe_event_id");
-
--- CreateIndex
-CREATE UNIQUE INDEX "user_stripe_customer_id_key" ON "user"("stripe_customer_id");
 
 -- AddForeignKey
 ALTER TABLE "subscription" ADD CONSTRAINT "subscription_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
