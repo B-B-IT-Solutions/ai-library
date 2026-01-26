@@ -117,107 +117,107 @@ export class SubscriptionService {
       return false;
    }
 
-   async createCheckoutSession(params: {
-      userId: string;
-      userEmail: string;
-      planId: string;
-      billingInterval: DBillingInterval;
-      successUrl?: string;
-      cancelUrl?: string;
-   }): Promise<DStripeCheckoutResponse> {
-      const plan = await this.subscriptionRepo.pGetPlanById(params.planId);
+   // async createCheckoutSession(params: {
+   //    userId: string;
+   //    userEmail: string;
+   //    planId: string;
+   //    billingInterval: DBillingInterval;
+   //    successUrl?: string;
+   //    cancelUrl?: string;
+   // }): Promise<DStripeCheckoutResponse> {
+   //    const plan = await this.subscriptionRepo.pGetPlanById(params.planId);
 
-      if (!plan) {
-         throw new Error("Subscription plan not found");
-      }
+   //    if (!plan) {
+   //       throw new Error("Subscription plan not found");
+   //    }
 
-      if (!plan.isActive) {
-         throw new Error("This subscription plan is not available");
-      }
+   //    if (!plan.isActive) {
+   //       throw new Error("This subscription plan is not available");
+   //    }
 
-      // Get the correct Stripe price ID based on billing interval
-      const stripePriceId =
-         params.billingInterval === "MONTHLY"
-            ? plan.stripePriceIdMonthly
-            : plan.stripePriceIdYearly;
+   //    // Get the correct Stripe price ID based on billing interval
+   //    const stripePriceId =
+   //       params.billingInterval === "MONTHLY"
+   //          ? plan.stripePriceIdMonthly
+   //          : plan.stripePriceIdYearly;
 
-      if (!stripePriceId) {
-         throw new Error(
-            `No Stripe price configured for ${params.billingInterval} billing`
-         );
-      }
+   //    if (!stripePriceId) {
+   //       throw new Error(
+   //          `No Stripe price configured for ${params.billingInterval} billing`
+   //       );
+   //    }
 
-      // Get or create Stripe customer
-      const stripeCustomerId = await this.getOrCreateStripeCustomer(
-         params.userId,
-         params.userEmail
-      );
+   //    // Get or create Stripe customer
+   //    const stripeCustomerId = await this.getOrCreateStripeCustomer(
+   //       params.userId,
+   //       params.userEmail
+   //    );
 
-      // Check for existing incomplete subscription and delete it
-      const existingSubscription =
-         await this.subscriptionRepo.pGetUserSubscription(params.userId);
-      if (
-         existingSubscription &&
-         existingSubscription.status === "INCOMPLETE"
-      ) {
-         await this.subscriptionRepo.pDeleteSubscription(params.userId);
-      }
+   //    // Check for existing incomplete subscription and delete it
+   //    const existingSubscription =
+   //       await this.subscriptionRepo.pGetUserSubscription(params.userId);
+   //    if (
+   //       existingSubscription &&
+   //       existingSubscription.status === "INCOMPLETE"
+   //    ) {
+   //       await this.subscriptionRepo.pDeleteSubscription(params.userId);
+   //    }
 
-      // Create Stripe checkout session
-      const checkoutSession = await stripe.checkout.sessions.create({
-         mode: "subscription",
-         payment_method_types: ["card"],
-         line_items: [
-            {
-               price: stripePriceId,
-               quantity: 1,
-            },
-         ],
-         customer: stripeCustomerId,
-         client_reference_id: params.userId,
-         metadata: {
-            userId: params.userId,
-            planId: params.planId,
-            billingInterval: params.billingInterval,
-         },
-         success_url:
-            params.successUrl ||
-            `${APP_URL}/subscription/success?session_id={CHECKOUT_SESSION_ID}`,
-         cancel_url: params.cancelUrl || `${APP_URL}/subscription/pricing`,
-         subscription_data: {
-            metadata: {
-               userId: params.userId,
-               planId: params.planId,
-            },
-         },
-      });
+   //    // Create Stripe checkout session
+   //    const checkoutSession = await stripe.checkout.sessions.create({
+   //       mode: "subscription",
+   //       payment_method_types: ["card"],
+   //       line_items: [
+   //          {
+   //             price: stripePriceId,
+   //             quantity: 1,
+   //          },
+   //       ],
+   //       customer: stripeCustomerId,
+   //       client_reference_id: params.userId,
+   //       metadata: {
+   //          userId: params.userId,
+   //          planId: params.planId,
+   //          billingInterval: params.billingInterval,
+   //       },
+   //       success_url:
+   //          params.successUrl ||
+   //          `${APP_URL}/subscription/success?session_id={CHECKOUT_SESSION_ID}`,
+   //       cancel_url: params.cancelUrl || `${APP_URL}/subscription/pricing`,
+   //       subscription_data: {
+   //          metadata: {
+   //             userId: params.userId,
+   //             planId: params.planId,
+   //          },
+   //       },
+   //    });
 
-      // Create pending subscription record
-      await this.subscriptionRepo.pCreateSubscription({
-         userId: params.userId,
-         planId: params.planId,
-         billingInterval: params.billingInterval,
-         stripeCheckoutSessionId: checkoutSession.id,
-         stripeCustomerId,
-      });
+   //    // Create pending subscription record
+   //    await this.subscriptionRepo.pCreateSubscription({
+   //       userId: params.userId,
+   //       planId: params.planId,
+   //       billingInterval: params.billingInterval,
+   //       stripeCheckoutSessionId: checkoutSession.id,
+   //       stripeCustomerId,
+   //    });
 
-      // Create history entry
-      await this.subscriptionRepo.pCreateHistory({
-         userId: params.userId,
-         eventType: "checkout_created",
-         toTier: plan.tier,
-         toStatus: "INCOMPLETE",
-         metadata: {
-            checkoutSessionId: checkoutSession.id,
-            billingInterval: params.billingInterval,
-         },
-      });
+   //    // Create history entry
+   //    await this.subscriptionRepo.pCreateHistory({
+   //       userId: params.userId,
+   //       eventType: "checkout_created",
+   //       toTier: plan.tier,
+   //       toStatus: "INCOMPLETE",
+   //       metadata: {
+   //          checkoutSessionId: checkoutSession.id,
+   //          billingInterval: params.billingInterval,
+   //       },
+   //    });
 
-      return {
-         sessionId: checkoutSession.id,
-         url: checkoutSession.url!,
-      };
-   }
+   //    return {
+   //       sessionId: checkoutSession.id,
+   //       url: checkoutSession.url!,
+   //    };
+   // }
 
    async cancelSubscription(userId: string): Promise<void> {
       const subscription =
@@ -332,6 +332,8 @@ export class SubscriptionService {
       // Get the Stripe subscription details
       const stripeSubscription =
          await stripe.subscriptions.retrieve(stripeSubscriptionId);
+
+      console.log("handleCheckoutCompleted");
 
       // Update subscription with Stripe details
       await this.subscriptionRepo.pUpdateSubscription(userId, {
@@ -448,6 +450,8 @@ export class SubscriptionService {
    async handleInvoicePaymentSucceeded(invoice: Stripe.Invoice): Promise<void> {
       const stripeSubscriptionId = invoice.subscription as string;
 
+      console.log("handleInvoicePaymentSucceeded");
+
       if (!stripeSubscriptionId) {
          return;
       }
@@ -528,41 +532,41 @@ export class SubscriptionService {
 
    // Helper Methods
 
-   async getOrCreateStripeCustomer(
-      userId: string,
-      email: string
-   ): Promise<string> {
-      // Check if user already has a Stripe customer ID
-      const subscription =
-         await this.subscriptionRepo.pGetUserSubscription(userId);
+   // async getOrCreateStripeCustomer(
+   //    userId: string,
+   //    email: string
+   // ): Promise<string> {
+   //    // Check if user already has a Stripe customer ID
+   //    const subscription =
+   //       await this.subscriptionRepo.pGetUserSubscription(userId);
 
-      if (subscription?.stripeCustomerId) {
-         return subscription.stripeCustomerId;
-      }
+   //    if (subscription?.stripeCustomerId) {
+   //       return subscription.stripeCustomerId;
+   //    }
 
-      // Check user table for existing customer ID
-      const user =
-         await this.subscriptionRepo.pGetUserByStripeCustomerId(userId);
+   //    // Check user table for existing customer ID
+   //    const user =
+   //       await this.subscriptionRepo.pGetUserByStripeCustomerId(userId);
 
-      // If user has stripeCustomerId in User table, return it
-      // This requires getting the user differently - we'll create the customer
+   //    // If user has stripeCustomerId in User table, return it
+   //    // This requires getting the user differently - we'll create the customer
 
-      // Create new Stripe customer
-      const customer = await stripe.customers.create({
-         email,
-         metadata: {
-            userId,
-         },
-      });
+   //    // Create new Stripe customer
+   //    const customer = await stripe.customers.create({
+   //       email,
+   //       metadata: {
+   //          userId,
+   //       },
+   //    });
 
-      // Update user with Stripe customer ID
-      await this.subscriptionRepo.pUpdateUserStripeCustomerId(
-         userId,
-         customer.id
-      );
+   //    // Update user with Stripe customer ID
+   //    await this.subscriptionRepo.pUpdateUserStripeCustomerId(
+   //       userId,
+   //       customer.id
+   //    );
 
-      return customer.id;
-   }
+   //    return customer.id;
+   // }
 
    mapStripeStatus(
       stripeStatus: Stripe.Subscription.Status
