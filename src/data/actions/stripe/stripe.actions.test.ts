@@ -56,7 +56,7 @@ const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
 describe("createOrderCheckoutSession tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    it("createOrderCheckoutSession - cart empty - test", async () => {

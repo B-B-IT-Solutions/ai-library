@@ -40,7 +40,6 @@ export const createSubscriptionCheckoutSession = async (
 ): Promise<ActionResult<DStripeCheckoutResponse>> => {
    try {
       const user = await requireUser();
-      const stripeService = getStripeService();
 
       const payload: DCreateSubscriptionCheckout = {
          userId: user.id,
@@ -48,8 +47,12 @@ export const createSubscriptionCheckoutSession = async (
          planId: params.planId,
          billingInterval: params.billingInterval,
       };
-      const data =
-         await stripeService.createSubscriptionCheckoutSession(payload);
+
+      const data = await prisma.$transaction(async (tx) => {
+         const stripeService = getStripeService(tx);
+         return await stripeService.createSubscriptionCheckoutSession(payload);
+      });
+
       return {
          success: true,
          message: "Subscription checkout initiated successfully",
