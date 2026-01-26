@@ -5,7 +5,6 @@ import {
    SubscriptionHistoryCreate,
    SubscriptionUpdate,
 } from "@/data/types/db/subscription";
-import { DStripeBillingPortalSessionResponse } from "@/data/types/domain/stripe";
 import {
    DSubscription,
    DSubscriptionCreate,
@@ -15,7 +14,6 @@ import {
    DSubscriptionUpdate,
 } from "@/data/types/domain/subscription";
 import { SubscriptionStatus } from "@/generated/prisma/client";
-import { APP_URL } from "@/lib/constants";
 import { stripe } from "@/lib/stripe/stripe-server";
 
 import {
@@ -367,10 +365,10 @@ export class SubscriptionService {
          stripeSubscriptionId: stripeSubscription.id,
          stripeCustomerId: stripeSubscription.customer as string,
          currentPeriodStart: new Date(
-            stripeSubscription.current_period_start * 1000
+            stripeSubscription.items.data[0].current_period_start * 1000
          ),
          currentPeriodEnd: new Date(
-            stripeSubscription.current_period_end * 1000
+            stripeSubscription.items.data[0].current_period_end * 1000
          ),
       });
 
@@ -426,10 +424,10 @@ export class SubscriptionService {
          {
             status: newStatus,
             currentPeriodStart: new Date(
-               stripeSubscription.current_period_start * 1000
+               stripeSubscription.items.data[0].current_period_start * 1000
             ),
             currentPeriodEnd: new Date(
-               stripeSubscription.current_period_end * 1000
+               stripeSubscription.items.data[0].current_period_end * 1000
             ),
             cancelAtPeriodEnd: stripeSubscription.cancel_at_period_end,
          }
@@ -500,10 +498,10 @@ export class SubscriptionService {
       await this.subscriptionRepo.pUpdateSubscription(subscription.userId, {
          status: "ACTIVE",
          currentPeriodStart: new Date(
-            stripeSubscription.current_period_start * 1000
+            stripeSubscription.items.data[0].current_period_start * 1000
          ),
          currentPeriodEnd: new Date(
-            stripeSubscription.current_period_end * 1000
+            stripeSubscription.items.data[0].current_period_end * 1000
          ),
       });
 

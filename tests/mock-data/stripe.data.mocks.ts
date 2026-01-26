@@ -33,7 +33,9 @@ export const billingPortalSession = (
    } as unknown as Stripe.Response<Stripe.BillingPortal.Session>;
 };
 
-export const checkoutSessionCompletedEvent = (): Stripe.Event => {
+export const checkoutSessionCompletedEvent = (
+   mode: Stripe.Checkout.Session.Mode = "payment"
+): Stripe.Event => {
    return {
       type: "checkout.session.completed",
       id: "checkout-id-1",
@@ -49,6 +51,7 @@ export const checkoutSessionCompletedEvent = (): Stripe.Event => {
             billing_details: {
                email: "test1@email.com",
             },
+            mode,
          } as unknown as Stripe.Checkout.Session,
       },
    } as unknown as Stripe.Event;
