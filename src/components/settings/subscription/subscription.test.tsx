@@ -2,10 +2,10 @@ jest.mock("@/data/actions/subscription");
 
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 
-import { getUserSubscription } from "@/data/actions/subscription";
+import { getSubscription } from "@/data/actions/subscription";
 
-const getUserSubscriptionMock = getUserSubscription as jest.MockedFunction<
-   typeof getUserSubscription
+const getUserSubscriptionMock = getSubscription as jest.MockedFunction<
+   typeof getSubscription
 >;
 
 import { screen, waitFor } from "@testing-library/dom";

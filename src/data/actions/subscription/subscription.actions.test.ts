@@ -6,19 +6,16 @@ import { dtestData } from "@tests";
 import { requireUser } from "@/data/actions/auth-utils";
 import { SubscriptionService } from "@/data/services/subscription";
 
-import {
-   getSubscriptionPlans,
-   getUserSubscription,
-} from "./subscription.actions";
+import { getSubscription, getSubscriptionPlans } from "./subscription.actions";
 
 const sGetAvailablePlans = SubscriptionService.prototype.getAvailablePlans;
-const sGetUserSubscription = SubscriptionService.prototype.getUserSubscription;
+const sGetSubscription = SubscriptionService.prototype.getSubscription;
 
 const sGetAvailablePlansMock = sGetAvailablePlans as jest.MockedFunction<
    typeof sGetAvailablePlans
 >;
-const sGetUserSubscriptionMock = sGetUserSubscription as jest.MockedFunction<
-   typeof sGetUserSubscription
+const sGetSubscriptionMock = sGetSubscription as jest.MockedFunction<
+   typeof sGetSubscription
 >;
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
@@ -54,34 +51,34 @@ describe("getSubscriptionPlans tests", () => {
    });
 });
 
-describe("getUserSubscription tests", () => {
+describe("getSubscription tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("getUserSubscription - user undefined - test", async () => {
+   it("getSubscription - user undefined - test", async () => {
       const error = new Error("Unknown user");
       requireUserMock.mockRejectedValue(error);
 
-      const fn = () => getUserSubscription();
+      const fn = () => getSubscription();
 
       await expect(fn).rejects.toThrow(error);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetUserSubscriptionMock).not.toHaveBeenCalled();
+      expect(sGetSubscriptionMock).not.toHaveBeenCalled();
    });
 
-   it("getUserSubscription - subscription retrieved - test", async () => {
+   it("getSubscription - subscription retrieved - test", async () => {
       const user = dtestData.dLoginUser();
       const subscription = dtestData.dSubscription();
 
       requireUserMock.mockResolvedValue(user);
-      sGetUserSubscriptionMock.mockResolvedValue(subscription);
+      sGetSubscriptionMock.mockResolvedValue(subscription);
 
-      const result = await getUserSubscription();
+      const result = await getSubscription();
 
       expect(result).toEqual(subscription);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetUserSubscriptionMock).toHaveBeenCalledTimes(1);
-      expect(sGetUserSubscriptionMock).toHaveBeenCalledWith(user.id);
+      expect(sGetSubscriptionMock).toHaveBeenCalledTimes(1);
+      expect(sGetSubscriptionMock).toHaveBeenCalledWith(user.id);
    });
 });

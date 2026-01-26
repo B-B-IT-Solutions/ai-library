@@ -15,34 +15,11 @@ export const getSubscriptionPlans = async (): Promise<DSubscriptionPlan[]> => {
    return await subscriptionService.getAvailablePlans();
 };
 
-export const getUserSubscription = async (): Promise<DSubscription | null> => {
+export const getSubscription = async (): Promise<DSubscription | null> => {
    const user = await requireUser();
    const subscriptionService = getSubscriptionService();
-   return await subscriptionService.getUserSubscription(user.id);
+   return await subscriptionService.getSubscription(user.id);
 };
-
-// export const getUserTier = async (): Promise<DSubscriptionTier> => {
-//    const user = await requireUser();
-//    const subscriptionService = getSubscriptionService();
-//    return await subscriptionService.getUserTier(user.id);
-// };
-
-// export const hasActiveSubscription = async (): Promise<
-//    ActionResult<boolean>
-// > => {
-//    try {
-//       const user = await requireUser();
-//       const subscriptionService = getSubscriptionService();
-//       const hasAccess = await subscriptionService.hasActiveAccess(user.id);
-//       return {
-//          success: true,
-//          message: "",
-//          data: hasAccess,
-//       };
-//    } catch (error) {
-//       return { success: false, message: formatError(error) };
-//    }
-// };
 
 const getSubscriptionService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);

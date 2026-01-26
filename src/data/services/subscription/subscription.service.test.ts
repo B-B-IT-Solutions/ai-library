@@ -67,16 +67,16 @@ describe("getPlanByTier tests", () => {
    });
 });
 
-describe("getUserSubscription tests", () => {
+describe("getSubscription tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("getUserSubscription - subscription is null - test", async () => {
+   it("getSubscription - subscription is null - test", async () => {
       const userId = "user-id-1";
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
 
-      const result = await service.getUserSubscription(userId);
+      const result = await service.getSubscription(userId);
 
       expect(result).toBeNull();
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
@@ -85,12 +85,12 @@ describe("getUserSubscription tests", () => {
       );
    });
 
-   it("getUserSubscription - subscription retrieved - test", async () => {
+   it("getSubscription - subscription retrieved - test", async () => {
       const userId = "user-id-1";
       const subscription = ptestData.pSubscriptionWithPlan();
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(subscription);
 
-      const result = await service.getUserSubscription(userId);
+      const result = await service.getSubscription(userId);
 
       const expectdResult = toDSubscription(subscription);
       expect(result).toEqual(expectdResult);

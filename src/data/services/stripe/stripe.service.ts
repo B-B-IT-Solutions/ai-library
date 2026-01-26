@@ -116,7 +116,7 @@ export class StripeService {
 
       // Check for existing incomplete subscription and delete it
       const existingSubscription =
-         await this.subscriptionService.getUserSubscription(userId);
+         await this.subscriptionService.getSubscription(userId);
       if (
          existingSubscription &&
          existingSubscription.status === "INCOMPLETE"
@@ -169,7 +169,7 @@ export class StripeService {
 
    async cancelSubscription(userId: string): Promise<void> {
       const subscription =
-         await this.subscriptionService.getUserSubscription(userId);
+         await this.subscriptionService.getSubscription(userId);
 
       if (!subscription) {
          throw new Error("No subscription found");
@@ -213,7 +213,7 @@ export class StripeService {
 
    async reactivateSubscription(userId: string): Promise<void> {
       const subscription =
-         await this.subscriptionService.getUserSubscription(userId);
+         await this.subscriptionService.getSubscription(userId);
 
       if (!subscription) {
          throw new Error("No subscription found");
@@ -262,7 +262,7 @@ export class StripeService {
       userId: string
    ): Promise<DStripeBillingPortalSessionResponse> {
       const subscription =
-         await this.subscriptionService.getUserSubscription(userId);
+         await this.subscriptionService.getSubscription(userId);
 
       if (!subscription?.stripeCustomerId) {
          throw new Error("No active subscription found");

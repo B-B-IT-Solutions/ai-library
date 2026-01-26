@@ -1,9 +1,9 @@
-import { getUserSubscription } from "@/data/actions/subscription";
+import { getSubscription } from "@/data/actions/subscription";
 
 import { ActivePlan } from "./active-plan";
 
 export const Subscription = async () => {
-   const subscription = await getUserSubscription();
+   const subscription = await getSubscription();
 
    return (
       <div data-testid="subscription">

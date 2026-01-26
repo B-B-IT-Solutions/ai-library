@@ -1,8 +1,8 @@
 import { auth } from "@/auth";
 import { PricingPlans } from "@/components/settings";
 import {
+   getSubscription,
    getSubscriptionPlans,
-   getUserSubscription,
 } from "@/data/actions/subscription";
 
 export default async function PricingPage() {
@@ -10,7 +10,7 @@ export default async function PricingPage() {
 
    const plans = await getSubscriptionPlans();
 
-   const currentSubscription = await getUserSubscription();
+   const currentSubscription = await getSubscription();
 
    return (
       <div className="container mx-auto px-4 py-16">

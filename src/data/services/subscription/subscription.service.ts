@@ -54,7 +54,7 @@ export class SubscriptionService {
       return toDSubscriptionPlan(plan);
    }
 
-   async getUserSubscription(userId: string): Promise<DSubscription | null> {
+   async getSubscription(userId: string): Promise<DSubscription | null> {
       const subscription = await this.subscriptionRepo.pGetSubscription(userId);
       return subscription ? toDSubscription(subscription) : null;
    }

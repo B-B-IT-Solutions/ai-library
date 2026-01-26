@@ -388,7 +388,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
       userServiceMock.getUserStripeCustomerId.mockResolvedValue(
          stripeCustomer.id
       );
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(null);
+      subscriptionServiceMock.getSubscription.mockResolvedValue(null);
       stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
 
       const result =
@@ -406,10 +406,8 @@ describe("createSubscriptionCheckoutSession tests", () => {
       expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledWith(
          params.userId
       );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          params.userId
       );
 
@@ -475,7 +473,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
       userServiceMock.getUserStripeCustomerId.mockResolvedValue(
          stripeCustomer.id
       );
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(null);
+      subscriptionServiceMock.getSubscription.mockResolvedValue(null);
       stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
 
       const result =
@@ -493,10 +491,8 @@ describe("createSubscriptionCheckoutSession tests", () => {
       expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledWith(
          params.userId
       );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          params.userId
       );
 
@@ -561,7 +557,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
       subscriptionServiceMock.getPlanById.mockResolvedValue(plan);
       userServiceMock.getUserStripeCustomerId.mockResolvedValue(null);
       stripeMock.customers.create.mockResolvedValue(stripeCustomer);
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(null);
+      subscriptionServiceMock.getSubscription.mockResolvedValue(null);
       stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
 
       const result =
@@ -616,7 +612,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
       userServiceMock.getUserStripeCustomerId.mockResolvedValue(
          stripeCustomer.id
       );
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
+      subscriptionServiceMock.getSubscription.mockResolvedValue(
          existingSubscription
       );
       stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
@@ -655,7 +651,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
       userServiceMock.getUserStripeCustomerId.mockResolvedValue(
          stripeCustomer.id
       );
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
+      subscriptionServiceMock.getSubscription.mockResolvedValue(
          existingSubscription
       );
       stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
@@ -694,9 +690,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
       expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledTimes(1);
       expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledWith(plan.id);
       expect(userServiceMock.getUserStripeCustomerId).not.toHaveBeenCalled();
-      expect(
-         subscriptionServiceMock.getUserSubscription
-      ).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.getSubscription).not.toHaveBeenCalled();
       expect(
          subscriptionServiceMock.createUserSubscription
       ).not.toHaveBeenCalled();
@@ -722,9 +716,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
       expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledTimes(1);
       expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledWith(plan.id);
       expect(userServiceMock.getUserStripeCustomerId).not.toHaveBeenCalled();
-      expect(
-         subscriptionServiceMock.getUserSubscription
-      ).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.getSubscription).not.toHaveBeenCalled();
       expect(
          subscriptionServiceMock.createUserSubscription
       ).not.toHaveBeenCalled();
@@ -751,9 +743,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
          params.planId
       );
       expect(userServiceMock.getUserStripeCustomerId).not.toHaveBeenCalled();
-      expect(
-         subscriptionServiceMock.getUserSubscription
-      ).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.getSubscription).not.toHaveBeenCalled();
       expect(
          subscriptionServiceMock.createUserSubscription
       ).not.toHaveBeenCalled();
@@ -775,7 +765,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
       userServiceMock.getUserStripeCustomerId.mockResolvedValue(
          stripeCustomer.id
       );
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(null);
+      subscriptionServiceMock.getSubscription.mockResolvedValue(null);
       stripeMock.checkout.sessions.create.mockRejectedValue(error);
 
       await expect(
@@ -788,10 +778,8 @@ describe("createSubscriptionCheckoutSession tests", () => {
       expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledWith(
          params.userId
       );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          params.userId
       );
 
@@ -817,7 +805,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
       userServiceMock.getUserStripeCustomerId.mockResolvedValue(
          stripeCustomerId
       );
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(null);
+      subscriptionServiceMock.getSubscription.mockResolvedValue(null);
       stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
       subscriptionServiceMock.createUserSubscription.mockRejectedValue(error);
 
@@ -831,10 +819,8 @@ describe("createSubscriptionCheckoutSession tests", () => {
       expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledWith(
          params.userId
       );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          params.userId
       );
       expect(stripeMock.checkout.sessions.create).toHaveBeenCalledTimes(1);
@@ -858,17 +844,13 @@ describe("cancelSubscription tests", () => {
       subscription.status = "ACTIVE";
       subscription.currentPeriodEnd = new Date("2026-01-26").toISOString();
 
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
-         subscription
-      );
+      subscriptionServiceMock.getSubscription.mockResolvedValue(subscription);
       stripeMock.subscriptions.update.mockResolvedValue(stripeSubscription);
 
       await stripeService.cancelSubscription(userId);
 
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          userId
       );
 
@@ -913,16 +895,14 @@ describe("cancelSubscription tests", () => {
    it("cancelSubscription - throws error when no subscription found - test", async () => {
       const userId = "user-1";
 
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(null);
+      subscriptionServiceMock.getSubscription.mockResolvedValue(null);
 
       const fn = () => stripeService.cancelSubscription(userId);
 
       await expect(fn).rejects.toThrow("No subscription found");
 
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          userId
       );
       expect(stripeMock.subscriptions.update).not.toHaveBeenCalled();
@@ -939,18 +919,14 @@ describe("cancelSubscription tests", () => {
       const subscription = dtestData.dSubscription(1);
       subscription.stripeSubscriptionId = null;
 
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
-         subscription
-      );
+      subscriptionServiceMock.getSubscription.mockResolvedValue(subscription);
 
       const fn = () => stripeService.cancelSubscription(userId);
 
       await expect(fn).rejects.toThrow("No Stripe subscription found");
 
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          userId
       );
       expect(stripeMock.subscriptions.update).not.toHaveBeenCalled();
@@ -966,16 +942,14 @@ describe("cancelSubscription tests", () => {
       const userId = "user-1";
       const error = new Error("Database error");
 
-      subscriptionServiceMock.getUserSubscription.mockRejectedValue(error);
+      subscriptionServiceMock.getSubscription.mockRejectedValue(error);
 
       const fn = () => stripeService.cancelSubscription(userId);
 
       await expect(fn).rejects.toThrow("Database error");
 
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          userId
       );
       expect(stripeMock.subscriptions.update).not.toHaveBeenCalled();
@@ -993,19 +967,15 @@ describe("cancelSubscription tests", () => {
       subscription.stripeSubscriptionId = "sub_test123";
       const error = new Error("Stripe API error");
 
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
-         subscription
-      );
+      subscriptionServiceMock.getSubscription.mockResolvedValue(subscription);
       stripeMock.subscriptions.update.mockRejectedValue(error);
 
       const fn = () => stripeService.cancelSubscription(userId);
 
       await expect(fn).rejects.toThrow("Stripe API error");
 
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          userId
       );
 
@@ -1032,9 +1002,7 @@ describe("cancelSubscription tests", () => {
       subscription.stripeSubscriptionId = stripeSubscription.id;
       const error = new Error("Failed to update subscription");
 
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
-         subscription
-      );
+      subscriptionServiceMock.getSubscription.mockResolvedValue(subscription);
       stripeMock.subscriptions.update.mockResolvedValue(stripeSubscription);
       subscriptionServiceMock.updateUserSubscription.mockRejectedValue(error);
 
@@ -1042,10 +1010,8 @@ describe("cancelSubscription tests", () => {
 
       await expect(fn).rejects.toThrow("Failed to update subscription");
 
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          userId
       );
 
@@ -1082,9 +1048,7 @@ describe("cancelSubscription tests", () => {
       subscription.currentPeriodEnd = new Date("2026-01-26").toISOString();
       const error = new Error("Failed to create history");
 
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
-         subscription
-      );
+      subscriptionServiceMock.getSubscription.mockResolvedValue(subscription);
       stripeMock.subscriptions.update.mockResolvedValue(stripeSubscription);
       subscriptionServiceMock.createUserSubscriptionHistory.mockRejectedValue(
          error
@@ -1094,10 +1058,8 @@ describe("cancelSubscription tests", () => {
 
       await expect(fn).rejects.toThrow("Failed to create history");
 
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          userId
       );
 
@@ -1151,9 +1113,7 @@ describe("cancelSubscription tests", () => {
          cancel_at_period_end: true,
       } as Stripe.Subscription;
 
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
-         subscription
-      );
+      subscriptionServiceMock.getSubscription.mockResolvedValue(subscription);
       stripeMock.subscriptions.update.mockResolvedValue(stripeSubscription);
 
       await stripeService.cancelSubscription(userId);
@@ -1187,17 +1147,13 @@ describe("reactivateSubscription tests", () => {
       subscription.status = "ACTIVE";
       subscription.cancelAtPeriodEnd = true;
 
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
-         subscription
-      );
+      subscriptionServiceMock.getSubscription.mockResolvedValue(subscription);
       stripeMock.subscriptions.update.mockResolvedValue(stripeSubscription);
 
       await stripeService.reactivateSubscription(userId);
 
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          userId
       );
 
@@ -1241,16 +1197,14 @@ describe("reactivateSubscription tests", () => {
    it("reactivateSubscription - throws error when no subscription found - test", async () => {
       const userId = "user-1";
 
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(null);
+      subscriptionServiceMock.getSubscription.mockResolvedValue(null);
 
       const fn = () => stripeService.reactivateSubscription(userId);
 
       await expect(fn).rejects.toThrow("No subscription found");
 
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          userId
       );
       expect(stripeMock.subscriptions.update).not.toHaveBeenCalled();
@@ -1268,18 +1222,14 @@ describe("reactivateSubscription tests", () => {
       subscription.stripeSubscriptionId = null;
       subscription.cancelAtPeriodEnd = true;
 
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
-         subscription
-      );
+      subscriptionServiceMock.getSubscription.mockResolvedValue(subscription);
 
       const fn = () => stripeService.reactivateSubscription(userId);
 
       await expect(fn).rejects.toThrow("No Stripe subscription found");
 
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          userId
       );
       expect(stripeMock.subscriptions.update).not.toHaveBeenCalled();
@@ -1297,18 +1247,14 @@ describe("reactivateSubscription tests", () => {
       subscription.stripeSubscriptionId = "sub_test123";
       subscription.cancelAtPeriodEnd = false;
 
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
-         subscription
-      );
+      subscriptionServiceMock.getSubscription.mockResolvedValue(subscription);
 
       const fn = () => stripeService.reactivateSubscription(userId);
 
       await expect(fn).rejects.toThrow("Subscription is not set to cancel");
 
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          userId
       );
       expect(stripeMock.subscriptions.update).not.toHaveBeenCalled();
@@ -1324,16 +1270,14 @@ describe("reactivateSubscription tests", () => {
       const userId = "user-1";
       const error = new Error("Database error");
 
-      subscriptionServiceMock.getUserSubscription.mockRejectedValue(error);
+      subscriptionServiceMock.getSubscription.mockRejectedValue(error);
 
       const fn = () => stripeService.reactivateSubscription(userId);
 
       await expect(fn).rejects.toThrow("Database error");
 
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          userId
       );
       expect(stripeMock.subscriptions.update).not.toHaveBeenCalled();
@@ -1352,19 +1296,15 @@ describe("reactivateSubscription tests", () => {
       subscription.cancelAtPeriodEnd = true;
       const error = new Error("Stripe API error");
 
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
-         subscription
-      );
+      subscriptionServiceMock.getSubscription.mockResolvedValue(subscription);
       stripeMock.subscriptions.update.mockRejectedValue(error);
 
       const fn = () => stripeService.reactivateSubscription(userId);
 
       await expect(fn).rejects.toThrow("Stripe API error");
 
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          userId
       );
 
@@ -1392,9 +1332,7 @@ describe("reactivateSubscription tests", () => {
       subscription.cancelAtPeriodEnd = true;
       const error = new Error("Failed to update subscription");
 
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
-         subscription
-      );
+      subscriptionServiceMock.getSubscription.mockResolvedValue(subscription);
       stripeMock.subscriptions.update.mockResolvedValue(stripeSubscription);
       subscriptionServiceMock.updateUserSubscription.mockRejectedValue(error);
 
@@ -1402,10 +1340,8 @@ describe("reactivateSubscription tests", () => {
 
       await expect(fn).rejects.toThrow("Failed to update subscription");
 
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          userId
       );
 
@@ -1442,9 +1378,7 @@ describe("reactivateSubscription tests", () => {
       subscription.cancelAtPeriodEnd = true;
       const error = new Error("Failed to create history");
 
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
-         subscription
-      );
+      subscriptionServiceMock.getSubscription.mockResolvedValue(subscription);
       stripeMock.subscriptions.update.mockResolvedValue(stripeSubscription);
       subscriptionServiceMock.createUserSubscriptionHistory.mockRejectedValue(
          error
@@ -1454,10 +1388,8 @@ describe("reactivateSubscription tests", () => {
 
       await expect(fn).rejects.toThrow("Failed to create history");
 
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          userId
       );
 
@@ -1510,9 +1442,7 @@ describe("createPortalSession tests", () => {
       subscription.stripeCustomerId = "cus_test123";
       const billingPortalSession = stripeTestData.billingPortalSession();
 
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
-         subscription
-      );
+      subscriptionServiceMock.getSubscription.mockResolvedValue(subscription);
       stripeMock.billingPortal.sessions.create.mockResolvedValue(
          billingPortalSession
       );
@@ -1524,10 +1454,8 @@ describe("createPortalSession tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          userId
       );
 
@@ -1544,16 +1472,14 @@ describe("createPortalSession tests", () => {
    it("createPortalSession - throws error when no subscription found - test", async () => {
       const userId = "user-1";
 
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(null);
+      subscriptionServiceMock.getSubscription.mockResolvedValue(null);
 
       const fn = () => stripeService.createPortalSession(userId);
 
       await expect(fn).rejects.toThrow("No active subscription found");
 
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          userId
       );
       expect(stripeMock.billingPortal.sessions.create).not.toHaveBeenCalled();
@@ -1564,18 +1490,14 @@ describe("createPortalSession tests", () => {
       const subscription = dtestData.dSubscription(1);
       subscription.stripeCustomerId = null;
 
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
-         subscription
-      );
+      subscriptionServiceMock.getSubscription.mockResolvedValue(subscription);
 
       const fn = () => stripeService.createPortalSession(userId);
 
       await expect(fn).rejects.toThrow("No active subscription found");
 
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          userId
       );
       expect(stripeMock.billingPortal.sessions.create).not.toHaveBeenCalled();
@@ -1586,18 +1508,14 @@ describe("createPortalSession tests", () => {
       const subscription = dtestData.dSubscription(1);
       subscription.stripeCustomerId = null;
 
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
-         subscription
-      );
+      subscriptionServiceMock.getSubscription.mockResolvedValue(subscription);
 
       const fn = () => stripeService.createPortalSession(userId);
 
       await expect(fn).rejects.toThrow("No active subscription found");
 
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          userId
       );
       expect(stripeMock.billingPortal.sessions.create).not.toHaveBeenCalled();
@@ -1608,18 +1526,14 @@ describe("createPortalSession tests", () => {
       const subscription = dtestData.dSubscription(1);
       subscription.stripeCustomerId = "";
 
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
-         subscription
-      );
+      subscriptionServiceMock.getSubscription.mockResolvedValue(subscription);
 
       const fn = () => stripeService.createPortalSession(userId);
 
       await expect(fn).rejects.toThrow("No active subscription found");
 
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          userId
       );
       expect(stripeMock.billingPortal.sessions.create).not.toHaveBeenCalled();
@@ -1629,16 +1543,14 @@ describe("createPortalSession tests", () => {
       const userId = "user-1";
       const error = new Error("Database error");
 
-      subscriptionServiceMock.getUserSubscription.mockRejectedValue(error);
+      subscriptionServiceMock.getSubscription.mockRejectedValue(error);
 
       const fn = () => stripeService.createPortalSession(userId);
 
       await expect(fn).rejects.toThrow("Database error");
 
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          userId
       );
       expect(stripeMock.billingPortal.sessions.create).not.toHaveBeenCalled();
@@ -1650,19 +1562,15 @@ describe("createPortalSession tests", () => {
       subscription.stripeCustomerId = "cus_test123";
       const error = new Error("Stripe API error");
 
-      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
-         subscription
-      );
+      subscriptionServiceMock.getSubscription.mockResolvedValue(subscription);
       stripeMock.billingPortal.sessions.create.mockRejectedValue(error);
 
       const fn = () => stripeService.createPortalSession(userId);
 
       await expect(fn).rejects.toThrow("Stripe API error");
 
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
          userId
       );
 
