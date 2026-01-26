@@ -286,7 +286,7 @@ export class StripeService {
       }
 
       const data: Stripe.CustomerCreateParams = {
-         email: email,
+         email,
          metadata: {
             userId,
          },

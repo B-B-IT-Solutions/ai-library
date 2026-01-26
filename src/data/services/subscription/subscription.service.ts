@@ -59,7 +59,7 @@ export class SubscriptionService {
       return subscription ? toDSubscription(subscription) : null;
    }
 
-   async createSubscription(data: DSubscriptionCreate): Promise<void> {
+   async createSubscription(data: DSubscriptionCreate) {
       await this.subscriptionRepo.pCreateSubscription({
          userId: data.userId,
          planId: data.planId,
@@ -80,10 +80,7 @@ export class SubscriptionService {
       });
    }
 
-   async updateSubscription(
-      userId: string,
-      data: DSubscriptionUpdate
-   ): Promise<void> {
+   async updateSubscription(userId: string, data: DSubscriptionUpdate) {
       const updateData: SubscriptionUpdate = {
          cancelAtPeriodEnd: data.cancelAtPeriodEnd,
          canceledAt: data.canceledAt,
@@ -91,13 +88,11 @@ export class SubscriptionService {
       await this.subscriptionRepo.pUpdateSubscription(userId, updateData);
    }
 
-   async deleteSubscription(userId: string): Promise<void> {
+   async deleteSubscription(userId: string) {
       await this.subscriptionRepo.pDeleteSubscription(userId);
    }
 
-   async createSubscriptionHistory(
-      data: DSubscriptionHistoryCreate
-   ): Promise<void> {
+   async createSubscriptionHistory(data: DSubscriptionHistoryCreate) {
       const createData: SubscriptionHistoryCreate = {
          userId: data.userId,
          eventType: data.eventType,
