@@ -1,5 +1,7 @@
 jest.mock("@/data/services/cart");
 jest.mock("@/data/services/order");
+jest.mock("@/data/services/subscription");
+jest.mock("@/data/services/user");
 jest.mock("@/lib/stripe/stripe-server");
 jest.mock("@/data/actions/auth-utils");
 
@@ -9,8 +11,11 @@ import Stripe from "stripe";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import prisma from "@/data/repositories/prisma";
-import { CartService, ServiceFactory } from "@/data/services";
+import { ServiceFactory } from "@/data/services";
+import { CartService } from "@/data/services/cart";
 import { OrderService } from "@/data/services/order";
+import { SubscriptionService } from "@/data/services/subscription";
+import { UserService } from "@/data/services/user";
 import { DOrderUpdate } from "@/data/types/domain/order";
 import { stripe } from "@/lib/stripe/stripe-server";
 
@@ -32,11 +37,21 @@ const stripeMock = stripe as unknown as DeepMockProxy<Stripe>;
 const serviceFactory = new ServiceFactory(prisma);
 const cartService = serviceFactory.getCartService();
 const orderService = serviceFactory.getOrderService();
+const subscriptionService = serviceFactory.getSubscriptionService();
+const userService = serviceFactory.getUserService();
 
 const cartServiceMock = cartService as DeepMockProxy<CartService>;
 const orderServiceMock = orderService as DeepMockProxy<OrderService>;
+const subscriptionServiceMock =
+   subscriptionService as DeepMockProxy<SubscriptionService>;
+const userServiceMock = userService as DeepMockProxy<UserService>;
 
-const stripeService = new StripeService(cartServiceMock, orderServiceMock);
+const stripeService = new StripeService(
+   cartServiceMock,
+   orderServiceMock,
+   subscriptionServiceMock,
+   userServiceMock
+);
 
 const stripeCheckoutSession = (): Stripe.Response<Stripe.Checkout.Session> => {
    return {
