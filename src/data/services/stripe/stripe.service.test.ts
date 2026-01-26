@@ -17,7 +17,10 @@ import { OrderService } from "@/data/services/order";
 import { SubscriptionService } from "@/data/services/subscription";
 import { UserService } from "@/data/services/user";
 import { DOrderUpdate } from "@/data/types/domain/order";
-import { DCreateSubscriptionCheckout } from "@/data/types/domain/subscription";
+import {
+   DCreateSubscriptionCheckout,
+   DSubscriptionUpdate,
+} from "@/data/types/domain/subscription";
 import { stripe } from "@/lib/stripe/stripe-server";
 
 import { StripeService } from "./stripe.service";
@@ -402,6 +405,9 @@ describe("createSubscriptionCheckoutSession tests", () => {
       expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledWith(
          params.userId
       );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
       expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
          params.userId
       );
@@ -432,27 +438,32 @@ describe("createSubscriptionCheckoutSession tests", () => {
          },
       };
 
+      expect(stripeMock.checkout.sessions.create).toHaveBeenCalledTimes(1);
       expect(stripeMock.checkout.sessions.create).toHaveBeenCalledWith(
          expectedSessionParams
       );
 
-      expect(
-         subscriptionServiceMock.createUserSubscription
-      ).toHaveBeenCalledWith({
+      const expectedSubscriptionData: DSubscriptionUpdate = {
          userId: params.userId,
          planId: params.planId,
          billingInterval: params.billingInterval,
          tier: plan.tier,
          stripeCheckoutSessionId: checkoutSession.id,
          stripeCustomerId,
-      });
+      };
+      expect(
+         subscriptionServiceMock.createUserSubscription
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.createUserSubscription
+      ).toHaveBeenCalledWith(expectedSubscriptionData);
    });
 
    it("createSubscriptionCheckoutSession - successful checkout with yearly billing - test", async () => {
       const plan = dtestData.dSubscriptionPlan(1);
       const stripeCustomerId = "cus_test123";
       const checkoutSession = stripeCheckoutSession();
-      const params = {
+      const params: DCreateSubscriptionCheckout = {
          userId: "user-1",
          userEmail: "test@email.com",
          planId: plan.id,
@@ -490,7 +501,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
       const plan = dtestData.dSubscriptionPlan(1);
       const newCustomerId = "cus_new123";
       const checkoutSession = stripeCheckoutSession();
-      const params = {
+      const params: DCreateSubscriptionCheckout = {
          userId: "user-1",
          userEmail: "test@email.com",
          planId: plan.id,
@@ -536,7 +547,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
       const checkoutSession = stripeCheckoutSession();
       const existingSubscription = dtestData.dSubscription(1);
       existingSubscription.status = "INCOMPLETE";
-      const params = {
+      const params: DCreateSubscriptionCheckout = {
          userId: "user-1",
          userEmail: "test@email.com",
          planId: plan.id,
@@ -571,7 +582,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
       const checkoutSession = stripeCheckoutSession();
       const existingSubscription = dtestData.dSubscription(1);
       existingSubscription.status = "ACTIVE";
-      const params = {
+      const params: DCreateSubscriptionCheckout = {
          userId: "user-1",
          userEmail: "test@email.com",
          planId: plan.id,
@@ -603,7 +614,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
    it("createSubscriptionCheckoutSession - throws error when monthly price not configured - test", async () => {
       const plan = dtestData.dSubscriptionPlan(1);
       plan.stripePriceIdMonthly = null;
-      const params = {
+      const params: DCreateSubscriptionCheckout = {
          userId: "user-1",
          userEmail: "test@email.com",
          planId: plan.id,
@@ -624,7 +635,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
    it("createSubscriptionCheckoutSession - throws error when yearly price not configured - test", async () => {
       const plan = dtestData.dSubscriptionPlan(1);
       plan.stripePriceIdYearly = null;
-      const params = {
+      const params: DCreateSubscriptionCheckout = {
          userId: "user-1",
          userEmail: "test@email.com",
          planId: plan.id,
@@ -640,7 +651,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
 
    it("createSubscriptionCheckoutSession - getPlanById throws error - test", async () => {
       const error = new Error("Plan not found");
-      const params = {
+      const params: DCreateSubscriptionCheckout = {
          userId: "user-1",
          userEmail: "test@email.com",
          planId: "plan-1",
@@ -664,7 +675,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
       const plan = dtestData.dSubscriptionPlan(1);
       const stripeCustomerId = "cus_test123";
       const error = new Error("Stripe API error");
-      const params = {
+      const params: DCreateSubscriptionCheckout = {
          userId: "user-1",
          userEmail: "test@email.com",
          planId: plan.id,
@@ -693,7 +704,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
       const stripeCustomerId = "cus_test123";
       const checkoutSession = stripeCheckoutSession();
       const error = new Error("Failed to create subscription");
-      const params = {
+      const params: DCreateSubscriptionCheckout = {
          userId: "user-1",
          userEmail: "test@email.com",
          planId: plan.id,
