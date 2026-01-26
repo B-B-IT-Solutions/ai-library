@@ -10,6 +10,8 @@ import { DOrderUpdate } from "@/data/types/domain/order";
 import { DStripeCheckoutResponse } from "@/data/types/domain/stripe";
 import {
    DBillingInterval,
+   DSubscriptionCreate,
+   DSubscriptionHistoryCreate,
    DSubscriptionUpdate,
 } from "@/data/types/domain/subscription";
 import { APP_URL } from "@/lib/constants";
@@ -146,7 +148,7 @@ export class StripeService {
       };
       const session = await stripe.checkout.sessions.create(sessionParams);
 
-      const subscriptionData: DSubscriptionUpdate = {
+      const subscriptionData: DSubscriptionCreate = {
          userId: userId,
          planId: planId,
          billingInterval: billingInterval,
@@ -160,6 +162,47 @@ export class StripeService {
          sessionId: session.id,
          url: session.url!,
       };
+   }
+
+   async cancelSubscription(userId: string): Promise<void> {
+      const subscription =
+         await this.subscriptionService.getUserSubscription(userId);
+
+      if (!subscription) {
+         throw new Error("No subscription found");
+      }
+
+      if (!subscription.stripeSubscriptionId) {
+         throw new Error("No Stripe subscription found");
+      }
+
+      // Update Stripe subscription to cancel at period end
+      await stripe.subscriptions.update(subscription.stripeSubscriptionId, {
+         cancel_at_period_end: true,
+      });
+
+      const subscriptionUpdate: DSubscriptionUpdate = {
+         cancelAtPeriodEnd: true,
+         canceledAt: new Date(),
+      };
+      await this.subscriptionService.updateUserSubscription(
+         userId,
+         subscriptionUpdate
+      );
+
+      const historyCreate: DSubscriptionHistoryCreate = {
+         userId,
+         eventType: "canceled",
+         fromStatus: subscription.status,
+         toStatus: subscription.status,
+         metadata: {
+            cancelAtPeriodEnd: true,
+            currentPeriodEnd: subscription.currentPeriodEnd,
+         },
+      };
+      await this.subscriptionService.createUserSubscriptionHistory(
+         historyCreate
+      );
    }
 
    async getOrCreateStripeCustomer(

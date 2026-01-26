@@ -54,15 +54,6 @@ export type DSubscription = {
    plan: DSubscriptionPlan;
 };
 
-export type DSubscriptionUpdate = {
-   userId: string;
-   planId: string;
-   billingInterval: DBillingInterval;
-   tier: DSubscriptionTier;
-   stripeCustomerId: string;
-   stripeCheckoutSessionId: string;
-};
-
 export type DSubscriptionCheckoutRequest = {
    planId: string;
    billingInterval: DBillingInterval;
@@ -75,6 +66,15 @@ export type DCreateSubscriptionCheckout = {
    billingInterval: DBillingInterval;
    successUrl?: string;
    cancelUrl?: string;
+};
+
+export type DSubscriptionCreate = {
+   userId: string;
+   planId: string;
+   billingInterval: DBillingInterval;
+   tier: DSubscriptionTier;
+   stripeCustomerId: string;
+   stripeCheckoutSessionId: string;
 };
 
 export type DSubscriptionUpdate = {

@@ -20,7 +20,7 @@ import { DOrderUpdate } from "@/data/types/domain/order";
 import { DStripeCheckoutResponse } from "@/data/types/domain/stripe";
 import {
    DCreateSubscriptionCheckout,
-   DSubscriptionUpdate,
+   DSubscriptionCreate,
 } from "@/data/types/domain/subscription";
 import { stripe } from "@/lib/stripe/stripe-server";
 
@@ -109,38 +109,39 @@ describe("createOrderCheckoutSession tests", () => {
 
       const result = await stripeService.createOrderCheckoutSession();
 
-      const expectedResult = {
+      const expectedResult: DStripeCheckoutResponse = {
          sessionId: "session-1",
          url: "https://checkout.stripe.com/session-1",
       };
 
       const item1 = cart.items[0];
 
-      const expectedStripeCheckoutPayload = {
-         mode: "payment",
-         payment_method_types: ["card"],
-         line_items: [
-            {
-               price_data: {
-                  currency: "chf",
-                  product_data: {
-                     name: item1.productName,
-                     description: item1.productDescription,
+      const expectedStripeCheckoutPayload: Stripe.Checkout.SessionCreateParams =
+         {
+            mode: "payment",
+            payment_method_types: ["card"],
+            line_items: [
+               {
+                  price_data: {
+                     currency: "chf",
+                     product_data: {
+                        name: item1.productName,
+                        description: item1.productDescription,
+                     },
+                     unit_amount: 1999,
                   },
-                  unit_amount: 1999,
+                  quantity: 1,
                },
-               quantity: 1,
+            ],
+            customer_email: user.email as string,
+            client_reference_id: order.id,
+            metadata: {
+               orderId: order.id,
+               userId: user.id,
             },
-         ],
-         customer_email: user.email,
-         client_reference_id: order.id,
-         metadata: {
-            orderId: order.id,
-            userId: user.id,
-         },
-         success_url: `http://localhost:3000/orders/${order.id}?session_id={CHECKOUT_SESSION_ID}`,
-         cancel_url: "http://localhost:3000/checkout?canceled=true",
-      };
+            success_url: `http://localhost:3000/orders/${order.id}?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: "http://localhost:3000/checkout?canceled=true",
+         };
 
       const expectedDUpdatePayload: DOrderUpdate = {
          stripeCheckoutSessionId: "session-1",
@@ -182,47 +183,48 @@ describe("createOrderCheckoutSession tests", () => {
 
       const result = await stripeService.createOrderCheckoutSession();
 
-      const expectedResult = {
+      const expectedResult: DStripeCheckoutResponse = {
          sessionId: "session-1",
          url: "https://checkout.stripe.com/session-1",
       };
 
-      const expectedStripeCheckoutPayload = {
-         mode: "payment",
-         payment_method_types: ["card"],
-         line_items: [
-            {
-               price_data: {
-                  currency: "chf",
-                  product_data: {
-                     name: item1.productName,
-                     description: item1.productDescription,
+      const expectedStripeCheckoutPayload: Stripe.Checkout.SessionCreateParams =
+         {
+            mode: "payment",
+            payment_method_types: ["card"],
+            line_items: [
+               {
+                  price_data: {
+                     currency: "chf",
+                     product_data: {
+                        name: item1.productName,
+                        description: item1.productDescription,
+                     },
+                     unit_amount: 1999,
                   },
-                  unit_amount: 1999,
+                  quantity: 1,
                },
-               quantity: 1,
-            },
-            {
-               price_data: {
-                  currency: "chf",
-                  product_data: {
-                     name: item2.productName,
-                     description: undefined,
+               {
+                  price_data: {
+                     currency: "chf",
+                     product_data: {
+                        name: item2.productName,
+                        description: undefined,
+                     },
+                     unit_amount: 1999,
                   },
-                  unit_amount: 1999,
+                  quantity: 1,
                },
-               quantity: 1,
+            ],
+            customer_email: user.email,
+            client_reference_id: order.id,
+            metadata: {
+               orderId: order.id,
+               userId: user.id,
             },
-         ],
-         customer_email: user.email,
-         client_reference_id: order.id,
-         metadata: {
-            orderId: order.id,
-            userId: user.id,
-         },
-         success_url: `http://localhost:3000/orders/${order.id}?session_id={CHECKOUT_SESSION_ID}`,
-         cancel_url: "http://localhost:3000/checkout?canceled=true",
-      };
+            success_url: `http://localhost:3000/orders/${order.id}?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: "http://localhost:3000/checkout?canceled=true",
+         };
 
       const expectedDUpdatePayload: DOrderUpdate = {
          stripeCheckoutSessionId: "session-1",
@@ -347,7 +349,7 @@ describe("createOrderCheckoutSession tests", () => {
       stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
 
       const result = await stripeService.createOrderCheckoutSession();
-      const expectedResult = {
+      const expectedResult: DStripeCheckoutResponse = {
          sessionId: "session-1",
          url: "https://checkout.stripe.com/session-1",
       };
@@ -437,7 +439,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
          expectedSessionParams
       );
 
-      const expectedSubscriptionData: DSubscriptionUpdate = {
+      const expectedSubscriptionData: DSubscriptionCreate = {
          userId: params.userId,
          planId: params.planId,
          billingInterval: params.billingInterval,
@@ -524,7 +526,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
          expectedSessionParams
       );
 
-      const expectedSubscriptionData: DSubscriptionUpdate = {
+      const expectedSubscriptionData: DSubscriptionCreate = {
          userId: params.userId,
          planId: params.planId,
          billingInterval: params.billingInterval,

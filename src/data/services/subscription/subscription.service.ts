@@ -2,7 +2,13 @@ import Stripe from "stripe";
 
 import { SubscriptionRepository } from "@/data/repositories/subscription";
 import {
+   SubscriptionHistoryCreate,
+   SubscriptionUpdate,
+} from "@/data/types/db/subscription";
+import {
    DSubscription,
+   DSubscriptionCreate,
+   DSubscriptionHistoryCreate,
    DSubscriptionPlan,
    DSubscriptionTier,
    DSubscriptionUpdate,
@@ -55,7 +61,7 @@ export class SubscriptionService {
       return subscription ? toDSubscription(subscription) : null;
    }
 
-   async createUserSubscription(data: DSubscriptionUpdate): Promise<void> {
+   async createUserSubscription(data: DSubscriptionCreate): Promise<void> {
       await this.subscriptionRepo.pCreateSubscription({
          userId: data.userId,
          planId: data.planId,
@@ -76,8 +82,32 @@ export class SubscriptionService {
       });
    }
 
+   async updateUserSubscription(
+      userId: string,
+      data: DSubscriptionUpdate
+   ): Promise<void> {
+      const updateData: SubscriptionUpdate = {
+         cancelAtPeriodEnd: data.cancelAtPeriodEnd,
+         canceledAt: data.canceledAt,
+      };
+      await this.subscriptionRepo.pUpdateSubscription(userId, updateData);
+   }
+
    async deleteUserSubscription(userId: string): Promise<void> {
       await this.subscriptionRepo.pDeleteSubscription(userId);
+   }
+
+   async createUserSubscriptionHistory(
+      data: DSubscriptionHistoryCreate
+   ): Promise<void> {
+      const createData: SubscriptionHistoryCreate = {
+         userId: data.userId,
+         eventType: data.eventType,
+         fromStatus: data.fromStatus,
+         toStatus: data.toStatus,
+         metadata: data.metadata,
+      };
+      await this.subscriptionRepo.pCreateHistory(createData);
    }
 
    async getUserTier(userId: string): Promise<DSubscriptionTier> {
