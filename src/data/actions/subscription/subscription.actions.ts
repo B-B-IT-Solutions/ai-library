@@ -6,10 +6,7 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
-   DCreateSubscriptionCheckout,
    DSubscription,
-   DSubscriptionCheckoutRequest,
-   DSubscriptionCheckoutResult,
    DSubscriptionPlan,
 } from "@/data/types/domain/subscription";
 import { ActionResult } from "@/data/types/utils";
@@ -48,33 +45,6 @@ export const getUserSubscription = async (): Promise<DSubscription | null> => {
 //       return { success: false, message: formatError(error) };
 //    }
 // };
-
-export const createSubscriptionCheckout = async (
-   params: DSubscriptionCheckoutRequest
-): Promise<ActionResult<DSubscriptionCheckoutResult>> => {
-   try {
-      const user = await requireUser();
-      const subscriptionService = getSubscriptionService();
-
-      const payload: DCreateSubscriptionCheckout = {
-         userId: user.id,
-         userEmail: user.email as string,
-         planId: params.planId,
-         billingInterval: params.billingInterval,
-      };
-      const data = await subscriptionService.createCheckoutSession(payload);
-      return {
-         success: true,
-         message: "Subscription checkout initiated successfully",
-         data,
-      };
-   } catch {
-      return {
-         success: false,
-         message: "Subscription checkout couldn't be initiated",
-      };
-   }
-};
 
 export const cancelSubscription = async (): Promise<ActionResult<void>> => {
    try {
