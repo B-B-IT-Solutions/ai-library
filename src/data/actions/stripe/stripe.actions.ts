@@ -4,21 +4,16 @@ import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
+import { DStripeCheckoutResponse } from "@/data/types/domain/stripe";
 import {
    DCreateSubscriptionCheckout,
    DSubscriptionCheckoutRequest,
-   DSubscriptionCheckoutResult,
 } from "@/data/types/domain/subscription";
 import { ActionResult } from "@/data/types/utils";
 import { requireUser } from "../auth-utils";
 
-type CheckoutResponse = {
-   sessionId: string;
-   url: string;
-};
-
 export const createOrderCheckoutSession = async (): Promise<
-   ActionResult<CheckoutResponse>
+   ActionResult<DStripeCheckoutResponse>
 > => {
    try {
       const stripeService = getStripeService();
@@ -39,7 +34,7 @@ export const createOrderCheckoutSession = async (): Promise<
 
 export const createSubscriptionCheckoutSession = async (
    params: DSubscriptionCheckoutRequest
-): Promise<ActionResult<DSubscriptionCheckoutResult>> => {
+): Promise<ActionResult<DStripeCheckoutResponse>> => {
    try {
       const user = await requireUser();
       const stripeService = getStripeService();

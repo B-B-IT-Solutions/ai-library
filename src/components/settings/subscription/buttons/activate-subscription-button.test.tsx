@@ -9,10 +9,8 @@ import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
 import { createSubscriptionCheckoutSession } from "@/data/actions/stripe";
-import {
-   DBillingInterval,
-   DSubscriptionCheckoutResult,
-} from "@/data/types/domain/subscription";
+import { DStripeCheckoutResponse } from "@/data/types/domain/stripe";
+import { DBillingInterval } from "@/data/types/domain/subscription";
 import { ActionResult } from "@/data/types/utils";
 
 import { ActivateSubscriptionButton } from "./activate-subscription-button";
@@ -70,7 +68,7 @@ describe("CreateSubscriptionButton functionality tests", () => {
    });
 
    it("CreateSubscriptionButton - btn clicked - result.success true - test", async () => {
-      const result: ActionResult<DSubscriptionCheckoutResult> = {
+      const result: ActionResult<DStripeCheckoutResponse> = {
          success: true,
          message: "subscripton activated",
          data: {
@@ -109,7 +107,7 @@ describe("CreateSubscriptionButton functionality tests", () => {
    });
 
    it("CreateSubscriptionButton - btn clicked - result.success false - test", async () => {
-      const result: ActionResult<DSubscriptionCheckoutResult> = {
+      const result: ActionResult<DStripeCheckoutResponse> = {
          success: false,
          message: "subscripton couldn't be activated",
       };

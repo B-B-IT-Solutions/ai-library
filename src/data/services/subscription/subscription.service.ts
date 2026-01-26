@@ -1,10 +1,10 @@
 import Stripe from "stripe";
 
 import { SubscriptionRepository } from "@/data/repositories/subscription";
+import { DStripeCheckoutResponse } from "@/data/types/domain/stripe";
 import {
    DBillingInterval,
    DSubscription,
-   DSubscriptionCheckoutResult,
    DSubscriptionPlan,
    DSubscriptionTier,
    DSubscriptionUpdate,
@@ -124,7 +124,7 @@ export class SubscriptionService {
       billingInterval: DBillingInterval;
       successUrl?: string;
       cancelUrl?: string;
-   }): Promise<DSubscriptionCheckoutResult> {
+   }): Promise<DStripeCheckoutResponse> {
       const plan = await this.subscriptionRepo.pGetPlanById(params.planId);
 
       if (!plan) {

@@ -7,20 +7,15 @@ import { OrderService } from "@/data/services/order";
 import { SubscriptionService } from "@/data/services/subscription";
 import { UserService } from "@/data/services/user";
 import { DOrderUpdate } from "@/data/types/domain/order";
+import { DStripeCheckoutResponse } from "@/data/types/domain/stripe";
 import {
    DBillingInterval,
-   DSubscriptionCheckoutResult,
    DSubscriptionUpdate,
 } from "@/data/types/domain/subscription";
 import { APP_URL } from "@/lib/constants";
 import { stripe } from "@/lib/stripe/stripe-server";
 
 import { toStripePriceUnit } from "./utils";
-
-type CheckoutResponse = {
-   sessionId: string;
-   url: string;
-};
 
 export class StripeService {
    private cartService: CartService;
@@ -40,7 +35,7 @@ export class StripeService {
       this.userService = userService;
    }
 
-   async createOrderCheckoutSession(): Promise<CheckoutResponse> {
+   async createOrderCheckoutSession(): Promise<DStripeCheckoutResponse> {
       const user = await requireUser();
       const cart = await this.cartService.getCart();
 
@@ -93,7 +88,7 @@ export class StripeService {
       userEmail: string;
       planId: string;
       billingInterval: DBillingInterval;
-   }): Promise<DSubscriptionCheckoutResult> {
+   }): Promise<DStripeCheckoutResponse> {
       const { userId, userEmail, planId, billingInterval } = params;
 
       const plan = await this.subscriptionService.getPlanById(planId);

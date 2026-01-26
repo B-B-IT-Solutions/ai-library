@@ -31,9 +31,9 @@ import {
    DPromptTemplateDescriptor,
    DPromptTemplateDescriptorWithPrompt,
 } from "@/data/types/domain/prompt.template";
+import { DStripeCheckoutResponse } from "@/data/types/domain/stripe";
 import {
    DSubscription,
-   DSubscriptionCheckoutResult,
    DSubscriptionPlan,
 } from "@/data/types/domain/subscription";
 import { DUser, DUserUpdateData } from "@/data/types/domain/user";
@@ -54,9 +54,7 @@ export const dUser = (index = 1): DUser => {
    };
 };
 
-export const dSubscriptionCheckoutResult = (
-   index = 1
-): DSubscriptionCheckoutResult => {
+export const dStripeCheckoutResponse = (index = 1): DStripeCheckoutResponse => {
    return {
       sessionId: `5f367e25-12a4-4de4-af0b-6dcdd5ac005${index}`,
       url: `http://checkout.stripe/subcription-${index}`,

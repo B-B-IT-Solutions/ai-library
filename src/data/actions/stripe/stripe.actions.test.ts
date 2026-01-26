@@ -4,10 +4,10 @@ jest.mock("@/data/actions/auth-utils");
 import { dtestData } from "@tests";
 
 import { StripeService } from "@/data/services/stripe";
+import { DStripeCheckoutResponse } from "@/data/types/domain/stripe";
 import {
    DCreateSubscriptionCheckout,
    DSubscriptionCheckoutRequest,
-   DSubscriptionCheckoutResult,
 } from "@/data/types/domain/subscription";
 import { ActionResult } from "@/data/types/utils";
 import { requireUser } from "../auth-utils";
@@ -149,7 +149,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
 
    it("createSubscriptionCheckoutSession - checkout created - test", async () => {
       const user = dtestData.dLoginUser();
-      const data = dtestData.dSubscriptionCheckoutResult();
+      const data = dtestData.dStripeCheckoutResponse();
       requireUserMock.mockResolvedValue(user);
 
       sCreateSubscriptionCheckoutSessionMock.mockResolvedValue(data);
@@ -160,7 +160,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
       };
       const result = await createSubscriptionCheckoutSession(params);
 
-      const expectResult: ActionResult<DSubscriptionCheckoutResult> = {
+      const expectResult: ActionResult<DStripeCheckoutResponse> = {
          success: true,
          message: "Subscription checkout initiated successfully",
          data,

@@ -68,11 +68,6 @@ export type DSubscriptionCheckoutRequest = {
    billingInterval: DBillingInterval;
 };
 
-export type DSubscriptionCheckoutResult = {
-   sessionId: string;
-   url: string;
-};
-
 export type DCreateSubscriptionCheckout = {
    userId: string;
    userEmail: string;
