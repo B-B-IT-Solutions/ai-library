@@ -39,7 +39,7 @@ export class SubscriptionRepository {
       });
    }
 
-   async pGetUserSubscription(
+   async pGetSubscription(
       userId: string
    ): Promise<SubscriptionWithPlan | null> {
       return await this.prisma.subscription.findUnique({
@@ -49,23 +49,11 @@ export class SubscriptionRepository {
          },
       });
    }
-
-   async pGetByStripeSubscriptionId(
+   async pGetSubscriptionByStripeSubscriptionId(
       stripeSubscriptionId: string
    ): Promise<SubscriptionWithPlan | null> {
       return await this.prisma.subscription.findUnique({
          where: { stripeSubscriptionId },
-         include: {
-            plan: true,
-         },
-      });
-   }
-
-   async pGetByCheckoutSessionId(
-      checkoutSessionId: string
-   ): Promise<SubscriptionWithPlan | null> {
-      return await this.prisma.subscription.findUnique({
-         where: { stripeCheckoutSessionId: checkoutSessionId },
          include: {
             plan: true,
          },
@@ -107,18 +95,20 @@ export class SubscriptionRepository {
       });
    }
 
-   async pCreateHistory(
+   async pGetSubscriptionHistory(
+      userId: string
+   ): Promise<SubscriptionHistory[]> {
+      return await this.prisma.subscriptionHistory.findMany({
+         where: { userId },
+         orderBy: { createdAt: "desc" },
+      });
+   }
+
+   async pCreateSubscriptionHistory(
       data: SubscriptionHistoryCreate
    ): Promise<SubscriptionHistory> {
       return await this.prisma.subscriptionHistory.create({
          data,
-      });
-   }
-
-   async pGetUserHistory(userId: string): Promise<SubscriptionHistory[]> {
-      return await this.prisma.subscriptionHistory.findMany({
-         where: { userId },
-         orderBy: { createdAt: "desc" },
       });
    }
 }

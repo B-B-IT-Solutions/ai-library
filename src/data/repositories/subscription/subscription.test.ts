@@ -96,7 +96,7 @@ describe("pGetUserSubscription tests", () => {
       const subscription = ptestData.pSubscriptionWithPlan();
       prismaMock.subscription.findUnique.mockResolvedValue(subscription);
 
-      const result = await subscriptionRepo.pGetUserSubscription(userId);
+      const result = await subscriptionRepo.pGetSubscription(userId);
 
       const expectedFindUniqueArgs: SubscriptionFindUniqueArgs = {
          where: { userId },

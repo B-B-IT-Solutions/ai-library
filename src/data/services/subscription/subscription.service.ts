@@ -55,8 +55,7 @@ export class SubscriptionService {
    }
 
    async getUserSubscription(userId: string): Promise<DSubscription | null> {
-      const subscription =
-         await this.subscriptionRepo.pGetUserSubscription(userId);
+      const subscription = await this.subscriptionRepo.pGetSubscription(userId);
       return subscription ? toDSubscription(subscription) : null;
    }
 
@@ -69,7 +68,7 @@ export class SubscriptionService {
          stripeCustomerId: data.stripeCustomerId,
       });
 
-      await this.subscriptionRepo.pCreateHistory({
+      await this.subscriptionRepo.pCreateSubscriptionHistory({
          userId: data.userId,
          eventType: "checkout_created",
          toTier: data.tier,
@@ -106,12 +105,11 @@ export class SubscriptionService {
          toStatus: data.toStatus,
          metadata: data.metadata,
       };
-      await this.subscriptionRepo.pCreateHistory(createData);
+      await this.subscriptionRepo.pCreateSubscriptionHistory(createData);
    }
 
    async getUserTier(userId: string): Promise<DSubscriptionTier> {
-      const subscription =
-         await this.subscriptionRepo.pGetUserSubscription(userId);
+      const subscription = await this.subscriptionRepo.pGetSubscription(userId);
 
       if (subscription && subscription.status === "ACTIVE") {
          return subscription.plan.tier as DSubscriptionTier;
@@ -120,8 +118,7 @@ export class SubscriptionService {
    }
 
    async hasActiveAccess(userId: string): Promise<boolean> {
-      const subscription =
-         await this.subscriptionRepo.pGetUserSubscription(userId);
+      const subscription = await this.subscriptionRepo.pGetSubscription(userId);
 
       if (!subscription) {
          return false;
@@ -370,11 +367,10 @@ export class SubscriptionService {
          ),
       });
 
-      const subscription =
-         await this.subscriptionRepo.pGetUserSubscription(userId);
+      const subscription = await this.subscriptionRepo.pGetSubscription(userId);
 
       // Create history entry
-      await this.subscriptionRepo.pCreateHistory({
+      await this.subscriptionRepo.pCreateSubscriptionHistory({
          userId,
          eventType: "activated",
          fromStatus: "INCOMPLETE",
@@ -392,7 +388,7 @@ export class SubscriptionService {
       if (!userId) {
          // Try to find subscription by Stripe ID
          const subscription =
-            await this.subscriptionRepo.pGetByStripeSubscriptionId(
+            await this.subscriptionRepo.pGetSubscriptionByStripeSubscriptionId(
                stripeSubscription.id
             );
 
@@ -403,8 +399,8 @@ export class SubscriptionService {
       }
 
       const localSubscription = userId
-         ? await this.subscriptionRepo.pGetUserSubscription(userId)
-         : await this.subscriptionRepo.pGetByStripeSubscriptionId(
+         ? await this.subscriptionRepo.pGetSubscription(userId)
+         : await this.subscriptionRepo.pGetSubscriptionByStripeSubscriptionId(
               stripeSubscription.id
            );
 
@@ -433,7 +429,7 @@ export class SubscriptionService {
 
       // Create history entry if status changed
       if (oldStatus !== newStatus) {
-         await this.subscriptionRepo.pCreateHistory({
+         await this.subscriptionRepo.pCreateSubscriptionHistory({
             userId: localSubscription.userId,
             eventType: "updated",
             fromStatus: oldStatus,
@@ -447,7 +443,7 @@ export class SubscriptionService {
       stripeSubscription: Stripe.Subscription
    ): Promise<void> {
       const subscription =
-         await this.subscriptionRepo.pGetByStripeSubscriptionId(
+         await this.subscriptionRepo.pGetSubscriptionByStripeSubscriptionId(
             stripeSubscription.id
          );
 
@@ -457,7 +453,7 @@ export class SubscriptionService {
       }
 
       // Create history entry
-      await this.subscriptionRepo.pCreateHistory({
+      await this.subscriptionRepo.pCreateSubscriptionHistory({
          userId: subscription.userId,
          eventType: "expired",
          fromStatus: subscription.status,
@@ -479,7 +475,7 @@ export class SubscriptionService {
       }
 
       const subscription =
-         await this.subscriptionRepo.pGetByStripeSubscriptionId(
+         await this.subscriptionRepo.pGetSubscriptionByStripeSubscriptionId(
             stripeSubscriptionId
          );
 
@@ -504,7 +500,7 @@ export class SubscriptionService {
       });
 
       // Create history entry
-      await this.subscriptionRepo.pCreateHistory({
+      await this.subscriptionRepo.pCreateSubscriptionHistory({
          userId: subscription.userId,
          eventType: "renewed",
          toStatus: "ACTIVE",
@@ -524,7 +520,7 @@ export class SubscriptionService {
       }
 
       const subscription =
-         await this.subscriptionRepo.pGetByStripeSubscriptionId(
+         await this.subscriptionRepo.pGetSubscriptionByStripeSubscriptionId(
             stripeSubscriptionId
          );
 
@@ -539,7 +535,7 @@ export class SubscriptionService {
       });
 
       // Create history entry
-      await this.subscriptionRepo.pCreateHistory({
+      await this.subscriptionRepo.pCreateSubscriptionHistory({
          userId: subscription.userId,
          eventType: "payment_failed",
          fromStatus: subscription.status,

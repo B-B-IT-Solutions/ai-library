@@ -74,15 +74,13 @@ describe("getUserSubscription tests", () => {
 
    it("getUserSubscription - subscription is null - test", async () => {
       const userId = "user-id-1";
-      subscriptionRepoMock.pGetUserSubscription.mockResolvedValue(null);
+      subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
 
       const result = await service.getUserSubscription(userId);
 
       expect(result).toBeNull();
-      expect(subscriptionRepoMock.pGetUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionRepoMock.pGetUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
          userId
       );
    });
@@ -90,16 +88,14 @@ describe("getUserSubscription tests", () => {
    it("getUserSubscription - subscription retrieved - test", async () => {
       const userId = "user-id-1";
       const subscription = ptestData.pSubscriptionWithPlan();
-      subscriptionRepoMock.pGetUserSubscription.mockResolvedValue(subscription);
+      subscriptionRepoMock.pGetSubscription.mockResolvedValue(subscription);
 
       const result = await service.getUserSubscription(userId);
 
       const expectdResult = toDSubscription(subscription);
       expect(result).toEqual(expectdResult);
-      expect(subscriptionRepoMock.pGetUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionRepoMock.pGetUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
          userId
       );
    });
@@ -112,16 +108,14 @@ describe("getUserTier tests", () => {
 
    it("getUserTier - subscription is null - test", async () => {
       const userId = "user-id-1";
-      subscriptionRepoMock.pGetUserSubscription.mockResolvedValue(null);
+      subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
 
       const result = await service.getUserTier(userId);
 
       const expectdResult: DSubscriptionTier = "FREE";
       expect(result).toEqual(expectdResult);
-      expect(subscriptionRepoMock.pGetUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionRepoMock.pGetUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
          userId
       );
    });
@@ -131,16 +125,14 @@ describe("getUserTier tests", () => {
       const subscription = ptestData.pSubscriptionWithPlan();
       subscription.status = "INCOMPLETE";
 
-      subscriptionRepoMock.pGetUserSubscription.mockResolvedValue(subscription);
+      subscriptionRepoMock.pGetSubscription.mockResolvedValue(subscription);
 
       const result = await service.getUserTier(userId);
 
       const expectdResult: DSubscriptionTier = "FREE";
       expect(result).toEqual(expectdResult);
-      expect(subscriptionRepoMock.pGetUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionRepoMock.pGetUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
          userId
       );
    });
@@ -152,16 +144,14 @@ describe("getUserTier tests", () => {
       subscription.status = "ACTIVE";
       subscription.plan.tier = tier;
 
-      subscriptionRepoMock.pGetUserSubscription.mockResolvedValue(subscription);
+      subscriptionRepoMock.pGetSubscription.mockResolvedValue(subscription);
 
       const result = await service.getUserTier(userId);
 
       const expectdResult: DSubscriptionTier = tier;
       expect(result).toEqual(expectdResult);
-      expect(subscriptionRepoMock.pGetUserSubscription).toHaveBeenCalledTimes(
-         1
-      );
-      expect(subscriptionRepoMock.pGetUserSubscription).toHaveBeenCalledWith(
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
          userId
       );
    });
