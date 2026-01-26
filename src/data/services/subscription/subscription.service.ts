@@ -5,6 +5,7 @@ import {
    SubscriptionHistoryCreate,
    SubscriptionUpdate,
 } from "@/data/types/db/subscription";
+import { DStripePortalSessionResponse } from "@/data/types/domain/stripe";
 import {
    DSubscription,
    DSubscriptionCreate,
@@ -283,46 +284,48 @@ export class SubscriptionService {
    //    });
    // }
 
-   async reactivateSubscription(userId: string): Promise<void> {
-      const subscription =
-         await this.subscriptionRepo.pGetUserSubscription(userId);
+   // async reactivateSubscription(userId: string): Promise<void> {
+   //    const subscription =
+   //       await this.subscriptionRepo.pGetUserSubscription(userId);
 
-      if (!subscription) {
-         throw new Error("No subscription found");
-      }
+   //    if (!subscription) {
+   //       throw new Error("No subscription found");
+   //    }
 
-      if (!subscription.stripeSubscriptionId) {
-         throw new Error("No Stripe subscription found");
-      }
+   //    if (!subscription.stripeSubscriptionId) {
+   //       throw new Error("No Stripe subscription found");
+   //    }
 
-      if (!subscription.cancelAtPeriodEnd) {
-         throw new Error("Subscription is not set to cancel");
-      }
+   //    if (!subscription.cancelAtPeriodEnd) {
+   //       throw new Error("Subscription is not set to cancel");
+   //    }
 
-      // Update Stripe subscription to NOT cancel at period end
-      await stripe.subscriptions.update(subscription.stripeSubscriptionId, {
-         cancel_at_period_end: false,
-      });
+   //    // Update Stripe subscription to NOT cancel at period end
+   //    await stripe.subscriptions.update(subscription.stripeSubscriptionId, {
+   //       cancel_at_period_end: false,
+   //    });
 
-      // Update local subscription
-      await this.subscriptionRepo.pUpdateSubscription(userId, {
-         cancelAtPeriodEnd: false,
-         canceledAt: null,
-      });
+   //    // Update local subscription
+   //    await this.subscriptionRepo.pUpdateSubscription(userId, {
+   //       cancelAtPeriodEnd: false,
+   //       canceledAt: null,
+   //    });
 
-      // Create history entry
-      await this.subscriptionRepo.pCreateHistory({
-         userId,
-         eventType: "reactivated",
-         fromStatus: subscription.status,
-         toStatus: subscription.status,
-         metadata: {
-            cancelAtPeriodEnd: false,
-         },
-      });
-   }
+   //    // Create history entry
+   //    await this.subscriptionRepo.pCreateHistory({
+   //       userId,
+   //       eventType: "reactivated",
+   //       fromStatus: subscription.status,
+   //       toStatus: subscription.status,
+   //       metadata: {
+   //          cancelAtPeriodEnd: false,
+   //       },
+   //    });
+   // }
 
-   async createPortalSession(userId: string): Promise<{ url: string }> {
+   async createPortalSession(
+      userId: string
+   ): Promise<DStripePortalSessionResponse> {
       const subscription =
          await this.subscriptionRepo.pGetUserSubscription(userId);
 

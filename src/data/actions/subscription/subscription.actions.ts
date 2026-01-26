@@ -5,6 +5,7 @@ import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
+import { DStripePortalSessionResponse } from "@/data/types/domain/stripe";
 import {
    DSubscription,
    DSubscriptionPlan,
@@ -46,25 +47,8 @@ export const getUserSubscription = async (): Promise<DSubscription | null> => {
 //    }
 // };
 
-// export const reactivateSubscription = async (): Promise<ActionResult<void>> => {
-//    try {
-//       const user = await requireUser();
-//       const subscriptionService = getSubscriptionService();
-//       await subscriptionService.reactivateSubscription(user.id);
-//       return {
-//          success: true,
-//          message: "Subscription reactivated successfully",
-//       };
-//    } catch {
-//       return {
-//          success: false,
-//          message: "Subscription couldn't be reactivated",
-//       };
-//    }
-// };
-
 export const createCustomerPortal = async (): Promise<
-   ActionResult<{ url: string }>
+   ActionResult<DStripePortalSessionResponse>
 > => {
    try {
       const user = await requireUser();
