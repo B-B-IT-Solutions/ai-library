@@ -47,11 +47,10 @@ export class SubscriptionService {
       const subscription =
          await this.subscriptionRepo.pGetUserSubscription(userId);
 
-      if (!subscription || subscription.status !== "ACTIVE") {
-         return "FREE";
+      if (subscription && subscription.status === "ACTIVE") {
+         return subscription.plan.tier as DSubscriptionTier;
       }
-
-      return subscription.plan.tier as DSubscriptionTier;
+      return "FREE";
    }
 
    async hasActiveAccess(userId: string): Promise<boolean> {
