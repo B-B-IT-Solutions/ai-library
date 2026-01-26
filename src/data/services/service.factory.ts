@@ -95,7 +95,8 @@ export class ServiceFactory {
          this.stripeService = new StripeService(
             this.getCartService(),
             this.getOrderService(),
-            this.getSubscriptionService()
+            this.getSubscriptionService(),
+            this.getUserService()
          );
       }
       return this.stripeService;

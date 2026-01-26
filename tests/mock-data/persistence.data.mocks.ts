@@ -63,6 +63,7 @@ export const pUser = (index = 1): User => {
       image: "image/1",
       password: "password123",
       role: "user",
+      stripeCustomerId: `86a092fd-1758-45d1-a831-9b26d6eb837${index}`,
       updatedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),
    };

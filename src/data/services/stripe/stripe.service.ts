@@ -3,6 +3,8 @@ import { isEmpty } from "es-toolkit/compat";
 import { requireUser } from "@/data/actions/auth-utils";
 import { CartService } from "@/data/services/cart";
 import { OrderService } from "@/data/services/order";
+import { SubscriptionService } from "@/data/services/subscription";
+import { UserService } from "@/data/services/user";
 import { DOrderUpdate } from "@/data/types/domain/order";
 import {
    DBillingInterval,
@@ -11,7 +13,6 @@ import {
 } from "@/data/types/domain/subscription";
 import { APP_URL } from "@/lib/constants";
 import { stripe } from "@/lib/stripe/stripe-server";
-import { SubscriptionService } from "../subscription";
 
 import { toStripePriceUnit } from "./utils";
 
@@ -24,15 +25,18 @@ export class StripeService {
    private cartService: CartService;
    private orderService: OrderService;
    private subscriptionService: SubscriptionService;
+   private userService: UserService;
 
    constructor(
       cartService: CartService,
       orderService: OrderService,
-      subscriptionService: SubscriptionService
+      subscriptionService: SubscriptionService,
+      userService: UserService
    ) {
       this.cartService = cartService;
       this.orderService = orderService;
       this.subscriptionService = subscriptionService;
+      this.userService = userService;
    }
 
    async createOrderCheckoutSession(): Promise<CheckoutResponse> {
@@ -165,22 +169,13 @@ export class StripeService {
       userId: string,
       email: string
    ): Promise<string> {
-      // Check if user already has a Stripe customer ID
-      const subscription =
-         await this.subscriptionRepo.pGetUserSubscription(userId);
+      const stripeCustomerId =
+         await this.userService.getUserStripeCustomerId(userId);
 
-      if (subscription?.stripeCustomerId) {
-         return subscription.stripeCustomerId;
+      if (stripeCustomerId) {
+         return stripeCustomerId;
       }
 
-      // Check user table for existing customer ID
-      const user =
-         await this.subscriptionRepo.pGetUserByStripeCustomerId(userId);
-
-      // If user has stripeCustomerId in User table, return it
-      // This requires getting the user differently - we'll create the customer
-
-      // Create new Stripe customer
       const customer = await stripe.customers.create({
          email,
          metadata: {
@@ -188,11 +183,7 @@ export class StripeService {
          },
       });
 
-      // Update user with Stripe customer ID
-      await this.subscriptionRepo.pUpdateUserStripeCustomerId(
-         userId,
-         customer.id
-      );
+      await this.userService.updateUserStripeCustomerId(userId, customer.id);
 
       return customer.id;
    }

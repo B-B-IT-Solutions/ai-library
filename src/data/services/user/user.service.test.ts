@@ -9,6 +9,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import { UserRepository } from "@/data/repositories/user";
+import { UserUpdateData } from "@/data/types/db/user";
 import {
    DUserAccountDelete,
    DUserPasswordUpdate,
@@ -193,6 +194,46 @@ describe("getUserById tests", () => {
    });
 });
 
+describe("getUserStripeCustomerId tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("getUserStripeCustomerId - user null - test", async () => {
+      const userId = "user-id-1";
+      userRepoMock.pGetUserById.mockResolvedValue(null);
+
+      const result = await userService.getUserStripeCustomerId(userId);
+
+      expect(result).toBeNull();
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(userId);
+   });
+
+   it("getUserStripeCustomerId - user.stripeCustomerId null - test", async () => {
+      const user = ptestData.pUser();
+      user.stripeCustomerId = null;
+      userRepoMock.pGetUserById.mockResolvedValue(user);
+
+      const result = await userService.getUserStripeCustomerId(user.id);
+
+      expect(result).toBeNull();
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(user.id);
+   });
+
+   it("getUserStripeCustomerId - stripeCustomerId retrieved - test", async () => {
+      const user = ptestData.pUser();
+      userRepoMock.pGetUserById.mockResolvedValue(user);
+
+      const result = await userService.getUserStripeCustomerId(user.id);
+
+      expect(result).toEqual(user.stripeCustomerId);
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(user.id);
+   });
+});
+
 describe("updateUser tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -206,8 +247,37 @@ describe("updateUser tests", () => {
 
       await userService.updateUser(user.id, data);
 
+      const expectedData: UserUpdateData = {
+         name: data.name,
+      };
+
       expect(userRepoMock.pUpdateUser).toHaveBeenCalledTimes(1);
-      expect(userRepoMock.pUpdateUser).toHaveBeenCalledWith(user.id, data);
+      expect(userRepoMock.pUpdateUser).toHaveBeenCalledWith(
+         user.id,
+         expectedData
+      );
+   });
+});
+
+describe("updateUserStripeCustomerId tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("updateUserStripeCustomerId - stripeCustomerId updated - test", async () => {
+      const user = ptestData.pUser();
+      const stripeCustomerId = "stripe-customer-id-1";
+
+      await userService.updateUserStripeCustomerId(user.id, stripeCustomerId);
+
+      const expectedData: UserUpdateData = {
+         stripeCustomerId,
+      };
+      expect(userRepoMock.pUpdateUser).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pUpdateUser).toHaveBeenCalledWith(
+         user.id,
+         expectedData
+      );
    });
 });
 
