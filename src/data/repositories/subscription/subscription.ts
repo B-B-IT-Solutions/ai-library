@@ -18,6 +18,21 @@ export class SubscriptionRepository {
       this.prisma = prisma;
    }
 
+   async pGetAllPlans(): Promise<SubscriptionPlan[]> {
+      return await this.prisma.subscriptionPlan.findMany({
+         where: { isActive: true },
+         orderBy: { monthlyPrice: "asc" },
+      });
+   }
+
+   async pGetPlanByTier(
+      tier: SubscriptionTier
+   ): Promise<SubscriptionPlan | null> {
+      return await this.prisma.subscriptionPlan.findUnique({
+         where: { tier },
+      });
+   }
+
    async pGetUserSubscription(
       userId: string
    ): Promise<SubscriptionWithPlan | null> {
@@ -83,21 +98,6 @@ export class SubscriptionRepository {
    async pDeleteSubscription(userId: string): Promise<Subscription> {
       return await this.prisma.subscription.delete({
          where: { userId },
-      });
-   }
-
-   async pGetAllPlans(): Promise<SubscriptionPlan[]> {
-      return await this.prisma.subscriptionPlan.findMany({
-         where: { isActive: true },
-         orderBy: { monthlyPrice: "asc" },
-      });
-   }
-
-   async pGetPlanByTier(
-      tier: SubscriptionTier
-   ): Promise<SubscriptionPlan | null> {
-      return await this.prisma.subscriptionPlan.findUnique({
-         where: { tier },
       });
    }
 

@@ -126,13 +126,12 @@ describe("getUserTier tests", () => {
       );
    });
 
-   it("getUserTier - subscription not ACTIVE - test", async () => {
+   it("getUserTier - subscription.status not ACTIVE - test", async () => {
       const userId = "user-id-1";
       const subscription = ptestData.pSubscriptionWithPlan();
-      subscription.status =
-         subscriptionRepoMock.pGetUserSubscription.mockResolvedValue(
-            subscription
-         );
+      subscription.status = "INCOMPLETE";
+
+      subscriptionRepoMock.pGetUserSubscription.mockResolvedValue(subscription);
 
       const result = await service.getUserTier(userId);
 
@@ -146,14 +145,18 @@ describe("getUserTier tests", () => {
       );
    });
 
-   it("getUserTier - subscription retrieved - test", async () => {
+   it("getUserTier - subscription.status ACTIVE - test", async () => {
       const userId = "user-id-1";
+      const tier: DSubscriptionTier = "PRO";
       const subscription = ptestData.pSubscriptionWithPlan();
+      subscription.status = "ACTIVE";
+      subscription.plan.tier = tier;
+
       subscriptionRepoMock.pGetUserSubscription.mockResolvedValue(subscription);
 
-      const result = await service.getUserSubscription(userId);
+      const result = await service.getUserTier(userId);
 
-      const expectdResult = toDSubscription(subscription);
+      const expectdResult: DSubscriptionTier = tier;
       expect(result).toEqual(expectdResult);
       expect(subscriptionRepoMock.pGetUserSubscription).toHaveBeenCalledTimes(
          1

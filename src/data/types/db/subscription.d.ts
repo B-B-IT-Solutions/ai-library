@@ -1,4 +1,5 @@
-import { SubscriptionStatus } from "@/generated/prisma/enums";
+import { Subscription, SubscriptionPlan } from "@/generated/prisma/client";
+import { SubscriptionStatus, SubscriptionTier } from "@/generated/prisma/enums";
 
 export type SubscriptionWithPlan = Subscription & {
    plan: SubscriptionPlan;
