@@ -380,7 +380,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
          userId: "user-1",
          userEmail: "test@email.com",
          planId: plan.id,
-         billingInterval: "MONTHLY" as const,
+         billingInterval: "MONTHLY",
       };
 
       subscriptionServiceMock.getPlanById.mockResolvedValue(plan);
@@ -467,7 +467,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
          userId: "user-1",
          userEmail: "test@email.com",
          planId: plan.id,
-         billingInterval: "YEARLY" as const,
+         billingInterval: "YEARLY",
       };
 
       subscriptionServiceMock.getPlanById.mockResolvedValue(plan);
@@ -480,21 +480,70 @@ describe("createSubscriptionCheckoutSession tests", () => {
       const result =
          await stripeService.createSubscriptionCheckoutSession(params);
 
-      expect(result).toEqual({
+      const expectedResult = {
          sessionId: "session-1",
          url: "https://checkout.stripe.com/session-1",
-      });
+      };
 
-      expect(stripeMock.checkout.sessions.create).toHaveBeenCalledWith(
-         expect.objectContaining({
-            line_items: [
-               {
-                  price: plan.stripePriceIdYearly,
-                  quantity: 1,
-               },
-            ],
-         })
+      expect(result).toEqual(expectedResult);
+      expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledWith(plan.id);
+      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledWith(
+         params.userId
       );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         params.userId
+      );
+
+      const expectedSessionParams: Stripe.Checkout.SessionCreateParams = {
+         mode: "subscription",
+         payment_method_types: ["card"],
+         line_items: [
+            {
+               price: plan.stripePriceIdYearly as string,
+               quantity: 1,
+            },
+         ],
+         customer: stripeCustomerId,
+         client_reference_id: params.userId,
+         metadata: {
+            userId: params.userId,
+            planId: params.planId,
+            billingInterval: params.billingInterval,
+         },
+         success_url: `http://localhost:3000/subscription/success?session_id={CHECKOUT_SESSION_ID}`,
+         cancel_url: "http://localhost:3000/subscription/pricing",
+         subscription_data: {
+            metadata: {
+               userId: params.userId,
+               planId: params.planId,
+            },
+         },
+      };
+
+      expect(stripeMock.checkout.sessions.create).toHaveBeenCalledTimes(1);
+      expect(stripeMock.checkout.sessions.create).toHaveBeenCalledWith(
+         expectedSessionParams
+      );
+
+      const expectedSubscriptionData: DSubscriptionUpdate = {
+         userId: params.userId,
+         planId: params.planId,
+         billingInterval: params.billingInterval,
+         tier: plan.tier,
+         stripeCheckoutSessionId: checkoutSession.id,
+         stripeCustomerId,
+      };
+      expect(
+         subscriptionServiceMock.createUserSubscription
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.createUserSubscription
+      ).toHaveBeenCalledWith(expectedSubscriptionData);
    });
 
    it("createSubscriptionCheckoutSession - creates new Stripe customer if none exists - test", async () => {
