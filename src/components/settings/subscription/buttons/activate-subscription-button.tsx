@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
-import { createSubscriptionCheckout } from "@/data/actions/subscription";
+import { createSubscriptionCheckoutSession } from "@/data/actions/stripe";
 import { DBillingInterval } from "@/data/types/domain/subscription";
 
 type ActivateSubscriptionButtonProps = {
@@ -23,7 +23,7 @@ export const ActivateSubscriptionButton: FC<
 
    const handleSubscribe = () => {
       startTransition(async () => {
-         const result = await createSubscriptionCheckout({
+         const result = await createSubscriptionCheckoutSession({
             planId,
             billingInterval,
          });

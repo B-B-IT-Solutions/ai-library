@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/subscription");
+jest.mock("@/data/actions/stripe");
 jest.mock("sonner");
 
 import { screen, waitFor } from "@testing-library/dom";
@@ -8,7 +8,7 @@ import { assertInDocument } from "@tests";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
-import { createSubscriptionCheckout } from "@/data/actions/subscription";
+import { createSubscriptionCheckoutSession } from "@/data/actions/stripe";
 import {
    DBillingInterval,
    DSubscriptionCheckoutResult,
@@ -19,9 +19,9 @@ import { ActivateSubscriptionButton } from "./activate-subscription-button";
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
-const createSubscriptionCheckoutMock =
-   createSubscriptionCheckout as jest.MockedFunction<
-      typeof createSubscriptionCheckout
+const createSubscriptionCheckoutSessionMock =
+   createSubscriptionCheckoutSession as jest.MockedFunction<
+      typeof createSubscriptionCheckoutSession
    >;
 
 const assertRendered = () => {
@@ -78,7 +78,7 @@ describe("CreateSubscriptionButton functionality tests", () => {
             url: "/checkout.stripe/success",
          },
       };
-      createSubscriptionCheckoutMock.mockResolvedValue(result);
+      createSubscriptionCheckoutSessionMock.mockResolvedValue(result);
 
       const planId = "plan-id-1";
       const billingInterval: DBillingInterval = "MONTHLY";
@@ -92,7 +92,7 @@ describe("CreateSubscriptionButton functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         expect(createSubscriptionCheckoutMock).not.toHaveBeenCalled();
+         expect(createSubscriptionCheckoutSessionMock).not.toHaveBeenCalled();
          expect(mockRouter.pathname).toEqual("/");
       });
 
@@ -101,8 +101,8 @@ describe("CreateSubscriptionButton functionality tests", () => {
 
       const expectedPayload = { planId, billingInterval };
 
-      expect(createSubscriptionCheckoutMock).toHaveBeenCalledTimes(1);
-      expect(createSubscriptionCheckoutMock).toHaveBeenCalledWith(
+      expect(createSubscriptionCheckoutSessionMock).toHaveBeenCalledTimes(1);
+      expect(createSubscriptionCheckoutSessionMock).toHaveBeenCalledWith(
          expectedPayload
       );
       expect(mockRouter.pathname).toEqual(result.data!.url);
@@ -113,7 +113,7 @@ describe("CreateSubscriptionButton functionality tests", () => {
          success: false,
          message: "subscripton couldn't be activated",
       };
-      createSubscriptionCheckoutMock.mockResolvedValue(result);
+      createSubscriptionCheckoutSessionMock.mockResolvedValue(result);
 
       const planId = "plan-id-123";
       const billingInterval: DBillingInterval = "YEARLY";
@@ -127,15 +127,15 @@ describe("CreateSubscriptionButton functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         expect(createSubscriptionCheckoutMock).not.toHaveBeenCalled();
+         expect(createSubscriptionCheckoutSessionMock).not.toHaveBeenCalled();
       });
 
       const btn = screen.getByTestId("activate-subscription-btn");
       await userEvent.click(btn);
 
       const expectedPayload = { planId, billingInterval };
-      expect(createSubscriptionCheckoutMock).toHaveBeenCalledTimes(1);
-      expect(createSubscriptionCheckoutMock).toHaveBeenCalledWith(
+      expect(createSubscriptionCheckoutSessionMock).toHaveBeenCalledTimes(1);
+      expect(createSubscriptionCheckoutSessionMock).toHaveBeenCalledWith(
          expectedPayload
       );
       expect(toastMock.error).toHaveBeenCalledTimes(1);
