@@ -13,6 +13,7 @@ import {
 import { ActionResult } from "@/data/types/utils";
 
 import {
+   cancelSubscription,
    createSubscriptionCheckout,
    getSubscriptionPlans,
    getUserSubscription,
@@ -22,6 +23,7 @@ const sGetAvailablePlans = SubscriptionService.prototype.getAvailablePlans;
 const sGetUserSubscription = SubscriptionService.prototype.getUserSubscription;
 const sCreateCheckoutSession =
    SubscriptionService.prototype.createCheckoutSession;
+const sCancelSubscription = SubscriptionService.prototype.cancelSubscription;
 
 const sGetAvailablePlansMock = sGetAvailablePlans as jest.MockedFunction<
    typeof sGetAvailablePlans
@@ -31,6 +33,9 @@ const sGetUserSubscriptionMock = sGetUserSubscription as jest.MockedFunction<
 >;
 const sCreateCheckoutSessionMock =
    sCreateCheckoutSession as jest.MockedFunction<typeof sCreateCheckoutSession>;
+const sCancelSubscriptionMock = sCancelSubscription as jest.MockedFunction<
+   typeof sCancelSubscription
+>;
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
@@ -182,5 +187,64 @@ describe("createSubscriptionCheckout tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sCreateCheckoutSessionMock).toHaveBeenCalledTimes(1);
       expect(sCreateCheckoutSessionMock).toHaveBeenCalledWith(expectedPayload);
+   });
+});
+
+describe("cancelSubscription tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("cancelSubscription - user undefined - test", async () => {
+      const error = new Error("Unknown user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await cancelSubscription();
+
+      const expectResult: ActionResult = {
+         success: false,
+         message: "Subscription couldn't be cancelled",
+      };
+
+      expect(result).toEqual(expectResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sCancelSubscriptionMock).not.toHaveBeenCalled();
+   });
+
+   it("cancelSubscription - stripe cancelation error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      sCancelSubscriptionMock.mockRejectedValue("cancellation error");
+
+      const result = await cancelSubscription();
+
+      const expectResult: ActionResult = {
+         success: false,
+         message: "Subscription couldn't be cancelled",
+      };
+
+      expect(result).toEqual(expectResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sCancelSubscriptionMock).toHaveBeenCalledTimes(1);
+      expect(sCancelSubscriptionMock).toHaveBeenCalledWith(user.id);
+   });
+
+   it("cancelSubscription - stripe cancelation succeded - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sCancelSubscriptionMock.mockResolvedValue();
+
+      const result = await cancelSubscription();
+
+      const expectResult: ActionResult<DSubscriptionCheckoutResult> = {
+         success: true,
+         message: "Subscription cancelled successfully",
+      };
+
+      expect(result).toEqual(expectResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sCancelSubscriptionMock).toHaveBeenCalledTimes(1);
+      expect(sCancelSubscriptionMock).toHaveBeenCalledWith(user.id);
    });
 });

@@ -63,7 +63,6 @@ export const createSubscriptionCheckout = async (
          billingInterval: params.billingInterval,
       };
       const data = await subscriptionService.createCheckoutSession(payload);
-
       return {
          success: true,
          message: "Subscription checkout initiated successfully",
@@ -84,13 +83,12 @@ export const cancelSubscription = async (): Promise<ActionResult<void>> => {
       await subscriptionService.cancelSubscription(user.id);
       return {
          success: true,
-         message: "",
-         data: undefined,
+         message: "Subscription cancelled successfully",
       };
-   } catch (error) {
+   } catch {
       return {
          success: false,
-         message: formatError(error),
+         message: "Subscription couldn't be cancelled",
       };
    }
 };
