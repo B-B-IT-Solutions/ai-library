@@ -80,7 +80,7 @@ export class SubscriptionService {
       });
    }
 
-   async updateUserSubscription(
+   async updateSubscription(
       userId: string,
       data: DSubscriptionUpdate
    ): Promise<void> {
@@ -91,11 +91,11 @@ export class SubscriptionService {
       await this.subscriptionRepo.pUpdateSubscription(userId, updateData);
    }
 
-   async deleteUserSubscription(userId: string): Promise<void> {
+   async deleteSubscription(userId: string): Promise<void> {
       await this.subscriptionRepo.pDeleteSubscription(userId);
    }
 
-   async createUserSubscriptionHistory(
+   async createSubscriptionHistory(
       data: DSubscriptionHistoryCreate
    ): Promise<void> {
       const createData: SubscriptionHistoryCreate = {

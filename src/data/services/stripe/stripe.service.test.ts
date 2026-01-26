@@ -626,12 +626,12 @@ describe("createSubscriptionCheckoutSession tests", () => {
       };
       expect(result).toEqual(expectedResult);
 
-      expect(
-         subscriptionServiceMock.deleteUserSubscription
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         subscriptionServiceMock.deleteUserSubscription
-      ).toHaveBeenCalledWith(params.userId);
+      expect(subscriptionServiceMock.deleteSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.deleteSubscription).toHaveBeenCalledWith(
+         params.userId
+      );
    });
 
    it("createSubscriptionCheckoutSession - does not delete existing active subscription - test", async () => {
@@ -666,9 +666,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
 
       expect(result).toEqual(expectedResult);
 
-      expect(
-         subscriptionServiceMock.deleteUserSubscription
-      ).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.deleteSubscription).not.toHaveBeenCalled();
    });
 
    it("createSubscriptionCheckoutSession - throws error when monthly price not configured - test", async () => {
@@ -859,12 +857,13 @@ describe("cancelSubscription tests", () => {
          cancelAtPeriodEnd: true,
          canceledAt: expect.any(Date),
       };
-      expect(
-         subscriptionServiceMock.updateUserSubscription
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         subscriptionServiceMock.updateUserSubscription
-      ).toHaveBeenCalledWith(userId, expectedUpdateParams);
+      expect(subscriptionServiceMock.updateSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.updateSubscription).toHaveBeenCalledWith(
+         userId,
+         expectedUpdateParams
+      );
 
       const expectedHistoryParams: DSubscriptionHistoryCreate = {
          userId,
@@ -877,10 +876,10 @@ describe("cancelSubscription tests", () => {
          },
       };
       expect(
-         subscriptionServiceMock.createUserSubscriptionHistory
+         subscriptionServiceMock.createSubscriptionHistory
       ).toHaveBeenCalledTimes(1);
       expect(
-         subscriptionServiceMock.createUserSubscriptionHistory
+         subscriptionServiceMock.createSubscriptionHistory
       ).toHaveBeenCalledWith(expectedHistoryParams);
    });
 
@@ -898,11 +897,9 @@ describe("cancelSubscription tests", () => {
          userId
       );
       expect(stripeMock.subscriptions.update).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.updateSubscription).not.toHaveBeenCalled();
       expect(
-         subscriptionServiceMock.updateUserSubscription
-      ).not.toHaveBeenCalled();
-      expect(
-         subscriptionServiceMock.createUserSubscriptionHistory
+         subscriptionServiceMock.createSubscriptionHistory
       ).not.toHaveBeenCalled();
    });
 
@@ -922,11 +919,9 @@ describe("cancelSubscription tests", () => {
          userId
       );
       expect(stripeMock.subscriptions.update).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.updateSubscription).not.toHaveBeenCalled();
       expect(
-         subscriptionServiceMock.updateUserSubscription
-      ).not.toHaveBeenCalled();
-      expect(
-         subscriptionServiceMock.createUserSubscriptionHistory
+         subscriptionServiceMock.createSubscriptionHistory
       ).not.toHaveBeenCalled();
    });
 
@@ -945,11 +940,9 @@ describe("cancelSubscription tests", () => {
          userId
       );
       expect(stripeMock.subscriptions.update).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.updateSubscription).not.toHaveBeenCalled();
       expect(
-         subscriptionServiceMock.updateUserSubscription
-      ).not.toHaveBeenCalled();
-      expect(
-         subscriptionServiceMock.createUserSubscriptionHistory
+         subscriptionServiceMock.createSubscriptionHistory
       ).not.toHaveBeenCalled();
    });
 
@@ -979,11 +972,9 @@ describe("cancelSubscription tests", () => {
          subscription.stripeSubscriptionId,
          expectedStripeUpdateParams
       );
+      expect(subscriptionServiceMock.updateSubscription).not.toHaveBeenCalled();
       expect(
-         subscriptionServiceMock.updateUserSubscription
-      ).not.toHaveBeenCalled();
-      expect(
-         subscriptionServiceMock.createUserSubscriptionHistory
+         subscriptionServiceMock.createSubscriptionHistory
       ).not.toHaveBeenCalled();
    });
 
@@ -996,7 +987,7 @@ describe("cancelSubscription tests", () => {
 
       subscriptionServiceMock.getSubscription.mockResolvedValue(subscription);
       stripeMock.subscriptions.update.mockResolvedValue(stripeSubscription);
-      subscriptionServiceMock.updateUserSubscription.mockRejectedValue(error);
+      subscriptionServiceMock.updateSubscription.mockRejectedValue(error);
 
       const fn = () => stripeService.cancelSubscription(userId);
 
@@ -1020,14 +1011,15 @@ describe("cancelSubscription tests", () => {
          cancelAtPeriodEnd: true,
          canceledAt: expect.any(Date),
       };
+      expect(subscriptionServiceMock.updateSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.updateSubscription).toHaveBeenCalledWith(
+         userId,
+         expectedUpdateParams
+      );
       expect(
-         subscriptionServiceMock.updateUserSubscription
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         subscriptionServiceMock.updateUserSubscription
-      ).toHaveBeenCalledWith(userId, expectedUpdateParams);
-      expect(
-         subscriptionServiceMock.createUserSubscriptionHistory
+         subscriptionServiceMock.createSubscriptionHistory
       ).not.toHaveBeenCalled();
    });
 
@@ -1042,7 +1034,7 @@ describe("cancelSubscription tests", () => {
 
       subscriptionServiceMock.getSubscription.mockResolvedValue(subscription);
       stripeMock.subscriptions.update.mockResolvedValue(stripeSubscription);
-      subscriptionServiceMock.createUserSubscriptionHistory.mockRejectedValue(
+      subscriptionServiceMock.createSubscriptionHistory.mockRejectedValue(
          error
       );
 
@@ -1068,12 +1060,13 @@ describe("cancelSubscription tests", () => {
          cancelAtPeriodEnd: true,
          canceledAt: expect.any(Date),
       };
-      expect(
-         subscriptionServiceMock.updateUserSubscription
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         subscriptionServiceMock.updateUserSubscription
-      ).toHaveBeenCalledWith(userId, expectedUpdateParams);
+      expect(subscriptionServiceMock.updateSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.updateSubscription).toHaveBeenCalledWith(
+         userId,
+         expectedUpdateParams
+      );
 
       const expectedHistoryParams: DSubscriptionHistoryCreate = {
          userId,
@@ -1086,10 +1079,10 @@ describe("cancelSubscription tests", () => {
          },
       };
       expect(
-         subscriptionServiceMock.createUserSubscriptionHistory
+         subscriptionServiceMock.createSubscriptionHistory
       ).toHaveBeenCalledTimes(1);
       expect(
-         subscriptionServiceMock.createUserSubscriptionHistory
+         subscriptionServiceMock.createSubscriptionHistory
       ).toHaveBeenCalledWith(expectedHistoryParams);
    });
 
@@ -1111,7 +1104,7 @@ describe("cancelSubscription tests", () => {
       await stripeService.cancelSubscription(userId);
 
       expect(
-         subscriptionServiceMock.createUserSubscriptionHistory
+         subscriptionServiceMock.createSubscriptionHistory
       ).toHaveBeenCalledWith({
          userId,
          eventType: "canceled",
@@ -1162,12 +1155,13 @@ describe("reactivateSubscription tests", () => {
          cancelAtPeriodEnd: false,
          canceledAt: null,
       };
-      expect(
-         subscriptionServiceMock.updateUserSubscription
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         subscriptionServiceMock.updateUserSubscription
-      ).toHaveBeenCalledWith(userId, expectedUpdateParams);
+      expect(subscriptionServiceMock.updateSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.updateSubscription).toHaveBeenCalledWith(
+         userId,
+         expectedUpdateParams
+      );
 
       const expectedHistoryParams: DSubscriptionHistoryCreate = {
          userId,
@@ -1179,10 +1173,10 @@ describe("reactivateSubscription tests", () => {
          },
       };
       expect(
-         subscriptionServiceMock.createUserSubscriptionHistory
+         subscriptionServiceMock.createSubscriptionHistory
       ).toHaveBeenCalledTimes(1);
       expect(
-         subscriptionServiceMock.createUserSubscriptionHistory
+         subscriptionServiceMock.createSubscriptionHistory
       ).toHaveBeenCalledWith(expectedHistoryParams);
    });
 
@@ -1200,11 +1194,9 @@ describe("reactivateSubscription tests", () => {
          userId
       );
       expect(stripeMock.subscriptions.update).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.updateSubscription).not.toHaveBeenCalled();
       expect(
-         subscriptionServiceMock.updateUserSubscription
-      ).not.toHaveBeenCalled();
-      expect(
-         subscriptionServiceMock.createUserSubscriptionHistory
+         subscriptionServiceMock.createSubscriptionHistory
       ).not.toHaveBeenCalled();
    });
 
@@ -1225,11 +1217,9 @@ describe("reactivateSubscription tests", () => {
          userId
       );
       expect(stripeMock.subscriptions.update).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.updateSubscription).not.toHaveBeenCalled();
       expect(
-         subscriptionServiceMock.updateUserSubscription
-      ).not.toHaveBeenCalled();
-      expect(
-         subscriptionServiceMock.createUserSubscriptionHistory
+         subscriptionServiceMock.createSubscriptionHistory
       ).not.toHaveBeenCalled();
    });
 
@@ -1250,11 +1240,9 @@ describe("reactivateSubscription tests", () => {
          userId
       );
       expect(stripeMock.subscriptions.update).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.updateSubscription).not.toHaveBeenCalled();
       expect(
-         subscriptionServiceMock.updateUserSubscription
-      ).not.toHaveBeenCalled();
-      expect(
-         subscriptionServiceMock.createUserSubscriptionHistory
+         subscriptionServiceMock.createSubscriptionHistory
       ).not.toHaveBeenCalled();
    });
 
@@ -1273,11 +1261,9 @@ describe("reactivateSubscription tests", () => {
          userId
       );
       expect(stripeMock.subscriptions.update).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.updateSubscription).not.toHaveBeenCalled();
       expect(
-         subscriptionServiceMock.updateUserSubscription
-      ).not.toHaveBeenCalled();
-      expect(
-         subscriptionServiceMock.createUserSubscriptionHistory
+         subscriptionServiceMock.createSubscriptionHistory
       ).not.toHaveBeenCalled();
    });
 
@@ -1308,11 +1294,9 @@ describe("reactivateSubscription tests", () => {
          subscription.stripeSubscriptionId,
          expectedStripeUpdateParams
       );
+      expect(subscriptionServiceMock.updateSubscription).not.toHaveBeenCalled();
       expect(
-         subscriptionServiceMock.updateUserSubscription
-      ).not.toHaveBeenCalled();
-      expect(
-         subscriptionServiceMock.createUserSubscriptionHistory
+         subscriptionServiceMock.createSubscriptionHistory
       ).not.toHaveBeenCalled();
    });
 
@@ -1326,7 +1310,7 @@ describe("reactivateSubscription tests", () => {
 
       subscriptionServiceMock.getSubscription.mockResolvedValue(subscription);
       stripeMock.subscriptions.update.mockResolvedValue(stripeSubscription);
-      subscriptionServiceMock.updateUserSubscription.mockRejectedValue(error);
+      subscriptionServiceMock.updateSubscription.mockRejectedValue(error);
 
       const fn = () => stripeService.reactivateSubscription(userId);
 
@@ -1350,14 +1334,15 @@ describe("reactivateSubscription tests", () => {
          cancelAtPeriodEnd: false,
          canceledAt: null,
       };
+      expect(subscriptionServiceMock.updateSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.updateSubscription).toHaveBeenCalledWith(
+         userId,
+         expectedUpdateParams
+      );
       expect(
-         subscriptionServiceMock.updateUserSubscription
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         subscriptionServiceMock.updateUserSubscription
-      ).toHaveBeenCalledWith(userId, expectedUpdateParams);
-      expect(
-         subscriptionServiceMock.createUserSubscriptionHistory
+         subscriptionServiceMock.createSubscriptionHistory
       ).not.toHaveBeenCalled();
    });
 
@@ -1372,7 +1357,7 @@ describe("reactivateSubscription tests", () => {
 
       subscriptionServiceMock.getSubscription.mockResolvedValue(subscription);
       stripeMock.subscriptions.update.mockResolvedValue(stripeSubscription);
-      subscriptionServiceMock.createUserSubscriptionHistory.mockRejectedValue(
+      subscriptionServiceMock.createSubscriptionHistory.mockRejectedValue(
          error
       );
 
@@ -1398,12 +1383,13 @@ describe("reactivateSubscription tests", () => {
          cancelAtPeriodEnd: false,
          canceledAt: null,
       };
-      expect(
-         subscriptionServiceMock.updateUserSubscription
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         subscriptionServiceMock.updateUserSubscription
-      ).toHaveBeenCalledWith(userId, expectedUpdateParams);
+      expect(subscriptionServiceMock.updateSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.updateSubscription).toHaveBeenCalledWith(
+         userId,
+         expectedUpdateParams
+      );
 
       const expectedHistoryParams: DSubscriptionHistoryCreate = {
          userId,
@@ -1415,10 +1401,10 @@ describe("reactivateSubscription tests", () => {
          },
       };
       expect(
-         subscriptionServiceMock.createUserSubscriptionHistory
+         subscriptionServiceMock.createSubscriptionHistory
       ).toHaveBeenCalledTimes(1);
       expect(
-         subscriptionServiceMock.createUserSubscriptionHistory
+         subscriptionServiceMock.createSubscriptionHistory
       ).toHaveBeenCalledWith(expectedHistoryParams);
    });
 });

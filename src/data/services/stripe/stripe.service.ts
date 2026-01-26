@@ -121,7 +121,7 @@ export class StripeService {
          existingSubscription &&
          existingSubscription.status === "INCOMPLETE"
       ) {
-         await this.subscriptionService.deleteUserSubscription(userId);
+         await this.subscriptionService.deleteSubscription(userId);
       }
 
       const sessionParams: Stripe.Checkout.SessionCreateParams = {
@@ -191,7 +191,7 @@ export class StripeService {
          cancelAtPeriodEnd: true,
          canceledAt: new Date(),
       };
-      await this.subscriptionService.updateUserSubscription(
+      await this.subscriptionService.updateSubscription(
          userId,
          subscriptionUpdate
       );
@@ -206,9 +206,7 @@ export class StripeService {
             currentPeriodEnd: subscription.currentPeriodEnd,
          },
       };
-      await this.subscriptionService.createUserSubscriptionHistory(
-         historyCreate
-      );
+      await this.subscriptionService.createSubscriptionHistory(historyCreate);
    }
 
    async reactivateSubscription(userId: string): Promise<void> {
@@ -239,7 +237,7 @@ export class StripeService {
          cancelAtPeriodEnd: false,
          canceledAt: null,
       };
-      await this.subscriptionService.updateUserSubscription(
+      await this.subscriptionService.updateSubscription(
          userId,
          subscriptionUpdate
       );
@@ -253,9 +251,7 @@ export class StripeService {
             cancelAtPeriodEnd: false,
          },
       };
-      await this.subscriptionService.createUserSubscriptionHistory(
-         historyCreate
-      );
+      await this.subscriptionService.createSubscriptionHistory(historyCreate);
    }
 
    async createPortalSession(
