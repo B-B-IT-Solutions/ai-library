@@ -88,7 +88,10 @@ export const cancelSubscription = async (): Promise<ActionResult<void>> => {
          data: undefined,
       };
    } catch (error) {
-      return { success: false, message: formatError(error) };
+      return {
+         success: false,
+         message: formatError(error),
+      };
    }
 };
 
@@ -97,9 +100,16 @@ export const reactivateSubscription = async (): Promise<ActionResult<void>> => {
       const user = await requireUser();
       const subscriptionService = getSubscriptionService();
       await subscriptionService.reactivateSubscription(user.id);
-      return { success: true, message: "", data: undefined };
+      return {
+         success: true,
+         message: "",
+         data: undefined,
+      };
    } catch (error) {
-      return { success: false, message: formatError(error) };
+      return {
+         success: false,
+         message: formatError(error),
+      };
    }
 };
 
@@ -116,7 +126,10 @@ export const createCustomerPortal = async (): Promise<
          data: result,
       };
    } catch (error) {
-      return { success: false, message: formatError(error) };
+      return {
+         success: false,
+         message: formatError(error),
+      };
    }
 };
 
