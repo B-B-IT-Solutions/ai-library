@@ -116,11 +116,11 @@ export const createCustomerPortal = async (): Promise<
    try {
       const user = await requireUser();
       const subscriptionService = getSubscriptionService();
-      const result = await subscriptionService.createPortalSession(user.id);
+      const data = await subscriptionService.createPortalSession(user.id);
       return {
          success: true,
          message: "",
-         data: result,
+         data,
       };
    } catch (error) {
       return {
