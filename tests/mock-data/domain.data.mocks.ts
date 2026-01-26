@@ -33,6 +33,7 @@ import {
 } from "@/data/types/domain/prompt.template";
 import {
    DSubscription,
+   DSubscriptionCheckoutResult,
    DSubscriptionPlan,
 } from "@/data/types/domain/subscription";
 import { DUser, DUserUpdateData } from "@/data/types/domain/user";
@@ -50,6 +51,15 @@ export const dUser = (index = 1): DUser => {
       role: `role-${index}`,
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dSubscriptionCheckoutResult = (
+   index = 1
+): DSubscriptionCheckoutResult => {
+   return {
+      sessionId: `5f367e25-12a4-4de4-af0b-6dcdd5ac005${index}`,
+      url: `http://checkout.stripe/subcription-${index}`,
    };
 };
 

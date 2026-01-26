@@ -6,11 +6,11 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
-   DBillingInterval,
+   DCreateSubscriptionCheckout,
    DSubscription,
+   DSubscriptionCheckoutRequest,
    DSubscriptionCheckoutResult,
    DSubscriptionPlan,
-   DSubscriptionTier,
 } from "@/data/types/domain/subscription";
 import { ActionResult } from "@/data/types/utils";
 
@@ -49,28 +49,31 @@ export const getUserSubscription = async (): Promise<DSubscription | null> => {
 //    }
 // };
 
-export const createSubscriptionCheckout = async (params: {
-   planId: string;
-   billingInterval: DBillingInterval;
-}): Promise<ActionResult<DSubscriptionCheckoutResult>> => {
+export const createSubscriptionCheckout = async (
+   params: DSubscriptionCheckoutRequest
+): Promise<ActionResult<DSubscriptionCheckoutResult>> => {
    try {
       const user = await requireUser();
       const subscriptionService = getSubscriptionService();
 
-      const result = await subscriptionService.createCheckoutSession({
+      const payload: DCreateSubscriptionCheckout = {
          userId: user.id,
-         userEmail: user.email,
+         userEmail: user.email as string,
          planId: params.planId,
          billingInterval: params.billingInterval,
-      });
+      };
+      const data = await subscriptionService.createCheckoutSession(payload);
 
       return {
          success: true,
-         message: "",
-         data: result,
+         message: "Subscription checkout initiated successfully",
+         data,
       };
-   } catch (error) {
-      return { success: false, message: formatError(error) };
+   } catch {
+      return {
+         success: false,
+         message: "Subscription checkout couldn't be initiated",
+      };
    }
 };
 

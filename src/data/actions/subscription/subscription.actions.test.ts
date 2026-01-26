@@ -5,14 +5,23 @@ import { dtestData } from "@tests";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { SubscriptionService } from "@/data/services/subscription";
+import {
+   DCreateSubscriptionCheckout,
+   DSubscriptionCheckoutRequest,
+   DSubscriptionCheckoutResult,
+} from "@/data/types/domain/subscription";
+import { ActionResult } from "@/data/types/utils";
 
 import {
+   createSubscriptionCheckout,
    getSubscriptionPlans,
    getUserSubscription,
 } from "./subscription.actions";
 
 const sGetAvailablePlans = SubscriptionService.prototype.getAvailablePlans;
 const sGetUserSubscription = SubscriptionService.prototype.getUserSubscription;
+const sCreateCheckoutSession =
+   SubscriptionService.prototype.createCheckoutSession;
 
 const sGetAvailablePlansMock = sGetAvailablePlans as jest.MockedFunction<
    typeof sGetAvailablePlans
@@ -20,6 +29,8 @@ const sGetAvailablePlansMock = sGetAvailablePlans as jest.MockedFunction<
 const sGetUserSubscriptionMock = sGetUserSubscription as jest.MockedFunction<
    typeof sGetUserSubscription
 >;
+const sCreateCheckoutSessionMock =
+   sCreateCheckoutSession as jest.MockedFunction<typeof sCreateCheckoutSession>;
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
@@ -83,5 +94,93 @@ describe("getUserSubscription tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetUserSubscriptionMock).toHaveBeenCalledTimes(1);
       expect(sGetUserSubscriptionMock).toHaveBeenCalledWith(user.id);
+   });
+});
+
+describe("createSubscriptionCheckout tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("createSubscriptionCheckout - user undefined - test", async () => {
+      const error = new Error("Unknown user");
+      requireUserMock.mockRejectedValue(error);
+
+      const params: DSubscriptionCheckoutRequest = {
+         planId: "pland-id-1",
+         billingInterval: "MONTHLY",
+      };
+      const result = await createSubscriptionCheckout(params);
+
+      const expectResult: ActionResult = {
+         success: false,
+         message: "Subscription checkout couldn't be initiated",
+      };
+
+      expect(result).toEqual(expectResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sCreateCheckoutSessionMock).not.toHaveBeenCalled();
+   });
+
+   it("createSubscriptionCheckout - stripe checkout error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      sCreateCheckoutSessionMock.mockRejectedValue("checkout error");
+
+      const params: DSubscriptionCheckoutRequest = {
+         planId: "pland-id-1",
+         billingInterval: "MONTHLY",
+      };
+      const result = await createSubscriptionCheckout(params);
+
+      const expectResult: ActionResult = {
+         success: false,
+         message: "Subscription checkout couldn't be initiated",
+      };
+
+      const expectedPayload: DCreateSubscriptionCheckout = {
+         userId: user.id,
+         userEmail: user.email as string,
+         planId: params.planId,
+         billingInterval: params.billingInterval,
+      };
+
+      expect(result).toEqual(expectResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sCreateCheckoutSessionMock).toHaveBeenCalledTimes(1);
+      expect(sCreateCheckoutSessionMock).toHaveBeenCalledWith(expectedPayload);
+   });
+
+   it("createSubscriptionCheckout - stripe checkout created - test", async () => {
+      const user = dtestData.dLoginUser();
+      const data = dtestData.dSubscriptionCheckoutResult();
+      requireUserMock.mockResolvedValue(user);
+
+      sCreateCheckoutSessionMock.mockResolvedValue(data);
+
+      const params: DSubscriptionCheckoutRequest = {
+         planId: "pland-id-123",
+         billingInterval: "YEARLY",
+      };
+      const result = await createSubscriptionCheckout(params);
+
+      const expectResult: ActionResult<DSubscriptionCheckoutResult> = {
+         success: true,
+         message: "Subscription checkout initiated successfully",
+         data,
+      };
+
+      const expectedPayload: DCreateSubscriptionCheckout = {
+         userId: user.id,
+         userEmail: user.email as string,
+         planId: params.planId,
+         billingInterval: params.billingInterval,
+      };
+
+      expect(result).toEqual(expectResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sCreateCheckoutSessionMock).toHaveBeenCalledTimes(1);
+      expect(sCreateCheckoutSessionMock).toHaveBeenCalledWith(expectedPayload);
    });
 });

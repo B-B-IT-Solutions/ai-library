@@ -54,16 +54,23 @@ export type DSubscription = {
    plan: DSubscriptionPlan;
 };
 
-export type DCreateSubscriptionCheckout = {
+export type DSubscriptionCheckoutRequest = {
    planId: string;
    billingInterval: DBillingInterval;
-   successUrl: string;
-   cancelUrl: string;
 };
 
 export type DSubscriptionCheckoutResult = {
    sessionId: string;
    url: string;
+};
+
+export type DCreateSubscriptionCheckout = {
+   userId: string;
+   userEmail: string;
+   planId: string;
+   billingInterval: DBillingInterval;
+   successUrl?: string;
+   cancelUrl?: string;
 };
 
 export type DSubscriptionUpdate = {
