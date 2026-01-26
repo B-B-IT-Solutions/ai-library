@@ -357,8 +357,6 @@ export class SubscriptionService {
       const stripeSubscription =
          await stripe.subscriptions.retrieve(stripeSubscriptionId);
 
-      console.log("handleCheckoutCompleted");
-
       // Update subscription with Stripe details
       await this.subscriptionRepo.pUpdateSubscription(userId, {
          status: this.mapStripeStatus(stripeSubscription.status),

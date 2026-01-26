@@ -11,7 +11,6 @@ export const handleStripeEvent = async (event: Stripe.Event) => {
          case "checkout.session.completed": {
             const session = event.data.object as Stripe.Checkout.Session;
 
-            // Distinguish between payment and subscription checkout
             if (session.mode === "subscription") {
                await handleSubscriptionCheckoutCompleted(session);
             } else if (session.mode === "payment") {
@@ -120,18 +119,6 @@ const handlePaymentFailed = async (paymentIntent: Stripe.PaymentIntent) => {
    }
 };
 
-const getOrderSevice = (dbClient: DbClient = prisma) => {
-   const factory = new ServiceFactory(dbClient);
-   return factory.getOrderService();
-};
-
-const getSubscriptionService = (dbClient: DbClient = prisma) => {
-   const factory = new ServiceFactory(dbClient);
-   return factory.getSubscriptionService();
-};
-
-// Subscription webhook handlers
-
 const handleSubscriptionCheckoutCompleted = async (
    session: Stripe.Checkout.Session
 ) => {
@@ -187,4 +174,14 @@ const handleInvoicePaymentFailed = async (invoice: Stripe.Invoice) => {
    } catch (error) {
       console.error("Error handling invoice payment failed:", error);
    }
+};
+
+const getOrderSevice = (dbClient: DbClient = prisma) => {
+   const factory = new ServiceFactory(dbClient);
+   return factory.getOrderService();
+};
+
+const getSubscriptionService = (dbClient: DbClient = prisma) => {
+   const factory = new ServiceFactory(dbClient);
+   return factory.getSubscriptionService();
 };
