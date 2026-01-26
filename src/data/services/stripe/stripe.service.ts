@@ -159,7 +159,7 @@ export class StripeService {
          stripeCheckoutSessionId: session.id,
          stripeCustomerId,
       };
-      await this.subscriptionService.createUserSubscription(subscriptionData);
+      await this.subscriptionService.createSubscription(subscriptionData);
 
       return {
          sessionId: session.id,

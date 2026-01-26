@@ -59,7 +59,7 @@ export class SubscriptionService {
       return subscription ? toDSubscription(subscription) : null;
    }
 
-   async createUserSubscription(data: DSubscriptionCreate): Promise<void> {
+   async createSubscription(data: DSubscriptionCreate): Promise<void> {
       await this.subscriptionRepo.pCreateSubscription({
          userId: data.userId,
          planId: data.planId,

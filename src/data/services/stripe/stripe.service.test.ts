@@ -450,12 +450,12 @@ describe("createSubscriptionCheckoutSession tests", () => {
          stripeCheckoutSessionId: checkoutSession.id,
          stripeCustomerId: stripeCustomer.id,
       };
-      expect(
-         subscriptionServiceMock.createUserSubscription
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         subscriptionServiceMock.createUserSubscription
-      ).toHaveBeenCalledWith(expectedSubscriptionData);
+      expect(subscriptionServiceMock.createSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.createSubscription).toHaveBeenCalledWith(
+         expectedSubscriptionData
+      );
    });
 
    it("createSubscriptionCheckoutSession - successful checkout with yearly billing - test", async () => {
@@ -535,12 +535,12 @@ describe("createSubscriptionCheckoutSession tests", () => {
          stripeCheckoutSessionId: checkoutSession.id,
          stripeCustomerId: stripeCustomer.id,
       };
-      expect(
-         subscriptionServiceMock.createUserSubscription
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         subscriptionServiceMock.createUserSubscription
-      ).toHaveBeenCalledWith(expectedSubscriptionData);
+      expect(subscriptionServiceMock.createSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.createSubscription).toHaveBeenCalledWith(
+         expectedSubscriptionData
+      );
    });
 
    it("createSubscriptionCheckoutSession - creates new Stripe customer if none exists - test", async () => {
@@ -691,9 +691,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
       expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledWith(plan.id);
       expect(userServiceMock.getUserStripeCustomerId).not.toHaveBeenCalled();
       expect(subscriptionServiceMock.getSubscription).not.toHaveBeenCalled();
-      expect(
-         subscriptionServiceMock.createUserSubscription
-      ).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.createSubscription).not.toHaveBeenCalled();
       expect(stripeMock.checkout.sessions.create).not.toHaveBeenCalled();
    });
 
@@ -717,9 +715,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
       expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledWith(plan.id);
       expect(userServiceMock.getUserStripeCustomerId).not.toHaveBeenCalled();
       expect(subscriptionServiceMock.getSubscription).not.toHaveBeenCalled();
-      expect(
-         subscriptionServiceMock.createUserSubscription
-      ).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.createSubscription).not.toHaveBeenCalled();
       expect(stripeMock.checkout.sessions.create).not.toHaveBeenCalled();
    });
 
@@ -744,9 +740,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
       );
       expect(userServiceMock.getUserStripeCustomerId).not.toHaveBeenCalled();
       expect(subscriptionServiceMock.getSubscription).not.toHaveBeenCalled();
-      expect(
-         subscriptionServiceMock.createUserSubscription
-      ).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.createSubscription).not.toHaveBeenCalled();
       expect(stripeMock.checkout.sessions.create).not.toHaveBeenCalled();
    });
 
@@ -784,9 +778,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
       );
 
       expect(stripeMock.checkout.sessions.create).toHaveBeenCalledTimes(1);
-      expect(
-         subscriptionServiceMock.createUserSubscription
-      ).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.createSubscription).not.toHaveBeenCalled();
    });
 
    it("createSubscriptionCheckoutSession - createUserSubscription throws error - test", async () => {
@@ -807,7 +799,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
       );
       subscriptionServiceMock.getSubscription.mockResolvedValue(null);
       stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
-      subscriptionServiceMock.createUserSubscription.mockRejectedValue(error);
+      subscriptionServiceMock.createSubscription.mockRejectedValue(error);
 
       await expect(
          stripeService.createSubscriptionCheckoutSession(params)
@@ -825,9 +817,9 @@ describe("createSubscriptionCheckoutSession tests", () => {
       );
       expect(stripeMock.checkout.sessions.create).toHaveBeenCalledTimes(1);
 
-      expect(
-         subscriptionServiceMock.createUserSubscription
-      ).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.createSubscription).toHaveBeenCalledTimes(
+         1
+      );
    });
 });
 
