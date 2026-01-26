@@ -17,6 +17,7 @@ import { OrderService } from "@/data/services/order";
 import { SubscriptionService } from "@/data/services/subscription";
 import { UserService } from "@/data/services/user";
 import { DOrderUpdate } from "@/data/types/domain/order";
+import { DCreateSubscriptionCheckout } from "@/data/types/domain/subscription";
 import { stripe } from "@/lib/stripe/stripe-server";
 
 import { StripeService } from "./stripe.service";
@@ -359,6 +360,520 @@ describe("createOrderCheckoutSession tests", () => {
          expect.objectContaining({
             customer_email: undefined,
          })
+      );
+   });
+});
+
+describe("createSubscriptionCheckoutSession tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   it("createSubscriptionCheckoutSession - successful checkout with monthly billing - test", async () => {
+      const plan = dtestData.dSubscriptionPlan(1);
+      const stripeCustomerId = "cus_test123";
+      const checkoutSession = stripeCheckoutSession();
+      const params: DCreateSubscriptionCheckout = {
+         userId: "user-1",
+         userEmail: "test@email.com",
+         planId: plan.id,
+         billingInterval: "MONTHLY" as const,
+      };
+
+      subscriptionServiceMock.getPlanById.mockResolvedValue(plan);
+      userServiceMock.getUserStripeCustomerId.mockResolvedValue(
+         stripeCustomerId
+      );
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(null);
+      stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
+
+      const result =
+         await stripeService.createSubscriptionCheckoutSession(params);
+
+      const expectedResult = {
+         sessionId: "session-1",
+         url: "https://checkout.stripe.com/session-1",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledWith(plan.id);
+      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledWith(
+         params.userId
+      );
+      expect(subscriptionServiceMock.getUserSubscription).toHaveBeenCalledWith(
+         params.userId
+      );
+
+      const expectedSessionParams: Stripe.Checkout.SessionCreateParams = {
+         mode: "subscription",
+         payment_method_types: ["card"],
+         line_items: [
+            {
+               price: plan.stripePriceIdMonthly as string,
+               quantity: 1,
+            },
+         ],
+         customer: stripeCustomerId,
+         client_reference_id: params.userId,
+         metadata: {
+            userId: params.userId,
+            planId: params.planId,
+            billingInterval: params.billingInterval,
+         },
+         success_url: `http://localhost:3000/subscription/success?session_id={CHECKOUT_SESSION_ID}`,
+         cancel_url: "http://localhost:3000/subscription/pricing",
+         subscription_data: {
+            metadata: {
+               userId: params.userId,
+               planId: params.planId,
+            },
+         },
+      };
+
+      expect(stripeMock.checkout.sessions.create).toHaveBeenCalledWith(
+         expectedSessionParams
+      );
+
+      expect(
+         subscriptionServiceMock.createUserSubscription
+      ).toHaveBeenCalledWith({
+         userId: params.userId,
+         planId: params.planId,
+         billingInterval: params.billingInterval,
+         tier: plan.tier,
+         stripeCheckoutSessionId: checkoutSession.id,
+         stripeCustomerId,
+      });
+   });
+
+   it("createSubscriptionCheckoutSession - successful checkout with yearly billing - test", async () => {
+      const plan = dtestData.dSubscriptionPlan(1);
+      const stripeCustomerId = "cus_test123";
+      const checkoutSession = stripeCheckoutSession();
+      const params = {
+         userId: "user-1",
+         userEmail: "test@email.com",
+         planId: plan.id,
+         billingInterval: "YEARLY" as const,
+      };
+
+      subscriptionServiceMock.getPlanById.mockResolvedValue(plan);
+      userServiceMock.getUserStripeCustomerId.mockResolvedValue(
+         stripeCustomerId
+      );
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(null);
+      stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
+
+      const result =
+         await stripeService.createSubscriptionCheckoutSession(params);
+
+      expect(result).toEqual({
+         sessionId: "session-1",
+         url: "https://checkout.stripe.com/session-1",
+      });
+
+      expect(stripeMock.checkout.sessions.create).toHaveBeenCalledWith(
+         expect.objectContaining({
+            line_items: [
+               {
+                  price: plan.stripePriceIdYearly,
+                  quantity: 1,
+               },
+            ],
+         })
+      );
+   });
+
+   it("createSubscriptionCheckoutSession - creates new Stripe customer if none exists - test", async () => {
+      const plan = dtestData.dSubscriptionPlan(1);
+      const newCustomerId = "cus_new123";
+      const checkoutSession = stripeCheckoutSession();
+      const params = {
+         userId: "user-1",
+         userEmail: "test@email.com",
+         planId: plan.id,
+         billingInterval: "MONTHLY" as const,
+      };
+
+      subscriptionServiceMock.getPlanById.mockResolvedValue(plan);
+      userServiceMock.getUserStripeCustomerId.mockResolvedValue(null);
+      stripeMock.customers.create.mockResolvedValue({
+         id: newCustomerId,
+      } as Stripe.Response<Stripe.Customer>);
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(null);
+      stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
+
+      const result =
+         await stripeService.createSubscriptionCheckoutSession(params);
+
+      expect(result).toEqual({
+         sessionId: "session-1",
+         url: "https://checkout.stripe.com/session-1",
+      });
+
+      expect(stripeMock.customers.create).toHaveBeenCalledWith({
+         email: params.userEmail,
+         metadata: {
+            userId: params.userId,
+         },
+      });
+      expect(userServiceMock.updateUserStripeCustomerId).toHaveBeenCalledWith(
+         params.userId,
+         newCustomerId
+      );
+      expect(stripeMock.checkout.sessions.create).toHaveBeenCalledWith(
+         expect.objectContaining({
+            customer: newCustomerId,
+         })
+      );
+   });
+
+   it("createSubscriptionCheckoutSession - deletes existing incomplete subscription - test", async () => {
+      const plan = dtestData.dSubscriptionPlan(1);
+      const stripeCustomerId = "cus_test123";
+      const checkoutSession = stripeCheckoutSession();
+      const existingSubscription = dtestData.dSubscription(1);
+      existingSubscription.status = "INCOMPLETE";
+      const params = {
+         userId: "user-1",
+         userEmail: "test@email.com",
+         planId: plan.id,
+         billingInterval: "MONTHLY" as const,
+      };
+
+      subscriptionServiceMock.getPlanById.mockResolvedValue(plan);
+      userServiceMock.getUserStripeCustomerId.mockResolvedValue(
+         stripeCustomerId
+      );
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
+         existingSubscription
+      );
+      stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
+
+      const result =
+         await stripeService.createSubscriptionCheckoutSession(params);
+
+      expect(result).toEqual({
+         sessionId: "session-1",
+         url: "https://checkout.stripe.com/session-1",
+      });
+
+      expect(
+         subscriptionServiceMock.deleteUserSubscription
+      ).toHaveBeenCalledWith(params.userId);
+   });
+
+   it("createSubscriptionCheckoutSession - does not delete existing active subscription - test", async () => {
+      const plan = dtestData.dSubscriptionPlan(1);
+      const stripeCustomerId = "cus_test123";
+      const checkoutSession = stripeCheckoutSession();
+      const existingSubscription = dtestData.dSubscription(1);
+      existingSubscription.status = "ACTIVE";
+      const params = {
+         userId: "user-1",
+         userEmail: "test@email.com",
+         planId: plan.id,
+         billingInterval: "MONTHLY" as const,
+      };
+
+      subscriptionServiceMock.getPlanById.mockResolvedValue(plan);
+      userServiceMock.getUserStripeCustomerId.mockResolvedValue(
+         stripeCustomerId
+      );
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(
+         existingSubscription
+      );
+      stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
+
+      const result =
+         await stripeService.createSubscriptionCheckoutSession(params);
+
+      expect(result).toEqual({
+         sessionId: "session-1",
+         url: "https://checkout.stripe.com/session-1",
+      });
+
+      expect(
+         subscriptionServiceMock.deleteUserSubscription
+      ).not.toHaveBeenCalled();
+   });
+
+   it("createSubscriptionCheckoutSession - throws error when monthly price not configured - test", async () => {
+      const plan = dtestData.dSubscriptionPlan(1);
+      plan.stripePriceIdMonthly = null;
+      const params = {
+         userId: "user-1",
+         userEmail: "test@email.com",
+         planId: plan.id,
+         billingInterval: "MONTHLY" as const,
+      };
+
+      subscriptionServiceMock.getPlanById.mockResolvedValue(plan);
+
+      await expect(
+         stripeService.createSubscriptionCheckoutSession(params)
+      ).rejects.toThrow("No Stripe price configured for MONTHLY billing");
+
+      expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledWith(plan.id);
+      expect(userServiceMock.getUserStripeCustomerId).not.toHaveBeenCalled();
+      expect(stripeMock.checkout.sessions.create).not.toHaveBeenCalled();
+   });
+
+   it("createSubscriptionCheckoutSession - throws error when yearly price not configured - test", async () => {
+      const plan = dtestData.dSubscriptionPlan(1);
+      plan.stripePriceIdYearly = null;
+      const params = {
+         userId: "user-1",
+         userEmail: "test@email.com",
+         planId: plan.id,
+         billingInterval: "YEARLY" as const,
+      };
+
+      subscriptionServiceMock.getPlanById.mockResolvedValue(plan);
+
+      await expect(
+         stripeService.createSubscriptionCheckoutSession(params)
+      ).rejects.toThrow("No Stripe price configured for YEARLY billing");
+   });
+
+   it("createSubscriptionCheckoutSession - getPlanById throws error - test", async () => {
+      const error = new Error("Plan not found");
+      const params = {
+         userId: "user-1",
+         userEmail: "test@email.com",
+         planId: "plan-1",
+         billingInterval: "MONTHLY" as const,
+      };
+
+      subscriptionServiceMock.getPlanById.mockRejectedValue(error);
+
+      await expect(
+         stripeService.createSubscriptionCheckoutSession(params)
+      ).rejects.toThrow("Plan not found");
+
+      expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledWith(
+         params.planId
+      );
+      expect(userServiceMock.getUserStripeCustomerId).not.toHaveBeenCalled();
+      expect(stripeMock.checkout.sessions.create).not.toHaveBeenCalled();
+   });
+
+   it("createSubscriptionCheckoutSession - stripe.checkout.sessions.create throws error - test", async () => {
+      const plan = dtestData.dSubscriptionPlan(1);
+      const stripeCustomerId = "cus_test123";
+      const error = new Error("Stripe API error");
+      const params = {
+         userId: "user-1",
+         userEmail: "test@email.com",
+         planId: plan.id,
+         billingInterval: "MONTHLY" as const,
+      };
+
+      subscriptionServiceMock.getPlanById.mockResolvedValue(plan);
+      userServiceMock.getUserStripeCustomerId.mockResolvedValue(
+         stripeCustomerId
+      );
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(null);
+      stripeMock.checkout.sessions.create.mockRejectedValue(error);
+
+      await expect(
+         stripeService.createSubscriptionCheckoutSession(params)
+      ).rejects.toThrow("Stripe API error");
+
+      expect(stripeMock.checkout.sessions.create).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.createUserSubscription
+      ).not.toHaveBeenCalled();
+   });
+
+   it("createSubscriptionCheckoutSession - createUserSubscription throws error - test", async () => {
+      const plan = dtestData.dSubscriptionPlan(1);
+      const stripeCustomerId = "cus_test123";
+      const checkoutSession = stripeCheckoutSession();
+      const error = new Error("Failed to create subscription");
+      const params = {
+         userId: "user-1",
+         userEmail: "test@email.com",
+         planId: plan.id,
+         billingInterval: "MONTHLY" as const,
+      };
+
+      subscriptionServiceMock.getPlanById.mockResolvedValue(plan);
+      userServiceMock.getUserStripeCustomerId.mockResolvedValue(
+         stripeCustomerId
+      );
+      subscriptionServiceMock.getUserSubscription.mockResolvedValue(null);
+      stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
+      subscriptionServiceMock.createUserSubscription.mockRejectedValue(error);
+
+      await expect(
+         stripeService.createSubscriptionCheckoutSession(params)
+      ).rejects.toThrow("Failed to create subscription");
+
+      expect(
+         subscriptionServiceMock.createUserSubscription
+      ).toHaveBeenCalledTimes(1);
+   });
+});
+
+describe("getOrCreateStripeCustomer tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   it("getOrCreateStripeCustomer - returns existing customer ID - test", async () => {
+      const userId = "user-1";
+      const email = "test@email.com";
+      const existingCustomerId = "cus_existing123";
+
+      userServiceMock.getUserStripeCustomerId.mockResolvedValue(
+         existingCustomerId
+      );
+
+      const result = await stripeService.getOrCreateStripeCustomer(
+         userId,
+         email
+      );
+
+      expect(result).toBe(existingCustomerId);
+      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledWith(
+         userId
+      );
+      expect(stripeMock.customers.create).not.toHaveBeenCalled();
+      expect(userServiceMock.updateUserStripeCustomerId).not.toHaveBeenCalled();
+   });
+
+   it("getOrCreateStripeCustomer - creates new customer when none exists - test", async () => {
+      const userId = "user-1";
+      const email = "test@email.com";
+      const newCustomerId = "cus_new123";
+
+      userServiceMock.getUserStripeCustomerId.mockResolvedValue(null);
+      stripeMock.customers.create.mockResolvedValue({
+         id: newCustomerId,
+      } as Stripe.Response<Stripe.Customer>);
+
+      const result = await stripeService.getOrCreateStripeCustomer(
+         userId,
+         email
+      );
+
+      expect(result).toBe(newCustomerId);
+      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledWith(
+         userId
+      );
+      expect(stripeMock.customers.create).toHaveBeenCalledWith({
+         email,
+         metadata: {
+            userId,
+         },
+      });
+      expect(userServiceMock.updateUserStripeCustomerId).toHaveBeenCalledWith(
+         userId,
+         newCustomerId
+      );
+   });
+
+   it("getOrCreateStripeCustomer - creates new customer when customer ID is empty string - test", async () => {
+      const userId = "user-1";
+      const email = "test@email.com";
+      const newCustomerId = "cus_new123";
+
+      userServiceMock.getUserStripeCustomerId.mockResolvedValue("");
+      stripeMock.customers.create.mockResolvedValue({
+         id: newCustomerId,
+      } as Stripe.Response<Stripe.Customer>);
+
+      const result = await stripeService.getOrCreateStripeCustomer(
+         userId,
+         email
+      );
+
+      expect(result).toBe(newCustomerId);
+      expect(stripeMock.customers.create).toHaveBeenCalledWith({
+         email,
+         metadata: {
+            userId,
+         },
+      });
+      expect(userServiceMock.updateUserStripeCustomerId).toHaveBeenCalledWith(
+         userId,
+         newCustomerId
+      );
+   });
+
+   it("getOrCreateStripeCustomer - getUserStripeCustomerId throws error - test", async () => {
+      const userId = "user-1";
+      const email = "test@email.com";
+      const error = new Error("Database error");
+
+      userServiceMock.getUserStripeCustomerId.mockRejectedValue(error);
+
+      await expect(
+         stripeService.getOrCreateStripeCustomer(userId, email)
+      ).rejects.toThrow("Database error");
+
+      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledWith(
+         userId
+      );
+      expect(stripeMock.customers.create).not.toHaveBeenCalled();
+      expect(userServiceMock.updateUserStripeCustomerId).not.toHaveBeenCalled();
+   });
+
+   it("getOrCreateStripeCustomer - stripe.customers.create throws error - test", async () => {
+      const userId = "user-1";
+      const email = "test@email.com";
+      const error = new Error("Stripe API error");
+
+      userServiceMock.getUserStripeCustomerId.mockResolvedValue(null);
+      stripeMock.customers.create.mockRejectedValue(error);
+
+      await expect(
+         stripeService.getOrCreateStripeCustomer(userId, email)
+      ).rejects.toThrow("Stripe API error");
+
+      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledWith(
+         userId
+      );
+      expect(stripeMock.customers.create).toHaveBeenCalledWith({
+         email,
+         metadata: {
+            userId,
+         },
+      });
+      expect(userServiceMock.updateUserStripeCustomerId).not.toHaveBeenCalled();
+   });
+
+   it("getOrCreateStripeCustomer - updateUserStripeCustomerId throws error - test", async () => {
+      const userId = "user-1";
+      const email = "test@email.com";
+      const newCustomerId = "cus_new123";
+      const error = new Error("Failed to update user");
+
+      userServiceMock.getUserStripeCustomerId.mockResolvedValue(null);
+      stripeMock.customers.create.mockResolvedValue({
+         id: newCustomerId,
+      } as Stripe.Response<Stripe.Customer>);
+      userServiceMock.updateUserStripeCustomerId.mockRejectedValue(error);
+
+      await expect(
+         stripeService.getOrCreateStripeCustomer(userId, email)
+      ).rejects.toThrow("Failed to update user");
+
+      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledWith(
+         userId
+      );
+      expect(stripeMock.customers.create).toHaveBeenCalledWith({
+         email,
+         metadata: {
+            userId,
+         },
+      });
+      expect(userServiceMock.updateUserStripeCustomerId).toHaveBeenCalledWith(
+         userId,
+         newCustomerId
       );
    });
 });

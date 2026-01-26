@@ -1,4 +1,5 @@
 import { isEmpty } from "es-toolkit/compat";
+import Stripe from "stripe";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { CartService } from "@/data/services/cart";
@@ -123,7 +124,7 @@ export class StripeService {
          await this.subscriptionService.deleteUserSubscription(userId);
       }
 
-      const checkoutSession = await stripe.checkout.sessions.create({
+      const sessionParams: Stripe.Checkout.SessionCreateParams = {
          mode: "subscription",
          payment_method_types: ["card"],
          line_items: [
@@ -147,21 +148,22 @@ export class StripeService {
                planId: params.planId,
             },
          },
-      });
+      };
+      const session = await stripe.checkout.sessions.create(sessionParams);
 
       const subscriptionData: DSubscriptionUpdate = {
          userId: userId,
          planId: planId,
          billingInterval: billingInterval,
          tier: plan.tier,
-         stripeCheckoutSessionId: checkoutSession.id,
+         stripeCheckoutSessionId: session.id,
          stripeCustomerId,
       };
       await this.subscriptionService.createUserSubscription(subscriptionData);
 
       return {
-         sessionId: checkoutSession.id,
-         url: checkoutSession.url!,
+         sessionId: session.id,
+         url: session.url!,
       };
    }
 

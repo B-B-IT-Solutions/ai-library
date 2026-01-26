@@ -39,14 +39,37 @@ describe("pGetAllPlans tests", () => {
    });
 });
 
+describe("pGetPlanById tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("pGetPlanById - plan retrieved - test", async () => {
+      const plan = ptestData.pSubscriptionPlan();
+      prismaMock.subscriptionPlan.findUnique.mockResolvedValue(plan);
+
+      const result = await subscriptionRepo.pGetPlanById(plan.id);
+
+      const expectedFindUniqueArgs: SubscriptionPlanFindUniqueArgs = {
+         where: { id: plan.id },
+      };
+
+      expect(result).toEqual(plan);
+      expect(prismaMock.subscriptionPlan.findUnique).toHaveBeenCalledTimes(1);
+      expect(prismaMock.subscriptionPlan.findUnique).toHaveBeenCalledWith(
+         expectedFindUniqueArgs
+      );
+   });
+});
+
 describe("pGetPlanByTier tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
    it("pGetPlanByTier - plan retrieved - test", async () => {
-      const plans = ptestData.pSubscriptionPlans();
-      prismaMock.subscriptionPlan.findUnique.mockResolvedValue(plans);
+      const plan = ptestData.pSubscriptionPlan();
+      prismaMock.subscriptionPlan.findUnique.mockResolvedValue(plan);
 
       const tier: SubscriptionTier = "PRO";
       const result = await subscriptionRepo.pGetPlanByTier(tier);
@@ -55,7 +78,7 @@ describe("pGetPlanByTier tests", () => {
          where: { tier },
       };
 
-      expect(result).toEqual(plans);
+      expect(result).toEqual(plan);
       expect(prismaMock.subscriptionPlan.findUnique).toHaveBeenCalledTimes(1);
       expect(prismaMock.subscriptionPlan.findUnique).toHaveBeenCalledWith(
          expectedFindUniqueArgs

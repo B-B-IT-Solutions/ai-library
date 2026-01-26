@@ -25,6 +25,12 @@ export class SubscriptionRepository {
       });
    }
 
+   async pGetPlanById(planId: string): Promise<SubscriptionPlan | null> {
+      return await this.prisma.subscriptionPlan.findUnique({
+         where: { id: planId },
+      });
+   }
+
    async pGetPlanByTier(
       tier: SubscriptionTier
    ): Promise<SubscriptionPlan | null> {
@@ -98,12 +104,6 @@ export class SubscriptionRepository {
    async pDeleteSubscription(userId: string): Promise<Subscription> {
       return await this.prisma.subscription.delete({
          where: { userId },
-      });
-   }
-
-   async pGetPlanById(planId: string): Promise<SubscriptionPlan | null> {
-      return await this.prisma.subscriptionPlan.findUnique({
-         where: { id: planId },
       });
    }
 
