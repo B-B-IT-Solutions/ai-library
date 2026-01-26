@@ -4,6 +4,7 @@ import { SubscriptionRepository } from "@/data/repositories/subscription";
 import {
    DBillingInterval,
    DSubscription,
+   DSubscriptionCheckoutResult,
    DSubscriptionPlan,
    DSubscriptionTier,
 } from "@/data/types/domain/subscription";
@@ -29,17 +30,17 @@ export class SubscriptionService {
       return toDSubscriptionPlans(plans);
    }
 
-   async getUserSubscription(userId: string): Promise<DSubscription | null> {
-      const subscription =
-         await this.subscriptionRepo.pGetUserSubscription(userId);
-      return subscription ? toDSubscription(subscription) : null;
-   }
-
    async getPlanByTier(
       tier: DSubscriptionTier
    ): Promise<DSubscriptionPlan | null> {
       const plan = await this.subscriptionRepo.pGetPlanByTier(tier);
       return plan ? toDSubscriptionPlan(plan) : null;
+   }
+
+   async getUserSubscription(userId: string): Promise<DSubscription | null> {
+      const subscription =
+         await this.subscriptionRepo.pGetUserSubscription(userId);
+      return subscription ? toDSubscription(subscription) : null;
    }
 
    async getUserTier(userId: string): Promise<DSubscriptionTier> {
@@ -87,7 +88,7 @@ export class SubscriptionService {
       billingInterval: DBillingInterval;
       successUrl?: string;
       cancelUrl?: string;
-   }): Promise<{ sessionId: string; url: string }> {
+   }): Promise<DSubscriptionCheckoutResult> {
       const plan = await this.subscriptionRepo.pGetPlanById(params.planId);
 
       if (!plan) {
@@ -182,29 +183,6 @@ export class SubscriptionService {
       };
    }
 
-   async createPortalSession(userId: string): Promise<{ url: string }> {
-      const user =
-         await this.subscriptionRepo.pGetUserByStripeCustomerId(userId);
-
-      if (!user) {
-         throw new Error("User not found");
-      }
-
-      const subscription =
-         await this.subscriptionRepo.pGetUserSubscription(userId);
-
-      if (!subscription?.stripeCustomerId) {
-         throw new Error("No active subscription found");
-      }
-
-      const portalSession = await stripe.billingPortal.sessions.create({
-         customer: subscription.stripeCustomerId,
-         return_url: `${APP_URL}/settings`,
-      });
-
-      return { url: portalSession.url };
-   }
-
    async cancelSubscription(userId: string): Promise<void> {
       const subscription =
          await this.subscriptionRepo.pGetUserSubscription(userId);
@@ -278,6 +256,29 @@ export class SubscriptionService {
             cancelAtPeriodEnd: false,
          },
       });
+   }
+
+   async createPortalSession(userId: string): Promise<{ url: string }> {
+      const user =
+         await this.subscriptionRepo.pGetUserByStripeCustomerId(userId);
+
+      if (!user) {
+         throw new Error("User not found");
+      }
+
+      const subscription =
+         await this.subscriptionRepo.pGetUserSubscription(userId);
+
+      if (!subscription?.stripeCustomerId) {
+         throw new Error("No active subscription found");
+      }
+
+      const portalSession = await stripe.billingPortal.sessions.create({
+         customer: subscription.stripeCustomerId,
+         return_url: `${APP_URL}/settings`,
+      });
+
+      return { url: portalSession.url };
    }
 
    // Webhook Handlers
