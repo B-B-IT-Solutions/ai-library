@@ -1,8 +1,11 @@
 jest.mock("@/data/services/stripe");
 jest.mock("@/data/actions/auth-utils");
 
+import { PrismaClient } from "@prisma/client";
 import { dtestData } from "@tests";
+import { DeepMockProxy } from "jest-mock-extended";
 
+import prisma from "@/data/repositories/prisma";
 import { StripeService } from "@/data/services/stripe";
 import {
    DStripeBillingPortalSessionResponse,
@@ -53,6 +56,8 @@ const sCreatePortalSessionMock = sCreatePortalSession as jest.MockedFunction<
 >;
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
+
+const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
 describe("createOrderCheckoutSession tests", () => {
    beforeEach(() => {
@@ -130,6 +135,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
 
       expect(result).toEqual(expectResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(prismaMock.$transaction).not.toHaveBeenCalled();
       expect(sCreateSubscriptionCheckoutSessionMock).not.toHaveBeenCalled();
    });
 
@@ -161,6 +167,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
 
       expect(result).toEqual(expectResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
       expect(sCreateSubscriptionCheckoutSessionMock).toHaveBeenCalledTimes(1);
       expect(sCreateSubscriptionCheckoutSessionMock).toHaveBeenCalledWith(
          expectedPayload
@@ -195,6 +202,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
 
       expect(result).toEqual(expectResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
       expect(sCreateSubscriptionCheckoutSessionMock).toHaveBeenCalledTimes(1);
       expect(sCreateSubscriptionCheckoutSessionMock).toHaveBeenCalledWith(
          expectedPayload
@@ -220,6 +228,7 @@ describe("cancelSubscription tests", () => {
 
       expect(result).toEqual(expectResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(prismaMock.$transaction).not.toHaveBeenCalled();
       expect(sCancelSubscriptionMock).not.toHaveBeenCalled();
    });
 
@@ -238,6 +247,7 @@ describe("cancelSubscription tests", () => {
 
       expect(result).toEqual(expectResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
       expect(sCancelSubscriptionMock).toHaveBeenCalledTimes(1);
       expect(sCancelSubscriptionMock).toHaveBeenCalledWith(user.id);
    });
@@ -256,6 +266,7 @@ describe("cancelSubscription tests", () => {
 
       expect(result).toEqual(expectResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
       expect(sCancelSubscriptionMock).toHaveBeenCalledTimes(1);
       expect(sCancelSubscriptionMock).toHaveBeenCalledWith(user.id);
    });
@@ -279,6 +290,7 @@ describe("reactivateSubscription tests", () => {
 
       expect(result).toEqual(expectResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(prismaMock.$transaction).not.toHaveBeenCalled();
       expect(sReactivateSubscriptionMock).not.toHaveBeenCalled();
    });
 
@@ -296,6 +308,7 @@ describe("reactivateSubscription tests", () => {
 
       expect(result).toEqual(expectResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
       expect(sReactivateSubscriptionMock).toHaveBeenCalledTimes(1);
       expect(sReactivateSubscriptionMock).toHaveBeenCalledWith(user.id);
    });
@@ -314,6 +327,7 @@ describe("reactivateSubscription tests", () => {
 
       expect(result).toEqual(expectResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
       expect(sReactivateSubscriptionMock).toHaveBeenCalledTimes(1);
       expect(sReactivateSubscriptionMock).toHaveBeenCalledWith(user.id);
    });

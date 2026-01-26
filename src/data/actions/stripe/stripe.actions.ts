@@ -69,8 +69,12 @@ export const createSubscriptionCheckoutSession = async (
 export const cancelSubscription = async (): Promise<ActionResult<void>> => {
    try {
       const user = await requireUser();
-      const stripeService = getStripeService();
-      await stripeService.cancelSubscription(user.id);
+
+      await prisma.$transaction(async (tx) => {
+         const stripeService = getStripeService(tx);
+         await stripeService.cancelSubscription(user.id);
+      });
+
       return {
          success: true,
          message: "Subscription cancelled successfully",
@@ -86,8 +90,12 @@ export const cancelSubscription = async (): Promise<ActionResult<void>> => {
 export const reactivateSubscription = async (): Promise<ActionResult<void>> => {
    try {
       const user = await requireUser();
-      const stripeService = getStripeService();
-      await stripeService.reactivateSubscription(user.id);
+
+      await prisma.$transaction(async (tx) => {
+         const stripeService = getStripeService(tx);
+         await stripeService.reactivateSubscription(user.id);
+      });
+
       return {
          success: true,
          message: "Subscription reactivated successfully",
