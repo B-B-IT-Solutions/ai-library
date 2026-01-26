@@ -25,6 +25,7 @@ import {
    PromptTemplateDescriptorWithCategories,
    PromptTemplateDescriptorWithPrompt,
 } from "@/data/types/db/prompt.template";
+import { SubscriptionWithPlan } from "@/data/types/db/subscription";
 import { UserUpdateData } from "@/data/types/db/user";
 import { Order } from "@/generated/prisma/browser";
 import {
@@ -44,6 +45,8 @@ import {
    PromptTemplateCategory,
    PromptTemplateDescriptor,
    PromptVersion,
+   Subscription,
+   SubscriptionPlan,
    User,
 } from "@/generated/prisma/client";
 import {
@@ -73,6 +76,63 @@ export const pUserUpdateData = (index = 1): UserUpdateData => {
       password: "password123",
       paymentMethod: "stripe",
       role: "user",
+   };
+};
+
+export const pSubscriptionWithPlan = (index = 1): SubscriptionWithPlan => {
+   const subscription = pSubscription(index);
+   const plan = pSubscriptionPlan(index);
+   return {
+      ...subscription,
+      plan,
+   };
+};
+
+export const pSubscription = (index = 1): Subscription => {
+   return {
+      id: `c5387491-1485-4ea2-b6be-72b1d942719${index}`,
+      userId: `f08abf0c-5623-454e-bc02-7933a59533b${index}`,
+      planId: `df964a3c-bfa2-4484-97c3-219c2158380${index}`,
+      status: "ACTIVE",
+      billingInterval: "YEARLY",
+      stripeSubscriptionId: `982a1b4c-e85b-4885-98c5-62fbea319e5${index}`,
+      stripeCustomerId: `ac82ecc9-de60-4fba-acf6-8b57ad9a91a${index}`,
+      stripeCheckoutSessionId: `3a8d4246-480e-43f8-bfa1-a167658b81af${index}`,
+      currentPeriodStart: new Date("2025-09-27"),
+      currentPeriodEnd: new Date("2025-09-27"),
+      cancelAtPeriodEnd: false,
+      canceledAt: new Date("2025-09-27"),
+      updatedAt: new Date("2025-09-27"),
+      createdAt: new Date("2025-09-27"),
+   };
+};
+
+export const pSubscriptionPlans = (count = 3): SubscriptionPlan[] => {
+   return range(0, count).map((i) => pSubscriptionPlan(i));
+};
+
+export const pSubscriptionPlan = (index = 1): SubscriptionPlan => {
+   return {
+      id: `df964a3c-bfa2-4484-97c3-219c2158380${index}`,
+      tier: index % 2 === 0 ? "BASIC" : "PRO",
+      name: `name-${index}`,
+      description: `description-${index}`,
+      monthlyPrice: new Decimal(9.99),
+      yearlyPrice: new Decimal(99.99),
+      stripePriceIdMonthly: `22a0af93-3fec-41e6-9a4e-96c832d4c40${index}`,
+      stripePriceIdYearly: `9df90f95-b6fb-4774-bd58-04ac4039788${index}`,
+      stripeProductId: `d48fabe0-8c26-4dcf-959a-f87b15e3efb${index}`,
+      features: {
+         maxPrompts: 5,
+         maxLibraryItems: 3,
+         canAccessMarketplace: true,
+         canPurchaseItems: false,
+         canExportPrompts: false,
+         canUseAdvancedFeatures: false,
+      },
+      isActive: true,
+      updatedAt: new Date("2025-09-27"),
+      createdAt: new Date("2025-09-27"),
    };
 };
 
