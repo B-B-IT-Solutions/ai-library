@@ -78,8 +78,6 @@ export class SubscriptionService {
       return false;
    }
 
-   // Subscription Management
-
    async createCheckoutSession(params: {
       userId: string;
       userEmail: string;
