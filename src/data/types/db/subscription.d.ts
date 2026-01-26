@@ -1,8 +1,20 @@
 import { Subscription, SubscriptionPlan } from "@/generated/prisma/client";
-import { SubscriptionStatus, SubscriptionTier } from "@/generated/prisma/enums";
+import {
+   BillingInterval,
+   SubscriptionStatus,
+   SubscriptionTier,
+} from "@/generated/prisma/enums";
 
 export type SubscriptionWithPlan = Subscription & {
    plan: SubscriptionPlan;
+};
+
+export type SubscriptionCreate = {
+   userId: string;
+   planId: string;
+   billingInterval: BillingInterval;
+   stripeCheckoutSessionId: string;
+   stripeCustomerId: string;
 };
 
 export type SubscriptionUpdate = {
@@ -24,5 +36,5 @@ export type SubscriptionHistoryCreate = {
    fromStatus?: SubscriptionStatus;
    toStatus?: SubscriptionStatus;
    stripeEventId?: string;
-   metadata?: any;
+   metadata?: Record<string, any>;
 };

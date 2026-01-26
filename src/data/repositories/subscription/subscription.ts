@@ -1,5 +1,6 @@
 import { DbClient } from "@/data/types/db/common";
 import {
+   SubscriptionCreate,
    SubscriptionHistoryCreate,
    SubscriptionUpdate,
    SubscriptionWithPlan,
@@ -60,13 +61,7 @@ export class SubscriptionRepository {
       });
    }
 
-   async pCreateSubscription(data: {
-      userId: string;
-      planId: string;
-      billingInterval: "MONTHLY" | "YEARLY";
-      stripeCheckoutSessionId?: string;
-      stripeCustomerId?: string;
-   }): Promise<Subscription> {
+   async pCreateSubscription(data: SubscriptionCreate): Promise<Subscription> {
       return await this.prisma.subscription.create({
          data: {
             userId: data.userId,
@@ -85,7 +80,16 @@ export class SubscriptionRepository {
    ): Promise<Subscription> {
       return await this.prisma.subscription.update({
          where: { userId },
-         data,
+         data: {
+            status: data.status,
+            stripeSubscriptionId: data.stripeSubscriptionId,
+            stripeCustomerId: data.stripeCustomerId,
+            stripeCheckoutSessionId: data.stripeCheckoutSessionId,
+            currentPeriodStart: data.currentPeriodStart,
+            currentPeriodEnd: data.currentPeriodEnd,
+            cancelAtPeriodEnd: data.cancelAtPeriodEnd,
+            canceledAt: data.canceledAt,
+         },
       });
    }
 
@@ -108,7 +112,16 @@ export class SubscriptionRepository {
       data: SubscriptionHistoryCreate
    ): Promise<SubscriptionHistory> {
       return await this.prisma.subscriptionHistory.create({
-         data,
+         data: {
+            userId: data.userId,
+            eventType: data.eventType,
+            fromTier: data.fromTier,
+            toTier: data.toTier,
+            fromStatus: data.fromStatus,
+            toStatus: data.toStatus,
+            stripeEventId: data.stripeEventId,
+            metadata: data.metadata,
+         },
       });
    }
 }
