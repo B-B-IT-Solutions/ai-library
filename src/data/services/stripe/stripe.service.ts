@@ -304,7 +304,7 @@ export class StripeService {
       if (!userId) {
          // Try to find subscription by Stripe ID
          const subscription =
-            await this.subscriptionRepo.pGetSubscriptionByStripeSubscriptionId(
+            await this.subscriptionService.getSubscriptionByStripeSubscriptionId(
                stripeSubscription.id
             );
 
@@ -315,8 +315,8 @@ export class StripeService {
       }
 
       const localSubscription = userId
-         ? await this.subscriptionRepo.pGetSubscription({ userId })
-         : await this.subscriptionRepo.pGetSubscriptionByStripeSubscriptionId(
+         ? await this.subscriptionService.getSubscription(userId)
+         : await this.subscriptionService.getSubscriptionByStripeSubscriptionId(
               stripeSubscription.id
            );
 
@@ -326,32 +326,36 @@ export class StripeService {
       }
 
       const oldStatus = localSubscription.status;
-      const newStatus = this.mapStripeStatus(stripeSubscription.status);
+      const newStatus = mapStripeStatus(stripeSubscription.status);
 
-      // Update subscription
-      await this.subscriptionRepo.pUpdateSubscription(
+      const subscriptionUpdate: DSubscriptionUpdate = {
+         status: newStatus,
+         currentPeriodStart: new Date(
+            stripeSubscription.items.data[0].current_period_start * 1000
+         ),
+         currentPeriodEnd: new Date(
+            stripeSubscription.items.data[0].current_period_end * 1000
+         ),
+         cancelAtPeriodEnd: stripeSubscription.cancel_at_period_end,
+      };
+
+      await this.subscriptionService.updateSubscription(
          localSubscription.userId,
-         {
-            status: newStatus,
-            currentPeriodStart: new Date(
-               stripeSubscription.items.data[0].current_period_start * 1000
-            ),
-            currentPeriodEnd: new Date(
-               stripeSubscription.items.data[0].current_period_end * 1000
-            ),
-            cancelAtPeriodEnd: stripeSubscription.cancel_at_period_end,
-         }
+         subscriptionUpdate
       );
 
       // Create history entry if status changed
       if (oldStatus !== newStatus) {
-         await this.subscriptionRepo.pCreateSubscriptionHistory({
+         const historyCreate: DSubscriptionHistoryCreate = {
             userId: localSubscription.userId,
             eventType: "updated",
             fromStatus: oldStatus,
             toStatus: newStatus,
             stripeEventId: stripeSubscription.id,
-         });
+         };
+         await this.subscriptionService.createSubscriptionHistory(
+            historyCreate
+         );
       }
    }
 

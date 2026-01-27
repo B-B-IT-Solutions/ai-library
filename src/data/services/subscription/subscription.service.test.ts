@@ -8,7 +8,11 @@ import {
    GetSubscriptionParams,
    SubscriptionRepository,
 } from "@/data/repositories/subscription";
-import { DSubscriptionTier } from "@/data/types/domain/subscription";
+import { SubscriptionUpdate } from "@/data/types/db/subscription";
+import {
+   DSubscriptionTier,
+   DSubscriptionUpdate,
+} from "@/data/types/domain/subscription";
 
 import {
    toDSubscription,
@@ -222,6 +226,52 @@ describe("getUserTier tests", () => {
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
          expectedGetParams
+      );
+   });
+});
+
+describe("updateSubscription tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("updateSubscription - subscription updated - test", async () => {
+      const userId = "user-id-1";
+      const updateData: DSubscriptionUpdate = {
+         status: "ACTIVE",
+         stripeSubscriptionId: "stripe-subscription-id-1",
+         stripeCustomerId: "stripe-customer-id-1",
+         currentPeriodStart: new Date("2026-01-27"),
+         currentPeriodEnd: new Date("2026-01-27"),
+      };
+
+      await service.updateSubscription(userId, updateData);
+
+      const expectedUpdateData: SubscriptionUpdate = {
+         ...updateData,
+      };
+
+      expect(subscriptionRepoMock.pUpdateSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pUpdateSubscription).toHaveBeenCalledWith(
+         userId,
+         expectedUpdateData
+      );
+   });
+});
+
+describe("deleteSubscription tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("deleteSubscription - subscription deleted - test", async () => {
+      const userId = "user-id-1";
+
+      await service.deleteSubscription(userId);
+
+      expect(subscriptionRepoMock.pDeleteSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pDeleteSubscription).toHaveBeenCalledWith(
+         userId
       );
    });
 });

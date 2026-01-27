@@ -93,6 +93,11 @@ export class SubscriptionService {
 
    async updateSubscription(userId: string, data: DSubscriptionUpdate) {
       const updateData: SubscriptionUpdate = {
+         status: data.status,
+         stripeSubscriptionId: data.stripeSubscriptionId,
+         stripeCustomerId: data.stripeCustomerId,
+         currentPeriodStart: data.currentPeriodStart,
+         currentPeriodEnd: data.currentPeriodEnd,
          cancelAtPeriodEnd: data.cancelAtPeriodEnd,
          canceledAt: data.canceledAt,
       };
