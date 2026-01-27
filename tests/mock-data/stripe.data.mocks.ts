@@ -64,7 +64,7 @@ export const billingPortalSession = (
 };
 
 export const checkoutSessionCompletedEvent = (
-   mode: Stripe.Checkout.Session.Mode = "payment"
+   mode: Stripe.Checkout.Session.Mode
 ): Stripe.Event => {
    return {
       type: "checkout.session.completed",

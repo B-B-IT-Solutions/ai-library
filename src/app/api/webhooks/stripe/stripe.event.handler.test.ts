@@ -81,9 +81,31 @@ describe("handleStripeEvent tests", () => {
       console.error = originalConsoleError;
    });
 
+   describe("checkout.session.completed - setup mode - tests", () => {
+      it("stripe - checkout.session.completed - setup mode - test", async () => {
+         const event = stripeTestData.checkoutSessionCompletedEvent("setup");
+
+         await handleStripeEvent(event);
+
+         const expectedPayload = { received: true };
+         const expectedStatus = { status: 200 };
+
+         expect(nextResponseMock.json).toHaveBeenCalledTimes(1);
+         expect(nextResponseMock.json).toHaveBeenCalledWith(
+            expectedPayload,
+            expectedStatus
+         );
+
+         expect(sPaymentCheckoutCompletedMock).not.toHaveBeenCalled();
+         expect(
+            sHandleSubscriptionCheckoutCompletedMock
+         ).not.toHaveBeenCalled();
+      });
+   });
+
    describe("checkout.session.completed - payment mode - tests", () => {
       it("stripe - checkout.session.completed - orderId null - test", async () => {
-         const event = stripeTestData.checkoutSessionCompletedEvent();
+         const event = stripeTestData.checkoutSessionCompletedEvent("payment");
          const session = event.data.object as Stripe.Checkout.Session;
          session.metadata = { orderId: undefined };
 
@@ -103,7 +125,7 @@ describe("handleStripeEvent tests", () => {
       });
 
       it("stripe - checkout.session.completed - processing error - test", async () => {
-         const event = stripeTestData.checkoutSessionCompletedEvent();
+         const event = stripeTestData.checkoutSessionCompletedEvent("payment");
          sPaymentCheckoutCompletedMock.mockRejectedValue(
             new Error("processing error")
          );
@@ -130,7 +152,7 @@ describe("handleStripeEvent tests", () => {
       });
 
       it("stripe - checkout.session.completed - success - test", async () => {
-         const event = stripeTestData.checkoutSessionCompletedEvent();
+         const event = stripeTestData.checkoutSessionCompletedEvent("payment");
          sPaymentCheckoutCompletedMock.mockResolvedValue(undefined);
 
          await handleStripeEvent(event);

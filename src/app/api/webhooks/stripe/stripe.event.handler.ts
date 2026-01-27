@@ -176,12 +176,12 @@ const handleInvoicePaymentFailed = async (invoice: Stripe.Invoice) => {
    }
 };
 
-const getOrderSevice = (dbClient: DbClient = prisma) => {
+const getOrderSevice = (dbClient: DbClient) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getOrderService();
 };
 
-const getStripeService = (dbClient: DbClient = prisma) => {
+const getStripeService = (dbClient: DbClient) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getStripeService();
 };
