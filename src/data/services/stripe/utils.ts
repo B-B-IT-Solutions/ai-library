@@ -3,7 +3,7 @@ import Stripe from "stripe";
 import { DCartItem } from "@/data/types/domain/cart";
 import { SubscriptionStatus } from "@/generated/prisma/enums";
 
-const subscriptionStatusMap: Record<
+export const subscriptionStatusMap: Record<
    Stripe.Subscription.Status,
    SubscriptionStatus
 > = {
@@ -21,6 +21,8 @@ export const toStripePriceUnit = (item: DCartItem) => {
    return Math.round(item.productPrice * 100); // Convert to cents
 };
 
-export const mapStripeStatus = (stripeStatus: Stripe.Subscription.Status) => {
+export const mapStripeStatus = (
+   stripeStatus: Stripe.Subscription.Status
+): SubscriptionStatus => {
    return subscriptionStatusMap[stripeStatus] || "INCOMPLETE";
 };

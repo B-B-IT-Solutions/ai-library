@@ -1,6 +1,27 @@
 import { dtestData } from "@tests";
+import Stripe from "stripe";
 
-import { toStripePriceUnit } from "./utils";
+import { SubscriptionStatus } from "@/generated/prisma/enums";
+
+import {
+   mapStripeStatus,
+   subscriptionStatusMap,
+   toStripePriceUnit,
+} from "./utils";
+
+const expectedSubscriptionStatusMap: Record<
+   Stripe.Subscription.Status,
+   SubscriptionStatus
+> = {
+   active: "ACTIVE",
+   canceled: "CANCELED",
+   incomplete: "INCOMPLETE",
+   incomplete_expired: "INCOMPLETE",
+   past_due: "PAST_DUE",
+   unpaid: "UNPAID",
+   trialing: "TRIALING",
+   paused: "PAUSED",
+};
 
 describe("calculateSubTotalAmount tests", () => {
    it("calculateSubTotalAmount test", async () => {
@@ -16,5 +37,20 @@ describe("calculateSubTotalAmount tests", () => {
       item.productPrice = 590;
       const price3 = toStripePriceUnit(item);
       expect(price3).toEqual(59000);
+   });
+});
+
+describe("mapStripeStatus tests", () => {
+   it("subscriptionStatusMap test", async () => {
+      expect(expectedSubscriptionStatusMap).toEqual(subscriptionStatusMap);
+   });
+
+   it("mapStripeStatus test", async () => {
+      expect(mapStripeStatus("active")).toEqual("ACTIVE");
+      expect(mapStripeStatus("canceled")).toEqual("CANCELED");
+      expect(mapStripeStatus("incomplete")).toEqual("INCOMPLETE");
+
+      const none = "none" as Stripe.Subscription.Status;
+      expect(mapStripeStatus(none)).toEqual("INCOMPLETE");
    });
 });
