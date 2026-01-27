@@ -55,7 +55,18 @@ export class SubscriptionService {
    }
 
    async getSubscription(userId: string): Promise<DSubscription | null> {
-      const subscription = await this.subscriptionRepo.pGetSubscription(userId);
+      const subscription = await this.subscriptionRepo.pGetSubscription({
+         userId,
+      });
+      return subscription ? toDSubscription(subscription) : null;
+   }
+
+   async getSubscriptionByStripeSubscriptionId(
+      stripeSubscriptionId: string
+   ): Promise<DSubscription | null> {
+      const subscription = await this.subscriptionRepo.pGetSubscription({
+         stripeSubscriptionId,
+      });
       return subscription ? toDSubscription(subscription) : null;
    }
 
@@ -104,7 +115,9 @@ export class SubscriptionService {
    }
 
    async getUserTier(userId: string): Promise<DSubscriptionTier> {
-      const subscription = await this.subscriptionRepo.pGetSubscription(userId);
+      const subscription = await this.subscriptionRepo.pGetSubscription({
+         userId,
+      });
 
       if (subscription && subscription.status === "ACTIVE") {
          return subscription.plan.tier as DSubscriptionTier;
@@ -113,7 +126,9 @@ export class SubscriptionService {
    }
 
    async hasActiveAccess(userId: string): Promise<boolean> {
-      const subscription = await this.subscriptionRepo.pGetSubscription(userId);
+      const subscription = await this.subscriptionRepo.pGetSubscription({
+         userId,
+      });
 
       if (!subscription) {
          return false;
@@ -382,10 +397,9 @@ export class SubscriptionService {
 
       if (!userId) {
          // Try to find subscription by Stripe ID
-         const subscription =
-            await this.subscriptionRepo.pGetSubscriptionByStripeSubscriptionId(
-               stripeSubscription.id
-            );
+         const subscription = await this.subscriptionRepo.pGetSubscription({
+            stripeSubscriptionId: stripeSubscription.id,
+         });
 
          if (!subscription) {
             console.error("Subscription not found for update");
@@ -394,10 +408,10 @@ export class SubscriptionService {
       }
 
       const localSubscription = userId
-         ? await this.subscriptionRepo.pGetSubscription(userId)
-         : await this.subscriptionRepo.pGetSubscriptionByStripeSubscriptionId(
-              stripeSubscription.id
-           );
+         ? await this.subscriptionRepo.pGetSubscription({ userId })
+         : await this.subscriptionRepo.pGetSubscription({
+              stripeSubscriptionId: stripeSubscription.id,
+           });
 
       if (!localSubscription) {
          console.error("Local subscription not found");
@@ -437,10 +451,9 @@ export class SubscriptionService {
    async handleSubscriptionDeleted(
       stripeSubscription: Stripe.Subscription
    ): Promise<void> {
-      const subscription =
-         await this.subscriptionRepo.pGetSubscriptionByStripeSubscriptionId(
-            stripeSubscription.id
-         );
+      const subscription = await this.subscriptionRepo.pGetSubscription({
+         stripeSubscriptionId: stripeSubscription.id,
+      });
 
       if (!subscription) {
          console.error("Subscription not found for deletion");
@@ -469,10 +482,9 @@ export class SubscriptionService {
          return;
       }
 
-      const subscription =
-         await this.subscriptionRepo.pGetSubscriptionByStripeSubscriptionId(
-            stripeSubscriptionId
-         );
+      const subscription = await this.subscriptionRepo.pGetSubscription({
+         stripeSubscriptionId,
+      });
 
       if (!subscription) {
          console.error("Subscription not found for invoice");
@@ -514,10 +526,9 @@ export class SubscriptionService {
          return;
       }
 
-      const subscription =
-         await this.subscriptionRepo.pGetSubscriptionByStripeSubscriptionId(
-            stripeSubscriptionId
-         );
+      const subscription = await this.subscriptionRepo.pGetSubscription({
+         stripeSubscriptionId,
+      });
 
       if (!subscription) {
          console.error("Subscription not found for failed invoice");

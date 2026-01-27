@@ -11,6 +11,10 @@ import {
    SubscriptionTier,
 } from "@/generated/prisma/client";
 
+export type GetSubscriptionParams =
+   | { userId: string; stripeSubscriptionId?: undefined }
+   | { userId?: undefined; stripeSubscriptionId: string };
+
 export class SubscriptionRepository {
    private prisma: DbClient;
 
@@ -40,20 +44,14 @@ export class SubscriptionRepository {
    }
 
    async pGetSubscription(
-      userId: string
+      params: GetSubscriptionParams
    ): Promise<SubscriptionWithPlan | null> {
+      const { userId, stripeSubscriptionId } = params;
       return await this.prisma.subscription.findUnique({
-         where: { userId },
-         include: {
-            plan: true,
+         where: {
+            userId,
+            stripeSubscriptionId,
          },
-      });
-   }
-   async pGetSubscriptionByStripeSubscriptionId(
-      stripeSubscriptionId: string
-   ): Promise<SubscriptionWithPlan | null> {
-      return await this.prisma.subscription.findUnique({
-         where: { stripeSubscriptionId },
          include: {
             plan: true,
          },

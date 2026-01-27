@@ -4,7 +4,10 @@ import { ptestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { SubscriptionRepository } from "@/data/repositories/subscription";
+import {
+   GetSubscriptionParams,
+   SubscriptionRepository,
+} from "@/data/repositories/subscription";
 import { DSubscriptionTier } from "@/data/types/domain/subscription";
 
 import {
@@ -78,10 +81,14 @@ describe("getSubscription tests", () => {
 
       const result = await service.getSubscription(userId);
 
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
       expect(result).toBeNull();
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
-         userId
+         expectedGetParams
       );
    });
 
@@ -92,11 +99,61 @@ describe("getSubscription tests", () => {
 
       const result = await service.getSubscription(userId);
 
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
       const expectdResult = toDSubscription(subscription);
       expect(result).toEqual(expectdResult);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
-         userId
+         expectedGetParams
+      );
+   });
+});
+
+describe("getSubscriptionByStripeSubscriptionId tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("getSubscriptionByStripeSubscriptionId - subscription is null - test", async () => {
+      const stripeSubscriptionId = "stripe-subscription-id-1";
+      subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
+
+      const result =
+         await service.getSubscriptionByStripeSubscriptionId(
+            stripeSubscriptionId
+         );
+
+      const expectedGetParams: GetSubscriptionParams = {
+         stripeSubscriptionId,
+      };
+      expect(result).toBeNull();
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
+         expectedGetParams
+      );
+   });
+
+   it("getSubscription - subscription retrieved - test", async () => {
+      const stripeSubscriptionId = "stripe-subscription-id-1";
+      const subscription = ptestData.pSubscriptionWithPlan();
+      subscriptionRepoMock.pGetSubscription.mockResolvedValue(subscription);
+
+      const result =
+         await service.getSubscriptionByStripeSubscriptionId(
+            stripeSubscriptionId
+         );
+
+      const expectedGetParams: GetSubscriptionParams = {
+         stripeSubscriptionId,
+      };
+      const expectdResult = toDSubscription(subscription);
+      expect(result).toEqual(expectdResult);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
+         expectedGetParams
       );
    });
 });
@@ -112,11 +169,15 @@ describe("getUserTier tests", () => {
 
       const result = await service.getUserTier(userId);
 
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
       const expectdResult: DSubscriptionTier = "FREE";
       expect(result).toEqual(expectdResult);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
-         userId
+         expectedGetParams
       );
    });
 
@@ -129,11 +190,15 @@ describe("getUserTier tests", () => {
 
       const result = await service.getUserTier(userId);
 
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
       const expectdResult: DSubscriptionTier = "FREE";
       expect(result).toEqual(expectdResult);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
-         userId
+         expectedGetParams
       );
    });
 
@@ -148,11 +213,15 @@ describe("getUserTier tests", () => {
 
       const result = await service.getUserTier(userId);
 
+      const expectedGetParams: GetSubscriptionParams = {
+         userId,
+      };
+
       const expectdResult: DSubscriptionTier = tier;
       expect(result).toEqual(expectdResult);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
-         userId
+         expectedGetParams
       );
    });
 });

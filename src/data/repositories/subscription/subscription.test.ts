@@ -91,17 +91,17 @@ describe("pGetPlanByTier tests", () => {
    });
 });
 
-describe("pGetUserSubscription tests", () => {
+describe("pGetSubscription tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   it("pGetUserSubscription - subscripton retrieved - test", async () => {
+   it("pGetSubscription - subscripton retrieved by userId - test", async () => {
       const userId = "user-id-1";
       const subscription = ptestData.pSubscriptionWithPlan();
       prismaMock.subscription.findUnique.mockResolvedValue(subscription);
 
-      const result = await subscriptionRepo.pGetSubscription(userId);
+      const result = await subscriptionRepo.pGetSubscription({ userId });
 
       const expectedFindUniqueArgs: SubscriptionFindUniqueArgs = {
          where: { userId },
@@ -116,22 +116,15 @@ describe("pGetUserSubscription tests", () => {
          expectedFindUniqueArgs
       );
    });
-});
 
-describe("pGetSubscriptionByStripeSubscriptionId tests", () => {
-   beforeEach(() => {
-      mockReset(prismaMock);
-   });
-
-   it("pGetSubscriptionByStripeSubscriptionId - subscription retrieved - test", async () => {
-      const stripeSubscriptionId = "stripe-sub-id-1";
+   it("pGetSubscription - subscripton retrieved by stripeSubscriptionId - test", async () => {
+      const stripeSubscriptionId = "stripe-subscription-id-1";
       const subscription = ptestData.pSubscriptionWithPlan();
       prismaMock.subscription.findUnique.mockResolvedValue(subscription);
 
-      const result =
-         await subscriptionRepo.pGetSubscriptionByStripeSubscriptionId(
-            stripeSubscriptionId
-         );
+      const result = await subscriptionRepo.pGetSubscription({
+         stripeSubscriptionId,
+      });
 
       const expectedFindUniqueArgs: SubscriptionFindUniqueArgs = {
          where: { stripeSubscriptionId },

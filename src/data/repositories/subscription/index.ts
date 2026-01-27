@@ -1,1 +1,4 @@
-export { SubscriptionRepository } from "./subscription";
+export {
+   SubscriptionRepository,
+   type GetSubscriptionParams,
+} from "./subscription";
