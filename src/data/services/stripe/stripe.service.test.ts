@@ -1438,11 +1438,8 @@ describe("handleSubscriptionCheckoutCompleted tests", () => {
                {
                   current_period_start: periodStart,
                   current_period_end: periodEnd,
-               } as Stripe.SubscriptionItem,
+               },
             ],
-            object: "list",
-            has_more: false,
-            url: "url-1-test",
          },
       });
 
@@ -1517,11 +1514,8 @@ describe("handleSubscriptionCheckoutCompleted tests", () => {
                {
                   current_period_start: periodStart,
                   current_period_end: periodEnd,
-               } as Stripe.SubscriptionItem,
+               },
             ],
-            object: "list",
-            has_more: false,
-            url: "url-1-test",
          },
       });
 
@@ -1670,11 +1664,8 @@ describe("handleSubscriptionCheckoutCompleted tests", () => {
                {
                   current_period_start: 1672531200,
                   current_period_end: 1704067200,
-               } as Stripe.SubscriptionItem,
+               },
             ],
-            object: "list",
-            has_more: false,
-            url: "url-1-test",
          },
       });
 
@@ -1717,11 +1708,8 @@ describe("handleSubscriptionCheckoutCompleted tests", () => {
                {
                   current_period_start: 1672531200,
                   current_period_end: 1704067200,
-               } as Stripe.SubscriptionItem,
+               },
             ],
-            object: "list",
-            has_more: false,
-            url: "url-1-test",
          },
       });
 
@@ -1764,11 +1752,8 @@ describe("handleSubscriptionCheckoutCompleted tests", () => {
                {
                   current_period_start: 1672531200,
                   current_period_end: 1704067200,
-               } as Stripe.SubscriptionItem,
+               },
             ],
-            object: "list",
-            has_more: false,
-            url: "url-1-test",
          },
       });
 
@@ -1827,11 +1812,8 @@ describe("handleSubscriptionUpdated tests", () => {
                {
                   current_period_start: periodStart,
                   current_period_end: periodEnd,
-               } as Stripe.SubscriptionItem,
+               },
             ],
-            object: "list",
-            has_more: false,
-            url: "url-1-test",
          },
       });
 
@@ -1898,11 +1880,8 @@ describe("handleSubscriptionUpdated tests", () => {
                {
                   current_period_start: periodStart,
                   current_period_end: periodEnd,
-               } as Stripe.SubscriptionItem,
+               },
             ],
-            object: "list",
-            has_more: false,
-            url: "url-1-test",
          },
       });
 
@@ -1951,11 +1930,8 @@ describe("handleSubscriptionUpdated tests", () => {
                {
                   current_period_start: 1672531200,
                   current_period_end: 1704067200,
-               } as Stripe.SubscriptionItem,
+               },
             ],
-            object: "list",
-            has_more: false,
-            url: "url-1-test",
          },
       });
 
@@ -1988,11 +1964,8 @@ describe("handleSubscriptionUpdated tests", () => {
                {
                   current_period_start: 1672531200,
                   current_period_end: 1704067200,
-               } as Stripe.SubscriptionItem,
+               },
             ],
-            object: "list",
-            has_more: false,
-            url: "url-1-test",
          },
       });
 
@@ -2030,11 +2003,8 @@ describe("handleSubscriptionUpdated tests", () => {
                {
                   current_period_start: 1672531200,
                   current_period_end: 1704067200,
-               } as Stripe.SubscriptionItem,
+               },
             ],
-            object: "list",
-            has_more: false,
-            url: "url-1-test",
          },
       });
 
@@ -2063,11 +2033,8 @@ describe("handleSubscriptionUpdated tests", () => {
                {
                   current_period_start: 1672531200,
                   current_period_end: 1704067200,
-               } as Stripe.SubscriptionItem,
+               },
             ],
-            object: "list",
-            has_more: false,
-            url: "url-1-test",
          },
       });
 
@@ -2107,11 +2074,8 @@ describe("handleSubscriptionUpdated tests", () => {
                {
                   current_period_start: 1672531200,
                   current_period_end: 1704067200,
-               } as Stripe.SubscriptionItem,
+               },
             ],
-            object: "list",
-            has_more: false,
-            url: "url-1-test",
          },
       });
 
@@ -2153,11 +2117,8 @@ describe("handleSubscriptionUpdated tests", () => {
                {
                   current_period_start: 1672531200,
                   current_period_end: 1704067200,
-               } as Stripe.SubscriptionItem,
+               },
             ],
-            object: "list",
-            has_more: false,
-            url: "url-1-test",
          },
       });
 

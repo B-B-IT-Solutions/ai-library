@@ -1,3 +1,4 @@
+import { DeepPartial } from "react-hook-form";
 import Stripe from "stripe";
 
 export const stripeCheckoutSessionResponse = (
@@ -9,7 +10,7 @@ export const stripeCheckoutSessionResponse = (
 
 export const stripeCheckoutSession = (
    index = 1,
-   customData?: Partial<Stripe.Checkout.Session>
+   customData?: DeepPartial<Stripe.Checkout.Session>
 ): Stripe.Checkout.Session => {
    return {
       id: `session-123-${index}`,
@@ -26,7 +27,7 @@ export const stripeCustomer = (index = 1): Stripe.Response<Stripe.Customer> => {
 
 export const stripeSubscriptionResponse = (
    index = 1,
-   customData?: Partial<Stripe.Subscription>
+   customData?: DeepPartial<Stripe.Subscription>
 ): Stripe.Response<Stripe.Subscription> => {
    const subscription = stripeSubscription(index, customData);
    return subscription as Stripe.Response<Stripe.Subscription>;
@@ -34,7 +35,7 @@ export const stripeSubscriptionResponse = (
 
 export const stripeSubscription = (
    index = 1,
-   customData?: Partial<Stripe.Subscription>
+   customData?: DeepPartial<Stripe.Subscription>
 ): Stripe.Subscription => {
    return {
       id: `sub_test123_${index}`,
