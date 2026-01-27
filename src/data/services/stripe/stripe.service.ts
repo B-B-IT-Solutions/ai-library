@@ -161,6 +161,18 @@ export class StripeService {
       };
       await this.subscriptionService.createSubscription(subscriptionData);
 
+      const historyCreate: DSubscriptionHistoryCreate = {
+         userId: userId,
+         eventType: "checkout_created",
+         toTier: plan.tier,
+         toStatus: "INCOMPLETE",
+         metadata: {
+            stripeCheckoutSessionId: session.id,
+            billingInterval: billingInterval,
+         },
+      };
+      await this.subscriptionService.createSubscriptionHistory(historyCreate);
+
       return {
          sessionId: session.id,
          url: session.url!,

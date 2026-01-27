@@ -74,17 +74,6 @@ export class SubscriptionService {
          stripeCheckoutSessionId: data.stripeCheckoutSessionId,
          stripeCustomerId: data.stripeCustomerId,
       });
-
-      await this.subscriptionRepo.pCreateSubscriptionHistory({
-         userId: data.userId,
-         eventType: "checkout_created",
-         toTier: data.tier,
-         toStatus: "INCOMPLETE",
-         metadata: {
-            checkoutSessionId: data.stripeCheckoutSessionId,
-            billingInterval: data.billingInterval,
-         },
-      });
    }
 
    async updateSubscription(userId: string, data: DSubscriptionUpdate) {

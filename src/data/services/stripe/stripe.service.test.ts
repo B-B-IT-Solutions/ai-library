@@ -456,6 +456,23 @@ describe("createSubscriptionCheckoutSession tests", () => {
       expect(subscriptionServiceMock.createSubscription).toHaveBeenCalledWith(
          expectedSubscriptionData
       );
+
+      const expectedHistoryParams: DSubscriptionHistoryCreate = {
+         userId: params.userId,
+         eventType: "checkout_created",
+         toTier: plan.tier,
+         toStatus: "INCOMPLETE",
+         metadata: {
+            stripeCheckoutSessionId: checkoutSession.id,
+            billingInterval: params.billingInterval,
+         },
+      };
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).toHaveBeenCalledWith(expectedHistoryParams);
    });
 
    it("createSubscriptionCheckoutSession - successful checkout with yearly billing - test", async () => {
@@ -541,6 +558,23 @@ describe("createSubscriptionCheckoutSession tests", () => {
       expect(subscriptionServiceMock.createSubscription).toHaveBeenCalledWith(
          expectedSubscriptionData
       );
+
+      const expectedHistoryParams: DSubscriptionHistoryCreate = {
+         userId: params.userId,
+         eventType: "checkout_created",
+         toTier: plan.tier,
+         toStatus: "INCOMPLETE",
+         metadata: {
+            stripeCheckoutSessionId: checkoutSession.id,
+            billingInterval: params.billingInterval,
+         },
+      };
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).toHaveBeenCalledWith(expectedHistoryParams);
    });
 
    it("createSubscriptionCheckoutSession - creates new Stripe customer if none exists - test", async () => {
@@ -681,15 +715,19 @@ describe("createSubscriptionCheckoutSession tests", () => {
 
       subscriptionServiceMock.getPlanById.mockResolvedValue(plan);
 
-      await expect(
-         stripeService.createSubscriptionCheckoutSession(params)
-      ).rejects.toThrow("No Stripe price configured for MONTHLY billing");
+      const fn = () => stripeService.createSubscriptionCheckoutSession(params);
+      await expect(fn).rejects.toThrow(
+         "No Stripe price configured for MONTHLY billing"
+      );
 
       expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledTimes(1);
       expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledWith(plan.id);
       expect(userServiceMock.getUserStripeCustomerId).not.toHaveBeenCalled();
       expect(subscriptionServiceMock.getSubscription).not.toHaveBeenCalled();
       expect(subscriptionServiceMock.createSubscription).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).not.toHaveBeenCalled();
       expect(stripeMock.checkout.sessions.create).not.toHaveBeenCalled();
    });
 
@@ -705,15 +743,19 @@ describe("createSubscriptionCheckoutSession tests", () => {
 
       subscriptionServiceMock.getPlanById.mockResolvedValue(plan);
 
-      await expect(
-         stripeService.createSubscriptionCheckoutSession(params)
-      ).rejects.toThrow("No Stripe price configured for YEARLY billing");
+      const fn = () => stripeService.createSubscriptionCheckoutSession(params);
+      await expect(fn).rejects.toThrow(
+         "No Stripe price configured for YEARLY billing"
+      );
 
       expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledTimes(1);
       expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledWith(plan.id);
       expect(userServiceMock.getUserStripeCustomerId).not.toHaveBeenCalled();
       expect(subscriptionServiceMock.getSubscription).not.toHaveBeenCalled();
       expect(subscriptionServiceMock.createSubscription).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).not.toHaveBeenCalled();
       expect(stripeMock.checkout.sessions.create).not.toHaveBeenCalled();
    });
 
@@ -728,9 +770,9 @@ describe("createSubscriptionCheckoutSession tests", () => {
 
       subscriptionServiceMock.getPlanById.mockRejectedValue(error);
 
-      await expect(
-         stripeService.createSubscriptionCheckoutSession(params)
-      ).rejects.toThrow("Plan not found");
+      const fn = () => stripeService.createSubscriptionCheckoutSession(params);
+
+      await expect(fn).rejects.toThrow("Plan not found");
 
       expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledTimes(1);
       expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledWith(
@@ -739,6 +781,9 @@ describe("createSubscriptionCheckoutSession tests", () => {
       expect(userServiceMock.getUserStripeCustomerId).not.toHaveBeenCalled();
       expect(subscriptionServiceMock.getSubscription).not.toHaveBeenCalled();
       expect(subscriptionServiceMock.createSubscription).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).not.toHaveBeenCalled();
       expect(stripeMock.checkout.sessions.create).not.toHaveBeenCalled();
    });
 
@@ -760,9 +805,8 @@ describe("createSubscriptionCheckoutSession tests", () => {
       subscriptionServiceMock.getSubscription.mockResolvedValue(null);
       stripeMock.checkout.sessions.create.mockRejectedValue(error);
 
-      await expect(
-         stripeService.createSubscriptionCheckoutSession(params)
-      ).rejects.toThrow("Stripe API error");
+      const fn = () => stripeService.createSubscriptionCheckoutSession(params);
+      await expect(fn).rejects.toThrow("Stripe API error");
 
       expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledTimes(1);
       expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledWith(plan.id);
@@ -777,6 +821,9 @@ describe("createSubscriptionCheckoutSession tests", () => {
 
       expect(stripeMock.checkout.sessions.create).toHaveBeenCalledTimes(1);
       expect(subscriptionServiceMock.createSubscription).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).not.toHaveBeenCalled();
    });
 
    it("createSubscriptionCheckoutSession - createUserSubscription throws error - test", async () => {
@@ -799,9 +846,8 @@ describe("createSubscriptionCheckoutSession tests", () => {
       stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
       subscriptionServiceMock.createSubscription.mockRejectedValue(error);
 
-      await expect(
-         stripeService.createSubscriptionCheckoutSession(params)
-      ).rejects.toThrow("Failed to create subscription");
+      const fn = () => stripeService.createSubscriptionCheckoutSession(params);
+      await expect(fn).rejects.toThrow("Failed to create subscription");
 
       expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledTimes(1);
       expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledWith(plan.id);
@@ -818,6 +864,53 @@ describe("createSubscriptionCheckoutSession tests", () => {
       expect(subscriptionServiceMock.createSubscription).toHaveBeenCalledTimes(
          1
       );
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).not.toHaveBeenCalled();
+   });
+
+   it("createSubscriptionCheckoutSession - createUserSubscriptionHistory throws error - test", async () => {
+      const plan = dtestData.dSubscriptionPlan(1);
+      const stripeCustomerId = "cus_test123";
+      const checkoutSession = stripeTestData.stripeCheckoutSessionResponse();
+      const error = new Error("Failed to create subscription history");
+      const params: DCreateSubscriptionCheckout = {
+         userId: "user-1",
+         userEmail: "test@email.com",
+         planId: plan.id,
+         billingInterval: "MONTHLY" as const,
+      };
+
+      subscriptionServiceMock.getPlanById.mockResolvedValue(plan);
+      userServiceMock.getUserStripeCustomerId.mockResolvedValue(
+         stripeCustomerId
+      );
+      subscriptionServiceMock.getSubscription.mockResolvedValue(null);
+      stripeMock.checkout.sessions.create.mockResolvedValue(checkoutSession);
+      subscriptionServiceMock.createSubscriptionHistory.mockRejectedValue(
+         error
+      );
+
+      const fn = () => stripeService.createSubscriptionCheckoutSession(params);
+      await expect(fn).rejects.toThrow("Failed to create subscription history");
+
+      expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getPlanById).toHaveBeenCalledWith(plan.id);
+      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledTimes(1);
+      expect(userServiceMock.getUserStripeCustomerId).toHaveBeenCalledWith(
+         params.userId
+      );
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
+         params.userId
+      );
+      expect(stripeMock.checkout.sessions.create).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.createSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).toHaveBeenCalledTimes(1);
    });
 });
 
@@ -2805,8 +2898,7 @@ describe("handleInvoicePaymentFailed tests", () => {
          error
       );
 
-      const fn = () =>
-         stripeService.handleInvoicePaymentFailed(stripeInvoice);
+      const fn = () => stripeService.handleInvoicePaymentFailed(stripeInvoice);
 
       await expect(fn).rejects.toThrow("Database error");
 
@@ -2842,8 +2934,7 @@ describe("handleInvoicePaymentFailed tests", () => {
       );
       subscriptionServiceMock.updateSubscription.mockRejectedValue(error);
 
-      const fn = () =>
-         stripeService.handleInvoicePaymentFailed(stripeInvoice);
+      const fn = () => stripeService.handleInvoicePaymentFailed(stripeInvoice);
 
       await expect(fn).rejects.toThrow("Failed to update subscription");
 
@@ -2879,8 +2970,7 @@ describe("handleInvoicePaymentFailed tests", () => {
          error
       );
 
-      const fn = () =>
-         stripeService.handleInvoicePaymentFailed(stripeInvoice);
+      const fn = () => stripeService.handleInvoicePaymentFailed(stripeInvoice);
 
       await expect(fn).rejects.toThrow("Failed to create history");
 
