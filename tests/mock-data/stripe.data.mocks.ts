@@ -140,3 +140,85 @@ export const paymentIntent = (
       } as Stripe.Metadata,
    } as Stripe.Response<Stripe.PaymentIntent>;
 };
+
+export const subscriptionCreatedEvent = (): Stripe.Event => {
+   return {
+      type: "customer.subscription.created",
+      id: "evt_subscription_created_1",
+      data: {
+         object: {
+            id: "sub_test_123",
+            status: "active",
+            customer: "cus_test_123",
+            metadata: {
+               userId: "user-123",
+            } as Stripe.Metadata,
+         } as unknown as Stripe.Subscription,
+      },
+   } as unknown as Stripe.Event;
+};
+
+export const subscriptionUpdatedEvent = (): Stripe.Event => {
+   return {
+      type: "customer.subscription.updated",
+      id: "evt_subscription_updated_1",
+      data: {
+         object: {
+            id: "sub_test_123",
+            status: "active",
+            customer: "cus_test_123",
+            metadata: {
+               userId: "user-123",
+            } as Stripe.Metadata,
+         } as unknown as Stripe.Subscription,
+      },
+   } as unknown as Stripe.Event;
+};
+
+export const subscriptionDeletedEvent = (): Stripe.Event => {
+   return {
+      type: "customer.subscription.deleted",
+      id: "evt_subscription_deleted_1",
+      data: {
+         object: {
+            id: "sub_test_123",
+            status: "canceled",
+            customer: "cus_test_123",
+            metadata: {
+               userId: "user-123",
+            } as Stripe.Metadata,
+         } as unknown as Stripe.Subscription,
+      },
+   } as unknown as Stripe.Event;
+};
+
+export const invoicePaymentSucceededEvent = (): Stripe.Event => {
+   return {
+      type: "invoice.payment_succeeded",
+      id: "evt_invoice_payment_succeeded_1",
+      data: {
+         object: {
+            id: "in_test_123",
+            subscription: "sub_test_123",
+            amount_paid: 9900,
+            status: "paid",
+         } as unknown as Stripe.Invoice,
+      },
+   } as unknown as Stripe.Event;
+};
+
+export const invoicePaymentFailedEvent = (): Stripe.Event => {
+   return {
+      type: "invoice.payment_failed",
+      id: "evt_invoice_payment_failed_1",
+      data: {
+         object: {
+            id: "in_test_123",
+            subscription: "sub_test_123",
+            amount_due: 9900,
+            status: "open",
+            attempt_count: 1,
+         } as unknown as Stripe.Invoice,
+      },
+   } as unknown as Stripe.Event;
+};
