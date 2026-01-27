@@ -2145,6 +2145,211 @@ describe("handleSubscriptionUpdated tests", () => {
    });
 });
 
+describe("handleSubscriptionDeleted tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("handleSubscriptionDeleted - successful deletion - test", async () => {
+      const userId = "user-123";
+      const stripeSubscriptionId = "sub_test_123";
+      const localSubscription = dtestData.dSubscription();
+      localSubscription.userId = userId;
+      localSubscription.stripeSubscriptionId = stripeSubscriptionId;
+      localSubscription.status = "ACTIVE";
+
+      const stripeSubscription = stripeTestData.stripeSubscription(1, {
+         id: stripeSubscriptionId,
+         status: "canceled",
+         metadata: {
+            userId,
+         },
+      });
+
+      subscriptionServiceMock.getSubscriptionByStripeSubscriptionId.mockResolvedValue(
+         localSubscription
+      );
+
+      await stripeService.handleSubscriptionDeleted(stripeSubscription);
+
+      expect(
+         subscriptionServiceMock.getSubscriptionByStripeSubscriptionId
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.getSubscriptionByStripeSubscriptionId
+      ).toHaveBeenCalledWith(stripeSubscriptionId);
+
+      const expectedHistoryCreate: DSubscriptionHistoryCreate = {
+         userId,
+         eventType: "expired",
+         fromStatus: localSubscription.status,
+         fromTier: localSubscription.plan.tier,
+         stripeEventId: stripeSubscriptionId,
+      };
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).toHaveBeenCalledWith(expectedHistoryCreate);
+
+      expect(
+         subscriptionServiceMock.deleteSubscription
+      ).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.deleteSubscription).toHaveBeenCalledWith(
+         userId
+      );
+   });
+
+   it("handleSubscriptionDeleted - subscription not found - test", async () => {
+      const stripeSubscriptionId = "sub_test_123";
+      const stripeSubscription = stripeTestData.stripeSubscription(1, {
+         id: stripeSubscriptionId,
+         status: "canceled",
+      });
+
+      subscriptionServiceMock.getSubscriptionByStripeSubscriptionId.mockResolvedValue(
+         null
+      );
+
+      await stripeService.handleSubscriptionDeleted(stripeSubscription);
+
+      expect(
+         subscriptionServiceMock.getSubscriptionByStripeSubscriptionId
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.getSubscriptionByStripeSubscriptionId
+      ).toHaveBeenCalledWith(stripeSubscriptionId);
+
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(
+         "Subscription not found for deletion"
+      );
+
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.deleteSubscription
+      ).not.toHaveBeenCalled();
+   });
+
+   it("handleSubscriptionDeleted - getSubscriptionByStripeSubscriptionId throws error - test", async () => {
+      const stripeSubscriptionId = "sub_test_123";
+      const stripeSubscription = stripeTestData.stripeSubscription(1, {
+         id: stripeSubscriptionId,
+         status: "canceled",
+      });
+
+      const error = new Error("Database error");
+      subscriptionServiceMock.getSubscriptionByStripeSubscriptionId.mockRejectedValue(
+         error
+      );
+
+      const fn = () =>
+         stripeService.handleSubscriptionDeleted(stripeSubscription);
+
+      await expect(fn).rejects.toThrow("Database error");
+
+      expect(
+         subscriptionServiceMock.getSubscriptionByStripeSubscriptionId
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.getSubscriptionByStripeSubscriptionId
+      ).toHaveBeenCalledWith(stripeSubscriptionId);
+
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.deleteSubscription
+      ).not.toHaveBeenCalled();
+   });
+
+   it("handleSubscriptionDeleted - createSubscriptionHistory throws error - test", async () => {
+      const userId = "user-123";
+      const stripeSubscriptionId = "sub_test_123";
+      const localSubscription = dtestData.dSubscription();
+      localSubscription.userId = userId;
+      localSubscription.stripeSubscriptionId = stripeSubscriptionId;
+      localSubscription.status = "ACTIVE";
+
+      const stripeSubscription = stripeTestData.stripeSubscription(1, {
+         id: stripeSubscriptionId,
+         status: "canceled",
+         metadata: {
+            userId,
+         },
+      });
+
+      const error = new Error("Failed to create history");
+      subscriptionServiceMock.getSubscriptionByStripeSubscriptionId.mockResolvedValue(
+         localSubscription
+      );
+      subscriptionServiceMock.createSubscriptionHistory.mockRejectedValue(
+         error
+      );
+
+      const fn = () =>
+         stripeService.handleSubscriptionDeleted(stripeSubscription);
+
+      await expect(fn).rejects.toThrow("Failed to create history");
+
+      expect(
+         subscriptionServiceMock.getSubscriptionByStripeSubscriptionId
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.deleteSubscription
+      ).not.toHaveBeenCalled();
+   });
+
+   it("handleSubscriptionDeleted - deleteSubscription throws error - test", async () => {
+      const userId = "user-123";
+      const stripeSubscriptionId = "sub_test_123";
+      const localSubscription = dtestData.dSubscription();
+      localSubscription.userId = userId;
+      localSubscription.stripeSubscriptionId = stripeSubscriptionId;
+      localSubscription.status = "ACTIVE";
+
+      const stripeSubscription = stripeTestData.stripeSubscription(1, {
+         id: stripeSubscriptionId,
+         status: "canceled",
+         metadata: {
+            userId,
+         },
+      });
+
+      const error = new Error("Failed to delete subscription");
+      subscriptionServiceMock.getSubscriptionByStripeSubscriptionId.mockResolvedValue(
+         localSubscription
+      );
+      subscriptionServiceMock.deleteSubscription.mockRejectedValue(error);
+
+      const fn = () =>
+         stripeService.handleSubscriptionDeleted(stripeSubscription);
+
+      await expect(fn).rejects.toThrow("Failed to delete subscription");
+
+      expect(
+         subscriptionServiceMock.getSubscriptionByStripeSubscriptionId
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.deleteSubscription
+      ).toHaveBeenCalledTimes(1);
+   });
+});
+
 describe("createPortalSession tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();

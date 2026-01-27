@@ -13,7 +13,6 @@ import {
    DSubscriptionTier,
    DSubscriptionUpdate,
 } from "@/data/types/domain/subscription";
-import { SubscriptionStatus } from "@/generated/prisma/client";
 import { stripe } from "@/lib/stripe/stripe-server";
 
 import {
@@ -453,30 +452,30 @@ export class SubscriptionService {
    //    }
    // }
 
-   async handleSubscriptionDeleted(
-      stripeSubscription: Stripe.Subscription
-   ): Promise<void> {
-      const subscription = await this.subscriptionRepo.pGetSubscription({
-         stripeSubscriptionId: stripeSubscription.id,
-      });
+   // async handleSubscriptionDeleted(
+   //    stripeSubscription: Stripe.Subscription
+   // ): Promise<void> {
+   //    const subscription = await this.subscriptionRepo.pGetSubscription({
+   //       stripeSubscriptionId: stripeSubscription.id,
+   //    });
 
-      if (!subscription) {
-         console.error("Subscription not found for deletion");
-         return;
-      }
+   //    if (!subscription) {
+   //       console.error("Subscription not found for deletion");
+   //       return;
+   //    }
 
-      // Create history entry
-      await this.subscriptionRepo.pCreateSubscriptionHistory({
-         userId: subscription.userId,
-         eventType: "expired",
-         fromStatus: subscription.status,
-         fromTier: subscription.plan.tier,
-         stripeEventId: stripeSubscription.id,
-      });
+   //    // Create history entry
+   //    await this.subscriptionRepo.pCreateSubscriptionHistory({
+   //       userId: subscription.userId,
+   //       eventType: "expired",
+   //       fromStatus: subscription.status,
+   //       fromTier: subscription.plan.tier,
+   //       stripeEventId: stripeSubscription.id,
+   //    });
 
-      // Delete local subscription
-      await this.subscriptionRepo.pDeleteSubscription(subscription.userId);
-   }
+   //    // Delete local subscription
+   //    await this.subscriptionRepo.pDeleteSubscription(subscription.userId);
+   // }
 
    async handleInvoicePaymentSucceeded(invoice: Stripe.Invoice): Promise<void> {
       const stripeSubscriptionId = invoice.subscription as string;

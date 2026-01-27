@@ -346,6 +346,31 @@ export class StripeService {
       }
    }
 
+   async handleSubscriptionDeleted(
+      stripeSubscription: Stripe.Subscription
+   ): Promise<void> {
+      const subscription =
+         await this.subscriptionService.getSubscriptionByStripeSubscriptionId(
+            stripeSubscription.id
+         );
+
+      if (!subscription) {
+         console.error("Subscription not found for deletion");
+         return;
+      }
+
+      const historyCreate: DSubscriptionHistoryCreate = {
+         userId: subscription.userId,
+         eventType: "expired",
+         fromStatus: subscription.status,
+         fromTier: subscription.plan.tier,
+         stripeEventId: stripeSubscription.id,
+      };
+      await this.subscriptionService.createSubscriptionHistory(historyCreate);
+
+      await this.subscriptionService.deleteSubscription(subscription.userId);
+   }
+
    async createPortalSession(
       userId: string
    ): Promise<DStripeBillingPortalSessionResponse> {
