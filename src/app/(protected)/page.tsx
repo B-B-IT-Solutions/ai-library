@@ -1,12 +1,12 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-   title: "Home",
+   title: "Startseite",
 };
 
 const MainPage = async () => {
    return (
-      <div className="h-full flex flex-center" data-testid="main-page">
+      <div className="flex-center flex h-full" data-testid="main-page">
          main page
       </div>
    );

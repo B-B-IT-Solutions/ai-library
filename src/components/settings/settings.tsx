@@ -1,83 +1,36 @@
-"use client";
+import { FC } from "react";
 
-import { FC, useState } from "react";
-
+import { DSettingsSection } from "@/data/types/domain/settings";
 import { DUser } from "@/data/types/domain/user";
-import { cn } from "@/lib/utils";
 
 import { AccountSettings } from "./account";
 import { GeneralSettings } from "./general";
-
-type TabId = "general" | "account";
-
-type TabEntry = {
-   id: TabId;
-   label: string;
-};
+import { Navigation } from "./navigation";
+import { Subscription } from "./subscription";
 
 type SettingsProps = {
    user: DUser;
+   section: DSettingsSection;
 };
 
-export const Settings: FC<SettingsProps> = ({ user }) => {
-   const [activeTab, setActiveTab] = useState<TabId>("general");
-
-   const entries: TabEntry[] = [
-      { id: "general" as TabId, label: "Allgemein" },
-      { id: "account" as TabId, label: "Konto" },
-   ];
-
-   const tab = (entry: TabEntry) => {
-      const isActive = activeTab === entry.id;
-      const styles = isActive
-         ? "bg-primary text-primary-foreground shadow-sm"
-         : "hover:bg-accent hover:text-accent-foreground";
-      return (
-         <button
-            key={entry.id}
-            onClick={() => setActiveTab(entry.id)}
-            className={cn(
-               "w-full flex items-center gap-3 px-3 py-2 text-sm rounded-md transition-all cursor-pointer",
-               styles
-            )}
-            data-testid={`${entry.id}-tab`}
-         >
-            <span className="font-medium">{entry.label}</span>
-         </button>
-      );
-   };
-
-   const tabs = () => {
-      return (
-         <aside className="lg:col-span-3" data-testid="tabs">
-            <nav className="sticky top-8 space-y-1 bg-card rounded-lg border p-4 shadow-sm">
-               <h2 className="px-3 mb-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                  Navigation
-               </h2>
-               {entries.map((entry) => tab(entry))}
-            </nav>
-         </aside>
-      );
-   };
-
-   const tabContent = () => {
-      return (
-         <main className="lg:col-span-9">
-            <div className="animate-in fade-in-50 duration-300">
-               {activeTab === "general" && <GeneralSettings user={user} />}
-               {activeTab === "account" && <AccountSettings />}
-            </div>
-         </main>
-      );
+export const Settings: FC<SettingsProps> = ({ user, section }) => {
+   const content = () => {
+      if (section === "account") {
+         return <AccountSettings />;
+      }
+      if (section === "subscription") {
+         return <Subscription />;
+      }
+      return <GeneralSettings user={user} />;
    };
 
    return (
       <div
-         className="grid grid-cols-1 lg:grid-cols-12 gap-8"
+         className="grid grid-cols-1 gap-8 lg:grid-cols-12"
          data-testid="settings-view"
       >
-         {tabs()}
-         {tabContent()}
+         <Navigation active={section} />
+         <main className="lg:col-span-9">{content()}</main>
       </div>
    );
 };

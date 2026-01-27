@@ -1,4 +1,5 @@
 import { UserRepository } from "@/data/repositories/user";
+import { UserUpdateData } from "@/data/types/db/user";
 import {
    DUser,
    DUserAccountDelete,
@@ -70,8 +71,29 @@ export class UserService {
       return null;
    }
 
+   async getUserStripeCustomerId(userId: string): Promise<string | null> {
+      const user = await this.userRepository.pGetUserById(userId);
+      if (user && user.stripeCustomerId) {
+         return user.stripeCustomerId;
+      }
+      return null;
+   }
+
    async updateUser(userId: string, data: DUserUpdateData): Promise<void> {
-      await this.userRepository.pUpdateUser(userId, data);
+      const updateData: UserUpdateData = {
+         name: data.name,
+      };
+      await this.userRepository.pUpdateUser(userId, updateData);
+   }
+
+   async updateUserStripeCustomerId(
+      userId: string,
+      stripeCustomerId: string
+   ): Promise<void> {
+      const updateData: UserUpdateData = {
+         stripeCustomerId,
+      };
+      await this.userRepository.pUpdateUser(userId, updateData);
    }
 
    async updatePassword(

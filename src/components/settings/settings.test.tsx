@@ -1,71 +1,73 @@
+jest.mock("./subscription", () => {
+   const Subscription = () => <div data-testid="subscription"></div>;
+   return { Subscription };
+});
+
 import { render, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 
 import { Settings } from "./settings";
 
 const assertRendered = () => {
    const settingsView = screen.getByTestId("settings-view");
-   const tabs = screen.getByTestId("tabs");
-   const generalTab = screen.getByTestId("general-tab");
-   const accountTab = screen.getByTestId("account-tab");
+   const navigation = screen.getByTestId("navigation");
 
    assertInDocument(settingsView);
-   assertInDocument(tabs);
-   assertInDocument(generalTab);
-   assertInDocument(accountTab);
+   assertInDocument(navigation);
 };
 
-const assertTabContentRendered = (tab: string) => {
-   const content = screen.getByTestId(tab);
+const assertContentRendered = (testId: string) => {
+   const content = screen.getByTestId(testId);
    assertInDocument(content);
 };
 
-const assertTabContentNotRendered = (tab: string) => {
-   const content = screen.queryByTestId(tab);
+const assertContentNotRendered = (testId: string) => {
+   const content = screen.queryByTestId(testId);
    assertNotInDocument(content);
 };
 
 describe("Settings rendering tests", () => {
-   it("Settings - default tab - rendered - test", async () => {
+   it("Settings - section general - rendered - test", async () => {
       const user = dtestData.dUser();
-      const { container } = render(<Settings user={user} />);
+      const { container } = render(<Settings user={user} section="general" />);
 
       await waitFor(() => {
          assertRendered();
-         assertTabContentRendered("general-settings");
-         assertTabContentNotRendered("account-settings");
+         assertContentRendered("general-settings");
+         assertContentNotRendered("account-settings");
+         assertContentNotRendered("subscription");
       });
 
       expect(container).toMatchSnapshot();
    });
-});
 
-describe("Settings functionality tests", () => {
-   it("Settings - tab switching - test", async () => {
+   it("Settings - section account - test", async () => {
       const user = dtestData.dUser();
-      render(<Settings user={user} />);
+      const { container } = render(<Settings user={user} section="account" />);
 
       await waitFor(() => {
          assertRendered();
-         assertTabContentRendered("general-settings");
-         assertTabContentNotRendered("account-settings");
+         assertContentRendered("account-settings");
+         assertContentNotRendered("general-settings");
+         assertContentNotRendered("subscription");
       });
 
-      const accountTab = screen.getByTestId("account-tab");
-      userEvent.click(accountTab);
+      expect(container).toMatchSnapshot();
+   });
+
+   it("Settings - section subscription - test", async () => {
+      const user = dtestData.dUser();
+      const { container } = render(
+         <Settings user={user} section="subscription" />
+      );
 
       await waitFor(() => {
-         assertTabContentNotRendered("general-settings");
-         assertTabContentRendered("account-settings");
+         assertRendered();
+         assertContentRendered("subscription");
+         assertContentNotRendered("account-settings");
+         assertContentNotRendered("general-settings");
       });
 
-      const generalTab = screen.getByTestId("general-tab");
-      userEvent.click(generalTab);
-
-      await waitFor(() => {
-         assertTabContentRendered("general-settings");
-         assertTabContentNotRendered("account-settings");
-      });
+      expect(container).toMatchSnapshot();
    });
 });

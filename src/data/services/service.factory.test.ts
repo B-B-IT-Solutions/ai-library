@@ -6,6 +6,7 @@ import { OrderService } from "./order";
 import { PromptService, PromptTemplateService } from "./prompt";
 import { ServiceFactory } from "./service.factory";
 import { StripeService } from "./stripe/stripe.service";
+import { SubscriptionService } from "./subscription";
 import { UserService } from "./user";
 
 const serviceFactory = new ServiceFactory(prisma);
@@ -62,19 +63,6 @@ describe("getOrderService tests", () => {
    });
 });
 
-describe("getStripeService tests", () => {
-   it("getStripeService - new instance - test", () => {
-      const service = serviceFactory.getStripeService();
-      expect(service).toBeInstanceOf(StripeService);
-   });
-
-   it("getStripeService - existing instance - test", () => {
-      const service1 = serviceFactory.getStripeService();
-      const service2 = serviceFactory.getStripeService();
-      expect(service1).toBe(service2);
-   });
-});
-
 describe("getPromptService tests", () => {
    it("getPromptService - new instance - test", () => {
       const service = serviceFactory.getPromptService();
@@ -97,6 +85,32 @@ describe("getPromptTemplateService tests", () => {
    it("getPromptTemplateService - existing instance - test", () => {
       const service1 = serviceFactory.getPromptTemplateService();
       const service2 = serviceFactory.getPromptTemplateService();
+      expect(service1).toBe(service2);
+   });
+});
+
+describe("getSubscriptionService tests", () => {
+   it("getSubscriptionService - new instance - test", () => {
+      const service = serviceFactory.getSubscriptionService();
+      expect(service).toBeInstanceOf(SubscriptionService);
+   });
+
+   it("getSubscriptionService - existing instance - test", () => {
+      const service1 = serviceFactory.getSubscriptionService();
+      const service2 = serviceFactory.getSubscriptionService();
+      expect(service1).toBe(service2);
+   });
+});
+
+describe("getStripeService tests", () => {
+   it("getStripeService - new instance - test", () => {
+      const service = serviceFactory.getStripeService();
+      expect(service).toBeInstanceOf(StripeService);
+   });
+
+   it("getStripeService - existing instance - test", () => {
+      const service1 = serviceFactory.getStripeService();
+      const service2 = serviceFactory.getStripeService();
       expect(service1).toBe(service2);
    });
 });

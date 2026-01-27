@@ -412,7 +412,7 @@ exports[`MainLayout rendering tests MainLayout - session defined - rendered 1`] 
                         data-size="default"
                         data-slot="sidebar-menu-button"
                         data-testid="mock-link"
-                        href="/settings"
+                        href="/settings/general"
                       >
                         <svg
                           aria-hidden="true"
@@ -950,7 +950,7 @@ exports[`MainLayout rendering tests MainLayout - session undefined - rendered 1`
                         data-size="default"
                         data-slot="sidebar-menu-button"
                         data-testid="mock-link"
-                        href="/settings"
+                        href="/settings/general"
                       >
                         <svg
                           aria-hidden="true"

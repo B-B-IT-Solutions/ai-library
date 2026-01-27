@@ -111,7 +111,7 @@ exports[`CheckoutPage rendering tests CheckoutPage - cart with items - rendered 
             class="border-t pt-4"
           >
             <div
-              class="gap-2 flex flex-row items-start space-x-3 space-y-0"
+              class="gap-2 flex flex-row items-start space-y-0 space-x-3"
               data-slot="form-item"
             >
               <button

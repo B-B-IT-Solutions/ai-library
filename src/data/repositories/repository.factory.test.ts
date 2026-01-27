@@ -6,6 +6,7 @@ import { OrderRepository } from "./order";
 import { ProductRepository } from "./product";
 import { PromptRepository, PromptTemplateRepository } from "./prompt";
 import { RepositoryFactory } from "./repository.factory";
+import { SubscriptionRepository } from "./subscription";
 import { UserRepository } from "./user";
 
 describe("RepositoryFactory tests", () => {
@@ -104,6 +105,19 @@ describe("RepositoryFactory tests", () => {
       it("promptTemplateRepository - existing instance - test", () => {
          const repository1 = factory.promptTemplateRepository();
          const repository2 = factory.promptTemplateRepository();
+         expect(repository1).toBe(repository2);
+      });
+   });
+
+   describe("subscriptionRepository tests", () => {
+      it("subscriptionRepository - new instance - test", () => {
+         const repository = factory.subscriptionRepository();
+         expect(repository).toBeInstanceOf(SubscriptionRepository);
+      });
+
+      it("subscriptionRepository - existing instance - test", () => {
+         const repository1 = factory.subscriptionRepository();
+         const repository2 = factory.subscriptionRepository();
          expect(repository1).toBe(repository2);
       });
    });

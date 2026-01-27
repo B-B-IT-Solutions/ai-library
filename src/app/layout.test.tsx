@@ -15,7 +15,7 @@ jest.mock("@/app/layout", () => ({
    },
 }));
 
-export const expectedMetadata: Metadata = {
+const expectedMetadata: Metadata = {
    title: {
       template: `%s | ${APP_NAME}`,
       default: APP_NAME,

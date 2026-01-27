@@ -5,6 +5,7 @@ import { LibraryRepository } from "./library";
 import { OrderRepository } from "./order";
 import { ProductRepository } from "./product";
 import { PromptRepository, PromptTemplateRepository } from "./prompt";
+import { SubscriptionRepository } from "./subscription";
 import { UserRepository } from "./user";
 
 export class RepositoryFactory {
@@ -16,6 +17,7 @@ export class RepositoryFactory {
    private productRepo?: ProductRepository;
    private promptRepo?: PromptRepository;
    private promptTemplateRepos?: PromptTemplateRepository;
+   private subscriptionRepo?: SubscriptionRepository;
 
    constructor(prisma: DbClient) {
       this.prisma = prisma;
@@ -68,5 +70,12 @@ export class RepositoryFactory {
          this.promptTemplateRepos = new PromptTemplateRepository(this.prisma);
       }
       return this.promptTemplateRepos;
+   }
+
+   subscriptionRepository(): SubscriptionRepository {
+      if (!this.subscriptionRepo) {
+         this.subscriptionRepo = new SubscriptionRepository(this.prisma);
+      }
+      return this.subscriptionRepo;
    }
 }

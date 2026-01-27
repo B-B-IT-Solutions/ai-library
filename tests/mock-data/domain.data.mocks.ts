@@ -31,6 +31,14 @@ import {
    DPromptTemplateDescriptor,
    DPromptTemplateDescriptorWithPrompt,
 } from "@/data/types/domain/prompt.template";
+import {
+   DStripeBillingPortalSessionResponse,
+   DStripeCheckoutResponse,
+} from "@/data/types/domain/stripe";
+import {
+   DSubscription,
+   DSubscriptionPlan,
+} from "@/data/types/domain/subscription";
 import { DUser, DUserUpdateData } from "@/data/types/domain/user";
 import { LoginUser } from "@/data/types/next-auth";
 
@@ -44,6 +52,70 @@ export const dUser = (index = 1): DUser => {
       name: `name-${index}`,
       email: "test@email.com",
       role: `role-${index}`,
+      updatedAt: new Date("2025-09-27").toISOString(),
+      createdAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dStripeCheckoutResponse = (index = 1): DStripeCheckoutResponse => {
+   return {
+      sessionId: `5f367e25-12a4-4de4-af0b-6dcdd5ac005${index}`,
+      url: `http://checkout.stripe/subcription-${index}`,
+   };
+};
+
+export const dStripeBillingPortalSessionResponse = (
+   index = 1
+): DStripeBillingPortalSessionResponse => {
+   return {
+      url: `https://billing.stripe.com/session/123-${index}`,
+   };
+};
+
+export const dSubscription = (index = 1): DSubscription => {
+   return {
+      id: `c5387491-1485-4ea2-b6be-72b1d942719${index}`,
+      userId: `f08abf0c-5623-454e-bc02-7933a59533b${index}`,
+      planId: `df964a3c-bfa2-4484-97c3-219c2158380${index}`,
+      status: "ACTIVE",
+      billingInterval: "YEARLY",
+      stripeSubscriptionId: `982a1b4c-e85b-4885-98c5-62fbea319e5${index}`,
+      stripeCustomerId: `ac82ecc9-de60-4fba-acf6-8b57ad9a91a${index}`,
+      stripeCheckoutSessionId: `3a8d4246-480e-43f8-bfa1-a167658b81af${index}`,
+      currentPeriodStart: new Date("2025-09-27").toISOString(),
+      currentPeriodEnd: new Date("2025-09-27").toISOString(),
+      cancelAtPeriodEnd: false,
+      plan: dSubscriptionPlan(index),
+      canceledAt: new Date("2025-09-27").toISOString(),
+      updatedAt: new Date("2025-09-27").toISOString(),
+      createdAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dSubscriptionPlans = (count = 3): DSubscriptionPlan[] => {
+   return range(0, count).map((i) => dSubscriptionPlan(i));
+};
+
+export const dSubscriptionPlan = (index = 1): DSubscriptionPlan => {
+   return {
+      id: `df964a3c-bfa2-4484-97c3-219c2158380${index}`,
+      tier: index % 2 === 0 ? "BASIC" : "PRO",
+      name: `name-${index}`,
+      description: `description-${index}`,
+      monthlyPrice: 9.99,
+      yearlyPrice: 99.99,
+      stripePriceIdMonthly: `22a0af93-3fec-41e6-9a4e-96c832d4c40${index}`,
+      stripePriceIdYearly: `9df90f95-b6fb-4774-bd58-04ac4039788${index}`,
+      stripeProductId: `d48fabe0-8c26-4dcf-959a-f87b15e3efb${index}`,
+      features: {
+         maxPrompts: 5,
+         maxLibraryItems: 3,
+         canAccessMarketplace: true,
+         canPurchaseItems: false,
+         canExportPrompts: false,
+         canUseAdvancedFeatures: false,
+      },
+      isActive: true,
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
    };

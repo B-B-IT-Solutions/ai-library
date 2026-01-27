@@ -4,8 +4,8 @@ import { Metadata } from "next";
 
 import MainPage, { metadata } from "./page";
 
-export const expectedMetadata: Metadata = {
-   title: "Home",
+const expectedMetadata: Metadata = {
+   title: "Startseite",
 };
 
 const assertRendered = () => {

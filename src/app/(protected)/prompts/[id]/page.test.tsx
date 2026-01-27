@@ -13,7 +13,7 @@ const getPromptMock = getPrompt as jest.MockedFunction<typeof getPrompt>;
 
 const notFoundMock = notFound as jest.MockedFunction<typeof notFound>;
 
-export const expectedMetadata: Metadata = {
+const expectedMetadata: Metadata = {
    title: "Prompt",
 };
 

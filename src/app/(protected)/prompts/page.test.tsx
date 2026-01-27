@@ -4,7 +4,7 @@ import { Metadata } from "next";
 
 import PromptsPage, { metadata } from "./page";
 
-export const expectedMetadata: Metadata = {
+const expectedMetadata: Metadata = {
    title: "Prompts",
 };
 

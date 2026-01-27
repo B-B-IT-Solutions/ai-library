@@ -28,7 +28,7 @@ const getLibraryEntryMock = getLibraryEntry as jest.MockedFunction<
 const redirectMock = redirect as jest.MockedFunction<typeof redirect>;
 const notFoundMock = notFound as jest.MockedFunction<typeof notFound>;
 
-export const expectedMetadata: Metadata = {
+const expectedMetadata: Metadata = {
    title: "Vorlage",
 };
 

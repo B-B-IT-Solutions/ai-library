@@ -10,10 +10,10 @@ exports[`OrdersLoading rendering tests OrdersLoading rendered test 1`] = `
       class="mb-8"
     >
       <div
-        class="h-8 bg-slate-200 rounded w-48 mb-2 animate-pulse"
+        class="mb-2 h-8 w-48 animate-pulse rounded bg-slate-200"
       />
       <div
-        class="h-4 bg-slate-200 rounded w-96 animate-pulse"
+        class="h-4 w-96 animate-pulse rounded bg-slate-200"
       />
     </div>
     <div
@@ -41,325 +41,325 @@ exports[`OrdersLoading rendering tests OrdersLoading rendered test 1`] = `
       class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
     >
       <div
-        class="text-card-foreground flex flex-col shadow-sm p-4 gap-0 bg-white border border-slate-300 rounded-lg"
+        class="text-card-foreground flex flex-col shadow-sm gap-0 rounded-lg border border-slate-300 bg-white p-4"
         data-slot="card"
       >
         <div
-          class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 p-0 gap-2 mb-3"
+          class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 mb-3 gap-2 p-0"
           data-slot="card-header"
         >
           <div
-            class="h-5 bg-slate-200 rounded w-3/4 animate-pulse"
+            class="h-5 w-3/4 animate-pulse rounded bg-slate-200"
           />
           <div
-            class="h-5 bg-slate-200 rounded w-32 animate-pulse"
+            class="h-5 w-32 animate-pulse rounded bg-slate-200"
           />
         </div>
         <div
-          class="p-0 grid gap-3"
+          class="grid gap-3 p-0"
           data-slot="card-content"
         >
           <div
-            class="flex gap-1 mb-2"
+            class="mb-2 flex gap-1"
           >
             <div
-              class="h-5 bg-slate-100 rounded w-16 animate-pulse"
+              class="h-5 w-16 animate-pulse rounded bg-slate-100"
             />
             <div
-              class="h-5 bg-slate-100 rounded w-20 animate-pulse"
+              class="h-5 w-20 animate-pulse rounded bg-slate-100"
             />
           </div>
           <div
             class="space-y-2"
           >
             <div
-              class="h-4 bg-slate-100 rounded w-full animate-pulse"
+              class="h-4 w-full animate-pulse rounded bg-slate-100"
             />
             <div
-              class="h-4 bg-slate-100 rounded w-full animate-pulse"
+              class="h-4 w-full animate-pulse rounded bg-slate-100"
             />
             <div
-              class="h-4 bg-slate-100 rounded w-2/3 animate-pulse"
+              class="h-4 w-2/3 animate-pulse rounded bg-slate-100"
             />
           </div>
           <div
-            class="flex gap-2 mt-2"
+            class="mt-2 flex gap-2"
           >
             <div
-              class="h-8 bg-slate-200 rounded flex-1 animate-pulse"
+              class="h-8 flex-1 animate-pulse rounded bg-slate-200"
             />
             <div
-              class="h-8 bg-slate-200 rounded flex-1 animate-pulse"
+              class="h-8 flex-1 animate-pulse rounded bg-slate-200"
             />
           </div>
         </div>
       </div>
       <div
-        class="text-card-foreground flex flex-col shadow-sm p-4 gap-0 bg-white border border-slate-300 rounded-lg"
+        class="text-card-foreground flex flex-col shadow-sm gap-0 rounded-lg border border-slate-300 bg-white p-4"
         data-slot="card"
       >
         <div
-          class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 p-0 gap-2 mb-3"
+          class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 mb-3 gap-2 p-0"
           data-slot="card-header"
         >
           <div
-            class="h-5 bg-slate-200 rounded w-3/4 animate-pulse"
+            class="h-5 w-3/4 animate-pulse rounded bg-slate-200"
           />
           <div
-            class="h-5 bg-slate-200 rounded w-32 animate-pulse"
+            class="h-5 w-32 animate-pulse rounded bg-slate-200"
           />
         </div>
         <div
-          class="p-0 grid gap-3"
+          class="grid gap-3 p-0"
           data-slot="card-content"
         >
           <div
-            class="flex gap-1 mb-2"
+            class="mb-2 flex gap-1"
           >
             <div
-              class="h-5 bg-slate-100 rounded w-16 animate-pulse"
+              class="h-5 w-16 animate-pulse rounded bg-slate-100"
             />
             <div
-              class="h-5 bg-slate-100 rounded w-20 animate-pulse"
+              class="h-5 w-20 animate-pulse rounded bg-slate-100"
             />
           </div>
           <div
             class="space-y-2"
           >
             <div
-              class="h-4 bg-slate-100 rounded w-full animate-pulse"
+              class="h-4 w-full animate-pulse rounded bg-slate-100"
             />
             <div
-              class="h-4 bg-slate-100 rounded w-full animate-pulse"
+              class="h-4 w-full animate-pulse rounded bg-slate-100"
             />
             <div
-              class="h-4 bg-slate-100 rounded w-2/3 animate-pulse"
+              class="h-4 w-2/3 animate-pulse rounded bg-slate-100"
             />
           </div>
           <div
-            class="flex gap-2 mt-2"
+            class="mt-2 flex gap-2"
           >
             <div
-              class="h-8 bg-slate-200 rounded flex-1 animate-pulse"
+              class="h-8 flex-1 animate-pulse rounded bg-slate-200"
             />
             <div
-              class="h-8 bg-slate-200 rounded flex-1 animate-pulse"
+              class="h-8 flex-1 animate-pulse rounded bg-slate-200"
             />
           </div>
         </div>
       </div>
       <div
-        class="text-card-foreground flex flex-col shadow-sm p-4 gap-0 bg-white border border-slate-300 rounded-lg"
+        class="text-card-foreground flex flex-col shadow-sm gap-0 rounded-lg border border-slate-300 bg-white p-4"
         data-slot="card"
       >
         <div
-          class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 p-0 gap-2 mb-3"
+          class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 mb-3 gap-2 p-0"
           data-slot="card-header"
         >
           <div
-            class="h-5 bg-slate-200 rounded w-3/4 animate-pulse"
+            class="h-5 w-3/4 animate-pulse rounded bg-slate-200"
           />
           <div
-            class="h-5 bg-slate-200 rounded w-32 animate-pulse"
+            class="h-5 w-32 animate-pulse rounded bg-slate-200"
           />
         </div>
         <div
-          class="p-0 grid gap-3"
+          class="grid gap-3 p-0"
           data-slot="card-content"
         >
           <div
-            class="flex gap-1 mb-2"
+            class="mb-2 flex gap-1"
           >
             <div
-              class="h-5 bg-slate-100 rounded w-16 animate-pulse"
+              class="h-5 w-16 animate-pulse rounded bg-slate-100"
             />
             <div
-              class="h-5 bg-slate-100 rounded w-20 animate-pulse"
+              class="h-5 w-20 animate-pulse rounded bg-slate-100"
             />
           </div>
           <div
             class="space-y-2"
           >
             <div
-              class="h-4 bg-slate-100 rounded w-full animate-pulse"
+              class="h-4 w-full animate-pulse rounded bg-slate-100"
             />
             <div
-              class="h-4 bg-slate-100 rounded w-full animate-pulse"
+              class="h-4 w-full animate-pulse rounded bg-slate-100"
             />
             <div
-              class="h-4 bg-slate-100 rounded w-2/3 animate-pulse"
+              class="h-4 w-2/3 animate-pulse rounded bg-slate-100"
             />
           </div>
           <div
-            class="flex gap-2 mt-2"
+            class="mt-2 flex gap-2"
           >
             <div
-              class="h-8 bg-slate-200 rounded flex-1 animate-pulse"
+              class="h-8 flex-1 animate-pulse rounded bg-slate-200"
             />
             <div
-              class="h-8 bg-slate-200 rounded flex-1 animate-pulse"
+              class="h-8 flex-1 animate-pulse rounded bg-slate-200"
             />
           </div>
         </div>
       </div>
       <div
-        class="text-card-foreground flex flex-col shadow-sm p-4 gap-0 bg-white border border-slate-300 rounded-lg"
+        class="text-card-foreground flex flex-col shadow-sm gap-0 rounded-lg border border-slate-300 bg-white p-4"
         data-slot="card"
       >
         <div
-          class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 p-0 gap-2 mb-3"
+          class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 mb-3 gap-2 p-0"
           data-slot="card-header"
         >
           <div
-            class="h-5 bg-slate-200 rounded w-3/4 animate-pulse"
+            class="h-5 w-3/4 animate-pulse rounded bg-slate-200"
           />
           <div
-            class="h-5 bg-slate-200 rounded w-32 animate-pulse"
+            class="h-5 w-32 animate-pulse rounded bg-slate-200"
           />
         </div>
         <div
-          class="p-0 grid gap-3"
+          class="grid gap-3 p-0"
           data-slot="card-content"
         >
           <div
-            class="flex gap-1 mb-2"
+            class="mb-2 flex gap-1"
           >
             <div
-              class="h-5 bg-slate-100 rounded w-16 animate-pulse"
+              class="h-5 w-16 animate-pulse rounded bg-slate-100"
             />
             <div
-              class="h-5 bg-slate-100 rounded w-20 animate-pulse"
+              class="h-5 w-20 animate-pulse rounded bg-slate-100"
             />
           </div>
           <div
             class="space-y-2"
           >
             <div
-              class="h-4 bg-slate-100 rounded w-full animate-pulse"
+              class="h-4 w-full animate-pulse rounded bg-slate-100"
             />
             <div
-              class="h-4 bg-slate-100 rounded w-full animate-pulse"
+              class="h-4 w-full animate-pulse rounded bg-slate-100"
             />
             <div
-              class="h-4 bg-slate-100 rounded w-2/3 animate-pulse"
+              class="h-4 w-2/3 animate-pulse rounded bg-slate-100"
             />
           </div>
           <div
-            class="flex gap-2 mt-2"
+            class="mt-2 flex gap-2"
           >
             <div
-              class="h-8 bg-slate-200 rounded flex-1 animate-pulse"
+              class="h-8 flex-1 animate-pulse rounded bg-slate-200"
             />
             <div
-              class="h-8 bg-slate-200 rounded flex-1 animate-pulse"
+              class="h-8 flex-1 animate-pulse rounded bg-slate-200"
             />
           </div>
         </div>
       </div>
       <div
-        class="text-card-foreground flex flex-col shadow-sm p-4 gap-0 bg-white border border-slate-300 rounded-lg"
+        class="text-card-foreground flex flex-col shadow-sm gap-0 rounded-lg border border-slate-300 bg-white p-4"
         data-slot="card"
       >
         <div
-          class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 p-0 gap-2 mb-3"
+          class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 mb-3 gap-2 p-0"
           data-slot="card-header"
         >
           <div
-            class="h-5 bg-slate-200 rounded w-3/4 animate-pulse"
+            class="h-5 w-3/4 animate-pulse rounded bg-slate-200"
           />
           <div
-            class="h-5 bg-slate-200 rounded w-32 animate-pulse"
+            class="h-5 w-32 animate-pulse rounded bg-slate-200"
           />
         </div>
         <div
-          class="p-0 grid gap-3"
+          class="grid gap-3 p-0"
           data-slot="card-content"
         >
           <div
-            class="flex gap-1 mb-2"
+            class="mb-2 flex gap-1"
           >
             <div
-              class="h-5 bg-slate-100 rounded w-16 animate-pulse"
+              class="h-5 w-16 animate-pulse rounded bg-slate-100"
             />
             <div
-              class="h-5 bg-slate-100 rounded w-20 animate-pulse"
+              class="h-5 w-20 animate-pulse rounded bg-slate-100"
             />
           </div>
           <div
             class="space-y-2"
           >
             <div
-              class="h-4 bg-slate-100 rounded w-full animate-pulse"
+              class="h-4 w-full animate-pulse rounded bg-slate-100"
             />
             <div
-              class="h-4 bg-slate-100 rounded w-full animate-pulse"
+              class="h-4 w-full animate-pulse rounded bg-slate-100"
             />
             <div
-              class="h-4 bg-slate-100 rounded w-2/3 animate-pulse"
+              class="h-4 w-2/3 animate-pulse rounded bg-slate-100"
             />
           </div>
           <div
-            class="flex gap-2 mt-2"
+            class="mt-2 flex gap-2"
           >
             <div
-              class="h-8 bg-slate-200 rounded flex-1 animate-pulse"
+              class="h-8 flex-1 animate-pulse rounded bg-slate-200"
             />
             <div
-              class="h-8 bg-slate-200 rounded flex-1 animate-pulse"
+              class="h-8 flex-1 animate-pulse rounded bg-slate-200"
             />
           </div>
         </div>
       </div>
       <div
-        class="text-card-foreground flex flex-col shadow-sm p-4 gap-0 bg-white border border-slate-300 rounded-lg"
+        class="text-card-foreground flex flex-col shadow-sm gap-0 rounded-lg border border-slate-300 bg-white p-4"
         data-slot="card"
       >
         <div
-          class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 p-0 gap-2 mb-3"
+          class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 mb-3 gap-2 p-0"
           data-slot="card-header"
         >
           <div
-            class="h-5 bg-slate-200 rounded w-3/4 animate-pulse"
+            class="h-5 w-3/4 animate-pulse rounded bg-slate-200"
           />
           <div
-            class="h-5 bg-slate-200 rounded w-32 animate-pulse"
+            class="h-5 w-32 animate-pulse rounded bg-slate-200"
           />
         </div>
         <div
-          class="p-0 grid gap-3"
+          class="grid gap-3 p-0"
           data-slot="card-content"
         >
           <div
-            class="flex gap-1 mb-2"
+            class="mb-2 flex gap-1"
           >
             <div
-              class="h-5 bg-slate-100 rounded w-16 animate-pulse"
+              class="h-5 w-16 animate-pulse rounded bg-slate-100"
             />
             <div
-              class="h-5 bg-slate-100 rounded w-20 animate-pulse"
+              class="h-5 w-20 animate-pulse rounded bg-slate-100"
             />
           </div>
           <div
             class="space-y-2"
           >
             <div
-              class="h-4 bg-slate-100 rounded w-full animate-pulse"
+              class="h-4 w-full animate-pulse rounded bg-slate-100"
             />
             <div
-              class="h-4 bg-slate-100 rounded w-full animate-pulse"
+              class="h-4 w-full animate-pulse rounded bg-slate-100"
             />
             <div
-              class="h-4 bg-slate-100 rounded w-2/3 animate-pulse"
+              class="h-4 w-2/3 animate-pulse rounded bg-slate-100"
             />
           </div>
           <div
-            class="flex gap-2 mt-2"
+            class="mt-2 flex gap-2"
           >
             <div
-              class="h-8 bg-slate-200 rounded flex-1 animate-pulse"
+              class="h-8 flex-1 animate-pulse rounded bg-slate-200"
             />
             <div
-              class="h-8 bg-slate-200 rounded flex-1 animate-pulse"
+              class="h-8 flex-1 animate-pulse rounded bg-slate-200"
             />
           </div>
         </div>

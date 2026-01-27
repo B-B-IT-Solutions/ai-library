@@ -10,7 +10,12 @@ export const handleStripeEvent = async (event: Stripe.Event) => {
       switch (event.type) {
          case "checkout.session.completed": {
             const session = event.data.object as Stripe.Checkout.Session;
-            await handleCheckoutCompleted(session);
+
+            if (session.mode === "subscription") {
+               await handleSubscriptionCheckoutCompleted(session);
+            } else if (session.mode === "payment") {
+               await handlePaymentCheckoutCompleted(session);
+            }
             break;
          }
 
@@ -23,6 +28,31 @@ export const handleStripeEvent = async (event: Stripe.Event) => {
          case "payment_intent.payment_failed": {
             const paymentIntent = event.data.object as Stripe.PaymentIntent;
             await handlePaymentFailed(paymentIntent);
+            break;
+         }
+
+         case "customer.subscription.created":
+         case "customer.subscription.updated": {
+            const subscription = event.data.object as Stripe.Subscription;
+            await handleSubscriptionUpdated(subscription);
+            break;
+         }
+
+         case "customer.subscription.deleted": {
+            const subscription = event.data.object as Stripe.Subscription;
+            await handleSubscriptionDeleted(subscription);
+            break;
+         }
+
+         case "invoice.payment_succeeded": {
+            const invoice = event.data.object as Stripe.Invoice;
+            await handleInvoicePaymentSucceeded(invoice);
+            break;
+         }
+
+         case "invoice.payment_failed": {
+            const invoice = event.data.object as Stripe.Invoice;
+            await handleInvoicePaymentFailed(invoice);
             break;
          }
 
@@ -40,7 +70,9 @@ export const handleStripeEvent = async (event: Stripe.Event) => {
    }
 };
 
-const handleCheckoutCompleted = async (session: Stripe.Checkout.Session) => {
+const handlePaymentCheckoutCompleted = async (
+   session: Stripe.Checkout.Session
+) => {
    const orderId = session.metadata?.orderId;
    if (!orderId) {
       throw new Error("No orderId in session metadata");
@@ -49,7 +81,7 @@ const handleCheckoutCompleted = async (session: Stripe.Checkout.Session) => {
    try {
       await prisma.$transaction(async (tx) => {
          const service = getOrderSevice(tx);
-         return service.handleStripeCheckoutCompleted(
+         return service.handlePaymentCheckoutCompleted(
             orderId,
             session.payment_intent as string,
             session.payment_status
@@ -87,7 +119,69 @@ const handlePaymentFailed = async (paymentIntent: Stripe.PaymentIntent) => {
    }
 };
 
-const getOrderSevice = (dbClient: DbClient = prisma) => {
+const handleSubscriptionCheckoutCompleted = async (
+   session: Stripe.Checkout.Session
+) => {
+   try {
+      await prisma.$transaction(async (tx) => {
+         const service = getStripeService(tx);
+         return service.handleSubscriptionCheckoutCompleted(session);
+      });
+   } catch (error) {
+      console.error("Error handling subscription checkout:", error);
+   }
+};
+
+const handleSubscriptionUpdated = async (subscription: Stripe.Subscription) => {
+   try {
+      await prisma.$transaction(async (tx) => {
+         const service = getStripeService(tx);
+         return service.handleSubscriptionUpdated(subscription);
+      });
+   } catch (error) {
+      console.error("Error handling subscription update:", error);
+   }
+};
+
+const handleSubscriptionDeleted = async (subscription: Stripe.Subscription) => {
+   try {
+      await prisma.$transaction(async (tx) => {
+         const service = getStripeService(tx);
+         return service.handleSubscriptionDeleted(subscription);
+      });
+   } catch (error) {
+      console.error("Error handling subscription deletion:", error);
+   }
+};
+
+const handleInvoicePaymentSucceeded = async (invoice: Stripe.Invoice) => {
+   try {
+      await prisma.$transaction(async (tx) => {
+         const service = getStripeService(tx);
+         return service.handleInvoicePaymentSucceeded(invoice);
+      });
+   } catch (error) {
+      console.error("Error handling invoice payment succeeded:", error);
+   }
+};
+
+const handleInvoicePaymentFailed = async (invoice: Stripe.Invoice) => {
+   try {
+      await prisma.$transaction(async (tx) => {
+         const service = getStripeService(tx);
+         return service.handleInvoicePaymentFailed(invoice);
+      });
+   } catch (error) {
+      console.error("Error handling invoice payment failed:", error);
+   }
+};
+
+const getOrderSevice = (dbClient: DbClient) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getOrderService();
+};
+
+const getStripeService = (dbClient: DbClient) => {
+   const factory = new ServiceFactory(dbClient);
+   return factory.getStripeService();
 };

@@ -48,15 +48,13 @@ describe("getLibraryEntries tests", () => {
 });
 
 describe("getLibraryEntry tests", () => {
-   const originalConsoleError = console.error;
-
    beforeEach(() => {
       jest.clearAllMocks();
-      console.error = jest.fn();
+      jest.spyOn(console, "error").mockImplementation(() => {});
    });
 
    afterEach(() => {
-      console.error = originalConsoleError;
+      jest.restoreAllMocks();
    });
 
    it("getLibraryEntry - error - test", async () => {

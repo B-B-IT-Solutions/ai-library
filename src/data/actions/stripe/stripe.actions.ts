@@ -4,19 +4,23 @@ import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
+import {
+   DStripeBillingPortalSessionResponse,
+   DStripeCheckoutResponse,
+} from "@/data/types/domain/stripe";
+import {
+   DCreateSubscriptionCheckout,
+   DSubscriptionCheckoutRequest,
+} from "@/data/types/domain/subscription";
 import { ActionResult } from "@/data/types/utils";
+import { requireUser } from "../auth-utils";
 
-type CheckoutResponse = {
-   sessionId: string;
-   url: string;
-};
-
-export const createCheckoutSession = async (): Promise<
-   ActionResult<CheckoutResponse>
+export const createOrderCheckoutSession = async (): Promise<
+   ActionResult<DStripeCheckoutResponse>
 > => {
    try {
       const stripeService = getStripeService();
-      const result = await stripeService.createCheckoutSession();
+      const result = await stripeService.createOrderCheckoutSession();
 
       return {
          success: true,
@@ -27,6 +31,99 @@ export const createCheckoutSession = async (): Promise<
       return {
          success: false,
          message: formatError(error),
+      };
+   }
+};
+
+export const createSubscriptionCheckoutSession = async (
+   params: DSubscriptionCheckoutRequest
+): Promise<ActionResult<DStripeCheckoutResponse>> => {
+   try {
+      const user = await requireUser();
+
+      const payload: DCreateSubscriptionCheckout = {
+         userId: user.id,
+         userEmail: user.email as string,
+         planId: params.planId,
+         billingInterval: params.billingInterval,
+      };
+
+      const data = await prisma.$transaction(async (tx) => {
+         const stripeService = getStripeService(tx);
+         return await stripeService.createSubscriptionCheckoutSession(payload);
+      });
+
+      return {
+         success: true,
+         message: "Subscription checkout initiated successfully",
+         data,
+      };
+   } catch {
+      return {
+         success: false,
+         message: "Subscription checkout couldn't be initiated",
+      };
+   }
+};
+
+export const cancelSubscription = async (): Promise<ActionResult<void>> => {
+   try {
+      const user = await requireUser();
+
+      await prisma.$transaction(async (tx) => {
+         const stripeService = getStripeService(tx);
+         await stripeService.cancelSubscription(user.id);
+      });
+
+      return {
+         success: true,
+         message: "Subscription cancelled successfully",
+      };
+   } catch {
+      return {
+         success: false,
+         message: "Subscription couldn't be cancelled",
+      };
+   }
+};
+
+export const reactivateSubscription = async (): Promise<ActionResult<void>> => {
+   try {
+      const user = await requireUser();
+
+      await prisma.$transaction(async (tx) => {
+         const stripeService = getStripeService(tx);
+         await stripeService.reactivateSubscription(user.id);
+      });
+
+      return {
+         success: true,
+         message: "Subscription reactivated successfully",
+      };
+   } catch {
+      return {
+         success: false,
+         message: "Subscription couldn't be reactivated",
+      };
+   }
+};
+
+export const createCustomerPortal = async (): Promise<
+   ActionResult<DStripeBillingPortalSessionResponse>
+> => {
+   try {
+      const user = await requireUser();
+      const stripeService = getStripeService();
+      const data = await stripeService.createPortalSession(user.id);
+      return {
+         success: true,
+         message: "Billing Portal session created established",
+         data,
+      };
+   } catch {
+      return {
+         success: false,
+         message: "Billing Portal session couldn't be established",
       };
    }
 };
