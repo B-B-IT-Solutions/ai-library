@@ -335,45 +335,45 @@ export class SubscriptionService {
 
    // Webhook Handlers
 
-   async handleCheckoutCompleted(
-      session: Stripe.Checkout.Session
-   ): Promise<void> {
-      const userId = session.metadata?.userId;
-      const stripeSubscriptionId = session.subscription as string;
+   // async handleCheckoutCompleted(
+   //    session: Stripe.Checkout.Session
+   // ): Promise<void> {
+   //    const userId = session.metadata?.userId;
+   //    const stripeSubscriptionId = session.subscription as string;
 
-      if (!userId || !stripeSubscriptionId) {
-         throw new Error("Missing userId or subscription in checkout session");
-      }
+   //    if (!userId || !stripeSubscriptionId) {
+   //       throw new Error("Missing userId or subscription in checkout session");
+   //    }
 
-      // Get the Stripe subscription details
-      const stripeSubscription =
-         await stripe.subscriptions.retrieve(stripeSubscriptionId);
+   //    // Get the Stripe subscription details
+   //    const stripeSubscription =
+   //       await stripe.subscriptions.retrieve(stripeSubscriptionId);
 
-      // Update subscription with Stripe details
-      await this.subscriptionRepo.pUpdateSubscription(userId, {
-         status: this.mapStripeStatus(stripeSubscription.status),
-         stripeSubscriptionId: stripeSubscription.id,
-         stripeCustomerId: stripeSubscription.customer as string,
-         currentPeriodStart: new Date(
-            stripeSubscription.items.data[0].current_period_start * 1000
-         ),
-         currentPeriodEnd: new Date(
-            stripeSubscription.items.data[0].current_period_end * 1000
-         ),
-      });
+   //    // Update subscription with Stripe details
+   //    await this.subscriptionRepo.pUpdateSubscription(userId, {
+   //       status: this.mapStripeStatus(stripeSubscription.status),
+   //       stripeSubscriptionId: stripeSubscription.id,
+   //       stripeCustomerId: stripeSubscription.customer as string,
+   //       currentPeriodStart: new Date(
+   //          stripeSubscription.items.data[0].current_period_start * 1000
+   //       ),
+   //       currentPeriodEnd: new Date(
+   //          stripeSubscription.items.data[0].current_period_end * 1000
+   //       ),
+   //    });
 
-      const subscription = await this.subscriptionRepo.pGetSubscription(userId);
+   //    const subscription = await this.subscriptionRepo.pGetSubscription(userId);
 
-      // Create history entry
-      await this.subscriptionRepo.pCreateSubscriptionHistory({
-         userId,
-         eventType: "activated",
-         fromStatus: "INCOMPLETE",
-         toStatus: this.mapStripeStatus(stripeSubscription.status),
-         toTier: subscription?.plan.tier,
-         stripeEventId: session.id,
-      });
-   }
+   //    // Create history entry
+   //    await this.subscriptionRepo.pCreateSubscriptionHistory({
+   //       userId,
+   //       eventType: "activated",
+   //       fromStatus: "INCOMPLETE",
+   //       toStatus: this.mapStripeStatus(stripeSubscription.status),
+   //       toTier: subscription?.plan.tier,
+   //       stripeEventId: session.id,
+   //    });
+   // }
 
    async handleSubscriptionUpdated(
       stripeSubscription: Stripe.Subscription
