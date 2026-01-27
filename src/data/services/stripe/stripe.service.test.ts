@@ -446,7 +446,6 @@ describe("createSubscriptionCheckoutSession tests", () => {
          userId: params.userId,
          planId: params.planId,
          billingInterval: params.billingInterval,
-         tier: plan.tier,
          stripeCheckoutSessionId: checkoutSession.id,
          stripeCustomerId: stripeCustomer.id,
       };
@@ -548,7 +547,6 @@ describe("createSubscriptionCheckoutSession tests", () => {
          userId: params.userId,
          planId: params.planId,
          billingInterval: params.billingInterval,
-         tier: plan.tier,
          stripeCheckoutSessionId: checkoutSession.id,
          stripeCustomerId: stripeCustomer.id,
       };

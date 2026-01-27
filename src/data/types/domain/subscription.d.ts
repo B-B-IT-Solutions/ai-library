@@ -70,7 +70,6 @@ export type DSubscriptionCreate = {
    userId: string;
    planId: string;
    billingInterval: DBillingInterval;
-   tier: DSubscriptionTier;
    stripeCustomerId: string;
    stripeCheckoutSessionId: string;
 };

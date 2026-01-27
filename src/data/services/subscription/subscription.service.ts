@@ -1,5 +1,6 @@
 import { SubscriptionRepository } from "@/data/repositories/subscription";
 import {
+   SubscriptionCreate,
    SubscriptionHistoryCreate,
    SubscriptionUpdate,
 } from "@/data/types/db/subscription";
@@ -67,13 +68,15 @@ export class SubscriptionService {
    }
 
    async createSubscription(data: DSubscriptionCreate) {
-      await this.subscriptionRepo.pCreateSubscription({
+      const createData: SubscriptionCreate = {
          userId: data.userId,
          planId: data.planId,
          billingInterval: data.billingInterval,
          stripeCheckoutSessionId: data.stripeCheckoutSessionId,
          stripeCustomerId: data.stripeCustomerId,
-      });
+      };
+
+      await this.subscriptionRepo.pCreateSubscription(createData);
    }
 
    async updateSubscription(userId: string, data: DSubscriptionUpdate) {
@@ -124,7 +127,6 @@ export class SubscriptionService {
          return false;
       }
 
-      // User has access if subscription is ACTIVE
       if (subscription.status === "ACTIVE") {
          return true;
       }

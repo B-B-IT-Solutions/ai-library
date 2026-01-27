@@ -155,7 +155,6 @@ export class StripeService {
          userId: userId,
          planId: planId,
          billingInterval: billingInterval,
-         tier: plan.tier,
          stripeCheckoutSessionId: session.id,
          stripeCustomerId,
       };
