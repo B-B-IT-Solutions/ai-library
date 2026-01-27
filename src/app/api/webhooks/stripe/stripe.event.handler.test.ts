@@ -2,15 +2,19 @@ jest.mock("@/data/services/order");
 jest.mock("@/data/services/stripe");
 jest.mock("next/server");
 
+import { PrismaClient } from "@prisma/client";
 import { stripeTestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
+import prisma from "@/data/repositories/prisma";
 import { OrderService } from "@/data/services/order";
 import { StripeService } from "@/data/services/stripe";
 
 import { handleStripeEvent } from "./stripe.event.handler";
+
+const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
 const sPaymentCheckoutCompleted =
    OrderService.prototype.handlePaymentCheckoutCompleted;
@@ -77,7 +81,7 @@ describe("handleStripeEvent tests", () => {
       console.error = originalConsoleError;
    });
 
-   describe("checkout.session.completed tests", () => {
+   describe("checkout.session.completed - payment mode - tests", () => {
       it("stripe - checkout.session.completed - orderId null - test", async () => {
          const event = stripeTestData.checkoutSessionCompletedEvent();
          const session = event.data.object as Stripe.Checkout.Session;
@@ -115,6 +119,7 @@ describe("handleStripeEvent tests", () => {
             expectedStatus
          );
 
+         expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
          expect(sPaymentCheckoutCompletedMock).toHaveBeenCalledTimes(1);
          expect(sPaymentCheckoutCompletedMock).toHaveBeenCalledWith(
             "order-id-1",
@@ -139,6 +144,7 @@ describe("handleStripeEvent tests", () => {
             expectedStatus
          );
 
+         expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
          expect(sPaymentCheckoutCompletedMock).toHaveBeenCalledTimes(1);
          expect(sPaymentCheckoutCompletedMock).toHaveBeenCalledWith(
             "order-id-1",
@@ -187,6 +193,7 @@ describe("handleStripeEvent tests", () => {
             expectedStatus
          );
 
+         expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
          expect(sStripeCheckoutExpiredMock).toHaveBeenCalledTimes(1);
          expect(sStripeCheckoutExpiredMock).toHaveBeenCalledWith("order-id-1");
          expect(console.error).toHaveBeenCalledTimes(1);
@@ -207,6 +214,7 @@ describe("handleStripeEvent tests", () => {
             expectedStatus
          );
 
+         expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
          expect(sStripeCheckoutExpiredMock).toHaveBeenCalledTimes(1);
          expect(sStripeCheckoutExpiredMock).toHaveBeenCalledWith("order-id-1");
          expect(console.error).not.toHaveBeenCalled();
@@ -231,6 +239,7 @@ describe("handleStripeEvent tests", () => {
             expectedStatus
          );
 
+         expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
          expect(sStripePaymentFailedMock).toHaveBeenCalledTimes(1);
          expect(sStripePaymentFailedMock).toHaveBeenCalledWith(
             "payment-intent-id-1"
@@ -253,6 +262,7 @@ describe("handleStripeEvent tests", () => {
             expectedStatus
          );
 
+         expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
          expect(sStripePaymentFailedMock).toHaveBeenCalledTimes(1);
          expect(sStripePaymentFailedMock).toHaveBeenCalledWith(
             "payment-intent-id-1"
@@ -261,11 +271,10 @@ describe("handleStripeEvent tests", () => {
       });
    });
 
-   describe("checkout.session.completed - subscription mode tests", () => {
+   describe("checkout.session.completed - subscription mode - tests", () => {
       it("stripe - checkout.session.completed - subscription mode - processing error - test", async () => {
-         const event = stripeTestData.checkoutSessionCompletedEvent(
-            "subscription"
-         );
+         const event =
+            stripeTestData.checkoutSessionCompletedEvent("subscription");
          sHandleSubscriptionCheckoutCompletedMock.mockRejectedValue(
             new Error("processing error")
          );
@@ -281,9 +290,10 @@ describe("handleStripeEvent tests", () => {
             expectedStatus
          );
 
-         expect(
-            sHandleSubscriptionCheckoutCompletedMock
-         ).toHaveBeenCalledTimes(1);
+         expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
+         expect(sHandleSubscriptionCheckoutCompletedMock).toHaveBeenCalledTimes(
+            1
+         );
          expect(console.error).toHaveBeenCalledTimes(1);
          expect(console.error).toHaveBeenCalledWith(
             "Error handling subscription checkout:",
@@ -292,9 +302,8 @@ describe("handleStripeEvent tests", () => {
       });
 
       it("stripe - checkout.session.completed - subscription mode - success - test", async () => {
-         const event = stripeTestData.checkoutSessionCompletedEvent(
-            "subscription"
-         );
+         const event =
+            stripeTestData.checkoutSessionCompletedEvent("subscription");
          const session = event.data.object as Stripe.Checkout.Session;
          sHandleSubscriptionCheckoutCompletedMock.mockResolvedValue(undefined);
 
@@ -309,9 +318,10 @@ describe("handleStripeEvent tests", () => {
             expectedStatus
          );
 
-         expect(
-            sHandleSubscriptionCheckoutCompletedMock
-         ).toHaveBeenCalledTimes(1);
+         expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
+         expect(sHandleSubscriptionCheckoutCompletedMock).toHaveBeenCalledTimes(
+            1
+         );
          expect(sHandleSubscriptionCheckoutCompletedMock).toHaveBeenCalledWith(
             session
          );
@@ -337,6 +347,7 @@ describe("handleStripeEvent tests", () => {
             expectedStatus
          );
 
+         expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
          expect(sHandleSubscriptionUpdatedMock).toHaveBeenCalledTimes(1);
          expect(console.error).toHaveBeenCalledTimes(1);
          expect(console.error).toHaveBeenCalledWith(
@@ -361,6 +372,7 @@ describe("handleStripeEvent tests", () => {
             expectedStatus
          );
 
+         expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
          expect(sHandleSubscriptionUpdatedMock).toHaveBeenCalledTimes(1);
          expect(sHandleSubscriptionUpdatedMock).toHaveBeenCalledWith(
             subscription
@@ -387,6 +399,7 @@ describe("handleStripeEvent tests", () => {
             expectedStatus
          );
 
+         expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
          expect(sHandleSubscriptionUpdatedMock).toHaveBeenCalledTimes(1);
          expect(console.error).toHaveBeenCalledTimes(1);
          expect(console.error).toHaveBeenCalledWith(
@@ -411,6 +424,7 @@ describe("handleStripeEvent tests", () => {
             expectedStatus
          );
 
+         expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
          expect(sHandleSubscriptionUpdatedMock).toHaveBeenCalledTimes(1);
          expect(sHandleSubscriptionUpdatedMock).toHaveBeenCalledWith(
             subscription
@@ -437,6 +451,7 @@ describe("handleStripeEvent tests", () => {
             expectedStatus
          );
 
+         expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
          expect(sHandleSubscriptionDeletedMock).toHaveBeenCalledTimes(1);
          expect(console.error).toHaveBeenCalledTimes(1);
          expect(console.error).toHaveBeenCalledWith(
@@ -461,6 +476,7 @@ describe("handleStripeEvent tests", () => {
             expectedStatus
          );
 
+         expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
          expect(sHandleSubscriptionDeletedMock).toHaveBeenCalledTimes(1);
          expect(sHandleSubscriptionDeletedMock).toHaveBeenCalledWith(
             subscription
@@ -487,6 +503,7 @@ describe("handleStripeEvent tests", () => {
             expectedStatus
          );
 
+         expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
          expect(sHandleInvoicePaymentSucceededMock).toHaveBeenCalledTimes(1);
          expect(console.error).toHaveBeenCalledTimes(1);
          expect(console.error).toHaveBeenCalledWith(
@@ -511,6 +528,7 @@ describe("handleStripeEvent tests", () => {
             expectedStatus
          );
 
+         expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
          expect(sHandleInvoicePaymentSucceededMock).toHaveBeenCalledTimes(1);
          expect(sHandleInvoicePaymentSucceededMock).toHaveBeenCalledWith(
             invoice
@@ -537,6 +555,7 @@ describe("handleStripeEvent tests", () => {
             expectedStatus
          );
 
+         expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
          expect(sHandleInvoicePaymentFailedMock).toHaveBeenCalledTimes(1);
          expect(console.error).toHaveBeenCalledTimes(1);
          expect(console.error).toHaveBeenCalledWith(
@@ -561,6 +580,7 @@ describe("handleStripeEvent tests", () => {
             expectedStatus
          );
 
+         expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
          expect(sHandleInvoicePaymentFailedMock).toHaveBeenCalledTimes(1);
          expect(sHandleInvoicePaymentFailedMock).toHaveBeenCalledWith(invoice);
          expect(console.error).not.toHaveBeenCalled();
