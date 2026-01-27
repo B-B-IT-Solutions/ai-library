@@ -1,5 +1,6 @@
 import type { DefaultSession } from "next-auth";
-import type { DSubscriptionTier } from "./domain/subscription";
+
+import type { DSubscriptionTier } from "@/data/domain/subscription";
 
 declare module "next-auth/jwt" {
    interface JWT {
