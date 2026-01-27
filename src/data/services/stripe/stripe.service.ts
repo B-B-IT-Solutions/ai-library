@@ -20,7 +20,7 @@ import {
 import { APP_URL } from "@/lib/constants";
 import { stripe } from "@/lib/stripe/stripe-server";
 
-import { toStripePriceUnit } from "./utils";
+import { mapStripeStatus, toStripePriceUnit } from "./utils";
 
 export class StripeService {
    private cartService: CartService;
@@ -250,6 +250,48 @@ export class StripeService {
          metadata: {
             cancelAtPeriodEnd: false,
          },
+      };
+      await this.subscriptionService.createSubscriptionHistory(historyCreate);
+   }
+
+   async handleSubscriptionCheckoutCompleted(session: Stripe.Checkout.Session) {
+      const userId = session.metadata?.userId;
+      const stripeSubscriptionId = session.subscription as string;
+
+      if (!userId || !stripeSubscriptionId) {
+         throw new Error("Missing userId or subscription in checkout session");
+      }
+
+      const stripeSubscription =
+         await stripe.subscriptions.retrieve(stripeSubscriptionId);
+
+      const subscriptionUpdate: DSubscriptionUpdate = {
+         status: mapStripeStatus(stripeSubscription.status),
+         stripeSubscriptionId: stripeSubscription.id,
+         stripeCustomerId: stripeSubscription.customer as string,
+         currentPeriodStart: new Date(
+            stripeSubscription.items.data[0].current_period_start * 1000
+         ),
+         currentPeriodEnd: new Date(
+            stripeSubscription.items.data[0].current_period_end * 1000
+         ),
+      };
+
+      await this.subscriptionService.updateSubscription(
+         userId,
+         subscriptionUpdate
+      );
+
+      const subscription =
+         await this.subscriptionService.getSubscription(userId);
+
+      const historyCreate: DSubscriptionHistoryCreate = {
+         userId,
+         eventType: "activated",
+         fromStatus: "INCOMPLETE",
+         toStatus: mapStripeStatus(stripeSubscription.status),
+         toTier: subscription?.plan.tier,
+         stripeEventId: session.id,
       };
       await this.subscriptionService.createSubscriptionHistory(historyCreate);
    }

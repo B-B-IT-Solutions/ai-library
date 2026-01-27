@@ -124,8 +124,8 @@ const handleSubscriptionCheckoutCompleted = async (
 ) => {
    try {
       await prisma.$transaction(async (tx) => {
-         const service = getSubscriptionService(tx);
-         return service.handleCheckoutCompleted(session);
+         const service = getStripeService(tx);
+         return service.handleSubscriptionCheckoutCompleted(session);
       });
    } catch (error) {
       console.error("Error handling subscription checkout:", error);
@@ -184,4 +184,9 @@ const getOrderSevice = (dbClient: DbClient = prisma) => {
 const getSubscriptionService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getSubscriptionService();
+};
+
+const getStripeService = (dbClient: DbClient = prisma) => {
+   const factory = new ServiceFactory(dbClient);
+   return factory.getStripeService();
 };

@@ -105,7 +105,7 @@ describe("createOrderCheckoutSession tests", () => {
       const cart = dtestData.dCart(1, 1);
 
       const order = dtestData.dOrder();
-      const checkoutSession = stripeTestData.stripeCheckoutSession();
+      const checkoutSession = stripeTestData.stripeCheckoutSessionResponse();
 
       requireUserMock.mockResolvedValue(user);
       cartServiceMock.getCart.mockResolvedValue(cart);
@@ -115,8 +115,8 @@ describe("createOrderCheckoutSession tests", () => {
       const result = await stripeService.createOrderCheckoutSession();
 
       const expectedResult: DStripeCheckoutResponse = {
-         sessionId: "session-1",
-         url: "https://checkout.stripe.com/session-1",
+         sessionId: checkoutSession.id,
+         url: checkoutSession.url as string,
       };
 
       const item1 = cart.items[0];
@@ -149,7 +149,7 @@ describe("createOrderCheckoutSession tests", () => {
          };
 
       const expectedDUpdatePayload: DOrderUpdate = {
-         stripeCheckoutSessionId: "session-1",
+         stripeCheckoutSessionId: checkoutSession.id,
          stripePaymentStatus: "unpaid",
       };
 
@@ -179,7 +179,7 @@ describe("createOrderCheckoutSession tests", () => {
       const item2 = cart.items[1];
       item2.productDescription = undefined;
 
-      const checkoutSession = stripeTestData.stripeCheckoutSession();
+      const checkoutSession = stripeTestData.stripeCheckoutSessionResponse();
 
       requireUserMock.mockResolvedValue(user);
       cartServiceMock.getCart.mockResolvedValue(cart);
@@ -189,8 +189,8 @@ describe("createOrderCheckoutSession tests", () => {
       const result = await stripeService.createOrderCheckoutSession();
 
       const expectedResult: DStripeCheckoutResponse = {
-         sessionId: "session-1",
-         url: "https://checkout.stripe.com/session-1",
+         sessionId: checkoutSession.id,
+         url: checkoutSession.url as string,
       };
 
       const expectedStripeCheckoutPayload: Stripe.Checkout.SessionCreateParams =
@@ -232,7 +232,7 @@ describe("createOrderCheckoutSession tests", () => {
          };
 
       const expectedDUpdatePayload: DOrderUpdate = {
-         stripeCheckoutSessionId: "session-1",
+         stripeCheckoutSessionId: checkoutSession.id,
          stripePaymentStatus: "unpaid",
       };
 
@@ -320,7 +320,7 @@ describe("createOrderCheckoutSession tests", () => {
       const user = dtestData.dLoginUser();
       const cart = dtestData.dCart(1, 1);
       const order = dtestData.dOrder(1);
-      const checkoutSession = stripeTestData.stripeCheckoutSession();
+      const checkoutSession = stripeTestData.stripeCheckoutSessionResponse();
       const error = new Error("Failed to update order");
 
       requireUserMock.mockResolvedValue(user);
@@ -346,7 +346,7 @@ describe("createOrderCheckoutSession tests", () => {
       user.email = null;
       const cart = dtestData.dCart(1, 1);
       const order = dtestData.dOrder(1);
-      const checkoutSession = stripeTestData.stripeCheckoutSession();
+      const checkoutSession = stripeTestData.stripeCheckoutSessionResponse();
 
       requireUserMock.mockResolvedValue(user);
       cartServiceMock.getCart.mockResolvedValue(cart);
@@ -355,8 +355,8 @@ describe("createOrderCheckoutSession tests", () => {
 
       const result = await stripeService.createOrderCheckoutSession();
       const expectedResult: DStripeCheckoutResponse = {
-         sessionId: "session-1",
-         url: "https://checkout.stripe.com/session-1",
+         sessionId: checkoutSession.id,
+         url: checkoutSession.url as string,
       };
 
       expect(result).toEqual(expectedResult);
@@ -376,7 +376,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
    it("createSubscriptionCheckoutSession - successful checkout with monthly billing - test", async () => {
       const plan = dtestData.dSubscriptionPlan(1);
       const stripeCustomer = stripeTestData.stripeCustomer();
-      const checkoutSession = stripeTestData.stripeCheckoutSession();
+      const checkoutSession = stripeTestData.stripeCheckoutSessionResponse();
       const params: DCreateSubscriptionCheckout = {
          userId: "user-1",
          userEmail: "test@email.com",
@@ -395,8 +395,8 @@ describe("createSubscriptionCheckoutSession tests", () => {
          await stripeService.createSubscriptionCheckoutSession(params);
 
       const expectedResult: DStripeCheckoutResponse = {
-         sessionId: "session-1",
-         url: "https://checkout.stripe.com/session-1",
+         sessionId: checkoutSession.id,
+         url: checkoutSession.url as string,
       };
 
       expect(result).toEqual(expectedResult);
@@ -461,7 +461,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
    it("createSubscriptionCheckoutSession - successful checkout with yearly billing - test", async () => {
       const plan = dtestData.dSubscriptionPlan(1);
       const stripeCustomer = stripeTestData.stripeCustomer();
-      const checkoutSession = stripeTestData.stripeCheckoutSession();
+      const checkoutSession = stripeTestData.stripeCheckoutSessionResponse();
       const params: DCreateSubscriptionCheckout = {
          userId: "user-1",
          userEmail: "test@email.com",
@@ -480,8 +480,8 @@ describe("createSubscriptionCheckoutSession tests", () => {
          await stripeService.createSubscriptionCheckoutSession(params);
 
       const expectedResult: DStripeCheckoutResponse = {
-         sessionId: "session-1",
-         url: "https://checkout.stripe.com/session-1",
+         sessionId: checkoutSession.id,
+         url: checkoutSession.url as string,
       };
 
       expect(result).toEqual(expectedResult);
@@ -546,7 +546,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
    it("createSubscriptionCheckoutSession - creates new Stripe customer if none exists - test", async () => {
       const plan = dtestData.dSubscriptionPlan(1);
       const stripeCustomer = stripeTestData.stripeCustomer();
-      const checkoutSession = stripeTestData.stripeCheckoutSession();
+      const checkoutSession = stripeTestData.stripeCheckoutSessionResponse();
       const params: DCreateSubscriptionCheckout = {
          userId: "user-1",
          userEmail: "test@email.com",
@@ -564,8 +564,8 @@ describe("createSubscriptionCheckoutSession tests", () => {
          await stripeService.createSubscriptionCheckoutSession(params);
 
       const expectedResult: DStripeCheckoutResponse = {
-         sessionId: "session-1",
-         url: "https://checkout.stripe.com/session-1",
+         sessionId: checkoutSession.id,
+         url: checkoutSession.url as string,
       };
 
       expect(result).toEqual(expectedResult);
@@ -598,7 +598,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
    it("createSubscriptionCheckoutSession - deletes existing incomplete subscription - test", async () => {
       const plan = dtestData.dSubscriptionPlan(1);
       const stripeCustomer = stripeTestData.stripeCustomer();
-      const checkoutSession = stripeTestData.stripeCheckoutSession();
+      const checkoutSession = stripeTestData.stripeCheckoutSessionResponse();
       const existingSubscription = dtestData.dSubscription(1);
       existingSubscription.status = "INCOMPLETE";
       const params: DCreateSubscriptionCheckout = {
@@ -621,8 +621,8 @@ describe("createSubscriptionCheckoutSession tests", () => {
          await stripeService.createSubscriptionCheckoutSession(params);
 
       const expectedResult: DStripeCheckoutResponse = {
-         sessionId: "session-1",
-         url: "https://checkout.stripe.com/session-1",
+         sessionId: checkoutSession.id,
+         url: checkoutSession.url as string,
       };
       expect(result).toEqual(expectedResult);
 
@@ -637,7 +637,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
    it("createSubscriptionCheckoutSession - does not delete existing active subscription - test", async () => {
       const plan = dtestData.dSubscriptionPlan(1);
       const stripeCustomer = stripeTestData.stripeCustomer();
-      const checkoutSession = stripeTestData.stripeCheckoutSession();
+      const checkoutSession = stripeTestData.stripeCheckoutSessionResponse();
       const existingSubscription = dtestData.dSubscription(1);
       existingSubscription.status = "ACTIVE";
       const params: DCreateSubscriptionCheckout = {
@@ -660,8 +660,8 @@ describe("createSubscriptionCheckoutSession tests", () => {
          await stripeService.createSubscriptionCheckoutSession(params);
 
       const expectedResult: DStripeCheckoutResponse = {
-         sessionId: "session-1",
-         url: "https://checkout.stripe.com/session-1",
+         sessionId: checkoutSession.id,
+         url: checkoutSession.url as string,
       };
 
       expect(result).toEqual(expectedResult);
@@ -782,7 +782,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
    it("createSubscriptionCheckoutSession - createUserSubscription throws error - test", async () => {
       const plan = dtestData.dSubscriptionPlan(1);
       const stripeCustomerId = "cus_test123";
-      const checkoutSession = stripeTestData.stripeCheckoutSession();
+      const checkoutSession = stripeTestData.stripeCheckoutSessionResponse();
       const error = new Error("Failed to create subscription");
       const params: DCreateSubscriptionCheckout = {
          userId: "user-1",
@@ -828,7 +828,7 @@ describe("cancelSubscription tests", () => {
 
    it("cancelSubscription - successful cancellation - test", async () => {
       const userId = "user-1";
-      const stripeSubscription = stripeTestData.stripeSubscription();
+      const stripeSubscription = stripeTestData.stripeSubscriptionResponse();
       const subscription = dtestData.dSubscription(1);
       subscription.stripeSubscriptionId = stripeSubscription.id;
       subscription.status = "ACTIVE";
@@ -980,7 +980,7 @@ describe("cancelSubscription tests", () => {
 
    it("cancelSubscription - updateUserSubscription throws error - test", async () => {
       const userId = "user-1";
-      const stripeSubscription = stripeTestData.stripeSubscription();
+      const stripeSubscription = stripeTestData.stripeSubscriptionResponse();
       const subscription = dtestData.dSubscription(1);
       subscription.stripeSubscriptionId = stripeSubscription.id;
       const error = new Error("Failed to update subscription");
@@ -1025,7 +1025,7 @@ describe("cancelSubscription tests", () => {
 
    it("cancelSubscription - createUserSubscriptionHistory throws error - test", async () => {
       const userId = "user-1";
-      const stripeSubscription = stripeTestData.stripeSubscription();
+      const stripeSubscription = stripeTestData.stripeSubscriptionResponse();
       const subscription = dtestData.dSubscription(1);
       subscription.stripeSubscriptionId = stripeSubscription.id;
       subscription.status = "ACTIVE";
@@ -1088,15 +1088,16 @@ describe("cancelSubscription tests", () => {
 
    it("cancelSubscription - handles subscription with different statuses - test", async () => {
       const userId = "user-1";
+      const stripeSubscriptionId = "sub_test123";
       const subscription = dtestData.dSubscription(1);
-      subscription.stripeSubscriptionId = "sub_test123";
+      subscription.stripeSubscriptionId = stripeSubscriptionId;
       subscription.status = "PAST_DUE";
       subscription.currentPeriodEnd = new Date("2026-01-26").toISOString();
 
-      const stripeSubscription = {
+      const stripeSubscription = stripeTestData.stripeSubscriptionResponse(1, {
          id: "sub_test123",
          cancel_at_period_end: true,
-      } as Stripe.Subscription;
+      });
 
       subscriptionServiceMock.getSubscription.mockResolvedValue(subscription);
       stripeMock.subscriptions.update.mockResolvedValue(stripeSubscription);
@@ -1125,7 +1126,7 @@ describe("reactivateSubscription tests", () => {
 
    it("reactivateSubscription - successful reactivation - test", async () => {
       const userId = "user-1";
-      const stripeSubscription = stripeTestData.stripeSubscription();
+      const stripeSubscription = stripeTestData.stripeSubscriptionResponse();
       stripeSubscription.cancel_at_period_end = false;
       const subscription = dtestData.dSubscription(1);
       subscription.stripeSubscriptionId = stripeSubscription.id;
@@ -1302,7 +1303,7 @@ describe("reactivateSubscription tests", () => {
 
    it("reactivateSubscription - updateUserSubscription throws error - test", async () => {
       const userId = "user-1";
-      const stripeSubscription = stripeTestData.stripeSubscription();
+      const stripeSubscription = stripeTestData.stripeSubscriptionResponse();
       const subscription = dtestData.dSubscription(1);
       subscription.stripeSubscriptionId = stripeSubscription.id;
       subscription.cancelAtPeriodEnd = true;
@@ -1348,7 +1349,7 @@ describe("reactivateSubscription tests", () => {
 
    it("reactivateSubscription - createUserSubscriptionHistory throws error - test", async () => {
       const userId = "user-1";
-      const stripeSubscription = stripeTestData.stripeSubscription();
+      const stripeSubscription = stripeTestData.stripeSubscriptionResponse();
       const subscription = dtestData.dSubscription(1);
       subscription.stripeSubscriptionId = stripeSubscription.id;
       subscription.status = "ACTIVE";
@@ -1406,6 +1407,393 @@ describe("reactivateSubscription tests", () => {
       expect(
          subscriptionServiceMock.createSubscriptionHistory
       ).toHaveBeenCalledWith(expectedHistoryParams);
+   });
+});
+
+describe("handleSubscriptionCheckoutCompleted tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   it("handleSubscriptionCheckoutCompleted - successful handling - test", async () => {
+      const userId = "user-123";
+      const stripeSubscriptionId = "sub_test_123";
+      const stripeCustomerId = "cus_test_123";
+      const periodStart = 1609459200;
+      const periodEnd = 1640995200;
+
+      const session = stripeTestData.stripeCheckoutSession(1, {
+         metadata: {
+            userId,
+         },
+         subscription: stripeSubscriptionId,
+      });
+
+      const stripeSubscription = stripeTestData.stripeSubscriptionResponse(1, {
+         id: stripeSubscriptionId,
+         status: "active",
+         customer: stripeCustomerId,
+         items: {
+            data: [
+               {
+                  current_period_start: periodStart,
+                  current_period_end: periodEnd,
+               } as Stripe.SubscriptionItem,
+            ],
+            object: "list",
+            has_more: false,
+            url: "url-1-test",
+         },
+      });
+
+      const subscription = dtestData.dSubscription();
+
+      stripeMock.subscriptions.retrieve.mockResolvedValue(stripeSubscription);
+      subscriptionServiceMock.getSubscription.mockResolvedValue(subscription);
+
+      await stripeService.handleSubscriptionCheckoutCompleted(session);
+
+      expect(stripeMock.subscriptions.retrieve).toHaveBeenCalledTimes(1);
+      expect(stripeMock.subscriptions.retrieve).toHaveBeenCalledWith(
+         stripeSubscriptionId
+      );
+
+      const expectedSubscriptionUpdate: DSubscriptionUpdate = {
+         status: "ACTIVE",
+         stripeSubscriptionId: stripeSubscriptionId,
+         stripeCustomerId: stripeCustomerId,
+         currentPeriodStart: new Date(periodStart * 1000),
+         currentPeriodEnd: new Date(periodEnd * 1000),
+      };
+      expect(subscriptionServiceMock.updateSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.updateSubscription).toHaveBeenCalledWith(
+         userId,
+         expectedSubscriptionUpdate
+      );
+
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledWith(
+         userId
+      );
+
+      const expectedHistoryCreate: DSubscriptionHistoryCreate = {
+         userId,
+         eventType: "activated",
+         fromStatus: "INCOMPLETE",
+         toStatus: "ACTIVE",
+         toTier: subscription.plan.tier,
+         stripeEventId: session.id,
+      };
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).toHaveBeenCalledWith(expectedHistoryCreate);
+   });
+
+   it("handleSubscriptionCheckoutCompleted - handles trialing status - test", async () => {
+      const userId = "user-123";
+      const stripeCustomerId = "cus_test_123";
+      const stripeSubscriptionId = "sub_test_123";
+      const periodStart = 1609459200;
+      const periodEnd = 1640995200;
+
+      const session = stripeTestData.stripeCheckoutSession(1, {
+         metadata: {
+            userId,
+         },
+         subscription: stripeSubscriptionId,
+      });
+
+      const stripeSubscription = stripeTestData.stripeSubscriptionResponse(1, {
+         id: stripeSubscriptionId,
+         status: "trialing",
+         customer: stripeCustomerId,
+         items: {
+            data: [
+               {
+                  current_period_start: periodStart,
+                  current_period_end: periodEnd,
+               } as Stripe.SubscriptionItem,
+            ],
+            object: "list",
+            has_more: false,
+            url: "url-1-test",
+         },
+      });
+
+      const subscription = dtestData.dSubscription();
+
+      stripeMock.subscriptions.retrieve.mockResolvedValue(stripeSubscription);
+      subscriptionServiceMock.getSubscription.mockResolvedValue(subscription);
+
+      await stripeService.handleSubscriptionCheckoutCompleted(session);
+
+      const expectedSubscriptionUpdate: DSubscriptionUpdate = {
+         status: "TRIALING",
+         stripeSubscriptionId: stripeSubscriptionId,
+         stripeCustomerId: stripeCustomerId,
+         currentPeriodStart: new Date(periodStart * 1000),
+         currentPeriodEnd: new Date(periodEnd * 1000),
+      };
+
+      expect(subscriptionServiceMock.updateSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.updateSubscription).toHaveBeenCalledWith(
+         userId,
+         expectedSubscriptionUpdate
+      );
+
+      const expectedHistoryCreate: DSubscriptionHistoryCreate = {
+         userId,
+         eventType: "activated",
+         fromStatus: "INCOMPLETE",
+         toStatus: "TRIALING",
+         toTier: subscription.plan.tier,
+         stripeEventId: session.id,
+      };
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).toHaveBeenCalledWith(expectedHistoryCreate);
+   });
+
+   it("handleSubscriptionCheckoutCompleted - throws error when userId is missing - test", async () => {
+      const session: Stripe.Checkout.Session = {
+         id: "session_123",
+         metadata: {},
+         subscription: "sub_test_123",
+      } as Stripe.Checkout.Session;
+
+      await expect(
+         stripeService.handleSubscriptionCheckoutCompleted(session)
+      ).rejects.toThrow("Missing userId or subscription in checkout session");
+
+      expect(stripeMock.subscriptions.retrieve).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.updateSubscription).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.getSubscription).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).not.toHaveBeenCalled();
+   });
+
+   it("handleSubscriptionCheckoutCompleted - throws error when subscription is missing - test", async () => {
+      const session = stripeTestData.stripeCheckoutSession(1, {
+         metadata: {
+            userId: "user-123",
+         },
+         subscription: null,
+      });
+
+      const fn = () =>
+         stripeService.handleSubscriptionCheckoutCompleted(session);
+
+      await expect(fn).rejects.toThrow(
+         "Missing userId or subscription in checkout session"
+      );
+
+      expect(stripeMock.subscriptions.retrieve).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.updateSubscription).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.getSubscription).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).not.toHaveBeenCalled();
+   });
+
+   it("handleSubscriptionCheckoutCompleted - throws error when metadata is undefined - test", async () => {
+      const session = stripeTestData.stripeCheckoutSession(1, {
+         subscription: "sub_test_123",
+      });
+
+      const fn = () =>
+         stripeService.handleSubscriptionCheckoutCompleted(session);
+
+      await expect(fn).rejects.toThrow(
+         "Missing userId or subscription in checkout session"
+      );
+
+      expect(stripeMock.subscriptions.retrieve).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.updateSubscription).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.getSubscription).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).not.toHaveBeenCalled();
+   });
+
+   it("handleSubscriptionCheckoutCompleted - stripe.subscriptions.retrieve throws error - test", async () => {
+      const session = stripeTestData.stripeCheckoutSession(1, {
+         metadata: {
+            userId: "user-123",
+         },
+         subscription: "sub_test_123",
+      });
+
+      const error = new Error("Stripe API error");
+      stripeMock.subscriptions.retrieve.mockRejectedValue(error);
+
+      const fn = () =>
+         stripeService.handleSubscriptionCheckoutCompleted(session);
+
+      await expect(fn).rejects.toThrow("Stripe API error");
+
+      expect(stripeMock.subscriptions.retrieve).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.updateSubscription).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.getSubscription).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).not.toHaveBeenCalled();
+   });
+
+   it("handleSubscriptionCheckoutCompleted - updateSubscription throws error - test", async () => {
+      const userId = "user-123";
+      const stripeSubscriptionId = "sub_test_123";
+
+      const session = stripeTestData.stripeCheckoutSession(1, {
+         metadata: {
+            userId,
+         },
+         subscription: stripeSubscriptionId,
+      });
+
+      const stripeSubscription = stripeTestData.stripeSubscriptionResponse(1, {
+         id: stripeSubscriptionId,
+         status: "active",
+         customer: "cus_test_123",
+         items: {
+            data: [
+               {
+                  current_period_start: 1672531200,
+                  current_period_end: 1704067200,
+               } as Stripe.SubscriptionItem,
+            ],
+            object: "list",
+            has_more: false,
+            url: "url-1-test",
+         },
+      });
+
+      const error = new Error("Database error");
+      stripeMock.subscriptions.retrieve.mockResolvedValue(stripeSubscription);
+      subscriptionServiceMock.updateSubscription.mockRejectedValue(error);
+
+      const fn = () =>
+         stripeService.handleSubscriptionCheckoutCompleted(session);
+
+      await expect(fn).rejects.toThrow("Database error");
+
+      expect(stripeMock.subscriptions.retrieve).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.updateSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getSubscription).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).not.toHaveBeenCalled();
+   });
+
+   it("handleSubscriptionCheckoutCompleted - getSubscription throws error - test", async () => {
+      const userId = "user-123";
+      const stripeSubscriptionId = "sub_test_123";
+
+      const session = stripeTestData.stripeCheckoutSession(1, {
+         metadata: {
+            userId,
+         },
+         subscription: stripeSubscriptionId,
+      });
+
+      const stripeSubscription = stripeTestData.stripeSubscriptionResponse(1, {
+         id: stripeSubscriptionId,
+         status: "active",
+         customer: "cus_test_123",
+         items: {
+            data: [
+               {
+                  current_period_start: 1672531200,
+                  current_period_end: 1704067200,
+               } as Stripe.SubscriptionItem,
+            ],
+            object: "list",
+            has_more: false,
+            url: "url-1-test",
+         },
+      });
+
+      const error = new Error("Failed to get subscription");
+      stripeMock.subscriptions.retrieve.mockResolvedValue(stripeSubscription);
+      subscriptionServiceMock.getSubscription.mockRejectedValue(error);
+
+      const fn = () =>
+         stripeService.handleSubscriptionCheckoutCompleted(session);
+
+      await expect(fn).rejects.toThrow("Failed to get subscription");
+
+      expect(stripeMock.subscriptions.retrieve).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.updateSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).not.toHaveBeenCalled();
+   });
+
+   it("handleSubscriptionCheckoutCompleted - createSubscriptionHistory throws error - test", async () => {
+      const userId = "user-123";
+      const stripeSubscriptionId = "sub_test_123";
+
+      const session = stripeTestData.stripeCheckoutSession(1, {
+         metadata: {
+            userId,
+         },
+         subscription: stripeSubscriptionId,
+      });
+
+      const stripeSubscription = stripeTestData.stripeSubscriptionResponse(1, {
+         id: stripeSubscriptionId,
+         status: "active",
+         customer: "cus_test_123",
+         items: {
+            data: [
+               {
+                  current_period_start: 1672531200,
+                  current_period_end: 1704067200,
+               } as Stripe.SubscriptionItem,
+            ],
+            object: "list",
+            has_more: false,
+            url: "url-1-test",
+         },
+      });
+
+      const subscription = dtestData.dSubscription();
+      const error = new Error("Failed to create history");
+
+      stripeMock.subscriptions.retrieve.mockResolvedValue(stripeSubscription);
+      subscriptionServiceMock.getSubscription.mockResolvedValue(subscription);
+      subscriptionServiceMock.createSubscriptionHistory.mockRejectedValue(
+         error
+      );
+
+      const fn = () =>
+         stripeService.handleSubscriptionCheckoutCompleted(session);
+
+      await expect(fn).rejects.toThrow("Failed to create history");
+
+      expect(stripeMock.subscriptions.retrieve).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.updateSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.getSubscription).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).toHaveBeenCalledTimes(1);
    });
 });
 

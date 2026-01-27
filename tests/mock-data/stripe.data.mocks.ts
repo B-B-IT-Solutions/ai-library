@@ -1,12 +1,21 @@
 import Stripe from "stripe";
 
-export const stripeCheckoutSession = (
+export const stripeCheckoutSessionResponse = (
    index = 1
 ): Stripe.Response<Stripe.Checkout.Session> => {
+   const session = stripeCheckoutSession(index);
+   return session as Stripe.Response<Stripe.Checkout.Session>;
+};
+
+export const stripeCheckoutSession = (
+   index = 1,
+   customData?: Partial<Stripe.Checkout.Session>
+): Stripe.Checkout.Session => {
    return {
-      id: "session-1",
+      id: `session-123-${index}`,
       url: `https://checkout.stripe.com/session-${index}`,
-   } as unknown as Stripe.Response<Stripe.Checkout.Session>;
+      ...customData,
+   } as Stripe.Checkout.Session;
 };
 
 export const stripeCustomer = (index = 1): Stripe.Response<Stripe.Customer> => {
@@ -15,13 +24,23 @@ export const stripeCustomer = (index = 1): Stripe.Response<Stripe.Customer> => {
    } as unknown as Stripe.Response<Stripe.Customer>;
 };
 
-export const stripeSubscription = (
-   index = 1
+export const stripeSubscriptionResponse = (
+   index = 1,
+   customData?: Partial<Stripe.Subscription>
 ): Stripe.Response<Stripe.Subscription> => {
+   const subscription = stripeSubscription(index, customData);
+   return subscription as Stripe.Response<Stripe.Subscription>;
+};
+
+export const stripeSubscription = (
+   index = 1,
+   customData?: Partial<Stripe.Subscription>
+): Stripe.Subscription => {
    return {
       id: `sub_test123_${index}`,
       cancel_at_period_end: true,
-   } as unknown as Stripe.Response<Stripe.Subscription>;
+      ...customData,
+   } as Stripe.Subscription;
 };
 
 export const billingPortalSession = (
