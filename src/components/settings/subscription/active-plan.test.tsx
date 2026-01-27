@@ -91,7 +91,7 @@ describe("SubscriptionStatus rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("Subscription - paid plan - canceled - test", async () => {
+   it("Subscription - paid plan - canceled - currentPeriodEnd defined - test", async () => {
       const subscription = dtestData.dSubscription();
       subscription.status = "CANCELED";
       subscription.cancelAtPeriodEnd = true;
@@ -103,6 +103,25 @@ describe("SubscriptionStatus rendering tests", () => {
          assertCurrentPeriodEndRendered();
          assertCancelAtPeriodEndRendered();
          assertReactivateBtnRendered();
+         assertCancelBtnNotRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("Subscription - paid plan - canceled - currentPeriodEnd null - test", async () => {
+      const subscription = dtestData.dSubscription();
+      subscription.status = "CANCELED";
+      subscription.cancelAtPeriodEnd = true;
+      subscription.currentPeriodEnd = null;
+
+      const { container } = render(<ActivePlan subscription={subscription} />);
+
+      await waitFor(() => {
+         assertPaidRendered();
+         assertCancelAtPeriodEndRendered();
+         assertReactivateBtnRendered();
+         assertCurrentPeriodEndNotRendered();
          assertCancelBtnNotRendered();
       });
 
