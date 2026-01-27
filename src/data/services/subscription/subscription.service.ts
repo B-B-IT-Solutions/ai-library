@@ -1,5 +1,3 @@
-import Stripe from "stripe";
-
 import { SubscriptionRepository } from "@/data/repositories/subscription";
 import {
    SubscriptionHistoryCreate,
@@ -520,40 +518,40 @@ export class SubscriptionService {
    //    });
    // }
 
-   async handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void> {
-      const stripeSubscriptionId = invoice.subscription as string;
+   // async handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void> {
+   //    const stripeSubscriptionId = invoice.subscription as string;
 
-      if (!stripeSubscriptionId) {
-         return;
-      }
+   //    if (!stripeSubscriptionId) {
+   //       return;
+   //    }
 
-      const subscription = await this.subscriptionRepo.pGetSubscription({
-         stripeSubscriptionId,
-      });
+   //    const subscription = await this.subscriptionRepo.pGetSubscription({
+   //       stripeSubscriptionId,
+   //    });
 
-      if (!subscription) {
-         console.error("Subscription not found for failed invoice");
-         return;
-      }
+   //    if (!subscription) {
+   //       console.error("Subscription not found for failed invoice");
+   //       return;
+   //    }
 
-      // Update subscription status to PAST_DUE
-      await this.subscriptionRepo.pUpdateSubscription(subscription.userId, {
-         status: "PAST_DUE",
-      });
+   //    // Update subscription status to PAST_DUE
+   //    await this.subscriptionRepo.pUpdateSubscription(subscription.userId, {
+   //       status: "PAST_DUE",
+   //    });
 
-      // Create history entry
-      await this.subscriptionRepo.pCreateSubscriptionHistory({
-         userId: subscription.userId,
-         eventType: "payment_failed",
-         fromStatus: subscription.status,
-         toStatus: "PAST_DUE",
-         stripeEventId: invoice.id,
-         metadata: {
-            invoiceId: invoice.id,
-            attemptCount: invoice.attempt_count,
-         },
-      });
-   }
+   //    // Create history entry
+   //    await this.subscriptionRepo.pCreateSubscriptionHistory({
+   //       userId: subscription.userId,
+   //       eventType: "payment_failed",
+   //       fromStatus: subscription.status,
+   //       toStatus: "PAST_DUE",
+   //       stripeEventId: invoice.id,
+   //       metadata: {
+   //          invoiceId: invoice.id,
+   //          attemptCount: invoice.attempt_count,
+   //       },
+   //    });
+   // }
 
    // Helper Methods
 

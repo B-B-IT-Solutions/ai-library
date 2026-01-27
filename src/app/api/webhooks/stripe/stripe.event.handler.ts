@@ -168,7 +168,7 @@ const handleInvoicePaymentSucceeded = async (invoice: Stripe.Invoice) => {
 const handleInvoicePaymentFailed = async (invoice: Stripe.Invoice) => {
    try {
       await prisma.$transaction(async (tx) => {
-         const service = getSubscriptionService(tx);
+         const service = getStripeService(tx);
          return service.handleInvoicePaymentFailed(invoice);
       });
    } catch (error) {
@@ -179,11 +179,6 @@ const handleInvoicePaymentFailed = async (invoice: Stripe.Invoice) => {
 const getOrderSevice = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getOrderService();
-};
-
-const getSubscriptionService = (dbClient: DbClient = prisma) => {
-   const factory = new ServiceFactory(dbClient);
-   return factory.getSubscriptionService();
 };
 
 const getStripeService = (dbClient: DbClient = prisma) => {

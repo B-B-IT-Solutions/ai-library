@@ -421,6 +421,47 @@ export class StripeService {
       await this.subscriptionService.createSubscriptionHistory(historyCreate);
    }
 
+   async handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void> {
+      const stripeSubscriptionId = invoice.subscription as string;
+
+      if (!stripeSubscriptionId) {
+         console.error("Invoice doesn't have subscriptionId");
+         return;
+      }
+
+      const subscription =
+         await this.subscriptionService.getSubscriptionByStripeSubscriptionId(
+            stripeSubscriptionId
+         );
+
+      if (!subscription) {
+         console.error("Subscription not found for failed invoice");
+         return;
+      }
+
+      const subscriptionUpdate: DSubscriptionUpdate = {
+         status: "PAST_DUE",
+      };
+
+      await this.subscriptionService.updateSubscription(
+         subscription.userId,
+         subscriptionUpdate
+      );
+
+      const historyCreate: DSubscriptionHistoryCreate = {
+         userId: subscription.userId,
+         eventType: "payment_failed",
+         fromStatus: subscription.status,
+         toStatus: "PAST_DUE",
+         stripeEventId: invoice.id,
+         metadata: {
+            invoiceId: invoice.id,
+            attemptCount: invoice.attempt_count,
+         },
+      };
+      await this.subscriptionService.createSubscriptionHistory(historyCreate);
+   }
+
    async createPortalSession(
       userId: string
    ): Promise<DStripeBillingPortalSessionResponse> {
