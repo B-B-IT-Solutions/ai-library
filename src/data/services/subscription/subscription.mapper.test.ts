@@ -1,3 +1,4 @@
+import { ptestData } from "@tests";
 import { map } from "es-toolkit/compat";
 
 import { SubscriptionWithPlan } from "@/data/types/db/subscription";
@@ -11,7 +12,13 @@ import {
 } from "@/data/types/domain/subscription";
 import { SubscriptionPlan } from "@/generated/prisma/client";
 
-export const toDSubscription = (
+import {
+   toDSubscription,
+   toDSubscriptionPlan,
+   toDSubscriptionPlans,
+} from "./subscription.mapper";
+
+export const toDSubscriptionInternal = (
    subscription: SubscriptionWithPlan
 ): DSubscription => {
    return {
@@ -34,13 +41,13 @@ export const toDSubscription = (
    };
 };
 
-export const toDSubscriptionPlans = (
+export const toDSubscriptionPlansInternal = (
    plans: SubscriptionPlan[]
 ): DSubscriptionPlan[] => {
-   return map(plans, (p) => toDSubscriptionPlan(p));
+   return map(plans, (p) => toDSubscriptionPlanInternal(p));
 };
 
-export const toDSubscriptionPlan = (
+export const toDSubscriptionPlanInternal = (
    plan: SubscriptionPlan
 ): DSubscriptionPlan => {
    return {
@@ -59,3 +66,37 @@ export const toDSubscriptionPlan = (
       updatedAt: plan.updatedAt.toISOString(),
    };
 };
+
+describe("toDSubscription tests", () => {
+   it("toDSubscription test", () => {
+      const subscription = ptestData.pSubscriptionWithPlan(1);
+      const result = toDSubscription(subscription);
+      const expectedResult = toDSubscriptionInternal(subscription);
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("toDSubscription - null dates - test", () => {
+      const subscription = ptestData.pSubscriptionWithPlan(1);
+      subscription.currentPeriodStart = null;
+      subscription.currentPeriodEnd = null;
+      subscription.canceledAt = null;
+
+      const result = toDSubscription(subscription);
+      const expectedResult = toDSubscriptionInternal(subscription);
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("toDSubscriptionPlans test", () => {
+      const plans = ptestData.pSubscriptionPlans();
+      const result = toDSubscriptionPlans(plans);
+      const expectedResult = toDSubscriptionPlansInternal(plans);
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("toDSubscriptionPlan test", () => {
+      const plan = ptestData.pSubscriptionPlan(1);
+      const result = toDSubscriptionPlan(plan);
+      const expectedResult = toDSubscriptionPlanInternal(plan);
+      expect(result).toEqual(expectedResult);
+   });
+});
