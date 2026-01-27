@@ -135,7 +135,7 @@ const handleSubscriptionCheckoutCompleted = async (
 const handleSubscriptionUpdated = async (subscription: Stripe.Subscription) => {
    try {
       await prisma.$transaction(async (tx) => {
-         const service = getSubscriptionService(tx);
+         const service = getStripeService(tx);
          return service.handleSubscriptionUpdated(subscription);
       });
    } catch (error) {

@@ -301,19 +301,6 @@ export class StripeService {
    ): Promise<void> {
       const userId = stripeSubscription.metadata?.userId;
 
-      if (!userId) {
-         // Try to find subscription by Stripe ID
-         const subscription =
-            await this.subscriptionService.getSubscriptionByStripeSubscriptionId(
-               stripeSubscription.id
-            );
-
-         if (!subscription) {
-            console.error("Subscription not found for update");
-            return;
-         }
-      }
-
       const localSubscription = userId
          ? await this.subscriptionService.getSubscription(userId)
          : await this.subscriptionService.getSubscriptionByStripeSubscriptionId(
@@ -321,7 +308,7 @@ export class StripeService {
            );
 
       if (!localSubscription) {
-         console.error("Local subscription not found");
+         console.error("Subscription not found");
          return;
       }
 
