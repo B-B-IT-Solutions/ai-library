@@ -1,3 +1,5 @@
+import { isFuture } from "date-fns";
+
 import { SubscriptionRepository } from "@/data/repositories/subscription";
 import {
    SubscriptionCreate,
@@ -135,7 +137,7 @@ export class SubscriptionService {
       if (
          subscription.status === "CANCELED" &&
          subscription.currentPeriodEnd &&
-         new Date(subscription.currentPeriodEnd) > new Date()
+         isFuture(subscription.currentPeriodEnd)
       ) {
          return true;
       }
