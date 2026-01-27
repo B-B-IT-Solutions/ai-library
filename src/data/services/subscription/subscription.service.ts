@@ -395,63 +395,63 @@ export class SubscriptionService {
    //    });
    // }
 
-   async handleSubscriptionUpdated(
-      stripeSubscription: Stripe.Subscription
-   ): Promise<void> {
-      const userId = stripeSubscription.metadata?.userId;
+   // async handleSubscriptionUpdated(
+   //    stripeSubscription: Stripe.Subscription
+   // ): Promise<void> {
+   //    const userId = stripeSubscription.metadata?.userId;
 
-      if (!userId) {
-         // Try to find subscription by Stripe ID
-         const subscription = await this.subscriptionRepo.pGetSubscription({
-            stripeSubscriptionId: stripeSubscription.id,
-         });
+   //    if (!userId) {
+   //       // Try to find subscription by Stripe ID
+   //       const subscription = await this.subscriptionRepo.pGetSubscription({
+   //          stripeSubscriptionId: stripeSubscription.id,
+   //       });
 
-         if (!subscription) {
-            console.error("Subscription not found for update");
-            return;
-         }
-      }
+   //       if (!subscription) {
+   //          console.error("Subscription not found for update");
+   //          return;
+   //       }
+   //    }
 
-      const localSubscription = userId
-         ? await this.subscriptionRepo.pGetSubscription({ userId })
-         : await this.subscriptionRepo.pGetSubscription({
-              stripeSubscriptionId: stripeSubscription.id,
-           });
+   //    const localSubscription = userId
+   //       ? await this.subscriptionRepo.pGetSubscription({ userId })
+   //       : await this.subscriptionRepo.pGetSubscription({
+   //            stripeSubscriptionId: stripeSubscription.id,
+   //         });
 
-      if (!localSubscription) {
-         console.error("Local subscription not found");
-         return;
-      }
+   //    if (!localSubscription) {
+   //       console.error("Local subscription not found");
+   //       return;
+   //    }
 
-      const oldStatus = localSubscription.status;
-      const newStatus = this.mapStripeStatus(stripeSubscription.status);
+   //    const oldStatus = localSubscription.status;
+   //    const newStatus = this.mapStripeStatus(stripeSubscription.status);
 
-      // Update subscription
-      await this.subscriptionRepo.pUpdateSubscription(
-         localSubscription.userId,
-         {
-            status: newStatus,
-            currentPeriodStart: new Date(
-               stripeSubscription.items.data[0].current_period_start * 1000
-            ),
-            currentPeriodEnd: new Date(
-               stripeSubscription.items.data[0].current_period_end * 1000
-            ),
-            cancelAtPeriodEnd: stripeSubscription.cancel_at_period_end,
-         }
-      );
+   //    // Update subscription
+   //    await this.subscriptionRepo.pUpdateSubscription(
+   //       localSubscription.userId,
+   //       {
+   //          status: newStatus,
+   //          currentPeriodStart: new Date(
+   //             stripeSubscription.items.data[0].current_period_start * 1000
+   //          ),
+   //          currentPeriodEnd: new Date(
+   //             stripeSubscription.items.data[0].current_period_end * 1000
+   //          ),
+   //          cancelAtPeriodEnd: stripeSubscription.cancel_at_period_end,
+   //       }
+   //    );
 
-      // Create history entry if status changed
-      if (oldStatus !== newStatus) {
-         await this.subscriptionRepo.pCreateSubscriptionHistory({
-            userId: localSubscription.userId,
-            eventType: "updated",
-            fromStatus: oldStatus,
-            toStatus: newStatus,
-            stripeEventId: stripeSubscription.id,
-         });
-      }
-   }
+   //    // Create history entry if status changed
+   //    if (oldStatus !== newStatus) {
+   //       await this.subscriptionRepo.pCreateSubscriptionHistory({
+   //          userId: localSubscription.userId,
+   //          eventType: "updated",
+   //          fromStatus: oldStatus,
+   //          toStatus: newStatus,
+   //          stripeEventId: stripeSubscription.id,
+   //       });
+   //    }
+   // }
 
    async handleSubscriptionDeleted(
       stripeSubscription: Stripe.Subscription
@@ -597,21 +597,21 @@ export class SubscriptionService {
    //    return customer.id;
    // }
 
-   mapStripeStatus(
-      stripeStatus: Stripe.Subscription.Status
-   ): SubscriptionStatus {
-      const statusMap: Record<Stripe.Subscription.Status, SubscriptionStatus> =
-         {
-            active: "ACTIVE",
-            canceled: "CANCELED",
-            incomplete: "INCOMPLETE",
-            incomplete_expired: "INCOMPLETE",
-            past_due: "PAST_DUE",
-            unpaid: "UNPAID",
-            trialing: "TRIALING",
-            paused: "PAUSED",
-         };
+   // mapStripeStatus(
+   //    stripeStatus: Stripe.Subscription.Status
+   // ): SubscriptionStatus {
+   //    const statusMap: Record<Stripe.Subscription.Status, SubscriptionStatus> =
+   //       {
+   //          active: "ACTIVE",
+   //          canceled: "CANCELED",
+   //          incomplete: "INCOMPLETE",
+   //          incomplete_expired: "INCOMPLETE",
+   //          past_due: "PAST_DUE",
+   //          unpaid: "UNPAID",
+   //          trialing: "TRIALING",
+   //          paused: "PAUSED",
+   //       };
 
-      return statusMap[stripeStatus] || "INCOMPLETE";
-   }
+   //    return statusMap[stripeStatus] || "INCOMPLETE";
+   // }
 }
