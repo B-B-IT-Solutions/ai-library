@@ -67,18 +67,14 @@ const sHandleInvoicePaymentFailedMock =
 const nextResponseMock = NextResponse as unknown as DeepMockProxy<NextResponse>;
 
 describe("handleStripeEvent tests", () => {
-   const originalConsoleLog = console.log;
-   const originalConsoleError = console.error;
-
    beforeEach(() => {
       jest.clearAllMocks();
-      console.log = jest.fn();
-      console.error = jest.fn();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+      jest.spyOn(console, "log").mockImplementation(() => {});
    });
 
    afterEach(() => {
-      console.log = originalConsoleLog;
-      console.error = originalConsoleError;
+      jest.restoreAllMocks();
    });
 
    describe("checkout.session.completed - setup mode - tests", () => {
