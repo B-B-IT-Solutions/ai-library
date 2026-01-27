@@ -44,6 +44,16 @@ export const stripeSubscription = (
    } as Stripe.Subscription;
 };
 
+export const stripeInvoice = (
+   index = 1,
+   customData?: DeepPartial<Stripe.Invoice>
+): Stripe.Invoice => {
+   return {
+      id: `in_test_123_${index}`,
+      ...customData,
+   } as Stripe.Invoice;
+};
+
 export const billingPortalSession = (
    index = 1
 ): Stripe.Response<Stripe.BillingPortal.Session> => {

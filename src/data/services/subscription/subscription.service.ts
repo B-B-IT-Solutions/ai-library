@@ -13,7 +13,6 @@ import {
    DSubscriptionTier,
    DSubscriptionUpdate,
 } from "@/data/types/domain/subscription";
-import { stripe } from "@/lib/stripe/stripe-server";
 
 import {
    toDSubscription,
@@ -477,51 +476,49 @@ export class SubscriptionService {
    //    await this.subscriptionRepo.pDeleteSubscription(subscription.userId);
    // }
 
-   async handleInvoicePaymentSucceeded(invoice: Stripe.Invoice): Promise<void> {
-      const stripeSubscriptionId = invoice.subscription as string;
+   // async handleInvoicePaymentSucceeded(invoice: Stripe.Invoice): Promise<void> {
+   //    const stripeSubscriptionId = invoice.subscription as string;
 
-      console.log("handleInvoicePaymentSucceeded");
+   //    if (!stripeSubscriptionId) {
+   //       return;
+   //    }
 
-      if (!stripeSubscriptionId) {
-         return;
-      }
+   //    const subscription = await this.subscriptionRepo.pGetSubscription({
+   //       stripeSubscriptionId,
+   //    });
 
-      const subscription = await this.subscriptionRepo.pGetSubscription({
-         stripeSubscriptionId,
-      });
+   //    if (!subscription) {
+   //       console.error("Subscription not found for invoice");
+   //       return;
+   //    }
 
-      if (!subscription) {
-         console.error("Subscription not found for invoice");
-         return;
-      }
+   //    // Get the Stripe subscription to get updated period dates
+   //    const stripeSubscription =
+   //       await stripe.subscriptions.retrieve(stripeSubscriptionId);
 
-      // Get the Stripe subscription to get updated period dates
-      const stripeSubscription =
-         await stripe.subscriptions.retrieve(stripeSubscriptionId);
+   //    // Update subscription with new period
+   //    await this.subscriptionRepo.pUpdateSubscription(subscription.userId, {
+   //       status: "ACTIVE",
+   //       currentPeriodStart: new Date(
+   //          stripeSubscription.items.data[0].current_period_start * 1000
+   //       ),
+   //       currentPeriodEnd: new Date(
+   //          stripeSubscription.items.data[0].current_period_end * 1000
+   //       ),
+   //    });
 
-      // Update subscription with new period
-      await this.subscriptionRepo.pUpdateSubscription(subscription.userId, {
-         status: "ACTIVE",
-         currentPeriodStart: new Date(
-            stripeSubscription.items.data[0].current_period_start * 1000
-         ),
-         currentPeriodEnd: new Date(
-            stripeSubscription.items.data[0].current_period_end * 1000
-         ),
-      });
-
-      // Create history entry
-      await this.subscriptionRepo.pCreateSubscriptionHistory({
-         userId: subscription.userId,
-         eventType: "renewed",
-         toStatus: "ACTIVE",
-         stripeEventId: invoice.id,
-         metadata: {
-            invoiceId: invoice.id,
-            amountPaid: invoice.amount_paid / 100,
-         },
-      });
-   }
+   //    // Create history entry
+   //    await this.subscriptionRepo.pCreateSubscriptionHistory({
+   //       userId: subscription.userId,
+   //       eventType: "renewed",
+   //       toStatus: "ACTIVE",
+   //       stripeEventId: invoice.id,
+   //       metadata: {
+   //          invoiceId: invoice.id,
+   //          amountPaid: invoice.amount_paid / 100,
+   //       },
+   //    });
+   // }
 
    async handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void> {
       const stripeSubscriptionId = invoice.subscription as string;

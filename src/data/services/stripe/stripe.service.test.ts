@@ -2198,9 +2198,9 @@ describe("handleSubscriptionDeleted tests", () => {
          subscriptionServiceMock.createSubscriptionHistory
       ).toHaveBeenCalledWith(expectedHistoryCreate);
 
-      expect(
-         subscriptionServiceMock.deleteSubscription
-      ).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.deleteSubscription).toHaveBeenCalledTimes(
+         1
+      );
       expect(subscriptionServiceMock.deleteSubscription).toHaveBeenCalledWith(
          userId
       );
@@ -2234,9 +2234,7 @@ describe("handleSubscriptionDeleted tests", () => {
       expect(
          subscriptionServiceMock.createSubscriptionHistory
       ).not.toHaveBeenCalled();
-      expect(
-         subscriptionServiceMock.deleteSubscription
-      ).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.deleteSubscription).not.toHaveBeenCalled();
    });
 
    it("handleSubscriptionDeleted - getSubscriptionByStripeSubscriptionId throws error - test", async () => {
@@ -2266,9 +2264,7 @@ describe("handleSubscriptionDeleted tests", () => {
       expect(
          subscriptionServiceMock.createSubscriptionHistory
       ).not.toHaveBeenCalled();
-      expect(
-         subscriptionServiceMock.deleteSubscription
-      ).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.deleteSubscription).not.toHaveBeenCalled();
    });
 
    it("handleSubscriptionDeleted - createSubscriptionHistory throws error - test", async () => {
@@ -2306,9 +2302,7 @@ describe("handleSubscriptionDeleted tests", () => {
       expect(
          subscriptionServiceMock.createSubscriptionHistory
       ).toHaveBeenCalledTimes(1);
-      expect(
-         subscriptionServiceMock.deleteSubscription
-      ).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.deleteSubscription).not.toHaveBeenCalled();
    });
 
    it("handleSubscriptionDeleted - deleteSubscription throws error - test", async () => {
@@ -2344,8 +2338,332 @@ describe("handleSubscriptionDeleted tests", () => {
       expect(
          subscriptionServiceMock.createSubscriptionHistory
       ).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.deleteSubscription).toHaveBeenCalledTimes(
+         1
+      );
+   });
+});
+
+describe("handleInvoicePaymentSucceeded tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("handleInvoicePaymentSucceeded - successful payment processing - test", async () => {
+      const userId = "user-123";
+      const stripeSubscriptionId = "sub_test_123";
+      const invoiceId = "in_test_123";
+      const amountPaid = 9900;
+      const periodStart = 1672531200;
+      const periodEnd = 1704067200;
+
+      const localSubscription = dtestData.dSubscription();
+      localSubscription.userId = userId;
+      localSubscription.stripeSubscriptionId = stripeSubscriptionId;
+
+      const stripeInvoice = stripeTestData.stripeInvoice(1, {
+         id: invoiceId,
+         subscription: stripeSubscriptionId,
+         amount_paid: amountPaid,
+      });
+
+      const stripeSubscription = stripeTestData.stripeSubscriptionResponse(1, {
+         id: stripeSubscriptionId,
+         status: "active",
+         items: {
+            data: [
+               {
+                  current_period_start: periodStart,
+                  current_period_end: periodEnd,
+               },
+            ],
+         },
+      });
+
+      subscriptionServiceMock.getSubscriptionByStripeSubscriptionId.mockResolvedValue(
+         localSubscription
+      );
+      stripeMock.subscriptions.retrieve.mockResolvedValue(stripeSubscription);
+
+      await stripeService.handleInvoicePaymentSucceeded(stripeInvoice);
+
       expect(
-         subscriptionServiceMock.deleteSubscription
+         subscriptionServiceMock.getSubscriptionByStripeSubscriptionId
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.getSubscriptionByStripeSubscriptionId
+      ).toHaveBeenCalledWith(stripeSubscriptionId);
+
+      expect(stripeMock.subscriptions.retrieve).toHaveBeenCalledTimes(1);
+      expect(stripeMock.subscriptions.retrieve).toHaveBeenCalledWith(
+         stripeSubscriptionId
+      );
+
+      const expectedSubscriptionUpdate: DSubscriptionUpdate = {
+         status: "ACTIVE",
+         currentPeriodStart: new Date(periodStart * 1000),
+         currentPeriodEnd: new Date(periodEnd * 1000),
+      };
+      expect(subscriptionServiceMock.updateSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(subscriptionServiceMock.updateSubscription).toHaveBeenCalledWith(
+         userId,
+         expectedSubscriptionUpdate
+      );
+
+      const expectedHistoryCreate: DSubscriptionHistoryCreate = {
+         userId,
+         eventType: "renewed",
+         toStatus: "ACTIVE",
+         stripeEventId: invoiceId,
+         metadata: {
+            invoiceId: invoiceId,
+            amountPaid: amountPaid / 100,
+         },
+      };
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).toHaveBeenCalledWith(expectedHistoryCreate);
+   });
+
+   it("handleInvoicePaymentSucceeded - invoice without subscription ID - test", async () => {
+      const stripeInvoice = stripeTestData.stripeInvoice(1, {
+         subscription: null,
+         amount_paid: 9900,
+      });
+
+      await stripeService.handleInvoicePaymentSucceeded(stripeInvoice);
+
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(
+         "Invoice doesn't have subscriptionId"
+      );
+
+      expect(
+         subscriptionServiceMock.getSubscriptionByStripeSubscriptionId
+      ).not.toHaveBeenCalled();
+      expect(stripeMock.subscriptions.retrieve).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.updateSubscription).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).not.toHaveBeenCalled();
+   });
+
+   it("handleInvoicePaymentSucceeded - subscription not found - test", async () => {
+      const stripeSubscriptionId = "sub_test_123";
+
+      const stripeInvoice = stripeTestData.stripeInvoice(1, {
+         subscription: stripeSubscriptionId,
+         amount_paid: 9900,
+      });
+
+      subscriptionServiceMock.getSubscriptionByStripeSubscriptionId.mockResolvedValue(
+         null
+      );
+
+      await stripeService.handleInvoicePaymentSucceeded(stripeInvoice);
+
+      expect(
+         subscriptionServiceMock.getSubscriptionByStripeSubscriptionId
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.getSubscriptionByStripeSubscriptionId
+      ).toHaveBeenCalledWith(stripeSubscriptionId);
+
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(
+         "Subscription not found for invoice"
+      );
+
+      expect(stripeMock.subscriptions.retrieve).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.updateSubscription).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).not.toHaveBeenCalled();
+   });
+
+   it("handleInvoicePaymentSucceeded - getSubscriptionByStripeSubscriptionId throws error - test", async () => {
+      const stripeSubscriptionId = "sub_test_123";
+
+      const stripeInvoice = stripeTestData.stripeInvoice(1, {
+         subscription: stripeSubscriptionId,
+         amount_paid: 9900,
+      });
+
+      const error = new Error("Database error");
+      subscriptionServiceMock.getSubscriptionByStripeSubscriptionId.mockRejectedValue(
+         error
+      );
+
+      const fn = () =>
+         stripeService.handleInvoicePaymentSucceeded(stripeInvoice);
+
+      await expect(fn).rejects.toThrow("Database error");
+
+      expect(
+         subscriptionServiceMock.getSubscriptionByStripeSubscriptionId
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         subscriptionServiceMock.getSubscriptionByStripeSubscriptionId
+      ).toHaveBeenCalledWith(stripeSubscriptionId);
+
+      expect(stripeMock.subscriptions.retrieve).not.toHaveBeenCalled();
+      expect(subscriptionServiceMock.updateSubscription).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).not.toHaveBeenCalled();
+   });
+
+   it("handleInvoicePaymentSucceeded - stripe.subscriptions.retrieve throws error - test", async () => {
+      const userId = "user-123";
+      const stripeSubscriptionId = "sub_test_123";
+
+      const localSubscription = dtestData.dSubscription();
+      localSubscription.userId = userId;
+      localSubscription.stripeSubscriptionId = stripeSubscriptionId;
+
+      const stripeInvoice = stripeTestData.stripeInvoice(1, {
+         subscription: stripeSubscriptionId,
+         amount_paid: 9900,
+      });
+
+      const error = new Error("Stripe API error");
+      subscriptionServiceMock.getSubscriptionByStripeSubscriptionId.mockResolvedValue(
+         localSubscription
+      );
+      stripeMock.subscriptions.retrieve.mockRejectedValue(error);
+
+      const fn = () =>
+         stripeService.handleInvoicePaymentSucceeded(stripeInvoice);
+
+      await expect(fn).rejects.toThrow("Stripe API error");
+
+      expect(
+         subscriptionServiceMock.getSubscriptionByStripeSubscriptionId
+      ).toHaveBeenCalledTimes(1);
+      expect(stripeMock.subscriptions.retrieve).toHaveBeenCalledTimes(1);
+      expect(stripeMock.subscriptions.retrieve).toHaveBeenCalledWith(
+         stripeSubscriptionId
+      );
+
+      expect(subscriptionServiceMock.updateSubscription).not.toHaveBeenCalled();
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).not.toHaveBeenCalled();
+   });
+
+   it("handleInvoicePaymentSucceeded - updateSubscription throws error - test", async () => {
+      const userId = "user-123";
+      const stripeSubscriptionId = "sub_test_123";
+      const periodStart = 1672531200;
+      const periodEnd = 1704067200;
+
+      const localSubscription = dtestData.dSubscription();
+      localSubscription.userId = userId;
+      localSubscription.stripeSubscriptionId = stripeSubscriptionId;
+
+      const stripeInvoice = stripeTestData.stripeInvoice(1, {
+         subscription: stripeSubscriptionId,
+         amount_paid: 9900,
+      });
+
+      const stripeSubscription = stripeTestData.stripeSubscriptionResponse(1, {
+         id: stripeSubscriptionId,
+         status: "active",
+         items: {
+            data: [
+               {
+                  current_period_start: periodStart,
+                  current_period_end: periodEnd,
+               },
+            ],
+         },
+      });
+
+      const error = new Error("Failed to update subscription");
+      subscriptionServiceMock.getSubscriptionByStripeSubscriptionId.mockResolvedValue(
+         localSubscription
+      );
+      stripeMock.subscriptions.retrieve.mockResolvedValue(stripeSubscription);
+      subscriptionServiceMock.updateSubscription.mockRejectedValue(error);
+
+      const fn = () =>
+         stripeService.handleInvoicePaymentSucceeded(stripeInvoice);
+
+      await expect(fn).rejects.toThrow("Failed to update subscription");
+
+      expect(
+         subscriptionServiceMock.getSubscriptionByStripeSubscriptionId
+      ).toHaveBeenCalledTimes(1);
+      expect(stripeMock.subscriptions.retrieve).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.updateSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
+      ).not.toHaveBeenCalled();
+   });
+
+   it("handleInvoicePaymentSucceeded - createSubscriptionHistory throws error - test", async () => {
+      const userId = "user-123";
+      const stripeSubscriptionId = "sub_test_123";
+      const periodStart = 1672531200;
+      const periodEnd = 1704067200;
+
+      const localSubscription = dtestData.dSubscription();
+      localSubscription.userId = userId;
+      localSubscription.stripeSubscriptionId = stripeSubscriptionId;
+
+      const stripeInvoice = stripeTestData.stripeInvoice(1, {
+         subscription: stripeSubscriptionId,
+         amount_paid: 9900,
+      });
+
+      const stripeSubscription = stripeTestData.stripeSubscriptionResponse(1, {
+         id: stripeSubscriptionId,
+         status: "active",
+         items: {
+            data: [
+               {
+                  current_period_start: periodStart,
+                  current_period_end: periodEnd,
+               },
+            ],
+         },
+      });
+
+      const error = new Error("Failed to create history");
+      subscriptionServiceMock.getSubscriptionByStripeSubscriptionId.mockResolvedValue(
+         localSubscription
+      );
+      stripeMock.subscriptions.retrieve.mockResolvedValue(stripeSubscription);
+      subscriptionServiceMock.createSubscriptionHistory.mockRejectedValue(
+         error
+      );
+
+      const fn = () =>
+         stripeService.handleInvoicePaymentSucceeded(stripeInvoice);
+
+      await expect(fn).rejects.toThrow("Failed to create history");
+
+      expect(
+         subscriptionServiceMock.getSubscriptionByStripeSubscriptionId
+      ).toHaveBeenCalledTimes(1);
+      expect(stripeMock.subscriptions.retrieve).toHaveBeenCalledTimes(1);
+      expect(subscriptionServiceMock.updateSubscription).toHaveBeenCalledTimes(
+         1
+      );
+      expect(
+         subscriptionServiceMock.createSubscriptionHistory
       ).toHaveBeenCalledTimes(1);
    });
 });

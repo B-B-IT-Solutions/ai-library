@@ -157,7 +157,7 @@ const handleSubscriptionDeleted = async (subscription: Stripe.Subscription) => {
 const handleInvoicePaymentSucceeded = async (invoice: Stripe.Invoice) => {
    try {
       await prisma.$transaction(async (tx) => {
-         const service = getSubscriptionService(tx);
+         const service = getStripeService(tx);
          return service.handleInvoicePaymentSucceeded(invoice);
       });
    } catch (error) {

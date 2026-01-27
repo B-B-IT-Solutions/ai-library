@@ -371,6 +371,56 @@ export class StripeService {
       await this.subscriptionService.deleteSubscription(subscription.userId);
    }
 
+   async handleInvoicePaymentSucceeded(invoice: Stripe.Invoice): Promise<void> {
+      const stripeSubscriptionId = invoice.subscription as string;
+
+      if (!stripeSubscriptionId) {
+         console.error("Invoice doesn't have subscriptionId");
+         return;
+      }
+
+      const subscription =
+         await this.subscriptionService.getSubscriptionByStripeSubscriptionId(
+            stripeSubscriptionId
+         );
+
+      if (!subscription) {
+         console.error("Subscription not found for invoice");
+         return;
+      }
+
+      // Get the Stripe subscription to get updated period dates
+      const stripeSubscription =
+         await stripe.subscriptions.retrieve(stripeSubscriptionId);
+
+      const subscriptionUpdate: DSubscriptionUpdate = {
+         status: "ACTIVE",
+         currentPeriodStart: new Date(
+            stripeSubscription.items.data[0].current_period_start * 1000
+         ),
+         currentPeriodEnd: new Date(
+            stripeSubscription.items.data[0].current_period_end * 1000
+         ),
+      };
+
+      await this.subscriptionService.updateSubscription(
+         subscription.userId,
+         subscriptionUpdate
+      );
+
+      const historyCreate: DSubscriptionHistoryCreate = {
+         userId: subscription.userId,
+         eventType: "renewed",
+         toStatus: "ACTIVE",
+         stripeEventId: invoice.id,
+         metadata: {
+            invoiceId: invoice.id,
+            amountPaid: invoice.amount_paid / 100,
+         },
+      };
+      await this.subscriptionService.createSubscriptionHistory(historyCreate);
+   }
+
    async createPortalSession(
       userId: string
    ): Promise<DStripeBillingPortalSessionResponse> {
