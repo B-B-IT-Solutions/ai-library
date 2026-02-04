@@ -7,7 +7,7 @@ declare module "next-auth/jwt" {
       sub: string;
       role: string;
       name: string;
-      subscriptionTier: DSubscriptionTier;
+      tier: DSubscriptionTier;
    }
 }
 
@@ -15,7 +15,7 @@ declare module "next-auth" {
    interface Session {
       user: {
          role: string;
-         subscriptionTier: DSubscriptionTier;
+         tier: DSubscriptionTier;
       } & DefaultSession["user"];
    }
 

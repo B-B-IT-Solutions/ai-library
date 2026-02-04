@@ -1,12 +1,10 @@
 import { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { NextRequest } from "next/server";
-import { Account, Session } from "next-auth";
+import { Account, Session, User } from "next-auth";
 import { AdapterUser } from "next-auth/adapters";
 import { DefaultJWT } from "next-auth/jwt";
 import { SessionContextValue } from "next-auth/react";
-
-import { User } from "@/generated/prisma/client";
 
 import {
    CookieValues,
@@ -49,7 +47,13 @@ export const sessionContextValue = (
 export const session = (): Session => {
    return {
       expires: "1759362132477",
-      user: user(),
+      user: {
+         id: "test1@email.com",
+         email: "test1@email.com",
+         name: "User Name 1",
+         role: "user",
+         tier: "FREE",
+      },
    };
 };
 
@@ -67,13 +71,7 @@ export const user = (): User => {
       id: "test1@email.com",
       email: "test1@email.com",
       name: "User Name 1",
-      image: "/image-1.png",
-      password: "password123",
-      paymentMethod: "stripe",
-      emailVerified: new Date("2025-09-27"),
       role: "user",
-      createdAt: new Date("2025-09-27"),
-      updatedAt: new Date("2025-09-27"),
    };
 };
 
