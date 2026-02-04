@@ -305,6 +305,8 @@ describe("auth.config - callback.session - tests", () => {
             role: "",
             name: "Old Name",
             tier: "",
+            email: "test1@email.cz",
+            emailVerified: new Date(),
          },
       };
 

@@ -13,10 +13,11 @@ import {
 export const useSubscription = () => {
    const { data: session } = useSession();
 
-   const tier: DSubscriptionTier =
-      (session?.user?.tier as DSubscriptionTier) || "FREE";
+   const defaultTier: DSubscriptionTier = "FREE";
 
-   const isSubscribed = tier !== "FREE";
+   const tier: DSubscriptionTier = session?.user?.tier || defaultTier;
+
+   const isSubscribed = tier !== defaultTier;
 
    return {
       tier,
