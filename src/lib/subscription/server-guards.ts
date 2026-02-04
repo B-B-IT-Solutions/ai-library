@@ -16,13 +16,11 @@ export class SubscriptionAccessError extends Error {
 }
 
 export const requireSubscriptionAccess = async (
-   feature: FeatureName,
-   dbClient: DbClient = prisma
+   feature: FeatureName
 ): Promise<void> => {
    const user = await requireUser();
 
-   const factory = new ServiceFactory(dbClient);
-   const subscriptionService = factory.getSubscriptionService();
+   const subscriptionService = getSubscriptionService();
 
    const tier = await subscriptionService.getUserTier(user.id);
 
@@ -35,11 +33,10 @@ export const requireSubscriptionAccess = async (
 };
 
 export const checkFeatureAccess = async (
-   feature: FeatureName,
-   dbClient: DbClient = prisma
+   feature: FeatureName
 ): Promise<boolean> => {
    try {
-      await requireSubscriptionAccess(feature, dbClient);
+      await requireSubscriptionAccess(feature);
       return true;
    } catch (error) {
       if (error instanceof SubscriptionAccessError) {
@@ -47,4 +44,9 @@ export const checkFeatureAccess = async (
       }
       throw error;
    }
+};
+
+const getSubscriptionService = (dbClient: DbClient = prisma) => {
+   const factory = new ServiceFactory(dbClient);
+   return factory.getSubscriptionService();
 };
