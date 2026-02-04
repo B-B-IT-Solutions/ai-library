@@ -54,6 +54,7 @@ describe("PricingPage rendering tests", () => {
       await waitFor(() => {
          expect(authMock).toHaveBeenCalledTimes(1);
          expect(getSubscriptionMock).not.toHaveBeenCalled();
+         expect(getSubscriptionPlansMock).not.toHaveBeenCalled();
          expect(redirectMock).toHaveBeenCalledTimes(1);
          expect(redirectMock).toHaveBeenCalledWith("/");
       });
@@ -71,6 +72,7 @@ describe("PricingPage rendering tests", () => {
       await waitFor(() => {
          expect(authMock).toHaveBeenCalledTimes(1);
          expect(getSubscriptionMock).not.toHaveBeenCalled();
+         expect(getSubscriptionPlansMock).not.toHaveBeenCalled();
          expect(redirectMock).toHaveBeenCalledTimes(1);
          expect(redirectMock).toHaveBeenCalledWith("/");
       });
@@ -88,6 +90,7 @@ describe("PricingPage rendering tests", () => {
       await waitFor(() => {
          expect(authMock).toHaveBeenCalledTimes(1);
          expect(getSubscriptionMock).not.toHaveBeenCalled();
+         expect(getSubscriptionPlansMock).not.toHaveBeenCalled();
          expect(redirectMock).toHaveBeenCalledTimes(1);
          expect(redirectMock).toHaveBeenCalledWith("/");
       });
