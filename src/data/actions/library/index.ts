@@ -3,4 +3,5 @@ export {
    getLibraryEntry,
    createPromptFromTemplate,
    downloadTemplate,
+   generatePromptFromTemplate,
 } from "./library.actions";

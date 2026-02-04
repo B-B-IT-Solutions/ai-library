@@ -3,12 +3,14 @@ import { map } from "es-toolkit/compat";
 import {
    PromptTemplateDescriptorWithCategories,
    PromptTemplateDescriptorWithPrompt,
+   PromptTemplateWithFields,
 } from "@/data/types/db/prompt.template";
 import {
    DPromptTemplate,
    DPromptTemplateDescriptor,
    DPromptTemplateDescriptorWithPrompt,
 } from "@/data/types/domain/prompt.template";
+import { toDTemplateFields } from "@/data/services/template/template.field.mapper";
 import { PromptTemplate } from "@/generated/prisma/client";
 
 export const toDPromptTemplateDescriptorWithPrompt = (
@@ -43,11 +45,14 @@ export const toDPromptTemplateDescriptor = (
    };
 };
 
-export const toDPromptTemplate = (prompt: PromptTemplate): DPromptTemplate => {
+export const toDPromptTemplate = (
+   prompt: PromptTemplate | PromptTemplateWithFields
+): DPromptTemplate => {
    return {
       id: prompt.id,
       promptText: prompt.promptText,
       detailedDescription: prompt.detailedDescription,
+      fields: "fields" in prompt ? toDTemplateFields(prompt.fields) : [],
       updatedAt: prompt.updatedAt.toISOString(),
       createdAt: prompt.createdAt.toISOString(),
    };

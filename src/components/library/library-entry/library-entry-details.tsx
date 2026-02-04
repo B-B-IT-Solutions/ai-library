@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import { MDRenderer } from "@/components/shared/md";
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
-import { CreatePromptButton } from "../buttons/create-prompt-button";
+import { CreatePromptWithTemplate } from "../buttons/create-prompt-with-template";
 import { DownloadTemplateButton } from "../buttons/download-template-button";
 
 import { PromptTextDisplay } from "./prompt-text-display";
@@ -23,11 +23,11 @@ export const LibraryEntryDetails: FC<LibraryEntryDetailsProps> = ({
    const categories = () => {
       if (!isEmpty(descriptor.categories)) {
          return (
-            <div className="flex flex-wrap gap-2 mt-4" data-testid="categories">
+            <div className="mt-4 flex flex-wrap gap-2" data-testid="categories">
                {map(descriptor.categories, (cat) => (
                   <span
                      key={cat.name}
-                     className="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
+                     className="rounded-md border border-slate-200 bg-slate-100 px-2 py-1 text-xs text-slate-700"
                   >
                      {cat.name}
                   </span>
@@ -47,20 +47,20 @@ export const LibraryEntryDetails: FC<LibraryEntryDetailsProps> = ({
                href="/library"
                className="inline-flex items-center text-slate-600 hover:text-slate-900"
             >
-               <ArrowLeft className="w-4 h-4 mr-2" />
+               <ArrowLeft className="mr-2 h-4 w-4" />
                Zurück zur Bibliothek
             </Link>
          </div>
 
-         <div className="max-w-4xl mx-auto">
-            <Card className="bg-white border border-slate-300 rounded-lg">
+         <div className="mx-auto max-w-4xl">
+            <Card className="rounded-lg border border-slate-300 bg-white">
                <CardHeader className="border-b border-slate-200">
                   <div className="flex items-start justify-between">
                      <div className="flex-1">
-                        <h1 className="text-3xl font-bold text-slate-900 mb-3">
+                        <h1 className="mb-3 text-3xl font-bold text-slate-900">
                            {descriptor.title}
                         </h1>
-                        <span className="inline-block text-sm px-3 py-1 bg-blue-100 text-blue-700 rounded-md border border-blue-200">
+                        <span className="inline-block rounded-md border border-blue-200 bg-blue-100 px-3 py-1 text-sm text-blue-700">
                            {descriptor.recommendedModel}
                         </span>
                      </div>
@@ -68,16 +68,16 @@ export const LibraryEntryDetails: FC<LibraryEntryDetailsProps> = ({
                   {categories()}
                </CardHeader>
 
-               <CardContent className="p-6 space-y-6">
+               <CardContent className="space-y-6 p-6">
                   <div data-testid="short-description">
-                     <h2 className="text-xl font-semibold text-slate-900 mb-3">
+                     <h2 className="mb-3 text-xl font-semibold text-slate-900">
                         Beschreibung
                      </h2>
                      <MDRenderer>{descriptor.description}</MDRenderer>
                   </div>
 
                   <div data-testid="long-description">
-                     <h2 className="text-xl font-semibold text-slate-900 mb-3">
+                     <h2 className="mb-3 text-xl font-semibold text-slate-900">
                         Detaillierte Beschreibung
                      </h2>
                      <MDRenderer>
@@ -87,8 +87,8 @@ export const LibraryEntryDetails: FC<LibraryEntryDetailsProps> = ({
 
                   <PromptTextDisplay template={descriptor.promptTemplate} />
 
-                  <div className="flex gap-3 pt-4 border-t border-slate-200">
-                     <CreatePromptButton descriptor={descriptor} />
+                  <div className="flex gap-3 border-t border-slate-200 pt-4">
+                     <CreatePromptWithTemplate descriptor={descriptor} />
                      <DownloadTemplateButton descriptor={descriptor} />
                   </div>
                </CardContent>

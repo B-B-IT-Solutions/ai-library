@@ -7,12 +7,15 @@ import {
    LibraryRepository,
 } from "@/data/repositories/library";
 import { PromptService } from "@/data/services/prompt";
+import { toDPromptTemplateDescriptorWithPrompt } from "@/data/services/prompt/prompt.template.mapper";
+import { TemplateEngine } from "@/data/services/template/template.engine";
 import { OrderProducts } from "@/data/types/db/order";
 import {
    DLibraryEntry,
    DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
+import { DTemplateFieldValues } from "@/data/types/domain/template.field";
 
 import {
    toDLibraryEntries,
@@ -135,5 +138,53 @@ export class LibraryService {
       );
 
       return downloadData;
+   }
+
+   async generatePromptFromTemplate(
+      templateDescriptorId: string,
+      fieldValues: DTemplateFieldValues
+   ): Promise<DPromptUpdate> {
+      if (!isValidUuid(templateDescriptorId)) {
+         throw new Error("Invalid template ID.");
+      }
+
+      const user = await requireUser();
+
+      const params: GetLibraryEntryParams = {
+         templateDescriptorId,
+         userId: user.id,
+      };
+      const entry = await this.libraryRepository.pGetLibraryEntry(params);
+
+      if (!entry) {
+         throw new Error("Template nicht in Ihrer Bibliothek gefunden");
+      }
+
+      const descriptor = toDPromptTemplateDescriptorWithPrompt(
+         entry.templateDescriptor
+      );
+      const template = descriptor.promptTemplate;
+
+      // Validate field values
+      const validation = TemplateEngine.validate(template.fields, fieldValues);
+      if (!validation.valid) {
+         throw new Error(
+            `Validierungsfehler: ${JSON.stringify(validation.errors)}`
+         );
+      }
+
+      // Render template with values
+      const renderedContent = TemplateEngine.render(
+         template.promptText,
+         fieldValues
+      );
+
+      return {
+         content: renderedContent,
+         title: descriptor.title,
+         recommendedModel: descriptor.recommendedModel,
+         categories: descriptor.categories.map((cat) => cat.name),
+         followUpPrompts: [],
+      };
    }
 }

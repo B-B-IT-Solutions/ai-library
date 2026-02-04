@@ -1,3 +1,5 @@
+import { DTemplateField } from "./template.field";
+
 export type DPromptTemplateCategory = {
    name: string;
 };
@@ -6,6 +8,7 @@ export type DPromptTemplate = {
    id: string;
    detailedDescription: string;
    promptText: string;
+   fields: DTemplateField[];
    updatedAt: string;
    createdAt: string;
 };

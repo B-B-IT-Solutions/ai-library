@@ -346,6 +346,7 @@ export const dPromptTemplate = (index = 1): DPromptTemplate => {
       id: `7c1c8898-199c-4274-8139-a883efdc676${index}`,
       promptText: `promptText ${index}`,
       detailedDescription: `detailedDescription ${index}`,
+      fields: [],
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
    };

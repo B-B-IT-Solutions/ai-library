@@ -84,7 +84,7 @@ describe("getLibraryEntry tests", () => {
    });
 
    it("getLibraryEntry - entry retrieved - test", async () => {
-      const entry = dtestData.dLibraryEntry();
+      const entry = dtestData.dLibraryEntryWithPromptTemplate();
       sgetLibraryEntryMock.mockResolvedValue(entry);
       const entryId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
 

@@ -479,7 +479,10 @@ export const pPromptTemplateDescriptorWithPrompt = (
    const promptTemplate = pPromptTemplate(index);
    return {
       ...templateDescriptor,
-      promptTemplate,
+      promptTemplate: {
+         ...promptTemplate,
+         fields: [],
+      },
    };
 };
 
