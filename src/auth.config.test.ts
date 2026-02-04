@@ -1,5 +1,6 @@
 jest.mock("@/data/services/user");
 jest.mock("@/data/actions/cart");
+jest.mock("@/data/services/subscription");
 
 import { ntestData, ptestData } from "@tests";
 import { forEach } from "es-toolkit/compat";
@@ -11,7 +12,9 @@ import { JWT } from "next-auth/jwt";
 import { CredentialsConfig } from "next-auth/providers/credentials";
 
 import { migrateSessionCartToUser } from "@/data/actions/cart";
+import { SubscriptionService } from "@/data/services/subscription";
 import { UserService } from "@/data/services/user";
+import { DSubscriptionTier } from "@/data/types/domain/subscription";
 
 import { authConfig } from "./auth.config";
 
@@ -27,6 +30,12 @@ const sUpdateUser = UserService.prototype.updateUser;
 const sSingInUserMock = sSingInUser as jest.MockedFunction<typeof sSingInUser>;
 
 const sUpdateUserMock = sUpdateUser as jest.MockedFunction<typeof sUpdateUser>;
+
+const sGetUserTier = SubscriptionService.prototype.getUserTier;
+
+const sGetUserTierMock = sGetUserTier as jest.MockedFunction<
+   typeof sGetUserTier
+>;
 
 const migrateSessionCartToUserMock =
    migrateSessionCartToUser as jest.MockedFunction<
@@ -266,13 +275,14 @@ describe("auth.config - callback.session - tests", () => {
          user: ntestData.adapterUser(),
          sessionToken: "token-1",
          userId: "1",
-         expires: new Date(),
+         expires: new Date().toISOString(),
       };
 
       const token = {
          sub: "user-123",
          role: "ADMIN",
          name: "John Doe",
+         tier: "PRO",
       } as JWT;
 
       const result = await sessionCallback({
@@ -285,14 +295,18 @@ describe("auth.config - callback.session - tests", () => {
       expect(result.user!.id).toEqual(token.sub);
       expect(result.user!.role).toEqual(token.role);
       expect(result.user!.name).toEqual(token.name);
+      expect(result.user!.tier).toEqual(token.tier);
    });
 
    it("session - update user name - test", async () => {
       const session = {
          user: {
-            id: "user-123",
-            role: "USER",
+            id: "",
+            role: "",
             name: "Old Name",
+            tier: "",
+            email: "test1@email.cz",
+            emailVerified: new Date(),
          },
       };
 
@@ -300,6 +314,7 @@ describe("auth.config - callback.session - tests", () => {
          sub: "user-123",
          role: "USER",
          name: "Old Name",
+         tier: "BASIC",
       } as JWT;
 
       const user = {
@@ -316,6 +331,7 @@ describe("auth.config - callback.session - tests", () => {
       expect(result.user!.id).toEqual(token.sub);
       expect(result.user!.role).toEqual(token.role);
       expect(result.user!.name).toBe("Updated Name");
+      expect(result.user!.tier).toEqual(token.tier);
    });
 });
 
@@ -338,9 +354,12 @@ describe("auth.config - callback.jwt - tests", () => {
       });
 
       expect(result).toEqual(token);
+      expect(sGetUserTierMock).not.toHaveBeenCalled();
+      expect(sUpdateUserMock).not.toHaveBeenCalled();
    });
 
    it("jwt - token updated using user fields - test", async () => {
+      const tier: DSubscriptionTier = "FREE";
       const token = {} as JWT;
       const user = {
          id: "user-123",
@@ -351,6 +370,7 @@ describe("auth.config - callback.jwt - tests", () => {
 
       const reqCookies = ntestData.cookies({});
       cookiesMock.mockResolvedValue(reqCookies);
+      sGetUserTierMock.mockResolvedValue(tier);
 
       const result = await jwtCallback({
          token,
@@ -363,9 +383,14 @@ describe("auth.config - callback.jwt - tests", () => {
       expect(result!.id).toEqual(user.id);
       expect(result!.role).toBeDefined();
       expect(result!.role).toEqual(user.role);
+      expect(result!.tier).toEqual(tier);
+      expect(sGetUserTierMock).toHaveBeenCalledTimes(1);
+      expect(sGetUserTierMock).toHaveBeenCalledWith(user.id);
+      expect(sUpdateUserMock).not.toHaveBeenCalled();
    });
 
    it("jwt - generate name from email for user.name NO_NAME - test", async () => {
+      const tier: DSubscriptionTier = "BASIC";
       const token = {} as JWT;
       const user = {
          id: "user-123",
@@ -376,6 +401,7 @@ describe("auth.config - callback.jwt - tests", () => {
 
       const reqCookies = ntestData.cookies({});
       cookiesMock.mockResolvedValue(reqCookies);
+      sGetUserTierMock.mockResolvedValue(tier);
 
       const result = await jwtCallback({
          token,
@@ -385,11 +411,15 @@ describe("auth.config - callback.jwt - tests", () => {
       });
 
       expect(result!.name).toBe("test");
+      expect(result!.tier).toEqual(tier);
+      expect(sGetUserTierMock).toHaveBeenCalledTimes(1);
+      expect(sGetUserTierMock).toHaveBeenCalledWith(user.id);
       expect(sUpdateUserMock).toHaveBeenCalledTimes(1);
       expect(sUpdateUserMock).toHaveBeenCalledWith(user.id, { name: "test" });
    });
 
    it("jwt - trigger signIn - sessionCartId defined - test", async () => {
+      const tier: DSubscriptionTier = "PRO";
       const token = {} as JWT;
       const userId = "user-123";
       const sessionCartId = "sessionCartId-1";
@@ -403,6 +433,7 @@ describe("auth.config - callback.jwt - tests", () => {
       const cookies = { sessionCartId };
       const reqCookies = ntestData.cookies(cookies);
       cookiesMock.mockResolvedValue(reqCookies);
+      sGetUserTierMock.mockResolvedValue(tier);
 
       const result = await jwtCallback({
          token: token,
@@ -413,6 +444,9 @@ describe("auth.config - callback.jwt - tests", () => {
 
       expect(result!.id).toBe(user.id);
       expect(result!.role).toBe(user.role);
+      expect(result!.tier).toBe(tier);
+      expect(sGetUserTierMock).toHaveBeenCalledTimes(1);
+      expect(sGetUserTierMock).toHaveBeenCalledWith(user.id);
       expect(migrateSessionCartToUserMock).toHaveBeenCalledTimes(1);
       expect(migrateSessionCartToUserMock).toHaveBeenCalledWith(
          sessionCartId,
@@ -421,6 +455,7 @@ describe("auth.config - callback.jwt - tests", () => {
    });
 
    it("jwt - trigger signIn - sessionCartId undefined - test", async () => {
+      const tier: DSubscriptionTier = "PRO";
       const token = {} as JWT;
       const userId = "user-123";
       const user = {
@@ -432,6 +467,7 @@ describe("auth.config - callback.jwt - tests", () => {
 
       const reqCookies = ntestData.cookies({});
       cookiesMock.mockResolvedValue(reqCookies);
+      sGetUserTierMock.mockResolvedValue(tier);
 
       const result = await jwtCallback({
          token: token,
@@ -442,10 +478,14 @@ describe("auth.config - callback.jwt - tests", () => {
 
       expect(result!.id).toBe(user.id);
       expect(result!.role).toBe(user.role);
+      expect(result!.tier).toBe(tier);
+      expect(sGetUserTierMock).toHaveBeenCalledTimes(1);
+      expect(sGetUserTierMock).toHaveBeenCalledWith(user.id);
       expect(migrateSessionCartToUserMock).not.toHaveBeenCalled();
    });
 
    it("jwt - trigger signUp - sessionCartId defined - test", async () => {
+      const tier: DSubscriptionTier = "PRO";
       const token = {} as JWT;
       const userId = "user-789";
       const sessionCartId = "sessionCartId-1";
@@ -459,6 +499,7 @@ describe("auth.config - callback.jwt - tests", () => {
       const cookies = { sessionCartId };
       const reqCookies = ntestData.cookies(cookies);
       cookiesMock.mockResolvedValue(reqCookies);
+      sGetUserTierMock.mockResolvedValue(tier);
 
       const result = await jwtCallback({
          token: token,
@@ -469,6 +510,9 @@ describe("auth.config - callback.jwt - tests", () => {
 
       expect(result!.id).toBe(user.id);
       expect(result!.role).toBe(user.role);
+      expect(result!.tier).toBe(tier);
+      expect(sGetUserTierMock).toHaveBeenCalledTimes(1);
+      expect(sGetUserTierMock).toHaveBeenCalledWith(user.id);
       expect(migrateSessionCartToUserMock).toHaveBeenCalledTimes(1);
       expect(migrateSessionCartToUserMock).toHaveBeenCalledWith(
          sessionCartId,
@@ -477,6 +521,7 @@ describe("auth.config - callback.jwt - tests", () => {
    });
 
    it("jwt - trigger signUp - sessionCartId undefined - test", async () => {
+      const tier: DSubscriptionTier = "PRO";
       const token = {} as JWT;
       const userId = "user-789";
       const user = {
@@ -488,6 +533,7 @@ describe("auth.config - callback.jwt - tests", () => {
 
       const reqCookies = ntestData.cookies({});
       cookiesMock.mockResolvedValue(reqCookies);
+      sGetUserTierMock.mockResolvedValue(tier);
 
       const result = await jwtCallback({
          token: token,
@@ -498,6 +544,9 @@ describe("auth.config - callback.jwt - tests", () => {
 
       expect(result!.id).toBe(user.id);
       expect(result!.role).toBe(user.role);
+      expect(result!.tier).toBe(tier);
+      expect(sGetUserTierMock).toHaveBeenCalledTimes(1);
+      expect(sGetUserTierMock).toHaveBeenCalledWith(user.id);
       expect(migrateSessionCartToUserMock).not.toHaveBeenCalled();
    });
 

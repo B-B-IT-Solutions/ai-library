@@ -89,7 +89,7 @@ export const authConfig: NextAuthConfig = {
          session.user.id = token.sub;
          session.user.role = token.role;
          session.user.name = token.name;
-         session.user.subscriptionTier = token.subscriptionTier;
+         session.user.tier = token.tier;
 
          // If there is an update, set the user name
          if (trigger === "update") {
@@ -104,12 +104,17 @@ export const authConfig: NextAuthConfig = {
             token.id = user.id;
             token.role = user.role;
 
+            const userId = user.id as string;
+
+            const subscriptionService = getSubscriptionService();
+            const tier = await subscriptionService.getUserTier(userId);
+            token.tier = tier;
+
             // If user has no name then use the email
             if (user.name === "NO_NAME") {
                token.name = user.email!.split("@")[0];
 
                // Update database to reflect the token name
-               const userId = user.id as string;
                const data: DUserUpdateData = {
                   name: token.name,
                };
@@ -127,13 +132,6 @@ export const authConfig: NextAuthConfig = {
                   await migrateSessionCartToUser(sessionCartId, userId);
                }
             }
-         }
-
-         // Get user's subscription tier
-         if (token.sub) {
-            const subscriptionService = getSubscriptionService();
-            const tier = await subscriptionService.getUserTier(token.sub);
-            token.subscriptionTier = tier;
          }
 
          // Handle session updates

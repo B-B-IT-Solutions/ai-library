@@ -6,42 +6,47 @@ import { DbClient } from "@/data/types/db/common";
 import { canAccessFeature, FeatureName } from "./access-control";
 
 export class SubscriptionAccessError extends Error {
-  constructor(message: string, public feature: FeatureName) {
-    super(message);
-    this.name = "SubscriptionAccessError";
-  }
+   constructor(
+      message: string,
+      public feature: FeatureName
+   ) {
+      super(message);
+      this.name = "SubscriptionAccessError";
+   }
 }
 
 export const requireSubscriptionAccess = async (
-  feature: FeatureName,
-  dbClient: DbClient = prisma
+   feature: FeatureName
 ): Promise<void> => {
-  const user = await requireUser();
+   const user = await requireUser();
 
-  const factory = new ServiceFactory(dbClient);
-  const subscriptionService = factory.getSubscriptionService();
+   const subscriptionService = getSubscriptionService();
 
-  const tier = await subscriptionService.getUserTier(user.id);
+   const tier = await subscriptionService.getUserTier(user.id);
 
-  if (!canAccessFeature(tier, feature)) {
-    throw new SubscriptionAccessError(
-      `Your current plan (${tier}) does not have access to this feature. Please upgrade to continue.`,
-      feature
-    );
-  }
+   if (!canAccessFeature(tier, feature)) {
+      throw new SubscriptionAccessError(
+         `Your current plan (${tier}) does not have access to this feature. Please upgrade to continue.`,
+         feature
+      );
+   }
 };
 
 export const checkFeatureAccess = async (
-  feature: FeatureName,
-  dbClient: DbClient = prisma
+   feature: FeatureName
 ): Promise<boolean> => {
-  try {
-    await requireSubscriptionAccess(feature, dbClient);
-    return true;
-  } catch (error) {
-    if (error instanceof SubscriptionAccessError) {
-      return false;
-    }
-    throw error;
-  }
+   try {
+      await requireSubscriptionAccess(feature);
+      return true;
+   } catch (error) {
+      if (error instanceof SubscriptionAccessError) {
+         return false;
+      }
+      throw error;
+   }
+};
+
+const getSubscriptionService = (dbClient: DbClient = prisma) => {
+   const factory = new ServiceFactory(dbClient);
+   return factory.getSubscriptionService();
 };
