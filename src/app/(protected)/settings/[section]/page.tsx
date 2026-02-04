@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
@@ -5,7 +6,7 @@ import { Settings } from "@/components/settings";
 import { getUserById } from "@/data/actions/user";
 import { DSettingsSection } from "@/data/types/domain/settings";
 
-export const metadata = {
+export const metadata: Metadata = {
    title: "Einstellungen",
 };
 
