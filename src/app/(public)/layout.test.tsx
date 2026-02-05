@@ -1,4 +1,4 @@
-jest.mock("@/components/shared/wrapper", () => ({
+jest.mock("@/components/shared/layout", () => ({
    PublicLayoutWrapper: ({ children }: { children: React.ReactNode }) => {
       return <div data-testid="public-layout-wrapper">{children}</div>;
    },
