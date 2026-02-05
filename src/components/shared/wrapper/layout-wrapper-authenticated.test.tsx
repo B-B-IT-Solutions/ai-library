@@ -1,4 +1,3 @@
-jest.mock("@/auth");
 jest.mock("@/data/actions/auth-utils");
 
 import { screen, waitFor } from "@testing-library/dom";
@@ -6,23 +5,22 @@ import {
    assertInDocument,
    assertNotInDocument,
    ctestData,
+   dtestData,
    ntestData,
    renderAsyncRSC,
 } from "@tests";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-const cookiesMock = cookies as jest.MockedFunction<typeof cookies>;
-const authMock = auth as jest.MockedFunction<typeof auth>;
-
-import { cookies } from "next/headers";
-
-import { auth } from "@/auth";
-import { isAuthenticated } from "@/data/actions/auth-utils";
+import { isAuthenticated, requireUser } from "@/data/actions/auth-utils";
 
 import {
    AuthenticatedLayoutWrapper,
    Props,
 } from "./layout-wrapper-authenticated";
+
+const cookiesMock = cookies as jest.MockedFunction<typeof cookies>;
+const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
 const isAuthenticatedMock = isAuthenticated as jest.MockedFunction<
    typeof isAuthenticated
@@ -71,7 +69,7 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
          expect(redirectMock).toHaveBeenCalledTimes(1);
          expect(redirectMock).toHaveBeenCalledWith("/auth/sign-in");
          expect(cookiesMock).not.toHaveBeenCalled();
-         expect(authMock).not.toHaveBeenCalled();
+         expect(requireUserMock).not.toHaveBeenCalled();
       });
 
       expect(container).toMatchSnapshot();
@@ -80,9 +78,9 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
    it("AuthenticatedLayoutWrapper - isAuthenticated true - test", async () => {
       isAuthenticatedMock.mockResolvedValue(true);
       const reqCookies = ntestData.cookies({});
-      const session = ntestData.session();
+      const user = dtestData.dLoginUser();
       cookiesMock.mockResolvedValue(reqCookies);
-      authMock.mockResolvedValue(session);
+      requireUserMock.mockResolvedValue(user);
 
       const props: Props = {
          children: <div data-testid="test-1"></div>,
@@ -96,7 +94,7 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
          assertRendered();
          expect(redirectMock).not.toHaveBeenCalled();
          expect(cookiesMock).toHaveBeenCalledTimes(1);
-         expect(authMock).toHaveBeenCalledTimes(1);
+         expect(requireUserMock).toHaveBeenCalledTimes(1);
       });
       expect(container).toMatchSnapshot();
    });

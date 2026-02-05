@@ -6,18 +6,19 @@ export const requireUser = async (): Promise<LoginUser> => {
    if (!session?.user?.id) {
       throw new Error("Authentication required");
    }
-   return {
+
+   const user: LoginUser = {
       id: session.user.id,
+      name: session.user.name,
       email: session.user.email,
    };
+
+   return user;
 };
 
 export const isAuthenticated = async (): Promise<boolean> => {
    try {
-      const session = await auth();
-      if (!session?.user?.id) {
-         return false;
-      }
+      await requireUser();
       return true;
    } catch {
       return false;

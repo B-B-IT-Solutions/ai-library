@@ -1,6 +1,7 @@
 import { AuthMockedFunction, ntestData } from "@tests";
 
 import { auth } from "@/auth";
+import { LoginUser } from "../types/next-auth";
 
 import { requireUser } from "./auth-utils";
 
@@ -40,8 +41,9 @@ describe("requireUser tests", () => {
       authMock.mockResolvedValue(session);
 
       const user = await requireUser();
-      const expectedUser = {
+      const expectedUser: LoginUser = {
          id: session.user.id!,
+         name: session.user.name,
          email: session.user.email,
       };
       expect(user).toEqual(expectedUser);

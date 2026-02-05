@@ -4,7 +4,7 @@ import {
    assertHasAttributeWithValue,
    assertInDocument,
    ctestData,
-   ntestData,
+   dtestData,
    renderWithSidebar,
 } from "@tests";
 import mockRouter from "next-router-mock";
@@ -68,7 +68,7 @@ describe("Sidebar rendering tests", () => {
    });
 
    it("Sidebar - sidebar open - rendered test", async () => {
-      const user = ntestData.user();
+      const user = dtestData.dLoginUser();
       const url = "/prompts";
       const { container } = renderWithSidebar(<Sidebar user={user} />, url);
 
@@ -82,9 +82,10 @@ describe("Sidebar rendering tests", () => {
    });
 
    it("Sidebar - sidebar collapsed - rendered test", async () => {
+      const user = dtestData.dLoginUser();
       const url = "/prompts";
       const { container } = renderWithSidebar(
-         <Sidebar user={undefined} />,
+         <Sidebar user={user} />,
          url,
          false
       );
@@ -113,7 +114,7 @@ describe("Sidebar functionality tests", () => {
    };
 
    it("Sidebar - navigation - test", async () => {
-      const user = ntestData.user();
+      const user = dtestData.dLoginUser();
       const url = "/settings";
       renderWithSidebar(<Sidebar user={user} />, url);
 
@@ -131,7 +132,7 @@ describe("Sidebar functionality tests", () => {
    });
 
    it("Sidebar - active menu item highlighted - test", async () => {
-      const user = ntestData.user();
+      const user = dtestData.dLoginUser();
       const url = "/settings";
       renderWithSidebar(<Sidebar user={user} />, url);
 
@@ -144,7 +145,7 @@ describe("Sidebar functionality tests", () => {
    });
 
    it("Sidebar - home link clicked - test", async () => {
-      const user = ntestData.user();
+      const user = dtestData.dLoginUser();
       const url = "/settings";
       renderWithSidebar(<Sidebar user={user} />, url);
 
