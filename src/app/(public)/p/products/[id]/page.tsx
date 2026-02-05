@@ -43,29 +43,29 @@ const PublicProductPage = async (props: PublicProductPageProps) => {
 
    return (
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
-         <div className="container mx-auto px-4 py-8 max-w-6xl">
+         <div className="container mx-auto max-w-6xl px-4 py-8">
             {/* Back button */}
             <div className="mb-6">
                <Button variant="ghost" asChild>
                   <Link href="/p/marketplace">
-                     <ArrowLeft className="h-4 w-4 mr-2" />
+                     <ArrowLeft className="mr-2 h-4 w-4" />
                      Back to Marketplace
                   </Link>
                </Button>
             </div>
 
             {/* Product Header */}
-            <div className="bg-white rounded-lg border shadow-sm p-6 mb-6">
+            <div className="mb-6 rounded-lg border bg-white p-6 shadow-sm">
                <ProductHeader product={product} />
             </div>
 
             {/* Product Content */}
-            <div className="bg-white rounded-lg border shadow-sm p-6 mb-6">
+            <div className="mb-6 rounded-lg border bg-white p-6 shadow-sm">
                <ProductDetails product={product} />
             </div>
 
-            <div className="bg-white rounded-lg border shadow-sm p-6">
-               <div className="flex flex-col sm:flex-row gap-3">
+            <div className="rounded-lg border bg-white p-6 shadow-sm">
+               <div className="flex flex-col gap-3 sm:flex-row">
                   <AddToCartButton
                      product={product}
                      isInCart={isInCart}
@@ -80,7 +80,7 @@ const PublicProductPage = async (props: PublicProductPageProps) => {
                      asChild
                      className="sm:ml-auto"
                   >
-                     <Link href="/sign-in">Sign in for full access</Link>
+                     <Link href="/auth/sign-in">Sign in for full access</Link>
                   </Button>
                </div>
             </div>

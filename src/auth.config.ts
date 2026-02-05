@@ -12,8 +12,8 @@ import { DUserSignIn, DUserUpdateData } from "@/data/types/domain/user";
 
 export const authConfig: NextAuthConfig = {
    pages: {
-      signIn: "/sign-in",
-      error: "/sign-in",
+      signIn: "/auth/sign-in",
+      error: "/auth/sign-in",
    },
    session: {
       strategy: "jwt" as const,

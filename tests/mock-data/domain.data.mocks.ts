@@ -43,7 +43,11 @@ import { DUser, DUserUpdateData } from "@/data/types/domain/user";
 import { LoginUser } from "@/data/types/next-auth";
 
 export const dLoginUser = (index = 1): LoginUser => {
-   return { id: `user-${index}`, email: "test@email.com" };
+   return {
+      id: `user-${index}`,
+      name: `User Name ${index}`,
+      email: "test@email.com",
+   };
 };
 
 export const dUser = (index = 1): DUser => {

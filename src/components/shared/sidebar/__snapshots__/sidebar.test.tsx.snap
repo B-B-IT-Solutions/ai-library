@@ -457,7 +457,66 @@ exports[`Sidebar rendering tests Sidebar - sidebar collapsed - rendered test 1`]
                 class="group/menu-item relative"
                 data-sidebar="menu-item"
                 data-slot="sidebar-menu-item"
-              />
+              >
+                <div
+                  data-slot="dropdown-menu"
+                  data-testid="mock-react-dropdown-menu-root"
+                >
+                  <button
+                    class="peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 text-sm"
+                    data-active="false"
+                    data-sidebar="menu-button"
+                    data-size="default"
+                    data-slot="sidebar-menu-button"
+                    data-testid="sidebar-menu-btn"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-user-round"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="12"
+                        cy="8"
+                        r="5"
+                      />
+                      <path
+                        d="M20 21a8 8 0 0 0-16 0"
+                      />
+                    </svg>
+                     
+                    User Name 1
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-chevron-up ml-auto"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="m18 15-6-6-6 6"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    data-testid="mock-react-dropdown-menu-portal"
+                  />
+                </div>
+              </li>
             </ul>
           </div>
         </div>
@@ -503,10 +562,10 @@ exports[`Sidebar rendering tests Sidebar - sidebar open - rendered test 1`] = `
             data-testid="sidebar-header"
           >
             <div
-              class="flex justify-between items-center gap-2 px-1 py-1"
+              class="flex items-center justify-between gap-2 px-1 py-1"
             >
               <a
-                class="flex items-center gap-2 min-w-0"
+                class="flex min-w-0 items-center gap-2"
                 data-testid="home-link"
                 href="/"
               >
@@ -522,7 +581,7 @@ exports[`Sidebar rendering tests Sidebar - sidebar open - rendered test 1`] = `
                   width="32"
                 />
                 <span
-                  class="font-bold text-lg truncate"
+                  class="truncate text-lg font-bold"
                 >
                   KI Bibliothek
                 </span>

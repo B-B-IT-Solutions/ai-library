@@ -2,7 +2,6 @@
 
 import { FC } from "react";
 import { ChevronUp, LogOut, User2 } from "lucide-react";
-import { User } from "next-auth";
 
 import {
    DropdownMenu,
@@ -19,57 +18,55 @@ import {
    SidebarMenuItem,
 } from "@/components/shadcn/sidebar";
 import { signOutUser } from "@/data/actions/user";
+import { LoginUser } from "@/data/types/next-auth";
 
 type SidebarFooterProps = {
-   user?: User;
+   user: LoginUser;
 };
 
 export const SidebarFooter: FC<SidebarFooterProps> = ({ user }) => {
    const dropdownMenu = () => {
-      if (user) {
-         const name = user.name ?? "Username";
-
-         return (
-            <DropdownMenu>
-               <DropdownMenuTrigger asChild={true}>
-                  <SidebarMenuButton data-testid="sidebar-menu-btn">
-                     <User2 /> {name}
-                     <ChevronUp className="ml-auto" />
-                  </SidebarMenuButton>
-               </DropdownMenuTrigger>
-               <DropdownMenuContent
-                  side="top"
-                  sideOffset={20}
-                  align="start"
-                  className="w-(--radix-popper-anchor-width) border-indigo-300"
-               >
-                  <DropdownMenuGroup>
-                     <DropdownMenuItem
-                        className="px-2 py-1.5 cursor-pointer rounded-lg"
-                        data-testid="account"
-                     >
-                        <span>Konto</span>
-                     </DropdownMenuItem>
-                     <DropdownMenuItem
-                        className="px-2 py-1.5 cursor-pointer rounded-lg"
-                        data-testid="billing"
-                     >
-                        <span>Abrechnung</span>
-                     </DropdownMenuItem>
-                  </DropdownMenuGroup>
-                  <DropdownMenuSeparator className="mx-2 my-1.5" />
+      const name = user.name ?? "Username";
+      return (
+         <DropdownMenu>
+            <DropdownMenuTrigger asChild={true}>
+               <SidebarMenuButton data-testid="sidebar-menu-btn">
+                  <User2 /> {name}
+                  <ChevronUp className="ml-auto" />
+               </SidebarMenuButton>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+               side="top"
+               sideOffset={20}
+               align="start"
+               className="w-(--radix-popper-anchor-width) border-indigo-300"
+            >
+               <DropdownMenuGroup>
                   <DropdownMenuItem
-                     className="px-2 py-1.5 cursor-pointer rounded-lg"
-                     onClick={signOutUser}
-                     data-testid="sign-out"
+                     className="cursor-pointer rounded-lg px-2 py-1.5"
+                     data-testid="account"
                   >
-                     <LogOut />
-                     <span>Abmelden</span>
+                     <span>Konto</span>
                   </DropdownMenuItem>
-               </DropdownMenuContent>
-            </DropdownMenu>
-         );
-      }
+                  <DropdownMenuItem
+                     className="cursor-pointer rounded-lg px-2 py-1.5"
+                     data-testid="billing"
+                  >
+                     <span>Abrechnung</span>
+                  </DropdownMenuItem>
+               </DropdownMenuGroup>
+               <DropdownMenuSeparator className="mx-2 my-1.5" />
+               <DropdownMenuItem
+                  className="cursor-pointer rounded-lg px-2 py-1.5"
+                  onClick={signOutUser}
+                  data-testid="sign-out"
+               >
+                  <LogOut />
+                  <span>Abmelden</span>
+               </DropdownMenuItem>
+            </DropdownMenuContent>
+         </DropdownMenu>
+      );
    };
 
    return (

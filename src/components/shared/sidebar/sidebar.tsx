@@ -5,7 +5,6 @@ import { map, startsWith } from "es-toolkit/compat";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { User } from "next-auth";
 
 import {
    Sidebar as ShadcnSidebar,
@@ -20,6 +19,7 @@ import {
    SidebarTrigger,
    useSidebar,
 } from "@/components/shadcn/sidebar";
+import { LoginUser } from "@/data/types/next-auth";
 import { APP_NAME } from "@/lib/constants";
 import { toTestId } from "@/lib/utils";
 
@@ -27,7 +27,7 @@ import { navigationMenu1, navigationMenu2 } from "./menus";
 import { SidebarFooter } from "./sidebar-footer";
 
 type SidebarProps = {
-   user?: User;
+   user: LoginUser;
 };
 
 export const Sidebar: FC<SidebarProps> = ({ user }) => {
@@ -60,10 +60,10 @@ export const Sidebar: FC<SidebarProps> = ({ user }) => {
    const appHeader = () => {
       if (open || openMobile) {
          return (
-            <div className="flex justify-between items-center gap-2 px-1 py-1">
+            <div className="flex items-center justify-between gap-2 px-1 py-1">
                <Link
                   href="/"
-                  className="flex items-center gap-2 min-w-0"
+                  className="flex min-w-0 items-center gap-2"
                   data-testid="home-link"
                >
                   <Image
@@ -73,7 +73,7 @@ export const Sidebar: FC<SidebarProps> = ({ user }) => {
                      alt={`${APP_NAME} logo`}
                      className="shrink-0"
                   />
-                  <span className="font-bold text-lg truncate">{APP_NAME}</span>
+                  <span className="truncate text-lg font-bold">{APP_NAME}</span>
                </Link>
                <SidebarTrigger
                   className="shrink-0 cursor-pointer"
