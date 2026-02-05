@@ -41,7 +41,7 @@ const assertRendered = () => {
 
 const assertNotRendered = () => {
    const wrapper = screen.queryByTestId("authenticated-layout-wrapper");
-   const sidebar = screen.getByTestId("sidebar");
+   const sidebar = screen.queryByTestId("sidebar");
    const test1 = screen.queryByTestId("test-1");
 
    assertNotInDocument(wrapper);
