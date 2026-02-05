@@ -1,9 +1,7 @@
 import { CheckCircle } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
-import { auth } from "@/auth";
 import { Button } from "@/components/shadcn/button";
 import {
    Card,
@@ -18,11 +16,6 @@ export const metadata: Metadata = {
 };
 
 const SubscriptionSuccessPage = async () => {
-   const session = await auth();
-   if (!session?.user?.id) {
-      return redirect("/");
-   }
-
    return (
       <div
          className="container mx-auto flex min-h-[60vh] items-center justify-center px-4 py-16"

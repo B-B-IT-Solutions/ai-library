@@ -1,12 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`PricingPage rendering tests PricingPage - session null - redirects to home 1`] = `<div />`;
-
-exports[`PricingPage rendering tests PricingPage - session.user undefined - redirects to home 1`] = `<div />`;
-
-exports[`PricingPage rendering tests PricingPage - session.user.id undefined - redirects to home 1`] = `<div />`;
-
-exports[`PricingPage rendering tests PricingPage - user retrieved - test 1`] = `
+exports[`PricingPage rendering tests PricingPage - rendered - test 1`] = `
 <div>
   <div
     class="container mx-auto px-4 py-16"

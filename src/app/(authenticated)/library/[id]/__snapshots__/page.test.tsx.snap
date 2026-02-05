@@ -289,9 +289,3 @@ exports[`LibraryEntryPage rendering tests LibraryEntryPage - library entry defin
 `;
 
 exports[`LibraryEntryPage rendering tests LibraryEntryPage - library entry null - test 1`] = `<div />`;
-
-exports[`LibraryEntryPage rendering tests LibraryEntryPage - session null - redirects to home 1`] = `<div />`;
-
-exports[`LibraryEntryPage rendering tests LibraryEntryPage - session.user undefined - redirects to home 1`] = `<div />`;
-
-exports[`LibraryEntryPage rendering tests LibraryEntryPage - session.user.id undefined - redirects to home 1`] = `<div />`;

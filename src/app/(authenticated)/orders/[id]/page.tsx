@@ -3,9 +3,7 @@ import { map } from "es-toolkit/compat";
 import { CheckCircle, Package } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
-import { auth } from "@/auth";
 import { Button } from "@/components/shadcn/button";
 import { getOrder } from "@/data/actions/order";
 
@@ -22,26 +20,21 @@ export type OrderDetailPageProps = {
 };
 
 export const OrderDetailPage = async ({ params }: OrderDetailPageProps) => {
-   const session = await auth();
-   if (!session?.user?.id) {
-      return redirect("/");
-   }
-
    const { id: orderId } = await params;
    const order = await getOrder(orderId);
 
    if (!order) {
       return (
          <div
-            className="container mx-auto px-4 py-8 max-w-2xl"
+            className="container mx-auto max-w-2xl px-4 py-8"
             data-testid="order-details-page"
          >
-            <div className="text-center py-12" data-testid="order-not-found">
-               <Package className="w-16 h-16 mx-auto text-slate-300 mb-4" />
-               <h2 className="text-xl font-semibold text-slate-900 mb-2">
+            <div className="py-12 text-center" data-testid="order-not-found">
+               <Package className="mx-auto mb-4 h-16 w-16 text-slate-300" />
+               <h2 className="mb-2 text-xl font-semibold text-slate-900">
                   Order not found
                </h2>
-               <p className="text-slate-600 mb-6">
+               <p className="mb-6 text-slate-600">
                   The order you're looking for doesn't exist or you don't have
                   access to it.
                </p>
@@ -63,7 +56,7 @@ export const OrderDetailPage = async ({ params }: OrderDetailPageProps) => {
 
       return (
          <span
-            className={`text-sm px-3 py-1 rounded border ${
+            className={`rounded border px-3 py-1 text-sm ${
                colors[order.status]
             }`}
          >
@@ -74,17 +67,17 @@ export const OrderDetailPage = async ({ params }: OrderDetailPageProps) => {
 
    return (
       <div
-         className="container mx-auto px-4 py-8 max-w-2xl"
+         className="container mx-auto max-w-2xl px-4 py-8"
          data-testid="order-details-page"
       >
          {order.status === "COMPLETED" && (
             <div
-               className="bg-green-50 border border-green-200 rounded-lg p-6 mb-6 flex items-center gap-4"
+               className="mb-6 flex items-center gap-4 rounded-lg border border-green-200 bg-green-50 p-6"
                data-testid="order-status"
             >
-               <CheckCircle className="w-12 h-12 text-green-600" />
+               <CheckCircle className="h-12 w-12 text-green-600" />
                <div>
-                  <h2 className="text-xl font-semibold text-green-900 mb-1">
+                  <h2 className="mb-1 text-xl font-semibold text-green-900">
                      Order Successful!
                   </h2>
                   <p className="text-green-700">
@@ -96,12 +89,12 @@ export const OrderDetailPage = async ({ params }: OrderDetailPageProps) => {
          )}
 
          <div
-            className="bg-white border border-slate-200 rounded-lg p-6 mb-6"
+            className="mb-6 rounded-lg border border-slate-200 bg-white p-6"
             data-testid="order-details"
          >
-            <div className="flex items-start justify-between mb-4">
+            <div className="mb-4 flex items-start justify-between">
                <div>
-                  <h1 className="text-2xl font-bold text-slate-900 mb-1">
+                  <h1 className="mb-1 text-2xl font-bold text-slate-900">
                      Order Details
                   </h1>
                   <p className="text-sm text-slate-600">Order ID: {order.id}</p>
@@ -112,8 +105,8 @@ export const OrderDetailPage = async ({ params }: OrderDetailPageProps) => {
                {statusBadge()}
             </div>
 
-            <div className="border-t pt-4 space-y-3">
-               <h3 className="font-semibold mb-2">Items</h3>
+            <div className="space-y-3 border-t pt-4">
+               <h3 className="mb-2 font-semibold">Items</h3>
                {map(order.items, (item) => (
                   <div key={item.id} className="flex justify-between text-sm">
                      <div>
@@ -126,7 +119,7 @@ export const OrderDetailPage = async ({ params }: OrderDetailPageProps) => {
                   </div>
                ))}
 
-               <div className="border-t pt-3 flex justify-between font-semibold text-lg">
+               <div className="flex justify-between border-t pt-3 text-lg font-semibold">
                   <span>Total</span>
                   <span>CHF {order.totalAmount}</span>
                </div>

@@ -10,7 +10,7 @@ exports[`OrdersPage rendering tests OrdersPage - cart with items - rendered test
       class="mb-8"
     >
       <h1
-        class="text-3xl font-bold text-slate-900 mb-2"
+        class="mb-2 text-3xl font-bold text-slate-900"
       >
         Bestellverlauf
       </h1>
@@ -21,7 +21,7 @@ exports[`OrdersPage rendering tests OrdersPage - cart with items - rendered test
       </p>
     </div>
     <div
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+      class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
       data-testid="orders-cards"
     >
       <div
@@ -225,17 +225,17 @@ exports[`OrdersPage rendering tests OrdersPage - orders empty - redirects to hom
     data-testid="order-page"
   >
     <h1
-      class="text-3xl font-bold text-slate-900 mb-8"
+      class="mb-8 text-3xl font-bold text-slate-900"
     >
       Bestellverlauf
     </h1>
     <div
-      class="text-center py-12"
+      class="py-12 text-center"
       data-testid="orders-empty"
     >
       <svg
         aria-hidden="true"
-        class="lucide lucide-package w-16 h-16 mx-auto text-slate-300 mb-4"
+        class="lucide lucide-package mx-auto mb-4 h-16 w-16 text-slate-300"
         fill="none"
         height="24"
         stroke="currentColor"
@@ -260,12 +260,12 @@ exports[`OrdersPage rendering tests OrdersPage - orders empty - redirects to hom
         />
       </svg>
       <h2
-        class="text-xl font-semibold text-slate-900 mb-2"
+        class="mb-2 text-xl font-semibold text-slate-900"
       >
         Noch keine Bestellungen
       </h2>
       <p
-        class="text-slate-600 mb-6"
+        class="mb-6 text-slate-600"
       >
         Beginnen Sie mit dem Einkaufen, um Ihre erste Bestellung zu erstellen
       </p>
@@ -284,9 +284,3 @@ exports[`OrdersPage rendering tests OrdersPage - orders empty - redirects to hom
   </div>
 </div>
 `;
-
-exports[`OrdersPage rendering tests OrdersPage - session null - redirects to home 1`] = `<div />`;
-
-exports[`OrdersPage rendering tests OrdersPage - session.user undefined - redirects to home 1`] = `<div />`;
-
-exports[`OrdersPage rendering tests OrdersPage - session.user.id undefined - redirects to home 1`] = `<div />`;

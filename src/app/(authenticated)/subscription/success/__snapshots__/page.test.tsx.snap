@@ -1,12 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`SubscriptionSuccessPage rendering tests SubscriptionSuccessPage - session null - redirects to home 1`] = `<div />`;
-
-exports[`SubscriptionSuccessPage rendering tests SubscriptionSuccessPage - session.user undefined - redirects to home 1`] = `<div />`;
-
-exports[`SubscriptionSuccessPage rendering tests SubscriptionSuccessPage - session.user.id undefined - redirects to home 1`] = `<div />`;
-
-exports[`SubscriptionSuccessPage rendering tests SubscriptionSuccessPage - user retrieved - test 1`] = `
+exports[`SubscriptionSuccessPage rendering tests SubscriptionSuccessPage - rendered - test 1`] = `
 <div>
   <div
     class="container mx-auto flex min-h-[60vh] items-center justify-center px-4 py-16"

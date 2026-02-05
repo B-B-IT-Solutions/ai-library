@@ -1,7 +1,5 @@
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
 
-import { auth } from "@/auth";
 import { PricingPlans } from "@/components/settings";
 import {
    getSubscription,
@@ -9,18 +7,12 @@ import {
 } from "@/data/actions/subscription";
 
 export const metadata: Metadata = {
-   title: "Priese",
+   title: "Preise",
 };
 
 const PricingPage = async () => {
-   const session = await auth();
-   if (!session?.user?.id) {
-      return redirect("/");
-   }
-
    const plans = await getSubscriptionPlans();
-
-   const currentSubscription = await getSubscription();
+   const subscription = await getSubscription();
 
    return (
       <div className="container mx-auto px-4 py-16" data-testid="pricing-page">
@@ -31,10 +23,7 @@ const PricingPage = async () => {
                subscription plans
             </p>
          </div>
-         <PricingPlans
-            plans={plans}
-            currentSubscription={currentSubscription}
-         />
+         <PricingPlans plans={plans} currentSubscription={subscription} />
       </div>
    );
 };

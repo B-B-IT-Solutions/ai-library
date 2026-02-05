@@ -2,18 +2,10 @@ jest.mock("@/data/actions/order");
 
 import { screen, waitFor } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
-import {
-   assertInDocument,
-   AuthMockedFunction,
-   dtestData,
-   ntestData,
-   renderAsyncRSC,
-} from "@tests";
+import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
 import mockRouter from "next-router-mock";
 
-import { auth } from "@/auth";
 import { getOrder } from "@/data/actions/order";
 
 import {
@@ -23,9 +15,7 @@ import {
    OrderParams,
 } from "./page";
 
-const authMock = auth as unknown as AuthMockedFunction;
 const getOrderMock = getOrder as jest.MockedFunction<typeof getOrder>;
-const redirectMock = redirect as jest.MockedFunction<typeof redirect>;
 
 const expectedMetadata: Metadata = {
    title: "Order",
@@ -61,76 +51,7 @@ describe("OrderDetailPage rendering tests", () => {
       jest.resetAllMocks();
    });
 
-   it("OrderDetailPage - session null - redirects to home", async () => {
-      authMock.mockResolvedValue(null);
-
-      const params: OrderParams = { id: "order-id-1" };
-
-      const props: OrderDetailPageProps = {
-         params: Promise.resolve(params),
-      };
-
-      const { container } = await renderAsyncRSC(OrderDetailPage, props);
-
-      await waitFor(() => {
-         expect(authMock).toHaveBeenCalledTimes(1);
-         expect(getOrderMock).not.toHaveBeenCalled();
-         expect(redirectMock).toHaveBeenCalledTimes(1);
-         expect(redirectMock).toHaveBeenCalledWith("/");
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("OrderDetailPage - session.user undefined - redirects to home", async () => {
-      const session = ntestData.session();
-      session.user = undefined;
-      authMock.mockResolvedValue(session);
-
-      const params: OrderParams = { id: "order-id-1" };
-
-      const props: OrderDetailPageProps = {
-         params: Promise.resolve(params),
-      };
-
-      const { container } = await renderAsyncRSC(OrderDetailPage, props);
-
-      await waitFor(() => {
-         expect(authMock).toHaveBeenCalledTimes(1);
-         expect(getOrderMock).not.toHaveBeenCalled();
-         expect(redirectMock).toHaveBeenCalledTimes(1);
-         expect(redirectMock).toHaveBeenCalledWith("/");
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("OrderDetailPage - session.user.id undefined - redirects to home", async () => {
-      const session = ntestData.session();
-      session.user.id = undefined;
-      authMock.mockResolvedValue(session);
-
-      const params: OrderParams = { id: "order-id-1" };
-
-      const props: OrderDetailPageProps = {
-         params: Promise.resolve(params),
-      };
-
-      const { container } = await renderAsyncRSC(OrderDetailPage, props);
-
-      await waitFor(() => {
-         expect(authMock).toHaveBeenCalledTimes(1);
-         expect(getOrderMock).not.toHaveBeenCalled();
-         expect(redirectMock).toHaveBeenCalledTimes(1);
-         expect(redirectMock).toHaveBeenCalledWith("/");
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
    it("OrderDetailPage - order not found - redirects to home", async () => {
-      const session = ntestData.session();
-      authMock.mockResolvedValue(session);
       getOrderMock.mockResolvedValue(null);
 
       const params: OrderParams = { id: "order-id-123" };
@@ -144,19 +65,15 @@ describe("OrderDetailPage rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertOrderNotFound();
-         expect(authMock).toHaveBeenCalledTimes(1);
          expect(getOrderMock).toHaveBeenCalledTimes(1);
          expect(getOrderMock).toHaveBeenCalledWith(params.id);
-         expect(redirectMock).not.toHaveBeenCalled();
       });
 
       expect(container).toMatchSnapshot();
    });
 
    it("OrderDetailPage - order found - rendered test", async () => {
-      const session = ntestData.session();
       const order = dtestData.dOrder();
-      authMock.mockResolvedValue(session);
       getOrderMock.mockResolvedValue(order);
 
       const params: OrderParams = { id: "order-id-456" };
@@ -170,10 +87,8 @@ describe("OrderDetailPage rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertOrderFound();
-         expect(authMock).toHaveBeenCalledTimes(1);
          expect(getOrderMock).toHaveBeenCalledTimes(1);
          expect(getOrderMock).toHaveBeenCalledWith(params.id);
-         expect(redirectMock).not.toHaveBeenCalled();
       });
 
       expect(container).toMatchSnapshot();
@@ -190,9 +105,7 @@ describe("OrderDetailPage functionality tests", () => {
    });
 
    it("OrderDetailPage - orders link clicked - test", async () => {
-      const session = ntestData.session();
       const order = dtestData.dOrder();
-      authMock.mockResolvedValue(session);
       getOrderMock.mockResolvedValue(order);
 
       const params: OrderParams = { id: "order-id-456" };
@@ -217,9 +130,8 @@ describe("OrderDetailPage functionality tests", () => {
    });
 
    it("OrderDetailPage - library link clicked - test", async () => {
-      const session = ntestData.session();
       const order = dtestData.dOrder();
-      authMock.mockResolvedValue(session);
+
       getOrderMock.mockResolvedValue(order);
 
       const params: OrderParams = { id: "order-id-456" };

@@ -502,9 +502,3 @@ exports[`LibraryPage rendering tests LibraryPage - library items empty - test 1`
   </div>
 </div>
 `;
-
-exports[`LibraryPage rendering tests LibraryPage - session null - redirects to home 1`] = `<div />`;
-
-exports[`LibraryPage rendering tests LibraryPage - session.user undefined - redirects to home 1`] = `<div />`;
-
-exports[`LibraryPage rendering tests LibraryPage - session.user.id undefined - redirects to home 1`] = `<div />`;

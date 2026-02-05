@@ -1,7 +1,6 @@
 import { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
-import { auth } from "@/auth";
 import { LibraryEntryDetails } from "@/components/library";
 import { getLibraryEntry } from "@/data/actions/library";
 
@@ -18,11 +17,6 @@ export type LibraryEntryPageProps = {
 };
 
 export const LibraryEntryPage = async ({ params }: LibraryEntryPageProps) => {
-   const session = await auth();
-   if (!session?.user?.id) {
-      return redirect("/");
-   }
-
    const { id: entryId } = await params;
    const entry = await getLibraryEntry(entryId);
 
