@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`AuthenticatedLayoutWrapper rendering tests AuthenticatedLayoutWrapper - isAuthenticated false - test 1`] = `<div />`;
+
+exports[`AuthenticatedLayoutWrapper rendering tests AuthenticatedLayoutWrapper - isAuthenticated true - test 1`] = `
+<div>
+  <div
+    data-testid="authenticated-layout-wrapper"
+  >
+    <div
+      data-testid="test-1"
+    />
+  </div>
+</div>
+`;

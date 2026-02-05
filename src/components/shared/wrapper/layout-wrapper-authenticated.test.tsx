@@ -6,7 +6,10 @@ import { redirect } from "next/navigation";
 
 import { isAuthenticated } from "@/data/actions/auth-utils";
 
-import { Props, PublicLayoutWrapper } from "./layer-wrapper-pulbic";
+import {
+   AuthenticatedLayoutWrapper,
+   Props,
+} from "./layout-wrapper-authenticated";
 
 const isAuthenticatedMock = isAuthenticated as jest.MockedFunction<
    typeof isAuthenticated
@@ -14,7 +17,7 @@ const isAuthenticatedMock = isAuthenticated as jest.MockedFunction<
 const redirectMock = redirect as jest.MockedFunction<typeof redirect>;
 
 const assertRendered = () => {
-   const wrapper = screen.getByTestId("public-layout-wrapper");
+   const wrapper = screen.getByTestId("authenticated-layout-wrapper");
    const test1 = screen.getByTestId("test-1");
 
    assertInDocument(wrapper);
@@ -22,42 +25,48 @@ const assertRendered = () => {
 };
 
 const assertNotRendered = () => {
-   const wrapper = screen.queryByTestId("public-layout-wrapper");
+   const wrapper = screen.queryByTestId("authenticated-layout-wrapper");
    const test1 = screen.queryByTestId("test-1");
 
    assertNotInDocument(wrapper);
    assertNotInDocument(test1);
 };
 
-describe("PublicLayoutWrapper rendering tests", () => {
+describe("AuthenticatedLayoutWrapper rendering tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
    });
 
-   it("PublicLayoutWrapper - isAuthenticated true - test", async () => {
-      isAuthenticatedMock.mockResolvedValue(true);
-
-      const props: Props = {
-         children: <div data-testid="test-1"></div>,
-      };
-      const { container } = await renderAsyncRSC(PublicLayoutWrapper, props);
-
-      await waitFor(() => {
-         assertNotRendered();
-         expect(redirectMock).toHaveBeenCalledTimes(1);
-         expect(redirectMock).toHaveBeenCalledWith("/");
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("PublicLayoutWrapper - isAuthenticated false - test", async () => {
+   it("AuthenticatedLayoutWrapper - isAuthenticated false - test", async () => {
       isAuthenticatedMock.mockResolvedValue(false);
 
       const props: Props = {
          children: <div data-testid="test-1"></div>,
       };
-      const { container } = await renderAsyncRSC(PublicLayoutWrapper, props);
+      const { container } = await renderAsyncRSC(
+         AuthenticatedLayoutWrapper,
+         props
+      );
+
+      await waitFor(() => {
+         assertNotRendered();
+         expect(redirectMock).toHaveBeenCalledTimes(1);
+         expect(redirectMock).toHaveBeenCalledWith("/auth/sign-in");
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("AuthenticatedLayoutWrapper - isAuthenticated true - test", async () => {
+      isAuthenticatedMock.mockResolvedValue(true);
+
+      const props: Props = {
+         children: <div data-testid="test-1"></div>,
+      };
+      const { container } = await renderAsyncRSC(
+         AuthenticatedLayoutWrapper,
+         props
+      );
 
       await waitFor(() => {
          assertRendered();
