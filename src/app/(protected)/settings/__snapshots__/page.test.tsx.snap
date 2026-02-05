@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
-
-exports[`SettingsPage rendering tests SettingsPage - session null - redirects to home 1`] = `<div />`;
-
-exports[`SettingsPage rendering tests SettingsPage - session.user undefined - redirects to home 1`] = `<div />`;
-
-exports[`SettingsPage rendering tests SettingsPage - session.user.id undefined - redirects to home 1`] = `<div />`;
-
-exports[`SettingsPage rendering tests SettingsPage - user retrieved - test 1`] = `<div />`;

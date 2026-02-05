@@ -32,5 +32,6 @@ declare module "@auth/core/adapters" {
 
 type LoginUser = {
    id: string;
+   name?: string | null;
    email?: string | null;
 };

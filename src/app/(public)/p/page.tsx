@@ -11,20 +11,20 @@ const PublicPage = async () => {
       >
          {/* Hero Section */}
          <div className="container mx-auto px-4 py-16 md:py-24">
-            <div className="max-w-6xl mx-auto">
+            <div className="mx-auto max-w-6xl">
                {/* Hero Content */}
-               <div className="text-center space-y-8 mb-20">
+               <div className="mb-20 space-y-8 text-center">
                   <div className="space-y-4">
-                     <h2 className="text-5xl md:text-6xl font-bold tracking-tight">
+                     <h2 className="text-5xl font-bold tracking-tight md:text-6xl">
                         Welcome to {APP_NAME}
                      </h2>
-                     <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
+                     <p className="mx-auto max-w-3xl text-xl text-muted-foreground md:text-2xl">
                         {APP_DESCRIPTION}
                      </p>
                   </div>
-                  <div className="flex gap-4 justify-center flex-wrap">
+                  <div className="flex flex-wrap justify-center gap-4">
                      <Button size="lg" asChild>
-                        <Link href="/sign-up">Start Free Trial</Link>
+                        <Link href="/auth/sign-up">Start Free Trial</Link>
                      </Button>
                      <Button size="lg" variant="outline" asChild>
                         <Link href="/p/marketplace">Browse Marketplace</Link>

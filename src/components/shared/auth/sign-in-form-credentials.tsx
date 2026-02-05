@@ -80,7 +80,7 @@ export const CredentialsSignInForm = () => {
                         E-Mail-Adresse
                      </FieldLabel>
                      <div className="relative">
-                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                        <div className="absolute top-1/2 left-3 -translate-y-1/2 text-muted-foreground">
                            <Mail className="h-4 w-4" />
                         </div>
                         <Input
@@ -89,7 +89,7 @@ export const CredentialsSignInForm = () => {
                            autoComplete="email"
                            placeholder="ihre@beispiel.com"
                            aria-invalid={fieldState.invalid}
-                           className="pl-10 h-11 text-foreground transition-all focus:ring-2 focus:ring-primary/20"
+                           className="h-11 pl-10 text-foreground transition-all focus:ring-2 focus:ring-primary/20"
                         />
                      </div>
                      {fieldState.invalid && (
@@ -115,14 +115,14 @@ export const CredentialsSignInForm = () => {
                         </FieldLabel>
                         <Link
                            href="/forgot-password"
-                           className="text-xs text-primary hover:text-primary/80 transition-colors"
+                           className="text-xs text-primary transition-colors hover:text-primary/80"
                            data-testid="forgot-password-link"
                         >
                            Passwort vergessen?
                         </Link>
                      </div>
                      <div className="relative">
-                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                        <div className="absolute top-1/2 left-3 -translate-y-1/2 text-muted-foreground">
                            <Lock className="h-4 w-4" />
                         </div>
                         <Input
@@ -132,12 +132,12 @@ export const CredentialsSignInForm = () => {
                            type={showPassword ? "text" : "password"}
                            placeholder="Geben Sie Ihr Passwort ein"
                            aria-invalid={fieldState.invalid}
-                           className="pl-10 pr-10 h-11 text-foreground transition-all focus:ring-2 focus:ring-primary/20"
+                           className="h-11 pr-10 pl-10 text-foreground transition-all focus:ring-2 focus:ring-primary/20"
                         />
                         <button
                            type="button"
                            onClick={togglePasswordVisibility}
-                           className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded p-0.5"
+                           className="absolute top-1/2 right-3 -translate-y-1/2 rounded p-0.5 text-muted-foreground transition-colors hover:text-foreground focus:ring-2 focus:ring-primary/20 focus:outline-none"
                            aria-label={
                               showPassword
                                  ? "Passwort verbergen"
@@ -162,7 +162,7 @@ export const CredentialsSignInForm = () => {
                )}
             />
             {errors.root?.serverError && (
-               <div className="rounded-md bg-destructive/10 p-3 border border-destructive/20">
+               <div className="rounded-md border border-destructive/20 bg-destructive/10 p-3">
                   <FieldError
                      errors={[{ message: errors.root.serverError.message }]}
                   />
@@ -171,7 +171,7 @@ export const CredentialsSignInForm = () => {
             <Field>
                <Button
                   disabled={isSubmitting}
-                  className="w-full h-11 text-base font-medium transition-all hover:shadow-lg cursor-pointer"
+                  className="h-11 w-full cursor-pointer text-base font-medium transition-all hover:shadow-lg"
                   variant="default"
                   type="submit"
                   data-testid="sign-in-btn"
@@ -188,12 +188,12 @@ export const CredentialsSignInForm = () => {
             </Field>
          </FieldGroup>
 
-         <div className="text-sm text-center text-muted-foreground pt-2">
+         <div className="pt-2 text-center text-sm text-muted-foreground">
             Noch kein Konto?{" "}
             <Link
-               href="/sign-up"
+               href="/auth/sign-up"
                target="_self"
-               className="font-medium text-primary hover:text-primary/80 transition-colors underline-offset-4 hover:underline"
+               className="font-medium text-primary underline-offset-4 transition-colors hover:text-primary/80 hover:underline"
                data-testid="sign-up-link"
             >
                Registrieren

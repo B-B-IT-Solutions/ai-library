@@ -64,7 +64,7 @@ export const UpdatePassword = () => {
             toast.success(result.message);
             form.reset();
             // User will be redirected to sign-in page by the action
-            router.push("/sign-in");
+            router.push("/auth/sign-in");
          } else {
             toast.error(result.message);
          }
@@ -133,7 +133,7 @@ export const UpdatePassword = () => {
                            </FormLabel>
                            <FormControl>
                               <div className="relative">
-                                 <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                                 <div className="absolute top-1/2 left-3 -translate-y-1/2 text-muted-foreground">
                                     <Lock className="h-4 w-4" />
                                  </div>
                                  <Input
@@ -142,7 +142,7 @@ export const UpdatePassword = () => {
                                     type={inputType(showCurrentPassword)}
                                     autoComplete="current-password"
                                     aria-invalid={fieldState.invalid}
-                                    className="pl-10 pr-10 h-11"
+                                    className="h-11 pr-10 pl-10"
                                     data-testid="currentPassword-input"
                                  />
                                  <button
@@ -152,7 +152,7 @@ export const UpdatePassword = () => {
                                           !showCurrentPassword
                                        )
                                     }
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded p-0.5"
+                                    className="absolute top-1/2 right-3 -translate-y-1/2 rounded p-0.5 text-muted-foreground transition-colors hover:text-foreground focus:ring-2 focus:ring-primary/20 focus:outline-none"
                                     aria-label={inputAriaLabel(
                                        showCurrentPassword
                                     )}
@@ -177,7 +177,7 @@ export const UpdatePassword = () => {
                            <FormControl>
                               <div>
                                  <div className="relative">
-                                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                                    <div className="absolute top-1/2 left-3 -translate-y-1/2 text-muted-foreground">
                                        <Lock className="h-4 w-4" />
                                     </div>
                                     <Input
@@ -186,7 +186,7 @@ export const UpdatePassword = () => {
                                        type={inputType(showNewPassword)}
                                        autoComplete="new-password"
                                        aria-invalid={fieldState.invalid}
-                                       className="pl-10 pr-10 h-11"
+                                       className="h-11 pr-10 pl-10"
                                        data-testid="newPassword-input"
                                     />
                                     <button
@@ -194,7 +194,7 @@ export const UpdatePassword = () => {
                                        onClick={() =>
                                           setShowNewPassword(!showNewPassword)
                                        }
-                                       className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded p-0.5"
+                                       className="absolute top-1/2 right-3 -translate-y-1/2 rounded p-0.5 text-muted-foreground transition-colors hover:text-foreground focus:ring-2 focus:ring-primary/20 focus:outline-none"
                                        aria-label={inputAriaLabel(
                                           showNewPassword
                                        )}
@@ -206,7 +206,7 @@ export const UpdatePassword = () => {
                                  {newPassword && passwordStrength && (
                                     <div className="mt-2 space-y-2">
                                        <div className="flex gap-1">
-                                          <div className="flex-1 h-1 rounded-full bg-gray-200">
+                                          <div className="h-1 flex-1 rounded-full bg-gray-200">
                                              <div
                                                 className={`h-full rounded-full transition-all duration-300 ${getStrengthColor(
                                                    passwordStrength
@@ -239,7 +239,7 @@ export const UpdatePassword = () => {
                            </FormLabel>
                            <FormControl>
                               <div className="relative">
-                                 <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                                 <div className="absolute top-1/2 left-3 -translate-y-1/2 text-muted-foreground">
                                     <Lock className="h-4 w-4" />
                                  </div>
                                  <Input
@@ -248,7 +248,7 @@ export const UpdatePassword = () => {
                                     type={inputType(showConfirmPassword)}
                                     autoComplete="new-password"
                                     aria-invalid={fieldState.invalid}
-                                    className="pl-10 pr-10 h-11"
+                                    className="h-11 pr-10 pl-10"
                                     data-testid="confirmPassword-input"
                                  />
                                  <button
@@ -258,7 +258,7 @@ export const UpdatePassword = () => {
                                           !showConfirmPassword
                                        )
                                     }
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded p-0.5"
+                                    className="absolute top-1/2 right-3 -translate-y-1/2 rounded p-0.5 text-muted-foreground transition-colors hover:text-foreground focus:ring-2 focus:ring-primary/20 focus:outline-none"
                                     aria-label={inputAriaLabel(
                                        showConfirmPassword
                                     )}

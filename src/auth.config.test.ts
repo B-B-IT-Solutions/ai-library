@@ -49,8 +49,8 @@ const nextMock = NextResponse.next as jest.MockedFunction<
 >;
 
 const expectePagesConfig = {
-   signIn: "/sign-in",
-   error: "/sign-in",
+   signIn: "/auth/sign-in",
+   error: "/auth/sign-in",
 };
 
 const expectedSessionConfig = {
@@ -153,7 +153,7 @@ describe("auth.config - callback.authorized - tests", () => {
       "/orders/456",
       "/admin",
    ];
-   const publicPaths = ["/sign-in", "/sign-out", "/p/marketplace"];
+   const publicPaths = ["/auth/sign-in", "/auth/sign-up", "/p/marketplace"];
 
    const authorized = authConfig.callbacks!.authorized!;
 

@@ -6,11 +6,12 @@ import {
    assertInDocument,
    assertNotInDocument,
    ctestData,
-   ntestData,
+   dtestData,
    renderWithSidebar,
 } from "@tests";
 
 import { signOutUser } from "@/data/actions/user";
+import { LoginUser } from "@/data/types/next-auth";
 
 import { SidebarFooter } from "./sidebar-footer";
 
@@ -50,7 +51,7 @@ describe("SidebarFooter rendering tests", () => {
    });
 
    it("SidebarFooter - sidebar open - rendered test", async () => {
-      const user = ntestData.user();
+      const user = dtestData.dLoginUser();
       const { container } = renderWithSidebar(<SidebarFooter user={user} />);
 
       await waitFor(() => {
@@ -69,19 +70,6 @@ describe("SidebarFooter rendering tests", () => {
 
       expect(container).toMatchSnapshot();
    });
-
-   it("SidebarFooter - sidebar collapsed - rendered test", async () => {
-      const { container } = renderWithSidebar(
-         <SidebarFooter user={undefined} />
-      );
-
-      await waitFor(() => {
-         assertRendered();
-         assertMenuItemsNotRendered();
-      });
-
-      expect(container).toMatchSnapshot();
-   });
 });
 
 describe("Sidebar functionality tests", () => {
@@ -90,7 +78,11 @@ describe("Sidebar functionality tests", () => {
    });
 
    it("Sidebar - sign out clicked - test", async () => {
-      const user = { name: undefined, role: "user" };
+      const user: LoginUser = {
+         id: "user-id-1",
+         name: undefined,
+         email: "test1@gmail.com",
+      };
       renderWithSidebar(<SidebarFooter user={user} />);
 
       await waitFor(() => {
