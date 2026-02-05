@@ -369,7 +369,7 @@ describe("SignUpForm functionality tests", () => {
       const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
       useSearchParamsMock.mockReturnValue(searchParams);
 
-      const url = "/sign-in";
+      const url = "/auth/sign-in";
       renderWithRouter(<SignUpForm />, url);
 
       await waitFor(() => {
@@ -386,7 +386,7 @@ describe("SignUpForm functionality tests", () => {
       await userEvent.click(singInLink);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual(`/sign-in`);
+         expect(mockRouter.pathname).toEqual(`/auth/sign-in`);
       });
    });
 });

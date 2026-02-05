@@ -137,7 +137,7 @@ describe("UpdatePassword functionality tests", () => {
          expect(mokcUpdatePassword).toHaveBeenCalledWith(expectedData);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
-         expect(mockRouter.pathname).toEqual("/sign-in");
+         expect(mockRouter.pathname).toEqual("/auth/sign-in");
       });
    });
 

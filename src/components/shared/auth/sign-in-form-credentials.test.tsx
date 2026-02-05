@@ -265,7 +265,7 @@ describe("CredentialsSignInForm functionality tests", () => {
       const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
       useSearchParamsMock.mockReturnValue(searchParams);
 
-      const url = "/sign-in";
+      const url = "/auth/sign-in";
       renderWithRouter(<CredentialsSignInForm />, url);
 
       await waitFor(() => {
@@ -282,7 +282,7 @@ describe("CredentialsSignInForm functionality tests", () => {
       await userEvent.click(singUpLink);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual(`/sign-up`);
+         expect(mockRouter.pathname).toEqual(`/auth/sign-up`);
       });
    });
 });

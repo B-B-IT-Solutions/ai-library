@@ -61,7 +61,7 @@ describe("PublicLayout functionality tests", () => {
       await userEvent.click(signInLink);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual(`/sign-in`);
+         expect(mockRouter.pathname).toEqual(`/auth/sign-in`);
       });
    });
 
@@ -83,7 +83,7 @@ describe("PublicLayout functionality tests", () => {
       await userEvent.click(signUpLink);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual(`/sign-up`);
+         expect(mockRouter.pathname).toEqual(`/auth/sign-up`);
       });
    });
 });
