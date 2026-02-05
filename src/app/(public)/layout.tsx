@@ -12,13 +12,13 @@ const PublicLayout = async (props: Readonly<PublicLayoutProps>) => {
    const { children } = props;
 
    return (
-      <div className="h-full flex flex-col" data-testid="public-layout">
+      <div className="flex h-full flex-col" data-testid="public-layout">
          <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container mx-auto px-4 py-4">
-               <div className="flex justify-between items-center">
+               <div className="flex items-center justify-between">
                   <Link
                      href="/p"
-                     className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+                     className="flex items-center gap-3 transition-opacity hover:opacity-80"
                   >
                      <Image
                         src="/images/logo.svg"
