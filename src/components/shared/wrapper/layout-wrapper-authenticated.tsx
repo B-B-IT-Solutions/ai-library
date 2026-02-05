@@ -1,6 +1,10 @@
 import { ReactNode } from "react";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
+import { auth } from "@/auth";
+import { SidebarProvider } from "@/components/shadcn/sidebar";
+import { Sidebar } from "@/components/shared";
 import { isAuthenticated } from "@/data/actions/auth-utils";
 
 export type Props = {
@@ -15,5 +19,17 @@ export const AuthenticatedLayoutWrapper = async (props: Props) => {
       return redirect("/auth/sign-in");
    }
 
-   return <div data-testid="authenticated-layout-wrapper">{children}</div>;
+   const session = await auth();
+   const cookieStore = await cookies();
+
+   const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
+
+   return (
+      <div data-testid="authenticated-layout-wrapper">
+         <SidebarProvider defaultOpen={defaultOpen}>
+            <Sidebar user={session?.user} />
+            <main className="flex-1">{children}</main>
+         </SidebarProvider>
+      </div>
+   );
 };

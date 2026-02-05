@@ -1,52 +1,28 @@
-jest.mock("@/auth");
+jest.mock("@/components/shared/wrapper", () => ({
+   AuthenticatedLayoutWrapper: ({
+      children,
+   }: {
+      children: React.ReactNode;
+   }) => {
+      return <div data-testid="authenticated-layout-wrapper">{children}</div>;
+   },
+}));
 
 import { screen, waitFor } from "@testing-library/dom";
-import { assertInDocument, ctestData, ntestData, renderAsyncRSC } from "@tests";
-import { cookies } from "next/headers";
-
-import { auth } from "@/auth";
+import { assertInDocument, renderAsyncRSC } from "@tests";
 
 import MainLayout from "./layout";
 
-const cookiesMock = cookies as jest.MockedFunction<typeof cookies>;
-const authMock = auth as jest.MockedFunction<typeof auth>;
-
 const assertRendered = () => {
-   const layout = screen.getByTestId("main-layout");
+   const wrapper = screen.getByTestId("authenticated-layout-wrapper");
    const test1 = screen.getByTestId("test-1");
 
-   assertInDocument(layout);
+   assertInDocument(wrapper);
    assertInDocument(test1);
 };
 
 describe("MainLayout rendering tests", () => {
-   beforeEach(() => {
-      jest.resetAllMocks();
-      window.matchMedia = ctestData.createMatchMedia(false);
-   });
-
-   it("MainLayout - session defined - rendered", async () => {
-      const reqCookies = ntestData.cookies({});
-      const session = ntestData.session();
-      cookiesMock.mockResolvedValue(reqCookies);
-      authMock.mockResolvedValue(session);
-
-      const { container } = await renderAsyncRSC(MainLayout, {
-         children: <div data-testid="test-1"></div>,
-      });
-
-      await waitFor(() => {
-         assertRendered();
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("MainLayout - session undefined - rendered", async () => {
-      const reqCookies = ntestData.cookies({});
-      cookiesMock.mockResolvedValue(reqCookies);
-      authMock.mockResolvedValue(null);
-
+   it("MainLayout - rendered - test", async () => {
       const { container } = await renderAsyncRSC(MainLayout, {
          children: <div data-testid="test-1"></div>,
       });
