@@ -1,9 +1,8 @@
 import { ArrowLeft } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
-import { auth } from "@/auth";
 import { AddToCartButton } from "@/components/products/buttons/add-to-cart-button";
 import { ProductDetails } from "@/components/products/product/product-details";
 import { ProductHeader } from "@/components/products/product/product-header";
@@ -12,21 +11,19 @@ import { getCart } from "@/data/actions/cart";
 import { getProduct } from "@/data/actions/product";
 
 export const metadata: Metadata = {
-   title: "Product Details",
+   title: "Product",
 };
 
-export type PublicProductPageProps = {
-   params: Promise<{ id: string }>;
+export type PageParams = {
+   id: string;
 };
 
-const PublicProductPage = async (props: PublicProductPageProps) => {
-   const session = await auth();
+export type PageProps = {
+   params: Promise<PageParams>;
+};
+
+const PublicProductPage = async (props: PageProps) => {
    const { id: productId } = await props.params;
-
-   // Redirect authenticated users to protected version
-   if (session?.user?.id) {
-      return redirect(`/products/${productId}`);
-   }
 
    // Fetch product and cart
    const [product, cart] = await Promise.all([
@@ -42,12 +39,15 @@ const PublicProductPage = async (props: PublicProductPageProps) => {
    const isInCart = cart.items.some((item) => item.productId === product.id);
 
    return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
+      <div
+         className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5"
+         data-testid="product-page"
+      >
          <div className="container mx-auto max-w-6xl px-4 py-8">
             {/* Back button */}
             <div className="mb-6">
-               <Button variant="ghost" asChild>
-                  <Link href="/p/marketplace">
+               <Button variant="ghost" asChild={true}>
+                  <Link href="/p/marketplace" data-testid="marketplace-link-1">
                      <ArrowLeft className="mr-2 h-4 w-4" />
                      Back to Marketplace
                   </Link>
@@ -71,8 +71,13 @@ const PublicProductPage = async (props: PublicProductPageProps) => {
                      isInCart={isInCart}
                      size="lg"
                   />
-                  <Button variant="outline" size="lg" asChild>
-                     <Link href="/p/marketplace">Continue Shopping</Link>
+                  <Button variant="outline" size="lg" asChild={true}>
+                     <Link
+                        href="/p/marketplace"
+                        data-testid="marketplace-link-2"
+                     >
+                        Continue Shopping
+                     </Link>
                   </Button>
                   <Button
                      variant="ghost"
