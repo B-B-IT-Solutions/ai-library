@@ -73,7 +73,15 @@ describe("pGetLibraryEntry tests", () => {
             templateDescriptor: {
                include: {
                   categories: true,
-                  promptTemplate: true,
+                  promptTemplate: {
+                     include: {
+                        fields: {
+                           orderBy: {
+                              order: "asc",
+                           },
+                        },
+                     },
+                  },
                },
             },
          },
@@ -106,7 +114,15 @@ describe("pGetLibraryEntry tests", () => {
             templateDescriptor: {
                include: {
                   categories: true,
-                  promptTemplate: true,
+                  promptTemplate: {
+                     include: {
+                        fields: {
+                           orderBy: {
+                              order: "asc",
+                           },
+                        },
+                     },
+                  },
                },
             },
          },

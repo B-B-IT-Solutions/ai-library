@@ -52,7 +52,9 @@ export class LibraryRepository {
                   promptTemplate: {
                      include: {
                         fields: {
-                           orderBy: { order: "asc" },
+                           orderBy: {
+                              order: "asc",
+                           },
                         },
                      },
                   },
