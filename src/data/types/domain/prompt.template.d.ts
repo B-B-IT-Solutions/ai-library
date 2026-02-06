@@ -43,11 +43,11 @@ export type DPromptTemplateField = {
    promptTemplateId: string;
    name: string;
    label: string;
-   description?: string;
+   description: string | null;
    type: DPromptTemplateFieldType;
    required: boolean;
    order: number;
-   defaultValue?: string;
+   defaultValue: string | null;
    options?: string[];
 };
 

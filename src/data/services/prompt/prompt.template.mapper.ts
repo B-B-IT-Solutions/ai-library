@@ -71,10 +71,10 @@ export const toDTemplateField = (
    promptTemplateId: field.promptTemplateId,
    name: field.name,
    label: field.label,
-   description: field.description ?? undefined,
+   description: field.description,
    type: field.type,
    required: field.required,
    order: field.order,
-   defaultValue: field.defaultValue ?? undefined,
-   options: field.options ? (field.options as string[]) : undefined,
+   defaultValue: field.defaultValue,
+   options: field.options as string[] | undefined,
 });
