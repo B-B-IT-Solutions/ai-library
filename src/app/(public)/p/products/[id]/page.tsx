@@ -1,9 +1,8 @@
 import { ArrowLeft } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
-import { auth } from "@/auth";
 import { AddToCartButton } from "@/components/products/buttons/add-to-cart-button";
 import { ProductDetails } from "@/components/products/product/product-details";
 import { ProductHeader } from "@/components/products/product/product-header";
@@ -24,13 +23,7 @@ export type PageProps = {
 };
 
 const PublicProductPage = async (props: PageProps) => {
-   const session = await auth();
    const { id: productId } = await props.params;
-
-   // Redirect authenticated users to protected version
-   if (session?.user?.id) {
-      return redirect(`/products/${productId}`);
-   }
 
    // Fetch product and cart
    const [product, cart] = await Promise.all([

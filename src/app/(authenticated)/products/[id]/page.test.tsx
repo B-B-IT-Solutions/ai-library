@@ -1,5 +1,5 @@
-jest.mock("@/data/actions/cart/cart.actions");
-jest.mock("@/data/actions/product/product.actions");
+jest.mock("@/data/actions/cart");
+jest.mock("@/data/actions/product");
 
 import { screen, waitFor } from "@testing-library/dom";
 import {
