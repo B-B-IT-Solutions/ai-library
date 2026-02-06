@@ -3,13 +3,13 @@ import { map } from "es-toolkit/compat";
 
 import {
    PromptTemplateDescriptorWithCategories,
-   PromptTemplateDescriptorWithPrompt,
+   PromptTemplateDescriptorWithTemplate,
    PromptTemplateWithFields,
 } from "@/data/types/db/prompt.template";
 import {
    DPromptTemplate,
    DPromptTemplateDescriptor,
-   DPromptTemplateDescriptorWithPrompt,
+   DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateField,
 } from "@/data/types/domain/prompt.template";
 import { PromptTemplateField } from "@/generated/prisma/client";
@@ -18,14 +18,14 @@ import {
    toDPromptTemplate,
    toDPromptTemplateDescriptor,
    toDPromptTemplateDescriptors,
-   toDPromptTemplateDescriptorWithPrompt,
+   toDPromptTemplateDescriptorWithTemplate,
 } from "./prompt.template.mapper";
 
-const toDPromptTemplateDescriptorWithPromptInternal = (
-   desciptor: PromptTemplateDescriptorWithPrompt
-): DPromptTemplateDescriptorWithPrompt => {
-   const dDescriptor = toDPromptTemplateDescriptor(desciptor);
-   const promptTemplate = toDPromptTemplate(desciptor.promptTemplate);
+const toDPromptTemplateDescriptorWithTemplateInternal = (
+   desciptor: PromptTemplateDescriptorWithTemplate
+): DPromptTemplateDescriptorWithTemplate => {
+   const dDescriptor = toDPromptTemplateDescriptorInternal(desciptor);
+   const promptTemplate = toDPromptTemplateInternal(desciptor.promptTemplate);
    return {
       ...dDescriptor,
       promptTemplate,
@@ -96,9 +96,9 @@ describe("prompt.template mappers tests", () => {
 
    it("toDPromptTemplateDescriptorWithPrompt test", async () => {
       const descriptor = ptestData.pPromptTemplateDescriptorWithPrompt();
-      const result = toDPromptTemplateDescriptorWithPrompt(descriptor);
+      const result = toDPromptTemplateDescriptorWithTemplate(descriptor);
       const expectedResult =
-         toDPromptTemplateDescriptorWithPromptInternal(descriptor);
+         toDPromptTemplateDescriptorWithTemplateInternal(descriptor);
       expect(result).toEqual(expectedResult);
    });
 

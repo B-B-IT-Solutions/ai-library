@@ -22,9 +22,10 @@ export type DPromptTemplateDescriptor = {
    createdAt: string;
 };
 
-export type DPromptTemplateDescriptorWithPrompt = DPromptTemplateDescriptor & {
-   promptTemplate: DPromptTemplate;
-};
+export type DPromptTemplateDescriptorWithTemplate =
+   DPromptTemplateDescriptor & {
+      promptTemplate: DPromptTemplate;
+   };
 
 export type DPromptTemplateFieldType =
    | "TEXT"

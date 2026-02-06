@@ -23,7 +23,7 @@ import {
 } from "@/data/types/db/prompt";
 import {
    PromptTemplateDescriptorWithCategories,
-   PromptTemplateDescriptorWithPrompt,
+   PromptTemplateDescriptorWithTemplate,
    PromptTemplateWithFields,
 } from "@/data/types/db/prompt.template";
 import {
@@ -475,7 +475,7 @@ export const pCartItem = (index = 1): CartItem => {
 
 export const pPromptTemplateDescriptorWithPrompt = (
    index = 1
-): PromptTemplateDescriptorWithPrompt => {
+): PromptTemplateDescriptorWithTemplate => {
    const templateDescriptor = pPromptTemplateDescriptorWithCategories(index);
    const promptTemplate = pPromptTemplate(index);
    return {

@@ -14,7 +14,7 @@ export type PromptTemplateDescriptorWithCategories =
       categories: PromptTemplateCategory[];
    };
 
-export type PromptTemplateDescriptorWithPrompt = PromptTemplateDescriptor & {
+export type PromptTemplateDescriptorWithTemplate = PromptTemplateDescriptor & {
    categories: PromptTemplateCategory[];
    promptTemplate: PromptTemplateWithFields;
 };

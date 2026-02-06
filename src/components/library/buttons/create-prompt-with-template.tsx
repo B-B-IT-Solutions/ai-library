@@ -21,13 +21,13 @@ import {
 import { createPrompt } from "@/data/actions/prompt";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
-   DPromptTemplateDescriptorWithPrompt,
+   DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
 import { cn } from "@/lib/utils";
 
 type CreatePromptWithTemplateProps = {
-   descriptor: DPromptTemplateDescriptorWithPrompt;
+   descriptor: DPromptTemplateDescriptorWithTemplate;
    className?: string;
 };
 

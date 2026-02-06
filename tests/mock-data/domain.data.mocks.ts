@@ -29,7 +29,7 @@ import {
    DPromptTemplate,
    DPromptTemplateCategory,
    DPromptTemplateDescriptor,
-   DPromptTemplateDescriptorWithPrompt,
+   DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateField,
 } from "@/data/types/domain/prompt.template";
 import {
@@ -316,7 +316,7 @@ export const dInstruction = (index = 1): DInstruction => {
 
 export const dPromptTemplateDescriptorWithPrompt = (
    index = 1
-): DPromptTemplateDescriptorWithPrompt => {
+): DPromptTemplateDescriptorWithTemplate => {
    const descriptor = dPromptTemplateDescriptor(index);
    const promptTemplate = dPromptTemplate(index);
    return {

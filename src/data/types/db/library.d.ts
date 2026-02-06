@@ -2,7 +2,7 @@ import { LibraryEntry } from "@/generated/prisma/client";
 
 import {
    PromptTemplateDescriptorWithCategories,
-   PromptTemplateDescriptorWithPrompt,
+   PromptTemplateDescriptorWithTemplate,
 } from "./prompt.template";
 
 export type LibraryEntryWithPromptTemplateDescriptor = LibraryEntry & {
@@ -10,5 +10,5 @@ export type LibraryEntryWithPromptTemplateDescriptor = LibraryEntry & {
 };
 
 export type LibraryEntryWithPromptTemplate = LibraryEntry & {
-   templateDescriptor: PromptTemplateDescriptorWithPrompt;
+   templateDescriptor: PromptTemplateDescriptorWithTemplate;
 };

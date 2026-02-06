@@ -6,8 +6,8 @@ import {
    GetLibraryEntryParams,
    LibraryRepository,
 } from "@/data/repositories/library";
-import { PromptService } from "@/data/services/prompt";
-import { toDPromptTemplateDescriptorWithPrompt } from "@/data/services/prompt/prompt.template.mapper";
+import { PromptService, PromptTemplateService } from "@/data/services/prompt";
+import { toDPromptTemplateDescriptorWithTemplate } from "@/data/services/prompt/prompt.template.mapper";
 import { TemplateEngine } from "@/data/services/template/template.engine";
 import { OrderProducts } from "@/data/types/db/order";
 import {
@@ -25,13 +25,16 @@ import {
 export class LibraryService {
    private libraryRepository: LibraryRepository;
    private promptService: PromptService;
+   private promptTemplateService: PromptTemplateService;
 
    constructor(
       libraryRepository: LibraryRepository,
-      promptService: PromptService
+      promptService: PromptService,
+      promptTemplateService: PromptTemplateService
    ) {
       this.libraryRepository = libraryRepository;
       this.promptService = promptService;
+      this.promptTemplateService = promptTemplateService;
    }
 
    async getLibraryEntries(): Promise<DLibraryEntry[]> {
@@ -128,7 +131,7 @@ export class LibraryService {
          throw new Error("Template nicht in Ihrer Bibliothek gefunden");
       }
 
-      const descriptor = toDPromptTemplateDescriptorWithPrompt(
+      const descriptor = toDPromptTemplateDescriptorWithTemplate(
          entry.templateDescriptor
       );
       const template = descriptor.promptTemplate;

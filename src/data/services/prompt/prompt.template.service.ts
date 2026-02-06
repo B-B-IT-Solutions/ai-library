@@ -2,9 +2,13 @@ import { PromptTemplateRepository } from "@/data/repositories/prompt/prompt.temp
 import {
    DPromptTemplateCategory,
    DPromptTemplateDescriptor,
+   DPromptTemplateDescriptorWithTemplate,
 } from "@/data/types/domain/prompt.template";
 
-import { toDPromptTemplateDescriptors } from "./prompt.template.mapper";
+import {
+   toDPromptTemplateDescriptors,
+   toDPromptTemplateDescriptorWithTemplate,
+} from "./prompt.template.mapper";
 
 type DGetPromptTemplatesDescriptorsParams = {
    search?: string;
@@ -23,6 +27,17 @@ export class PromptTemplateService {
    ): Promise<DPromptTemplateDescriptor[]> {
       const data = await this.repository.pGetPromptTemplateDescriptors(params);
       return toDPromptTemplateDescriptors(data);
+   }
+
+   async getPromptTemplateDescriptorWithTemplate(
+      id: string
+   ): Promise<DPromptTemplateDescriptorWithTemplate | null> {
+      const data =
+         await this.repository.pGetPromptTemplateDescriptorWithTemplate(id);
+      if (data) {
+         return toDPromptTemplateDescriptorWithTemplate(data);
+      }
+      return null;
    }
 
    async getPromptTemplateCategories(): Promise<DPromptTemplateCategory[]> {

@@ -2,20 +2,20 @@ import { map } from "es-toolkit/compat";
 
 import {
    PromptTemplateDescriptorWithCategories,
-   PromptTemplateDescriptorWithPrompt,
+   PromptTemplateDescriptorWithTemplate,
    PromptTemplateWithFields,
 } from "@/data/types/db/prompt.template";
 import {
    DPromptTemplate,
    DPromptTemplateDescriptor,
-   DPromptTemplateDescriptorWithPrompt,
+   DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateField,
 } from "@/data/types/domain/prompt.template";
 import { PromptTemplateField } from "@/generated/prisma/client";
 
-export const toDPromptTemplateDescriptorWithPrompt = (
-   desciptor: PromptTemplateDescriptorWithPrompt
-): DPromptTemplateDescriptorWithPrompt => {
+export const toDPromptTemplateDescriptorWithTemplate = (
+   desciptor: PromptTemplateDescriptorWithTemplate
+): DPromptTemplateDescriptorWithTemplate => {
    const dDescriptor = toDPromptTemplateDescriptor(desciptor);
    const promptTemplate = toDPromptTemplate(desciptor.promptTemplate);
    return {

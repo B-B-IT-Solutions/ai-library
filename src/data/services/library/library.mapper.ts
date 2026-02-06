@@ -2,7 +2,7 @@ import { map } from "es-toolkit/compat";
 
 import {
    toDPromptTemplateDescriptor,
-   toDPromptTemplateDescriptorWithPrompt,
+   toDPromptTemplateDescriptorWithTemplate,
 } from "@/data/services/prompt/prompt.template.mapper";
 import {
    LibraryEntryWithPromptTemplate,
@@ -42,7 +42,7 @@ export const toDLibraryEntryWithPromptTemplate = (
       orderId: entry.orderId,
       templateDescriptorId: entry.templateDescriptorId,
       productId: entry.productId,
-      templateDescriptor: toDPromptTemplateDescriptorWithPrompt(
+      templateDescriptor: toDPromptTemplateDescriptorWithTemplate(
          entry.templateDescriptor
       ),
       createdAt: entry.createdAt.toISOString(),
