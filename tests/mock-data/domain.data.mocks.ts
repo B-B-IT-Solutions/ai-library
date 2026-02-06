@@ -30,6 +30,7 @@ import {
    DPromptTemplateCategory,
    DPromptTemplateDescriptor,
    DPromptTemplateDescriptorWithPrompt,
+   DPromptTemplateField,
 } from "@/data/types/domain/prompt.template";
 import {
    DStripeBillingPortalSessionResponse,
@@ -350,9 +351,28 @@ export const dPromptTemplate = (index = 1): DPromptTemplate => {
       id: `7c1c8898-199c-4274-8139-a883efdc676${index}`,
       promptText: `promptText ${index}`,
       detailedDescription: `detailedDescription ${index}`,
-      fields: [],
+      fields: dPromptTemplateFields(3),
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dPromptTemplateFields = (count = 3): DPromptTemplateField[] => {
+   return range(0, count).map((i) => dPromptTemplateField(i));
+};
+
+export const dPromptTemplateField = (index = 1): DPromptTemplateField => {
+   return {
+      id: `7e736436-8c94-4ec9-bd21-1db1b52d357${index}`,
+      promptTemplateId: `8b82ebb2-5966-4788-8fed-3ad18c08e28${index}`,
+      name: `field ${index}`,
+      label: `label ${index}`,
+      description: `description ${index}`,
+      type: "SELECT",
+      required: true,
+      order: index,
+      options: ["option 1", "option 2", "option 3"],
+      defaultValue: "Freundlich",
    };
 };
 

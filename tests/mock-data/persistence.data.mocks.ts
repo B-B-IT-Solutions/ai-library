@@ -548,9 +548,8 @@ export const pPromptTemplateField = (index = 1): PromptTemplateField => {
       type: "SELECT",
       required: true,
       order: index,
-      options: ["Formell", "Freundlich", "Neutral", "Direkt"],
-      defaultValue: "Freundlich",
-      createdAt: new Date("2025-09-27"),
+      options: ["option 1", "option 2", "option 3"],
+      defaultValue: "option 1",
    };
 };
 
