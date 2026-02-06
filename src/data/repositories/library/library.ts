@@ -51,11 +51,7 @@ export class LibraryRepository {
                   categories: true,
                   promptTemplate: {
                      include: {
-                        fields: {
-                           orderBy: {
-                              order: "asc",
-                           },
-                        },
+                        fields: true,
                      },
                   },
                },
