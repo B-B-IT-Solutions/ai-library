@@ -1,4 +1,4 @@
-import { forEach, keys } from "es-toolkit/compat";
+import { forEach, keys, uniq } from "es-toolkit/compat";
 
 import {
    DTemplateField,
@@ -73,6 +73,7 @@ export class TemplateEngine {
    static extractVariables(template: string): string[] {
       const regex = /\{\{(\s*[a-zA-Z_][a-zA-Z0-9_]*\s*)\}\}/g;
       const matches = template.matchAll(regex);
-      return Array.from(matches, (m) => m[1].trim());
+      const variables = Array.from(matches, (m) => m[1].trim());
+      return uniq(variables);
    }
 }

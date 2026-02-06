@@ -403,7 +403,7 @@ describe("TemplateEngine.extractVariables - tests", () => {
       const template = "{{name}} and {{name}} are friends";
       const variables = TemplateEngine.extractVariables(template);
 
-      const expectedVariables = ["name", "name"];
+      const expectedVariables = ["name"];
       expect(variables).toEqual(expectedVariables);
    });
 
