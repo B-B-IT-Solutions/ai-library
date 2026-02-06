@@ -6,7 +6,7 @@ export type DPromptTemplate = {
    id: string;
    detailedDescription: string;
    promptText: string;
-   fields: DTemplateField[];
+   fields: DPromptTemplateField[];
    updatedAt: string;
    createdAt: string;
 };
@@ -26,7 +26,7 @@ export type DPromptTemplateDescriptorWithPrompt = DPromptTemplateDescriptor & {
    promptTemplate: DPromptTemplate;
 };
 
-export type DTemplateFieldType =
+export type DPromptTemplateFieldType =
    | "TEXT"
    | "TEXTAREA"
    | "SELECT"
@@ -36,15 +36,15 @@ export type DTemplateFieldType =
    | "DATE"
    | "EMAIL";
 
-export type DTemplateFieldValueType = string | number | null | undefined;
+export type DPromptTemplateFieldValueType = string | number | null | undefined;
 
-export type DTemplateField = {
+export type DPromptTemplateField = {
    id: string;
    promptTemplateId: string;
    name: string;
    label: string;
    description?: string;
-   type: DTemplateFieldType;
+   type: DPromptTemplateFieldType;
    required: boolean;
    order: number;
    defaultValue?: string;
@@ -52,4 +52,7 @@ export type DTemplateField = {
    validation?: Record<string, any>; // Parsed from JSON
 };
 
-export type DTemplateFieldValues = Record<string, DTemplateFieldValueType>;
+export type DPromptTemplateFieldValues = Record<
+   string,
+   DPromptTemplateFieldValueType
+>;

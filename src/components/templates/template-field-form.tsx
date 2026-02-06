@@ -24,13 +24,13 @@ import {
 } from "@/components/shadcn/select";
 import { Textarea } from "@/components/shadcn/textarea";
 import {
-   DTemplateField,
-   DTemplateFieldValues,
+   DPromptTemplateField,
+   DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
 
 type Props = {
-   fields: DTemplateField[];
-   onSubmit: (values: DTemplateFieldValues) => void;
+   fields: DPromptTemplateField[];
+   onSubmit: (values: DPromptTemplateFieldValues) => void;
    onCancel?: () => void;
 };
 
@@ -82,7 +82,7 @@ export const TemplateFieldForm = ({ fields, onSubmit, onCancel }: Props) => {
       ),
    });
 
-   const renderField = (field: DTemplateField) => {
+   const renderField = (field: DPromptTemplateField) => {
       switch (field.type) {
          case "TEXTAREA":
             return (

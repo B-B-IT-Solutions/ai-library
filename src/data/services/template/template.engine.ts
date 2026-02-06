@@ -1,8 +1,8 @@
 import { forEach, keys, uniq } from "es-toolkit/compat";
 
 import {
-   DTemplateField,
-   DTemplateFieldValues,
+   DPromptTemplateField,
+   DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
 
 export type FieldsValidationResult = {
@@ -14,7 +14,10 @@ export class TemplateEngine {
    /**
     * Replaces all {{variable_name}} placeholders with actual values
     */
-   static replace(template: string, values: DTemplateFieldValues): string {
+   static replace(
+      template: string,
+      values: DPromptTemplateFieldValues
+   ): string {
       let result = template;
 
       const variables = Object.entries(values);
@@ -32,8 +35,8 @@ export class TemplateEngine {
     * Validates that all required fields are filled
     */
    static validate(
-      fields: DTemplateField[],
-      values: DTemplateFieldValues
+      fields: DPromptTemplateField[],
+      values: DPromptTemplateFieldValues
    ): FieldsValidationResult {
       const errors: Record<string, string> = {};
 

@@ -1,6 +1,6 @@
 import {
-   DTemplateField,
-   DTemplateFieldValues,
+   DPromptTemplateField,
+   DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
 
 import { TemplateEngine } from "./template.engine";
@@ -8,14 +8,14 @@ import { TemplateEngine } from "./template.engine";
 describe("TemplateEngine.replace - tests", () => {
    it("replaces single variable with value", () => {
       const template = "Hello {{name}}!";
-      const values: DTemplateFieldValues = { name: "World" };
+      const values: DPromptTemplateFieldValues = { name: "World" };
       const result = TemplateEngine.replace(template, values);
       expect(result).toBe("Hello World!");
    });
 
    it("replaces multiple variables with values", () => {
       const template = "{{greeting}} {{name}}, you are {{age}} years old.";
-      const values: DTemplateFieldValues = {
+      const values: DPromptTemplateFieldValues = {
          greeting: "Hello",
          name: "John",
          age: "30",
@@ -26,63 +26,63 @@ describe("TemplateEngine.replace - tests", () => {
 
    it("handles whitespace inside placeholders", () => {
       const template = "{{  name  }} is {{  age  }}";
-      const values: DTemplateFieldValues = { name: "Alice", age: "25" };
+      const values: DPromptTemplateFieldValues = { name: "Alice", age: "25" };
       const result = TemplateEngine.replace(template, values);
       expect(result).toBe("Alice is 25");
    });
 
    it("replaces same variable multiple times", () => {
       const template = "{{name}} and {{name}} are friends";
-      const values: DTemplateFieldValues = { name: "Bob" };
+      const values: DPromptTemplateFieldValues = { name: "Bob" };
       const result = TemplateEngine.replace(template, values);
       expect(result).toBe("Bob and Bob are friends");
    });
 
    it("keeps placeholder when variable not in values", () => {
       const template = "Hello {{name}}!";
-      const values: DTemplateFieldValues = {};
+      const values: DPromptTemplateFieldValues = {};
       const result = TemplateEngine.replace(template, values);
       expect(result).toBe("Hello {{name}}!");
    });
 
    it("replaces null value with empty string", () => {
       const template = "Hello {{name}}!";
-      const values: DTemplateFieldValues = { name: null };
+      const values: DPromptTemplateFieldValues = { name: null };
       const result = TemplateEngine.replace(template, values);
       expect(result).toBe("Hello !");
    });
 
    it("replaces undefined value with empty string", () => {
       const template = "Hello {{name}}!";
-      const values: DTemplateFieldValues = { name: undefined };
+      const values: DPromptTemplateFieldValues = { name: undefined };
       const result = TemplateEngine.replace(template, values);
       expect(result).toBe("Hello !");
    });
 
    it("returns template unchanged when no variables present", () => {
       const template = "Hello World!";
-      const values: DTemplateFieldValues = { name: "John" };
+      const values: DPromptTemplateFieldValues = { name: "John" };
       const result = TemplateEngine.replace(template, values);
       expect(result).toBe("Hello World!");
    });
 
    it("handles numeric values", () => {
       const template = "Price: {{price}}";
-      const values: DTemplateFieldValues = { price: 100 };
+      const values: DPromptTemplateFieldValues = { price: 100 };
       const result = TemplateEngine.replace(template, values);
       expect(result).toBe("Price: 100");
    });
 
    it("handles empty template", () => {
       const template = "";
-      const values: DTemplateFieldValues = { name: "John" };
+      const values: DPromptTemplateFieldValues = { name: "John" };
       const result = TemplateEngine.replace(template, values);
       expect(result).toBe("");
    });
 
    it("ignores values not in template", () => {
       const template = "Hello {{name}}";
-      const values: DTemplateFieldValues = {
+      const values: DPromptTemplateFieldValues = {
          name: "John",
          age: "30",
          city: "NYC",
@@ -94,7 +94,7 @@ describe("TemplateEngine.replace - tests", () => {
 
 describe("TemplateEngine.validate - tests", () => {
    it("validates successfully when all required fields are filled", () => {
-      const fields: DTemplateField[] = [
+      const fields: DPromptTemplateField[] = [
          {
             id: "1",
             promptTemplateId: "template1",
@@ -114,7 +114,7 @@ describe("TemplateEngine.validate - tests", () => {
             order: 2,
          },
       ];
-      const values: DTemplateFieldValues = {
+      const values: DPromptTemplateFieldValues = {
          email: "test@example.com",
          age: "25",
       };
@@ -124,7 +124,7 @@ describe("TemplateEngine.validate - tests", () => {
    });
 
    it("returns error when required field is missing", () => {
-      const fields: DTemplateField[] = [
+      const fields: DPromptTemplateField[] = [
          {
             id: "1",
             promptTemplateId: "template1",
@@ -135,7 +135,7 @@ describe("TemplateEngine.validate - tests", () => {
             order: 1,
          },
       ];
-      const values: DTemplateFieldValues = {};
+      const values: DPromptTemplateFieldValues = {};
       const result = TemplateEngine.validate(fields, values);
 
       const expectedErrors = {
@@ -146,7 +146,7 @@ describe("TemplateEngine.validate - tests", () => {
    });
 
    it("returns error when required field is empty string", () => {
-      const fields: DTemplateField[] = [
+      const fields: DPromptTemplateField[] = [
          {
             id: "1",
             promptTemplateId: "template1",
@@ -157,7 +157,7 @@ describe("TemplateEngine.validate - tests", () => {
             order: 1,
          },
       ];
-      const values: DTemplateFieldValues = { name: "" };
+      const values: DPromptTemplateFieldValues = { name: "" };
       const result = TemplateEngine.validate(fields, values);
 
       const expectedErrors = {
@@ -168,7 +168,7 @@ describe("TemplateEngine.validate - tests", () => {
    });
 
    it("validates email format correctly", () => {
-      const fields: DTemplateField[] = [
+      const fields: DPromptTemplateField[] = [
          {
             id: "1",
             promptTemplateId: "template1",
@@ -179,7 +179,7 @@ describe("TemplateEngine.validate - tests", () => {
             order: 1,
          },
       ];
-      const values: DTemplateFieldValues = { email: "invalid-email" };
+      const values: DPromptTemplateFieldValues = { email: "invalid-email" };
       const result = TemplateEngine.validate(fields, values);
 
       const expectedErrors = {
@@ -190,7 +190,7 @@ describe("TemplateEngine.validate - tests", () => {
    });
 
    it("accepts valid email format", () => {
-      const fields: DTemplateField[] = [
+      const fields: DPromptTemplateField[] = [
          {
             id: "1",
             promptTemplateId: "template1",
@@ -201,14 +201,14 @@ describe("TemplateEngine.validate - tests", () => {
             order: 1,
          },
       ];
-      const values: DTemplateFieldValues = { email: "user@example.com" };
+      const values: DPromptTemplateFieldValues = { email: "user@example.com" };
       const result = TemplateEngine.validate(fields, values);
       expect(result.valid).toBe(true);
       expect(result.errors).toEqual({});
    });
 
    it("validates number format correctly", () => {
-      const fields: DTemplateField[] = [
+      const fields: DPromptTemplateField[] = [
          {
             id: "1",
             promptTemplateId: "template1",
@@ -219,7 +219,7 @@ describe("TemplateEngine.validate - tests", () => {
             order: 1,
          },
       ];
-      const values: DTemplateFieldValues = { age: "not-a-number" };
+      const values: DPromptTemplateFieldValues = { age: "not-a-number" };
       const result = TemplateEngine.validate(fields, values);
 
       const expectedErrors = {
@@ -230,7 +230,7 @@ describe("TemplateEngine.validate - tests", () => {
    });
 
    it("accepts valid number format", () => {
-      const fields: DTemplateField[] = [
+      const fields: DPromptTemplateField[] = [
          {
             id: "1",
             promptTemplateId: "template1",
@@ -241,14 +241,14 @@ describe("TemplateEngine.validate - tests", () => {
             order: 1,
          },
       ];
-      const values: DTemplateFieldValues = { age: "42" };
+      const values: DPromptTemplateFieldValues = { age: "42" };
       const result = TemplateEngine.validate(fields, values);
       expect(result.valid).toBe(true);
       expect(result.errors).toEqual({});
    });
 
    it("accepts numeric values as numbers", () => {
-      const fields: DTemplateField[] = [
+      const fields: DPromptTemplateField[] = [
          {
             id: "1",
             promptTemplateId: "template1",
@@ -259,14 +259,14 @@ describe("TemplateEngine.validate - tests", () => {
             order: 1,
          },
       ];
-      const values: DTemplateFieldValues = { age: 42 };
+      const values: DPromptTemplateFieldValues = { age: 42 };
       const result = TemplateEngine.validate(fields, values);
       expect(result.valid).toBe(true);
       expect(result.errors).toEqual({});
    });
 
    it("allows non-required fields to be empty", () => {
-      const fields: DTemplateField[] = [
+      const fields: DPromptTemplateField[] = [
          {
             id: "1",
             promptTemplateId: "template1",
@@ -277,14 +277,14 @@ describe("TemplateEngine.validate - tests", () => {
             order: 1,
          },
       ];
-      const values: DTemplateFieldValues = {};
+      const values: DPromptTemplateFieldValues = {};
       const result = TemplateEngine.validate(fields, values);
       expect(result.valid).toBe(true);
       expect(result.errors).toEqual({});
    });
 
    it("validates multiple fields with mixed results", () => {
-      const fields: DTemplateField[] = [
+      const fields: DPromptTemplateField[] = [
          {
             id: "1",
             promptTemplateId: "template1",
@@ -313,7 +313,7 @@ describe("TemplateEngine.validate - tests", () => {
             order: 3,
          },
       ];
-      const values: DTemplateFieldValues = {
+      const values: DPromptTemplateFieldValues = {
          name: "",
          email: "invalid",
          age: "not-number",
@@ -330,7 +330,7 @@ describe("TemplateEngine.validate - tests", () => {
    });
 
    it("handles fields with other types without validation errors", () => {
-      const fields: DTemplateField[] = [
+      const fields: DPromptTemplateField[] = [
          {
             id: "1",
             promptTemplateId: "template1",
@@ -350,7 +350,7 @@ describe("TemplateEngine.validate - tests", () => {
             order: 2,
          },
       ];
-      const values: DTemplateFieldValues = {
+      const values: DPromptTemplateFieldValues = {
          textarea: "some text",
          select: "option1",
       };
@@ -360,8 +360,8 @@ describe("TemplateEngine.validate - tests", () => {
    });
 
    it("validates empty fields array", () => {
-      const fields: DTemplateField[] = [];
-      const values: DTemplateFieldValues = { name: "John" };
+      const fields: DPromptTemplateField[] = [];
+      const values: DPromptTemplateFieldValues = { name: "John" };
       const result = TemplateEngine.validate(fields, values);
       expect(result.valid).toBe(true);
       expect(result.errors).toEqual({});

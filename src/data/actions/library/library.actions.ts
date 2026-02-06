@@ -6,7 +6,7 @@ import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import { DLibraryEntry } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
-import { DTemplateFieldValues } from "@/data/types/domain/prompt.template";
+import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 
 export const getLibraryEntries = async (): Promise<DLibraryEntry[]> => {
@@ -47,7 +47,7 @@ export const createPromptFromTemplate = async (
 
 export const generatePromptFromTemplate = async (
    templateId: string,
-   fieldValues: DTemplateFieldValues
+   fieldValues: DPromptTemplateFieldValues
 ): Promise<ActionResult<DPromptUpdate>> => {
    try {
       const service = getLibrarySevice();

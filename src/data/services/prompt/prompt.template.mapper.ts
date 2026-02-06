@@ -9,9 +9,9 @@ import {
    DPromptTemplate,
    DPromptTemplateDescriptor,
    DPromptTemplateDescriptorWithPrompt,
-   DTemplateField,
+   DPromptTemplateField,
 } from "@/data/types/domain/prompt.template";
-import { PromptTemplate, TemplateField } from "@/generated/prisma/client";
+import { PromptTemplateField } from "@/generated/prisma/client";
 
 export const toDPromptTemplateDescriptorWithPrompt = (
    desciptor: PromptTemplateDescriptorWithPrompt
@@ -46,7 +46,7 @@ export const toDPromptTemplateDescriptor = (
 };
 
 export const toDPromptTemplate = (
-   prompt: PromptTemplate | PromptTemplateWithFields
+   prompt: PromptTemplateWithFields
 ): DPromptTemplate => {
    return {
       id: prompt.id,
@@ -59,12 +59,14 @@ export const toDPromptTemplate = (
 };
 
 export const toDTemplateFields = (
-   fields: TemplateField[]
-): DTemplateField[] => {
+   fields: PromptTemplateField[]
+): DPromptTemplateField[] => {
    return map(fields, toDTemplateField).sort((a, b) => a.order - b.order);
 };
 
-export const toDTemplateField = (field: TemplateField): DTemplateField => ({
+export const toDTemplateField = (
+   field: PromptTemplateField
+): DPromptTemplateField => ({
    id: field.id,
    promptTemplateId: field.promptTemplateId,
    name: field.name,

@@ -15,7 +15,7 @@ import {
    DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
-import { DTemplateFieldValues } from "@/data/types/domain/prompt.template";
+import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 
 import {
    toDLibraryEntries,
@@ -110,7 +110,7 @@ export class LibraryService {
 
    async generatePromptFromTemplate(
       templateDescriptorId: string,
-      fieldValues: DTemplateFieldValues
+      fieldValues: DPromptTemplateFieldValues
    ): Promise<DPromptUpdate> {
       if (!isValidUuid(templateDescriptorId)) {
          throw new Error("Invalid template ID.");

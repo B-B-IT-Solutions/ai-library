@@ -22,7 +22,7 @@ import { createPrompt } from "@/data/actions/prompt";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
    DPromptTemplateDescriptorWithPrompt,
-   DTemplateFieldValues,
+   DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
 import { cn } from "@/lib/utils";
 
@@ -63,7 +63,7 @@ export const CreatePromptWithTemplate: FC<CreatePromptWithTemplateProps> = ({
       }
    };
 
-   const handleFieldsSubmit = async (values: DTemplateFieldValues) => {
+   const handleFieldsSubmit = async (values: DPromptTemplateFieldValues) => {
       startTransition(async () => {
          const result = await generatePromptFromTemplate(descriptor.id, values);
          if (result.success && result.data) {
