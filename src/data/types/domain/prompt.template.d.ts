@@ -48,8 +48,7 @@ export type DPromptTemplateField = {
    required: boolean;
    order: number;
    defaultValue?: string;
-   options?: string[]; // Parsed from JSON
-   validation?: Record<string, any>; // Parsed from JSON
+   options?: string[];
 };
 
 export type DPromptTemplateFieldValues = Record<

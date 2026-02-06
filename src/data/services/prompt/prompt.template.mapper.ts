@@ -52,7 +52,7 @@ export const toDPromptTemplate = (
       id: prompt.id,
       promptText: prompt.promptText,
       detailedDescription: prompt.detailedDescription,
-      fields: "fields" in prompt ? toDTemplateFields(prompt.fields) : [],
+      fields: toDTemplateFields(prompt.fields),
       updatedAt: prompt.updatedAt.toISOString(),
       createdAt: prompt.createdAt.toISOString(),
    };
@@ -77,7 +77,4 @@ export const toDTemplateField = (
    order: field.order,
    defaultValue: field.defaultValue ?? undefined,
    options: field.options ? (field.options as string[]) : undefined,
-   validation: field.validation
-      ? (field.validation as Record<string, any>)
-      : undefined,
 });

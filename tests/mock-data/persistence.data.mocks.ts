@@ -24,6 +24,7 @@ import {
 import {
    PromptTemplateDescriptorWithCategories,
    PromptTemplateDescriptorWithPrompt,
+   PromptTemplateWithFields,
 } from "@/data/types/db/prompt.template";
 import {
    SubscriptionCreate,
@@ -46,9 +47,9 @@ import {
    PromptCategory,
    PromptDescriptor,
    PromptFollowUp,
-   PromptTemplate,
    PromptTemplateCategory,
    PromptTemplateDescriptor,
+   PromptTemplateField,
    PromptVersion,
    Subscription,
    SubscriptionHistory,
@@ -479,10 +480,7 @@ export const pPromptTemplateDescriptorWithPrompt = (
    const promptTemplate = pPromptTemplate(index);
    return {
       ...templateDescriptor,
-      promptTemplate: {
-         ...promptTemplate,
-         fields: [],
-      },
+      promptTemplate,
    };
 };
 
@@ -525,12 +523,33 @@ export const pPromptTemplateDescriptor = (
    };
 };
 
-export const pPromptTemplate = (index = 1): PromptTemplate => {
+export const pPromptTemplate = (index = 1): PromptTemplateWithFields => {
    return {
       id: `8b82ebb2-5966-4788-8fed-3ad18c08e28${index}`,
       promptText: `promptText ${index}`,
       detailedDescription: `detailedDescription ${index}`,
+      fields: pPromptTemplateFields(3),
       updatedAt: new Date("2025-09-27"),
+      createdAt: new Date("2025-09-27"),
+   };
+};
+
+export const pPromptTemplateFields = (count = 3): PromptTemplateField[] => {
+   return range(0, count).map((i) => pPromptTemplateField(i));
+};
+
+export const pPromptTemplateField = (index = 1): PromptTemplateField => {
+   return {
+      id: `7e736436-8c94-4ec9-bd21-1db1b52d357${index}`,
+      promptTemplateId: `8b82ebb2-5966-4788-8fed-3ad18c08e28${index}`,
+      name: `field ${index}`,
+      label: `label ${index}`,
+      description: `description ${index}`,
+      type: "SELECT",
+      required: true,
+      order: index,
+      options: ["Formell", "Freundlich", "Neutral", "Direkt"],
+      defaultValue: "Freundlich",
       createdAt: new Date("2025-09-27"),
    };
 };

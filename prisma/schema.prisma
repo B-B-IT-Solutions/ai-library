@@ -172,7 +172,6 @@ model PromptTemplateField {
   order            Int                     @default(0)
   defaultValue     String?                 @map("default_value") @db.Text
   options          Json?                   @db.JsonB
-  validation       Json?                   @db.JsonB
   createdAt        DateTime                @default(now()) @map("created_at") @db.Timestamp(6)
 
   promptTemplate PromptTemplate @relation(fields: [promptTemplateId], references: [id], onDelete: Cascade)

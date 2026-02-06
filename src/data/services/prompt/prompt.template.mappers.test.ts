@@ -4,13 +4,15 @@ import { map } from "es-toolkit/compat";
 import {
    PromptTemplateDescriptorWithCategories,
    PromptTemplateDescriptorWithPrompt,
+   PromptTemplateWithFields,
 } from "@/data/types/db/prompt.template";
 import {
    DPromptTemplate,
    DPromptTemplateDescriptor,
    DPromptTemplateDescriptorWithPrompt,
+   DPromptTemplateField,
 } from "@/data/types/domain/prompt.template";
-import { PromptTemplate } from "@/generated/prisma/client";
+import { PromptTemplateField } from "@/generated/prisma/client";
 
 import {
    toDPromptTemplate,
@@ -51,15 +53,41 @@ const toDPromptTemplateDescriptorInternal = (
    };
 };
 
-const toDPromptTemplateInternal = (prompt: PromptTemplate): DPromptTemplate => {
+const toDPromptTemplateInternal = (
+   prompt: PromptTemplateWithFields
+): DPromptTemplate => {
    return {
       id: prompt.id,
       promptText: prompt.promptText,
       detailedDescription: prompt.detailedDescription,
+      fields: toDTemplateFieldsInternal(prompt.fields),
       updatedAt: prompt.updatedAt.toISOString(),
       createdAt: prompt.createdAt.toISOString(),
    };
 };
+
+export const toDTemplateFieldsInternal = (
+   fields: PromptTemplateField[]
+): DPromptTemplateField[] => {
+   return map(fields, toDTemplateFieldInternal).sort(
+      (a, b) => a.order - b.order
+   );
+};
+
+export const toDTemplateFieldInternal = (
+   field: PromptTemplateField
+): DPromptTemplateField => ({
+   id: field.id,
+   promptTemplateId: field.promptTemplateId,
+   name: field.name,
+   label: field.label,
+   description: field.description ?? undefined,
+   type: field.type,
+   required: field.required,
+   order: field.order,
+   defaultValue: field.defaultValue ?? undefined,
+   options: field.options ? (field.options as string[]) : undefined,
+});
 
 describe("prompt.template mappers tests", () => {
    beforeEach(() => {
