@@ -6,7 +6,10 @@ import { DeepMockProxy } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import { PromptTemplateRepository } from "@/data/repositories/prompt/prompt.template";
 
-import { toDPromptTemplateDescriptors } from "./prompt.template.mapper";
+import {
+   toDPromptTemplateDescriptors,
+   toDPromptTemplateDescriptorWithTemplate,
+} from "./prompt.template.mapper";
 import { PromptTemplateService } from "./prompt.template.service";
 
 const promptTemplateRepo = new PromptTemplateRepository(prisma);
@@ -68,9 +71,8 @@ describe("getPromptTemplateDescriptors tests", () => {
       const categories = ["cat 1", "cat2", "cat 3"];
       const params = { search, categories };
 
-      const result = await promptTemplateService.getPromptTemplateDescriptors(
-         params
-      );
+      const result =
+         await promptTemplateService.getPromptTemplateDescriptors(params);
       const expectedResult = toDPromptTemplateDescriptors(templates);
 
       expect(result).toEqual(expectedResult);
@@ -80,6 +82,56 @@ describe("getPromptTemplateDescriptors tests", () => {
       expect(
          promptTemplateRepoMock.pGetPromptTemplateDescriptors
       ).toHaveBeenCalledWith(params);
+   });
+});
+
+describe("getPromptTemplateDescriptorWithTemplate tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("getPromptTemplateDescriptorWithTemplate - descriptor not found - test", async () => {
+      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         null
+      );
+
+      const id = "prompt-descriptor-id-1";
+      const result =
+         await promptTemplateService.getPromptTemplateDescriptorWithTemplate(
+            id
+         );
+
+      expect(result).toBeNull();
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(id);
+   });
+
+   it("getPromptTemplateDescriptorWithTemplate - descriptor retrieved - test", async () => {
+      const promptDescriptor = ptestData.pPromptTemplateDescriptorWithPrompt();
+      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         promptDescriptor
+      );
+
+      const { id } = promptDescriptor;
+      const result =
+         await promptTemplateService.getPromptTemplateDescriptorWithTemplate(
+            id
+         );
+
+      const expectedResult =
+         toDPromptTemplateDescriptorWithTemplate(promptDescriptor);
+
+      expect(result).toEqual(expectedResult);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(id);
    });
 });
 
