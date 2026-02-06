@@ -59,6 +59,12 @@ export const toDPromptTemplate = (
    };
 };
 
+export const toDTemplateFields = (
+   fields: DbTemplateField[]
+): DTemplateField[] => {
+   return map(fields, toDTemplateField).sort((a, b) => a.order - b.order);
+};
+
 export const toDTemplateField = (field: DbTemplateField): DTemplateField => ({
    id: field.id,
    promptTemplateId: field.promptTemplateId,
@@ -74,9 +80,3 @@ export const toDTemplateField = (field: DbTemplateField): DTemplateField => ({
       ? (field.validation as Record<string, any>)
       : undefined,
 });
-
-export const toDTemplateFields = (
-   fields: DbTemplateField[]
-): DTemplateField[] => {
-   return fields.map(toDTemplateField).sort((a, b) => a.order - b.order);
-};
