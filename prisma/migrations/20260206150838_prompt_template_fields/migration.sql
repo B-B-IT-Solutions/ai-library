@@ -13,8 +13,6 @@ CREATE TABLE "prompt_template_field" (
     "order" INTEGER NOT NULL DEFAULT 0,
     "default_value" TEXT,
     "options" JSONB,
-    "validation" JSONB,
-    "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "prompt_template_field_pkey" PRIMARY KEY ("id")
 );

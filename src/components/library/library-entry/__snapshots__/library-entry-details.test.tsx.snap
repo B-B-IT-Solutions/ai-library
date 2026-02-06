@@ -16,7 +16,7 @@ exports[`LibraryEntryDetails rendering tests LibraryEntryDetails - categories em
       >
         <svg
           aria-hidden="true"
-          class="lucide lucide-arrow-left w-4 h-4 mr-2"
+          class="lucide lucide-arrow-left mr-2 h-4 w-4"
           fill="none"
           height="24"
           stroke="currentColor"
@@ -38,10 +38,10 @@ exports[`LibraryEntryDetails rendering tests LibraryEntryDetails - categories em
       </a>
     </div>
     <div
-      class="max-w-4xl mx-auto"
+      class="mx-auto max-w-4xl"
     >
       <div
-        class="text-card-foreground flex flex-col gap-6 py-6 shadow-sm bg-white border border-slate-300 rounded-lg"
+        class="text-card-foreground flex flex-col gap-6 py-6 shadow-sm rounded-lg border border-slate-300 bg-white"
         data-slot="card"
       >
         <div
@@ -55,12 +55,12 @@ exports[`LibraryEntryDetails rendering tests LibraryEntryDetails - categories em
               class="flex-1"
             >
               <h1
-                class="text-3xl font-bold text-slate-900 mb-3"
+                class="mb-3 text-3xl font-bold text-slate-900"
               >
                 title 1
               </h1>
               <span
-                class="inline-block text-sm px-3 py-1 bg-blue-100 text-blue-700 rounded-md border border-blue-200"
+                class="inline-block rounded-md border border-blue-200 bg-blue-100 px-3 py-1 text-sm text-blue-700"
               >
                 model 1
               </span>
@@ -68,14 +68,14 @@ exports[`LibraryEntryDetails rendering tests LibraryEntryDetails - categories em
           </div>
         </div>
         <div
-          class="p-6 space-y-6"
+          class="space-y-6 p-6"
           data-slot="card-content"
         >
           <div
             data-testid="short-description"
           >
             <h2
-              class="text-xl font-semibold text-slate-900 mb-3"
+              class="mb-3 text-xl font-semibold text-slate-900"
             >
               Beschreibung
             </h2>
@@ -94,7 +94,7 @@ exports[`LibraryEntryDetails rendering tests LibraryEntryDetails - categories em
             data-testid="long-description"
           >
             <h2
-              class="text-xl font-semibold text-slate-900 mb-3"
+              class="mb-3 text-xl font-semibold text-slate-900"
             >
               Detaillierte Beschreibung
             </h2>
@@ -193,16 +193,16 @@ exports[`LibraryEntryDetails rendering tests LibraryEntryDetails - categories em
             </div>
           </div>
           <div
-            class="flex gap-3 pt-4 border-t border-slate-200"
+            class="flex gap-3 border-t border-slate-200 pt-4"
           >
             <button
-              class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer bg-blue-600 hover:bg-blue-700 text-white"
+              class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer bg-blue-600 text-white hover:bg-blue-700"
               data-slot="button"
               data-testid="create-prompt-btn"
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-plus w-4 h-4 mr-1.5"
+                class="lucide lucide-plus mr-1.5 h-4 w-4"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -224,6 +224,21 @@ exports[`LibraryEntryDetails rendering tests LibraryEntryDetails - categories em
                 Prompt erstellen
               </span>
             </button>
+            <div
+              data-slot="dialog"
+              data-testid="mock-react-dialog-root"
+            >
+              <div
+                data-slot="dialog-portal"
+                data-testid="mock-react-dialog-portal"
+              >
+                <div
+                  class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+                  data-slot="dialog-overlay"
+                  data-testid="mock-react-dialog-overlay"
+                />
+              </div>
+            </div>
             <button
               class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
               data-slot="button"
@@ -280,7 +295,7 @@ exports[`LibraryEntryDetails rendering tests LibraryEntryDetails - with categori
       >
         <svg
           aria-hidden="true"
-          class="lucide lucide-arrow-left w-4 h-4 mr-2"
+          class="lucide lucide-arrow-left mr-2 h-4 w-4"
           fill="none"
           height="24"
           stroke="currentColor"
@@ -302,10 +317,10 @@ exports[`LibraryEntryDetails rendering tests LibraryEntryDetails - with categori
       </a>
     </div>
     <div
-      class="max-w-4xl mx-auto"
+      class="mx-auto max-w-4xl"
     >
       <div
-        class="text-card-foreground flex flex-col gap-6 py-6 shadow-sm bg-white border border-slate-300 rounded-lg"
+        class="text-card-foreground flex flex-col gap-6 py-6 shadow-sm rounded-lg border border-slate-300 bg-white"
         data-slot="card"
       >
         <div
@@ -319,47 +334,47 @@ exports[`LibraryEntryDetails rendering tests LibraryEntryDetails - with categori
               class="flex-1"
             >
               <h1
-                class="text-3xl font-bold text-slate-900 mb-3"
+                class="mb-3 text-3xl font-bold text-slate-900"
               >
                 title 1
               </h1>
               <span
-                class="inline-block text-sm px-3 py-1 bg-blue-100 text-blue-700 rounded-md border border-blue-200"
+                class="inline-block rounded-md border border-blue-200 bg-blue-100 px-3 py-1 text-sm text-blue-700"
               >
                 model 1
               </span>
             </div>
           </div>
           <div
-            class="flex flex-wrap gap-2 mt-4"
+            class="mt-4 flex flex-wrap gap-2"
             data-testid="categories"
           >
             <span
-              class="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
+              class="rounded-md border border-slate-200 bg-slate-100 px-2 py-1 text-xs text-slate-700"
             >
               category 0
             </span>
             <span
-              class="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
+              class="rounded-md border border-slate-200 bg-slate-100 px-2 py-1 text-xs text-slate-700"
             >
               category 1
             </span>
             <span
-              class="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded-md border border-slate-200"
+              class="rounded-md border border-slate-200 bg-slate-100 px-2 py-1 text-xs text-slate-700"
             >
               category 2
             </span>
           </div>
         </div>
         <div
-          class="p-6 space-y-6"
+          class="space-y-6 p-6"
           data-slot="card-content"
         >
           <div
             data-testid="short-description"
           >
             <h2
-              class="text-xl font-semibold text-slate-900 mb-3"
+              class="mb-3 text-xl font-semibold text-slate-900"
             >
               Beschreibung
             </h2>
@@ -378,7 +393,7 @@ exports[`LibraryEntryDetails rendering tests LibraryEntryDetails - with categori
             data-testid="long-description"
           >
             <h2
-              class="text-xl font-semibold text-slate-900 mb-3"
+              class="mb-3 text-xl font-semibold text-slate-900"
             >
               Detaillierte Beschreibung
             </h2>
@@ -477,16 +492,16 @@ exports[`LibraryEntryDetails rendering tests LibraryEntryDetails - with categori
             </div>
           </div>
           <div
-            class="flex gap-3 pt-4 border-t border-slate-200"
+            class="flex gap-3 border-t border-slate-200 pt-4"
           >
             <button
-              class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer bg-blue-600 hover:bg-blue-700 text-white"
+              class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer bg-blue-600 text-white hover:bg-blue-700"
               data-slot="button"
               data-testid="create-prompt-btn"
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-plus w-4 h-4 mr-1.5"
+                class="lucide lucide-plus mr-1.5 h-4 w-4"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -508,6 +523,21 @@ exports[`LibraryEntryDetails rendering tests LibraryEntryDetails - with categori
                 Prompt erstellen
               </span>
             </button>
+            <div
+              data-slot="dialog"
+              data-testid="mock-react-dialog-root"
+            >
+              <div
+                data-slot="dialog-portal"
+                data-testid="mock-react-dialog-portal"
+              >
+                <div
+                  class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+                  data-slot="dialog-overlay"
+                  data-testid="mock-react-dialog-overlay"
+                />
+              </div>
+            </div>
             <button
               class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
               data-slot="button"
