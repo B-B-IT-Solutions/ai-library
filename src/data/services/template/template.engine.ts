@@ -1,65 +1,78 @@
+import { forEach, keys } from "es-toolkit/compat";
+
 import {
-  DTemplateField,
-  DTemplateFieldValues,
+   DTemplateField,
+   DTemplateFieldValues,
 } from "@/data/types/domain/template.field";
 
-/**
- * Replaces {{variable_name}} placeholders with actual values
- */
+export type FieldsValidationResult = {
+   valid: boolean;
+   errors: Record<string, string>;
+};
+
 export class TemplateEngine {
-  static render(template: string, values: DTemplateFieldValues): string {
-    let result = template;
+   /**
+    * Replaces all {{variable_name}} placeholders with actual values
+    */
+   static render(template: string, values: DTemplateFieldValues): string {
+      let result = template;
 
-    // Replace all {{variable_name}} with values
-    Object.entries(values).forEach(([key, value]) => {
-      const regex = new RegExp(`\\{\\{\\s*${key}\\s*\\}\\}`, "g");
-      result = result.replace(regex, String(value ?? ""));
-    });
+      const variables = Object.entries(values);
 
-    return result;
-  }
+      forEach(variables, ([key, value]) => {
+         const regex = new RegExp(`\\{\\{\\s*${key}\\s*\\}\\}`, "g");
+         const replaceValue = String(value ?? "");
+         result = result.replace(regex, replaceValue);
+      });
 
-  /**
-   * Validates that all required fields are filled
-   */
-  static validate(
-    fields: DTemplateField[],
-    values: DTemplateFieldValues
-  ): { valid: boolean; errors: Record<string, string> } {
-    const errors: Record<string, string> = {};
+      return result;
+   }
 
-    fields.forEach((field) => {
-      if (field.required && !values[field.name]) {
-        errors[field.name] = `${field.label} ist erforderlich`;
-      }
+   /**
+    * Validates that all required fields are filled
+    */
+   static validate(
+      fields: DTemplateField[],
+      values: DTemplateFieldValues
+   ): FieldsValidationResult {
+      const errors: Record<string, string> = {};
 
-      // Type-specific validation
-      if (values[field.name]) {
-        switch (field.type) {
-          case "EMAIL":
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values[field.name])) {
-              errors[field.name] = "Ungültige E-Mail-Adresse";
+      forEach(fields, (field) => {
+         const value = values[field.name];
+         if (field.required && !value) {
+            errors[field.name] = `${field.label} ist erforderlich`;
+         }
+
+         if (value) {
+            switch (field.type) {
+               case "EMAIL":
+                  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value))) {
+                     errors[field.name] = "Ungültige E-Mail-Adresse";
+                  }
+                  break;
+               case "NUMBER":
+                  if (isNaN(Number(value))) {
+                     errors[field.name] = "Muss eine Zahl sein";
+                  }
+                  break;
             }
-            break;
-          case "NUMBER":
-            if (isNaN(Number(values[field.name]))) {
-              errors[field.name] = "Muss eine Zahl sein";
-            }
-            break;
-          // Add more validation as needed
-        }
-      }
-    });
+         }
+      });
 
-    return { valid: Object.keys(errors).length === 0, errors };
-  }
+      const valid = keys(errors).length === 0;
 
-  /**
-   * Extracts variable names from template text
-   */
-  static extractVariables(template: string): string[] {
-    const regex = /\{\{(\s*[a-zA-Z_][a-zA-Z0-9_]*\s*)\}\}/g;
-    const matches = template.matchAll(regex);
-    return Array.from(matches, (m) => m[1].trim());
-  }
+      return {
+         valid,
+         errors,
+      };
+   }
+
+   /**
+    * Extracts variable names from template text
+    */
+   static extractVariables(template: string): string[] {
+      const regex = /\{\{(\s*[a-zA-Z_][a-zA-Z0-9_]*\s*)\}\}/g;
+      const matches = template.matchAll(regex);
+      return Array.from(matches, (m) => m[1].trim());
+   }
 }

@@ -45,26 +45,6 @@ export const createPromptFromTemplate = async (
    }
 };
 
-export const downloadTemplate = async (
-   templateId: string
-): Promise<ActionResult<string>> => {
-   try {
-      const service = getLibrarySevice();
-      const downloadData = await service.downloadPromptTemplate(templateId);
-
-      return {
-         success: true,
-         message: "Template ready for download.",
-         data: downloadData,
-      };
-   } catch (error) {
-      return {
-         success: false,
-         message: formatError(error),
-      };
-   }
-};
-
 export const generatePromptFromTemplate = async (
    templateId: string,
    fieldValues: DTemplateFieldValues
@@ -79,6 +59,26 @@ export const generatePromptFromTemplate = async (
          success: true,
          message: "Prompt erfolgreich generiert",
          data: promptData,
+      };
+   } catch (error) {
+      return {
+         success: false,
+         message: formatError(error),
+      };
+   }
+};
+
+export const downloadTemplate = async (
+   templateId: string
+): Promise<ActionResult<string>> => {
+   try {
+      const service = getLibrarySevice();
+      const downloadData = await service.downloadPromptTemplate(templateId);
+
+      return {
+         success: true,
+         message: "Template ready for download.",
+         data: downloadData,
       };
    } catch (error) {
       return {

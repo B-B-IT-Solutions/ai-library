@@ -108,38 +108,6 @@ export class LibraryService {
       await this.promptService.createPrompt(promptData);
    }
 
-   async downloadPromptTemplate(templateDescriptorId: string): Promise<string> {
-      if (!isValidUuid(templateDescriptorId)) {
-         throw new Error("Invalid template ID.");
-      }
-
-      const user = await requireUser();
-
-      const params: GetLibraryEntryParams = {
-         templateDescriptorId,
-         userId: user.id,
-      };
-      const entry = await this.libraryRepository.pGetLibraryEntry(params);
-
-      if (!entry) {
-         throw new Error("Template not found");
-      }
-
-      const { templateDescriptor: descriptor } = entry;
-      const downloadData = JSON.stringify(
-         {
-            title: descriptor.title,
-            content: descriptor.promptTemplate.promptText,
-            categories: descriptor.categories.map((c) => c.name),
-            recommendedModel: descriptor.recommendedModel,
-         },
-         null,
-         2
-      );
-
-      return downloadData;
-   }
-
    async generatePromptFromTemplate(
       templateDescriptorId: string,
       fieldValues: DTemplateFieldValues
@@ -186,5 +154,37 @@ export class LibraryService {
          categories: descriptor.categories.map((cat) => cat.name),
          followUpPrompts: [],
       };
+   }
+
+   async downloadPromptTemplate(templateDescriptorId: string): Promise<string> {
+      if (!isValidUuid(templateDescriptorId)) {
+         throw new Error("Invalid template ID.");
+      }
+
+      const user = await requireUser();
+
+      const params: GetLibraryEntryParams = {
+         templateDescriptorId,
+         userId: user.id,
+      };
+      const entry = await this.libraryRepository.pGetLibraryEntry(params);
+
+      if (!entry) {
+         throw new Error("Template not found");
+      }
+
+      const { templateDescriptor: descriptor } = entry;
+      const downloadData = JSON.stringify(
+         {
+            title: descriptor.title,
+            content: descriptor.promptTemplate.promptText,
+            categories: descriptor.categories.map((c) => c.name),
+            recommendedModel: descriptor.recommendedModel,
+         },
+         null,
+         2
+      );
+
+      return downloadData;
    }
 }
