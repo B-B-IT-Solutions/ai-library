@@ -1,4 +1,4 @@
-jest.mock("@/components/shared/wrapper", () => ({
+jest.mock("@/components/shared/layout", () => ({
    AuthenticatedLayoutWrapper: ({
       children,
    }: {
