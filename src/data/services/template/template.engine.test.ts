@@ -372,19 +372,25 @@ describe("TemplateEngine.extractVariables - tests", () => {
    it("extracts single variable from template", () => {
       const template = "Hello {{name}}!";
       const variables = TemplateEngine.extractVariables(template);
-      expect(variables).toEqual(["name"]);
+
+      const expectedVariables = ["name"];
+      expect(variables).toEqual(expectedVariables);
    });
 
    it("extracts multiple variables from template", () => {
       const template = "{{greeting}} {{name}}, you are {{age}} years old.";
       const variables = TemplateEngine.extractVariables(template);
-      expect(variables).toEqual(["greeting", "name", "age"]);
+
+      const expectedVariables = ["greeting", "name", "age"];
+      expect(variables).toEqual(expectedVariables);
    });
 
    it("extracts variables with whitespace", () => {
       const template = "{{  name  }} and {{  age  }}";
       const variables = TemplateEngine.extractVariables(template);
-      expect(variables).toEqual(["name", "age"]);
+
+      const expectedVariables = ["name", "age"];
+      expect(variables).toEqual(expectedVariables);
    });
 
    it("returns empty array when no variables present", () => {
@@ -396,7 +402,9 @@ describe("TemplateEngine.extractVariables - tests", () => {
    it("extracts duplicate variables separately", () => {
       const template = "{{name}} and {{name}} are friends";
       const variables = TemplateEngine.extractVariables(template);
-      expect(variables).toEqual(["name", "name"]);
+
+      const expectedVariables = ["name", "name"];
+      expect(variables).toEqual(expectedVariables);
    });
 
    it("handles empty template", () => {
@@ -408,19 +416,25 @@ describe("TemplateEngine.extractVariables - tests", () => {
    it("extracts variables with underscores", () => {
       const template = "{{first_name}} {{last_name}}";
       const variables = TemplateEngine.extractVariables(template);
-      expect(variables).toEqual(["first_name", "last_name"]);
+
+      const expectedVariables = ["first_name", "last_name"];
+      expect(variables).toEqual(expectedVariables);
    });
 
    it("extracts variables with numbers", () => {
       const template = "{{field1}} {{field2}}";
       const variables = TemplateEngine.extractVariables(template);
-      expect(variables).toEqual(["field1", "field2"]);
+
+      const expectedVariables = ["field1", "field2"];
+      expect(variables).toEqual(expectedVariables);
    });
 
    it("does not extract invalid variable names", () => {
       const template = "{{123invalid}} {{valid}} {{also-invalid}}";
       const variables = TemplateEngine.extractVariables(template);
-      expect(variables).toEqual(["valid"]);
+
+      const expectedVariables = ["valid"];
+      expect(variables).toEqual(expectedVariables);
    });
 
    it("handles complex template with text and variables", () => {
@@ -433,6 +447,8 @@ describe("TemplateEngine.extractVariables - tests", () => {
             Thank you!
          `;
       const variables = TemplateEngine.extractVariables(template);
-      expect(variables).toEqual(["name", "orderId", "total"]);
+
+      const expectedVariables = ["name", "orderId", "total"];
+      expect(variables).toEqual(expectedVariables);
    });
 });
