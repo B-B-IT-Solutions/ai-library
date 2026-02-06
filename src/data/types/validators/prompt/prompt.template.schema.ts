@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const templateFieldTypeSchema = z.enum([
+export const promptTemplateFieldTypeSchema = z.enum([
    "TEXT",
    "TEXTAREA",
    "SELECT",
@@ -11,11 +11,11 @@ export const templateFieldTypeSchema = z.enum([
    "EMAIL",
 ]);
 
-export const templateFieldSchema = z.object({
+export const promptTemplateFieldSchema = z.object({
    name: z.string().min(1).max(100),
    label: z.string().min(1).max(250),
    description: z.string().max(500).optional(),
-   type: templateFieldTypeSchema,
+   type: promptTemplateFieldTypeSchema,
    required: z.boolean().default(true),
    order: z.number().int().default(0),
    defaultValue: z.string().optional(),

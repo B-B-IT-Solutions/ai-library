@@ -1,5 +1,1 @@
-export {
-   deletePromptSchema,
-   toggleFavoriteSchema,
-   updatePromptSchema,
-} from "./prompt.schema";
+export { createPromptSchema, updatePromptSchema } from "./prompt.schema";
