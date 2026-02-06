@@ -26,7 +26,7 @@ import { Textarea } from "@/components/shadcn/textarea";
 import {
    DTemplateField,
    DTemplateFieldValues,
-} from "@/data/types/domain/template.field";
+} from "@/data/types/domain/prompt.template";
 
 type Props = {
    fields: DTemplateField[];
@@ -250,7 +250,7 @@ export const TemplateFieldForm = ({ fields, onSubmit, onCancel }: Props) => {
                <div key={field.id}>{renderField(field)}</div>
             ))}
 
-            <div className="flex gap-2 justify-end">
+            <div className="flex justify-end gap-2">
                {onCancel && (
                   <Button type="button" variant="outline" onClick={onCancel}>
                      Abbrechen

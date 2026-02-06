@@ -3,7 +3,7 @@ import { forEach, keys, uniq } from "es-toolkit/compat";
 import {
    DTemplateField,
    DTemplateFieldValues,
-} from "@/data/types/domain/template.field";
+} from "@/data/types/domain/prompt.template";
 
 export type FieldsValidationResult = {
    valid: boolean;

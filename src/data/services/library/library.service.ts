@@ -15,7 +15,7 @@ import {
    DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
-import { DTemplateFieldValues } from "@/data/types/domain/template.field";
+import { DTemplateFieldValues } from "@/data/types/domain/prompt.template";
 
 import {
    toDLibraryEntries,

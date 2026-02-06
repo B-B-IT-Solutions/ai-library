@@ -20,8 +20,10 @@ import {
 } from "@/data/actions/library";
 import { createPrompt } from "@/data/actions/prompt";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
-import { DPromptTemplateDescriptorWithPrompt } from "@/data/types/domain/prompt.template";
-import { DTemplateFieldValues } from "@/data/types/domain/template.field";
+import {
+   DPromptTemplateDescriptorWithPrompt,
+   DTemplateFieldValues,
+} from "@/data/types/domain/prompt.template";
 import { cn } from "@/lib/utils";
 
 type CreatePromptWithTemplateProps = {

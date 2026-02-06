@@ -1,7 +1,7 @@
 import {
    DTemplateField,
    DTemplateFieldValues,
-} from "@/data/types/domain/template.field";
+} from "@/data/types/domain/prompt.template";
 
 import { TemplateEngine } from "./template.engine";
 
