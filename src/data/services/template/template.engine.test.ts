@@ -5,11 +5,11 @@ import {
 
 import { TemplateEngine } from "./template.engine";
 
-describe("TemplateEngine.render - tests", () => {
+describe("TemplateEngine.replace - tests", () => {
    it("replaces single variable with value", () => {
       const template = "Hello {{name}}!";
       const values: DTemplateFieldValues = { name: "World" };
-      const result = TemplateEngine.render(template, values);
+      const result = TemplateEngine.replace(template, values);
       expect(result).toBe("Hello World!");
    });
 
@@ -20,63 +20,63 @@ describe("TemplateEngine.render - tests", () => {
          name: "John",
          age: "30",
       };
-      const result = TemplateEngine.render(template, values);
+      const result = TemplateEngine.replace(template, values);
       expect(result).toBe("Hello John, you are 30 years old.");
    });
 
    it("handles whitespace inside placeholders", () => {
       const template = "{{  name  }} is {{  age  }}";
       const values: DTemplateFieldValues = { name: "Alice", age: "25" };
-      const result = TemplateEngine.render(template, values);
+      const result = TemplateEngine.replace(template, values);
       expect(result).toBe("Alice is 25");
    });
 
    it("replaces same variable multiple times", () => {
       const template = "{{name}} and {{name}} are friends";
       const values: DTemplateFieldValues = { name: "Bob" };
-      const result = TemplateEngine.render(template, values);
+      const result = TemplateEngine.replace(template, values);
       expect(result).toBe("Bob and Bob are friends");
    });
 
    it("keeps placeholder when variable not in values", () => {
       const template = "Hello {{name}}!";
       const values: DTemplateFieldValues = {};
-      const result = TemplateEngine.render(template, values);
+      const result = TemplateEngine.replace(template, values);
       expect(result).toBe("Hello {{name}}!");
    });
 
    it("replaces null value with empty string", () => {
       const template = "Hello {{name}}!";
       const values: DTemplateFieldValues = { name: null };
-      const result = TemplateEngine.render(template, values);
+      const result = TemplateEngine.replace(template, values);
       expect(result).toBe("Hello !");
    });
 
    it("replaces undefined value with empty string", () => {
       const template = "Hello {{name}}!";
       const values: DTemplateFieldValues = { name: undefined };
-      const result = TemplateEngine.render(template, values);
+      const result = TemplateEngine.replace(template, values);
       expect(result).toBe("Hello !");
    });
 
    it("returns template unchanged when no variables present", () => {
       const template = "Hello World!";
       const values: DTemplateFieldValues = { name: "John" };
-      const result = TemplateEngine.render(template, values);
+      const result = TemplateEngine.replace(template, values);
       expect(result).toBe("Hello World!");
    });
 
    it("handles numeric values", () => {
       const template = "Price: {{price}}";
       const values: DTemplateFieldValues = { price: 100 };
-      const result = TemplateEngine.render(template, values);
+      const result = TemplateEngine.replace(template, values);
       expect(result).toBe("Price: 100");
    });
 
    it("handles empty template", () => {
       const template = "";
       const values: DTemplateFieldValues = { name: "John" };
-      const result = TemplateEngine.render(template, values);
+      const result = TemplateEngine.replace(template, values);
       expect(result).toBe("");
    });
 
@@ -87,7 +87,7 @@ describe("TemplateEngine.render - tests", () => {
          age: "30",
          city: "NYC",
       };
-      const result = TemplateEngine.render(template, values);
+      const result = TemplateEngine.replace(template, values);
       expect(result).toBe("Hello John");
    });
 });

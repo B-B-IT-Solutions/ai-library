@@ -14,7 +14,7 @@ export class TemplateEngine {
    /**
     * Replaces all {{variable_name}} placeholders with actual values
     */
-   static render(template: string, values: DTemplateFieldValues): string {
+   static replace(template: string, values: DTemplateFieldValues): string {
       let result = template;
 
       const variables = Object.entries(values);

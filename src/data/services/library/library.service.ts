@@ -142,7 +142,7 @@ export class LibraryService {
       }
 
       // Render template with values
-      const renderedContent = TemplateEngine.render(
+      const renderedContent = TemplateEngine.replace(
          template.promptText,
          fieldValues
       );

@@ -1,5 +1,6 @@
 import { map } from "es-toolkit/compat";
 
+import { toDTemplateFields } from "@/data/services/template/template.field.mapper";
 import {
    PromptTemplateDescriptorWithCategories,
    PromptTemplateDescriptorWithPrompt,
@@ -10,7 +11,6 @@ import {
    DPromptTemplateDescriptor,
    DPromptTemplateDescriptorWithPrompt,
 } from "@/data/types/domain/prompt.template";
-import { toDTemplateFields } from "@/data/services/template/template.field.mapper";
 import { PromptTemplate } from "@/generated/prisma/client";
 
 export const toDPromptTemplateDescriptorWithPrompt = (
