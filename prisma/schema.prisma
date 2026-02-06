@@ -184,13 +184,12 @@ model PromptTemplateField {
 
 enum PromptTemplateFieldType {
   TEXT
-  TEXTAREA
+  EMAIL
+  NUMBER
+  DATE
   SELECT
   CHECKBOX
   RADIO
-  NUMBER
-  DATE
-  EMAIL
 
   @@map("prompt_template_field_type")
 }
