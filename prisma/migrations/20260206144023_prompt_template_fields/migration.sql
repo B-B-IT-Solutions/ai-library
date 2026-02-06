@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "prompt_template_field_type" AS ENUM ('TEXT', 'TEXTAREA', 'SELECT', 'CHECKBOX', 'RADIO', 'NUMBER', 'DATE', 'EMAIL');
+CREATE TYPE "prompt_template_field_type" AS ENUM ('TEXT', 'TEXTAREA', 'EMAIL', 'NUMBER', 'DATE', 'SELECT', 'CHECKBOX', 'RADIO');
 
 -- CreateTable
 CREATE TABLE "prompt_template_field" (
