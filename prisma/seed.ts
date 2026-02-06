@@ -16,7 +16,7 @@ export const main = async () => {
    await prisma.cartItem.deleteMany();
    await prisma.productItem.deleteMany();
    await prisma.product.deleteMany();
-   await prisma.templateField.deleteMany();
+   await prisma.promptTemplateField.deleteMany();
    await prisma.promptTemplate.deleteMany();
    await prisma.promptTemplateDescriptor.deleteMany();
    await prisma.promptTemplateCategory.deleteMany();

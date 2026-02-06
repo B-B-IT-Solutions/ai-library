@@ -533,7 +533,11 @@ Verwende aktive Sprache, konkrete Beschreibungen und fokussiere auf den Kundennu
                   type: "SELECT",
                   required: true,
                   order: 5,
-                  options: ["Kurz (100-150 Wörter)", "Mittel (200-300 Wörter)", "Lang (400-500 Wörter)"],
+                  options: [
+                     "Kurz (100-150 Wörter)",
+                     "Mittel (200-300 Wörter)",
+                     "Lang (400-500 Wörter)",
+                  ],
                   defaultValue: "Mittel (200-300 Wörter)",
                },
                {
@@ -692,7 +696,13 @@ Die Struktur soll:
                   type: "SELECT",
                   required: true,
                   order: 5,
-                  options: ["500-800", "800-1200", "1200-1800", "1800-2500", "2500+"],
+                  options: [
+                     "500-800",
+                     "800-1200",
+                     "1200-1800",
+                     "1800-2500",
+                     "2500+",
+                  ],
                   defaultValue: "1200-1800",
                },
                {
@@ -858,7 +868,13 @@ Die E-Mail soll:
                   type: "SELECT",
                   required: true,
                   order: 4,
-                  options: ["Professionell", "Freundlich", "Enthusiastisch", "Dringend", "Exklusiv"],
+                  options: [
+                     "Professionell",
+                     "Freundlich",
+                     "Enthusiastisch",
+                     "Dringend",
+                     "Exklusiv",
+                  ],
                   defaultValue: "Freundlich",
                },
                {
