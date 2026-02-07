@@ -146,12 +146,12 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
       await userEvent.click(createPromptBtn);
 
       await waitFor(() => {
-         const dialog = screen.getByTestId("create-prompt-dialog-fields-form");
+         const dialog = screen.getByTestId("prompt-template-fields-form");
          assertInDocument(dialog);
          expect(composePromptFromTemplateMock).not.toHaveBeenCalled();
       });
 
-      const submitBtn = screen.getByTestId("dialog-submit-btn");
+      const submitBtn = screen.getByTestId("submit-btn");
       await userEvent.click(submitBtn);
 
       const expectedValues: DPromptTemplateFieldValues = {
@@ -190,12 +190,12 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
       await userEvent.click(createPromptBtn);
 
       await waitFor(() => {
-         const dialog = screen.getByTestId("create-prompt-dialog-fields-form");
+         const dialog = screen.getByTestId("prompt-template-fields-form");
          assertInDocument(dialog);
          expect(composePromptFromTemplateMock).not.toHaveBeenCalled();
       });
 
-      const submitBtn = screen.getByTestId("dialog-submit-btn");
+      const submitBtn = screen.getByTestId("submit-btn");
       await userEvent.click(submitBtn);
 
       const expectedValues: DPromptTemplateFieldValues = {
@@ -227,17 +227,15 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
       await userEvent.click(createPromptBtn);
 
       await waitFor(() => {
-         const dialog = screen.getByTestId("create-prompt-dialog-fields-form");
+         const dialog = screen.getByTestId("prompt-template-fields-form");
          assertInDocument(dialog);
       });
 
-      const cancelBtn = screen.getByTestId("dialog-cancel-btn");
+      const cancelBtn = screen.getByTestId("cancel-btn");
       await userEvent.click(cancelBtn);
 
       await waitFor(() => {
-         const dialog = screen.queryByTestId(
-            "create-prompt-dialog-fields-form"
-         );
+         const dialog = screen.queryByTestId("prompt-template-fields-form");
          assertNotInDocument(dialog);
       });
    });

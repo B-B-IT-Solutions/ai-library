@@ -23,6 +23,7 @@ import {
    SelectValue,
 } from "@/components/shadcn/select";
 import { Textarea } from "@/components/shadcn/textarea";
+import { CallbackFn } from "@/data/types/common";
 import {
    DPromptTemplateField,
    DPromptTemplateFieldValues,
@@ -31,7 +32,7 @@ import {
 type Props = {
    fields: DPromptTemplateField[];
    onSubmit: (values: DPromptTemplateFieldValues) => void;
-   onCancel?: () => void;
+   onCancel: CallbackFn;
 };
 
 export const TemplateFieldForm = ({ fields, onSubmit, onCancel }: Props) => {
@@ -247,24 +248,22 @@ export const TemplateFieldForm = ({ fields, onSubmit, onCancel }: Props) => {
          <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-4"
-            data-testid="create-prompt-dialog-fields-form"
+            data-testid="prompt-template-fields-form"
          >
             {fields.map((field) => (
                <div key={field.id}>{renderField(field)}</div>
             ))}
 
             <div className="flex justify-end gap-2">
-               {onCancel && (
-                  <Button
-                     type="button"
-                     variant="outline"
-                     onClick={onCancel}
-                     data-testid="dialog-cancel-btn"
-                  >
-                     Abbrechen
-                  </Button>
-               )}
-               <Button type="submit" data-testid="dialog-submit-btn">
+               <Button
+                  type="button"
+                  variant="outline"
+                  onClick={onCancel}
+                  data-testid="cancel-btn"
+               >
+                  Abbrechen
+               </Button>
+               <Button type="submit" data-testid="submit-btn">
                   Vorschau generieren
                </Button>
             </div>
