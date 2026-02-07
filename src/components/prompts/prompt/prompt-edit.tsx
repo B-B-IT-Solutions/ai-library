@@ -39,11 +39,16 @@ type PromptEditProps =
    | {
         prompt: DPromptDescriptor;
         mode: "edit";
+     }
+   | {
+        prompt: DPromptUpdate;
+        mode: "review-template";
      };
 
 export const PromptEdit: FC<PromptEditProps> = ({ prompt, mode }) => {
    const router = useRouter();
    const isEdit = mode === "edit";
+   const isReview = mode === "review-template";
 
    const initValues = () => {
       if (isEdit) {
@@ -53,6 +58,15 @@ export const PromptEdit: FC<PromptEditProps> = ({ prompt, mode }) => {
             categories: prompt.categories.map((c) => c.name),
             recommendedModel: prompt.recommendedModel,
             followUpPrompts: prompt.followUpPrompts.map((f) => f.content),
+         };
+      }
+      if (isReview) {
+         return {
+            title: prompt.title,
+            content: prompt.content,
+            categories: prompt.categories,
+            recommendedModel: prompt.recommendedModel,
+            followUpPrompts: prompt.followUpPrompts,
          };
       }
       return {

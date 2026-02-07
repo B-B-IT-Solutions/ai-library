@@ -2,10 +2,9 @@
 
 import { FC, useState, useTransition } from "react";
 import { Loader, Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-import { PromptPreview } from "@/components/prompts/prompt-preview";
+import { PromptEdit } from "@/components/prompts";
 import { Button } from "@/components/shadcn/button";
 import {
    Dialog,
@@ -18,7 +17,6 @@ import {
    composePromptFromTemplate,
    createPromptFromTemplate,
 } from "@/data/actions/library";
-import { createPrompt } from "@/data/actions/prompt";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
    DPromptTemplateDescriptorWithTemplate,
@@ -37,7 +35,6 @@ export const CreatePromptWithTemplate: FC<CreatePromptWithTemplateProps> = ({
    descriptor,
    className,
 }) => {
-   const router = useRouter();
    const [isPending, startTransition] = useTransition();
    const [mode, setMode] = useState<Mode>("closed");
    const [generatedPrompt, setGeneratedPrompt] = useState<DPromptUpdate | null>(
@@ -73,30 +70,6 @@ export const CreatePromptWithTemplate: FC<CreatePromptWithTemplateProps> = ({
             toast.error(result.message || "Fehler beim Generieren");
          }
       });
-   };
-
-   const handleSavePrompt = async () => {
-      if (!generatedPrompt) {
-         return;
-      }
-
-      startTransition(async () => {
-         const result = await createPrompt(generatedPrompt);
-         if (result.success) {
-            toast.success("Prompt erfolgreich erstellt");
-            setMode("closed");
-            router.push("/prompts");
-         } else {
-            toast.error(result.message || "Fehler beim Speichern");
-         }
-      });
-   };
-
-   const handleEditPrompt = () => {
-      // For now, just close and let user create manually
-      // In the future, could navigate to edit page with pre-filled data
-      toast.info("Bitte bearbeiten Sie den Prompt manuell");
-      setMode("closed");
    };
 
    const handleCancel = () => {
@@ -139,7 +112,7 @@ export const CreatePromptWithTemplate: FC<CreatePromptWithTemplateProps> = ({
          </Button>
 
          <Dialog open={mode !== "closed"} onOpenChange={() => handleCancel()}>
-            <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto">
+            <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-5xl">
                <DialogHeader>
                   <DialogTitle>
                      {mode === "form"
@@ -147,7 +120,6 @@ export const CreatePromptWithTemplate: FC<CreatePromptWithTemplateProps> = ({
                         : "Prompt-Vorschau"}
                   </DialogTitle>
                </DialogHeader>
-
                {mode === "form" && (
                   <div className="space-y-4">
                      <div className="text-sm text-muted-foreground">
@@ -161,15 +133,8 @@ export const CreatePromptWithTemplate: FC<CreatePromptWithTemplateProps> = ({
                      />
                   </div>
                )}
-
                {mode === "preview" && generatedPrompt && (
-                  <PromptPreview
-                     promptData={generatedPrompt}
-                     onEdit={handleEditPrompt}
-                     onSave={handleSavePrompt}
-                     onCancel={handleCancel}
-                     isLoading={isPending}
-                  />
+                  <PromptEdit prompt={generatedPrompt} mode="review-template" />
                )}
             </DialogContent>
          </Dialog>
