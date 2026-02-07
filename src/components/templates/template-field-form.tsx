@@ -35,7 +35,6 @@ type Props = {
 };
 
 export const TemplateFieldForm = ({ fields, onSubmit, onCancel }: Props) => {
-   // Build dynamic Zod schema
    const buildSchema = () => {
       const shape: Record<string, any> = {};
       fields.forEach((field) => {

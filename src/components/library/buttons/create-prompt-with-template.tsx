@@ -4,19 +4,8 @@ import { FC, useState, useTransition } from "react";
 import { Loader, Plus } from "lucide-react";
 import { toast } from "sonner";
 
-import { PromptEdit } from "@/components/prompts";
 import { Button } from "@/components/shadcn/button";
-import {
-   Dialog,
-   DialogContent,
-   DialogHeader,
-   DialogTitle,
-} from "@/components/shadcn/dialog";
-import { TemplateFieldForm } from "@/components/templates/template-field-form";
-import {
-   composePromptFromTemplate,
-   createPromptFromTemplate,
-} from "@/data/actions/library";
+import { composePromptFromTemplate } from "@/data/actions/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
    DPromptTemplateDescriptorWithTemplate,
@@ -24,56 +13,49 @@ import {
 } from "@/data/types/domain/prompt.template";
 import { cn } from "@/lib/utils";
 
+import { CreatePromptDialog } from "./create-prompt-dialog";
+
 type CreatePromptWithTemplateProps = {
    descriptor: DPromptTemplateDescriptorWithTemplate;
    className?: string;
 };
 
-type Mode = "form" | "preview" | "closed";
+type Mode = "fields-form" | "review";
 
 export const CreatePromptWithTemplate: FC<CreatePromptWithTemplateProps> = ({
    descriptor,
    className,
 }) => {
    const [isPending, startTransition] = useTransition();
-   const [mode, setMode] = useState<Mode>("closed");
+   const [mode, setMode] = useState<Mode | null>(null);
    const [generatedPrompt, setGeneratedPrompt] = useState<DPromptUpdate | null>(
       null
    );
 
    const hasFields = descriptor.promptTemplate.fields.length > 0;
 
-   const handleClick = () => {
+   const handleClick = async () => {
       if (!hasFields) {
-         // No fields, directly create prompt
-         startTransition(async () => {
-            const result = await createPromptFromTemplate(descriptor.id);
-            if (result.success) {
-               toast.success(result.message);
-            } else {
-               toast.error(result.message);
-            }
-         });
+         await handleComposePrompt({});
       } else {
-         // Has fields, show form
-         setMode("form");
+         setMode("fields-form");
       }
    };
 
-   const handleFieldsSubmit = async (values: DPromptTemplateFieldValues) => {
+   const handleComposePrompt = async (values: DPromptTemplateFieldValues) => {
       startTransition(async () => {
          const result = await composePromptFromTemplate(descriptor.id, values);
          if (result.success && result.data) {
+            setMode("review");
             setGeneratedPrompt(result.data);
-            setMode("preview");
          } else {
-            toast.error(result.message || "Fehler beim Generieren");
+            toast.error(result.message);
          }
       });
    };
 
    const handleCancel = () => {
-      setMode("closed");
+      setMode(null);
       setGeneratedPrompt(null);
    };
 
@@ -95,6 +77,29 @@ export const CreatePromptWithTemplate: FC<CreatePromptWithTemplateProps> = ({
       );
    };
 
+   const dialog = () => {
+      if (mode === "review" && generatedPrompt) {
+         return (
+            <CreatePromptDialog
+               onSubmit={handleComposePrompt}
+               onCancel={handleCancel}
+               mode="review"
+               promptUpdate={generatedPrompt}
+            />
+         );
+      }
+      if (mode === "fields-form" && descriptor) {
+         return (
+            <CreatePromptDialog
+               onSubmit={handleComposePrompt}
+               onCancel={handleCancel}
+               mode="fields-form"
+               descriptor={descriptor}
+            />
+         );
+      }
+   };
+
    return (
       <>
          <Button
@@ -110,34 +115,7 @@ export const CreatePromptWithTemplate: FC<CreatePromptWithTemplateProps> = ({
          >
             {label()}
          </Button>
-
-         <Dialog open={mode !== "closed"} onOpenChange={() => handleCancel()}>
-            <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-5xl">
-               <DialogHeader>
-                  <DialogTitle>
-                     {mode === "form"
-                        ? "Prompt-Vorlage ausfüllen"
-                        : "Prompt-Vorschau"}
-                  </DialogTitle>
-               </DialogHeader>
-               {mode === "form" && (
-                  <div className="space-y-4">
-                     <div className="text-sm text-muted-foreground">
-                        <p className="font-semibold">{descriptor.title}</p>
-                        <p>{descriptor.description}</p>
-                     </div>
-                     <TemplateFieldForm
-                        fields={descriptor.promptTemplate.fields}
-                        onSubmit={handleFieldsSubmit}
-                        onCancel={handleCancel}
-                     />
-                  </div>
-               )}
-               {mode === "preview" && generatedPrompt && (
-                  <PromptEdit prompt={generatedPrompt} mode="review-template" />
-               )}
-            </DialogContent>
-         </Dialog>
+         {dialog()}
       </>
    );
 };
