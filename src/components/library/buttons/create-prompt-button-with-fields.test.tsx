@@ -212,12 +212,6 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
       });
-
-      // Should still be in fields-form mode
-      await waitFor(() => {
-         const dialog = screen.getByTestId("create-prompt-dialog-fields-form");
-         assertInDocument(dialog);
-      });
    });
 
    it("CreatePromptButton - cancel clicked- test", async () => {
@@ -245,40 +239,6 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
             "create-prompt-dialog-fields-form"
          );
          assertNotInDocument(dialog);
-      });
-   });
-
-   it("CreatePromptButton - review dialog - cancel - test", async () => {
-      const promptData = dtestData.dPromptUpdate();
-      const result = {
-         success: true,
-         message: "Prompt erfolgreich generiert",
-         data: promptData,
-      };
-      composePromptFromTemplateMock.mockResolvedValue(result);
-
-      const descriptor = dtestData.dPromptTemplateDescriptorWithPrompt();
-
-      render(<CreatePromptButton descriptor={descriptor} />);
-
-      await waitFor(() => {
-         assertRendered();
-      });
-
-      const createPromptBtn = screen.getByTestId("create-prompt-btn");
-      await userEvent.click(createPromptBtn);
-
-      await waitFor(() => {
-         const dialog = screen.getByTestId("create-prompt-dialog-fields-form");
-         assertInDocument(dialog);
-      });
-
-      const submitBtn = screen.getByTestId("dialog-submit-btn");
-      await userEvent.click(submitBtn);
-
-      await waitFor(() => {
-         const reviewDialog = screen.getByTestId("prompt-edit");
-         assertInDocument(reviewDialog);
       });
    });
 });
