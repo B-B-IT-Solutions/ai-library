@@ -73,7 +73,11 @@ describe("pGetLibraryEntry tests", () => {
             templateDescriptor: {
                include: {
                   categories: true,
-                  promptTemplate: true,
+                  promptTemplate: {
+                     include: {
+                        fields: true,
+                     },
+                  },
                },
             },
          },
@@ -106,7 +110,11 @@ describe("pGetLibraryEntry tests", () => {
             templateDescriptor: {
                include: {
                   categories: true,
-                  promptTemplate: true,
+                  promptTemplate: {
+                     include: {
+                        fields: true,
+                     },
+                  },
                },
             },
          },
