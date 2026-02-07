@@ -281,7 +281,7 @@ describe("auth.config - callback.session - tests", () => {
       const token = {
          sub: "user-123",
          role: "ADMIN",
-         name: "John Doe",
+         name: "User-1 Name",
          tier: "PRO",
       } as JWT;
 
@@ -364,8 +364,8 @@ describe("auth.config - callback.jwt - tests", () => {
       const user = {
          id: "user-123",
          role: "ADMIN",
-         name: "John Doe",
-         email: "john@example.com",
+         name: "User-1 Name",
+         email: "test1@email.com",
       } as AdapterUser;
 
       const reqCookies = ntestData.cookies({});
@@ -426,8 +426,8 @@ describe("auth.config - callback.jwt - tests", () => {
       const user = {
          id: userId,
          role: "USER",
-         name: "John Doe",
-         email: "john@example.com",
+         name: "User-1 Name",
+         email: "test1@email.com",
       } as AdapterUser;
 
       const cookies = { sessionCartId };
@@ -461,8 +461,8 @@ describe("auth.config - callback.jwt - tests", () => {
       const user = {
          id: userId,
          role: "USER",
-         name: "John Doe",
-         email: "john@example.com",
+         name: "User-1 Name",
+         email: "test1@email.com",
       } as AdapterUser;
 
       const reqCookies = ntestData.cookies({});
@@ -492,8 +492,8 @@ describe("auth.config - callback.jwt - tests", () => {
       const user = {
          id: userId,
          role: "USER_1",
-         name: "John Doe",
-         email: "john@example.com",
+         name: "User-1 Name",
+         email: "test1@email.com",
       } as AdapterUser;
 
       const cookies = { sessionCartId };
@@ -527,8 +527,8 @@ describe("auth.config - callback.jwt - tests", () => {
       const user = {
          id: userId,
          role: "USER_1",
-         name: "John Doe",
-         email: "john@example.com",
+         name: "User-1 Name",
+         email: "test1@email.com",
       } as AdapterUser;
 
       const reqCookies = ntestData.cookies({});

@@ -3,8 +3,12 @@ jest.mock("@/data/services/library");
 import { dtestData } from "@tests";
 
 import { LibraryService } from "@/data/services/library";
+import { DPromptUpdate } from "@/data/types/domain/prompt";
+import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
+import { ActionResult } from "@/data/types/utils";
 
 import {
+   composePromptFromTemplate,
    createPromptFromTemplate,
    downloadTemplate,
    getLibraryEntries,
@@ -15,6 +19,8 @@ const sGetLibraryEntries = LibraryService.prototype.getLibraryEntries;
 const sgetLibraryEntry = LibraryService.prototype.getLibraryEntry;
 const sCreatePromptFromTemplate =
    LibraryService.prototype.createPromptFromTemplate;
+const sComposePromptFromTemplate =
+   LibraryService.prototype.composePromptFromTemplate;
 const sDownloadTemplate = LibraryService.prototype.downloadPromptTemplate;
 
 const sGetLibraryEntriesMock = sGetLibraryEntries as jest.MockedFunction<
@@ -26,6 +32,10 @@ const sgetLibraryEntryMock = sgetLibraryEntry as jest.MockedFunction<
 const sCreatePromptFromTemplateMock =
    sCreatePromptFromTemplate as jest.MockedFunction<
       typeof sCreatePromptFromTemplate
+   >;
+const sComposePromptFromTemplateMock =
+   sComposePromptFromTemplate as jest.MockedFunction<
+      typeof sComposePromptFromTemplate
    >;
 const sDownloadTemplateMock = sDownloadTemplate as jest.MockedFunction<
    typeof sDownloadTemplate
@@ -106,7 +116,7 @@ describe("createPromptFromTemplate tests", () => {
       sCreatePromptFromTemplateMock.mockResolvedValue(undefined);
 
       const result = await createPromptFromTemplate(templateId);
-      const expectedResult = {
+      const expectedResult: ActionResult = {
          success: true,
          message: "Template copied to your prompts successfully!",
       };
@@ -123,7 +133,7 @@ describe("createPromptFromTemplate tests", () => {
       sCreatePromptFromTemplateMock.mockRejectedValue(error);
 
       const result = await createPromptFromTemplate(templateId);
-      const expectedResult = {
+      const expectedResult: ActionResult = {
          success: false,
          message: errorMessage,
       };
@@ -131,6 +141,61 @@ describe("createPromptFromTemplate tests", () => {
       expect(result).toEqual(expectedResult);
       expect(sCreatePromptFromTemplateMock).toHaveBeenCalledTimes(1);
       expect(sCreatePromptFromTemplateMock).toHaveBeenCalledWith(templateId);
+   });
+});
+
+describe("composePromptFromTemplate tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("composePromptFromTemplate - success - test", async () => {
+      const templateId = "template-id-1";
+      const fieldValues: DPromptTemplateFieldValues = {
+         name: "User-1 Name",
+         email: "test1@email.com",
+         age: 30,
+      };
+      const promptData = dtestData.dPromptUpdate();
+      sComposePromptFromTemplateMock.mockResolvedValue(promptData);
+
+      const result = await composePromptFromTemplate(templateId, fieldValues);
+      const expectedResult: ActionResult<DPromptUpdate> = {
+         success: true,
+         message: "Prompt erfolgreich generiert",
+         data: promptData,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sComposePromptFromTemplateMock).toHaveBeenCalledTimes(1);
+      expect(sComposePromptFromTemplateMock).toHaveBeenCalledWith(
+         templateId,
+         fieldValues
+      );
+   });
+
+   it("composePromptFromTemplate - error - test", async () => {
+      const templateId = "template-id-1";
+      const fieldValues: DPromptTemplateFieldValues = {
+         name: "User-1 Name",
+         email: "invalid-email",
+      };
+      const errorMessage = "Provided template fields are invalid";
+      const error = new Error(errorMessage);
+      sComposePromptFromTemplateMock.mockRejectedValue(error);
+
+      const result = await composePromptFromTemplate(templateId, fieldValues);
+      const expectedResult: ActionResult = {
+         success: false,
+         message: errorMessage,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sComposePromptFromTemplateMock).toHaveBeenCalledTimes(1);
+      expect(sComposePromptFromTemplateMock).toHaveBeenCalledWith(
+         templateId,
+         fieldValues
+      );
    });
 });
 

@@ -398,11 +398,11 @@ describe("composePromptFromTemplate tests", () => {
       const entry = ptestData.pLibraryEntryWithPromptTemplate();
       const templateDescriptorId = entry.templateDescriptorId;
       const fieldValues: DPromptTemplateFieldValues = {
-         name: "John Doe",
-         email: "john@example.com",
+         name: "User-1 Name",
+         email: "test1@email.com",
       };
       const expectedPromptUpdate: DPromptUpdate = {
-         content: "Hello John Doe, your email is john@example.com",
+         content: "Hello User-1 Name, your email is test1@email.com",
          title: "Test Prompt",
          recommendedModel: "gpt-4",
          categories: ["test"],

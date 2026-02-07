@@ -390,8 +390,8 @@ describe("promptTemplateFieldSchema - tests", () => {
 describe("templateFieldValuesSchema - tests", () => {
    it("templateFieldValuesSchema - valid string values - test", () => {
       const values = {
-         name: "John Doe",
-         email: "john@example.com",
+         name: "User-1 Name",
+         email: "test1@email.com",
          message: "Hello",
       };
 
@@ -474,7 +474,7 @@ describe("templateFieldValuesSchema - tests", () => {
    it("templateFieldValuesSchema - keys with special characters valid - test", () => {
       const values = {
          "user-name": "John",
-         user_email: "john@example.com",
+         user_email: "test1@email.com",
          "user.phone": "123-456-7890",
       };
 

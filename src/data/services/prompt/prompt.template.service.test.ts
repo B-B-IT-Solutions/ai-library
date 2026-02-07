@@ -176,7 +176,7 @@ describe("composePromptFromTemplate tests", () => {
       );
 
       const id = "non-existent-id";
-      const fieldValues = {};
+      const fieldValues: DPromptTemplateFieldValues = {};
 
       const fn = () =>
          promptTemplateService.composePromptFromTemplate(id, fieldValues);
@@ -239,13 +239,13 @@ describe("composePromptFromTemplate tests", () => {
          valid: true,
          errors: {},
       };
-      const promptContent = "Hello, your email is john@example.com.";
+      const promptContent = "Hello, your email is test1@email.com.";
       sValidateMock.mockReturnValue(validationResult);
       sReplaceMock.mockReturnValue(promptContent);
 
       const { id, promptTemplate } = promptDescriptor;
-      const fieldValues = {
-         email: "john@example.com",
+      const fieldValues: DPromptTemplateFieldValues = {
+         email: "test1@email.com",
       };
 
       const result = await promptTemplateService.composePromptFromTemplate(
