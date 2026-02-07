@@ -7,8 +7,6 @@ import {
    LibraryRepository,
 } from "@/data/repositories/library";
 import { PromptService, PromptTemplateService } from "@/data/services/prompt";
-import { toDPromptTemplateDescriptorWithTemplate } from "@/data/services/prompt/prompt.template.mapper";
-import { TemplateEngine } from "@/data/services/template/template.engine";
 import { OrderProducts } from "@/data/types/db/order";
 import {
    DLibraryEntry,
@@ -111,7 +109,7 @@ export class LibraryService {
       await this.promptService.createPrompt(promptData);
    }
 
-   async generatePromptFromTemplate(
+   async composePromptFromTemplate(
       templateDescriptorId: string,
       fieldValues: DPromptTemplateFieldValues
    ): Promise<DPromptUpdate> {
@@ -128,35 +126,13 @@ export class LibraryService {
       const entry = await this.libraryRepository.pGetLibraryEntry(params);
 
       if (!entry) {
-         throw new Error("Template nicht in Ihrer Bibliothek gefunden");
+         throw new Error("Template not found");
       }
 
-      const descriptor = toDPromptTemplateDescriptorWithTemplate(
-         entry.templateDescriptor
-      );
-      const template = descriptor.promptTemplate;
-
-      // Validate field values
-      const validation = TemplateEngine.validate(template.fields, fieldValues);
-      if (!validation.valid) {
-         throw new Error(
-            `Validierungsfehler: ${JSON.stringify(validation.errors)}`
-         );
-      }
-
-      // Render template with values
-      const renderedContent = TemplateEngine.replace(
-         template.promptText,
+      return await this.promptTemplateService.composePromptFromTemplate(
+         entry.templateDescriptorId,
          fieldValues
       );
-
-      return {
-         content: renderedContent,
-         title: descriptor.title,
-         recommendedModel: descriptor.recommendedModel,
-         categories: descriptor.categories.map((cat) => cat.name),
-         followUpPrompts: [],
-      };
    }
 
    async downloadPromptTemplate(templateDescriptorId: string): Promise<string> {

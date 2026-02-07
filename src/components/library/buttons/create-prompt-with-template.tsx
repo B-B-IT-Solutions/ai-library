@@ -15,8 +15,8 @@ import {
 } from "@/components/shadcn/dialog";
 import { TemplateFieldForm } from "@/components/templates/template-field-form";
 import {
+   composePromptFromTemplate,
    createPromptFromTemplate,
-   generatePromptFromTemplate,
 } from "@/data/actions/library";
 import { createPrompt } from "@/data/actions/prompt";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
@@ -65,7 +65,7 @@ export const CreatePromptWithTemplate: FC<CreatePromptWithTemplateProps> = ({
 
    const handleFieldsSubmit = async (values: DPromptTemplateFieldValues) => {
       startTransition(async () => {
-         const result = await generatePromptFromTemplate(descriptor.id, values);
+         const result = await composePromptFromTemplate(descriptor.id, values);
          if (result.success && result.data) {
             setGeneratedPrompt(result.data);
             setMode("preview");

@@ -13,8 +13,9 @@ import {
 } from "@/data/repositories/library";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
-import { PromptService } from "@/data/services/prompt";
+import { PromptService, PromptTemplateService } from "@/data/services/prompt";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
+import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 
 import {
    toDLibraryEntries,
@@ -26,13 +27,20 @@ const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
 const serviceFactory = new ServiceFactory(prisma);
 const promptService = serviceFactory.getPromptService();
+const promptTemplateService = serviceFactory.getPromptTemplateService();
 
 const promptServiceMock = promptService as DeepMockProxy<PromptService>;
+const promptTemplateServiceMock =
+   promptTemplateService as DeepMockProxy<PromptTemplateService>;
 
 const libraryRepo = new LibraryRepository(prisma);
 const libraryRepoMock = libraryRepo as DeepMockProxy<LibraryRepository>;
 
-const libraryService = new LibraryService(libraryRepoMock, promptServiceMock);
+const libraryService = new LibraryService(
+   libraryRepoMock,
+   promptServiceMock,
+   promptTemplateServiceMock
+);
 
 describe("getLibraryEntries tests", () => {
    beforeEach(() => {
@@ -313,6 +321,122 @@ describe("createPromptFromTemplate tests", () => {
       expect(promptServiceMock.createPrompt).toHaveBeenCalledWith(
          expectedPromptData
       );
+   });
+});
+
+describe("composePromptFromTemplate tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("composePromptFromTemplate - invalid UUID - test", async () => {
+      const invalidId = "invalid-uuid";
+      const fieldValues: DPromptTemplateFieldValues = { field1: "value1" };
+
+      const fn = async () =>
+         await libraryService.composePromptFromTemplate(invalidId, fieldValues);
+
+      await expect(fn).rejects.toThrow("Invalid template ID.");
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(libraryRepoMock.pGetLibraryEntry).not.toHaveBeenCalled();
+      expect(
+         promptTemplateServiceMock.composePromptFromTemplate
+      ).not.toHaveBeenCalled();
+   });
+
+   it("composePromptFromTemplate - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      const templateDescriptorId = "123e4567-e89b-12d3-a456-426614174000";
+      const fieldValues: DPromptTemplateFieldValues = { field1: "value1" };
+      requireUserMock.mockRejectedValue(error);
+
+      const fn = async () =>
+         await libraryService.composePromptFromTemplate(
+            templateDescriptorId,
+            fieldValues
+         );
+
+      await expect(fn).rejects.toThrow(error);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryEntry).not.toHaveBeenCalled();
+      expect(
+         promptTemplateServiceMock.composePromptFromTemplate
+      ).not.toHaveBeenCalled();
+   });
+
+   it("composePromptFromTemplate - template not found - test", async () => {
+      const user = dtestData.dLoginUser();
+      const templateDescriptorId = "123e4567-e89b-12d3-a456-426614174000";
+      const fieldValues: DPromptTemplateFieldValues = { field1: "value1" };
+      requireUserMock.mockResolvedValue(user);
+      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(null);
+
+      const fn = async () =>
+         await libraryService.composePromptFromTemplate(
+            templateDescriptorId,
+            fieldValues
+         );
+
+      const expectedGetEntryPayload: GetLibraryEntryParams = {
+         templateDescriptorId,
+         userId: user.id,
+      };
+
+      await expect(fn).rejects.toThrow("Template not found");
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
+         expectedGetEntryPayload
+      );
+      expect(
+         promptTemplateServiceMock.composePromptFromTemplate
+      ).not.toHaveBeenCalled();
+   });
+
+   it("composePromptFromTemplate - prompt composed - test", async () => {
+      const user = dtestData.dLoginUser();
+      const entry = ptestData.pLibraryEntryWithPromptTemplate();
+      const templateDescriptorId = entry.templateDescriptorId;
+      const fieldValues: DPromptTemplateFieldValues = {
+         name: "John Doe",
+         email: "john@example.com",
+      };
+      const expectedPromptUpdate: DPromptUpdate = {
+         content: "Hello John Doe, your email is john@example.com",
+         title: "Test Prompt",
+         recommendedModel: "gpt-4",
+         categories: ["test"],
+         followUpPrompts: [],
+      };
+
+      requireUserMock.mockResolvedValue(user);
+      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(entry);
+      promptTemplateServiceMock.composePromptFromTemplate.mockResolvedValue(
+         expectedPromptUpdate
+      );
+
+      const result = await libraryService.composePromptFromTemplate(
+         templateDescriptorId,
+         fieldValues
+      );
+
+      const expectedGetEntryPayload: GetLibraryEntryParams = {
+         templateDescriptorId,
+         userId: user.id,
+      };
+
+      expect(result).toEqual(expectedPromptUpdate);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
+         expectedGetEntryPayload
+      );
+      expect(
+         promptTemplateServiceMock.composePromptFromTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateServiceMock.composePromptFromTemplate
+      ).toHaveBeenCalledWith(entry.templateDescriptorId, fieldValues);
    });
 });
 

@@ -45,13 +45,13 @@ export const createPromptFromTemplate = async (
    }
 };
 
-export const generatePromptFromTemplate = async (
+export const composePromptFromTemplate = async (
    templateId: string,
    fieldValues: DPromptTemplateFieldValues
 ): Promise<ActionResult<DPromptUpdate>> => {
    try {
       const service = getLibrarySevice();
-      const promptData = await service.generatePromptFromTemplate(
+      const promptData = await service.composePromptFromTemplate(
          templateId,
          fieldValues
       );
