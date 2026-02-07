@@ -34,15 +34,20 @@ export const CreatePromptWithTemplate: FC<CreatePromptWithTemplateProps> = ({
 
    const hasFields = descriptor.promptTemplate.fields.length > 0;
 
-   const handleClick = async () => {
+   const handleCreate = async () => {
       if (!hasFields) {
-         await handleComposePrompt({});
+         await composePrompt({});
       } else {
          setMode("fields-form");
       }
    };
 
-   const handleComposePrompt = async (values: DPromptTemplateFieldValues) => {
+   const handleCancel = () => {
+      setMode(null);
+      setGeneratedPrompt(null);
+   };
+
+   const composePrompt = async (values: DPromptTemplateFieldValues) => {
       startTransition(async () => {
          const result = await composePromptFromTemplate(descriptor.id, values);
          if (result.success && result.data) {
@@ -54,9 +59,27 @@ export const CreatePromptWithTemplate: FC<CreatePromptWithTemplateProps> = ({
       });
    };
 
-   const handleCancel = () => {
-      setMode(null);
-      setGeneratedPrompt(null);
+   const dialog = () => {
+      if (mode === "review" && generatedPrompt) {
+         return (
+            <CreatePromptDialog
+               onSubmit={composePrompt}
+               onCancel={handleCancel}
+               mode="review"
+               promptUpdate={generatedPrompt}
+            />
+         );
+      }
+      if (mode === "fields-form" && descriptor) {
+         return (
+            <CreatePromptDialog
+               onSubmit={composePrompt}
+               onCancel={handleCancel}
+               mode="fields-form"
+               descriptor={descriptor}
+            />
+         );
+      }
    };
 
    const label = () => {
@@ -77,35 +100,12 @@ export const CreatePromptWithTemplate: FC<CreatePromptWithTemplateProps> = ({
       );
    };
 
-   const dialog = () => {
-      if (mode === "review" && generatedPrompt) {
-         return (
-            <CreatePromptDialog
-               onSubmit={handleComposePrompt}
-               onCancel={handleCancel}
-               mode="review"
-               promptUpdate={generatedPrompt}
-            />
-         );
-      }
-      if (mode === "fields-form" && descriptor) {
-         return (
-            <CreatePromptDialog
-               onSubmit={handleComposePrompt}
-               onCancel={handleCancel}
-               mode="fields-form"
-               descriptor={descriptor}
-            />
-         );
-      }
-   };
-
    return (
       <>
          <Button
             variant="default"
             size="sm"
-            onClick={handleClick}
+            onClick={handleCreate}
             disabled={isPending}
             className={cn(
                "cursor-pointer bg-blue-600 text-white hover:bg-blue-700",
