@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import { MDRenderer } from "@/components/shared/md";
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
-import { CreatePromptWithTemplate } from "../buttons/create-prompt-with-template";
+import { CreatePromptButton } from "../buttons/create-prompt-button-with-fields";
 import { DownloadTemplateButton } from "../buttons/download-template-button";
 
 import { PromptTextDisplay } from "./prompt-text-display";
@@ -88,7 +88,7 @@ export const LibraryEntryDetails: FC<LibraryEntryDetailsProps> = ({
                   <PromptTextDisplay template={descriptor.promptTemplate} />
 
                   <div className="flex gap-3 border-t border-slate-200 pt-4">
-                     <CreatePromptWithTemplate descriptor={descriptor} />
+                     <CreatePromptButton descriptor={descriptor} />
                      <DownloadTemplateButton descriptor={descriptor} />
                   </div>
                </CardContent>

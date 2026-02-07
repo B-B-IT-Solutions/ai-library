@@ -15,17 +15,14 @@ import { cn } from "@/lib/utils";
 
 import { CreatePromptDialog } from "./create-prompt-dialog";
 
-type CreatePromptWithTemplateProps = {
+type Props = {
    descriptor: DPromptTemplateDescriptorWithTemplate;
    className?: string;
 };
 
 type Mode = "fields-form" | "review";
 
-export const CreatePromptWithTemplate: FC<CreatePromptWithTemplateProps> = ({
-   descriptor,
-   className,
-}) => {
+export const CreatePromptButton: FC<Props> = ({ descriptor, className }) => {
    const [isPending, startTransition] = useTransition();
    const [mode, setMode] = useState<Mode | null>(null);
    const [generatedPrompt, setGeneratedPrompt] = useState<DPromptUpdate | null>(
