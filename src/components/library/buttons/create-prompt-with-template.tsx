@@ -76,7 +76,9 @@ export const CreatePromptWithTemplate: FC<CreatePromptWithTemplateProps> = ({
    };
 
    const handleSavePrompt = async () => {
-      if (!generatedPrompt) return;
+      if (!generatedPrompt) {
+         return;
+      }
 
       startTransition(async () => {
          const result = await createPrompt(generatedPrompt);
