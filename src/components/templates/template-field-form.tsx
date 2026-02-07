@@ -244,18 +244,29 @@ export const TemplateFieldForm = ({ fields, onSubmit, onCancel }: Props) => {
 
    return (
       <Form {...form}>
-         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+         <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-4"
+            data-testid="create-prompt-dialog-fields-form"
+         >
             {fields.map((field) => (
                <div key={field.id}>{renderField(field)}</div>
             ))}
 
             <div className="flex justify-end gap-2">
                {onCancel && (
-                  <Button type="button" variant="outline" onClick={onCancel}>
+                  <Button
+                     type="button"
+                     variant="outline"
+                     onClick={onCancel}
+                     data-testid="dialog-cancel-btn"
+                  >
                      Abbrechen
                   </Button>
                )}
-               <Button type="submit">Vorschau generieren</Button>
+               <Button type="submit" data-testid="dialog-submit-btn">
+                  Vorschau generieren
+               </Button>
             </div>
          </form>
       </Form>

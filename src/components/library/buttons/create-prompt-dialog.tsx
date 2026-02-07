@@ -67,7 +67,11 @@ export const CreatePromptDialog: FC<Props> = ({
    };
 
    return (
-      <Dialog open={true} onOpenChange={() => onCancel()}>
+      <Dialog
+         open={true}
+         onOpenChange={() => onCancel()}
+         data-testid="create-prompt-dialog"
+      >
          <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-5xl">
             <DialogHeader>
                <DialogTitle>{title()}</DialogTitle>

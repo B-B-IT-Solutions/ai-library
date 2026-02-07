@@ -372,7 +372,7 @@ export const dPromptTemplateField = (index = 1): DPromptTemplateField => {
       required: true,
       order: index,
       options: ["option 1", "option 2", "option 3"],
-      defaultValue: "Freundlich",
+      defaultValue: "option 1",
    };
 };
 
