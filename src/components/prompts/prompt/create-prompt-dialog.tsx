@@ -1,9 +1,11 @@
 "use client";
 
 import { FC } from "react";
+import { X } from "lucide-react";
 
 import {
    Dialog,
+   DialogClose,
    DialogContent,
    DialogHeader,
    DialogTitle,
@@ -73,7 +75,19 @@ export const CreatePromptDialog: FC<Props> = ({
          onOpenChange={() => onCancel()}
          data-testid="create-prompt-dialog"
       >
-         <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-5xl">
+         <DialogContent
+            showCloseButton={false}
+            className="max-h-[90vh] overflow-y-auto sm:max-w-5xl"
+         >
+            <DialogClose asChild={true}>
+               <button
+                  data-testid="close-btn"
+                  className="absolute top-4 right-4 rounded-sm opacity-70 hover:opacity-100"
+               >
+                  <X className="h-4 w-4" />
+                  <span className="sr-only">Close</span>
+               </button>
+            </DialogClose>
             <DialogHeader>
                <DialogTitle>{title()}</DialogTitle>
             </DialogHeader>

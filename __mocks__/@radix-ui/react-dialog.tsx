@@ -110,9 +110,27 @@ const Description: React.FC<{
    );
 };
 
-const Close = ({ children }: any) => {
+const Close: React.FC<{
+   children: React.ReactNode;
+   asChild: boolean;
+}> = ({ children, asChild, ...props }) => {
    const ctx = React.useContext(DialogContext)!;
-   return <button onClick={() => ctx.setOpen(false)}>{children}</button>;
+
+   if (asChild && React.isValidElement(children)) {
+      return React.cloneElement(children, {
+         onClick: () => ctx.setOpen(false),
+      });
+   }
+
+   return (
+      <button
+         onClick={() => ctx.setOpen(false)}
+         data-testid="mock-react-dialog-close"
+         {...props}
+      >
+         {children}
+      </button>
+   );
 };
 
 module.exports = {

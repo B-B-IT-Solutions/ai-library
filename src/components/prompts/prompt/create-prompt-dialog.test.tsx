@@ -135,4 +135,32 @@ describe("CreatePromptDialog functionality tests", () => {
          expect(submitFn).not.toHaveBeenCalled();
       });
    });
+
+   it("CreatePromptDialog - close bnt clicked - test", async () => {
+      const descriptor = dtestData.dPromptTemplateDescriptorWithPrompt();
+      const submitFn = jest.fn();
+      const cancelFn = jest.fn();
+
+      render(
+         <CreatePromptDialog
+            mode="fields-form"
+            descriptor={descriptor}
+            onSubmit={submitFn}
+            onCancel={cancelFn}
+         />
+      );
+
+      await waitFor(() => {
+         assertDialogRendered();
+         assertFieldsFormRendered();
+      });
+
+      const closeBtn = screen.getByTestId("close-btn");
+      await userEvent.click(closeBtn);
+
+      await waitFor(() => {
+         expect(cancelFn).toHaveBeenCalledTimes(1);
+         expect(submitFn).not.toHaveBeenCalled();
+      });
+   });
 });
