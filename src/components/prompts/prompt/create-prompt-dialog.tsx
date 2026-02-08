@@ -2,7 +2,6 @@
 
 import { FC } from "react";
 
-import { PromptEdit } from "@/components/prompts";
 import {
    Dialog,
    DialogContent,
@@ -16,6 +15,8 @@ import {
    DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
+
+import { PromptEdit } from "./prompt-edit";
 
 type Props = {
    onSubmit: (values: DPromptTemplateFieldValues) => void;

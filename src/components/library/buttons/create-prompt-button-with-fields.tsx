@@ -4,6 +4,7 @@ import { FC, useState, useTransition } from "react";
 import { Loader, Plus } from "lucide-react";
 import { toast } from "sonner";
 
+import { CreatePromptDialog } from "@/components/prompts";
 import { Button } from "@/components/shadcn/button";
 import { composePromptFromTemplate } from "@/data/actions/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
@@ -12,8 +13,6 @@ import {
    DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
 import { cn } from "@/lib/utils";
-
-import { CreatePromptDialog } from "./create-prompt-dialog";
 
 type Props = {
    descriptor: DPromptTemplateDescriptorWithTemplate;
