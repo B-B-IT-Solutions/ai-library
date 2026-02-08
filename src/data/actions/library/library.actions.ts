@@ -5,6 +5,8 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import { DLibraryEntry } from "@/data/types/domain/library";
+import { DPromptUpdate } from "@/data/types/domain/prompt";
+import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 
 export const getLibraryEntries = async (): Promise<DLibraryEntry[]> => {
@@ -34,6 +36,29 @@ export const createPromptFromTemplate = async (
       return {
          success: true,
          message: "Template copied to your prompts successfully!",
+      };
+   } catch (error) {
+      return {
+         success: false,
+         message: formatError(error),
+      };
+   }
+};
+
+export const composePromptFromTemplate = async (
+   templateId: string,
+   fieldValues: DPromptTemplateFieldValues
+): Promise<ActionResult<DPromptUpdate>> => {
+   try {
+      const service = getLibrarySevice();
+      const promptData = await service.composePromptFromTemplate(
+         templateId,
+         fieldValues
+      );
+      return {
+         success: true,
+         message: "Prompt erfolgreich generiert",
+         data: promptData,
       };
    } catch (error) {
       return {

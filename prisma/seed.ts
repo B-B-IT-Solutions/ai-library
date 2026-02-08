@@ -5,14 +5,18 @@ import { templateProductMetadata } from "./seed-data/product-metadata";
 import { promptTemplatesData } from "./seed-data/prompt-templates";
 import { promptsData } from "./seed-data/prompts";
 import { subscriptionPlansData } from "./seed-data/subscription-plans";
+import { templatesWithFields } from "./seed-data/template-fields-example";
 
 const prisma = new PrismaClient();
 
 export const main = async () => {
    console.log("Deleting obsolete entries...");
 
+   await prisma.orderItem.deleteMany();
+   await prisma.cartItem.deleteMany();
    await prisma.productItem.deleteMany();
    await prisma.product.deleteMany();
+   await prisma.promptTemplateField.deleteMany();
    await prisma.promptTemplate.deleteMany();
    await prisma.promptTemplateDescriptor.deleteMany();
    await prisma.promptTemplateCategory.deleteMany();
@@ -38,6 +42,22 @@ export const main = async () => {
          data: pt,
          include: {
             promptTemplate: true,
+         },
+      });
+
+      createdTemplateDesciptors.push(templateDescriptor);
+   }
+
+   console.log("\nCreating prompt templates with fields...");
+   for (const pt of templatesWithFields) {
+      const templateDescriptor = await prisma.promptTemplateDescriptor.create({
+         data: pt,
+         include: {
+            promptTemplate: {
+               include: {
+                  fields: true,
+               },
+            },
          },
       });
 

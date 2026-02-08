@@ -203,25 +203,30 @@ describe("pGetPromptTemplateDescriptors tests", () => {
    });
 });
 
-describe("pGetPromptTemplateDescriptor tests", () => {
+describe("pGetPromptTemplateDescriptorWithTemplate tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   test("pGetPromptTemplateDescriptor - id defined - test", async () => {
+   test("pGetPromptTemplateDescriptorWithTemplate - id defined - test", async () => {
       const prompt = ptestData.pPromptDescriptorWithRelations();
       prismaMock.promptTemplateDescriptor.findFirst.mockResolvedValue(prompt);
 
-      const promptTemplateId = "1";
+      const id = "prompt-template-descriptor-id-1";
       const result =
-         await repository.pGetPromptTemplateDescriptor(promptTemplateId);
+         await repository.pGetPromptTemplateDescriptorWithTemplate(id);
 
       const expectedWhere: PromptTemplateDescriptorFindFirstArgs = {
          where: {
-            id: promptTemplateId,
+            id,
          },
          include: {
             categories: true,
+            promptTemplate: {
+               include: {
+                  fields: true,
+               },
+            },
          },
       };
       expect(result).toEqual(prompt);

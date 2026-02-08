@@ -156,8 +156,41 @@ model PromptTemplate {
   updatedAt           DateTime @updatedAt @map("updated_at")
 
   promptTemplateDescriptor PromptTemplateDescriptor?
+  fields                   PromptTemplateField[]
 
   @@map("prompt_template")
+}
+
+model PromptTemplateField {
+  id               String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  promptTemplateId String                  @map("prompt_template_id") @db.Uuid
+  name             String                  @db.VarChar(100)
+  label            String                  @db.VarChar(250)
+  description      String?                 @db.VarChar(500)
+  type             PromptTemplateFieldType
+  required         Boolean                 @default(true)
+  order            Int                     @default(0)
+  defaultValue     String?                 @map("default_value") @db.Text
+  options          Json?                   @db.JsonB
+
+  promptTemplate PromptTemplate @relation(fields: [promptTemplateId], references: [id], onDelete: Cascade)
+
+  @@unique([promptTemplateId, name])
+  @@index([promptTemplateId])
+  @@map("prompt_template_field")
+}
+
+enum PromptTemplateFieldType {
+  TEXT
+  TEXTAREA
+  EMAIL
+  NUMBER
+  DATE
+  SELECT
+  CHECKBOX
+  RADIO
+
+  @@map("prompt_template_field_type")
 }
 
 model PromptTemplateCategory {

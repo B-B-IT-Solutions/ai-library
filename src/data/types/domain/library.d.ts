@@ -1,6 +1,6 @@
 import {
    DPromptTemplateDescriptor,
-   DPromptTemplateDescriptorWithPrompt,
+   DPromptTemplateDescriptorWithTemplate,
 } from "./prompt.template";
 
 export type DLibraryEntry = {
@@ -14,5 +14,5 @@ export type DLibraryEntry = {
 };
 
 export type DLibraryEntryWithPromptTemplate = DLibraryEntry & {
-   templateDescriptor: DPromptTemplateDescriptorWithPrompt;
+   templateDescriptor: DPromptTemplateDescriptorWithTemplate;
 };

@@ -1,10 +1,17 @@
 import { PromptTemplateRepository } from "@/data/repositories/prompt/prompt.template";
+import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
    DPromptTemplateCategory,
    DPromptTemplateDescriptor,
+   DPromptTemplateDescriptorWithTemplate,
+   DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
 
-import { toDPromptTemplateDescriptors } from "./prompt.template.mapper";
+import {
+   toDPromptTemplateDescriptors,
+   toDPromptTemplateDescriptorWithTemplate,
+} from "./prompt.template.mapper";
+import { TemplateEngine } from "./template.engine";
 
 type DGetPromptTemplatesDescriptorsParams = {
    search?: string;
@@ -25,7 +32,58 @@ export class PromptTemplateService {
       return toDPromptTemplateDescriptors(data);
    }
 
+   async getPromptTemplateDescriptorWithTemplate(
+      id: string
+   ): Promise<DPromptTemplateDescriptorWithTemplate | null> {
+      const data =
+         await this.repository.pGetPromptTemplateDescriptorWithTemplate(id);
+      if (data) {
+         return toDPromptTemplateDescriptorWithTemplate(data);
+      }
+      return null;
+   }
+
    async getPromptTemplateCategories(): Promise<DPromptTemplateCategory[]> {
       return await this.repository.pGetPromptTemplateCategories();
+   }
+
+   async composePromptFromTemplate(
+      descriptorId: string,
+      fieldValues: DPromptTemplateFieldValues
+   ): Promise<DPromptUpdate> {
+      const descriptor =
+         await this.getPromptTemplateDescriptorWithTemplate(descriptorId);
+
+      if (!descriptor) {
+         throw new Error(
+            `PromptTemplateDescriptor with id ${descriptorId}not found `
+         );
+      }
+
+      const { promptTemplate } = descriptor;
+
+      const validation = TemplateEngine.validate(
+         promptTemplate.fields,
+         fieldValues
+      );
+
+      if (!validation.valid) {
+         throw new Error(
+            `Provided template fields are invalid: ${JSON.stringify(validation.errors)}`
+         );
+      }
+
+      const content = TemplateEngine.replace(
+         promptTemplate.promptText,
+         fieldValues
+      );
+
+      return {
+         content: content,
+         title: descriptor.title,
+         recommendedModel: descriptor.recommendedModel,
+         categories: descriptor.categories.map((cat) => cat.name),
+         followUpPrompts: [],
+      };
    }
 }

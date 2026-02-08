@@ -2,18 +2,20 @@ import { map } from "es-toolkit/compat";
 
 import {
    PromptTemplateDescriptorWithCategories,
-   PromptTemplateDescriptorWithPrompt,
+   PromptTemplateDescriptorWithTemplate,
+   PromptTemplateWithFields,
 } from "@/data/types/db/prompt.template";
 import {
    DPromptTemplate,
    DPromptTemplateDescriptor,
-   DPromptTemplateDescriptorWithPrompt,
+   DPromptTemplateDescriptorWithTemplate,
+   DPromptTemplateField,
 } from "@/data/types/domain/prompt.template";
-import { PromptTemplate } from "@/generated/prisma/client";
+import { PromptTemplateField } from "@/generated/prisma/client";
 
-export const toDPromptTemplateDescriptorWithPrompt = (
-   desciptor: PromptTemplateDescriptorWithPrompt
-): DPromptTemplateDescriptorWithPrompt => {
+export const toDPromptTemplateDescriptorWithTemplate = (
+   desciptor: PromptTemplateDescriptorWithTemplate
+): DPromptTemplateDescriptorWithTemplate => {
    const dDescriptor = toDPromptTemplateDescriptor(desciptor);
    const promptTemplate = toDPromptTemplate(desciptor.promptTemplate);
    return {
@@ -43,12 +45,36 @@ export const toDPromptTemplateDescriptor = (
    };
 };
 
-export const toDPromptTemplate = (prompt: PromptTemplate): DPromptTemplate => {
+export const toDPromptTemplate = (
+   prompt: PromptTemplateWithFields
+): DPromptTemplate => {
    return {
       id: prompt.id,
       promptText: prompt.promptText,
       detailedDescription: prompt.detailedDescription,
+      fields: toDTemplateFields(prompt.fields),
       updatedAt: prompt.updatedAt.toISOString(),
       createdAt: prompt.createdAt.toISOString(),
    };
 };
+
+export const toDTemplateFields = (
+   fields: PromptTemplateField[]
+): DPromptTemplateField[] => {
+   return map(fields, toDTemplateField).sort((a, b) => a.order - b.order);
+};
+
+export const toDTemplateField = (
+   field: PromptTemplateField
+): DPromptTemplateField => ({
+   id: field.id,
+   promptTemplateId: field.promptTemplateId,
+   name: field.name,
+   label: field.label,
+   description: field.description,
+   type: field.type,
+   required: field.required,
+   order: field.order,
+   defaultValue: field.defaultValue,
+   options: field.options as string[] | undefined,
+});

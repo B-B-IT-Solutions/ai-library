@@ -49,7 +49,11 @@ export class LibraryRepository {
             templateDescriptor: {
                include: {
                   categories: true,
-                  promptTemplate: true,
+                  promptTemplate: {
+                     include: {
+                        fields: true,
+                     },
+                  },
                },
             },
          },

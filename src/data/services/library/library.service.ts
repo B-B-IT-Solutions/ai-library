@@ -6,13 +6,14 @@ import {
    GetLibraryEntryParams,
    LibraryRepository,
 } from "@/data/repositories/library";
-import { PromptService } from "@/data/services/prompt";
+import { PromptService, PromptTemplateService } from "@/data/services/prompt";
 import { OrderProducts } from "@/data/types/db/order";
 import {
    DLibraryEntry,
    DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
+import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 
 import {
    toDLibraryEntries,
@@ -22,13 +23,16 @@ import {
 export class LibraryService {
    private libraryRepository: LibraryRepository;
    private promptService: PromptService;
+   private promptTemplateService: PromptTemplateService;
 
    constructor(
       libraryRepository: LibraryRepository,
-      promptService: PromptService
+      promptService: PromptService,
+      promptTemplateService: PromptTemplateService
    ) {
       this.libraryRepository = libraryRepository;
       this.promptService = promptService;
+      this.promptTemplateService = promptTemplateService;
    }
 
    async getLibraryEntries(): Promise<DLibraryEntry[]> {
@@ -103,6 +107,32 @@ export class LibraryService {
       };
 
       await this.promptService.createPrompt(promptData);
+   }
+
+   async composePromptFromTemplate(
+      templateDescriptorId: string,
+      fieldValues: DPromptTemplateFieldValues
+   ): Promise<DPromptUpdate> {
+      if (!isValidUuid(templateDescriptorId)) {
+         throw new Error("Invalid template ID.");
+      }
+
+      const user = await requireUser();
+
+      const params: GetLibraryEntryParams = {
+         templateDescriptorId,
+         userId: user.id,
+      };
+      const entry = await this.libraryRepository.pGetLibraryEntry(params);
+
+      if (!entry) {
+         throw new Error("Template not found");
+      }
+
+      return await this.promptTemplateService.composePromptFromTemplate(
+         entry.templateDescriptorId,
+         fieldValues
+      );
    }
 
    async downloadPromptTemplate(templateDescriptorId: string): Promise<string> {

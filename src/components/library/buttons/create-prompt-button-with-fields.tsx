@@ -1,0 +1,117 @@
+"use client";
+
+import { FC, useState, useTransition } from "react";
+import { Loader, Plus } from "lucide-react";
+import { toast } from "sonner";
+
+import { CreatePromptDialog } from "@/components/prompts";
+import { Button } from "@/components/shadcn/button";
+import { composePromptFromTemplate } from "@/data/actions/library";
+import { DPromptUpdate } from "@/data/types/domain/prompt";
+import {
+   DPromptTemplateDescriptorWithTemplate,
+   DPromptTemplateFieldValues,
+} from "@/data/types/domain/prompt.template";
+import { cn } from "@/lib/utils";
+
+type Props = {
+   descriptor: DPromptTemplateDescriptorWithTemplate;
+   className?: string;
+};
+
+type Mode = "fields-form" | "review";
+
+export const CreatePromptButton: FC<Props> = ({ descriptor, className }) => {
+   const [isPending, startTransition] = useTransition();
+   const [mode, setMode] = useState<Mode | null>(null);
+   const [generatedPrompt, setGeneratedPrompt] = useState<DPromptUpdate | null>(
+      null
+   );
+
+   const hasFields = descriptor.promptTemplate.fields.length > 0;
+
+   const handleCreate = async () => {
+      if (!hasFields) {
+         await composePrompt({});
+      } else {
+         setMode("fields-form");
+      }
+   };
+
+   const handleCancel = () => {
+      setMode(null);
+      setGeneratedPrompt(null);
+   };
+
+   const composePrompt = async (values: DPromptTemplateFieldValues) => {
+      startTransition(async () => {
+         const result = await composePromptFromTemplate(descriptor.id, values);
+         if (result.success && result.data) {
+            setMode("review");
+            setGeneratedPrompt(result.data);
+         } else {
+            toast.error(result.message);
+         }
+      });
+   };
+
+   const dialog = () => {
+      if (mode === "review" && generatedPrompt) {
+         return (
+            <CreatePromptDialog
+               onSubmit={composePrompt}
+               onCancel={handleCancel}
+               mode="review"
+               promptUpdate={generatedPrompt}
+            />
+         );
+      }
+      if (mode === "fields-form" && descriptor) {
+         return (
+            <CreatePromptDialog
+               onSubmit={composePrompt}
+               onCancel={handleCancel}
+               mode="fields-form"
+               descriptor={descriptor}
+            />
+         );
+      }
+   };
+
+   const label = () => {
+      if (isPending) {
+         return (
+            <>
+               <Loader className="mr-1.5 h-4 w-4 animate-spin" />
+               <span>Erstellen...</span>
+            </>
+         );
+      }
+
+      return (
+         <>
+            <Plus className="mr-1.5 h-4 w-4" />
+            <span>Prompt erstellen</span>
+         </>
+      );
+   };
+
+   return (
+      <>
+         <Button
+            variant="default"
+            size="sm"
+            onClick={handleCreate}
+            disabled={isPending}
+            className={cn(
+               "cursor-pointer bg-blue-600 text-white hover:bg-blue-700",
+               className
+            )}
+            data-testid="create-prompt-btn"
+         >
+            {label()}
+         </Button>
+         {dialog()}
+      </>
+   );
+};

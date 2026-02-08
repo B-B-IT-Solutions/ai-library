@@ -3,27 +3,29 @@ import { map } from "es-toolkit/compat";
 
 import {
    PromptTemplateDescriptorWithCategories,
-   PromptTemplateDescriptorWithPrompt,
+   PromptTemplateDescriptorWithTemplate,
+   PromptTemplateWithFields,
 } from "@/data/types/db/prompt.template";
 import {
    DPromptTemplate,
    DPromptTemplateDescriptor,
-   DPromptTemplateDescriptorWithPrompt,
+   DPromptTemplateDescriptorWithTemplate,
+   DPromptTemplateField,
 } from "@/data/types/domain/prompt.template";
-import { PromptTemplate } from "@/generated/prisma/client";
+import { PromptTemplateField } from "@/generated/prisma/client";
 
 import {
    toDPromptTemplate,
    toDPromptTemplateDescriptor,
    toDPromptTemplateDescriptors,
-   toDPromptTemplateDescriptorWithPrompt,
+   toDPromptTemplateDescriptorWithTemplate,
 } from "./prompt.template.mapper";
 
-const toDPromptTemplateDescriptorWithPromptInternal = (
-   desciptor: PromptTemplateDescriptorWithPrompt
-): DPromptTemplateDescriptorWithPrompt => {
-   const dDescriptor = toDPromptTemplateDescriptor(desciptor);
-   const promptTemplate = toDPromptTemplate(desciptor.promptTemplate);
+const toDPromptTemplateDescriptorWithTemplateInternal = (
+   desciptor: PromptTemplateDescriptorWithTemplate
+): DPromptTemplateDescriptorWithTemplate => {
+   const dDescriptor = toDPromptTemplateDescriptorInternal(desciptor);
+   const promptTemplate = toDPromptTemplateInternal(desciptor.promptTemplate);
    return {
       ...dDescriptor,
       promptTemplate,
@@ -51,15 +53,41 @@ const toDPromptTemplateDescriptorInternal = (
    };
 };
 
-const toDPromptTemplateInternal = (prompt: PromptTemplate): DPromptTemplate => {
+const toDPromptTemplateInternal = (
+   prompt: PromptTemplateWithFields
+): DPromptTemplate => {
    return {
       id: prompt.id,
       promptText: prompt.promptText,
       detailedDescription: prompt.detailedDescription,
+      fields: toDTemplateFieldsInternal(prompt.fields),
       updatedAt: prompt.updatedAt.toISOString(),
       createdAt: prompt.createdAt.toISOString(),
    };
 };
+
+export const toDTemplateFieldsInternal = (
+   fields: PromptTemplateField[]
+): DPromptTemplateField[] => {
+   return map(fields, toDTemplateFieldInternal).sort(
+      (a, b) => a.order - b.order
+   );
+};
+
+export const toDTemplateFieldInternal = (
+   field: PromptTemplateField
+): DPromptTemplateField => ({
+   id: field.id,
+   promptTemplateId: field.promptTemplateId,
+   name: field.name,
+   label: field.label,
+   description: field.description,
+   type: field.type,
+   required: field.required,
+   order: field.order,
+   defaultValue: field.defaultValue,
+   options: field.options as string[] | undefined,
+});
 
 describe("prompt.template mappers tests", () => {
    beforeEach(() => {
@@ -68,9 +96,9 @@ describe("prompt.template mappers tests", () => {
 
    it("toDPromptTemplateDescriptorWithPrompt test", async () => {
       const descriptor = ptestData.pPromptTemplateDescriptorWithPrompt();
-      const result = toDPromptTemplateDescriptorWithPrompt(descriptor);
+      const result = toDPromptTemplateDescriptorWithTemplate(descriptor);
       const expectedResult =
-         toDPromptTemplateDescriptorWithPromptInternal(descriptor);
+         toDPromptTemplateDescriptorWithTemplateInternal(descriptor);
       expect(result).toEqual(expectedResult);
    });
 
