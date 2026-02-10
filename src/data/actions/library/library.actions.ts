@@ -4,7 +4,10 @@ import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
-import { DLibraryEntry } from "@/data/types/domain/library";
+import {
+   DLibraryEntry,
+   DLibraryEntryWithPromptTemplate,
+} from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
@@ -16,7 +19,7 @@ export const getLibraryEntries = async (): Promise<DLibraryEntry[]> => {
 
 export const getLibraryEntry = async (
    entryId: string
-): Promise<DLibraryEntry | null> => {
+): Promise<DLibraryEntryWithPromptTemplate | null> => {
    try {
       const service = getLibrarySevice();
       return await service.getLibraryEntry(entryId);
