@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { map } from "es-toolkit/compat";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -243,6 +244,12 @@ export const TemplateFieldForm = ({ fields, onSubmit, onCancel }: Props) => {
       }
    };
 
+   const renderFields = () => {
+      return map(fields, (field) => {
+         return <div key={field.id}>{renderField(field)}</div>;
+      });
+   };
+
    return (
       <Form {...form}>
          <form
@@ -250,10 +257,7 @@ export const TemplateFieldForm = ({ fields, onSubmit, onCancel }: Props) => {
             className="space-y-4"
             data-testid="prompt-template-fields-form"
          >
-            {fields.map((field) => (
-               <div key={field.id}>{renderField(field)}</div>
-            ))}
-
+            {renderFields()}
             <div className="flex justify-end gap-2">
                <Button
                   type="button"
