@@ -3,6 +3,7 @@
 import { FC } from "react";
 import { X } from "lucide-react";
 
+import { TemplateFieldForm } from "@/components/prompt-templates";
 import {
    Dialog,
    DialogClose,
@@ -18,7 +19,6 @@ import {
 } from "@/data/types/domain/prompt.template";
 
 import { PromptEdit } from "./prompt-edit";
-import { TemplateFieldForm } from "./template-field-form";
 
 type Props = {
    onSubmit: (values: DPromptTemplateFieldValues) => void;

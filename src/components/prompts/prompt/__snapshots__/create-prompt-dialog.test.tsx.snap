@@ -85,20 +85,27 @@ exports[`CreatePromptDialog rendering tests CreatePromptDialog - mode fields-for
               <div
                 class="grid gap-2"
                 data-slot="form-item"
+                data-testid="field-0-field"
               >
                 <label
-                  class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+                  class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
                   data-error="false"
                   data-slot="form-label"
                   for="_r_0_-form-item"
                 >
                   label 0
-                   
-                  *
+                  <span
+                    class="text-destructive"
+                  >
+                    *
+                  </span>
                 </label>
                 <p
-                  class="text-sm text-muted-foreground"
+                  class="text-muted-foreground text-sm"
+                  data-slot="form-description"
+                  id="_r_0_-form-item-description"
                 >
+                   
                   description 0
                 </p>
                 <button
@@ -171,20 +178,27 @@ exports[`CreatePromptDialog rendering tests CreatePromptDialog - mode fields-for
               <div
                 class="grid gap-2"
                 data-slot="form-item"
+                data-testid="field-1-field"
               >
                 <label
-                  class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+                  class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
                   data-error="false"
                   data-slot="form-label"
                   for="_r_2_-form-item"
                 >
                   label 1
-                   
-                  *
+                  <span
+                    class="text-destructive"
+                  >
+                    *
+                  </span>
                 </label>
                 <p
-                  class="text-sm text-muted-foreground"
+                  class="text-muted-foreground text-sm"
+                  data-slot="form-description"
+                  id="_r_2_-form-item-description"
                 >
+                   
                   description 1
                 </p>
                 <button
@@ -257,20 +271,27 @@ exports[`CreatePromptDialog rendering tests CreatePromptDialog - mode fields-for
               <div
                 class="grid gap-2"
                 data-slot="form-item"
+                data-testid="field-2-field"
               >
                 <label
-                  class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+                  class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
                   data-error="false"
                   data-slot="form-label"
                   for="_r_4_-form-item"
                 >
                   label 2
-                   
-                  *
+                  <span
+                    class="text-destructive"
+                  >
+                    *
+                  </span>
                 </label>
                 <p
-                  class="text-sm text-muted-foreground"
+                  class="text-muted-foreground text-sm"
+                  data-slot="form-description"
+                  id="_r_4_-form-item-description"
                 >
+                   
                   description 2
                 </p>
                 <button

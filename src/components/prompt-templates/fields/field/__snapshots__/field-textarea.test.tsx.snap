@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`TextAreaField rendering tests TextAreaField - required false - test 1`] = `
+<div>
+  <div
+    class="grid gap-2"
+    data-slot="form-item"
+    data-testid="name-1-field"
+  >
+    <label
+      class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
+      data-error="false"
+      data-slot="form-label"
+      for="_r_0_-form-item"
+    >
+      Test TextArea
+    </label>
+    <p
+      class="text-muted-foreground text-sm"
+      data-slot="form-description"
+      id="_r_0_-form-item-description"
+    >
+       
+      This is a test description
+    </p>
+    <textarea
+      aria-describedby="_r_0_-form-item-description"
+      aria-invalid="false"
+      class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+      data-slot="form-control"
+      id="_r_0_-form-item"
+      name="name-1"
+      rows="4"
+    />
+  </div>
+</div>
+`;
+
+exports[`TextAreaField rendering tests TextAreaField - required true - test 1`] = `
+<div>
+  <div
+    class="grid gap-2"
+    data-slot="form-item"
+    data-testid="name-1-field"
+  >
+    <label
+      class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
+      data-error="false"
+      data-slot="form-label"
+      for="_r_1_-form-item"
+    >
+      Test TextArea
+      <span
+        class="text-destructive"
+      >
+        *
+      </span>
+    </label>
+    <p
+      class="text-muted-foreground text-sm"
+      data-slot="form-description"
+      id="_r_1_-form-item-description"
+    >
+       
+      This is a test description
+    </p>
+    <textarea
+      aria-describedby="_r_1_-form-item-description"
+      aria-invalid="false"
+      class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+      data-slot="form-control"
+      id="_r_1_-form-item"
+      name="name-1"
+      rows="4"
+    />
+  </div>
+</div>
+`;

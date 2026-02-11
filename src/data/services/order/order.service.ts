@@ -1,7 +1,5 @@
 import { map } from "es-toolkit/compat";
-import { validate as isValidUuid } from "uuid";
 
-import { requireUser } from "@/data/actions/auth-utils";
 import { OrderRepository, OrderUpdate } from "@/data/repositories/order";
 import { CartService } from "@/data/services/cart";
 import { LibraryService } from "@/data/services/library";
@@ -29,31 +27,17 @@ export class OrderService {
       this.libraryService = libraryService;
    }
 
-   async getOrders(): Promise<DOrder[]> {
-      try {
-         const user = await requireUser();
-         const orders = await this.orderRepository.pGetOrders(user.id);
-         return toDOrdersWithItems(orders);
-      } catch {
-         return [];
-      }
+   async getOrders(userId: string): Promise<DOrder[]> {
+      const orders = await this.orderRepository.pGetOrders(userId);
+      return toDOrdersWithItems(orders);
    }
 
-   async getOrder(orderId: string): Promise<DOrder | null> {
-      try {
-         const user = await requireUser();
-
-         if (!isValidUuid(orderId)) {
-            return null;
-         }
-         const order = await this.orderRepository.pGetOrder(orderId);
-         if (!order || order.userId !== user.id) {
-            return null;
-         }
+   async getOrder(orderId: string, userId: string): Promise<DOrder | null> {
+      const order = await this.orderRepository.pGetOrder(orderId, userId);
+      if (order) {
          return toDOrderWithItems(order);
-      } catch {
-         return null;
       }
+      return null;
    }
 
    async createOrder(userId: string, cart: DCart): Promise<DOrder> {
