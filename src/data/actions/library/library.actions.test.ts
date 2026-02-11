@@ -1,4 +1,5 @@
 jest.mock("@/data/services/library");
+jest.mock("@/data/actions/auth-utils");
 
 import { dtestData } from "@tests";
 
@@ -6,6 +7,7 @@ import { LibraryService } from "@/data/services/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
+import { requireUser } from "../auth-utils";
 
 import {
    composePromptFromTemplate,
@@ -13,6 +15,8 @@ import {
    getLibraryEntries,
    getLibraryEntry,
 } from "./library.actions";
+
+const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
 const sGetLibraryEntries = LibraryService.prototype.getLibraryEntries;
 const sgetLibraryEntry = LibraryService.prototype.getLibraryEntry;
@@ -104,8 +108,44 @@ describe("composePromptFromTemplate tests", () => {
       jest.clearAllMocks();
    });
 
+   it("composePromptFromTemplate - invalid UUID - test", async () => {
+      const invalidId = "invalid-uuid-1";
+      const fieldValues: DPromptTemplateFieldValues = { field1: "value1" };
+
+      const result = await composePromptFromTemplate(invalidId, fieldValues);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Invalid template ID.",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sComposePromptFromTemplateMock).not.toHaveBeenCalled();
+   });
+
+   it("composePromptFromTemplate - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      const templateId = "123e4567-e89b-12d3-a456-426614174000";
+      const fieldValues: DPromptTemplateFieldValues = { field1: "value1" };
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await composePromptFromTemplate(templateId, fieldValues);
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Unknow user",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sComposePromptFromTemplateMock).not.toHaveBeenCalled();
+   });
+
    it("composePromptFromTemplate - success - test", async () => {
-      const templateId = "template-id-1";
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const templateId = "123e4567-e89b-12d3-a456-426614174000";
       const fieldValues: DPromptTemplateFieldValues = {
          name: "User-1 Name",
          email: "test1@email.com",
@@ -125,12 +165,16 @@ describe("composePromptFromTemplate tests", () => {
       expect(sComposePromptFromTemplateMock).toHaveBeenCalledTimes(1);
       expect(sComposePromptFromTemplateMock).toHaveBeenCalledWith(
          templateId,
-         fieldValues
+         fieldValues,
+         user.id
       );
    });
 
    it("composePromptFromTemplate - error - test", async () => {
-      const templateId = "template-id-1";
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const templateId = "123e4567-e89b-12d3-a456-426614174000";
       const fieldValues: DPromptTemplateFieldValues = {
          name: "User-1 Name",
          email: "invalid-email",
@@ -149,7 +193,8 @@ describe("composePromptFromTemplate tests", () => {
       expect(sComposePromptFromTemplateMock).toHaveBeenCalledTimes(1);
       expect(sComposePromptFromTemplateMock).toHaveBeenCalledWith(
          templateId,
-         fieldValues
+         fieldValues,
+         user.id
       );
    });
 });

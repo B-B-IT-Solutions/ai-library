@@ -79,18 +79,13 @@ export class LibraryService {
    }
 
    async composePromptFromTemplate(
-      templateDescriptorId: string,
-      fieldValues: DPromptTemplateFieldValues
+      descriptorId: string,
+      fieldValues: DPromptTemplateFieldValues,
+      userId: string
    ): Promise<DPromptUpdate> {
-      if (!isValidUuid(templateDescriptorId)) {
-         throw new Error("Invalid template ID.");
-      }
-
-      const user = await requireUser();
-
       const params: GetLibraryEntryParams = {
-         templateDescriptorId,
-         userId: user.id,
+         templateDescriptorId: descriptorId,
+         userId,
       };
       const entry = await this.libraryRepository.pGetLibraryEntry(params);
 

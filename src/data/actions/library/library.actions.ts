@@ -1,5 +1,8 @@
 "use server";
 
+import { validate as isValidUuid } from "uuid";
+
+import { requireUser } from "@/data/actions/auth-utils";
 import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
@@ -30,14 +33,21 @@ export const getLibraryEntry = async (
 };
 
 export const composePromptFromTemplate = async (
-   templateId: string,
+   descriptorId: string,
    fieldValues: DPromptTemplateFieldValues
 ): Promise<ActionResult<DPromptUpdate>> => {
    try {
+      if (!isValidUuid(descriptorId)) {
+         throw new Error("Invalid template ID.");
+      }
+
+      const user = await requireUser();
+
       const service = getLibrarySevice();
       const promptData = await service.composePromptFromTemplate(
-         templateId,
-         fieldValues
+         descriptorId,
+         fieldValues,
+         user.id
       );
       return {
          success: true,

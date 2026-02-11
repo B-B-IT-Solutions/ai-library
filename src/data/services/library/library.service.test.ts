@@ -238,61 +238,25 @@ describe("composePromptFromTemplate tests", () => {
       jest.clearAllMocks();
    });
 
-   it("composePromptFromTemplate - invalid UUID - test", async () => {
-      const invalidId = "invalid-uuid";
-      const fieldValues: DPromptTemplateFieldValues = { field1: "value1" };
-
-      const fn = async () =>
-         await libraryService.composePromptFromTemplate(invalidId, fieldValues);
-
-      await expect(fn).rejects.toThrow("Invalid template ID.");
-      expect(requireUserMock).not.toHaveBeenCalled();
-      expect(libraryRepoMock.pGetLibraryEntry).not.toHaveBeenCalled();
-      expect(
-         promptTemplateServiceMock.composePromptFromTemplate
-      ).not.toHaveBeenCalled();
-   });
-
-   it("composePromptFromTemplate - user undefined - test", async () => {
-      const error = new Error("Unknow user");
-      const templateDescriptorId = "123e4567-e89b-12d3-a456-426614174000";
-      const fieldValues: DPromptTemplateFieldValues = { field1: "value1" };
-      requireUserMock.mockRejectedValue(error);
-
-      const fn = async () =>
-         await libraryService.composePromptFromTemplate(
-            templateDescriptorId,
-            fieldValues
-         );
-
-      await expect(fn).rejects.toThrow(error);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntry).not.toHaveBeenCalled();
-      expect(
-         promptTemplateServiceMock.composePromptFromTemplate
-      ).not.toHaveBeenCalled();
-   });
-
    it("composePromptFromTemplate - template not found - test", async () => {
-      const user = dtestData.dLoginUser();
+      const userId = "user-id-1";
       const templateDescriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const fieldValues: DPromptTemplateFieldValues = { field1: "value1" };
-      requireUserMock.mockResolvedValue(user);
       libraryRepoMock.pGetLibraryEntry.mockResolvedValue(null);
 
       const fn = async () =>
          await libraryService.composePromptFromTemplate(
             templateDescriptorId,
-            fieldValues
+            fieldValues,
+            userId
          );
 
       const expectedGetEntryPayload: GetLibraryEntryParams = {
          templateDescriptorId,
-         userId: user.id,
+         userId,
       };
 
       await expect(fn).rejects.toThrow("Template not found");
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
          expectedGetEntryPayload
@@ -303,7 +267,7 @@ describe("composePromptFromTemplate tests", () => {
    });
 
    it("composePromptFromTemplate - prompt composed - test", async () => {
-      const user = dtestData.dLoginUser();
+      const userId = "user-id-1";
       const entry = ptestData.pLibraryEntryWithPromptTemplate();
       const templateDescriptorId = entry.templateDescriptorId;
       const fieldValues: DPromptTemplateFieldValues = {
@@ -318,7 +282,6 @@ describe("composePromptFromTemplate tests", () => {
          followUpPrompts: [],
       };
 
-      requireUserMock.mockResolvedValue(user);
       libraryRepoMock.pGetLibraryEntry.mockResolvedValue(entry);
       promptTemplateServiceMock.composePromptFromTemplate.mockResolvedValue(
          expectedPromptUpdate
@@ -326,16 +289,16 @@ describe("composePromptFromTemplate tests", () => {
 
       const result = await libraryService.composePromptFromTemplate(
          templateDescriptorId,
-         fieldValues
+         fieldValues,
+         userId
       );
 
       const expectedGetEntryPayload: GetLibraryEntryParams = {
          templateDescriptorId,
-         userId: user.id,
+         userId,
       };
 
       expect(result).toEqual(expectedPromptUpdate);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
          expectedGetEntryPayload
