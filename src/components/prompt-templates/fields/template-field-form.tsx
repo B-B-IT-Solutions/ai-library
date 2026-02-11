@@ -23,12 +23,13 @@ import {
    SelectTrigger,
    SelectValue,
 } from "@/components/shadcn/select";
-import { Textarea } from "@/components/shadcn/textarea";
 import { CallbackFn } from "@/data/types/common";
 import {
    DPromptTemplateField,
    DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
+
+import { FieldTextArea } from "./field-textarea";
 
 type Props = {
    fields: DPromptTemplateField[];
@@ -87,26 +88,27 @@ export const TemplateFieldForm = ({ fields, onSubmit, onCancel }: Props) => {
       switch (field.type) {
          case "TEXTAREA":
             return (
-               <FormField
-                  control={form.control}
-                  name={field.name}
-                  render={({ field: formField }) => (
-                     <FormItem>
-                        <FormLabel>
-                           {field.label} {field.required && "*"}
-                        </FormLabel>
-                        {field.description && (
-                           <p className="text-sm text-muted-foreground">
-                              {field.description}
-                           </p>
-                        )}
-                        <FormControl>
-                           <Textarea {...formField} rows={4} />
-                        </FormControl>
-                        <FormMessage />
-                     </FormItem>
-                  )}
-               />
+               // <FormField
+               //    control={form.control}
+               //    name={field.name}
+               //    render={({ field: formField }) => (
+               //       <FormItem>
+               //          <FormLabel>
+               //             {field.label} {field.required && "*"}
+               //          </FormLabel>
+               //          {field.description && (
+               //             <p className="text-sm text-muted-foreground">
+               //                {field.description}
+               //             </p>
+               //          )}
+               //          <FormControl>
+               //             <Textarea {...formField} rows={4} />
+               //          </FormControl>
+               //          <FormMessage />
+               //       </FormItem>
+               //    )}
+               // />
+               <FieldTextArea field={field} control={form.control} />
             );
 
          case "SELECT":
