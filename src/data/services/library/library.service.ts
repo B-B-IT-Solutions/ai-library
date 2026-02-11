@@ -6,7 +6,7 @@ import {
    GetLibraryEntryParams,
    LibraryRepository,
 } from "@/data/repositories/library";
-import { PromptService, PromptTemplateService } from "@/data/services/prompt";
+import { PromptTemplateService } from "@/data/services/prompt";
 import { OrderProducts } from "@/data/types/db/order";
 import {
    DLibraryEntry,
@@ -22,16 +22,13 @@ import {
 
 export class LibraryService {
    private libraryRepository: LibraryRepository;
-   private promptService: PromptService;
    private promptTemplateService: PromptTemplateService;
 
    constructor(
       libraryRepository: LibraryRepository,
-      promptService: PromptService,
       promptTemplateService: PromptTemplateService
    ) {
       this.libraryRepository = libraryRepository;
-      this.promptService = promptService;
       this.promptTemplateService = promptTemplateService;
    }
 

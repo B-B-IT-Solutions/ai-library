@@ -46,7 +46,6 @@ export class ServiceFactory {
       if (!this.libraryService) {
          this.libraryService = new LibraryService(
             this.repositories.libraryRepository(),
-            this.getPromptService(),
             this.getPromptTemplateService()
          );
       }

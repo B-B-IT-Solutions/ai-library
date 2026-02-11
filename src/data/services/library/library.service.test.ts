@@ -13,7 +13,7 @@ import {
 } from "@/data/repositories/library";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
-import { PromptService, PromptTemplateService } from "@/data/services/prompt";
+import { PromptTemplateService } from "@/data/services/prompt";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 
@@ -26,10 +26,8 @@ import { LibraryService } from "./library.service";
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
 const serviceFactory = new ServiceFactory(prisma);
-const promptService = serviceFactory.getPromptService();
 const promptTemplateService = serviceFactory.getPromptTemplateService();
 
-const promptServiceMock = promptService as DeepMockProxy<PromptService>;
 const promptTemplateServiceMock =
    promptTemplateService as DeepMockProxy<PromptTemplateService>;
 
@@ -38,7 +36,6 @@ const libraryRepoMock = libraryRepo as DeepMockProxy<LibraryRepository>;
 
 const libraryService = new LibraryService(
    libraryRepoMock,
-   promptServiceMock,
    promptTemplateServiceMock
 );
 
