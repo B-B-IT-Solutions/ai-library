@@ -3,11 +3,11 @@ jest.mock("@/data/actions/auth-utils");
 
 import { dtestData } from "@tests";
 
+import { requireUser } from "@/data/actions/auth-utils";
 import { LibraryService } from "@/data/services/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
-import { requireUser } from "../auth-utils";
 
 import {
    composePromptFromTemplate,

@@ -56,14 +56,18 @@ describe("pGetOrder tests", () => {
    });
 
    test("pGetOrder test", async () => {
+      const userId = "user-id-1";
       const orderId = "order-id-1";
       const order = ptestData.pOrderWithItems();
       prismaMock.order.findUnique.mockResolvedValue(order);
 
-      const result = await orderRepository.pGetOrder(orderId);
+      const result = await orderRepository.pGetOrder(orderId, userId);
 
       const expectedFindUniqueArgs: OrderFindUniqueArgs = {
-         where: { id: orderId },
+         where: {
+            id: orderId,
+            userId,
+         },
          include: {
             items: true,
          },

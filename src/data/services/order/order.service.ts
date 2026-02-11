@@ -1,5 +1,4 @@
 import { map } from "es-toolkit/compat";
-import { validate as isValidUuid } from "uuid";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { OrderRepository, OrderUpdate } from "@/data/repositories/order";
@@ -39,18 +38,13 @@ export class OrderService {
       }
    }
 
-   async getOrder(orderId: string): Promise<DOrder | null> {
+   async getOrder(orderId: string, userId: string): Promise<DOrder | null> {
       try {
-         const user = await requireUser();
-
-         if (!isValidUuid(orderId)) {
-            return null;
+         const order = await this.orderRepository.pGetOrder(orderId, userId);
+         if (order) {
+            return toDOrderWithItems(order);
          }
-         const order = await this.orderRepository.pGetOrder(orderId);
-         if (!order || order.userId !== user.id) {
-            return null;
-         }
-         return toDOrderWithItems(order);
+         return null;
       } catch {
          return null;
       }

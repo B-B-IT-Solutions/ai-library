@@ -30,9 +30,15 @@ export class OrderRepository {
       });
    }
 
-   async pGetOrder(orderId: string): Promise<OrderWithItems | null> {
+   async pGetOrder(
+      orderId: string,
+      userId: string
+   ): Promise<OrderWithItems | null> {
       return await this.prisma.order.findUnique({
-         where: { id: orderId },
+         where: {
+            id: orderId,
+            userId,
+         },
          include: {
             items: true,
          },
