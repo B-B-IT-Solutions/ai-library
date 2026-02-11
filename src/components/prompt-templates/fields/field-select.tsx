@@ -10,7 +10,13 @@ import {
    FormLabel,
    FormMessage,
 } from "@/components/shadcn/form";
-import { Textarea } from "@/components/shadcn/textarea";
+import {
+   Select,
+   SelectContent,
+   SelectItem,
+   SelectTrigger,
+   SelectValue,
+} from "@/components/shadcn/select";
 import { DPromptTemplateField } from "@/data/types/domain/prompt.template";
 
 type Props = {
@@ -18,7 +24,7 @@ type Props = {
    control: Control<FieldValues>;
 };
 
-export const TextAreaField: FC<Props> = ({ field, control }) => {
+export const SelectField: FC<Props> = ({ field, control }) => {
    return (
       <FormField
          control={control}
@@ -33,9 +39,23 @@ export const TextAreaField: FC<Props> = ({ field, control }) => {
                      {field.description}
                   </p>
                )}
-               <FormControl>
-                  <Textarea {...formField} rows={4} />
-               </FormControl>
+               <Select
+                  onValueChange={formField.onChange}
+                  defaultValue={formField.value}
+               >
+                  <FormControl>
+                     <SelectTrigger>
+                        <SelectValue placeholder="Auswählen..." />
+                     </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                     {field.options?.map((option) => (
+                        <SelectItem key={option} value={option}>
+                           {option}
+                        </SelectItem>
+                     ))}
+                  </SelectContent>
+               </Select>
                <FormMessage />
             </FormItem>
          )}

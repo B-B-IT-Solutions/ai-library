@@ -6,30 +6,18 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/shadcn/button";
-import { Checkbox } from "@/components/shadcn/checkbox";
-import {
-   Form,
-   FormControl,
-   FormField,
-   FormItem,
-   FormLabel,
-   FormMessage,
-} from "@/components/shadcn/form";
-import { Input } from "@/components/shadcn/input";
-import {
-   Select,
-   SelectContent,
-   SelectItem,
-   SelectTrigger,
-   SelectValue,
-} from "@/components/shadcn/select";
+import { Form } from "@/components/shadcn/form";
 import { CallbackFn } from "@/data/types/common";
 import {
    DPromptTemplateField,
    DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
 
-import { FieldTextArea } from "./field-textarea";
+import { CheckBoxField } from "./field-check-box";
+import { GenericField } from "./field-generic";
+import { RadioField } from "./field-radio";
+import { SelectField } from "./field-select";
+import { TextAreaField } from "./field-textarea";
 
 type Props = {
    fields: DPromptTemplateField[];
@@ -87,162 +75,18 @@ export const TemplateFieldForm = ({ fields, onSubmit, onCancel }: Props) => {
    const renderField = (field: DPromptTemplateField) => {
       switch (field.type) {
          case "TEXTAREA":
-            return (
-               // <FormField
-               //    control={form.control}
-               //    name={field.name}
-               //    render={({ field: formField }) => (
-               //       <FormItem>
-               //          <FormLabel>
-               //             {field.label} {field.required && "*"}
-               //          </FormLabel>
-               //          {field.description && (
-               //             <p className="text-sm text-muted-foreground">
-               //                {field.description}
-               //             </p>
-               //          )}
-               //          <FormControl>
-               //             <Textarea {...formField} rows={4} />
-               //          </FormControl>
-               //          <FormMessage />
-               //       </FormItem>
-               //    )}
-               // />
-               <FieldTextArea field={field} control={form.control} />
-            );
-
+            return <TextAreaField field={field} control={form.control} />;
          case "SELECT":
-            return (
-               <FormField
-                  control={form.control}
-                  name={field.name}
-                  render={({ field: formField }) => (
-                     <FormItem>
-                        <FormLabel>
-                           {field.label} {field.required && "*"}
-                        </FormLabel>
-                        {field.description && (
-                           <p className="text-sm text-muted-foreground">
-                              {field.description}
-                           </p>
-                        )}
-                        <Select
-                           onValueChange={formField.onChange}
-                           defaultValue={formField.value}
-                        >
-                           <FormControl>
-                              <SelectTrigger>
-                                 <SelectValue placeholder="Auswählen..." />
-                              </SelectTrigger>
-                           </FormControl>
-                           <SelectContent>
-                              {field.options?.map((option) => (
-                                 <SelectItem key={option} value={option}>
-                                    {option}
-                                 </SelectItem>
-                              ))}
-                           </SelectContent>
-                        </Select>
-                        <FormMessage />
-                     </FormItem>
-                  )}
-               />
-            );
-
+            return <SelectField field={field} control={form.control} />;
          case "RADIO":
-            // Use Select for RADIO since RadioGroup component doesn't exist
-            return (
-               <FormField
-                  control={form.control}
-                  name={field.name}
-                  render={({ field: formField }) => (
-                     <FormItem>
-                        <FormLabel>
-                           {field.label} {field.required && "*"}
-                        </FormLabel>
-                        {field.description && (
-                           <p className="text-sm text-muted-foreground">
-                              {field.description}
-                           </p>
-                        )}
-                        <Select
-                           onValueChange={formField.onChange}
-                           defaultValue={formField.value}
-                        >
-                           <FormControl>
-                              <SelectTrigger>
-                                 <SelectValue placeholder="Auswählen..." />
-                              </SelectTrigger>
-                           </FormControl>
-                           <SelectContent>
-                              {field.options?.map((option) => (
-                                 <SelectItem key={option} value={option}>
-                                    {option}
-                                 </SelectItem>
-                              ))}
-                           </SelectContent>
-                        </Select>
-                        <FormMessage />
-                     </FormItem>
-                  )}
-               />
-            );
-
+            return <RadioField field={field} control={form.control} />;
          case "CHECKBOX":
-            return (
-               <FormField
-                  control={form.control}
-                  name={field.name}
-                  render={({ field: formField }) => (
-                     <FormItem className="flex items-center space-x-2">
-                        <FormControl>
-                           <Checkbox
-                              checked={formField.value}
-                              onCheckedChange={formField.onChange}
-                           />
-                        </FormControl>
-                        <FormLabel className="!mt-0">{field.label}</FormLabel>
-                        {field.description && (
-                           <p className="text-sm text-muted-foreground">
-                              {field.description}
-                           </p>
-                        )}
-                        <FormMessage />
-                     </FormItem>
-                  )}
-               />
-            );
-
+            return <CheckBoxField field={field} control={form.control} />;
          case "NUMBER":
          case "DATE":
          case "EMAIL":
          case "TEXT":
-         default:
-            return (
-               <FormField
-                  control={form.control}
-                  name={field.name}
-                  render={({ field: formField }) => (
-                     <FormItem>
-                        <FormLabel>
-                           {field.label} {field.required && "*"}
-                        </FormLabel>
-                        {field.description && (
-                           <p className="text-sm text-muted-foreground">
-                              {field.description}
-                           </p>
-                        )}
-                        <FormControl>
-                           <Input
-                              type={field.type.toLowerCase()}
-                              {...formField}
-                           />
-                        </FormControl>
-                        <FormMessage />
-                     </FormItem>
-                  )}
-               />
-            );
+            return <GenericField field={field} control={form.control} />;
       }
    };
 

@@ -10,7 +10,7 @@ import {
    FormLabel,
    FormMessage,
 } from "@/components/shadcn/form";
-import { Textarea } from "@/components/shadcn/textarea";
+import { Input } from "@/components/shadcn/input";
 import { DPromptTemplateField } from "@/data/types/domain/prompt.template";
 
 type Props = {
@@ -18,7 +18,8 @@ type Props = {
    control: Control<FieldValues>;
 };
 
-export const TextAreaField: FC<Props> = ({ field, control }) => {
+export const GenericField: FC<Props> = ({ field, control }) => {
+   // Use Select for RADIO since RadioGroup component doesn't exist
    return (
       <FormField
          control={control}
@@ -34,7 +35,7 @@ export const TextAreaField: FC<Props> = ({ field, control }) => {
                   </p>
                )}
                <FormControl>
-                  <Textarea {...formField} rows={4} />
+                  <Input type={field.type.toLowerCase()} {...formField} />
                </FormControl>
                <FormMessage />
             </FormItem>
