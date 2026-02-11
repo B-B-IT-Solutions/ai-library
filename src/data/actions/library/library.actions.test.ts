@@ -41,16 +41,37 @@ const sDownloadTemplateMock = sDownloadTemplate as jest.MockedFunction<
 describe("getLibraryEntries tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("getLibraryEntries - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await getLibraryEntries();
+
+      expect(result).toEqual([]);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetLibraryEntriesMock).not.toHaveBeenCalled();
    });
 
    it("getLibraryEntries - entries retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
       const entries = dtestData.dLibraryEntries();
       sGetLibraryEntriesMock.mockResolvedValue(entries);
 
       const result = await getLibraryEntries();
 
       expect(result).toEqual(entries);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetLibraryEntriesMock).toHaveBeenCalledTimes(1);
+      expect(sGetLibraryEntriesMock).toHaveBeenCalledWith(user.id);
    });
 });
 

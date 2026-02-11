@@ -32,12 +32,10 @@ export class LibraryService {
       this.promptTemplateService = promptTemplateService;
    }
 
-   async getLibraryEntries(): Promise<DLibraryEntry[]> {
+   async getLibraryEntries(userId: string): Promise<DLibraryEntry[]> {
       try {
-         const user = await requireUser();
-         const entries = await this.libraryRepository.pGetLibraryEntries(
-            user.id
-         );
+         const entries =
+            await this.libraryRepository.pGetLibraryEntries(userId);
          return toDLibraryEntries(entries);
       } catch {
          return [];

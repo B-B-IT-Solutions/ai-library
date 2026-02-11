@@ -16,8 +16,14 @@ import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template"
 import { ActionResult } from "@/data/types/utils";
 
 export const getLibraryEntries = async (): Promise<DLibraryEntry[]> => {
-   const service = getLibrarySevice();
-   return service.getLibraryEntries();
+   try {
+      const user = await requireUser();
+      const service = getLibrarySevice();
+      return service.getLibraryEntries(user.id);
+   } catch (error) {
+      console.error(formatError(error));
+      return [];
+   }
 };
 
 export const getLibraryEntry = async (

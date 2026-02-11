@@ -44,45 +44,29 @@ describe("getLibraryEntries tests", () => {
       jest.clearAllMocks();
    });
 
-   it("getLibraryEntries - user undefined - test", async () => {
-      const entries = ptestData.pLibraryEntriesWithTemplateDescriptor();
-      requireUserMock.mockRejectedValue("Unknow user");
-      libraryRepoMock.pGetLibraryEntries.mockResolvedValue(entries);
-
-      const result = await libraryService.getLibraryEntries();
-
-      expect(result).toEqual([]);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntries).not.toHaveBeenCalled();
-   });
-
    it("getLibraryEntries - db error - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
+      const userid = "user-id-1";
       libraryRepoMock.pGetLibraryEntries.mockRejectedValue("db error");
 
-      const result = await libraryService.getLibraryEntries();
+      const result = await libraryService.getLibraryEntries(userid);
 
       expect(result).toEqual([]);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pGetLibraryEntries).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntries).toHaveBeenCalledWith(user.id);
+      expect(libraryRepoMock.pGetLibraryEntries).toHaveBeenCalledWith(userid);
    });
 
    it("getLibraryEntries - entries retrieved - test", async () => {
-      const user = dtestData.dLoginUser();
+      const userid = "user-id-1";
       const entries = ptestData.pLibraryEntriesWithTemplateDescriptor();
-      requireUserMock.mockResolvedValue(user);
       libraryRepoMock.pGetLibraryEntries.mockResolvedValue(entries);
 
-      const result = await libraryService.getLibraryEntries();
+      const result = await libraryService.getLibraryEntries(userid);
 
       const expectedResult = toDLibraryEntries(entries);
 
       expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pGetLibraryEntries).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntries).toHaveBeenCalledWith(user.id);
+      expect(libraryRepoMock.pGetLibraryEntries).toHaveBeenCalledWith(userid);
    });
 });
 
