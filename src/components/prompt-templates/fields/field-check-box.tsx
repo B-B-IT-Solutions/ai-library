@@ -12,6 +12,7 @@ import {
    FormMessage,
 } from "@/components/shadcn/form";
 import { DPromptTemplateField } from "@/data/types/domain/prompt.template";
+import { toTestId } from "@/lib/utils";
 
 type Props = {
    field: DPromptTemplateField;
@@ -24,7 +25,10 @@ export const CheckBoxField: FC<Props> = ({ field, control }) => {
          control={control}
          name={field.name}
          render={({ field: formField }) => (
-            <FormItem className="flex items-center space-x-2">
+            <FormItem
+               className="flex items-center space-x-2"
+               data-testid={`${toTestId(field.name)}-field`}
+            >
                <FormControl>
                   <Checkbox
                      checked={formField.value}
