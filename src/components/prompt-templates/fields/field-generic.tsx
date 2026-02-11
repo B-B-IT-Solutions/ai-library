@@ -5,6 +5,7 @@ import { Control, FieldValues } from "react-hook-form";
 
 import {
    FormControl,
+   FormDescription,
    FormField,
    FormItem,
    FormLabel,
@@ -29,13 +30,13 @@ export const GenericField: FC<Props> = ({ field, control }) => {
                <FormLabel>
                   {field.label} {field.required && "*"}
                </FormLabel>
-               {field.description && (
-                  <p className="text-sm text-muted-foreground">
-                     {field.description}
-                  </p>
-               )}
+               <FormDescription> {field.description}</FormDescription>
                <FormControl>
-                  <Input type={field.type.toLowerCase()} {...formField} />
+                  <Input
+                     type={field.type.toLowerCase()}
+                     {...formField}
+                     data-testid="field-input"
+                  />
                </FormControl>
                <FormMessage />
             </FormItem>

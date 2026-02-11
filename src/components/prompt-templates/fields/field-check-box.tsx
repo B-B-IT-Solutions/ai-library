@@ -6,6 +6,7 @@ import { Control, FieldValues } from "react-hook-form";
 import { Checkbox } from "@/components/shadcn/checkbox";
 import {
    FormControl,
+   FormDescription,
    FormField,
    FormItem,
    FormLabel,
@@ -35,12 +36,8 @@ export const CheckBoxField: FC<Props> = ({ field, control }) => {
                      onCheckedChange={formField.onChange}
                   />
                </FormControl>
-               <FormLabel className="!mt-0">{field.label}</FormLabel>
-               {field.description && (
-                  <p className="text-sm text-muted-foreground">
-                     {field.description}
-                  </p>
-               )}
+               <FormLabel>{field.label}</FormLabel>
+               <FormDescription> {field.description}</FormDescription>
                <FormMessage />
             </FormItem>
          )}

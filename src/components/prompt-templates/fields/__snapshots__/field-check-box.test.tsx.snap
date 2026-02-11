@@ -49,13 +49,20 @@ exports[`CheckBoxField rendering tests CheckBoxField - without description - tes
       </div>
     </button>
     <label
-      class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive !mt-0"
+      class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
       data-error="false"
       data-slot="form-label"
       for="_r_1_-form-item"
     >
       Test Checkbox
     </label>
+    <p
+      class="text-muted-foreground text-sm"
+      data-slot="form-description"
+      id="_r_1_-form-item-description"
+    >
+       
+    </p>
   </div>
 </div>
 `;
@@ -109,7 +116,7 @@ exports[`CheckBoxField rendering tests CheckBoxField rendered test 1`] = `
       </div>
     </button>
     <label
-      class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive !mt-0"
+      class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
       data-error="false"
       data-slot="form-label"
       for="_r_0_-form-item"
@@ -117,8 +124,11 @@ exports[`CheckBoxField rendering tests CheckBoxField rendered test 1`] = `
       Test Checkbox
     </label>
     <p
-      class="text-sm text-muted-foreground"
+      class="text-muted-foreground text-sm"
+      data-slot="form-description"
+      id="_r_0_-form-item-description"
     >
+       
       This is a test description
     </p>
   </div>
