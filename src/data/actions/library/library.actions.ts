@@ -70,11 +70,20 @@ export const composePromptFromTemplate = async (
 };
 
 export const downloadTemplate = async (
-   templateId: string
+   descriptorId: string
 ): Promise<ActionResult<string>> => {
    try {
+      if (!isValidUuid(descriptorId)) {
+         throw new Error("Invalid template ID.");
+      }
+
+      const user = await requireUser();
+
       const service = getLibrarySevice();
-      const downloadData = await service.downloadPromptTemplate(templateId);
+      const downloadData = await service.downloadPromptTemplate(
+         descriptorId,
+         user.id
+      );
 
       return {
          success: true,
@@ -82,6 +91,7 @@ export const downloadTemplate = async (
          data: downloadData,
       };
    } catch (error) {
+      console.error(formatError(error));
       return {
          success: false,
          message: formatError(error),

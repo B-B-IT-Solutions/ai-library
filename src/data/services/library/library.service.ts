@@ -1,7 +1,5 @@
 import { isEmpty, map } from "es-toolkit/compat";
-import { validate as isValidUuid } from "uuid";
 
-import { requireUser } from "@/data/actions/auth-utils";
 import {
    GetLibraryEntryParams,
    LibraryRepository,
@@ -100,16 +98,13 @@ export class LibraryService {
       );
    }
 
-   async downloadPromptTemplate(templateDescriptorId: string): Promise<string> {
-      if (!isValidUuid(templateDescriptorId)) {
-         throw new Error("Invalid template ID.");
-      }
-
-      const user = await requireUser();
-
+   async downloadPromptTemplate(
+      templateDescriptorId: string,
+      userId: string
+   ): Promise<string> {
       const params: GetLibraryEntryParams = {
          templateDescriptorId,
-         userId: user.id,
+         userId,
       };
       const entry = await this.libraryRepository.pGetLibraryEntry(params);
 

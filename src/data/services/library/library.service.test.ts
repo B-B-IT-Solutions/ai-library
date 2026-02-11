@@ -1,12 +1,10 @@
 jest.mock("@/data/repositories/library");
 jest.mock("@/data/services/prompt");
-jest.mock("@/data/actions/auth-utils");
 
-import { dtestData, ptestData } from "@tests";
+import { ptestData } from "@tests";
 import { forEach, map } from "es-toolkit/compat";
 import { DeepMockProxy } from "jest-mock-extended";
 
-import { requireUser } from "@/data/actions/auth-utils";
 import {
    GetLibraryEntryParams,
    LibraryRepository,
@@ -22,8 +20,6 @@ import {
    toDLibraryEntryWithPromptTemplate,
 } from "./library.mapper";
 import { LibraryService } from "./library.service";
-
-const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
 const serviceFactory = new ServiceFactory(prisma);
 const promptTemplateService = serviceFactory.getPromptTemplateService();
@@ -284,46 +280,23 @@ describe("downloadPromptTemplate tests", () => {
       jest.clearAllMocks();
    });
 
-   it("downloadPromptTemplate - invalid UUID - test", async () => {
-      const invalidId = "invalid-uuid";
-
-      const fn = async () =>
-         await libraryService.downloadPromptTemplate(invalidId);
-
-      await expect(fn).rejects.toThrow("Invalid template ID.");
-      expect(requireUserMock).not.toHaveBeenCalled();
-      expect(libraryRepoMock.pGetLibraryEntry).not.toHaveBeenCalled();
-   });
-
-   it("downloadPromptTemplate - user undefined - test", async () => {
-      const error = new Error("Unknow user");
-      const templateDescriptorId = "123e4567-e89b-12d3-a456-426614174000";
-      requireUserMock.mockRejectedValue(error);
-
-      const fn = async () =>
-         await libraryService.downloadPromptTemplate(templateDescriptorId);
-
-      await expect(fn).rejects.toThrow(error);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntry).not.toHaveBeenCalled();
-   });
-
    it("downloadPromptTemplate - template not found - test", async () => {
-      const user = dtestData.dLoginUser();
+      const userId = "user-id-1";
       const templateDescriptorId = "123e4567-e89b-12d3-a456-426614174000";
-      requireUserMock.mockResolvedValue(user);
       libraryRepoMock.pGetLibraryEntry.mockResolvedValue(null);
 
       const fn = async () =>
-         await libraryService.downloadPromptTemplate(templateDescriptorId);
+         await libraryService.downloadPromptTemplate(
+            templateDescriptorId,
+            userId
+         );
 
       const expectedGetEntryPayload: GetLibraryEntryParams = {
          templateDescriptorId,
-         userId: user.id,
+         userId,
       };
 
       await expect(fn).rejects.toThrow("Template not found");
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
          expectedGetEntryPayload
@@ -331,18 +304,19 @@ describe("downloadPromptTemplate tests", () => {
    });
 
    it("downloadPromptTemplate - template downloaded - test", async () => {
-      const user = dtestData.dLoginUser();
+      const userId = "user-id-1";
       const entry = ptestData.pLibraryEntryWithPromptTemplate();
       const templateDescriptorId = entry.templateDescriptorId;
-      requireUserMock.mockResolvedValue(user);
       libraryRepoMock.pGetLibraryEntry.mockResolvedValue(entry);
 
-      const result =
-         await libraryService.downloadPromptTemplate(templateDescriptorId);
+      const result = await libraryService.downloadPromptTemplate(
+         templateDescriptorId,
+         userId
+      );
 
       const expectedGetEntryPayload: GetLibraryEntryParams = {
          templateDescriptorId,
-         userId: user.id,
+         userId,
       };
       const expectedDownloadData = JSON.stringify(
          {
@@ -356,7 +330,6 @@ describe("downloadPromptTemplate tests", () => {
       );
 
       expect(result).toEqual(expectedDownloadData);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
          expectedGetEntryPayload
