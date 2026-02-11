@@ -15,7 +15,7 @@ import { DPromptTemplateField } from "@/data/types/domain/prompt.template";
 const emailValidator = (field: DPromptTemplateField): ZodEmail => {
    const validator = z.email("Ungültige E-Mail");
    if (field.required) {
-      validator.min(1, `${field.label} ist erforderlich`);
+      return validator.min(1, `${field.label} ist erforderlich`);
    }
    return validator;
 };
@@ -23,7 +23,7 @@ const emailValidator = (field: DPromptTemplateField): ZodEmail => {
 const numberValidator = (field: DPromptTemplateField): ZodCoercedNumber => {
    const validator = z.coerce.number();
    if (field.required) {
-      validator.min(1, `${field.label} ist erforderlich`);
+      return validator.min(1, `${field.label} ist erforderlich`);
    }
    return validator;
 };
@@ -31,7 +31,7 @@ const numberValidator = (field: DPromptTemplateField): ZodCoercedNumber => {
 const dateValidator = (field: DPromptTemplateField): ZodString => {
    const validator = z.string();
    if (field.required) {
-      validator.min(1, `${field.label} ist erforderlich`);
+      return validator.min(1, `${field.label} ist erforderlich`);
    }
    return validator;
 };
