@@ -18,6 +18,7 @@ import {
    SelectValue,
 } from "@/components/shadcn/select";
 import { DPromptTemplateField } from "@/data/types/domain/prompt.template";
+import { toTestId } from "@/lib/utils";
 
 type Props = {
    field: DPromptTemplateField;
@@ -30,7 +31,7 @@ export const SelectField: FC<Props> = ({ field, control }) => {
          control={control}
          name={field.name}
          render={({ field: formField }) => (
-            <FormItem>
+            <FormItem data-testid={`${toTestId(field.name)}-field`}>
                <FormLabel>
                   {field.label} {field.required && "*"}
                </FormLabel>

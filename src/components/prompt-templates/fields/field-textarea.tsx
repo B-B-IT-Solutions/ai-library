@@ -12,6 +12,7 @@ import {
 } from "@/components/shadcn/form";
 import { Textarea } from "@/components/shadcn/textarea";
 import { DPromptTemplateField } from "@/data/types/domain/prompt.template";
+import { toTestId } from "@/lib/utils";
 
 type Props = {
    field: DPromptTemplateField;
@@ -24,7 +25,7 @@ export const TextAreaField: FC<Props> = ({ field, control }) => {
          control={control}
          name={field.name}
          render={({ field: formField }) => (
-            <FormItem>
+            <FormItem data-testid={`${toTestId(field.name)}-field`}>
                <FormLabel>
                   {field.label} {field.required && "*"}
                </FormLabel>
