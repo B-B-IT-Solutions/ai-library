@@ -5,7 +5,10 @@ import { map } from "es-toolkit/compat";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
-import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
+import {
+   DPromptTemplate,
+   DPromptTemplateDescriptor,
+} from "@/data/types/domain/prompt.template";
 
 type DGetPromptTemplatesParams = {
    search?: string;
@@ -17,6 +20,13 @@ export const getPromptTemplates = async (
 ): Promise<DPromptTemplateDescriptor[]> => {
    const service = getPromptTemplateService();
    return await service.getPromptTemplateDescriptors(params);
+};
+
+export const getPromptTemplate = async (
+   id: string
+): Promise<DPromptTemplate | null> => {
+   const service = getPromptTemplateService();
+   return await service.getPromptTemplate(id);
 };
 
 export const getPromptTemplateCategories = async (): Promise<string[]> => {

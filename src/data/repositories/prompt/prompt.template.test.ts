@@ -7,6 +7,7 @@ import { Prisma } from "@/generated/prisma/client";
 import {
    PromptTemplateDescriptorFindFirstArgs,
    PromptTemplateDescriptorFindManyArgs,
+   PromptTemplateFindFirstArgs,
 } from "@/generated/prisma/models";
 
 import { PromptTemplateRepository } from "./prompt.template";
@@ -236,6 +237,32 @@ describe("pGetPromptTemplateDescriptorWithTemplate tests", () => {
       expect(
          prismaMock.promptTemplateDescriptor.findFirst
       ).toHaveBeenCalledWith(expectedWhere);
+   });
+});
+
+describe("pGetPromptTemplate tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pGetPromptTemplate test", async () => {
+      const prompt = ptestData.pPromptTemplate();
+      prismaMock.promptTemplate.findFirst.mockResolvedValue(prompt);
+
+      const id = "prompt-template-id-1";
+      const result = await repository.pGetPromptTemplate(id);
+
+      const expectedWhere: PromptTemplateFindFirstArgs = {
+         where: { id },
+         include: {
+            fields: true,
+         },
+      };
+      expect(result).toEqual(prompt);
+      expect(prismaMock.promptTemplate.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptTemplate.findFirst).toHaveBeenCalledWith(
+         expectedWhere
+      );
    });
 });
 

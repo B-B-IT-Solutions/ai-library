@@ -1,7 +1,10 @@
 import { isEmpty } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
-import { PromptTemplateDescriptorWithTemplate } from "@/data/types/db/prompt.template";
+import {
+   PromptTemplateDescriptorWithTemplate,
+   PromptTemplateWithFields,
+} from "@/data/types/db/prompt.template";
 import { Prisma } from "@/generated/prisma/client";
 import { PromptTemplateDescriptorWhereInput } from "@/generated/prisma/models";
 
@@ -42,6 +45,17 @@ export class PromptTemplateRepository {
                   fields: true,
                },
             },
+         },
+      });
+   }
+
+   async pGetPromptTemplate(
+      id: string
+   ): Promise<PromptTemplateWithFields | null> {
+      return await this.prisma.promptTemplate.findFirst({
+         where: { id },
+         include: {
+            fields: true,
          },
       });
    }

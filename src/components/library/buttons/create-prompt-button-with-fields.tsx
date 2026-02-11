@@ -7,15 +7,18 @@ import { toast } from "sonner";
 import { CreatePromptDialog } from "@/components/prompts";
 import { Button } from "@/components/shadcn/button";
 import { composePromptFromTemplate } from "@/data/actions/library";
+import { getPromptTemplate } from "@/data/actions/prompt";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
+   DPromptTemplate,
+   DPromptTemplateDescriptor,
    DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
 import { cn } from "@/lib/utils";
 
 type Props = {
-   descriptor: DPromptTemplateDescriptorWithTemplate;
+   descriptor: DPromptTemplateDescriptor;
    className?: string;
 };
 
@@ -24,18 +27,27 @@ type Mode = "fields-form" | "review";
 export const CreatePromptButton: FC<Props> = ({ descriptor, className }) => {
    const [isPending, startTransition] = useTransition();
    const [mode, setMode] = useState<Mode | null>(null);
+   const [promptTemplate, setPromptTemplate] = useState<DPromptTemplate | null>(
+      null
+   );
    const [generatedPrompt, setGeneratedPrompt] = useState<DPromptUpdate | null>(
       null
    );
 
-   const hasFields = descriptor.promptTemplate.fields.length > 0;
-
    const handleCreate = async () => {
-      if (!hasFields) {
-         await composePrompt({});
-      } else {
-         setMode("fields-form");
-      }
+      startTransition(async () => {
+         const promptTemplate = await getPromptTemplate(
+            descriptor.promptTemplateId
+         );
+
+         const hasFields = promptTemplate && promptTemplate.fields.length > 0;
+         if (hasFields) {
+            setPromptTemplate(promptTemplate);
+            setMode("fields-form");
+         } else {
+            await composePrompt({});
+         }
+      });
    };
 
    const handleCancel = () => {
@@ -67,12 +79,17 @@ export const CreatePromptButton: FC<Props> = ({ descriptor, className }) => {
          );
       }
       if (mode === "fields-form" && descriptor) {
+         const tempalte = promptTemplate as DPromptTemplate;
+         const desc: DPromptTemplateDescriptorWithTemplate = {
+            ...descriptor,
+            promptTemplate: tempalte,
+         };
          return (
             <CreatePromptDialog
                onSubmit={composePrompt}
                onCancel={handleCancel}
                mode="fields-form"
-               descriptor={descriptor}
+               descriptor={desc}
             />
          );
       }
