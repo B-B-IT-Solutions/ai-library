@@ -27,8 +27,11 @@ export const GenericField: FC<Props> = ({ field, control }) => {
          name={field.name}
          render={({ field: formField }) => (
             <FormItem data-testid={`${toTestId(field.name)}-field`}>
-               <FormLabel>
-                  {field.label} {field.required && "*"}
+               <FormLabel className="gap-1">
+                  {field.label}
+                  {field.required && (
+                     <span className="text-destructive">*</span>
+                  )}
                </FormLabel>
                <FormDescription> {field.description}</FormDescription>
                <FormControl>

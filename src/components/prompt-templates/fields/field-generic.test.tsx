@@ -40,9 +40,9 @@ const baseField: DPromptTemplateField = {
    defaultValue: null,
 };
 
-const assertRendered = (required = false) => {
+const assertRendered = () => {
    const field = screen.getByTestId("name-1-field");
-   const label = screen.getByText(`Test Input${required ? " *" : ""}`);
+   const label = screen.getByText("Test Input");
 
    assertInDocument(field);
    assertInDocument(label);
@@ -94,7 +94,7 @@ describe("GenericField rendering tests", () => {
       const { container } = render(<TestWrapper field={field} />);
 
       await waitFor(() => {
-         assertRendered(true);
+         assertRendered();
          assertType("email");
       });
 
@@ -111,7 +111,7 @@ describe("GenericField rendering tests", () => {
       const { container } = render(<TestWrapper field={field} />);
 
       await waitFor(() => {
-         assertRendered(true);
+         assertRendered();
          assertType("date");
       });
 

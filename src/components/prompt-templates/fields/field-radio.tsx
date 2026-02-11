@@ -5,6 +5,7 @@ import { Control, FieldValues } from "react-hook-form";
 
 import {
    FormControl,
+   FormDescription,
    FormField,
    FormItem,
    FormLabel,
@@ -32,15 +33,17 @@ export const RadioField: FC<Props> = ({ field, control }) => {
          control={control}
          name={field.name}
          render={({ field: formField }) => (
-            <FormItem data-testid={`${toTestId(field.name)}-field`}>
-               <FormLabel>
-                  {field.label} {field.required && "*"}
+            <FormItem
+               aria-required={field.required}
+               data-testid={`${toTestId(field.name)}-field`}
+            >
+               <FormLabel className="gap-1">
+                  {field.label}
+                  {field.required && (
+                     <span className="text-destructive">*</span>
+                  )}
                </FormLabel>
-               {field.description && (
-                  <p className="text-sm text-muted-foreground">
-                     {field.description}
-                  </p>
-               )}
+               <FormDescription> {field.description}</FormDescription>
                <Select
                   onValueChange={formField.onChange}
                   defaultValue={formField.value}
