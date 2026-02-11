@@ -64,9 +64,7 @@ export class LibraryService {
 
          if (!isEmpty(templateIds)) {
             await this.libraryRepository.pCreateLibraryEntries(
-               order.id,
                order.userId,
-               product.id,
                templateIds
             );
          }
@@ -116,7 +114,7 @@ export class LibraryService {
       const downloadData = JSON.stringify(
          {
             title: descriptor.title,
-            content: descriptor.promptTemplate.promptText,
+            content: descriptor.promptTemplate.content,
             categories: descriptor.categories.map((c) => c.name),
             recommendedModel: descriptor.recommendedModel,
          },

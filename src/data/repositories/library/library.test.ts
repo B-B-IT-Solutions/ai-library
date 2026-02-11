@@ -6,6 +6,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import {
    LibraryEntryCreateManyArgs,
+   LibraryEntryCreateManyInput,
    LibraryEntryDeleteManyArgs,
    LibraryEntryFindManyArgs,
    LibraryEntryFindUniqueArgs,
@@ -134,26 +135,23 @@ describe("pCreateLibraryEntries tests", () => {
    });
 
    test("pCreateLibraryEntries test", async () => {
-      const orderId = "order-id-1";
       const userId = "user-id-1";
-      const productId = "product-id-1";
       const templateDescriptorIds = ["1", "2", "3"];
 
       await libraryRepository.pCreateLibraryEntries(
-         orderId,
          userId,
-         productId,
          templateDescriptorIds
       );
 
       const expectedEntries = map(
          templateDescriptorIds,
-         (templateDescriptorId) => ({
-            orderId,
-            userId,
-            productId,
-            templateDescriptorId,
-         })
+         (templateDescriptorId) => {
+            const entry: LibraryEntryCreateManyInput = {
+               userId,
+               templateDescriptorId,
+            };
+            return entry;
+         }
       );
 
       const expectedCreateManyArgs: LibraryEntryCreateManyArgs = {

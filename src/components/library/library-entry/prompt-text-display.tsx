@@ -21,7 +21,7 @@ export const PromptTextDisplay: FC<PromptTextDisplayProps> = ({ template }) => {
 
    const copyToClipboard = async () => {
       try {
-         await navigator.clipboard.writeText(template.promptText);
+         await navigator.clipboard.writeText(template.content);
          setCopied(true);
          setTimeout(() => setCopied(false), 2000);
       } catch (error) {
@@ -33,9 +33,9 @@ export const PromptTextDisplay: FC<PromptTextDisplayProps> = ({ template }) => {
       return (
          <div className="flex items-center gap-2" data-testid="headline">
             {expanded ? (
-               <ChevronDown className="w-5 h-5 text-slate-600" />
+               <ChevronDown className="h-5 w-5 text-slate-600" />
             ) : (
-               <ChevronRight className="w-5 h-5 text-slate-600" />
+               <ChevronRight className="h-5 w-5 text-slate-600" />
             )}
             <span className="font-semibold text-slate-900">Prompt-Text</span>
          </div>
@@ -57,12 +57,12 @@ export const PromptTextDisplay: FC<PromptTextDisplayProps> = ({ template }) => {
          >
             {copied ? (
                <>
-                  <Check className="w-4 h-4 text-green-600 mr-2" />
+                  <Check className="mr-2 h-4 w-4 text-green-600" />
                   <span className="text-sm text-green-600">Kopiert!</span>
                </>
             ) : (
                <>
-                  <Copy className="w-4 h-4 text-slate-600 mr-2" />
+                  <Copy className="mr-2 h-4 w-4 text-slate-600" />
                   <span className="text-sm text-slate-600">Kopieren</span>
                </>
             )}
@@ -74,11 +74,11 @@ export const PromptTextDisplay: FC<PromptTextDisplayProps> = ({ template }) => {
       if (expanded) {
          return (
             <div
-               className="p-4 bg-white border border-t-0 border-slate-200 rounded-b-lg"
+               className="rounded-b-lg border border-t-0 border-slate-200 bg-white p-4"
                data-testid="content"
             >
-               <pre className="text-sm text-slate-800 whitespace-pre-wrap font-mono overflow-x-auto max-h-96 overflow-y-auto">
-                  {template.promptText}
+               <pre className="max-h-96 overflow-x-auto overflow-y-auto font-mono text-sm whitespace-pre-wrap text-slate-800">
+                  {template.content}
                </pre>
             </div>
          );
@@ -90,8 +90,8 @@ export const PromptTextDisplay: FC<PromptTextDisplayProps> = ({ template }) => {
          <div
             onClick={toggleExpanded}
             className={cn(
-               "w-full flex items-center justify-between p-4 bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-colors cursor-pointer",
-               expanded ? "rounded-t-lg " : "rounded-lg "
+               "flex w-full cursor-pointer items-center justify-between border border-slate-200 bg-slate-50 p-4 transition-colors hover:bg-slate-100",
+               expanded ? "rounded-t-lg" : "rounded-lg"
             )}
             data-testid="expand-toggle"
          >

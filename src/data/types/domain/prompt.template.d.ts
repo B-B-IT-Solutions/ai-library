@@ -5,7 +5,7 @@ export type DPromptTemplateCategory = {
 export type DPromptTemplate = {
    id: string;
    detailedDescription: string;
-   promptText: string;
+   content: string;
    fields: DPromptTemplateField[];
    updatedAt: string;
    createdAt: string;

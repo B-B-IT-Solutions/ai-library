@@ -170,9 +170,7 @@ describe("createLibraryEntries tests", () => {
          );
          expect(libraryRepoMock.pCreateLibraryEntries).toHaveBeenNthCalledWith(
             index + 1,
-            order.id,
             order.userId,
-            item.product.id,
             templateIds
          );
       });
@@ -321,7 +319,7 @@ describe("downloadPromptTemplate tests", () => {
       const expectedDownloadData = JSON.stringify(
          {
             title: entry.templateDescriptor.title,
-            content: entry.templateDescriptor.promptTemplate.promptText,
+            content: entry.templateDescriptor.promptTemplate.content,
             categories: entry.templateDescriptor.categories.map((c) => c.name),
             recommendedModel: entry.templateDescriptor.recommendedModel,
          },

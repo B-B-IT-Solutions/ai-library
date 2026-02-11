@@ -5,7 +5,11 @@ import {
    LibraryEntryWithPromptTemplate,
    LibraryEntryWithPromptTemplateDescriptor,
 } from "@/data/types/db/library";
-import { LibraryEntryWhereUniqueInput } from "@/generated/prisma/models";
+import {
+   LibraryEntryCreateManyArgs,
+   LibraryEntryCreateManyInput,
+   LibraryEntryWhereUniqueInput,
+} from "@/generated/prisma/models";
 
 export type GetLibraryEntryParams = {
    userId: string;
@@ -61,22 +65,23 @@ export class LibraryRepository {
    }
 
    async pCreateLibraryEntries(
-      orderId: string,
       userId: string,
-      productId: string,
       templateDescriptorIds: string[]
    ) {
-      const entries = map(templateDescriptorIds, (templateDescriptorId) => ({
-         orderId,
-         userId,
-         productId,
-         templateDescriptorId,
-      }));
+      const entries = map(templateDescriptorIds, (templateDescriptorId) => {
+         const entry: LibraryEntryCreateManyInput = {
+            userId,
+            templateDescriptorId,
+         };
+         return entry;
+      });
 
-      await this.prisma.libraryEntry.createMany({
+      const args: LibraryEntryCreateManyArgs = {
          data: entries,
          skipDuplicates: true,
-      });
+      };
+
+      await this.prisma.libraryEntry.createMany(args);
    }
 
    async pDeleteLibraryEntries(userId: string) {

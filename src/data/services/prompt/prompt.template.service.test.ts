@@ -317,7 +317,7 @@ describe("composePromptFromTemplate tests", () => {
       );
       expect(sReplaceMock).toHaveBeenCalledTimes(1);
       expect(sReplaceMock).toHaveBeenCalledWith(
-         promptTemplate.promptText,
+         promptTemplate.content,
          fieldValues
       );
    });

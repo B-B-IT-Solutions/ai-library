@@ -10,12 +10,12 @@ const { writeText } = navigator.clipboard;
 const writeTextMock = writeText as jest.MockedFunction<typeof writeText>;
 
 const assertRendered = () => {
-   const promptText = screen.getByTestId("prompt-text");
+   const content = screen.getByTestId("prompt-text");
    const expandToggle = screen.getByTestId("expand-toggle");
    const headline = screen.getByTestId("headline");
    const copyBtn = screen.getByTestId("copy-btn");
 
-   assertInDocument(promptText);
+   assertInDocument(content);
    assertInDocument(expandToggle);
    assertInDocument(headline);
    assertInDocument(copyBtn);
@@ -109,7 +109,7 @@ describe("PromptTextDisplay functionality tests", () => {
       await userEvent.click(copyBtn);
 
       await waitFor(() => {
-         expect(writeTextMock).toHaveBeenCalledWith(template.promptText);
+         expect(writeTextMock).toHaveBeenCalledWith(template.content);
          expect(copyBtn).toHaveTextContent("Kopiert!");
       });
    });
@@ -148,7 +148,7 @@ describe("PromptTextDisplay functionality tests", () => {
       await userEvent.click(copyBtn);
 
       await waitFor(() => {
-         expect(writeTextMock).toHaveBeenCalledWith(template.promptText);
+         expect(writeTextMock).toHaveBeenCalledWith(template.content);
          expect(copyBtn).toHaveTextContent("Kopiert!");
       });
 

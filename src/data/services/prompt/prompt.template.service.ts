@@ -84,7 +84,7 @@ export class PromptTemplateService {
       }
 
       const content = TemplateEngine.replace(
-         promptTemplate.promptText,
+         promptTemplate.content,
          fieldValues
       );
 
