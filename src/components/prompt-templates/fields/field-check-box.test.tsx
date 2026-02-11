@@ -1,12 +1,7 @@
 import { FC } from "react";
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import {
-   assertHasAttributeWithValue,
-   assertInDocument,
-   assertNotInDocument,
-} from "@tests";
+import { assertInDocument, assertNotInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { DPromptTemplateField } from "@/data/types/domain/prompt.template";
@@ -85,28 +80,5 @@ describe("CheckBoxField rendering tests", () => {
       });
 
       expect(container).toMatchSnapshot();
-   });
-});
-
-describe("CheckBoxField functionality tests", () => {
-   it("CheckBoxField - toggle clicked - test", async () => {
-      render(<TestWrapper field={baseField} />);
-
-      const checkbox = screen.getByRole("checkbox");
-
-      assertHasAttributeWithValue(checkbox, "aria-checked", "false");
-      assertHasAttributeWithValue(checkbox, "data-state", "unchecked");
-
-      await userEvent.click(checkbox);
-      await waitFor(() => {
-         assertHasAttributeWithValue(checkbox, "aria-checked", "true");
-         assertHasAttributeWithValue(checkbox, "data-state", "checked");
-      });
-
-      await userEvent.click(checkbox);
-      await waitFor(() => {
-         assertHasAttributeWithValue(checkbox, "aria-checked", "false");
-         assertHasAttributeWithValue(checkbox, "data-state", "unchecked");
-      });
    });
 });

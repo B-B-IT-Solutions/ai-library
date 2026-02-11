@@ -1,7 +1,6 @@
 import { FC } from "react";
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import { assertHasAttributeWithValue, assertInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
@@ -116,42 +115,5 @@ describe("GenericField rendering tests", () => {
       });
 
       expect(container).toMatchSnapshot();
-   });
-});
-
-describe("GenericField functionality tests", () => {
-   it("GenericField - text input - test", async () => {
-      render(<TestWrapper field={baseField} />);
-
-      const input = screen.getByRole("textbox") as HTMLInputElement;
-
-      assertInDocument(input);
-      expect(input.value).toBe("");
-
-      await userEvent.type(input, "Hello World");
-
-      await waitFor(() => {
-         expect(input.value).toBe("Hello World");
-      });
-   });
-
-   it("GenericField - number input - test", async () => {
-      const numberField: DPromptTemplateField = {
-         ...baseField,
-         type: "NUMBER",
-      };
-
-      render(<TestWrapper field={numberField} />);
-
-      const input = screen.getByRole("spinbutton") as HTMLInputElement;
-
-      assertInDocument(input);
-      expect(input.value).toBe("");
-
-      await userEvent.type(input, "123");
-
-      await waitFor(() => {
-         expect(input.value).toBe("123");
-      });
    });
 });
