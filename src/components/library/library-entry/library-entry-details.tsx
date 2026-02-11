@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import { MDRenderer } from "@/components/shared/md";
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
-import { CreatePromptButton } from "../buttons/create-prompt-button-with-fields";
+import { CreatePromptButton } from "../buttons/create-prompt-button";
 import { DownloadTemplateButton } from "../buttons/download-template-button";
 
 import { PromptTextDisplay } from "./prompt-text-display";

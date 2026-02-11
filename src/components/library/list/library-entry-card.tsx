@@ -12,7 +12,7 @@ import {
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
 import { DLibraryEntry } from "@/data/types/domain/library";
-import { CreatePromptButton } from "../buttons/create-prompt-button-with-fields";
+import { CreatePromptButton } from "../buttons/create-prompt-button";
 import { DownloadTemplateButton } from "../buttons/download-template-button";
 
 type LibraryEntryCardProps = {
