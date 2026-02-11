@@ -50,7 +50,7 @@ export const toDPromptTemplate = (
 ): DPromptTemplate => {
    return {
       id: prompt.id,
-      promptText: prompt.promptText,
+      content: prompt.content,
       detailedDescription: prompt.detailedDescription,
       fields: toDTemplateFields(prompt.fields),
       updatedAt: prompt.updatedAt.toISOString(),

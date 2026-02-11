@@ -1,4 +1,7 @@
 -- CreateEnum
+CREATE TYPE "prompt_template_field_type" AS ENUM ('TEXT', 'TEXTAREA', 'EMAIL', 'NUMBER', 'DATE', 'SELECT', 'CHECKBOX', 'RADIO');
+
+-- CreateEnum
 CREATE TYPE "ProductType" AS ENUM ('TEMPLATE', 'BUNDLE');
 
 -- CreateEnum
@@ -6,6 +9,15 @@ CREATE TYPE "ProductStatus" AS ENUM ('ACTIVE', 'INACTIVE', 'ARCHIVED');
 
 -- CreateEnum
 CREATE TYPE "OrderStatus" AS ENUM ('PENDING', 'COMPLETED', 'FAILED', 'REFUNDED');
+
+-- CreateEnum
+CREATE TYPE "SubscriptionTier" AS ENUM ('FREE', 'BASIC', 'PRO');
+
+-- CreateEnum
+CREATE TYPE "BillingInterval" AS ENUM ('MONTHLY', 'YEARLY');
+
+-- CreateEnum
+CREATE TYPE "SubscriptionStatus" AS ENUM ('ACTIVE', 'CANCELED', 'INCOMPLETE', 'PAST_DUE', 'UNPAID', 'TRIALING', 'PAUSED');
 
 -- CreateTable
 CREATE TABLE "user" (
@@ -16,6 +28,7 @@ CREATE TABLE "user" (
     "image" TEXT,
     "password" VARCHAR(250),
     "role" VARCHAR(50) NOT NULL DEFAULT 'user',
+    "stripe_customer_id" VARCHAR(250),
     "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -65,8 +78,10 @@ CREATE TABLE "verification_token" (
 CREATE TABLE "prompt_descriptor" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "title" VARCHAR(500) NOT NULL,
+    "content" TEXT NOT NULL,
     "recommended_model" VARCHAR(250) NOT NULL,
     "is_favorite" BOOLEAN NOT NULL DEFAULT false,
+    "current_version" INTEGER NOT NULL DEFAULT 0,
     "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -90,6 +105,28 @@ CREATE TABLE "prompt_category" (
 );
 
 -- CreateTable
+CREATE TABLE "prompt_version" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "prompt_id" UUID NOT NULL,
+    "content" TEXT NOT NULL,
+    "version" INTEGER NOT NULL,
+    "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "prompt_version_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "prompt_follow_up" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "prompt_id" UUID NOT NULL,
+    "content" TEXT NOT NULL,
+    "order" INTEGER NOT NULL DEFAULT 0,
+    "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "prompt_follow_up_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "prompt_template_descriptor" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "title" VARCHAR(250) NOT NULL,
@@ -106,9 +143,27 @@ CREATE TABLE "prompt_template_descriptor" (
 CREATE TABLE "prompt_template" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "detailed_description" TEXT NOT NULL,
-    "prompt_text" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
+    "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "prompt_template_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "prompt_template_field" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "prompt_template_id" UUID NOT NULL,
+    "name" VARCHAR(100) NOT NULL,
+    "label" VARCHAR(250) NOT NULL,
+    "description" VARCHAR(500),
+    "type" "prompt_template_field_type" NOT NULL,
+    "required" BOOLEAN NOT NULL DEFAULT true,
+    "order" INTEGER NOT NULL DEFAULT 0,
+    "default_value" TEXT,
+    "options" JSONB,
+
+    CONSTRAINT "prompt_template_field_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -265,6 +320,61 @@ CREATE TABLE "library_entry" (
 );
 
 -- CreateTable
+CREATE TABLE "subscription_plan" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "tier" "SubscriptionTier" NOT NULL,
+    "name" VARCHAR(100) NOT NULL,
+    "description" TEXT NOT NULL,
+    "monthly_price" DECIMAL(10,2) NOT NULL,
+    "yearly_price" DECIMAL(10,2) NOT NULL,
+    "stripe_price_id_monthly" VARCHAR(250),
+    "stripe_price_id_yearly" VARCHAR(250),
+    "stripe_product_id" VARCHAR(250),
+    "features" JSONB NOT NULL,
+    "is_active" BOOLEAN NOT NULL DEFAULT true,
+    "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "subscription_plan_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "subscription" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "user_id" UUID NOT NULL,
+    "plan_id" UUID NOT NULL,
+    "status" "SubscriptionStatus" NOT NULL DEFAULT 'INCOMPLETE',
+    "billing_interval" "BillingInterval" NOT NULL,
+    "stripe_subscription_id" VARCHAR(250),
+    "stripe_customer_id" VARCHAR(250),
+    "stripe_checkout_session_id" VARCHAR(250),
+    "current_period_start" TIMESTAMP(6),
+    "current_period_end" TIMESTAMP(6),
+    "cancel_at_period_end" BOOLEAN NOT NULL DEFAULT false,
+    "canceled_at" TIMESTAMP(6),
+    "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "subscription_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "subscription_history" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "user_id" UUID NOT NULL,
+    "event_type" VARCHAR(50) NOT NULL,
+    "from_tier" "SubscriptionTier",
+    "to_tier" "SubscriptionTier",
+    "from_status" "SubscriptionStatus",
+    "to_status" "SubscriptionStatus",
+    "stripe_event_id" VARCHAR(250),
+    "metadata" JSONB,
+    "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "subscription_history_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "_PromptCategoryToPromptDescriptor" (
     "A" INTEGER NOT NULL,
     "B" UUID NOT NULL,
@@ -284,10 +394,28 @@ CREATE TABLE "_PromptTemplateCategoryToPromptTemplateDescriptor" (
 CREATE UNIQUE INDEX "user_email_idx" ON "user"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "user_stripe_customer_id_key" ON "user"("stripe_customer_id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "prompt_category_name_key" ON "prompt_category"("name");
 
 -- CreateIndex
+CREATE INDEX "prompt_version_prompt_id_idx" ON "prompt_version"("prompt_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "prompt_version_prompt_id_version_key" ON "prompt_version"("prompt_id", "version");
+
+-- CreateIndex
+CREATE INDEX "prompt_follow_up_prompt_id_idx" ON "prompt_follow_up"("prompt_id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "prompt_template_descriptor_prompt_template_id_key" ON "prompt_template_descriptor"("prompt_template_id");
+
+-- CreateIndex
+CREATE INDEX "prompt_template_field_prompt_template_id_idx" ON "prompt_template_field"("prompt_template_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "prompt_template_field_prompt_template_id_name_key" ON "prompt_template_field"("prompt_template_id", "name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "prompt_template_category_name_key" ON "prompt_template_category"("name");
@@ -308,6 +436,30 @@ CREATE UNIQUE INDEX "order_stripe_checkout_session_id_key" ON "order"("stripe_ch
 CREATE UNIQUE INDEX "library_entry_user_id_template_descriptor_id_key" ON "library_entry"("user_id", "template_descriptor_id");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "subscription_plan_tier_key" ON "subscription_plan"("tier");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "subscription_user_id_key" ON "subscription"("user_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "subscription_stripe_subscription_id_key" ON "subscription"("stripe_subscription_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "subscription_stripe_checkout_session_id_key" ON "subscription"("stripe_checkout_session_id");
+
+-- CreateIndex
+CREATE INDEX "subscription_stripe_subscription_id_idx" ON "subscription"("stripe_subscription_id");
+
+-- CreateIndex
+CREATE INDEX "subscription_stripe_checkout_session_id_idx" ON "subscription"("stripe_checkout_session_id");
+
+-- CreateIndex
+CREATE INDEX "subscription_history_user_id_idx" ON "subscription_history"("user_id");
+
+-- CreateIndex
+CREATE INDEX "subscription_history_stripe_event_id_idx" ON "subscription_history"("stripe_event_id");
+
+-- CreateIndex
 CREATE INDEX "_PromptCategoryToPromptDescriptor_B_index" ON "_PromptCategoryToPromptDescriptor"("B");
 
 -- CreateIndex
@@ -323,7 +475,16 @@ ALTER TABLE "session" ADD CONSTRAINT "session_user_id_fkey" FOREIGN KEY ("user_i
 ALTER TABLE "prompt" ADD CONSTRAINT "prompt_id_fkey" FOREIGN KEY ("id") REFERENCES "prompt_descriptor"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "prompt_version" ADD CONSTRAINT "prompt_version_prompt_id_fkey" FOREIGN KEY ("prompt_id") REFERENCES "prompt_descriptor"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "prompt_follow_up" ADD CONSTRAINT "prompt_follow_up_prompt_id_fkey" FOREIGN KEY ("prompt_id") REFERENCES "prompt_descriptor"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "prompt_template_descriptor" ADD CONSTRAINT "prompt_template_descriptor_prompt_template_id_fkey" FOREIGN KEY ("prompt_template_id") REFERENCES "prompt_template"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "prompt_template_field" ADD CONSTRAINT "prompt_template_field_prompt_template_id_fkey" FOREIGN KEY ("prompt_template_id") REFERENCES "prompt_template"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "product_feature" ADD CONSTRAINT "product_feature_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -372,6 +533,15 @@ ALTER TABLE "library_entry" ADD CONSTRAINT "library_entry_template_descriptor_id
 
 -- AddForeignKey
 ALTER TABLE "library_entry" ADD CONSTRAINT "library_entry_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "subscription" ADD CONSTRAINT "subscription_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "subscription" ADD CONSTRAINT "subscription_plan_id_fkey" FOREIGN KEY ("plan_id") REFERENCES "subscription_plan"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "subscription_history" ADD CONSTRAINT "subscription_history_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_PromptCategoryToPromptDescriptor" ADD CONSTRAINT "_PromptCategoryToPromptDescriptor_A_fkey" FOREIGN KEY ("A") REFERENCES "prompt_category"("id") ON DELETE CASCADE ON UPDATE CASCADE;

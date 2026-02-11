@@ -151,7 +151,7 @@ model PromptTemplateDescriptor {
 model PromptTemplate {
   id                  String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   detailedDescription String   @map("detailed_description") @db.Text
-  promptText          String   @map("prompt_text") @db.Text
+  content             String   @map("content") @db.Text
   createdAt           DateTime @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt           DateTime @updatedAt @map("updated_at")
 

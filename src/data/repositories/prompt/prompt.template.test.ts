@@ -86,7 +86,7 @@ describe("pGetPromptTemplateDescriptors tests", () => {
                },
                {
                   promptTemplate: {
-                     promptText: {
+                     content: {
                         contains: search,
                         mode: "insensitive",
                      },
@@ -169,7 +169,7 @@ describe("pGetPromptTemplateDescriptors tests", () => {
                },
                {
                   promptTemplate: {
-                     promptText: {
+                     content: {
                         contains: search,
                         mode: "insensitive",
                      },

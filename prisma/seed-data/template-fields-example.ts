@@ -36,7 +36,7 @@ Die KI analysiert dann Ihren Code und gibt detailliertes Feedback zu:
 - Performance-Optimierungen
 - Sicherheitsaspekte
 - Best Practices für die gewählte Sprache`,
-            promptText: `Bitte führe eine professionelle Code-Review für den folgenden {{programming_language}}-Code durch:
+            content: `Bitte führe eine professionelle Code-Review für den folgenden {{programming_language}}-Code durch:
 
 \`\`\`{{programming_language}}
 {{code_snippet}}
@@ -162,7 +162,7 @@ Die KI erstellt eine E-Mail, die:
 - Professionell und präzise formuliert ist
 - Die gewünschte Botschaft klar vermittelt
 - Call-to-Actions enthält (optional)`,
-         promptText: `Erstelle eine professionelle E-Mail mit folgenden Parametern:
+         content: `Erstelle eine professionelle E-Mail mit folgenden Parametern:
 
 **Empfänger:** {{recipient}}
 **Betreff:** {{subject}}
@@ -287,7 +287,7 @@ Die KI berücksichtigt:
 - Beste Posting-Praktiken
 - Engagement-fördernde Elemente
 - SEO-Optimierung (wo relevant)`,
-         promptText: `Erstelle einen professionellen Social Media Post mit folgenden Parametern:
+         content: `Erstelle einen professionellen Social Media Post mit folgenden Parametern:
 
 **Plattform:** {{platform}}
 **Thema:** {{topic}}
@@ -445,7 +445,7 @@ Die KI erstellt Beschreibungen, die:
 - Kaufhemmungen abbauen
 - Vertrauen aufbauen
 - Zur Conversion führen`,
-         promptText: `Erstelle eine professionelle Produktbeschreibung mit folgenden Parametern:
+         content: `Erstelle eine professionelle Produktbeschreibung mit folgenden Parametern:
 
 **Produktname:** {{product_name}}
 **Produktkategorie:** {{category}}
@@ -591,7 +591,7 @@ Perfekt für:
 - How-To Guides
 - Listicles
 - Produktvergleiche`,
-         promptText: `Erstelle eine detaillierte Struktur für einen Blog-Artikel mit folgenden Parametern:
+         content: `Erstelle eine detaillierte Struktur für einen Blog-Artikel mit folgenden Parametern:
 
 **Thema:** {{topic}}
 **Zielgruppe:** {{target_audience}}
@@ -755,7 +755,7 @@ Ideal für:
 - Sales-Promotions
 - Event-Einladungen
 - Re-Engagement Kampagnen`,
-         promptText: `Erstelle eine professionelle Marketing-E-Mail mit folgenden Parametern:
+         content: `Erstelle eine professionelle Marketing-E-Mail mit folgenden Parametern:
 
 **Kampagnen-Typ:** {{campaign_type}}
 **Zielgruppe:** {{target_audience}}
@@ -942,7 +942,7 @@ Die KI berücksichtigt:
 - CTR-Optimierung
 - SERP-Snippet Vorschau
 - Aktuelle SEO Best Practices`,
-         promptText: `Erstelle SEO-optimierte Meta-Tags mit folgenden Parametern:
+         content: `Erstelle SEO-optimierte Meta-Tags mit folgenden Parametern:
 
 **Seiten-URL:** {{page_url}}
 **Seiten-Typ:** {{page_type}}

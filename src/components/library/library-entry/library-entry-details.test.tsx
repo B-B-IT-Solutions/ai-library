@@ -8,14 +8,14 @@ const assertRendered = () => {
    const libraryEntry = screen.getByTestId("library-entry-details");
    const shortDescription = screen.getByTestId("short-description");
    const longDescription = screen.getByTestId("long-description");
-   const promptText = screen.getByTestId("prompt-text");
+   const content = screen.getByTestId("prompt-text");
    const createPromptBtn = screen.getByTestId("create-prompt-btn");
    const downloadBtn = screen.getByTestId("download-template-btn");
 
    assertInDocument(libraryEntry);
    assertInDocument(shortDescription);
    assertInDocument(longDescription);
-   assertInDocument(promptText);
+   assertInDocument(content);
    assertInDocument(createPromptBtn);
    assertInDocument(downloadBtn);
 };

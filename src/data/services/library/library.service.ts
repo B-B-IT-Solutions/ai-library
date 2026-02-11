@@ -116,7 +116,7 @@ export class LibraryService {
       const downloadData = JSON.stringify(
          {
             title: descriptor.title,
-            content: descriptor.promptTemplate.promptText,
+            content: descriptor.promptTemplate.content,
             categories: descriptor.categories.map((c) => c.name),
             recommendedModel: descriptor.recommendedModel,
          },

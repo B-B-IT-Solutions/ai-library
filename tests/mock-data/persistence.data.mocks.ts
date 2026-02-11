@@ -526,7 +526,7 @@ export const pPromptTemplateDescriptor = (
 export const pPromptTemplate = (index = 1): PromptTemplateWithFields => {
    return {
       id: `8b82ebb2-5966-4788-8fed-3ad18c08e28${index}`,
-      promptText: `promptText ${index}`,
+      content: `content ${index}`,
       detailedDescription: `detailedDescription ${index}`,
       fields: pPromptTemplateFields(3),
       updatedAt: new Date("2025-09-27"),

@@ -349,7 +349,7 @@ export const dPromptTemplateDescriptor = (
 export const dPromptTemplate = (index = 1): DPromptTemplate => {
    return {
       id: `7c1c8898-199c-4274-8139-a883efdc676${index}`,
-      promptText: `promptText ${index}`,
+      content: `content ${index}`,
       detailedDescription: `detailedDescription ${index}`,
       fields: dPromptTemplateFields(3),
       updatedAt: new Date("2025-09-27").toISOString(),
