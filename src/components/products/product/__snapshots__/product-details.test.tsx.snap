@@ -1004,10 +1004,10 @@ exports[`ProductDetails rendering tests ProductDetails - product type BUNDLE - t
         role="none"
       />
       <div
-        class="bg-indigo-50 border border-indigo-200 rounded-lg p-4"
+        class="rounded-lg border border-indigo-200 bg-indigo-50 p-4"
       >
         <h4
-          class="font-semibold text-sm text-indigo-900 mb-2"
+          class="mb-2 text-sm font-semibold text-indigo-900"
         >
           Was Sie erhalten
         </h4>
@@ -1344,12 +1344,6 @@ exports[`ProductDetails rendering tests ProductDetails - product type TEMPLATE -
           </div>
         </div>
       </section>
-      <div
-        class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px"
-        data-orientation="horizontal"
-        data-slot="separator"
-        role="none"
-      />
       <div
         class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px"
         data-orientation="horizontal"
