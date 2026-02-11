@@ -1,13 +1,17 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useEffect, useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+   AlertCircle,
+   CheckCircle2,
    FileText,
    Loader,
    Plus,
+   RefreshCw,
    Save,
    Settings,
+   Sparkles,
    Trash2,
    X,
 } from "lucide-react";
@@ -91,6 +95,24 @@ const createTemplateSchema = z.object({
 
 type FormData = z.infer<typeof createTemplateSchema>;
 
+// Helper function to extract variables from template content
+const extractVariablesFromContent = (content: string): string[] => {
+   const regex = /\{\{(\w+)\}\}/g;
+   const variables = new Set<string>();
+   let match;
+
+   while ((match = regex.exec(content)) !== null) {
+      variables.add(match[1]);
+   }
+
+   return Array.from(variables);
+};
+
+// Helper function to capitalize first letter
+const capitalizeFirstLetter = (str: string): string => {
+   return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
 export const CreateTemplateForm: FC = () => {
    const router = useRouter();
 
@@ -119,6 +141,33 @@ export const CreateTemplateForm: FC = () => {
 
    const categories = form.watch("categories");
    const categoryInput = form.watch("categoryInput");
+   const content = form.watch("content");
+
+   // Extract variables from content
+   const detectedVariables = useMemo(
+      () => extractVariablesFromContent(content || ""),
+      [content]
+   );
+
+   // Determine variable status
+   const variableStatus = useMemo(() => {
+      const fieldNames = fields.map((f) => form.getValues(`fields.${fields.indexOf(f)}.name`));
+
+      return {
+         // Variables in content that don't have fields defined
+         undefined: detectedVariables.filter(
+            (varName) => !fieldNames.includes(varName)
+         ),
+         // Fields that are used in content
+         used: fieldNames.filter((fieldName) =>
+            detectedVariables.includes(fieldName)
+         ),
+         // Fields that are not used in content
+         unused: fieldNames.filter(
+            (fieldName) => !detectedVariables.includes(fieldName)
+         ),
+      };
+   }, [detectedVariables, fields, form]);
 
    const handleAddCategory = () => {
       if (categoryInput?.trim() && !categories.includes(categoryInput.trim())) {
@@ -145,6 +194,34 @@ export const CreateTemplateForm: FC = () => {
          defaultValue: "",
          options: [],
       });
+   };
+
+   const handleAddVariableAsField = (variableName: string) => {
+      addField({
+         name: variableName,
+         label: capitalizeFirstLetter(variableName),
+         description: "",
+         type: "TEXT",
+         required: true,
+         order: fields.length,
+         defaultValue: "",
+         options: [],
+      });
+      toast.success(`Feld "${variableName}" hinzugefügt`);
+   };
+
+   const handleSyncAllVariables = () => {
+      let addedCount = 0;
+      variableStatus.undefined.forEach((varName) => {
+         handleAddVariableAsField(varName);
+         addedCount++;
+      });
+
+      if (addedCount > 0) {
+         toast.success(`${addedCount} Feld(er) synchronisiert`);
+      } else {
+         toast.info("Alle Variablen sind bereits definiert");
+      }
    };
 
    const onSubmit: SubmitHandler<FormData> = async (data) => {
@@ -400,6 +477,104 @@ export const CreateTemplateForm: FC = () => {
 
                   <Separator />
 
+                  {/* Detected Variables */}
+                  {detectedVariables.length > 0 && (
+                     <>
+                        <section className="space-y-4">
+                           <div>
+                              <h3 className="flex items-center gap-2 text-lg font-semibold text-slate-900">
+                                 <Sparkles className="h-5 w-5 text-indigo-600" />
+                                 Erkannte Variablen
+                              </h3>
+                              <p className="mt-1 text-sm text-slate-500">
+                                 Variablen, die in Ihrer Prompt-Vorlage gefunden
+                                 wurden
+                              </p>
+                           </div>
+
+                           <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+                              <div className="mb-3 flex items-center justify-between">
+                                 <div className="text-sm text-slate-700">
+                                    <span className="font-medium">
+                                       {detectedVariables.length}
+                                    </span>{" "}
+                                    Variable(n) im Content gefunden
+                                 </div>
+                                 {variableStatus.undefined.length > 0 && (
+                                    <Button
+                                       type="button"
+                                       onClick={handleSyncAllVariables}
+                                       variant="outline"
+                                       size="sm"
+                                    >
+                                       <RefreshCw className="mr-2 h-3 w-3" />
+                                       Alle synchronisieren
+                                    </Button>
+                                 )}
+                              </div>
+
+                              <div className="flex flex-wrap gap-2">
+                                 {detectedVariables.map((varName) => {
+                                    const isDefined =
+                                       !variableStatus.undefined.includes(
+                                          varName
+                                       );
+                                    return (
+                                       <div
+                                          key={varName}
+                                          className={`flex items-center gap-2 rounded-md border px-3 py-2 ${
+                                             isDefined
+                                                ? "border-green-200 bg-green-50 text-green-900"
+                                                : "border-orange-200 bg-orange-50 text-orange-900"
+                                          }`}
+                                       >
+                                          {isDefined ? (
+                                             <CheckCircle2 className="h-4 w-4 text-green-600" />
+                                          ) : (
+                                             <AlertCircle className="h-4 w-4 text-orange-600" />
+                                          )}
+                                          <code className="text-sm font-mono">
+                                             {`{{${varName}}}`}
+                                          </code>
+                                          {!isDefined && (
+                                             <Button
+                                                type="button"
+                                                onClick={() =>
+                                                   handleAddVariableAsField(
+                                                      varName
+                                                   )
+                                                }
+                                                variant="ghost"
+                                                size="sm"
+                                                className="ml-2 h-6 px-2 text-xs"
+                                             >
+                                                <Plus className="mr-1 h-3 w-3" />
+                                                Hinzufügen
+                                             </Button>
+                                          )}
+                                       </div>
+                                    );
+                                 })}
+                              </div>
+
+                              {variableStatus.undefined.length > 0 && (
+                                 <div className="mt-3 rounded-md bg-orange-100 p-3 text-sm text-orange-800">
+                                    <div className="flex items-center gap-2">
+                                       <AlertCircle className="h-4 w-4" />
+                                       <span>
+                                          {variableStatus.undefined.length}{" "}
+                                          Variable(n) noch nicht als Feld
+                                          definiert
+                                       </span>
+                                    </div>
+                                 </div>
+                              )}
+                           </div>
+                        </section>
+                        <Separator />
+                     </>
+                  )}
+
                   {/* Template Fields */}
                   <section className="space-y-4">
                      <div className="flex items-center justify-between">
@@ -436,24 +611,50 @@ export const CreateTemplateForm: FC = () => {
                      )}
 
                      <div className="space-y-4">
-                        {fields.map((field, index) => (
-                           <div
-                              key={field.id}
-                              className="rounded-lg border border-slate-200 bg-slate-50 p-6"
-                           >
-                              <div className="mb-4 flex items-center justify-between">
-                                 <h4 className="font-medium text-slate-900">
-                                    Feld {index + 1}
-                                 </h4>
-                                 <Button
-                                    type="button"
-                                    onClick={() => removeField(index)}
-                                    variant="ghost"
-                                    size="sm"
-                                 >
-                                    <Trash2 className="h-4 w-4" />
-                                 </Button>
-                              </div>
+                        {fields.map((field, index) => {
+                           const fieldName = form.watch(`fields.${index}.name`);
+                           const isUsedInContent =
+                              detectedVariables.includes(fieldName);
+                           const hasName = fieldName && fieldName.trim() !== "";
+
+                           return (
+                              <div
+                                 key={field.id}
+                                 className={`rounded-lg border p-6 ${
+                                    hasName && !isUsedInContent
+                                       ? "border-orange-200 bg-orange-50"
+                                       : hasName && isUsedInContent
+                                         ? "border-green-200 bg-green-50"
+                                         : "border-slate-200 bg-slate-50"
+                                 }`}
+                              >
+                                 <div className="mb-4 flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                       <h4 className="font-medium text-slate-900">
+                                          Feld {index + 1}
+                                       </h4>
+                                       {hasName && isUsedInContent && (
+                                          <span className="flex items-center gap-1 rounded-full bg-green-100 px-2 py-1 text-xs text-green-800">
+                                             <CheckCircle2 className="h-3 w-3" />
+                                             Im Content verwendet
+                                          </span>
+                                       )}
+                                       {hasName && !isUsedInContent && (
+                                          <span className="flex items-center gap-1 rounded-full bg-orange-100 px-2 py-1 text-xs text-orange-800">
+                                             <AlertCircle className="h-3 w-3" />
+                                             Nicht verwendet
+                                          </span>
+                                       )}
+                                    </div>
+                                    <Button
+                                       type="button"
+                                       onClick={() => removeField(index)}
+                                       variant="ghost"
+                                       size="sm"
+                                    >
+                                       <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                 </div>
 
                               <div className="grid grid-cols-2 gap-4">
                                  <FormField
@@ -578,8 +779,9 @@ export const CreateTemplateForm: FC = () => {
                                     )}
                                  />
                               </div>
-                           </div>
-                        ))}
+                              </div>
+                           );
+                        })}
                      </div>
                   </section>
 
