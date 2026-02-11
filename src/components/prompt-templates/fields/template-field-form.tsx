@@ -1,8 +1,9 @@
 "use client";
 
+import { FC } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { map } from "es-toolkit/compat";
-import { useForm } from "react-hook-form";
+import { map, reduce } from "es-toolkit/compat";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/shadcn/button";
@@ -18,6 +19,7 @@ import { GenericField } from "./field/field-generic";
 import { RadioField } from "./field/field-radio";
 import { SelectField } from "./field/field-select";
 import { TextAreaField } from "./field/field-textarea";
+import { buildFieldsSchema } from "./fields.schema";
 
 type Props = {
    fields: DPromptTemplateField[];
@@ -25,44 +27,18 @@ type Props = {
    onCancel: CallbackFn;
 };
 
-export const TemplateFieldForm = ({ fields, onSubmit, onCancel }: Props) => {
-   const buildSchema = () => {
-      const shape: Record<string, any> = {};
-      fields.forEach((field) => {
-         let validator: any;
+export const TemplateFieldForm: FC<Props> = ({
+   fields,
+   onSubmit,
+   onCancel,
+}) => {
+   const fieldsSchema = buildFieldsSchema(fields);
+   type DFieldsType = z.infer<typeof fieldsSchema>;
 
-         switch (field.type) {
-            case "EMAIL":
-               validator = z.string().email("Ungültige E-Mail");
-               break;
-            case "NUMBER":
-               validator = z.coerce.number();
-               break;
-            case "DATE":
-               validator = z.string(); // Or z.date() depending on input format
-               break;
-            case "CHECKBOX":
-               validator = z.boolean().default(false);
-               break;
-            default:
-               validator = z.string();
-         }
-
-         if (field.required && field.type !== "CHECKBOX") {
-            validator = validator.min(1, `${field.label} ist erforderlich`);
-         } else if (!field.required) {
-            validator = validator.optional();
-         }
-
-         shape[field.name] = validator;
-      });
-
-      return z.object(shape);
-   };
-
-   const form = useForm<any>({
-      resolver: zodResolver(buildSchema()),
-      defaultValues: fields.reduce(
+   const form = useForm<DFieldsType>({
+      resolver: zodResolver(fieldsSchema),
+      defaultValues: reduce(
+         fields,
          (acc, field) => ({
             ...acc,
             [field.name]:
@@ -96,10 +72,14 @@ export const TemplateFieldForm = ({ fields, onSubmit, onCancel }: Props) => {
       });
    };
 
+   const onSubmitInternal: SubmitHandler<DFieldsType> = (data) => {
+      onSubmit(data as DPromptTemplateFieldValues);
+   };
+
    return (
       <Form {...form}>
          <form
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={form.handleSubmit(onSubmitInternal)}
             className="space-y-4"
             data-testid="prompt-template-fields-form"
          >
