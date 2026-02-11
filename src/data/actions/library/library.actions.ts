@@ -99,6 +99,45 @@ export const downloadTemplate = async (
    }
 };
 
+export type CreateCustomTemplateInput = {
+   title: string;
+   description: string;
+   content: string;
+   detailedDescription: string;
+   recommendedModel: string;
+   categories: string[];
+   fields: {
+      name: string;
+      label: string;
+      description?: string;
+      type: string;
+      required: boolean;
+      order: number;
+      defaultValue?: string;
+      options?: string[];
+   }[];
+};
+
+export const createCustomTemplate = async (
+   input: CreateCustomTemplateInput
+): Promise<ActionResult<string>> => {
+   try {
+      const user = await requireUser();
+      const service = getLibrarySevice();
+      const entryId = await service.createCustomTemplate(input, user.id);
+      return {
+         success: true,
+         message: "Vorlage erfolgreich erstellt",
+         data: entryId,
+      };
+   } catch (error) {
+      return {
+         success: false,
+         message: formatError(error),
+      };
+   }
+};
+
 const getLibrarySevice = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getLibraryService();

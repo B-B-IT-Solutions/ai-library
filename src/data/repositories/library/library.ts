@@ -90,6 +90,84 @@ export class LibraryRepository {
       });
    }
 
+   async pCreateCustomLibraryEntry(data: {
+      userId: string;
+      promptTemplate: {
+         content: string;
+         detailedDescription: string;
+         fields: Array<{
+            name: string;
+            label: string;
+            description?: string;
+            type: string;
+            required: boolean;
+            order: number;
+            defaultValue?: string;
+            options?: string[];
+         }>;
+      };
+      templateDescriptor: {
+         title: string;
+         description: string;
+         recommendedModel: string;
+         categories: string[];
+      };
+   }) {
+      return await this.prisma.libraryEntry.create({
+         data: {
+            userId: data.userId,
+            templateDescriptor: {
+               create: {
+                  title: data.templateDescriptor.title,
+                  description: data.templateDescriptor.description,
+                  recommendedModel: data.templateDescriptor.recommendedModel,
+                  categories: {
+                     connectOrCreate: data.templateDescriptor.categories.map(
+                        (categoryName) => ({
+                           where: { name: categoryName },
+                           create: { name: categoryName },
+                        })
+                     ),
+                  },
+                  promptTemplate: {
+                     create: {
+                        content: data.promptTemplate.content,
+                        detailedDescription:
+                           data.promptTemplate.detailedDescription,
+                        fields: {
+                           create: data.promptTemplate.fields.map((field) => ({
+                              name: field.name,
+                              label: field.label,
+                              description: field.description,
+                              type: field.type,
+                              required: field.required,
+                              order: field.order,
+                              defaultValue: field.defaultValue,
+                              options: field.options
+                                 ? JSON.stringify(field.options)
+                                 : undefined,
+                           })),
+                        },
+                     },
+                  },
+               },
+            },
+         },
+         include: {
+            templateDescriptor: {
+               include: {
+                  categories: true,
+                  promptTemplate: {
+                     include: {
+                        fields: true,
+                     },
+                  },
+               },
+            },
+         },
+      });
+   }
+
    private getLibraryEntryParamsToWhereFindUniqueInput = (
       params: GetLibraryEntryParams
    ): LibraryEntryWhereUniqueInput => {

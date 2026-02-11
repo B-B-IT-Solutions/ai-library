@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Button } from "@/components/shadcn/button";
 import { DLibraryEntry } from "@/data/types/domain/library";
 
+import { CreateTemplateButton } from "./buttons/create-template-button";
 import { LibraryEntries } from "./library-entries";
 
 type LibraryProps = {
@@ -39,9 +40,12 @@ export const Library: FC<LibraryProps> = ({ entries }) => {
    return (
       <div className="container mx-auto px-4 py-8" data-testid="library">
          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">
-               Meine Bibliothek
-            </h1>
+            <div className="flex justify-between items-center mb-2">
+               <h1 className="text-3xl font-bold text-slate-900">
+                  Meine Bibliothek
+               </h1>
+               <CreateTemplateButton />
+            </div>
             <p className="text-slate-600">
                Greifen Sie auf Ihre Vorlagen zu und verwalten Sie diese
             </p>

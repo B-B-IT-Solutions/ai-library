@@ -18,6 +18,25 @@ import {
    toDLibraryEntryWithPromptTemplate,
 } from "./library.mapper";
 
+type CreateCustomTemplateInput = {
+   title: string;
+   description: string;
+   content: string;
+   detailedDescription: string;
+   recommendedModel: string;
+   categories: string[];
+   fields: {
+      name: string;
+      label: string;
+      description?: string;
+      type: string;
+      required: boolean;
+      order: number;
+      defaultValue?: string;
+      options?: string[];
+   }[];
+};
+
 export class LibraryService {
    private libraryRepository: LibraryRepository;
    private promptTemplateService: PromptTemplateService;
@@ -123,5 +142,27 @@ export class LibraryService {
       );
 
       return downloadData;
+   }
+
+   async createCustomTemplate(
+      input: CreateCustomTemplateInput,
+      userId: string
+   ): Promise<string> {
+      const entry = await this.libraryRepository.pCreateCustomLibraryEntry({
+         userId,
+         promptTemplate: {
+            content: input.content,
+            detailedDescription: input.detailedDescription,
+            fields: input.fields,
+         },
+         templateDescriptor: {
+            title: input.title,
+            description: input.description,
+            recommendedModel: input.recommendedModel,
+            categories: input.categories,
+         },
+      });
+
+      return entry.id;
    }
 }
