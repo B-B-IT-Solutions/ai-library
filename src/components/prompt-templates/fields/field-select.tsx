@@ -5,6 +5,7 @@ import { Control, FieldValues } from "react-hook-form";
 
 import {
    FormControl,
+   FormDescription,
    FormField,
    FormItem,
    FormLabel,
@@ -38,11 +39,7 @@ export const SelectField: FC<Props> = ({ field, control }) => {
                      <span className="text-destructive">*</span>
                   )}
                </FormLabel>
-               {field.description && (
-                  <p className="text-sm text-muted-foreground">
-                     {field.description}
-                  </p>
-               )}
+               <FormDescription> {field.description}</FormDescription>
                <Select
                   onValueChange={formField.onChange}
                   defaultValue={formField.value}
