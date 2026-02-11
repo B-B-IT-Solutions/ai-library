@@ -8,24 +8,26 @@ import {
    DPromptTemplateFieldType,
 } from "@/data/types/domain/prompt.template";
 
-import { TemplateFieldForm } from "./template-field-form";
+import { TemplateFieldForm } from "./template-fields-form";
 
 const createField = (
    type: DPromptTemplateFieldType,
    name: string,
    label: string,
    required = false
-): DPromptTemplateField => ({
-   id: `field-${name}`,
-   promptTemplateId: "1",
-   name,
-   label,
-   type,
-   required,
-   order: 1,
-   defaultValue: null,
-   description: null,
-});
+): DPromptTemplateField => {
+   return {
+      id: `field-${name}`,
+      promptTemplateId: "1",
+      name,
+      label,
+      type,
+      required,
+      order: 1,
+      defaultValue: null,
+      description: null,
+   };
+};
 
 const assertRendered = () => {
    const form = screen.getByTestId("prompt-template-fields-form");
