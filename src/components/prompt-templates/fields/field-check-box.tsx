@@ -19,7 +19,6 @@ type Props = {
 };
 
 export const CheckBoxField: FC<Props> = ({ field, control }) => {
-   // Use Select for RADIO since RadioGroup component doesn't exist
    return (
       <FormField
          control={control}
