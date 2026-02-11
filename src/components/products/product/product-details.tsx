@@ -22,8 +22,6 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
                <Separator />
                <UseCases product={product} />
                <Separator />
-               {/* <TemplatePreview content={product.template.content} /> */}
-               <Separator />
                <UsageInstructions product={product} />
             </div>
          );
@@ -40,16 +38,16 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ product }) => {
                <Separator />
                <BundleItems items={product.productItems} groupByCategory />
                <Separator />
-               <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4">
-                  <h4 className="font-semibold text-sm text-indigo-900 mb-2">
+               <div className="rounded-lg border border-indigo-200 bg-indigo-50 p-4">
+                  <h4 className="mb-2 text-sm font-semibold text-indigo-900">
                      Was Sie erhalten
                   </h4>
                   <ul className="space-y-1 text-sm text-indigo-800">
                      <li className="flex items-start gap-2">
                         <span className="shrink-0">✓</span>
                         <span>
-                           {product.productItems.length} professionell gestaltete
-                           Prompt-Vorlagen
+                           {product.productItems.length} professionell
+                           gestaltete Prompt-Vorlagen
                         </span>
                      </li>
                      <li className="flex items-start gap-2">
