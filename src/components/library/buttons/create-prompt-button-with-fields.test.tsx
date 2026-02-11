@@ -1,4 +1,5 @@
 jest.mock("@/data/actions/library");
+jest.mock("@/data/actions/prompt");
 jest.mock("sonner");
 
 import { screen, waitFor } from "@testing-library/dom";
@@ -8,6 +9,7 @@ import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import { toast } from "sonner";
 
 import { composePromptFromTemplate } from "@/data/actions/library";
+import { getPromptTemplate } from "@/data/actions/prompt";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
@@ -21,6 +23,10 @@ const composePromptFromTemplateMock =
       typeof composePromptFromTemplate
    >;
 
+const getPromptTemplateMock = getPromptTemplate as jest.MockedFunction<
+   typeof getPromptTemplate
+>;
+
 const assertRendered = () => {
    const createPromptBtn = screen.getByTestId("create-prompt-btn");
    assertInDocument(createPromptBtn);
@@ -28,6 +34,27 @@ const assertRendered = () => {
 
 describe("CreatePromptButton rendering tests", () => {
    it("CreatePromptButton - with fields - rendered test", async () => {
+      const promptTemplate = dtestData.dPromptTemplate();
+      getPromptTemplateMock.mockResolvedValue(promptTemplate);
+
+      const descriptor = dtestData.dPromptTemplateDescriptorWithPrompt();
+      const { container } = render(
+         <CreatePromptButton descriptor={descriptor} />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("CreatePromptButton - without fields - rendered test", async () => {
+      const promptTemplate = dtestData.dPromptTemplate();
+      promptTemplate.fields = [];
+
+      getPromptTemplateMock.mockResolvedValue(promptTemplate);
+
       const descriptor = dtestData.dPromptTemplateDescriptorWithPrompt();
       const { container } = render(
          <CreatePromptButton descriptor={descriptor} />
@@ -41,6 +68,9 @@ describe("CreatePromptButton rendering tests", () => {
    });
 
    it("CreatePromptButton - with className - rendered test", async () => {
+      const promptTemplate = dtestData.dPromptTemplate();
+      getPromptTemplateMock.mockResolvedValue(promptTemplate);
+
       const descriptor = dtestData.dPromptTemplateDescriptorWithPrompt();
       const { container } = render(
          <CreatePromptButton descriptor={descriptor} className="custom-class" />
@@ -62,6 +92,10 @@ describe("CreatePromptButton functionality - no fields - tests", () => {
    });
 
    it("CreatePromptButton - submit clicked - success - test", async () => {
+      const promptTemplate = dtestData.dPromptTemplate();
+      promptTemplate.fields = [];
+      getPromptTemplateMock.mockResolvedValue(promptTemplate);
+
       const promptUpdate = dtestData.dPromptUpdate();
       const result: ActionResult<DPromptUpdate> = {
          success: true,
@@ -71,7 +105,6 @@ describe("CreatePromptButton functionality - no fields - tests", () => {
       composePromptFromTemplateMock.mockResolvedValue(result);
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithPrompt();
-      descriptor.promptTemplate.fields = [];
 
       render(<CreatePromptButton descriptor={descriptor} />);
 
@@ -91,6 +124,10 @@ describe("CreatePromptButton functionality - no fields - tests", () => {
    });
 
    it("CreatePromptButton - submit clicked - error - test", async () => {
+      const promptTemplate = dtestData.dPromptTemplate();
+      promptTemplate.fields = [];
+      getPromptTemplateMock.mockResolvedValue(promptTemplate);
+
       const result: ActionResult<DPromptUpdate> = {
          success: false,
          message: "Template not found",
@@ -98,7 +135,6 @@ describe("CreatePromptButton functionality - no fields - tests", () => {
       composePromptFromTemplateMock.mockResolvedValue(result);
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithPrompt();
-      descriptor.promptTemplate.fields = [];
 
       render(<CreatePromptButton descriptor={descriptor} />);
 
@@ -126,6 +162,9 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
    });
 
    it("CreatePromptButton - submit clicked - success - test", async () => {
+      const promptTemplate = dtestData.dPromptTemplate();
+      getPromptTemplateMock.mockResolvedValue(promptTemplate);
+
       const promptData = dtestData.dPromptUpdate();
       const result: ActionResult<DPromptUpdate> = {
          success: true,
@@ -172,6 +211,9 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
    });
 
    it("CreatePromptButton - submit clicked - error - test", async () => {
+      const promptTemplate = dtestData.dPromptTemplate();
+      getPromptTemplateMock.mockResolvedValue(promptTemplate);
+
       const result: ActionResult<DPromptUpdate> = {
          success: false,
          message: "Provided template fields are invalid",
@@ -215,6 +257,9 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
    });
 
    it("CreatePromptButton - cancel clicked- test", async () => {
+      const promptTemplate = dtestData.dPromptTemplate();
+      getPromptTemplateMock.mockResolvedValue(promptTemplate);
+
       const descriptor = dtestData.dPromptTemplateDescriptorWithPrompt();
 
       render(<CreatePromptButton descriptor={descriptor} />);
