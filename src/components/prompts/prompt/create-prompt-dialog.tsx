@@ -10,7 +10,6 @@ import {
    DialogHeader,
    DialogTitle,
 } from "@/components/shadcn/dialog";
-import { TemplateFieldForm } from "@/components/templates/template-field-form";
 import { CallbackFn } from "@/data/types/common";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
@@ -19,6 +18,7 @@ import {
 } from "@/data/types/domain/prompt.template";
 
 import { PromptEdit } from "./prompt-edit";
+import { TemplateFieldForm } from "./template-field-form";
 
 type Props = {
    onSubmit: (values: DPromptTemplateFieldValues) => void;

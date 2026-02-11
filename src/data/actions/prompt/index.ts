@@ -11,4 +11,5 @@ export {
 export {
    getPromptTemplateCategories,
    getPromptTemplates,
+   getPromptTemplate,
 } from "./prompt.template.actions";

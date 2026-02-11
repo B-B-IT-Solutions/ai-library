@@ -1,12 +1,10 @@
 import { isEmpty, map } from "es-toolkit/compat";
-import { validate as isValidUuid } from "uuid";
 
-import { requireUser } from "@/data/actions/auth-utils";
 import {
    GetLibraryEntryParams,
    LibraryRepository,
 } from "@/data/repositories/library";
-import { PromptService, PromptTemplateService } from "@/data/services/prompt";
+import { PromptTemplateService } from "@/data/services/prompt";
 import { OrderProducts } from "@/data/types/db/order";
 import {
    DLibraryEntry,
@@ -22,25 +20,20 @@ import {
 
 export class LibraryService {
    private libraryRepository: LibraryRepository;
-   private promptService: PromptService;
    private promptTemplateService: PromptTemplateService;
 
    constructor(
       libraryRepository: LibraryRepository,
-      promptService: PromptService,
       promptTemplateService: PromptTemplateService
    ) {
       this.libraryRepository = libraryRepository;
-      this.promptService = promptService;
       this.promptTemplateService = promptTemplateService;
    }
 
-   async getLibraryEntries(): Promise<DLibraryEntry[]> {
+   async getLibraryEntries(userId: string): Promise<DLibraryEntry[]> {
       try {
-         const user = await requireUser();
-         const entries = await this.libraryRepository.pGetLibraryEntries(
-            user.id
-         );
+         const entries =
+            await this.libraryRepository.pGetLibraryEntries(userId);
          return toDLibraryEntries(entries);
       } catch {
          return [];
@@ -48,10 +41,13 @@ export class LibraryService {
    }
 
    async getLibraryEntry(
-      entryId: string
+      entryId: string,
+      userId: string
    ): Promise<DLibraryEntryWithPromptTemplate | null> {
-      const user = await requireUser();
-      const params: GetLibraryEntryParams = { entryId, userId: user.id };
+      const params: GetLibraryEntryParams = {
+         entryId,
+         userId,
+      };
       const entry = await this.libraryRepository.pGetLibraryEntry(params);
 
       if (entry) {
@@ -81,47 +77,14 @@ export class LibraryService {
       await this.libraryRepository.pDeleteLibraryEntries(userId);
    }
 
-   async createPromptFromTemplate(templateDescriptorId: string) {
-      if (!isValidUuid(templateDescriptorId)) {
-         throw new Error("Invalid template ID.");
-      }
-      const user = await requireUser();
-
-      const params: GetLibraryEntryParams = {
-         templateDescriptorId,
-         userId: user.id,
-      };
-      const entry = await this.libraryRepository.pGetLibraryEntry(params);
-
-      if (!entry) {
-         throw new Error("Template not found");
-      }
-
-      const { templateDescriptor: descriptor } = entry;
-      const promptData: DPromptUpdate = {
-         content: descriptor.promptTemplate.promptText,
-         title: descriptor.title,
-         recommendedModel: descriptor.recommendedModel,
-         categories: map(descriptor.categories, (cat) => cat.name),
-         followUpPrompts: [],
-      };
-
-      await this.promptService.createPrompt(promptData);
-   }
-
    async composePromptFromTemplate(
-      templateDescriptorId: string,
-      fieldValues: DPromptTemplateFieldValues
+      descriptorId: string,
+      fieldValues: DPromptTemplateFieldValues,
+      userId: string
    ): Promise<DPromptUpdate> {
-      if (!isValidUuid(templateDescriptorId)) {
-         throw new Error("Invalid template ID.");
-      }
-
-      const user = await requireUser();
-
       const params: GetLibraryEntryParams = {
-         templateDescriptorId,
-         userId: user.id,
+         templateDescriptorId: descriptorId,
+         userId,
       };
       const entry = await this.libraryRepository.pGetLibraryEntry(params);
 
@@ -135,16 +98,13 @@ export class LibraryService {
       );
    }
 
-   async downloadPromptTemplate(templateDescriptorId: string): Promise<string> {
-      if (!isValidUuid(templateDescriptorId)) {
-         throw new Error("Invalid template ID.");
-      }
-
-      const user = await requireUser();
-
+   async downloadPromptTemplate(
+      templateDescriptorId: string,
+      userId: string
+   ): Promise<string> {
       const params: GetLibraryEntryParams = {
          templateDescriptorId,
-         userId: user.id,
+         userId,
       };
       const entry = await this.libraryRepository.pGetLibraryEntry(params);
 

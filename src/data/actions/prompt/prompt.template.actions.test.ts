@@ -6,12 +6,14 @@ import { map } from "es-toolkit/compat";
 import { PromptTemplateService } from "@/data/services/prompt";
 
 import {
+   getPromptTemplate,
    getPromptTemplateCategories,
    getPromptTemplates,
 } from "./prompt.template.actions";
 
 const sGetPromptTemplateDescriptors =
    PromptTemplateService.prototype.getPromptTemplateDescriptors;
+const sGetPromptTemplate = PromptTemplateService.prototype.getPromptTemplate;
 const sGetPromptTemplateCategories =
    PromptTemplateService.prototype.getPromptTemplateCategories;
 
@@ -19,7 +21,9 @@ const sGetPromptTemplateDescriptorsMock =
    sGetPromptTemplateDescriptors as jest.MockedFunction<
       typeof sGetPromptTemplateDescriptors
    >;
-
+const sGetPromptTemplateMock = sGetPromptTemplate as jest.MockedFunction<
+   typeof sGetPromptTemplate
+>;
 const sGetPromptTemplateCategoriesMock =
    sGetPromptTemplateCategories as jest.MockedFunction<
       typeof sGetPromptTemplateCategories
@@ -65,6 +69,35 @@ describe("getPromptTemplates tests", () => {
       expect(result).toEqual(templates);
       expect(sGetPromptTemplateDescriptorsMock).toHaveBeenCalledTimes(1);
       expect(sGetPromptTemplateDescriptorsMock).toHaveBeenCalledWith(params);
+   });
+});
+
+describe("getPromptTemplate tests", () => {
+   beforeEach(() => {
+      jest.resetAllMocks();
+   });
+
+   it("getPromptTemplate  - promptTemplate null - test", async () => {
+      sGetPromptTemplateMock.mockResolvedValue(null);
+
+      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const result = await getPromptTemplate(id);
+
+      expect(result).toBeNull();
+      expect(sGetPromptTemplateMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptTemplateMock).toHaveBeenCalledWith(id);
+   });
+
+   it("getPromptTemplate  - promptTemplate defined - test", async () => {
+      const prompt = dtestData.dPromptTemplate();
+      sGetPromptTemplateMock.mockResolvedValue(prompt);
+
+      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const result = await getPromptTemplate(id);
+
+      expect(result).toEqual(prompt);
+      expect(sGetPromptTemplateMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptTemplateMock).toHaveBeenCalledWith(id);
    });
 });
 
