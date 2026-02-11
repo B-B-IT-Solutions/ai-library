@@ -43,10 +43,13 @@ export class LibraryService {
    }
 
    async getLibraryEntry(
-      entryId: string
+      entryId: string,
+      userId: string
    ): Promise<DLibraryEntryWithPromptTemplate | null> {
-      const user = await requireUser();
-      const params: GetLibraryEntryParams = { entryId, userId: user.id };
+      const params: GetLibraryEntryParams = {
+         entryId,
+         userId,
+      };
       const entry = await this.libraryRepository.pGetLibraryEntry(params);
 
       if (entry) {

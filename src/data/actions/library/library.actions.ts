@@ -30,8 +30,9 @@ export const getLibraryEntry = async (
    entryId: string
 ): Promise<DLibraryEntryWithPromptTemplate | null> => {
    try {
+      const user = await requireUser();
       const service = getLibrarySevice();
-      return await service.getLibraryEntry(entryId);
+      return await service.getLibraryEntry(entryId, user.id);
    } catch (error) {
       console.error(formatError(error));
       return null;
