@@ -41,17 +41,6 @@ describe("getOrders tests", () => {
       jest.clearAllMocks();
    });
 
-   it("getOrders - db error - test", async () => {
-      const userId = "user-id-1";
-      orderRepoMock.pGetOrders.mockRejectedValue("db error");
-
-      const result = await orderService.getOrders(userId);
-
-      expect(result).toEqual([]);
-      expect(orderRepoMock.pGetOrders).toHaveBeenCalledTimes(1);
-      expect(orderRepoMock.pGetOrders).toHaveBeenCalledWith(userId);
-   });
-
    it("getOrders - orders retrieved - test", async () => {
       const userId = "user-id-1";
       const orders = ptestData.pOrdersWithItems();

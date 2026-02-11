@@ -28,12 +28,8 @@ export class OrderService {
    }
 
    async getOrders(userId: string): Promise<DOrder[]> {
-      try {
-         const orders = await this.orderRepository.pGetOrders(userId);
-         return toDOrdersWithItems(orders);
-      } catch {
-         return [];
-      }
+      const orders = await this.orderRepository.pGetOrders(userId);
+      return toDOrdersWithItems(orders);
    }
 
    async getOrder(orderId: string, userId: string): Promise<DOrder | null> {
