@@ -10,8 +10,14 @@ import { DbClient } from "@/data/types/db/common";
 import { DOrder } from "@/data/types/domain/order";
 
 export const getOrders = async (): Promise<DOrder[]> => {
-   const orderService = getOrderSevice();
-   return orderService.getOrders();
+   try {
+      const user = await requireUser();
+      const orderService = getOrderSevice();
+      return orderService.getOrders(user.id);
+   } catch (error) {
+      console.error(formatError(error));
+      return [];
+   }
 };
 
 export const getOrder = async (orderId: string): Promise<DOrder | null> => {

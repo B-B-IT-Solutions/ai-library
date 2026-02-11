@@ -1,6 +1,5 @@
 import { map } from "es-toolkit/compat";
 
-import { requireUser } from "@/data/actions/auth-utils";
 import { OrderRepository, OrderUpdate } from "@/data/repositories/order";
 import { CartService } from "@/data/services/cart";
 import { LibraryService } from "@/data/services/library";
@@ -28,10 +27,9 @@ export class OrderService {
       this.libraryService = libraryService;
    }
 
-   async getOrders(): Promise<DOrder[]> {
+   async getOrders(userId: string): Promise<DOrder[]> {
       try {
-         const user = await requireUser();
-         const orders = await this.orderRepository.pGetOrders(user.id);
+         const orders = await this.orderRepository.pGetOrders(userId);
          return toDOrdersWithItems(orders);
       } catch {
          return [];

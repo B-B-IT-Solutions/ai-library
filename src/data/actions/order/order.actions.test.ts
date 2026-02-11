@@ -20,25 +20,51 @@ const sGetOrderMock = sGetOrder as jest.MockedFunction<typeof sGetOrder>;
 describe("getOrders tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("getOrders - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await getOrders();
+
+      expect(result).toEqual([]);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetOrdersMock).not.toHaveBeenCalled();
    });
 
    it("getOrders - order empty - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
       sGetOrdersMock.mockResolvedValue([]);
 
       const result = await getOrders();
 
       expect(result).toEqual([]);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetOrdersMock).toHaveBeenCalledTimes(1);
+      expect(sGetOrdersMock).toHaveBeenCalledWith(user.id);
    });
 
    it("getOrders - orders retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
       const orders = dtestData.dOrders();
       sGetOrdersMock.mockResolvedValue(orders);
 
       const result = await getOrders();
 
       expect(result).toEqual(orders);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetOrdersMock).toHaveBeenCalledTimes(1);
+      expect(sGetOrdersMock).toHaveBeenCalledWith(user.id);
    });
 });
 
