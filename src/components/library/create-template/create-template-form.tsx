@@ -1,16 +1,16 @@
 "use client";
 
 import { FC, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useForm, useFieldArray, Controller } from "react-hook-form";
-import { Plus, Trash2, X, ArrowLeft } from "lucide-react";
-import { toast } from "sonner";
+import { Plus, Trash2, X } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
+import { Checkbox } from "@/components/shadcn/checkbox";
 import { Input } from "@/components/shadcn/input";
 import { Label } from "@/components/shadcn/label";
-import { Textarea } from "@/components/shadcn/textarea";
 import {
    Select,
    SelectContent,
@@ -18,7 +18,7 @@ import {
    SelectTrigger,
    SelectValue,
 } from "@/components/shadcn/select";
-import { Checkbox } from "@/components/shadcn/checkbox";
+import { Textarea } from "@/components/shadcn/textarea";
 import {
    createCustomTemplate,
    CreateCustomTemplateInput,
@@ -135,12 +135,12 @@ export const CreateTemplateForm: FC = () => {
    };
 
    return (
-      <div className="bg-white rounded-lg shadow-sm border border-slate-200">
-         <form onSubmit={handleSubmit(onSubmit)} className="p-8 space-y-8">
+      <div className="rounded-lg border border-slate-200 bg-white shadow-sm">
+         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 p-8">
             {/* Basic Information Section */}
             <div className="space-y-6">
                <div>
-                  <h2 className="text-xl font-semibold text-slate-900 mb-4">
+                  <h2 className="mb-4 text-xl font-semibold text-slate-900">
                      Grundlegende Informationen
                   </h2>
                   <div className="space-y-4">
@@ -155,7 +155,7 @@ export const CreateTemplateForm: FC = () => {
                            className="mt-1"
                         />
                         {errors.title && (
-                           <p className="text-sm text-red-500 mt-1">
+                           <p className="mt-1 text-sm text-red-500">
                               {errors.title.message}
                            </p>
                         )}
@@ -173,7 +173,7 @@ export const CreateTemplateForm: FC = () => {
                            className="mt-1"
                         />
                         {errors.description && (
-                           <p className="text-sm text-red-500 mt-1">
+                           <p className="mt-1 text-sm text-red-500">
                               {errors.description.message}
                            </p>
                         )}
@@ -194,7 +194,7 @@ export const CreateTemplateForm: FC = () => {
                            className="mt-1"
                         />
                         {errors.detailedDescription && (
-                           <p className="text-sm text-red-500 mt-1">
+                           <p className="mt-1 text-sm text-red-500">
                               {errors.detailedDescription.message}
                            </p>
                         )}
@@ -229,7 +229,7 @@ export const CreateTemplateForm: FC = () => {
 
                      <div>
                         <Label htmlFor="categoryInput">Kategorien</Label>
-                        <div className="flex gap-2 mt-1">
+                        <div className="mt-1 flex gap-2">
                            <Input
                               id="categoryInput"
                               {...register("categoryInput")}
@@ -250,11 +250,11 @@ export const CreateTemplateForm: FC = () => {
                            </Button>
                         </div>
                         {categories.length > 0 && (
-                           <div className="flex flex-wrap gap-2 mt-2">
+                           <div className="mt-2 flex flex-wrap gap-2">
                               {categories.map((category) => (
                                  <div
                                     key={category}
-                                    className="bg-slate-100 px-3 py-1 rounded-full flex items-center gap-2"
+                                    className="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
                                  >
                                     <span className="text-sm">{category}</span>
                                     <button
@@ -264,7 +264,7 @@ export const CreateTemplateForm: FC = () => {
                                        }
                                        className="text-slate-500 hover:text-slate-700"
                                     >
-                                       <X className="w-3 h-3" />
+                                       <X className="h-3 w-3" />
                                     </button>
                                  </div>
                               ))}
@@ -279,7 +279,7 @@ export const CreateTemplateForm: FC = () => {
             <div className="border-t border-slate-200 pt-8">
                <div className="space-y-4">
                   <div>
-                     <h2 className="text-xl font-semibold text-slate-900 mb-4">
+                     <h2 className="mb-4 text-xl font-semibold text-slate-900">
                         Prompt-Vorlage
                      </h2>
                      <div>
@@ -294,13 +294,13 @@ export const CreateTemplateForm: FC = () => {
                            className="mt-1 font-mono text-sm"
                         />
                         {errors.content && (
-                           <p className="text-sm text-red-500 mt-1">
+                           <p className="mt-1 text-sm text-red-500">
                               {errors.content.message}
                            </p>
                         )}
-                        <p className="text-sm text-slate-500 mt-2">
+                        <p className="mt-2 text-sm text-slate-500">
                            Verwenden Sie doppelte geschweifte Klammern{" "}
-                           <code className="bg-slate-100 px-1 py-0.5 rounded">
+                           <code className="rounded bg-slate-100 px-1 py-0.5">
                               {`{{feldname}}`}
                            </code>{" "}
                            für Platzhalter, die durch Ihre Felder ersetzt werden
@@ -313,12 +313,12 @@ export const CreateTemplateForm: FC = () => {
             {/* Template Fields Section */}
             <div className="border-t border-slate-200 pt-8">
                <div className="space-y-6">
-                  <div className="flex justify-between items-center">
+                  <div className="flex items-center justify-between">
                      <div>
                         <h2 className="text-xl font-semibold text-slate-900">
                            Vorlagen-Felder
                         </h2>
-                        <p className="text-sm text-slate-600 mt-1">
+                        <p className="mt-1 text-sm text-slate-600">
                            Definieren Sie Felder, die Benutzer ausfüllen können
                         </p>
                      </div>
@@ -327,17 +327,17 @@ export const CreateTemplateForm: FC = () => {
                         onClick={handleAddField}
                         variant="outline"
                      >
-                        <Plus className="w-4 h-4 mr-2" />
+                        <Plus className="mr-2 h-4 w-4" />
                         Feld hinzufügen
                      </Button>
                   </div>
 
                   {fields.length === 0 && (
-                     <div className="text-center py-12 bg-slate-50 rounded-lg border-2 border-dashed border-slate-200">
+                     <div className="rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 py-12 text-center">
                         <p className="text-slate-500">
                            Noch keine Felder hinzugefügt
                         </p>
-                        <p className="text-sm text-slate-400 mt-1">
+                        <p className="mt-1 text-sm text-slate-400">
                            Klicken Sie auf &quot;Feld hinzufügen&quot;, um zu
                            beginnen
                         </p>
@@ -348,9 +348,9 @@ export const CreateTemplateForm: FC = () => {
                      {fields.map((field, index) => (
                         <div
                            key={field.id}
-                           className="border border-slate-200 rounded-lg p-6 bg-slate-50"
+                           className="rounded-lg border border-slate-200 bg-slate-50 p-6"
                         >
-                           <div className="flex justify-between items-center mb-4">
+                           <div className="mb-4 flex items-center justify-between">
                               <h3 className="font-medium text-slate-900">
                                  Feld {index + 1}
                               </h3>
@@ -360,7 +360,7 @@ export const CreateTemplateForm: FC = () => {
                                  variant="ghost"
                                  size="sm"
                               >
-                                 <Trash2 className="w-4 h-4" />
+                                 <Trash2 className="h-4 w-4" />
                               </Button>
                            </div>
 
@@ -377,11 +377,11 @@ export const CreateTemplateForm: FC = () => {
                                     className="mt-1"
                                  />
                                  {errors.fields?.[index]?.name && (
-                                    <p className="text-sm text-red-500 mt-1">
+                                    <p className="mt-1 text-sm text-red-500">
                                        {errors.fields[index]?.name?.message}
                                     </p>
                                  )}
-                                 <p className="text-xs text-slate-500 mt-1">
+                                 <p className="mt-1 text-xs text-slate-500">
                                     Verwenden Sie diesen Namen in der Vorlage
                                     als {`{{feldname}}`}
                                  </p>
@@ -399,7 +399,7 @@ export const CreateTemplateForm: FC = () => {
                                     className="mt-1"
                                  />
                                  {errors.fields?.[index]?.label && (
-                                    <p className="text-sm text-red-500 mt-1">
+                                    <p className="mt-1 text-sm text-red-500">
                                        {errors.fields[index]?.label?.message}
                                     </p>
                                  )}
@@ -455,9 +455,7 @@ export const CreateTemplateForm: FC = () => {
                                     Beschreibung
                                  </Label>
                                  <Textarea
-                                    {...register(
-                                       `fields.${index}.description`
-                                    )}
+                                    {...register(`fields.${index}.description`)}
                                     placeholder="Optionale Beschreibung für das Feld"
                                     rows={2}
                                     className="mt-1"
@@ -493,17 +491,7 @@ export const CreateTemplateForm: FC = () => {
             </div>
 
             {/* Action Buttons */}
-            <div className="border-t border-slate-200 pt-6 flex justify-between items-center">
-               <Link href="/library">
-                  <Button
-                     type="button"
-                     variant="ghost"
-                     disabled={isSubmitting}
-                  >
-                     <ArrowLeft className="w-4 h-4 mr-2" />
-                     Zurück zur Bibliothek
-                  </Button>
-               </Link>
+            <div className="flex items-center justify-end border-t border-slate-200 pt-6">
                <div className="flex gap-3">
                   <Link href="/library">
                      <Button
