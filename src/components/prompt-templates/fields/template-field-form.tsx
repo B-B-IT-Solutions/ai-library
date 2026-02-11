@@ -13,11 +13,11 @@ import {
    DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
 
-import { CheckBoxField } from "./field-check-box";
-import { GenericField } from "./field-generic";
-import { RadioField } from "./field-radio";
-import { SelectField } from "./field-select";
-import { TextAreaField } from "./field-textarea";
+import { CheckBoxField } from "./field/field-check-box";
+import { GenericField } from "./field/field-generic";
+import { RadioField } from "./field/field-radio";
+import { SelectField } from "./field/field-select";
+import { TextAreaField } from "./field/field-textarea";
 
 type Props = {
    fields: DPromptTemplateField[];
