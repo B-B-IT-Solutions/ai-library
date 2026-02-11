@@ -201,6 +201,19 @@ model PromptTemplateCategory {
   @@map("prompt_template_category")
 }
 
+model LibraryEntry {
+  id                   String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId               String   @map("user_id") @db.Uuid
+  templateDescriptorId String   @map("template_descriptor_id") @db.Uuid
+  createdAt            DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+
+  user               User                     @relation(fields: [userId], references: [id])
+  templateDescriptor PromptTemplateDescriptor @relation(fields: [templateDescriptorId], references: [id])
+
+  @@unique([userId, templateDescriptorId])
+  @@map("library_entry")
+}
+
 // E-Commerce Models
 
 enum ProductType {
@@ -389,19 +402,6 @@ model OrderItem {
   product            Product     @relation(fields: [productId], references: [id])
 
   @@map("order_item")
-}
-
-model LibraryEntry {
-  id                   String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId               String   @map("user_id") @db.Uuid
-  templateDescriptorId String   @map("template_descriptor_id") @db.Uuid
-  createdAt            DateTime @default(now()) @map("created_at") @db.Timestamp(6)
-
-  user               User                     @relation(fields: [userId], references: [id])
-  templateDescriptor PromptTemplateDescriptor @relation(fields: [templateDescriptorId], references: [id])
-
-  @@unique([userId, templateDescriptorId])
-  @@map("library_entry")
 }
 
 model SubscriptionPlan {
