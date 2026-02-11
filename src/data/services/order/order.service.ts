@@ -33,15 +33,11 @@ export class OrderService {
    }
 
    async getOrder(orderId: string, userId: string): Promise<DOrder | null> {
-      try {
-         const order = await this.orderRepository.pGetOrder(orderId, userId);
-         if (order) {
-            return toDOrderWithItems(order);
-         }
-         return null;
-      } catch {
-         return null;
+      const order = await this.orderRepository.pGetOrder(orderId, userId);
+      if (order) {
+         return toDOrderWithItems(order);
       }
+      return null;
    }
 
    async createOrder(userId: string, cart: DCart): Promise<DOrder> {

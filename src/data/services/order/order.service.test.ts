@@ -61,19 +61,6 @@ describe("getOrder tests", () => {
       jest.clearAllMocks();
    });
 
-   it("getOrder - db error - test", async () => {
-      const userId = "user-id-1";
-      orderRepoMock.pGetOrder.mockRejectedValue("db error");
-
-      const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
-
-      const result = await orderService.getOrder(orderId, userId);
-
-      expect(result).toBeNull();
-      expect(orderRepoMock.pGetOrder).toHaveBeenCalledTimes(1);
-      expect(orderRepoMock.pGetOrder).toHaveBeenCalledWith(orderId, userId);
-   });
-
    it("getOrder - order null - test", async () => {
       const userId = "user-id-1";
       orderRepoMock.pGetOrder.mockResolvedValue(null);
