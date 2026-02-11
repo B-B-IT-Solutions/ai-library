@@ -29,25 +29,6 @@ export const getLibraryEntry = async (
    }
 };
 
-export const createPromptFromTemplate = async (
-   templateId: string
-): Promise<ActionResult> => {
-   try {
-      const service = getLibrarySevice();
-      await service.createPromptFromTemplate(templateId);
-
-      return {
-         success: true,
-         message: "Template copied to your prompts successfully!",
-      };
-   } catch (error) {
-      return {
-         success: false,
-         message: formatError(error),
-      };
-   }
-};
-
 export const composePromptFromTemplate = async (
    templateId: string,
    fieldValues: DPromptTemplateFieldValues

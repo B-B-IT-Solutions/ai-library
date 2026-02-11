@@ -81,34 +81,6 @@ export class LibraryService {
       await this.libraryRepository.pDeleteLibraryEntries(userId);
    }
 
-   async createPromptFromTemplate(templateDescriptorId: string) {
-      if (!isValidUuid(templateDescriptorId)) {
-         throw new Error("Invalid template ID.");
-      }
-      const user = await requireUser();
-
-      const params: GetLibraryEntryParams = {
-         templateDescriptorId,
-         userId: user.id,
-      };
-      const entry = await this.libraryRepository.pGetLibraryEntry(params);
-
-      if (!entry) {
-         throw new Error("Template not found");
-      }
-
-      const { templateDescriptor: descriptor } = entry;
-      const promptData: DPromptUpdate = {
-         content: descriptor.promptTemplate.promptText,
-         title: descriptor.title,
-         recommendedModel: descriptor.recommendedModel,
-         categories: map(descriptor.categories, (cat) => cat.name),
-         followUpPrompts: [],
-      };
-
-      await this.promptService.createPrompt(promptData);
-   }
-
    async composePromptFromTemplate(
       templateDescriptorId: string,
       fieldValues: DPromptTemplateFieldValues

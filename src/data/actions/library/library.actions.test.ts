@@ -9,7 +9,6 @@ import { ActionResult } from "@/data/types/utils";
 
 import {
    composePromptFromTemplate,
-   createPromptFromTemplate,
    downloadTemplate,
    getLibraryEntries,
    getLibraryEntry,
@@ -17,8 +16,6 @@ import {
 
 const sGetLibraryEntries = LibraryService.prototype.getLibraryEntries;
 const sgetLibraryEntry = LibraryService.prototype.getLibraryEntry;
-const sCreatePromptFromTemplate =
-   LibraryService.prototype.createPromptFromTemplate;
 const sComposePromptFromTemplate =
    LibraryService.prototype.composePromptFromTemplate;
 const sDownloadTemplate = LibraryService.prototype.downloadPromptTemplate;
@@ -29,10 +26,6 @@ const sGetLibraryEntriesMock = sGetLibraryEntries as jest.MockedFunction<
 const sgetLibraryEntryMock = sgetLibraryEntry as jest.MockedFunction<
    typeof sgetLibraryEntry
 >;
-const sCreatePromptFromTemplateMock =
-   sCreatePromptFromTemplate as jest.MockedFunction<
-      typeof sCreatePromptFromTemplate
-   >;
 const sComposePromptFromTemplateMock =
    sComposePromptFromTemplate as jest.MockedFunction<
       typeof sComposePromptFromTemplate
@@ -103,44 +96,6 @@ describe("getLibraryEntry tests", () => {
       expect(result).toEqual(entry);
       expect(sgetLibraryEntryMock).toHaveBeenCalledTimes(1);
       expect(sgetLibraryEntryMock).toHaveBeenCalledWith(entryId);
-   });
-});
-
-describe("createPromptFromTemplate tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("createPromptFromTemplate - success - test", async () => {
-      const templateId = "template-id-1";
-      sCreatePromptFromTemplateMock.mockResolvedValue(undefined);
-
-      const result = await createPromptFromTemplate(templateId);
-      const expectedResult: ActionResult = {
-         success: true,
-         message: "Template copied to your prompts successfully!",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sCreatePromptFromTemplateMock).toHaveBeenCalledTimes(1);
-      expect(sCreatePromptFromTemplateMock).toHaveBeenCalledWith(templateId);
-   });
-
-   it("createPromptFromTemplate - error - test", async () => {
-      const templateId = "template-id-1";
-      const errorMessage = "Database error";
-      const error = new Error(errorMessage);
-      sCreatePromptFromTemplateMock.mockRejectedValue(error);
-
-      const result = await createPromptFromTemplate(templateId);
-      const expectedResult: ActionResult = {
-         success: false,
-         message: errorMessage,
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sCreatePromptFromTemplateMock).toHaveBeenCalledTimes(1);
-      expect(sCreatePromptFromTemplateMock).toHaveBeenCalledWith(templateId);
    });
 });
 
