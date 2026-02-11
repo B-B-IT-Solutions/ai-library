@@ -64,9 +64,7 @@ export class LibraryService {
 
          if (!isEmpty(templateIds)) {
             await this.libraryRepository.pCreateLibraryEntries(
-               order.id,
                order.userId,
-               product.id,
                templateIds
             );
          }

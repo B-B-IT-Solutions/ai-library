@@ -170,9 +170,7 @@ describe("createLibraryEntries tests", () => {
          );
          expect(libraryRepoMock.pCreateLibraryEntries).toHaveBeenNthCalledWith(
             index + 1,
-            order.id,
             order.userId,
-            item.product.id,
             templateIds
          );
       });
