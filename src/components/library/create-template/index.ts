@@ -1,1 +1,1 @@
-export { CreateTemplateForm } from "./create-template-form";
+export { NewLibraryEntry } from "./library-entry-new";

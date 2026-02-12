@@ -7,17 +7,17 @@ exports[`Library rendering tests Library - library empty - test 1`] = `
     data-testid="library"
   >
     <h1
-      class="text-3xl font-bold text-slate-900 mb-8"
+      class="mb-8 text-3xl font-bold text-slate-900"
     >
       Meine Bibliothek
     </h1>
     <div
-      class="text-center py-12"
+      class="py-12 text-center"
       data-testid="library-empty"
     >
       <svg
         aria-hidden="true"
-        class="lucide lucide-book-open w-16 h-16 mx-auto text-slate-300 mb-4"
+        class="lucide lucide-book-open mx-auto mb-4 h-16 w-16 text-slate-300"
         fill="none"
         height="24"
         stroke="currentColor"
@@ -36,24 +36,45 @@ exports[`Library rendering tests Library - library empty - test 1`] = `
         />
       </svg>
       <h2
-        class="text-xl font-semibold text-slate-900 mb-2"
+        class="mb-2 text-xl font-semibold text-slate-900"
       >
         Ihre Bibliothek ist leer
       </h2>
       <p
-        class="text-slate-600 mb-6"
+        class="mb-6 text-slate-600"
       >
-        Kaufen Sie Vorlagen oder abonnieren Sie, um auf Ihre Bibliothek zuzugreifen
+        Estellen Sie Vorlagen oder abonnieren Sie, um auf Ihre Bibliothek zuzugreifen
       </p>
       <a
-        data-testid="marketplace-link"
-        href="/marketplace"
+        data-testid="mock-link"
+        href="/library/new"
       >
         <button
-          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3"
+          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
           data-slot="button"
+          data-testid="create-library-entry-btn"
         >
-          Marktplatz durchsuchen
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-plus mr-2 h-4 w-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5 12h14"
+            />
+            <path
+              d="M12 5v14"
+            />
+          </svg>
+          Neue Vorlage erstellen
         </button>
       </a>
     </div>
@@ -71,7 +92,7 @@ exports[`Library rendering tests Library - viewMode grid - rendered test 1`] = `
       class="mb-8"
     >
       <div
-        class="flex justify-between items-center mb-2"
+        class="mb-2 flex items-center justify-between"
       >
         <h1
           class="text-3xl font-bold text-slate-900"
@@ -83,13 +104,13 @@ exports[`Library rendering tests Library - viewMode grid - rendered test 1`] = `
           href="/library/new"
         >
           <button
-            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3"
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
             data-slot="button"
-            data-testid="create-template-button"
+            data-testid="create-library-entry-btn"
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-plus w-4 h-4 mr-2"
+              class="lucide lucide-plus mr-2 h-4 w-4"
               fill="none"
               height="24"
               stroke="currentColor"
@@ -541,7 +562,7 @@ exports[`Library rendering tests Library - viewMode list - rendered test 1`] = `
       class="mb-8"
     >
       <div
-        class="flex justify-between items-center mb-2"
+        class="mb-2 flex items-center justify-between"
       >
         <h1
           class="text-3xl font-bold text-slate-900"
@@ -553,13 +574,13 @@ exports[`Library rendering tests Library - viewMode list - rendered test 1`] = `
           href="/library/new"
         >
           <button
-            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3"
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
             data-slot="button"
-            data-testid="create-template-button"
+            data-testid="create-library-entry-btn"
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-plus w-4 h-4 mr-2"
+              class="lucide lucide-plus mr-2 h-4 w-4"
               fill="none"
               height="24"
               stroke="currentColor"

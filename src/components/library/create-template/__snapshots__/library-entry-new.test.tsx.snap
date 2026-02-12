@@ -1,0 +1,1030 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`NewLibraryEntry rendering tests NewLibraryEntry rendered test 1`] = `
+<div>
+  <div
+    class="flex h-screen flex-col bg-slate-50"
+    data-testid="library-entry-new"
+  >
+    <div
+      class="border-b border-slate-200 bg-white px-6 py-4"
+    >
+      <div
+        class="flex items-center justify-between"
+      >
+        <div>
+          <h1
+            class="text-2xl font-bold text-slate-900"
+          >
+            Neue Vorlage erstellen
+          </h1>
+          <p
+            class="mt-0.5 text-sm text-slate-600"
+          >
+            Erstellen Sie eine eigene Prompt-Vorlage mit benutzerdefinierten Feldern
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex-1 overflow-y-auto bg-slate-50"
+    >
+      <div
+        class="mx-auto max-w-5xl p-8"
+      >
+        <div
+          class="mb-6"
+        >
+          <a
+            data-testid="mock-link"
+            href="/library"
+          >
+            <button
+              class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
+              data-slot="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-arrow-left mr-2 h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="m12 19-7-7 7-7"
+                />
+                <path
+                  d="M19 12H5"
+                />
+              </svg>
+              Zurück zur Bibliothek
+            </button>
+          </a>
+        </div>
+        <div
+          class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
+          data-slot="card"
+          data-testid="create-template-form"
+        >
+          <div
+            class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 border-b pb-6"
+            data-slot="card-header"
+          >
+            <div
+              class="text-2xl font-bold text-slate-900"
+              data-slot="card-title"
+            >
+              Neue Vorlage erstellen
+            </div>
+          </div>
+          <div
+            class="px-6"
+            data-slot="card-content"
+          >
+            <form
+              class="space-y-6"
+              data-testid="template-form"
+            >
+              <section
+                class="space-y-4"
+              >
+                <div>
+                  <h3
+                    class="flex items-center gap-2 text-lg font-semibold text-slate-900"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-settings h-5 w-5 text-indigo-600"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"
+                      />
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="3"
+                      />
+                    </svg>
+                    Grundlegende Informationen
+                  </h3>
+                </div>
+                <div
+                  class="grid gap-2"
+                  data-slot="form-item"
+                >
+                  <label
+                    class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+                    data-error="false"
+                    data-slot="form-label"
+                    for="_r_0_-form-item"
+                  >
+                    Titel *
+                  </label>
+                  <input
+                    aria-describedby="_r_0_-form-item-description"
+                    aria-invalid="false"
+                    class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                    data-slot="form-control"
+                    id="_r_0_-form-item"
+                    name="title"
+                    placeholder="z.B. Blog-Post Generator"
+                    value=""
+                  />
+                </div>
+                <div
+                  class="grid gap-2"
+                  data-slot="form-item"
+                >
+                  <label
+                    class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+                    data-error="false"
+                    data-slot="form-label"
+                    for="_r_1_-form-item"
+                  >
+                    Beschreibung *
+                  </label>
+                  <textarea
+                    aria-describedby="_r_1_-form-item-description"
+                    aria-invalid="false"
+                    class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+                    data-slot="form-control"
+                    id="_r_1_-form-item"
+                    name="description"
+                    placeholder="Kurze Beschreibung der Vorlage"
+                    rows="3"
+                  />
+                </div>
+                <div
+                  class="grid gap-2"
+                  data-slot="form-item"
+                >
+                  <label
+                    class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+                    data-error="false"
+                    data-slot="form-label"
+                    for="_r_2_-form-item"
+                  >
+                    Detaillierte Beschreibung *
+                  </label>
+                  <textarea
+                    aria-describedby="_r_2_-form-item-description"
+                    aria-invalid="false"
+                    class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+                    data-slot="form-control"
+                    id="_r_2_-form-item"
+                    name="detailedDescription"
+                    placeholder="Ausführliche Beschreibung der Vorlage"
+                    rows="4"
+                  />
+                </div>
+                <div
+                  class="grid gap-2"
+                  data-slot="form-item"
+                >
+                  <label
+                    class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+                    data-error="false"
+                    data-slot="form-label"
+                    for="_r_3_-form-item"
+                  >
+                    Empfohlenes Modell *
+                  </label>
+                  <button
+                    aria-autocomplete="none"
+                    aria-controls="radix-_r_4_"
+                    aria-describedby="_r_3_-form-item-description"
+                    aria-expanded="false"
+                    aria-invalid="false"
+                    class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+                    data-size="default"
+                    data-slot="form-control"
+                    data-state="closed"
+                    dir="ltr"
+                    id="_r_3_-form-item"
+                    role="combobox"
+                    type="button"
+                  >
+                    <span
+                      data-slot="select-value"
+                      style="pointer-events: none;"
+                    >
+                      Claude 3.5 Sonnet
+                    </span>
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-chevron-down size-4 opacity-50"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="m6 9 6 6 6-6"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    data-testid="mock-react-portal"
+                  />
+                  <select
+                    aria-hidden="true"
+                    style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
+                    tabindex="-1"
+                  >
+                    <option
+                      selected=""
+                      value="Claude 3.5 Sonnet"
+                    >
+                      Claude 3.5 Sonnet
+                    </option>
+                    <option
+                      value="Claude 3 Opus"
+                    >
+                      Claude 3 Opus
+                    </option>
+                    <option
+                      value="GPT-4"
+                    >
+                      GPT-4
+                    </option>
+                    <option
+                      value="GPT-4 Turbo"
+                    >
+                      GPT-4 Turbo
+                    </option>
+                    <option
+                      value="GPT-3.5 Turbo"
+                    >
+                      GPT-3.5 Turbo
+                    </option>
+                  </select>
+                </div>
+                <div
+                  class="grid gap-2"
+                  data-slot="form-item"
+                >
+                  <label
+                    class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+                    data-error="false"
+                    data-slot="form-label"
+                    for="_r_5_-form-item"
+                  >
+                    Kategorien
+                  </label>
+                  <div
+                    class="flex gap-2"
+                  >
+                    <input
+                      aria-describedby="_r_5_-form-item-description"
+                      aria-invalid="false"
+                      class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                      data-slot="form-control"
+                      id="_r_5_-form-item"
+                      name="categoryInput"
+                      placeholder="Kategorie hinzufügen"
+                      value=""
+                    />
+                    <button
+                      class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3"
+                      data-slot="button"
+                      type="button"
+                    >
+                      Hinzufügen
+                    </button>
+                  </div>
+                </div>
+              </section>
+              <div
+                class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px"
+                data-orientation="horizontal"
+                data-slot="separator"
+                role="none"
+              />
+              <section
+                class="space-y-4"
+              >
+                <div>
+                  <h3
+                    class="flex items-center gap-2 text-lg font-semibold text-slate-900"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-file-text h-5 w-5 text-indigo-600"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
+                      />
+                      <path
+                        d="M14 2v5a1 1 0 0 0 1 1h5"
+                      />
+                      <path
+                        d="M10 9H8"
+                      />
+                      <path
+                        d="M16 13H8"
+                      />
+                      <path
+                        d="M16 17H8"
+                      />
+                    </svg>
+                    Prompt-Vorlage
+                  </h3>
+                  <p
+                    class="mt-1 text-sm text-slate-500"
+                  >
+                    Verwenden Sie
+                     
+                    <code
+                      class="rounded bg-slate-100 px-1 py-0.5"
+                    >
+                      {{feldname}}
+                    </code>
+                     
+                    für Platzhalter, die durch Ihre Felder ersetzt werden
+                  </p>
+                </div>
+                <div
+                  class="grid gap-2"
+                  data-slot="form-item"
+                >
+                  <div
+                    class="border border-slate-200 rounded-lg overflow-hidden bg-white"
+                    data-testid="template-editor"
+                  >
+                    <div
+                      class="flex flex-wrap gap-1 p-2 border-b border-slate-200 bg-slate-50"
+                      data-testid="toolbar"
+                    >
+                      <button
+                        class="p-2 rounded hover:bg-slate-100 transition-colors text-slate-700"
+                        title="Bold"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-bold w-4 h-4"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M6 12h9a4 4 0 0 1 0 8H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h7a4 4 0 0 1 0 8"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        class="p-2 rounded hover:bg-slate-100 transition-colors text-slate-700"
+                        title="Italic"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-italic w-4 h-4"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <line
+                            x1="19"
+                            x2="10"
+                            y1="4"
+                            y2="4"
+                          />
+                          <line
+                            x1="14"
+                            x2="5"
+                            y1="20"
+                            y2="20"
+                          />
+                          <line
+                            x1="15"
+                            x2="9"
+                            y1="4"
+                            y2="20"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        class="p-2 rounded hover:bg-slate-100 transition-colors text-slate-700"
+                        title="Underline"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-underline w-4 h-4"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M6 4v6a6 6 0 0 0 12 0V4"
+                          />
+                          <line
+                            x1="4"
+                            x2="20"
+                            y1="20"
+                            y2="20"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        class="p-2 rounded hover:bg-slate-100 transition-colors text-slate-700"
+                        title="Strikethrough"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-strikethrough w-4 h-4"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M16 4H9a3 3 0 0 0-2.83 4"
+                          />
+                          <path
+                            d="M14 12a4 4 0 0 1 0 8H6"
+                          />
+                          <line
+                            x1="4"
+                            x2="20"
+                            y1="12"
+                            y2="12"
+                          />
+                        </svg>
+                      </button>
+                      <div
+                        class="w-px h-6 bg-slate-300 mx-1"
+                      />
+                      <button
+                        class="p-2 rounded hover:bg-slate-100 transition-colors text-slate-700"
+                        title="Heading 1"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-heading1 lucide-heading-1 w-4 h-4"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M4 12h8"
+                          />
+                          <path
+                            d="M4 18V6"
+                          />
+                          <path
+                            d="M12 18V6"
+                          />
+                          <path
+                            d="m17 12 3-2v8"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        class="p-2 rounded hover:bg-slate-100 transition-colors text-slate-700"
+                        title="Heading 2"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-heading2 lucide-heading-2 w-4 h-4"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M4 12h8"
+                          />
+                          <path
+                            d="M4 18V6"
+                          />
+                          <path
+                            d="M12 18V6"
+                          />
+                          <path
+                            d="M21 18h-4c0-4 4-3 4-6 0-1.5-2-2.5-4-1"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        class="p-2 rounded hover:bg-slate-100 transition-colors text-slate-700"
+                        title="Heading 3"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-heading3 lucide-heading-3 w-4 h-4"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M4 12h8"
+                          />
+                          <path
+                            d="M4 18V6"
+                          />
+                          <path
+                            d="M12 18V6"
+                          />
+                          <path
+                            d="M17.5 10.5c1.7-1 3.5 0 3.5 1.5a2 2 0 0 1-2 2"
+                          />
+                          <path
+                            d="M17 17.5c2 1.5 4 .3 4-1.5a2 2 0 0 0-2-2"
+                          />
+                        </svg>
+                      </button>
+                      <div
+                        class="w-px h-6 bg-slate-300 mx-1"
+                      />
+                      <button
+                        class="p-2 rounded hover:bg-slate-100 transition-colors text-slate-700"
+                        title="Bullet List"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-list w-4 h-4"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M3 5h.01"
+                          />
+                          <path
+                            d="M3 12h.01"
+                          />
+                          <path
+                            d="M3 19h.01"
+                          />
+                          <path
+                            d="M8 5h13"
+                          />
+                          <path
+                            d="M8 12h13"
+                          />
+                          <path
+                            d="M8 19h13"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        class="p-2 rounded hover:bg-slate-100 transition-colors text-slate-700"
+                        title="Numbered List"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-list-ordered w-4 h-4"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M11 5h10"
+                          />
+                          <path
+                            d="M11 12h10"
+                          />
+                          <path
+                            d="M11 19h10"
+                          />
+                          <path
+                            d="M4 4h1v5"
+                          />
+                          <path
+                            d="M4 9h2"
+                          />
+                          <path
+                            d="M6.5 20H3.4c0-1 2.6-1.925 2.6-3.5a1.5 1.5 0 0 0-2.6-1.02"
+                          />
+                        </svg>
+                      </button>
+                      <div
+                        class="w-px h-6 bg-slate-300 mx-1"
+                      />
+                      <button
+                        class="p-2 rounded hover:bg-slate-100 transition-colors text-slate-700"
+                        title="Align Left"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-text-align-start w-4 h-4"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M21 5H3"
+                          />
+                          <path
+                            d="M15 12H3"
+                          />
+                          <path
+                            d="M17 19H3"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        class="p-2 rounded hover:bg-slate-100 transition-colors text-slate-700"
+                        title="Align Center"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-text-align-center w-4 h-4"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M21 5H3"
+                          />
+                          <path
+                            d="M17 12H7"
+                          />
+                          <path
+                            d="M19 19H5"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        class="p-2 rounded hover:bg-slate-100 transition-colors text-slate-700"
+                        title="Align Right"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-text-align-end w-4 h-4"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M21 5H3"
+                          />
+                          <path
+                            d="M21 12H9"
+                          />
+                          <path
+                            d="M21 19H7"
+                          />
+                        </svg>
+                      </button>
+                      <div
+                        class="w-px h-6 bg-slate-300 mx-1"
+                      />
+                      <button
+                        class="p-2 rounded hover:bg-slate-100 transition-colors text-slate-700"
+                        title="Code Block"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-code w-4 h-4"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="m16 18 6-6-6-6"
+                          />
+                          <path
+                            d="m8 6-6 6 6 6"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        class="p-2 rounded hover:bg-slate-100 transition-colors text-slate-700"
+                        title="Quote"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-quote w-4 h-4"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
+                          />
+                          <path
+                            d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
+                          />
+                        </svg>
+                      </button>
+                      <div
+                        class="w-px h-6 bg-slate-300 mx-1"
+                      />
+                      <button
+                        class="p-2 rounded hover:bg-slate-100 transition-colors text-slate-700"
+                        title="Undo"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-undo w-4 h-4"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M3 7v6h6"
+                          />
+                          <path
+                            d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        class="p-2 rounded hover:bg-slate-100 transition-colors text-slate-700"
+                        title="Redo"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-redo w-4 h-4"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M21 7v6h-6"
+                          />
+                          <path
+                            d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    <div
+                      data-testid="editor-content"
+                    >
+                      Editor Content
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <div
+                class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px"
+                data-orientation="horizontal"
+                data-slot="separator"
+                role="none"
+              />
+              <section
+                class="space-y-4"
+              >
+                <div
+                  class="flex items-center justify-between"
+                >
+                  <div>
+                    <h3
+                      class="text-lg font-semibold text-slate-900"
+                    >
+                      Vorlagen-Felder
+                    </h3>
+                    <p
+                      class="mt-1 text-sm text-slate-500"
+                    >
+                      Definieren Sie Felder, die Benutzer ausfüllen können
+                    </p>
+                  </div>
+                  <button
+                    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
+                    data-slot="button"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-plus mr-2 h-4 w-4"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M5 12h14"
+                      />
+                      <path
+                        d="M12 5v14"
+                      />
+                    </svg>
+                    Feld hinzufügen
+                  </button>
+                </div>
+                <div
+                  class="rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 py-12 text-center"
+                >
+                  <p
+                    class="text-slate-500"
+                  >
+                    Noch keine Felder hinzugefügt
+                  </p>
+                  <p
+                    class="mt-1 text-sm text-slate-400"
+                  >
+                    Klicken Sie auf "Feld hinzufügen", um zu beginnen
+                  </p>
+                </div>
+                <div
+                  class="space-y-4"
+                />
+              </section>
+              <div
+                class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px"
+                data-orientation="horizontal"
+                data-slot="separator"
+                role="none"
+              />
+              <div
+                class="flex items-center justify-end gap-3 pt-2"
+              >
+                <a
+                  data-testid="mock-link"
+                  href="/library"
+                >
+                  <button
+                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3"
+                    data-slot="button"
+                    data-testid="cancel-btn"
+                    type="button"
+                  >
+                    Abbrechen
+                  </button>
+                </a>
+                <button
+                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3"
+                  data-slot="button"
+                  data-testid="create-btn"
+                  type="submit"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-save h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"
+                    />
+                    <path
+                      d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"
+                    />
+                    <path
+                      d="M7 3v4a1 1 0 0 0 1 1h7"
+                    />
+                  </svg>
+                  Vorlage erstellen
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
