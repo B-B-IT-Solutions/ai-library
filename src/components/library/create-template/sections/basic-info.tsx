@@ -1,6 +1,7 @@
 "use client";
 
 import { FC } from "react";
+import { isEmpty, map } from "es-toolkit/compat";
 import { X } from "lucide-react";
 import { Control, UseFormSetValue, UseFormWatch } from "react-hook-form";
 
@@ -21,6 +22,7 @@ import {
    SelectValue,
 } from "@/components/shadcn/select";
 import { Textarea } from "@/components/shadcn/textarea";
+import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
 
 const RECOMMENDED_MODELS = [
    "Claude 3.5 Sonnet",
@@ -30,20 +32,10 @@ const RECOMMENDED_MODELS = [
    "GPT-3.5 Turbo",
 ];
 
-type FormData = {
-   title: string;
-   description: string;
-   detailedDescription: string;
-   recommendedModel: string;
-   categories: string[];
-   categoryInput?: string;
-   fields: any[];
-};
-
 type Props = {
-   control: Control<FormData>;
-   watch: UseFormWatch<FormData>;
-   setValue: UseFormSetValue<FormData>;
+   control: Control<DPromptTemplateUpdate>;
+   watch: UseFormWatch<DPromptTemplateUpdate>;
+   setValue: UseFormSetValue<DPromptTemplateUpdate>;
 };
 
 export const BasicInfo: FC<Props> = ({ control, watch, setValue }) => {
@@ -71,7 +63,7 @@ export const BasicInfo: FC<Props> = ({ control, watch, setValue }) => {
             name="title"
             render={({ field }) => (
                <FormItem data-testid="title">
-                  <FormLabel>Titel *</FormLabel>
+                  <FormLabel>Titel</FormLabel>
                   <FormControl>
                      <Input {...field} placeholder="z.B. Blog-Post Generator" />
                   </FormControl>
@@ -89,7 +81,7 @@ export const BasicInfo: FC<Props> = ({ control, watch, setValue }) => {
             name="description"
             render={({ field }) => (
                <FormItem data-testid="description">
-                  <FormLabel>Beschreibung *</FormLabel>
+                  <FormLabel>Beschreibung</FormLabel>
                   <FormControl>
                      <Textarea
                         {...field}
@@ -111,7 +103,7 @@ export const BasicInfo: FC<Props> = ({ control, watch, setValue }) => {
             name="detailedDescription"
             render={({ field }) => (
                <FormItem data-testid="detailedDescription">
-                  <FormLabel>Detaillierte Beschreibung *</FormLabel>
+                  <FormLabel>Detaillierte Beschreibung</FormLabel>
                   <FormControl>
                      <Textarea
                         {...field}
@@ -133,7 +125,7 @@ export const BasicInfo: FC<Props> = ({ control, watch, setValue }) => {
             name="recommendedModel"
             render={({ field }) => (
                <FormItem data-testid="recommendedModel">
-                  <FormLabel>Empfohlenes Modell *</FormLabel>
+                  <FormLabel>Empfohlenes Modell</FormLabel>
                   <Select value={field.value} onValueChange={field.onChange}>
                      <FormControl>
                         <SelectTrigger>
@@ -163,9 +155,9 @@ export const BasicInfo: FC<Props> = ({ control, watch, setValue }) => {
             render={({ field }) => (
                <FormItem data-testid="categories">
                   <FormLabel>Kategorien</FormLabel>
-                  {categories.length > 0 && (
+                  {!isEmpty(categories) && (
                      <div className="mt-2 flex flex-wrap gap-2">
-                        {categories.map((category) => (
+                        {map(categories, (category: string) => (
                            <div
                               key={category}
                               className="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"

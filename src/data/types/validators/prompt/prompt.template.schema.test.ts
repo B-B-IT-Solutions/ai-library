@@ -3,7 +3,6 @@ import { ZodError } from "zod";
 import {
    promptTemplateFieldSchema,
    promptTemplateFieldTypeSchema,
-   templateFieldValuesSchema,
 } from "./prompt.template.schema";
 
 describe("promptTemplateFieldTypeSchema - tests", () => {
@@ -384,101 +383,5 @@ describe("promptTemplateFieldSchema - tests", () => {
          const validatedValues = promptTemplateFieldSchema.parse(fieldData);
          expect(validatedValues.type).toBe(type);
       });
-   });
-});
-
-describe("templateFieldValuesSchema - tests", () => {
-   it("templateFieldValuesSchema - valid string values - test", () => {
-      const values = {
-         name: "User-1 Name",
-         email: "test1@email.com",
-         message: "Hello",
-      };
-
-      const validatedValues = templateFieldValuesSchema.parse(values);
-      expect(validatedValues).toEqual(values);
-   });
-
-   it("templateFieldValuesSchema - valid mixed type values - test", () => {
-      const values = {
-         name: "John",
-         age: 30,
-         active: true,
-         score: 95.5,
-      };
-
-      const validatedValues = templateFieldValuesSchema.parse(values);
-      expect(validatedValues).toEqual(values);
-   });
-
-   it("templateFieldValuesSchema - empty record valid - test", () => {
-      const values = {};
-
-      const validatedValues = templateFieldValuesSchema.parse(values);
-      expect(validatedValues).toEqual({});
-   });
-
-   it("templateFieldValuesSchema - null values allowed - test", () => {
-      const values = {
-         name: "John",
-         middleName: null,
-      };
-
-      const validatedValues = templateFieldValuesSchema.parse(values);
-      expect(validatedValues).toEqual(values);
-   });
-
-   it("templateFieldValuesSchema - undefined values allowed - test", () => {
-      const values = {
-         name: "John",
-         middleName: undefined,
-      };
-
-      const validatedValues = templateFieldValuesSchema.parse(values);
-      expect(validatedValues).toEqual(values);
-   });
-
-   it("templateFieldValuesSchema - array values allowed - test", () => {
-      const values = {
-         name: "John",
-         hobbies: ["reading", "coding", "gaming"],
-      };
-
-      const validatedValues = templateFieldValuesSchema.parse(values);
-      expect(validatedValues).toEqual(values);
-   });
-
-   it("templateFieldValuesSchema - nested object values allowed - test", () => {
-      const values = {
-         name: "John",
-         address: {
-            street: "123 Main St",
-            city: "New York",
-         },
-      };
-
-      const validatedValues = templateFieldValuesSchema.parse(values);
-      expect(validatedValues).toEqual(values);
-   });
-
-   it("templateFieldValuesSchema - numeric string keys valid - test", () => {
-      const values = {
-         "123": "value1",
-         "456": "value2",
-      };
-
-      const validatedValues = templateFieldValuesSchema.parse(values);
-      expect(validatedValues).toEqual(values);
-   });
-
-   it("templateFieldValuesSchema - keys with special characters valid - test", () => {
-      const values = {
-         "user-name": "John",
-         user_email: "test1@email.com",
-         "user.phone": "123-456-7890",
-      };
-
-      const validatedValues = templateFieldValuesSchema.parse(values);
-      expect(validatedValues).toEqual(values);
    });
 });

@@ -7,7 +7,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
 
 import { Button } from "@/components/shadcn/button";
 import {
@@ -19,6 +18,8 @@ import {
 import { Form } from "@/components/shadcn/form";
 import { Separator } from "@/components/shadcn/separator";
 import { createCustomTemplate } from "@/data/actions/library";
+import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
+import { updatePromptTemplatechema } from "@/data/types/validators/prompt";
 
 import {
    BasicInfo,
@@ -32,37 +33,11 @@ import {
    getVariableStatus,
 } from "./utils";
 
-const templateFieldSchema = z.object({
-   name: z.string().min(1, "Feldname ist erforderlich"),
-   label: z.string().min(1, "Label ist erforderlich"),
-   description: z.string().optional(),
-   type: z.string(),
-   required: z.boolean(),
-   order: z.number(),
-   defaultValue: z.string().optional(),
-   options: z.array(z.string()).optional(),
-});
-
-const createTemplateSchema = z.object({
-   title: z.string().min(1, "Titel ist erforderlich"),
-   description: z.string().min(1, "Beschreibung ist erforderlich"),
-   detailedDescription: z
-      .string()
-      .min(1, "Detaillierte Beschreibung ist erforderlich"),
-   content: z.string().min(1, "Prompt-Vorlage ist erforderlich"),
-   recommendedModel: z.string().min(1, "Modell ist erforderlich"),
-   categories: z.array(z.string()),
-   categoryInput: z.string().optional(),
-   fields: z.array(templateFieldSchema),
-});
-
-type FormData = z.infer<typeof createTemplateSchema>;
-
 export const NewLibraryEntryForm: FC = () => {
    const router = useRouter();
 
-   const form = useForm<FormData>({
-      resolver: zodResolver(createTemplateSchema),
+   const form = useForm<DPromptTemplateUpdate>({
+      resolver: zodResolver(updatePromptTemplatechema),
       defaultValues: {
          title: "",
          description: "",
@@ -141,7 +116,7 @@ export const NewLibraryEntryForm: FC = () => {
       }
    };
 
-   const onSubmit: SubmitHandler<FormData> = async (data) => {
+   const onSubmit: SubmitHandler<DPromptTemplateUpdate> = async (data) => {
       const result = await createCustomTemplate({
          title: data.title,
          description: data.description,

@@ -12,14 +12,25 @@ export const promptTemplateFieldTypeSchema = z.enum([
 ]);
 
 export const promptTemplateFieldSchema = z.object({
-   name: z.string().min(1).max(100),
-   label: z.string().min(1).max(250),
+   name: z.string().min(1, "Feldname ist erforderlich").max(100),
+   label: z.string().min(1, "Label ist erforderlich").max(250),
    description: z.string().max(500).optional(),
-   type: promptTemplateFieldTypeSchema,
-   required: z.boolean().default(true),
-   order: z.number().int().default(0),
+   type: z.string(),
+   required: z.boolean(),
+   order: z.number(),
    defaultValue: z.string().optional(),
    options: z.array(z.string()).optional(),
 });
 
-export const templateFieldValuesSchema = z.record(z.string(), z.any());
+export const updatePromptTemplatechema = z.object({
+   title: z.string().min(1, "Titel ist erforderlich"),
+   description: z.string().min(1, "Beschreibung ist erforderlich"),
+   detailedDescription: z
+      .string()
+      .min(1, "Detaillierte Beschreibung ist erforderlich"),
+   content: z.string().min(1, "Prompt-Vorlage ist erforderlich"),
+   recommendedModel: z.string().min(1, "Modell ist erforderlich"),
+   categories: z.array(z.string()),
+   categoryInput: z.string().optional(),
+   fields: z.array(promptTemplateFieldSchema),
+});
