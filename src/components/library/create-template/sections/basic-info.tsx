@@ -1,7 +1,7 @@
 "use client";
 
 import { FC } from "react";
-import { Settings, X } from "lucide-react";
+import { X } from "lucide-react";
 import { Control, UseFormSetValue, UseFormWatch } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
@@ -210,13 +210,7 @@ export const BasicInfo: FC<Props> = ({ control, watch, setValue }) => {
    };
 
    return (
-      <section className="space-y-4">
-         <div>
-            <h3 className="flex items-center gap-2 text-lg font-semibold text-slate-900">
-               <Settings className="h-5 w-5 text-indigo-600" />
-               Grundlegende Informationen
-            </h3>
-         </div>
+      <section className="space-y-4" data-testid="basic-info">
          {title()}
          {description()}
          {detailedDescription()}
