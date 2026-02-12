@@ -6,6 +6,7 @@ import {
    LibraryEntryWithPromptTemplateDescriptor,
 } from "@/data/types/db/library";
 import {
+   LibraryEntryCreateArgs,
    LibraryEntryCreateManyArgs,
    LibraryEntryCreateManyInput,
    LibraryEntryWhereUniqueInput,
@@ -113,9 +114,8 @@ export class LibraryRepository {
          categories: string[];
       };
    }) {
-      return await this.prisma.libraryEntry.create({
+      const args: LibraryEntryCreateArgs = {
          data: {
-            userId: data.userId,
             templateDescriptor: {
                create: {
                   title: data.templateDescriptor.title,
@@ -152,6 +152,11 @@ export class LibraryRepository {
                   },
                },
             },
+            user: {
+               connect: {
+                  id: data.userId,
+               },
+            },
          },
          include: {
             templateDescriptor: {
@@ -165,7 +170,9 @@ export class LibraryRepository {
                },
             },
          },
-      });
+      };
+
+      return await this.prisma.libraryEntry.create(args);
    }
 
    private getLibraryEntryParamsToWhereFindUniqueInput = (

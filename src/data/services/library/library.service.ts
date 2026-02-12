@@ -148,7 +148,7 @@ export class LibraryService {
       input: CreateCustomTemplateInput,
       userId: string
    ): Promise<string> {
-      const entry = await this.libraryRepository.pCreateCustomLibraryEntry({
+      const data = {
          userId,
          promptTemplate: {
             content: input.content,
@@ -161,7 +161,9 @@ export class LibraryService {
             recommendedModel: input.recommendedModel,
             categories: input.categories,
          },
-      });
+      };
+      const entry =
+         await this.libraryRepository.pCreateCustomLibraryEntry(data);
 
       return entry.id;
    }

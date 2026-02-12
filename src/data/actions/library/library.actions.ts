@@ -39,6 +39,46 @@ export const getLibraryEntry = async (
    }
 };
 
+export type CreateCustomTemplateInput = {
+   title: string;
+   description: string;
+   content: string;
+   detailedDescription: string;
+   recommendedModel: string;
+   categories: string[];
+   fields: {
+      name: string;
+      label: string;
+      description?: string;
+      type: string;
+      required: boolean;
+      order: number;
+      defaultValue?: string;
+      options?: string[];
+   }[];
+};
+
+export const createCustomTemplate = async (
+   input: CreateCustomTemplateInput
+): Promise<ActionResult<string>> => {
+   try {
+      const user = await requireUser();
+      const service = getLibrarySevice();
+      const entryId = await service.createCustomTemplate(input, user.id);
+      return {
+         success: true,
+         message: "Vorlage erfolgreich erstellt",
+         data: entryId,
+      };
+   } catch (error) {
+      console.error(formatError(error));
+      return {
+         success: false,
+         message: "Vorlage konnte nicht erstellt werden",
+      };
+   }
+};
+
 export const composePromptFromTemplate = async (
    descriptorId: string,
    fieldValues: DPromptTemplateFieldValues
@@ -92,45 +132,6 @@ export const downloadTemplate = async (
       };
    } catch (error) {
       console.error(formatError(error));
-      return {
-         success: false,
-         message: formatError(error),
-      };
-   }
-};
-
-export type CreateCustomTemplateInput = {
-   title: string;
-   description: string;
-   content: string;
-   detailedDescription: string;
-   recommendedModel: string;
-   categories: string[];
-   fields: {
-      name: string;
-      label: string;
-      description?: string;
-      type: string;
-      required: boolean;
-      order: number;
-      defaultValue?: string;
-      options?: string[];
-   }[];
-};
-
-export const createCustomTemplate = async (
-   input: CreateCustomTemplateInput
-): Promise<ActionResult<string>> => {
-   try {
-      const user = await requireUser();
-      const service = getLibrarySevice();
-      const entryId = await service.createCustomTemplate(input, user.id);
-      return {
-         success: true,
-         message: "Vorlage erfolgreich erstellt",
-         data: entryId,
-      };
-   } catch (error) {
       return {
          success: false,
          message: formatError(error),
