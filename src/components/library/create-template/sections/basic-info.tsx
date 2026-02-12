@@ -46,11 +46,7 @@ type Props = {
    setValue: UseFormSetValue<FormData>;
 };
 
-export const BasicInformationSection: FC<Props> = ({
-   control,
-   watch,
-   setValue,
-}) => {
+export const BasicInfo: FC<Props> = ({ control, watch, setValue }) => {
    const categories = watch("categories");
    const categoryInput = watch("categoryInput");
 
