@@ -21,9 +21,9 @@ import { Separator } from "@/components/shadcn/separator";
 import { createCustomTemplate } from "@/data/actions/library";
 
 import {
-   BasicInformationSection,
+   BasicInfo,
    DetectedVariablesSection,
-   PromptTemplateSection,
+   PromptTemplateContent,
    TemplateFieldsSection,
 } from "./sections";
 import {
@@ -175,7 +175,7 @@ export const NewLibraryEntryForm: FC = () => {
                   className="space-y-6"
                   data-testid="template-form"
                >
-                  <BasicInformationSection
+                  <BasicInfo
                      control={form.control}
                      watch={form.watch}
                      setValue={form.setValue}
@@ -183,7 +183,7 @@ export const NewLibraryEntryForm: FC = () => {
 
                   <Separator />
 
-                  <PromptTemplateSection control={form.control} />
+                  <PromptTemplateContent control={form.control} />
 
                   <Separator />
 
