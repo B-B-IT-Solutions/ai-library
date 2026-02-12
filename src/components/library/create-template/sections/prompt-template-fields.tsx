@@ -21,7 +21,7 @@ type Props = {
    onRemoveField: (index: number) => void;
 };
 
-export const TemplateFieldsSection: FC<Props> = ({
+export const PromptTemplateFields: FC<Props> = ({
    control,
    watch,
    fields,

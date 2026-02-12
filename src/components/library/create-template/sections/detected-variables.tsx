@@ -1,7 +1,13 @@
 "use client";
 
 import { FC } from "react";
-import { AlertCircle, CheckCircle2, Plus, RefreshCw, Sparkles } from "lucide-react";
+import {
+   AlertCircle,
+   CheckCircle2,
+   Plus,
+   RefreshCw,
+   Sparkles,
+} from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
 
@@ -18,7 +24,7 @@ type Props = {
    onSyncAll: () => void;
 };
 
-export const DetectedVariablesSection: FC<Props> = ({
+export const DetectedVariables: FC<Props> = ({
    detectedVariables,
    variableStatus,
    onAddVariable,
@@ -43,7 +49,9 @@ export const DetectedVariablesSection: FC<Props> = ({
          <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
             <div className="mb-3 flex items-center justify-between">
                <div className="text-sm text-slate-700">
-                  <span className="font-medium">{detectedVariables.length}</span>{" "}
+                  <span className="font-medium">
+                     {detectedVariables.length}
+                  </span>{" "}
                   Variable(n) im Content gefunden
                </div>
                {variableStatus.undefined.length > 0 && (
@@ -76,7 +84,7 @@ export const DetectedVariablesSection: FC<Props> = ({
                         ) : (
                            <AlertCircle className="h-4 w-4 text-orange-600" />
                         )}
-                        <code className="text-sm font-mono">{`{{${varName}}}`}</code>
+                        <code className="font-mono text-sm">{`{{${varName}}}`}</code>
                         {!isDefined && (
                            <Button
                               type="button"

@@ -23,9 +23,9 @@ import { updatePromptTemplatechema } from "@/data/types/validators/prompt";
 
 import {
    BasicInfo,
-   DetectedVariablesSection,
+   DetectedVariables,
    PromptTemplateContent,
-   TemplateFieldsSection,
+   PromptTemplateFields,
 } from "./sections";
 import {
    capitalizeFirstLetter,
@@ -162,7 +162,7 @@ export const NewLibraryEntryForm: FC = () => {
 
                   <Separator />
 
-                  <DetectedVariablesSection
+                  <DetectedVariables
                      detectedVariables={detectedVariables}
                      variableStatus={variableStatus}
                      onAddVariable={handleAddVariableAsField}
@@ -171,7 +171,7 @@ export const NewLibraryEntryForm: FC = () => {
 
                   {detectedVariables.length > 0 && <Separator />}
 
-                  <TemplateFieldsSection
+                  <PromptTemplateFields
                      control={form.control}
                      watch={form.watch}
                      fields={fields}

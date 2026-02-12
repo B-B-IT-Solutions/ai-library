@@ -1,4 +1,4 @@
 export { BasicInfo } from "./basic-info";
-export { DetectedVariablesSection } from "./detected-variables-section";
+export { DetectedVariables } from "./detected-variables";
 export { PromptTemplateContent } from "./prompt-template-content";
-export { TemplateFieldsSection } from "./template-fields-section";
+export { PromptTemplateFields } from "./prompt-template-fields";
