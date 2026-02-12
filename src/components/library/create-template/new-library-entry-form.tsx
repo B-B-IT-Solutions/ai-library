@@ -58,7 +58,7 @@ const createTemplateSchema = z.object({
 
 type FormData = z.infer<typeof createTemplateSchema>;
 
-export const CreateTemplateForm: FC = () => {
+export const NewLibraryEntryForm: FC = () => {
    const router = useRouter();
 
    const form = useForm<FormData>({

@@ -1,6 +1,6 @@
 import { ReturnToLibraryButton } from "../buttons/return-to-library-button";
 
-import { CreateTemplateForm } from "./create-template-form";
+import { NewLibraryEntryForm } from "./new-library-entry-form";
 
 export const NewLibraryEntry = () => {
    return (
@@ -26,7 +26,7 @@ export const NewLibraryEntry = () => {
                <div className="mb-6">
                   <ReturnToLibraryButton />
                </div>
-               <CreateTemplateForm />
+               <NewLibraryEntryForm />
             </div>
          </div>
       </div>
