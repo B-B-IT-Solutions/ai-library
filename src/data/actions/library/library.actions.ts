@@ -12,7 +12,10 @@ import {
    DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
-import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
+import {
+   DPromptTemplateField,
+   DPromptTemplateFieldValues,
+} from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 
 export const getLibraryEntries = async (): Promise<DLibraryEntry[]> => {
@@ -46,16 +49,7 @@ export type CreateCustomTemplateInput = {
    detailedDescription: string;
    recommendedModel: string;
    categories: string[];
-   fields: {
-      name: string;
-      label: string;
-      description?: string;
-      type: string;
-      required: boolean;
-      order: number;
-      defaultValue?: string;
-      options?: string[];
-   }[];
+   fields: DPromptTemplateField[];
 };
 
 export const createCustomTemplate = async (
