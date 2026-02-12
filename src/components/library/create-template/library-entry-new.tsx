@@ -1,7 +1,4 @@
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
-
-import { Button } from "@/components/shadcn/button";
+import { ReturnToLibraryButton } from "../buttons/return-to-library-button";
 
 import { CreateTemplateForm } from "./create-template-form";
 
@@ -27,16 +24,7 @@ export const NewLibraryEntry = () => {
          <div className="flex-1 overflow-y-auto bg-slate-50">
             <div className="mx-auto max-w-5xl p-8">
                <div className="mb-6">
-                  <Link href="/library">
-                     <Button
-                        variant="ghost"
-                        size="sm"
-                        className="cursor-pointer"
-                     >
-                        <ArrowLeft className="mr-2 h-4 w-4" />
-                        Zurück zur Bibliothek
-                     </Button>
-                  </Link>
+                  <ReturnToLibraryButton />
                </div>
                <CreateTemplateForm />
             </div>

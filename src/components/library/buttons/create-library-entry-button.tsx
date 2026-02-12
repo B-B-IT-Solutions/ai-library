@@ -6,14 +6,15 @@ import { Button } from "@/components/shadcn/button";
 
 export const CreateLibraryEntryButton: FC = () => {
    return (
-      <Link href="/library/new">
-         <Button
-            className="cursor-pointer"
-            data-testid="create-library-entry-btn"
-         >
-            <Plus className="mr-2 h-4 w-4" />
+      <Button
+         asChild={true}
+         className="cursor-pointer"
+         data-testid="create-library-entry-btn"
+      >
+         <Link href="/library/new">
+            <Plus className="mr-1 h-4 w-4" />
             Neue Vorlage erstellen
-         </Button>
-      </Link>
+         </Link>
+      </Button>
    );
 };

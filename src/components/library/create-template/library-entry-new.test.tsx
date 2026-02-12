@@ -5,9 +5,11 @@ import { assertInDocument } from "@tests";
 import { NewLibraryEntry } from "./library-entry-new";
 
 const assertRendered = () => {
-   const library = screen.getByTestId("library-entry-new");
+   const newEntry = screen.getByTestId("library-entry-new");
+   const returnBtn = screen.getByTestId("return-to-library-btn");
 
-   assertInDocument(library);
+   assertInDocument(newEntry);
+   assertInDocument(returnBtn);
 };
 
 describe("NewLibraryEntry rendering tests", () => {

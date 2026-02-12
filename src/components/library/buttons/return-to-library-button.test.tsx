@@ -4,16 +4,16 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument } from "@tests";
 import mockRouter from "next-router-mock";
 
-import { CreateLibraryEntryButton } from "./create-library-entry-button";
+import { ReturnToLibraryButton } from "./return-to-library-button";
 
 const assertRendered = () => {
-   const btn = screen.getByTestId("create-library-entry-btn");
+   const btn = screen.getByTestId("return-to-library-btn");
    assertInDocument(btn);
 };
 
-describe("CreateLibraryEntryButton rendering tests", () => {
-   it("CreateLibraryEntryButton rendered test", async () => {
-      const { container } = render(<CreateLibraryEntryButton />);
+describe("ReturnToLibraryButton rendering tests", () => {
+   it("ReturnToLibraryButton rendered test", async () => {
+      const { container } = render(<ReturnToLibraryButton />);
 
       await waitFor(() => {
          assertRendered();
@@ -23,25 +23,25 @@ describe("CreateLibraryEntryButton rendering tests", () => {
    });
 });
 
-describe("CreateLibraryEntryButton functionality tests", () => {
+describe("ReturnToLibraryButton functionality tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
       mockRouter.push("/");
    });
 
-   it("CreateLibraryEntryButton - create btn clicked - test", async () => {
-      render(<CreateLibraryEntryButton />);
+   it("ReturnToLibraryButton - create btn clicked - test", async () => {
+      render(<ReturnToLibraryButton />);
 
       await waitFor(() => {
          assertRendered();
          expect(mockRouter.pathname).toEqual("/");
       });
 
-      const btn = screen.getByTestId("create-library-entry-btn");
+      const btn = screen.getByTestId("return-to-library-btn");
       await userEvent.click(btn);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual("/library/new");
+         expect(mockRouter.pathname).toEqual("/library");
       });
    });
 });
