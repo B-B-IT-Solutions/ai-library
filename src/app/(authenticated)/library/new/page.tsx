@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import { NewLibraryEntry } from "@/components/library/create-template";
+import { NewLibraryEntry } from "@/components/library";
 
 export const metadata: Metadata = {
    title: "Neue Vorlage erstellen",
