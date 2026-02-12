@@ -1,13 +1,13 @@
 import { Skeleton } from "@/components/shadcn/skeleton";
 
-const CreateTemplateLoading = () => {
+export const NewLibraryEntryLoading = () => {
    return (
       <div
-         className="h-screen flex flex-col bg-slate-50"
-         data-testid="create-template-loading"
+         className="flex h-screen flex-col bg-slate-50"
+         data-testid="new-library-entry-loading"
       >
          {/* Top Navigation Bar */}
-         <div className="bg-white border-b border-slate-200 px-6 py-4">
+         <div className="border-b border-slate-200 bg-white px-6 py-4">
             <div className="flex items-center justify-between">
                <div className="space-y-2">
                   <Skeleton className="h-8 w-64" />
@@ -18,8 +18,8 @@ const CreateTemplateLoading = () => {
 
          {/* Main Content Area */}
          <div className="flex-1 overflow-y-auto bg-slate-50">
-            <div className="max-w-5xl mx-auto p-8">
-               <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-8">
+            <div className="mx-auto max-w-5xl p-8">
+               <div className="rounded-lg border border-slate-200 bg-white p-8 shadow-sm">
                   <div className="space-y-8">
                      {/* Basic Information */}
                      <div className="space-y-4">
@@ -48,4 +48,4 @@ const CreateTemplateLoading = () => {
    );
 };
 
-export default CreateTemplateLoading;
+export default NewLibraryEntryLoading;
