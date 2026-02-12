@@ -1,32 +1,21 @@
 "use client";
 
 import { FC } from "react";
+import { isEmpty, map } from "es-toolkit/compat";
 import { Plus } from "lucide-react";
 import { Control, UseFormWatch } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
+import {
+   DPromptTemplateField,
+   DPromptTemplateUpdate,
+} from "@/data/types/domain/prompt.template";
 import { TemplateFieldItem } from "../field/template-field-item";
 
-type FieldType = {
-   id: string;
-   name: string;
-   label: string;
-   description?: string;
-   type: string;
-   required: boolean;
-   order: number;
-   defaultValue?: string;
-   options?: string[];
-};
-
-type FormData = {
-   fields: FieldType[];
-};
-
 type Props = {
-   control: Control<FormData>;
-   watch: UseFormWatch<FormData>;
-   fields: FieldType[];
+   control: Control<DPromptTemplateUpdate>;
+   watch: UseFormWatch<DPromptTemplateUpdate>;
+   fields: DPromptTemplateField[];
    detectedVariables: string[];
    onAddField: () => void;
    onRemoveField: (index: number) => void;
@@ -40,6 +29,32 @@ export const TemplateFieldsSection: FC<Props> = ({
    onAddField,
    onRemoveField,
 }) => {
+   const renderField = (field: DPromptTemplateField, idx: number) => {
+      const fieldName = watch(`fields.${idx}.name`);
+      const isUsedInContent = detectedVariables.includes(fieldName);
+      const hasName = fieldName && fieldName.trim() !== "";
+
+      return (
+         <TemplateFieldItem
+            key={field.id}
+            control={control}
+            index={idx}
+            fieldName={fieldName}
+            isUsedInContent={isUsedInContent}
+            hasName={hasName}
+            onRemove={() => onRemoveField(idx)}
+         />
+      );
+   };
+
+   const renderFields = () => {
+      return (
+         <div className="space-y-4">
+            {map(fields, (field, idx) => renderField(field, idx))}
+         </div>
+      );
+   };
+
    return (
       <section className="space-y-4">
          <div className="flex items-center justify-between">
@@ -62,7 +77,7 @@ export const TemplateFieldsSection: FC<Props> = ({
             </Button>
          </div>
 
-         {fields.length === 0 && (
+         {isEmpty(fields) && (
             <div className="rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 py-12 text-center">
                <p className="text-slate-500">Noch keine Felder hinzugefügt</p>
                <p className="mt-1 text-sm text-slate-400">
@@ -70,26 +85,7 @@ export const TemplateFieldsSection: FC<Props> = ({
                </p>
             </div>
          )}
-
-         <div className="space-y-4">
-            {fields.map((field, index) => {
-               const fieldName = watch(`fields.${index}.name`);
-               const isUsedInContent = detectedVariables.includes(fieldName);
-               const hasName = fieldName && fieldName.trim() !== "";
-
-               return (
-                  <TemplateFieldItem
-                     key={field.id}
-                     control={control}
-                     index={index}
-                     fieldName={fieldName}
-                     isUsedInContent={isUsedInContent}
-                     hasName={hasName}
-                     onRemove={() => onRemoveField(index)}
-                  />
-               );
-            })}
-         </div>
+         {renderFields()}
       </section>
    );
 };
