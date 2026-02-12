@@ -10,7 +10,7 @@ exports[`CreateLibraryEntryButton rendering tests CreateLibraryEntryButton rende
   >
     <svg
       aria-hidden="true"
-      class="lucide lucide-plus mr-2 h-4 w-4"
+      class="lucide lucide-plus mr-1 h-4 w-4"
       fill="none"
       height="24"
       stroke="currentColor"

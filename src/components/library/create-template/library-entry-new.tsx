@@ -22,8 +22,8 @@ export const NewLibraryEntry = () => {
             </div>
          </div>
          <div className="flex-1 overflow-y-auto bg-slate-50">
-            <div className="mx-auto max-w-5xl p-8">
-               <div className="mb-6">
+            <div className="mx-auto max-w-5xl p-4">
+               <div className="mb-4">
                   <ReturnToLibraryButton />
                </div>
                <NewLibraryEntryForm />
