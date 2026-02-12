@@ -13,8 +13,8 @@ import {
 } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
-   DPromptTemplateField,
    DPromptTemplateFieldValues,
+   DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 
@@ -42,23 +42,13 @@ export const getLibraryEntry = async (
    }
 };
 
-export type CreateCustomTemplateInput = {
-   title: string;
-   description: string;
-   content: string;
-   detailedDescription: string;
-   recommendedModel: string;
-   categories: string[];
-   fields: DPromptTemplateField[];
-};
-
 export const createCustomTemplate = async (
-   input: CreateCustomTemplateInput
+   data: DPromptTemplateUpdate
 ): Promise<ActionResult<string>> => {
    try {
       const user = await requireUser();
       const service = getLibrarySevice();
-      const entryId = await service.createCustomTemplate(input, user.id);
+      const entryId = await service.createCustomTemplate(data, user.id);
       return {
          success: true,
          message: "Vorlage erfolgreich erstellt",

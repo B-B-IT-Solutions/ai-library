@@ -12,24 +12,14 @@ import {
 } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
-   DPromptTemplateField,
    DPromptTemplateFieldValues,
+   DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 
 import {
    toDLibraryEntries,
    toDLibraryEntryWithPromptTemplate,
 } from "./library.mapper";
-
-type CreateCustomTemplateInput = {
-   title: string;
-   description: string;
-   content: string;
-   detailedDescription: string;
-   recommendedModel: string;
-   categories: string[];
-   fields: DPromptTemplateField[];
-};
 
 export class LibraryService {
    private libraryRepository: LibraryRepository;
@@ -139,7 +129,7 @@ export class LibraryService {
    }
 
    async createCustomTemplate(
-      input: CreateCustomTemplateInput,
+      input: DPromptTemplateUpdate,
       userId: string
    ): Promise<string> {
       const data = {

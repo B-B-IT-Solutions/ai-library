@@ -5,4 +5,3 @@ export {
    composePromptFromTemplate,
    createCustomTemplate,
 } from "./library.actions";
-export type { CreateCustomTemplateInput } from "./library.actions";
