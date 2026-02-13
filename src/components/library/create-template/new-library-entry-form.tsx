@@ -18,7 +18,10 @@ import {
 import { Form } from "@/components/shadcn/form";
 import { Separator } from "@/components/shadcn/separator";
 import { createCustomTemplate } from "@/data/actions/library";
-import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
+import {
+   DPromptTemplateField,
+   DPromptTemplateUpdate,
+} from "@/data/types/domain/prompt.template";
 import { updatePromptTemplatechema } from "@/data/types/validators/prompt";
 
 import {
@@ -130,7 +133,6 @@ export const NewLibraryEntryForm: FC = () => {
       if (result.success) {
          toast.success(result.message);
          router.push("/library");
-         router.refresh();
       } else {
          toast.error(result.message);
       }
@@ -172,7 +174,7 @@ export const NewLibraryEntryForm: FC = () => {
                   {detectedVariables.length > 0 && <Separator />}
 
                   <PromptTemplateFields
-                     fields={fields}
+                     fields={fields as DPromptTemplateField[]}
                      detectedVariables={detectedVariables}
                      onAddField={handleAddField}
                      onRemoveField={removeField}
