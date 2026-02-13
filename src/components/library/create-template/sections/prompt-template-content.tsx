@@ -4,42 +4,20 @@ import { FC } from "react";
 import { FileText } from "lucide-react";
 import { Control } from "react-hook-form";
 
-import {
-   FormControl,
-   FormField,
-   FormItem,
-   FormMessage,
-} from "@/components/shadcn/form";
-import { MDEditor } from "@/components/shared/md";
-
-type FormData = {
-   content: string;
-};
+import { FormMDEditor } from "@/components/shared/widgets";
+import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
 
 type Props = {
-   control: Control<FormData>;
+   control: Control<DPromptTemplateUpdate>;
 };
 
 export const PromptTemplateContent: FC<Props> = ({ control }) => {
    const content = () => {
       return (
-         <FormField
-            control={control}
+         <FormMDEditor<DPromptTemplateUpdate>
             name="content"
-            render={({ field }) => (
-               <FormItem>
-                  <FormControl>
-                     <MDEditor
-                        value={field.value}
-                        onChange={field.onChange}
-                        placeholder="Verwenden Sie {{feldname}} für Platzhalter, z.B. 'Schreibe einen Blog-Post über {{thema}}'"
-                        minHeight={250}
-                        data-testid="template-editor"
-                     />
-                  </FormControl>
-                  <FormMessage />
-               </FormItem>
-            )}
+            placeholder="Verwenden Sie {{feldname}} für Platzhalter, z.B. 'Schreibe einen Blog-Post über {{thema}}'"
+            control={control}
          />
       );
    };
