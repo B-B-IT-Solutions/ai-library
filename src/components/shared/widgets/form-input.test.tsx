@@ -9,9 +9,10 @@ type Props = {
    name: string;
    label: string;
    placeholder: string;
+   message?: string;
 };
 
-const TestWrapper: FC<Props> = ({ name, label, placeholder }) => {
+const TestWrapper: FC<Props> = ({ name, label, placeholder, message }) => {
    const form = useForm({
       defaultValues: {
          [name]: "",
@@ -24,6 +25,7 @@ const TestWrapper: FC<Props> = ({ name, label, placeholder }) => {
             name={name}
             label={label}
             placeholder={placeholder}
+            message={message}
             control={form.control}
          />
       </FormProvider>
@@ -36,10 +38,31 @@ const assertRendered = (name: string) => {
 };
 
 describe("FormInput rendering tests", () => {
-   it("FormInput rendered test", () => {
+   it("FormInput - message undefined - test", () => {
       const name = "test-1";
       const { container } = render(
-         <TestWrapper name={name} label="Label 1" placeholder="Placeholder 1" />
+         <TestWrapper
+            name={name}
+            label="Label 1"
+            placeholder="Placeholder 1"
+            message={undefined}
+         />
+      );
+
+      assertRendered(name);
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("FormInput  - message defined -  test", () => {
+      const name = "test-1";
+      const { container } = render(
+         <TestWrapper
+            name={name}
+            label="Label 1"
+            placeholder="Placeholder 1"
+            message="Test 1"
+         />
       );
 
       assertRendered(name);

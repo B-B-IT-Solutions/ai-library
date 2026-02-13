@@ -15,6 +15,7 @@ type Props<T extends FieldValues> = {
    name: Path<T>;
    label: string;
    placeholder: string;
+   message?: string;
    control: Control<T>;
 };
 
@@ -22,6 +23,7 @@ export const FormInput = <T extends FieldValues>({
    name,
    label,
    placeholder,
+   message,
    control,
 }: Props<T>) => {
    return (
@@ -34,7 +36,9 @@ export const FormInput = <T extends FieldValues>({
                <FormControl>
                   <Input {...field} placeholder={placeholder} />
                </FormControl>
-               <FormMessage />
+               <FormMessage>
+                  {message && <span className="text-slate-500">{message}</span>}
+               </FormMessage>
             </FormItem>
          )}
       />

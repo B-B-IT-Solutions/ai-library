@@ -22,6 +22,7 @@ import {
    SelectValue,
 } from "@/components/shadcn/select";
 import { Textarea } from "@/components/shadcn/textarea";
+import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
 
 const FIELD_TYPES = [
    { value: "TEXT", label: "Text" },
@@ -34,21 +35,8 @@ const FIELD_TYPES = [
    { value: "RADIO", label: "Radio" },
 ];
 
-type FormData = {
-   fields: Array<{
-      name: string;
-      label: string;
-      description?: string;
-      type: string;
-      required: boolean;
-      order: number;
-      defaultValue?: string;
-      options?: string[];
-   }>;
-};
-
 type Props = {
-   control: Control<FormData>;
+   control: Control<DPromptTemplateUpdate>;
    index: number;
    isUsedInContent: boolean;
    hasName: boolean;
@@ -104,15 +92,17 @@ export const PromptTemplateField: FC<Props> = ({
                name={`fields.${index}.name`}
                render={({ field }) => (
                   <FormItem>
-                     <FormLabel>Feldname *</FormLabel>
+                     <FormLabel>Feldname</FormLabel>
                      <FormControl>
                         <Input {...field} placeholder="z.B. thema" />
                      </FormControl>
-                     <p className="mt-1 text-xs text-slate-500">
-                        Verwenden Sie diesen Namen als{" "}
-                        {`{{${field.value || "feldname"}}}`}
-                     </p>
-                     <FormMessage />
+
+                     <FormMessage>
+                        <p className="mt-1 text-xs text-slate-500">
+                           Verwenden Sie diesen Namen als{" "}
+                           {`{{${field.value || "feldname"}}}`}
+                        </p>
+                     </FormMessage>
                   </FormItem>
                )}
             />
