@@ -1,3 +1,5 @@
+import { VariableStatus } from "../sections/detected-variables";
+
 // Helper function to extract variables from template content
 export const extractVariablesFromContent = (content: string): string[] => {
    const regex = /\{\{(\w+)\}\}/g;
@@ -15,7 +17,7 @@ export const extractVariablesFromContent = (content: string): string[] => {
 export const getVariableStatus = (
    detectedVariables: string[],
    fieldNames: string[]
-) => {
+): VariableStatus => {
    return {
       // Variables in content that don't have fields defined
       undefined: detectedVariables.filter(
