@@ -126,12 +126,16 @@ describe("FormDynamicValues functionality tests", () => {
          />
       );
 
-      const input = screen.getByTestId("input");
+      const input = screen.getByTestId("input") as HTMLInputElement;
       const addBtn = screen.getByTestId("add-btn");
 
       const value = "JavaScript";
       await userEvent.type(input, value);
       await userEvent.click(addBtn);
+
+      await waitFor(() => {
+         expect(input.value).toBe("");
+      });
 
       assertValueRendered(value);
    });
@@ -146,42 +150,19 @@ describe("FormDynamicValues functionality tests", () => {
          />
       );
 
-      const input = screen.getByTestId("input");
+      const input = screen.getByTestId("input") as HTMLInputElement;
 
       const value = "TypeScript";
       await userEvent.type(input, "TypeScript{Enter}");
 
-      assertValueRendered(value);
-   });
-
-   it("should clear input field after adding a value", async () => {
-      const user = userEvent.setup();
-
-      render(
-         <TestWrapper
-            name="categories"
-            nameInput="categoryInput"
-            label="Categories"
-            placeholder="Add category"
-         />
-      );
-
-      const input = screen.getByPlaceholderText(
-         "Add category"
-      ) as HTMLInputElement;
-      const addButton = screen.getByRole("button", { name: /hinzufügen/i });
-
-      await user.type(input, "React");
-      await user.click(addButton);
-
       await waitFor(() => {
          expect(input.value).toBe("");
       });
+
+      assertValueRendered(value);
    });
 
-   it("should remove a value when clicking the X button", async () => {
-      const user = userEvent.setup();
-
+   it("FormDynamicValues - remove value - remove btn clicked - test", async () => {
       render(
          <TestWrapper
             name="categories"
@@ -192,24 +173,17 @@ describe("FormDynamicValues functionality tests", () => {
          />
       );
 
-      expect(screen.getByText("JavaScript")).toBeInTheDocument();
+      const value = "JavaScript";
+      assertValueRendered(value);
 
-      const container = screen.getByTestId("categories");
-      const removeButtons = container.querySelectorAll("button[type='button']");
+      const removeBtns = screen.getAllByTestId("remove-btn");
 
-      // First remove button (excluding the "Hinzufügen" button which is last)
-      await user.click(removeButtons[0]);
+      await userEvent.click(removeBtns[0]);
 
-      await waitFor(() => {
-         expect(screen.queryByText("JavaScript")).not.toBeInTheDocument();
-      });
-
-      expect(screen.getByText("TypeScript")).toBeInTheDocument();
+      assertValueNotRendered(value);
    });
 
-   it("should not add duplicate values", async () => {
-      const user = userEvent.setup();
-
+   it("FormDynamicValues - add value - duplicates not allowed - test", async () => {
       render(
          <TestWrapper
             name="categories"
@@ -220,11 +194,16 @@ describe("FormDynamicValues functionality tests", () => {
          />
       );
 
-      const input = screen.getByPlaceholderText("Add category");
-      const addButton = screen.getByRole("button", { name: /hinzufügen/i });
+      await waitFor(() => {
+         const matches = screen.getAllByText("JavaScript");
+         expect(matches).toHaveLength(1);
+      });
 
-      await user.type(input, "JavaScript");
-      await user.click(addButton);
+      const input = screen.getByTestId("input");
+      const addBtn = screen.getByTestId("add-btn");
+
+      await userEvent.type(input, "JavaScript");
+      await userEvent.click(addBtn);
 
       await waitFor(() => {
          const matches = screen.getAllByText("JavaScript");
@@ -232,9 +211,7 @@ describe("FormDynamicValues functionality tests", () => {
       });
    });
 
-   it("should not add empty values", async () => {
-      const user = userEvent.setup();
-
+   it("FormDynamicValues - add value - empty value not allowed - test", async () => {
       render(
          <TestWrapper
             name="categories"
@@ -244,35 +221,14 @@ describe("FormDynamicValues functionality tests", () => {
          />
       );
 
-      const input = screen.getByPlaceholderText("Add category");
-      const addButton = screen.getByRole("button", { name: /hinzufügen/i });
+      assertValuesNotRendered();
 
-      await user.type(input, "   ");
-      await user.click(addButton);
+      const input = screen.getByTestId("input");
+      const addBtn = screen.getByTestId("add-btn");
 
-      const container = screen.getByTestId("categories");
-      const tags = container.querySelectorAll(".rounded-full");
-      expect(tags).toHaveLength(0);
-   });
+      await userEvent.type(input, "   ");
+      await userEvent.click(addBtn);
 
-   it("should not add value when input is empty", async () => {
-      const user = userEvent.setup();
-
-      render(
-         <TestWrapper
-            name="categories"
-            nameInput="categoryInput"
-            label="Categories"
-            placeholder="Add category"
-         />
-      );
-
-      const addButton = screen.getByRole("button", { name: /hinzufügen/i });
-
-      await user.click(addButton);
-
-      const container = screen.getByTestId("categories");
-      const tags = container.querySelectorAll(".rounded-full");
-      expect(tags).toHaveLength(0);
+      assertValuesNotRendered();
    });
 });

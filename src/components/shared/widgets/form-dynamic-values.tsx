@@ -82,6 +82,7 @@ export const FormDynamicValues = <T extends FieldValues>({
                         type="button"
                         onClick={() => handleRemoveCategory(category)}
                         className="cursor-pointer text-slate-500 hover:text-slate-700"
+                        data-testid="remove-btn"
                      >
                         <X className="h-3 w-3" />
                      </button>
