@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/shadcn/button";
 import { CallbackFn } from "@/data/types/common";
 
-type VariableStatus = {
+export type VariableStatus = {
    undefined: string[];
    used: string[];
    unused: string[];
@@ -77,6 +77,7 @@ export const DetectedVariables: FC<Props> = ({
                   variant="ghost"
                   size="sm"
                   className="ml-2 h-6 cursor-pointer px-2 text-xs hover:bg-orange-100"
+                  data-testid="add-btn"
                >
                   <Plus className="mr-1 h-3 w-3" />
                   Hinzufügen
@@ -88,10 +89,7 @@ export const DetectedVariables: FC<Props> = ({
 
    const renderDetectedVariables = () => {
       return (
-         <div
-            className="flex flex-wrap gap-2"
-            data-testid="undefined-variables"
-         >
+         <div className="flex flex-wrap gap-2">
             {map(detectedVariables, (varName) =>
                renderDetectedVariable(varName)
             )}
@@ -136,6 +134,7 @@ export const DetectedVariables: FC<Props> = ({
                      variant="outline"
                      size="sm"
                      className="cursor-pointer"
+                     data-testid="sync-all-btn"
                   >
                      <RefreshCw className="mr-2 h-3 w-3" />
                      Alle synchronisieren
