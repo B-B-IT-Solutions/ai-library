@@ -45,7 +45,7 @@ export const PromptTemplateContent: FC<Props> = ({ control }) => {
    };
 
    return (
-      <section className="space-y-4">
+      <section className="space-y-4" data-testid="prompt-template-content">
          <div>
             <h3 className="flex items-center gap-2 text-lg font-semibold text-slate-900">
                <FileText className="h-5 w-5 text-indigo-600" />
