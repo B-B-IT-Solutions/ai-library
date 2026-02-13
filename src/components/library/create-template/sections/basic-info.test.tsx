@@ -1,0 +1,56 @@
+import { render, screen } from "@testing-library/react";
+import { assertInDocument } from "@tests";
+import { FormProvider, useForm } from "react-hook-form";
+
+import { BasicInfo } from "./basic-info";
+
+const TestWrapper = () => {
+   const form = useForm({
+      defaultValues: {
+         title: "",
+         description: "",
+         content: "",
+         detailedDescription: "",
+         recommendedModel: "Claude 3.5 Sonnet",
+         categories: [],
+         categoryInput: "",
+         fields: [],
+      },
+   });
+
+   return (
+      <FormProvider {...form}>
+         <BasicInfo
+            control={form.control}
+            watch={form.watch}
+            setValue={form.setValue}
+         />
+      </FormProvider>
+   );
+};
+
+const assertRendered = () => {
+   const field = screen.getByTestId("basic-info");
+   const title = screen.getByTestId("title");
+   const description = screen.getByTestId("description");
+   const detailedDescription = screen.getByTestId("detailedDescription");
+   const recommendedModel = screen.getByTestId("recommendedModel");
+   const categories = screen.getByTestId("categories");
+
+   assertInDocument(field);
+   assertInDocument(title);
+   assertInDocument(description);
+   assertInDocument(detailedDescription);
+   assertInDocument(recommendedModel);
+   assertInDocument(categories);
+};
+
+describe("BasicInfo rendering tests", () => {
+   it("BasicInfo rendered test", () => {
+      const { container } = render(<TestWrapper />);
+
+      assertRendered();
+
+      expect(container).toMatchSnapshot();
+   });
+});
