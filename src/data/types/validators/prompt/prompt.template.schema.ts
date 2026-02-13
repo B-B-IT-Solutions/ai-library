@@ -22,7 +22,7 @@ export const promptTemplateFieldSchema = z.object({
    options: z.array(z.string()).optional(),
 });
 
-export const updatePromptTemplatechema = z.object({
+export const updatePromptTemplateSchema = z.object({
    title: z.string().min(1, "Titel ist erforderlich"),
    description: z.string().min(1, "Beschreibung ist erforderlich"),
    detailedDescription: z

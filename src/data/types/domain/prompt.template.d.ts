@@ -1,6 +1,6 @@
-import { updatePromptTemplatechema } from "@/data/types/validators/prompt";
+import { updatePromptTemplateSchema } from "@/data/types/validators/prompt";
 
-export type DPromptTemplateUpdate = z.infer<typeof updatePromptTemplatechema>;
+export type DPromptTemplateUpdate = z.infer<typeof updatePromptTemplateSchema>;
 
 export type DPromptTemplateCategory = {
    name: string;

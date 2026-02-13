@@ -23,7 +23,7 @@ import {
    DPromptTemplateField,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
-import { updatePromptTemplatechema } from "@/data/types/validators/prompt";
+import { updatePromptTemplateSchema } from "@/data/types/validators/prompt";
 
 import {
    BasicInfo,
@@ -37,7 +37,7 @@ export const NewLibraryEntryForm: FC = () => {
    const router = useRouter();
 
    const form = useForm<DPromptTemplateUpdate>({
-      resolver: zodResolver(updatePromptTemplatechema),
+      resolver: zodResolver(updatePromptTemplateSchema),
       defaultValues: {
          title: "",
          description: "",

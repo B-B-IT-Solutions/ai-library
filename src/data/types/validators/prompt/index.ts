@@ -1,5 +1,5 @@
-export { createPromptSchema, updatePromptSchema } from "./prompt.schema";
+export { updatePromptSchema } from "./prompt.schema";
 export {
-   updatePromptTemplatechema,
+   updatePromptTemplateSchema,
    promptTemplateFieldSchema,
 } from "./prompt.template.schema";
