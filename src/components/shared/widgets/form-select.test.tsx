@@ -12,19 +12,19 @@ type Props = {
 };
 
 const TestWrapper: FC<Props> = ({ name, label, options }) => {
-   const methods = useForm({
+   const form = useForm({
       defaultValues: {
          [name]: "",
       },
    });
 
    return (
-      <FormProvider {...methods}>
+      <FormProvider {...form}>
          <FormSelect
             name={name}
             label={label}
             options={options}
-            control={methods.control}
+            control={form.control}
          />
       </FormProvider>
    );

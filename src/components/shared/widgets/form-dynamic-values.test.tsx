@@ -3,30 +3,33 @@ import { render, screen } from "@testing-library/react";
 import { assertInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { FormTextArea } from "./form-textarea";
+import { FormDynamicValues } from "./form-dynamic-values";
 
 type Props = {
    name: string;
+   nameInput: string;
    label: string;
    placeholder: string;
-   rows?: number;
 };
 
-const TestWrapper: FC<Props> = ({ name, label, placeholder, rows }) => {
+const TestWrapper: FC<Props> = ({ name, nameInput, label, placeholder }) => {
    const form = useForm({
       defaultValues: {
-         [name]: "",
+         [name]: undefined,
+         [nameInput]: "",
       },
    });
 
    return (
       <FormProvider {...form}>
-         <FormTextArea
+         <FormDynamicValues
             name={name}
+            nameInput={nameInput}
             label={label}
             placeholder={placeholder}
-            rows={rows}
             control={form.control}
+            watch={form.watch}
+            setValue={form.setValue}
          />
       </FormProvider>
    );
@@ -37,26 +40,16 @@ const assertRendered = (name: string) => {
    assertInDocument(field);
 };
 
-describe("FormTextArea rendering tests", () => {
-   it("FormTextArea - rows undefined - test", () => {
-      const name = "test-123";
-      const { container } = render(
-         <TestWrapper name={name} label="Label 1" placeholder="Placeholder 1" />
-      );
-
-      assertRendered(name);
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("FormTextArea - rows defined - test", () => {
-      const name = "test-789";
+describe("FormDynamicValues rendering tests", () => {
+   it("FormDynamicValues rendered test", () => {
+      const name = "categories";
+      const nameInput = "categoryInput";
       const { container } = render(
          <TestWrapper
             name={name}
+            nameInput={nameInput}
             label="Label 1"
             placeholder="Placeholder 1"
-            rows={5}
          />
       );
 
