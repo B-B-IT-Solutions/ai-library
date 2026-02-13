@@ -74,11 +74,13 @@ describe("promptTemplateFieldSchema - tests", () => {
       expect(validatedValues).toEqual(fieldData);
    });
 
-   it("promptTemplateFieldSchema - minimal valid data with defaults - test", () => {
+   it("promptTemplateFieldSchema - minimal valid data - test", () => {
       const fieldData = {
          name: "name",
          label: "Name",
          type: "TEXT" as const,
+         required: true,
+         order: 0,
       };
 
       const validatedValues = promptTemplateFieldSchema.parse(fieldData);
@@ -118,6 +120,8 @@ describe("promptTemplateFieldSchema - tests", () => {
          name: "a".repeat(100),
          label: "Label",
          type: "TEXT" as const,
+         required: true,
+         order: 0,
       };
 
       const validatedValues = promptTemplateFieldSchema.parse(fieldData);
@@ -151,6 +155,8 @@ describe("promptTemplateFieldSchema - tests", () => {
          name: "name",
          label: "a".repeat(250),
          type: "TEXT" as const,
+         required: true,
+         order: 0,
       };
 
       const validatedValues = promptTemplateFieldSchema.parse(fieldData);
@@ -162,6 +168,8 @@ describe("promptTemplateFieldSchema - tests", () => {
          name: "name",
          label: "Label",
          type: "TEXT" as const,
+         required: true,
+         order: 0,
       };
 
       const validatedValues = promptTemplateFieldSchema.parse(fieldData);
@@ -186,6 +194,8 @@ describe("promptTemplateFieldSchema - tests", () => {
          label: "Label",
          description: "a".repeat(500),
          type: "TEXT" as const,
+         required: true,
+         order: 0,
       };
 
       const validatedValues = promptTemplateFieldSchema.parse(fieldData);
@@ -203,11 +213,13 @@ describe("promptTemplateFieldSchema - tests", () => {
       expect(fn).toThrow(ZodError);
    });
 
-   it("promptTemplateFieldSchema - required defaults to true - test", () => {
+   it("promptTemplateFieldSchema - required can be true - test", () => {
       const fieldData = {
          name: "name",
          label: "Label",
          type: "TEXT" as const,
+         required: true,
+         order: 0,
       };
 
       const validatedValues = promptTemplateFieldSchema.parse(fieldData);
@@ -220,17 +232,20 @@ describe("promptTemplateFieldSchema - tests", () => {
          label: "Label",
          type: "TEXT" as const,
          required: false,
+         order: 0,
       };
 
       const validatedValues = promptTemplateFieldSchema.parse(fieldData);
       expect(validatedValues.required).toBe(false);
    });
 
-   it("promptTemplateFieldSchema - order defaults to 0 - test", () => {
+   it("promptTemplateFieldSchema - order can be 0 - test", () => {
       const fieldData = {
          name: "name",
          label: "Label",
          type: "TEXT" as const,
+         required: true,
+         order: 0,
       };
 
       const validatedValues = promptTemplateFieldSchema.parse(fieldData);
@@ -242,6 +257,7 @@ describe("promptTemplateFieldSchema - tests", () => {
          name: "name",
          label: "Label",
          type: "TEXT" as const,
+         required: true,
          order: 5,
       };
 
@@ -254,6 +270,7 @@ describe("promptTemplateFieldSchema - tests", () => {
          name: "name",
          label: "Label",
          type: "TEXT" as const,
+         required: true,
          order: -1,
       };
 
@@ -278,6 +295,8 @@ describe("promptTemplateFieldSchema - tests", () => {
          name: "name",
          label: "Label",
          type: "TEXT" as const,
+         required: true,
+         order: 0,
       };
 
       const validatedValues = promptTemplateFieldSchema.parse(fieldData);
@@ -289,6 +308,8 @@ describe("promptTemplateFieldSchema - tests", () => {
          name: "name",
          label: "Label",
          type: "TEXT" as const,
+         required: true,
+         order: 0,
          defaultValue: "Default text",
       };
 
@@ -301,6 +322,8 @@ describe("promptTemplateFieldSchema - tests", () => {
          name: "name",
          label: "Label",
          type: "SELECT" as const,
+         required: true,
+         order: 0,
       };
 
       const validatedValues = promptTemplateFieldSchema.parse(fieldData);
@@ -312,6 +335,8 @@ describe("promptTemplateFieldSchema - tests", () => {
          name: "country",
          label: "Country",
          type: "SELECT" as const,
+         required: true,
+         order: 0,
          options: ["USA", "UK", "Germany"],
       };
 
@@ -324,6 +349,8 @@ describe("promptTemplateFieldSchema - tests", () => {
          name: "country",
          label: "Country",
          type: "SELECT" as const,
+         required: true,
+         order: 0,
          options: [],
       };
 
@@ -378,6 +405,8 @@ describe("promptTemplateFieldSchema - tests", () => {
             name: "field",
             label: "Field",
             type: type,
+            required: true,
+            order: 0,
          };
 
          const validatedValues = promptTemplateFieldSchema.parse(fieldData);
