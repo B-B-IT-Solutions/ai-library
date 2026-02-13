@@ -6,6 +6,7 @@ import { Plus } from "lucide-react";
 import { Control, UseFormGetValues, UseFormWatch } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
+import { CallbackFn } from "@/data/types/common";
 import {
    DPromptTemplateField,
    DPromptTemplateUpdate,
@@ -19,7 +20,7 @@ type Props = {
    getValues: UseFormGetValues<DPromptTemplateUpdate>;
    fields: DPromptTemplateField[];
    detectedVariables: string[];
-   onAddField: () => void;
+   onAddField: CallbackFn;
    onRemoveField: (index: number) => void;
 };
 
@@ -34,7 +35,7 @@ export const PromptTemplateFields: FC<Props> = ({
 }) => {
    const renderField = (field: DPromptTemplateField, idx: number) => {
       const fieldName = watch(`fields.${idx}.name`);
-      const isUsedInContent = detectedVariables.includes(fieldName);
+      const isUsed = detectedVariables.includes(fieldName);
       const hasName = fieldName && fieldName.trim() !== "";
 
       return (
@@ -43,7 +44,7 @@ export const PromptTemplateFields: FC<Props> = ({
             control={control}
             getValues={getValues}
             index={idx}
-            isUsed={isUsedInContent}
+            isUsed={isUsed}
             hasName={hasName}
             onRemove={() => onRemoveField(idx)}
          />

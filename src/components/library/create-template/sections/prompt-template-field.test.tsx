@@ -1,7 +1,10 @@
 import { FC } from "react";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { assertInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
+
+import { CallbackFn } from "@/data/types/common";
 
 import { PromptTemplateField } from "./prompt-template-field";
 
@@ -9,7 +12,7 @@ type Props = {
    index: number;
    isUsed: boolean;
    hasName: boolean;
-   onRemove: () => void;
+   onRemove: CallbackFn;
 };
 
 const TestWrapper: FC<Props> = ({ index, isUsed, hasName, onRemove }) => {
@@ -116,5 +119,27 @@ describe("PromptTemplateField rendering tests", () => {
       assertFieldsRendered(index);
 
       expect(container).toMatchSnapshot();
+   });
+});
+
+describe("PromptTemplateField functionality tests", () => {
+   it("PromptTemplateField - remove btn clicked - test", async () => {
+      const removeFn = jest.fn();
+
+      render(
+         <TestWrapper
+            index={0}
+            isUsed={false}
+            hasName={false}
+            onRemove={removeFn}
+         />
+      );
+
+      assertRendered();
+      expect(removeFn).not.toHaveBeenCalled();
+
+      const removeBtn = screen.getByTestId("remove-btn");
+      await userEvent.click(removeBtn);
+      expect(removeFn).toHaveBeenCalledTimes(1);
    });
 });

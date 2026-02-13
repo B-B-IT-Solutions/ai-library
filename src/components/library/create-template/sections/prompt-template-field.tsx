@@ -11,6 +11,7 @@ import {
    FormSelect,
    FormTextArea,
 } from "@/components/shared/widgets";
+import { CallbackFn } from "@/data/types/common";
 import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
 
 const FIELD_TYPES = [
@@ -28,7 +29,7 @@ type Props = {
    index: number;
    isUsed: boolean;
    hasName: boolean;
-   onRemove: () => void;
+   onRemove: CallbackFn;
    control: Control<DPromptTemplateUpdate>;
    getValues: UseFormGetValues<DPromptTemplateUpdate>;
 };
