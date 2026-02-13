@@ -1,4 +1,7 @@
-import { updatePromptTemplateSchema } from "@/data/types/validators/prompt";
+import {
+   promptTemplateFieldSchema,
+   updatePromptTemplateSchema,
+} from "@/data/types/validators/prompt";
 
 export type DPromptTemplateFieldUpdate = z.infer<
    typeof promptTemplateFieldSchema
