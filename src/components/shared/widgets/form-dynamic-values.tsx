@@ -65,6 +65,33 @@ export const FormDynamicValues = <T extends FieldValues>({
       setValue(name, newCategories);
    };
 
+   const renderValues = () => {
+      if (!isEmpty(categories)) {
+         return (
+            <div
+               className="mt-2 flex flex-wrap gap-2"
+               data-testid="current-values"
+            >
+               {map(categories, (category: string) => (
+                  <div
+                     key={category}
+                     className="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                  >
+                     <span className="text-sm">{category}</span>
+                     <button
+                        type="button"
+                        onClick={() => handleRemoveCategory(category)}
+                        className="cursor-pointer text-slate-500 hover:text-slate-700"
+                     >
+                        <X className="h-3 w-3" />
+                     </button>
+                  </div>
+               ))}
+            </div>
+         );
+      }
+   };
+
    return (
       <FormField
          control={control}
@@ -72,25 +99,7 @@ export const FormDynamicValues = <T extends FieldValues>({
          render={({ field }) => (
             <FormItem data-testid={name}>
                <FormLabel>{label}</FormLabel>
-               {!isEmpty(categories) && (
-                  <div className="mt-2 flex flex-wrap gap-2">
-                     {map(categories, (category: string) => (
-                        <div
-                           key={category}
-                           className="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
-                        >
-                           <span className="text-sm">{category}</span>
-                           <button
-                              type="button"
-                              onClick={() => handleRemoveCategory(category)}
-                              className="cursor-pointer text-slate-500 hover:text-slate-700"
-                           >
-                              <X className="h-3 w-3" />
-                           </button>
-                        </div>
-                     ))}
-                  </div>
-               )}
+               {renderValues()}
                <div className="flex gap-2">
                   <FormControl>
                      <Input
