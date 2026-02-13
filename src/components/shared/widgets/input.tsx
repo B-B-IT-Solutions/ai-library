@@ -25,7 +25,7 @@ export const Input = <T extends FieldValues>({
          control={control}
          name={fieldName}
          render={({ field }) => (
-            <FormItem data-testid={`${fieldName}-input`}>
+            <FormItem data-testid={fieldName}>
                <FormLabel>Titel</FormLabel>
                <FormControl>
                   <ShadcnInput
