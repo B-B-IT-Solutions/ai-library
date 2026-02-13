@@ -68,6 +68,7 @@ export const PromptTemplateField: FC<Props> = ({
                onClick={onRemove}
                variant="ghost"
                size="sm"
+               className="cursor-pointer"
                data-testid="remove-btn"
             >
                <Trash2 className="h-4 w-4" />

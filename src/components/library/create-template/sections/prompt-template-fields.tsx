@@ -31,6 +31,32 @@ export const PromptTemplateFields: FC<Props> = ({
    control,
    watch,
 }) => {
+   const header = () => {
+      return (
+         <div className="flex items-center justify-between">
+            <div>
+               <h3 className="text-lg font-semibold text-slate-900">
+                  Vorlagen-Felder
+               </h3>
+               <p className="mt-1 text-sm text-slate-500">
+                  Definieren Sie Felder, die Benutzer ausfüllen können
+               </p>
+            </div>
+            <Button
+               type="button"
+               onClick={onAddField}
+               variant="outline"
+               size="sm"
+               className="cursor-pointer"
+               data-testid="add-btn"
+            >
+               <Plus className="mr-2 h-4 w-4" />
+               Feld hinzufügen
+            </Button>
+         </div>
+      );
+   };
+
    const renderField = (field: DPromptTemplateField, idx: number) => {
       const fieldName = watch(`fields.${idx}.name`);
       const isUsed = detectedVariables.includes(fieldName);
@@ -50,43 +76,29 @@ export const PromptTemplateFields: FC<Props> = ({
    };
 
    const renderFields = () => {
+      if (isEmpty(fields)) {
+         return (
+            <div
+               className="rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 py-12 text-center"
+               data-testid="fields-empty"
+            >
+               <p className="text-slate-500">Noch keine Felder hinzugefügt</p>
+               <p className="mt-1 text-sm text-slate-400">
+                  Klicken Sie auf &quot;Feld hinzufügen&quot;, um zu beginnen
+               </p>
+            </div>
+         );
+      }
       return (
-         <div className="space-y-4">
+         <div className="space-y-4" data-testid="fields">
             {map(fields, (field, idx) => renderField(field, idx))}
          </div>
       );
    };
 
    return (
-      <section className="space-y-4">
-         <div className="flex items-center justify-between">
-            <div>
-               <h3 className="text-lg font-semibold text-slate-900">
-                  Vorlagen-Felder
-               </h3>
-               <p className="mt-1 text-sm text-slate-500">
-                  Definieren Sie Felder, die Benutzer ausfüllen können
-               </p>
-            </div>
-            <Button
-               type="button"
-               onClick={onAddField}
-               variant="outline"
-               size="sm"
-            >
-               <Plus className="mr-2 h-4 w-4" />
-               Feld hinzufügen
-            </Button>
-         </div>
-
-         {isEmpty(fields) && (
-            <div className="rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 py-12 text-center">
-               <p className="text-slate-500">Noch keine Felder hinzugefügt</p>
-               <p className="mt-1 text-sm text-slate-400">
-                  Klicken Sie auf &quot;Feld hinzufügen&quot;, um zu beginnen
-               </p>
-            </div>
-         )}
+      <section className="space-y-4" data-testid="prompt-template-fields">
+         {header()}
          {renderFields()}
       </section>
    );
