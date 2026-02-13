@@ -13,11 +13,15 @@ import { Input as ShadcnInput } from "@/components/shadcn/input";
 
 type Props<T extends FieldValues> = {
    field: Path<T>;
+   label: string;
+   placeholder: string;
    control: Control<T>;
 };
 
-export const Input = <T extends FieldValues>({
+export const FormInput = <T extends FieldValues>({
    field: fieldName,
+   label,
+   placeholder,
    control,
 }: Props<T>) => {
    return (
@@ -26,12 +30,9 @@ export const Input = <T extends FieldValues>({
          name={fieldName}
          render={({ field }) => (
             <FormItem data-testid={fieldName}>
-               <FormLabel>Titel</FormLabel>
+               <FormLabel>{label}</FormLabel>
                <FormControl>
-                  <ShadcnInput
-                     {...field}
-                     placeholder="z.B. Blog-Post Generator"
-                  />
+                  <ShadcnInput {...field} placeholder={placeholder} />
                </FormControl>
                <FormMessage />
             </FormItem>
