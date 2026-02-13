@@ -103,7 +103,7 @@ exports[`NewLibraryEntry rendering tests NewLibraryEntry rendered test 1`] = `
                     data-slot="form-label"
                     for="_r_0_-form-item"
                   >
-                    Titel *
+                    Titel
                   </label>
                   <input
                     aria-describedby="_r_0_-form-item-description"
@@ -127,7 +127,7 @@ exports[`NewLibraryEntry rendering tests NewLibraryEntry rendered test 1`] = `
                     data-slot="form-label"
                     for="_r_1_-form-item"
                   >
-                    Beschreibung *
+                    Beschreibung
                   </label>
                   <textarea
                     aria-describedby="_r_1_-form-item-description"
@@ -151,7 +151,7 @@ exports[`NewLibraryEntry rendering tests NewLibraryEntry rendered test 1`] = `
                     data-slot="form-label"
                     for="_r_2_-form-item"
                   >
-                    Detaillierte Beschreibung *
+                    Detaillierte Beschreibung
                   </label>
                   <textarea
                     aria-describedby="_r_2_-form-item-description"
@@ -175,7 +175,7 @@ exports[`NewLibraryEntry rendering tests NewLibraryEntry rendered test 1`] = `
                     data-slot="form-label"
                     for="_r_3_-form-item"
                   >
-                    Empfohlenes Modell *
+                    Empfohlenes Modell
                   </label>
                   <button
                     aria-autocomplete="none"
@@ -263,7 +263,7 @@ exports[`NewLibraryEntry rendering tests NewLibraryEntry rendered test 1`] = `
                     data-slot="form-label"
                     for="_r_5_-form-item"
                   >
-                    Kategorien
+                    Empfohlenes Modell
                   </label>
                   <div
                     class="flex gap-2"
@@ -273,14 +273,16 @@ exports[`NewLibraryEntry rendering tests NewLibraryEntry rendered test 1`] = `
                       aria-invalid="false"
                       class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                       data-slot="form-control"
+                      data-testid="input"
                       id="_r_5_-form-item"
                       name="categoryInput"
                       placeholder="Kategorie hinzufügen"
                       value=""
                     />
                     <button
-                      class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3"
+                      class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
                       data-slot="button"
+                      data-testid="add-btn"
                       type="button"
                     >
                       Hinzufügen
@@ -296,6 +298,7 @@ exports[`NewLibraryEntry rendering tests NewLibraryEntry rendered test 1`] = `
               />
               <section
                 class="space-y-4"
+                data-testid="prompt-template-content"
               >
                 <div>
                   <h3
@@ -349,10 +352,11 @@ exports[`NewLibraryEntry rendering tests NewLibraryEntry rendered test 1`] = `
                 <div
                   class="grid gap-2"
                   data-slot="form-item"
+                  data-testid="content"
                 >
                   <div
                     class="border border-slate-200 rounded-lg overflow-hidden bg-white"
-                    data-testid="template-editor"
+                    data-testid="tiptap-editor"
                   >
                     <div
                       class="flex flex-wrap gap-1 p-2 border-b border-slate-200 bg-slate-50"

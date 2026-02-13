@@ -31,7 +31,7 @@ exports[`PromptEdit rendering tests PromptEdit - create mode - rendered test 1`]
           data-testid="basic-info-edit"
         >
           <h3
-            class="text-lg font-semibold text-slate-900 flex items-center gap-2"
+            class="flex items-center gap-2 text-lg font-semibold text-slate-900"
           >
             <svg
               aria-hidden="true"
@@ -92,7 +92,7 @@ exports[`PromptEdit rendering tests PromptEdit - create mode - rendered test 1`]
             data-testid="recommended-model"
           >
             <label
-              class="select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive text-sm font-medium text-slate-700 flex items-center gap-1.5"
+              class="select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive flex items-center gap-1.5 text-sm font-medium text-slate-700"
               data-error="false"
               data-slot="form-label"
               for="_r_1_-form-item"
@@ -534,7 +534,7 @@ exports[`PromptEdit rendering tests PromptEdit - create mode - rendered test 1`]
             data-testid="categories"
           >
             <label
-              class="select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive text-sm font-medium text-slate-700 flex items-center gap-1.5"
+              class="select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive flex items-center gap-1.5 text-sm font-medium text-slate-700"
               data-error="false"
               data-slot="form-label"
               for="undefined-form-item"
@@ -554,7 +554,7 @@ exports[`PromptEdit rendering tests PromptEdit - create mode - rendered test 1`]
                   placeholder="Kategoriename eingeben"
                 />
                 <button
-                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:border-red-300 hover:bg-red-50 hover:text-red-600"
                   data-slot="button"
                   data-testid="remove-category-btn-0"
                   type="button"
@@ -1401,7 +1401,7 @@ exports[`PromptEdit rendering tests PromptEdit - edit mode - rendered test 1`] =
           data-testid="basic-info-edit"
         >
           <h3
-            class="text-lg font-semibold text-slate-900 flex items-center gap-2"
+            class="flex items-center gap-2 text-lg font-semibold text-slate-900"
           >
             <svg
               aria-hidden="true"
@@ -1462,7 +1462,7 @@ exports[`PromptEdit rendering tests PromptEdit - edit mode - rendered test 1`] =
             data-testid="recommended-model"
           >
             <label
-              class="select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive text-sm font-medium text-slate-700 flex items-center gap-1.5"
+              class="select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive flex items-center gap-1.5 text-sm font-medium text-slate-700"
               data-error="false"
               data-slot="form-label"
               for="_r_k_-form-item"
@@ -1904,7 +1904,7 @@ exports[`PromptEdit rendering tests PromptEdit - edit mode - rendered test 1`] =
             data-testid="categories"
           >
             <label
-              class="select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive text-sm font-medium text-slate-700 flex items-center gap-1.5"
+              class="select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive flex items-center gap-1.5 text-sm font-medium text-slate-700"
               data-error="false"
               data-slot="form-label"
               for="undefined-form-item"
@@ -1924,7 +1924,7 @@ exports[`PromptEdit rendering tests PromptEdit - edit mode - rendered test 1`] =
                   placeholder="Kategoriename eingeben"
                 />
                 <button
-                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:border-red-300 hover:bg-red-50 hover:text-red-600"
                   data-slot="button"
                   data-testid="remove-category-btn-0"
                   type="button"
@@ -1961,7 +1961,7 @@ exports[`PromptEdit rendering tests PromptEdit - edit mode - rendered test 1`] =
                   placeholder="Kategoriename eingeben"
                 />
                 <button
-                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:border-red-300 hover:bg-red-50 hover:text-red-600"
                   data-slot="button"
                   data-testid="remove-category-btn-1"
                   type="button"
@@ -1998,7 +1998,7 @@ exports[`PromptEdit rendering tests PromptEdit - edit mode - rendered test 1`] =
                   placeholder="Kategoriename eingeben"
                 />
                 <button
-                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:border-red-300 hover:bg-red-50 hover:text-red-600"
                   data-slot="button"
                   data-testid="remove-category-btn-2"
                   type="button"
