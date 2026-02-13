@@ -11,17 +11,13 @@ import {
    FormField,
    FormItem,
    FormLabel,
-   FormMessage,
 } from "@/components/shadcn/form";
 import { Input } from "@/components/shadcn/input";
 import {
-   Select,
-   SelectContent,
-   SelectItem,
-   SelectTrigger,
-   SelectValue,
-} from "@/components/shadcn/select";
-import { FormInput, FormTextArea } from "@/components/shared/widgets";
+   FormInput,
+   FormSelect,
+   FormTextArea,
+} from "@/components/shared/widgets";
 import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
 
 const RECOMMENDED_MODELS = [
@@ -93,29 +89,11 @@ export const BasicInfo: FC<Props> = ({ control, watch, setValue }) => {
 
    const recommendedModel = () => {
       return (
-         <FormField
-            control={control}
+         <FormSelect<DPromptTemplateUpdate>
             name="recommendedModel"
-            render={({ field }) => (
-               <FormItem data-testid="recommendedModel">
-                  <FormLabel>Empfohlenes Modell</FormLabel>
-                  <Select value={field.value} onValueChange={field.onChange}>
-                     <FormControl>
-                        <SelectTrigger>
-                           <SelectValue />
-                        </SelectTrigger>
-                     </FormControl>
-                     <SelectContent>
-                        {RECOMMENDED_MODELS.map((model) => (
-                           <SelectItem key={model} value={model}>
-                              {model}
-                           </SelectItem>
-                        ))}
-                     </SelectContent>
-                  </Select>
-                  <FormMessage />
-               </FormItem>
-            )}
+            label="Empfohlenes Modell"
+            options={RECOMMENDED_MODELS}
+            control={control}
          />
       );
    };
