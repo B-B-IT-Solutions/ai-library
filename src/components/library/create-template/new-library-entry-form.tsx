@@ -178,7 +178,6 @@ export const NewLibraryEntryForm: FC = () => {
                      onRemoveField={removeField}
                      control={form.control}
                      watch={form.watch}
-                     getValues={form.getValues}
                   />
 
                   <Separator />

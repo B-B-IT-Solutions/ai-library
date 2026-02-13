@@ -37,7 +37,7 @@ const TestWrapper: FC<Props> = ({ index, isUsed, hasName, onRemove }) => {
             hasName={hasName}
             onRemove={onRemove}
             control={form.control}
-            getValues={form.getValues}
+            watch={form.watch}
          />
       </FormProvider>
    );

@@ -2,7 +2,7 @@
 
 import { FC } from "react";
 import { AlertCircle, CheckCircle2, Trash2 } from "lucide-react";
-import { Control, UseFormGetValues } from "react-hook-form";
+import { Control, UseFormWatch } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
 import {
@@ -31,7 +31,7 @@ type Props = {
    hasName: boolean;
    onRemove: CallbackFn;
    control: Control<DPromptTemplateUpdate>;
-   getValues: UseFormGetValues<DPromptTemplateUpdate>;
+   watch: UseFormWatch<DPromptTemplateUpdate>;
 };
 
 export const PromptTemplateField: FC<Props> = ({
@@ -40,12 +40,8 @@ export const PromptTemplateField: FC<Props> = ({
    hasName,
    onRemove,
    control,
-   getValues,
+   watch,
 }) => {
-   const getValue = (name: string) => {
-      return getValues(name);
-   };
-
    const header = () => {
       return (
          <div
@@ -82,7 +78,7 @@ export const PromptTemplateField: FC<Props> = ({
 
    const name = () => {
       const fieldName = `fields.${index}.name`;
-      const value = getValue(`fields.${index}.name`) || "feldname";
+      const value = watch(fieldName) || "feldname";
       return (
          <FormInput
             name={fieldName}

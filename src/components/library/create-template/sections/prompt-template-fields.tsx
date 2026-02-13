@@ -3,7 +3,7 @@
 import { FC } from "react";
 import { isEmpty, map } from "es-toolkit/compat";
 import { Plus } from "lucide-react";
-import { Control, UseFormGetValues, UseFormWatch } from "react-hook-form";
+import { Control, UseFormWatch } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
 import { CallbackFn } from "@/data/types/common";
@@ -15,23 +15,21 @@ import {
 import { PromptTemplateField } from "./prompt-template-field";
 
 type Props = {
-   control: Control<DPromptTemplateUpdate>;
-   watch: UseFormWatch<DPromptTemplateUpdate>;
-   getValues: UseFormGetValues<DPromptTemplateUpdate>;
    fields: DPromptTemplateField[];
    detectedVariables: string[];
    onAddField: CallbackFn;
    onRemoveField: (index: number) => void;
+   control: Control<DPromptTemplateUpdate>;
+   watch: UseFormWatch<DPromptTemplateUpdate>;
 };
 
 export const PromptTemplateFields: FC<Props> = ({
-   control,
-   watch,
-   getValues,
    fields,
    detectedVariables,
    onAddField,
    onRemoveField,
+   control,
+   watch,
 }) => {
    const renderField = (field: DPromptTemplateField, idx: number) => {
       const fieldName = watch(`fields.${idx}.name`);
@@ -41,12 +39,12 @@ export const PromptTemplateFields: FC<Props> = ({
       return (
          <PromptTemplateField
             key={field.id}
-            control={control}
-            getValues={getValues}
             index={idx}
             isUsed={isUsed}
             hasName={hasName}
             onRemove={() => onRemoveField(idx)}
+            control={control}
+            watch={watch}
          />
       );
    };
