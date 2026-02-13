@@ -31,23 +31,19 @@ import {
    PromptTemplateContent,
    PromptTemplateFields,
 } from "./sections";
-import { extractVariablesFromContent, getVariableStatus } from "./utils";
+import {
+   extractVariablesFromContent,
+   getVariableStatus,
+   initPromptTempalte,
+   initPromptTemplateField,
+} from "./utils";
 
 export const NewLibraryEntryForm: FC = () => {
    const router = useRouter();
 
    const form = useForm<DPromptTemplateUpdate>({
       resolver: zodResolver(updatePromptTemplateSchema),
-      defaultValues: {
-         title: "",
-         description: "",
-         content: "",
-         detailedDescription: "",
-         recommendedModel: "Claude 3.5 Sonnet",
-         categories: [],
-         categoryInput: "",
-         fields: [],
-      },
+      defaultValues: initPromptTempalte(),
    });
 
    const {
@@ -76,29 +72,17 @@ export const NewLibraryEntryForm: FC = () => {
    }, [detectedVariables, fields, form]);
 
    const handleAddField = () => {
-      addField({
-         name: "",
-         label: "",
-         description: "",
-         type: "TEXT",
-         required: true,
-         order: fields.length,
-         defaultValue: "",
-         options: [],
-      });
+      const order = fields.length;
+      const initValue = initPromptTemplateField(order);
+      addField(initValue);
    };
 
    const handleAddVariableAsField = (variableName: string) => {
-      addField({
-         name: variableName,
-         label: upperFirst(variableName),
-         description: "",
-         type: "TEXT",
-         required: true,
-         order: fields.length,
-         defaultValue: "",
-         options: [],
-      });
+      const order = fields.length;
+      const name = variableName;
+      const label = upperFirst(variableName);
+      const initValue = initPromptTemplateField(order, name, label);
+      addField(initValue);
       toast.success(`Feld "${variableName}" hinzugefügt`);
    };
 

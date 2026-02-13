@@ -1,5 +1,9 @@
 import { updatePromptTemplateSchema } from "@/data/types/validators/prompt";
 
+export type DPromptTemplateFieldUpdate = z.infer<
+   typeof promptTemplateFieldSchema
+>;
+
 export type DPromptTemplateUpdate = z.infer<typeof updatePromptTemplateSchema>;
 
 export type DPromptTemplateCategory = {
