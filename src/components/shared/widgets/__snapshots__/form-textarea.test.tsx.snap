@@ -3,7 +3,7 @@
 exports[`FormTextArea rendering tests FormTextArea - rows defined - test 1`] = `
 <div>
   <div
-    class="grid gap-2"
+    class="grid gap-2 mt-1"
     data-slot="form-item"
     data-testid="test-789"
   >

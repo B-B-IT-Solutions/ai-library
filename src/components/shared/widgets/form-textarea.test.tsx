@@ -10,9 +10,16 @@ type Props = {
    label: string;
    placeholder: string;
    rows?: number;
+   className?: string;
 };
 
-const TestWrapper: FC<Props> = ({ name, label, placeholder, rows }) => {
+const TestWrapper: FC<Props> = ({
+   name,
+   label,
+   placeholder,
+   rows,
+   className,
+}) => {
    const form = useForm({
       defaultValues: {
          [name]: "",
@@ -26,6 +33,7 @@ const TestWrapper: FC<Props> = ({ name, label, placeholder, rows }) => {
             label={label}
             placeholder={placeholder}
             rows={rows}
+            className={className}
             control={form.control}
          />
       </FormProvider>
@@ -57,6 +65,7 @@ describe("FormTextArea rendering tests", () => {
             label="Label 1"
             placeholder="Placeholder 1"
             rows={5}
+            className="mt-1"
          />
       );
 

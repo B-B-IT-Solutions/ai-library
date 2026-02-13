@@ -10,12 +10,14 @@ import {
    FormMessage,
 } from "@/components/shadcn/form";
 import { Textarea } from "@/components/shadcn/textarea";
+import { cn } from "@/lib/utils";
 
 type Props<T extends FieldValues> = {
    name: Path<T>;
    label: string;
    placeholder: string;
    rows?: number;
+   className?: string;
    control: Control<T>;
 };
 
@@ -24,6 +26,7 @@ export const FormTextArea = <T extends FieldValues>({
    label,
    placeholder,
    rows = 3,
+   className,
    control,
 }: Props<T>) => {
    return (
@@ -31,7 +34,7 @@ export const FormTextArea = <T extends FieldValues>({
          control={control}
          name={name}
          render={({ field }) => (
-            <FormItem data-testid={name}>
+            <FormItem className={cn(className)} data-testid={name}>
                <FormLabel>{label}</FormLabel>
                <FormControl>
                   <Textarea {...field} placeholder={placeholder} rows={rows} />

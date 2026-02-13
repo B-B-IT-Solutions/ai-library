@@ -11,11 +11,12 @@ import {
    FormField,
    FormItem,
    FormLabel,
-   FormMessage,
 } from "@/components/shadcn/form";
-import { Input } from "@/components/shadcn/input";
-import { Textarea } from "@/components/shadcn/textarea";
-import { FormInput, FormSelect } from "@/components/shared/widgets";
+import {
+   FormInput,
+   FormSelect,
+   FormTextArea,
+} from "@/components/shared/widgets";
 import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
 
 const FIELD_TYPES = [
@@ -68,7 +69,13 @@ export const PromptTemplateField: FC<Props> = ({
                   </span>
                )}
             </div>
-            <Button type="button" onClick={onRemove} variant="ghost" size="sm">
+            <Button
+               type="button"
+               onClick={onRemove}
+               variant="ghost"
+               size="sm"
+               data-testid="remove-btn"
+            >
                <Trash2 className="h-4 w-4" />
             </Button>
          </div>
@@ -113,6 +120,32 @@ export const PromptTemplateField: FC<Props> = ({
       );
    };
 
+   const defaultValue = () => {
+      const name = `fields.${index}.defaultValue`;
+      return (
+         <FormInput
+            name={name}
+            label="Standardwert"
+            placeholder="Standardwert des Feldes"
+            control={control}
+         />
+      );
+   };
+
+   const description = () => {
+      const name = `fields.${index}.description`;
+      return (
+         <FormTextArea
+            name={name}
+            label="Beschreibung"
+            placeholder="Beschreibung des Feldes"
+            rows={2}
+            className="col-span-2"
+            control={control}
+         />
+      );
+   };
+
    return (
       <div
          className={`rounded-lg border p-6 ${
@@ -128,38 +161,8 @@ export const PromptTemplateField: FC<Props> = ({
             {name()}
             {label()}
             {type()}
-
-            <FormField
-               control={control}
-               name={`fields.${index}.defaultValue`}
-               render={({ field }) => (
-                  <FormItem>
-                     <FormLabel>Standardwert</FormLabel>
-                     <FormControl>
-                        <Input {...field} placeholder="Optional" />
-                     </FormControl>
-                     <FormMessage />
-                  </FormItem>
-               )}
-            />
-
-            <FormField
-               control={control}
-               name={`fields.${index}.description`}
-               render={({ field }) => (
-                  <FormItem className="col-span-2">
-                     <FormLabel>Beschreibung</FormLabel>
-                     <FormControl>
-                        <Textarea
-                           {...field}
-                           placeholder="Optionale Beschreibung für das Feld"
-                           rows={2}
-                        />
-                     </FormControl>
-                     <FormMessage />
-                  </FormItem>
-               )}
-            />
+            {defaultValue()}
+            {description()}
 
             <FormField
                control={control}
