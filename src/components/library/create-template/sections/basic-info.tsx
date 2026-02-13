@@ -21,8 +21,8 @@ import {
    SelectTrigger,
    SelectValue,
 } from "@/components/shadcn/select";
-import { Textarea } from "@/components/shadcn/textarea";
 import { FormInput } from "@/components/shared/widgets";
+import { FormTextArea } from "@/components/shared/widgets/form-textarea";
 import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
 
 const RECOMMENDED_MODELS = [
@@ -70,44 +70,24 @@ export const BasicInfo: FC<Props> = ({ control, watch, setValue }) => {
 
    const description = () => {
       return (
-         <FormField
-            control={control}
+         <FormTextArea<DPromptTemplateUpdate>
             name="description"
-            render={({ field }) => (
-               <FormItem data-testid="description">
-                  <FormLabel>Beschreibung</FormLabel>
-                  <FormControl>
-                     <Textarea
-                        {...field}
-                        placeholder="Beschreibung der Vorlage"
-                        rows={3}
-                     />
-                  </FormControl>
-                  <FormMessage />
-               </FormItem>
-            )}
+            label="Beschreibung"
+            placeholder="Beschreibung der Vorlage"
+            rows={3}
+            control={control}
          />
       );
    };
 
    const detailedDescription = () => {
       return (
-         <FormField
-            control={control}
+         <FormTextArea<DPromptTemplateUpdate>
             name="detailedDescription"
-            render={({ field }) => (
-               <FormItem data-testid="detailedDescription">
-                  <FormLabel>Detaillierte Beschreibung</FormLabel>
-                  <FormControl>
-                     <Textarea
-                        {...field}
-                        placeholder="Ausführliche Beschreibung der Vorlage"
-                        rows={4}
-                     />
-                  </FormControl>
-                  <FormMessage />
-               </FormItem>
-            )}
+            label="Detaillierte Beschreibung"
+            placeholder="Ausführliche Beschreibung der Vorlage"
+            rows={4}
+            control={control}
          />
       );
    };
