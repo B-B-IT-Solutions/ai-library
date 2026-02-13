@@ -56,7 +56,7 @@ type Props = {
    onRemove: () => void;
 };
 
-export const TemplateFieldItem: FC<Props> = ({
+export const PromptTemplateField: FC<Props> = ({
    control,
    index,
    fieldName,
@@ -90,12 +90,7 @@ export const TemplateFieldItem: FC<Props> = ({
                   </span>
                )}
             </div>
-            <Button
-               type="button"
-               onClick={onRemove}
-               variant="ghost"
-               size="sm"
-            >
+            <Button type="button" onClick={onRemove} variant="ghost" size="sm">
                <Trash2 className="h-4 w-4" />
             </Button>
          </div>

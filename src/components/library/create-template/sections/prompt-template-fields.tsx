@@ -10,7 +10,8 @@ import {
    DPromptTemplateField,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
-import { TemplateFieldItem } from "../field/template-field-item";
+
+import { PromptTemplateField } from "./prompt-template-field";
 
 type Props = {
    control: Control<DPromptTemplateUpdate>;
@@ -35,7 +36,7 @@ export const PromptTemplateFields: FC<Props> = ({
       const hasName = fieldName && fieldName.trim() !== "";
 
       return (
-         <TemplateFieldItem
+         <PromptTemplateField
             key={field.id}
             control={control}
             index={idx}
