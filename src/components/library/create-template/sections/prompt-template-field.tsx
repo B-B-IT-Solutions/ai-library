@@ -14,15 +14,8 @@ import {
    FormMessage,
 } from "@/components/shadcn/form";
 import { Input } from "@/components/shadcn/input";
-import {
-   Select,
-   SelectContent,
-   SelectItem,
-   SelectTrigger,
-   SelectValue,
-} from "@/components/shadcn/select";
 import { Textarea } from "@/components/shadcn/textarea";
-import { FormInput } from "@/components/shared/widgets";
+import { FormInput, FormSelect } from "@/components/shared/widgets";
 import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
 
 const FIELD_TYPES = [
@@ -96,6 +89,30 @@ export const PromptTemplateField: FC<Props> = ({
       );
    };
 
+   const label = () => {
+      const name = `fields.${index}.label`;
+      return (
+         <FormInput
+            name={name}
+            label="Label"
+            placeholder="z.B. Thema"
+            control={control}
+         />
+      );
+   };
+
+   const type = () => {
+      const name = `fields.${index}.type`;
+      return (
+         <FormSelect
+            name={name}
+            label="Feldtyp"
+            options={FIELD_TYPES}
+            control={control}
+         />
+      );
+   };
+
    return (
       <div
          className={`rounded-lg border p-6 ${
@@ -109,45 +126,8 @@ export const PromptTemplateField: FC<Props> = ({
          {header()}
          <div className="grid grid-cols-2 gap-4">
             {name()}
-
-            <FormField
-               control={control}
-               name={`fields.${index}.label`}
-               render={({ field }) => (
-                  <FormItem>
-                     <FormLabel>Label *</FormLabel>
-                     <FormControl>
-                        <Input {...field} placeholder="z.B. Thema" />
-                     </FormControl>
-                     <FormMessage />
-                  </FormItem>
-               )}
-            />
-
-            <FormField
-               control={control}
-               name={`fields.${index}.type`}
-               render={({ field }) => (
-                  <FormItem>
-                     <FormLabel>Feldtyp *</FormLabel>
-                     <Select value={field.value} onValueChange={field.onChange}>
-                        <FormControl>
-                           <SelectTrigger>
-                              <SelectValue />
-                           </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                           {FIELD_TYPES.map((type) => (
-                              <SelectItem key={type.value} value={type.value}>
-                                 {type.label}
-                              </SelectItem>
-                           ))}
-                        </SelectContent>
-                     </Select>
-                     <FormMessage />
-                  </FormItem>
-               )}
-            />
+            {label()}
+            {type()}
 
             <FormField
                control={control}
