@@ -135,6 +135,55 @@ export const NewLibraryEntryForm: FC = () => {
       }
    };
 
+   const cancelBtn = () => {
+      return (
+         <Link href="/library">
+            <Button
+               type="button"
+               variant="outline"
+               disabled={form.formState.isSubmitting}
+               className="cursor-pointer"
+               data-testid="cancel-btn"
+            >
+               Abbrechen
+            </Button>
+         </Link>
+      );
+   };
+
+   const createBtn = () => {
+      const { isSubmitting } = form.formState;
+      return (
+         <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="cursor-pointer"
+            data-testid="create-btn"
+         >
+            {isSubmitting ? (
+               <>
+                  <Loader className="h-4 w-4 animate-spin" />
+                  Wird erstellt...
+               </>
+            ) : (
+               <>
+                  <Save className="h-4 w-4" />
+                  Vorlage erstellen
+               </>
+            )}
+         </Button>
+      );
+   };
+
+   const buttons = () => {
+      return (
+         <div className="flex items-center justify-end gap-3 pt-2">
+            {cancelBtn()}
+            {createBtn()}
+         </div>
+      );
+   };
+
    return (
       <Card data-testid="create-template-form">
          <CardHeader className="border-b pb-6">
@@ -181,35 +230,7 @@ export const NewLibraryEntryForm: FC = () => {
 
                   <Separator />
 
-                  <div className="flex items-center justify-end gap-3 pt-2">
-                     <Link href="/library">
-                        <Button
-                           type="button"
-                           variant="outline"
-                           disabled={form.formState.isSubmitting}
-                           data-testid="cancel-btn"
-                        >
-                           Abbrechen
-                        </Button>
-                     </Link>
-                     <Button
-                        type="submit"
-                        disabled={form.formState.isSubmitting}
-                        data-testid="create-btn"
-                     >
-                        {form.formState.isSubmitting ? (
-                           <>
-                              <Loader className="h-4 w-4 animate-spin" />
-                              Wird erstellt...
-                           </>
-                        ) : (
-                           <>
-                              <Save className="h-4 w-4" />
-                              Vorlage erstellen
-                           </>
-                        )}
-                     </Button>
-                  </div>
+                  {buttons()}
                </form>
             </Form>
          </CardContent>
