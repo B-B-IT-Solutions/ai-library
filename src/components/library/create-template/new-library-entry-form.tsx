@@ -172,12 +172,13 @@ export const NewLibraryEntryForm: FC = () => {
                   {detectedVariables.length > 0 && <Separator />}
 
                   <PromptTemplateFields
-                     control={form.control}
-                     watch={form.watch}
                      fields={fields}
                      detectedVariables={detectedVariables}
                      onAddField={handleAddField}
                      onRemoveField={removeField}
+                     control={form.control}
+                     watch={form.watch}
+                     getValues={form.getValues}
                   />
 
                   <Separator />

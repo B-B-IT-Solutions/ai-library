@@ -2,7 +2,7 @@
 
 import { FC } from "react";
 import { AlertCircle, CheckCircle2, Trash2 } from "lucide-react";
-import { Control } from "react-hook-form";
+import { Control, UseFormGetValues } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
 import { Checkbox } from "@/components/shadcn/checkbox";
@@ -22,6 +22,7 @@ import {
    SelectValue,
 } from "@/components/shadcn/select";
 import { Textarea } from "@/components/shadcn/textarea";
+import { FormInput } from "@/components/shared/widgets";
 import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
 
 const FIELD_TYPES = [
@@ -36,20 +37,26 @@ const FIELD_TYPES = [
 ];
 
 type Props = {
-   control: Control<DPromptTemplateUpdate>;
    index: number;
    isUsedInContent: boolean;
    hasName: boolean;
    onRemove: () => void;
+   control: Control<DPromptTemplateUpdate>;
+   getValues: UseFormGetValues<DPromptTemplateUpdate>;
 };
 
 export const PromptTemplateField: FC<Props> = ({
-   control,
    index,
    isUsedInContent,
    hasName,
    onRemove,
+   control,
+   getValues,
 }) => {
+   const getValue = (name: string) => {
+      return getValues(name);
+   };
+
    const header = () => {
       return (
          <div className="mb-4 flex items-center justify-between">
@@ -75,6 +82,20 @@ export const PromptTemplateField: FC<Props> = ({
       );
    };
 
+   const name = () => {
+      const fieldName = `fields.${index}.name`;
+      const value = getValue(`fields.${index}.name`) || "feldname";
+      return (
+         <FormInput
+            name={fieldName}
+            label="Feldname"
+            placeholder="z.B. thema"
+            message={`Verwenden Sie diesen Namen als {{${value}}}`}
+            control={control}
+         />
+      );
+   };
+
    return (
       <div
          className={`rounded-lg border p-6 ${
@@ -87,25 +108,7 @@ export const PromptTemplateField: FC<Props> = ({
       >
          {header()}
          <div className="grid grid-cols-2 gap-4">
-            <FormField
-               control={control}
-               name={`fields.${index}.name`}
-               render={({ field }) => (
-                  <FormItem>
-                     <FormLabel>Feldname</FormLabel>
-                     <FormControl>
-                        <Input {...field} placeholder="z.B. thema" />
-                     </FormControl>
-
-                     <FormMessage>
-                        <p className="mt-1 text-xs text-slate-500">
-                           Verwenden Sie diesen Namen als{" "}
-                           {`{{${field.value || "feldname"}}}`}
-                        </p>
-                     </FormMessage>
-                  </FormItem>
-               )}
-            />
+            {name()}
 
             <FormField
                control={control}
