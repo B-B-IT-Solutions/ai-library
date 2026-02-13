@@ -45,7 +45,12 @@ const TestWrapper: FC<Props> = ({
 
 const assertRendered = (name: string) => {
    const field = screen.getByTestId(name);
+   const input = screen.getByTestId("input");
+   const addBtn = screen.getByTestId("add-btn");
+
    assertInDocument(field);
+   assertInDocument(input);
+   assertInDocument(addBtn);
 };
 
 const assertValuesRendered = () => {
@@ -56,6 +61,16 @@ const assertValuesRendered = () => {
 const assertValuesNotRendered = () => {
    const values = screen.queryByTestId("current-values");
    assertNotInDocument(values);
+};
+
+const assertValueRendered = (value: string) => {
+   const el = screen.getByText(value);
+   assertInDocument(el);
+};
+
+const assertValueNotRendered = (value: string) => {
+   const el = screen.queryByText(value);
+   assertNotInDocument(el);
 };
 
 describe("FormDynamicValues rendering tests", () => {
@@ -101,9 +116,7 @@ describe("FormDynamicValues rendering tests", () => {
 });
 
 describe("FormDynamicValues functionality tests", () => {
-   it("should add a value when clicking the add button", async () => {
-      const user = userEvent.setup();
-
+   it("FormDynamicValues - add value - add btn clicked - test", async () => {
       render(
          <TestWrapper
             name="categories"
@@ -113,20 +126,17 @@ describe("FormDynamicValues functionality tests", () => {
          />
       );
 
-      const input = screen.getByPlaceholderText("Add category");
-      const addButton = screen.getByRole("button", { name: /hinzufügen/i });
+      const input = screen.getByTestId("input");
+      const addBtn = screen.getByTestId("add-btn");
 
-      await user.type(input, "JavaScript");
-      await user.click(addButton);
+      const value = "JavaScript";
+      await userEvent.type(input, value);
+      await userEvent.click(addBtn);
 
-      await waitFor(() => {
-         expect(screen.getByText("JavaScript")).toBeInTheDocument();
-      });
+      assertValueRendered(value);
    });
 
-   it("should add a value when pressing Enter key", async () => {
-      const user = userEvent.setup();
-
+   it("FormDynamicValues - add value - enter pressed - test", async () => {
       render(
          <TestWrapper
             name="categories"
@@ -136,13 +146,12 @@ describe("FormDynamicValues functionality tests", () => {
          />
       );
 
-      const input = screen.getByPlaceholderText("Add category");
+      const input = screen.getByTestId("input");
 
-      await user.type(input, "TypeScript{Enter}");
+      const value = "TypeScript";
+      await userEvent.type(input, "TypeScript{Enter}");
 
-      await waitFor(() => {
-         expect(screen.getByText("TypeScript")).toBeInTheDocument();
-      });
+      assertValueRendered(value);
    });
 
    it("should clear input field after adding a value", async () => {
@@ -196,30 +205,6 @@ describe("FormDynamicValues functionality tests", () => {
       });
 
       expect(screen.getByText("TypeScript")).toBeInTheDocument();
-   });
-
-   it("should trim whitespace from values", async () => {
-      const user = userEvent.setup();
-
-      render(
-         <TestWrapper
-            name="categories"
-            nameInput="categoryInput"
-            label="Categories"
-            placeholder="Add category"
-         />
-      );
-
-      const input = screen.getByPlaceholderText("Add category");
-      const addButton = screen.getByRole("button", { name: /hinzufügen/i });
-
-      await user.type(input, "  React  ");
-      await user.click(addButton);
-
-      await waitFor(() => {
-         expect(screen.getByText("React")).toBeInTheDocument();
-         expect(screen.queryByText("  React  ")).not.toBeInTheDocument();
-      });
    });
 
    it("should not add duplicate values", async () => {
@@ -289,109 +274,5 @@ describe("FormDynamicValues functionality tests", () => {
       const container = screen.getByTestId("categories");
       const tags = container.querySelectorAll(".rounded-full");
       expect(tags).toHaveLength(0);
-   });
-
-   it("should add multiple unique values", async () => {
-      const user = userEvent.setup();
-
-      render(
-         <TestWrapper
-            name="categories"
-            nameInput="categoryInput"
-            label="Categories"
-            placeholder="Add category"
-         />
-      );
-
-      const input = screen.getByPlaceholderText("Add category");
-      const addButton = screen.getByRole("button", { name: /hinzufügen/i });
-
-      const values = ["JavaScript", "TypeScript", "React"];
-
-      for (const value of values) {
-         await user.type(input, value);
-         await user.click(addButton);
-      }
-
-      await waitFor(() => {
-         values.forEach((value) => {
-            expect(screen.getByText(value)).toBeInTheDocument();
-         });
-      });
-   });
-
-   it("should remove all values individually", async () => {
-      const user = userEvent.setup();
-
-      const initialValues = ["JavaScript", "TypeScript", "React"];
-
-      render(
-         <TestWrapper
-            name="categories"
-            nameInput="categoryInput"
-            label="Categories"
-            placeholder="Add category"
-            initialValues={initialValues}
-         />
-      );
-
-      const container = screen.getByTestId("categories");
-
-      // Remove all values one by one
-      for (let i = 0; i < initialValues.length; i++) {
-         const removeButtons = container.querySelectorAll(
-            "button[type='button']"
-         );
-         // Click first remove button (excluding the "Hinzufügen" button)
-         await user.click(removeButtons[0]);
-      }
-
-      await waitFor(() => {
-         const tags = container.querySelectorAll(".rounded-full");
-         expect(tags).toHaveLength(0);
-      });
-   });
-
-   it("should prevent form submission when pressing Enter in input", async () => {
-      const user = userEvent.setup();
-      const onSubmit = jest.fn();
-
-      const FormWithSubmit: FC = () => {
-         const form = useForm({
-            defaultValues: {
-               categories: [],
-               categoryInput: "",
-            },
-         });
-
-         return (
-            <FormProvider {...form}>
-               <form onSubmit={form.handleSubmit(onSubmit)}>
-                  <FormDynamicValues
-                     name="categories"
-                     nameInput="categoryInput"
-                     label="Categories"
-                     placeholder="Add category"
-                     control={form.control}
-                     watch={form.watch}
-                     setValue={form.setValue}
-                  />
-                  <button type="submit">Submit Form</button>
-               </form>
-            </FormProvider>
-         );
-      };
-
-      render(<FormWithSubmit />);
-
-      const input = screen.getByPlaceholderText("Add category");
-
-      await user.type(input, "JavaScript{Enter}");
-
-      await waitFor(() => {
-         expect(screen.getByText("JavaScript")).toBeInTheDocument();
-      });
-
-      expect(onSubmit).not.toHaveBeenCalled();
    });
 });

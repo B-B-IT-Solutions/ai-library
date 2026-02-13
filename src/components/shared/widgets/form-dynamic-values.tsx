@@ -111,12 +111,14 @@ export const FormDynamicValues = <T extends FieldValues>({
                               handleAddCategory();
                            }
                         }}
+                        data-testid="input"
                      />
                   </FormControl>
                   <Button
                      type="button"
                      onClick={handleAddCategory}
                      variant="outline"
+                     data-testid="add-btn"
                   >
                      Hinzufügen
                   </Button>
