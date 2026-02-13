@@ -26,7 +26,7 @@ const FIELD_TYPES = [
 
 type Props = {
    index: number;
-   isUsedInContent: boolean;
+   isUsed: boolean;
    hasName: boolean;
    onRemove: () => void;
    control: Control<DPromptTemplateUpdate>;
@@ -35,7 +35,7 @@ type Props = {
 
 export const PromptTemplateField: FC<Props> = ({
    index,
-   isUsedInContent,
+   isUsed,
    hasName,
    onRemove,
    control,
@@ -47,16 +47,19 @@ export const PromptTemplateField: FC<Props> = ({
 
    const header = () => {
       return (
-         <div className="mb-4 flex items-center justify-between">
+         <div
+            className="mb-4 flex items-center justify-between"
+            data-testid="header"
+         >
             <div className="flex items-center gap-2">
                <h4 className="font-medium text-slate-900">Feld {index + 1}</h4>
-               {hasName && isUsedInContent && (
+               {hasName && isUsed && (
                   <span className="flex items-center gap-1 rounded-full bg-green-100 px-2 py-1 text-xs text-green-800">
                      <CheckCircle2 className="h-3 w-3" />
                      Im Content verwendet
                   </span>
                )}
-               {hasName && !isUsedInContent && (
+               {hasName && !isUsed && (
                   <span className="flex items-center gap-1 rounded-full bg-orange-100 px-2 py-1 text-xs text-orange-800">
                      <AlertCircle className="h-3 w-3" />
                      Nicht verwendet
@@ -168,12 +171,13 @@ export const PromptTemplateField: FC<Props> = ({
    return (
       <div
          className={`rounded-lg border p-6 ${
-            hasName && !isUsedInContent
+            hasName && !isUsed
                ? "border-orange-200 bg-orange-50"
-               : hasName && isUsedInContent
+               : hasName && isUsed
                  ? "border-green-200 bg-green-50"
                  : "border-slate-200 bg-slate-50"
          }`}
+         data-testid="prompt-template-field"
       >
          {header()}
          {fields()}

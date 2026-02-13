@@ -43,7 +43,7 @@ export const PromptTemplateFields: FC<Props> = ({
             control={control}
             getValues={getValues}
             index={idx}
-            isUsedInContent={isUsedInContent}
+            isUsed={isUsedInContent}
             hasName={hasName}
             onRemove={() => onRemoveField(idx)}
          />

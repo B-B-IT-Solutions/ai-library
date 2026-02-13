@@ -3,7 +3,7 @@
 exports[`FormCheckBox rendering tests FormCheckBox - className defined - test 1`] = `
 <div>
   <div
-    class="gap-2 flex items-center space-y-0 space-x-1 py-1"
+    class="gap-2 flex items-center py-1"
     data-slot="form-item"
     data-testid="test-789"
   >
@@ -63,7 +63,7 @@ exports[`FormCheckBox rendering tests FormCheckBox - className defined - test 1`
 exports[`FormCheckBox rendering tests FormCheckBox - className undefined - test 1`] = `
 <div>
   <div
-    class="gap-2 flex items-center space-y-0 space-x-1"
+    class="gap-2 flex items-center"
     data-slot="form-item"
     data-testid="test-123"
   >
