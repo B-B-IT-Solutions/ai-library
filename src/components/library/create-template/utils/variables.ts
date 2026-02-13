@@ -11,11 +11,6 @@ export const extractVariablesFromContent = (content: string): string[] => {
    return Array.from(variables);
 };
 
-// Helper function to capitalize first letter
-export const capitalizeFirstLetter = (str: string): string => {
-   return str.charAt(0).toUpperCase() + str.slice(1);
-};
-
 // Determine variable status
 export const getVariableStatus = (
    detectedVariables: string[],

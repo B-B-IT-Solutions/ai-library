@@ -1,5 +1,1 @@
-export {
-   extractVariablesFromContent,
-   capitalizeFirstLetter,
-   getVariableStatus,
-} from "./variables";
+export { extractVariablesFromContent, getVariableStatus } from "./variables";

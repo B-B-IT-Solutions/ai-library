@@ -2,6 +2,7 @@
 
 import { FC, useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { upperFirst } from "es-toolkit/compat";
 import { Loader, Save } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -30,11 +31,7 @@ import {
    PromptTemplateContent,
    PromptTemplateFields,
 } from "./sections";
-import {
-   capitalizeFirstLetter,
-   extractVariablesFromContent,
-   getVariableStatus,
-} from "./utils";
+import { extractVariablesFromContent, getVariableStatus } from "./utils";
 
 export const NewLibraryEntryForm: FC = () => {
    const router = useRouter();
@@ -94,7 +91,7 @@ export const NewLibraryEntryForm: FC = () => {
    const handleAddVariableAsField = (variableName: string) => {
       addField({
          name: variableName,
-         label: capitalizeFirstLetter(variableName),
+         label: upperFirst(variableName),
          description: "",
          type: "TEXT",
          required: true,
