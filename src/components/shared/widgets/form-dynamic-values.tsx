@@ -119,6 +119,7 @@ export const FormDynamicValues = <T extends FieldValues>({
                      type="button"
                      onClick={handleAddCategory}
                      variant="outline"
+                     className="cursor-pointer"
                      data-testid="add-btn"
                   >
                      Hinzufügen
