@@ -5,7 +5,10 @@ import { assertInDocument, dtestData } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { CallbackFn } from "@/data/types/common";
-import { DPromptTemplateField } from "@/data/types/domain/prompt.template";
+import {
+   DPromptTemplateField,
+   DPromptTemplateUpdate,
+} from "@/data/types/domain/prompt.template";
 
 import { PromptTemplateFields } from "./prompt-template-fields";
 
@@ -22,7 +25,7 @@ const TestWrapper: FC<Props> = ({
    onAddField,
    onRemoveField,
 }) => {
-   const form = useForm({
+   const form = useForm<DPromptTemplateUpdate>({
       defaultValues: {
          title: "",
          description: "",
@@ -31,7 +34,7 @@ const TestWrapper: FC<Props> = ({
          recommendedModel: "Claude 3.5 Sonnet",
          categories: [],
          categoryInput: "",
-         fields: [],
+         fields: fields,
       },
    });
 
@@ -92,6 +95,7 @@ describe("PromptTemplateFieldss rendering tests", () => {
 
    it("PromptTemplateFields - fields - test", () => {
       const fields = dtestData.dPromptTemplateFields();
+      fields[0].name = " ";
 
       const { container } = render(
          <TestWrapper

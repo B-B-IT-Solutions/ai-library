@@ -133,6 +133,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               id="_r_0_-form-item"
               name="fields.0.name"
               placeholder="z.B. thema"
+              value=" "
             />
             <p
               class="text-destructive text-sm"
@@ -142,7 +143,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               <span
                 class="text-slate-500"
               >
-                Verwenden Sie diesen Namen als {{feldname}}
+                Verwenden Sie diesen Namen als {{ }}
               </span>
             </p>
           </div>
@@ -167,6 +168,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               id="_r_1_-form-item"
               name="fields.0.label"
               placeholder="z.B. Thema"
+              value="label 0"
             />
           </div>
           <div
@@ -189,7 +191,6 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               aria-expanded="false"
               aria-invalid="false"
               class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
-              data-placeholder=""
               data-size="default"
               data-slot="form-control"
               data-state="closed"
@@ -201,7 +202,9 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               <span
                 data-slot="select-value"
                 style="pointer-events: none;"
-              />
+              >
+                Auswahl
+              </span>
               <svg
                 aria-hidden="true"
                 class="lucide lucide-chevron-down size-4 opacity-50"
@@ -245,6 +248,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               id="_r_4_-form-item"
               name="fields.0.defaultValue"
               placeholder="Standardwert des Feldes"
+              value="option 1"
             />
           </div>
           <div
@@ -269,7 +273,9 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               name="fields.0.description"
               placeholder="Beschreibung des Feldes"
               rows="2"
-            />
+            >
+              description 0
+            </textarea>
           </div>
           <div
             class="gap-2 flex items-center col-span-2"
@@ -277,12 +283,12 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
             data-testid="fields.0.required"
           >
             <button
-              aria-checked="false"
+              aria-checked="true"
               aria-describedby="_r_6_-form-item-description"
               aria-invalid="false"
               class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
               data-slot="form-control"
-              data-state="unchecked"
+              data-state="checked"
               id="_r_6_-form-item"
               role="checkbox"
               type="button"
@@ -294,7 +300,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
                 <span
                   class="grid place-content-center text-current transition-none"
                   data-slot="checkbox-indicator"
-                  data-state="unchecked"
+                  data-state="checked"
                   style="pointer-events: none;"
                 >
                   <svg
@@ -329,7 +335,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
         </div>
       </div>
       <div
-        class="rounded-lg border p-6 border-slate-200 bg-slate-50"
+        class="rounded-lg border p-6 border-orange-200 bg-orange-50"
         data-testid="prompt-template-field"
       >
         <div
@@ -345,6 +351,42 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               Feld 
               2
             </h4>
+            <span
+              class="flex items-center gap-1 rounded-full bg-orange-100 px-2 py-1 text-xs text-orange-800"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-circle-alert h-3 w-3"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="10"
+                />
+                <line
+                  x1="12"
+                  x2="12"
+                  y1="8"
+                  y2="12"
+                />
+                <line
+                  x1="12"
+                  x2="12.01"
+                  y1="16"
+                  y2="16"
+                />
+              </svg>
+              Nicht verwendet
+            </span>
           </div>
           <button
             class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
@@ -407,6 +449,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               id="_r_7_-form-item"
               name="fields.1.name"
               placeholder="z.B. thema"
+              value="field 1"
             />
             <p
               class="text-destructive text-sm"
@@ -416,7 +459,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               <span
                 class="text-slate-500"
               >
-                Verwenden Sie diesen Namen als {{feldname}}
+                Verwenden Sie diesen Namen als {{field 1}}
               </span>
             </p>
           </div>
@@ -441,6 +484,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               id="_r_8_-form-item"
               name="fields.1.label"
               placeholder="z.B. Thema"
+              value="label 1"
             />
           </div>
           <div
@@ -463,7 +507,6 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               aria-expanded="false"
               aria-invalid="false"
               class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
-              data-placeholder=""
               data-size="default"
               data-slot="form-control"
               data-state="closed"
@@ -475,7 +518,9 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               <span
                 data-slot="select-value"
                 style="pointer-events: none;"
-              />
+              >
+                Auswahl
+              </span>
               <svg
                 aria-hidden="true"
                 class="lucide lucide-chevron-down size-4 opacity-50"
@@ -519,6 +564,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               id="_r_b_-form-item"
               name="fields.1.defaultValue"
               placeholder="Standardwert des Feldes"
+              value="option 1"
             />
           </div>
           <div
@@ -543,7 +589,9 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               name="fields.1.description"
               placeholder="Beschreibung des Feldes"
               rows="2"
-            />
+            >
+              description 1
+            </textarea>
           </div>
           <div
             class="gap-2 flex items-center col-span-2"
@@ -551,12 +599,12 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
             data-testid="fields.1.required"
           >
             <button
-              aria-checked="false"
+              aria-checked="true"
               aria-describedby="_r_d_-form-item-description"
               aria-invalid="false"
               class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
               data-slot="form-control"
-              data-state="unchecked"
+              data-state="checked"
               id="_r_d_-form-item"
               role="checkbox"
               type="button"
@@ -568,7 +616,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
                 <span
                   class="grid place-content-center text-current transition-none"
                   data-slot="checkbox-indicator"
-                  data-state="unchecked"
+                  data-state="checked"
                   style="pointer-events: none;"
                 >
                   <svg
@@ -603,7 +651,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
         </div>
       </div>
       <div
-        class="rounded-lg border p-6 border-slate-200 bg-slate-50"
+        class="rounded-lg border p-6 border-orange-200 bg-orange-50"
         data-testid="prompt-template-field"
       >
         <div
@@ -619,6 +667,42 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               Feld 
               3
             </h4>
+            <span
+              class="flex items-center gap-1 rounded-full bg-orange-100 px-2 py-1 text-xs text-orange-800"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-circle-alert h-3 w-3"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="10"
+                />
+                <line
+                  x1="12"
+                  x2="12"
+                  y1="8"
+                  y2="12"
+                />
+                <line
+                  x1="12"
+                  x2="12.01"
+                  y1="16"
+                  y2="16"
+                />
+              </svg>
+              Nicht verwendet
+            </span>
           </div>
           <button
             class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
@@ -681,6 +765,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               id="_r_e_-form-item"
               name="fields.2.name"
               placeholder="z.B. thema"
+              value="field 2"
             />
             <p
               class="text-destructive text-sm"
@@ -690,7 +775,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               <span
                 class="text-slate-500"
               >
-                Verwenden Sie diesen Namen als {{feldname}}
+                Verwenden Sie diesen Namen als {{field 2}}
               </span>
             </p>
           </div>
@@ -715,6 +800,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               id="_r_f_-form-item"
               name="fields.2.label"
               placeholder="z.B. Thema"
+              value="label 2"
             />
           </div>
           <div
@@ -737,7 +823,6 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               aria-expanded="false"
               aria-invalid="false"
               class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
-              data-placeholder=""
               data-size="default"
               data-slot="form-control"
               data-state="closed"
@@ -749,7 +834,9 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               <span
                 data-slot="select-value"
                 style="pointer-events: none;"
-              />
+              >
+                Auswahl
+              </span>
               <svg
                 aria-hidden="true"
                 class="lucide lucide-chevron-down size-4 opacity-50"
@@ -793,6 +880,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               id="_r_i_-form-item"
               name="fields.2.defaultValue"
               placeholder="Standardwert des Feldes"
+              value="option 1"
             />
           </div>
           <div
@@ -817,7 +905,9 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               name="fields.2.description"
               placeholder="Beschreibung des Feldes"
               rows="2"
-            />
+            >
+              description 2
+            </textarea>
           </div>
           <div
             class="gap-2 flex items-center col-span-2"
@@ -825,12 +915,12 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
             data-testid="fields.2.required"
           >
             <button
-              aria-checked="false"
+              aria-checked="true"
               aria-describedby="_r_k_-form-item-description"
               aria-invalid="false"
               class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
               data-slot="form-control"
-              data-state="unchecked"
+              data-state="checked"
               id="_r_k_-form-item"
               role="checkbox"
               type="button"
@@ -842,7 +932,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
                 <span
                   class="grid place-content-center text-current transition-none"
                   data-slot="checkbox-indicator"
-                  data-state="unchecked"
+                  data-state="checked"
                   style="pointer-events: none;"
                 >
                   <svg
