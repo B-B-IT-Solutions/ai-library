@@ -5,14 +5,8 @@ import { AlertCircle, CheckCircle2, Trash2 } from "lucide-react";
 import { Control, UseFormGetValues } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
-import { Checkbox } from "@/components/shadcn/checkbox";
 import {
-   FormControl,
-   FormField,
-   FormItem,
-   FormLabel,
-} from "@/components/shadcn/form";
-import {
+   FormCheckBox,
    FormInput,
    FormSelect,
    FormTextArea,
@@ -146,6 +140,31 @@ export const PromptTemplateField: FC<Props> = ({
       );
    };
 
+   const required = () => {
+      const name = `fields.${index}.required`;
+      return (
+         <FormCheckBox
+            name={name}
+            label="Dieses Feld ist erforderlich"
+            className="col-span-2"
+            control={control}
+         />
+      );
+   };
+
+   const fields = () => {
+      return (
+         <div className="grid grid-cols-2 gap-4">
+            {name()}
+            {label()}
+            {type()}
+            {defaultValue()}
+            {description()}
+            {required()}
+         </div>
+      );
+   };
+
    return (
       <div
          className={`rounded-lg border p-6 ${
@@ -157,31 +176,7 @@ export const PromptTemplateField: FC<Props> = ({
          }`}
       >
          {header()}
-         <div className="grid grid-cols-2 gap-4">
-            {name()}
-            {label()}
-            {type()}
-            {defaultValue()}
-            {description()}
-
-            <FormField
-               control={control}
-               name={`fields.${index}.required`}
-               render={({ field }) => (
-                  <FormItem className="col-span-2 flex items-center space-y-0 space-x-2">
-                     <FormControl>
-                        <Checkbox
-                           checked={field.value}
-                           onCheckedChange={field.onChange}
-                        />
-                     </FormControl>
-                     <FormLabel className="cursor-pointer font-normal">
-                        Dieses Feld ist erforderlich
-                     </FormLabel>
-                  </FormItem>
-               )}
-            />
-         </div>
+         {fields()}
       </div>
    );
 };
