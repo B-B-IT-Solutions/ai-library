@@ -882,6 +882,7 @@ exports[`NewLibraryEntry rendering tests NewLibraryEntry rendered test 1`] = `
               />
               <section
                 class="space-y-4"
+                data-testid="prompt-template-fields"
               >
                 <div
                   class="flex items-center justify-between"
@@ -899,8 +900,9 @@ exports[`NewLibraryEntry rendering tests NewLibraryEntry rendered test 1`] = `
                     </p>
                   </div>
                   <button
-                    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
+                    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
                     data-slot="button"
+                    data-testid="add-btn"
                     type="button"
                   >
                     <svg
@@ -928,6 +930,7 @@ exports[`NewLibraryEntry rendering tests NewLibraryEntry rendered test 1`] = `
                 </div>
                 <div
                   class="rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 py-12 text-center"
+                  data-testid="fields-empty"
                 >
                   <p
                     class="text-slate-500"
@@ -940,9 +943,6 @@ exports[`NewLibraryEntry rendering tests NewLibraryEntry rendered test 1`] = `
                     Klicken Sie auf "Feld hinzufügen", um zu beginnen
                   </p>
                 </div>
-                <div
-                  class="space-y-4"
-                />
               </section>
               <div
                 class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px"
