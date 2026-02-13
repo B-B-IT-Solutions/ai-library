@@ -1,6 +1,6 @@
 "use client";
 
-import { includes, isEmpty, map, trim } from "es-toolkit/compat";
+import { filter, includes, isEmpty, map, trim } from "es-toolkit/compat";
 import { X } from "lucide-react";
 import {
    Control,
@@ -57,10 +57,12 @@ export const FormDynamicValues = <T extends FieldValues>({
    };
 
    const handleRemoveCategory = (category: string) => {
-      setValue(
-         name,
-         categories.filter((c: string) => c !== category)
-      );
+      const newCategories = filter(
+         categories,
+         (c: string) => c !== category
+      ) as PathValue<T, typeof name>;
+
+      setValue(name, newCategories);
    };
 
    return (
