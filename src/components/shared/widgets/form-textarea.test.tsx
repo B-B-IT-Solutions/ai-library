@@ -37,8 +37,8 @@ const assertRendered = (name: string) => {
    assertInDocument(field);
 };
 
-describe("FormInput rendering tests", () => {
-   it("FormInput - rows undefined - test", () => {
+describe("FormTextArea rendering tests", () => {
+   it("FormTextArea - rows undefined - test", () => {
       const name = "test-123";
       const { container } = render(
          <TestWrapper name={name} label="Label 1" placeholder="Placeholder 1" />
@@ -49,7 +49,7 @@ describe("FormInput rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("FormInput - rows defined - test", () => {
+   it("FormTextArea - rows defined - test", () => {
       const name = "test-789";
       const { container } = render(
          <TestWrapper

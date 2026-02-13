@@ -21,8 +21,7 @@ import {
    SelectTrigger,
    SelectValue,
 } from "@/components/shadcn/select";
-import { FormInput } from "@/components/shared/widgets";
-import { FormTextArea } from "@/components/shared/widgets/form-textarea";
+import { FormInput, FormTextArea } from "@/components/shared/widgets";
 import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
 
 const RECOMMENDED_MODELS = [
