@@ -52,7 +52,7 @@ export const BasicInfo: FC<Props> = ({ control, watch, setValue }) => {
    const handleRemoveCategory = (category: string) => {
       setValue(
          "categories",
-         categories.filter((c) => c !== category)
+         categories.filter((c: string) => c !== category)
       );
    };
 
