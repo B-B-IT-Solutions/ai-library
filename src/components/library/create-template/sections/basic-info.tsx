@@ -14,6 +14,7 @@ import {
 } from "@/components/shadcn/form";
 import { Input } from "@/components/shadcn/input";
 import {
+   FormDynamicValues,
    FormInput,
    FormSelect,
    FormTextArea,
@@ -98,6 +99,20 @@ export const BasicInfo: FC<Props> = ({ control, watch, setValue }) => {
       );
    };
 
+   const renderCategories_ = () => {
+      return (
+         <FormDynamicValues<DPromptTemplateUpdate>
+            name="categories"
+            nameInput="categoryInput"
+            label="Empfohlenes Modell"
+            placeholder="Kategorie hinzufügen"
+            control={control}
+            watch={watch}
+            setValue={setValue}
+         />
+      );
+   };
+
    const renderCategories = () => {
       return (
          <FormField
@@ -158,6 +173,7 @@ export const BasicInfo: FC<Props> = ({ control, watch, setValue }) => {
          {description()}
          {detailedDescription()}
          {recommendedModel()}
+         {renderCategories_()}
          {renderCategories()}
       </section>
    );
