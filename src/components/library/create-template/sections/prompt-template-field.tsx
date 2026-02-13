@@ -50,7 +50,6 @@ type FormData = {
 type Props = {
    control: Control<FormData>;
    index: number;
-   fieldName: string;
    isUsedInContent: boolean;
    hasName: boolean;
    onRemove: () => void;
@@ -59,21 +58,12 @@ type Props = {
 export const PromptTemplateField: FC<Props> = ({
    control,
    index,
-   fieldName,
    isUsedInContent,
    hasName,
    onRemove,
 }) => {
-   return (
-      <div
-         className={`rounded-lg border p-6 ${
-            hasName && !isUsedInContent
-               ? "border-orange-200 bg-orange-50"
-               : hasName && isUsedInContent
-                 ? "border-green-200 bg-green-50"
-                 : "border-slate-200 bg-slate-50"
-         }`}
-      >
+   const header = () => {
+      return (
          <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
                <h4 className="font-medium text-slate-900">Feld {index + 1}</h4>
@@ -94,7 +84,20 @@ export const PromptTemplateField: FC<Props> = ({
                <Trash2 className="h-4 w-4" />
             </Button>
          </div>
+      );
+   };
 
+   return (
+      <div
+         className={`rounded-lg border p-6 ${
+            hasName && !isUsedInContent
+               ? "border-orange-200 bg-orange-50"
+               : hasName && isUsedInContent
+                 ? "border-green-200 bg-green-50"
+                 : "border-slate-200 bg-slate-50"
+         }`}
+      >
+         {header()}
          <div className="grid grid-cols-2 gap-4">
             <FormField
                control={control}
