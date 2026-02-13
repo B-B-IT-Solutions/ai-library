@@ -12,12 +12,7 @@ import {
 
 import { Button } from "@/components/shadcn/button";
 import { CallbackFn } from "@/data/types/common";
-
-export type VariableStatus = {
-   undefined: string[];
-   used: string[];
-   unused: string[];
-};
+import { VariableStatus } from "../utils/variables";
 
 type Props = {
    detectedVariables: string[];

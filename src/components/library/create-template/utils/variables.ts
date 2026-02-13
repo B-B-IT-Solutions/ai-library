@@ -1,6 +1,9 @@
-import { VariableStatus } from "../sections/detected-variables";
+export type VariableStatus = {
+   undefined: string[];
+   used: string[];
+   unused: string[];
+};
 
-// Helper function to extract variables from template content
 export const extractVariablesFromContent = (content: string): string[] => {
    const regex = /\{\{(\w+)\}\}/g;
    const variables = new Set<string>();
@@ -9,11 +12,9 @@ export const extractVariablesFromContent = (content: string): string[] => {
    while ((match = regex.exec(content)) !== null) {
       variables.add(match[1]);
    }
-
    return Array.from(variables);
 };
 
-// Determine variable status
 export const getVariableStatus = (
    detectedVariables: string[],
    fieldNames: string[]

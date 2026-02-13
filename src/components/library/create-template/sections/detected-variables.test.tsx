@@ -2,7 +2,9 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument } from "@tests";
 
-import { DetectedVariables, VariableStatus } from "./detected-variables";
+import { VariableStatus } from "../utils/variables";
+
+import { DetectedVariables } from "./detected-variables";
 
 const assertRendered = () => {
    const section = screen.getByTestId("detected-variables");
