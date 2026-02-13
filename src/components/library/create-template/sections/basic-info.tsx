@@ -22,6 +22,7 @@ import {
    SelectValue,
 } from "@/components/shadcn/select";
 import { Textarea } from "@/components/shadcn/textarea";
+import { FormInput } from "@/components/shared/widgets";
 import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
 
 const RECOMMENDED_MODELS = [
@@ -58,18 +59,11 @@ export const BasicInfo: FC<Props> = ({ control, watch, setValue }) => {
 
    const title = () => {
       return (
-         <FormField
-            control={control}
+         <FormInput<DPromptTemplateUpdate>
             name="title"
-            render={({ field }) => (
-               <FormItem data-testid="title">
-                  <FormLabel>Titel</FormLabel>
-                  <FormControl>
-                     <Input {...field} placeholder="z.B. Blog-Post Generator" />
-                  </FormControl>
-                  <FormMessage />
-               </FormItem>
-            )}
+            label="Titel"
+            placeholder="z.B. Blog-Post Generator"
+            control={control}
          />
       );
    };

@@ -9,17 +9,17 @@ import {
    FormLabel,
    FormMessage,
 } from "@/components/shadcn/form";
-import { Input as ShadcnInput } from "@/components/shadcn/input";
+import { Input } from "@/components/shadcn/input";
 
 type Props<T extends FieldValues> = {
-   field: Path<T>;
+   name: Path<T>;
    label: string;
    placeholder: string;
    control: Control<T>;
 };
 
 export const FormInput = <T extends FieldValues>({
-   field: fieldName,
+   name,
    label,
    placeholder,
    control,
@@ -27,12 +27,12 @@ export const FormInput = <T extends FieldValues>({
    return (
       <FormField
          control={control}
-         name={fieldName}
+         name={name}
          render={({ field }) => (
-            <FormItem data-testid={fieldName}>
+            <FormItem data-testid={name}>
                <FormLabel>{label}</FormLabel>
                <FormControl>
-                  <ShadcnInput {...field} placeholder={placeholder} />
+                  <Input {...field} placeholder={placeholder} />
                </FormControl>
                <FormMessage />
             </FormItem>
