@@ -18,6 +18,7 @@ import {
    PromptTemplateDescriptorCreateInput,
    PromptTemplateDescriptorWhereInput,
 } from "@/generated/prisma/models";
+import { stringify } from "@/lib/utils";
 
 type PGetPromptTemplateDescriptorsParams = {
    search?: string;
@@ -111,9 +112,7 @@ export class PromptTemplateRepository {
                         required: field.required,
                         order: field.order,
                         defaultValue: field.defaultValue,
-                        options: field.options
-                           ? JSON.stringify(field.options)
-                           : undefined,
+                        options: stringify(field.options),
                      })
                   ),
                },

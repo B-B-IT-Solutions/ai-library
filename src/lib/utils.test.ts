@@ -1,4 +1,10 @@
-import { cn, formatDateTime, navigateToExternalUrl, toTestId } from "./utils";
+import {
+   cn,
+   formatDateTime,
+   navigateToExternalUrl,
+   stringify,
+   toTestId,
+} from "./utils";
 
 describe("utils tests", () => {
    beforeEach(() => {
@@ -26,6 +32,21 @@ describe("utils tests", () => {
       const expectedResult = `${classes1} ${classes2} ${classes3}`;
 
       expect(result).toEqual(expectedResult);
+   });
+
+   it("stringify test", async () => {
+      const value1 = { test: "test 1" };
+      const result1 = stringify(value1);
+      const expectedResult1 = JSON.stringify(value1);
+      expect(result1).toEqual(expectedResult1);
+
+      const value2 = "test 1";
+      const result2 = stringify(value2);
+      const expectedResult2 = JSON.stringify(value2);
+      expect(result2).toEqual(expectedResult2);
+
+      const result3 = stringify(null);
+      expect(result3).toBeUndefined();
    });
 
    test("navigateToExternalUrl test", () => {

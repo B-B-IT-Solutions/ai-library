@@ -13,6 +13,10 @@ export const cn = (...inputs: ClassValue[]) => {
    return twMerge(clsx(inputs));
 };
 
+export const stringify = <T>(value: T) => {
+   return value ? JSON.stringify(value) : undefined;
+};
+
 export const navigateToExternalUrl = (url: string) => {
    window.location.href = url;
 };

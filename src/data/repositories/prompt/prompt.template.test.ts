@@ -14,6 +14,7 @@ import {
    PromptTemplateDescriptorFindManyArgs,
    PromptTemplateFindFirstArgs,
 } from "@/generated/prisma/models";
+import { stringify } from "@/lib/utils";
 
 import { PromptTemplateRepository } from "./prompt.template";
 
@@ -343,9 +344,7 @@ describe("pCreatePromptTemplateDescriptor tests", () => {
                         required: field.required,
                         order: field.order,
                         defaultValue: field.defaultValue,
-                        options: field.options
-                           ? JSON.stringify(field.options)
-                           : undefined,
+                        options: stringify(field.options),
                      })
                   ),
                },
