@@ -67,15 +67,10 @@ export const BasicInfoEdit: FC<Props> = ({ control, watch, setValue }) => {
             control={control}
             name="recommendedModel"
             render={({ field }) => (
-               <FormItem
-                  className="flex flex-col"
-                  data-testid="recommended-model"
-               >
-                  <FormLabel className="flex items-center gap-1.5 text-sm font-medium text-slate-700">
-                     Empfohlenes Modell
-                  </FormLabel>
+               <FormItem data-testid="recommended-model">
+                  <FormLabel>Empfohlenes Modell</FormLabel>
                   <Popover open={open} onOpenChange={setOpen}>
-                     <PopoverTrigger asChild>
+                     <PopoverTrigger asChild={true}>
                         <FormControl>
                            <Button
                               variant="outline"

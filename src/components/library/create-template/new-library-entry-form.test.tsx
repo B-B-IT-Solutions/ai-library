@@ -236,20 +236,20 @@ describe("NewLibraryEntryForm functionality tests", () => {
       expect(createLibraryEntryMock).not.toHaveBeenCalled();
 
       // Fill in required fields
-      const title = screen.getByTestId("title").querySelector("input")!;
-      const description = screen
-         .getByTestId("description")
-         .querySelector("textarea")!;
-      const detailedDescription = screen
-         .getByTestId("detailedDescription")
-         .querySelector("textarea")!;
+      const title = screen.getByTestId("title");
+      const titleInput = within(title).getByTestId("input");
+      const description = screen.getByTestId("description");
+      const descriptionTextarea = within(description).getByTestId("textarea");
+      const detailedDescription = screen.getByTestId("detailedDescription");
+      const detailedDescriptionTextarea =
+         within(detailedDescription).getByTestId("textarea");
       const content = screen
          .getByTestId("tiptap-editor")
          .querySelector("input")!;
 
-      await userEvent.type(title, "Test Template");
-      await userEvent.type(description, "Test Description");
-      await userEvent.type(detailedDescription, "Detailed description");
+      await userEvent.type(titleInput, "Test Template");
+      await userEvent.type(descriptionTextarea, "Test Description");
+      await userEvent.type(detailedDescriptionTextarea, "Detailed description");
       await userEvent.type(content, "Template Content {{{{task}}");
 
       await userEvent.click(createBtn);
@@ -290,20 +290,20 @@ describe("NewLibraryEntryForm functionality tests", () => {
       expect(createLibraryEntryMock).not.toHaveBeenCalled();
 
       // Fill in required fields
-      const title = screen.getByTestId("title").querySelector("input")!;
-      const description = screen
-         .getByTestId("description")
-         .querySelector("textarea")!;
-      const detailedDescription = screen
-         .getByTestId("detailedDescription")
-         .querySelector("textarea")!;
+      const title = screen.getByTestId("title");
+      const titleInput = within(title).getByTestId("input");
+      const description = screen.getByTestId("description");
+      const descriptionTextarea = within(description).getByTestId("textarea");
+      const detailedDescription = screen.getByTestId("detailedDescription");
+      const detailedDescriptionTextarea =
+         within(detailedDescription).getByTestId("textarea");
       const content = screen
          .getByTestId("tiptap-editor")
          .querySelector("input")!;
 
-      await userEvent.type(title, "Test Template");
-      await userEvent.type(description, "Test Description");
-      await userEvent.type(detailedDescription, "Detailed description");
+      await userEvent.type(titleInput, "Test Template");
+      await userEvent.type(descriptionTextarea, "Test Description");
+      await userEvent.type(detailedDescriptionTextarea, "Detailed description");
       await userEvent.type(content, "Template Content {{{{task}}");
 
       await userEvent.click(createBtn);

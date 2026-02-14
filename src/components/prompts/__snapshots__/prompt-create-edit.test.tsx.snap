@@ -125,12 +125,12 @@ exports[`PromptManager rendering tests PromptManager rendered test 1`] = `
                 />
               </div>
               <div
-                class="gap-2 flex flex-col"
+                class="grid gap-2"
                 data-slot="form-item"
                 data-testid="recommended-model"
               >
                 <label
-                  class="select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive flex items-center gap-1.5 text-sm font-medium text-slate-700"
+                  class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                   data-error="false"
                   data-slot="form-label"
                   for="_r_1_-form-item"
