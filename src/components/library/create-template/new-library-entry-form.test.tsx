@@ -87,12 +87,30 @@ describe("NewLibraryEntryForm rendering tests", () => {
 
       expect(container).toMatchSnapshot();
    });
+
+   it("NewLibraryEntryForm - variables detected in content - test", async () => {
+      const { container } = render(<NewLibraryEntryForm />);
+
+      assertRendered();
+      assertDetectedVariablesNotRendered();
+
+      const content = screen
+         .getByTestId("tiptap-editor")
+         .querySelector("input")!;
+
+      await userEvent.type(
+         content,
+         "Hello {{{{name}}, your role is {{{{role}}"
+      );
+
+      assertDetectedVariablesRendered();
+      expect(container).toMatchSnapshot();
+   });
 });
 
 describe("NewLibraryEntryForm functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-
       mockRouter.push("/");
    });
 
@@ -129,6 +147,81 @@ describe("NewLibraryEntryForm functionality tests", () => {
       assertFieldsEmptyRendered();
    });
 
+   it("NewLibraryEntryForm - add variable as field - test", async () => {
+      render(<NewLibraryEntryForm />);
+
+      assertRendered();
+      assertDetectedVariablesNotRendered();
+      assertFieldsEmptyRendered();
+
+      const content = screen
+         .getByTestId("tiptap-editor")
+         .querySelector("input")!;
+
+      await userEvent.type(content, "Hello {{{{name}}");
+
+      assertDetectedVariablesRendered();
+
+      const detectedVariablesSection = screen.getByTestId("detected-variables");
+      const addVariableBtn = within(detectedVariablesSection).getByTestId(
+         "add-btn"
+      );
+
+      await userEvent.click(addVariableBtn);
+
+      expect(toastMock.success).toHaveBeenCalledTimes(1);
+      expect(toastMock.success).toHaveBeenCalledWith('Feld "name" hinzugefügt');
+
+      assertFieldRendered();
+   });
+
+   it("NewLibraryEntryForm - sync all variables - test", async () => {
+      render(<NewLibraryEntryForm />);
+
+      assertRendered();
+      assertDetectedVariablesNotRendered();
+      assertFieldsEmptyRendered();
+
+      const content = screen
+         .getByTestId("tiptap-editor")
+         .querySelector("input")!;
+
+      await userEvent.type(
+         content,
+         "Hello {{{{name}}, your role is {{{{role}} and title is  {{{{title}}"
+      );
+
+      assertDetectedVariablesRendered();
+
+      const detectedVariablesSection = screen.getByTestId("detected-variables");
+      const syncAllBtn = within(detectedVariablesSection).getByTestId(
+         "sync-all-btn"
+      );
+
+      await userEvent.click(syncAllBtn);
+
+      expect(toastMock.success).toHaveBeenCalledTimes(4);
+      expect(toastMock.success).toHaveBeenNthCalledWith(
+         1,
+         'Feld "name" hinzugefügt'
+      );
+      expect(toastMock.success).toHaveBeenNthCalledWith(
+         2,
+         'Feld "role" hinzugefügt'
+      );
+      expect(toastMock.success).toHaveBeenNthCalledWith(
+         3,
+         'Feld "title" hinzugefügt'
+      );
+      expect(toastMock.success).toHaveBeenNthCalledWith(
+         4,
+         "3 Feld(er) synchronisiert"
+      );
+
+      const fields = screen.getAllByTestId("prompt-template-field");
+      expect(fields).toHaveLength(3);
+   });
+
    it("NewLibraryEntryForm - create btn clicked  - success - test", async () => {
       const result: ActionResult<string> = {
          success: true,
@@ -161,7 +254,7 @@ describe("NewLibraryEntryForm functionality tests", () => {
       await userEvent.type(title, "Test Template");
       await userEvent.type(description, "Test Description");
       await userEvent.type(detailedDescription, "Detailed description");
-      await userEvent.type(content, "Template Content");
+      await userEvent.type(content, "Template Content {{{{task}}");
 
       await userEvent.click(createBtn);
 
@@ -169,7 +262,7 @@ describe("NewLibraryEntryForm functionality tests", () => {
          title: "Test Template",
          description: "Test Description",
          detailedDescription: "Detailed description",
-         content: "Template Content",
+         content: "Template Content {{task}}",
          categories: [],
          fields: [],
          recommendedModel: "Claude 3.5 Sonnet",
@@ -213,7 +306,7 @@ describe("NewLibraryEntryForm functionality tests", () => {
       await userEvent.type(title, "Test Template");
       await userEvent.type(description, "Test Description");
       await userEvent.type(detailedDescription, "Detailed description");
-      await userEvent.type(content, "Template Content");
+      await userEvent.type(content, "Template Content {{{{task}}");
 
       await userEvent.click(createBtn);
 
@@ -221,7 +314,7 @@ describe("NewLibraryEntryForm functionality tests", () => {
          title: "Test Template",
          description: "Test Description",
          detailedDescription: "Detailed description",
-         content: "Template Content",
+         content: "Template Content {{task}}",
          categories: [],
          fields: [],
          recommendedModel: "Claude 3.5 Sonnet",

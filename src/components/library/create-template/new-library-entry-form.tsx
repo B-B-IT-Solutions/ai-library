@@ -92,12 +92,7 @@ export const NewLibraryEntryForm: FC = () => {
          handleAddVariableAsField(varName);
          addedCount++;
       });
-
-      if (addedCount > 0) {
-         toast.success(`${addedCount} Feld(er) synchronisiert`);
-      } else {
-         toast.info("Alle Variablen sind bereits definiert");
-      }
+      toast.success(`${addedCount} Feld(er) synchronisiert`);
    };
 
    const onSubmit: SubmitHandler<DPromptTemplateUpdate> = async (data) => {
