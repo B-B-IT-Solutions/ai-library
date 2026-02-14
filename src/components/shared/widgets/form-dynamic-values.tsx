@@ -1,7 +1,7 @@
 "use client";
 
 import { filter, includes, isEmpty, map, trim } from "es-toolkit/compat";
-import { X } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import {
    Control,
    FieldValues,
@@ -119,6 +119,7 @@ export const FormDynamicValues = <T extends FieldValues>({
                      className="cursor-pointer"
                      data-testid="add-btn"
                   >
+                     <Plus className="h-4 w-4" />
                      Hinzufügen
                   </Button>
                </div>

@@ -84,15 +84,6 @@ export const PromptEdit: FC<PromptEditProps> = ({ prompt, mode }) => {
    });
 
    const {
-      fields: categories,
-      append: addCategory,
-      remove: removeCategory,
-   } = useFieldArray({
-      control: form.control,
-      name: "categories" as never,
-   });
-
-   const {
       fields: followUpPrompts,
       append: addFollowUpPrompt,
       remove: removeFollowUpPrompt,
@@ -252,10 +243,8 @@ export const PromptEdit: FC<PromptEditProps> = ({ prompt, mode }) => {
                >
                   <BasicInfoEdit
                      control={form.control}
-                     register={form.register}
-                     categories={categories}
-                     addCategory={addCategory}
-                     removeCategory={removeCategory}
+                     watch={form.watch}
+                     setValue={form.setValue}
                   />
 
                   <Separator />

@@ -1,9 +1,8 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
-import { map } from "es-toolkit/compat";
+import { FC, useState } from "react";
 import { BookType, Check, ChevronsUpDown, Plus, X } from "lucide-react";
-import { Control, FieldArrayWithId, UseFormRegister } from "react-hook-form";
+import { Control, UseFormSetValue, UseFormWatch } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
 import {
@@ -21,13 +20,12 @@ import {
    FormLabel,
    FormMessage,
 } from "@/components/shadcn/form";
-import { Input } from "@/components/shadcn/input";
 import {
    Popover,
    PopoverContent,
    PopoverTrigger,
 } from "@/components/shadcn/popover";
-import { FormInput } from "@/components/shared/widgets";
+import { FormDynamicValues, FormInput } from "@/components/shared/widgets";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 
 const AI_MODELS = [
@@ -42,29 +40,15 @@ const AI_MODELS = [
    "Mistral Large",
 ];
 
-type BasicInfoEditProps = {
+type Props = {
    control: Control<DPromptUpdate>;
-   register: UseFormRegister<DPromptUpdate>;
-   categories: FieldArrayWithId<DPromptUpdate, "categories", "id">[];
-   addCategory: (value: string) => void;
-   removeCategory: (index: number) => void;
+   watch: UseFormWatch<DPromptUpdate>;
+   setValue: UseFormSetValue<DPromptUpdate>;
 };
 
-export const BasicInfoEdit: FC<BasicInfoEditProps> = ({
-   control,
-   register,
-   categories,
-   addCategory,
-   removeCategory,
-}) => {
+export const BasicInfoEdit: FC<Props> = ({ control, watch, setValue }) => {
    const [open, setOpen] = useState(false);
    const [customModel, setCustomModel] = useState("");
-
-   useEffect(() => {
-      if (categories.length === 0) {
-         addCategory("");
-      }
-   }, [categories.length, addCategory]);
 
    const title = () => {
       return (
@@ -167,44 +151,15 @@ export const BasicInfoEdit: FC<BasicInfoEditProps> = ({
 
    const renderCategories = () => {
       return (
-         <div className="space-y-2" data-testid="categories">
-            <FormLabel className="flex items-center gap-1.5 text-sm font-medium text-slate-700">
-               Kategorien
-            </FormLabel>
-            <div className="space-y-2">
-               {map(categories, (field, index) => (
-                  <div key={field.id} className="flex gap-2">
-                     <Input
-                        {...register(`categories.${index}`)}
-                        placeholder="Kategoriename eingeben"
-                        className="flex-1"
-                     />
-                     <Button
-                        type="button"
-                        variant="outline"
-                        size="icon"
-                        onClick={() => removeCategory(index)}
-                        className="shrink-0 hover:border-red-300 hover:bg-red-50 hover:text-red-600"
-                        data-testid={`remove-category-btn-${index}`}
-                     >
-                        <X className="h-4 w-4" />
-                     </Button>
-                  </div>
-               ))}
-            </div>
-            <div className="flex justify-end">
-               <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => addCategory("")}
-                  data-testid="add-category-btn"
-               >
-                  <Plus className="h-4 w-4" />
-                  Hinzufügen
-               </Button>
-            </div>
-         </div>
+         <FormDynamicValues<DPromptUpdate>
+            name="categories"
+            nameInput="categoryInput"
+            label="Kategorien"
+            placeholder="Kategorie hinzufügen"
+            control={control}
+            watch={watch}
+            setValue={setValue}
+         />
       );
    };
 
