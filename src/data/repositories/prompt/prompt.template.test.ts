@@ -1,10 +1,15 @@
 import { PrismaClient } from "@prisma/client";
-import { ptestData } from "@tests";
+import { dtestData, ptestData } from "@tests";
+import { map } from "es-toolkit/compat";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
+import { toDPromptTemplateDescriptor } from "@/data/services/prompt/prompt.template.mapper";
+import { DPromptTemplateFieldUpdate } from "@/data/types/domain/prompt.template";
 import { Prisma } from "@/generated/prisma/client";
 import {
+   PromptTemplateDescriptorCreateArgs,
+   PromptTemplateDescriptorCreateInput,
    PromptTemplateDescriptorFindFirstArgs,
    PromptTemplateDescriptorFindManyArgs,
    PromptTemplateFindFirstArgs,
@@ -289,6 +294,78 @@ describe("pGetPromptTemplateCategories queries tests", () => {
       );
       expect(prismaMock.promptTemplateCategory.findMany).toHaveBeenCalledWith(
          expectedFindMayArgs
+      );
+   });
+});
+
+describe("pCreatePromptTemplateDescriptor tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pCreatePromptTemplateDescriptor - descriptor created - test", async () => {
+      const data = dtestData.dPromptTemplateUpdate();
+      const newDescriptor = ptestData.pPromptTemplateDescriptorWithCategories();
+      prismaMock.promptTemplateDescriptor.create.mockResolvedValue(
+         newDescriptor
+      );
+
+      const result = await repository.pCreatePromptTemplateDescriptor(data);
+
+      const expectedResult = toDPromptTemplateDescriptor(newDescriptor);
+
+      const expectedInput: PromptTemplateDescriptorCreateInput = {
+         title: data.title,
+         description: data.description,
+         recommendedModel: data.recommendedModel,
+         categories: {
+            connectOrCreate: map(data.categories, (categoryName: string) => ({
+               where: {
+                  name: categoryName,
+               },
+               create: {
+                  name: categoryName,
+               },
+            })),
+         },
+         promptTemplate: {
+            create: {
+               content: data.content,
+               detailedDescription: data.detailedDescription,
+               fields: {
+                  create: map(
+                     data.fields,
+                     (field: DPromptTemplateFieldUpdate) => ({
+                        name: field.name,
+                        label: field.label,
+                        description: field.description,
+                        type: field.type,
+                        required: field.required,
+                        order: field.order,
+                        defaultValue: field.defaultValue,
+                        options: field.options
+                           ? JSON.stringify(field.options)
+                           : undefined,
+                     })
+                  ),
+               },
+            },
+         },
+      };
+
+      const expectedCreateArgs: PromptTemplateDescriptorCreateArgs = {
+         data: expectedInput,
+         include: {
+            categories: true,
+         },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.promptTemplateDescriptor.create).toHaveBeenCalledTimes(
+         1
+      );
+      expect(prismaMock.promptTemplateDescriptor.create).toHaveBeenCalledWith(
+         expectedCreateArgs
       );
    });
 });

@@ -31,6 +31,8 @@ import {
    DPromptTemplateDescriptor,
    DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateField,
+   DPromptTemplateFieldUpdate,
+   DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 import {
    DStripeBillingPortalSessionResponse,
@@ -151,10 +153,8 @@ export const dLibraryEntry = (index = 1): DLibraryEntry => {
    const templateDescriptor = dPromptTemplateDescriptor(index);
    return {
       id: `457bf695-6f74-44aa-9b3a-e179ea9e817${index}`,
-      orderId: `2d4daf38-5571-4c0a-9d32-4435bdf6280${index}`,
       userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
       templateDescriptorId: `52e59bcf-7651-45f8-91bf-63b8a4e06d8${index}`,
-      productId: `419682c2-d8be-433e-a15f-f7ab3663346${index}`,
       templateDescriptor,
       createdAt: new Date("2025-09-27").toISOString(),
    };
@@ -357,6 +357,18 @@ export const dPromptTemplate = (index = 1): DPromptTemplate => {
    };
 };
 
+export const dPromptTemplateUpdate = (index = 1): DPromptTemplateUpdate => {
+   return {
+      title: `title ${index}`,
+      description: `updated description ${index}`,
+      detailedDescription: `updated detailedDescription ${index}`,
+      content: `updated content ${index}`,
+      categories: ["category 1"],
+      recommendedModel: `model ${index}`,
+      fields: dPromptTemplateFieldUpdates(),
+   };
+};
+
 export const dPromptTemplateFields = (count = 3): DPromptTemplateField[] => {
    return range(0, count).map((i) => dPromptTemplateField(i));
 };
@@ -365,6 +377,27 @@ export const dPromptTemplateField = (index = 1): DPromptTemplateField => {
    return {
       id: `7e736436-8c94-4ec9-bd21-1db1b52d357${index}`,
       promptTemplateId: `8b82ebb2-5966-4788-8fed-3ad18c08e28${index}`,
+      name: `field ${index}`,
+      label: `label ${index}`,
+      description: `description ${index}`,
+      type: "SELECT",
+      required: true,
+      order: index,
+      options: ["option 1", "option 2", "option 3"],
+      defaultValue: "option 1",
+   };
+};
+
+export const dPromptTemplateFieldUpdates = (
+   count = 3
+): DPromptTemplateField[] => {
+   return range(0, count).map((i) => dPromptTemplateFieldUpdate(i));
+};
+
+export const dPromptTemplateFieldUpdate = (
+   index = 1
+): DPromptTemplateFieldUpdate => {
+   return {
       name: `field ${index}`,
       label: `label ${index}`,
       description: `description ${index}`,
