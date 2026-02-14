@@ -5,10 +5,10 @@ exports[`SelectField rendering tests SelectField - required false - test 1`] = `
   <div
     class="grid gap-2"
     data-slot="form-item"
-    data-testid="name-1-field"
+    data-testid="name-1"
   >
     <label
-      class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
+      class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
       data-error="false"
       data-slot="form-label"
       for="_r_0_-form-item"
@@ -75,7 +75,7 @@ exports[`SelectField rendering tests SelectField - required true - test 1`] = `
   <div
     class="grid gap-2"
     data-slot="form-item"
-    data-testid="name-1-field"
+    data-testid="name-1"
   >
     <label
       class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"

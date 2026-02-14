@@ -332,23 +332,16 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
       <div
         class="grid gap-2"
         data-slot="form-item"
-        data-testid="country-field"
+        data-testid="country"
       >
         <label
-          class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
+          class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
           data-error="false"
           data-slot="form-label"
           for="_r_8_-form-item"
         >
           Country
         </label>
-        <p
-          class="text-muted-foreground text-sm"
-          data-slot="form-description"
-          id="_r_8_-form-item-description"
-        >
-           
-        </p>
         <button
           aria-autocomplete="none"
           aria-controls="radix-_r_9_"

@@ -30,7 +30,7 @@ type Props<T extends FieldValues> = {
    name: Path<T>;
    label: string;
    placeholder?: string;
-   description?: string;
+   description?: string | null;
    required?: boolean;
    options: Option[];
    control: Control<T>;
