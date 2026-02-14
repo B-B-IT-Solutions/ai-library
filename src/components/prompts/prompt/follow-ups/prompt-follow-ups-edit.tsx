@@ -6,17 +6,13 @@ import { MessageSquarePlus, Plus } from "lucide-react";
 import { Control, FieldArrayWithId } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
-import { PromptFormValues } from "@/data/types/domain/prompt";
+import { DPromptUpdate } from "@/data/types/domain/prompt";
 
 import { PromptFollowUpEdit } from "./prompt-follow-up-edit";
 
 type PromptFollowUpsEditProps = {
-   control: Control<PromptFormValues>;
-   followUpPrompts: FieldArrayWithId<
-      PromptFormValues,
-      "followUpPrompts",
-      "id"
-   >[];
+   control: Control<DPromptUpdate>;
+   followUpPrompts: FieldArrayWithId<DPromptUpdate, "followUpPrompts", "id">[];
    addFollowUpPrompt: (value: string) => void;
    removeFollowUpPrompt: (index: number) => void;
 };
@@ -68,11 +64,11 @@ export const PromptFollowUpsEdit: FC<PromptFollowUpsEditProps> = ({
    return (
       <section className="space-y-4" data-testid="follow-up-prompts-edit">
          <div>
-            <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
+            <h3 className="flex items-center gap-2 text-lg font-semibold text-slate-900">
                <MessageSquarePlus className="h-5 w-5 text-indigo-600" />
                Folge-Prompts
             </h3>
-            <p className="text-sm text-slate-500 mt-1">
+            <p className="mt-1 text-sm text-slate-500">
                Vorgeschlagene Prompts, die du als nächste stellen könntest.
             </p>
          </div>

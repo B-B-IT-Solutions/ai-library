@@ -7,11 +7,11 @@ import { Control } from "react-hook-form";
 import { AutosizeTextarea } from "@/components/shadcn/autosize-textarea";
 import { Button } from "@/components/shadcn/button";
 import { FormControl, FormField, FormItem } from "@/components/shadcn/form";
-import { PromptFormValues } from "@/data/types/domain/prompt";
+import { DPromptUpdate } from "@/data/types/domain/prompt";
 
 type PromptFollowUpEditProps = {
    index: number;
-   control: Control<PromptFormValues>;
+   control: Control<DPromptUpdate>;
    removeFollowUpPrompt: (index: number) => void;
 };
 
@@ -26,7 +26,7 @@ export const PromptFollowUpEdit: FC<PromptFollowUpEditProps> = ({
          name={`followUpPrompts.${index}`}
          render={({ field }) => (
             <FormItem data-testid="follow-up-prompt-edit">
-               <div className="flex gap-2 items-start">
+               <div className="flex items-start gap-2">
                   <FormControl>
                      <AutosizeTextarea
                         placeholder="Folge-Prompt eingeben"
@@ -40,7 +40,7 @@ export const PromptFollowUpEdit: FC<PromptFollowUpEditProps> = ({
                      variant="outline"
                      size="icon"
                      onClick={() => removeFollowUpPrompt(index)}
-                     className="shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+                     className="shrink-0 hover:border-red-300 hover:bg-red-50 hover:text-red-600"
                      data-testid="remove-btn"
                   >
                      <X className="h-4 w-4" />

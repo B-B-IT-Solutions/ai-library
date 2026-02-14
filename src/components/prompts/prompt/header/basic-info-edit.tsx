@@ -27,7 +27,7 @@ import {
    PopoverContent,
    PopoverTrigger,
 } from "@/components/shadcn/popover";
-import { PromptFormValues } from "@/data/types/domain/prompt";
+import { DPromptUpdate } from "@/data/types/domain/prompt";
 
 const AI_MODELS = [
    "Claude Sonnet 4.5",
@@ -42,9 +42,9 @@ const AI_MODELS = [
 ];
 
 type BasicInfoEditProps = {
-   control: Control<PromptFormValues>;
-   register: UseFormRegister<PromptFormValues>;
-   categories: FieldArrayWithId<PromptFormValues, "categories", "id">[];
+   control: Control<DPromptUpdate>;
+   register: UseFormRegister<DPromptUpdate>;
+   categories: FieldArrayWithId<DPromptUpdate, "categories", "id">[];
    addCategory: (value: string) => void;
    removeCategory: (index: number) => void;
 };

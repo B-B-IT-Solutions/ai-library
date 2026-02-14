@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { PromptFormValues } from "@/data/types/domain/prompt";
+import { DPromptUpdate } from "@/data/types/domain/prompt";
 
 import { PromptFollowUpEdit } from "./prompt-follow-up-edit";
 
@@ -16,7 +16,7 @@ const TestWrapper = ({
    defaultValue?: string;
    removeFollowUpPrompt: jest.Mock;
 }) => {
-   const methods = useForm<PromptFormValues>({
+   const methods = useForm<DPromptUpdate>({
       defaultValues: {
          title: "",
          content: "",

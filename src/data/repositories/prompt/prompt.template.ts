@@ -9,6 +9,7 @@ import {
 } from "@/data/types/db/prompt.template";
 import {
    DPromptTemplateDescriptor,
+   DPromptTemplateFieldType,
    DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
@@ -88,7 +89,7 @@ export class PromptTemplateRepository {
          description: data.description,
          recommendedModel: data.recommendedModel,
          categories: {
-            connectOrCreate: map(data.categories, (categoryName: string) => ({
+            connectOrCreate: map(data.categories, (categoryName) => ({
                where: {
                   name: categoryName,
                },
@@ -108,7 +109,7 @@ export class PromptTemplateRepository {
                         name: field.name,
                         label: field.label,
                         description: field.description,
-                        type: field.type,
+                        type: field.type as DPromptTemplateFieldType,
                         required: field.required,
                         order: field.order,
                         defaultValue: field.defaultValue,

@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument } from "@tests";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 
-import { PromptFormValues } from "@/data/types/domain/prompt";
+import { DPromptUpdate } from "@/data/types/domain/prompt";
 
 import { BasicInfoEdit } from "./basic-info-edit";
 
@@ -16,7 +16,7 @@ const TestWrapper = ({
    recommendedModel?: string;
    categories?: string[];
 }) => {
-   const methods = useForm<PromptFormValues>({
+   const methods = useForm<DPromptUpdate>({
       defaultValues: {
          title: title,
          content: "",

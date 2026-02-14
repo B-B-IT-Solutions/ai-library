@@ -2,12 +2,12 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { assertInDocument, assertNotInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { PromptFormValues } from "@/data/types/domain/prompt";
+import { DPromptUpdate } from "@/data/types/domain/prompt";
 
 import { PromptContentEdit } from "./prompt-content-edit";
 
 const TestWrapper = ({ isEdit = false }: { isEdit?: boolean }) => {
-   const methods = useForm<PromptFormValues>({
+   const methods = useForm<DPromptUpdate>({
       defaultValues: {
          title: "",
          content: "",
