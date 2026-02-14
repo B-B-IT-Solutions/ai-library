@@ -5,6 +5,7 @@ import { Control, FieldValues, Path } from "react-hook-form";
 
 import {
    FormControl,
+   FormDescription,
    FormField,
    FormItem,
    FormLabel,
@@ -28,6 +29,9 @@ export type Option =
 type Props<T extends FieldValues> = {
    name: Path<T>;
    label: string;
+   placeholder?: string;
+   description?: string | null;
+   required?: boolean;
    options: Option[];
    control: Control<T>;
 };
@@ -35,14 +39,36 @@ type Props<T extends FieldValues> = {
 export const FormSelect = <T extends FieldValues>({
    name,
    label,
+   description,
+   placeholder,
+   required,
    options,
    control,
 }: Props<T>) => {
    const getValue = (o: Option) => {
       return typeof o === "string" ? o : o.value;
    };
+
    const getLabel = (o: Option) => {
       return typeof o === "string" ? o : o.label;
+   };
+
+   const renderlabel = () => {
+      if (required) {
+         return (
+            <FormLabel className="gap-1">
+               {label}
+               <span className="text-destructive">*</span>
+            </FormLabel>
+         );
+      }
+      return <FormLabel>{label}</FormLabel>;
+   };
+
+   const renderDescription = () => {
+      if (description) {
+         return <FormDescription> {description}</FormDescription>;
+      }
    };
 
    return (
@@ -51,11 +77,12 @@ export const FormSelect = <T extends FieldValues>({
          name={name}
          render={({ field }) => (
             <FormItem data-testid={name}>
-               <FormLabel>{label}</FormLabel>
+               {renderlabel()}
+               {renderDescription()}
                <Select value={field.value} onValueChange={field.onChange}>
                   <FormControl>
                      <SelectTrigger>
-                        <SelectValue />
+                        <SelectValue placeholder={placeholder} />
                      </SelectTrigger>
                   </FormControl>
                   <SelectContent>

@@ -24,6 +24,7 @@ exports[`BasicInfo rendering tests BasicInfo rendered test 1`] = `
         aria-invalid="false"
         class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
         data-slot="form-control"
+        data-testid="input"
         id="_r_0_-form-item"
         name="title"
         placeholder="z.B. Blog-Post Generator"
@@ -48,6 +49,7 @@ exports[`BasicInfo rendering tests BasicInfo rendered test 1`] = `
         aria-invalid="false"
         class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
         data-slot="form-control"
+        data-testid="textarea"
         id="_r_1_-form-item"
         name="description"
         placeholder="Beschreibung der Vorlage"
@@ -72,6 +74,7 @@ exports[`BasicInfo rendering tests BasicInfo rendered test 1`] = `
         aria-invalid="false"
         class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
         data-slot="form-control"
+        data-testid="textarea"
         id="_r_2_-form-item"
         name="detailedDescription"
         placeholder="Ausführliche Beschreibung der Vorlage"
@@ -167,6 +170,26 @@ exports[`BasicInfo rendering tests BasicInfo rendered test 1`] = `
           data-testid="add-btn"
           type="button"
         >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-plus h-4 w-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5 12h14"
+            />
+            <path
+              d="M12 5v14"
+            />
+          </svg>
           Hinzufügen
         </button>
       </div>

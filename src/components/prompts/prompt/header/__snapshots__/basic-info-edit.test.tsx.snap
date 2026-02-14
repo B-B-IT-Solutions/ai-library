@@ -43,7 +43,7 @@ exports[`BasicInfoEdit rendering tests BasicInfoEdit - empty - rendered test 1`]
       data-testid="title"
     >
       <label
-        class="flex items-center gap-2 select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive text-sm font-medium text-slate-700"
+        class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
         data-error="false"
         data-slot="form-label"
         for="_r_0_-form-item"
@@ -55,7 +55,7 @@ exports[`BasicInfoEdit rendering tests BasicInfoEdit - empty - rendered test 1`]
         aria-invalid="false"
         class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
         data-slot="form-control"
-        data-testid="title-input"
+        data-testid="input"
         id="_r_0_-form-item"
         name="title"
         placeholder="Prompt-Titel eingeben..."
@@ -63,12 +63,12 @@ exports[`BasicInfoEdit rendering tests BasicInfoEdit - empty - rendered test 1`]
       />
     </div>
     <div
-      class="gap-2 flex flex-col"
+      class="grid gap-2"
       data-slot="form-item"
       data-testid="recommended-model"
     >
       <label
-        class="select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive flex items-center gap-1.5 text-sm font-medium text-slate-700"
+        class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
         data-error="false"
         data-slot="form-label"
         for="_r_1_-form-item"
@@ -506,65 +506,35 @@ exports[`BasicInfoEdit rendering tests BasicInfoEdit - empty - rendered test 1`]
       </div>
     </div>
     <div
-      class="space-y-2"
+      class="grid gap-2"
+      data-slot="form-item"
       data-testid="categories"
     >
       <label
-        class="select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive flex items-center gap-1.5 text-sm font-medium text-slate-700"
+        class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
         data-error="false"
         data-slot="form-label"
-        for="undefined-form-item"
+        for="_r_h_-form-item"
       >
         Kategorien
       </label>
       <div
-        class="space-y-2"
+        class="flex gap-2"
       >
-        <div
-          class="flex gap-2"
-        >
-          <input
-            class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive flex-1"
-            data-slot="input"
-            name="categories.0"
-            placeholder="Kategoriename eingeben"
-          />
-          <button
-            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:border-red-300 hover:bg-red-50 hover:text-red-600"
-            data-slot="button"
-            data-testid="remove-category-btn-0"
-            type="button"
-          >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-x h-4 w-4"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M18 6 6 18"
-              />
-              <path
-                d="m6 6 12 12"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div
-        class="flex justify-end"
-      >
+        <input
+          aria-describedby="_r_h_-form-item-description"
+          aria-invalid="false"
+          class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+          data-slot="form-control"
+          data-testid="input"
+          id="_r_h_-form-item"
+          name="categoryInput"
+          placeholder="Kategorie hinzufügen"
+        />
         <button
-          class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
+          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
           data-slot="button"
-          data-testid="add-category-btn"
+          data-testid="add-btn"
           type="button"
         >
           <svg
@@ -638,41 +608,41 @@ exports[`BasicInfoEdit rendering tests BasicInfoEdit - with data - rendered test
       data-testid="title"
     >
       <label
-        class="flex items-center gap-2 select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive text-sm font-medium text-slate-700"
+        class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
         data-error="false"
         data-slot="form-label"
-        for="_r_h_-form-item"
+        for="_r_i_-form-item"
       >
         Titel
       </label>
       <input
-        aria-describedby="_r_h_-form-item-description"
+        aria-describedby="_r_i_-form-item-description"
         aria-invalid="false"
         class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
         data-slot="form-control"
-        data-testid="title-input"
-        id="_r_h_-form-item"
+        data-testid="input"
+        id="_r_i_-form-item"
         name="title"
         placeholder="Prompt-Titel eingeben..."
         value="Test Title"
       />
     </div>
     <div
-      class="gap-2 flex flex-col"
+      class="grid gap-2"
       data-slot="form-item"
       data-testid="recommended-model"
     >
       <label
-        class="select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive flex items-center gap-1.5 text-sm font-medium text-slate-700"
+        class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
         data-error="false"
         data-slot="form-label"
-        for="_r_i_-form-item"
+        for="_r_j_-form-item"
       >
         Empfohlenes Modell
       </label>
       <button
-        aria-controls="radix-_r_j_"
-        aria-describedby="_r_i_-form-item-description"
+        aria-controls="radix-_r_k_"
+        aria-describedby="_r_j_-form-item-description"
         aria-expanded="false"
         aria-haspopup="dialog"
         aria-invalid="false"
@@ -680,7 +650,7 @@ exports[`BasicInfoEdit rendering tests BasicInfoEdit - with data - rendered test
         data-slot="popover-trigger"
         data-state="closed"
         data-testid="recommended-model-trigger-btn"
-        id="_r_i_-form-item"
+        id="_r_j_-form-item"
         role="combobox"
         type="button"
       >
@@ -725,7 +695,7 @@ exports[`BasicInfoEdit rendering tests BasicInfoEdit - with data - rendered test
                 data-side="bottom"
                 data-slot="popover-content"
                 data-state="closed"
-                id="radix-_r_j_"
+                id="radix-_r_k_"
                 role="dialog"
                 style="--radix-popover-content-transform-origin: var(--radix-popper-transform-origin); --radix-popover-content-available-width: var(--radix-popper-available-width); --radix-popover-content-available-height: var(--radix-popper-available-height); --radix-popover-trigger-width: var(--radix-popper-anchor-width); --radix-popover-trigger-height: var(--radix-popper-anchor-height);"
                 tabindex="-1"
@@ -738,8 +708,8 @@ exports[`BasicInfoEdit rendering tests BasicInfoEdit - with data - rendered test
                 >
                   <label
                     cmdk-label=""
-                    for="radix-_r_m_"
-                    id="radix-_r_l_"
+                    for="radix-_r_n_"
+                    id="radix-_r_m_"
                     style="position: absolute; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border-width: 0px;"
                   />
                   <div
@@ -770,16 +740,16 @@ exports[`BasicInfoEdit rendering tests BasicInfoEdit - with data - rendered test
                     </svg>
                     <input
                       aria-autocomplete="list"
-                      aria-controls="radix-_r_k_"
+                      aria-controls="radix-_r_l_"
                       aria-expanded="true"
-                      aria-labelledby="radix-_r_l_"
+                      aria-labelledby="radix-_r_m_"
                       autocomplete="off"
                       autocorrect="off"
                       class="placeholder:text-muted-foreground flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
                       cmdk-input=""
                       data-slot="command-input"
                       data-testid="model-input"
-                      id="radix-_r_m_"
+                      id="radix-_r_n_"
                       placeholder="Modell suchen oder eingeben..."
                       role="combobox"
                       spellcheck="false"
@@ -792,7 +762,7 @@ exports[`BasicInfoEdit rendering tests BasicInfoEdit - with data - rendered test
                     class="max-h-[300px] scroll-py-1 overflow-x-hidden overflow-y-auto"
                     cmdk-list=""
                     data-slot="command-list"
-                    id="radix-_r_k_"
+                    id="radix-_r_l_"
                     role="listbox"
                     tabindex="-1"
                   >
@@ -819,7 +789,7 @@ exports[`BasicInfoEdit rendering tests BasicInfoEdit - with data - rendered test
                             data-selected="true"
                             data-slot="command-item"
                             data-value="Claude Sonnet 4.5"
-                            id="radix-_r_p_"
+                            id="radix-_r_q_"
                             role="option"
                           >
                             <svg
@@ -850,7 +820,7 @@ exports[`BasicInfoEdit rendering tests BasicInfoEdit - with data - rendered test
                             data-selected="false"
                             data-slot="command-item"
                             data-value="Claude Opus 4"
-                            id="radix-_r_q_"
+                            id="radix-_r_r_"
                             role="option"
                           >
                             <svg
@@ -881,7 +851,7 @@ exports[`BasicInfoEdit rendering tests BasicInfoEdit - with data - rendered test
                             data-selected="false"
                             data-slot="command-item"
                             data-value="GPT-4"
-                            id="radix-_r_r_"
+                            id="radix-_r_s_"
                             role="option"
                           >
                             <svg
@@ -912,7 +882,7 @@ exports[`BasicInfoEdit rendering tests BasicInfoEdit - with data - rendered test
                             data-selected="false"
                             data-slot="command-item"
                             data-value="GPT-4 Turbo"
-                            id="radix-_r_s_"
+                            id="radix-_r_t_"
                             role="option"
                           >
                             <svg
@@ -943,7 +913,7 @@ exports[`BasicInfoEdit rendering tests BasicInfoEdit - with data - rendered test
                             data-selected="false"
                             data-slot="command-item"
                             data-value="GPT-3.5"
-                            id="radix-_r_t_"
+                            id="radix-_r_u_"
                             role="option"
                           >
                             <svg
@@ -974,7 +944,7 @@ exports[`BasicInfoEdit rendering tests BasicInfoEdit - with data - rendered test
                             data-selected="false"
                             data-slot="command-item"
                             data-value="Gemini Pro"
-                            id="radix-_r_u_"
+                            id="radix-_r_v_"
                             role="option"
                           >
                             <svg
@@ -1005,7 +975,7 @@ exports[`BasicInfoEdit rendering tests BasicInfoEdit - with data - rendered test
                             data-selected="false"
                             data-slot="command-item"
                             data-value="Gemini Ultra"
-                            id="radix-_r_v_"
+                            id="radix-_r_10_"
                             role="option"
                           >
                             <svg
@@ -1036,7 +1006,7 @@ exports[`BasicInfoEdit rendering tests BasicInfoEdit - with data - rendered test
                             data-selected="false"
                             data-slot="command-item"
                             data-value="Llama 3"
-                            id="radix-_r_10_"
+                            id="radix-_r_11_"
                             role="option"
                           >
                             <svg
@@ -1067,7 +1037,7 @@ exports[`BasicInfoEdit rendering tests BasicInfoEdit - with data - rendered test
                             data-selected="false"
                             data-slot="command-item"
                             data-value="Mistral Large"
-                            id="radix-_r_11_"
+                            id="radix-_r_12_"
                             role="option"
                           >
                             <svg
@@ -1101,38 +1071,38 @@ exports[`BasicInfoEdit rendering tests BasicInfoEdit - with data - rendered test
       </div>
     </div>
     <div
-      class="space-y-2"
+      class="grid gap-2"
+      data-slot="form-item"
       data-testid="categories"
     >
       <label
-        class="select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive flex items-center gap-1.5 text-sm font-medium text-slate-700"
+        class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
         data-error="false"
         data-slot="form-label"
-        for="undefined-form-item"
+        for="_r_13_-form-item"
       >
         Kategorien
       </label>
       <div
-        class="space-y-2"
+        class="mt-2 flex flex-wrap gap-2"
+        data-testid="current-values"
       >
         <div
-          class="flex gap-2"
+          class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
         >
-          <input
-            class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive flex-1"
-            data-slot="input"
-            name="categories.0"
-            placeholder="Kategoriename eingeben"
-          />
+          <span
+            class="text-sm"
+          >
+            Category 1
+          </span>
           <button
-            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:border-red-300 hover:bg-red-50 hover:text-red-600"
-            data-slot="button"
-            data-testid="remove-category-btn-0"
+            class="cursor-pointer text-slate-500 hover:text-slate-700"
+            data-testid="remove-btn"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-x h-4 w-4"
+              class="lucide lucide-x h-3 w-3"
               fill="none"
               height="24"
               stroke="currentColor"
@@ -1153,23 +1123,21 @@ exports[`BasicInfoEdit rendering tests BasicInfoEdit - with data - rendered test
           </button>
         </div>
         <div
-          class="flex gap-2"
+          class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
         >
-          <input
-            class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive flex-1"
-            data-slot="input"
-            name="categories.1"
-            placeholder="Kategoriename eingeben"
-          />
+          <span
+            class="text-sm"
+          >
+            Category 2
+          </span>
           <button
-            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:border-red-300 hover:bg-red-50 hover:text-red-600"
-            data-slot="button"
-            data-testid="remove-category-btn-1"
+            class="cursor-pointer text-slate-500 hover:text-slate-700"
+            data-testid="remove-btn"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-x h-4 w-4"
+              class="lucide lucide-x h-3 w-3"
               fill="none"
               height="24"
               stroke="currentColor"
@@ -1191,12 +1159,22 @@ exports[`BasicInfoEdit rendering tests BasicInfoEdit - with data - rendered test
         </div>
       </div>
       <div
-        class="flex justify-end"
+        class="flex gap-2"
       >
+        <input
+          aria-describedby="_r_13_-form-item-description"
+          aria-invalid="false"
+          class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+          data-slot="form-control"
+          data-testid="input"
+          id="_r_13_-form-item"
+          name="categoryInput"
+          placeholder="Kategorie hinzufügen"
+        />
         <button
-          class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
+          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
           data-slot="button"
-          data-testid="add-category-btn"
+          data-testid="add-btn"
           type="button"
         >
           <svg

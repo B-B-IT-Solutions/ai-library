@@ -5,8 +5,8 @@ import {
    DPromptTemplateCategory,
    DPromptTemplateDescriptor,
    DPromptTemplateDescriptorWithTemplate,
-   DPromptTemplateFieldUpdate,
    DPromptTemplateFieldValues,
+   DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 
 import {
@@ -59,7 +59,7 @@ export class PromptTemplateService {
    }
 
    async createPromptTemplateDescriptor(
-      data: DPromptTemplateFieldUpdate
+      data: DPromptTemplateUpdate
    ): Promise<DPromptTemplateDescriptor> {
       return await this.repository.pCreatePromptTemplateDescriptor(data);
    }

@@ -1,9 +1,9 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument } from "@tests";
-import { FormProvider, useFieldArray, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 
-import { PromptFormValues } from "@/data/types/domain/prompt";
+import { DPromptUpdate } from "@/data/types/domain/prompt";
 
 import { BasicInfoEdit } from "./basic-info-edit";
 
@@ -16,7 +16,7 @@ const TestWrapper = ({
    recommendedModel?: string;
    categories?: string[];
 }) => {
-   const methods = useForm<PromptFormValues>({
+   const methods = useForm<DPromptUpdate>({
       defaultValues: {
          title: title,
          content: "",
@@ -26,27 +26,12 @@ const TestWrapper = ({
       },
    });
 
-   const { fields, append, remove } = useFieldArray({
-      control: methods.control,
-      name: "categories",
-   });
-
-   const addCategory = (value: string) => {
-      append(value);
-   };
-
-   const removeCategory = (index: number) => {
-      remove(index);
-   };
-
    return (
       <FormProvider {...methods}>
          <BasicInfoEdit
             control={methods.control}
-            register={methods.register}
-            categories={fields}
-            addCategory={addCategory}
-            removeCategory={removeCategory}
+            watch={methods.watch}
+            setValue={methods.setValue}
          />
       </FormProvider>
    );
@@ -58,14 +43,12 @@ const assertRendered = () => {
    const recommendedModel = screen.getByTestId("recommended-model");
    const categories = screen.getByTestId("categories");
    const triggerBtn = screen.getByTestId("recommended-model-trigger-btn");
-   const addButton = screen.getByTestId("add-category-btn");
 
    assertInDocument(component);
    assertInDocument(title);
    assertInDocument(recommendedModel);
    assertInDocument(categories);
    assertInDocument(triggerBtn);
-   assertInDocument(addButton);
 };
 
 describe("BasicInfoEdit rendering tests", () => {
@@ -103,19 +86,6 @@ describe("BasicInfoEdit rendering tests", () => {
 describe("BasicInfoEdit functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-   });
-
-   it("BasicInfoEdit - title edit - test", async () => {
-      render(<TestWrapper />);
-
-      await waitFor(() => {
-         assertRendered();
-      });
-
-      const input = screen.getByTestId("title-input");
-      await userEvent.type(input, "My Test Title");
-
-      expect(input).toHaveValue("My Test Title");
    });
 
    it("BasicInfoEdit - recommended model selected - test", async () => {
@@ -170,58 +140,5 @@ describe("BasicInfoEdit functionality tests", () => {
       await waitFor(() => {
          expect(triggerBtn).toHaveTextContent("GPT-4-123");
       });
-   });
-
-   it("BasicInfoEdit - add category btn clicked - test", async () => {
-      const user = userEvent.setup();
-      render(<TestWrapper categories={["Category 1"]} />);
-
-      await waitFor(() => {
-         assertRendered();
-      });
-
-      const addButton = screen.getByTestId("add-category-btn");
-      await user.click(addButton);
-
-      await waitFor(() => {
-         const categoryInputs = screen.getAllByPlaceholderText(
-            "Kategoriename eingeben"
-         );
-         expect(categoryInputs).toHaveLength(2);
-      });
-   });
-
-   it("BasicInfoEdit - remove category btn clicked  -text", async () => {
-      render(<TestWrapper categories={["Cat 1", "Cat 2"]} />);
-
-      await waitFor(() => {
-         assertRendered();
-      });
-
-      const removeBtn = screen.getByTestId("remove-category-btn-0");
-
-      await userEvent.click(removeBtn);
-
-      await waitFor(() => {
-         const categoryInputs = screen.getAllByPlaceholderText(
-            "Kategoriename eingeben"
-         );
-         expect(categoryInputs).toHaveLength(1);
-      });
-   });
-
-   it("BasicInfoEdit - can type in category input", async () => {
-      render(<TestWrapper categories={[""]} />);
-
-      await waitFor(() => {
-         assertRendered();
-      });
-
-      const categoryInput = screen.getByPlaceholderText(
-         "Kategoriename eingeben"
-      );
-      await userEvent.type(categoryInput, "New Category");
-
-      expect(categoryInput).toHaveValue("New Category");
    });
 });

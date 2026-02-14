@@ -8,7 +8,9 @@ import { FormTextArea } from "./form-textarea";
 type Props = {
    name: string;
    label: string;
-   placeholder: string;
+   placeholder?: string;
+   description?: string | null;
+   required?: boolean;
    rows?: number;
    className?: string;
 };
@@ -17,6 +19,8 @@ const TestWrapper: FC<Props> = ({
    name,
    label,
    placeholder,
+   description,
+   required,
    rows,
    className,
 }) => {
@@ -32,6 +36,8 @@ const TestWrapper: FC<Props> = ({
             name={name}
             label={label}
             placeholder={placeholder}
+            description={description}
+            required={required}
             rows={rows}
             className={className}
             control={form.control}
@@ -49,7 +55,13 @@ describe("FormTextArea rendering tests", () => {
    it("FormTextArea - rows undefined - test", () => {
       const name = "test-123";
       const { container } = render(
-         <TestWrapper name={name} label="Label 1" placeholder="Placeholder 1" />
+         <TestWrapper
+            name={name}
+            label="Label 1"
+            placeholder="Placeholder 1"
+            description="Description 1"
+            required={true}
+         />
       );
 
       assertRendered(name);

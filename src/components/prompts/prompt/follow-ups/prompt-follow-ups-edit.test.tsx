@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument } from "@tests";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 
-import { PromptFormValues } from "@/data/types/domain/prompt";
+import { DPromptUpdate } from "@/data/types/domain/prompt";
 
 import { PromptFollowUpsEdit } from "./prompt-follow-ups-edit";
 
@@ -12,7 +12,7 @@ const TestWrapper = ({
 }: {
    followUpPrompts?: string[];
 }) => {
-   const methods = useForm<PromptFormValues>({
+   const form = useForm<DPromptUpdate>({
       defaultValues: {
          title: "",
          content: "",
@@ -23,7 +23,7 @@ const TestWrapper = ({
    });
 
    const { fields, append, remove } = useFieldArray({
-      control: methods.control,
+      control: form.control,
       name: "followUpPrompts",
    });
 
@@ -36,9 +36,9 @@ const TestWrapper = ({
    };
 
    return (
-      <FormProvider {...methods}>
+      <FormProvider {...form}>
          <PromptFollowUpsEdit
-            control={methods.control}
+            control={form.control}
             followUpPrompts={fields}
             addFollowUpPrompt={addFollowUpPrompt}
             removeFollowUpPrompt={removeFollowUpPrompt}

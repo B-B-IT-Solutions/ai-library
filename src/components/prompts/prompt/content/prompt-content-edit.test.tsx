@@ -2,12 +2,12 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { assertInDocument, assertNotInDocument } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { PromptFormValues } from "@/data/types/domain/prompt";
+import { DPromptUpdate } from "@/data/types/domain/prompt";
 
 import { PromptContentEdit } from "./prompt-content-edit";
 
 const TestWrapper = ({ isEdit = false }: { isEdit?: boolean }) => {
-   const methods = useForm<PromptFormValues>({
+   const methods = useForm<DPromptUpdate>({
       defaultValues: {
          title: "",
          content: "",
@@ -26,11 +26,11 @@ const TestWrapper = ({ isEdit = false }: { isEdit?: boolean }) => {
 
 const assertRendered = () => {
    const contentEdit = screen.getByTestId("prompt-content-edit");
-   const editor = screen.getByTestId("prompt-editor");
+   const content = screen.getByTestId("content");
    const heading = screen.getByText("Prompt");
 
    assertInDocument(contentEdit);
-   assertInDocument(editor);
+   assertInDocument(content);
    assertInDocument(heading);
 };
 

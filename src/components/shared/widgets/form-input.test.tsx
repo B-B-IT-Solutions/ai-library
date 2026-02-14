@@ -8,11 +8,20 @@ import { FormInput } from "./form-input";
 type Props = {
    name: string;
    label: string;
-   placeholder: string;
+   placeholder?: string;
+   description?: string | null;
+   required?: boolean;
    message?: string;
 };
 
-const TestWrapper: FC<Props> = ({ name, label, placeholder, message }) => {
+const TestWrapper: FC<Props> = ({
+   name,
+   label,
+   placeholder,
+   description,
+   required,
+   message,
+}) => {
    const form = useForm({
       defaultValues: {
          [name]: "",
@@ -25,6 +34,8 @@ const TestWrapper: FC<Props> = ({ name, label, placeholder, message }) => {
             name={name}
             label={label}
             placeholder={placeholder}
+            description={description}
+            required={required}
             message={message}
             control={form.control}
          />
@@ -45,6 +56,8 @@ describe("FormInput rendering tests", () => {
             name={name}
             label="Label 1"
             placeholder="Placeholder 1"
+            description="Description 1"
+            required={true}
             message={undefined}
          />
       );

@@ -8,7 +8,7 @@ exports[`PromptContentEdit rendering tests PromptContentEdit - isEdit false - te
   >
     <div>
       <h3
-        class="text-lg font-semibold text-slate-900 flex items-center gap-2"
+        class="flex items-center gap-2 text-lg font-semibold text-slate-900"
       >
         <svg
           aria-hidden="true"
@@ -45,10 +45,11 @@ exports[`PromptContentEdit rendering tests PromptContentEdit - isEdit false - te
     <div
       class="grid gap-2"
       data-slot="form-item"
+      data-testid="content"
     >
       <div
         class="border border-slate-200 rounded-lg overflow-hidden bg-white"
-        data-testid="prompt-editor"
+        data-testid="tiptap-editor"
       >
         <div
           class="flex flex-wrap gap-1 p-2 border-b border-slate-200 bg-slate-50"
@@ -577,7 +578,7 @@ exports[`PromptContentEdit rendering tests PromptContentEdit - isEdit true - tes
   >
     <div>
       <h3
-        class="text-lg font-semibold text-slate-900 flex items-center gap-2"
+        class="flex items-center gap-2 text-lg font-semibold text-slate-900"
       >
         <svg
           aria-hidden="true"
@@ -611,7 +612,7 @@ exports[`PromptContentEdit rendering tests PromptContentEdit - isEdit true - tes
         Prompt
       </h3>
       <p
-        class="text-sm text-slate-500 mt-1"
+        class="mt-1 text-sm text-slate-500"
         data-testid="version-notice"
       >
         Verwenden Sie "Als neue Version speichern" um einen Versions-Snapshot zu erstellen.
@@ -620,10 +621,11 @@ exports[`PromptContentEdit rendering tests PromptContentEdit - isEdit true - tes
     <div
       class="grid gap-2"
       data-slot="form-item"
+      data-testid="content"
     >
       <div
         class="border border-slate-200 rounded-lg overflow-hidden bg-white"
-        data-testid="prompt-editor"
+        data-testid="tiptap-editor"
       >
         <div
           class="flex flex-wrap gap-1 p-2 border-b border-slate-200 bg-slate-50"
