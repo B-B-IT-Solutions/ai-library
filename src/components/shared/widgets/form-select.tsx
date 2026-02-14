@@ -29,6 +29,7 @@ export type Option =
 type Props<T extends FieldValues> = {
    name: Path<T>;
    label: string;
+   placeholder?: string;
    description?: string;
    required?: boolean;
    options: Option[];
@@ -39,6 +40,7 @@ export const FormSelect = <T extends FieldValues>({
    name,
    label,
    description,
+   placeholder,
    required,
    options,
    control,
@@ -80,7 +82,7 @@ export const FormSelect = <T extends FieldValues>({
                <Select value={field.value} onValueChange={field.onChange}>
                   <FormControl>
                      <SelectTrigger>
-                        <SelectValue />
+                        <SelectValue placeholder={placeholder} />
                      </SelectTrigger>
                   </FormControl>
                   <SelectContent>
