@@ -85,7 +85,7 @@ export class LibraryService {
       const ptd =
          await this.promptTemplateService.createPromptTemplateDescriptor(data);
 
-      const entry = await this.libraryRepository.pCreateCustomLibraryEntry(
+      const entry = await this.libraryRepository.pCreateLibraryEntry(
          userId,
          ptd.id
       );

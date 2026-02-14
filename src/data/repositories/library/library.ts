@@ -7,6 +7,7 @@ import {
 } from "@/data/types/db/library";
 import {
    LibraryEntryCreateArgs,
+   LibraryEntryCreateInput,
    LibraryEntryCreateManyArgs,
    LibraryEntryCreateManyInput,
    LibraryEntryWhereUniqueInput,
@@ -65,6 +66,26 @@ export class LibraryRepository {
       });
    }
 
+   async pCreateLibraryEntry(userId: string, templateDescriptorId: string) {
+      const input: LibraryEntryCreateInput = {
+         templateDescriptor: {
+            connect: {
+               id: templateDescriptorId,
+            },
+         },
+         user: {
+            connect: {
+               id: userId,
+            },
+         },
+      };
+      const args: LibraryEntryCreateArgs = {
+         data: input,
+      };
+
+      return await this.prisma.libraryEntry.create(args);
+   }
+
    async pCreateLibraryEntries(
       userId: string,
       templateDescriptorIds: string[]
@@ -89,28 +110,6 @@ export class LibraryRepository {
       return await this.prisma.libraryEntry.deleteMany({
          where: { userId },
       });
-   }
-
-   async pCreateCustomLibraryEntry(
-      userId: string,
-      templateDescriptorId: string
-   ) {
-      const args: LibraryEntryCreateArgs = {
-         data: {
-            templateDescriptor: {
-               connect: {
-                  id: templateDescriptorId,
-               },
-            },
-            user: {
-               connect: {
-                  id: userId,
-               },
-            },
-         },
-      };
-
-      return await this.prisma.libraryEntry.create(args);
    }
 
    private getLibraryEntryParamsToWhereFindUniqueInput = (
