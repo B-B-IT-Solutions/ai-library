@@ -44,15 +44,14 @@ export const getLibraryEntry = async (
 
 export const createCustomTemplate = async (
    data: DPromptTemplateUpdate
-): Promise<ActionResult<string>> => {
+): Promise<ActionResult> => {
    try {
       const user = await requireUser();
       const service = getLibrarySevice();
-      const entryId = await service.createCustomTemplate(data, user.id);
+      await service.createLibraryEntry(data, user.id);
       return {
          success: true,
          message: "Vorlage erfolgreich erstellt",
-         data: entryId,
       };
    } catch (error) {
       console.error(formatError(error));

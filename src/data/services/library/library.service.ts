@@ -59,6 +59,13 @@ export class LibraryService {
       return null;
    }
 
+   async createLibraryEntry(data: DPromptTemplateUpdate, userId: string) {
+      const ptd =
+         await this.promptTemplateService.createPromptTemplateDescriptor(data);
+
+      await this.libraryRepository.pCreateLibraryEntry(userId, ptd.id);
+   }
+
    async createLibraryEntries(order: OrderProducts): Promise<void> {
       for (const item of order.items) {
          const { product } = item;
@@ -76,20 +83,6 @@ export class LibraryService {
 
    async deleteLibraryEntries(userId: string) {
       await this.libraryRepository.pDeleteLibraryEntries(userId);
-   }
-
-   async createCustomTemplate(
-      data: DPromptTemplateUpdate,
-      userId: string
-   ): Promise<string> {
-      const ptd =
-         await this.promptTemplateService.createPromptTemplateDescriptor(data);
-
-      const entry = await this.libraryRepository.pCreateLibraryEntry(
-         userId,
-         ptd.id
-      );
-      return entry.id;
    }
 
    async composePromptFromTemplate(

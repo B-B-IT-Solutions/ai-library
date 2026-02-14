@@ -1,7 +1,7 @@
 jest.mock("@/data/repositories/library");
 jest.mock("@/data/services/prompt");
 
-import { ptestData } from "@tests";
+import { dtestData, ptestData } from "@tests";
 import { forEach, map } from "es-toolkit/compat";
 import { DeepMockProxy } from "jest-mock-extended";
 
@@ -128,6 +128,35 @@ describe("getLibraryEntry tests", () => {
       expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
          expectedGetEntryPayload
+      );
+   });
+});
+
+describe("createLibraryEntry tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("createLibraryEntry - entry created - test", async () => {
+      const userId = "user-id-1";
+      const updateData = dtestData.dPromptTemplateUpdate();
+      const templateDescriptor = dtestData.dPromptTemplateDescriptor();
+      promptTemplateServiceMock.createPromptTemplateDescriptor.mockResolvedValue(
+         templateDescriptor
+      );
+
+      await libraryService.createLibraryEntry(updateData, userId);
+
+      expect(
+         promptTemplateServiceMock.createPromptTemplateDescriptor
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateServiceMock.createPromptTemplateDescriptor
+      ).toHaveBeenCalledWith(updateData);
+      expect(libraryRepoMock.pCreateLibraryEntry).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pCreateLibraryEntry).toHaveBeenCalledWith(
+         userId,
+         templateDescriptor.id
       );
    });
 });
