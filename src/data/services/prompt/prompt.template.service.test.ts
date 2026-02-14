@@ -1,7 +1,7 @@
 jest.mock("@/data/repositories/prompt/prompt.template");
 jest.mock("./template.engine");
 
-import { ptestData } from "@tests";
+import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
@@ -204,6 +204,31 @@ describe("getPromptTemplateCategories tests", () => {
       expect(
          promptTemplateRepoMock.pGetPromptTemplateCategories
       ).toHaveBeenCalledTimes(1);
+   });
+});
+
+describe("createPromptTemplateDescriptor tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("createPromptTemplateDescriptor - descriptor created - test", async () => {
+      const newData = dtestData.dPromptTemplateFieldUpdate();
+      const newDescriptor = dtestData.dPromptTemplateDescriptor();
+      promptTemplateRepoMock.pCreatePromptTemplateDescriptor.mockResolvedValue(
+         newDescriptor
+      );
+
+      const result =
+         await promptTemplateService.createPromptTemplateDescriptor(newData);
+
+      expect(result).toEqual(newDescriptor);
+      expect(
+         promptTemplateRepoMock.pCreatePromptTemplateDescriptor
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pCreatePromptTemplateDescriptor
+      ).toHaveBeenCalledWith(newData);
    });
 });
 
