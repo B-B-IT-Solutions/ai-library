@@ -1,5 +1,6 @@
 "use client";
 
+import { HTMLInputTypeAttribute } from "react";
 import { Control, FieldValues, Path } from "react-hook-form";
 
 import {
@@ -19,6 +20,7 @@ type Props<T extends FieldValues> = {
    description?: string | null;
    required?: boolean;
    message?: string;
+   type?: HTMLInputTypeAttribute;
    control: Control<T>;
 };
 
@@ -29,6 +31,7 @@ export const FormInput = <T extends FieldValues>({
    description,
    required,
    message,
+   type,
    control,
 }: Props<T>) => {
    const renderlabel = () => {
@@ -60,6 +63,7 @@ export const FormInput = <T extends FieldValues>({
                <FormControl>
                   <Input
                      {...field}
+                     type={type}
                      placeholder={placeholder}
                      data-testid="input"
                   />
