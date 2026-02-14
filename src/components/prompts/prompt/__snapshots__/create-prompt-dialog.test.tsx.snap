@@ -85,7 +85,7 @@ exports[`CreatePromptDialog rendering tests CreatePromptDialog - mode fields-for
               <div
                 class="grid gap-2"
                 data-slot="form-item"
-                data-testid="field-0-field"
+                data-testid="field 0"
               >
                 <label
                   class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
@@ -178,7 +178,7 @@ exports[`CreatePromptDialog rendering tests CreatePromptDialog - mode fields-for
               <div
                 class="grid gap-2"
                 data-slot="form-item"
-                data-testid="field-1-field"
+                data-testid="field 1"
               >
                 <label
                   class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
@@ -271,7 +271,7 @@ exports[`CreatePromptDialog rendering tests CreatePromptDialog - mode fields-for
               <div
                 class="grid gap-2"
                 data-slot="form-item"
-                data-testid="field-2-field"
+                data-testid="field 2"
               >
                 <label
                   class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
