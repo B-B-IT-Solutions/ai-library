@@ -1,11 +1,18 @@
-import { isEmpty } from "es-toolkit/compat";
+import { isEmpty, map } from "es-toolkit/compat";
 
+import { toDPromptTemplateDescriptor } from "@/data/services/prompt/prompt.template.mapper";
 import { DbClient } from "@/data/types/db/common";
 import {
+   PromptTemplateDescriptorWithCategories,
    PromptTemplateDescriptorWithTemplate,
    PromptTemplateWithFields,
 } from "@/data/types/db/prompt.template";
-import { Prisma, PromptTemplateDescriptor } from "@/generated/prisma/client";
+import {
+   DPromptTemplateDescriptor,
+   DPromptTemplateFieldUpdate,
+   DPromptTemplateUpdate,
+} from "@/data/types/domain/prompt.template";
+import { Prisma } from "@/generated/prisma/client";
 import {
    PromptTemplateDescriptorCreateArgs,
    PromptTemplateDescriptorCreateInput,
@@ -73,12 +80,57 @@ export class PromptTemplateRepository {
    }
 
    async pCreatePromptTemplateDescriptor(
-      data: PromptTemplateDescriptorCreateInput
-   ): Promise<PromptTemplateDescriptor> {
-      const args: PromptTemplateDescriptorCreateArgs = {
-         data,
+      data: DPromptTemplateUpdate
+   ): Promise<DPromptTemplateDescriptor> {
+      const input: PromptTemplateDescriptorCreateInput = {
+         title: data.title,
+         description: data.description,
+         recommendedModel: data.recommendedModel,
+         categories: {
+            connectOrCreate: map(data.categories, (categoryName: string) => ({
+               where: {
+                  name: categoryName,
+               },
+               create: {
+                  name: categoryName,
+               },
+            })),
+         },
+         promptTemplate: {
+            create: {
+               content: data.content,
+               detailedDescription: data.detailedDescription,
+               fields: {
+                  create: map(
+                     data.fields,
+                     (field: DPromptTemplateFieldUpdate) => ({
+                        name: field.name,
+                        label: field.label,
+                        description: field.description,
+                        type: field.type,
+                        required: field.required,
+                        order: field.order,
+                        defaultValue: field.defaultValue,
+                        options: field.options
+                           ? JSON.stringify(field.options)
+                           : undefined,
+                     })
+                  ),
+               },
+            },
+         },
       };
-      return await this.prisma.promptTemplateDescriptor.create(args);
+
+      const args: PromptTemplateDescriptorCreateArgs = {
+         data: input,
+         include: {
+            categories: true,
+         },
+      };
+      const newEntry = await this.prisma.promptTemplateDescriptor.create(args);
+      return toDPromptTemplateDescriptor(
+         newEntry as PromptTemplateDescriptorWithCategories
+      );
    }
 
    private resolveGetPromptTemplateDescriptorsWhereInput(

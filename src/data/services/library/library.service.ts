@@ -82,14 +82,13 @@ export class LibraryService {
       data: DPromptTemplateUpdate,
       userId: string
    ): Promise<string> {
-      const templateDescriptorId =
+      const ptd =
          await this.promptTemplateService.createPromptTemplateDescriptor(data);
 
       const entry = await this.libraryRepository.pCreateCustomLibraryEntry(
          userId,
-         templateDescriptorId
+         ptd.id
       );
-
       return entry.id;
    }
 
