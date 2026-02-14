@@ -39,48 +39,45 @@ export const FormDynamicValues = <T extends FieldValues>({
    watch,
    setValue,
 }: Props<T>) => {
-   const categories = watch(name) as PathValue<T, typeof name>;
-   const categoryInput = watch(nameInput) as PathValue<T, typeof nameInput>;
+   const values = watch(name) as PathValue<T, typeof name>;
+   const valueInput = watch(nameInput) as PathValue<T, typeof nameInput>;
 
-   const handleAddCategory = () => {
-      const newCategory = trim(categoryInput);
-      if (newCategory && !includes(categories, newCategory)) {
-         const newCategories = [...categories, newCategory] as PathValue<
-            T,
-            typeof name
-         >;
+   const handleAddValue = () => {
+      const newValue = trim(valueInput);
+      if (newValue && !includes(values, newValue)) {
+         const newValues = [...values, newValue] as PathValue<T, typeof name>;
          const newInput = "" as PathValue<T, typeof nameInput>;
 
-         setValue(name, newCategories);
+         setValue(name, newValues);
          setValue(nameInput, newInput);
       }
    };
 
-   const handleRemoveCategory = (category: string) => {
-      const newCategories = filter(
-         categories,
+   const handleRemoveValue = (category: string) => {
+      const newValues = filter(
+         values,
          (c: string) => c !== category
       ) as PathValue<T, typeof name>;
 
-      setValue(name, newCategories);
+      setValue(name, newValues);
    };
 
    const renderValues = () => {
-      if (!isEmpty(categories)) {
+      if (!isEmpty(values)) {
          return (
             <div
                className="mt-2 flex flex-wrap gap-2"
                data-testid="current-values"
             >
-               {map(categories, (category: string) => (
+               {map(values, (value: string, idx: number) => (
                   <div
-                     key={category}
+                     key={idx}
                      className="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
                   >
-                     <span className="text-sm">{category}</span>
+                     <span className="text-sm">{value}</span>
                      <button
                         type="button"
-                        onClick={() => handleRemoveCategory(category)}
+                        onClick={() => handleRemoveValue(value)}
                         className="cursor-pointer text-slate-500 hover:text-slate-700"
                         data-testid="remove-btn"
                      >
@@ -109,7 +106,7 @@ export const FormDynamicValues = <T extends FieldValues>({
                         onKeyDown={(e) => {
                            if (e.key === "Enter") {
                               e.preventDefault();
-                              handleAddCategory();
+                              handleAddValue();
                            }
                         }}
                         data-testid="input"
@@ -117,7 +114,7 @@ export const FormDynamicValues = <T extends FieldValues>({
                   </FormControl>
                   <Button
                      type="button"
-                     onClick={handleAddCategory}
+                     onClick={handleAddValue}
                      variant="outline"
                      className="cursor-pointer"
                      data-testid="add-btn"
