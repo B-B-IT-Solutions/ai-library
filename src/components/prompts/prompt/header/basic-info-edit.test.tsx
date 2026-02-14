@@ -105,19 +105,6 @@ describe("BasicInfoEdit functionality tests", () => {
       jest.clearAllMocks();
    });
 
-   it("BasicInfoEdit - title edit - test", async () => {
-      render(<TestWrapper />);
-
-      await waitFor(() => {
-         assertRendered();
-      });
-
-      const input = screen.getByTestId("title-input");
-      await userEvent.type(input, "My Test Title");
-
-      expect(input).toHaveValue("My Test Title");
-   });
-
    it("BasicInfoEdit - recommended model selected - test", async () => {
       render(<TestWrapper />);
 

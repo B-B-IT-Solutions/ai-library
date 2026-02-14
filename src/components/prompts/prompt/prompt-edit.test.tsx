@@ -1,7 +1,7 @@
 jest.mock("@/data/actions/prompt");
 jest.mock("sonner");
 
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData } from "@tests";
 import { cloneDeep } from "es-toolkit";
@@ -139,9 +139,10 @@ describe("PromptEdit functionality tests", () => {
          expect(mockCreatePrompt).not.toHaveBeenCalled();
       });
 
-      const title = screen.getByTestId("title-input");
-      await userEvent.type(title, "Test Title");
-      expect(title).toHaveValue("Test Title");
+      const title = screen.getByTestId("title");
+      const titleInput = within(title).getByTestId("input");
+      await userEvent.type(titleInput, "Test Title");
+      expect(titleInput).toHaveValue("Test Title");
 
       await userEvent.click(createBtn);
 

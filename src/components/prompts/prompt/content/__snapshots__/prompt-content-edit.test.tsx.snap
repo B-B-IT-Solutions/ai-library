@@ -8,7 +8,7 @@ exports[`PromptContentEdit rendering tests PromptContentEdit - isEdit false - te
   >
     <div>
       <h3
-        class="text-lg font-semibold text-slate-900 flex items-center gap-2"
+        class="flex items-center gap-2 text-lg font-semibold text-slate-900"
       >
         <svg
           aria-hidden="true"
@@ -577,7 +577,7 @@ exports[`PromptContentEdit rendering tests PromptContentEdit - isEdit true - tes
   >
     <div>
       <h3
-        class="text-lg font-semibold text-slate-900 flex items-center gap-2"
+        class="flex items-center gap-2 text-lg font-semibold text-slate-900"
       >
         <svg
           aria-hidden="true"
@@ -611,7 +611,7 @@ exports[`PromptContentEdit rendering tests PromptContentEdit - isEdit true - tes
         Prompt
       </h3>
       <p
-        class="text-sm text-slate-500 mt-1"
+        class="mt-1 text-sm text-slate-500"
         data-testid="version-notice"
       >
         Verwenden Sie "Als neue Version speichern" um einen Versions-Snapshot zu erstellen.

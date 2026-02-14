@@ -27,6 +27,7 @@ import {
    PopoverContent,
    PopoverTrigger,
 } from "@/components/shadcn/popover";
+import { FormInput } from "@/components/shared/widgets";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 
 const AI_MODELS = [
@@ -65,26 +66,13 @@ export const BasicInfoEdit: FC<BasicInfoEditProps> = ({
       }
    }, [categories.length, addCategory]);
 
-   const titel = () => {
+   const title = () => {
       return (
-         <FormField
-            control={control}
+         <FormInput<DPromptUpdate>
             name="title"
-            render={({ field }) => (
-               <FormItem data-testid="title">
-                  <FormLabel className="text-sm font-medium text-slate-700">
-                     Titel
-                  </FormLabel>
-                  <FormControl>
-                     <Input
-                        {...field}
-                        placeholder="Prompt-Titel eingeben..."
-                        data-testid="title-input"
-                     />
-                  </FormControl>
-                  <FormMessage data-testid="title-form-message" />
-               </FormItem>
-            )}
+            label="Titel"
+            placeholder="Prompt-Titel eingeben..."
+            control={control}
          />
       );
    };
@@ -227,7 +215,7 @@ export const BasicInfoEdit: FC<BasicInfoEditProps> = ({
             Allgemeine Informationen
          </h3>
 
-         {titel()}
+         {title()}
          {recommendedModel()}
          {renderCategories()}
       </section>

@@ -34,7 +34,11 @@ export const FormInput = <T extends FieldValues>({
             <FormItem data-testid={name}>
                <FormLabel>{label}</FormLabel>
                <FormControl>
-                  <Input {...field} placeholder={placeholder} />
+                  <Input
+                     {...field}
+                     placeholder={placeholder}
+                     data-testid="input"
+                  />
                </FormControl>
                <FormMessage>
                   {message && <span className="text-slate-500">{message}</span>}

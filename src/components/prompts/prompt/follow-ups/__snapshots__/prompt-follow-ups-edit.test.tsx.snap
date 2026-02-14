@@ -8,7 +8,7 @@ exports[`PromptFollowUpsEdit rendering tests PromptFollowUpsEdit - empty array -
   >
     <div>
       <h3
-        class="text-lg font-semibold text-slate-900 flex items-center gap-2"
+        class="flex items-center gap-2 text-lg font-semibold text-slate-900"
       >
         <svg
           aria-hidden="true"
@@ -36,7 +36,7 @@ exports[`PromptFollowUpsEdit rendering tests PromptFollowUpsEdit - empty array -
         Folge-Prompts
       </h3>
       <p
-        class="text-sm text-slate-500 mt-1"
+        class="mt-1 text-sm text-slate-500"
       >
         Vorgeschlagene Prompts, die du als nächste stellen könntest.
       </p>
@@ -50,7 +50,7 @@ exports[`PromptFollowUpsEdit rendering tests PromptFollowUpsEdit - empty array -
         data-testid="follow-up-prompt-edit"
       >
         <div
-          class="flex gap-2 items-start"
+          class="flex items-start gap-2"
         >
           <textarea
             aria-describedby="_r_0_-form-item-description"
@@ -63,7 +63,7 @@ exports[`PromptFollowUpsEdit rendering tests PromptFollowUpsEdit - empty array -
             style="min-height: 66px; max-height: 9007199254740991px; height: 6px;"
           />
           <button
-            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:border-red-300 hover:bg-red-50 hover:text-red-600"
             data-slot="button"
             data-testid="remove-btn"
             type="button"
@@ -136,7 +136,7 @@ exports[`PromptFollowUpsEdit rendering tests PromptFollowUpsEdit - with prompts 
   >
     <div>
       <h3
-        class="text-lg font-semibold text-slate-900 flex items-center gap-2"
+        class="flex items-center gap-2 text-lg font-semibold text-slate-900"
       >
         <svg
           aria-hidden="true"
@@ -164,7 +164,7 @@ exports[`PromptFollowUpsEdit rendering tests PromptFollowUpsEdit - with prompts 
         Folge-Prompts
       </h3>
       <p
-        class="text-sm text-slate-500 mt-1"
+        class="mt-1 text-sm text-slate-500"
       >
         Vorgeschlagene Prompts, die du als nächste stellen könntest.
       </p>
@@ -178,7 +178,7 @@ exports[`PromptFollowUpsEdit rendering tests PromptFollowUpsEdit - with prompts 
         data-testid="follow-up-prompt-edit"
       >
         <div
-          class="flex gap-2 items-start"
+          class="flex items-start gap-2"
         >
           <textarea
             aria-describedby="_r_1_-form-item-description"
@@ -193,7 +193,7 @@ exports[`PromptFollowUpsEdit rendering tests PromptFollowUpsEdit - with prompts 
             Prompt 1
           </textarea>
           <button
-            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:border-red-300 hover:bg-red-50 hover:text-red-600"
             data-slot="button"
             data-testid="remove-btn"
             type="button"
@@ -227,7 +227,7 @@ exports[`PromptFollowUpsEdit rendering tests PromptFollowUpsEdit - with prompts 
         data-testid="follow-up-prompt-edit"
       >
         <div
-          class="flex gap-2 items-start"
+          class="flex items-start gap-2"
         >
           <textarea
             aria-describedby="_r_2_-form-item-description"
@@ -242,7 +242,7 @@ exports[`PromptFollowUpsEdit rendering tests PromptFollowUpsEdit - with prompts 
             Prompt 2
           </textarea>
           <button
-            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:border-red-300 hover:bg-red-50 hover:text-red-600"
             data-slot="button"
             data-testid="remove-btn"
             type="button"

@@ -37,7 +37,12 @@ export const FormTextArea = <T extends FieldValues>({
             <FormItem className={cn(className)} data-testid={name}>
                <FormLabel>{label}</FormLabel>
                <FormControl>
-                  <Textarea {...field} placeholder={placeholder} rows={rows} />
+                  <Textarea
+                     {...field}
+                     placeholder={placeholder}
+                     rows={rows}
+                     data-testid="textarea"
+                  />
                </FormControl>
                <FormMessage />
             </FormItem>

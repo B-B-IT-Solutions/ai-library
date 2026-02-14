@@ -97,7 +97,7 @@ exports[`EditPromptPage rendering tests EditPromptPage - prompt found - rendered
                   data-testid="title"
                 >
                   <label
-                    class="flex items-center gap-2 select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive text-sm font-medium text-slate-700"
+                    class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
                     for="_r_0_-form-item"
@@ -109,7 +109,7 @@ exports[`EditPromptPage rendering tests EditPromptPage - prompt found - rendered
                     aria-invalid="false"
                     class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                     data-slot="form-control"
-                    data-testid="title-input"
+                    data-testid="input"
                     id="_r_0_-form-item"
                     name="title"
                     placeholder="Prompt-Titel eingeben..."
@@ -732,7 +732,7 @@ exports[`EditPromptPage rendering tests EditPromptPage - prompt found - rendered
               >
                 <div>
                   <h3
-                    class="text-lg font-semibold text-slate-900 flex items-center gap-2"
+                    class="flex items-center gap-2 text-lg font-semibold text-slate-900"
                   >
                     <svg
                       aria-hidden="true"
@@ -766,7 +766,7 @@ exports[`EditPromptPage rendering tests EditPromptPage - prompt found - rendered
                     Prompt
                   </h3>
                   <p
-                    class="text-sm text-slate-500 mt-1"
+                    class="mt-1 text-sm text-slate-500"
                     data-testid="version-notice"
                   >
                     Verwenden Sie "Als neue Version speichern" um einen Versions-Snapshot zu erstellen.
@@ -789,7 +789,7 @@ exports[`EditPromptPage rendering tests EditPromptPage - prompt found - rendered
               >
                 <div>
                   <h3
-                    class="text-lg font-semibold text-slate-900 flex items-center gap-2"
+                    class="flex items-center gap-2 text-lg font-semibold text-slate-900"
                   >
                     <svg
                       aria-hidden="true"
@@ -817,7 +817,7 @@ exports[`EditPromptPage rendering tests EditPromptPage - prompt found - rendered
                     Folge-Prompts
                   </h3>
                   <p
-                    class="text-sm text-slate-500 mt-1"
+                    class="mt-1 text-sm text-slate-500"
                   >
                     Vorgeschlagene Prompts, die du als nächste stellen könntest.
                   </p>
@@ -831,7 +831,7 @@ exports[`EditPromptPage rendering tests EditPromptPage - prompt found - rendered
                     data-testid="follow-up-prompt-edit"
                   >
                     <div
-                      class="flex gap-2 items-start"
+                      class="flex items-start gap-2"
                     >
                       <textarea
                         aria-describedby="_r_i_-form-item-description"
@@ -846,7 +846,7 @@ exports[`EditPromptPage rendering tests EditPromptPage - prompt found - rendered
                         content 0
                       </textarea>
                       <button
-                        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+                        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:border-red-300 hover:bg-red-50 hover:text-red-600"
                         data-slot="button"
                         data-testid="remove-btn"
                         type="button"
@@ -880,7 +880,7 @@ exports[`EditPromptPage rendering tests EditPromptPage - prompt found - rendered
                     data-testid="follow-up-prompt-edit"
                   >
                     <div
-                      class="flex gap-2 items-start"
+                      class="flex items-start gap-2"
                     >
                       <textarea
                         aria-describedby="_r_j_-form-item-description"
@@ -895,7 +895,7 @@ exports[`EditPromptPage rendering tests EditPromptPage - prompt found - rendered
                         content 1
                       </textarea>
                       <button
-                        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+                        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:border-red-300 hover:bg-red-50 hover:text-red-600"
                         data-slot="button"
                         data-testid="remove-btn"
                         type="button"
@@ -929,7 +929,7 @@ exports[`EditPromptPage rendering tests EditPromptPage - prompt found - rendered
                     data-testid="follow-up-prompt-edit"
                   >
                     <div
-                      class="flex gap-2 items-start"
+                      class="flex items-start gap-2"
                     >
                       <textarea
                         aria-describedby="_r_k_-form-item-description"
@@ -944,7 +944,7 @@ exports[`EditPromptPage rendering tests EditPromptPage - prompt found - rendered
                         content 2
                       </textarea>
                       <button
-                        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+                        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:border-red-300 hover:bg-red-50 hover:text-red-600"
                         data-slot="button"
                         data-testid="remove-btn"
                         type="button"
