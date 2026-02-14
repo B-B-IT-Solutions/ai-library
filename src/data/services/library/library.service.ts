@@ -79,25 +79,16 @@ export class LibraryService {
    }
 
    async createCustomTemplate(
-      input: DPromptTemplateUpdate,
+      data: DPromptTemplateUpdate,
       userId: string
    ): Promise<string> {
-      const data = {
+      const templateDescriptorId =
+         await this.promptTemplateService.createPromptTemplateDescriptor(data);
+
+      const entry = await this.libraryRepository.pCreateCustomLibraryEntry(
          userId,
-         promptTemplate: {
-            content: input.content,
-            detailedDescription: input.detailedDescription,
-            fields: input.fields,
-         },
-         templateDescriptor: {
-            title: input.title,
-            description: input.description,
-            recommendedModel: input.recommendedModel,
-            categories: input.categories,
-         },
-      };
-      const entry =
-         await this.libraryRepository.pCreateCustomLibraryEntry(data);
+         templateDescriptorId
+      );
 
       return entry.id;
    }

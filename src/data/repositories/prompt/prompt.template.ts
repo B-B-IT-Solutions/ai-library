@@ -5,8 +5,12 @@ import {
    PromptTemplateDescriptorWithTemplate,
    PromptTemplateWithFields,
 } from "@/data/types/db/prompt.template";
-import { Prisma } from "@/generated/prisma/client";
-import { PromptTemplateDescriptorWhereInput } from "@/generated/prisma/models";
+import { Prisma, PromptTemplateDescriptor } from "@/generated/prisma/client";
+import {
+   PromptTemplateDescriptorCreateArgs,
+   PromptTemplateDescriptorCreateInput,
+   PromptTemplateDescriptorWhereInput,
+} from "@/generated/prisma/models";
 
 type PGetPromptTemplateDescriptorsParams = {
    search?: string;
@@ -66,6 +70,15 @@ export class PromptTemplateRepository {
             name: true,
          },
       });
+   }
+
+   async pCreatePromptTemplateDescriptor(
+      data: PromptTemplateDescriptorCreateInput
+   ): Promise<PromptTemplateDescriptor> {
+      const args: PromptTemplateDescriptorCreateArgs = {
+         data,
+      };
+      return await this.prisma.promptTemplateDescriptor.create(args);
    }
 
    private resolveGetPromptTemplateDescriptorsWhereInput(

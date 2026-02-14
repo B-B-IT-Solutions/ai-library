@@ -1,3 +1,5 @@
+import { map } from "es-toolkit/compat";
+
 import { PromptTemplateRepository } from "@/data/repositories/prompt/prompt.template";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
@@ -5,8 +7,10 @@ import {
    DPromptTemplateCategory,
    DPromptTemplateDescriptor,
    DPromptTemplateDescriptorWithTemplate,
+   DPromptTemplateFieldUpdate,
    DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
+import { PromptTemplateDescriptorCreateInput } from "@/generated/prisma/models";
 
 import {
    toDPromptTemplate,
@@ -55,6 +59,49 @@ export class PromptTemplateService {
 
    async getPromptTemplateCategories(): Promise<DPromptTemplateCategory[]> {
       return await this.repository.pGetPromptTemplateCategories();
+   }
+
+   async createPromptTemplateDescriptor(data: DPromptTemplateFieldUpdate) {
+      const input: PromptTemplateDescriptorCreateInput = {
+         title: data.title,
+         description: data.description,
+         recommendedModel: data.recommendedModel,
+         categories: {
+            connectOrCreate: map(data.categories, (categoryName: string) => ({
+               where: {
+                  name: categoryName,
+               },
+               create: {
+                  name: categoryName,
+               },
+            })),
+         },
+         promptTemplate: {
+            create: {
+               content: data.content,
+               detailedDescription: data.detailedDescription,
+               fields: {
+                  create: map(
+                     data.fields,
+                     (field: DPromptTemplateFieldUpdate) => ({
+                        name: field.name,
+                        label: field.label,
+                        description: field.description,
+                        type: field.type,
+                        required: field.required,
+                        order: field.order,
+                        defaultValue: field.defaultValue,
+                        options: field.options
+                           ? JSON.stringify(field.options)
+                           : undefined,
+                     })
+                  ),
+               },
+            },
+         },
+      };
+      const ptd = await this.repository.pCreatePromptTemplateDescriptor(input);
+      return ptd.id;
    }
 
    async composePromptFromTemplate(
