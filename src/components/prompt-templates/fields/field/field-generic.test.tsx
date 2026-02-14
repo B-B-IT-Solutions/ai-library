@@ -40,7 +40,7 @@ const baseField: DPromptTemplateField = {
 };
 
 const assertRendered = () => {
-   const field = screen.getByTestId("name-1-field");
+   const field = screen.getByTestId("name-1");
    const label = screen.getByText("Test Input");
 
    assertInDocument(field);
@@ -48,7 +48,7 @@ const assertRendered = () => {
 };
 
 const assertType = (type: string) => {
-   const input = screen.getByTestId("field-input");
+   const input = screen.getByTestId("input");
    assertHasAttributeWithValue(input, "type", type);
 };
 
