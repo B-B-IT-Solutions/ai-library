@@ -4,13 +4,7 @@ import { FC } from "react";
 import { FileText } from "lucide-react";
 import { Control } from "react-hook-form";
 
-import {
-   FormControl,
-   FormField,
-   FormItem,
-   FormMessage,
-} from "@/components/shadcn/form";
-import { MDEditor } from "@/components/shared/md";
+import { FormMDEditor } from "@/components/shared/widgets";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 
 type PromptContentEditProps = {
@@ -22,6 +16,15 @@ export const PromptContentEdit: FC<PromptContentEditProps> = ({
    control,
    isEdit,
 }) => {
+   const content = () => {
+      return (
+         <FormMDEditor<DPromptUpdate>
+            name="content"
+            placeholder="Prompt-Inhalt eingeben..."
+            control={control}
+         />
+      );
+   };
    return (
       <section className="space-y-4" data-testid="prompt-content-edit">
          <div>
@@ -39,25 +42,7 @@ export const PromptContentEdit: FC<PromptContentEditProps> = ({
                </p>
             )}
          </div>
-
-         <FormField
-            control={control}
-            name="content"
-            render={({ field }) => (
-               <FormItem>
-                  <FormControl>
-                     <MDEditor
-                        value={field.value}
-                        onChange={field.onChange}
-                        placeholder="Prompt-Inhalt eingeben..."
-                        minHeight={200}
-                        data-testid="prompt-editor"
-                     />
-                  </FormControl>
-                  <FormMessage />
-               </FormItem>
-            )}
-         />
+         {content()}
       </section>
    );
 };

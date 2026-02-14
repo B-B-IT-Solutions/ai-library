@@ -665,10 +665,11 @@ exports[`PromptEdit rendering tests PromptEdit - create mode - rendered test 1`]
           <div
             class="grid gap-2"
             data-slot="form-item"
+            data-testid="content"
           >
             <div
               class="border border-slate-200 rounded-lg overflow-hidden bg-white"
-              data-testid="prompt-editor"
+              data-testid="tiptap-editor"
             >
               <div
                 class="flex flex-wrap gap-1 p-2 border-b border-slate-200 bg-slate-50"
@@ -2115,10 +2116,11 @@ exports[`PromptEdit rendering tests PromptEdit - edit mode - rendered test 1`] =
           <div
             class="grid gap-2"
             data-slot="form-item"
+            data-testid="content"
           >
             <div
               class="border border-slate-200 rounded-lg overflow-hidden bg-white"
-              data-testid="prompt-editor"
+              data-testid="tiptap-editor"
             >
               <div
                 class="flex flex-wrap gap-1 p-2 border-b border-slate-200 bg-slate-50"

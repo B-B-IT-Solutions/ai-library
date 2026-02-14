@@ -775,6 +775,7 @@ exports[`EditPromptPage rendering tests EditPromptPage - prompt found - rendered
                 <div
                   class="grid gap-2"
                   data-slot="form-item"
+                  data-testid="content"
                 />
               </section>
               <div

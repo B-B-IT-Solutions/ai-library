@@ -26,11 +26,11 @@ const TestWrapper = ({ isEdit = false }: { isEdit?: boolean }) => {
 
 const assertRendered = () => {
    const contentEdit = screen.getByTestId("prompt-content-edit");
-   const editor = screen.getByTestId("prompt-editor");
+   const content = screen.getByTestId("content");
    const heading = screen.getByText("Prompt");
 
    assertInDocument(contentEdit);
-   assertInDocument(editor);
+   assertInDocument(content);
    assertInDocument(heading);
 };
 

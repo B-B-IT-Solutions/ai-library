@@ -733,6 +733,7 @@ exports[`CreatePromptPage rendering tests CreatePromptPage - prompt found -rende
                     <div
                       class="grid gap-2"
                       data-slot="form-item"
+                      data-testid="content"
                     />
                   </section>
                   <div
