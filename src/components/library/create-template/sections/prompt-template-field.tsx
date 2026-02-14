@@ -78,11 +78,10 @@ export const PromptTemplateField: FC<Props> = ({
    };
 
    const name = () => {
-      const fieldName = `fields.${index}.name`;
-      const value = watch(fieldName) || "feldname";
+      const value = watch(`fields.${index}.name`) || "feldname";
       return (
-         <FormInput
-            name={fieldName}
+         <FormInput<DPromptTemplateUpdate>
+            name={`fields.${index}.name`}
             label="Feldname"
             placeholder="z.B. thema"
             message={`Verwenden Sie diesen Namen als {{${value}}}`}
@@ -92,10 +91,9 @@ export const PromptTemplateField: FC<Props> = ({
    };
 
    const label = () => {
-      const name = `fields.${index}.label`;
       return (
-         <FormInput
-            name={name}
+         <FormInput<DPromptTemplateUpdate>
+            name={`fields.${index}.label`}
             label="Label"
             placeholder="z.B. Thema"
             control={control}
@@ -104,10 +102,9 @@ export const PromptTemplateField: FC<Props> = ({
    };
 
    const type = () => {
-      const name = `fields.${index}.type`;
       return (
-         <FormSelect
-            name={name}
+         <FormSelect<DPromptTemplateUpdate>
+            name={`fields.${index}.type`}
             label="Feldtyp"
             options={FIELD_TYPES}
             control={control}
@@ -116,10 +113,9 @@ export const PromptTemplateField: FC<Props> = ({
    };
 
    const defaultValue = () => {
-      const name = `fields.${index}.defaultValue`;
       return (
-         <FormInput
-            name={name}
+         <FormInput<DPromptTemplateUpdate>
+            name={`fields.${index}.defaultValue`}
             label="Standardwert"
             placeholder="Standardwert des Feldes"
             control={control}
@@ -128,10 +124,9 @@ export const PromptTemplateField: FC<Props> = ({
    };
 
    const description = () => {
-      const name = `fields.${index}.description`;
       return (
-         <FormTextArea
-            name={name}
+         <FormTextArea<DPromptTemplateUpdate>
+            name={`fields.${index}.description`}
             label="Beschreibung"
             placeholder="Beschreibung des Feldes"
             rows={2}
@@ -142,10 +137,9 @@ export const PromptTemplateField: FC<Props> = ({
    };
 
    const required = () => {
-      const name = `fields.${index}.required`;
       return (
-         <FormCheckBox
-            name={name}
+         <FormCheckBox<DPromptTemplateUpdate>
+            name={`fields.${index}.required`}
             label="Dieses Feld ist erforderlich"
             className="col-span-2"
             control={control}
