@@ -26,14 +26,14 @@ import { assertInDocument, assertNotInDocument } from "@tests";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
-import { createCustomTemplate } from "@/data/actions/library";
+import { createLibraryEntry } from "@/data/actions/library";
 import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 
 import { NewLibraryEntryForm } from "./new-library-entry-form";
 
-const createCustomTemplateMock = createCustomTemplate as jest.MockedFunction<
-   typeof createCustomTemplate
+const createLibraryEntryMock = createLibraryEntry as jest.MockedFunction<
+   typeof createLibraryEntry
 >;
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
@@ -220,12 +220,11 @@ describe("NewLibraryEntryForm functionality tests", () => {
    });
 
    it("NewLibraryEntryForm - create btn clicked  - success - test", async () => {
-      const result: ActionResult<string> = {
+      const result: ActionResult = {
          success: true,
          message: "Vorlage erfolgreich erstellt",
-         data: "test-id",
       };
-      createCustomTemplateMock.mockResolvedValue(result);
+      createLibraryEntryMock.mockResolvedValue(result);
 
       render(<NewLibraryEntryForm />);
 
@@ -234,7 +233,7 @@ describe("NewLibraryEntryForm functionality tests", () => {
       const createBtn = screen.getByTestId("create-btn");
       await userEvent.click(createBtn);
 
-      expect(createCustomTemplateMock).not.toHaveBeenCalled();
+      expect(createLibraryEntryMock).not.toHaveBeenCalled();
 
       // Fill in required fields
       const title = screen.getByTestId("title").querySelector("input")!;
@@ -266,8 +265,8 @@ describe("NewLibraryEntryForm functionality tests", () => {
       };
 
       await waitFor(() => {
-         expect(createCustomTemplateMock).toHaveBeenCalledTimes(1);
-         expect(createCustomTemplateMock).toHaveBeenCalledWith(expectedPayload);
+         expect(createLibraryEntryMock).toHaveBeenCalledTimes(1);
+         expect(createLibraryEntryMock).toHaveBeenCalledWith(expectedPayload);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
          expect(mockRouter.pathname).toEqual("/library");
@@ -275,11 +274,11 @@ describe("NewLibraryEntryForm functionality tests", () => {
    });
 
    it("NewLibraryEntryForm - create btn clicked  - failed - test", async () => {
-      const result: ActionResult<string> = {
+      const result: ActionResult = {
          success: false,
          message: "Vorlage erfolgreich erstellt",
       };
-      createCustomTemplateMock.mockResolvedValue(result);
+      createLibraryEntryMock.mockResolvedValue(result);
 
       render(<NewLibraryEntryForm />);
 
@@ -288,7 +287,7 @@ describe("NewLibraryEntryForm functionality tests", () => {
       const createBtn = screen.getByTestId("create-btn");
       await userEvent.click(createBtn);
 
-      expect(createCustomTemplateMock).not.toHaveBeenCalled();
+      expect(createLibraryEntryMock).not.toHaveBeenCalled();
 
       // Fill in required fields
       const title = screen.getByTestId("title").querySelector("input")!;
@@ -320,8 +319,8 @@ describe("NewLibraryEntryForm functionality tests", () => {
       };
 
       await waitFor(() => {
-         expect(createCustomTemplateMock).toHaveBeenCalledTimes(1);
-         expect(createCustomTemplateMock).toHaveBeenCalledWith(expectedPayload);
+         expect(createLibraryEntryMock).toHaveBeenCalledTimes(1);
+         expect(createLibraryEntryMock).toHaveBeenCalledWith(expectedPayload);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
          expect(mockRouter.pathname).toEqual("/");

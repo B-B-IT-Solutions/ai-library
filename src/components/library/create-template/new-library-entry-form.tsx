@@ -18,7 +18,7 @@ import {
 } from "@/components/shadcn/card";
 import { Form } from "@/components/shadcn/form";
 import { Separator } from "@/components/shadcn/separator";
-import { createCustomTemplate } from "@/data/actions/library";
+import { createLibraryEntry } from "@/data/actions/library";
 import {
    DPromptTemplateField,
    DPromptTemplateUpdate,
@@ -96,7 +96,7 @@ export const NewLibraryEntryForm: FC = () => {
    };
 
    const onSubmit: SubmitHandler<DPromptTemplateUpdate> = async (data) => {
-      const result = await createCustomTemplate({
+      const result = await createLibraryEntry({
          title: data.title,
          description: data.description,
          content: data.content,

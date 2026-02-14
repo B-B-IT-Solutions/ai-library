@@ -42,7 +42,7 @@ export const getLibraryEntry = async (
    }
 };
 
-export const createCustomTemplate = async (
+export const createLibraryEntry = async (
    data: DPromptTemplateUpdate
 ): Promise<ActionResult> => {
    try {

@@ -1,7 +1,7 @@
 export {
    getLibraryEntries,
    getLibraryEntry,
+   createLibraryEntry,
    downloadTemplate,
    composePromptFromTemplate,
-   createCustomTemplate,
 } from "./library.actions";
