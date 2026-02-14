@@ -56,6 +56,8 @@ describe("FormInput rendering tests", () => {
             name={name}
             label="Label 1"
             placeholder="Placeholder 1"
+            description="Description 1"
+            required={true}
             message={undefined}
          />
       );
