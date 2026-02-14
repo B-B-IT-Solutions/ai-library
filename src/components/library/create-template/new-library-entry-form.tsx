@@ -169,7 +169,7 @@ export const NewLibraryEntryForm: FC = () => {
    };
 
    return (
-      <Card data-testid="create-template-form">
+      <Card data-testid="new-library-entry-form">
          <CardHeader className="border-b pb-6">
             <CardTitle className="text-2xl font-bold text-slate-900">
                Neue Vorlage erstellen
@@ -180,7 +180,6 @@ export const NewLibraryEntryForm: FC = () => {
                <form
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="space-y-6"
-                  data-testid="template-form"
                >
                   <BasicInfo
                      control={form.control}
