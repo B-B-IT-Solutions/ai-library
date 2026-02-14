@@ -15,14 +15,6 @@ exports[`FormSelect rendering tests FormSelect - options objects - test 1`] = `
     >
       Label 1
     </label>
-    <p
-      class="text-muted-foreground text-sm"
-      data-slot="form-description"
-      id="_r_5_-form-item-description"
-    >
-       
-      Placeholder 1
-    </p>
     <button
       aria-autocomplete="none"
       aria-controls="radix-_r_6_"
@@ -42,7 +34,9 @@ exports[`FormSelect rendering tests FormSelect - options objects - test 1`] = `
       <span
         data-slot="select-value"
         style="pointer-events: none;"
-      />
+      >
+        Placeholder 1
+      </span>
       <svg
         aria-hidden="true"
         class="lucide lucide-chevron-down size-4 opacity-50"
@@ -115,7 +109,9 @@ exports[`FormSelect rendering tests FormSelect - options strings - test 1`] = `
       <span
         data-slot="select-value"
         style="pointer-events: none;"
-      />
+      >
+        Placeholder 1
+      </span>
       <svg
         aria-hidden="true"
         class="lucide lucide-chevron-down size-4 opacity-50"

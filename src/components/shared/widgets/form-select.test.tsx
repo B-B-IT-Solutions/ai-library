@@ -57,6 +57,7 @@ describe("FormSelect rendering tests", () => {
          <TestWrapper
             name={name}
             label="Label 1"
+            placeholder="Placeholder 1"
             description="Description 1"
             required={true}
             options={options}
@@ -80,7 +81,7 @@ describe("FormSelect rendering tests", () => {
          <TestWrapper
             name={name}
             label="Label 1"
-            description="Placeholder 1"
+            placeholder="Placeholder 1"
             options={options}
          />
       );
