@@ -6,6 +6,8 @@ import {
    LibraryEntryWithPromptTemplateDescriptor,
 } from "@/data/types/db/library";
 import {
+   LibraryEntryCreateArgs,
+   LibraryEntryCreateInput,
    LibraryEntryCreateManyArgs,
    LibraryEntryCreateManyInput,
    LibraryEntryWhereUniqueInput,
@@ -62,6 +64,26 @@ export class LibraryRepository {
             },
          },
       });
+   }
+
+   async pCreateLibraryEntry(userId: string, templateDescriptorId: string) {
+      const input: LibraryEntryCreateInput = {
+         templateDescriptor: {
+            connect: {
+               id: templateDescriptorId,
+            },
+         },
+         user: {
+            connect: {
+               id: userId,
+            },
+         },
+      };
+      const args: LibraryEntryCreateArgs = {
+         data: input,
+      };
+
+      return await this.prisma.libraryEntry.create(args);
    }
 
    async pCreateLibraryEntries(

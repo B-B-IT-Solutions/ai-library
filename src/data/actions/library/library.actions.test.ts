@@ -11,6 +11,7 @@ import { ActionResult } from "@/data/types/utils";
 
 import {
    composePromptFromTemplate,
+   createLibraryEntry,
    downloadTemplate,
    getLibraryEntries,
    getLibraryEntry,
@@ -19,7 +20,8 @@ import {
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
 const sGetLibraryEntries = LibraryService.prototype.getLibraryEntries;
-const sgetLibraryEntry = LibraryService.prototype.getLibraryEntry;
+const sGetLibraryEntry = LibraryService.prototype.getLibraryEntry;
+const sCreateLibraryEntry = LibraryService.prototype.createLibraryEntry;
 const sComposePromptFromTemplate =
    LibraryService.prototype.composePromptFromTemplate;
 const sDownloadTemplate = LibraryService.prototype.downloadPromptTemplate;
@@ -27,8 +29,11 @@ const sDownloadTemplate = LibraryService.prototype.downloadPromptTemplate;
 const sGetLibraryEntriesMock = sGetLibraryEntries as jest.MockedFunction<
    typeof sGetLibraryEntries
 >;
-const sgetLibraryEntryMock = sgetLibraryEntry as jest.MockedFunction<
-   typeof sgetLibraryEntry
+const sGetLibraryEntryMock = sGetLibraryEntry as jest.MockedFunction<
+   typeof sGetLibraryEntry
+>;
+const sCreateLibraryEntryMock = sCreateLibraryEntry as jest.MockedFunction<
+   typeof sCreateLibraryEntry
 >;
 const sComposePromptFromTemplateMock =
    sComposePromptFromTemplate as jest.MockedFunction<
@@ -96,7 +101,7 @@ describe("getLibraryEntry tests", () => {
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sgetLibraryEntryMock).not.toHaveBeenCalled();
+      expect(sGetLibraryEntryMock).not.toHaveBeenCalled();
    });
 
    it("getLibraryEntry - error - test", async () => {
@@ -105,15 +110,15 @@ describe("getLibraryEntry tests", () => {
 
       const errorMessage = "db error";
       const error = new Error(errorMessage);
-      sgetLibraryEntryMock.mockRejectedValue(error);
+      sGetLibraryEntryMock.mockRejectedValue(error);
       const entryId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
 
       const result = await getLibraryEntry(entryId);
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sgetLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sgetLibraryEntryMock).toHaveBeenCalledWith(entryId, user.id);
+      expect(sGetLibraryEntryMock).toHaveBeenCalledTimes(1);
+      expect(sGetLibraryEntryMock).toHaveBeenCalledWith(entryId, user.id);
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(errorMessage);
    });
@@ -122,15 +127,15 @@ describe("getLibraryEntry tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      sgetLibraryEntryMock.mockResolvedValue(null);
+      sGetLibraryEntryMock.mockResolvedValue(null);
       const entryId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
 
       const result = await getLibraryEntry(entryId);
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sgetLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sgetLibraryEntryMock).toHaveBeenCalledWith(entryId, user.id);
+      expect(sGetLibraryEntryMock).toHaveBeenCalledTimes(1);
+      expect(sGetLibraryEntryMock).toHaveBeenCalledWith(entryId, user.id);
    });
 
    it("getLibraryEntry - entry retrieved - test", async () => {
@@ -138,15 +143,86 @@ describe("getLibraryEntry tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const entry = dtestData.dLibraryEntryWithPromptTemplate();
-      sgetLibraryEntryMock.mockResolvedValue(entry);
+      sGetLibraryEntryMock.mockResolvedValue(entry);
       const entryId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
 
       const result = await getLibraryEntry(entryId);
 
       expect(result).toEqual(entry);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sgetLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sgetLibraryEntryMock).toHaveBeenCalledWith(entryId, user.id);
+      expect(sGetLibraryEntryMock).toHaveBeenCalledTimes(1);
+      expect(sGetLibraryEntryMock).toHaveBeenCalledWith(entryId, user.id);
+   });
+});
+
+describe("createLibraryEntry tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("createLibraryEntry - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+      const updateData = dtestData.dPromptTemplateUpdate();
+
+      const result = await createLibraryEntry(updateData);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Vorlage konnte nicht erstellt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sCreateLibraryEntryMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("createLibraryEntry - error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const error = new Error("db error");
+      sCreateLibraryEntryMock.mockRejectedValue(error);
+      const updateData = dtestData.dPromptTemplateUpdate();
+
+      const result = await createLibraryEntry(updateData);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Vorlage konnte nicht erstellt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sCreateLibraryEntryMock).toHaveBeenCalledTimes(1);
+      expect(sCreateLibraryEntryMock).toHaveBeenCalledWith(updateData, user.id);
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("createLibraryEntry - entry created - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sCreateLibraryEntryMock.mockResolvedValue();
+
+      const updateData = dtestData.dPromptTemplateUpdate();
+
+      const result = await createLibraryEntry(updateData);
+
+      const expectedResult: ActionResult = {
+         success: true,
+         message: "Vorlage erfolgreich erstellt",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sCreateLibraryEntryMock).toHaveBeenCalledTimes(1);
+      expect(sCreateLibraryEntryMock).toHaveBeenCalledWith(updateData, user.id);
    });
 });
 

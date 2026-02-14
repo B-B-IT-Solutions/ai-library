@@ -11,7 +11,10 @@ import {
    DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
-import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
+import {
+   DPromptTemplateFieldValues,
+   DPromptTemplateUpdate,
+} from "@/data/types/domain/prompt.template";
 
 import {
    toDLibraryEntries,
@@ -54,6 +57,13 @@ export class LibraryService {
          return toDLibraryEntryWithPromptTemplate(entry);
       }
       return null;
+   }
+
+   async createLibraryEntry(data: DPromptTemplateUpdate, userId: string) {
+      const ptd =
+         await this.promptTemplateService.createPromptTemplateDescriptor(data);
+
+      await this.libraryRepository.pCreateLibraryEntry(userId, ptd.id);
    }
 
    async createLibraryEntries(order: OrderProducts): Promise<void> {

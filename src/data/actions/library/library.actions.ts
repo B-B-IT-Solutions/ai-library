@@ -12,7 +12,10 @@ import {
    DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
-import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
+import {
+   DPromptTemplateFieldValues,
+   DPromptTemplateUpdate,
+} from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 
 export const getLibraryEntries = async (): Promise<DLibraryEntry[]> => {
@@ -36,6 +39,26 @@ export const getLibraryEntry = async (
    } catch (error) {
       console.error(formatError(error));
       return null;
+   }
+};
+
+export const createLibraryEntry = async (
+   data: DPromptTemplateUpdate
+): Promise<ActionResult> => {
+   try {
+      const user = await requireUser();
+      const service = getLibrarySevice();
+      await service.createLibraryEntry(data, user.id);
+      return {
+         success: true,
+         message: "Vorlage erfolgreich erstellt",
+      };
+   } catch (error) {
+      console.error(formatError(error));
+      return {
+         success: false,
+         message: "Vorlage konnte nicht erstellt werden",
+      };
    }
 };
 

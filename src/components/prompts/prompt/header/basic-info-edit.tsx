@@ -99,7 +99,7 @@ export const BasicInfoEdit: FC<BasicInfoEditProps> = ({
                   className="flex flex-col"
                   data-testid="recommended-model"
                >
-                  <FormLabel className="text-sm font-medium text-slate-700 flex items-center gap-1.5">
+                  <FormLabel className="flex items-center gap-1.5 text-sm font-medium text-slate-700">
                      Empfohlenes Modell
                   </FormLabel>
                   <Popover open={open} onOpenChange={setOpen}>
@@ -127,7 +127,7 @@ export const BasicInfoEdit: FC<BasicInfoEditProps> = ({
                            />
                            <CommandList>
                               <CommandEmpty className="p-0">
-                                 <div className="py-1 px-1">
+                                 <div className="px-1 py-1">
                                     <Button
                                        type="button"
                                        variant="ghost"
@@ -180,7 +180,7 @@ export const BasicInfoEdit: FC<BasicInfoEditProps> = ({
    const renderCategories = () => {
       return (
          <div className="space-y-2" data-testid="categories">
-            <FormLabel className="text-sm font-medium text-slate-700 flex items-center gap-1.5">
+            <FormLabel className="flex items-center gap-1.5 text-sm font-medium text-slate-700">
                Kategorien
             </FormLabel>
             <div className="space-y-2">
@@ -196,7 +196,7 @@ export const BasicInfoEdit: FC<BasicInfoEditProps> = ({
                         variant="outline"
                         size="icon"
                         onClick={() => removeCategory(index)}
-                        className="shrink-0 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+                        className="shrink-0 hover:border-red-300 hover:bg-red-50 hover:text-red-600"
                         data-testid={`remove-category-btn-${index}`}
                      >
                         <X className="h-4 w-4" />
@@ -222,7 +222,7 @@ export const BasicInfoEdit: FC<BasicInfoEditProps> = ({
 
    return (
       <section className="space-y-4" data-testid="basic-info-edit">
-         <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
+         <h3 className="flex items-center gap-2 text-lg font-semibold text-slate-900">
             <BookType className="h-5 w-5 text-indigo-600" />
             Allgemeine Informationen
          </h3>

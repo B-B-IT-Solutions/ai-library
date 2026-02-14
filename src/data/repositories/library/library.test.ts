@@ -5,6 +5,8 @@ import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import {
+   LibraryEntryCreateArgs,
+   LibraryEntryCreateInput,
    LibraryEntryCreateManyArgs,
    LibraryEntryCreateManyInput,
    LibraryEntryDeleteManyArgs,
@@ -125,6 +127,46 @@ describe("pGetLibraryEntry tests", () => {
       expect(prismaMock.libraryEntry.findUnique).toHaveBeenCalledTimes(1);
       expect(prismaMock.libraryEntry.findUnique).toHaveBeenCalledWith(
          expectedFindUniqueArgs
+      );
+   });
+});
+
+describe("pCreateLibraryEntry tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("pCreateLibraryEntry test", async () => {
+      const userId = "user-id-1";
+      const templateDescriptorId = "template-descriptor-id-1";
+      const newEntry = ptestData.pLibraryEntry();
+      prismaMock.libraryEntry.create.mockResolvedValue(newEntry);
+
+      const result = await libraryRepository.pCreateLibraryEntry(
+         userId,
+         templateDescriptorId
+      );
+
+      const expectedInput: LibraryEntryCreateInput = {
+         templateDescriptor: {
+            connect: {
+               id: templateDescriptorId,
+            },
+         },
+         user: {
+            connect: {
+               id: userId,
+            },
+         },
+      };
+      const expectedCreateArgs: LibraryEntryCreateArgs = {
+         data: expectedInput,
+      };
+
+      expect(result).toEqual(newEntry);
+      expect(prismaMock.libraryEntry.create).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryEntry.create).toHaveBeenCalledWith(
+         expectedCreateArgs
       );
    });
 });

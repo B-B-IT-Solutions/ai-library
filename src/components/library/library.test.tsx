@@ -6,7 +6,10 @@ import { Library } from "./library";
 
 const assertRendered = () => {
    const library = screen.getByTestId("library");
+   const createEntryBtn = screen.getByTestId("create-library-entry-btn");
+
    assertInDocument(library);
+   assertInDocument(createEntryBtn);
 };
 
 const assertLibraryEmpty = () => {

@@ -25,9 +25,7 @@ export const toDLibraryEntry = (
    return {
       id: entry.id,
       userId: entry.userId,
-      orderId: entry.orderId,
       templateDescriptorId: entry.templateDescriptorId,
-      productId: entry.productId,
       templateDescriptor: toDPromptTemplateDescriptor(entry.templateDescriptor),
       createdAt: entry.createdAt.toISOString(),
    };
@@ -39,9 +37,7 @@ export const toDLibraryEntryWithPromptTemplate = (
    return {
       id: entry.id,
       userId: entry.userId,
-      orderId: entry.orderId,
       templateDescriptorId: entry.templateDescriptorId,
-      productId: entry.productId,
       templateDescriptor: toDPromptTemplateDescriptorWithTemplate(
          entry.templateDescriptor
       ),
