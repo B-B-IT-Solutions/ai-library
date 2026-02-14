@@ -8,7 +8,7 @@ import { FormInput } from "./form-input";
 type Props = {
    name: string;
    label: string;
-   placeholder: string;
+   placeholder?: string;
    description?: string | null;
    required?: boolean;
    message?: string;
