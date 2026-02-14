@@ -78,6 +78,30 @@ export class LibraryService {
       await this.libraryRepository.pDeleteLibraryEntries(userId);
    }
 
+   async createCustomTemplate(
+      input: DPromptTemplateUpdate,
+      userId: string
+   ): Promise<string> {
+      const data = {
+         userId,
+         promptTemplate: {
+            content: input.content,
+            detailedDescription: input.detailedDescription,
+            fields: input.fields,
+         },
+         templateDescriptor: {
+            title: input.title,
+            description: input.description,
+            recommendedModel: input.recommendedModel,
+            categories: input.categories,
+         },
+      };
+      const entry =
+         await this.libraryRepository.pCreateCustomLibraryEntry(data);
+
+      return entry.id;
+   }
+
    async composePromptFromTemplate(
       descriptorId: string,
       fieldValues: DPromptTemplateFieldValues,
@@ -126,29 +150,5 @@ export class LibraryService {
       );
 
       return downloadData;
-   }
-
-   async createCustomTemplate(
-      input: DPromptTemplateUpdate,
-      userId: string
-   ): Promise<string> {
-      const data = {
-         userId,
-         promptTemplate: {
-            content: input.content,
-            detailedDescription: input.detailedDescription,
-            fields: input.fields,
-         },
-         templateDescriptor: {
-            title: input.title,
-            description: input.description,
-            recommendedModel: input.recommendedModel,
-            categories: input.categories,
-         },
-      };
-      const entry =
-         await this.libraryRepository.pCreateCustomLibraryEntry(data);
-
-      return entry.id;
    }
 }

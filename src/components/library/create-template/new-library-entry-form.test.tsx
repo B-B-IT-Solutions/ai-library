@@ -23,7 +23,6 @@ import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument } from "@tests";
-import { timeout } from "es-toolkit";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
