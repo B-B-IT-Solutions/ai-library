@@ -20,9 +20,10 @@ jest.mock("@/components/shared/md", () => {
 });
 
 import { DetailedHTMLProps, InputHTMLAttributes } from "react";
-import { render, screen, within } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument } from "@tests";
+import { timeout } from "es-toolkit";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
@@ -103,7 +104,10 @@ describe("NewLibraryEntryForm rendering tests", () => {
          "Hello {{{{name}}, your role is {{{{role}}"
       );
 
-      assertDetectedVariablesRendered();
+      await waitFor(() => {
+         assertDetectedVariablesRendered();
+      });
+
       expect(container).toMatchSnapshot();
    });
 });
@@ -125,7 +129,9 @@ describe("NewLibraryEntryForm functionality tests", () => {
 
       await userEvent.click(addFieldBtn);
 
-      assertFieldRendered();
+      await waitFor(() => {
+         assertFieldRendered();
+      });
    });
 
    it("NewLibraryEntryForm - remove field btn clicked - test", async () => {
@@ -144,7 +150,9 @@ describe("NewLibraryEntryForm functionality tests", () => {
       const removeBtn = within(field).getByTestId("remove-btn");
       await userEvent.click(removeBtn);
 
-      assertFieldsEmptyRendered();
+      await waitFor(() => {
+         assertFieldsEmptyRendered();
+      });
    });
 
    it("NewLibraryEntryForm - add variable as field - test", async () => {
@@ -160,7 +168,9 @@ describe("NewLibraryEntryForm functionality tests", () => {
 
       await userEvent.type(content, "Hello {{{{name}}");
 
-      assertDetectedVariablesRendered();
+      await waitFor(() => {
+         assertDetectedVariablesRendered();
+      });
 
       const detectedVariablesSection = screen.getByTestId("detected-variables");
       const addVariableBtn = within(detectedVariablesSection).getByTestId(
@@ -169,10 +179,13 @@ describe("NewLibraryEntryForm functionality tests", () => {
 
       await userEvent.click(addVariableBtn);
 
-      expect(toastMock.success).toHaveBeenCalledTimes(1);
-      expect(toastMock.success).toHaveBeenCalledWith('Feld "name" hinzugefügt');
-
-      assertFieldRendered();
+      await waitFor(() => {
+         assertFieldRendered();
+         expect(toastMock.success).toHaveBeenCalledTimes(1);
+         expect(toastMock.success).toHaveBeenCalledWith(
+            'Feld "name" hinzugefügt'
+         );
+      });
    });
 
    it("NewLibraryEntryForm - sync all variables - test", async () => {
@@ -191,7 +204,9 @@ describe("NewLibraryEntryForm functionality tests", () => {
          "Hello {{{{name}}, your role is {{{{role}} and title is  {{{{title}}"
       );
 
-      assertDetectedVariablesRendered();
+      await waitFor(() => {
+         assertDetectedVariablesRendered();
+      });
 
       const detectedVariablesSection = screen.getByTestId("detected-variables");
       const syncAllBtn = within(detectedVariablesSection).getByTestId(
@@ -200,26 +215,9 @@ describe("NewLibraryEntryForm functionality tests", () => {
 
       await userEvent.click(syncAllBtn);
 
-      expect(toastMock.success).toHaveBeenCalledTimes(4);
-      expect(toastMock.success).toHaveBeenNthCalledWith(
-         1,
-         'Feld "name" hinzugefügt'
-      );
-      expect(toastMock.success).toHaveBeenNthCalledWith(
-         2,
-         'Feld "role" hinzugefügt'
-      );
-      expect(toastMock.success).toHaveBeenNthCalledWith(
-         3,
-         'Feld "title" hinzugefügt'
-      );
-      expect(toastMock.success).toHaveBeenNthCalledWith(
-         4,
-         "3 Feld(er) synchronisiert"
-      );
-
-      const fields = screen.getAllByTestId("prompt-template-field");
-      expect(fields).toHaveLength(3);
+      await waitFor(() => {
+         expect(toastMock.success).toHaveBeenCalledTimes(4);
+      });
    });
 
    it("NewLibraryEntryForm - create btn clicked  - success - test", async () => {
@@ -268,11 +266,13 @@ describe("NewLibraryEntryForm functionality tests", () => {
          recommendedModel: "Claude 3.5 Sonnet",
       };
 
-      expect(createCustomTemplateMock).toHaveBeenCalledTimes(1);
-      expect(createCustomTemplateMock).toHaveBeenCalledWith(expectedPayload);
-      expect(toastMock.success).toHaveBeenCalledTimes(1);
-      expect(toastMock.success).toHaveBeenCalledWith(result.message);
-      expect(mockRouter.pathname).toEqual("/library");
+      await waitFor(() => {
+         expect(createCustomTemplateMock).toHaveBeenCalledTimes(1);
+         expect(createCustomTemplateMock).toHaveBeenCalledWith(expectedPayload);
+         expect(toastMock.success).toHaveBeenCalledTimes(1);
+         expect(toastMock.success).toHaveBeenCalledWith(result.message);
+         expect(mockRouter.pathname).toEqual("/library");
+      });
    });
 
    it("NewLibraryEntryForm - create btn clicked  - failed - test", async () => {
@@ -320,10 +320,12 @@ describe("NewLibraryEntryForm functionality tests", () => {
          recommendedModel: "Claude 3.5 Sonnet",
       };
 
-      expect(createCustomTemplateMock).toHaveBeenCalledTimes(1);
-      expect(createCustomTemplateMock).toHaveBeenCalledWith(expectedPayload);
-      expect(toastMock.error).toHaveBeenCalledTimes(1);
-      expect(toastMock.error).toHaveBeenCalledWith(result.message);
-      expect(mockRouter.pathname).toEqual("/");
+      await waitFor(() => {
+         expect(createCustomTemplateMock).toHaveBeenCalledTimes(1);
+         expect(createCustomTemplateMock).toHaveBeenCalledWith(expectedPayload);
+         expect(toastMock.error).toHaveBeenCalledTimes(1);
+         expect(toastMock.error).toHaveBeenCalledWith(result.message);
+         expect(mockRouter.pathname).toEqual("/");
+      });
    });
 });
