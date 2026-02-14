@@ -1,6 +1,7 @@
 "use client";
 
 import { FC } from "react";
+import { map } from "es-toolkit/compat";
 import { Control, FieldValues } from "react-hook-form";
 
 import {
@@ -50,7 +51,7 @@ export const SelectField: FC<Props> = ({ field, control }) => {
                      </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                     {field.options?.map((option) => (
+                     {map(field.options, (option) => (
                         <SelectItem key={option} value={option}>
                            {option}
                         </SelectItem>
