@@ -8,10 +8,18 @@ import { FormSelect, Option } from "./form-select";
 type Props = {
    name: string;
    label: string;
+   description?: string;
+   required?: boolean;
    options: Option[];
 };
 
-const TestWrapper: FC<Props> = ({ name, label, options }) => {
+const TestWrapper: FC<Props> = ({
+   name,
+   label,
+   description,
+   required,
+   options,
+}) => {
    const form = useForm({
       defaultValues: {
          [name]: "",
@@ -23,6 +31,8 @@ const TestWrapper: FC<Props> = ({ name, label, options }) => {
          <FormSelect
             name={name}
             label={label}
+            description={description}
+            required={required}
             options={options}
             control={form.control}
          />
@@ -41,7 +51,13 @@ describe("FormSelect rendering tests", () => {
       const options = ["option 1", "option 2", "option 3"];
 
       const { container } = render(
-         <TestWrapper name={name} label="Label 1" options={options} />
+         <TestWrapper
+            name={name}
+            label="Label 1"
+            description="Description 1"
+            required={true}
+            options={options}
+         />
       );
 
       assertRendered(name);
