@@ -282,7 +282,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
             </textarea>
           </div>
           <div
-            class="gap-2 flex items-center col-span-2"
+            class="gap-2 flex items-center space-x-1 col-span-2"
             data-slot="form-item"
             data-testid="fields.0.required"
           >
@@ -328,7 +328,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               </div>
             </button>
             <label
-              class="flex items-center gap-2 text-sm leading-none select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive cursor-pointer font-normal"
+              class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive cursor-pointer"
               data-error="false"
               data-slot="form-label"
               for="_r_6_-form-item"
@@ -602,7 +602,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
             </textarea>
           </div>
           <div
-            class="gap-2 flex items-center col-span-2"
+            class="gap-2 flex items-center space-x-1 col-span-2"
             data-slot="form-item"
             data-testid="fields.1.required"
           >
@@ -648,7 +648,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               </div>
             </button>
             <label
-              class="flex items-center gap-2 text-sm leading-none select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive cursor-pointer font-normal"
+              class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive cursor-pointer"
               data-error="false"
               data-slot="form-label"
               for="_r_d_-form-item"
@@ -922,7 +922,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
             </textarea>
           </div>
           <div
-            class="gap-2 flex items-center col-span-2"
+            class="gap-2 flex items-center space-x-1 col-span-2"
             data-slot="form-item"
             data-testid="fields.2.required"
           >
@@ -968,7 +968,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               </div>
             </button>
             <label
-              class="flex items-center gap-2 text-sm leading-none select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive cursor-pointer font-normal"
+              class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive cursor-pointer"
               data-error="false"
               data-slot="form-label"
               for="_r_k_-form-item"

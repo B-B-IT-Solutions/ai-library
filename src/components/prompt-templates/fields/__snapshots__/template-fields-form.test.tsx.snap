@@ -142,9 +142,9 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
     </div>
     <div>
       <div
-        class="gap-2 flex items-center space-x-2"
+        class="gap-2 flex items-center space-x-1"
         data-slot="form-item"
-        data-testid="newsletter-field"
+        data-testid="newsletter"
       >
         <button
           aria-checked="false"
@@ -195,20 +195,13 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
           value="on"
         />
         <label
-          class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+          class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive cursor-pointer"
           data-error="false"
           data-slot="form-label"
           for="_r_5_-form-item"
         >
           Newsletter
         </label>
-        <p
-          class="text-muted-foreground text-sm"
-          data-slot="form-description"
-          id="_r_5_-form-item-description"
-        >
-           
-        </p>
       </div>
     </div>
     <div>

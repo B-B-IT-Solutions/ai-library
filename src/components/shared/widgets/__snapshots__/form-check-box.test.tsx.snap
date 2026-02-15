@@ -3,7 +3,7 @@
 exports[`FormCheckBox rendering tests FormCheckBox - className defined - test 1`] = `
 <div>
   <div
-    class="gap-2 flex items-center py-1"
+    class="gap-2 flex items-center space-x-1 py-1"
     data-slot="form-item"
     data-testid="test-789"
   >
@@ -49,7 +49,7 @@ exports[`FormCheckBox rendering tests FormCheckBox - className defined - test 1`
       </div>
     </button>
     <label
-      class="flex items-center gap-2 text-sm leading-none select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive cursor-pointer font-normal"
+      class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive cursor-pointer"
       data-error="false"
       data-slot="form-label"
       for="_r_1_-form-item"
@@ -63,7 +63,7 @@ exports[`FormCheckBox rendering tests FormCheckBox - className defined - test 1`
 exports[`FormCheckBox rendering tests FormCheckBox - className undefined - test 1`] = `
 <div>
   <div
-    class="gap-2 flex items-center"
+    class="gap-2 flex items-center space-x-1"
     data-slot="form-item"
     data-testid="test-123"
   >
@@ -109,13 +109,21 @@ exports[`FormCheckBox rendering tests FormCheckBox - className undefined - test 
       </div>
     </button>
     <label
-      class="flex items-center gap-2 text-sm leading-none select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive cursor-pointer font-normal"
+      class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive cursor-pointer"
       data-error="false"
       data-slot="form-label"
       for="_r_0_-form-item"
     >
       Label 1
     </label>
+    <p
+      class="text-muted-foreground text-sm"
+      data-slot="form-description"
+      id="_r_0_-form-item-description"
+    >
+       
+      Description 1
+    </p>
   </div>
 </div>
 `;

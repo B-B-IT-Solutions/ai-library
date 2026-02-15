@@ -5,6 +5,7 @@ import { Control, FieldValues, Path } from "react-hook-form";
 import { Checkbox } from "@/components/shadcn/checkbox";
 import {
    FormControl,
+   FormDescription,
    FormField,
    FormItem,
    FormLabel,
@@ -15,6 +16,7 @@ import { cn } from "@/lib/utils";
 type Props<T extends FieldValues> = {
    name: Path<T>;
    label: string;
+   description?: string | null;
    className?: string;
    control: Control<T>;
 };
@@ -22,16 +24,27 @@ type Props<T extends FieldValues> = {
 export const FormCheckBox = <T extends FieldValues>({
    name,
    label,
+   description,
    className,
    control,
 }: Props<T>) => {
+   const renderlabel = () => {
+      return <FormLabel className="cursor-pointer">{label}</FormLabel>;
+   };
+
+   const renderDescription = () => {
+      if (description) {
+         return <FormDescription> {description}</FormDescription>;
+      }
+   };
+
    return (
       <FormField
          control={control}
          name={name}
          render={({ field }) => (
             <FormItem
-               className={cn("flex items-center", className)}
+               className={cn("flex items-center space-x-1", className)}
                data-testid={name}
             >
                <FormControl>
@@ -40,9 +53,8 @@ export const FormCheckBox = <T extends FieldValues>({
                      onCheckedChange={field.onChange}
                   />
                </FormControl>
-               <FormLabel className="cursor-pointer font-normal">
-                  {label}
-               </FormLabel>
+               {renderlabel()}
+               {renderDescription()}
                <FormMessage />
             </FormItem>
          )}
