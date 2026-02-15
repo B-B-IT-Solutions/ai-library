@@ -8,7 +8,7 @@ exports[`RadioField rendering tests RadioField - required false - test 1`] = `
     data-testid="name-1"
   >
     <label
-      class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+      class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive mb-1"
       data-error="false"
       data-slot="form-label"
       for="_r_0_-form-item"
@@ -27,7 +27,7 @@ exports[`RadioField rendering tests RadioField - required false - test 1`] = `
       aria-describedby="_r_0_-form-item-description"
       aria-invalid="false"
       aria-required="false"
-      class="gap-3 flex flex-col space-y-2"
+      class="gap-3 flex flex-col space-y-1"
       data-slot="form-control"
       dir="ltr"
       id="_r_0_-form-item"
@@ -81,7 +81,8 @@ exports[`RadioField rendering tests RadioField - required false - test 1`] = `
           </div>
         </button>
         <label
-          class="cursor-pointer text-sm leading-none font-normal peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          class="flex items-center gap-2 text-sm leading-none select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 cursor-pointer font-normal peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          data-slot="label"
           for="name-1-Option 1"
         >
           Option 1
@@ -133,7 +134,8 @@ exports[`RadioField rendering tests RadioField - required false - test 1`] = `
           </div>
         </button>
         <label
-          class="cursor-pointer text-sm leading-none font-normal peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          class="flex items-center gap-2 text-sm leading-none select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 cursor-pointer font-normal peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          data-slot="label"
           for="name-1-Option 2"
         >
           Option 2
@@ -185,7 +187,8 @@ exports[`RadioField rendering tests RadioField - required false - test 1`] = `
           </div>
         </button>
         <label
-          class="cursor-pointer text-sm leading-none font-normal peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          class="flex items-center gap-2 text-sm leading-none select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 cursor-pointer font-normal peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          data-slot="label"
           for="name-1-Option 3"
         >
           Option 3
@@ -204,7 +207,7 @@ exports[`RadioField rendering tests RadioField - required true - test 1`] = `
     data-testid="name-1"
   >
     <label
-      class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
+      class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive mb-1 gap-1"
       data-error="false"
       data-slot="form-label"
       for="_r_4_-form-item"
@@ -228,7 +231,7 @@ exports[`RadioField rendering tests RadioField - required true - test 1`] = `
       aria-describedby="_r_4_-form-item-description"
       aria-invalid="false"
       aria-required="false"
-      class="gap-3 flex flex-col space-y-2"
+      class="gap-3 flex flex-col space-y-1"
       data-slot="form-control"
       dir="ltr"
       id="_r_4_-form-item"
@@ -282,7 +285,8 @@ exports[`RadioField rendering tests RadioField - required true - test 1`] = `
           </div>
         </button>
         <label
-          class="cursor-pointer text-sm leading-none font-normal peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          class="flex items-center gap-2 text-sm leading-none select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 cursor-pointer font-normal peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          data-slot="label"
           for="name-1-Option 1"
         >
           Option 1
@@ -334,7 +338,8 @@ exports[`RadioField rendering tests RadioField - required true - test 1`] = `
           </div>
         </button>
         <label
-          class="cursor-pointer text-sm leading-none font-normal peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          class="flex items-center gap-2 text-sm leading-none select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 cursor-pointer font-normal peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          data-slot="label"
           for="name-1-Option 2"
         >
           Option 2
@@ -386,7 +391,8 @@ exports[`RadioField rendering tests RadioField - required true - test 1`] = `
           </div>
         </button>
         <label
-          class="cursor-pointer text-sm leading-none font-normal peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          class="flex items-center gap-2 text-sm leading-none select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 cursor-pointer font-normal peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          data-slot="label"
           for="name-1-Option 3"
         >
           Option 3
