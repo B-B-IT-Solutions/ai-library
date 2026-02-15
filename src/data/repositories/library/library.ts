@@ -1,9 +1,5 @@
 import { map } from "es-toolkit/compat";
 
-import {
-   toDLibraryEntries,
-   toDLibraryEntryWithPromptTemplate,
-} from "@/data/services/library/library.mapper";
 import { DbClient } from "@/data/types/db/common";
 import { LibraryEntryWithPromptTemplateDescriptor } from "@/data/types/db/library";
 import {
@@ -17,6 +13,11 @@ import {
    LibraryEntryCreateManyInput,
    LibraryEntryWhereUniqueInput,
 } from "@/generated/prisma/models";
+
+import {
+   toDLibraryEntries,
+   toDLibraryEntryWithPromptTemplate,
+} from "./library.mapper";
 
 export type GetLibraryEntryParams = {
    userId: string;

@@ -16,8 +16,6 @@ import {
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 
-import { toDLibraryEntryWithPromptTemplate } from "./library.mapper";
-
 export class LibraryService {
    private libraryRepository: LibraryRepository;
    private promptTemplateService: PromptTemplateService;

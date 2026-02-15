@@ -5,10 +5,6 @@ import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import {
-   toDLibraryEntries,
-   toDLibraryEntryWithPromptTemplate,
-} from "@/data/services/library/library.mapper";
-import {
    LibraryEntryCreateArgs,
    LibraryEntryCreateInput,
    LibraryEntryCreateManyArgs,
@@ -19,6 +15,10 @@ import {
 } from "@/generated/prisma/models";
 
 import { GetLibraryEntryParams, LibraryRepository } from "./library";
+import {
+   toDLibraryEntries,
+   toDLibraryEntryWithPromptTemplate,
+} from "./library.mapper";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const libraryRepository = new LibraryRepository(prismaMock);
