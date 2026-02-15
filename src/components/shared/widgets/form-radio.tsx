@@ -49,13 +49,13 @@ export const FormRadio = <T extends FieldValues>({
    const renderlabel = () => {
       if (required) {
          return (
-            <FormLabel className="mb-1 gap-1">
+            <FormLabel className="gap-1">
                {label}
                <span className="text-destructive">*</span>
             </FormLabel>
          );
       }
-      return <FormLabel className="mb-1">{label}</FormLabel>;
+      return <FormLabel>{label}</FormLabel>;
    };
 
    const renderDescription = () => {
@@ -93,7 +93,7 @@ export const FormRadio = <T extends FieldValues>({
                   <RadioGroup
                      onValueChange={field.onChange}
                      defaultValue={field.value}
-                     className="flex flex-col space-y-1"
+                     className="mt-1 flex flex-col space-y-1"
                   >
                      {map(options, (o, idx) => radioItem(o, idx))}
                   </RadioGroup>
