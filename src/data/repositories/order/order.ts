@@ -1,4 +1,7 @@
-import { toDOrdersWithItems } from "@/data/services/order/order.mapper";
+import {
+   toDOrdersWithItems,
+   toDOrderWithItems,
+} from "@/data/services/order/order.mapper";
 import { DbClient } from "@/data/types/db/common";
 import { OrderProducts, OrderWithItems } from "@/data/types/db/order";
 import { DOrder } from "@/data/types/domain/order";
@@ -34,11 +37,8 @@ export class OrderRepository {
       return toDOrdersWithItems(orders);
    }
 
-   async pGetOrder(
-      orderId: string,
-      userId: string
-   ): Promise<OrderWithItems | null> {
-      return await this.prisma.order.findUnique({
+   async pGetOrder(orderId: string, userId: string): Promise<DOrder | null> {
+      const order: OrderWithItems | null = await this.prisma.order.findUnique({
          where: {
             id: orderId,
             userId,
@@ -47,6 +47,11 @@ export class OrderRepository {
             items: true,
          },
       });
+
+      if (order) {
+         return toDOrderWithItems(order);
+      }
+      return null;
    }
 
    async pGetOrderByPaymentIntentId(

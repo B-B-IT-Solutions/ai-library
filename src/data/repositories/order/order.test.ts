@@ -4,7 +4,10 @@ import { map } from "es-toolkit/compat";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { toDOrdersWithItems } from "@/data/services/order/order.mapper";
+import {
+   toDOrdersWithItems,
+   toDOrderWithItems,
+} from "@/data/services/order/order.mapper";
 import {
    OrderCreateArgs,
    OrderCreateInput,
@@ -58,11 +61,10 @@ describe("pGetOrder tests", () => {
       mockReset(prismaMock);
    });
 
-   test("pGetOrder test", async () => {
+   test("pGetOrder - order null - test", async () => {
       const userId = "user-id-1";
       const orderId = "order-id-1";
-      const order = ptestData.pOrderWithItems();
-      prismaMock.order.findUnique.mockResolvedValue(order);
+      prismaMock.order.findUnique.mockResolvedValue(null);
 
       const result = await orderRepository.pGetOrder(orderId, userId);
 
@@ -76,7 +78,34 @@ describe("pGetOrder tests", () => {
          },
       };
 
-      expect(result).toEqual(order);
+      expect(result).toBeNull();
+      expect(prismaMock.order.findUnique).toHaveBeenCalledTimes(1);
+      expect(prismaMock.order.findUnique).toHaveBeenCalledWith(
+         expectedFindUniqueArgs
+      );
+   });
+
+   test("pGetOrder - order retrieved - test", async () => {
+      const userId = "user-id-1";
+      const orderId = "order-id-1";
+      const order = ptestData.pOrderWithItems();
+      prismaMock.order.findUnique.mockResolvedValue(order);
+
+      const result = await orderRepository.pGetOrder(orderId, userId);
+
+      const expectedResult = toDOrderWithItems(order);
+
+      const expectedFindUniqueArgs: OrderFindUniqueArgs = {
+         where: {
+            id: orderId,
+            userId,
+         },
+         include: {
+            items: true,
+         },
+      };
+
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.order.findUnique).toHaveBeenCalledTimes(1);
       expect(prismaMock.order.findUnique).toHaveBeenCalledWith(
          expectedFindUniqueArgs

@@ -6,11 +6,7 @@ import { LibraryService } from "@/data/services/library";
 import { DCart } from "@/data/types/domain/cart";
 import { DOrder, DOrderUpdate } from "@/data/types/domain/order";
 
-import {
-   toDOrder,
-   toDOrdersWithItems,
-   toDOrderWithItems,
-} from "./order.mapper";
+import { toDOrder } from "./order.mapper";
 
 export class OrderService {
    private orderRepository: OrderRepository;
@@ -32,11 +28,7 @@ export class OrderService {
    }
 
    async getOrder(orderId: string, userId: string): Promise<DOrder | null> {
-      const order = await this.orderRepository.pGetOrder(orderId, userId);
-      if (order) {
-         return toDOrderWithItems(order);
-      }
-      return null;
+      return await this.orderRepository.pGetOrder(orderId, userId);
    }
 
    async createOrder(userId: string, cart: DCart): Promise<DOrder> {

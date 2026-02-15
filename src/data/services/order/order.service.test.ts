@@ -13,11 +13,7 @@ import { CartService } from "@/data/services/cart";
 import { LibraryService } from "@/data/services/library";
 import { DOrderUpdate } from "@/data/types/domain/order";
 
-import {
-   toDOrder,
-   toDOrdersWithItems,
-   toDOrderWithItems,
-} from "./order.mapper";
+import { toDOrder } from "./order.mapper";
 import { OrderService } from "./order.service";
 
 const serviceFactory = new ServiceFactory(prisma);
@@ -59,31 +55,16 @@ describe("getOrder tests", () => {
       jest.clearAllMocks();
    });
 
-   it("getOrder - order null - test", async () => {
-      const userId = "user-id-1";
-      orderRepoMock.pGetOrder.mockResolvedValue(null);
-
-      const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
-
-      const result = await orderService.getOrder(orderId, userId);
-
-      expect(result).toBeNull();
-      expect(orderRepoMock.pGetOrder).toHaveBeenCalledTimes(1);
-      expect(orderRepoMock.pGetOrder).toHaveBeenCalledWith(orderId, userId);
-   });
-
    it("getOrder - order retrieved - test", async () => {
       const userId = "user-id-1";
-      const order = ptestData.pOrderWithItems();
+      const order = dtestData.dOrder();
       orderRepoMock.pGetOrder.mockResolvedValue(order);
 
       const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
 
       const result = await orderService.getOrder(orderId, userId);
 
-      const expectedResult = toDOrderWithItems(order);
-
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual(order);
       expect(orderRepoMock.pGetOrder).toHaveBeenCalledTimes(1);
       expect(orderRepoMock.pGetOrder).toHaveBeenCalledWith(orderId, userId);
    });
