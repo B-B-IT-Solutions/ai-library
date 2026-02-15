@@ -4,6 +4,7 @@ import { map } from "es-toolkit/compat";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
+import { toDOrdersWithItems } from "@/data/services/order/order.mapper";
 import {
    OrderCreateArgs,
    OrderCreateInput,
@@ -32,6 +33,8 @@ describe("pGetOrders tests", () => {
 
       const result = await orderRepository.pGetOrders(userId);
 
+      const expectedResult = toDOrdersWithItems(orders);
+
       const expectedFindManyArgs: OrderFindManyArgs = {
          where: { userId },
          include: {
@@ -42,7 +45,7 @@ describe("pGetOrders tests", () => {
          },
       };
 
-      expect(result).toEqual(orders);
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.order.findMany).toHaveBeenCalledTimes(1);
       expect(prismaMock.order.findMany).toHaveBeenCalledWith(
          expectedFindManyArgs

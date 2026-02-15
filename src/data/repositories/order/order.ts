@@ -1,5 +1,7 @@
+import { toDOrdersWithItems } from "@/data/services/order/order.mapper";
 import { DbClient } from "@/data/types/db/common";
 import { OrderProducts, OrderWithItems } from "@/data/types/db/order";
+import { DOrder } from "@/data/types/domain/order";
 import { Order, OrderStatus } from "@/generated/prisma/client";
 import { OrderCreateInput } from "@/generated/prisma/models";
 
@@ -18,8 +20,8 @@ export class OrderRepository {
       this.prisma = prisma;
    }
 
-   async pGetOrders(userId: string): Promise<OrderWithItems[]> {
-      return await this.prisma.order.findMany({
+   async pGetOrders(userId: string): Promise<DOrder[]> {
+      const orders = await this.prisma.order.findMany({
          where: { userId },
          include: {
             items: true,
@@ -28,6 +30,8 @@ export class OrderRepository {
             createdAt: "desc",
          },
       });
+
+      return toDOrdersWithItems(orders);
    }
 
    async pGetOrder(

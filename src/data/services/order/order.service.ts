@@ -28,8 +28,7 @@ export class OrderService {
    }
 
    async getOrders(userId: string): Promise<DOrder[]> {
-      const orders = await this.orderRepository.pGetOrders(userId);
-      return toDOrdersWithItems(orders);
+      return await this.orderRepository.pGetOrders(userId);
    }
 
    async getOrder(orderId: string, userId: string): Promise<DOrder | null> {

@@ -43,14 +43,12 @@ describe("getOrders tests", () => {
 
    it("getOrders - orders retrieved - test", async () => {
       const userId = "user-id-1";
-      const orders = ptestData.pOrdersWithItems();
+      const orders = dtestData.dOrders();
       orderRepoMock.pGetOrders.mockResolvedValue(orders);
 
       const result = await orderService.getOrders(userId);
 
-      const expectedResult = toDOrdersWithItems(orders);
-
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual(orders);
       expect(orderRepoMock.pGetOrders).toHaveBeenCalledTimes(1);
       expect(orderRepoMock.pGetOrders).toHaveBeenCalledWith(userId);
    });
