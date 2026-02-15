@@ -70,12 +70,12 @@ export class LibraryService {
    }
 
    async composePromptFromTemplate(
-      descriptorId: string,
+      templateDescriptorId: string,
       fieldValues: DPromptTemplateFieldValues,
       userId: string
    ): Promise<DPromptUpdate> {
       const params: GetLibraryEntryParams = {
-         templateDescriptorId: descriptorId,
+         templateDescriptorId,
          userId,
       };
       const entry = await this.libraryRepository.pGetLibraryEntry(params);
