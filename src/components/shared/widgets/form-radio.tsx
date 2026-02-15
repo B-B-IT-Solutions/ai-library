@@ -11,6 +11,7 @@ import {
    FormLabel,
    FormMessage,
 } from "@/components/shadcn/form";
+import { Label } from "@/components/shadcn/label";
 import { RadioGroup, RadioGroupItem } from "@/components/shadcn/radio-group";
 
 export type Option =
@@ -48,19 +49,36 @@ export const FormRadio = <T extends FieldValues>({
    const renderlabel = () => {
       if (required) {
          return (
-            <FormLabel className="gap-1">
+            <FormLabel className="mb-1 gap-1">
                {label}
                <span className="text-destructive">*</span>
             </FormLabel>
          );
       }
-      return <FormLabel>{label}</FormLabel>;
+      return <FormLabel className="mb-1">{label}</FormLabel>;
    };
 
    const renderDescription = () => {
       if (description) {
          return <FormDescription> {description}</FormDescription>;
       }
+   };
+
+   const radioItem = (o: Option, index: number) => {
+      const value = getValue(o);
+      const id = `${name}-${value}`;
+
+      return (
+         <div key={index} className="flex items-center space-x-2">
+            <RadioGroupItem value={value} id={id} />
+            <Label
+               htmlFor={id}
+               className="cursor-pointer font-normal peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+               {getLabel(o)}
+            </Label>
+         </div>
+      );
    };
 
    return (
@@ -75,22 +93,9 @@ export const FormRadio = <T extends FieldValues>({
                   <RadioGroup
                      onValueChange={field.onChange}
                      defaultValue={field.value}
-                     className="flex flex-col space-y-2"
+                     className="flex flex-col space-y-1"
                   >
-                     {map(options, (o, idx) => (
-                        <div key={idx} className="flex items-center space-x-2">
-                           <RadioGroupItem
-                              value={getValue(o)}
-                              id={`${field.name}-${getValue(o)}`}
-                           />
-                           <label
-                              htmlFor={`${field.name}-${getValue(o)}`}
-                              className="cursor-pointer text-sm leading-none font-normal peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                           >
-                              {getLabel(o)}
-                           </label>
-                        </div>
-                     ))}
+                     {map(options, (o, idx) => radioItem(o, idx))}
                   </RadioGroup>
                </FormControl>
                <FormMessage />
