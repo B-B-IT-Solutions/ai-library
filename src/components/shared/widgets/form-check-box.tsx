@@ -43,17 +43,16 @@ export const FormCheckBox = <T extends FieldValues>({
          control={control}
          name={name}
          render={({ field }) => (
-            <FormItem
-               className={cn("flex items-center space-x-1", className)}
-               data-testid={name}
-            >
-               <FormControl>
-                  <Checkbox
-                     checked={field.value}
-                     onCheckedChange={field.onChange}
-                  />
-               </FormControl>
-               {renderlabel()}
+            <FormItem className={cn(className)} data-testid={name}>
+               <div className="flex items-center space-x-2">
+                  <FormControl>
+                     <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                     />
+                  </FormControl>
+                  {renderlabel()}
+               </div>
                {renderDescription()}
                <FormMessage />
             </FormItem>
