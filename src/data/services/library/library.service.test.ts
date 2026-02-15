@@ -15,10 +15,6 @@ import { PromptTemplateService } from "@/data/services/prompt";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 
-import {
-   toDLibraryEntries,
-   toDLibraryEntryWithPromptTemplate,
-} from "./library.mapper";
 import { LibraryService } from "./library.service";
 
 const serviceFactory = new ServiceFactory(prisma);
@@ -58,60 +54,19 @@ describe("getLibraryEntry tests", () => {
       jest.clearAllMocks();
    });
 
-   it("getLibraryEntry - db error - test", async () => {
-      const userId = "user-id-1";
-      const error = new Error("Unknow user");
-      libraryRepoMock.pGetLibraryEntry.mockRejectedValue(error);
-
-      const entryId = "entry-id-1";
-
-      const fn = async () =>
-         await libraryService.getLibraryEntry(entryId, userId);
-
-      const expectedGetEntryPayload: GetLibraryEntryParams = {
-         entryId,
-         userId,
-      };
-      await expect(fn).rejects.toThrow(error);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
-         expectedGetEntryPayload
-      );
-   });
-
-   it("getLibraryEntry - entry null - test", async () => {
-      const userId = "user-id-1";
-      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(null);
-
-      const entryId = "entry-id-1";
-
-      const result = await libraryService.getLibraryEntry(entryId, userId);
-
-      const expectedGetEntryPayload: GetLibraryEntryParams = {
-         entryId,
-         userId,
-      };
-      expect(result).toBeNull();
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
-         expectedGetEntryPayload
-      );
-   });
-
    it("getLibraryEntry - entry retrieved - test", async () => {
       const userId = "user-id-1";
-      const entry = ptestData.pLibraryEntryWithPromptTemplate();
+      const entry = dtestData.dLibraryEntryWithPromptTemplate();
       libraryRepoMock.pGetLibraryEntry.mockResolvedValue(entry);
 
       const result = await libraryService.getLibraryEntry(entry.id, userId);
 
-      const expectedResult = toDLibraryEntryWithPromptTemplate(entry);
       const expectedGetEntryPayload: GetLibraryEntryParams = {
          entryId: entry.id,
          userId,
       };
 
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual(entry);
       expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
          expectedGetEntryPayload

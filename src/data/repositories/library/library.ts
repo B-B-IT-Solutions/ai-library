@@ -1,12 +1,15 @@
 import { map } from "es-toolkit/compat";
 
-import { toDLibraryEntries } from "@/data/services/library/library.mapper";
-import { DbClient } from "@/data/types/db/common";
 import {
-   LibraryEntryWithPromptTemplate,
-   LibraryEntryWithPromptTemplateDescriptor,
-} from "@/data/types/db/library";
-import { DLibraryEntry } from "@/data/types/domain/library";
+   toDLibraryEntries,
+   toDLibraryEntryWithPromptTemplate,
+} from "@/data/services/library/library.mapper";
+import { DbClient } from "@/data/types/db/common";
+import { LibraryEntryWithPromptTemplateDescriptor } from "@/data/types/db/library";
+import {
+   DLibraryEntry,
+   DLibraryEntryWithPromptTemplate,
+} from "@/data/types/domain/library";
 import {
    LibraryEntryCreateArgs,
    LibraryEntryCreateInput,
@@ -49,9 +52,9 @@ export class LibraryRepository {
 
    async pGetLibraryEntry(
       params: GetLibraryEntryParams
-   ): Promise<LibraryEntryWithPromptTemplate | null> {
+   ): Promise<DLibraryEntryWithPromptTemplate | null> {
       const where = this.getLibraryEntryParamsToWhereFindUniqueInput(params);
-      return await this.prisma.libraryEntry.findUnique({
+      const entry = await this.prisma.libraryEntry.findUnique({
          where: where,
          include: {
             templateDescriptor: {
@@ -66,6 +69,11 @@ export class LibraryRepository {
             },
          },
       });
+
+      if (entry) {
+         return toDLibraryEntryWithPromptTemplate(entry);
+      }
+      return null;
    }
 
    async pCreateLibraryEntry(userId: string, templateDescriptorId: string) {

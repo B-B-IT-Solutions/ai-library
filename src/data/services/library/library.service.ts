@@ -42,12 +42,7 @@ export class LibraryService {
          entryId,
          userId,
       };
-      const entry = await this.libraryRepository.pGetLibraryEntry(params);
-
-      if (entry) {
-         return toDLibraryEntryWithPromptTemplate(entry);
-      }
-      return null;
+      return await this.libraryRepository.pGetLibraryEntry(params);
    }
 
    async createLibraryEntry(data: DPromptTemplateUpdate, userId: string) {
