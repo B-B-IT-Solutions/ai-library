@@ -4,6 +4,7 @@ import { map } from "es-toolkit/compat";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
+import { toDLibraryEntries } from "@/data/services/library/library.mapper";
 import {
    LibraryEntryCreateArgs,
    LibraryEntryCreateInput,
@@ -31,6 +32,8 @@ describe("pGetLibraryEntries tests", () => {
 
       const result = await libraryRepository.pGetLibraryEntries(userId);
 
+      const expectedResult = toDLibraryEntries(libraryEntries);
+
       const expectedFindManyArgs: LibraryEntryFindManyArgs = {
          where: { userId },
          include: {
@@ -45,7 +48,7 @@ describe("pGetLibraryEntries tests", () => {
          },
       };
 
-      expect(result).toEqual(libraryEntries);
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.libraryEntry.findMany).toHaveBeenCalledTimes(1);
       expect(prismaMock.libraryEntry.findMany).toHaveBeenCalledWith(
          expectedFindManyArgs

@@ -40,27 +40,14 @@ describe("getLibraryEntries tests", () => {
       jest.clearAllMocks();
    });
 
-   it("getLibraryEntries - db error - test", async () => {
-      const userId = "user-id-1";
-      libraryRepoMock.pGetLibraryEntries.mockRejectedValue("db error");
-
-      const result = await libraryService.getLibraryEntries(userId);
-
-      expect(result).toEqual([]);
-      expect(libraryRepoMock.pGetLibraryEntries).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntries).toHaveBeenCalledWith(userId);
-   });
-
    it("getLibraryEntries - entries retrieved - test", async () => {
       const userId = "user-id-1";
-      const entries = ptestData.pLibraryEntriesWithTemplateDescriptor();
+      const entries = dtestData.dLibraryEntries();
       libraryRepoMock.pGetLibraryEntries.mockResolvedValue(entries);
 
       const result = await libraryService.getLibraryEntries(userId);
 
-      const expectedResult = toDLibraryEntries(entries);
-
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual(entries);
       expect(libraryRepoMock.pGetLibraryEntries).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pGetLibraryEntries).toHaveBeenCalledWith(userId);
    });

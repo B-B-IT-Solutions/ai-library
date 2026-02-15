@@ -16,10 +16,7 @@ import {
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 
-import {
-   toDLibraryEntries,
-   toDLibraryEntryWithPromptTemplate,
-} from "./library.mapper";
+import { toDLibraryEntryWithPromptTemplate } from "./library.mapper";
 
 export class LibraryService {
    private libraryRepository: LibraryRepository;
@@ -34,13 +31,7 @@ export class LibraryService {
    }
 
    async getLibraryEntries(userId: string): Promise<DLibraryEntry[]> {
-      try {
-         const entries =
-            await this.libraryRepository.pGetLibraryEntries(userId);
-         return toDLibraryEntries(entries);
-      } catch {
-         return [];
-      }
+      return await this.libraryRepository.pGetLibraryEntries(userId);
    }
 
    async getLibraryEntry(
