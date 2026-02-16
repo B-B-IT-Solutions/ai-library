@@ -5,11 +5,6 @@ import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import {
-   toDOrder,
-   toDOrdersWithItems,
-   toDOrderWithItems,
-} from "@/data/services/order/order.mapper";
-import {
    OrderCreateArgs,
    OrderCreateInput,
    OrderDeleteManyArgs,
@@ -20,6 +15,11 @@ import {
 } from "@/generated/prisma/models";
 
 import { OrderRepository, OrderUpdate } from "./order";
+import {
+   toDOrder,
+   toDOrdersWithItems,
+   toDOrderWithItems,
+} from "./order.mapper";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 

@@ -1,10 +1,5 @@
 import { map } from "es-toolkit/compat";
 
-import {
-   toDOrder,
-   toDOrdersWithItems,
-   toDOrderWithItems,
-} from "@/data/services/order/order.mapper";
 import { DbClient } from "@/data/types/db/common";
 import { OrderProducts, OrderWithItems } from "@/data/types/db/order";
 import { DOrder, DOrderCreate } from "@/data/types/domain/order";
@@ -13,6 +8,12 @@ import {
    OrderCreateArgs,
    OrderItemCreateWithoutOrderInput,
 } from "@/generated/prisma/models";
+
+import {
+   toDOrder,
+   toDOrdersWithItems,
+   toDOrderWithItems,
+} from "./order.mapper";
 
 export type OrderUpdate = {
    status?: OrderStatus;
