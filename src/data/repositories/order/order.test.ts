@@ -120,10 +120,9 @@ describe("pGetOrderByPaymentIntentId tests", () => {
       mockReset(prismaMock);
    });
 
-   test("pGetOrderByPaymentIntentId test", async () => {
+   test("pGetOrderByPaymentIntentId - order null - test", async () => {
       const paymentIntentId = "payment-id-1";
-      const order = ptestData.pOrder();
-      prismaMock.order.findFirst.mockResolvedValue(order);
+      prismaMock.order.findFirst.mockResolvedValue(null);
 
       const result =
          await orderRepository.pGetOrderByPaymentIntentId(paymentIntentId);
@@ -134,7 +133,30 @@ describe("pGetOrderByPaymentIntentId tests", () => {
          },
       };
 
-      expect(result).toEqual(order);
+      expect(result).toBeNull();
+      expect(prismaMock.order.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.order.findFirst).toHaveBeenCalledWith(
+         expectedFindFirstArgs
+      );
+   });
+
+   test("pGetOrderByPaymentIntentId - order retrieved - test", async () => {
+      const paymentIntentId = "payment-id-1";
+      const order = ptestData.pOrder();
+      prismaMock.order.findFirst.mockResolvedValue(order);
+
+      const result =
+         await orderRepository.pGetOrderByPaymentIntentId(paymentIntentId);
+
+      const expectedResult = toDOrder(order);
+
+      const expectedFindFirstArgs: OrderFindFirstArgs = {
+         where: {
+            stripePaymentIntentId: paymentIntentId,
+         },
+      };
+
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.order.findFirst).toHaveBeenCalledTimes(1);
       expect(prismaMock.order.findFirst).toHaveBeenCalledWith(
          expectedFindFirstArgs

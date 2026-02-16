@@ -56,12 +56,17 @@ export class OrderRepository {
 
    async pGetOrderByPaymentIntentId(
       paymentIntentId: string
-   ): Promise<Order | null> {
-      return await this.prisma.order.findFirst({
+   ): Promise<DOrder | null> {
+      const order = await this.prisma.order.findFirst({
          where: {
             stripePaymentIntentId: paymentIntentId,
          },
       });
+
+      if (order) {
+         return toDOrder(order);
+      }
+      return null;
    }
 
    async pGetOrderProducts(orderId: string): Promise<OrderProducts | null> {

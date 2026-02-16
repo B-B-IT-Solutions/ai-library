@@ -78,10 +78,10 @@ export class OrderService {
          );
       }
 
-      const payload: DOrderUpdate = {
+      const orderUpdate: DOrderUpdate = {
          status: "FAILED",
          stripePaymentStatus: "failed",
       };
-      await this.orderRepository.pUpdateOrder(order.id, payload);
+      await this.orderRepository.pUpdateOrder(order.id, orderUpdate);
    }
 }
