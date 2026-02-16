@@ -4,6 +4,7 @@ import { map } from "es-toolkit/compat";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
+import { DOrderUpdate } from "@/data/types/domain/order";
 import {
    OrderCreateArgs,
    OrderCreateInput,
@@ -14,7 +15,7 @@ import {
    OrderUpdateArgs,
 } from "@/generated/prisma/models";
 
-import { OrderRepository, OrderUpdate } from "./order";
+import { OrderRepository } from "./order";
 import {
    toDOrder,
    toDOrdersWithItems,
@@ -242,20 +243,22 @@ describe("pUpdateOrder tests", () => {
       mockReset(prismaMock);
    });
 
-   test("pUpdateOrder -status update - test", async () => {
+   test("pUpdateOrder - status update - test", async () => {
       const order = ptestData.pOrderWithItems();
       prismaMock.order.update.mockResolvedValue(order);
 
       const orderId = "order-id-1";
-      const data: OrderUpdate = {
+      const orderUpdate: DOrderUpdate = {
          status: "COMPLETED",
       };
 
-      const result = await orderRepository.pUpdateOrder(orderId, data);
+      const result = await orderRepository.pUpdateOrder(orderId, orderUpdate);
 
       const expectedUpdateArgs: OrderUpdateArgs = {
          where: { id: orderId },
-         data: data,
+         data: {
+            status: orderUpdate.status,
+         },
       };
 
       expect(result).toEqual(order);
@@ -268,18 +271,23 @@ describe("pUpdateOrder tests", () => {
       prismaMock.order.update.mockResolvedValue(order);
 
       const orderId = "order-id-1";
-      const data: OrderUpdate = {
+      const orderUpdate: DOrderUpdate = {
          stripeCheckoutSessionId: "53ef3210-b719-4dd2-b612-4f28d4af187d",
          stripePaymentIntentId: "455c1d0a-9065-498e-a298-4e9176d3a8ca",
          stripePaymentStatus: "SUCCESS",
          paymentMethod: "card",
       };
 
-      const result = await orderRepository.pUpdateOrder(orderId, data);
+      const result = await orderRepository.pUpdateOrder(orderId, orderUpdate);
 
       const expectedUpdateArgs: OrderUpdateArgs = {
          where: { id: orderId },
-         data: data,
+         data: {
+            stripeCheckoutSessionId: orderUpdate.stripeCheckoutSessionId,
+            stripePaymentIntentId: orderUpdate.stripePaymentIntentId,
+            stripePaymentStatus: orderUpdate.stripePaymentStatus,
+            paymentMethod: orderUpdate.paymentMethod,
+         },
       };
 
       expect(result).toEqual(order);

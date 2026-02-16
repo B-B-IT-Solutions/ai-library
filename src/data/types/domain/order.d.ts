@@ -14,6 +14,14 @@ export type DOrderItemCreate = {
    price: number;
 };
 
+export type DOrderUpdate = {
+   status?: DOrderStatus;
+   stripeCheckoutSessionId?: string;
+   stripePaymentIntentId?: string;
+   stripePaymentStatus?: string;
+   paymentMethod?: string;
+};
+
 export type DOrderStatus = "PENDING" | "COMPLETED" | "FAILED" | "REFUNDED";
 
 export type DOrder = {
@@ -39,9 +47,4 @@ export type DOrderItem = {
    productType: DProductType;
    price: number;
    createdAt: string;
-};
-
-export type DOrderUpdate = {
-   stripeCheckoutSessionId?: string;
-   stripePaymentStatus?: string;
 };

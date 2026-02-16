@@ -3,19 +3,14 @@ jest.mock("@/data/services/cart");
 jest.mock("@/data/services/library");
 
 import { dtestData, ptestData } from "@tests";
-import { map } from "es-toolkit/compat";
 import { DeepMockProxy } from "jest-mock-extended";
 
-import { OrderRepository, OrderUpdate } from "@/data/repositories/order";
+import { OrderRepository } from "@/data/repositories/order";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { CartService } from "@/data/services/cart";
 import { LibraryService } from "@/data/services/library";
-import {
-   DOrderCreate,
-   DOrderItemCreate,
-   DOrderUpdate,
-} from "@/data/types/domain/order";
+import { DOrderUpdate } from "@/data/types/domain/order";
 
 import { OrderService } from "./order.service";
 
@@ -103,23 +98,12 @@ describe("updateOrder tests", () => {
 
    it("updateOrder - test", async () => {
       const orderId = "order-id-1";
-      const dUpdate: DOrderUpdate = {
-         stripeCheckoutSessionId: "session-id-1",
-         stripePaymentStatus: "unpaid",
-      };
+      const dUpdate = dtestData.dOrderUpdate();
 
       await orderService.updateOrder(orderId, dUpdate);
 
-      const expectedUpdatePayload: OrderUpdate = {
-         stripeCheckoutSessionId: dUpdate.stripeCheckoutSessionId,
-         stripePaymentStatus: dUpdate.stripePaymentStatus,
-      };
-
       expect(orderRepoMock.pUpdateOrder).toHaveBeenCalledTimes(1);
-      expect(orderRepoMock.pUpdateOrder).toHaveBeenCalledWith(
-         orderId,
-         expectedUpdatePayload
-      );
+      expect(orderRepoMock.pUpdateOrder).toHaveBeenCalledWith(orderId, dUpdate);
    });
 });
 
@@ -209,7 +193,7 @@ describe("handlePaymentCheckoutCompleted tests", () => {
          order
       );
 
-      const expectedOrderUpdate: OrderUpdate = {
+      const expectedOrderUpdate: DOrderUpdate = {
          status: "COMPLETED",
          stripePaymentIntentId: paymentIntentId,
          stripePaymentStatus: paymentStatus,
@@ -236,7 +220,7 @@ describe("handleStripeCheckoutExpired tests", () => {
 
       await orderService.handleStripeCheckoutExpired(orderId);
 
-      const expectedOrderUpdate: OrderUpdate = {
+      const expectedOrderUpdate: DOrderUpdate = {
          status: "FAILED",
       };
       expect(orderRepoMock.pUpdateOrder).toHaveBeenCalledTimes(1);
@@ -284,7 +268,7 @@ describe("handleStripePaymentFailed tests", () => {
          paymentIntentId
       );
 
-      const expectedOrderUpdate: OrderUpdate = {
+      const expectedOrderUpdate: DOrderUpdate = {
          status: "FAILED",
          stripePaymentStatus: "failed",
       };

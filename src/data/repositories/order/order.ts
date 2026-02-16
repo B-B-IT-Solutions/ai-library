@@ -2,11 +2,12 @@ import { map } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
 import { OrderProducts, OrderWithItems } from "@/data/types/db/order";
-import { DOrder, DOrderCreate } from "@/data/types/domain/order";
-import { Order, OrderStatus } from "@/generated/prisma/client";
+import { DOrder, DOrderCreate, DOrderUpdate } from "@/data/types/domain/order";
+import { Order } from "@/generated/prisma/client";
 import {
    OrderCreateArgs,
    OrderItemCreateWithoutOrderInput,
+   OrderUpdateInput,
 } from "@/generated/prisma/models";
 
 import {
@@ -14,14 +15,6 @@ import {
    toDOrdersWithItems,
    toDOrderWithItems,
 } from "./order.mapper";
-
-export type OrderUpdate = {
-   status?: OrderStatus;
-   stripeCheckoutSessionId?: string;
-   stripePaymentIntentId?: string;
-   stripePaymentStatus?: string;
-   paymentMethod?: string;
-};
 
 export class OrderRepository {
    private prisma: DbClient;
@@ -136,7 +129,15 @@ export class OrderRepository {
       return toDOrder(order);
    }
 
-   async pUpdateOrder(orderId: string, data: OrderUpdate) {
+   async pUpdateOrder(orderId: string, dUpdate: DOrderUpdate) {
+      const data: OrderUpdateInput = {
+         status: dUpdate.status,
+         stripeCheckoutSessionId: dUpdate.stripeCheckoutSessionId,
+         stripePaymentIntentId: dUpdate.stripePaymentIntentId,
+         stripePaymentStatus: dUpdate.stripePaymentStatus,
+         paymentMethod: dUpdate.paymentMethod,
+      };
+
       return await this.prisma.order.update({
          where: { id: orderId },
          data: data,

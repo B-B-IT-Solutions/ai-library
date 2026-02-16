@@ -1,15 +1,7 @@
-import { map } from "es-toolkit/compat";
-
-import { OrderRepository, OrderUpdate } from "@/data/repositories/order";
+import { OrderRepository } from "@/data/repositories/order";
 import { CartService } from "@/data/services/cart";
 import { LibraryService } from "@/data/services/library";
-import { DCart } from "@/data/types/domain/cart";
-import {
-   DOrder,
-   DOrderCreate,
-   DOrderItemCreate,
-   DOrderUpdate,
-} from "@/data/types/domain/order";
+import { DOrder, DOrderCreate, DOrderUpdate } from "@/data/types/domain/order";
 
 export class OrderService {
    private orderRepository: OrderRepository;
@@ -39,11 +31,7 @@ export class OrderService {
    }
 
    async updateOrder(orderId: string, dUpdate: DOrderUpdate) {
-      const update: OrderUpdate = {
-         stripeCheckoutSessionId: dUpdate.stripeCheckoutSessionId,
-         stripePaymentStatus: dUpdate.stripePaymentStatus,
-      };
-      await this.orderRepository.pUpdateOrder(orderId, update);
+      await this.orderRepository.pUpdateOrder(orderId, dUpdate);
    }
 
    async deleteOrders(userId: string) {
@@ -61,7 +49,7 @@ export class OrderService {
       }
 
       if (order.status !== "COMPLETED") {
-         const payload: OrderUpdate = {
+         const payload: DOrderUpdate = {
             status: "COMPLETED",
             stripePaymentIntentId: paymentIntentId,
             stripePaymentStatus: paymentStatus,
@@ -74,7 +62,7 @@ export class OrderService {
    }
 
    async handleStripeCheckoutExpired(orderId: string) {
-      const payload: OrderUpdate = {
+      const payload: DOrderUpdate = {
          status: "FAILED",
       };
       await this.orderRepository.pUpdateOrder(orderId, payload);
@@ -90,7 +78,7 @@ export class OrderService {
          );
       }
 
-      const payload: OrderUpdate = {
+      const payload: DOrderUpdate = {
          status: "FAILED",
          stripePaymentStatus: "failed",
       };

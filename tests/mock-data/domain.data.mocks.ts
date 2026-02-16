@@ -11,6 +11,7 @@ import {
    DOrderCreate,
    DOrderItem,
    DOrderItemCreate,
+   DOrderUpdate,
 } from "@/data/types/domain/order";
 import {
    DExample,
@@ -201,6 +202,16 @@ export const dOrderCreate = (itemsCount = 3): DOrderCreate => {
    return {
       totalAmount: itemsCount * 19.99,
       items: dOrderItemsCreate(itemsCount),
+   };
+};
+
+export const dOrderUpdate = (index = 1): DOrderUpdate => {
+   return {
+      status: "COMPLETED",
+      stripeCheckoutSessionId: `907edda7-f0dd-4e79-bfe9-52745466586${index}`,
+      stripePaymentIntentId: `31119165-f7d2-4113-b664-dc084637707${index}`,
+      stripePaymentStatus: "paid",
+      paymentMethod: "card",
    };
 };
 
@@ -417,7 +428,7 @@ export const dPromptTemplateField = (index = 1): DPromptTemplateField => {
 
 export const dPromptTemplateFieldUpdates = (
    count = 3
-): DPromptTemplateField[] => {
+): DPromptTemplateFieldUpdate[] => {
    return range(0, count).map((i) => dPromptTemplateFieldUpdate(i));
 };
 
