@@ -72,7 +72,7 @@ describe("addToCart tests", () => {
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("addToCart test", async () => {
+   it("addToCart - success - test", async () => {
       const product = dtestData.dProduct();
       sAddToCartMock.mockResolvedValue();
 
@@ -92,18 +92,41 @@ describe("addToCart tests", () => {
 describe("removeFromCart tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("removeFromCart - error - test", async () => {
+      const error = new Error("db error");
+      sRemoveFromCartMock.mockRejectedValue(error);
+      const item = dtestData.dCartItem();
+
+      const result = await removeFromCart(item.id);
+
+      const expectedResult = {
+         success: false,
+         message: "Item couldn't be removed from the cart.",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sRemoveFromCartMock).toHaveBeenCalledTimes(1);
+      expect(sRemoveFromCartMock).toHaveBeenCalledWith(item.id);
+      expect(console.error).toHaveBeenCalledTimes(1);
    });
 
    it("removeFromCart - success - test", async () => {
+      sRemoveFromCartMock.mockResolvedValue();
       const item = dtestData.dCartItem();
-      const expectdResult = {
-         success: true,
-         message: "Item removed from cart successfully.",
-      };
-
-      sRemoveFromCartMock.mockResolvedValue(expectdResult);
 
       const result = await removeFromCart(item.id);
+
+      const expectdResult = {
+         success: true,
+         message: "Item removed from the cart successfully.",
+      };
 
       expect(result).toEqual(expectdResult);
       expect(sRemoveFromCartMock).toHaveBeenCalledTimes(1);

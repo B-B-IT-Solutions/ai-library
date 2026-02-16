@@ -119,7 +119,7 @@ describe("addToCart tests", () => {
       jest.clearAllMocks();
    });
 
-   it("addToCart - test", async () => {
+   it("addToCart - item added - test", async () => {
       const session = ntestData.session();
       const cart = ptestData.pCartWithItems();
       const item = ptestData.pCartItem();
@@ -153,60 +153,14 @@ describe("removeFromCart tests", () => {
       jest.clearAllMocks();
    });
 
-   it("removeFromCart - success - test", async () => {
+   it("removeFromCart - item removed - test", async () => {
       const item = ptestData.pCartItem();
       cartRepoMock.pRemoveCartItem.mockResolvedValue(item);
 
-      const result = await cartService.removeFromCart(item.id);
+      await cartService.removeFromCart(item.id);
 
-      const expectdResult = {
-         success: true,
-         message: "Item removed from cart successfully.",
-      };
-
-      expect(result).toEqual(expectdResult);
       expect(cartRepoMock.pRemoveCartItem).toHaveBeenCalledTimes(1);
       expect(cartRepoMock.pRemoveCartItem).toHaveBeenCalledWith(item.id);
-   });
-
-   it("removeFromCart - error - test", async () => {
-      const item = ptestData.pCartItem();
-      const errorMessage = "Item not found";
-      const error = new Error(errorMessage);
-
-      cartRepoMock.pRemoveCartItem.mockRejectedValue(error);
-
-      const result = await cartService.removeFromCart(item.id);
-
-      const expectdResult = {
-         success: false,
-         message: errorMessage,
-      };
-
-      expect(result).toEqual(expectdResult);
-      expect(cartRepoMock.pRemoveCartItem).toHaveBeenCalledTimes(1);
-      expect(cartRepoMock.pRemoveCartItem).toHaveBeenCalledWith(item.id);
-   });
-
-   it("removeFromCart - database error - test", async () => {
-      const item = ptestData.pCartItem();
-      const error = {
-         name: "PrismaClientKnownRequestError",
-         code: "P2025",
-         message: "Record to delete does not exist.",
-      };
-
-      cartRepoMock.pRemoveCartItem.mockRejectedValue(error);
-
-      const result = await cartService.removeFromCart(item.id);
-
-      const expectdResult = {
-         success: false,
-         message: "Record to delete does not exist.",
-      };
-
-      expect(result).toEqual(expectdResult);
-      expect(cartRepoMock.pRemoveCartItem).toHaveBeenCalledTimes(1);
    });
 });
 

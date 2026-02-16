@@ -31,8 +31,20 @@ export const addToCart = async (product: DProduct): Promise<ActionResult> => {
 };
 
 export const removeFromCart = async (itemId: string): Promise<ActionResult> => {
-   const service = getCartSevice();
-   return service.removeFromCart(itemId);
+   try {
+      const service = getCartSevice();
+      await service.removeFromCart(itemId);
+      return {
+         success: true,
+         message: "Item removed from the cart successfully.",
+      };
+   } catch (error) {
+      console.error(formatError(error));
+      return {
+         success: false,
+         message: "Item couldn't be removed from the cart.",
+      };
+   }
 };
 
 export const migrateSessionCartToUser = async (
@@ -40,7 +52,7 @@ export const migrateSessionCartToUser = async (
    userId: string
 ) => {
    const service = getCartSevice();
-   service.migrateSessionCartToUser(sessionCartId, userId);
+   await service.migrateSessionCartToUser(sessionCartId, userId);
 };
 
 const getCartSevice = (dbClient: DbClient = prisma) => {

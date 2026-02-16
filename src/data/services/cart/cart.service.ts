@@ -1,11 +1,9 @@
 import { cookies } from "next/headers";
 
 import { auth } from "@/auth";
-import { formatError } from "@/data/actions/utils";
 import { AddItemToCartParams, CartRepository } from "@/data/repositories/cart";
 import { DCart } from "@/data/types/domain/cart";
 import { DProduct } from "@/data/types/domain/product";
-import { ActionResult } from "@/data/types/utils";
 
 import { toDCart } from "./cart.mapper";
 
@@ -49,20 +47,8 @@ export class CartService {
       await this.cartRepository.pAddItemToCart(params);
    }
 
-   async removeFromCart(itemId: string): Promise<ActionResult> {
-      try {
-         await this.cartRepository.pRemoveCartItem(itemId);
-
-         return {
-            success: true,
-            message: "Item removed from cart successfully.",
-         };
-      } catch (error) {
-         return {
-            success: false,
-            message: formatError(error),
-         };
-      }
+   async removeFromCart(itemId: string) {
+      await this.cartRepository.pRemoveCartItem(itemId);
    }
 
    async clearCart(userId: string) {
