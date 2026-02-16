@@ -83,31 +83,14 @@ describe("createOrder tests", () => {
       orderRepoMock.pCreateOrder.mockResolvedValue(order);
 
       const userId = "user-id-1";
-      const cart = dtestData.dCart();
+      const orderCreate = dtestData.dOrderCreate();
 
-      const result = await orderService.createOrder(userId, cart);
-
-      const expectedOrderItems: DOrderItemCreate[] = map(
-         cart.items,
-         (item) => ({
-            productId: item.productId,
-            productName: item.productName,
-            productDescription: item.productDescription,
-            productType: item.productType,
-            quantity: item.quantity,
-            price: Number(item.productPrice),
-         })
-      );
-
-      const expectedCreateOrder: DOrderCreate = {
-         totalAmount: cart.total,
-         items: expectedOrderItems,
-      };
+      const result = await orderService.createOrder(userId, orderCreate);
 
       expect(result).toEqual(order);
       expect(orderRepoMock.pCreateOrder).toHaveBeenCalledTimes(1);
       expect(orderRepoMock.pCreateOrder).toHaveBeenCalledWith(
-         expectedCreateOrder,
+         orderCreate,
          userId
       );
    });
