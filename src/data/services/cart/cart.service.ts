@@ -17,26 +17,22 @@ export class CartService {
    }
 
    async getCart(): Promise<DCart> {
-      try {
-         let userId = undefined;
-         let sessionCartId = undefined;
+      let userId = undefined;
+      let sessionCartId = undefined;
 
-         const session = await auth();
-         if (session?.user?.id) {
-            userId = session.user.id;
-         } else {
-            const cookiesObject = await cookies();
-            sessionCartId = cookiesObject.get("sessionCartId")?.value;
-         }
-
-         const cart = await this.cartRepository.pGetOrCreateCart({
-            userId,
-            sessionCartId,
-         });
-         return toDCart(cart);
-      } catch (error) {
-         throw error;
+      const session = await auth();
+      if (session?.user?.id) {
+         userId = session.user.id;
+      } else {
+         const cookiesObject = await cookies();
+         sessionCartId = cookiesObject.get("sessionCartId")?.value;
       }
+
+      const cart = await this.cartRepository.pGetOrCreateCart({
+         userId,
+         sessionCartId,
+      });
+      return toDCart(cart);
    }
 
    async addToCart(product: DProduct): Promise<ActionResult> {
