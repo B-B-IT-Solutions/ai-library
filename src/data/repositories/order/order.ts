@@ -1,15 +1,20 @@
+import { map } from "es-toolkit/compat";
+
 import { DbClient } from "@/data/types/db/common";
 import { OrderProducts, OrderWithItems } from "@/data/types/db/order";
-import { Order, OrderStatus } from "@/generated/prisma/client";
-import { OrderCreateInput } from "@/generated/prisma/models";
+import { DOrder, DOrderCreate, DOrderUpdate } from "@/data/types/domain/order";
+import { Order } from "@/generated/prisma/client";
+import {
+   OrderCreateArgs,
+   OrderItemCreateWithoutOrderInput,
+   OrderUpdateInput,
+} from "@/generated/prisma/models";
 
-export type OrderUpdate = {
-   status?: OrderStatus;
-   stripeCheckoutSessionId?: string;
-   stripePaymentIntentId?: string;
-   stripePaymentStatus?: string;
-   paymentMethod?: string;
-};
+import {
+   toDOrder,
+   toDOrdersWithItems,
+   toDOrderWithItems,
+} from "./order.mapper";
 
 export class OrderRepository {
    private prisma: DbClient;
@@ -18,8 +23,8 @@ export class OrderRepository {
       this.prisma = prisma;
    }
 
-   async pGetOrders(userId: string): Promise<OrderWithItems[]> {
-      return await this.prisma.order.findMany({
+   async pGetOrders(userId: string): Promise<DOrder[]> {
+      const orders = await this.prisma.order.findMany({
          where: { userId },
          include: {
             items: true,
@@ -28,13 +33,12 @@ export class OrderRepository {
             createdAt: "desc",
          },
       });
+
+      return toDOrdersWithItems(orders);
    }
 
-   async pGetOrder(
-      orderId: string,
-      userId: string
-   ): Promise<OrderWithItems | null> {
-      return await this.prisma.order.findUnique({
+   async pGetOrder(orderId: string, userId: string): Promise<DOrder | null> {
+      const order: OrderWithItems | null = await this.prisma.order.findUnique({
          where: {
             id: orderId,
             userId,
@@ -43,16 +47,26 @@ export class OrderRepository {
             items: true,
          },
       });
+
+      if (order) {
+         return toDOrderWithItems(order);
+      }
+      return null;
    }
 
    async pGetOrderByPaymentIntentId(
       paymentIntentId: string
-   ): Promise<Order | null> {
-      return await this.prisma.order.findFirst({
+   ): Promise<DOrder | null> {
+      const order = await this.prisma.order.findFirst({
          where: {
             stripePaymentIntentId: paymentIntentId,
          },
       });
+
+      if (order) {
+         return toDOrder(order);
+      }
+      return null;
    }
 
    async pGetOrderProducts(orderId: string): Promise<OrderProducts | null> {
@@ -82,13 +96,53 @@ export class OrderRepository {
       });
    }
 
-   async pCreateOrder(data: OrderCreateInput): Promise<Order> {
-      return await this.prisma.order.create({
-         data,
-      });
+   async pCreateOrder(data: DOrderCreate, userId: string): Promise<DOrder> {
+      const orderItems: OrderItemCreateWithoutOrderInput[] = map(
+         data.items,
+         (item) => {
+            return {
+               product: {
+                  connect: {
+                     id: item.productId,
+                  },
+               },
+               productName: item.productName,
+               productDescription: item.productDescription,
+               productType: item.productType,
+               quantity: item.quantity,
+               price: item.price,
+            };
+         }
+      );
+
+      const args: OrderCreateArgs = {
+         data: {
+            status: "PENDING",
+            totalAmount: data.totalAmount,
+            items: {
+               create: orderItems,
+            },
+            user: {
+               connect: {
+                  id: userId,
+               },
+            },
+         },
+      };
+
+      const order = await this.prisma.order.create(args);
+      return toDOrder(order);
    }
 
-   async pUpdateOrder(orderId: string, data: OrderUpdate) {
+   async pUpdateOrder(orderId: string, dUpdate: DOrderUpdate) {
+      const data: OrderUpdateInput = {
+         status: dUpdate.status,
+         stripeCheckoutSessionId: dUpdate.stripeCheckoutSessionId,
+         stripePaymentIntentId: dUpdate.stripePaymentIntentId,
+         stripePaymentStatus: dUpdate.stripePaymentStatus,
+         paymentMethod: dUpdate.paymentMethod,
+      };
+
       return await this.prisma.order.update({
          where: { id: orderId },
          data: data,

@@ -1,5 +1,27 @@
 import { DProductType } from "@/data/types/domain/product";
 
+export type DOrderCreate = {
+   totalAmount: number;
+   items: DOrderItemCreate[];
+};
+
+export type DOrderItemCreate = {
+   productId: string;
+   productName: string;
+   productDescription?: string;
+   productType: DProductType;
+   quantity: number;
+   price: number;
+};
+
+export type DOrderUpdate = {
+   status?: DOrderStatus;
+   stripeCheckoutSessionId?: string;
+   stripePaymentIntentId?: string;
+   stripePaymentStatus?: string;
+   paymentMethod?: string;
+};
+
 export type DOrderStatus = "PENDING" | "COMPLETED" | "FAILED" | "REFUNDED";
 
 export type DOrder = {
@@ -25,9 +47,4 @@ export type DOrderItem = {
    productType: DProductType;
    price: number;
    createdAt: string;
-};
-
-export type DOrderUpdate = {
-   stripeCheckoutSessionId?: string;
-   stripePaymentStatus?: string;
 };

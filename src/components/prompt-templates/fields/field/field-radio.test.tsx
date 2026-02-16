@@ -41,7 +41,7 @@ const baseField: DPromptTemplateField = {
 };
 
 const assertRendered = () => {
-   const field = screen.getByTestId("name-1-field");
+   const field = screen.getByTestId("name-1");
    const label = screen.getByText("Test Radio");
 
    assertInDocument(field);
@@ -63,6 +63,7 @@ describe("RadioField rendering tests", () => {
       const field: DPromptTemplateField = {
          ...baseField,
          required: true,
+         options: undefined,
       };
 
       const { container } = render(<TestWrapper field={field} />);

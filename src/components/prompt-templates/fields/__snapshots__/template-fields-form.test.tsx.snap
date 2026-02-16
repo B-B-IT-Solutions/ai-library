@@ -142,156 +142,219 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
     </div>
     <div>
       <div
-        class="gap-2 flex items-center space-x-2"
+        class="grid gap-2"
         data-slot="form-item"
-        data-testid="newsletter-field"
+        data-testid="newsletter"
       >
-        <button
-          aria-checked="false"
-          aria-describedby="_r_5_-form-item-description"
-          aria-invalid="false"
-          class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
-          data-slot="form-control"
-          data-state="unchecked"
-          id="_r_5_-form-item"
-          role="checkbox"
-          type="button"
-          value="on"
+        <div
+          class="flex items-center space-x-2"
         >
-          <div
-            data-testid="mock-react-presence"
+          <button
+            aria-checked="false"
+            aria-describedby="_r_5_-form-item-description"
+            aria-invalid="false"
+            class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
+            data-slot="form-control"
+            data-state="unchecked"
+            id="_r_5_-form-item"
+            role="checkbox"
+            type="button"
+            value="on"
           >
-            <span
-              class="grid place-content-center text-current transition-none"
-              data-slot="checkbox-indicator"
-              data-state="unchecked"
-              style="pointer-events: none;"
+            <div
+              data-testid="mock-react-presence"
             >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-check size-3.5"
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
+              <span
+                class="grid place-content-center text-current transition-none"
+                data-slot="checkbox-indicator"
+                data-state="unchecked"
+                style="pointer-events: none;"
               >
-                <path
-                  d="M20 6 9 17l-5-5"
-                />
-              </svg>
-            </span>
-          </div>
-        </button>
-        <input
-          aria-hidden="true"
-          style="position: absolute; pointer-events: none; opacity: 0; margin: 0px; transform: translateX(-100%); width: 0px; height: 0px;"
-          tabindex="-1"
-          type="checkbox"
-          value="on"
-        />
-        <label
-          class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
-          data-error="false"
-          data-slot="form-label"
-          for="_r_5_-form-item"
-        >
-          Newsletter
-        </label>
-        <p
-          class="text-muted-foreground text-sm"
-          data-slot="form-description"
-          id="_r_5_-form-item-description"
-        >
-           
-        </p>
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-check size-3.5"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M20 6 9 17l-5-5"
+                  />
+                </svg>
+              </span>
+            </div>
+          </button>
+          <input
+            aria-hidden="true"
+            style="position: absolute; pointer-events: none; opacity: 0; margin: 0px; transform: translateX(-100%); width: 0px; height: 0px;"
+            tabindex="-1"
+            type="checkbox"
+            value="on"
+          />
+          <label
+            class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive cursor-pointer"
+            data-error="false"
+            data-slot="form-label"
+            for="_r_5_-form-item"
+          >
+            Newsletter
+          </label>
+        </div>
       </div>
     </div>
     <div>
       <div
-        aria-required="false"
         class="grid gap-2"
         data-slot="form-item"
-        data-testid="gender-field"
+        data-testid="gender"
       >
         <label
-          class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
+          class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
           data-error="false"
           data-slot="form-label"
           for="_r_6_-form-item"
         >
           Gender
         </label>
-        <p
-          class="text-muted-foreground text-sm"
-          data-slot="form-description"
-          id="_r_6_-form-item-description"
-        >
-           
-        </p>
-        <button
-          aria-autocomplete="none"
-          aria-controls="radix-_r_7_"
+        <div
           aria-describedby="_r_6_-form-item-description"
-          aria-expanded="false"
           aria-invalid="false"
-          class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
-          data-placeholder=""
-          data-size="default"
+          aria-required="false"
+          class="gap-3 mt-1 flex flex-col space-y-1"
           data-slot="form-control"
-          data-state="closed"
           dir="ltr"
           id="_r_6_-form-item"
-          role="combobox"
-          type="button"
+          role="radiogroup"
+          style="outline: none;"
+          tabindex="0"
         >
-          <span
-            data-slot="select-value"
-            style="pointer-events: none;"
+          <div
+            class="flex items-center space-x-2"
           >
-            Auswählen...
-          </span>
-          <svg
-            aria-hidden="true"
-            class="lucide lucide-chevron-down size-4 opacity-50"
-            fill="none"
-            height="24"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-            width="24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="m6 9 6 6 6-6"
+            <button
+              aria-checked="false"
+              class="aspect-square size-4 shrink-0 rounded-full border border-input text-primary shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:bg-input/30 dark:aria-invalid:ring-destructive/40"
+              data-radix-collection-item=""
+              data-slot="radio-group-item"
+              data-state="unchecked"
+              id="gender-Male"
+              role="radio"
+              tabindex="-1"
+              type="button"
+              value="Male"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="relative flex items-center justify-center"
+                  data-slot="radio-group-indicator"
+                  data-state="unchecked"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-circle absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2 fill-primary"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <input
+              aria-hidden="true"
+              style="transform: translateX(-100%); position: absolute; pointer-events: none; opacity: 0; margin: 0px; width: 0px; height: 0px;"
+              tabindex="-1"
+              type="radio"
+              value="Male"
             />
-          </svg>
-        </button>
-        <div
-          data-testid="mock-react-portal"
-        />
-        <select
-          aria-hidden="true"
-          style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
-          tabindex="-1"
-        >
-          <option
-            value="Male"
+            <label
+              class="flex items-center gap-2 text-sm leading-none select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 cursor-pointer font-normal peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              data-slot="label"
+              for="gender-Male"
+            >
+              Male
+            </label>
+          </div>
+          <div
+            class="flex items-center space-x-2"
           >
-            Male
-          </option>
-          <option
-            value="Female"
-          >
-            Female
-          </option>
-        </select>
+            <button
+              aria-checked="false"
+              class="aspect-square size-4 shrink-0 rounded-full border border-input text-primary shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:bg-input/30 dark:aria-invalid:ring-destructive/40"
+              data-radix-collection-item=""
+              data-slot="radio-group-item"
+              data-state="unchecked"
+              id="gender-Female"
+              role="radio"
+              tabindex="-1"
+              type="button"
+              value="Female"
+            >
+              <div
+                data-testid="mock-react-presence"
+              >
+                <span
+                  class="relative flex items-center justify-center"
+                  data-slot="radio-group-indicator"
+                  data-state="unchecked"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-circle absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2 fill-primary"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </button>
+            <input
+              aria-hidden="true"
+              style="transform: translateX(-100%); position: absolute; pointer-events: none; opacity: 0; margin: 0px; width: 0px; height: 0px;"
+              tabindex="-1"
+              type="radio"
+              value="Female"
+            />
+            <label
+              class="flex items-center gap-2 text-sm leading-none select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 cursor-pointer font-normal peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              data-slot="label"
+              for="gender-Female"
+            >
+              Female
+            </label>
+          </div>
+        </div>
       </div>
     </div>
     <div>
@@ -304,14 +367,14 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
           class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
           data-error="false"
           data-slot="form-label"
-          for="_r_8_-form-item"
+          for="_r_9_-form-item"
         >
           Country
         </label>
         <button
           aria-autocomplete="none"
-          aria-controls="radix-_r_9_"
-          aria-describedby="_r_8_-form-item-description"
+          aria-controls="radix-_r_a_"
+          aria-describedby="_r_9_-form-item-description"
           aria-expanded="false"
           aria-invalid="false"
           class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
@@ -320,7 +383,7 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
           data-slot="form-control"
           data-state="closed"
           dir="ltr"
-          id="_r_8_-form-item"
+          id="_r_9_-form-item"
           role="combobox"
           type="button"
         >

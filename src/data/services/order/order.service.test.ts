@@ -3,21 +3,15 @@ jest.mock("@/data/services/cart");
 jest.mock("@/data/services/library");
 
 import { dtestData, ptestData } from "@tests";
-import { map } from "es-toolkit/compat";
 import { DeepMockProxy } from "jest-mock-extended";
 
-import { OrderRepository, OrderUpdate } from "@/data/repositories/order";
+import { OrderRepository } from "@/data/repositories/order";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { CartService } from "@/data/services/cart";
 import { LibraryService } from "@/data/services/library";
 import { DOrderUpdate } from "@/data/types/domain/order";
 
-import {
-   toDOrder,
-   toDOrdersWithItems,
-   toDOrderWithItems,
-} from "./order.mapper";
 import { OrderService } from "./order.service";
 
 const serviceFactory = new ServiceFactory(prisma);
@@ -43,14 +37,12 @@ describe("getOrders tests", () => {
 
    it("getOrders - orders retrieved - test", async () => {
       const userId = "user-id-1";
-      const orders = ptestData.pOrdersWithItems();
+      const orders = dtestData.dOrders();
       orderRepoMock.pGetOrders.mockResolvedValue(orders);
 
       const result = await orderService.getOrders(userId);
 
-      const expectedResult = toDOrdersWithItems(orders);
-
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual(orders);
       expect(orderRepoMock.pGetOrders).toHaveBeenCalledTimes(1);
       expect(orderRepoMock.pGetOrders).toHaveBeenCalledWith(userId);
    });
@@ -61,31 +53,16 @@ describe("getOrder tests", () => {
       jest.clearAllMocks();
    });
 
-   it("getOrder - order null - test", async () => {
-      const userId = "user-id-1";
-      orderRepoMock.pGetOrder.mockResolvedValue(null);
-
-      const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
-
-      const result = await orderService.getOrder(orderId, userId);
-
-      expect(result).toBeNull();
-      expect(orderRepoMock.pGetOrder).toHaveBeenCalledTimes(1);
-      expect(orderRepoMock.pGetOrder).toHaveBeenCalledWith(orderId, userId);
-   });
-
    it("getOrder - order retrieved - test", async () => {
       const userId = "user-id-1";
-      const order = ptestData.pOrderWithItems();
+      const order = dtestData.dOrder();
       orderRepoMock.pGetOrder.mockResolvedValue(order);
 
       const orderId = "3d6708b6-554d-4ad5-bcd5-9be4825973a3";
 
       const result = await orderService.getOrder(orderId, userId);
 
-      const expectedResult = toDOrderWithItems(order);
-
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual(order);
       expect(orderRepoMock.pGetOrder).toHaveBeenCalledTimes(1);
       expect(orderRepoMock.pGetOrder).toHaveBeenCalledWith(orderId, userId);
    });
@@ -97,45 +74,19 @@ describe("createOrder tests", () => {
    });
 
    it("createOrder - test", async () => {
-      const order = ptestData.pOrder();
+      const order = dtestData.dOrder();
       orderRepoMock.pCreateOrder.mockResolvedValue(order);
 
-      const userId = "user-1";
-      const cart = dtestData.dCart();
+      const userId = "user-id-1";
+      const orderCreate = dtestData.dOrderCreate();
 
-      const result = await orderService.createOrder(userId, cart);
-      const expectedResult = toDOrder(order);
+      const result = await orderService.createOrder(userId, orderCreate);
 
-      const expectedOrderItems = map(cart.items, (item) => ({
-         product: {
-            connect: {
-               id: item.productId,
-            },
-         },
-         productName: item.productName,
-         productDescription: item.productDescription,
-         productType: item.productType,
-         quantity: item.quantity,
-         price: Number(item.productPrice),
-      }));
-
-      const expectedCreatePayload = {
-         user: {
-            connect: {
-               id: userId,
-            },
-         },
-         status: "PENDING",
-         totalAmount: cart.total,
-         items: {
-            create: expectedOrderItems,
-         },
-      };
-
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual(order);
       expect(orderRepoMock.pCreateOrder).toHaveBeenCalledTimes(1);
       expect(orderRepoMock.pCreateOrder).toHaveBeenCalledWith(
-         expectedCreatePayload
+         orderCreate,
+         userId
       );
    });
 });
@@ -147,23 +98,12 @@ describe("updateOrder tests", () => {
 
    it("updateOrder - test", async () => {
       const orderId = "order-id-1";
-      const dUpdate: DOrderUpdate = {
-         stripeCheckoutSessionId: "session-id-1",
-         stripePaymentStatus: "unpaid",
-      };
+      const dUpdate = dtestData.dOrderUpdate();
 
       await orderService.updateOrder(orderId, dUpdate);
 
-      const expectedUpdatePayload: OrderUpdate = {
-         stripeCheckoutSessionId: dUpdate.stripeCheckoutSessionId,
-         stripePaymentStatus: dUpdate.stripePaymentStatus,
-      };
-
       expect(orderRepoMock.pUpdateOrder).toHaveBeenCalledTimes(1);
-      expect(orderRepoMock.pUpdateOrder).toHaveBeenCalledWith(
-         orderId,
-         expectedUpdatePayload
-      );
+      expect(orderRepoMock.pUpdateOrder).toHaveBeenCalledWith(orderId, dUpdate);
    });
 });
 
@@ -253,7 +193,7 @@ describe("handlePaymentCheckoutCompleted tests", () => {
          order
       );
 
-      const expectedOrderUpdate: OrderUpdate = {
+      const expectedOrderUpdate: DOrderUpdate = {
          status: "COMPLETED",
          stripePaymentIntentId: paymentIntentId,
          stripePaymentStatus: paymentStatus,
@@ -280,7 +220,7 @@ describe("handleStripeCheckoutExpired tests", () => {
 
       await orderService.handleStripeCheckoutExpired(orderId);
 
-      const expectedOrderUpdate: OrderUpdate = {
+      const expectedOrderUpdate: DOrderUpdate = {
          status: "FAILED",
       };
       expect(orderRepoMock.pUpdateOrder).toHaveBeenCalledTimes(1);
@@ -328,7 +268,7 @@ describe("handleStripePaymentFailed tests", () => {
          paymentIntentId
       );
 
-      const expectedOrderUpdate: OrderUpdate = {
+      const expectedOrderUpdate: DOrderUpdate = {
          status: "FAILED",
          stripePaymentStatus: "failed",
       };

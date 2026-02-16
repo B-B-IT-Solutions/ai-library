@@ -20,7 +20,7 @@ import {
 import { APP_URL } from "@/lib/constants";
 import { stripe } from "@/lib/stripe/stripe-server";
 
-import { mapStripeStatus, toStripePriceUnit } from "./utils";
+import { cartToOrderCreate, mapStripeStatus, toStripePriceUnit } from "./utils";
 
 export class StripeService {
    private cartService: CartService;
@@ -48,7 +48,8 @@ export class StripeService {
          throw new Error("Your cart is empty.");
       }
 
-      const order = await this.orderService.createOrder(user.id, cart);
+      const orderCreate = cartToOrderCreate(cart);
+      const order = await this.orderService.createOrder(user.id, orderCreate);
 
       const lineItems = cart.items.map((item) => ({
          price_data: {

@@ -16,11 +16,6 @@ import {
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 
-import {
-   toDLibraryEntries,
-   toDLibraryEntryWithPromptTemplate,
-} from "./library.mapper";
-
 export class LibraryService {
    private libraryRepository: LibraryRepository;
    private promptTemplateService: PromptTemplateService;
@@ -34,13 +29,7 @@ export class LibraryService {
    }
 
    async getLibraryEntries(userId: string): Promise<DLibraryEntry[]> {
-      try {
-         const entries =
-            await this.libraryRepository.pGetLibraryEntries(userId);
-         return toDLibraryEntries(entries);
-      } catch {
-         return [];
-      }
+      return await this.libraryRepository.pGetLibraryEntries(userId);
    }
 
    async getLibraryEntry(
@@ -51,12 +40,7 @@ export class LibraryService {
          entryId,
          userId,
       };
-      const entry = await this.libraryRepository.pGetLibraryEntry(params);
-
-      if (entry) {
-         return toDLibraryEntryWithPromptTemplate(entry);
-      }
-      return null;
+      return await this.libraryRepository.pGetLibraryEntry(params);
    }
 
    async createLibraryEntry(data: DPromptTemplateUpdate, userId: string) {
@@ -86,12 +70,12 @@ export class LibraryService {
    }
 
    async composePromptFromTemplate(
-      descriptorId: string,
+      templateDescriptorId: string,
       fieldValues: DPromptTemplateFieldValues,
       userId: string
    ): Promise<DPromptUpdate> {
       const params: GetLibraryEntryParams = {
-         templateDescriptorId: descriptorId,
+         templateDescriptorId,
          userId,
       };
       const entry = await this.libraryRepository.pGetLibraryEntry(params);

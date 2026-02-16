@@ -40,7 +40,7 @@ const baseField: DPromptTemplateField = {
 };
 
 const asseertRendered = () => {
-   const field = screen.getByTestId("name-1-field");
+   const field = screen.getByTestId("name-1");
    const label = screen.getByText("Test Checkbox");
 
    assertInDocument(field);

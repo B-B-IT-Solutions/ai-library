@@ -1,16 +1,7 @@
-import { map } from "es-toolkit/compat";
-
-import { OrderRepository, OrderUpdate } from "@/data/repositories/order";
+import { OrderRepository } from "@/data/repositories/order";
 import { CartService } from "@/data/services/cart";
 import { LibraryService } from "@/data/services/library";
-import { DCart } from "@/data/types/domain/cart";
-import { DOrder, DOrderUpdate } from "@/data/types/domain/order";
-
-import {
-   toDOrder,
-   toDOrdersWithItems,
-   toDOrderWithItems,
-} from "./order.mapper";
+import { DOrder, DOrderCreate, DOrderUpdate } from "@/data/types/domain/order";
 
 export class OrderService {
    private orderRepository: OrderRepository;
@@ -28,54 +19,19 @@ export class OrderService {
    }
 
    async getOrders(userId: string): Promise<DOrder[]> {
-      const orders = await this.orderRepository.pGetOrders(userId);
-      return toDOrdersWithItems(orders);
+      return await this.orderRepository.pGetOrders(userId);
    }
 
    async getOrder(orderId: string, userId: string): Promise<DOrder | null> {
-      const order = await this.orderRepository.pGetOrder(orderId, userId);
-      if (order) {
-         return toDOrderWithItems(order);
-      }
-      return null;
+      return await this.orderRepository.pGetOrder(orderId, userId);
    }
 
-   async createOrder(userId: string, cart: DCart): Promise<DOrder> {
-      const items = map(cart.items, (item) => ({
-         product: {
-            connect: {
-               id: item.productId,
-            },
-         },
-         productName: item.productName,
-         productDescription: item.productDescription,
-         productType: item.productType,
-         quantity: item.quantity,
-         price: Number(item.productPrice),
-      }));
-
-      const order = await this.orderRepository.pCreateOrder({
-         user: {
-            connect: {
-               id: userId,
-            },
-         },
-         status: "PENDING",
-         totalAmount: cart.total,
-         items: {
-            create: items,
-         },
-      });
-
-      return toDOrder(order);
+   async createOrder(userId: string, oCreate: DOrderCreate): Promise<DOrder> {
+      return this.orderRepository.pCreateOrder(oCreate, userId);
    }
 
    async updateOrder(orderId: string, dUpdate: DOrderUpdate) {
-      const update: OrderUpdate = {
-         stripeCheckoutSessionId: dUpdate.stripeCheckoutSessionId,
-         stripePaymentStatus: dUpdate.stripePaymentStatus,
-      };
-      await this.orderRepository.pUpdateOrder(orderId, update);
+      await this.orderRepository.pUpdateOrder(orderId, dUpdate);
    }
 
    async deleteOrders(userId: string) {
@@ -93,7 +49,7 @@ export class OrderService {
       }
 
       if (order.status !== "COMPLETED") {
-         const payload: OrderUpdate = {
+         const payload: DOrderUpdate = {
             status: "COMPLETED",
             stripePaymentIntentId: paymentIntentId,
             stripePaymentStatus: paymentStatus,
@@ -106,7 +62,7 @@ export class OrderService {
    }
 
    async handleStripeCheckoutExpired(orderId: string) {
-      const payload: OrderUpdate = {
+      const payload: DOrderUpdate = {
          status: "FAILED",
       };
       await this.orderRepository.pUpdateOrder(orderId, payload);
@@ -122,10 +78,10 @@ export class OrderService {
          );
       }
 
-      const payload: OrderUpdate = {
+      const orderUpdate: DOrderUpdate = {
          status: "FAILED",
          stripePaymentStatus: "failed",
       };
-      await this.orderRepository.pUpdateOrder(order.id, payload);
+      await this.orderRepository.pUpdateOrder(order.id, orderUpdate);
    }
 }

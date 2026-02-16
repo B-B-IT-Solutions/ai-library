@@ -6,7 +6,13 @@ import {
    DLibraryEntry,
    DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
-import { DOrder, DOrderItem } from "@/data/types/domain/order";
+import {
+   DOrder,
+   DOrderCreate,
+   DOrderItem,
+   DOrderItemCreate,
+   DOrderUpdate,
+} from "@/data/types/domain/order";
 import {
    DExample,
    DFeature,
@@ -189,6 +195,38 @@ export const dCartItem = (index = 1): DCartItem => {
       quantity: 1,
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dOrderCreate = (itemsCount = 3): DOrderCreate => {
+   return {
+      totalAmount: itemsCount * 19.99,
+      items: dOrderItemsCreate(itemsCount),
+   };
+};
+
+export const dOrderUpdate = (index = 1): DOrderUpdate => {
+   return {
+      status: "COMPLETED",
+      stripeCheckoutSessionId: `907edda7-f0dd-4e79-bfe9-52745466586${index}`,
+      stripePaymentIntentId: `31119165-f7d2-4113-b664-dc084637707${index}`,
+      stripePaymentStatus: "paid",
+      paymentMethod: "card",
+   };
+};
+
+export const dOrderItemsCreate = (count = 3): DOrderItemCreate[] => {
+   return range(0, count).map((i) => dOrderItemCreate(i));
+};
+
+export const dOrderItemCreate = (index = 1): DOrderItemCreate => {
+   return {
+      productId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      productName: `name ${index}`,
+      productDescription: `description ${index}`,
+      productType: "TEMPLATE",
+      quantity: 1,
+      price: 19.99,
    };
 };
 
@@ -390,7 +428,7 @@ export const dPromptTemplateField = (index = 1): DPromptTemplateField => {
 
 export const dPromptTemplateFieldUpdates = (
    count = 3
-): DPromptTemplateField[] => {
+): DPromptTemplateFieldUpdate[] => {
    return range(0, count).map((i) => dPromptTemplateFieldUpdate(i));
 };
 

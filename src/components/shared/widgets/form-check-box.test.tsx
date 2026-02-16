@@ -8,10 +8,11 @@ import { FormCheckBox } from "./form-check-box";
 type Props = {
    name: string;
    label: string;
+   description?: string;
    className?: string;
 };
 
-const TestWrapper: FC<Props> = ({ name, label, className }) => {
+const TestWrapper: FC<Props> = ({ name, label, description, className }) => {
    const form = useForm({
       defaultValues: {
          [name]: false,
@@ -23,6 +24,7 @@ const TestWrapper: FC<Props> = ({ name, label, className }) => {
          <FormCheckBox
             name={name}
             label={label}
+            description={description}
             className={className}
             control={form.control}
          />
@@ -38,7 +40,9 @@ const assertRendered = (name: string) => {
 describe("FormCheckBox rendering tests", () => {
    it("FormCheckBox - className undefined - test", () => {
       const name = "test-123";
-      const { container } = render(<TestWrapper name={name} label="Label 1" />);
+      const { container } = render(
+         <TestWrapper name={name} label="Label 1" description="Description 1" />
+      );
 
       assertRendered(name);
 

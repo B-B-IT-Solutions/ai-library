@@ -1,10 +1,11 @@
 import { map } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
+import { LibraryEntryWithPromptTemplateDescriptor } from "@/data/types/db/library";
 import {
-   LibraryEntryWithPromptTemplate,
-   LibraryEntryWithPromptTemplateDescriptor,
-} from "@/data/types/db/library";
+   DLibraryEntry,
+   DLibraryEntryWithPromptTemplate,
+} from "@/data/types/domain/library";
 import {
    LibraryEntryCreateArgs,
    LibraryEntryCreateInput,
@@ -12,6 +13,11 @@ import {
    LibraryEntryCreateManyInput,
    LibraryEntryWhereUniqueInput,
 } from "@/generated/prisma/models";
+
+import {
+   toDLibraryEntries,
+   toDLibraryEntryWithPromptTemplate,
+} from "./library.mapper";
 
 export type GetLibraryEntryParams = {
    userId: string;
@@ -27,29 +33,29 @@ export class LibraryRepository {
       this.prisma = prisma;
    }
 
-   async pGetLibraryEntries(
-      userId: string
-   ): Promise<LibraryEntryWithPromptTemplateDescriptor[]> {
-      return await this.prisma.libraryEntry.findMany({
-         where: { userId },
-         include: {
-            templateDescriptor: {
-               include: {
-                  categories: true,
+   async pGetLibraryEntries(userId: string): Promise<DLibraryEntry[]> {
+      const entries: LibraryEntryWithPromptTemplateDescriptor[] =
+         await this.prisma.libraryEntry.findMany({
+            where: { userId },
+            include: {
+               templateDescriptor: {
+                  include: {
+                     categories: true,
+                  },
                },
             },
-         },
-         orderBy: {
-            createdAt: "desc",
-         },
-      });
+            orderBy: {
+               createdAt: "desc",
+            },
+         });
+      return toDLibraryEntries(entries);
    }
 
    async pGetLibraryEntry(
       params: GetLibraryEntryParams
-   ): Promise<LibraryEntryWithPromptTemplate | null> {
+   ): Promise<DLibraryEntryWithPromptTemplate | null> {
       const where = this.getLibraryEntryParamsToWhereFindUniqueInput(params);
-      return await this.prisma.libraryEntry.findUnique({
+      const entry = await this.prisma.libraryEntry.findUnique({
          where: where,
          include: {
             templateDescriptor: {
@@ -64,6 +70,11 @@ export class LibraryRepository {
             },
          },
       });
+
+      if (entry) {
+         return toDLibraryEntryWithPromptTemplate(entry);
+      }
+      return null;
    }
 
    async pCreateLibraryEntry(userId: string, templateDescriptorId: string) {
