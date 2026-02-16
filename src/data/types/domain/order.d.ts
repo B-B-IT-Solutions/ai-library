@@ -1,5 +1,19 @@
 import { DProductType } from "@/data/types/domain/product";
 
+export type DOrderCreate = {
+   totalAmount: number;
+   items: DOrderItemCreate[];
+};
+
+export type DOrderItemCreate = {
+   productId: string;
+   productName: string;
+   productDescription?: string;
+   productType: DProductType;
+   quantity: number;
+   price: number;
+};
+
 export type DOrderStatus = "PENDING" | "COMPLETED" | "FAILED" | "REFUNDED";
 
 export type DOrder = {

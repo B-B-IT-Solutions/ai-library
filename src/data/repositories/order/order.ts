@@ -1,12 +1,18 @@
+import { map } from "es-toolkit/compat";
+
 import {
+   toDOrder,
    toDOrdersWithItems,
    toDOrderWithItems,
 } from "@/data/services/order/order.mapper";
 import { DbClient } from "@/data/types/db/common";
 import { OrderProducts, OrderWithItems } from "@/data/types/db/order";
-import { DOrder } from "@/data/types/domain/order";
+import { DOrder, DOrderCreate } from "@/data/types/domain/order";
 import { Order, OrderStatus } from "@/generated/prisma/client";
-import { OrderCreateInput } from "@/generated/prisma/models";
+import {
+   OrderCreateArgs,
+   OrderItemCreateWithoutOrderInput,
+} from "@/generated/prisma/models";
 
 export type OrderUpdate = {
    status?: OrderStatus;
@@ -91,10 +97,42 @@ export class OrderRepository {
       });
    }
 
-   async pCreateOrder(data: OrderCreateInput): Promise<Order> {
-      return await this.prisma.order.create({
-         data,
-      });
+   async pCreateOrder(data: DOrderCreate, userId: string): Promise<DOrder> {
+      const orderItems: OrderItemCreateWithoutOrderInput[] = map(
+         data.items,
+         (item) => {
+            return {
+               product: {
+                  connect: {
+                     id: item.productId,
+                  },
+               },
+               productName: item.productName,
+               productDescription: item.productDescription,
+               productType: item.productType,
+               quantity: item.quantity,
+               price: item.price,
+            };
+         }
+      );
+
+      const args: OrderCreateArgs = {
+         data: {
+            status: "PENDING",
+            totalAmount: data.totalAmount,
+            items: {
+               create: orderItems,
+            },
+            user: {
+               connect: {
+                  id: userId,
+               },
+            },
+         },
+      };
+
+      const order = await this.prisma.order.create(args);
+      return toDOrder(order);
    }
 
    async pUpdateOrder(orderId: string, data: OrderUpdate) {

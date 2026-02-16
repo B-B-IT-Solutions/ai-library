@@ -1,10 +1,11 @@
 import { PrismaClient } from "@prisma/client";
-import { ptestData } from "@tests";
+import { dtestData, ptestData } from "@tests";
 import { map } from "es-toolkit/compat";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import {
+   toDOrder,
    toDOrdersWithItems,
    toDOrderWithItems,
 } from "@/data/services/order/order.mapper";
@@ -191,20 +192,20 @@ describe("pCreateOrder tests", () => {
    });
 
    test("pCreateOrder test", async () => {
+      const userId = "user-1";
+      const orderCreate = dtestData.dOrderCreate();
       const order = ptestData.pOrder();
       prismaMock.order.create.mockResolvedValue(order);
 
-      const items = ptestData.pCartItems(3);
-      const createInput: OrderCreateInput = {
-         user: {
-            connect: {
-               id: "user-1",
-            },
-         },
+      const result = await orderRepository.pCreateOrder(orderCreate, userId);
+
+      const expectedResult = toDOrder(order);
+
+      const expectedInput: OrderCreateInput = {
          status: "PENDING",
-         totalAmount: 27.99,
+         totalAmount: orderCreate.totalAmount,
          items: {
-            create: map(items, (i) => ({
+            create: map(orderCreate.items, (i) => ({
                product: {
                   connect: {
                      id: i.productId,
@@ -214,17 +215,21 @@ describe("pCreateOrder tests", () => {
                productDescription: i.productDescription,
                productType: i.productType,
                quantity: i.quantity,
-               price: 9.99,
+               price: i.price,
             })),
          },
+         user: {
+            connect: {
+               id: "user-1",
+            },
+         },
       };
-      const result = await orderRepository.pCreateOrder(createInput);
 
       const expectedOrderCreateArgs: OrderCreateArgs = {
-         data: createInput,
+         data: expectedInput,
       };
 
-      expect(result).toEqual(order);
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.order.create).toHaveBeenCalledTimes(1);
       expect(prismaMock.order.create).toHaveBeenCalledWith(
          expectedOrderCreateArgs

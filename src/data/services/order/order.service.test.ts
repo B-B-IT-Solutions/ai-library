@@ -11,9 +11,12 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { CartService } from "@/data/services/cart";
 import { LibraryService } from "@/data/services/library";
-import { DOrderUpdate } from "@/data/types/domain/order";
+import {
+   DOrderCreate,
+   DOrderItemCreate,
+   DOrderUpdate,
+} from "@/data/types/domain/order";
 
-import { toDOrder } from "./order.mapper";
 import { OrderService } from "./order.service";
 
 const serviceFactory = new ServiceFactory(prisma);
@@ -76,45 +79,36 @@ describe("createOrder tests", () => {
    });
 
    it("createOrder - test", async () => {
-      const order = ptestData.pOrder();
+      const order = dtestData.dOrder();
       orderRepoMock.pCreateOrder.mockResolvedValue(order);
 
-      const userId = "user-1";
+      const userId = "user-id-1";
       const cart = dtestData.dCart();
 
       const result = await orderService.createOrder(userId, cart);
-      const expectedResult = toDOrder(order);
 
-      const expectedOrderItems = map(cart.items, (item) => ({
-         product: {
-            connect: {
-               id: item.productId,
-            },
-         },
-         productName: item.productName,
-         productDescription: item.productDescription,
-         productType: item.productType,
-         quantity: item.quantity,
-         price: Number(item.productPrice),
-      }));
+      const expectedOrderItems: DOrderItemCreate[] = map(
+         cart.items,
+         (item) => ({
+            productId: item.productId,
+            productName: item.productName,
+            productDescription: item.productDescription,
+            productType: item.productType,
+            quantity: item.quantity,
+            price: Number(item.productPrice),
+         })
+      );
 
-      const expectedCreatePayload = {
-         user: {
-            connect: {
-               id: userId,
-            },
-         },
-         status: "PENDING",
+      const expectedCreateOrder: DOrderCreate = {
          totalAmount: cart.total,
-         items: {
-            create: expectedOrderItems,
-         },
+         items: expectedOrderItems,
       };
 
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual(order);
       expect(orderRepoMock.pCreateOrder).toHaveBeenCalledTimes(1);
       expect(orderRepoMock.pCreateOrder).toHaveBeenCalledWith(
-         expectedCreatePayload
+         expectedCreateOrder,
+         userId
       );
    });
 });

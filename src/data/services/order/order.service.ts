@@ -4,9 +4,12 @@ import { OrderRepository, OrderUpdate } from "@/data/repositories/order";
 import { CartService } from "@/data/services/cart";
 import { LibraryService } from "@/data/services/library";
 import { DCart } from "@/data/types/domain/cart";
-import { DOrder, DOrderUpdate } from "@/data/types/domain/order";
-
-import { toDOrder } from "./order.mapper";
+import {
+   DOrder,
+   DOrderCreate,
+   DOrderItemCreate,
+   DOrderUpdate,
+} from "@/data/types/domain/order";
 
 export class OrderService {
    private orderRepository: OrderRepository;
@@ -32,12 +35,8 @@ export class OrderService {
    }
 
    async createOrder(userId: string, cart: DCart): Promise<DOrder> {
-      const items = map(cart.items, (item) => ({
-         product: {
-            connect: {
-               id: item.productId,
-            },
-         },
+      const iCreates: DOrderItemCreate[] = map(cart.items, (item) => ({
+         productId: item.productId,
          productName: item.productName,
          productDescription: item.productDescription,
          productType: item.productType,
@@ -45,20 +44,12 @@ export class OrderService {
          price: Number(item.productPrice),
       }));
 
-      const order = await this.orderRepository.pCreateOrder({
-         user: {
-            connect: {
-               id: userId,
-            },
-         },
-         status: "PENDING",
+      const oCreate: DOrderCreate = {
          totalAmount: cart.total,
-         items: {
-            create: items,
-         },
-      });
+         items: iCreates,
+      };
 
-      return toDOrder(order);
+      return this.orderRepository.pCreateOrder(oCreate, userId);
    }
 
    async updateOrder(orderId: string, dUpdate: DOrderUpdate) {
