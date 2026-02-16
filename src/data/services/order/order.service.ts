@@ -35,19 +35,6 @@ export class OrderService {
    }
 
    async createOrder(userId: string, oCreate: DOrderCreate): Promise<DOrder> {
-      // const iCreates: DOrderItemCreate[] = map(cart.items, (item) => ({
-      //    productId: item.productId,
-      //    productName: item.productName,
-      //    productDescription: item.productDescription,
-      //    productType: item.productType,
-      //    quantity: item.quantity,
-      //    price: Number(item.productPrice),
-      // }));
-
-      // const oCreate: DOrderCreate = {
-      //    totalAmount: cart.total,
-      //    items: iCreates,
-      // };
       return this.orderRepository.pCreateOrder(oCreate, userId);
    }
 
