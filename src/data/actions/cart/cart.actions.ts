@@ -1,5 +1,6 @@
 "use server";
 
+import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
@@ -13,8 +14,20 @@ export const getCart = async (): Promise<DCart> => {
 };
 
 export const addToCart = async (product: DProduct): Promise<ActionResult> => {
-   const service = getCartSevice();
-   return service.addToCart(product);
+   try {
+      const service = getCartSevice();
+      await service.addToCart(product);
+      return {
+         success: true,
+         message: "Item added to the cart successfully.",
+      };
+   } catch (error) {
+      console.error(formatError(error));
+      return {
+         success: false,
+         message: "Item couldn't be added to the cart.",
+      };
+   }
 };
 
 export const removeFromCart = async (itemId: string): Promise<ActionResult> => {

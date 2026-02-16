@@ -46,18 +46,42 @@ describe("getCart tests", () => {
 describe("addToCart tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("addToCart - error - test", async () => {
+      const error = new Error("db error");
+      sAddToCartMock.mockRejectedValue(error);
+
+      const product = dtestData.dProduct();
+
+      const result = await addToCart(product);
+
+      const expectedResult = {
+         success: false,
+         message: "Item couldn't be added to the cart.",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sAddToCartMock).toHaveBeenCalledTimes(1);
+      expect(sAddToCartMock).toHaveBeenCalledWith(product);
+      expect(console.error).toHaveBeenCalledTimes(1);
    });
 
    it("addToCart test", async () => {
       const product = dtestData.dProduct();
-      const expectedResult = {
-         success: true,
-         message: "Item added to cart successfully.",
-      };
-
-      sAddToCartMock.mockResolvedValue(expectedResult);
+      sAddToCartMock.mockResolvedValue();
 
       const result = await addToCart(product);
+
+      const expectedResult = {
+         success: true,
+         message: "Item added to the cart successfully.",
+      };
 
       expect(result).toEqual(expectedResult);
       expect(sAddToCartMock).toHaveBeenCalledTimes(1);

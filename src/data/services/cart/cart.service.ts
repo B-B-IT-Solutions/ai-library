@@ -35,30 +35,18 @@ export class CartService {
       return toDCart(cart);
    }
 
-   async addToCart(product: DProduct): Promise<ActionResult> {
-      try {
-         const cart = await this.getCart();
+   async addToCart(product: DProduct) {
+      const cart = await this.getCart();
 
-         const params: AddItemToCartParams = {
-            cartId: cart.id,
-            productId: product.id,
-            productName: product.name,
-            productType: product.type,
-            productPrice: product.price,
-         };
+      const params: AddItemToCartParams = {
+         cartId: cart.id,
+         productId: product.id,
+         productName: product.name,
+         productType: product.type,
+         productPrice: product.price,
+      };
 
-         await this.cartRepository.pAddItemToCart(params);
-
-         return {
-            success: true,
-            message: "Item added to cart successfully.",
-         };
-      } catch (error) {
-         return {
-            success: false,
-            message: formatError(error),
-         };
-      }
+      await this.cartRepository.pAddItemToCart(params);
    }
 
    async removeFromCart(itemId: string): Promise<ActionResult> {

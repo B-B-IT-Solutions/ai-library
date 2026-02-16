@@ -119,7 +119,7 @@ describe("addToCart tests", () => {
       jest.clearAllMocks();
    });
 
-   it("addToCart - success - test", async () => {
+   it("addToCart - test", async () => {
       const session = ntestData.session();
       const cart = ptestData.pCartWithItems();
       const item = ptestData.pCartItem();
@@ -129,7 +129,7 @@ describe("addToCart tests", () => {
       cartRepoMock.pGetOrCreateCart.mockResolvedValue(cart);
       cartRepoMock.pAddItemToCart.mockResolvedValue(item);
 
-      const result = await cartService.addToCart(product);
+      await cartService.addToCart(product);
 
       const expectedParams = {
          cartId: cart.id,
@@ -139,67 +139,12 @@ describe("addToCart tests", () => {
          productPrice: product.price,
       };
 
-      const expectdResult = {
-         success: true,
-         message: "Item added to cart successfully.",
-      };
-
-      expect(result).toEqual(expectdResult);
       expect(cartRepoMock.pGetOrCreateCart).toHaveBeenCalledTimes(1);
       expect(cartRepoMock.pGetOrCreateCart).toHaveBeenCalledWith({
          userId: session.user.id,
       });
       expect(cartRepoMock.pAddItemToCart).toHaveBeenCalledTimes(1);
       expect(cartRepoMock.pAddItemToCart).toHaveBeenCalledWith(expectedParams);
-   });
-
-   it("addToCart - error - test", async () => {
-      const session = ntestData.session();
-      const cart = ptestData.pCartWithItems();
-      const product = dtestData.dProduct();
-      const errorMessage = "Database error";
-      const error = new Error(errorMessage);
-
-      authMock.mockResolvedValue(session);
-      cartRepoMock.pGetOrCreateCart.mockResolvedValue(cart);
-      cartRepoMock.pAddItemToCart.mockRejectedValue(error);
-
-      const result = await cartService.addToCart(product);
-
-      const expectdResult = {
-         success: false,
-         message: errorMessage,
-      };
-
-      expect(result).toEqual(expectdResult);
-      expect(cartRepoMock.pGetOrCreateCart).toHaveBeenCalledTimes(1);
-      expect(cartRepoMock.pGetOrCreateCart).toHaveBeenCalledWith({
-         userId: session.user.id,
-      });
-      expect(cartRepoMock.pAddItemToCart).toHaveBeenCalledTimes(1);
-   });
-
-   it("addToCart - getCart throws error - test", async () => {
-      const product = dtestData.dProduct();
-      const errorMessage = "Cart not found";
-      const error = new Error(errorMessage);
-
-      authMock.mockResolvedValue(null);
-      const reqCookies = ntestData.cookies({});
-      cookiesMock.mockResolvedValue(reqCookies);
-      cartRepoMock.pGetOrCreateCart.mockRejectedValue(error);
-
-      const result = await cartService.addToCart(product);
-
-      const expectdResult = {
-         success: false,
-         message: errorMessage,
-      };
-
-      expect(result).toEqual(expectdResult);
-      expect(cartRepoMock.pGetOrCreateCart).toHaveBeenCalledTimes(1);
-      expect(cartRepoMock.pGetOrCreateCart).toHaveBeenCalledWith({});
-      expect(cartRepoMock.pAddItemToCart).not.toHaveBeenCalled();
    });
 });
 
