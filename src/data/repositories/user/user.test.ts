@@ -1,58 +1,119 @@
 import { PrismaClient } from "@prisma/client";
-import { ptestData } from "@tests";
+import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { Prisma } from "@/generated/prisma/client";
 import {
    AccountDeleteManyArgs,
    SessionDeleteManyArgs,
+   UserCreateArgs,
+   UserCreateInput,
    UserDeleteArgs,
+   UserFindFirstArgs,
    UserUpdateArgs,
 } from "@/generated/prisma/models";
 
 import { UserRepository } from "./user";
+import { toDUserInternal } from "./user.mapper";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const userRepository = new UserRepository(prismaMock);
 
-describe("pGetUser tests", () => {
+describe("pGetUserById tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
-   test("pGetUserById test", async () => {
+   test("pGetUserById - user null -  test", async () => {
+      const userId = "user-id-1";
+      prismaMock.user.findFirst.mockResolvedValue(null);
+
+      const result = await userRepository.pGetUserById(userId);
+
+      const expectedFindFirstArgs: UserFindFirstArgs = {
+         where: {
+            id: userId,
+         },
+      };
+
+      expect(result).toBeNull();
+      expect(prismaMock.user.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.user.findFirst).toHaveBeenCalledWith(
+         expectedFindFirstArgs
+      );
+   });
+
+   test("pGetUserById - user retrieved - test", async () => {
       const user = ptestData.pUser();
       prismaMock.user.findFirst.mockResolvedValue(user);
 
       const result = await userRepository.pGetUserById(user.id);
 
-      const expectedFindFirstArgs: Prisma.UserFindFirstArgs = {
-         where: { id: user.id },
+      const expectedResult = toDUserInternal(user);
+
+      const expectedFindFirstArgs: UserFindFirstArgs = {
+         where: {
+            id: user.id,
+         },
       };
 
-      expect(result).toEqual(user);
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.user.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.user.findFirst).toHaveBeenCalledWith(
+         expectedFindFirstArgs
+      );
+   });
+});
+
+describe("pGetUserByEmail tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pGetUserByEmail - user null -  test", async () => {
+      const email = "email1@test.cz";
+      prismaMock.user.findFirst.mockResolvedValue(null);
+
+      const result = await userRepository.pGetUserByEmail(email);
+
+      const expectedFindFirstArgs: UserFindFirstArgs = {
+         where: {
+            email: email,
+         },
+      };
+
+      expect(result).toBeNull();
       expect(prismaMock.user.findFirst).toHaveBeenCalledTimes(1);
       expect(prismaMock.user.findFirst).toHaveBeenCalledWith(
          expectedFindFirstArgs
       );
    });
 
-   test("pGetUserByEmail test", async () => {
+   test("pGetUserByEmail - user retrieved -  test", async () => {
       const user = ptestData.pUser();
       prismaMock.user.findFirst.mockResolvedValue(user);
 
       const result = await userRepository.pGetUserByEmail(user.email);
 
-      const expectedFindFirstArgs: Prisma.UserFindFirstArgs = {
-         where: { email: user.email },
+      const expectedResult = toDUserInternal(user);
+
+      const expectedFindFirstArgs: UserFindFirstArgs = {
+         where: {
+            email: user.email,
+         },
       };
 
-      expect(result).toEqual(user);
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.user.findFirst).toHaveBeenCalledTimes(1);
       expect(prismaMock.user.findFirst).toHaveBeenCalledWith(
          expectedFindFirstArgs
       );
+   });
+});
+
+describe("pGetUser tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
    });
 
    test("pGetUser - by userId - test", async () => {
@@ -61,11 +122,13 @@ describe("pGetUser tests", () => {
 
       const result = await userRepository.pGetUser({ userId: user.id });
 
-      const expectedFindFirstArgs: Prisma.UserFindFirstArgs = {
+      const expectedResult = toDUserInternal(user);
+
+      const expectedFindFirstArgs: UserFindFirstArgs = {
          where: { id: user.id },
       };
 
-      expect(result).toEqual(user);
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.user.findFirst).toHaveBeenCalledTimes(1);
       expect(prismaMock.user.findFirst).toHaveBeenCalledWith(
          expectedFindFirstArgs
@@ -78,11 +141,13 @@ describe("pGetUser tests", () => {
 
       const result = await userRepository.pGetUser({ email: user.email });
 
-      const expectedFindFirstArgs: Prisma.UserFindFirstArgs = {
+      const expectedResult = toDUserInternal(user);
+
+      const expectedFindFirstArgs: UserFindFirstArgs = {
          where: { email: user.email },
       };
 
-      expect(result).toEqual(user);
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.user.findFirst).toHaveBeenCalledTimes(1);
       expect(prismaMock.user.findFirst).toHaveBeenCalledWith(
          expectedFindFirstArgs
@@ -106,19 +171,25 @@ describe("pCreateUser tests", () => {
    });
 
    test("pCreateUser - user created - test", async () => {
-      const user = ptestData.pUser();
-      prismaMock.user.create.mockResolvedValue(user);
-      const result = await userRepository.pCreateUser(user);
+      const newUser = ptestData.pUser();
+      prismaMock.user.create.mockResolvedValue(newUser);
 
-      const expectedCreateArgs: Prisma.UserCreateArgs = {
-         data: {
-            name: user.name,
-            email: user.email,
-            password: user.password,
-         },
+      const createData = dtestData.dUserCreate();
+      const result = await userRepository.pCreateUser(createData);
+
+      const expectedResult = toDUserInternal(newUser);
+
+      const expectedInput: UserCreateInput = {
+         name: createData.name,
+         email: createData.email,
+         password: createData.hashedPassword,
       };
 
-      expect(result).toEqual(user);
+      const expectedCreateArgs: UserCreateArgs = {
+         data: expectedInput,
+      };
+
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.user.create).toHaveBeenCalledTimes(1);
       expect(prismaMock.user.create).toHaveBeenCalledWith(expectedCreateArgs);
    });

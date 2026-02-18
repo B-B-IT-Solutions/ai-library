@@ -1,7 +1,10 @@
 import { DbClient } from "@/data/types/db/common";
 import { UserUpdateData } from "@/data/types/db/user";
+import { DUserCreate, DUserInternal } from "@/data/types/domain/user";
 import { User } from "@/generated/prisma/client";
 import { UserCreateInput, UserWhereInput } from "@/generated/prisma/models";
+
+import { toDUserInternal } from "./user.mapper";
 
 type PGeUserParams = {
    userId?: string;
@@ -15,33 +18,42 @@ export class UserRepository {
       this.prisma = prisma;
    }
 
-   async pGetUserById(userId: string): Promise<User | null> {
-      return this.pGetUser({ userId });
+   async pGetUserById(userId: string): Promise<DUserInternal | null> {
+      return await this.pGetUser({ userId });
    }
 
-   async pGetUserByEmail(email: string): Promise<User | null> {
-      return this.pGetUser({ email });
+   async pGetUserByEmail(email: string): Promise<DUserInternal | null> {
+      return await this.pGetUser({ email });
    }
 
-   async pGetUser(params: PGeUserParams): Promise<User | null> {
+   async pGetUser(params: PGeUserParams): Promise<DUserInternal | null> {
       const whereClause = this.resolveGetUserParams(params);
 
       if (whereClause) {
-         return await this.prisma.user.findFirst({
+         const user: User | null = await this.prisma.user.findFirst({
             where: whereClause,
          });
+
+         if (user) {
+            return toDUserInternal(user);
+         }
       }
+
       return null;
    }
 
-   async pCreateUser(user: UserCreateInput) {
-      return await this.prisma.user.create({
-         data: {
-            name: user.name,
-            email: user.email,
-            password: user.password,
-         },
+   async pCreateUser(data: DUserCreate) {
+      const input: UserCreateInput = {
+         name: data.name,
+         email: data.email,
+         password: data.hashedPassword,
+      };
+
+      const newUser = await this.prisma.user.create({
+         data: input,
       });
+
+      return toDUserInternal(newUser);
    }
 
    async pUpdateUser(userId: string, data: UserUpdateData) {

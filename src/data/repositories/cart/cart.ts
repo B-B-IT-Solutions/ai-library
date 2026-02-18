@@ -1,19 +1,17 @@
 import { CartWithItems } from "@/data/types/db/cart";
 import { DbClient } from "@/data/types/db/common";
-import { ProductType } from "@/generated/prisma/enums";
-import { CartCreateInput } from "@/generated/prisma/models";
+import { DCart, DCartItem } from "@/data/types/domain/cart";
+import { DProduct } from "@/data/types/domain/product";
+import {
+   CartCreateInput,
+   CartItemCreateInput,
+} from "@/generated/prisma/models";
+
+import { toDCart, toDCartItem } from "./cart.mapper";
 
 export type GetOrCreateCartParams = {
    userId?: string;
    sessionCartId?: string;
-};
-
-export type AddItemToCartParams = {
-   cartId: string;
-   productId: string;
-   productName: string;
-   productType: ProductType;
-   productPrice: number;
 };
 
 export class CartRepository {
@@ -23,9 +21,7 @@ export class CartRepository {
       this.prisma = prisma;
    }
 
-   async pGetOrCreateCart(
-      params: GetOrCreateCartParams
-   ): Promise<CartWithItems> {
+   async pGetOrCreateCart(params: GetOrCreateCartParams): Promise<DCart> {
       const { userId, sessionCartId } = params;
       // If user is authenticated, get user cart
       if (userId) {
@@ -39,7 +35,7 @@ export class CartRepository {
                },
             });
          }
-         return cart;
+         return toDCart(cart);
       }
 
       if (!sessionCartId) {
@@ -51,7 +47,7 @@ export class CartRepository {
          cart = await this.pCreateCart({ sessionCartId });
       }
 
-      return cart;
+      return toDCart(cart);
    }
 
    async pGetCartBySessionId(
@@ -83,33 +79,41 @@ export class CartRepository {
       });
    }
 
-   async pAddItemToCart(params: AddItemToCartParams) {
-      const { cartId, productId, productName, productType, productPrice } =
-         params;
-
+   async pAddItemToCart(cartId: string, product: DProduct): Promise<DCartItem> {
       const existingItem = await this.prisma.cartItem.findUnique({
          where: {
             cartId_productId: {
                cartId,
-               productId,
+               productId: product.id,
             },
          },
       });
 
       if (!existingItem) {
-         return await this.prisma.cartItem.create({
-            data: {
-               cartId,
-               productId,
-               productName,
-               productType,
-               productPrice,
-               quantity: 1,
+         const input: CartItemCreateInput = {
+            productName: product.name,
+            productType: product.type,
+            productPrice: product.price,
+            quantity: 1,
+            cart: {
+               connect: {
+                  id: cartId,
+               },
             },
+            product: {
+               connect: {
+                  id: product.id,
+               },
+            },
+         };
+
+         const addedItem = await this.prisma.cartItem.create({
+            data: input,
          });
+         return toDCartItem(addedItem);
       }
 
-      return existingItem;
+      return toDCartItem(existingItem);
    }
 
    async pRemoveCartItem(itemId: string) {

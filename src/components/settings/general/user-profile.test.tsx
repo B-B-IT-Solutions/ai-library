@@ -8,7 +8,7 @@ import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
 import { updateUserProfile } from "@/data/actions/user";
-import { DUserUpdateData } from "@/data/types/domain/user";
+import { DUserUpdate } from "@/data/types/domain/user";
 import { ActionResult } from "@/data/types/utils";
 
 import { UserProfile } from "./user-profile";
@@ -74,7 +74,7 @@ describe("UserProfile functionality tests", () => {
       const submitBtn = screen.getByTestId("submit-btn");
       await userEvent.click(submitBtn);
 
-      const expectPayload: DUserUpdateData = { name };
+      const expectPayload: DUserUpdate = { name };
       await waitFor(() => {
          expect(updateUserProfileMock).toHaveBeenCalledTimes(1);
          expect(updateUserProfileMock).toHaveBeenCalledWith(expectPayload);
@@ -109,7 +109,7 @@ describe("UserProfile functionality tests", () => {
       const submitBtn = screen.getByTestId("submit-btn");
       await userEvent.click(submitBtn);
 
-      const expectPayload: DUserUpdateData = { name };
+      const expectPayload: DUserUpdate = { name };
 
       await waitFor(() => {
          expect(updateUserProfileMock).toHaveBeenCalledTimes(1);

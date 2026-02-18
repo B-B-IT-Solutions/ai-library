@@ -1,6 +1,5 @@
 jest.mock("@/auth");
 jest.mock("@/data/repositories/cart");
-jest.mock("../../actions/auth-utils");
 
 import { AuthMockedFunction, dtestData, ntestData, ptestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
@@ -10,7 +9,6 @@ import { auth } from "@/auth";
 import { CartRepository } from "@/data/repositories/cart";
 import prisma from "@/data/repositories/prisma";
 
-import { toDCart } from "./cart.mapper";
 import { CartService } from "./cart.service";
 
 const authMock = auth as unknown as AuthMockedFunction;
@@ -45,7 +43,7 @@ describe("getCart tests", () => {
    it("getCart - session.user undefined- sessionCartId defined - test", async () => {
       const session = ntestData.session();
       session.user = undefined;
-      const cart = ptestData.pCartWithItems();
+      const cart = dtestData.dCart();
       authMock.mockResolvedValue(session);
       cartRepoMock.pGetOrCreateCart.mockResolvedValue(cart);
 
@@ -54,11 +52,10 @@ describe("getCart tests", () => {
       cookiesMock.mockResolvedValue(reqCookies);
 
       const result = await cartService.getCart();
-      const expectResult = toDCart(cart);
 
       const expectedParams = { sessionCartId: cookies.sessionCartId };
 
-      expect(result).toEqual(expectResult);
+      expect(result).toEqual(cart);
       expect(cookiesMock).toHaveBeenCalledTimes(1);
       expect(cartRepoMock.pGetOrCreateCart).toHaveBeenCalledTimes(1);
       expect(cartRepoMock.pGetOrCreateCart).toHaveBeenCalledWith(
@@ -69,7 +66,7 @@ describe("getCart tests", () => {
    it("getCart - session.user.id undefined- sessionCartId defined - test", async () => {
       const session = ntestData.session();
       session.user.id = undefined;
-      const cart = ptestData.pCartWithItems();
+      const cart = dtestData.dCart();
       authMock.mockResolvedValue(session);
       cartRepoMock.pGetOrCreateCart.mockResolvedValue(cart);
 
@@ -78,11 +75,10 @@ describe("getCart tests", () => {
       cookiesMock.mockResolvedValue(reqCookies);
 
       const result = await cartService.getCart();
-      const expectResult = toDCart(cart);
 
       const expectedParams = { sessionCartId: cookies.sessionCartId };
 
-      expect(result).toEqual(expectResult);
+      expect(result).toEqual(cart);
       expect(cookiesMock).toHaveBeenCalledTimes(1);
       expect(cartRepoMock.pGetOrCreateCart).toHaveBeenCalledTimes(1);
       expect(cartRepoMock.pGetOrCreateCart).toHaveBeenCalledWith(
@@ -92,7 +88,7 @@ describe("getCart tests", () => {
 
    it("getCart - session.user defined - sessionCartId undefined - test", async () => {
       const session = ntestData.session();
-      const cart = ptestData.pCartWithItems();
+      const cart = dtestData.dCart();
       authMock.mockResolvedValue(session);
       cartRepoMock.pGetOrCreateCart.mockResolvedValue(cart);
 
@@ -101,11 +97,10 @@ describe("getCart tests", () => {
       cookiesMock.mockResolvedValue(reqCookies);
 
       const result = await cartService.getCart();
-      const expectResult = toDCart(cart);
 
       const expectedParams = { userId: session.user.id };
 
-      expect(result).toEqual(expectResult);
+      expect(result).toEqual(cart);
       expect(cartRepoMock.pGetOrCreateCart).toHaveBeenCalledTimes(1);
       expect(cartRepoMock.pGetOrCreateCart).toHaveBeenCalledWith(
          expectedParams
@@ -121,8 +116,8 @@ describe("addToCart tests", () => {
 
    it("addToCart - item added - test", async () => {
       const session = ntestData.session();
-      const cart = ptestData.pCartWithItems();
-      const item = ptestData.pCartItem();
+      const cart = dtestData.dCart();
+      const item = dtestData.dCartItem();
       const product = dtestData.dProduct();
 
       authMock.mockResolvedValue(session);
@@ -131,20 +126,15 @@ describe("addToCart tests", () => {
 
       await cartService.addToCart(product);
 
-      const expectedParams = {
-         cartId: cart.id,
-         productId: product.id,
-         productName: product.name,
-         productType: product.type,
-         productPrice: product.price,
-      };
-
       expect(cartRepoMock.pGetOrCreateCart).toHaveBeenCalledTimes(1);
       expect(cartRepoMock.pGetOrCreateCart).toHaveBeenCalledWith({
          userId: session.user.id,
       });
       expect(cartRepoMock.pAddItemToCart).toHaveBeenCalledTimes(1);
-      expect(cartRepoMock.pAddItemToCart).toHaveBeenCalledWith(expectedParams);
+      expect(cartRepoMock.pAddItemToCart).toHaveBeenCalledWith(
+         cart.id,
+         product
+      );
    });
 });
 

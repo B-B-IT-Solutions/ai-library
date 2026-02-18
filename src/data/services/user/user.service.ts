@@ -3,12 +3,12 @@ import { UserUpdateData } from "@/data/types/db/user";
 import {
    DUser,
    DUserAccountDelete,
+   DUserCreate,
    DUserPasswordUpdate,
    DUserSignIn,
    DUserSignUp,
-   DUserUpdateData,
+   DUserUpdate,
 } from "@/data/types/domain/user";
-import { UserCreateInput } from "@/generated/prisma/models";
 import { compare, hash } from "@/lib/encrypt";
 import { CartService } from "../cart";
 import { LibraryService } from "../library";
@@ -37,13 +37,14 @@ export class UserService {
    async signUpUser(data: DUserSignUp): Promise<DUser> {
       const hashedPassword = await hash(data.password);
 
-      const newUser: UserCreateInput = {
+      const newUser: DUserCreate = {
          name: data.name,
          email: data.email,
-         password: hashedPassword,
+         hashedPassword: hashedPassword,
       };
-      const createdUser = await this.userRepository.pCreateUser(newUser);
-      return toDUser(createdUser);
+
+      const user = await this.userRepository.pCreateUser(newUser);
+      return toDUser(user);
    }
 
    async singInUser(data: DUserSignIn) {
@@ -79,27 +80,21 @@ export class UserService {
       return null;
    }
 
-   async updateUser(userId: string, data: DUserUpdateData): Promise<void> {
+   async updateUser(userId: string, data: DUserUpdate) {
       const updateData: UserUpdateData = {
          name: data.name,
       };
       await this.userRepository.pUpdateUser(userId, updateData);
    }
 
-   async updateUserStripeCustomerId(
-      userId: string,
-      stripeCustomerId: string
-   ): Promise<void> {
+   async updateUserStripeCustomerId(userId: string, stripeCustomerId: string) {
       const updateData: UserUpdateData = {
          stripeCustomerId,
       };
       await this.userRepository.pUpdateUser(userId, updateData);
    }
 
-   async updatePassword(
-      userId: string,
-      data: DUserPasswordUpdate
-   ): Promise<void> {
+   async updatePassword(userId: string, data: DUserPasswordUpdate) {
       const user = await this.userRepository.pGetUserById(userId);
       if (!user) {
          throw new Error("User not found");
@@ -123,7 +118,7 @@ export class UserService {
       await this.userRepository.pUpdatePassword(userId, hashedPassword);
    }
 
-   async deleteUser(userId: string, data: DUserAccountDelete): Promise<void> {
+   async deleteUser(userId: string, data: DUserAccountDelete) {
       const user = await this.userRepository.pGetUserById(userId);
       if (!user) {
          throw new Error("User not found");

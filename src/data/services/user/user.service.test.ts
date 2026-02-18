@@ -4,7 +4,7 @@ jest.mock("@/data/services/library");
 jest.mock("@/data/services/order");
 jest.mock("@/lib/encrypt");
 
-import { ptestData } from "@tests";
+import { dtestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
@@ -12,12 +12,12 @@ import { UserRepository } from "@/data/repositories/user";
 import { UserUpdateData } from "@/data/types/db/user";
 import {
    DUserAccountDelete,
+   DUserCreate,
    DUserPasswordUpdate,
    DUserSignIn,
    DUserSignUp,
-   DUserUpdateData,
+   DUserUpdate,
 } from "@/data/types/domain/user";
-import { UserCreateInput } from "@/generated/prisma/models";
 import { compare, hash } from "@/lib/encrypt";
 import { CartService } from "../cart";
 import { LibraryService } from "../library";
@@ -55,7 +55,7 @@ describe("signUpUser tests", () => {
    });
 
    it("signUpUser - user created - test", async () => {
-      const createdUser = ptestData.pUser();
+      const createdUser = dtestData.dUserInternal();
       userRepoMock.pCreateUser.mockResolvedValue(createdUser);
 
       const data: DUserSignUp = {
@@ -69,15 +69,15 @@ describe("signUpUser tests", () => {
 
       const expectedResult = toDUser(createdUser);
 
-      const newUser: UserCreateInput = {
+      const expectedCreateData: DUserCreate = {
          name: data.name,
          email: data.email,
-         password: await hash(data.password),
+         hashedPassword: await hash(data.password),
       };
 
       expect(result).toEqual(expectedResult);
       expect(userRepoMock.pCreateUser).toHaveBeenCalledTimes(1);
-      expect(userRepoMock.pCreateUser).toHaveBeenCalledWith(newUser);
+      expect(userRepoMock.pCreateUser).toHaveBeenCalledWith(expectedCreateData);
    });
 });
 
@@ -102,7 +102,7 @@ describe("singInUser tests", () => {
    });
 
    it("singInUser - user.password is null - test", async () => {
-      const user = ptestData.pUser();
+      const user = dtestData.dUserInternal();
       user.password = null;
       userRepoMock.pGetUserByEmail.mockResolvedValue(user);
 
@@ -119,7 +119,7 @@ describe("singInUser tests", () => {
    });
 
    it("singInUser - user.password compare false - test", async () => {
-      const user = ptestData.pUser();
+      const user = dtestData.dUserInternal();
       userRepoMock.pGetUserByEmail.mockResolvedValue(user);
       compareMock.mockResolvedValue(false);
 
@@ -138,7 +138,7 @@ describe("singInUser tests", () => {
    });
 
    it("singInUser - user.password compare true - test", async () => {
-      const user = ptestData.pUser();
+      const user = dtestData.dUserInternal();
       userRepoMock.pGetUserByEmail.mockResolvedValue(user);
       compareMock.mockResolvedValue(true);
 
@@ -181,7 +181,7 @@ describe("getUserById tests", () => {
    });
 
    it("getUserById - user retrieved - test", async () => {
-      const user = ptestData.pUser();
+      const user = dtestData.dUserInternal();
       userRepoMock.pGetUserById.mockResolvedValue(user);
 
       const result = await userService.getUserById(user.id);
@@ -211,7 +211,7 @@ describe("getUserStripeCustomerId tests", () => {
    });
 
    it("getUserStripeCustomerId - user.stripeCustomerId null - test", async () => {
-      const user = ptestData.pUser();
+      const user = dtestData.dUserInternal();
       user.stripeCustomerId = null;
       userRepoMock.pGetUserById.mockResolvedValue(user);
 
@@ -223,7 +223,7 @@ describe("getUserStripeCustomerId tests", () => {
    });
 
    it("getUserStripeCustomerId - stripeCustomerId retrieved - test", async () => {
-      const user = ptestData.pUser();
+      const user = dtestData.dUserInternal();
       userRepoMock.pGetUserById.mockResolvedValue(user);
 
       const result = await userService.getUserStripeCustomerId(user.id);
@@ -240,12 +240,12 @@ describe("updateUser tests", () => {
    });
 
    it("updateUser - user updated - test", async () => {
-      const user = ptestData.pUser();
-      const data: DUserUpdateData = {
+      const userId = "user-id-1";
+      const data: DUserUpdate = {
          name: "test 1",
       };
 
-      await userService.updateUser(user.id, data);
+      await userService.updateUser(userId, data);
 
       const expectedData: UserUpdateData = {
          name: data.name,
@@ -253,7 +253,7 @@ describe("updateUser tests", () => {
 
       expect(userRepoMock.pUpdateUser).toHaveBeenCalledTimes(1);
       expect(userRepoMock.pUpdateUser).toHaveBeenCalledWith(
-         user.id,
+         userId,
          expectedData
       );
    });
@@ -265,17 +265,17 @@ describe("updateUserStripeCustomerId tests", () => {
    });
 
    it("updateUserStripeCustomerId - stripeCustomerId updated - test", async () => {
-      const user = ptestData.pUser();
+      const userId = "user-id-1";
       const stripeCustomerId = "stripe-customer-id-1";
 
-      await userService.updateUserStripeCustomerId(user.id, stripeCustomerId);
+      await userService.updateUserStripeCustomerId(userId, stripeCustomerId);
 
       const expectedData: UserUpdateData = {
          stripeCustomerId,
       };
       expect(userRepoMock.pUpdateUser).toHaveBeenCalledTimes(1);
       expect(userRepoMock.pUpdateUser).toHaveBeenCalledWith(
-         user.id,
+         userId,
          expectedData
       );
    });
@@ -287,7 +287,7 @@ describe("updatePassword tests", () => {
    });
 
    it("updatePassword - user null - test", async () => {
-      const user = ptestData.pUser();
+      const userId = "user-id-1";
       userRepoMock.pGetUserById.mockResolvedValue(null);
 
       const data: DUserPasswordUpdate = {
@@ -296,17 +296,17 @@ describe("updatePassword tests", () => {
          confirmPassword: "12345679",
       };
 
-      const fn = async () => await userService.updatePassword(user.id, data);
+      const fn = async () => await userService.updatePassword(userId, data);
 
       expect(fn).rejects.toThrow("User not found");
       expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
-      expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(user.id);
+      expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(userId);
       expect(compareMock).not.toHaveBeenCalled();
       expect(hashMock).not.toHaveBeenCalled();
    });
 
    it("updatePassword - user.password null - test", async () => {
-      const user = ptestData.pUser();
+      const user = dtestData.dUserInternal();
       user.password = null;
       userRepoMock.pGetUserById.mockResolvedValue(user);
 
@@ -326,7 +326,7 @@ describe("updatePassword tests", () => {
    });
 
    it("updatePassword - current password invalid - test", async () => {
-      const user = ptestData.pUser();
+      const user = dtestData.dUserInternal();
       userRepoMock.pGetUserById.mockResolvedValue(user);
       compareMock.mockResolvedValue(false);
 
@@ -345,7 +345,7 @@ describe("updatePassword tests", () => {
    });
 
    it("updatePassword - password updated - test", async () => {
-      const user = ptestData.pUser();
+      const user = dtestData.dUserInternal();
       userRepoMock.pGetUserById.mockResolvedValue(user);
       compareMock.mockResolvedValue(true);
       const hashedPassword = "hashed-password-1";
@@ -382,7 +382,7 @@ describe("deleteUser tests", () => {
    });
 
    it("deleteUser - user null - test", async () => {
-      const user = ptestData.pUser();
+      const user = dtestData.dUserInternal();
       userRepoMock.pGetUserById.mockResolvedValue(null);
 
       const data: DUserAccountDelete = {
@@ -402,7 +402,7 @@ describe("deleteUser tests", () => {
    });
 
    it("deleteUser - user.password null - test", async () => {
-      const user = ptestData.pUser();
+      const user = dtestData.dUserInternal();
       user.password = null;
       userRepoMock.pGetUserById.mockResolvedValue(user);
 
@@ -423,7 +423,7 @@ describe("deleteUser tests", () => {
    });
 
    it("deleteUser - password invalid - test", async () => {
-      const user = ptestData.pUser();
+      const user = dtestData.dUserInternal();
       userRepoMock.pGetUserById.mockResolvedValue(user);
       compareMock.mockResolvedValue(false);
 
@@ -443,7 +443,7 @@ describe("deleteUser tests", () => {
    });
 
    it("deleteUser - user deleted - test", async () => {
-      const user = ptestData.pUser();
+      const user = dtestData.dUserInternal();
       userRepoMock.pGetUserById.mockResolvedValue(user);
       compareMock.mockResolvedValue(true);
 

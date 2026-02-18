@@ -51,7 +51,12 @@ import {
    DSubscriptionPlan,
    DSubscriptionUpdate,
 } from "@/data/types/domain/subscription";
-import { DUser, DUserUpdateData } from "@/data/types/domain/user";
+import {
+   DUser,
+   DUserCreate,
+   DUserInternal,
+   DUserUpdate,
+} from "@/data/types/domain/user";
 import { LoginUser } from "@/data/types/next-auth";
 
 export const dLoginUser = (index = 1): LoginUser => {
@@ -70,6 +75,15 @@ export const dUser = (index = 1): DUser => {
       role: `role-${index}`,
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dUserInternal = (index = 1): DUserInternal => {
+   const user = dUser(index);
+   return {
+      ...user,
+      password: `password-${index}`,
+      stripeCustomerId: `ac82ecc9-de60-4fba-acf6-8b57ad9a91a${index}`,
    };
 };
 
@@ -175,7 +189,15 @@ export const dSubscriptionHistoryCreate = (
    };
 };
 
-export const dUserUpdateData = (index = 1): DUserUpdateData => {
+export const dUserCreate = (index = 1): DUserCreate => {
+   return {
+      name: `User ${index}`,
+      email: "test@email.com",
+      hashedPassword: "hashedPassword-1",
+   };
+};
+
+export const dUserUpdate = (index = 1): DUserUpdate => {
    return {
       name: `User ${index}`,
    };
