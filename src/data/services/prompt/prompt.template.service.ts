@@ -9,10 +9,7 @@ import {
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 
-import {
-   toDPromptTemplate,
-   toDPromptTemplateDescriptorWithTemplate,
-} from "./prompt.template.mapper";
+import { toDPromptTemplate } from "./prompt.template.mapper";
 import { TemplateEngine } from "./template.engine";
 
 type DGetPromptTemplatesDescriptorsParams = {
@@ -36,12 +33,7 @@ export class PromptTemplateService {
    async getPromptTemplateDescriptorWithTemplate(
       id: string
    ): Promise<DPromptTemplateDescriptorWithTemplate | null> {
-      const data =
-         await this.repository.pGetPromptTemplateDescriptorWithTemplate(id);
-      if (data) {
-         return toDPromptTemplateDescriptorWithTemplate(data);
-      }
-      return null;
+      return await this.repository.pGetPromptTemplateDescriptorWithTemplate(id);
    }
 
    async getPromptTemplate(id: string): Promise<DPromptTemplate | null> {

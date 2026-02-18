@@ -7,6 +7,7 @@ import prisma from "@/data/repositories/prisma";
 import {
    toDPromptTemplateDescriptor,
    toDPromptTemplateDescriptors,
+   toDPromptTemplateDescriptorWithTemplate,
 } from "@/data/services/prompt/prompt.template.mapper";
 import { DPromptTemplateFieldUpdate } from "@/data/types/domain/prompt.template";
 import { Prisma } from "@/generated/prisma/client";
@@ -228,9 +229,8 @@ describe("pGetPromptTemplateDescriptorWithTemplate tests", () => {
       mockReset(prismaMock);
    });
 
-   test("pGetPromptTemplateDescriptorWithTemplate - id defined - test", async () => {
-      const prompt = ptestData.pPromptDescriptorWithRelations();
-      prismaMock.promptTemplateDescriptor.findFirst.mockResolvedValue(prompt);
+   test("pGetPromptTemplateDescriptorWithTemplate - descriptor null - test", async () => {
+      prismaMock.promptTemplateDescriptor.findFirst.mockResolvedValue(null);
 
       const id = "prompt-template-descriptor-id-1";
       const result =
@@ -249,7 +249,39 @@ describe("pGetPromptTemplateDescriptorWithTemplate tests", () => {
             },
          },
       };
-      expect(result).toEqual(prompt);
+      expect(result).toBeNull();
+      expect(
+         prismaMock.promptTemplateDescriptor.findFirst
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         prismaMock.promptTemplateDescriptor.findFirst
+      ).toHaveBeenCalledWith(expectedWhere);
+   });
+
+   test("pGetPromptTemplateDescriptorWithTemplate - descriptor retrieved - test", async () => {
+      const template = ptestData.pPromptTemplateDescriptorWithTemplate();
+      prismaMock.promptTemplateDescriptor.findFirst.mockResolvedValue(template);
+
+      const id = "prompt-template-descriptor-id-1";
+      const result =
+         await repository.pGetPromptTemplateDescriptorWithTemplate(id);
+
+      const expectedResult = toDPromptTemplateDescriptorWithTemplate(template);
+
+      const expectedWhere: PromptTemplateDescriptorFindFirstArgs = {
+         where: {
+            id,
+         },
+         include: {
+            categories: true,
+            promptTemplate: {
+               include: {
+                  fields: true,
+               },
+            },
+         },
+      };
+      expect(result).toEqual(expectedResult);
       expect(
          prismaMock.promptTemplateDescriptor.findFirst
       ).toHaveBeenCalledTimes(1);

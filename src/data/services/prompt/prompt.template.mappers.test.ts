@@ -95,7 +95,7 @@ describe("prompt.template mappers tests", () => {
    });
 
    it("toDPromptTemplateDescriptorWithPrompt test", async () => {
-      const descriptor = ptestData.pPromptTemplateDescriptorWithPrompt();
+      const descriptor = ptestData.pPromptTemplateDescriptorWithTemplate();
       const result = toDPromptTemplateDescriptorWithTemplate(descriptor);
       const expectedResult =
          toDPromptTemplateDescriptorWithTemplateInternal(descriptor);

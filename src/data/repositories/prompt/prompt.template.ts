@@ -3,6 +3,7 @@ import { isEmpty, map } from "es-toolkit/compat";
 import {
    toDPromptTemplateDescriptor,
    toDPromptTemplateDescriptors,
+   toDPromptTemplateDescriptorWithTemplate,
 } from "@/data/services/prompt/prompt.template.mapper";
 import { DbClient } from "@/data/types/db/common";
 import {
@@ -13,6 +14,7 @@ import {
 import {
    DPromptTemplateCategory,
    DPromptTemplateDescriptor,
+   DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateFieldType,
    DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
@@ -41,30 +43,38 @@ export class PromptTemplateRepository {
       params?: PGetPromptTemplateDescriptorsParams
    ) {
       const where = this.resolveGetPromptTemplateDescriptorsWhereInput(params);
-      const prompts = await this.prisma.promptTemplateDescriptor.findMany({
+
+      const templates = await this.prisma.promptTemplateDescriptor.findMany({
          where: where,
          include: {
             categories: true,
          },
          take: 20,
       });
-      return toDPromptTemplateDescriptors(prompts);
+
+      return toDPromptTemplateDescriptors(templates);
    }
 
    async pGetPromptTemplateDescriptorWithTemplate(
       id: string
-   ): Promise<PromptTemplateDescriptorWithTemplate | null> {
-      return await this.prisma.promptTemplateDescriptor.findFirst({
-         where: { id },
-         include: {
-            categories: true,
-            promptTemplate: {
-               include: {
-                  fields: true,
+   ): Promise<DPromptTemplateDescriptorWithTemplate | null> {
+      const template: PromptTemplateDescriptorWithTemplate | null =
+         await this.prisma.promptTemplateDescriptor.findFirst({
+            where: { id },
+            include: {
+               categories: true,
+               promptTemplate: {
+                  include: {
+                     fields: true,
+                  },
                },
             },
-         },
-      });
+         });
+
+      if (template) {
+         return toDPromptTemplateDescriptorWithTemplate(template);
+      }
+      return null;
    }
 
    async pGetPromptTemplate(

@@ -24,7 +24,7 @@ const assertPromptEditRendered = () => {
 
 describe("CreatePromptDialog rendering tests", () => {
    it("CreatePromptDialog - mode fields-form - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptorWithPrompt();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const submitFn = jest.fn();
       const cancelFn = jest.fn();
 
@@ -74,7 +74,7 @@ describe("CreatePromptDialog functionality tests", () => {
    });
 
    it("CreatePromptDialog - mode fields-form - submit clicked - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptorWithPrompt();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const submitFn = jest.fn();
       const cancelFn = jest.fn();
       const submitFormCallback = async (values: DPromptTemplateFieldValues) => {
@@ -109,7 +109,7 @@ describe("CreatePromptDialog functionality tests", () => {
    });
 
    it("CreatePromptDialog - mode fields-form - cancel clicked - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptorWithPrompt();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const submitFn = jest.fn();
       const cancelFn = jest.fn();
 
@@ -137,7 +137,7 @@ describe("CreatePromptDialog functionality tests", () => {
    });
 
    it("CreatePromptDialog - close bnt clicked - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptorWithPrompt();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const submitFn = jest.fn();
       const cancelFn = jest.fn();
 
