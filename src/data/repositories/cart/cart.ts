@@ -1,10 +1,13 @@
 import { CartWithItems } from "@/data/types/db/cart";
 import { DbClient } from "@/data/types/db/common";
+import { DCart, DCartItem } from "@/data/types/domain/cart";
 import { DProduct } from "@/data/types/domain/product";
 import {
    CartCreateInput,
    CartItemCreateInput,
 } from "@/generated/prisma/models";
+
+import { toDCart, toDCartItem } from "./cart.mapper";
 
 export type GetOrCreateCartParams = {
    userId?: string;
@@ -18,9 +21,7 @@ export class CartRepository {
       this.prisma = prisma;
    }
 
-   async pGetOrCreateCart(
-      params: GetOrCreateCartParams
-   ): Promise<CartWithItems> {
+   async pGetOrCreateCart(params: GetOrCreateCartParams): Promise<DCart> {
       const { userId, sessionCartId } = params;
       // If user is authenticated, get user cart
       if (userId) {
@@ -34,7 +35,7 @@ export class CartRepository {
                },
             });
          }
-         return cart;
+         return toDCart(cart);
       }
 
       if (!sessionCartId) {
@@ -46,7 +47,7 @@ export class CartRepository {
          cart = await this.pCreateCart({ sessionCartId });
       }
 
-      return cart;
+      return toDCart(cart);
    }
 
    async pGetCartBySessionId(
@@ -78,7 +79,7 @@ export class CartRepository {
       });
    }
 
-   async pAddItemToCart(cartId: string, product: DProduct) {
+   async pAddItemToCart(cartId: string, product: DProduct): Promise<DCartItem> {
       const existingItem = await this.prisma.cartItem.findUnique({
          where: {
             cartId_productId: {
@@ -106,12 +107,13 @@ export class CartRepository {
             },
          };
 
-         return await this.prisma.cartItem.create({
+         const addedItem = await this.prisma.cartItem.create({
             data: input,
          });
+         return toDCartItem(addedItem);
       }
 
-      return existingItem;
+      return toDCartItem(existingItem);
    }
 
    async pRemoveCartItem(itemId: string) {

@@ -15,6 +15,7 @@ import {
 } from "@/generated/prisma/models";
 
 import { CartRepository } from "./cart";
+import { toDCart, toDCartItem } from "./cart.mapper";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const cartRepository = new CartRepository(prismaMock);
@@ -33,12 +34,14 @@ describe("pGetOrCreateCart tests", () => {
    });
 
    it("pGetOrCreateCart - userId defined - cart exists - test", async () => {
-      const cart = ptestData.pCart();
+      const cart = ptestData.pCartWithItems();
       prismaMock.cart.findFirst.mockResolvedValue(cart);
 
       const userId = "user-1";
 
       const result = await cartRepository.pGetOrCreateCart({ userId });
+
+      const expectedResult = toDCart(cart);
 
       const expectedFindFirstArgs: CartFindFirstArgs = {
          where: { userId },
@@ -47,7 +50,7 @@ describe("pGetOrCreateCart tests", () => {
          },
       };
 
-      expect(result).toEqual(cart);
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.cart.findFirst).toHaveBeenCalledTimes(1);
       expect(prismaMock.cart.findFirst).toHaveBeenCalledWith(
          expectedFindFirstArgs
@@ -55,13 +58,15 @@ describe("pGetOrCreateCart tests", () => {
    });
 
    it("pGetOrCreateCart - userId defined - cart doesn't exist - test", async () => {
-      const cart = ptestData.pCart();
+      const cart = ptestData.pCartWithItems();
       prismaMock.cart.findFirst.mockResolvedValue(null);
       prismaMock.cart.create.mockResolvedValue(cart);
 
       const userId = "user-1";
 
       const result = await cartRepository.pGetOrCreateCart({ userId });
+
+      const expectedResult = toDCart(cart);
 
       const expectedCartCreateArgs = {
          data: {
@@ -74,7 +79,7 @@ describe("pGetOrCreateCart tests", () => {
          },
       };
 
-      expect(result).toEqual(cart);
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.cart.findFirst).toHaveBeenCalledTimes(1);
       expect(prismaMock.cart.create).toHaveBeenCalledTimes(1);
       expect(prismaMock.cart.create).toHaveBeenCalledWith(
@@ -83,12 +88,14 @@ describe("pGetOrCreateCart tests", () => {
    });
 
    it("pGetOrCreateCart - sessionCartId defined - cart exists - test", async () => {
-      const cart = ptestData.pCart();
+      const cart = ptestData.pCartWithItems();
       prismaMock.cart.findUnique.mockResolvedValue(cart);
 
       const sessionCartId = "sessionCartId-1";
 
       const result = await cartRepository.pGetOrCreateCart({ sessionCartId });
+
+      const expectedResult = toDCart(cart);
 
       const expectedFindFirstArgs: CartFindFirstArgs = {
          where: { sessionCartId },
@@ -97,7 +104,7 @@ describe("pGetOrCreateCart tests", () => {
          },
       };
 
-      expect(result).toEqual(cart);
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.cart.findUnique).toHaveBeenCalledTimes(1);
       expect(prismaMock.cart.findUnique).toHaveBeenCalledWith(
          expectedFindFirstArgs
@@ -105,13 +112,15 @@ describe("pGetOrCreateCart tests", () => {
    });
 
    it("pGetOrCreateCart - sessionCartId defined - cart doesn't exist - test", async () => {
-      const cart = ptestData.pCart();
+      const cart = ptestData.pCartWithItems();
       prismaMock.cart.findUnique.mockResolvedValue(null);
       prismaMock.cart.create.mockResolvedValue(cart);
 
       const sessionCartId = "sessionCartId-1";
 
       const result = await cartRepository.pGetOrCreateCart({ sessionCartId });
+
+      const expectedResult = toDCart(cart);
 
       const expectedCartCreateArgs = {
          data: {
@@ -122,7 +131,7 @@ describe("pGetOrCreateCart tests", () => {
          },
       };
 
-      expect(result).toEqual(cart);
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.cart.findUnique).toHaveBeenCalledTimes(1);
       expect(prismaMock.cart.create).toHaveBeenCalledTimes(1);
       expect(prismaMock.cart.create).toHaveBeenCalledWith(
@@ -228,6 +237,8 @@ describe("pAddItemToCart tests", () => {
 
       const result = await cartRepository.pAddItemToCart(cartId, product);
 
+      const expectedResult = toDCartItem(cartItem);
+
       const expectedFindUniqueArgs: CartItemFindUniqueArgs = {
          where: {
             cartId_productId: {
@@ -258,7 +269,7 @@ describe("pAddItemToCart tests", () => {
          data: expectedInput,
       };
 
-      expect(result).toEqual(cartItem);
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.cartItem.findUnique).toHaveBeenCalledTimes(1);
       expect(prismaMock.cartItem.findUnique).toHaveBeenCalledWith(
          expectedFindUniqueArgs
@@ -278,6 +289,8 @@ describe("pAddItemToCart tests", () => {
 
       const result = await cartRepository.pAddItemToCart(cartId, product);
 
+      const expectedResult = toDCartItem(existingItem);
+
       const expectedFindUniqueArgs: CartItemFindUniqueArgs = {
          where: {
             cartId_productId: {
@@ -287,7 +300,7 @@ describe("pAddItemToCart tests", () => {
          },
       };
 
-      expect(result).toEqual(existingItem);
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.cartItem.findUnique).toHaveBeenCalledTimes(1);
       expect(prismaMock.cartItem.findUnique).toHaveBeenCalledWith(
          expectedFindUniqueArgs
@@ -304,6 +317,8 @@ describe("pAddItemToCart tests", () => {
       const product = dtestData.dProduct();
 
       const result = await cartRepository.pAddItemToCart(cartId, product);
+
+      const expectedResult = toDCartItem(cartItem);
 
       const expectedInput: CartItemCreateInput = {
          productName: product.name,
@@ -326,7 +341,7 @@ describe("pAddItemToCart tests", () => {
          data: expectedInput,
       };
 
-      expect(result).toEqual(cartItem);
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.cartItem.create).toHaveBeenCalledWith(
          expectedCreateArgs
       );
