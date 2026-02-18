@@ -3,7 +3,7 @@ import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { SubscriptionTier } from "@/generated/prisma/enums";
+import { DSubscriptionTier } from "@/data/types/domain/subscription";
 import {
    SubscriptionCreateArgs,
    SubscriptionCreateInput,
@@ -14,6 +14,7 @@ import {
    SubscriptionHistoryFindManyArgs,
    SubscriptionPlanFindManyArgs,
    SubscriptionPlanFindUniqueArgs,
+   SubscriptionPlanWhereUniqueInput,
    SubscriptionUpdateArgs,
    SubscriptionUpdateInput,
 } from "@/generated/prisma/models";
@@ -104,11 +105,15 @@ describe("pGetPlanByTier tests", () => {
    it("pGetPlanByTier - plan null - test", async () => {
       prismaMock.subscriptionPlan.findUnique.mockResolvedValue(null);
 
-      const tier: SubscriptionTier = "PRO";
+      const tier: DSubscriptionTier = "PRO";
       const result = await subscriptionRepo.pGetPlanByTier(tier);
 
+      const expectedInput: SubscriptionPlanWhereUniqueInput = {
+         tier,
+      };
+
       const expectedFindUniqueArgs: SubscriptionPlanFindUniqueArgs = {
-         where: { tier },
+         where: expectedInput,
       };
 
       expect(result).toBeNull();
@@ -122,13 +127,17 @@ describe("pGetPlanByTier tests", () => {
       const plan = ptestData.pSubscriptionPlan();
       prismaMock.subscriptionPlan.findUnique.mockResolvedValue(plan);
 
-      const tier: SubscriptionTier = "PRO";
+      const tier: DSubscriptionTier = "PRO";
       const result = await subscriptionRepo.pGetPlanByTier(tier);
 
       const expectdResult = toDSubscriptionPlan(plan);
 
+      const expectedInput: SubscriptionPlanWhereUniqueInput = {
+         tier,
+      };
+
       const expectedFindUniqueArgs: SubscriptionPlanFindUniqueArgs = {
-         where: { tier },
+         where: expectedInput,
       };
 
       expect(result).toEqual(expectdResult);

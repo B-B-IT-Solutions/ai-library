@@ -5,15 +5,14 @@ import {
    DSubscriptionCreate,
    DSubscriptionHistoryCreate,
    DSubscriptionPlan,
+   DSubscriptionTier,
    DSubscriptionUpdate,
 } from "@/data/types/domain/subscription";
-import {
-   SubscriptionHistory,
-   SubscriptionTier,
-} from "@/generated/prisma/client";
+import { SubscriptionHistory } from "@/generated/prisma/client";
 import {
    SubscriptionCreateInput,
    SubscriptionHistoryCreateInput,
+   SubscriptionPlanWhereUniqueInput,
    SubscriptionUpdateInput,
 } from "@/generated/prisma/models";
 
@@ -51,10 +50,14 @@ export class SubscriptionRepository {
    }
 
    async pGetPlanByTier(
-      tier: SubscriptionTier
+      tier: DSubscriptionTier
    ): Promise<DSubscriptionPlan | null> {
+      const input: SubscriptionPlanWhereUniqueInput = {
+         tier,
+      };
+
       const plan = await this.prisma.subscriptionPlan.findUnique({
-         where: { tier },
+         where: input,
       });
 
       return plan ? toDSubscriptionPlan(plan) : null;
