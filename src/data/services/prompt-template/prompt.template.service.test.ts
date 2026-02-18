@@ -1,11 +1,11 @@
-jest.mock("@/data/repositories/prompt-template/prompt.template");
+jest.mock("@/data/repositories/prompt-template");
 jest.mock("./template.engine");
 
 import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { PromptTemplateRepository } from "@/data/repositories/prompt-template/prompt.template";
+import { PromptTemplateRepository } from "@/data/repositories/prompt-template";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 
