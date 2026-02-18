@@ -7,7 +7,6 @@ import {
    preloadLibraryCollectionsOptions,
    preloadLibraryModelsOptions,
 } from "@/data/ts-queries/library";
-import { LibrarySidebar } from "@/components/library/sidebar/library-sidebar";
 
 type LibraryLayoutProps = {
    children: ReactNode;
@@ -26,10 +25,7 @@ export default async function LibraryLayout({ children }: LibraryLayoutProps) {
 
    return (
       <HydrationBoundary state={dehydrate(queryClient)}>
-         <div className="h-full flex">
-            <LibrarySidebar />
-            <div className="flex-1 overflow-hidden">{children}</div>
-         </div>
+         {children}
       </HydrationBoundary>
    );
 }

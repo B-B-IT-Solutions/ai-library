@@ -1,10 +1,11 @@
 "use client";
 
-import { ChevronDown, ChevronUp, Filter, Plus } from "lucide-react";
-import Link from "next/link";
 import { FC, useMemo, useState } from "react";
 import { flatMap } from "es-toolkit/compat";
+import { ChevronDown, ChevronUp, Filter, Plus } from "lucide-react";
+import Link from "next/link";
 
+import { Button } from "@/components/shadcn/button";
 import { useInfiniteLoadLibraryEntries } from "@/data/ts-queries/library";
 import {
    DLibraryEntriesFilter,
@@ -12,14 +13,14 @@ import {
    LibrarySortBy,
    LibraryViewMode,
 } from "@/data/types/domain/library";
-import { Button } from "@/components/shadcn/button";
 
 import { LibraryContent } from "./content/library-content";
+import { LibraryFilters } from "./filters/library-filters";
 import {
    LibraryFiltersContext,
    LibraryFiltersContextType,
 } from "./filters/library-filters-context";
-import { LibraryFilters } from "./filters/library-filters";
+import { LibraryQuickNav } from "./navigation/library-quick-nav";
 import { LibraryToolbar } from "./toolbar/library-toolbar";
 
 const initFilters: DLibraryEntriesFilter = {
@@ -31,7 +32,8 @@ const initFilters: DLibraryEntriesFilter = {
 };
 
 export const LibraryDashboard: FC = () => {
-   const [filters, setFiltersState] = useState<DLibraryEntriesFilter>(initFilters);
+   const [filters, setFiltersState] =
+      useState<DLibraryEntriesFilter>(initFilters);
    const [showFilters, setShowFilters] = useState(false);
    const [viewMode, setViewMode] = useState<LibraryViewMode>("grid");
    const [groupBy, setGroupBy] = useState<LibraryGroupBy>("none");
@@ -85,44 +87,49 @@ export const LibraryDashboard: FC = () => {
 
    return (
       <LibraryFiltersContext.Provider value={contextValue}>
-         <div className="h-full flex flex-col bg-slate-50">
+         <div className="flex h-full flex-col bg-slate-50">
             {/* Header */}
-            <div className="bg-white border-b px-6 py-4 flex items-center justify-between">
-               <div>
-                  <h1 className="text-2xl font-bold text-slate-900">
-                     Meine Bibliothek
-                  </h1>
-                  <p className="text-sm text-slate-600 mt-1">
-                     Verwalten Sie Ihre gespeicherten Prompt-Vorlagen
-                  </p>
+            <div className="space-y-4 border-b bg-white px-6 py-4">
+               <div className="flex items-center justify-between">
+                  <div>
+                     <h1 className="text-2xl font-bold text-slate-900">
+                        Meine Bibliothek
+                     </h1>
+                     <p className="mt-1 text-sm text-slate-600">
+                        Verwalten Sie Ihre gespeicherten Prompt-Vorlagen
+                     </p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                     <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setShowFilters(!showFilters)}
+                        className="gap-2"
+                     >
+                        <Filter className="h-4 w-4" />
+                        Filter
+                        {showFilters ? (
+                           <ChevronUp className="h-4 w-4" />
+                        ) : (
+                           <ChevronDown className="h-4 w-4" />
+                        )}
+                     </Button>
+                     <Button asChild size="sm" className="gap-2">
+                        <Link href="/library/new">
+                           <Plus className="h-4 w-4" />
+                           Neue Vorlage
+                        </Link>
+                     </Button>
+                  </div>
                </div>
-               <div className="flex items-center gap-3">
-                  <Button
-                     variant="outline"
-                     size="sm"
-                     onClick={() => setShowFilters(!showFilters)}
-                     className="gap-2"
-                  >
-                     <Filter className="h-4 w-4" />
-                     Filter
-                     {showFilters ? (
-                        <ChevronUp className="h-4 w-4" />
-                     ) : (
-                        <ChevronDown className="h-4 w-4" />
-                     )}
-                  </Button>
-                  <Button asChild size="sm" className="gap-2">
-                     <Link href="/library/new">
-                        <Plus className="h-4 w-4" />
-                        Neue Vorlage
-                     </Link>
-                  </Button>
-               </div>
+
+               {/* Quick Navigation */}
+               <LibraryQuickNav />
             </div>
 
             {/* Filters (collapsible) */}
             {showFilters && (
-               <div className="bg-white border-b px-6 py-4 animate-in slide-in-from-top duration-200">
+               <div className="animate-in border-b bg-white px-6 py-4 duration-200 slide-in-from-top">
                   <LibraryFilters />
                </div>
             )}

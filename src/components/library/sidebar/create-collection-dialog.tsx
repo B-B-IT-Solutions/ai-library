@@ -37,9 +37,20 @@ const collectionSchema = z.object({
 
 type CollectionFormData = z.infer<typeof collectionSchema>;
 
-export const CreateCollectionDialog: FC = () => {
-   const [open, setOpen] = useState(false);
+type CreateCollectionDialogProps = {
+   open?: boolean;
+   onOpenChange?: (open: boolean) => void;
+};
+
+export const CreateCollectionDialog: FC<CreateCollectionDialogProps> = ({
+   open: controlledOpen,
+   onOpenChange,
+}) => {
+   const [internalOpen, setInternalOpen] = useState(false);
    const { mutate: createCollection, isPending } = useCreateCollection();
+
+   const open = controlledOpen ?? internalOpen;
+   const setOpen = onOpenChange ?? setInternalOpen;
 
    const form = useForm<CollectionFormData>({
       resolver: zodResolver(collectionSchema),
@@ -69,12 +80,14 @@ export const CreateCollectionDialog: FC = () => {
 
    return (
       <Dialog open={open} onOpenChange={setOpen}>
-         <DialogTrigger asChild>
-            <Button variant="outline" size="sm" className="w-full">
-               <Plus className="h-4 w-4 mr-2" />
-               Neue Sammlung
-            </Button>
-         </DialogTrigger>
+         {!controlledOpen && (
+            <DialogTrigger asChild>
+               <Button variant="outline" size="sm" className="w-full">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Neue Sammlung
+               </Button>
+            </DialogTrigger>
+         )}
          <DialogContent>
             <DialogHeader>
                <DialogTitle>Neue Sammlung erstellen</DialogTitle>
