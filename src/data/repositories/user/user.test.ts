@@ -3,7 +3,6 @@ import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { toDUser } from "@/data/services/user/user.mapper";
 import {
    AccountDeleteManyArgs,
    SessionDeleteManyArgs,
@@ -15,6 +14,7 @@ import {
 } from "@/generated/prisma/models";
 
 import { UserRepository } from "./user";
+import { toDUserInternal } from "./user.mapper";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const userRepository = new UserRepository(prismaMock);
@@ -49,7 +49,7 @@ describe("pGetUserById tests", () => {
 
       const result = await userRepository.pGetUserById(user.id);
 
-      const expectedResult = toDUser(user);
+      const expectedResult = toDUserInternal(user);
 
       const expectedFindFirstArgs: UserFindFirstArgs = {
          where: {
@@ -95,7 +95,7 @@ describe("pGetUserByEmail tests", () => {
 
       const result = await userRepository.pGetUserByEmail(user.email);
 
-      const expectedResult = toDUser(user);
+      const expectedResult = toDUserInternal(user);
 
       const expectedFindFirstArgs: UserFindFirstArgs = {
          where: {
@@ -122,7 +122,7 @@ describe("pGetUser tests", () => {
 
       const result = await userRepository.pGetUser({ userId: user.id });
 
-      const expectedResult = toDUser(user);
+      const expectedResult = toDUserInternal(user);
 
       const expectedFindFirstArgs: UserFindFirstArgs = {
          where: { id: user.id },
@@ -141,7 +141,7 @@ describe("pGetUser tests", () => {
 
       const result = await userRepository.pGetUser({ email: user.email });
 
-      const expectedResult = toDUser(user);
+      const expectedResult = toDUserInternal(user);
 
       const expectedFindFirstArgs: UserFindFirstArgs = {
          where: { email: user.email },
@@ -177,7 +177,7 @@ describe("pCreateUser tests", () => {
       const createData = dtestData.dUserCreate();
       const result = await userRepository.pCreateUser(createData);
 
-      const expectedResult = toDUser(newUser);
+      const expectedResult = toDUserInternal(newUser);
 
       const expectedInput: UserCreateInput = {
          name: createData.name,

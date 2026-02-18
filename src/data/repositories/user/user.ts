@@ -1,9 +1,10 @@
-import { toDUser } from "@/data/services/user/user.mapper";
 import { DbClient } from "@/data/types/db/common";
 import { UserUpdateData } from "@/data/types/db/user";
-import { DUser, DUserCreate } from "@/data/types/domain/user";
+import { DUserCreate, DUserInternal } from "@/data/types/domain/user";
 import { User } from "@/generated/prisma/client";
 import { UserCreateInput, UserWhereInput } from "@/generated/prisma/models";
+
+import { toDUserInternal } from "./user.mapper";
 
 type PGeUserParams = {
    userId?: string;
@@ -17,15 +18,15 @@ export class UserRepository {
       this.prisma = prisma;
    }
 
-   async pGetUserById(userId: string): Promise<DUser | null> {
+   async pGetUserById(userId: string): Promise<DUserInternal | null> {
       return await this.pGetUser({ userId });
    }
 
-   async pGetUserByEmail(email: string): Promise<DUser | null> {
+   async pGetUserByEmail(email: string): Promise<DUserInternal | null> {
       return await this.pGetUser({ email });
    }
 
-   async pGetUser(params: PGeUserParams): Promise<DUser | null> {
+   async pGetUser(params: PGeUserParams): Promise<DUserInternal | null> {
       const whereClause = this.resolveGetUserParams(params);
 
       if (whereClause) {
@@ -34,7 +35,7 @@ export class UserRepository {
          });
 
          if (user) {
-            return toDUser(user);
+            return toDUserInternal(user);
          }
       }
 
@@ -52,7 +53,7 @@ export class UserRepository {
          data: input,
       });
 
-      return toDUser(newUser);
+      return toDUserInternal(newUser);
    }
 
    async pUpdateUser(userId: string, data: UserUpdateData) {

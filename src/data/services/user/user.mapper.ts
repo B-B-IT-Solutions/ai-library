@@ -1,13 +1,12 @@
-import { PUser } from "@/data/types/db/user";
-import { DUser } from "@/data/types/domain/user";
+import { DUser, DUserInternal } from "@/data/types/domain/user";
 
-export const toDUser = (pUser: PUser): DUser => {
+export const toDUser = (user: DUserInternal): DUser => {
    return {
-      id: pUser.id,
-      name: pUser.name,
-      email: pUser.email,
-      role: pUser.role,
-      updatedAt: pUser.updatedAt.toISOString(),
-      createdAt: pUser.createdAt.toISOString(),
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      updatedAt: user.updatedAt,
+      createdAt: user.createdAt,
    };
 };
