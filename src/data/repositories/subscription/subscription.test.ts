@@ -10,6 +10,7 @@ import {
    SubscriptionDeleteArgs,
    SubscriptionFindUniqueArgs,
    SubscriptionHistoryCreateArgs,
+   SubscriptionHistoryCreateInput,
    SubscriptionHistoryFindManyArgs,
    SubscriptionPlanFindManyArgs,
    SubscriptionPlanFindUniqueArgs,
@@ -336,12 +337,27 @@ describe("pCreateSubscriptionHistory tests", () => {
    });
 
    it("pCreateSubscriptionHistory - history created - test", async () => {
-      const data = ptestData.pSubscriptionHistoryCreate();
+      const data = dtestData.dSubscriptionHistoryCreate();
 
       await subscriptionRepo.pCreateSubscriptionHistory(data);
 
+      const expectedIinput: SubscriptionHistoryCreateInput = {
+         eventType: data.eventType,
+         fromTier: data.fromTier,
+         toTier: data.toTier,
+         fromStatus: data.fromStatus,
+         toStatus: data.toStatus,
+         stripeEventId: data.stripeEventId,
+         metadata: data.metadata,
+         user: {
+            connect: {
+               id: data.userId,
+            },
+         },
+      };
+
       const exptectedCreateArgs: SubscriptionHistoryCreateArgs = {
-         data: data,
+         data: expectedIinput,
       };
 
       expect(prismaMock.subscriptionHistory.create).toHaveBeenCalledTimes(1);

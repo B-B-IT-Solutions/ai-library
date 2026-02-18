@@ -47,6 +47,7 @@ import {
 import {
    DSubscription,
    DSubscriptionCreate,
+   DSubscriptionHistoryCreate,
    DSubscriptionPlan,
    DSubscriptionUpdate,
 } from "@/data/types/domain/subscription";
@@ -156,6 +157,21 @@ export const dSubscriptionUpdate = (index = 1): DSubscriptionUpdate => {
       currentPeriodEnd: new Date("2025-09-27"),
       cancelAtPeriodEnd: false,
       canceledAt: new Date("2025-09-27"),
+   };
+};
+
+export const dSubscriptionHistoryCreate = (
+   index = 1
+): DSubscriptionHistoryCreate => {
+   return {
+      userId: `f08abf0c-5623-454e-bc02-7933a59533b${index}`,
+      eventType: "SUBSCRIPTION_CREATED",
+      fromTier: "BASIC",
+      toTier: "BASIC",
+      fromStatus: "ACTIVE",
+      toStatus: "ACTIVE",
+      stripeEventId: `38d65fc2-7fef-4917-8aae-b47a04d770c${index}`,
+      metadata: {},
    };
 };
 

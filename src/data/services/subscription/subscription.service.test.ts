@@ -8,16 +8,7 @@ import {
    GetSubscriptionParams,
    SubscriptionRepository,
 } from "@/data/repositories/subscription";
-import {
-   SubscriptionHistoryCreate,
-   SubscriptionUpdate,
-} from "@/data/types/db/subscription";
-import {
-   DSubscriptionCreate,
-   DSubscriptionHistoryCreate,
-   DSubscriptionTier,
-   DSubscriptionUpdate,
-} from "@/data/types/domain/subscription";
+import { DSubscriptionTier } from "@/data/types/domain/subscription";
 
 import { SubscriptionService } from "./subscription.service";
 
@@ -218,28 +209,16 @@ describe("createSubscriptionHistory tests", () => {
    });
 
    it("createSubscriptionHistory - history created - test", async () => {
-      const historyData: DSubscriptionHistoryCreate = {
-         userId: "user-id-1",
-         eventType: "activated",
-         fromStatus: "INCOMPLETE",
-         toStatus: "ACTIVE",
-         metadata: {
-            test: "value",
-         },
-      };
+      const historyData = dtestData.dSubscriptionHistoryCreate();
 
       await service.createSubscriptionHistory(historyData);
-
-      const expectedCreateData: SubscriptionHistoryCreate = {
-         ...historyData,
-      };
 
       expect(
          subscriptionRepoMock.pCreateSubscriptionHistory
       ).toHaveBeenCalledTimes(1);
       expect(
          subscriptionRepoMock.pCreateSubscriptionHistory
-      ).toHaveBeenCalledWith(expectedCreateData);
+      ).toHaveBeenCalledWith(historyData);
    });
 });
 

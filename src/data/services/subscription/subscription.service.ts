@@ -2,10 +2,6 @@ import { isFuture } from "date-fns";
 
 import { SubscriptionRepository } from "@/data/repositories/subscription";
 import {
-   SubscriptionHistoryCreate,
-   SubscriptionUpdate,
-} from "@/data/types/db/subscription";
-import {
    DSubscription,
    DSubscriptionCreate,
    DSubscriptionHistoryCreate,
@@ -64,15 +60,6 @@ export class SubscriptionService {
    }
 
    async updateSubscription(userId: string, data: DSubscriptionUpdate) {
-      const updateData: SubscriptionUpdate = {
-         status: data.status,
-         stripeSubscriptionId: data.stripeSubscriptionId,
-         stripeCustomerId: data.stripeCustomerId,
-         currentPeriodStart: data.currentPeriodStart,
-         currentPeriodEnd: data.currentPeriodEnd,
-         cancelAtPeriodEnd: data.cancelAtPeriodEnd,
-         canceledAt: data.canceledAt,
-      };
       await this.subscriptionRepo.pUpdateSubscription(userId, data);
    }
 
@@ -81,14 +68,7 @@ export class SubscriptionService {
    }
 
    async createSubscriptionHistory(data: DSubscriptionHistoryCreate) {
-      const createData: SubscriptionHistoryCreate = {
-         userId: data.userId,
-         eventType: data.eventType,
-         fromStatus: data.fromStatus,
-         toStatus: data.toStatus,
-         metadata: data.metadata,
-      };
-      await this.subscriptionRepo.pCreateSubscriptionHistory(createData);
+      await this.subscriptionRepo.pCreateSubscriptionHistory(data);
    }
 
    async getUserTier(userId: string): Promise<DSubscriptionTier> {

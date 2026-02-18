@@ -26,12 +26,7 @@ import {
    PromptTemplateDescriptorWithTemplate,
    PromptTemplateWithFields,
 } from "@/data/types/db/prompt.template";
-import {
-   SubscriptionCreate,
-   SubscriptionHistoryCreate,
-   SubscriptionUpdate,
-   SubscriptionWithPlan,
-} from "@/data/types/db/subscription";
+import { SubscriptionWithPlan } from "@/data/types/db/subscription";
 import { UserUpdateData } from "@/data/types/db/user";
 import { Order } from "@/generated/prisma/browser";
 import {
@@ -144,26 +139,6 @@ export const pSubscriptionPlan = (index = 1): SubscriptionPlan => {
    };
 };
 
-export const pSubscriptionCreate = (index = 1): SubscriptionCreate => {
-   return {
-      userId: `f08abf0c-5623-454e-bc02-7933a59533b${index}`,
-      planId: `df964a3c-bfa2-4484-97c3-219c2158380${index}`,
-      billingInterval: "YEARLY",
-      stripeCheckoutSessionId: `3a8d4246-480e-43f8-bfa1-a167658b81af${index}`,
-      stripeCustomerId: `ac82ecc9-de60-4fba-acf6-8b57ad9a91a${index}`,
-   };
-};
-
-export const pSubscriptionUpdate = (index = 1): SubscriptionUpdate => {
-   return {
-      status: "ACTIVE",
-      stripeSubscriptionId: `982a1b4c-e85b-4885-98c5-62fbea319e5${index}`,
-      currentPeriodStart: new Date("2025-10-01"),
-      currentPeriodEnd: new Date("2025-11-01"),
-      cancelAtPeriodEnd: false,
-   };
-};
-
 export const pSubscriptionHistories = (count = 3): SubscriptionHistory[] => {
    return range(0, count).map((i) => pSubscriptionHistory(i));
 };
@@ -180,21 +155,6 @@ export const pSubscriptionHistory = (index = 1): SubscriptionHistory => {
       stripeEventId: `38d65fc2-7fef-4917-8aae-b47a04d770c${index}`,
       metadata: {},
       createdAt: new Date("2025-09-27"),
-   };
-};
-
-export const pSubscriptionHistoryCreate = (
-   index = 1
-): SubscriptionHistoryCreate => {
-   return {
-      userId: `f08abf0c-5623-454e-bc02-7933a59533b${index}`,
-      eventType: "SUBSCRIPTION_CREATED",
-      fromTier: "BASIC",
-      toTier: "BASIC",
-      fromStatus: "ACTIVE",
-      toStatus: "ACTIVE",
-      stripeEventId: `38d65fc2-7fef-4917-8aae-b47a04d770c${index}`,
-      metadata: {},
    };
 };
 

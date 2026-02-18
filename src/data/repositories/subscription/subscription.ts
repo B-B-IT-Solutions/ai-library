@@ -1,11 +1,9 @@
 import { DbClient } from "@/data/types/db/common";
-import {
-   SubscriptionHistoryCreate,
-   SubscriptionWithPlan,
-} from "@/data/types/db/subscription";
+import { SubscriptionWithPlan } from "@/data/types/db/subscription";
 import {
    DSubscription,
    DSubscriptionCreate,
+   DSubscriptionHistoryCreate,
    DSubscriptionPlan,
    DSubscriptionUpdate,
 } from "@/data/types/domain/subscription";
@@ -15,6 +13,7 @@ import {
 } from "@/generated/prisma/client";
 import {
    SubscriptionCreateInput,
+   SubscriptionHistoryCreateInput,
    SubscriptionUpdateInput,
 } from "@/generated/prisma/models";
 
@@ -135,18 +134,24 @@ export class SubscriptionRepository {
       });
    }
 
-   async pCreateSubscriptionHistory(data: SubscriptionHistoryCreate) {
-      await this.prisma.subscriptionHistory.create({
-         data: {
-            userId: data.userId,
-            eventType: data.eventType,
-            fromTier: data.fromTier,
-            toTier: data.toTier,
-            fromStatus: data.fromStatus,
-            toStatus: data.toStatus,
-            stripeEventId: data.stripeEventId,
-            metadata: data.metadata,
+   async pCreateSubscriptionHistory(data: DSubscriptionHistoryCreate) {
+      const input: SubscriptionHistoryCreateInput = {
+         eventType: data.eventType,
+         fromTier: data.fromTier,
+         toTier: data.toTier,
+         fromStatus: data.fromStatus,
+         toStatus: data.toStatus,
+         stripeEventId: data.stripeEventId,
+         metadata: data.metadata,
+         user: {
+            connect: {
+               id: data.userId,
+            },
          },
+      };
+
+      await this.prisma.subscriptionHistory.create({
+         data: input,
       });
    }
 }
