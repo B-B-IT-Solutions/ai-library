@@ -1,4 +1,4 @@
-import { PromptTemplateRepository } from "@/data/repositories/prompt/prompt.template";
+import { PromptTemplateRepository } from "@/data/repositories/prompt-template/prompt.template";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
    DPromptTemplate,

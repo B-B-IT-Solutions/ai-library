@@ -1,6 +1,6 @@
 import { map } from "es-toolkit/compat";
 
-import { toDPromptTemplateDescriptor } from "@/data/repositories/prompt/prompt.template.mapper";
+import { toDPromptTemplateDescriptor } from "@/data/repositories/prompt-template/prompt.template.mapper";
 import {
    ProductItemWithTemplate,
    ProductWithDetails,

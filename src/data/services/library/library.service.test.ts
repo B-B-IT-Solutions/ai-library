@@ -1,5 +1,5 @@
 jest.mock("@/data/repositories/library");
-jest.mock("@/data/services/prompt");
+jest.mock("@/data/services/prompt-template");
 
 import { dtestData, ptestData } from "@tests";
 import { forEach, map } from "es-toolkit/compat";
@@ -11,7 +11,7 @@ import {
 } from "@/data/repositories/library";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
-import { PromptTemplateService } from "@/data/services/prompt";
+import { PromptTemplateService } from "@/data/services/prompt-template";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 

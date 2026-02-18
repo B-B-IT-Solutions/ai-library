@@ -4,7 +4,7 @@ import { map } from "es-toolkit/compat";
 import {
    toDPromptTemplateDescriptor,
    toDPromptTemplateDescriptorWithTemplate,
-} from "@/data/repositories/prompt/prompt.template.mapper";
+} from "@/data/repositories/prompt-template/prompt.template.mapper";
 import {
    LibraryEntryWithPromptTemplate,
    LibraryEntryWithPromptTemplateDescriptor,
