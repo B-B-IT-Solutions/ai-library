@@ -131,20 +131,15 @@ describe("addToCart tests", () => {
 
       await cartService.addToCart(product);
 
-      const expectedParams = {
-         cartId: cart.id,
-         productId: product.id,
-         productName: product.name,
-         productType: product.type,
-         productPrice: product.price,
-      };
-
       expect(cartRepoMock.pGetOrCreateCart).toHaveBeenCalledTimes(1);
       expect(cartRepoMock.pGetOrCreateCart).toHaveBeenCalledWith({
          userId: session.user.id,
       });
       expect(cartRepoMock.pAddItemToCart).toHaveBeenCalledTimes(1);
-      expect(cartRepoMock.pAddItemToCart).toHaveBeenCalledWith(expectedParams);
+      expect(cartRepoMock.pAddItemToCart).toHaveBeenCalledWith(
+         cart.id,
+         product
+      );
    });
 });
 

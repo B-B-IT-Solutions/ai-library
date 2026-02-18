@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 
 import { auth } from "@/auth";
-import { AddItemToCartParams, CartRepository } from "@/data/repositories/cart";
+import { CartRepository } from "@/data/repositories/cart";
 import { DCart } from "@/data/types/domain/cart";
 import { DProduct } from "@/data/types/domain/product";
 
@@ -35,16 +35,7 @@ export class CartService {
 
    async addToCart(product: DProduct) {
       const cart = await this.getCart();
-
-      const params: AddItemToCartParams = {
-         cartId: cart.id,
-         productId: product.id,
-         productName: product.name,
-         productType: product.type,
-         productPrice: product.price,
-      };
-
-      await this.cartRepository.pAddItemToCart(params);
+      await this.cartRepository.pAddItemToCart(cart.id, product);
    }
 
    async removeFromCart(itemId: string) {

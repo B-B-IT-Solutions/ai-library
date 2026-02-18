@@ -1,19 +1,14 @@
 import { CartWithItems } from "@/data/types/db/cart";
 import { DbClient } from "@/data/types/db/common";
-import { ProductType } from "@/generated/prisma/enums";
-import { CartCreateInput } from "@/generated/prisma/models";
+import { DProduct } from "@/data/types/domain/product";
+import {
+   CartCreateInput,
+   CartItemCreateInput,
+} from "@/generated/prisma/models";
 
 export type GetOrCreateCartParams = {
    userId?: string;
    sessionCartId?: string;
-};
-
-export type AddItemToCartParams = {
-   cartId: string;
-   productId: string;
-   productName: string;
-   productType: ProductType;
-   productPrice: number;
 };
 
 export class CartRepository {
@@ -83,29 +78,36 @@ export class CartRepository {
       });
    }
 
-   async pAddItemToCart(params: AddItemToCartParams) {
-      const { cartId, productId, productName, productType, productPrice } =
-         params;
-
+   async pAddItemToCart(cartId: string, product: DProduct) {
       const existingItem = await this.prisma.cartItem.findUnique({
          where: {
             cartId_productId: {
                cartId,
-               productId,
+               productId: product.id,
             },
          },
       });
 
       if (!existingItem) {
-         return await this.prisma.cartItem.create({
-            data: {
-               cartId,
-               productId,
-               productName,
-               productType,
-               productPrice,
-               quantity: 1,
+         const input: CartItemCreateInput = {
+            productName: product.name,
+            productType: product.type,
+            productPrice: product.price,
+            quantity: 1,
+            cart: {
+               connect: {
+                  id: cartId,
+               },
             },
+            product: {
+               connect: {
+                  id: product.id,
+               },
+            },
+         };
+
+         return await this.prisma.cartItem.create({
+            data: input,
          });
       }
 
