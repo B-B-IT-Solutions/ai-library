@@ -1,4 +1,4 @@
-import { PromptTemplateRepository } from "@/data/repositories/prompt/prompt.template";
+import { PromptTemplateRepository } from "@/data/repositories/prompt-template";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
    DPromptTemplate,
@@ -9,11 +9,6 @@ import {
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 
-import {
-   toDPromptTemplate,
-   toDPromptTemplateDescriptors,
-   toDPromptTemplateDescriptorWithTemplate,
-} from "./prompt.template.mapper";
 import { TemplateEngine } from "./template.engine";
 
 type DGetPromptTemplatesDescriptorsParams = {
@@ -31,27 +26,17 @@ export class PromptTemplateService {
    async getPromptTemplateDescriptors(
       params?: DGetPromptTemplatesDescriptorsParams
    ): Promise<DPromptTemplateDescriptor[]> {
-      const data = await this.repository.pGetPromptTemplateDescriptors(params);
-      return toDPromptTemplateDescriptors(data);
+      return await this.repository.pGetPromptTemplateDescriptors(params);
    }
 
    async getPromptTemplateDescriptorWithTemplate(
       id: string
    ): Promise<DPromptTemplateDescriptorWithTemplate | null> {
-      const data =
-         await this.repository.pGetPromptTemplateDescriptorWithTemplate(id);
-      if (data) {
-         return toDPromptTemplateDescriptorWithTemplate(data);
-      }
-      return null;
+      return await this.repository.pGetPromptTemplateDescriptorWithTemplate(id);
    }
 
    async getPromptTemplate(id: string): Promise<DPromptTemplate | null> {
-      const data = await this.repository.pGetPromptTemplate(id);
-      if (data) {
-         return toDPromptTemplate(data);
-      }
-      return null;
+      return await this.repository.pGetPromptTemplate(id);
    }
 
    async getPromptTemplateCategories(): Promise<DPromptTemplateCategory[]> {

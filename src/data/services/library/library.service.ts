@@ -4,7 +4,7 @@ import {
    GetLibraryEntryParams,
    LibraryRepository,
 } from "@/data/repositories/library";
-import { PromptTemplateService } from "@/data/services/prompt";
+import { PromptTemplateService } from "@/data/services/prompt-template";
 import { OrderProducts } from "@/data/types/db/order";
 import {
    DLibraryEntry,

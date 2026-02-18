@@ -37,7 +37,7 @@ describe("CreatePromptButton rendering tests", () => {
       const promptTemplate = dtestData.dPromptTemplate();
       getPromptTemplateMock.mockResolvedValue(promptTemplate);
 
-      const descriptor = dtestData.dPromptTemplateDescriptorWithPrompt();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const { container } = render(
          <CreatePromptButton descriptor={descriptor} />
       );
@@ -55,7 +55,7 @@ describe("CreatePromptButton rendering tests", () => {
 
       getPromptTemplateMock.mockResolvedValue(promptTemplate);
 
-      const descriptor = dtestData.dPromptTemplateDescriptorWithPrompt();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const { container } = render(
          <CreatePromptButton descriptor={descriptor} />
       );
@@ -71,7 +71,7 @@ describe("CreatePromptButton rendering tests", () => {
       const promptTemplate = dtestData.dPromptTemplate();
       getPromptTemplateMock.mockResolvedValue(promptTemplate);
 
-      const descriptor = dtestData.dPromptTemplateDescriptorWithPrompt();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const { container } = render(
          <CreatePromptButton descriptor={descriptor} className="custom-class" />
       );
@@ -104,7 +104,7 @@ describe("CreatePromptButton functionality - no fields - tests", () => {
       };
       composePromptFromTemplateMock.mockResolvedValue(result);
 
-      const descriptor = dtestData.dPromptTemplateDescriptorWithPrompt();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
       render(<CreatePromptButton descriptor={descriptor} />);
 
@@ -134,7 +134,7 @@ describe("CreatePromptButton functionality - no fields - tests", () => {
       };
       composePromptFromTemplateMock.mockResolvedValue(result);
 
-      const descriptor = dtestData.dPromptTemplateDescriptorWithPrompt();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
       render(<CreatePromptButton descriptor={descriptor} />);
 
@@ -173,7 +173,7 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
       };
       composePromptFromTemplateMock.mockResolvedValue(result);
 
-      const descriptor = dtestData.dPromptTemplateDescriptorWithPrompt();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
       render(<CreatePromptButton descriptor={descriptor} />);
 
@@ -220,7 +220,7 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
       };
       composePromptFromTemplateMock.mockResolvedValue(result);
 
-      const descriptor = dtestData.dPromptTemplateDescriptorWithPrompt();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
       render(<CreatePromptButton descriptor={descriptor} />);
 
@@ -260,7 +260,7 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
       const promptTemplate = dtestData.dPromptTemplate();
       getPromptTemplateMock.mockResolvedValue(promptTemplate);
 
-      const descriptor = dtestData.dPromptTemplateDescriptorWithPrompt();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
       render(<CreatePromptButton descriptor={descriptor} />);
 

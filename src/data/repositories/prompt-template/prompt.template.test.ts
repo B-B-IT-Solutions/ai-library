@@ -4,7 +4,6 @@ import { map } from "es-toolkit/compat";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { toDPromptTemplateDescriptor } from "@/data/services/prompt/prompt.template.mapper";
 import { DPromptTemplateFieldUpdate } from "@/data/types/domain/prompt.template";
 import { Prisma } from "@/generated/prisma/client";
 import {
@@ -17,6 +16,12 @@ import {
 import { stringify } from "@/lib/utils";
 
 import { PromptTemplateRepository } from "./prompt.template";
+import {
+   toDPromptTemplate,
+   toDPromptTemplateDescriptor,
+   toDPromptTemplateDescriptors,
+   toDPromptTemplateDescriptorWithTemplate,
+} from "./prompt.template.mapper";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
@@ -28,10 +33,12 @@ describe("pGetPromptTemplateDescriptors tests", () => {
    });
 
    test("pGetPromptTemplateDescriptors - prompts - params undefined - retrieved - test", async () => {
-      const prompts = ptestData.pPromptTemplateDescriptors();
+      const prompts = ptestData.pPromptTemplateDescriptorsWithCategories();
       prismaMock.promptTemplateDescriptor.findMany.mockResolvedValue(prompts);
 
       const result = await repository.pGetPromptTemplateDescriptors();
+
+      const expectedResult = toDPromptTemplateDescriptors(prompts);
 
       const expectedFindMayArgs: PromptTemplateDescriptorFindManyArgs = {
          include: {
@@ -40,7 +47,7 @@ describe("pGetPromptTemplateDescriptors tests", () => {
          take: 20,
       };
 
-      expect(result).toEqual(prompts);
+      expect(result).toEqual(expectedResult);
       expect(
          prismaMock.promptTemplateDescriptor.findMany
       ).toHaveBeenCalledTimes(1);
@@ -50,10 +57,12 @@ describe("pGetPromptTemplateDescriptors tests", () => {
    });
 
    test("pGetPromptTemplateDescriptors - prompts - params empty - retrieved - test", async () => {
-      const prompts = ptestData.pPromptTemplateDescriptors();
+      const prompts = ptestData.pPromptTemplateDescriptorsWithCategories();
       prismaMock.promptTemplateDescriptor.findMany.mockResolvedValue(prompts);
 
       const result = await repository.pGetPromptTemplateDescriptors({});
+
+      const expectedResult = toDPromptTemplateDescriptors(prompts);
 
       const expectedFindMayArgs: PromptTemplateDescriptorFindManyArgs = {
          include: {
@@ -62,7 +71,7 @@ describe("pGetPromptTemplateDescriptors tests", () => {
          take: 20,
       };
 
-      expect(result).toEqual(prompts);
+      expect(result).toEqual(expectedResult);
       expect(
          prismaMock.promptTemplateDescriptor.findMany
       ).toHaveBeenCalledTimes(1);
@@ -72,7 +81,7 @@ describe("pGetPromptTemplateDescriptors tests", () => {
    });
 
    test("pGetPromptTemplateDescriptors - prompts - params.search defined  - retrieved - test", async () => {
-      const prompts = ptestData.pPromptTemplateDescriptors();
+      const prompts = ptestData.pPromptTemplateDescriptorsWithCategories();
       prismaMock.promptTemplateDescriptor.findMany.mockResolvedValue(prompts);
 
       const search = "prompt 1";
@@ -80,6 +89,8 @@ describe("pGetPromptTemplateDescriptors tests", () => {
          search,
          categories: [],
       });
+
+      const expectedResult = toDPromptTemplateDescriptors(prompts);
 
       const expectedFindMayArgs: PromptTemplateDescriptorFindManyArgs = {
          where: {
@@ -106,7 +117,7 @@ describe("pGetPromptTemplateDescriptors tests", () => {
          take: 20,
       };
 
-      expect(result).toEqual(prompts);
+      expect(result).toEqual(expectedResult);
       expect(
          prismaMock.promptTemplateDescriptor.findMany
       ).toHaveBeenCalledTimes(1);
@@ -116,13 +127,15 @@ describe("pGetPromptTemplateDescriptors tests", () => {
    });
 
    test("pGetPromptTemplateDescriptors - prompts - params.categories defined  - retrieved - test", async () => {
-      const prompts = ptestData.pPromptTemplateDescriptors();
+      const prompts = ptestData.pPromptTemplateDescriptorsWithCategories();
       prismaMock.promptTemplateDescriptor.findMany.mockResolvedValue(prompts);
 
       const categories = ["cat 1", "cat2", "cat 3"];
       const result = await repository.pGetPromptTemplateDescriptors({
          categories,
       });
+
+      const expectedResult = toDPromptTemplateDescriptors(prompts);
 
       const expectedFindMayArgs: PromptTemplateDescriptorFindManyArgs = {
          where: {
@@ -144,7 +157,7 @@ describe("pGetPromptTemplateDescriptors tests", () => {
          take: 20,
       };
 
-      expect(result).toEqual(prompts);
+      expect(result).toEqual(expectedResult);
       expect(
          prismaMock.promptTemplateDescriptor.findMany
       ).toHaveBeenCalledTimes(1);
@@ -154,7 +167,7 @@ describe("pGetPromptTemplateDescriptors tests", () => {
    });
 
    test("pGetPromptTemplateDescriptors - prompts - params defined  - retrieved - test", async () => {
-      const prompts = ptestData.pPromptTemplateDescriptors();
+      const prompts = ptestData.pPromptTemplateDescriptorsWithCategories();
       prismaMock.promptTemplateDescriptor.findMany.mockResolvedValue(prompts);
 
       const search = "prompt 123";
@@ -163,6 +176,8 @@ describe("pGetPromptTemplateDescriptors tests", () => {
          search,
          categories,
       });
+
+      const expectedResult = toDPromptTemplateDescriptors(prompts);
 
       const expectedFindMayArgs: PromptTemplateDescriptorFindManyArgs = {
          where: {
@@ -200,7 +215,7 @@ describe("pGetPromptTemplateDescriptors tests", () => {
          take: 20,
       };
 
-      expect(result).toEqual(prompts);
+      expect(result).toEqual(expectedResult);
       expect(
          prismaMock.promptTemplateDescriptor.findMany
       ).toHaveBeenCalledTimes(1);
@@ -215,9 +230,8 @@ describe("pGetPromptTemplateDescriptorWithTemplate tests", () => {
       mockReset(prismaMock);
    });
 
-   test("pGetPromptTemplateDescriptorWithTemplate - id defined - test", async () => {
-      const prompt = ptestData.pPromptDescriptorWithRelations();
-      prismaMock.promptTemplateDescriptor.findFirst.mockResolvedValue(prompt);
+   test("pGetPromptTemplateDescriptorWithTemplate - descriptor null - test", async () => {
+      prismaMock.promptTemplateDescriptor.findFirst.mockResolvedValue(null);
 
       const id = "prompt-template-descriptor-id-1";
       const result =
@@ -236,7 +250,39 @@ describe("pGetPromptTemplateDescriptorWithTemplate tests", () => {
             },
          },
       };
-      expect(result).toEqual(prompt);
+      expect(result).toBeNull();
+      expect(
+         prismaMock.promptTemplateDescriptor.findFirst
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         prismaMock.promptTemplateDescriptor.findFirst
+      ).toHaveBeenCalledWith(expectedWhere);
+   });
+
+   test("pGetPromptTemplateDescriptorWithTemplate - descriptor retrieved - test", async () => {
+      const template = ptestData.pPromptTemplateDescriptorWithTemplate();
+      prismaMock.promptTemplateDescriptor.findFirst.mockResolvedValue(template);
+
+      const id = "prompt-template-descriptor-id-1";
+      const result =
+         await repository.pGetPromptTemplateDescriptorWithTemplate(id);
+
+      const expectedResult = toDPromptTemplateDescriptorWithTemplate(template);
+
+      const expectedWhere: PromptTemplateDescriptorFindFirstArgs = {
+         where: {
+            id,
+         },
+         include: {
+            categories: true,
+            promptTemplate: {
+               include: {
+                  fields: true,
+               },
+            },
+         },
+      };
+      expect(result).toEqual(expectedResult);
       expect(
          prismaMock.promptTemplateDescriptor.findFirst
       ).toHaveBeenCalledTimes(1);
@@ -251,9 +297,8 @@ describe("pGetPromptTemplate tests", () => {
       mockReset(prismaMock);
    });
 
-   test("pGetPromptTemplate test", async () => {
-      const prompt = ptestData.pPromptTemplate();
-      prismaMock.promptTemplate.findFirst.mockResolvedValue(prompt);
+   test("pGetPromptTemplate - template null - test", async () => {
+      prismaMock.promptTemplate.findFirst.mockResolvedValue(null);
 
       const id = "prompt-template-id-1";
       const result = await repository.pGetPromptTemplate(id);
@@ -264,7 +309,28 @@ describe("pGetPromptTemplate tests", () => {
             fields: true,
          },
       };
-      expect(result).toEqual(prompt);
+      expect(result).toBeNull();
+      expect(prismaMock.promptTemplate.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptTemplate.findFirst).toHaveBeenCalledWith(
+         expectedWhere
+      );
+   });
+
+   test("pGetPromptTemplate - template retrieved - test", async () => {
+      const prompt = ptestData.pPromptTemplate();
+      prismaMock.promptTemplate.findFirst.mockResolvedValue(prompt);
+
+      const id = "prompt-template-id-1";
+      const result = await repository.pGetPromptTemplate(id);
+      const expectedResult = toDPromptTemplate(prompt);
+
+      const expectedWhere: PromptTemplateFindFirstArgs = {
+         where: { id },
+         include: {
+            fields: true,
+         },
+      };
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.promptTemplate.findFirst).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptTemplate.findFirst).toHaveBeenCalledWith(
          expectedWhere

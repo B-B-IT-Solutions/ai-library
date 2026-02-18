@@ -207,7 +207,7 @@ export const dLibraryEntryWithPromptTemplate = (
    index = 1
 ): DLibraryEntryWithPromptTemplate => {
    const entry = dLibraryEntry(index);
-   const templateDescriptor = dPromptTemplateDescriptorWithPrompt(index);
+   const templateDescriptor = dPromptTemplateDescriptorWithTemplate(index);
    return {
       ...entry,
       templateDescriptor,
@@ -415,7 +415,7 @@ export const dInstruction = (index = 1): DInstruction => {
    };
 };
 
-export const dPromptTemplateDescriptorWithPrompt = (
+export const dPromptTemplateDescriptorWithTemplate = (
    index = 1
 ): DPromptTemplateDescriptorWithTemplate => {
    const descriptor = dPromptTemplateDescriptor(index);

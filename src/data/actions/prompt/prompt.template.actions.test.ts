@@ -1,9 +1,9 @@
-jest.mock("@/data/services/prompt");
+jest.mock("@/data/services/prompt-template");
 
 import { dtestData } from "@tests";
 import { map } from "es-toolkit/compat";
 
-import { PromptTemplateService } from "@/data/services/prompt";
+import { PromptTemplateService } from "@/data/services/prompt-template";
 
 import {
    getPromptTemplate,
