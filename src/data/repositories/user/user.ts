@@ -1,7 +1,7 @@
 import { toDUser } from "@/data/services/user/user.mapper";
 import { DbClient } from "@/data/types/db/common";
 import { UserUpdateData } from "@/data/types/db/user";
-import { DUserCreate } from "@/data/types/domain/user";
+import { DUser, DUserCreate } from "@/data/types/domain/user";
 import { User } from "@/generated/prisma/client";
 import { UserCreateInput, UserWhereInput } from "@/generated/prisma/models";
 
@@ -17,12 +17,16 @@ export class UserRepository {
       this.prisma = prisma;
    }
 
-   async pGetUserById(userId: string): Promise<User | null> {
-      return this.pGetUser({ userId });
+   async pGetUserById(userId: string): Promise<DUser | null> {
+      const user: User | null = await this.pGetUser({ userId });
+
+      return user ? toDUser(user) : null;
    }
 
-   async pGetUserByEmail(email: string): Promise<User | null> {
-      return this.pGetUser({ email });
+   async pGetUserByEmail(email: string): Promise<DUser | null> {
+      const user: User | null = await this.pGetUser({ email });
+
+      return user ? toDUser(user) : null;
    }
 
    async pGetUser(params: PGeUserParams): Promise<User | null> {
