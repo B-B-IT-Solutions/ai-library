@@ -2,11 +2,6 @@ import { isFuture } from "date-fns";
 
 import { SubscriptionRepository } from "@/data/repositories/subscription";
 import {
-   SubscriptionCreate,
-   SubscriptionHistoryCreate,
-   SubscriptionUpdate,
-} from "@/data/types/db/subscription";
-import {
    DSubscription,
    DSubscriptionCreate,
    DSubscriptionHistoryCreate,
@@ -14,12 +9,6 @@ import {
    DSubscriptionTier,
    DSubscriptionUpdate,
 } from "@/data/types/domain/subscription";
-
-import {
-   toDSubscription,
-   toDSubscriptionPlan,
-   toDSubscriptionPlans,
-} from "./subscription.mapper";
 
 export class SubscriptionService {
    private subscriptionRepo: SubscriptionRepository;
@@ -29,15 +18,13 @@ export class SubscriptionService {
    }
 
    async getAvailablePlans(): Promise<DSubscriptionPlan[]> {
-      const plans = await this.subscriptionRepo.pGetAllPlans();
-      return toDSubscriptionPlans(plans);
+      return await this.subscriptionRepo.pGetAllPlans();
    }
 
    async getPlanByTier(
       tier: DSubscriptionTier
    ): Promise<DSubscriptionPlan | null> {
-      const plan = await this.subscriptionRepo.pGetPlanByTier(tier);
-      return plan ? toDSubscriptionPlan(plan) : null;
+      return await this.subscriptionRepo.pGetPlanByTier(tier);
    }
 
    async getPlanById(planId: string): Promise<DSubscriptionPlan> {
@@ -50,48 +37,30 @@ export class SubscriptionService {
       if (!plan.isActive) {
          throw new Error("This subscription plan is not available");
       }
-      return toDSubscriptionPlan(plan);
+
+      return plan;
    }
 
    async getSubscription(userId: string): Promise<DSubscription | null> {
-      const subscription = await this.subscriptionRepo.pGetSubscription({
+      return await this.subscriptionRepo.pGetSubscription({
          userId,
       });
-      return subscription ? toDSubscription(subscription) : null;
    }
 
    async getSubscriptionByStripeSubscriptionId(
       stripeSubscriptionId: string
    ): Promise<DSubscription | null> {
-      const subscription = await this.subscriptionRepo.pGetSubscription({
+      return await this.subscriptionRepo.pGetSubscription({
          stripeSubscriptionId,
       });
-      return subscription ? toDSubscription(subscription) : null;
    }
 
    async createSubscription(data: DSubscriptionCreate) {
-      const createData: SubscriptionCreate = {
-         userId: data.userId,
-         planId: data.planId,
-         billingInterval: data.billingInterval,
-         stripeCheckoutSessionId: data.stripeCheckoutSessionId,
-         stripeCustomerId: data.stripeCustomerId,
-      };
-
-      await this.subscriptionRepo.pCreateSubscription(createData);
+      await this.subscriptionRepo.pCreateSubscription(data);
    }
 
    async updateSubscription(userId: string, data: DSubscriptionUpdate) {
-      const updateData: SubscriptionUpdate = {
-         status: data.status,
-         stripeSubscriptionId: data.stripeSubscriptionId,
-         stripeCustomerId: data.stripeCustomerId,
-         currentPeriodStart: data.currentPeriodStart,
-         currentPeriodEnd: data.currentPeriodEnd,
-         cancelAtPeriodEnd: data.cancelAtPeriodEnd,
-         canceledAt: data.canceledAt,
-      };
-      await this.subscriptionRepo.pUpdateSubscription(userId, updateData);
+      await this.subscriptionRepo.pUpdateSubscription(userId, data);
    }
 
    async deleteSubscription(userId: string) {
@@ -99,14 +68,7 @@ export class SubscriptionService {
    }
 
    async createSubscriptionHistory(data: DSubscriptionHistoryCreate) {
-      const createData: SubscriptionHistoryCreate = {
-         userId: data.userId,
-         eventType: data.eventType,
-         fromStatus: data.fromStatus,
-         toStatus: data.toStatus,
-         metadata: data.metadata,
-      };
-      await this.subscriptionRepo.pCreateSubscriptionHistory(createData);
+      await this.subscriptionRepo.pCreateSubscriptionHistory(data);
    }
 
    async getUserTier(userId: string): Promise<DSubscriptionTier> {
@@ -115,7 +77,7 @@ export class SubscriptionService {
       });
 
       if (subscription && subscription.status === "ACTIVE") {
-         return subscription.plan.tier as DSubscriptionTier;
+         return subscription.plan.tier;
       }
       return "FREE";
    }

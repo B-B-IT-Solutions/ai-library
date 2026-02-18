@@ -1,5 +1,6 @@
 "use server";
 
+import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
@@ -13,13 +14,37 @@ export const getCart = async (): Promise<DCart> => {
 };
 
 export const addToCart = async (product: DProduct): Promise<ActionResult> => {
-   const service = getCartSevice();
-   return service.addToCart(product);
+   try {
+      const service = getCartSevice();
+      await service.addToCart(product);
+      return {
+         success: true,
+         message: "Item added to the cart successfully.",
+      };
+   } catch (error) {
+      console.error(formatError(error));
+      return {
+         success: false,
+         message: "Item couldn't be added to the cart.",
+      };
+   }
 };
 
 export const removeFromCart = async (itemId: string): Promise<ActionResult> => {
-   const service = getCartSevice();
-   return service.removeFromCart(itemId);
+   try {
+      const service = getCartSevice();
+      await service.removeFromCart(itemId);
+      return {
+         success: true,
+         message: "Item removed from the cart successfully.",
+      };
+   } catch (error) {
+      console.error(formatError(error));
+      return {
+         success: false,
+         message: "Item couldn't be removed from the cart.",
+      };
+   }
 };
 
 export const migrateSessionCartToUser = async (
@@ -27,7 +52,7 @@ export const migrateSessionCartToUser = async (
    userId: string
 ) => {
    const service = getCartSevice();
-   service.migrateSessionCartToUser(sessionCartId, userId);
+   await service.migrateSessionCartToUser(sessionCartId, userId);
 };
 
 const getCartSevice = (dbClient: DbClient = prisma) => {

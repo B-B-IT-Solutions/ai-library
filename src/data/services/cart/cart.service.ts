@@ -1,11 +1,9 @@
 import { cookies } from "next/headers";
 
 import { auth } from "@/auth";
-import { formatError } from "@/data/actions/utils";
 import { AddItemToCartParams, CartRepository } from "@/data/repositories/cart";
 import { DCart } from "@/data/types/domain/cart";
 import { DProduct } from "@/data/types/domain/product";
-import { ActionResult } from "@/data/types/utils";
 
 import { toDCart } from "./cart.mapper";
 
@@ -17,68 +15,40 @@ export class CartService {
    }
 
    async getCart(): Promise<DCart> {
-      try {
-         let userId = undefined;
-         let sessionCartId = undefined;
+      let userId = undefined;
+      let sessionCartId = undefined;
 
-         const session = await auth();
-         if (session?.user?.id) {
-            userId = session.user.id;
-         } else {
-            const cookiesObject = await cookies();
-            sessionCartId = cookiesObject.get("sessionCartId")?.value;
-         }
-
-         const cart = await this.cartRepository.pGetOrCreateCart({
-            userId,
-            sessionCartId,
-         });
-         return toDCart(cart);
-      } catch (error) {
-         throw error;
+      const session = await auth();
+      if (session?.user?.id) {
+         userId = session.user.id;
+      } else {
+         const cookiesObject = await cookies();
+         sessionCartId = cookiesObject.get("sessionCartId")?.value;
       }
+
+      const cart = await this.cartRepository.pGetOrCreateCart({
+         userId,
+         sessionCartId,
+      });
+      return toDCart(cart);
    }
 
-   async addToCart(product: DProduct): Promise<ActionResult> {
-      try {
-         const cart = await this.getCart();
+   async addToCart(product: DProduct) {
+      const cart = await this.getCart();
 
-         const params: AddItemToCartParams = {
-            cartId: cart.id,
-            productId: product.id,
-            productName: product.name,
-            productType: product.type,
-            productPrice: product.price,
-         };
+      const params: AddItemToCartParams = {
+         cartId: cart.id,
+         productId: product.id,
+         productName: product.name,
+         productType: product.type,
+         productPrice: product.price,
+      };
 
-         await this.cartRepository.pAddItemToCart(params);
-
-         return {
-            success: true,
-            message: "Item added to cart successfully.",
-         };
-      } catch (error) {
-         return {
-            success: false,
-            message: formatError(error),
-         };
-      }
+      await this.cartRepository.pAddItemToCart(params);
    }
 
-   async removeFromCart(itemId: string): Promise<ActionResult> {
-      try {
-         await this.cartRepository.pRemoveCartItem(itemId);
-
-         return {
-            success: true,
-            message: "Item removed from cart successfully.",
-         };
-      } catch (error) {
-         return {
-            success: false,
-            message: formatError(error),
-         };
-      }
+   async removeFromCart(itemId: string) {
+      await this.cartRepository.pRemoveCartItem(itemId);
    }
 
    async clearCart(userId: string) {

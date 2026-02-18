@@ -1,21 +1,30 @@
 import { PrismaClient } from "@prisma/client";
-import { ptestData } from "@tests";
+import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { SubscriptionTier } from "@/generated/prisma/enums";
+import { DSubscriptionTier } from "@/data/types/domain/subscription";
 import {
    SubscriptionCreateArgs,
+   SubscriptionCreateInput,
    SubscriptionDeleteArgs,
    SubscriptionFindUniqueArgs,
    SubscriptionHistoryCreateArgs,
+   SubscriptionHistoryCreateInput,
    SubscriptionHistoryFindManyArgs,
    SubscriptionPlanFindManyArgs,
    SubscriptionPlanFindUniqueArgs,
+   SubscriptionPlanWhereUniqueInput,
    SubscriptionUpdateArgs,
+   SubscriptionUpdateInput,
 } from "@/generated/prisma/models";
 
 import { SubscriptionRepository } from "./subscription";
+import {
+   toDSubscription,
+   toDSubscriptionPlan,
+   toDSubscriptionPlans,
+} from "./subscription.mapper";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const subscriptionRepo = new SubscriptionRepository(prismaMock);
@@ -31,12 +40,14 @@ describe("pGetAllPlans tests", () => {
 
       const result = await subscriptionRepo.pGetAllPlans();
 
+      const expectdResult = toDSubscriptionPlans(plans);
+
       const expectedFindAllArgs: SubscriptionPlanFindManyArgs = {
          where: { isActive: true },
          orderBy: { monthlyPrice: "asc" },
       };
 
-      expect(result).toEqual(plans);
+      expect(result).toEqual(expectdResult);
       expect(prismaMock.subscriptionPlan.findMany).toHaveBeenCalledTimes(1);
       expect(prismaMock.subscriptionPlan.findMany).toHaveBeenCalledWith(
          expectedFindAllArgs
@@ -49,17 +60,36 @@ describe("pGetPlanById tests", () => {
       mockReset(prismaMock);
    });
 
+   it("pGetPlanById - plan null - test", async () => {
+      const planId = "plan-id-1";
+      prismaMock.subscriptionPlan.findUnique.mockResolvedValue(null);
+
+      const result = await subscriptionRepo.pGetPlanById(planId);
+
+      const expectedFindUniqueArgs: SubscriptionPlanFindUniqueArgs = {
+         where: { id: planId },
+      };
+
+      expect(result).toBeNull();
+      expect(prismaMock.subscriptionPlan.findUnique).toHaveBeenCalledTimes(1);
+      expect(prismaMock.subscriptionPlan.findUnique).toHaveBeenCalledWith(
+         expectedFindUniqueArgs
+      );
+   });
+
    it("pGetPlanById - plan retrieved - test", async () => {
       const plan = ptestData.pSubscriptionPlan();
       prismaMock.subscriptionPlan.findUnique.mockResolvedValue(plan);
 
       const result = await subscriptionRepo.pGetPlanById(plan.id);
 
+      const expectdResult = toDSubscriptionPlan(plan);
+
       const expectedFindUniqueArgs: SubscriptionPlanFindUniqueArgs = {
          where: { id: plan.id },
       };
 
-      expect(result).toEqual(plan);
+      expect(result).toEqual(expectdResult);
       expect(prismaMock.subscriptionPlan.findUnique).toHaveBeenCalledTimes(1);
       expect(prismaMock.subscriptionPlan.findUnique).toHaveBeenCalledWith(
          expectedFindUniqueArgs
@@ -72,18 +102,45 @@ describe("pGetPlanByTier tests", () => {
       mockReset(prismaMock);
    });
 
+   it("pGetPlanByTier - plan null - test", async () => {
+      prismaMock.subscriptionPlan.findUnique.mockResolvedValue(null);
+
+      const tier: DSubscriptionTier = "PRO";
+      const result = await subscriptionRepo.pGetPlanByTier(tier);
+
+      const expectedInput: SubscriptionPlanWhereUniqueInput = {
+         tier,
+      };
+
+      const expectedFindUniqueArgs: SubscriptionPlanFindUniqueArgs = {
+         where: expectedInput,
+      };
+
+      expect(result).toBeNull();
+      expect(prismaMock.subscriptionPlan.findUnique).toHaveBeenCalledTimes(1);
+      expect(prismaMock.subscriptionPlan.findUnique).toHaveBeenCalledWith(
+         expectedFindUniqueArgs
+      );
+   });
+
    it("pGetPlanByTier - plan retrieved - test", async () => {
       const plan = ptestData.pSubscriptionPlan();
       prismaMock.subscriptionPlan.findUnique.mockResolvedValue(plan);
 
-      const tier: SubscriptionTier = "PRO";
+      const tier: DSubscriptionTier = "PRO";
       const result = await subscriptionRepo.pGetPlanByTier(tier);
 
-      const expectedFindUniqueArgs: SubscriptionPlanFindUniqueArgs = {
-         where: { tier },
+      const expectdResult = toDSubscriptionPlan(plan);
+
+      const expectedInput: SubscriptionPlanWhereUniqueInput = {
+         tier,
       };
 
-      expect(result).toEqual(plan);
+      const expectedFindUniqueArgs: SubscriptionPlanFindUniqueArgs = {
+         where: expectedInput,
+      };
+
+      expect(result).toEqual(expectdResult);
       expect(prismaMock.subscriptionPlan.findUnique).toHaveBeenCalledTimes(1);
       expect(prismaMock.subscriptionPlan.findUnique).toHaveBeenCalledWith(
          expectedFindUniqueArgs
@@ -96,10 +153,9 @@ describe("pGetSubscription tests", () => {
       mockReset(prismaMock);
    });
 
-   it("pGetSubscription - subscripton retrieved by userId - test", async () => {
+   it("pGetSubscription - subscripton null - test", async () => {
       const userId = "user-id-1";
-      const subscription = ptestData.pSubscriptionWithPlan();
-      prismaMock.subscription.findUnique.mockResolvedValue(subscription);
+      prismaMock.subscription.findUnique.mockResolvedValue(null);
 
       const result = await subscriptionRepo.pGetSubscription({ userId });
 
@@ -110,7 +166,30 @@ describe("pGetSubscription tests", () => {
          },
       };
 
-      expect(result).toEqual(subscription);
+      expect(result).toBeNull();
+      expect(prismaMock.subscription.findUnique).toHaveBeenCalledTimes(1);
+      expect(prismaMock.subscription.findUnique).toHaveBeenCalledWith(
+         expectedFindUniqueArgs
+      );
+   });
+
+   it("pGetSubscription - subscripton retrieved by userId - test", async () => {
+      const userId = "user-id-123";
+      const subscription = ptestData.pSubscriptionWithPlan();
+      prismaMock.subscription.findUnique.mockResolvedValue(subscription);
+
+      const result = await subscriptionRepo.pGetSubscription({ userId });
+
+      const expectdResult = toDSubscription(subscription);
+
+      const expectedFindUniqueArgs: SubscriptionFindUniqueArgs = {
+         where: { userId },
+         include: {
+            plan: true,
+         },
+      };
+
+      expect(result).toEqual(expectdResult);
       expect(prismaMock.subscription.findUnique).toHaveBeenCalledTimes(1);
       expect(prismaMock.subscription.findUnique).toHaveBeenCalledWith(
          expectedFindUniqueArgs
@@ -118,13 +197,15 @@ describe("pGetSubscription tests", () => {
    });
 
    it("pGetSubscription - subscripton retrieved by stripeSubscriptionId - test", async () => {
-      const stripeSubscriptionId = "stripe-subscription-id-1";
+      const stripeSubscriptionId = "stripe-subscription-id-123";
       const subscription = ptestData.pSubscriptionWithPlan();
       prismaMock.subscription.findUnique.mockResolvedValue(subscription);
 
       const result = await subscriptionRepo.pGetSubscription({
          stripeSubscriptionId,
       });
+
+      const expectdResult = toDSubscription(subscription);
 
       const expectedFindUniqueArgs: SubscriptionFindUniqueArgs = {
          where: { stripeSubscriptionId },
@@ -133,7 +214,7 @@ describe("pGetSubscription tests", () => {
          },
       };
 
-      expect(result).toEqual(subscription);
+      expect(result).toEqual(expectdResult);
       expect(prismaMock.subscription.findUnique).toHaveBeenCalledTimes(1);
       expect(prismaMock.subscription.findUnique).toHaveBeenCalledWith(
          expectedFindUniqueArgs
@@ -147,15 +228,29 @@ describe("pCreateSubscription tests", () => {
    });
 
    it("pCreateSubscription - subscription created - test", async () => {
-      const createData = ptestData.pSubscriptionCreate();
+      const createData = dtestData.dSubscriptionCreate();
 
       await subscriptionRepo.pCreateSubscription(createData);
 
-      const exptectedCreateArgs: SubscriptionCreateArgs = {
-         data: {
-            ...createData,
-            status: "INCOMPLETE",
+      const expectedInput: SubscriptionCreateInput = {
+         billingInterval: createData.billingInterval,
+         stripeCheckoutSessionId: createData.stripeCheckoutSessionId,
+         stripeCustomerId: createData.stripeCustomerId,
+         status: "INCOMPLETE",
+         user: {
+            connect: {
+               id: createData.userId,
+            },
          },
+         plan: {
+            connect: {
+               id: createData.planId,
+            },
+         },
+      };
+
+      const exptectedCreateArgs: SubscriptionCreateArgs = {
+         data: expectedInput,
       };
 
       expect(prismaMock.subscription.create).toHaveBeenCalledTimes(1);
@@ -172,13 +267,24 @@ describe("pUpdateSubscription tests", () => {
 
    it("pUpdateSubscription - subscription updated - test", async () => {
       const userId = "user-id-1";
-      const updateData = ptestData.pSubscriptionUpdate();
+      const updateData = dtestData.dSubscriptionUpdate();
 
       await subscriptionRepo.pUpdateSubscription(userId, updateData);
 
+      const expectedInput: SubscriptionUpdateInput = {
+         status: updateData.status,
+         stripeSubscriptionId: updateData.stripeSubscriptionId,
+         stripeCustomerId: updateData.stripeCustomerId,
+         stripeCheckoutSessionId: updateData.stripeCheckoutSessionId,
+         currentPeriodStart: updateData.currentPeriodStart,
+         currentPeriodEnd: updateData.currentPeriodEnd,
+         cancelAtPeriodEnd: updateData.cancelAtPeriodEnd,
+         canceledAt: updateData.canceledAt,
+      };
+
       const expectedUpdateArgs: SubscriptionUpdateArgs = {
          where: { userId },
-         data: updateData,
+         data: expectedInput,
       };
 
       expect(prismaMock.subscription.update).toHaveBeenCalledTimes(1);
@@ -240,12 +346,27 @@ describe("pCreateSubscriptionHistory tests", () => {
    });
 
    it("pCreateSubscriptionHistory - history created - test", async () => {
-      const data = ptestData.pSubscriptionHistoryCreate();
+      const data = dtestData.dSubscriptionHistoryCreate();
 
       await subscriptionRepo.pCreateSubscriptionHistory(data);
 
+      const expectedIinput: SubscriptionHistoryCreateInput = {
+         eventType: data.eventType,
+         fromTier: data.fromTier,
+         toTier: data.toTier,
+         fromStatus: data.fromStatus,
+         toStatus: data.toStatus,
+         stripeEventId: data.stripeEventId,
+         metadata: data.metadata,
+         user: {
+            connect: {
+               id: data.userId,
+            },
+         },
+      };
+
       const exptectedCreateArgs: SubscriptionHistoryCreateArgs = {
-         data: data,
+         data: expectedIinput,
       };
 
       expect(prismaMock.subscriptionHistory.create).toHaveBeenCalledTimes(1);

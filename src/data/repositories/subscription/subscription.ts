@@ -1,15 +1,26 @@
 import { DbClient } from "@/data/types/db/common";
+import { SubscriptionWithPlan } from "@/data/types/db/subscription";
 import {
-   SubscriptionCreate,
-   SubscriptionHistoryCreate,
-   SubscriptionUpdate,
-   SubscriptionWithPlan,
-} from "@/data/types/db/subscription";
+   DSubscription,
+   DSubscriptionCreate,
+   DSubscriptionHistoryCreate,
+   DSubscriptionPlan,
+   DSubscriptionTier,
+   DSubscriptionUpdate,
+} from "@/data/types/domain/subscription";
+import { SubscriptionHistory } from "@/generated/prisma/client";
 import {
-   SubscriptionHistory,
-   SubscriptionPlan,
-   SubscriptionTier,
-} from "@/generated/prisma/client";
+   SubscriptionCreateInput,
+   SubscriptionHistoryCreateInput,
+   SubscriptionPlanWhereUniqueInput,
+   SubscriptionUpdateInput,
+} from "@/generated/prisma/models";
+
+import {
+   toDSubscription,
+   toDSubscriptionPlan,
+   toDSubscriptionPlans,
+} from "./subscription.mapper";
 
 export type GetSubscriptionParams =
    | { userId: string; stripeSubscriptionId?: undefined }
@@ -22,68 +33,92 @@ export class SubscriptionRepository {
       this.prisma = prisma;
    }
 
-   async pGetAllPlans(): Promise<SubscriptionPlan[]> {
-      return await this.prisma.subscriptionPlan.findMany({
+   async pGetAllPlans(): Promise<DSubscriptionPlan[]> {
+      const plans = await this.prisma.subscriptionPlan.findMany({
          where: { isActive: true },
          orderBy: { monthlyPrice: "asc" },
       });
+      return toDSubscriptionPlans(plans);
    }
 
-   async pGetPlanById(planId: string): Promise<SubscriptionPlan | null> {
-      return await this.prisma.subscriptionPlan.findUnique({
+   async pGetPlanById(planId: string): Promise<DSubscriptionPlan | null> {
+      const plan = await this.prisma.subscriptionPlan.findUnique({
          where: { id: planId },
       });
+
+      return plan ? toDSubscriptionPlan(plan) : null;
    }
 
    async pGetPlanByTier(
-      tier: SubscriptionTier
-   ): Promise<SubscriptionPlan | null> {
-      return await this.prisma.subscriptionPlan.findUnique({
-         where: { tier },
+      tier: DSubscriptionTier
+   ): Promise<DSubscriptionPlan | null> {
+      const input: SubscriptionPlanWhereUniqueInput = {
+         tier,
+      };
+
+      const plan = await this.prisma.subscriptionPlan.findUnique({
+         where: input,
       });
+
+      return plan ? toDSubscriptionPlan(plan) : null;
    }
 
    async pGetSubscription(
       params: GetSubscriptionParams
-   ): Promise<SubscriptionWithPlan | null> {
+   ): Promise<DSubscription | null> {
       const { userId, stripeSubscriptionId } = params;
-      return await this.prisma.subscription.findUnique({
-         where: {
-            userId,
-            stripeSubscriptionId,
-         },
-         include: {
-            plan: true,
-         },
-      });
+      const subscription: SubscriptionWithPlan | null =
+         await this.prisma.subscription.findUnique({
+            where: {
+               userId,
+               stripeSubscriptionId,
+            },
+            include: {
+               plan: true,
+            },
+         });
+
+      return subscription ? toDSubscription(subscription) : null;
    }
 
-   async pCreateSubscription(data: SubscriptionCreate) {
+   async pCreateSubscription(data: DSubscriptionCreate) {
+      const input: SubscriptionCreateInput = {
+         billingInterval: data.billingInterval,
+         stripeCheckoutSessionId: data.stripeCheckoutSessionId,
+         stripeCustomerId: data.stripeCustomerId,
+         status: "INCOMPLETE",
+         user: {
+            connect: {
+               id: data.userId,
+            },
+         },
+         plan: {
+            connect: {
+               id: data.planId,
+            },
+         },
+      };
+
       await this.prisma.subscription.create({
-         data: {
-            userId: data.userId,
-            planId: data.planId,
-            billingInterval: data.billingInterval,
-            stripeCheckoutSessionId: data.stripeCheckoutSessionId,
-            stripeCustomerId: data.stripeCustomerId,
-            status: "INCOMPLETE",
-         },
+         data: input,
       });
    }
 
-   async pUpdateSubscription(userId: string, data: SubscriptionUpdate) {
+   async pUpdateSubscription(userId: string, data: DSubscriptionUpdate) {
+      const input: SubscriptionUpdateInput = {
+         status: data.status,
+         stripeSubscriptionId: data.stripeSubscriptionId,
+         stripeCustomerId: data.stripeCustomerId,
+         stripeCheckoutSessionId: data.stripeCheckoutSessionId,
+         currentPeriodStart: data.currentPeriodStart,
+         currentPeriodEnd: data.currentPeriodEnd,
+         cancelAtPeriodEnd: data.cancelAtPeriodEnd,
+         canceledAt: data.canceledAt,
+      };
+
       await this.prisma.subscription.update({
          where: { userId },
-         data: {
-            status: data.status,
-            stripeSubscriptionId: data.stripeSubscriptionId,
-            stripeCustomerId: data.stripeCustomerId,
-            stripeCheckoutSessionId: data.stripeCheckoutSessionId,
-            currentPeriodStart: data.currentPeriodStart,
-            currentPeriodEnd: data.currentPeriodEnd,
-            cancelAtPeriodEnd: data.cancelAtPeriodEnd,
-            canceledAt: data.canceledAt,
-         },
+         data: input,
       });
    }
 
@@ -102,18 +137,24 @@ export class SubscriptionRepository {
       });
    }
 
-   async pCreateSubscriptionHistory(data: SubscriptionHistoryCreate) {
-      await this.prisma.subscriptionHistory.create({
-         data: {
-            userId: data.userId,
-            eventType: data.eventType,
-            fromTier: data.fromTier,
-            toTier: data.toTier,
-            fromStatus: data.fromStatus,
-            toStatus: data.toStatus,
-            stripeEventId: data.stripeEventId,
-            metadata: data.metadata,
+   async pCreateSubscriptionHistory(data: DSubscriptionHistoryCreate) {
+      const input: SubscriptionHistoryCreateInput = {
+         eventType: data.eventType,
+         fromTier: data.fromTier,
+         toTier: data.toTier,
+         fromStatus: data.fromStatus,
+         toStatus: data.toStatus,
+         stripeEventId: data.stripeEventId,
+         metadata: data.metadata,
+         user: {
+            connect: {
+               id: data.userId,
+            },
          },
+      };
+
+      await this.prisma.subscriptionHistory.create({
+         data: input,
       });
    }
 }

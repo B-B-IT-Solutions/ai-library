@@ -46,7 +46,10 @@ import {
 } from "@/data/types/domain/stripe";
 import {
    DSubscription,
+   DSubscriptionCreate,
+   DSubscriptionHistoryCreate,
    DSubscriptionPlan,
+   DSubscriptionUpdate,
 } from "@/data/types/domain/subscription";
 import { DUser, DUserUpdateData } from "@/data/types/domain/user";
 import { LoginUser } from "@/data/types/next-auth";
@@ -131,6 +134,44 @@ export const dSubscriptionPlan = (index = 1): DSubscriptionPlan => {
       isActive: true,
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dSubscriptionCreate = (index = 1): DSubscriptionCreate => {
+   return {
+      userId: `f08abf0c-5623-454e-bc02-7933a59533b${index}`,
+      planId: `df964a3c-bfa2-4484-97c3-219c2158380${index}`,
+      billingInterval: "YEARLY",
+      stripeCustomerId: `ac82ecc9-de60-4fba-acf6-8b57ad9a91a${index}`,
+      stripeCheckoutSessionId: `3a8d4246-480e-43f8-bfa1-a167658b81af${index}`,
+   };
+};
+
+export const dSubscriptionUpdate = (index = 1): DSubscriptionUpdate => {
+   return {
+      status: "ACTIVE",
+      stripeSubscriptionId: `982a1b4c-e85b-4885-98c5-62fbea319e5${index}`,
+      stripeCustomerId: `ac82ecc9-de60-4fba-acf6-8b57ad9a91a${index}`,
+      stripeCheckoutSessionId: `3a8d4246-480e-43f8-bfa1-a167658b81af${index}`,
+      currentPeriodStart: new Date("2025-09-27"),
+      currentPeriodEnd: new Date("2025-09-27"),
+      cancelAtPeriodEnd: false,
+      canceledAt: new Date("2025-09-27"),
+   };
+};
+
+export const dSubscriptionHistoryCreate = (
+   index = 1
+): DSubscriptionHistoryCreate => {
+   return {
+      userId: `f08abf0c-5623-454e-bc02-7933a59533b${index}`,
+      eventType: "SUBSCRIPTION_CREATED",
+      fromTier: "BASIC",
+      toTier: "BASIC",
+      fromStatus: "ACTIVE",
+      toStatus: "ACTIVE",
+      stripeEventId: `38d65fc2-7fef-4917-8aae-b47a04d770c${index}`,
+      metadata: {},
    };
 };
 
