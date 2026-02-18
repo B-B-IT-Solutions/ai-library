@@ -1,6 +1,6 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { map } from "es-toolkit/compat";
-import { Eye, Folder, MoreVertical, Star } from "lucide-react";
+import { Eye, Folder, FolderPlus, MoreVertical, Star } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 
@@ -10,11 +10,16 @@ import {
    DropdownMenu,
    DropdownMenuContent,
    DropdownMenuItem,
+   DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import { useToggleFavorite, useLoadLibraryCollections } from "@/data/ts-queries/library";
+import {
+   useLoadLibraryCollections,
+   useToggleFavorite,
+} from "@/data/ts-queries/library";
 import { DLibraryEntry } from "@/data/types/domain/library";
 import { cn } from "@/lib/utils";
+import { AddToCollectionDialog } from "../actions/add-to-collection-dialog";
 import { CreatePromptButton } from "../buttons/create-prompt-button";
 import { DownloadTemplateButton } from "../buttons/download-template-button";
 
@@ -26,6 +31,8 @@ export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
    const { templateDescriptor: template } = entry;
    const { mutate: toggleFavorite } = useToggleFavorite();
    const { data: collections = [] } = useLoadLibraryCollections();
+   const [showAddToCollectionDialog, setShowAddToCollectionDialog] =
+      useState(false);
 
    const handleToggleFavorite = () => {
       toggleFavorite(
@@ -67,15 +74,17 @@ export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
 
    return (
       <Card
-         className="group gap-0 rounded-lg border border-slate-300 bg-white p-0 transition-all duration-200 hover:border-slate-400 hover:shadow-md relative"
+         className="group relative gap-0 rounded-lg border border-slate-300 bg-white p-0 transition-all duration-200 hover:border-slate-400 hover:shadow-md"
          data-testid="library-entry-card"
       >
          {/* Favorite Button */}
          <button
             onClick={handleToggleFavorite}
-            className="absolute top-3 right-3 p-2 rounded-full bg-white/80 hover:bg-white shadow-sm transition-all z-10"
+            className="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 shadow-sm transition-all hover:bg-white"
             aria-label={
-               entry.isFavorite ? "Aus Favoriten entfernen" : "Zu Favoriten hinzufügen"
+               entry.isFavorite
+                  ? "Aus Favoriten entfernen"
+                  : "Zu Favoriten hinzufügen"
             }
             aria-pressed={entry.isFavorite}
          >
@@ -152,6 +161,14 @@ export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
                            Details anzeigen
                         </Link>
                      </DropdownMenuItem>
+                     <DropdownMenuItem
+                        onClick={() => setShowAddToCollectionDialog(true)}
+                        className="cursor-pointer"
+                     >
+                        <FolderPlus className="mr-2 h-4 w-4" />
+                        Zu Sammlung hinzufügen
+                     </DropdownMenuItem>
+                     <DropdownMenuSeparator />
                      <DownloadTemplateButton
                         descriptor={template}
                         asMenuItem={true}
@@ -160,6 +177,14 @@ export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
                </DropdownMenu>
             </div>
          </CardContent>
+
+         {/* Add to Collection Dialog */}
+         <AddToCollectionDialog
+            entryId={entry.id}
+            currentCollections={entry.collections}
+            open={showAddToCollectionDialog}
+            onOpenChange={setShowAddToCollectionDialog}
+         />
       </Card>
    );
 };
