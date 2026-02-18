@@ -43,7 +43,8 @@ export class UserService {
          hashedPassword: hashedPassword,
       };
 
-      return await this.userRepository.pCreateUser(newUser);
+      const user = await this.userRepository.pCreateUser(newUser);
+      return toDUser(user);
    }
 
    async singInUser(data: DUserSignIn) {
