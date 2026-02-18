@@ -1,11 +1,12 @@
 import { PrismaClient } from "@prisma/client";
-import { ptestData } from "@tests";
+import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import { SubscriptionTier } from "@/generated/prisma/enums";
 import {
    SubscriptionCreateArgs,
+   SubscriptionCreateInput,
    SubscriptionDeleteArgs,
    SubscriptionFindUniqueArgs,
    SubscriptionHistoryCreateArgs,
@@ -13,6 +14,7 @@ import {
    SubscriptionPlanFindManyArgs,
    SubscriptionPlanFindUniqueArgs,
    SubscriptionUpdateArgs,
+   SubscriptionUpdateInput,
 } from "@/generated/prisma/models";
 
 import { SubscriptionRepository } from "./subscription";
@@ -216,15 +218,29 @@ describe("pCreateSubscription tests", () => {
    });
 
    it("pCreateSubscription - subscription created - test", async () => {
-      const createData = ptestData.pSubscriptionCreate();
+      const createData = dtestData.dSubscriptionCreate();
 
       await subscriptionRepo.pCreateSubscription(createData);
 
-      const exptectedCreateArgs: SubscriptionCreateArgs = {
-         data: {
-            ...createData,
-            status: "INCOMPLETE",
+      const expectedInput: SubscriptionCreateInput = {
+         billingInterval: createData.billingInterval,
+         stripeCheckoutSessionId: createData.stripeCheckoutSessionId,
+         stripeCustomerId: createData.stripeCustomerId,
+         status: "INCOMPLETE",
+         user: {
+            connect: {
+               id: createData.userId,
+            },
          },
+         plan: {
+            connect: {
+               id: createData.planId,
+            },
+         },
+      };
+
+      const exptectedCreateArgs: SubscriptionCreateArgs = {
+         data: expectedInput,
       };
 
       expect(prismaMock.subscription.create).toHaveBeenCalledTimes(1);
@@ -241,13 +257,24 @@ describe("pUpdateSubscription tests", () => {
 
    it("pUpdateSubscription - subscription updated - test", async () => {
       const userId = "user-id-1";
-      const updateData = ptestData.pSubscriptionUpdate();
+      const updateData = dtestData.dSubscriptionUpdate();
 
       await subscriptionRepo.pUpdateSubscription(userId, updateData);
 
+      const expectedInput: SubscriptionUpdateInput = {
+         status: updateData.status,
+         stripeSubscriptionId: updateData.stripeSubscriptionId,
+         stripeCustomerId: updateData.stripeCustomerId,
+         stripeCheckoutSessionId: updateData.stripeCheckoutSessionId,
+         currentPeriodStart: updateData.currentPeriodStart,
+         currentPeriodEnd: updateData.currentPeriodEnd,
+         cancelAtPeriodEnd: updateData.cancelAtPeriodEnd,
+         canceledAt: updateData.canceledAt,
+      };
+
       const expectedUpdateArgs: SubscriptionUpdateArgs = {
          where: { userId },
-         data: updateData,
+         data: expectedInput,
       };
 
       expect(prismaMock.subscription.update).toHaveBeenCalledTimes(1);

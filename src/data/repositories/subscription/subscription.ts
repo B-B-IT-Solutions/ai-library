@@ -1,18 +1,22 @@
 import { DbClient } from "@/data/types/db/common";
 import {
-   SubscriptionCreate,
    SubscriptionHistoryCreate,
-   SubscriptionUpdate,
    SubscriptionWithPlan,
 } from "@/data/types/db/subscription";
 import {
    DSubscription,
+   DSubscriptionCreate,
    DSubscriptionPlan,
+   DSubscriptionUpdate,
 } from "@/data/types/domain/subscription";
 import {
    SubscriptionHistory,
    SubscriptionTier,
 } from "@/generated/prisma/client";
+import {
+   SubscriptionCreateInput,
+   SubscriptionUpdateInput,
+} from "@/generated/prisma/models";
 
 import {
    toDSubscription,
@@ -75,32 +79,44 @@ export class SubscriptionRepository {
       return subscription ? toDSubscription(subscription) : null;
    }
 
-   async pCreateSubscription(data: SubscriptionCreate) {
-      await this.prisma.subscription.create({
-         data: {
-            userId: data.userId,
-            planId: data.planId,
-            billingInterval: data.billingInterval,
-            stripeCheckoutSessionId: data.stripeCheckoutSessionId,
-            stripeCustomerId: data.stripeCustomerId,
-            status: "INCOMPLETE",
+   async pCreateSubscription(data: DSubscriptionCreate) {
+      const input: SubscriptionCreateInput = {
+         billingInterval: data.billingInterval,
+         stripeCheckoutSessionId: data.stripeCheckoutSessionId,
+         stripeCustomerId: data.stripeCustomerId,
+         status: "INCOMPLETE",
+         user: {
+            connect: {
+               id: data.userId,
+            },
          },
+         plan: {
+            connect: {
+               id: data.planId,
+            },
+         },
+      };
+
+      await this.prisma.subscription.create({
+         data: input,
       });
    }
 
-   async pUpdateSubscription(userId: string, data: SubscriptionUpdate) {
+   async pUpdateSubscription(userId: string, data: DSubscriptionUpdate) {
+      const input: SubscriptionUpdateInput = {
+         status: data.status,
+         stripeSubscriptionId: data.stripeSubscriptionId,
+         stripeCustomerId: data.stripeCustomerId,
+         stripeCheckoutSessionId: data.stripeCheckoutSessionId,
+         currentPeriodStart: data.currentPeriodStart,
+         currentPeriodEnd: data.currentPeriodEnd,
+         cancelAtPeriodEnd: data.cancelAtPeriodEnd,
+         canceledAt: data.canceledAt,
+      };
+
       await this.prisma.subscription.update({
          where: { userId },
-         data: {
-            status: data.status,
-            stripeSubscriptionId: data.stripeSubscriptionId,
-            stripeCustomerId: data.stripeCustomerId,
-            stripeCheckoutSessionId: data.stripeCheckoutSessionId,
-            currentPeriodStart: data.currentPeriodStart,
-            currentPeriodEnd: data.currentPeriodEnd,
-            cancelAtPeriodEnd: data.cancelAtPeriodEnd,
-            canceledAt: data.canceledAt,
-         },
+         data: input,
       });
    }
 

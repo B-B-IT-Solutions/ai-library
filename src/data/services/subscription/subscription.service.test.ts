@@ -9,7 +9,6 @@ import {
    SubscriptionRepository,
 } from "@/data/repositories/subscription";
 import {
-   SubscriptionCreate,
    SubscriptionHistoryCreate,
    SubscriptionUpdate,
 } from "@/data/types/db/subscription";
@@ -166,23 +165,13 @@ describe("createSubscription tests", () => {
    });
 
    it("createSubscription - subscription created - test", async () => {
-      const subscriptionData: DSubscriptionCreate = {
-         userId: "user-id-1",
-         planId: "plan-id-1",
-         billingInterval: "MONTHLY",
-         stripeCheckoutSessionId: "checkout-session-id-1",
-         stripeCustomerId: "customer-id-1",
-      };
+      const createData = dtestData.dSubscriptionCreate();
 
-      await service.createSubscription(subscriptionData);
-
-      const expectedCreateData: SubscriptionCreate = {
-         ...subscriptionData,
-      };
+      await service.createSubscription(createData);
 
       expect(subscriptionRepoMock.pCreateSubscription).toHaveBeenCalledTimes(1);
       expect(subscriptionRepoMock.pCreateSubscription).toHaveBeenCalledWith(
-         expectedCreateData
+         createData
       );
    });
 });
@@ -194,24 +183,14 @@ describe("updateSubscription tests", () => {
 
    it("updateSubscription - subscription updated - test", async () => {
       const userId = "user-id-1";
-      const subscriptionData: DSubscriptionUpdate = {
-         status: "ACTIVE",
-         stripeSubscriptionId: "stripe-subscription-id-1",
-         stripeCustomerId: "stripe-customer-id-1",
-         currentPeriodStart: new Date("2026-01-27"),
-         currentPeriodEnd: new Date("2026-01-27"),
-      };
+      const subscriptionData = dtestData.dSubscriptionUpdate();
 
       await service.updateSubscription(userId, subscriptionData);
-
-      const expectedUpdateData: SubscriptionUpdate = {
-         ...subscriptionData,
-      };
 
       expect(subscriptionRepoMock.pUpdateSubscription).toHaveBeenCalledTimes(1);
       expect(subscriptionRepoMock.pUpdateSubscription).toHaveBeenCalledWith(
          userId,
-         expectedUpdateData
+         subscriptionData
       );
    });
 });

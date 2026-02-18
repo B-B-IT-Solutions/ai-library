@@ -2,7 +2,6 @@ import { isFuture } from "date-fns";
 
 import { SubscriptionRepository } from "@/data/repositories/subscription";
 import {
-   SubscriptionCreate,
    SubscriptionHistoryCreate,
    SubscriptionUpdate,
 } from "@/data/types/db/subscription";
@@ -61,15 +60,7 @@ export class SubscriptionService {
    }
 
    async createSubscription(data: DSubscriptionCreate) {
-      const createData: SubscriptionCreate = {
-         userId: data.userId,
-         planId: data.planId,
-         billingInterval: data.billingInterval,
-         stripeCheckoutSessionId: data.stripeCheckoutSessionId,
-         stripeCustomerId: data.stripeCustomerId,
-      };
-
-      await this.subscriptionRepo.pCreateSubscription(createData);
+      await this.subscriptionRepo.pCreateSubscription(data);
    }
 
    async updateSubscription(userId: string, data: DSubscriptionUpdate) {
@@ -82,7 +73,7 @@ export class SubscriptionService {
          cancelAtPeriodEnd: data.cancelAtPeriodEnd,
          canceledAt: data.canceledAt,
       };
-      await this.subscriptionRepo.pUpdateSubscription(userId, updateData);
+      await this.subscriptionRepo.pUpdateSubscription(userId, data);
    }
 
    async deleteSubscription(userId: string) {
