@@ -7,8 +7,13 @@ import {
 import { PromptTemplateService } from "@/data/services/prompt-template";
 import { OrderProducts } from "@/data/types/db/order";
 import {
+   CreateCollectionInput,
+   DLibraryCollection,
    DLibraryEntry,
+   DLibraryEntriesPage,
+   DLibraryEntriesPageQuery,
    DLibraryEntryWithPromptTemplate,
+   UpdateCollectionInput,
 } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
@@ -117,5 +122,71 @@ export class LibraryService {
       );
 
       return downloadData;
+   }
+
+   // ==================== Filtering & Pagination ====================
+
+   async getLibraryEntriesPage(
+      userId: string,
+      query?: DLibraryEntriesPageQuery
+   ): Promise<DLibraryEntriesPage> {
+      return await this.libraryRepository.pGetLibraryEntriesPage(userId, query);
+   }
+
+   async getLibraryCategories(userId: string): Promise<string[]> {
+      return await this.libraryRepository.pGetLibraryCategories(userId);
+   }
+
+   async getLibraryModels(userId: string): Promise<string[]> {
+      return await this.libraryRepository.pGetLibraryModels(userId);
+   }
+
+   // ==================== Favorites ====================
+
+   async toggleFavorite(
+      entryId: string,
+      userId: string,
+      isFavorite: boolean
+   ): Promise<void> {
+      await this.libraryRepository.pToggleFavorite(entryId, userId, isFavorite);
+   }
+
+   // ==================== Collections CRUD ====================
+
+   async getCollections(userId: string): Promise<DLibraryCollection[]> {
+      return await this.libraryRepository.pGetCollections(userId);
+   }
+
+   async createCollection(
+      userId: string,
+      data: CreateCollectionInput
+   ): Promise<DLibraryCollection> {
+      return await this.libraryRepository.pCreateCollection(userId, data);
+   }
+
+   async updateCollection(
+      collectionId: string,
+      userId: string,
+      data: UpdateCollectionInput
+   ): Promise<void> {
+      await this.libraryRepository.pUpdateCollection(collectionId, userId, data);
+   }
+
+   async deleteCollection(collectionId: string, userId: string): Promise<void> {
+      await this.libraryRepository.pDeleteCollection(collectionId, userId);
+   }
+
+   // ==================== Collection Entries ====================
+
+   async addToCollection(collectionId: string, entryId: string): Promise<void> {
+      await this.libraryRepository.pAddToCollection(collectionId, entryId);
+   }
+
+   async removeFromCollection(collectionId: string, entryId: string): Promise<void> {
+      await this.libraryRepository.pRemoveFromCollection(collectionId, entryId);
+   }
+
+   async getCollectionEntries(collectionId: string): Promise<DLibraryEntry[]> {
+      return await this.libraryRepository.pGetCollectionEntries(collectionId);
    }
 }
