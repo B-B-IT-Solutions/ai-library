@@ -1,2 +1,1 @@
-export * from "./subscription.service";
-export * from "./subscription.mapper";
+export { SubscriptionService } from "./subscription.service";

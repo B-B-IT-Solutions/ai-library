@@ -3,11 +3,6 @@ import { ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import {
-   toDSubscription,
-   toDSubscriptionPlan,
-   toDSubscriptionPlans,
-} from "@/data/services/subscription";
 import { SubscriptionTier } from "@/generated/prisma/enums";
 import {
    SubscriptionCreateArgs,
@@ -21,6 +16,11 @@ import {
 } from "@/generated/prisma/models";
 
 import { SubscriptionRepository } from "./subscription";
+import {
+   toDSubscription,
+   toDSubscriptionPlan,
+   toDSubscriptionPlans,
+} from "./subscription.mapper";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const subscriptionRepo = new SubscriptionRepository(prismaMock);

@@ -1,8 +1,3 @@
-import {
-   toDSubscription,
-   toDSubscriptionPlan,
-   toDSubscriptionPlans,
-} from "@/data/services/subscription";
 import { DbClient } from "@/data/types/db/common";
 import {
    SubscriptionCreate,
@@ -18,6 +13,12 @@ import {
    SubscriptionHistory,
    SubscriptionTier,
 } from "@/generated/prisma/client";
+
+import {
+   toDSubscription,
+   toDSubscriptionPlan,
+   toDSubscriptionPlans,
+} from "./subscription.mapper";
 
 export type GetSubscriptionParams =
    | { userId: string; stripeSubscriptionId?: undefined }
