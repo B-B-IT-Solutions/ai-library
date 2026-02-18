@@ -4,12 +4,6 @@ import { map } from "es-toolkit/compat";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import {
-   toDPromptTemplate,
-   toDPromptTemplateDescriptor,
-   toDPromptTemplateDescriptors,
-   toDPromptTemplateDescriptorWithTemplate,
-} from "@/data/services/prompt/prompt.template.mapper";
 import { DPromptTemplateFieldUpdate } from "@/data/types/domain/prompt.template";
 import { Prisma } from "@/generated/prisma/client";
 import {
@@ -22,6 +16,12 @@ import {
 import { stringify } from "@/lib/utils";
 
 import { PromptTemplateRepository } from "./prompt.template";
+import {
+   toDPromptTemplate,
+   toDPromptTemplateDescriptor,
+   toDPromptTemplateDescriptors,
+   toDPromptTemplateDescriptorWithTemplate,
+} from "./prompt.template.mapper";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 

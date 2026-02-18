@@ -1,11 +1,5 @@
 import { isEmpty, map } from "es-toolkit/compat";
 
-import {
-   toDPromptTemplate,
-   toDPromptTemplateDescriptor,
-   toDPromptTemplateDescriptors,
-   toDPromptTemplateDescriptorWithTemplate,
-} from "@/data/services/prompt/prompt.template.mapper";
 import { DbClient } from "@/data/types/db/common";
 import {
    PromptTemplateDescriptorWithCategories,
@@ -27,6 +21,13 @@ import {
    PromptTemplateDescriptorWhereInput,
 } from "@/generated/prisma/models";
 import { stringify } from "@/lib/utils";
+
+import {
+   toDPromptTemplate,
+   toDPromptTemplateDescriptor,
+   toDPromptTemplateDescriptors,
+   toDPromptTemplateDescriptorWithTemplate,
+} from "./prompt.template.mapper";
 
 type PGetPromptTemplateDescriptorsParams = {
    search?: string;
