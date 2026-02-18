@@ -4,7 +4,6 @@ import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import { toDUser } from "@/data/services/user/user.mapper";
-import { Prisma } from "@/generated/prisma/client";
 import {
    AccountDeleteManyArgs,
    SessionDeleteManyArgs,
@@ -123,11 +122,13 @@ describe("pGetUser tests", () => {
 
       const result = await userRepository.pGetUser({ userId: user.id });
 
-      const expectedFindFirstArgs: Prisma.UserFindFirstArgs = {
+      const expectedResult = toDUser(user);
+
+      const expectedFindFirstArgs: UserFindFirstArgs = {
          where: { id: user.id },
       };
 
-      expect(result).toEqual(user);
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.user.findFirst).toHaveBeenCalledTimes(1);
       expect(prismaMock.user.findFirst).toHaveBeenCalledWith(
          expectedFindFirstArgs
@@ -140,11 +141,13 @@ describe("pGetUser tests", () => {
 
       const result = await userRepository.pGetUser({ email: user.email });
 
-      const expectedFindFirstArgs: Prisma.UserFindFirstArgs = {
+      const expectedResult = toDUser(user);
+
+      const expectedFindFirstArgs: UserFindFirstArgs = {
          where: { email: user.email },
       };
 
-      expect(result).toEqual(user);
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.user.findFirst).toHaveBeenCalledTimes(1);
       expect(prismaMock.user.findFirst).toHaveBeenCalledWith(
          expectedFindFirstArgs

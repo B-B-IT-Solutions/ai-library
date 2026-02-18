@@ -18,25 +18,26 @@ export class UserRepository {
    }
 
    async pGetUserById(userId: string): Promise<DUser | null> {
-      const user: User | null = await this.pGetUser({ userId });
-
-      return user ? toDUser(user) : null;
+      return await this.pGetUser({ userId });
    }
 
    async pGetUserByEmail(email: string): Promise<DUser | null> {
-      const user: User | null = await this.pGetUser({ email });
-
-      return user ? toDUser(user) : null;
+      return await this.pGetUser({ email });
    }
 
-   async pGetUser(params: PGeUserParams): Promise<User | null> {
+   async pGetUser(params: PGeUserParams): Promise<DUser | null> {
       const whereClause = this.resolveGetUserParams(params);
 
       if (whereClause) {
-         return await this.prisma.user.findFirst({
+         const user: User | null = await this.prisma.user.findFirst({
             where: whereClause,
          });
+
+         if (user) {
+            return toDUser(user);
+         }
       }
+
       return null;
    }
 
