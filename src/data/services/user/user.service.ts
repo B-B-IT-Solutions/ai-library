@@ -80,27 +80,21 @@ export class UserService {
       return null;
    }
 
-   async updateUser(userId: string, data: DUserUpdate): Promise<void> {
+   async updateUser(userId: string, data: DUserUpdate) {
       const updateData: UserUpdateData = {
          name: data.name,
       };
       await this.userRepository.pUpdateUser(userId, updateData);
    }
 
-   async updateUserStripeCustomerId(
-      userId: string,
-      stripeCustomerId: string
-   ): Promise<void> {
+   async updateUserStripeCustomerId(userId: string, stripeCustomerId: string) {
       const updateData: UserUpdateData = {
          stripeCustomerId,
       };
       await this.userRepository.pUpdateUser(userId, updateData);
    }
 
-   async updatePassword(
-      userId: string,
-      data: DUserPasswordUpdate
-   ): Promise<void> {
+   async updatePassword(userId: string, data: DUserPasswordUpdate) {
       const user = await this.userRepository.pGetUserById(userId);
       if (!user) {
          throw new Error("User not found");
@@ -124,7 +118,7 @@ export class UserService {
       await this.userRepository.pUpdatePassword(userId, hashedPassword);
    }
 
-   async deleteUser(userId: string, data: DUserAccountDelete): Promise<void> {
+   async deleteUser(userId: string, data: DUserAccountDelete) {
       const user = await this.userRepository.pGetUserById(userId);
       if (!user) {
          throw new Error("User not found");
