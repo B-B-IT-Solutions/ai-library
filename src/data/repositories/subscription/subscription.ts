@@ -1,3 +1,4 @@
+import { toDSubscriptionPlans } from "@/data/services/subscription";
 import { DbClient } from "@/data/types/db/common";
 import {
    SubscriptionCreate,
@@ -5,6 +6,7 @@ import {
    SubscriptionUpdate,
    SubscriptionWithPlan,
 } from "@/data/types/db/subscription";
+import { DSubscriptionPlan } from "@/data/types/domain/subscription";
 import {
    SubscriptionHistory,
    SubscriptionPlan,
@@ -22,11 +24,12 @@ export class SubscriptionRepository {
       this.prisma = prisma;
    }
 
-   async pGetAllPlans(): Promise<SubscriptionPlan[]> {
-      return await this.prisma.subscriptionPlan.findMany({
+   async pGetAllPlans(): Promise<DSubscriptionPlan[]> {
+      const plans = await this.prisma.subscriptionPlan.findMany({
          where: { isActive: true },
          orderBy: { monthlyPrice: "asc" },
       });
+      return toDSubscriptionPlans(plans);
    }
 
    async pGetPlanById(planId: string): Promise<SubscriptionPlan | null> {

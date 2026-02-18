@@ -3,6 +3,7 @@ import { ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
+import { toDSubscriptionPlans } from "@/data/services/subscription";
 import { SubscriptionTier } from "@/generated/prisma/enums";
 import {
    SubscriptionCreateArgs,
@@ -31,12 +32,14 @@ describe("pGetAllPlans tests", () => {
 
       const result = await subscriptionRepo.pGetAllPlans();
 
+      const expectdResult = toDSubscriptionPlans(plans);
+
       const expectedFindAllArgs: SubscriptionPlanFindManyArgs = {
          where: { isActive: true },
          orderBy: { monthlyPrice: "asc" },
       };
 
-      expect(result).toEqual(plans);
+      expect(result).toEqual(expectdResult);
       expect(prismaMock.subscriptionPlan.findMany).toHaveBeenCalledTimes(1);
       expect(prismaMock.subscriptionPlan.findMany).toHaveBeenCalledWith(
          expectedFindAllArgs

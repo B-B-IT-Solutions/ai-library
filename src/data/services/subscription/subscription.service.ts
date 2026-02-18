@@ -15,11 +15,7 @@ import {
    DSubscriptionUpdate,
 } from "@/data/types/domain/subscription";
 
-import {
-   toDSubscription,
-   toDSubscriptionPlan,
-   toDSubscriptionPlans,
-} from "./subscription.mapper";
+import { toDSubscription, toDSubscriptionPlan } from "./subscription.mapper";
 
 export class SubscriptionService {
    private subscriptionRepo: SubscriptionRepository;
@@ -29,8 +25,7 @@ export class SubscriptionService {
    }
 
    async getAvailablePlans(): Promise<DSubscriptionPlan[]> {
-      const plans = await this.subscriptionRepo.pGetAllPlans();
-      return toDSubscriptionPlans(plans);
+      return await this.subscriptionRepo.pGetAllPlans();
    }
 
    async getPlanByTier(

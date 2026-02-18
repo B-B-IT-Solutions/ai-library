@@ -1,6 +1,6 @@
 jest.mock("@/data/repositories/subscription");
 
-import { ptestData } from "@tests";
+import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
@@ -20,11 +20,7 @@ import {
    DSubscriptionUpdate,
 } from "@/data/types/domain/subscription";
 
-import {
-   toDSubscription,
-   toDSubscriptionPlan,
-   toDSubscriptionPlans,
-} from "./subscription.mapper";
+import { toDSubscription, toDSubscriptionPlan } from "./subscription.mapper";
 import { SubscriptionService } from "./subscription.service";
 
 const subscriptionRepo = new SubscriptionRepository(prisma);
@@ -39,13 +35,12 @@ describe("getAvailablePlans tests", () => {
    });
 
    it("getAvailablePlans - plans retrieved - test", async () => {
-      const plans = ptestData.pSubscriptionPlans();
+      const plans = dtestData.dSubscriptionPlans();
       subscriptionRepoMock.pGetAllPlans.mockResolvedValue(plans);
 
       const result = await service.getAvailablePlans();
 
-      const expectdResult = toDSubscriptionPlans(plans);
-      expect(result).toEqual(expectdResult);
+      expect(result).toEqual(plans);
       expect(subscriptionRepoMock.pGetAllPlans).toHaveBeenCalledTimes(1);
    });
 });
