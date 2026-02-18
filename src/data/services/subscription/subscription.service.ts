@@ -106,7 +106,7 @@ export class SubscriptionService {
       });
 
       if (subscription && subscription.status === "ACTIVE") {
-         return subscription.plan.tier as DSubscriptionTier;
+         return subscription.plan.tier;
       }
       return "FREE";
    }

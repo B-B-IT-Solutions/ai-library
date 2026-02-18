@@ -1,6 +1,6 @@
 jest.mock("@/data/repositories/subscription");
 
-import { dtestData, ptestData } from "@tests";
+import { dtestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
@@ -290,7 +290,7 @@ describe("getUserTier tests", () => {
 
    it("getUserTier - subscription.status not ACTIVE - test", async () => {
       const userId = "user-id-1";
-      const subscription = ptestData.pSubscriptionWithPlan();
+      const subscription = dtestData.dSubscription();
       subscription.status = "INCOMPLETE";
 
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(subscription);
@@ -313,7 +313,7 @@ describe("getUserTier tests", () => {
    it("getUserTier - subscription.status ACTIVE - test", async () => {
       const userId = "user-id-1";
       const tier: DSubscriptionTier = "PRO";
-      const subscription = ptestData.pSubscriptionWithPlan();
+      const subscription = dtestData.dSubscription();
       subscription.status = "ACTIVE";
       subscription.plan.tier = tier;
 
@@ -359,7 +359,7 @@ describe("hasActiveAccess tests", () => {
 
    it("hasActiveAccess - subscription status ACTIVE - test", async () => {
       const userId = "user-id-1";
-      const subscription = ptestData.pSubscriptionWithPlan();
+      const subscription = dtestData.dSubscription();
       subscription.status = "ACTIVE";
 
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(subscription);
@@ -379,10 +379,12 @@ describe("hasActiveAccess tests", () => {
 
    it("hasActiveAccess - subscription status CANCELED in grace period - test", async () => {
       const userId = "user-id-1";
-      const subscription = ptestData.pSubscriptionWithPlan();
+      const subscription = dtestData.dSubscription();
       subscription.status = "CANCELED";
       // Set current period end to future date (in grace period)
-      subscription.currentPeriodEnd = new Date(Date.now() + 86400000); // +1 day
+      subscription.currentPeriodEnd = new Date(
+         Date.now() + 86400000
+      ).toISOString(); // +1 day
 
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(subscription);
 
@@ -401,10 +403,12 @@ describe("hasActiveAccess tests", () => {
 
    it("hasActiveAccess - subscription status CANCELED past grace period - test", async () => {
       const userId = "user-id-1";
-      const subscription = ptestData.pSubscriptionWithPlan();
+      const subscription = dtestData.dSubscription();
       subscription.status = "CANCELED";
       // Set current period end to past date (past grace period)
-      subscription.currentPeriodEnd = new Date(Date.now() - 86400000); // -1 day
+      subscription.currentPeriodEnd = new Date(
+         Date.now() - 86400000
+      ).toISOString(); // -1 day
 
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(subscription);
 
@@ -423,7 +427,7 @@ describe("hasActiveAccess tests", () => {
 
    it("hasActiveAccess - subscription status CANCELED with null currentPeriodEnd - test", async () => {
       const userId = "user-id-1";
-      const subscription = ptestData.pSubscriptionWithPlan();
+      const subscription = dtestData.dSubscription();
       subscription.status = "CANCELED";
       subscription.currentPeriodEnd = null;
 
@@ -444,7 +448,7 @@ describe("hasActiveAccess tests", () => {
 
    it("hasActiveAccess - subscription status INCOMPLETE - test", async () => {
       const userId = "user-id-1";
-      const subscription = ptestData.pSubscriptionWithPlan();
+      const subscription = dtestData.dSubscription();
       subscription.status = "INCOMPLETE";
 
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(subscription);
@@ -464,7 +468,7 @@ describe("hasActiveAccess tests", () => {
 
    it("hasActiveAccess - subscription status PAST_DUE - test", async () => {
       const userId = "user-id-1";
-      const subscription = ptestData.pSubscriptionWithPlan();
+      const subscription = dtestData.dSubscription();
       subscription.status = "PAST_DUE";
 
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(subscription);
