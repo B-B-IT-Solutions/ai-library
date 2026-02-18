@@ -14,7 +14,7 @@ import {
    DUserPasswordUpdate,
    DUserSignIn,
    DUserSignUp,
-   DUserUpdateData,
+   DUserUpdate,
 } from "@/data/types/domain/user";
 import { ActionResult } from "@/data/types/utils";
 import {
@@ -85,7 +85,7 @@ export const getUserById = async (userId: string): Promise<DUser> => {
 };
 
 export const updateUserProfile = async (
-   data: DUserUpdateData
+   data: DUserUpdate
 ): Promise<ActionResult> => {
    try {
       const user = await requireUser();

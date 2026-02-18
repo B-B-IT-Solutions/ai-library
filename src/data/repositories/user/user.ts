@@ -1,5 +1,7 @@
+import { toDUser } from "@/data/services/user/user.mapper";
 import { DbClient } from "@/data/types/db/common";
 import { UserUpdateData } from "@/data/types/db/user";
+import { DUserCreate } from "@/data/types/domain/user";
 import { User } from "@/generated/prisma/client";
 import { UserCreateInput, UserWhereInput } from "@/generated/prisma/models";
 
@@ -34,14 +36,18 @@ export class UserRepository {
       return null;
    }
 
-   async pCreateUser(user: UserCreateInput) {
-      return await this.prisma.user.create({
-         data: {
-            name: user.name,
-            email: user.email,
-            password: user.password,
-         },
+   async pCreateUser(data: DUserCreate) {
+      const input: UserCreateInput = {
+         name: data.name,
+         email: data.email,
+         password: data.hashedPassword,
+      };
+
+      const newUser = await this.prisma.user.create({
+         data: input,
       });
+
+      return toDUser(newUser);
    }
 
    async pUpdateUser(userId: string, data: UserUpdateData) {

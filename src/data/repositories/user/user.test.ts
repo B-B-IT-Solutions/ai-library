@@ -1,12 +1,15 @@
 import { PrismaClient } from "@prisma/client";
-import { ptestData } from "@tests";
+import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
+import { toDUser } from "@/data/services/user/user.mapper";
 import { Prisma } from "@/generated/prisma/client";
 import {
    AccountDeleteManyArgs,
    SessionDeleteManyArgs,
+   UserCreateArgs,
+   UserCreateInput,
    UserDeleteArgs,
    UserUpdateArgs,
 } from "@/generated/prisma/models";
@@ -106,19 +109,25 @@ describe("pCreateUser tests", () => {
    });
 
    test("pCreateUser - user created - test", async () => {
-      const user = ptestData.pUser();
-      prismaMock.user.create.mockResolvedValue(user);
-      const result = await userRepository.pCreateUser(user);
+      const newUser = ptestData.pUser();
+      prismaMock.user.create.mockResolvedValue(newUser);
 
-      const expectedCreateArgs: Prisma.UserCreateArgs = {
-         data: {
-            name: user.name,
-            email: user.email,
-            password: user.password,
-         },
+      const createData = dtestData.dUserCreate();
+      const result = await userRepository.pCreateUser(createData);
+
+      const expectedResult = toDUser(newUser);
+
+      const expectedInput: UserCreateInput = {
+         name: createData.name,
+         email: createData.email,
+         password: createData.hashedPassword,
       };
 
-      expect(result).toEqual(user);
+      const expectedCreateArgs: UserCreateArgs = {
+         data: expectedInput,
+      };
+
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.user.create).toHaveBeenCalledTimes(1);
       expect(prismaMock.user.create).toHaveBeenCalledWith(expectedCreateArgs);
    });

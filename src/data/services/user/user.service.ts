@@ -3,12 +3,12 @@ import { UserUpdateData } from "@/data/types/db/user";
 import {
    DUser,
    DUserAccountDelete,
+   DUserCreate,
    DUserPasswordUpdate,
    DUserSignIn,
    DUserSignUp,
-   DUserUpdateData,
+   DUserUpdate,
 } from "@/data/types/domain/user";
-import { UserCreateInput } from "@/generated/prisma/models";
 import { compare, hash } from "@/lib/encrypt";
 import { CartService } from "../cart";
 import { LibraryService } from "../library";
@@ -37,13 +37,13 @@ export class UserService {
    async signUpUser(data: DUserSignUp): Promise<DUser> {
       const hashedPassword = await hash(data.password);
 
-      const newUser: UserCreateInput = {
+      const newUser: DUserCreate = {
          name: data.name,
          email: data.email,
-         password: hashedPassword,
+         hashedPassword: hashedPassword,
       };
-      const createdUser = await this.userRepository.pCreateUser(newUser);
-      return toDUser(createdUser);
+
+      return await this.userRepository.pCreateUser(newUser);
    }
 
    async singInUser(data: DUserSignIn) {
@@ -79,7 +79,7 @@ export class UserService {
       return null;
    }
 
-   async updateUser(userId: string, data: DUserUpdateData): Promise<void> {
+   async updateUser(userId: string, data: DUserUpdate): Promise<void> {
       const updateData: UserUpdateData = {
          name: data.name,
       };

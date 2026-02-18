@@ -51,7 +51,7 @@ import {
    DSubscriptionPlan,
    DSubscriptionUpdate,
 } from "@/data/types/domain/subscription";
-import { DUser, DUserUpdateData } from "@/data/types/domain/user";
+import { DUser, DUserCreate, DUserUpdate } from "@/data/types/domain/user";
 import { LoginUser } from "@/data/types/next-auth";
 
 export const dLoginUser = (index = 1): LoginUser => {
@@ -175,7 +175,15 @@ export const dSubscriptionHistoryCreate = (
    };
 };
 
-export const dUserUpdateData = (index = 1): DUserUpdateData => {
+export const dUserCreate = (index = 1): DUserCreate => {
+   return {
+      name: `User ${index}`,
+      email: "test@email.com",
+      hashedPassword: "hashedPassword-1",
+   };
+};
+
+export const dUserUpdate = (index = 1): DUserUpdate => {
    return {
       name: `User ${index}`,
    };

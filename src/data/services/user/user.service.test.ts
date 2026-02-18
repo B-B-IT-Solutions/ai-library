@@ -4,7 +4,7 @@ jest.mock("@/data/services/library");
 jest.mock("@/data/services/order");
 jest.mock("@/lib/encrypt");
 
-import { ptestData } from "@tests";
+import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
@@ -12,12 +12,12 @@ import { UserRepository } from "@/data/repositories/user";
 import { UserUpdateData } from "@/data/types/db/user";
 import {
    DUserAccountDelete,
+   DUserCreate,
    DUserPasswordUpdate,
    DUserSignIn,
    DUserSignUp,
-   DUserUpdateData,
+   DUserUpdate,
 } from "@/data/types/domain/user";
-import { UserCreateInput } from "@/generated/prisma/models";
 import { compare, hash } from "@/lib/encrypt";
 import { CartService } from "../cart";
 import { LibraryService } from "../library";
@@ -55,7 +55,7 @@ describe("signUpUser tests", () => {
    });
 
    it("signUpUser - user created - test", async () => {
-      const createdUser = ptestData.pUser();
+      const createdUser = dtestData.dUser();
       userRepoMock.pCreateUser.mockResolvedValue(createdUser);
 
       const data: DUserSignUp = {
@@ -67,17 +67,15 @@ describe("signUpUser tests", () => {
 
       const result = await userService.signUpUser(data);
 
-      const expectedResult = toDUser(createdUser);
-
-      const newUser: UserCreateInput = {
+      const expectedCreateData: DUserCreate = {
          name: data.name,
          email: data.email,
-         password: await hash(data.password),
+         hashedPassword: await hash(data.password),
       };
 
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual(createdUser);
       expect(userRepoMock.pCreateUser).toHaveBeenCalledTimes(1);
-      expect(userRepoMock.pCreateUser).toHaveBeenCalledWith(newUser);
+      expect(userRepoMock.pCreateUser).toHaveBeenCalledWith(expectedCreateData);
    });
 });
 
@@ -241,7 +239,7 @@ describe("updateUser tests", () => {
 
    it("updateUser - user updated - test", async () => {
       const user = ptestData.pUser();
-      const data: DUserUpdateData = {
+      const data: DUserUpdate = {
          name: "test 1",
       };
 

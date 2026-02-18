@@ -25,7 +25,7 @@ import {
 } from "@/components/shadcn/form";
 import { Input } from "@/components/shadcn/input";
 import { updateUserProfile } from "@/data/actions/user";
-import { DUser, DUserUpdateData } from "@/data/types/domain/user";
+import { DUser, DUserUpdate } from "@/data/types/domain/user";
 import { updateProfileSchema } from "@/data/types/validators/user";
 
 type UserProfileProps = {
@@ -36,7 +36,7 @@ export const UserProfile: FC<UserProfileProps> = ({ user }) => {
    const router = useRouter();
    const [isPending, startTransition] = useTransition();
 
-   const form = useForm<DUserUpdateData>({
+   const form = useForm<DUserUpdate>({
       resolver: zodResolver(updateProfileSchema),
       defaultValues: {
          name: user.name,
@@ -45,7 +45,7 @@ export const UserProfile: FC<UserProfileProps> = ({ user }) => {
 
    const { isSubmitting } = form.formState;
 
-   const onSubmit: SubmitHandler<DUserUpdateData> = async (data) => {
+   const onSubmit: SubmitHandler<DUserUpdate> = async (data) => {
       startTransition(async () => {
          const result = await updateUserProfile(data);
          if (result.success) {
@@ -106,7 +106,7 @@ export const UserProfile: FC<UserProfileProps> = ({ user }) => {
                            </FormLabel>
                            <FormControl>
                               <div className="relative">
-                                 <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                                 <div className="absolute top-1/2 left-3 -translate-y-1/2 text-muted-foreground">
                                     <User className="h-4 w-4" />
                                  </div>
                                  <Input
@@ -114,7 +114,7 @@ export const UserProfile: FC<UserProfileProps> = ({ user }) => {
                                     id="name"
                                     autoComplete="name"
                                     aria-invalid={fieldState.invalid}
-                                    className="pl-10 h-11"
+                                    className="h-11 pl-10"
                                     data-testid="name-input"
                                  />
                               </div>
@@ -132,7 +132,7 @@ export const UserProfile: FC<UserProfileProps> = ({ user }) => {
                         <Input
                            value={user.email}
                            disabled
-                           className="h-11 bg-muted cursor-not-allowed"
+                           className="h-11 cursor-not-allowed bg-muted"
                         />
                      </FormControl>
                      <p className="text-xs text-muted-foreground">

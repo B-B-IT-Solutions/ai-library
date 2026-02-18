@@ -16,7 +16,7 @@ import {
    DUserPasswordUpdate,
    DUserSignIn,
    DUserSignUp,
-   DUserUpdateData,
+   DUserUpdate,
 } from "@/data/types/domain/user";
 
 import {
@@ -256,7 +256,7 @@ describe("updateUserProfile tests", () => {
    it("updateUserProfile - user undefined - test", async () => {
       requireUserMock.mockRejectedValue("Unknow user");
 
-      const data: DUserUpdateData = {
+      const data: DUserUpdate = {
          name: "Test 1",
       };
 
@@ -274,7 +274,7 @@ describe("updateUserProfile tests", () => {
    it("updateUserProfile - valid data - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
-      const data: DUserUpdateData = {
+      const data: DUserUpdate = {
          name: "Test 1",
       };
 
@@ -293,7 +293,7 @@ describe("updateUserProfile tests", () => {
    it("updateUserProfile - invalid data - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
-      const data: DUserUpdateData = {
+      const data: DUserUpdate = {
          name: "T",
       };
 
@@ -313,7 +313,7 @@ describe("updateUserProfile tests", () => {
       requireUserMock.mockRejectedValue(error);
       isRedirectErrorock.mockReturnValue(true);
 
-      const data: DUserUpdateData = {
+      const data: DUserUpdate = {
          name: "test 1",
       };
 

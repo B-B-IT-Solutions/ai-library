@@ -8,7 +8,7 @@ import { migrateSessionCartToUser } from "@/data/actions/cart";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
-import { DUserSignIn, DUserUpdateData } from "@/data/types/domain/user";
+import { DUserSignIn, DUserUpdate } from "@/data/types/domain/user";
 
 export const authConfig: NextAuthConfig = {
    pages: {
@@ -115,7 +115,7 @@ export const authConfig: NextAuthConfig = {
                token.name = user.email!.split("@")[0];
 
                // Update database to reflect the token name
-               const data: DUserUpdateData = {
+               const data: DUserUpdate = {
                   name: token.name,
                };
 

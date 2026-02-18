@@ -21,7 +21,13 @@ export type DUser = {
    createdAt: string;
 };
 
-export type DUserUpdateData = z.infer<typeof updateProfileSchema>;
+export type DUserCreate = {
+   name: string;
+   email: string;
+   hashedPassword: string;
+};
+
+export type DUserUpdate = z.infer<typeof updateProfileSchema>;
 
 export type DUserPasswordUpdate = z.infer<typeof updatePasswordSchema>;
 
