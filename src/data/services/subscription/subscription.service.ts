@@ -15,7 +15,7 @@ import {
    DSubscriptionUpdate,
 } from "@/data/types/domain/subscription";
 
-import { toDSubscription, toDSubscriptionPlan } from "./subscription.mapper";
+import { toDSubscription } from "./subscription.mapper";
 
 export class SubscriptionService {
    private subscriptionRepo: SubscriptionRepository;
@@ -31,8 +31,7 @@ export class SubscriptionService {
    async getPlanByTier(
       tier: DSubscriptionTier
    ): Promise<DSubscriptionPlan | null> {
-      const plan = await this.subscriptionRepo.pGetPlanByTier(tier);
-      return plan ? toDSubscriptionPlan(plan) : null;
+      return await this.subscriptionRepo.pGetPlanByTier(tier);
    }
 
    async getPlanById(planId: string): Promise<DSubscriptionPlan> {
@@ -45,7 +44,8 @@ export class SubscriptionService {
       if (!plan.isActive) {
          throw new Error("This subscription plan is not available");
       }
-      return toDSubscriptionPlan(plan);
+
+      return plan;
    }
 
    async getSubscription(userId: string): Promise<DSubscription | null> {

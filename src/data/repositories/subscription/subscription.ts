@@ -1,4 +1,7 @@
-import { toDSubscriptionPlans } from "@/data/services/subscription";
+import {
+   toDSubscriptionPlan,
+   toDSubscriptionPlans,
+} from "@/data/services/subscription";
 import { DbClient } from "@/data/types/db/common";
 import {
    SubscriptionCreate,
@@ -9,7 +12,6 @@ import {
 import { DSubscriptionPlan } from "@/data/types/domain/subscription";
 import {
    SubscriptionHistory,
-   SubscriptionPlan,
    SubscriptionTier,
 } from "@/generated/prisma/client";
 
@@ -32,18 +34,22 @@ export class SubscriptionRepository {
       return toDSubscriptionPlans(plans);
    }
 
-   async pGetPlanById(planId: string): Promise<SubscriptionPlan | null> {
-      return await this.prisma.subscriptionPlan.findUnique({
+   async pGetPlanById(planId: string): Promise<DSubscriptionPlan | null> {
+      const plan = await this.prisma.subscriptionPlan.findUnique({
          where: { id: planId },
       });
+
+      return plan ? toDSubscriptionPlan(plan) : null;
    }
 
    async pGetPlanByTier(
       tier: SubscriptionTier
-   ): Promise<SubscriptionPlan | null> {
-      return await this.prisma.subscriptionPlan.findUnique({
+   ): Promise<DSubscriptionPlan | null> {
+      const plan = await this.prisma.subscriptionPlan.findUnique({
          where: { tier },
       });
+
+      return plan ? toDSubscriptionPlan(plan) : null;
    }
 
    async pGetSubscription(

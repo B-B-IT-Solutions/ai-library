@@ -20,7 +20,7 @@ import {
    DSubscriptionUpdate,
 } from "@/data/types/domain/subscription";
 
-import { toDSubscription, toDSubscriptionPlan } from "./subscription.mapper";
+import { toDSubscription } from "./subscription.mapper";
 import { SubscriptionService } from "./subscription.service";
 
 const subscriptionRepo = new SubscriptionRepository(prisma);
@@ -50,26 +50,14 @@ describe("getPlanByTier tests", () => {
       jest.clearAllMocks();
    });
 
-   it("getPlanByTier - plan is null - test", async () => {
-      subscriptionRepoMock.pGetPlanByTier.mockResolvedValue(null);
-
-      const tier: DSubscriptionTier = "PRO";
-      const result = await service.getPlanByTier(tier);
-
-      expect(result).toBeNull();
-      expect(subscriptionRepoMock.pGetPlanByTier).toHaveBeenCalledTimes(1);
-      expect(subscriptionRepoMock.pGetPlanByTier).toHaveBeenCalledWith(tier);
-   });
-
    it("getPlanByTier - plan retrieved - test", async () => {
-      const plan = ptestData.pSubscriptionPlan();
+      const plan = dtestData.dSubscriptionPlan();
       subscriptionRepoMock.pGetPlanByTier.mockResolvedValue(plan);
 
       const tier: DSubscriptionTier = "PRO";
       const result = await service.getPlanByTier(tier);
 
-      const expectdResult = toDSubscriptionPlan(plan);
-      expect(result).toEqual(expectdResult);
+      expect(result).toEqual(plan);
       expect(subscriptionRepoMock.pGetPlanByTier).toHaveBeenCalledTimes(1);
       expect(subscriptionRepoMock.pGetPlanByTier).toHaveBeenCalledWith(tier);
    });
@@ -93,7 +81,7 @@ describe("getPlanById tests", () => {
 
    it("getPlanById - plan not active - test", async () => {
       const planId = "plan-id-1";
-      const plan = ptestData.pSubscriptionPlan();
+      const plan = dtestData.dSubscriptionPlan();
       plan.isActive = false;
 
       subscriptionRepoMock.pGetPlanById.mockResolvedValue(plan);
@@ -109,15 +97,14 @@ describe("getPlanById tests", () => {
 
    it("getPlanById - plan retrieved successfully - test", async () => {
       const planId = "plan-id-1";
-      const plan = ptestData.pSubscriptionPlan();
+      const plan = dtestData.dSubscriptionPlan();
       plan.isActive = true;
 
       subscriptionRepoMock.pGetPlanById.mockResolvedValue(plan);
 
       const result = await service.getPlanById(planId);
 
-      const expectedResult = toDSubscriptionPlan(plan);
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual(plan);
       expect(subscriptionRepoMock.pGetPlanById).toHaveBeenCalledTimes(1);
       expect(subscriptionRepoMock.pGetPlanById).toHaveBeenCalledWith(planId);
    });
