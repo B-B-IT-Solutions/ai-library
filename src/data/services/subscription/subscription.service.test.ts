@@ -20,7 +20,6 @@ import {
    DSubscriptionUpdate,
 } from "@/data/types/domain/subscription";
 
-import { toDSubscription } from "./subscription.mapper";
 import { SubscriptionService } from "./subscription.service";
 
 const subscriptionRepo = new SubscriptionRepository(prisma);
@@ -115,26 +114,9 @@ describe("getSubscription tests", () => {
       jest.clearAllMocks();
    });
 
-   it("getSubscription - subscription is null - test", async () => {
-      const userId = "user-id-1";
-      subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
-
-      const result = await service.getSubscription(userId);
-
-      const expectedGetParams: GetSubscriptionParams = {
-         userId,
-      };
-
-      expect(result).toBeNull();
-      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
-      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
-         expectedGetParams
-      );
-   });
-
    it("getSubscription - subscription retrieved - test", async () => {
       const userId = "user-id-1";
-      const subscription = ptestData.pSubscriptionWithPlan();
+      const subscription = dtestData.dSubscription();
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(subscription);
 
       const result = await service.getSubscription(userId);
@@ -143,8 +125,7 @@ describe("getSubscription tests", () => {
          userId,
       };
 
-      const expectdResult = toDSubscription(subscription);
-      expect(result).toEqual(expectdResult);
+      expect(result).toEqual(subscription);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
          expectedGetParams
@@ -157,28 +138,9 @@ describe("getSubscriptionByStripeSubscriptionId tests", () => {
       jest.clearAllMocks();
    });
 
-   it("getSubscriptionByStripeSubscriptionId - subscription is null - test", async () => {
-      const stripeSubscriptionId = "stripe-subscription-id-1";
-      subscriptionRepoMock.pGetSubscription.mockResolvedValue(null);
-
-      const result =
-         await service.getSubscriptionByStripeSubscriptionId(
-            stripeSubscriptionId
-         );
-
-      const expectedGetParams: GetSubscriptionParams = {
-         stripeSubscriptionId,
-      };
-      expect(result).toBeNull();
-      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
-      expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
-         expectedGetParams
-      );
-   });
-
    it("getSubscription - subscription retrieved - test", async () => {
       const stripeSubscriptionId = "stripe-subscription-id-1";
-      const subscription = ptestData.pSubscriptionWithPlan();
+      const subscription = dtestData.dSubscription();
       subscriptionRepoMock.pGetSubscription.mockResolvedValue(subscription);
 
       const result =
@@ -189,8 +151,8 @@ describe("getSubscriptionByStripeSubscriptionId tests", () => {
       const expectedGetParams: GetSubscriptionParams = {
          stripeSubscriptionId,
       };
-      const expectdResult = toDSubscription(subscription);
-      expect(result).toEqual(expectdResult);
+
+      expect(result).toEqual(subscription);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledTimes(1);
       expect(subscriptionRepoMock.pGetSubscription).toHaveBeenCalledWith(
          expectedGetParams

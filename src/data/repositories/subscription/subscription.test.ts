@@ -4,6 +4,7 @@ import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import {
+   toDSubscription,
    toDSubscriptionPlan,
    toDSubscriptionPlans,
 } from "@/data/services/subscription";
@@ -140,10 +141,9 @@ describe("pGetSubscription tests", () => {
       mockReset(prismaMock);
    });
 
-   it("pGetSubscription - subscripton retrieved by userId - test", async () => {
+   it("pGetSubscription - subscripton null - test", async () => {
       const userId = "user-id-1";
-      const subscription = ptestData.pSubscriptionWithPlan();
-      prismaMock.subscription.findUnique.mockResolvedValue(subscription);
+      prismaMock.subscription.findUnique.mockResolvedValue(null);
 
       const result = await subscriptionRepo.pGetSubscription({ userId });
 
@@ -154,7 +154,30 @@ describe("pGetSubscription tests", () => {
          },
       };
 
-      expect(result).toEqual(subscription);
+      expect(result).toBeNull();
+      expect(prismaMock.subscription.findUnique).toHaveBeenCalledTimes(1);
+      expect(prismaMock.subscription.findUnique).toHaveBeenCalledWith(
+         expectedFindUniqueArgs
+      );
+   });
+
+   it("pGetSubscription - subscripton retrieved by userId - test", async () => {
+      const userId = "user-id-123";
+      const subscription = ptestData.pSubscriptionWithPlan();
+      prismaMock.subscription.findUnique.mockResolvedValue(subscription);
+
+      const result = await subscriptionRepo.pGetSubscription({ userId });
+
+      const expectdResult = toDSubscription(subscription);
+
+      const expectedFindUniqueArgs: SubscriptionFindUniqueArgs = {
+         where: { userId },
+         include: {
+            plan: true,
+         },
+      };
+
+      expect(result).toEqual(expectdResult);
       expect(prismaMock.subscription.findUnique).toHaveBeenCalledTimes(1);
       expect(prismaMock.subscription.findUnique).toHaveBeenCalledWith(
          expectedFindUniqueArgs
@@ -162,13 +185,15 @@ describe("pGetSubscription tests", () => {
    });
 
    it("pGetSubscription - subscripton retrieved by stripeSubscriptionId - test", async () => {
-      const stripeSubscriptionId = "stripe-subscription-id-1";
+      const stripeSubscriptionId = "stripe-subscription-id-123";
       const subscription = ptestData.pSubscriptionWithPlan();
       prismaMock.subscription.findUnique.mockResolvedValue(subscription);
 
       const result = await subscriptionRepo.pGetSubscription({
          stripeSubscriptionId,
       });
+
+      const expectdResult = toDSubscription(subscription);
 
       const expectedFindUniqueArgs: SubscriptionFindUniqueArgs = {
          where: { stripeSubscriptionId },
@@ -177,7 +202,7 @@ describe("pGetSubscription tests", () => {
          },
       };
 
-      expect(result).toEqual(subscription);
+      expect(result).toEqual(expectdResult);
       expect(prismaMock.subscription.findUnique).toHaveBeenCalledTimes(1);
       expect(prismaMock.subscription.findUnique).toHaveBeenCalledWith(
          expectedFindUniqueArgs

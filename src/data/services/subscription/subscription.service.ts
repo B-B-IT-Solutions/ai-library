@@ -15,8 +15,6 @@ import {
    DSubscriptionUpdate,
 } from "@/data/types/domain/subscription";
 
-import { toDSubscription } from "./subscription.mapper";
-
 export class SubscriptionService {
    private subscriptionRepo: SubscriptionRepository;
 
@@ -49,19 +47,17 @@ export class SubscriptionService {
    }
 
    async getSubscription(userId: string): Promise<DSubscription | null> {
-      const subscription = await this.subscriptionRepo.pGetSubscription({
+      return await this.subscriptionRepo.pGetSubscription({
          userId,
       });
-      return subscription ? toDSubscription(subscription) : null;
    }
 
    async getSubscriptionByStripeSubscriptionId(
       stripeSubscriptionId: string
    ): Promise<DSubscription | null> {
-      const subscription = await this.subscriptionRepo.pGetSubscription({
+      return await this.subscriptionRepo.pGetSubscription({
          stripeSubscriptionId,
       });
-      return subscription ? toDSubscription(subscription) : null;
    }
 
    async createSubscription(data: DSubscriptionCreate) {
