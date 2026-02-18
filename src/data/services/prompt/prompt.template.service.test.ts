@@ -11,7 +11,6 @@ import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template"
 
 import {
    toDPromptTemplate,
-   toDPromptTemplateDescriptors,
    toDPromptTemplateDescriptorWithTemplate,
 } from "./prompt.template.mapper";
 import { PromptTemplateService } from "./prompt.template.service";
@@ -35,15 +34,14 @@ describe("getPromptTemplateDescriptors tests", () => {
    });
 
    it("getPromptTemplateDescriptors - params undefined - test", async () => {
-      const templates = ptestData.pPromptTemplateDescriptorsWithCategories();
+      const templates = dtestData.dPromptTemplateDescriptors();
       promptTemplateRepoMock.pGetPromptTemplateDescriptors.mockResolvedValue(
          templates
       );
 
       const result = await promptTemplateService.getPromptTemplateDescriptors();
-      const expectedResult = toDPromptTemplateDescriptors(templates);
 
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual(templates);
       expect(
          promptTemplateRepoMock.pGetPromptTemplateDescriptors
       ).toHaveBeenCalledTimes(1);
@@ -53,7 +51,7 @@ describe("getPromptTemplateDescriptors tests", () => {
    });
 
    it("getPromptTemplateDescriptors - params empty - test", async () => {
-      const templates = ptestData.pPromptTemplateDescriptorsWithCategories();
+      const templates = dtestData.dPromptTemplateDescriptors();
       promptTemplateRepoMock.pGetPromptTemplateDescriptors.mockResolvedValue(
          templates
       );
@@ -61,9 +59,8 @@ describe("getPromptTemplateDescriptors tests", () => {
       const result = await promptTemplateService.getPromptTemplateDescriptors(
          {}
       );
-      const expectedResult = toDPromptTemplateDescriptors(templates);
 
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual(templates);
       expect(
          promptTemplateRepoMock.pGetPromptTemplateDescriptors
       ).toHaveBeenCalledTimes(1);
@@ -73,7 +70,7 @@ describe("getPromptTemplateDescriptors tests", () => {
    });
 
    it("getPromptTemplateDescriptors - params defined - test", async () => {
-      const templates = ptestData.pPromptTemplateDescriptorsWithCategories();
+      const templates = dtestData.dPromptTemplateDescriptors();
       promptTemplateRepoMock.pGetPromptTemplateDescriptors.mockResolvedValue(
          templates
       );
@@ -84,9 +81,8 @@ describe("getPromptTemplateDescriptors tests", () => {
 
       const result =
          await promptTemplateService.getPromptTemplateDescriptors(params);
-      const expectedResult = toDPromptTemplateDescriptors(templates);
 
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual(templates);
       expect(
          promptTemplateRepoMock.pGetPromptTemplateDescriptors
       ).toHaveBeenCalledTimes(1);

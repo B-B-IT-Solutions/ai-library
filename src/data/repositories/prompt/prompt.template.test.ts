@@ -4,7 +4,10 @@ import { map } from "es-toolkit/compat";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { toDPromptTemplateDescriptor } from "@/data/services/prompt/prompt.template.mapper";
+import {
+   toDPromptTemplateDescriptor,
+   toDPromptTemplateDescriptors,
+} from "@/data/services/prompt/prompt.template.mapper";
 import { DPromptTemplateFieldUpdate } from "@/data/types/domain/prompt.template";
 import { Prisma } from "@/generated/prisma/client";
 import {
@@ -28,10 +31,12 @@ describe("pGetPromptTemplateDescriptors tests", () => {
    });
 
    test("pGetPromptTemplateDescriptors - prompts - params undefined - retrieved - test", async () => {
-      const prompts = ptestData.pPromptTemplateDescriptors();
+      const prompts = ptestData.pPromptTemplateDescriptorsWithCategories();
       prismaMock.promptTemplateDescriptor.findMany.mockResolvedValue(prompts);
 
       const result = await repository.pGetPromptTemplateDescriptors();
+
+      const expectedResult = toDPromptTemplateDescriptors(prompts);
 
       const expectedFindMayArgs: PromptTemplateDescriptorFindManyArgs = {
          include: {
@@ -40,7 +45,7 @@ describe("pGetPromptTemplateDescriptors tests", () => {
          take: 20,
       };
 
-      expect(result).toEqual(prompts);
+      expect(result).toEqual(expectedResult);
       expect(
          prismaMock.promptTemplateDescriptor.findMany
       ).toHaveBeenCalledTimes(1);
@@ -50,10 +55,12 @@ describe("pGetPromptTemplateDescriptors tests", () => {
    });
 
    test("pGetPromptTemplateDescriptors - prompts - params empty - retrieved - test", async () => {
-      const prompts = ptestData.pPromptTemplateDescriptors();
+      const prompts = ptestData.pPromptTemplateDescriptorsWithCategories();
       prismaMock.promptTemplateDescriptor.findMany.mockResolvedValue(prompts);
 
       const result = await repository.pGetPromptTemplateDescriptors({});
+
+      const expectedResult = toDPromptTemplateDescriptors(prompts);
 
       const expectedFindMayArgs: PromptTemplateDescriptorFindManyArgs = {
          include: {
@@ -62,7 +69,7 @@ describe("pGetPromptTemplateDescriptors tests", () => {
          take: 20,
       };
 
-      expect(result).toEqual(prompts);
+      expect(result).toEqual(expectedResult);
       expect(
          prismaMock.promptTemplateDescriptor.findMany
       ).toHaveBeenCalledTimes(1);
@@ -72,7 +79,7 @@ describe("pGetPromptTemplateDescriptors tests", () => {
    });
 
    test("pGetPromptTemplateDescriptors - prompts - params.search defined  - retrieved - test", async () => {
-      const prompts = ptestData.pPromptTemplateDescriptors();
+      const prompts = ptestData.pPromptTemplateDescriptorsWithCategories();
       prismaMock.promptTemplateDescriptor.findMany.mockResolvedValue(prompts);
 
       const search = "prompt 1";
@@ -80,6 +87,8 @@ describe("pGetPromptTemplateDescriptors tests", () => {
          search,
          categories: [],
       });
+
+      const expectedResult = toDPromptTemplateDescriptors(prompts);
 
       const expectedFindMayArgs: PromptTemplateDescriptorFindManyArgs = {
          where: {
@@ -106,7 +115,7 @@ describe("pGetPromptTemplateDescriptors tests", () => {
          take: 20,
       };
 
-      expect(result).toEqual(prompts);
+      expect(result).toEqual(expectedResult);
       expect(
          prismaMock.promptTemplateDescriptor.findMany
       ).toHaveBeenCalledTimes(1);
@@ -116,13 +125,15 @@ describe("pGetPromptTemplateDescriptors tests", () => {
    });
 
    test("pGetPromptTemplateDescriptors - prompts - params.categories defined  - retrieved - test", async () => {
-      const prompts = ptestData.pPromptTemplateDescriptors();
+      const prompts = ptestData.pPromptTemplateDescriptorsWithCategories();
       prismaMock.promptTemplateDescriptor.findMany.mockResolvedValue(prompts);
 
       const categories = ["cat 1", "cat2", "cat 3"];
       const result = await repository.pGetPromptTemplateDescriptors({
          categories,
       });
+
+      const expectedResult = toDPromptTemplateDescriptors(prompts);
 
       const expectedFindMayArgs: PromptTemplateDescriptorFindManyArgs = {
          where: {
@@ -144,7 +155,7 @@ describe("pGetPromptTemplateDescriptors tests", () => {
          take: 20,
       };
 
-      expect(result).toEqual(prompts);
+      expect(result).toEqual(expectedResult);
       expect(
          prismaMock.promptTemplateDescriptor.findMany
       ).toHaveBeenCalledTimes(1);
@@ -154,7 +165,7 @@ describe("pGetPromptTemplateDescriptors tests", () => {
    });
 
    test("pGetPromptTemplateDescriptors - prompts - params defined  - retrieved - test", async () => {
-      const prompts = ptestData.pPromptTemplateDescriptors();
+      const prompts = ptestData.pPromptTemplateDescriptorsWithCategories();
       prismaMock.promptTemplateDescriptor.findMany.mockResolvedValue(prompts);
 
       const search = "prompt 123";
@@ -163,6 +174,8 @@ describe("pGetPromptTemplateDescriptors tests", () => {
          search,
          categories,
       });
+
+      const expectedResult = toDPromptTemplateDescriptors(prompts);
 
       const expectedFindMayArgs: PromptTemplateDescriptorFindManyArgs = {
          where: {
@@ -200,7 +213,7 @@ describe("pGetPromptTemplateDescriptors tests", () => {
          take: 20,
       };
 
-      expect(result).toEqual(prompts);
+      expect(result).toEqual(expectedResult);
       expect(
          prismaMock.promptTemplateDescriptor.findMany
       ).toHaveBeenCalledTimes(1);

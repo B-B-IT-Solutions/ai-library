@@ -1,6 +1,9 @@
 import { isEmpty, map } from "es-toolkit/compat";
 
-import { toDPromptTemplateDescriptor } from "@/data/services/prompt/prompt.template.mapper";
+import {
+   toDPromptTemplateDescriptor,
+   toDPromptTemplateDescriptors,
+} from "@/data/services/prompt/prompt.template.mapper";
 import { DbClient } from "@/data/types/db/common";
 import {
    PromptTemplateDescriptorWithCategories,
@@ -8,6 +11,7 @@ import {
    PromptTemplateWithFields,
 } from "@/data/types/db/prompt.template";
 import {
+   DPromptTemplateCategory,
    DPromptTemplateDescriptor,
    DPromptTemplateFieldType,
    DPromptTemplateFieldUpdate,
@@ -37,13 +41,14 @@ export class PromptTemplateRepository {
       params?: PGetPromptTemplateDescriptorsParams
    ) {
       const where = this.resolveGetPromptTemplateDescriptorsWhereInput(params);
-      return await this.prisma.promptTemplateDescriptor.findMany({
+      const prompts = await this.prisma.promptTemplateDescriptor.findMany({
          where: where,
          include: {
             categories: true,
          },
          take: 20,
       });
+      return toDPromptTemplateDescriptors(prompts);
    }
 
    async pGetPromptTemplateDescriptorWithTemplate(
@@ -73,7 +78,7 @@ export class PromptTemplateRepository {
       });
    }
 
-   async pGetPromptTemplateCategories() {
+   async pGetPromptTemplateCategories(): Promise<DPromptTemplateCategory[]> {
       return await this.prisma.promptTemplateCategory.findMany({
          select: {
             name: true,

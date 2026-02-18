@@ -11,7 +11,6 @@ import {
 
 import {
    toDPromptTemplate,
-   toDPromptTemplateDescriptors,
    toDPromptTemplateDescriptorWithTemplate,
 } from "./prompt.template.mapper";
 import { TemplateEngine } from "./template.engine";
@@ -31,8 +30,7 @@ export class PromptTemplateService {
    async getPromptTemplateDescriptors(
       params?: DGetPromptTemplatesDescriptorsParams
    ): Promise<DPromptTemplateDescriptor[]> {
-      const data = await this.repository.pGetPromptTemplateDescriptors(params);
-      return toDPromptTemplateDescriptors(data);
+      return await this.repository.pGetPromptTemplateDescriptors(params);
    }
 
    async getPromptTemplateDescriptorWithTemplate(
