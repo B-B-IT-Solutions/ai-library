@@ -1,6 +1,7 @@
 import { isEmpty, map } from "es-toolkit/compat";
 
 import {
+   toDPromptTemplate,
    toDPromptTemplateDescriptor,
    toDPromptTemplateDescriptors,
    toDPromptTemplateDescriptorWithTemplate,
@@ -9,9 +10,9 @@ import { DbClient } from "@/data/types/db/common";
 import {
    PromptTemplateDescriptorWithCategories,
    PromptTemplateDescriptorWithTemplate,
-   PromptTemplateWithFields,
 } from "@/data/types/db/prompt.template";
 import {
+   DPromptTemplate,
    DPromptTemplateCategory,
    DPromptTemplateDescriptor,
    DPromptTemplateDescriptorWithTemplate,
@@ -77,15 +78,15 @@ export class PromptTemplateRepository {
       return null;
    }
 
-   async pGetPromptTemplate(
-      id: string
-   ): Promise<PromptTemplateWithFields | null> {
-      return await this.prisma.promptTemplate.findFirst({
+   async pGetPromptTemplate(id: string): Promise<DPromptTemplate | null> {
+      const template = await this.prisma.promptTemplate.findFirst({
          where: { id },
          include: {
             fields: true,
          },
       });
+
+      return template ? toDPromptTemplate(template) : null;
    }
 
    async pGetPromptTemplateCategories(): Promise<DPromptTemplateCategory[]> {

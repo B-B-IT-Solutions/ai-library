@@ -9,7 +9,6 @@ import { PromptTemplateRepository } from "@/data/repositories/prompt/prompt.temp
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 
-import { toDPromptTemplate } from "./prompt.template.mapper";
 import { PromptTemplateService } from "./prompt.template.service";
 import { FieldsValidationResult, TemplateEngine } from "./template.engine";
 
@@ -121,33 +120,14 @@ describe("getPromptTemplate tests", () => {
       jest.clearAllMocks();
    });
 
-   it("getPromptTemplate - template not found - test", async () => {
-      promptTemplateRepoMock.pGetPromptTemplate.mockResolvedValue(null);
-
-      const id = "prompt-template-id-1";
-      const result = await promptTemplateService.getPromptTemplate(id);
-
-      expect(result).toBeNull();
-      expect(promptTemplateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(
-         1
-      );
-      expect(promptTemplateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
-         id
-      );
-   });
-
    it("getPromptTemplate - template retrieved - test", async () => {
-      const promptTemplate = ptestData.pPromptTemplate();
-      promptTemplateRepoMock.pGetPromptTemplate.mockResolvedValue(
-         promptTemplate
-      );
+      const template = dtestData.dPromptTemplate();
+      promptTemplateRepoMock.pGetPromptTemplate.mockResolvedValue(template);
 
-      const { id } = promptTemplate;
+      const { id } = template;
       const result = await promptTemplateService.getPromptTemplate(id);
 
-      const expectedResult = toDPromptTemplate(promptTemplate);
-
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual(template);
       expect(promptTemplateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(
          1
       );
