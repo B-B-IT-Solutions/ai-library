@@ -53,7 +53,7 @@ export const LibraryEntryCard: FC<Props> = ({ entry, collections }) => {
    const badges = () => {
       if (!isEmpty(entry.collections)) {
          return (
-            <div className="flex flex-wrap gap-1">
+            <div className="flex flex-wrap gap-1" data-testid="badges">
                {map(entry.collections.slice(0, 3), (collectionId) => (
                   <span
                      key={collectionId}

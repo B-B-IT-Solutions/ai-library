@@ -1,7 +1,11 @@
 import { screen, waitFor } from "@testing-library/dom";
-import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
+import {
+   assertInDocument,
+   assertNotInDocument,
+   dtestData,
+   renderWithReactQuery,
+} from "@tests";
 import mockRouter from "next-router-mock";
 
 import { LibraryEntryCard } from "./library-entry-card";
@@ -9,11 +13,13 @@ import { LibraryEntryCard } from "./library-entry-card";
 const assertRendered = () => {
    const entryCard = screen.getByTestId("library-entry-card");
    const categories = screen.getByTestId("categories");
+   const badges = screen.getByTestId("badges");
    const createPromptBtn = screen.getByTestId("create-prompt-btn");
    const dropdownMenuBtn = screen.getByTestId("dropdown-menu-btn");
 
    assertInDocument(entryCard);
    assertInDocument(categories);
+   assertInDocument(badges);
    assertInDocument(createPromptBtn);
    assertInDocument(dropdownMenuBtn);
 };
@@ -37,8 +43,11 @@ const assertDropdownMenuItemsNotRendered = () => {
 describe("LibraryEntryCard rendering tests", () => {
    it("LibraryEntryCard - viewMode grid - rendered test", async () => {
       const entry = dtestData.dLibraryEntry();
+      const collections = dtestData.dLibraryCollections();
 
-      const { container } = render(<LibraryEntryCard entry={entry} />);
+      const { container } = renderWithReactQuery(
+         <LibraryEntryCard entry={entry} collections={collections} />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -56,8 +65,11 @@ describe("LibraryEntryCard functionality tests", () => {
 
    it("LibraryEntryCard - view detail link clicked - test", async () => {
       const entry = dtestData.dLibraryEntry();
+      const collections = dtestData.dLibraryCollections();
 
-      render(<LibraryEntryCard entry={entry} />);
+      renderWithReactQuery(
+         <LibraryEntryCard entry={entry} collections={collections} />
+      );
 
       await waitFor(() => {
          assertRendered();

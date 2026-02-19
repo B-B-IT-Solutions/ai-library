@@ -1,8 +1,7 @@
 "use client";
 
 import { FC, useMemo, useState } from "react";
-import { ChevronDown, ChevronUp, Filter, Plus } from "lucide-react";
-import Link from "next/link";
+import { ChevronDown, ChevronUp, Filter } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
 import { useInfiniteLoadLibraryEntries } from "@/data/ts-queries/library";
