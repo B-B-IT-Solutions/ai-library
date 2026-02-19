@@ -5,7 +5,7 @@ import { useSetUrlSearchParams } from "./use-set-url-search-params";
 
 describe("useSetUrlSearchParams tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
       mockRouter.push("/");
    });
 

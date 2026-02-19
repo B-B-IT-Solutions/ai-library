@@ -13,12 +13,12 @@ import {
 } from "@/data/types/domain/library";
 
 import { CreateLibraryEntryButton } from "./buttons/create-library-entry-button";
-import { LibraryContent } from "./content/library-content";
 import { LibraryFilters } from "./filters/library-filters";
 import {
    LibraryFiltersContext,
    LibraryFiltersContextType,
 } from "./filters/library-filters-context";
+import { LibraryContent } from "./list/library-content";
 import { LibraryQuickNav } from "./navigation/library-quick-nav";
 import { LibraryToolbar } from "./toolbar/library-toolbar";
 

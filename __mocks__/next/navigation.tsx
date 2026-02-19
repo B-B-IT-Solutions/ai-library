@@ -13,14 +13,13 @@ module.exports = {
    usePathname() {
       return mockRouter.pathname;
    },
-   useSearchParams: () => {
+   useSearchParams: jest.fn().mockImplementation(() => {
       if (mockRouter.query) {
          const params = mockRouter.query as unknown as URLSearchParams;
          return new URLSearchParams(params);
       }
-
       return new URLSearchParams("");
-   },
+   }),
    useServerInsertedHTML: jest.fn(),
    redirect: jest.fn(),
    notFound: jest.fn(),
