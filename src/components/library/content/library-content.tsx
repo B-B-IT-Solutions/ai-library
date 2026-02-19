@@ -42,7 +42,6 @@ export const LibraryContent: FC = () => {
       );
    }
 
-   // Grouped view
    if (context.groupBy !== "none") {
       return (
          <div className="p-6">
@@ -55,7 +54,6 @@ export const LibraryContent: FC = () => {
       );
    }
 
-   // List view
    if (context.viewMode === "list") {
       return (
          <InfiniteScroll
@@ -74,7 +72,6 @@ export const LibraryContent: FC = () => {
       );
    }
 
-   // Grid view (default)
    return (
       <InfiniteScroll
          hasMore={hasNextPage ?? false}
