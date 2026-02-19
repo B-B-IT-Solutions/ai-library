@@ -37,13 +37,13 @@ const collectionSchema = z.object({
 
 type CollectionFormData = z.infer<typeof collectionSchema>;
 
-type CreateCollectionDialogProps = {
-   open?: boolean;
+type Props = {
+   controlledOpen?: boolean;
    onOpenChange?: (open: boolean) => void;
 };
 
-export const CreateCollectionDialog: FC<CreateCollectionDialogProps> = ({
-   open: controlledOpen,
+export const CreateCollectionDialog: FC<Props> = ({
+   controlledOpen,
    onOpenChange,
 }) => {
    const [internalOpen, setInternalOpen] = useState(false);

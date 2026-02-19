@@ -23,14 +23,14 @@ import {
 
 import { CreateCollectionDialog } from "./create-collection-dialog";
 
-type AddToCollectionDialogProps = {
+type Props = {
    entryId: string;
    currentCollections: string[];
    open: boolean;
    onOpenChange: (open: boolean) => void;
 };
 
-export const AddToCollectionDialog: FC<AddToCollectionDialogProps> = ({
+export const AddToCollectionDialog: FC<Props> = ({
    entryId,
    currentCollections,
    open,
@@ -159,28 +159,26 @@ export const AddToCollectionDialog: FC<AddToCollectionDialogProps> = ({
                   )}
                </div>
 
-               {collections.length > 0 && (
-                  <DialogFooter className="border-t pt-4">
-                     <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setShowCreateDialog(true)}
-                        className="gap-2"
-                     >
-                        <Plus className="h-4 w-4" />
-                        Neue Sammlung
-                     </Button>
-                     <Button size="sm" onClick={() => onOpenChange(false)}>
-                        Fertig
-                     </Button>
-                  </DialogFooter>
-               )}
+               <DialogFooter className="border-t pt-4">
+                  <Button
+                     variant="outline"
+                     size="sm"
+                     onClick={() => setShowCreateDialog(true)}
+                     className="gap-2"
+                  >
+                     <Plus className="h-4 w-4" />
+                     Neue Sammlung
+                  </Button>
+                  <Button size="sm" onClick={() => onOpenChange(false)}>
+                     Fertig
+                  </Button>
+               </DialogFooter>
             </DialogContent>
          </Dialog>
 
          {/* Create Collection Dialog */}
          <CreateCollectionDialog
-            open={showCreateDialog}
+            controlledOpen={showCreateDialog}
             onOpenChange={setShowCreateDialog}
          />
       </>
