@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
 
 import { Button } from "@/components/shadcn/button";
 import {
@@ -28,14 +27,9 @@ import {
 import { Input } from "@/components/shadcn/input";
 import { Textarea } from "@/components/shadcn/textarea";
 import { useCreateCollection } from "@/data/ts-queries/library";
-
-const collectionSchema = z.object({
-   name: z.string().min(1, "Name ist erforderlich").max(250),
-   description: z.string().max(750).optional(),
-   color: z.string().optional(),
-});
-
-type CollectionFormData = z.infer<typeof collectionSchema>;
+import { DLibraryCollectionUpdate } from "@/data/types/domain/library";
+import { updateLibraryCollectionSchema } from "@/data/types/validators/library";
+import { initLibraryCollection } from "../utils/initValues";
 
 type Props = {
    controlledOpen?: boolean;
@@ -52,16 +46,12 @@ export const CreateCollectionDialog: FC<Props> = ({
    const open = controlledOpen ?? internalOpen;
    const setOpen = onOpenChange ?? setInternalOpen;
 
-   const form = useForm<CollectionFormData>({
-      resolver: zodResolver(collectionSchema),
-      defaultValues: {
-         name: "",
-         description: "",
-         color: "#3b82f6",
-      },
+   const form = useForm<DLibraryCollectionUpdate>({
+      resolver: zodResolver(updateLibraryCollectionSchema),
+      defaultValues: initLibraryCollection(),
    });
 
-   const onSubmit = (data: CollectionFormData) => {
+   const onSubmit = (data: DLibraryCollectionUpdate) => {
       createCollection(data, {
          onSuccess: (result) => {
             if (result.success) {

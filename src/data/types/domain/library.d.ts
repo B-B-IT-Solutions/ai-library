@@ -1,3 +1,7 @@
+import z from "zod";
+
+import { updateLibraryCollectionSchema } from "@/data/types/validators/library";
+
 import { Page, PageQuery } from "./common";
 import {
    DPromptTemplateDescriptor,
@@ -20,7 +24,10 @@ export type DLibraryEntryWithPromptTemplate = DLibraryEntry & {
    templateDescriptor: DPromptTemplateDescriptorWithTemplate;
 };
 
-// Collection Types
+export type DLibraryCollectionUpdate = z.infer<
+   typeof updateLibraryCollectionSchema
+>;
+
 export type DLibraryCollection = {
    id: string;
    userId: string;
@@ -54,7 +61,12 @@ export type DLibraryEntriesPageQuery = PageQuery<DLibraryEntriesFilter>;
 export type DLibraryEntriesPage = Page<DLibraryEntry>;
 
 // View State Types
-export type LibraryGroupBy = "none" | "category" | "model" | "date" | "collection";
+export type LibraryGroupBy =
+   | "none"
+   | "category"
+   | "model"
+   | "date"
+   | "collection";
 export type LibraryViewMode = "grid" | "list";
 export type LibrarySortBy = "date-desc" | "date-asc" | "name-asc" | "name-desc";
 

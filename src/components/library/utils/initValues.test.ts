@@ -1,9 +1,14 @@
+import { DLibraryCollectionUpdate } from "@/data/types/domain/library";
 import {
    DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 
-import { initPromptTempalte, initPromptTemplateField } from "./initValues";
+import {
+   initLibraryCollection,
+   initPromptTempalte,
+   initPromptTemplateField,
+} from "./initValues";
 
 export const expectedInitPromptTempalte: DPromptTemplateUpdate = {
    title: "",
@@ -25,6 +30,12 @@ export const expectedInitPromptTemplateField: DPromptTemplateFieldUpdate = {
    order: 0,
    defaultValue: "",
    options: [],
+};
+
+export const expectedInitLibraryCollection: DLibraryCollectionUpdate = {
+   name: "",
+   description: "",
+   color: "#3b82f6",
 };
 
 describe("initPromptTempalte tests", () => {
@@ -59,5 +70,12 @@ describe("initPromptTemplateField tests", () => {
          label,
       };
       expect(initValue).toEqual(expectedValue);
+   });
+});
+
+describe("initLibraryCollection tests", () => {
+   it("initLibraryCollection test", () => {
+      const initValue = initLibraryCollection();
+      expect(initValue).toEqual(expectedInitLibraryCollection);
    });
 });

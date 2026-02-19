@@ -1,3 +1,4 @@
+import { DLibraryCollectionUpdate } from "@/data/types/domain/library";
 import {
    DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
@@ -30,5 +31,13 @@ export const initPromptTemplateField = (
       order: order,
       defaultValue: "",
       options: [],
+   };
+};
+
+export const initLibraryCollection = (): DLibraryCollectionUpdate => {
+   return {
+      name: "",
+      description: "",
+      color: "#3b82f6",
    };
 };

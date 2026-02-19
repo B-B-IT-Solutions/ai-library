@@ -24,6 +24,7 @@ import {
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 import { updatePromptTemplateSchema } from "@/data/types/validators/prompt";
+import { initPromptTempalte, initPromptTemplateField } from "../utils";
 
 import {
    BasicInfo,
@@ -31,12 +32,7 @@ import {
    PromptTemplateContent,
    PromptTemplateFields,
 } from "./sections";
-import {
-   extractVariablesFromContent,
-   getVariableStatus,
-   initPromptTempalte,
-   initPromptTemplateField,
-} from "./utils";
+import { extractVariablesFromContent, getVariableStatus } from "./utils";
 
 export const NewLibraryEntryForm: FC = () => {
    const router = useRouter();
