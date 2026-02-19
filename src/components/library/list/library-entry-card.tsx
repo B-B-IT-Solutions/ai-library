@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useState } from "react";
-import { map } from "es-toolkit/compat";
+import { isEmpty, map } from "es-toolkit/compat";
 import { Eye, Folder, FolderPlus, MoreVertical } from "lucide-react";
 import Link from "next/link";
 
@@ -51,6 +51,70 @@ export const LibraryEntryCard: FC<Props> = ({ entry }) => {
       );
    };
 
+   const badges = () => {
+      if (!isEmpty(entry.collections)) {
+         return (
+            <div className="flex flex-wrap gap-1">
+               {map(entry.collections.slice(0, 3), (collectionId) => (
+                  <span
+                     key={collectionId}
+                     className="inline-flex items-center rounded-md border border-blue-200 bg-blue-50 px-2 py-0.5 text-xs text-blue-700"
+                  >
+                     <Folder className="mr-1 h-3 w-3" />
+                     {getCollectionName(collectionId)}
+                  </span>
+               ))}
+               {entry.collections.length > 3 && (
+                  <span className="inline-flex items-center rounded-md border border-slate-200 bg-slate-100 px-2 py-0.5 text-xs text-slate-600">
+                     +{entry.collections.length - 3} mehr
+                  </span>
+               )}
+            </div>
+         );
+      }
+   };
+
+   const dropdownMenu = () => {
+      return (
+         <DropdownMenu>
+            <DropdownMenuTrigger asChild={true}>
+               <Button
+                  variant="outline"
+                  size="sm"
+                  className="cursor-pointer"
+                  data-testid="dropdown-menu-btn"
+               >
+                  <MoreVertical className="h-4 w-4" />
+               </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+               <DropdownMenuItem asChild={true}>
+                  <Link
+                     href={`/library/${entry.id}`}
+                     className="cursor-pointer"
+                     data-testid="view-details-link"
+                  >
+                     <Eye className="mr-2 h-4 w-4" />
+                     Details anzeigen
+                  </Link>
+               </DropdownMenuItem>
+               <DropdownMenuItem
+                  onClick={() => setShowAddToCollectionDialog(true)}
+                  className="cursor-pointer"
+               >
+                  <FolderPlus className="mr-2 h-4 w-4" />
+                  Zu Sammlung hinzufügen
+               </DropdownMenuItem>
+               <DropdownMenuSeparator />
+               <DownloadTemplateButton
+                  descriptor={template}
+                  asMenuItem={true}
+               />
+            </DropdownMenuContent>
+         </DropdownMenu>
+      );
+   };
+
    return (
       <Card
          className="group relative gap-0 rounded-lg border border-slate-300 bg-white p-0 transition-all duration-200 hover:border-slate-400 hover:shadow-md"
@@ -72,26 +136,7 @@ export const LibraryEntryCard: FC<Props> = ({ entry }) => {
 
          <CardContent className="grid gap-3 p-5">
             {categories()}
-
-            {/* Collection Badges */}
-            {entry.collections.length > 0 && (
-               <div className="flex flex-wrap gap-1">
-                  {map(entry.collections.slice(0, 3), (collectionId) => (
-                     <span
-                        key={collectionId}
-                        className="inline-flex items-center rounded-md border border-blue-200 bg-blue-50 px-2 py-0.5 text-xs text-blue-700"
-                     >
-                        <Folder className="mr-1 h-3 w-3" />
-                        {getCollectionName(collectionId)}
-                     </span>
-                  ))}
-                  {entry.collections.length > 3 && (
-                     <span className="inline-flex items-center rounded-md border border-slate-200 bg-slate-100 px-2 py-0.5 text-xs text-slate-600">
-                        +{entry.collections.length - 3} mehr
-                     </span>
-                  )}
-               </div>
-            )}
+            {badges()}
 
             <p className="line-clamp-3 text-sm leading-relaxed text-slate-700">
                {template.description}
@@ -99,42 +144,7 @@ export const LibraryEntryCard: FC<Props> = ({ entry }) => {
 
             <div className="flex gap-2 pt-2">
                <CreatePromptButton descriptor={template} className="flex-1" />
-               <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                     <Button
-                        variant="outline"
-                        size="sm"
-                        className="cursor-pointer"
-                        data-testid="dropdown-menu-btn"
-                     >
-                        <MoreVertical className="h-4 w-4" />
-                     </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                     <DropdownMenuItem asChild>
-                        <Link
-                           href={`/library/${entry.id}`}
-                           className="cursor-pointer"
-                           data-testid="view-details-link"
-                        >
-                           <Eye className="mr-2 h-4 w-4" />
-                           Details anzeigen
-                        </Link>
-                     </DropdownMenuItem>
-                     <DropdownMenuItem
-                        onClick={() => setShowAddToCollectionDialog(true)}
-                        className="cursor-pointer"
-                     >
-                        <FolderPlus className="mr-2 h-4 w-4" />
-                        Zu Sammlung hinzufügen
-                     </DropdownMenuItem>
-                     <DropdownMenuSeparator />
-                     <DownloadTemplateButton
-                        descriptor={template}
-                        asMenuItem={true}
-                     />
-                  </DropdownMenuContent>
-               </DropdownMenu>
+               {dropdownMenu()}
             </div>
          </CardContent>
 
