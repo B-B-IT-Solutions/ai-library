@@ -1,7 +1,7 @@
 "use client";
 
-import { Search } from "lucide-react";
 import { FC, useState } from "react";
+import { Search } from "lucide-react";
 import { useDebouncedCallback } from "use-debounce";
 
 import { Input } from "@/components/shadcn/input";
@@ -23,7 +23,7 @@ export const SearchFilter: FC = () => {
 
    return (
       <div className="relative w-full">
-         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+         <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
          <Input
             placeholder="Vorlagen durchsuchen..."
             value={localValue}

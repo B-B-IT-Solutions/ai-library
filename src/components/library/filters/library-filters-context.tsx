@@ -6,16 +6,13 @@ import {
    DLibraryEntriesFilter,
    LibraryGroupBy,
    LibrarySortBy,
-   LibraryViewMode,
 } from "@/data/types/domain/library";
 
 export type LibraryFiltersContextType = {
    filters: DLibraryEntriesFilter;
    setFilters: (filters: Partial<DLibraryEntriesFilter>) => void;
    resetFilters: () => void;
-   hasActiveFilters: boolean;
-   viewMode: LibraryViewMode;
-   setViewMode: (mode: LibraryViewMode) => void;
+   hasActiveFilters?: boolean;
    groupBy: LibraryGroupBy;
    setGroupBy: (groupBy: LibraryGroupBy) => void;
    sortBy: LibrarySortBy;

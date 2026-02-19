@@ -14,15 +14,12 @@ import { DListViewMode } from "@/data/types/domain/common";
 import { LibraryGroupBy, LibrarySortBy } from "@/data/types/domain/library";
 import { useLibraryFilters } from "../filters/library-filters-context";
 
-type LibraryToolbarProps = {
-   totalEntries: number;
+type Props = {
    viewMode: DListViewMode;
+   totalEntries: number;
 };
 
-export const LibraryToolbar: FC<LibraryToolbarProps> = ({
-   totalEntries,
-   viewMode,
-}) => {
+export const LibraryToolbar: FC<Props> = ({ viewMode, totalEntries }) => {
    const { groupBy, setGroupBy, sortBy, setSortBy } = useLibraryFilters();
 
    return (

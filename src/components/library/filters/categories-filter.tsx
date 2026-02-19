@@ -2,10 +2,10 @@
 
 import { FC } from "react";
 
-import { useLoadLibraryCategories } from "@/data/ts-queries/library";
 import { Badge } from "@/components/shadcn/badge";
 import { Checkbox } from "@/components/shadcn/checkbox";
 import { Label } from "@/components/shadcn/label";
+import { useLoadLibraryCategories } from "@/data/ts-queries/library";
 
 import { useLibraryFilters } from "./library-filters-context";
 
@@ -31,7 +31,9 @@ export const CategoriesFilter: FC = () => {
 
    if (categories.length === 0) {
       return (
-         <div className="text-sm text-slate-500">Keine Kategorien verfügbar</div>
+         <div className="text-sm text-slate-500">
+            Keine Kategorien verfügbar
+         </div>
       );
    }
 
@@ -45,7 +47,7 @@ export const CategoriesFilter: FC = () => {
                </Badge>
             )}
          </div>
-         <div className="space-y-2 max-h-[200px] overflow-y-auto">
+         <div className="max-h-[200px] space-y-2 overflow-y-auto">
             {categories.map((category) => {
                const isSelected = selectedCategories.includes(category);
                return (
@@ -57,7 +59,7 @@ export const CategoriesFilter: FC = () => {
                      />
                      <Label
                         htmlFor={`category-${category}`}
-                        className="text-sm font-normal cursor-pointer"
+                        className="cursor-pointer text-sm font-normal"
                      >
                         {category}
                      </Label>

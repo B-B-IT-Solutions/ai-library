@@ -2,10 +2,10 @@
 
 import { FC } from "react";
 
-import { useLoadLibraryModels } from "@/data/ts-queries/library";
 import { Badge } from "@/components/shadcn/badge";
 import { Checkbox } from "@/components/shadcn/checkbox";
 import { Label } from "@/components/shadcn/label";
+import { useLoadLibraryModels } from "@/data/ts-queries/library";
 
 import { useLibraryFilters } from "./library-filters-context";
 
@@ -45,7 +45,7 @@ export const ModelsFilter: FC = () => {
                </Badge>
             )}
          </div>
-         <div className="space-y-2 max-h-[200px] overflow-y-auto">
+         <div className="max-h-[200px] space-y-2 overflow-y-auto">
             {models.map((model) => {
                const isSelected = selectedModels.includes(model);
                return (
@@ -57,7 +57,7 @@ export const ModelsFilter: FC = () => {
                      />
                      <Label
                         htmlFor={`model-${model}`}
-                        className="text-sm font-normal cursor-pointer"
+                        className="cursor-pointer text-sm font-normal"
                      >
                         {model}
                      </Label>
