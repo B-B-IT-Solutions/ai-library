@@ -1,3 +1,5 @@
+"use client";
+
 import { FC, useState } from "react";
 import { map } from "es-toolkit/compat";
 import { Eye, Folder, FolderPlus, MoreVertical, Star } from "lucide-react";
@@ -36,7 +38,10 @@ export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
 
    const handleToggleFavorite = () => {
       toggleFavorite(
-         { entryId: entry.id, isFavorite: !entry.isFavorite },
+         {
+            entryId: entry.id,
+            isFavorite: !entry.isFavorite,
+         },
          {
             onSuccess: (result) => {
                if (result.success) {

@@ -1,9 +1,9 @@
 import { Metadata } from "next";
 
-import { LibraryDashboard } from "@/components/library/library-dashboard";
+import { LibraryDashboard } from "@/components/library";
 
 export const metadata: Metadata = {
-   title: "Meine Bibliothek",
+   title: "Meine Vorlagen",
 };
 
 export const LibraryPage = () => {

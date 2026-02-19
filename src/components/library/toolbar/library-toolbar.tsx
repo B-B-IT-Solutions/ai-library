@@ -2,7 +2,6 @@
 
 import { FC } from "react";
 
-import { LibraryGroupBy, LibrarySortBy } from "@/data/types/domain/library";
 import {
    Select,
    SelectContent,
@@ -10,8 +9,9 @@ import {
    SelectTrigger,
    SelectValue,
 } from "@/components/shadcn/select";
-
+import { LibraryGroupBy, LibrarySortBy } from "@/data/types/domain/library";
 import { useLibraryFilters } from "../filters/library-filters-context";
+
 import { ViewModeToggle } from "./view-mode-toggle";
 
 type LibraryToolbarProps = {
@@ -23,7 +23,7 @@ export const LibraryToolbar: FC<LibraryToolbarProps> = ({ totalEntries }) => {
       useLibraryFilters();
 
    return (
-      <div className="border-b px-6 py-3 flex items-center justify-between bg-white">
+      <div className="flex items-center justify-between border-b bg-white px-6 py-3">
          <div className="flex items-center gap-4">
             {/* View Mode Toggle */}
             <ViewModeToggle value={viewMode} onChange={setViewMode} />
@@ -33,7 +33,7 @@ export const LibraryToolbar: FC<LibraryToolbarProps> = ({ totalEntries }) => {
                value={groupBy}
                onValueChange={(value) => setGroupBy(value as LibraryGroupBy)}
             >
-               <SelectTrigger className="w-[180px] h-8">
+               <SelectTrigger className="h-8 w-[180px]">
                   <SelectValue placeholder="Gruppierung" />
                </SelectTrigger>
                <SelectContent>
@@ -49,7 +49,7 @@ export const LibraryToolbar: FC<LibraryToolbarProps> = ({ totalEntries }) => {
                value={sortBy}
                onValueChange={(value) => setSortBy(value as LibrarySortBy)}
             >
-               <SelectTrigger className="w-[180px] h-8">
+               <SelectTrigger className="h-8 w-[180px]">
                   <SelectValue placeholder="Sortierung" />
                </SelectTrigger>
                <SelectContent>

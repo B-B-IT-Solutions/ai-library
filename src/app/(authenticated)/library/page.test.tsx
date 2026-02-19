@@ -13,7 +13,7 @@ const getLibraryEntriesMock = getLibraryEntries as jest.MockedFunction<
 >;
 
 const expectedMetadata: Metadata = {
-   title: "Meine Bibliothek",
+   title: "Meine Vorlagen",
 };
 
 const assertRendered = () => {

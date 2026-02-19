@@ -1,7 +1,6 @@
 "use client";
 
 import { FC, useMemo, useState } from "react";
-import { flatMap } from "es-toolkit/compat";
 import { ChevronDown, ChevronUp, Filter, Plus } from "lucide-react";
 import Link from "next/link";
 
