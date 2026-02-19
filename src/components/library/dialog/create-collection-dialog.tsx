@@ -1,13 +1,12 @@
 "use client";
 
+import { FC, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "lucide-react";
-import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { useCreateCollection } from "@/data/ts-queries/library";
 import { Button } from "@/components/shadcn/button";
 import {
    Dialog,
@@ -28,6 +27,7 @@ import {
 } from "@/components/shadcn/form";
 import { Input } from "@/components/shadcn/input";
 import { Textarea } from "@/components/shadcn/textarea";
+import { useCreateCollection } from "@/data/ts-queries/library";
 
 const collectionSchema = z.object({
    name: z.string().min(1, "Name ist erforderlich").max(250),
@@ -83,7 +83,7 @@ export const CreateCollectionDialog: FC<CreateCollectionDialogProps> = ({
          {!controlledOpen && (
             <DialogTrigger asChild>
                <Button variant="outline" size="sm" className="w-full">
-                  <Plus className="h-4 w-4 mr-2" />
+                  <Plus className="mr-2 h-4 w-4" />
                   Neue Sammlung
                </Button>
             </DialogTrigger>
@@ -97,7 +97,10 @@ export const CreateCollectionDialog: FC<CreateCollectionDialogProps> = ({
                </DialogDescription>
             </DialogHeader>
             <Form {...form}>
-               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+               <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-4"
+               >
                   <FormField
                      control={form.control}
                      name="name"

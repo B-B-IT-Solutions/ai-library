@@ -1,9 +1,9 @@
 "use client";
 
-import { Clock, Folder, Heart, Library, Plus } from "lucide-react";
 import { FC, useState } from "react";
+import { Clock, Folder, Heart, Library, Plus } from "lucide-react";
 
-import { useLoadLibraryCollections } from "@/data/ts-queries/library";
+import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
 import {
    DropdownMenu,
@@ -12,11 +12,10 @@ import {
    DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import { Badge } from "@/components/shadcn/badge";
+import { useLoadLibraryCollections } from "@/data/ts-queries/library";
 import { cn } from "@/lib/utils";
-
+import { CreateCollectionDialog } from "../dialog/create-collection-dialog";
 import { useLibraryFilters } from "../filters/library-filters-context";
-import { CreateCollectionDialog } from "../sidebar/create-collection-dialog";
 
 export const LibraryQuickNav: FC = () => {
    const { data: collections = [] } = useLoadLibraryCollections();
@@ -36,7 +35,8 @@ export const LibraryQuickNav: FC = () => {
          : [...activeCollectionIds, collectionId];
 
       setFilters({
-         collectionIds: newCollectionIds.length > 0 ? newCollectionIds : undefined,
+         collectionIds:
+            newCollectionIds.length > 0 ? newCollectionIds : undefined,
       });
    };
 
@@ -45,7 +45,7 @@ export const LibraryQuickNav: FC = () => {
 
    return (
       <>
-         <div className="flex items-center gap-2 flex-wrap">
+         <div className="flex flex-wrap items-center gap-2">
             {/* Quick Links */}
             <Button
                variant={isAllActive ? "default" : "outline"}
@@ -81,14 +81,16 @@ export const LibraryQuickNav: FC = () => {
             <DropdownMenu>
                <DropdownMenuTrigger asChild>
                   <Button
-                     variant={activeCollectionIds.length > 0 ? "default" : "outline"}
+                     variant={
+                        activeCollectionIds.length > 0 ? "default" : "outline"
+                     }
                      size="sm"
                      className="gap-2"
                   >
                      <Folder className="h-4 w-4" />
                      Sammlungen
                      {activeCollectionIds.length > 0 && (
-                        <Badge variant="secondary" className="h-5 px-1.5 ml-1">
+                        <Badge variant="secondary" className="ml-1 h-5 px-1.5">
                            {activeCollectionIds.length}
                         </Badge>
                      )}
@@ -101,7 +103,9 @@ export const LibraryQuickNav: FC = () => {
                      </div>
                   ) : (
                      collections.map((collection) => {
-                        const isActive = activeCollectionIds.includes(collection.id);
+                        const isActive = activeCollectionIds.includes(
+                           collection.id
+                        );
                         return (
                            <DropdownMenuItem
                               key={collection.id}
@@ -111,18 +115,22 @@ export const LibraryQuickNav: FC = () => {
                                  isActive && "bg-slate-100"
                               )}
                            >
-                              <div className="flex items-center justify-between w-full">
-                                 <div className="flex items-center gap-2 min-w-0">
+                              <div className="flex w-full items-center justify-between">
+                                 <div className="flex min-w-0 items-center gap-2">
                                     <Folder
                                        className="h-4 w-4 flex-shrink-0"
-                                       style={{ color: collection.color || "#64748b" }}
+                                       style={{
+                                          color: collection.color || "#64748b",
+                                       }}
                                     />
-                                    <span className="truncate">{collection.name}</span>
+                                    <span className="truncate">
+                                       {collection.name}
+                                    </span>
                                  </div>
                                  {collection.entryCount > 0 && (
                                     <Badge
                                        variant="secondary"
-                                       className="h-5 px-2 text-xs ml-2 flex-shrink-0"
+                                       className="ml-2 h-5 flex-shrink-0 px-2 text-xs"
                                     >
                                        {collection.entryCount}
                                     </Badge>
@@ -137,7 +145,7 @@ export const LibraryQuickNav: FC = () => {
                      onClick={() => setShowCreateDialog(true)}
                      className="cursor-pointer text-blue-600"
                   >
-                     <Plus className="h-4 w-4 mr-2" />
+                     <Plus className="mr-2 h-4 w-4" />
                      Neue Sammlung
                   </DropdownMenuItem>
                </DropdownMenuContent>

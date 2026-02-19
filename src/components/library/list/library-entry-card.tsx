@@ -16,10 +16,10 @@ import {
 } from "@/components/shadcn/dropdown-menu";
 import { useLoadLibraryCollections } from "@/data/ts-queries/library";
 import { DLibraryEntry } from "@/data/types/domain/library";
-import { AddToCollectionDialog } from "../actions/add-to-collection-dialog";
 import { AddToFavoriteButton } from "../buttons/add-to-favorite-button";
 import { CreatePromptButton } from "../buttons/create-prompt-button";
 import { DownloadTemplateButton } from "../buttons/download-template-button";
+import { AddToCollectionDialog } from "../dialog/add-to-collection-dialog";
 
 type LibraryEntryCardProps = {
    entry: DLibraryEntry;

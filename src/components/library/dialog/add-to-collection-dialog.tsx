@@ -20,7 +20,8 @@ import {
    useLoadLibraryCollections,
    useRemoveFromCollection,
 } from "@/data/ts-queries/library";
-import { CreateCollectionDialog } from "../sidebar/create-collection-dialog";
+
+import { CreateCollectionDialog } from "./create-collection-dialog";
 
 type AddToCollectionDialogProps = {
    entryId: string;
