@@ -8,7 +8,7 @@ import {
    DLibraryEntry,
    LibraryGroupBy,
 } from "@/data/types/domain/library";
-import { LibraryEntryCard } from "../list/library-entry-card";
+import { LibraryEntryCard } from "../list-item/library-entry-card";
 
 type GroupedEntries = {
    key: string;

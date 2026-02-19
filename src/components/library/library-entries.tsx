@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { map } from "es-toolkit/compat";
 
-import { LibraryEntryCard } from "@/components/library/list/library-entry-card";
+import { LibraryEntryCard } from "@/components/library/list-item/library-entry-card";
 import { DLibraryEntry } from "@/data/types/domain/library";
 
 type LibraryProps = {

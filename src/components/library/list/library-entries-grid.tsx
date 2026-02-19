@@ -2,14 +2,14 @@ import { FC } from "react";
 import { isEmpty, map } from "es-toolkit/compat";
 
 import { DLibraryCollection, DLibraryEntry } from "@/data/types/domain/library";
-import { LibraryEntryCard } from "../list/library-entry-card";
+import { LibraryEntryCard } from "../list-item/library-entry-card";
 
-type LibraryEntriesListProps = {
+type LibraryEntriesGridProps = {
    entries: DLibraryEntry[];
    collections: DLibraryCollection[];
 };
 
-export const LibraryEntriesList: FC<LibraryEntriesListProps> = ({
+export const LibraryEntriesGrid: FC<LibraryEntriesGridProps> = ({
    entries,
    collections,
 }) => {
@@ -30,7 +30,10 @@ export const LibraryEntriesList: FC<LibraryEntriesListProps> = ({
    }
 
    return (
-      <div className="space-y-4" data-testid="library-entries-list">
+      <div
+         className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+         data-testid="library-entries-grid"
+      >
          {map(entries, (entry) => (
             <LibraryEntryCard
                key={entry.id}
