@@ -1,24 +1,23 @@
-"use client";
-
-import { map } from "es-toolkit/compat";
 import { FC } from "react";
+import { map } from "es-toolkit/compat";
 
 import { DLibraryEntry } from "@/data/types/domain/library";
-
 import { LibraryEntryCard } from "../list/library-entry-card";
 
 type LibraryEntriesListProps = {
    entries: DLibraryEntry[];
 };
 
-export const LibraryEntriesList: FC<LibraryEntriesListProps> = ({ entries }) => {
+export const LibraryEntriesList: FC<LibraryEntriesListProps> = ({
+   entries,
+}) => {
    if (entries.length === 0) {
       return (
          <div className="flex flex-col items-center justify-center py-16 text-center">
             <p className="text-lg font-medium text-slate-600">
                Keine Vorlagen gefunden
             </p>
-            <p className="text-sm text-slate-500 mt-2">
+            <p className="mt-2 text-sm text-slate-500">
                Versuchen Sie, Ihre Filterkriterien anzupassen
             </p>
          </div>
