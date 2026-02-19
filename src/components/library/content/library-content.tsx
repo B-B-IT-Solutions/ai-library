@@ -49,6 +49,7 @@ export const LibraryContent: FC = () => {
             <LibraryEntriesGrouped
                entries={entries}
                groupBy={context.groupBy}
+               collections={collections}
             />
          </div>
       );
