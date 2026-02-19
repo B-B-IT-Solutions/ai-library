@@ -176,10 +176,9 @@ export const AddToCollectionDialog: FC<Props> = ({
             </DialogContent>
          </Dialog>
 
-         {/* Create Collection Dialog */}
          <CreateCollectionDialog
-            controlledOpen={showCreateDialog}
-            onOpenChange={setShowCreateDialog}
+            open={showCreateDialog}
+            setOpen={setShowCreateDialog}
          />
       </>
    );

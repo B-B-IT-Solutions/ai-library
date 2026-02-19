@@ -1,8 +1,8 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader, Plus } from "lucide-react";
+import { Loader } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -14,7 +14,6 @@ import {
    DialogFooter,
    DialogHeader,
    DialogTitle,
-   DialogTrigger,
 } from "@/components/shadcn/dialog";
 import { Form } from "@/components/shadcn/form";
 import { FormInput, FormTextArea } from "@/components/shared/widgets";
@@ -24,19 +23,12 @@ import { updateLibraryCollectionSchema } from "@/data/types/validators/library";
 import { initLibraryCollection } from "../utils/initValues";
 
 type Props = {
-   controlledOpen?: boolean;
-   onOpenChange?: (open: boolean) => void;
+   open: boolean;
+   setOpen: (open: boolean) => void;
 };
 
-export const CreateCollectionDialog: FC<Props> = ({
-   controlledOpen,
-   onOpenChange,
-}) => {
-   const [internalOpen, setInternalOpen] = useState(false);
+export const CreateCollectionDialog: FC<Props> = ({ open, setOpen }) => {
    const { mutate: createCollection, isPending } = useCreateCollection();
-
-   const open = controlledOpen ?? internalOpen;
-   const setOpen = onOpenChange ?? setInternalOpen;
 
    const form = useForm<DLibraryCollectionUpdate>({
       resolver: zodResolver(updateLibraryCollectionSchema),
@@ -75,14 +67,6 @@ export const CreateCollectionDialog: FC<Props> = ({
 
    return (
       <Dialog open={open} onOpenChange={setOpen}>
-         {!controlledOpen && (
-            <DialogTrigger asChild>
-               <Button variant="outline" size="sm" className="w-full">
-                  <Plus className="mr-2 h-4 w-4" />
-                  Neue Sammlung
-               </Button>
-            </DialogTrigger>
-         )}
          <DialogContent>
             <DialogHeader>
                <DialogTitle>Neue Sammlung erstellen</DialogTitle>

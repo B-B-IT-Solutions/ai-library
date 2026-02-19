@@ -151,13 +151,10 @@ export const LibraryQuickNav: FC = () => {
             </DropdownMenu>
          </div>
 
-         {/* Create Collection Dialog */}
-         {showCreateDialog && (
-            <CreateCollectionDialog
-               controlledOpen={showCreateDialog}
-               onOpenChange={setShowCreateDialog}
-            />
-         )}
+         <CreateCollectionDialog
+            open={showCreateDialog}
+            setOpen={setShowCreateDialog}
+         />
       </>
    );
 };
