@@ -21,11 +21,11 @@ import { CreatePromptButton } from "../buttons/create-prompt-button";
 import { DownloadTemplateButton } from "../buttons/download-template-button";
 import { AddToCollectionDialog } from "../dialog/add-to-collection-dialog";
 
-type LibraryEntryCardProps = {
+type Props = {
    entry: DLibraryEntry;
 };
 
-export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
+export const LibraryEntryCard: FC<Props> = ({ entry }) => {
    const { templateDescriptor: template } = entry;
    const { data: collections = [] } = useLoadLibraryCollections();
    const [showAddToCollectionDialog, setShowAddToCollectionDialog] =
