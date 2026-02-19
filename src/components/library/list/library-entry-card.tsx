@@ -138,7 +138,6 @@ export const LibraryEntryCard: FC<LibraryEntryCardProps> = ({ entry }) => {
             </div>
          </CardContent>
 
-         {/* Add to Collection Dialog */}
          <AddToCollectionDialog
             entryId={entry.id}
             currentCollections={entry.collections}
