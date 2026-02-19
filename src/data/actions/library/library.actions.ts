@@ -10,9 +10,9 @@ import { DbClient } from "@/data/types/db/common";
 import {
    CreateCollectionInput,
    DLibraryCollection,
-   DLibraryEntry,
    DLibraryEntriesPage,
    DLibraryEntriesPageQuery,
+   DLibraryEntry,
    DLibraryEntryWithPromptTemplate,
    UpdateCollectionInput,
 } from "@/data/types/domain/library";
@@ -202,7 +202,9 @@ export const toggleLibraryEntryFavorite = async (
 
 // ==================== Collections CRUD ====================
 
-export const getLibraryCollections = async (): Promise<DLibraryCollection[]> => {
+export const getLibraryCollections = async (): Promise<
+   DLibraryCollection[]
+> => {
    try {
       const user = await requireUser();
       const service = getLibrarySevice();

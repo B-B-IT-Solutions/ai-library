@@ -52,7 +52,8 @@ type LoadLibraryEntriesParams = {
 export const preloadLibraryEntriesOptions = (
    props?: LoadLibraryEntriesParams
 ): FetchQueryOptions<DLibraryEntriesPage, Error, DLibraryEntriesPage> => {
-   const { search, categories, models, isFavorite, collectionIds } = props || {};
+   const { search, categories, models, isFavorite, collectionIds } =
+      props || {};
    return {
       queryKey: libraryKeys.entries(props),
       queryFn: async () => {
