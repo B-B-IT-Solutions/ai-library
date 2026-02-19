@@ -68,6 +68,69 @@ export const CreateCollectionDialog: FC<Props> = ({
       });
    };
 
+   const renderForm = () => {
+      return (
+         <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+               <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                     <FormItem>
+                        <FormLabel>Name *</FormLabel>
+                        <FormControl>
+                           <Input placeholder="Meine Sammlung" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                     </FormItem>
+                  )}
+               />
+               <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                     <FormItem>
+                        <FormLabel>Beschreibung</FormLabel>
+                        <FormControl>
+                           <Textarea
+                              placeholder="Beschreiben Sie diese Sammlung..."
+                              {...field}
+                           />
+                        </FormControl>
+                        <FormMessage />
+                     </FormItem>
+                  )}
+               />
+               <FormField
+                  control={form.control}
+                  name="color"
+                  render={({ field }) => (
+                     <FormItem>
+                        <FormLabel>Farbe</FormLabel>
+                        <FormControl>
+                           <Input type="color" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                     </FormItem>
+                  )}
+               />
+               <DialogFooter>
+                  <Button
+                     type="button"
+                     variant="outline"
+                     onClick={() => setOpen(false)}
+                  >
+                     Abbrechen
+                  </Button>
+                  <Button type="submit" disabled={isPending}>
+                     {isPending ? "Erstelle..." : "Erstellen"}
+                  </Button>
+               </DialogFooter>
+            </form>
+         </Form>
+      );
+   };
+
    return (
       <Dialog open={open} onOpenChange={setOpen}>
          {!controlledOpen && (
@@ -86,67 +149,7 @@ export const CreateCollectionDialog: FC<Props> = ({
                   organisieren.
                </DialogDescription>
             </DialogHeader>
-            <Form {...form}>
-               <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-4"
-               >
-                  <FormField
-                     control={form.control}
-                     name="name"
-                     render={({ field }) => (
-                        <FormItem>
-                           <FormLabel>Name *</FormLabel>
-                           <FormControl>
-                              <Input placeholder="Meine Sammlung" {...field} />
-                           </FormControl>
-                           <FormMessage />
-                        </FormItem>
-                     )}
-                  />
-                  <FormField
-                     control={form.control}
-                     name="description"
-                     render={({ field }) => (
-                        <FormItem>
-                           <FormLabel>Beschreibung</FormLabel>
-                           <FormControl>
-                              <Textarea
-                                 placeholder="Beschreiben Sie diese Sammlung..."
-                                 {...field}
-                              />
-                           </FormControl>
-                           <FormMessage />
-                        </FormItem>
-                     )}
-                  />
-                  <FormField
-                     control={form.control}
-                     name="color"
-                     render={({ field }) => (
-                        <FormItem>
-                           <FormLabel>Farbe</FormLabel>
-                           <FormControl>
-                              <Input type="color" {...field} />
-                           </FormControl>
-                           <FormMessage />
-                        </FormItem>
-                     )}
-                  />
-                  <DialogFooter>
-                     <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => setOpen(false)}
-                     >
-                        Abbrechen
-                     </Button>
-                     <Button type="submit" disabled={isPending}>
-                        {isPending ? "Erstelle..." : "Erstellen"}
-                     </Button>
-                  </DialogFooter>
-               </form>
-            </Form>
+            {renderForm()}
          </DialogContent>
       </Dialog>
    );
