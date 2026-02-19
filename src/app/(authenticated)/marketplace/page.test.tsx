@@ -10,7 +10,7 @@ import { getProducts } from "@/data/actions/product";
 
 import MarketplacePage, {
    MarketplacePageProps,
-   MarketPlaceSearchParams,
+   PageSearchParams,
    metadata,
 } from "./page";
 
@@ -56,7 +56,7 @@ describe("MarketplacePage rendering tests", () => {
       getProductsMock.mockResolvedValue(products);
       getCartMock.mockResolvedValue(cart);
 
-      const searchParams: MarketPlaceSearchParams = { view: "list" };
+      const searchParams: PageSearchParams = { view: "list" };
 
       const props: MarketplacePageProps = {
          searchParams: Promise.resolve(searchParams),

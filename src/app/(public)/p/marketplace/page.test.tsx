@@ -18,8 +18,8 @@ import { getProducts } from "@/data/actions/product";
 
 import MarketplacePage, {
    MarketplacePageProps,
-   MarketPlaceSearchParams,
    metadata,
+   PageSearchParams,
 } from "./page";
 
 const getCartMock = getCart as jest.MockedFunction<typeof getCart>;
@@ -74,7 +74,7 @@ describe("MarketplacePage rendering tests", () => {
       getProductsMock.mockResolvedValue(products);
       getCartMock.mockResolvedValue(cart);
 
-      const searchParams: MarketPlaceSearchParams = { view: "list" };
+      const searchParams: PageSearchParams = { view: "list" };
 
       const props: MarketplacePageProps = {
          searchParams: Promise.resolve(searchParams),
@@ -94,7 +94,7 @@ describe("MarketplacePage rendering tests", () => {
       session.user.id = undefined;
       authMock.mockResolvedValue(session);
 
-      const searchParams: MarketPlaceSearchParams = { view: "grid" };
+      const searchParams: PageSearchParams = { view: "grid" };
 
       const props: MarketplacePageProps = {
          searchParams: Promise.resolve(searchParams),

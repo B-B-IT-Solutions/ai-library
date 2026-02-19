@@ -1,7 +1,8 @@
 import { map } from "es-toolkit/compat";
 
 import { DCart } from "@/data/types/domain/cart";
-import { DProduct, DProductViewMode } from "@/data/types/domain/product";
+import { DListViewMode } from "@/data/types/domain/common";
+import { DProduct } from "@/data/types/domain/product";
 
 import { ProductCard } from "./list/product-card";
 import { ProductListItem } from "./list/product-list-item";
@@ -10,7 +11,7 @@ import { ViewToggle } from "./view-toggle";
 type ProductsProps = {
    products: DProduct[];
    cart: DCart;
-   viewMode?: DProductViewMode;
+   viewMode?: DListViewMode;
 };
 
 export const Products = ({
@@ -23,7 +24,7 @@ export const Products = ({
    const gridView = () => {
       return (
          <div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
             data-testid="products-grid"
          >
             {map(products, (product) => (
@@ -60,7 +61,7 @@ export const Products = ({
 
    return (
       <div data-testid="products">
-         <div className="flex justify-between items-center mb-6">
+         <div className="mb-6 flex items-center justify-between">
             <h2 className="text-2xl font-bold text-slate-900">
                {products.length}{" "}
                {products.length === 1 ? "Produkt" : "Produkte"}

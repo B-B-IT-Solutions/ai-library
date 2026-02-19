@@ -67,7 +67,7 @@ export type LibraryGroupBy =
    | "model"
    | "date"
    | "collection";
-export type LibraryViewMode = "grid" | "list";
+
 export type LibrarySortBy = "date-desc" | "date-asc" | "name-asc" | "name-desc";
 
 // Collection Input Types

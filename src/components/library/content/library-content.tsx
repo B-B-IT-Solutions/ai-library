@@ -8,13 +8,18 @@ import {
    useInfiniteLoadLibraryEntries,
    useLoadLibraryCollections,
 } from "@/data/ts-queries/library";
+import { DListViewMode } from "@/data/types/domain/common";
 import { useLibraryFilters } from "../filters/library-filters-context";
 
 import { LibraryEntriesGrid } from "./library-entries-grid";
 import { LibraryEntriesGrouped } from "./library-entries-grouped";
 import { LibraryEntriesList } from "./library-entries-list";
 
-export const LibraryContent: FC = () => {
+type Props = {
+   viewMode?: DListViewMode;
+};
+
+export const LibraryContent: FC<Props> = ({ viewMode }) => {
    const context = useLibraryFilters();
    const { data: collections = [] } = useLoadLibraryCollections();
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
@@ -54,7 +59,7 @@ export const LibraryContent: FC = () => {
       );
    }
 
-   if (context.viewMode === "list") {
+   if (viewMode === "list") {
       return (
          <InfiniteScroll
             hasMore={hasNextPage ?? false}

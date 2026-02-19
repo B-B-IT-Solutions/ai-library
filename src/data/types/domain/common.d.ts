@@ -10,3 +10,5 @@ export interface TanstackFilterQueryKey<T> {
    filter?: T;
    sort?: Sort;
 }
+
+export type DListViewMode = "grid" | "list";

@@ -5,11 +5,11 @@ import { ChevronDown, ChevronUp, Filter } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
 import { useInfiniteLoadLibraryEntries } from "@/data/ts-queries/library";
+import { DListViewMode } from "@/data/types/domain/common";
 import {
    DLibraryEntriesFilter,
    LibraryGroupBy,
    LibrarySortBy,
-   LibraryViewMode,
 } from "@/data/types/domain/library";
 
 import { CreateLibraryEntryButton } from "./buttons/create-library-entry-button";
@@ -30,11 +30,14 @@ const initFilters: DLibraryEntriesFilter = {
    collectionIds: undefined,
 };
 
-export const LibraryDashboard: FC = () => {
+type Props = {
+   viewMode?: DListViewMode;
+};
+
+export const LibraryDashboard: FC<Props> = ({ viewMode }) => {
    const [filters, setFiltersState] =
       useState<DLibraryEntriesFilter>(initFilters);
    const [showFilters, setShowFilters] = useState(false);
-   const [viewMode, setViewMode] = useState<LibraryViewMode>("grid");
    const [groupBy, setGroupBy] = useState<LibraryGroupBy>("none");
    const [sortBy, setSortBy] = useState<LibrarySortBy>("date-desc");
 
@@ -76,8 +79,6 @@ export const LibraryDashboard: FC = () => {
       setFilters,
       resetFilters,
       hasActiveFilters,
-      viewMode,
-      setViewMode,
       groupBy,
       setGroupBy,
       sortBy,
@@ -133,7 +134,7 @@ export const LibraryDashboard: FC = () => {
 
             {/* Content */}
             <div className="flex-1 overflow-y-auto">
-               <LibraryContent />
+               <LibraryContent viewMode={viewMode} />
             </div>
          </div>
       </LibraryFiltersContext.Provider>
