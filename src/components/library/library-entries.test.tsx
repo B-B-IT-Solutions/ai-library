@@ -1,6 +1,5 @@
 import { screen, waitFor } from "@testing-library/dom";
-import { render } from "@testing-library/react";
-import { assertInDocument, dtestData } from "@tests";
+import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
 
 import { LibraryEntries } from "./library-entries";
 
@@ -18,7 +17,9 @@ describe("LibraryEntries rendering tests", () => {
    it("LibraryEntries - viewMode grid - rendered test", async () => {
       const entries = dtestData.dLibraryEntries();
 
-      const { container } = render(<LibraryEntries entries={entries} />);
+      const { container } = renderWithReactQuery(
+         <LibraryEntries entries={entries} />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -31,7 +32,9 @@ describe("LibraryEntries rendering tests", () => {
    it("LibraryEntries - viewMode list - rendered test", async () => {
       const entries = dtestData.dLibraryEntries();
 
-      const { container } = render(<LibraryEntries entries={entries} />);
+      const { container } = renderWithReactQuery(
+         <LibraryEntries entries={entries} />
+      );
 
       await waitFor(() => {
          assertRendered();

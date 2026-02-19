@@ -1,12 +1,12 @@
 import { map } from "es-toolkit/compat";
 
+import { ViewToggle } from "@/components/shared/buttons";
 import { DCart } from "@/data/types/domain/cart";
 import { DListViewMode } from "@/data/types/domain/common";
 import { DProduct } from "@/data/types/domain/product";
 
 import { ProductCard } from "./list/product-card";
 import { ProductListItem } from "./list/product-list-item";
-import { ViewToggle } from "./view-toggle";
 
 type ProductsProps = {
    products: DProduct[];

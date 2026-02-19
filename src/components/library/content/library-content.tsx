@@ -16,7 +16,7 @@ import { LibraryEntriesGrouped } from "./library-entries-grouped";
 import { LibraryEntriesList } from "./library-entries-list";
 
 type Props = {
-   viewMode?: DListViewMode;
+   viewMode: DListViewMode;
 };
 
 export const LibraryContent: FC<Props> = ({ viewMode }) => {

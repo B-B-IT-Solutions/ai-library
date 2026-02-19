@@ -34,7 +34,7 @@ type Props = {
    viewMode?: DListViewMode;
 };
 
-export const LibraryDashboard: FC<Props> = ({ viewMode }) => {
+export const LibraryDashboard: FC<Props> = ({ viewMode = "grid" }) => {
    const [filters, setFiltersState] =
       useState<DLibraryEntriesFilter>(initFilters);
    const [showFilters, setShowFilters] = useState(false);
@@ -130,7 +130,7 @@ export const LibraryDashboard: FC<Props> = ({ viewMode }) => {
             )}
 
             {/* Toolbar */}
-            <LibraryToolbar totalEntries={totalEntries} />
+            <LibraryToolbar totalEntries={totalEntries} viewMode={viewMode} />
 
             {/* Content */}
             <div className="flex-1 overflow-y-auto">
