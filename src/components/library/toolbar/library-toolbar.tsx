@@ -30,7 +30,6 @@ export const LibraryToolbar: FC<LibraryToolbarProps> = ({
          <div className="flex items-center gap-4">
             <ListViewToggle currentView={viewMode} />
 
-            {/* Group By */}
             <Select
                value={groupBy}
                onValueChange={(value) => setGroupBy(value as LibraryGroupBy)}
@@ -46,7 +45,6 @@ export const LibraryToolbar: FC<LibraryToolbarProps> = ({
                </SelectContent>
             </Select>
 
-            {/* Sort By */}
             <Select
                value={sortBy}
                onValueChange={(value) => setSortBy(value as LibrarySortBy)}
@@ -63,7 +61,6 @@ export const LibraryToolbar: FC<LibraryToolbarProps> = ({
             </Select>
          </div>
 
-         {/* Entry Count */}
          <span className="text-sm text-slate-600">
             {totalEntries} {totalEntries === 1 ? "Vorlage" : "Vorlagen"}
          </span>
