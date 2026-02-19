@@ -2,7 +2,7 @@
 
 import { FC, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus } from "lucide-react";
+import { Loader, Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -16,16 +16,8 @@ import {
    DialogTitle,
    DialogTrigger,
 } from "@/components/shadcn/dialog";
-import {
-   Form,
-   FormControl,
-   FormField,
-   FormItem,
-   FormLabel,
-   FormMessage,
-} from "@/components/shadcn/form";
-import { Input } from "@/components/shadcn/input";
-import { Textarea } from "@/components/shadcn/textarea";
+import { Form } from "@/components/shadcn/form";
+import { FormInput, FormTextArea } from "@/components/shared/widgets";
 import { useCreateCollection } from "@/data/ts-queries/library";
 import { DLibraryCollectionUpdate } from "@/data/types/domain/library";
 import { updateLibraryCollectionSchema } from "@/data/types/validators/library";
@@ -68,67 +60,17 @@ export const CreateCollectionDialog: FC<Props> = ({
       });
    };
 
-   const renderForm = () => {
-      return (
-         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-               <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                     <FormItem>
-                        <FormLabel>Name *</FormLabel>
-                        <FormControl>
-                           <Input placeholder="Meine Sammlung" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                     </FormItem>
-                  )}
-               />
-               <FormField
-                  control={form.control}
-                  name="description"
-                  render={({ field }) => (
-                     <FormItem>
-                        <FormLabel>Beschreibung</FormLabel>
-                        <FormControl>
-                           <Textarea
-                              placeholder="Beschreiben Sie diese Sammlung..."
-                              {...field}
-                           />
-                        </FormControl>
-                        <FormMessage />
-                     </FormItem>
-                  )}
-               />
-               <FormField
-                  control={form.control}
-                  name="color"
-                  render={({ field }) => (
-                     <FormItem>
-                        <FormLabel>Farbe</FormLabel>
-                        <FormControl>
-                           <Input type="color" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                     </FormItem>
-                  )}
-               />
-               <DialogFooter>
-                  <Button
-                     type="button"
-                     variant="outline"
-                     onClick={() => setOpen(false)}
-                  >
-                     Abbrechen
-                  </Button>
-                  <Button type="submit" disabled={isPending}>
-                     {isPending ? "Erstelle..." : "Erstellen"}
-                  </Button>
-               </DialogFooter>
-            </form>
-         </Form>
-      );
+   const submitBtnLabel = () => {
+      if (isPending) {
+         return (
+            <>
+               <Loader className="mr-1.5 h-4 w-4 animate-spin" />
+               <span>Erstelle...</span>
+            </>
+         );
+      }
+
+      return "Erstellen";
    };
 
    return (
@@ -149,7 +91,44 @@ export const CreateCollectionDialog: FC<Props> = ({
                   organisieren.
                </DialogDescription>
             </DialogHeader>
-            {renderForm()}
+            <Form {...form}>
+               <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-4"
+               >
+                  <FormInput<DLibraryCollectionUpdate>
+                     name="name"
+                     label="Name"
+                     required={true}
+                     placeholder="Meine Sammlung"
+                     control={form.control}
+                  />
+                  <FormTextArea<DLibraryCollectionUpdate>
+                     name="description"
+                     label="Beschreibung"
+                     placeholder="Beschreiben Sie diese Sammlung..."
+                     control={form.control}
+                  />
+                  <FormInput<DLibraryCollectionUpdate>
+                     name="color"
+                     label="Farbe"
+                     type="color"
+                     control={form.control}
+                  />
+                  <DialogFooter>
+                     <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => setOpen(false)}
+                     >
+                        Abbrechen
+                     </Button>
+                     <Button type="submit" disabled={isPending}>
+                        {submitBtnLabel()}
+                     </Button>
+                  </DialogFooter>
+               </form>
+            </Form>
          </DialogContent>
       </Dialog>
    );
