@@ -3,6 +3,7 @@ import { range } from "es-toolkit";
 import { Sort } from "@/data/types/common";
 import { DCart, DCartItem } from "@/data/types/domain/cart";
 import {
+   DLibraryCollection,
    DLibraryEntry,
    DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
@@ -211,6 +212,24 @@ export const dLibraryEntryWithPromptTemplate = (
    return {
       ...entry,
       templateDescriptor,
+   };
+};
+
+export const dLibraryCollections = (count = 3): DLibraryCollection[] => {
+   return range(0, count).map((i) => dLibraryCollection(i));
+};
+
+export const dLibraryCollection = (index = 1): DLibraryCollection => {
+   return {
+      id: `457bf695-6f74-44aa-9b3a-e179ea9e817${index}`,
+      userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
+      name: `name ${index}`,
+      description: `description ${index}`,
+      color: `description ${index}`,
+      order: index,
+      entryCount: index + 5,
+      updatedAt: new Date("2025-09-27").toISOString(),
+      createdAt: new Date("2025-09-27").toISOString(),
    };
 };
 

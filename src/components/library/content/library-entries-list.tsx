@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { map } from "es-toolkit/compat";
+import { isEmpty, map } from "es-toolkit/compat";
 
 import { DLibraryEntry } from "@/data/types/domain/library";
 import { LibraryEntryCard } from "../list/library-entry-card";
@@ -11,9 +11,12 @@ type LibraryEntriesListProps = {
 export const LibraryEntriesList: FC<LibraryEntriesListProps> = ({
    entries,
 }) => {
-   if (entries.length === 0) {
+   if (isEmpty(entries)) {
       return (
-         <div className="flex flex-col items-center justify-center py-16 text-center">
+         <div
+            className="flex flex-col items-center justify-center py-16 text-center"
+            data-testid="library-entries-empty"
+         >
             <p className="text-lg font-medium text-slate-600">
                Keine Vorlagen gefunden
             </p>
@@ -25,7 +28,7 @@ export const LibraryEntriesList: FC<LibraryEntriesListProps> = ({
    }
 
    return (
-      <div className="space-y-4">
+      <div className="space-y-4" data-testid="library-entries-list">
          {map(entries, (entry) => (
             <LibraryEntryCard key={entry.id} entry={entry} />
          ))}

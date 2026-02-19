@@ -13,7 +13,10 @@ export const LibraryEntriesGrid: FC<LibraryEntriesGridProps> = ({
 }) => {
    if (isEmpty(entries)) {
       return (
-         <div className="flex flex-col items-center justify-center py-16 text-center">
+         <div
+            className="flex flex-col items-center justify-center py-16 text-center"
+            data-testid="library-entries-empty"
+         >
             <p className="text-lg font-medium text-slate-600">
                Keine Vorlagen gefunden
             </p>
@@ -25,7 +28,10 @@ export const LibraryEntriesGrid: FC<LibraryEntriesGridProps> = ({
    }
 
    return (
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div
+         className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+         data-testid="library-entries-grid"
+      >
          {map(entries, (entry) => (
             <LibraryEntryCard key={entry.id} entry={entry} />
          ))}

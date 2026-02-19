@@ -1,10 +1,9 @@
 "use client";
 
-import { groupBy as lodashGroupBy, map } from "es-toolkit/compat";
 import { FC, useMemo } from "react";
+import { groupBy as lodashGroupBy, map } from "es-toolkit/compat";
 
 import { DLibraryEntry, LibraryGroupBy } from "@/data/types/domain/library";
-
 import { LibraryEntryCard } from "../list/library-entry-card";
 
 type GroupedEntries = {
@@ -42,7 +41,7 @@ export const LibraryEntriesGrouped: FC<LibraryEntriesGroupedProps> = ({
             <p className="text-lg font-medium text-slate-600">
                Keine Vorlagen gefunden
             </p>
-            <p className="text-sm text-slate-500 mt-2">
+            <p className="mt-2 text-sm text-slate-500">
                Versuchen Sie, Ihre Filterkriterien anzupassen
             </p>
          </div>
@@ -53,10 +52,10 @@ export const LibraryEntriesGrouped: FC<LibraryEntriesGroupedProps> = ({
       <div className="space-y-8">
          {map(grouped, (group) => (
             <div key={group.key}>
-               <h3 className="text-lg font-semibold mb-4 text-slate-800">
+               <h3 className="mb-4 text-lg font-semibold text-slate-800">
                   {group.label} ({group.count})
                </h3>
-               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                   {map(group.entries, (entry) => (
                      <LibraryEntryCard key={entry.id} entry={entry} />
                   ))}

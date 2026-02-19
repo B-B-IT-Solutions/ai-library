@@ -25,7 +25,7 @@ import {
    removeEntryFromCollection,
    toggleLibraryEntryFavorite,
    updateLibraryCollection,
-} from "@/data/actions/library/library.actions";
+} from "@/data/actions/library";
 import {
    CreateCollectionInput,
    DLibraryCollection,
