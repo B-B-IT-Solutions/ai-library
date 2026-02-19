@@ -118,21 +118,17 @@ export const LibraryDashboard: FC<Props> = ({ viewMode = "grid" }) => {
                   </div>
                </div>
 
-               {/* Quick Navigation */}
                <LibraryQuickNav />
             </div>
 
-            {/* Filters (collapsible) */}
             {showFilters && (
                <div className="animate-in border-b bg-white px-6 py-4 duration-200 slide-in-from-top">
                   <LibraryFilters />
                </div>
             )}
 
-            {/* Toolbar */}
             <LibraryToolbar totalEntries={totalEntries} viewMode={viewMode} />
 
-            {/* Content */}
             <div className="flex-1 overflow-y-auto">
                <LibraryContent viewMode={viewMode} />
             </div>
