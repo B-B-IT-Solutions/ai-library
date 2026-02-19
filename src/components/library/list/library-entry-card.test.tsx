@@ -14,16 +14,24 @@ const assertRendered = () => {
    const entryCard = screen.getByTestId("library-entry-card");
    const viewDetailsTitle = screen.getByTestId("view-details-link-title");
    const categories = screen.getByTestId("categories");
-   const badges = screen.getByTestId("badges");
    const createPromptBtn = screen.getByTestId("create-prompt-btn");
    const dropdownMenuBtn = screen.getByTestId("dropdown-menu-btn");
 
    assertInDocument(entryCard);
    assertInDocument(viewDetailsTitle);
    assertInDocument(categories);
-   assertInDocument(badges);
    assertInDocument(createPromptBtn);
    assertInDocument(dropdownMenuBtn);
+};
+
+const assertBadgesRendered = () => {
+   const badges = screen.getByTestId("badges");
+   assertInDocument(badges);
+};
+
+const assertBadgesNotRendered = () => {
+   const badges = screen.queryByTestId("badges");
+   assertNotInDocument(badges);
 };
 
 const assertDropdownMenuItemsRendered = () => {
@@ -61,9 +69,10 @@ const assertAddToCollectionDialogNotRendered = () => {
 };
 
 describe("LibraryEntryCard rendering tests", () => {
-   it("LibraryEntryCard - viewMode grid - rendered test", async () => {
-      const entry = dtestData.dLibraryEntry();
+   it("LibraryEntryCard - viewMode grid - collection empty - rendered test", async () => {
       const collections = dtestData.dLibraryCollections();
+      const entry = dtestData.dLibraryEntry();
+      entry.collections = [];
 
       const { container } = renderWithReactQuery(
          <LibraryEntryCard entry={entry} collections={collections} />
@@ -71,6 +80,24 @@ describe("LibraryEntryCard rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertBadgesNotRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("LibraryEntryCard - viewMode grid - rendered test", async () => {
+      const collections = dtestData.dLibraryCollections();
+      const entry = dtestData.dLibraryEntry();
+      entry.collections.unshift("unkown-collection-id-1");
+
+      const { container } = renderWithReactQuery(
+         <LibraryEntryCard entry={entry} collections={collections} />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertBadgesRendered();
       });
 
       expect(container).toMatchSnapshot();
