@@ -36,7 +36,7 @@ exports[`LibraryEntryCard rendering tests LibraryEntryCard - viewMode grid - ren
     >
       <a
         class="group/title"
-        data-testid="mock-link"
+        data-testid="view-details-link-title"
         href="/library/457bf695-6f74-44aa-9b3a-e179ea9e8171"
       >
         <h4

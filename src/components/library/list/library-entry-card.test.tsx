@@ -12,12 +12,14 @@ import { LibraryEntryCard } from "./library-entry-card";
 
 const assertRendered = () => {
    const entryCard = screen.getByTestId("library-entry-card");
+   const viewDetailsTitle = screen.getByTestId("view-details-link-title");
    const categories = screen.getByTestId("categories");
    const badges = screen.getByTestId("badges");
    const createPromptBtn = screen.getByTestId("create-prompt-btn");
    const dropdownMenuBtn = screen.getByTestId("dropdown-menu-btn");
 
    assertInDocument(entryCard);
+   assertInDocument(viewDetailsTitle);
    assertInDocument(categories);
    assertInDocument(badges);
    assertInDocument(createPromptBtn);
@@ -26,17 +28,25 @@ const assertRendered = () => {
 
 const assertDropdownMenuItemsRendered = () => {
    const viewDetailsLink = screen.getByTestId("view-details-link");
+   const addToCollectionDialog = screen.getByTestId(
+      "show-add-to-collection-dialog"
+   );
    const downloadMenuItem = screen.getByTestId("download-template-menu-item");
 
    assertInDocument(viewDetailsLink);
+   assertInDocument(addToCollectionDialog);
    assertInDocument(downloadMenuItem);
 };
 
 const assertDropdownMenuItemsNotRendered = () => {
    const viewDetailsLink = screen.queryByTestId("view-details-link");
+   const addToCollectionDialog = screen.queryByTestId(
+      "show-add-to-collection-dialog"
+   );
    const downloadMenuItem = screen.queryByTestId("download-template-menu-item");
 
    assertNotInDocument(viewDetailsLink);
+   assertNotInDocument(addToCollectionDialog);
    assertNotInDocument(downloadMenuItem);
 };
 

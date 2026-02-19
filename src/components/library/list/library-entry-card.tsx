@@ -100,6 +100,7 @@ export const LibraryEntryCard: FC<Props> = ({ entry, collections }) => {
                <DropdownMenuItem
                   onClick={() => setShowAddToCollectionDialog(true)}
                   className="cursor-pointer"
+                  data-testid="show-add-to-collection-dialog"
                >
                   <FolderPlus className="mr-2 h-4 w-4" />
                   Zu Sammlung hinzufügen
@@ -121,7 +122,11 @@ export const LibraryEntryCard: FC<Props> = ({ entry, collections }) => {
       >
          <AddToFavoriteButton entry={entry} />
          <CardHeader className="gap-3 border-b border-slate-200 p-5 pb-3">
-            <Link href={`/library/${entry.id}`} className="group/title">
+            <Link
+               href={`/library/${entry.id}`}
+               className="group/title"
+               data-testid="view-details-link-title"
+            >
                <h4 className="cursor-pointer text-lg leading-tight font-semibold text-slate-900 transition-colors hover:text-blue-700">
                   {template.title}
                </h4>
