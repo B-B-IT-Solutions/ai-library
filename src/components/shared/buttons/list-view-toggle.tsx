@@ -2,10 +2,10 @@
 
 import { FC } from "react";
 import { Grid3x3, List } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/shadcn/button";
 import { DListViewMode } from "@/data/types/domain/common";
+import { useSetUrlSearchParams } from "@/hooks";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -13,14 +13,10 @@ type Props = {
 };
 
 export const ListViewToggle: FC<Props> = ({ currentView }) => {
-   const searchParams = useSearchParams();
-   const pathname = usePathname();
-   const { replace } = useRouter();
+   const { setUrlSearchParams } = useSetUrlSearchParams();
 
    const updateViewMode = (viewMode: DListViewMode) => {
-      const params = new URLSearchParams(searchParams);
-      params.set("view", viewMode);
-      replace(`${pathname}?${params.toString()}`);
+      setUrlSearchParams("view", viewMode);
    };
 
    return (
