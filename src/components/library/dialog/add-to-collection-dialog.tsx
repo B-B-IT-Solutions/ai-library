@@ -21,20 +21,18 @@ import {
    useLoadLibraryCollections,
    useRemoveFromCollection,
 } from "@/data/ts-queries/library";
-import { DLibraryCollection } from "@/data/types/domain/library";
+import { DLibraryCollection, DLibraryEntry } from "@/data/types/domain/library";
 
 import { CreateCollectionDialog } from "./create-collection-dialog";
 
 type Props = {
-   entryId: string;
-   currentCollections: string[];
+   entry: DLibraryEntry;
    open: boolean;
    onOpenChange: (open: boolean) => void;
 };
 
 export const AddToCollectionDialog: FC<Props> = ({
-   entryId,
-   currentCollections,
+   entry,
    open,
    onOpenChange,
 }) => {
@@ -43,8 +41,9 @@ export const AddToCollectionDialog: FC<Props> = ({
    const { mutate: removeFromCollection } = useRemoveFromCollection();
    const [showCreateDialog, setShowCreateDialog] = useState(false);
 
-   const [selectedCollections, setSelectedCollections] =
-      useState<string[]>(currentCollections);
+   const [selectedCollections, setSelectedCollections] = useState<string[]>(
+      entry.collections
+   );
 
    const handleToggle = (collectionId: string) => {
       const isCurrentlyInCollection =
@@ -53,7 +52,7 @@ export const AddToCollectionDialog: FC<Props> = ({
       if (isCurrentlyInCollection) {
          // Remove from collection
          removeFromCollection(
-            { collectionId, entryId },
+            { collectionId, entryId: entry.id },
             {
                onSuccess: (result) => {
                   if (result.success) {
@@ -73,7 +72,7 @@ export const AddToCollectionDialog: FC<Props> = ({
       } else {
          // Add to collection
          addToCollection(
-            { collectionId, entryId },
+            { collectionId, entryId: entry.id },
             {
                onSuccess: (result) => {
                   if (result.success) {
