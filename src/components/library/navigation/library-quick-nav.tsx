@@ -46,7 +46,6 @@ export const LibraryQuickNav: FC = () => {
    return (
       <>
          <div className="flex flex-wrap items-center gap-2">
-            {/* Quick Links */}
             <Button
                variant={isAllActive ? "default" : "outline"}
                size="sm"
@@ -155,7 +154,7 @@ export const LibraryQuickNav: FC = () => {
          {/* Create Collection Dialog */}
          {showCreateDialog && (
             <CreateCollectionDialog
-               open={showCreateDialog}
+               controlledOpen={showCreateDialog}
                onOpenChange={setShowCreateDialog}
             />
          )}
