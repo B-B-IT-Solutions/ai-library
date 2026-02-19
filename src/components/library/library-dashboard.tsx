@@ -13,6 +13,7 @@ import {
    LibraryViewMode,
 } from "@/data/types/domain/library";
 
+import { CreateLibraryEntryButton } from "./buttons/create-library-entry-button";
 import { LibraryContent } from "./content/library-content";
 import { LibraryFilters } from "./filters/library-filters";
 import {
@@ -113,12 +114,7 @@ export const LibraryDashboard: FC = () => {
                            <ChevronDown className="h-4 w-4" />
                         )}
                      </Button>
-                     <Button asChild size="sm" className="gap-2">
-                        <Link href="/library/new">
-                           <Plus className="h-4 w-4" />
-                           Neue Vorlage
-                        </Link>
-                     </Button>
+                     <CreateLibraryEntryButton />
                   </div>
                </div>
 

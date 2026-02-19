@@ -11,11 +11,11 @@ type LibraryProps = {
 export const LibraryEntries: FC<LibraryProps> = ({ entries }) => {
    return (
       <div
-         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+         className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
          data-testid="library-entries"
       >
          {map(entries, (entry) => (
-            <LibraryEntryCard key={entry.id} entry={entry} />
+            <LibraryEntryCard key={entry.id} entry={entry} collections={[]} />
          ))}
       </div>
    );
