@@ -150,6 +150,7 @@ export const LibraryEntryCard: FC<Props> = ({ entry }) => {
 
          <AddToCollectionDialog
             entry={entry}
+            collections={collections}
             open={showAddToCollectionDialog}
             onOpenChange={setShowAddToCollectionDialog}
          />

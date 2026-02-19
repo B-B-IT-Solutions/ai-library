@@ -18,7 +18,6 @@ import {
 import { Label } from "@/components/shadcn/label";
 import {
    useAddToCollection,
-   useLoadLibraryCollections,
    useRemoveFromCollection,
 } from "@/data/ts-queries/library";
 import { DLibraryCollection, DLibraryEntry } from "@/data/types/domain/library";
@@ -27,16 +26,17 @@ import { CreateCollectionDialog } from "./create-collection-dialog";
 
 type Props = {
    entry: DLibraryEntry;
+   collections: DLibraryCollection[];
    open: boolean;
    onOpenChange: (open: boolean) => void;
 };
 
 export const AddToCollectionDialog: FC<Props> = ({
    entry,
+   collections,
    open,
    onOpenChange,
 }) => {
-   const { data: collections = [] } = useLoadLibraryCollections();
    const { mutate: addToCollection } = useAddToCollection();
    const { mutate: removeFromCollection } = useRemoveFromCollection();
    const [showCreateDialog, setShowCreateDialog] = useState(false);
