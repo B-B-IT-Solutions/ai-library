@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument, renderWithRouter } from "@tests";
 import mockRouter from "next-router-mock";
 
-import { ViewToggle } from "./view-toggle";
+import { ListViewToggle } from "./list-view-toggle";
 
 const assertRendered = () => {
    const viewToggle = screen.getByTestId("view-toggle");
@@ -15,9 +15,9 @@ const assertRendered = () => {
    assertInDocument(listBtn);
 };
 
-describe("ViewToggle rendering tests", () => {
-   it("ViewToggle - view grid - test", async () => {
-      const { container } = render(<ViewToggle currentView="grid" />);
+describe("ListViewToggle rendering tests", () => {
+   it("ListViewToggle - view grid - test", async () => {
+      const { container } = render(<ListViewToggle currentView="grid" />);
 
       await waitFor(() => {
          assertRendered();
@@ -26,8 +26,8 @@ describe("ViewToggle rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("ViewToggle - view list - test", async () => {
-      const { container } = render(<ViewToggle currentView="list" />);
+   it("ListViewToggle - view list - test", async () => {
+      const { container } = render(<ListViewToggle currentView="list" />);
 
       await waitFor(() => {
          assertRendered();
@@ -37,14 +37,14 @@ describe("ViewToggle rendering tests", () => {
    });
 });
 
-describe("ViewToggle functinality tests", () => {
+describe("ListViewToggle functinality tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
    });
 
-   it("ViewToggle - list toggle clicked - test", async () => {
+   it("ListViewToggle - list toggle clicked - test", async () => {
       const url = "/marketplace";
-      renderWithRouter(<ViewToggle currentView="grid" />, url);
+      renderWithRouter(<ListViewToggle currentView="grid" />, url);
 
       await waitFor(() => {
          assertRendered();
@@ -60,9 +60,9 @@ describe("ViewToggle functinality tests", () => {
       });
    });
 
-   it("ViewToggle - grid toggle clicked - test", async () => {
+   it("ListViewToggle - grid toggle clicked - test", async () => {
       const url = "/marketplace?view=list";
-      renderWithRouter(<ViewToggle currentView="list" />, url);
+      renderWithRouter(<ListViewToggle currentView="list" />, url);
 
       await waitFor(() => {
          assertRendered();

@@ -1,6 +1,6 @@
 import { map } from "es-toolkit/compat";
 
-import { ViewToggle } from "@/components/shared/buttons";
+import { ListViewToggle } from "@/components/shared/buttons";
 import { DCart } from "@/data/types/domain/cart";
 import { DListViewMode } from "@/data/types/domain/common";
 import { DProduct } from "@/data/types/domain/product";
@@ -66,7 +66,7 @@ export const Products = ({
                {products.length}{" "}
                {products.length === 1 ? "Produkt" : "Produkte"}
             </h2>
-            <ViewToggle currentView={viewMode} />
+            <ListViewToggle currentView={viewMode} />
          </div>
          {view()}
       </div>

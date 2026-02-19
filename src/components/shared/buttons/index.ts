@@ -1,2 +1,2 @@
 export { CopyButton } from "./copy-button";
-export { ViewToggle } from "./view-toggle";
+export { ListViewToggle } from "./list-view-toggle";

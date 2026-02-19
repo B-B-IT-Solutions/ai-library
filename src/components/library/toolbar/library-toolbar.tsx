@@ -9,7 +9,7 @@ import {
    SelectTrigger,
    SelectValue,
 } from "@/components/shadcn/select";
-import { ViewToggle } from "@/components/shared/buttons";
+import { ListViewToggle } from "@/components/shared/buttons";
 import { DListViewMode } from "@/data/types/domain/common";
 import { LibraryGroupBy, LibrarySortBy } from "@/data/types/domain/library";
 import { useLibraryFilters } from "../filters/library-filters-context";
@@ -28,7 +28,7 @@ export const LibraryToolbar: FC<LibraryToolbarProps> = ({
    return (
       <div className="flex items-center justify-between border-b bg-white px-6 py-3">
          <div className="flex items-center gap-4">
-            <ViewToggle currentView={viewMode} />
+            <ListViewToggle currentView={viewMode} />
 
             {/* Group By */}
             <Select

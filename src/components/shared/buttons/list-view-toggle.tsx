@@ -8,11 +8,11 @@ import { Button } from "@/components/shadcn/button";
 import { DListViewMode } from "@/data/types/domain/common";
 import { cn } from "@/lib/utils";
 
-type ViewToggleProps = {
+type Props = {
    currentView: DListViewMode;
 };
 
-export const ViewToggle: FC<ViewToggleProps> = ({ currentView }) => {
+export const ListViewToggle: FC<Props> = ({ currentView }) => {
    const searchParams = useSearchParams();
    const pathname = usePathname();
    const { replace } = useRouter();
