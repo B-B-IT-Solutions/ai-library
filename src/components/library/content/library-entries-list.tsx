@@ -1,15 +1,17 @@
 import { FC } from "react";
 import { isEmpty, map } from "es-toolkit/compat";
 
-import { DLibraryEntry } from "@/data/types/domain/library";
+import { DLibraryCollection, DLibraryEntry } from "@/data/types/domain/library";
 import { LibraryEntryCard } from "../list/library-entry-card";
 
 type LibraryEntriesListProps = {
    entries: DLibraryEntry[];
+   collections: DLibraryCollection[];
 };
 
 export const LibraryEntriesList: FC<LibraryEntriesListProps> = ({
    entries,
+   collections,
 }) => {
    if (isEmpty(entries)) {
       return (
@@ -30,7 +32,11 @@ export const LibraryEntriesList: FC<LibraryEntriesListProps> = ({
    return (
       <div className="space-y-4" data-testid="library-entries-list">
          {map(entries, (entry) => (
-            <LibraryEntryCard key={entry.id} entry={entry} />
+            <LibraryEntryCard
+               key={entry.id}
+               entry={entry}
+               collections={collections}
+            />
          ))}
       </div>
    );

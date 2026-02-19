@@ -239,11 +239,15 @@ export const dLibraryEntries = (count = 3): DLibraryEntry[] => {
 
 export const dLibraryEntry = (index = 1): DLibraryEntry => {
    const templateDescriptor = dPromptTemplateDescriptor(index);
+   const collection = dLibraryCollection(index);
    return {
       id: `457bf695-6f74-44aa-9b3a-e179ea9e817${index}`,
       userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
       templateDescriptorId: `52e59bcf-7651-45f8-91bf-63b8a4e06d8${index}`,
       templateDescriptor,
+      collections: [collection.id],
+      isFavorite: index % 2 == 0,
+      updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
    };
 };

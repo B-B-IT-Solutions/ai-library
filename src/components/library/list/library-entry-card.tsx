@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useState } from "react";
-import { isEmpty, map } from "es-toolkit/compat";
+import { find, isEmpty, map } from "es-toolkit/compat";
 import { Eye, Folder, FolderPlus, MoreVertical } from "lucide-react";
 import Link from "next/link";
 
@@ -14,8 +14,7 @@ import {
    DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import { useLoadLibraryCollections } from "@/data/ts-queries/library";
-import { DLibraryEntry } from "@/data/types/domain/library";
+import { DLibraryCollection, DLibraryEntry } from "@/data/types/domain/library";
 import { AddToFavoriteButton } from "../buttons/add-to-favorite-button";
 import { CreatePromptButton } from "../buttons/create-prompt-button";
 import { DownloadTemplateButton } from "../buttons/download-template-button";
@@ -23,16 +22,16 @@ import { AddToCollectionDialog } from "../dialog/add-to-collection-dialog";
 
 type Props = {
    entry: DLibraryEntry;
+   collections: DLibraryCollection[];
 };
 
-export const LibraryEntryCard: FC<Props> = ({ entry }) => {
+export const LibraryEntryCard: FC<Props> = ({ entry, collections }) => {
    const { templateDescriptor: template } = entry;
-   const { data: collections = [] } = useLoadLibraryCollections();
    const [showAddToCollectionDialog, setShowAddToCollectionDialog] =
       useState(false);
 
    const getCollectionName = (collectionId: string) => {
-      const collection = collections.find((c) => c.id === collectionId);
+      const collection = find(collections, (c) => c.id === collectionId);
       return collection?.name || "Unbekannt";
    };
 

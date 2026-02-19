@@ -1,15 +1,17 @@
 import { FC } from "react";
 import { isEmpty, map } from "es-toolkit/compat";
 
-import { DLibraryEntry } from "@/data/types/domain/library";
+import { DLibraryCollection, DLibraryEntry } from "@/data/types/domain/library";
 import { LibraryEntryCard } from "../list/library-entry-card";
 
 type LibraryEntriesGridProps = {
    entries: DLibraryEntry[];
+   collections: DLibraryCollection[];
 };
 
 export const LibraryEntriesGrid: FC<LibraryEntriesGridProps> = ({
    entries,
+   collections,
 }) => {
    if (isEmpty(entries)) {
       return (
@@ -33,7 +35,11 @@ export const LibraryEntriesGrid: FC<LibraryEntriesGridProps> = ({
          data-testid="library-entries-grid"
       >
          {map(entries, (entry) => (
-            <LibraryEntryCard key={entry.id} entry={entry} />
+            <LibraryEntryCard
+               key={entry.id}
+               entry={entry}
+               collections={collections}
+            />
          ))}
       </div>
    );

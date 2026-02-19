@@ -1,15 +1,7 @@
-jest.mock("@/data/actions/library");
-
 import { screen, waitFor } from "@testing-library/react";
 import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
 
-import { getLibraryCollections } from "@/data/actions/library";
-
 import { LibraryEntriesList } from "./library-entries-list";
-
-const getLibraryCollectionsMock = getLibraryCollections as jest.MockedFunction<
-   typeof getLibraryCollections
->;
 
 const assertEmptyRendered = () => {
    const empty = screen.getByTestId("library-entries-empty");
@@ -23,8 +15,10 @@ const assertRendered = () => {
 
 describe("LibraryEntriesList rendering tests", () => {
    it("LibraryEntriesList - empty - test", async () => {
+      const collections = dtestData.dLibraryCollections();
+
       const { container } = renderWithReactQuery(
-         <LibraryEntriesList entries={[]} />
+         <LibraryEntriesList entries={[]} collections={collections} />
       );
 
       await waitFor(() => {
@@ -33,13 +27,13 @@ describe("LibraryEntriesList rendering tests", () => {
 
       expect(container).toMatchSnapshot();
    });
+
    it("LibraryEntriesList - with entries - test", async () => {
       const collections = dtestData.dLibraryCollections();
-      getLibraryCollectionsMock.mockResolvedValue(collections);
-
       const entries = dtestData.dLibraryEntries();
+
       const { container } = renderWithReactQuery(
-         <LibraryEntriesList entries={entries} />
+         <LibraryEntriesList entries={entries} collections={collections} />
       );
 
       await waitFor(() => {

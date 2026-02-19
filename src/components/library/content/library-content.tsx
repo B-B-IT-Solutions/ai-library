@@ -4,7 +4,10 @@ import { FC, useMemo } from "react";
 import { flatMap } from "es-toolkit/compat";
 
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
-import { useInfiniteLoadLibraryEntries } from "@/data/ts-queries/library";
+import {
+   useInfiniteLoadLibraryEntries,
+   useLoadLibraryCollections,
+} from "@/data/ts-queries/library";
 import { useLibraryFilters } from "../filters/library-filters-context";
 
 import { LibraryEntriesGrid } from "./library-entries-grid";
@@ -13,6 +16,7 @@ import { LibraryEntriesList } from "./library-entries-list";
 
 export const LibraryContent: FC = () => {
    const context = useLibraryFilters();
+   const { data: collections = [] } = useLoadLibraryCollections();
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
       useInfiniteLoadLibraryEntries({
          search: context.filters.search,
@@ -60,7 +64,10 @@ export const LibraryContent: FC = () => {
             threshold={0.7}
          >
             <div className="p-6">
-               <LibraryEntriesList entries={entries} />
+               <LibraryEntriesList
+                  entries={entries}
+                  collections={collections}
+               />
             </div>
          </InfiniteScroll>
       );
@@ -75,7 +82,7 @@ export const LibraryContent: FC = () => {
          threshold={0.7}
       >
          <div className="p-6">
-            <LibraryEntriesGrid entries={entries} />
+            <LibraryEntriesGrid entries={entries} collections={collections} />
          </div>
       </InfiniteScroll>
    );
