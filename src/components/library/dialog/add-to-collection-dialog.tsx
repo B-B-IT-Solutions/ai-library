@@ -154,7 +154,10 @@ export const AddToCollectionDialog: FC<Props> = ({
    return (
       <>
          <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-md">
+            <DialogContent
+               className="max-w-md"
+               data-testid="add-to-collection-dialog"
+            >
                <DialogHeader>
                   <DialogTitle>Zu Sammlung hinzufügen</DialogTitle>
                   <DialogDescription>
