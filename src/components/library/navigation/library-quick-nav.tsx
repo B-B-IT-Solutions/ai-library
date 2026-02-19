@@ -153,7 +153,7 @@ export const LibraryQuickNav: FC = () => {
 
          <CreateCollectionDialog
             open={showCreateDialog}
-            setOpen={setShowCreateDialog}
+            onOpenChange={setShowCreateDialog}
          />
       </>
    );

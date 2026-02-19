@@ -24,10 +24,10 @@ import { initLibraryCollection } from "../utils/initValues";
 
 type Props = {
    open: boolean;
-   setOpen: (open: boolean) => void;
+   onOpenChange: (open: boolean) => void;
 };
 
-export const CreateCollectionDialog: FC<Props> = ({ open, setOpen }) => {
+export const CreateCollectionDialog: FC<Props> = ({ open, onOpenChange }) => {
    const { mutate: createCollection, isPending } = useCreateCollection();
 
    const form = useForm<DLibraryCollectionUpdate>({
@@ -40,7 +40,7 @@ export const CreateCollectionDialog: FC<Props> = ({ open, setOpen }) => {
          onSuccess: (result) => {
             if (result.success) {
                toast.success(result.message);
-               setOpen(false);
+               onOpenChange(false);
                form.reset();
             } else {
                toast.error(result.message);
@@ -66,7 +66,7 @@ export const CreateCollectionDialog: FC<Props> = ({ open, setOpen }) => {
    };
 
    return (
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog open={open} onOpenChange={onOpenChange}>
          <DialogContent>
             <DialogHeader>
                <DialogTitle>Neue Sammlung erstellen</DialogTitle>
@@ -103,7 +103,7 @@ export const CreateCollectionDialog: FC<Props> = ({ open, setOpen }) => {
                      <Button
                         type="button"
                         variant="outline"
-                        onClick={() => setOpen(false)}
+                        onClick={() => onOpenChange(false)}
                      >
                         Abbrechen
                      </Button>
