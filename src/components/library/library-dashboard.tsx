@@ -26,14 +26,14 @@ type Props = {
    viewMode: DListViewMode;
    groupBy: DListGroupByMode;
    sortBy: DListSortByMode;
-   filters?: DLibraryEntriesFilter;
+   filters: DLibraryEntriesFilter;
 };
 
 export const LibraryDashboard: FC<Props> = ({
    viewMode,
    groupBy,
    sortBy,
-   filters = {},
+   filters,
 }) => {
    const [filters_, setFiltersState] = useState<DLibraryEntriesFilter>({});
    const [showFilters, setShowFilters] = useState(false);
@@ -116,7 +116,7 @@ export const LibraryDashboard: FC<Props> = ({
 
             {showFilters && (
                <div className="animate-in border-b bg-white px-6 py-4 duration-200 slide-in-from-top">
-                  <LibraryFilters filters={filters} />
+                  <LibraryFilters />
                </div>
             )}
 
@@ -127,6 +127,7 @@ export const LibraryDashboard: FC<Props> = ({
                   viewMode={viewMode}
                   groupBy={groupBy}
                   sortBy={sortBy}
+                  filters={filters}
                />
             </div>
          </div>

@@ -13,6 +13,7 @@ import {
    DListSortByMode,
    DListViewMode,
 } from "@/data/types/domain/common";
+import { DLibraryEntriesFilter } from "@/data/types/domain/library";
 import { useLibraryFilters } from "../filters/library-filters-context";
 
 import { LibraryEntriesGrid } from "./library-entries-grid";
@@ -23,14 +24,20 @@ type Props = {
    viewMode: DListViewMode;
    groupBy: DListGroupByMode;
    sortBy: DListSortByMode;
+   filters: DLibraryEntriesFilter;
 };
 
-export const LibraryEntries: FC<Props> = ({ viewMode, groupBy, sortBy }) => {
+export const LibraryEntries: FC<Props> = ({
+   viewMode,
+   groupBy,
+   sortBy,
+   filters,
+}) => {
    const context = useLibraryFilters();
    const { data: collections = [] } = useLoadLibraryCollections();
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
       useInfiniteLoadLibraryEntries({
-         search: context.filters.search,
+         search: filters.search,
          categories: context.filters.categories,
          models: context.filters.models,
          isFavorite: context.filters.isFavorite,

@@ -1,40 +1,30 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC } from "react";
 import { Search } from "lucide-react";
-import { useQueryState } from "nuqs";
-import { useDebouncedCallback } from "use-debounce";
+import { debounce, useQueryState } from "nuqs";
 
 import { Input } from "@/components/shadcn/input";
-import { DLibraryEntriesFilter } from "@/data/types/domain/library";
+import { librarySearchParams } from "../search-params";
 
-import { useLibraryFilters } from "./library-filters-context";
-
-type Props = {
-   filters: DLibraryEntriesFilter;
-};
-
-export const SearchFilter: FC<Props> = ({ filters }) => {
-   const [search, setSearch] = useQueryState("search");
-   const context = useLibraryFilters();
-   const [localValue, setLocalValue] = useState(context.filters.search || "");
-
-   const debouncedUpdate = useDebouncedCallback((value: string) => {
-      context.setFilters({ search: value || undefined });
-      setSearch(value);
-   }, 300);
+export const SearchFilter: FC = () => {
+   const [search, setSearch] = useQueryState(
+      "f_search",
+      librarySearchParams["f_search"]
+   );
 
    const handleChange = (value: string) => {
-      setLocalValue(value);
-      debouncedUpdate(value);
+      setSearch(value, {
+         limitUrlUpdates: debounce(400),
+      });
    };
 
    return (
-      <div className="relative w-full">
+      <div className="relative w-full" data-testid="search-filter">
          <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
          <Input
             placeholder="Vorlagen durchsuchen..."
-            value={localValue}
+            value={search}
             onChange={(e) => handleChange(e.target.value)}
             className="pl-9"
          />
