@@ -9,7 +9,7 @@ describe("useSetUrlSearchParams tests", () => {
       mockRouter.push("/");
    });
 
-   it("should set a search param on the current path", async () => {
+   it("setUrlSearchParams - set param - test", async () => {
       mockRouter.push("/test");
       const { result } = renderHook(() => useSetUrlSearchParams());
 
@@ -20,7 +20,7 @@ describe("useSetUrlSearchParams tests", () => {
       expect(mockRouter.replace).toHaveBeenCalledWith("/test?foo=bar");
    });
 
-   it("should update an existing search param", async () => {
+   it("setUrlSearchParams - update existing param - test", async () => {
       mockRouter.push("/test?foo=old");
       const { result } = renderHook(() => useSetUrlSearchParams());
 
@@ -31,7 +31,7 @@ describe("useSetUrlSearchParams tests", () => {
       expect(mockRouter.replace).toHaveBeenCalledWith("/test?foo=new");
    });
 
-   it("should preserve existing search params when adding a new one", async () => {
+   it("setUrlSearchParams - preserve existing - add new param - test", async () => {
       mockRouter.push("/test?existing=value");
       const { result } = renderHook(() => useSetUrlSearchParams());
 
@@ -44,7 +44,7 @@ describe("useSetUrlSearchParams tests", () => {
       );
    });
 
-   it("should work with root path", async () => {
+   it("setUrlSearchParams - working with root path - test", async () => {
       const { result } = renderHook(() => useSetUrlSearchParams());
 
       await waitFor(() => {
