@@ -5,10 +5,9 @@ import { ChevronDown, ChevronUp, Filter } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
 import { useInfiniteLoadLibraryEntries } from "@/data/ts-queries/library";
-import { DListViewMode } from "@/data/types/domain/common";
+import { DListGroupByMode, DListViewMode } from "@/data/types/domain/common";
 import {
    DLibraryEntriesFilter,
-   LibraryGroupBy,
    LibrarySortBy,
 } from "@/data/types/domain/library";
 
@@ -32,13 +31,16 @@ const initFilters: DLibraryEntriesFilter = {
 
 type Props = {
    viewMode?: DListViewMode;
+   groupBy?: DListGroupByMode;
 };
 
-export const LibraryDashboard: FC<Props> = ({ viewMode = "grid" }) => {
+export const LibraryDashboard: FC<Props> = ({
+   viewMode = "grid",
+   groupBy = "none",
+}) => {
    const [filters, setFiltersState] =
       useState<DLibraryEntriesFilter>(initFilters);
    const [showFilters, setShowFilters] = useState(false);
-   const [groupBy, setGroupBy] = useState<LibraryGroupBy>("none");
    const [sortBy, setSortBy] = useState<LibrarySortBy>("date-desc");
 
    const setFilters = (newFilters: Partial<DLibraryEntriesFilter>) => {
@@ -79,8 +81,6 @@ export const LibraryDashboard: FC<Props> = ({ viewMode = "grid" }) => {
       setFilters,
       resetFilters,
       hasActiveFilters,
-      groupBy,
-      setGroupBy,
       sortBy,
       setSortBy,
    };
@@ -127,10 +127,14 @@ export const LibraryDashboard: FC<Props> = ({ viewMode = "grid" }) => {
                </div>
             )}
 
-            <LibraryToolbar totalEntries={totalEntries} viewMode={viewMode} />
+            <LibraryToolbar
+               totalEntries={totalEntries}
+               viewMode={viewMode}
+               groupBy={groupBy}
+            />
 
             <div className="flex-1 overflow-y-auto">
-               <LibraryEntries viewMode={viewMode} />
+               <LibraryEntries viewMode={viewMode} groupBy={groupBy} />
             </div>
          </div>
       </LibraryFiltersContext.Provider>

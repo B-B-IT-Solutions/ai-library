@@ -10,37 +10,30 @@ import {
    SelectValue,
 } from "@/components/shadcn/select";
 import { ListViewToggle } from "@/components/shared/buttons";
-import { DListViewMode } from "@/data/types/domain/common";
-import { LibraryGroupBy, LibrarySortBy } from "@/data/types/domain/library";
+import { DListGroupByMode, DListViewMode } from "@/data/types/domain/common";
+import { LibrarySortBy } from "@/data/types/domain/library";
 import { useLibraryFilters } from "../filters/library-filters-context";
+
+import { GroupBySelect } from "./group-by-select";
 
 type Props = {
    viewMode: DListViewMode;
+   groupBy: DListGroupByMode;
    totalEntries: number;
 };
 
-export const LibraryToolbar: FC<Props> = ({ viewMode, totalEntries }) => {
-   const { groupBy, setGroupBy, sortBy, setSortBy } = useLibraryFilters();
+export const LibraryToolbar: FC<Props> = ({
+   viewMode,
+   groupBy,
+   totalEntries,
+}) => {
+   const { sortBy, setSortBy } = useLibraryFilters();
 
    return (
       <div className="flex items-center justify-between border-b bg-white px-6 py-3">
          <div className="flex items-center gap-4">
             <ListViewToggle currentView={viewMode} />
-
-            <Select
-               value={groupBy}
-               onValueChange={(value) => setGroupBy(value as LibraryGroupBy)}
-            >
-               <SelectTrigger className="h-8 w-[180px]">
-                  <SelectValue placeholder="Gruppierung" />
-               </SelectTrigger>
-               <SelectContent>
-                  <SelectItem value="none">Keine Gruppierung</SelectItem>
-                  <SelectItem value="category">Nach Kategorie</SelectItem>
-                  <SelectItem value="model">Nach Modell</SelectItem>
-                  <SelectItem value="date">Nach Datum</SelectItem>
-               </SelectContent>
-            </Select>
+            <GroupBySelect currentGroupBy={groupBy} />
 
             <Select
                value={sortBy}

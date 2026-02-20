@@ -12,3 +12,10 @@ export interface TanstackFilterQueryKey<T> {
 }
 
 export type DListViewMode = "grid" | "list";
+
+export type DListGroupByMode =
+   | "none"
+   | "category"
+   | "model"
+   | "date"
+   | "collection";

@@ -60,14 +60,6 @@ export type DLibraryEntriesFilter = {
 export type DLibraryEntriesPageQuery = PageQuery<DLibraryEntriesFilter>;
 export type DLibraryEntriesPage = Page<DLibraryEntry>;
 
-// View State Types
-export type LibraryGroupBy =
-   | "none"
-   | "category"
-   | "model"
-   | "date"
-   | "collection";
-
 export type LibrarySortBy = "date-desc" | "date-asc" | "name-asc" | "name-desc";
 
 // Collection Input Types

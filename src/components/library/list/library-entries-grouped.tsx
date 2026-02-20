@@ -3,11 +3,8 @@
 import { FC, useMemo } from "react";
 import { groupBy as lodashGroupBy, map } from "es-toolkit/compat";
 
-import {
-   DLibraryCollection,
-   DLibraryEntry,
-   LibraryGroupBy,
-} from "@/data/types/domain/library";
+import { DListGroupByMode } from "@/data/types/domain/common";
+import { DLibraryCollection, DLibraryEntry } from "@/data/types/domain/library";
 import { LibraryEntryCard } from "../list-item/library-entry-card";
 
 type GroupedEntries = {
@@ -20,7 +17,7 @@ type GroupedEntries = {
 type LibraryEntriesGroupedProps = {
    entries: DLibraryEntry[];
    collections: DLibraryCollection[];
-   groupBy: LibraryGroupBy;
+   groupBy: DListGroupByMode;
 };
 
 export const LibraryEntriesGrouped: FC<LibraryEntriesGroupedProps> = ({
