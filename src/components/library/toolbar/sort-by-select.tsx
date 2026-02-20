@@ -26,22 +26,28 @@ export const SortBySelect: FC<Props> = ({ currentSortBy }) => {
    return (
       <Select
          value={currentSortBy}
-         onValueChange={(value) => updateSortBy(value as DListSortByMode)}
+         onValueChange={(value: DListSortByMode) => updateSortBy(value)}
       >
          <SelectTrigger className="h-8 w-[180px]" data-testid="sort-by-select">
             <SelectValue placeholder="Sortierung" />
          </SelectTrigger>
          <SelectContent>
-            <SelectItem value="date-desc" data-testid="date-desc">
+            <SelectItem
+               value={DListSortByMode.DATE_DESC}
+               data-testid="date-desc"
+            >
                Neueste zuerst
             </SelectItem>
-            <SelectItem value="date-asc" data-testid="date-asc">
+            <SelectItem value={DListSortByMode.DATE_ASC} data-testid="date-asc">
                Älteste zuerst
             </SelectItem>
-            <SelectItem value="name-asc" data-testid="name-asc">
+            <SelectItem value={DListSortByMode.NAME_ASC} data-testid="name-asc">
                Name A-Z
             </SelectItem>
-            <SelectItem value="name-desc" data-testid="name-desc">
+            <SelectItem
+               value={DListSortByMode.NAME_DESC}
+               data-testid="name-desc"
+            >
                Name Z-A
             </SelectItem>
          </SelectContent>

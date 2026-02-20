@@ -1,6 +1,9 @@
 import { Metadata } from "next";
 
-import { LibraryDashboard } from "@/components/library";
+import {
+   LibraryDashboard,
+   loadLibrarySearchParams,
+} from "@/components/library";
 import {
    DListGroupByMode,
    DListSortByMode,

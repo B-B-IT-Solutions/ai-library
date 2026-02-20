@@ -22,27 +22,20 @@ import { LibraryEntries } from "./list/library-entries";
 import { LibraryQuickNav } from "./navigation/library-quick-nav";
 import { LibraryToolbar } from "./toolbar/library-toolbar";
 
-const initFilters: DLibraryEntriesFilter = {
-   search: undefined,
-   categories: undefined,
-   models: undefined,
-   isFavorite: undefined,
-   collectionIds: undefined,
-};
-
 type Props = {
    viewMode?: DListViewMode;
    groupBy?: DListGroupByMode;
    sortBy?: DListSortByMode;
+   filters?: DLibraryEntriesFilter;
 };
 
 export const LibraryDashboard: FC<Props> = ({
-   viewMode = "grid",
-   groupBy = "none",
-   sortBy = "date-desc",
+   viewMode = DListViewMode.GRID,
+   groupBy = DListGroupByMode.NONE,
+   sortBy = DListSortByMode.DATE_DESC,
+   filters = {},
 }) => {
-   const [filters, setFiltersState] =
-      useState<DLibraryEntriesFilter>(initFilters);
+   const [filters_, setFiltersState] = useState<DLibraryEntriesFilter>({});
    const [showFilters, setShowFilters] = useState(false);
 
    const setFilters = (newFilters: Partial<DLibraryEntriesFilter>) => {
@@ -50,26 +43,26 @@ export const LibraryDashboard: FC<Props> = ({
    };
 
    const resetFilters = () => {
-      setFiltersState(initFilters);
+      setFiltersState({});
    };
 
    const hasActiveFilters = useMemo(() => {
       return (
-         !!filters.search ||
-         (filters.categories && filters.categories.length > 0) ||
-         (filters.models && filters.models.length > 0) ||
-         filters.isFavorite !== undefined ||
-         (filters.collectionIds && filters.collectionIds.length > 0)
+         !!filters_.search ||
+         (filters_.categories && filters_.categories.length > 0) ||
+         (filters_.models && filters_.models.length > 0) ||
+         filters_.isFavorite !== undefined ||
+         (filters_.collectionIds && filters_.collectionIds.length > 0)
       );
-   }, [filters]);
+   }, [filters_]);
 
    // Get total entries count
    const { data } = useInfiniteLoadLibraryEntries({
-      search: filters.search,
-      categories: filters.categories,
-      models: filters.models,
-      isFavorite: filters.isFavorite,
-      collectionIds: filters.collectionIds,
+      search: filters_.search,
+      categories: filters_.categories,
+      models: filters_.models,
+      isFavorite: filters_.isFavorite,
+      collectionIds: filters_.collectionIds,
    });
 
    const totalEntries = useMemo(() => {
@@ -79,7 +72,7 @@ export const LibraryDashboard: FC<Props> = ({
    }, [data]);
 
    const contextValue: LibraryFiltersContextType = {
-      filters,
+      filters: filters_,
       setFilters,
       resetFilters,
       hasActiveFilters,
@@ -123,7 +116,7 @@ export const LibraryDashboard: FC<Props> = ({
 
             {showFilters && (
                <div className="animate-in border-b bg-white px-6 py-4 duration-200 slide-in-from-top">
-                  <LibraryFilters />
+                  <LibraryFilters filters={filters} />
                </div>
             )}
 

@@ -26,22 +26,25 @@ export const GroupBySelect: FC<Props> = ({ currentGroupBy }) => {
    return (
       <Select
          value={currentGroupBy}
-         onValueChange={(value) => updateGroupBy(value as DListGroupByMode)}
+         onValueChange={(value: DListGroupByMode) => updateGroupBy(value)}
       >
          <SelectTrigger className="h-8 w-[180px]" data-testid="group-by-select">
             <SelectValue placeholder="Gruppierung" />
          </SelectTrigger>
          <SelectContent>
-            <SelectItem value="none" data-testid="none">
+            <SelectItem value={DListGroupByMode.NONE} data-testid="none">
                Keine Gruppierung
             </SelectItem>
-            <SelectItem value="category" data-testid="category">
+            <SelectItem
+               value={DListGroupByMode.CATEGORY}
+               data-testid="category"
+            >
                Nach Kategorie
             </SelectItem>
-            <SelectItem value="model" data-testid="model">
+            <SelectItem value={DListGroupByMode.MODEL} data-testid="model">
                Nach Modell
             </SelectItem>
-            <SelectItem value="date" data-testid="date">
+            <SelectItem value={DListGroupByMode.DATE} data-testid="date">
                Nach Datum
             </SelectItem>
          </SelectContent>

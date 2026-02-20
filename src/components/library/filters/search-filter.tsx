@@ -2,18 +2,26 @@
 
 import { FC, useState } from "react";
 import { Search } from "lucide-react";
+import { useQueryState } from "nuqs";
 import { useDebouncedCallback } from "use-debounce";
 
 import { Input } from "@/components/shadcn/input";
+import { DLibraryEntriesFilter } from "@/data/types/domain/library";
 
 import { useLibraryFilters } from "./library-filters-context";
 
-export const SearchFilter: FC = () => {
+type Props = {
+   filters: DLibraryEntriesFilter;
+};
+
+export const SearchFilter: FC<Props> = ({ filters }) => {
+   const [search, setSearch] = useQueryState("search");
    const context = useLibraryFilters();
    const [localValue, setLocalValue] = useState(context.filters.search || "");
 
    const debouncedUpdate = useDebouncedCallback((value: string) => {
       context.setFilters({ search: value || undefined });
+      setSearch(value);
    }, 300);
 
    const handleChange = (value: string) => {

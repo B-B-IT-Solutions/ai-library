@@ -6,13 +6,18 @@ import { Filter, X } from "lucide-react";
 import { Button } from "@/components/shadcn/button";
 import { Card } from "@/components/shadcn/card";
 import { Separator } from "@/components/shadcn/separator";
+import { DLibraryEntriesFilter } from "@/data/types/domain/library";
 
 import { CategoriesFilter } from "./categories-filter";
 import { useLibraryFilters } from "./library-filters-context";
 import { ModelsFilter } from "./models-filter";
 import { SearchFilter } from "./search-filter";
 
-export const LibraryFilters: FC = () => {
+type Props = {
+   filters: DLibraryEntriesFilter;
+};
+
+export const LibraryFilters: FC<Props> = ({ filters }) => {
    const { resetFilters, hasActiveFilters } = useLibraryFilters();
 
    return (
@@ -38,7 +43,7 @@ export const LibraryFilters: FC = () => {
          <Separator />
 
          <div className="space-y-4">
-            <SearchFilter />
+            <SearchFilter filters={filters} />
             <Separator />
             <CategoriesFilter />
             <Separator />

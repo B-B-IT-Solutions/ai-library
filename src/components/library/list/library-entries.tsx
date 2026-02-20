@@ -53,7 +53,7 @@ export const LibraryEntries: FC<Props> = ({ viewMode, groupBy, sortBy }) => {
       );
    }
 
-   if (groupBy !== "none") {
+   if (groupBy !== DListGroupByMode.NONE) {
       return (
          <div className="p-6">
             <LibraryEntriesGrouped
@@ -65,7 +65,7 @@ export const LibraryEntries: FC<Props> = ({ viewMode, groupBy, sortBy }) => {
       );
    }
 
-   if (viewMode === "list") {
+   if (viewMode === DListViewMode.LIST) {
       return (
          <InfiniteScroll
             hasMore={hasNextPage ?? false}
