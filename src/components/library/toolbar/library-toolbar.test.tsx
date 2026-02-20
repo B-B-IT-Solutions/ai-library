@@ -1,5 +1,5 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { assertInDocument } from "@tests";
+import { screen, waitFor } from "@testing-library/react";
+import { assertInDocument, renderWithRouter } from "@tests";
 
 import { DListViewMode } from "@/data/types/domain/common";
 
@@ -19,7 +19,7 @@ const assertRendered = () => {
 
 describe("LibraryToolbar rendering tests", () => {
    it("LibraryToolbar - totalEntries 1 - test", async () => {
-      const { container } = render(
+      const { container } = renderWithRouter(
          <LibraryToolbar viewMode={DListViewMode.GRID} totalEntries={1} />
       );
 
@@ -31,7 +31,7 @@ describe("LibraryToolbar rendering tests", () => {
    });
 
    it("LibraryToolbar - totalEntries 5 - test", async () => {
-      const { container } = render(
+      const { container } = renderWithRouter(
          <LibraryToolbar viewMode={DListViewMode.GRID} totalEntries={5} />
       );
 
