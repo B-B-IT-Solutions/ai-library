@@ -8,14 +8,24 @@ import {
    DPromptTemplateDescriptorWithTemplate,
 } from "./prompt.template";
 
-// Library Entry Types
+export type DLibraryEntriesPageQuery = PageQuery<DLibraryEntriesFilter>;
+export type DLibraryEntriesPage = Page<DLibraryEntry>;
+
+export type DLibraryEntriesFilter = {
+   search?: string;
+   categories?: string[];
+   models?: string[];
+   isFavorite?: boolean;
+   collectionIds?: string[];
+};
+
 export type DLibraryEntry = {
    id: string;
    userId: string;
    templateDescriptorId: string;
    templateDescriptor: DPromptTemplateDescriptor;
    isFavorite: boolean;
-   collections: string[]; // Collection IDs (computed)
+   collections: string[]; // Collection IDs
    createdAt: string;
    updatedAt: string;
 };
@@ -43,22 +53,6 @@ export type DLibraryCollection = {
 export type DLibraryCollectionWithEntries = DLibraryCollection & {
    entries: DLibraryEntry[];
 };
-
-// Filtering Types
-export type DLibraryEntriesFilter = {
-   search?: string;
-   categories?: string[];
-   models?: string[];
-   isFavorite?: boolean;
-   collectionIds?: string[];
-   dateRange?: {
-      start?: string;
-      end?: string;
-   };
-};
-
-export type DLibraryEntriesPageQuery = PageQuery<DLibraryEntriesFilter>;
-export type DLibraryEntriesPage = Page<DLibraryEntry>;
 
 // Collection Input Types
 export type CreateCollectionInput = {

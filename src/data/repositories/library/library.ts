@@ -9,9 +9,9 @@ import {
 import {
    CreateCollectionInput,
    DLibraryCollection,
-   DLibraryEntry,
    DLibraryEntriesPage,
    DLibraryEntriesPageQuery,
+   DLibraryEntry,
    DLibraryEntryWithPromptTemplate,
    UpdateCollectionInput,
 } from "@/data/types/domain/library";
@@ -210,7 +210,10 @@ export class LibraryRepository {
          },
       });
 
-      const models = map(entries, (entry) => entry.templateDescriptor.recommendedModel);
+      const models = map(
+         entries,
+         (entry) => entry.templateDescriptor.recommendedModel
+      );
       return uniq(models).sort();
    }
 
@@ -298,7 +301,10 @@ export class LibraryRepository {
       });
    }
 
-   async pDeleteCollection(collectionId: string, userId: string): Promise<void> {
+   async pDeleteCollection(
+      collectionId: string,
+      userId: string
+   ): Promise<void> {
       await this.prisma.libraryCollection.delete({
          where: {
             id: collectionId,
@@ -309,7 +315,10 @@ export class LibraryRepository {
 
    // ==================== Collection Entries ====================
 
-   async pAddToCollection(collectionId: string, entryId: string): Promise<void> {
+   async pAddToCollection(
+      collectionId: string,
+      entryId: string
+   ): Promise<void> {
       const input: LibraryCollectionEntryCreateInput = {
          collection: {
             connect: {
@@ -328,7 +337,10 @@ export class LibraryRepository {
       });
    }
 
-   async pRemoveFromCollection(collectionId: string, entryId: string): Promise<void> {
+   async pRemoveFromCollection(
+      collectionId: string,
+      entryId: string
+   ): Promise<void> {
       await this.prisma.libraryCollectionEntry.delete({
          where: {
             collectionId_entryId: {
@@ -340,28 +352,31 @@ export class LibraryRepository {
    }
 
    async pGetCollectionEntries(collectionId: string): Promise<DLibraryEntry[]> {
-      const collectionEntries = await this.prisma.libraryCollectionEntry.findMany({
-         where: { collectionId },
-         include: {
-            entry: {
-               include: {
-                  templateDescriptor: {
-                     include: {
-                        categories: true,
+      const collectionEntries =
+         await this.prisma.libraryCollectionEntry.findMany({
+            where: { collectionId },
+            include: {
+               entry: {
+                  include: {
+                     templateDescriptor: {
+                        include: {
+                           categories: true,
+                        },
                      },
-                  },
-                  collectionEntries: {
-                     select: { collectionId: true },
+                     collectionEntries: {
+                        select: { collectionId: true },
+                     },
                   },
                },
             },
-         },
-         orderBy: {
-            addedAt: "desc",
-         },
-      });
+            orderBy: {
+               addedAt: "desc",
+            },
+         });
 
-      return map(collectionEntries, (ce) => toDLibraryEntry(ce.entry as LibraryEntryWithCollections));
+      return map(collectionEntries, (ce) =>
+         toDLibraryEntry(ce.entry as LibraryEntryWithCollections)
+      );
    }
 
    // ==================== Private Helpers ====================
@@ -379,7 +394,9 @@ export class LibraryRepository {
          where.templateDescriptor = {
             OR: [
                { title: { contains: filter.search, mode: "insensitive" } },
-               { description: { contains: filter.search, mode: "insensitive" } },
+               {
+                  description: { contains: filter.search, mode: "insensitive" },
+               },
             ],
          };
       }

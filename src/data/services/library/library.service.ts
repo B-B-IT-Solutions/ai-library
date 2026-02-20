@@ -9,9 +9,9 @@ import { OrderProducts } from "@/data/types/db/order";
 import {
    CreateCollectionInput,
    DLibraryCollection,
-   DLibraryEntry,
    DLibraryEntriesPage,
    DLibraryEntriesPageQuery,
+   DLibraryEntry,
    DLibraryEntryWithPromptTemplate,
    UpdateCollectionInput,
 } from "@/data/types/domain/library";
@@ -169,7 +169,11 @@ export class LibraryService {
       userId: string,
       data: UpdateCollectionInput
    ): Promise<void> {
-      await this.libraryRepository.pUpdateCollection(collectionId, userId, data);
+      await this.libraryRepository.pUpdateCollection(
+         collectionId,
+         userId,
+         data
+      );
    }
 
    async deleteCollection(collectionId: string, userId: string): Promise<void> {
@@ -182,7 +186,10 @@ export class LibraryService {
       await this.libraryRepository.pAddToCollection(collectionId, entryId);
    }
 
-   async removeFromCollection(collectionId: string, entryId: string): Promise<void> {
+   async removeFromCollection(
+      collectionId: string,
+      entryId: string
+   ): Promise<void> {
       await this.libraryRepository.pRemoveFromCollection(collectionId, entryId);
    }
 
