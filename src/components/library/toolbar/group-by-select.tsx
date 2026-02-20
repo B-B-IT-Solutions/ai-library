@@ -13,11 +13,7 @@ import {
 import { DListGroupByMode } from "@/data/types/domain/common";
 import { librarySearchParams } from "../search-params";
 
-type Props = {
-   currentGroupBy?: DListGroupByMode;
-};
-
-export const GroupBySelect: FC<Props> = () => {
+export const GroupBySelect: FC = () => {
    const [group, setGroup] = useQueryState(
       "group",
       librarySearchParams["group"]

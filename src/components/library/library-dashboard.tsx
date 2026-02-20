@@ -120,12 +120,7 @@ export const LibraryDashboard: FC<Props> = ({
                </div>
             )}
 
-            <LibraryToolbar
-               totalEntries={totalEntries}
-               viewMode={viewMode}
-               groupBy={groupBy}
-               sortBy={sortBy}
-            />
+            <LibraryToolbar totalEntries={totalEntries} viewMode={viewMode} />
 
             <div className="flex-1 overflow-y-auto">
                <LibraryEntries

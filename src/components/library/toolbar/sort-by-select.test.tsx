@@ -1,7 +1,6 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, renderWithRouter } from "@tests";
-import mockRouter from "next-router-mock";
 
 import { SortBySelect } from "./sort-by-select";
 
@@ -12,7 +11,14 @@ const assertRendered = () => {
 
 describe("SortBySelect rendering tests", () => {
    it("SortBySelect - sortBy date-asc - test", async () => {
-      const { container } = render(<SortBySelect currentSortBy="date-asc" />);
+      const url = "/library";
+      const searchParams = "sort=date-asc";
+
+      const { container } = renderWithRouter(
+         <SortBySelect />,
+         url,
+         searchParams
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -22,7 +28,14 @@ describe("SortBySelect rendering tests", () => {
    });
 
    it("SortBySelect - sortBy date-desc - test", async () => {
-      const { container } = render(<SortBySelect currentSortBy="date-desc" />);
+      const url = "/library";
+      const searchParams = "sort=date-desc";
+
+      const { container } = renderWithRouter(
+         <SortBySelect />,
+         url,
+         searchParams
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -32,7 +45,14 @@ describe("SortBySelect rendering tests", () => {
    });
 
    it("SortBySelect - sortBy name-asc - test", async () => {
-      const { container } = render(<SortBySelect currentSortBy="name-asc" />);
+      const url = "/library";
+      const searchParams = "sort=name-asc";
+
+      const { container } = renderWithRouter(
+         <SortBySelect />,
+         url,
+         searchParams
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -47,42 +67,52 @@ describe("SortBySelect functinality tests", () => {
       jest.clearAllMocks();
    });
 
-   it("SortBySelect - option date-desc selected - test", async () => {
+   it("SortBySelect - option date-asc selected - test", async () => {
       const url = "/library";
-      renderWithRouter(<SortBySelect currentSortBy="date-asc" />, url);
+      const searchParams = "sort=name-asc";
+      const onUrlUpdateFn = jest.fn();
+      renderWithRouter(<SortBySelect />, url, searchParams, onUrlUpdateFn);
 
       await waitFor(() => {
          assertRendered();
-         expect(mockRouter.pathname).toEqual(url);
+         expect(onUrlUpdateFn).not.toHaveBeenCalled();
       });
 
       const select = screen.getByTestId("sort-by-select");
       userEvent.click(select);
 
       await waitFor(() => {
-         const option = screen.getByTestId("date-desc");
+         const option = screen.getByTestId("date-asc");
          assertInDocument(option);
-         expect(mockRouter.pathname).toEqual(url);
+         expect(onUrlUpdateFn).not.toHaveBeenCalled();
       });
 
-      const option = screen.getByTestId("date-desc");
+      const option = screen.getByTestId("date-asc");
       userEvent.click(option);
 
+      const expectedEvent = {
+         options: { history: "replace", scroll: false, shallow: false },
+         queryString: "?sort=date-asc",
+      };
+
       await waitFor(() => {
-         expect(mockRouter.replace).toHaveBeenCalledTimes(1);
-         expect(mockRouter.replace).toHaveBeenCalledWith(
-            `${url}?sort=date-desc`
-         );
+         expect(onUrlUpdateFn).toHaveBeenCalledTimes(1);
       });
+
+      const event = onUrlUpdateFn.mock.calls[0]![0]!;
+      expect(event.queryString).toEqual(expectedEvent.queryString);
+      expect(event.options).toEqual(expectedEvent.options);
    });
 
    it("SortBySelect - option name-asc selected - test", async () => {
       const url = "/library";
-      renderWithRouter(<SortBySelect currentSortBy="date-desc" />, url);
+      const searchParams = "sort=date-desc";
+      const onUrlUpdateFn = jest.fn();
+      renderWithRouter(<SortBySelect />, url, searchParams, onUrlUpdateFn);
 
       await waitFor(() => {
          assertRendered();
-         expect(mockRouter.pathname).toEqual(url);
+         expect(onUrlUpdateFn).not.toHaveBeenCalled();
       });
 
       const select = screen.getByTestId("sort-by-select");
@@ -91,17 +121,23 @@ describe("SortBySelect functinality tests", () => {
       await waitFor(() => {
          const option = screen.getByTestId("name-asc");
          assertInDocument(option);
-         expect(mockRouter.pathname).toEqual(url);
+         expect(onUrlUpdateFn).not.toHaveBeenCalled();
       });
 
       const option = screen.getByTestId("name-asc");
       userEvent.click(option);
 
+      const expectedEvent = {
+         options: { history: "replace", scroll: false, shallow: false },
+         queryString: "?sort=name-asc",
+      };
+
       await waitFor(() => {
-         expect(mockRouter.replace).toHaveBeenCalledTimes(1);
-         expect(mockRouter.replace).toHaveBeenCalledWith(
-            `${url}?sort=name-asc`
-         );
+         expect(onUrlUpdateFn).toHaveBeenCalledTimes(1);
       });
+
+      const event = onUrlUpdateFn.mock.calls[0]![0]!;
+      expect(event.queryString).toEqual(expectedEvent.queryString);
+      expect(event.options).toEqual(expectedEvent.options);
    });
 });

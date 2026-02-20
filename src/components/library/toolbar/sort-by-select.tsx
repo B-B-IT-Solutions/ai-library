@@ -1,6 +1,7 @@
 "use client";
 
 import { FC } from "react";
+import { useQueryState } from "nuqs";
 
 import {
    Select,
@@ -10,23 +11,15 @@ import {
    SelectValue,
 } from "@/components/shadcn/select";
 import { DListSortByMode } from "@/data/types/domain/common";
-import { useSetUrlSearchParams } from "@/hooks";
+import { librarySearchParams } from "../search-params";
 
-type Props = {
-   currentSortBy: DListSortByMode;
-};
-
-export const SortBySelect: FC<Props> = ({ currentSortBy }) => {
-   const { setUrlSearchParams } = useSetUrlSearchParams();
-
-   const updateSortBy = (sortBy: DListSortByMode) => {
-      setUrlSearchParams("sort", sortBy);
-   };
+export const SortBySelect: FC = () => {
+   const [group, setGroup] = useQueryState("sort", librarySearchParams["sort"]);
 
    return (
       <Select
-         value={currentSortBy}
-         onValueChange={(value: DListSortByMode) => updateSortBy(value)}
+         value={group}
+         onValueChange={(value: DListSortByMode) => setGroup(value)}
       >
          <SelectTrigger className="h-8 w-[180px]" data-testid="sort-by-select">
             <SelectValue placeholder="Sortierung" />

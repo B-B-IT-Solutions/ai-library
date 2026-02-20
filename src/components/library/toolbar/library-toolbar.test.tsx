@@ -1,6 +1,8 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { assertInDocument } from "@tests";
 
+import { DListViewMode } from "@/data/types/domain/common";
+
 import { LibraryToolbar } from "./library-toolbar";
 
 const assertRendered = () => {
@@ -18,12 +20,7 @@ const assertRendered = () => {
 describe("LibraryToolbar rendering tests", () => {
    it("LibraryToolbar - totalEntries 1 - test", async () => {
       const { container } = render(
-         <LibraryToolbar
-            viewMode="grid"
-            groupBy="none"
-            sortBy="date-desc"
-            totalEntries={1}
-         />
+         <LibraryToolbar viewMode={DListViewMode.GRID} totalEntries={1} />
       );
 
       await waitFor(() => {
@@ -35,12 +32,7 @@ describe("LibraryToolbar rendering tests", () => {
 
    it("LibraryToolbar - totalEntries 5 - test", async () => {
       const { container } = render(
-         <LibraryToolbar
-            viewMode="grid"
-            groupBy="none"
-            sortBy="date-desc"
-            totalEntries={5}
-         />
+         <LibraryToolbar viewMode={DListViewMode.GRID} totalEntries={5} />
       );
 
       await waitFor(() => {
