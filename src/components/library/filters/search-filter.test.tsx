@@ -46,12 +46,12 @@ describe("SearchFilter rendering tests", () => {
    });
 });
 
-describe("GroupBySelect functinality tests", () => {
+describe("SearchFilter functinality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("GroupBySelect - option category selected - test", async () => {
+   it("SearchFilter - option category selected - test", async () => {
       const url = "/library";
       const searchParams = "f_search=t";
       const onUrlUpdateFn = jest.fn();

@@ -29,18 +29,6 @@ export const CategoriesFilter: FC = () => {
       });
    };
 
-   if (isLoading) {
-      return <div className="text-sm text-slate-500">Lädt...</div>;
-   }
-
-   if (isEmpty(categories)) {
-      return (
-         <div className="text-sm text-slate-500">
-            Keine Kategorien verfügbar
-         </div>
-      );
-   }
-
    const badge = () => {
       if (!isEmpty(f_categories)) {
          return (
@@ -59,6 +47,7 @@ export const CategoriesFilter: FC = () => {
                id={`category-${category}`}
                checked={isSelected}
                onCheckedChange={() => toggleCategory(category)}
+               data-testid={`category-${category}`}
             />
             <Label
                htmlFor={`category-${category}`}
@@ -69,6 +58,18 @@ export const CategoriesFilter: FC = () => {
          </div>
       );
    };
+
+   if (isLoading) {
+      return <div className="text-sm text-slate-500">Lädt...</div>;
+   }
+
+   if (isEmpty(categories)) {
+      return (
+         <div className="text-sm text-slate-500" data-testid="categories-empty">
+            Keine Kategorien verfügbar
+         </div>
+      );
+   }
 
    return (
       <div className="space-y-3" data-testid="categories-filter">
