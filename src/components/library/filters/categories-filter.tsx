@@ -1,27 +1,31 @@
 "use client";
 
 import { FC } from "react";
+import { filter, includes, isEmpty } from "es-toolkit/compat";
+import { debounce, useQueryState } from "nuqs";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Checkbox } from "@/components/shadcn/checkbox";
 import { Label } from "@/components/shadcn/label";
 import { useLoadLibraryCategories } from "@/data/ts-queries/library";
-
-import { useLibraryFilters } from "./library-filters-context";
+import { librarySearchParams } from "../search-params";
 
 export const CategoriesFilter: FC = () => {
-   const context = useLibraryFilters();
+   const [f_categories, setCategories] = useQueryState(
+      "f_categories",
+      librarySearchParams["f_categories"]
+   );
+
    const { data: categories = [], isLoading } = useLoadLibraryCategories();
 
-   const selectedCategories = context.filters.categories || [];
-
    const toggleCategory = (category: string) => {
-      const newCategories = selectedCategories.includes(category)
-         ? selectedCategories.filter((c) => c !== category)
-         : [...selectedCategories, category];
+      const isSelected = includes(f_categories, category);
+      const newCategories = isSelected
+         ? filter(f_categories, (c) => c !== category)
+         : [...f_categories, category];
 
-      context.setFilters({
-         categories: newCategories.length > 0 ? newCategories : undefined,
+      setCategories(newCategories, {
+         limitUrlUpdates: debounce(400),
       });
    };
 
@@ -29,7 +33,7 @@ export const CategoriesFilter: FC = () => {
       return <div className="text-sm text-slate-500">Lädt...</div>;
    }
 
-   if (categories.length === 0) {
+   if (isEmpty(categories)) {
       return (
          <div className="text-sm text-slate-500">
             Keine Kategorien verfügbar
@@ -41,15 +45,15 @@ export const CategoriesFilter: FC = () => {
       <div className="space-y-3">
          <div className="flex items-center justify-between">
             <Label className="text-sm font-medium">Kategorien</Label>
-            {selectedCategories.length > 0 && (
+            {!isEmpty(f_categories) && (
                <Badge variant="secondary" className="h-5 px-2 text-xs">
-                  {selectedCategories.length}
+                  {f_categories.length}
                </Badge>
             )}
          </div>
          <div className="max-h-[200px] space-y-2 overflow-y-auto">
             {categories.map((category) => {
-               const isSelected = selectedCategories.includes(category);
+               const isSelected = includes(f_categories, category);
                return (
                   <div key={category} className="flex items-center space-x-2">
                      <Checkbox

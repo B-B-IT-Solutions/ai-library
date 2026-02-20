@@ -38,7 +38,7 @@ export const LibraryEntries: FC<Props> = ({
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
       useInfiniteLoadLibraryEntries({
          search: filters.search,
-         categories: context.filters.categories,
+         categories: filters.categories,
          models: context.filters.models,
          isFavorite: context.filters.isFavorite,
          collectionIds: context.filters.collectionIds,
