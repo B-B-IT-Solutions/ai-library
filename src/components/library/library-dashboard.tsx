@@ -5,11 +5,12 @@ import { ChevronDown, ChevronUp, Filter } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
 import { useInfiniteLoadLibraryEntries } from "@/data/ts-queries/library";
-import { DListGroupByMode, DListViewMode } from "@/data/types/domain/common";
 import {
-   DLibraryEntriesFilter,
-   LibrarySortBy,
-} from "@/data/types/domain/library";
+   DListGroupByMode,
+   DListSortByMode,
+   DListViewMode,
+} from "@/data/types/domain/common";
+import { DLibraryEntriesFilter } from "@/data/types/domain/library";
 
 import { CreateLibraryEntryButton } from "./buttons/create-library-entry-button";
 import { LibraryFilters } from "./filters/library-filters";
@@ -32,16 +33,17 @@ const initFilters: DLibraryEntriesFilter = {
 type Props = {
    viewMode?: DListViewMode;
    groupBy?: DListGroupByMode;
+   sortBy?: DListSortByMode;
 };
 
 export const LibraryDashboard: FC<Props> = ({
    viewMode = "grid",
    groupBy = "none",
+   sortBy = "date-desc",
 }) => {
    const [filters, setFiltersState] =
       useState<DLibraryEntriesFilter>(initFilters);
    const [showFilters, setShowFilters] = useState(false);
-   const [sortBy, setSortBy] = useState<LibrarySortBy>("date-desc");
 
    const setFilters = (newFilters: Partial<DLibraryEntriesFilter>) => {
       setFiltersState((prev) => ({ ...prev, ...newFilters }));
@@ -81,8 +83,6 @@ export const LibraryDashboard: FC<Props> = ({
       setFilters,
       resetFilters,
       hasActiveFilters,
-      sortBy,
-      setSortBy,
    };
 
    return (
@@ -131,10 +131,15 @@ export const LibraryDashboard: FC<Props> = ({
                totalEntries={totalEntries}
                viewMode={viewMode}
                groupBy={groupBy}
+               sortBy={sortBy}
             />
 
             <div className="flex-1 overflow-y-auto">
-               <LibraryEntries viewMode={viewMode} groupBy={groupBy} />
+               <LibraryEntries
+                  viewMode={viewMode}
+                  groupBy={groupBy}
+                  sortBy={sortBy}
+               />
             </div>
          </div>
       </LibraryFiltersContext.Provider>

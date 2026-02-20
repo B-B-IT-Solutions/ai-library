@@ -8,7 +8,11 @@ import {
    useInfiniteLoadLibraryEntries,
    useLoadLibraryCollections,
 } from "@/data/ts-queries/library";
-import { DListGroupByMode, DListViewMode } from "@/data/types/domain/common";
+import {
+   DListGroupByMode,
+   DListSortByMode,
+   DListViewMode,
+} from "@/data/types/domain/common";
 import { useLibraryFilters } from "../filters/library-filters-context";
 
 import { LibraryEntriesGrid } from "./library-entries-grid";
@@ -18,9 +22,10 @@ import { LibraryEntriesList } from "./library-entries-list";
 type Props = {
    viewMode: DListViewMode;
    groupBy: DListGroupByMode;
+   sortBy: DListSortByMode;
 };
 
-export const LibraryEntries: FC<Props> = ({ viewMode, groupBy }) => {
+export const LibraryEntries: FC<Props> = ({ viewMode, groupBy, sortBy }) => {
    const context = useLibraryFilters();
    const { data: collections = [] } = useLoadLibraryCollections();
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =

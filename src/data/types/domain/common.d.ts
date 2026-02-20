@@ -19,3 +19,9 @@ export type DListGroupByMode =
    | "model"
    | "date"
    | "collection";
+
+export type DListSortByMode =
+   | "date-desc"
+   | "date-asc"
+   | "name-asc"
+   | "name-desc";

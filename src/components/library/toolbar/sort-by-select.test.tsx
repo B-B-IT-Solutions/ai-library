@@ -3,16 +3,16 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument, renderWithRouter } from "@tests";
 import mockRouter from "next-router-mock";
 
-import { GroupBySelect } from "./group-by-select";
+import { SortBySelect } from "./sort-by-select";
 
 const assertRendered = () => {
-   const select = screen.getByTestId("group-by-select");
+   const select = screen.getByTestId("sort-by-select");
    assertInDocument(select);
 };
 
-describe("GroupBySelect rendering tests", () => {
-   it("GroupBySelect - groupBy none - test", async () => {
-      const { container } = render(<GroupBySelect currentGroupBy="none" />);
+describe("SortBySelect rendering tests", () => {
+   it("SortBySelect - sortBy date-asc - test", async () => {
+      const { container } = render(<SortBySelect currentSortBy="date-asc" />);
 
       await waitFor(() => {
          assertRendered();
@@ -21,8 +21,8 @@ describe("GroupBySelect rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("GroupBySelect - groupBy date - test", async () => {
-      const { container } = render(<GroupBySelect currentGroupBy="date" />);
+   it("SortBySelect - sortBy date-desc - test", async () => {
+      const { container } = render(<SortBySelect currentSortBy="date-desc" />);
 
       await waitFor(() => {
          assertRendered();
@@ -31,8 +31,8 @@ describe("GroupBySelect rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("GroupBySelect - groupBy model - test", async () => {
-      const { container } = render(<GroupBySelect currentGroupBy="model" />);
+   it("SortBySelect - sortBy name-asc - test", async () => {
+      const { container } = render(<SortBySelect currentSortBy="name-asc" />);
 
       await waitFor(() => {
          assertRendered();
@@ -42,64 +42,66 @@ describe("GroupBySelect rendering tests", () => {
    });
 });
 
-describe("GroupBySelect functinality tests", () => {
+describe("SortBySelect functinality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("GroupBySelect - option category selected - test", async () => {
+   it("SortBySelect - option date-desc selected - test", async () => {
       const url = "/library";
-      renderWithRouter(<GroupBySelect currentGroupBy="none" />, url);
+      renderWithRouter(<SortBySelect currentSortBy="date-asc" />, url);
 
       await waitFor(() => {
          assertRendered();
          expect(mockRouter.pathname).toEqual(url);
       });
 
-      const select = screen.getByTestId("group-by-select");
+      const select = screen.getByTestId("sort-by-select");
       userEvent.click(select);
 
       await waitFor(() => {
-         const categoryOption = screen.getByTestId("category");
-         assertInDocument(categoryOption);
+         const option = screen.getByTestId("date-desc");
+         assertInDocument(option);
          expect(mockRouter.pathname).toEqual(url);
       });
 
-      const categoryOption = screen.getByTestId("category");
-      userEvent.click(categoryOption);
+      const option = screen.getByTestId("date-desc");
+      userEvent.click(option);
 
       await waitFor(() => {
          expect(mockRouter.replace).toHaveBeenCalledTimes(1);
          expect(mockRouter.replace).toHaveBeenCalledWith(
-            `${url}?group=category`
+            `${url}?sort=date-desc`
          );
       });
    });
 
-   it("GroupBySelect - option model selected - test", async () => {
+   it("SortBySelect - option name-asc selected - test", async () => {
       const url = "/library";
-      renderWithRouter(<GroupBySelect currentGroupBy="none" />, url);
+      renderWithRouter(<SortBySelect currentSortBy="date-desc" />, url);
 
       await waitFor(() => {
          assertRendered();
          expect(mockRouter.pathname).toEqual(url);
       });
 
-      const select = screen.getByTestId("group-by-select");
+      const select = screen.getByTestId("sort-by-select");
       userEvent.click(select);
 
       await waitFor(() => {
-         const modelOption = screen.getByTestId("model");
-         assertInDocument(modelOption);
+         const option = screen.getByTestId("name-asc");
+         assertInDocument(option);
          expect(mockRouter.pathname).toEqual(url);
       });
 
-      const modelOption = screen.getByTestId("model");
-      userEvent.click(modelOption);
+      const option = screen.getByTestId("name-asc");
+      userEvent.click(option);
 
       await waitFor(() => {
          expect(mockRouter.replace).toHaveBeenCalledTimes(1);
-         expect(mockRouter.replace).toHaveBeenCalledWith(`${url}?group=model`);
+         expect(mockRouter.replace).toHaveBeenCalledWith(
+            `${url}?sort=name-asc`
+         );
       });
    });
 });

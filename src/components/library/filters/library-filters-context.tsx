@@ -2,18 +2,13 @@
 
 import { createContext, useContext } from "react";
 
-import {
-   DLibraryEntriesFilter,
-   LibrarySortBy,
-} from "@/data/types/domain/library";
+import { DLibraryEntriesFilter } from "@/data/types/domain/library";
 
 export type LibraryFiltersContextType = {
    filters: DLibraryEntriesFilter;
    setFilters: (filters: Partial<DLibraryEntriesFilter>) => void;
    resetFilters: () => void;
    hasActiveFilters?: boolean;
-   sortBy: LibrarySortBy;
-   setSortBy: (sortBy: LibrarySortBy) => void;
 };
 
 export const LibraryFiltersContext = createContext<
