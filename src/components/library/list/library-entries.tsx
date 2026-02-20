@@ -14,7 +14,6 @@ import {
    DListViewMode,
 } from "@/data/types/domain/common";
 import { DLibraryEntriesFilter } from "@/data/types/domain/library";
-import { useLibraryFilters } from "../filters/library-filters-context";
 
 import { LibraryEntriesGrid } from "./library-entries-grid";
 import { LibraryEntriesGrouped } from "./library-entries-grouped";
@@ -33,15 +32,14 @@ export const LibraryEntries: FC<Props> = ({
    sortBy,
    filters,
 }) => {
-   const context = useLibraryFilters();
    const { data: collections = [] } = useLoadLibraryCollections();
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
       useInfiniteLoadLibraryEntries({
          search: filters.search,
          categories: filters.categories,
          models: filters.models,
-         isFavorite: context.filters.isFavorite,
-         collectionIds: context.filters.collectionIds,
+         isFavorite: filters.isFavorite,
+         collectionIds: filters.collectionIds,
       });
 
    const entries = useMemo(

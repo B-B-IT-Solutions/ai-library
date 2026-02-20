@@ -1,22 +1,35 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useMemo } from "react";
+import { isEmpty } from "es-toolkit/compat";
 import { Filter, X } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
 import { Card } from "@/components/shadcn/card";
 import { Separator } from "@/components/shadcn/separator";
+import { DLibraryEntriesFilter } from "@/data/types/domain/library";
 
 import { CategoriesFilter } from "./categories-filter";
-import { useLibraryFilters } from "./library-filters-context";
 import { ModelsFilter } from "./models-filter";
 import { SearchFilter } from "./search-filter";
 
-export const LibraryFilters: FC = () => {
-   const { resetFilters, hasActiveFilters } = useLibraryFilters();
+type Props = {
+   filters: DLibraryEntriesFilter;
+};
+
+export const LibraryFilters: FC<Props> = ({ filters }) => {
+   const hasActiveFilters = useMemo(() => {
+      return (
+         !isEmpty(filters.search) ||
+         !isEmpty(filters.categories) ||
+         !isEmpty(filters.models) ||
+         !isEmpty(filters.models) ||
+         filters.isFavorite
+      );
+   }, [filters]);
 
    return (
-      <Card className="space-y-4 p-4">
+      <Card className="gap-3 p-4">
          <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
                <Filter className="h-4 w-4 text-slate-600" />
@@ -26,7 +39,7 @@ export const LibraryFilters: FC = () => {
                <Button
                   variant="ghost"
                   size="sm"
-                  onClick={resetFilters}
+                  // onClick={resetFilters}
                   className="h-8 px-2 text-xs"
                >
                   <X className="mr-1 h-3 w-3" />
@@ -34,8 +47,6 @@ export const LibraryFilters: FC = () => {
                </Button>
             )}
          </div>
-
-         <Separator />
 
          <div className="space-y-4">
             <SearchFilter />

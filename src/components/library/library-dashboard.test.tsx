@@ -1,6 +1,12 @@
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, renderWithReactQuery } from "@tests";
 
+import {
+   DListGroupByMode,
+   DListSortByMode,
+   DListViewMode,
+} from "@/data/types/domain/common";
+
 import { LibraryDashboard } from "./library-dashboard";
 
 const assertRendered = () => {
@@ -16,7 +22,12 @@ const assertLibraryEntryCards = () => {
 describe("LibraryDashboard rendering tests", () => {
    it("LibraryDashboard - viewMode grid - rendered test", async () => {
       const { container } = renderWithReactQuery(
-         <LibraryDashboard viewMode="grid" />
+         <LibraryDashboard
+            viewMode={DListViewMode.GRID}
+            groupBy={DListGroupByMode.CATEGORY}
+            sortBy={DListSortByMode.DATE_ASC}
+            filters={{}}
+         />
       );
 
       await waitFor(() => {
@@ -29,7 +40,12 @@ describe("LibraryDashboard rendering tests", () => {
 
    it("LibraryDashboard - viewMode list - rendered test", async () => {
       const { container } = renderWithReactQuery(
-         <LibraryDashboard viewMode="list" />
+         <LibraryDashboard
+            viewMode={DListViewMode.LIST}
+            groupBy={DListGroupByMode.MODEL}
+            sortBy={DListSortByMode.NAME_ASC}
+            filters={{}}
+         />
       );
 
       await waitFor(() => {
