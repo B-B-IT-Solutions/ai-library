@@ -2,7 +2,7 @@
 
 import { FC, useState } from "react";
 import { filter, includes, isEmpty } from "es-toolkit/compat";
-import { Folder, Heart, Library, Plus } from "lucide-react";
+import { Folder, Plus } from "lucide-react";
 import { debounce, useQueryState } from "nuqs";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -24,7 +24,7 @@ type Props = {
    filters: DLibraryEntriesFilter;
 };
 
-export const LibraryQuickNav: FC<Props> = ({ filters }) => {
+export const LibraryQuickNav: FC<Props> = () => {
    const [f_collectionIds, setCollectionIds] = useQueryState(
       "f_collectionIds",
       librarySearchParams["f_collectionIds"]
@@ -32,10 +32,6 @@ export const LibraryQuickNav: FC<Props> = ({ filters }) => {
 
    const { data: collections = [] } = useLoadLibraryCollections();
    const [showCreateDialog, setShowCreateDialog] = useState(false);
-
-   const handleQuickLinkClick = (filter: any) => {
-      // setFilters(filter);
-   };
 
    const toggleCollection = (collectionId: string) => {
       const isActive = includes(f_collectionIds, collectionId);
@@ -48,32 +44,9 @@ export const LibraryQuickNav: FC<Props> = ({ filters }) => {
       });
    };
 
-   const isAllActive = !filters.isFavorite && !f_collectionIds.length;
-   const isFavoritesActive = !!filters.isFavorite;
-
    return (
       <>
          <div className="flex flex-wrap items-center gap-2">
-            <Button
-               variant={isAllActive ? "default" : "outline"}
-               size="sm"
-               onClick={() => handleQuickLinkClick({})}
-               className="gap-2"
-            >
-               <Library className="h-4 w-4" />
-               Alle
-            </Button>
-
-            <Button
-               variant={isFavoritesActive ? "default" : "outline"}
-               size="sm"
-               onClick={() => handleQuickLinkClick({ isFavorite: true })}
-               className="gap-2"
-            >
-               <Heart className="h-4 w-4" />
-               Favoriten
-            </Button>
-
             <DropdownMenu>
                <DropdownMenuTrigger asChild>
                   <Button
