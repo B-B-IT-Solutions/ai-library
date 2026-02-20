@@ -1,9 +1,7 @@
 "use client";
 
-import { FC, useMemo, useState } from "react";
-import { ChevronDown, ChevronUp, Filter } from "lucide-react";
+import { FC, useMemo } from "react";
 
-import { Button } from "@/components/shadcn/button";
 import { useInfiniteLoadLibraryEntries } from "@/data/ts-queries/library";
 import {
    DListGroupByMode,
@@ -13,7 +11,6 @@ import {
 import { DLibraryEntriesFilter } from "@/data/types/domain/library";
 
 import { CreateLibraryEntryButton } from "./buttons/create-library-entry-button";
-import { LibraryFilters } from "./filters/library-filters";
 import { LibraryEntries } from "./list/library-entries";
 import { LibraryQuickNav } from "./navigation/library-quick-nav";
 import { LibraryToolbar } from "./toolbar/library-toolbar";
@@ -31,8 +28,6 @@ export const LibraryDashboard: FC<Props> = ({
    sortBy,
    filters,
 }) => {
-   const [showFilters, setShowFilters] = useState(false);
-
    // Get total entries count
    const { data } = useInfiniteLoadLibraryEntries({
       search: filters.search,
@@ -62,20 +57,6 @@ export const LibraryDashboard: FC<Props> = ({
                   </p>
                </div>
                <div className="flex items-center gap-3">
-                  <Button
-                     variant="outline"
-                     size="sm"
-                     onClick={() => setShowFilters(!showFilters)}
-                     className="gap-2"
-                  >
-                     <Filter className="h-4 w-4" />
-                     Filter
-                     {showFilters ? (
-                        <ChevronUp className="h-4 w-4" />
-                     ) : (
-                        <ChevronDown className="h-4 w-4" />
-                     )}
-                  </Button>
                   <CreateLibraryEntryButton />
                </div>
             </div>
@@ -83,13 +64,11 @@ export const LibraryDashboard: FC<Props> = ({
             <LibraryQuickNav filters={filters} />
          </div>
 
-         {showFilters && (
-            <div className="animate-in border-b bg-white px-6 py-4 duration-200 slide-in-from-top">
-               <LibraryFilters filters={filters} />
-            </div>
-         )}
-
-         <LibraryToolbar totalEntries={totalEntries} viewMode={viewMode} />
+         <LibraryToolbar
+            viewMode={viewMode}
+            filters={filters}
+            totalEntries={totalEntries}
+         />
 
          <div className="flex-1 overflow-y-auto">
             <LibraryEntries

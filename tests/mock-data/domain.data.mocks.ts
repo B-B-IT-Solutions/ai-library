@@ -5,6 +5,7 @@ import { Sort } from "@/data/types/common";
 import { DCart, DCartItem } from "@/data/types/domain/cart";
 import {
    DLibraryCollection,
+   DLibraryEntriesFilter,
    DLibraryEntry,
    DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
@@ -250,6 +251,16 @@ export const dLibraryEntry = (index = 1): DLibraryEntry => {
       isFavorite: index % 2 == 0,
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dLibraryEntriesFilter = (index = 1): DLibraryEntriesFilter => {
+   return {
+      search: `search ${index}`,
+      categories: ["cat 1", "cat 2", "cat 3"],
+      models: ["mod 1", "mod 2", "mod 3"],
+      collectionIds: ["col-id-1", "col-id-2", "col-id-3"],
+      isFavorite: false,
    };
 };
 
