@@ -6,14 +6,16 @@ import {
    DListViewMode,
 } from "@/data/types/domain/common";
 
-//    view?: DListViewMode;
-//    group?: DListGroupByMode;
-//    sort?: DListSortByMode;
-
 export const librarySearchParams = {
-   view: parseAsStringEnum<DListViewMode>(Object.values(DListViewMode)),
-   //    group: parseAsStringLiteral,
-   //    sort: parseAsStringLiteral,
+   view: parseAsStringEnum<DListViewMode>(
+      Object.values(DListViewMode)
+   ).withDefault(DListViewMode.GRID),
+   group: parseAsStringEnum<DListGroupByMode>(
+      Object.values(DListGroupByMode)
+   ).withDefault(DListGroupByMode.NONE),
+   sort: parseAsStringEnum<DListSortByMode>(
+      Object.values(DListSortByMode)
+   ).withDefault(DListSortByMode.DATE_DESC),
    search: parseAsString,
 };
 

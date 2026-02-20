@@ -23,16 +23,16 @@ import { LibraryQuickNav } from "./navigation/library-quick-nav";
 import { LibraryToolbar } from "./toolbar/library-toolbar";
 
 type Props = {
-   viewMode?: DListViewMode;
-   groupBy?: DListGroupByMode;
-   sortBy?: DListSortByMode;
+   viewMode: DListViewMode;
+   groupBy: DListGroupByMode;
+   sortBy: DListSortByMode;
    filters?: DLibraryEntriesFilter;
 };
 
 export const LibraryDashboard: FC<Props> = ({
-   viewMode = DListViewMode.GRID,
-   groupBy = DListGroupByMode.NONE,
-   sortBy = DListSortByMode.DATE_DESC,
+   viewMode,
+   groupBy,
+   sortBy,
    filters = {},
 }) => {
    const [filters_, setFiltersState] = useState<DLibraryEntriesFilter>({});
