@@ -1,7 +1,9 @@
 "use client";
 
 import { FC, useState } from "react";
-import { Clock, Folder, Heart, Library, Plus } from "lucide-react";
+import { filter, includes, isEmpty } from "es-toolkit/compat";
+import { Folder, Heart, Library, Plus } from "lucide-react";
+import { debounce, useQueryState } from "nuqs";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
@@ -13,34 +15,40 @@ import {
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
 import { useLoadLibraryCollections } from "@/data/ts-queries/library";
+import { DLibraryEntriesFilter } from "@/data/types/domain/library";
 import { cn } from "@/lib/utils";
 import { CreateCollectionDialog } from "../dialog/create-collection-dialog";
-import { useLibraryFilters } from "../filters/library-filters-context";
+import { librarySearchParams } from "../search-params";
 
-export const LibraryQuickNav: FC = () => {
+type Props = {
+   filters: DLibraryEntriesFilter;
+};
+
+export const LibraryQuickNav: FC<Props> = ({ filters }) => {
+   const [f_collectionIds, setCollectionIds] = useQueryState(
+      "f_collectionIds",
+      librarySearchParams["f_collectionIds"]
+   );
+
    const { data: collections = [] } = useLoadLibraryCollections();
-   const { filters, setFilters } = useLibraryFilters();
    const [showCreateDialog, setShowCreateDialog] = useState(false);
 
-   const activeCollectionIds = filters.collectionIds || [];
-
    const handleQuickLinkClick = (filter: any) => {
-      setFilters(filter);
+      // setFilters(filter);
    };
 
    const toggleCollection = (collectionId: string) => {
-      const isActive = activeCollectionIds.includes(collectionId);
+      const isActive = includes(f_collectionIds, collectionId);
       const newCollectionIds = isActive
-         ? activeCollectionIds.filter((id) => id !== collectionId)
-         : [...activeCollectionIds, collectionId];
+         ? filter(f_collectionIds, (id) => id !== collectionId)
+         : [...f_collectionIds, collectionId];
 
-      setFilters({
-         collectionIds:
-            newCollectionIds.length > 0 ? newCollectionIds : undefined,
+      setCollectionIds(newCollectionIds, {
+         limitUrlUpdates: debounce(400),
       });
    };
 
-   const isAllActive = !filters.isFavorite && !activeCollectionIds.length;
+   const isAllActive = !filters.isFavorite && !f_collectionIds.length;
    const isFavoritesActive = !!filters.isFavorite;
 
    return (
@@ -66,31 +74,18 @@ export const LibraryQuickNav: FC = () => {
                Favoriten
             </Button>
 
-            <Button
-               variant="outline"
-               size="sm"
-               onClick={() => handleQuickLinkClick({})}
-               className="gap-2"
-            >
-               <Clock className="h-4 w-4" />
-               Zuletzt hinzugefügt
-            </Button>
-
-            {/* Collections Dropdown */}
             <DropdownMenu>
                <DropdownMenuTrigger asChild>
                   <Button
-                     variant={
-                        activeCollectionIds.length > 0 ? "default" : "outline"
-                     }
+                     variant={!isEmpty(f_collectionIds) ? "default" : "outline"}
                      size="sm"
                      className="gap-2"
                   >
                      <Folder className="h-4 w-4" />
                      Sammlungen
-                     {activeCollectionIds.length > 0 && (
+                     {!isEmpty(f_collectionIds) && (
                         <Badge variant="secondary" className="ml-1 h-5 px-1.5">
-                           {activeCollectionIds.length}
+                           {f_collectionIds.length}
                         </Badge>
                      )}
                   </Button>
@@ -102,7 +97,8 @@ export const LibraryQuickNav: FC = () => {
                      </div>
                   ) : (
                      collections.map((collection) => {
-                        const isActive = activeCollectionIds.includes(
+                        const isActive = includes(
+                           f_collectionIds,
                            collection.id
                         );
                         return (

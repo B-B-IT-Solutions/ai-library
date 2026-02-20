@@ -14,10 +14,6 @@ import { DLibraryEntriesFilter } from "@/data/types/domain/library";
 
 import { CreateLibraryEntryButton } from "./buttons/create-library-entry-button";
 import { LibraryFilters } from "./filters/library-filters";
-import {
-   LibraryFiltersContext,
-   LibraryFiltersContextType,
-} from "./filters/library-filters-context";
 import { LibraryEntries } from "./list/library-entries";
 import { LibraryQuickNav } from "./navigation/library-quick-nav";
 import { LibraryToolbar } from "./toolbar/library-toolbar";
@@ -35,7 +31,6 @@ export const LibraryDashboard: FC<Props> = ({
    sortBy,
    filters,
 }) => {
-   const [filters_, setFiltersState] = useState<DLibraryEntriesFilter>({});
    const [showFilters, setShowFilters] = useState(false);
 
    // Get total entries count
@@ -85,7 +80,7 @@ export const LibraryDashboard: FC<Props> = ({
                </div>
             </div>
 
-            <LibraryQuickNav />
+            <LibraryQuickNav filters={filters} />
          </div>
 
          {showFilters && (
