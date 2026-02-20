@@ -1,7 +1,7 @@
 "use client";
 
 import { FC } from "react";
-import { filter, includes, isEmpty } from "es-toolkit/compat";
+import { filter, includes, isEmpty, map } from "es-toolkit/compat";
 import { debounce, useQueryState } from "nuqs";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -78,7 +78,7 @@ export const CategoriesFilter: FC = () => {
             {badge()}
          </div>
          <div className="max-h-[200px] space-y-2 overflow-y-auto">
-            {categories.map((category) => renderCategory(category))}
+            {map(categories, renderCategory)}
          </div>
       </div>
    );
