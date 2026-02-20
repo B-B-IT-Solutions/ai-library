@@ -83,3 +83,7 @@ global.ResizeObserver = ResizeObserver;
 Object.defineProperty(window.HTMLElement.prototype, "scrollIntoView", {
    value: jest.fn(),
 });
+
+Object.defineProperty(HTMLElement.prototype, "hasPointerCapture", {
+   value: () => false,
+});

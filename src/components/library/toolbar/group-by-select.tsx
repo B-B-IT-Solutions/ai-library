@@ -32,10 +32,18 @@ export const GroupBySelect: FC<Props> = ({ currentGroupBy }) => {
             <SelectValue placeholder="Gruppierung" />
          </SelectTrigger>
          <SelectContent>
-            <SelectItem value="none">Keine Gruppierung</SelectItem>
-            <SelectItem value="category">Nach Kategorie</SelectItem>
-            <SelectItem value="model">Nach Modell</SelectItem>
-            <SelectItem value="date">Nach Datum</SelectItem>
+            <SelectItem value="none" data-testid="none">
+               Keine Gruppierung
+            </SelectItem>
+            <SelectItem value="category" data-testid="category">
+               Nach Kategorie
+            </SelectItem>
+            <SelectItem value="model" data-testid="model">
+               Nach Modell
+            </SelectItem>
+            <SelectItem value="date" data-testid="date">
+               Nach Datum
+            </SelectItem>
          </SelectContent>
       </Select>
    );
