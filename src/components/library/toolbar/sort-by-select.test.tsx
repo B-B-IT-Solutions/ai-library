@@ -79,7 +79,7 @@ describe("SortBySelect functinality tests", () => {
       });
 
       const select = screen.getByTestId("sort-by-select");
-      userEvent.click(select);
+      await userEvent.click(select);
 
       await waitFor(() => {
          const option = screen.getByTestId("date-asc");
@@ -88,7 +88,7 @@ describe("SortBySelect functinality tests", () => {
       });
 
       const option = screen.getByTestId("date-asc");
-      userEvent.click(option);
+      await userEvent.click(option);
 
       const expectedEvent = {
          options: { history: "replace", scroll: false, shallow: false },
@@ -116,7 +116,7 @@ describe("SortBySelect functinality tests", () => {
       });
 
       const select = screen.getByTestId("sort-by-select");
-      userEvent.click(select);
+      await userEvent.click(select);
 
       await waitFor(() => {
          const option = screen.getByTestId("name-asc");
@@ -125,7 +125,7 @@ describe("SortBySelect functinality tests", () => {
       });
 
       const option = screen.getByTestId("name-asc");
-      userEvent.click(option);
+      await userEvent.click(option);
 
       const expectedEvent = {
          options: { history: "replace", scroll: false, shallow: false },

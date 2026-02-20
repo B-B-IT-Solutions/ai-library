@@ -76,7 +76,7 @@ describe("GroupBySelect functinality tests", () => {
       });
 
       const select = screen.getByTestId("group-by-select");
-      userEvent.click(select);
+      await userEvent.click(select);
 
       await waitFor(() => {
          const categoryOption = screen.getByTestId("category");
@@ -85,7 +85,7 @@ describe("GroupBySelect functinality tests", () => {
       });
 
       const categoryOption = screen.getByTestId("category");
-      userEvent.click(categoryOption);
+      await userEvent.click(categoryOption);
 
       const expectedEvent = {
          options: { history: "replace", scroll: false, shallow: false },
@@ -113,7 +113,7 @@ describe("GroupBySelect functinality tests", () => {
       });
 
       const select = screen.getByTestId("group-by-select");
-      userEvent.click(select);
+      await userEvent.click(select);
 
       await waitFor(() => {
          const modelOption = screen.getByTestId("model");
@@ -122,7 +122,7 @@ describe("GroupBySelect functinality tests", () => {
       });
 
       const modelOption = screen.getByTestId("model");
-      userEvent.click(modelOption);
+      await userEvent.click(modelOption);
 
       const expectedEvent = {
          options: { history: "replace", scroll: false, shallow: false },

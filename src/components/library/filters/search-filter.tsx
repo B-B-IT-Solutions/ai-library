@@ -27,6 +27,7 @@ export const SearchFilter: FC = () => {
             value={search}
             onChange={(e) => handleChange(e.target.value)}
             className="pl-9"
+            data-testid="input"
          />
       </div>
    );
