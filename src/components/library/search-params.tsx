@@ -6,16 +6,28 @@ import {
    DListViewMode,
 } from "@/data/types/domain/common";
 
+export const viewParam = parseAsStringEnum<DListViewMode>(
+   Object.values(DListViewMode)
+)
+   .withDefault(DListViewMode.GRID)
+   .withOptions({ shallow: false });
+
+export const groupByParam = parseAsStringEnum<DListGroupByMode>(
+   Object.values(DListGroupByMode)
+)
+   .withDefault(DListGroupByMode.NONE)
+   .withOptions({ shallow: false });
+
+export const sortByParam = parseAsStringEnum<DListSortByMode>(
+   Object.values(DListSortByMode)
+)
+   .withDefault(DListSortByMode.DATE_DESC)
+   .withOptions({ shallow: false });
+
 export const librarySearchParams = {
-   view: parseAsStringEnum<DListViewMode>(
-      Object.values(DListViewMode)
-   ).withDefault(DListViewMode.GRID),
-   group: parseAsStringEnum<DListGroupByMode>(
-      Object.values(DListGroupByMode)
-   ).withDefault(DListGroupByMode.NONE),
-   sort: parseAsStringEnum<DListSortByMode>(
-      Object.values(DListSortByMode)
-   ).withDefault(DListSortByMode.DATE_DESC),
+   view: viewParam,
+   group: groupByParam,
+   sort: sortByParam,
    search: parseAsString,
 };
 

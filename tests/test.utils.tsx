@@ -9,6 +9,11 @@ import {
 } from "@testing-library/react";
 import mockRouter from "next-router-mock";
 import { MemoryRouterProvider } from "next-router-mock/MemoryRouterProvider/next-13.5";
+import {
+   OnUrlUpdateFunction,
+   type UrlUpdateEvent,
+   withNuqsTestingAdapter,
+} from "nuqs/adapters/testing";
 
 import { SidebarProvider } from "@/components/shadcn/sidebar";
 import { TooltipProvider } from "@/components/shadcn/tooltip";
@@ -66,7 +71,9 @@ export const renderWithTooltip = (component: React.ReactNode) => {
 
 export const renderWithRouter = (
    component: React.ReactNode,
-   url: string = "/"
+   url: string = "/",
+   searchParams?: string,
+   onNuqsUrlUpdate?: OnUrlUpdateFunction
 ) => {
    const queryClient = testQueryClient();
    mockRouter.push(url);
@@ -76,7 +83,13 @@ export const renderWithRouter = (
             <MemoryRouterProvider url={url}>
                <TooltipProvider>{component}</TooltipProvider>
             </MemoryRouterProvider>
-         </QueryClientProvider>
+         </QueryClientProvider>,
+         {
+            wrapper: withNuqsTestingAdapter({
+               searchParams: `?${searchParams}`,
+               onUrlUpdate: onNuqsUrlUpdate,
+            }),
+         }
       ),
    };
 };

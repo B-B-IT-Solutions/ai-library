@@ -1,7 +1,6 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, renderWithRouter } from "@tests";
-import mockRouter from "next-router-mock";
 
 import { GroupBySelect } from "./group-by-select";
 
@@ -12,7 +11,13 @@ const assertRendered = () => {
 
 describe("GroupBySelect rendering tests", () => {
    it("GroupBySelect - groupBy none - test", async () => {
-      const { container } = render(<GroupBySelect currentGroupBy="none" />);
+      const url = "/library";
+      const searchParams = "group=none";
+      const { container } = renderWithRouter(
+         <GroupBySelect />,
+         url,
+         searchParams
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -22,7 +27,13 @@ describe("GroupBySelect rendering tests", () => {
    });
 
    it("GroupBySelect - groupBy date - test", async () => {
-      const { container } = render(<GroupBySelect currentGroupBy="date" />);
+      const url = "/library";
+      const searchParams = "group=date";
+      const { container } = renderWithRouter(
+         <GroupBySelect />,
+         url,
+         searchParams
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -32,7 +43,13 @@ describe("GroupBySelect rendering tests", () => {
    });
 
    it("GroupBySelect - groupBy model - test", async () => {
-      const { container } = render(<GroupBySelect currentGroupBy="model" />);
+      const url = "/library";
+      const searchParams = "group=model";
+      const { container } = renderWithRouter(
+         <GroupBySelect />,
+         url,
+         searchParams
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -49,11 +66,13 @@ describe("GroupBySelect functinality tests", () => {
 
    it("GroupBySelect - option category selected - test", async () => {
       const url = "/library";
-      renderWithRouter(<GroupBySelect currentGroupBy="none" />, url);
+      const searchParams = "group=none";
+      const onUrlUpdateFn = jest.fn();
+      renderWithRouter(<GroupBySelect />, url, searchParams, onUrlUpdateFn);
 
       await waitFor(() => {
          assertRendered();
-         expect(mockRouter.pathname).toEqual(url);
+         expect(onUrlUpdateFn).not.toHaveBeenCalled();
       });
 
       const select = screen.getByTestId("group-by-select");
@@ -62,27 +81,35 @@ describe("GroupBySelect functinality tests", () => {
       await waitFor(() => {
          const categoryOption = screen.getByTestId("category");
          assertInDocument(categoryOption);
-         expect(mockRouter.pathname).toEqual(url);
+         expect(onUrlUpdateFn).not.toHaveBeenCalled();
       });
 
       const categoryOption = screen.getByTestId("category");
       userEvent.click(categoryOption);
 
+      const expectedEvent = {
+         options: { history: "replace", scroll: false, shallow: false },
+         queryString: "?group=category",
+      };
+
       await waitFor(() => {
-         expect(mockRouter.replace).toHaveBeenCalledTimes(1);
-         expect(mockRouter.replace).toHaveBeenCalledWith(
-            `${url}?group=category`
-         );
+         expect(onUrlUpdateFn).toHaveBeenCalledTimes(1);
       });
+
+      const event = onUrlUpdateFn.mock.calls[0]![0]!;
+      expect(event.queryString).toEqual(expectedEvent.queryString);
+      expect(event.options).toEqual(expectedEvent.options);
    });
 
    it("GroupBySelect - option model selected - test", async () => {
       const url = "/library";
-      renderWithRouter(<GroupBySelect currentGroupBy="none" />, url);
+      const searchParams = "group=none";
+      const onUrlUpdateFn = jest.fn();
+      renderWithRouter(<GroupBySelect />, url, searchParams, onUrlUpdateFn);
 
       await waitFor(() => {
          assertRendered();
-         expect(mockRouter.pathname).toEqual(url);
+         expect(onUrlUpdateFn).not.toHaveBeenCalled();
       });
 
       const select = screen.getByTestId("group-by-select");
@@ -91,15 +118,23 @@ describe("GroupBySelect functinality tests", () => {
       await waitFor(() => {
          const modelOption = screen.getByTestId("model");
          assertInDocument(modelOption);
-         expect(mockRouter.pathname).toEqual(url);
+         expect(onUrlUpdateFn).not.toHaveBeenCalled();
       });
 
       const modelOption = screen.getByTestId("model");
       userEvent.click(modelOption);
 
+      const expectedEvent = {
+         options: { history: "replace", scroll: false, shallow: false },
+         queryString: "?group=model",
+      };
+
       await waitFor(() => {
-         expect(mockRouter.replace).toHaveBeenCalledTimes(1);
-         expect(mockRouter.replace).toHaveBeenCalledWith(`${url}?group=model`);
+         expect(onUrlUpdateFn).toHaveBeenCalledTimes(1);
       });
+
+      const event = onUrlUpdateFn.mock.calls[0]![0]!;
+      expect(event.queryString).toEqual(expectedEvent.queryString);
+      expect(event.options).toEqual(expectedEvent.options);
    });
 });

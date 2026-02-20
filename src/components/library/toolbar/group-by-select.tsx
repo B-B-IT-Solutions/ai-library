@@ -1,6 +1,7 @@
 "use client";
 
 import { FC } from "react";
+import { useQueryState } from "nuqs";
 
 import {
    Select,
@@ -10,23 +11,22 @@ import {
    SelectValue,
 } from "@/components/shadcn/select";
 import { DListGroupByMode } from "@/data/types/domain/common";
-import { useSetUrlSearchParams } from "@/hooks";
+import { librarySearchParams } from "../search-params";
 
 type Props = {
-   currentGroupBy: DListGroupByMode;
+   currentGroupBy?: DListGroupByMode;
 };
 
-export const GroupBySelect: FC<Props> = ({ currentGroupBy }) => {
-   const { setUrlSearchParams } = useSetUrlSearchParams();
-
-   const updateGroupBy = (groupBy: DListGroupByMode) => {
-      setUrlSearchParams("group", groupBy);
-   };
+export const GroupBySelect: FC<Props> = () => {
+   const [group, setGroup] = useQueryState(
+      "group",
+      librarySearchParams["group"]
+   );
 
    return (
       <Select
-         value={currentGroupBy}
-         onValueChange={(value: DListGroupByMode) => updateGroupBy(value)}
+         value={group}
+         onValueChange={(value: DListGroupByMode) => setGroup(value)}
       >
          <SelectTrigger className="h-8 w-[180px]" data-testid="group-by-select">
             <SelectValue placeholder="Gruppierung" />
