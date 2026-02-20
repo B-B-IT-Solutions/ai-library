@@ -18,7 +18,7 @@ import {
    LibraryFiltersContext,
    LibraryFiltersContextType,
 } from "./filters/library-filters-context";
-import { LibraryContent } from "./list/library-content";
+import { LibraryEntries } from "./list/library-entries";
 import { LibraryQuickNav } from "./navigation/library-quick-nav";
 import { LibraryToolbar } from "./toolbar/library-toolbar";
 
@@ -130,7 +130,7 @@ export const LibraryDashboard: FC<Props> = ({ viewMode = "grid" }) => {
             <LibraryToolbar totalEntries={totalEntries} viewMode={viewMode} />
 
             <div className="flex-1 overflow-y-auto">
-               <LibraryContent viewMode={viewMode} />
+               <LibraryEntries viewMode={viewMode} />
             </div>
          </div>
       </LibraryFiltersContext.Provider>

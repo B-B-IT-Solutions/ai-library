@@ -1,7 +1,7 @@
 import { screen, waitFor } from "@testing-library/dom";
-import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
+import { assertInDocument, renderWithReactQuery } from "@tests";
 
-import { LibraryEntries } from "./library-entries";
+import { LibraryDashboard } from "./library-dashboard";
 
 const assertRendered = () => {
    const entries = screen.getByTestId("library-entries");
@@ -13,12 +13,10 @@ const assertLibraryEntryCards = () => {
    expect(entryCards).toHaveLength(3);
 };
 
-describe("LibraryEntries rendering tests", () => {
-   it("LibraryEntries - viewMode grid - rendered test", async () => {
-      const entries = dtestData.dLibraryEntries();
-
+describe("LibraryDashboard rendering tests", () => {
+   it("LibraryDashboard - viewMode grid - rendered test", async () => {
       const { container } = renderWithReactQuery(
-         <LibraryEntries entries={entries} />
+         <LibraryDashboard viewMode="grid" />
       );
 
       await waitFor(() => {
@@ -29,11 +27,9 @@ describe("LibraryEntries rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("LibraryEntries - viewMode list - rendered test", async () => {
-      const entries = dtestData.dLibraryEntries();
-
+   it("LibraryDashboard - viewMode list - rendered test", async () => {
       const { container } = renderWithReactQuery(
-         <LibraryEntries entries={entries} />
+         <LibraryDashboard viewMode="list" />
       );
 
       await waitFor(() => {

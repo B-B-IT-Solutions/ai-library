@@ -19,7 +19,7 @@ type Props = {
    viewMode: DListViewMode;
 };
 
-export const LibraryContent: FC<Props> = ({ viewMode }) => {
+export const LibraryEntries: FC<Props> = ({ viewMode }) => {
    const context = useLibraryFilters();
    const { data: collections = [] } = useLoadLibraryCollections();
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
