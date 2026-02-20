@@ -1,5 +1,3 @@
-"use client";
-
 import { FC } from "react";
 
 import { ListViewToggle } from "@/components/shared/buttons";
@@ -26,7 +24,10 @@ export const LibraryToolbar: FC<Props> = ({
    totalEntries,
 }) => {
    return (
-      <div className="flex items-center justify-between border-b bg-white px-6 py-3">
+      <div
+         className="flex items-center justify-between border-b bg-white px-6 py-3"
+         data-testid="library-toolbar"
+      >
          <div className="flex items-center gap-4">
             <ListViewToggle currentView={viewMode} />
             <GroupBySelect currentGroupBy={groupBy} />
