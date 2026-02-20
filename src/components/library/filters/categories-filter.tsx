@@ -41,35 +41,43 @@ export const CategoriesFilter: FC = () => {
       );
    }
 
+   const badge = () => {
+      if (!isEmpty(f_categories)) {
+         return (
+            <Badge variant="secondary" className="h-5 px-2 text-xs">
+               {f_categories.length}
+            </Badge>
+         );
+      }
+   };
+
+   const renderCategory = (category: string) => {
+      const isSelected = includes(f_categories, category);
+      return (
+         <div key={category} className="flex items-center space-x-2">
+            <Checkbox
+               id={`category-${category}`}
+               checked={isSelected}
+               onCheckedChange={() => toggleCategory(category)}
+            />
+            <Label
+               htmlFor={`category-${category}`}
+               className="cursor-pointer text-sm font-normal"
+            >
+               {category}
+            </Label>
+         </div>
+      );
+   };
+
    return (
-      <div className="space-y-3">
+      <div className="space-y-3" data-testid="categories-filter">
          <div className="flex items-center justify-between">
             <Label className="text-sm font-medium">Kategorien</Label>
-            {!isEmpty(f_categories) && (
-               <Badge variant="secondary" className="h-5 px-2 text-xs">
-                  {f_categories.length}
-               </Badge>
-            )}
+            {badge()}
          </div>
          <div className="max-h-[200px] space-y-2 overflow-y-auto">
-            {categories.map((category) => {
-               const isSelected = includes(f_categories, category);
-               return (
-                  <div key={category} className="flex items-center space-x-2">
-                     <Checkbox
-                        id={`category-${category}`}
-                        checked={isSelected}
-                        onCheckedChange={() => toggleCategory(category)}
-                     />
-                     <Label
-                        htmlFor={`category-${category}`}
-                        className="cursor-pointer text-sm font-normal"
-                     >
-                        {category}
-                     </Label>
-                  </div>
-               );
-            })}
+            {categories.map((category) => renderCategory(category))}
          </div>
       </div>
    );
