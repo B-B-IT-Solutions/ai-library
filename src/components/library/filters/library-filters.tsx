@@ -37,6 +37,7 @@ export const LibraryFilters: FC<Props> = ({ filters }) => {
       {
          f_search: librarySearchParams["f_search"],
          f_categories: librarySearchParams["f_categories"],
+         f_models: librarySearchParams["f_models"],
       },
       {
          shallow: false,

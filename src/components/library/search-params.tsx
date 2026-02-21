@@ -1,5 +1,6 @@
 import {
    createLoader,
+   type inferParserType,
    parseAsArrayOf,
    parseAsBoolean,
    parseAsString,
@@ -60,5 +61,14 @@ export const librarySearchParams = {
    f_collectionIds: f_collectionIdsParam,
    f_isFavorite: f_isFavoriteParam,
 };
+
+export type DLibrarySearchParamsType = Partial<
+   inferParserType<typeof librarySearchParams>
+>;
+
+export type DLibrarySearchParamsFiltersType = Omit<
+   DLibrarySearchParamsType,
+   "view" | "group" | "sort"
+>;
 
 export const loadLibrarySearchParams = createLoader(librarySearchParams);

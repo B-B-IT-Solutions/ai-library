@@ -1,22 +1,25 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useState } from "react";
 import { filter, includes, isEmpty, map } from "es-toolkit/compat";
-import { debounce, useQueryState } from "nuqs";
+import { useDebouncedCallback } from "use-debounce";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Checkbox } from "@/components/shadcn/checkbox";
 import { Label } from "@/components/shadcn/label";
 import { useLoadLibraryModels } from "@/data/ts-queries/library";
-import { librarySearchParams } from "../search-params";
+
+import { useLibraryEntryFiltersContext } from "./filters-context";
 
 export const ModelsFilter: FC = () => {
-   const [f_models, setModels] = useQueryState(
-      "f_models",
-      librarySearchParams["f_models"]
-   );
+   const filtersContext = useLibraryEntryFiltersContext();
+   const [f_models, setModels] = useState(filtersContext.getModels());
 
    const { data: models = [], isLoading } = useLoadLibraryModels();
+
+   const updateFiltersContext = useDebouncedCallback((values: string[]) => {
+      filtersContext.setModels(values);
+   }, 400);
 
    const toggleModel = (model: string) => {
       const isSelected = includes(f_models, model);
@@ -24,9 +27,8 @@ export const ModelsFilter: FC = () => {
          ? filter(f_models, (m) => m !== model)
          : [...f_models, model];
 
-      setModels(newModels, {
-         limitUrlUpdates: debounce(400),
-      });
+      setModels(newModels);
+      updateFiltersContext(newModels);
    };
 
    const badge = () => {
