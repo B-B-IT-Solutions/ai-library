@@ -3,6 +3,7 @@
 import { FC, useMemo, useState } from "react";
 import { isEmpty } from "es-toolkit/compat";
 import { ChevronDown, ChevronUp, Filter, X } from "lucide-react";
+import { useQueryStates } from "nuqs";
 
 import { Button } from "@/components/shadcn/button";
 import {
@@ -12,8 +13,13 @@ import {
 } from "@/components/shadcn/popover";
 import { Separator } from "@/components/shadcn/separator";
 import { DLibraryEntriesFilter } from "@/data/types/domain/library";
+import { librarySearchParams } from "../search-params";
 
 import { CategoriesFilter } from "./categories-filter";
+import {
+   LibraryEntryFilterContext,
+   LibraryEntryFiltersHelper,
+} from "./filters-context";
 import { ModelsFilter } from "./models-filter";
 import { SearchFilter } from "./search-filter";
 
@@ -23,6 +29,25 @@ type Props = {
 
 export const LibraryFilters: FC<Props> = ({ filters }) => {
    const [showFilters, setShowFilters] = useState(false);
+   const [filtersContext] = useState<LibraryEntryFiltersHelper>(
+      new LibraryEntryFiltersHelper(filters)
+   );
+
+   const [filters_, setFilters_] = useQueryStates(
+      {
+         f_search: librarySearchParams["f_search"],
+      },
+      {
+         shallow: false,
+      }
+   );
+
+   const applyFilters = () => {
+      setFilters_(filtersContext.getFilters());
+      setShowFilters(false);
+   };
+
+   console.log(filtersContext);
 
    const hasActiveFilters = useMemo(() => {
       return (
@@ -50,14 +75,15 @@ export const LibraryFilters: FC<Props> = ({ filters }) => {
                   </Button>
                )}
             </div>
-
-            <div className="space-y-4">
-               <SearchFilter />
-               <Separator />
-               <CategoriesFilter />
-               <Separator />
-               <ModelsFilter />
-            </div>
+            <LibraryEntryFilterContext.Provider value={filtersContext}>
+               <div className="space-y-4">
+                  <SearchFilter />
+                  <Separator />
+                  <CategoriesFilter />
+                  <Separator />
+                  <ModelsFilter />
+               </div>
+            </LibraryEntryFilterContext.Provider>
          </div>
       );
    };
@@ -80,7 +106,12 @@ export const LibraryFilters: FC<Props> = ({ filters }) => {
                )}
             </Button>
          </PopoverTrigger>
-         <PopoverContent>{renderFilters()}</PopoverContent>
+         <PopoverContent>
+            {renderFilters()}
+            <Button variant="outline" size="sm" onClick={applyFilters}>
+               OK
+            </Button>
+         </PopoverContent>
       </Popover>
    );
 };

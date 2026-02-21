@@ -1,8 +1,32 @@
-import { screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, renderWithRouter } from "@tests";
+import { assertInDocument } from "@tests";
 
+import {
+   LibraryEntryFilterContext,
+   LibraryEntryFiltersHelper,
+} from "./filters-context";
 import { SearchFilter } from "./search-filter";
+
+const filtersHelper = new LibraryEntryFiltersHelper({});
+
+const TestWrapper = () => {
+   return (
+      <LibraryEntryFilterContext.Provider value={filtersHelper}>
+         <SearchFilter />
+      </LibraryEntryFilterContext.Provider>
+   );
+};
+
+const mockGetSearch = (value: string) => {
+   return jest
+      .spyOn(LibraryEntryFiltersHelper.prototype, "getSearch")
+      .mockImplementation(() => value);
+};
+
+const mockSetSearch = () => {
+   return jest.spyOn(LibraryEntryFiltersHelper.prototype, "setSearch");
+};
 
 const assertRendered = () => {
    const filter = screen.getByTestId("search-filter");
@@ -13,33 +37,30 @@ const assertRendered = () => {
 };
 
 describe("SearchFilter rendering tests", () => {
-   it("SearchFilter - f_search test-1 - test", async () => {
-      const url = "/library";
-      const searchParams = "f_search=test-1";
-      const { container } = renderWithRouter(
-         <SearchFilter />,
-         url,
-         searchParams
-      );
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("SearchFilter - search test-1 - test", async () => {
+      const getSearchFn = mockGetSearch("test-1");
+
+      const { container } = render(<TestWrapper />);
 
       await waitFor(() => {
          assertRendered();
+         expect(getSearchFn).toHaveBeenCalledTimes(1);
       });
 
       expect(container).toMatchSnapshot();
    });
 
-   it("SearchFilter - f_search test-2 - test", async () => {
-      const url = "/library";
-      const searchParams = "f_search=test-2";
-      const { container } = renderWithRouter(
-         <SearchFilter />,
-         url,
-         searchParams
-      );
+   it("SearchFilter - search test-2 - test", async () => {
+      const getSearchFn = mockGetSearch("test-2");
+      const { container } = render(<TestWrapper />);
 
       await waitFor(() => {
          assertRendered();
+         expect(getSearchFn).toHaveBeenCalledTimes(1);
       });
 
       expect(container).toMatchSnapshot();
@@ -51,32 +72,25 @@ describe("SearchFilter functinality tests", () => {
       jest.clearAllMocks();
    });
 
-   it("SearchFilter - option category selected - test", async () => {
-      const url = "/library";
-      const searchParams = "f_search=t";
-      const onUrlUpdateFn = jest.fn();
-      renderWithRouter(<SearchFilter />, url, searchParams, onUrlUpdateFn);
+   it("SearchFilter - search input typed - test", async () => {
+      const getSearchFn = mockGetSearch("");
+      const setSearchFn = mockSetSearch();
+
+      render(<TestWrapper />);
 
       await waitFor(() => {
          assertRendered();
-         expect(onUrlUpdateFn).not.toHaveBeenCalled();
+         expect(getSearchFn).toHaveBeenCalledTimes(1);
+         expect(setSearchFn).not.toHaveBeenCalled();
       });
 
-      const value = "est-789";
+      const value = "test-789";
       const input = screen.getByTestId("input");
       await userEvent.type(input, value);
 
-      const expectedEvent = {
-         options: { history: "replace", scroll: false, shallow: false },
-         queryString: "?f_search=test-789",
-      };
-
       await waitFor(() => {
-         expect(onUrlUpdateFn).toHaveBeenCalledTimes(1);
+         expect(setSearchFn).toHaveBeenCalledTimes(1);
+         expect(setSearchFn).toHaveBeenCalledWith(value);
       });
-
-      const event = onUrlUpdateFn.mock.calls[0]![0]!;
-      expect(event.queryString).toEqual(expectedEvent.queryString);
-      expect(event.options).toEqual(expectedEvent.options);
    });
 });

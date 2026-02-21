@@ -1,22 +1,24 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Search } from "lucide-react";
-import { debounce, useQueryState } from "nuqs";
+import { useDebouncedCallback } from "use-debounce";
 
 import { Input } from "@/components/shadcn/input";
-import { librarySearchParams } from "../search-params";
+
+import { useLibraryEntryFiltersContext } from "./filters-context";
 
 export const SearchFilter: FC = () => {
-   const [search, setSearch] = useQueryState(
-      "f_search",
-      librarySearchParams["f_search"]
-   );
+   const filtersContext = useLibraryEntryFiltersContext();
+   const [search, setSearch] = useState(filtersContext.getSearch());
+
+   const updateFiltersContext = useDebouncedCallback((value: string) => {
+      filtersContext.setSearch(value);
+   }, 300);
 
    const handleChange = (value: string) => {
-      setSearch(value, {
-         limitUrlUpdates: debounce(400),
-      });
+      setSearch(value);
+      updateFiltersContext(value);
    };
 
    return (
