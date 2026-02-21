@@ -47,8 +47,6 @@ export const LibraryFilters: FC<Props> = ({ filters }) => {
       setShowFilters(false);
    };
 
-   console.log(filtersContext);
-
    const hasActiveFilters = useMemo(() => {
       return (
          !isEmpty(filters.search) ||
@@ -108,7 +106,12 @@ export const LibraryFilters: FC<Props> = ({ filters }) => {
          </PopoverTrigger>
          <PopoverContent>
             {renderFilters()}
-            <Button variant="outline" size="sm" onClick={applyFilters}>
+            <Button
+               variant="outline"
+               size="sm"
+               onClick={applyFilters}
+               data-testid="apply-filters-btn"
+            >
                OK
             </Button>
          </PopoverContent>
