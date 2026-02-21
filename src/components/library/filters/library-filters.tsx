@@ -12,7 +12,6 @@ import {
    PopoverTrigger,
 } from "@/components/shadcn/popover";
 import { Separator } from "@/components/shadcn/separator";
-import { DLibraryEntriesFilter } from "@/data/types/domain/library";
 import { librarySearchParams } from "../search-params";
 
 import { CategoriesFilter } from "./categories-filter";
@@ -23,17 +22,10 @@ import {
 import { ModelsFilter } from "./models-filter";
 import { SearchFilter } from "./search-filter";
 
-type Props = {
-   filters: DLibraryEntriesFilter;
-};
-
-export const LibraryFilters: FC<Props> = ({ filters }) => {
+export const LibraryFilters: FC = () => {
    const [showFilters, setShowFilters] = useState(false);
-   const [filtersContext] = useState<LibraryEntryFiltersHelper>(
-      new LibraryEntryFiltersHelper(filters)
-   );
 
-   const [filters_, setFilters_] = useQueryStates(
+   const [filters, setFilters] = useQueryStates(
       {
          f_search: librarySearchParams["f_search"],
          f_categories: librarySearchParams["f_categories"],
@@ -44,18 +36,20 @@ export const LibraryFilters: FC<Props> = ({ filters }) => {
       }
    );
 
+   const [filtersContext] = useState<LibraryEntryFiltersHelper>(
+      new LibraryEntryFiltersHelper(filters)
+   );
+
    const applyFilters = () => {
-      setFilters_(filtersContext.getFilters());
+      setFilters(filtersContext.getFilters());
       setShowFilters(false);
    };
 
    const hasActiveFilters = useMemo(() => {
       return (
-         !isEmpty(filters.search) ||
-         !isEmpty(filters.categories) ||
-         !isEmpty(filters.models) ||
-         !isEmpty(filters.models) ||
-         filters.isFavorite
+         !isEmpty(filters.f_search) ||
+         !isEmpty(filters.f_categories) ||
+         !isEmpty(filters.f_models)
       );
    }, [filters]);
 

@@ -55,7 +55,7 @@ describe("LibraryFilters rendering tests", () => {
       const url = "/library";
       const searchParams = "";
       const { container } = renderWithRouter(
-         <LibraryFilters filters={{}} />,
+         <LibraryFilters />,
          url,
          searchParams
       );
@@ -77,7 +77,7 @@ describe("LibraryFilters rendering tests", () => {
       const url = "/library";
       const searchParams = "f_search=test-1";
       const { container } = renderWithRouter(
-         <LibraryFilters filters={{}} />,
+         <LibraryFilters />,
          url,
          searchParams
       );
@@ -105,12 +105,7 @@ describe("LibraryFilters functinality tests", () => {
       const url = "/library";
       const searchParams = "";
       const onUrlUpdateFn = jest.fn();
-      renderWithRouter(
-         <LibraryFilters filters={{}} />,
-         url,
-         searchParams,
-         onUrlUpdateFn
-      );
+      renderWithRouter(<LibraryFilters />, url, searchParams, onUrlUpdateFn);
 
       await waitFor(() => {
          assertRendered();
@@ -156,14 +151,9 @@ describe("LibraryFilters functinality tests", () => {
       getLibraryModelsMock.mockResolvedValue(models);
 
       const url = "/library";
-      const searchParams = "";
+      const searchParams = "f_categories=cat-1";
       const onUrlUpdateFn = jest.fn();
-      renderWithRouter(
-         <LibraryFilters filters={{ categories: ["cat-1"] }} />,
-         url,
-         searchParams,
-         onUrlUpdateFn
-      );
+      renderWithRouter(<LibraryFilters />, url, searchParams, onUrlUpdateFn);
 
       await waitFor(() => {
          assertRendered();
@@ -204,14 +194,9 @@ describe("LibraryFilters functinality tests", () => {
       getLibraryModelsMock.mockResolvedValue(models);
 
       const url = "/library";
-      const searchParams = "";
+      const searchParams = "f_models=mod-1";
       const onUrlUpdateFn = jest.fn();
-      renderWithRouter(
-         <LibraryFilters filters={{ models: ["mod-1"] }} />,
-         url,
-         searchParams,
-         onUrlUpdateFn
-      );
+      renderWithRouter(<LibraryFilters />, url, searchParams, onUrlUpdateFn);
 
       await waitFor(() => {
          assertRendered();

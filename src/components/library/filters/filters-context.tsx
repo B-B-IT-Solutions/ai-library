@@ -1,45 +1,40 @@
 import { createContext, useContext } from "react";
 
-import { DLibraryEntriesFilter } from "@/data/types/domain/library";
 import { DLibrarySearchParamsFiltersType } from "../search-params";
 
 export class LibraryEntryFiltersHelper {
-   private filters: DLibraryEntriesFilter;
+   private filters: DLibrarySearchParamsFiltersType;
 
-   constructor(filters: DLibraryEntriesFilter) {
+   constructor(filters: DLibrarySearchParamsFiltersType) {
       this.filters = filters;
    }
 
    getFilters(): DLibrarySearchParamsFiltersType {
-      return {
-         f_search: this.filters.search,
-         f_categories: this.filters.categories,
-         f_models: this.filters.models,
-      };
+      return this.filters;
    }
 
    setSearch(value: string) {
-      this.filters.search = value;
+      this.filters.f_search = value;
    }
 
    getSearch(): string {
-      return this.filters.search || "";
+      return this.filters.f_search || "";
    }
 
    setCategories(categories: string[]) {
-      this.filters.categories = categories;
+      this.filters.f_categories = categories;
    }
 
    getCategories(): string[] {
-      return this.filters.categories || [];
+      return this.filters.f_categories || [];
    }
 
    setModels(models: string[]) {
-      this.filters.models = models;
+      this.filters.f_models = models;
    }
 
    getModels(): string[] {
-      return this.filters.models || [];
+      return this.filters.f_models || [];
    }
 }
 

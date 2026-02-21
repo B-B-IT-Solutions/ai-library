@@ -16,11 +16,7 @@ type Props = {
    totalEntries: number;
 };
 
-export const LibraryToolbar: FC<Props> = ({
-   viewMode,
-   filters,
-   totalEntries,
-}) => {
+export const LibraryToolbar: FC<Props> = ({ viewMode, totalEntries }) => {
    return (
       <div
          className="flex items-center justify-between border-b bg-white px-6 py-3"
@@ -28,7 +24,7 @@ export const LibraryToolbar: FC<Props> = ({
       >
          <div className="flex items-center gap-4">
             <ListViewToggle currentView={viewMode} />
-            <LibraryFilters filters={filters} />
+            <LibraryFilters />
             <GroupBySelect />
             <SortBySelect />
          </div>
