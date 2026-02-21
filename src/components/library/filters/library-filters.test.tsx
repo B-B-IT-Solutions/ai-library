@@ -25,12 +25,16 @@ const getLibraryModelsMock = getLibraryModels as jest.MockedFunction<
 >;
 
 const assertRendered = () => {
-   const filters = screen.getByTestId("library-entry-filters");
+   const filters = screen.getByTestId("library-entry-filters-trigger");
+   const search = screen.getByTestId("search-filter");
    const categories = screen.getByTestId("categories-filter");
+   const models = screen.getByTestId("models-filter");
    const applyBtn = screen.getByTestId("apply-filters-btn");
 
    assertInDocument(filters);
+   assertInDocument(search);
    assertInDocument(categories);
+   assertInDocument(models);
    assertInDocument(applyBtn);
 };
 
@@ -113,6 +117,9 @@ describe("LibraryFilters functinality tests", () => {
          expect(onUrlUpdateFn).not.toHaveBeenCalled();
       });
 
+      const triggerBtn = screen.getByTestId("library-entry-filters-trigger");
+      await userEvent.click(triggerBtn);
+
       const searchFilter = screen.getByTestId("search-filter");
       const input = within(searchFilter).getByTestId("input");
 
@@ -163,6 +170,9 @@ describe("LibraryFilters functinality tests", () => {
          expect(onUrlUpdateFn).not.toHaveBeenCalled();
       });
 
+      const triggerBtn = screen.getByTestId("library-entry-filters-trigger");
+      await userEvent.click(triggerBtn);
+
       const cat1 = screen.getByTestId("category-cat-1");
       await userEvent.click(cat1);
 
@@ -207,6 +217,9 @@ describe("LibraryFilters functinality tests", () => {
          assertRendered();
          expect(onUrlUpdateFn).not.toHaveBeenCalled();
       });
+
+      const triggerBtn = screen.getByTestId("library-entry-filters-trigger");
+      await userEvent.click(triggerBtn);
 
       const cat1 = screen.getByTestId("model-mod-1");
       await userEvent.click(cat1);

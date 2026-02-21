@@ -90,12 +90,13 @@ export const LibraryFilters: FC<Props> = ({ filters }) => {
 
    return (
       <Popover open={showFilters} onOpenChange={setShowFilters}>
-         <PopoverTrigger asChild={true} data-testid="library-entry-filters">
+         <PopoverTrigger asChild={true}>
             <Button
                variant="outline"
                size="sm"
                onClick={() => setShowFilters(!showFilters)}
                className="gap-2"
+               data-testid="library-entry-filters-trigger"
             >
                <Filter className="h-4 w-4" />
                Filter
