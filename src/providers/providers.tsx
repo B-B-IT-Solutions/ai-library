@@ -17,7 +17,13 @@ export const Providers: FC<ProvidersProps> = ({ children }) => {
             enableSystem={true}
             disableTransitionOnChange={true}
          >
-            <NuqsAdapter>{children}</NuqsAdapter>
+            <NuqsAdapter
+               defaultOptions={{
+                  shallow: false,
+               }}
+            >
+               {children}
+            </NuqsAdapter>
          </ThemeProvider>
       </TsQueryClientProvider>
    );

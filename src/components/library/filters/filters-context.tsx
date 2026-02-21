@@ -42,11 +42,5 @@ export const LibraryEntryFilterContext =
    createContext<LibraryEntryFiltersHelper>(new LibraryEntryFiltersHelper({}));
 
 export const useLibraryEntryFiltersContext = () => {
-   const context = useContext(LibraryEntryFilterContext);
-   if (!context) {
-      throw new Error(
-         "useLibraryEntryFiltersContext can only be used within LibraryEntryFilterContext.Provider"
-      );
-   }
-   return context;
+   return useContext(LibraryEntryFilterContext);
 };
