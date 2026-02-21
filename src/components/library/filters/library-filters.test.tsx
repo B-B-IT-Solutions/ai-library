@@ -140,4 +140,52 @@ describe("LibraryFilters functinality tests", () => {
       expect(event.queryString).toEqual(expectedEvent.queryString);
       expect(event.options).toEqual(expectedEvent.options);
    });
+
+   it("LibraryFilters - category filters - test", async () => {
+      const categories = ["cat-1", "cat-2", "cat-3"];
+      const models = ["mod-1", "mod-2", "mod-3"];
+
+      getLibraryCategoriesMock.mockResolvedValue(categories);
+      getLibraryModelsMock.mockResolvedValue(models);
+
+      const url = "/library";
+      const searchParams = "";
+      const onUrlUpdateFn = jest.fn();
+      renderWithRouter(
+         <LibraryFilters filters={{ categories: ["cat-1"] }} />,
+         url,
+         searchParams,
+         onUrlUpdateFn
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         expect(onUrlUpdateFn).not.toHaveBeenCalled();
+      });
+
+      const cat1 = screen.getByTestId("category-cat-1");
+      await userEvent.click(cat1);
+
+      const cat2 = screen.getByTestId("category-cat-2");
+      await userEvent.click(cat2);
+
+      const cat3 = screen.getByTestId("category-cat-3");
+      await userEvent.click(cat3);
+
+      const applyBtn = screen.getByTestId("apply-filters-btn");
+      await userEvent.click(applyBtn);
+
+      const expectedEvent = {
+         options: { history: "replace", scroll: false, shallow: false },
+         queryString: "?f_categories=cat-2,cat-3",
+      };
+
+      await waitFor(() => {
+         expect(onUrlUpdateFn).toHaveBeenCalledTimes(1);
+      });
+
+      const event = onUrlUpdateFn.mock.calls[0]![0]!;
+      expect(event.queryString).toEqual(expectedEvent.queryString);
+      expect(event.options).toEqual(expectedEvent.options);
+   });
 });

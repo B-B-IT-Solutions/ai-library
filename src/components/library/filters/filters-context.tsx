@@ -12,6 +12,7 @@ export class LibraryEntryFiltersHelper {
    getFilters() {
       return {
          f_search: this.filters.search,
+         f_categories: this.filters.categories,
       };
    }
 
@@ -21,6 +22,14 @@ export class LibraryEntryFiltersHelper {
 
    getSearch(): string {
       return this.filters.search || "";
+   }
+
+   setCategories(categories: string[]) {
+      this.filters.categories = categories;
+   }
+
+   getCategories(): string[] {
+      return this.filters.categories || [];
    }
 }
 

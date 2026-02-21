@@ -36,6 +36,7 @@ export const LibraryFilters: FC<Props> = ({ filters }) => {
    const [filters_, setFilters_] = useQueryStates(
       {
          f_search: librarySearchParams["f_search"],
+         f_categories: librarySearchParams["f_categories"],
       },
       {
          shallow: false,

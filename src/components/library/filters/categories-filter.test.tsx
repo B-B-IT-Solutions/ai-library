@@ -7,10 +7,34 @@ import { assertInDocument, renderWithRouter } from "@tests";
 import { getLibraryCategories } from "@/data/actions/library";
 
 import { CategoriesFilter } from "./categories-filter";
+import {
+   LibraryEntryFilterContext,
+   LibraryEntryFiltersHelper,
+} from "./filters-context";
 
 const getLibraryCategoriesMock = getLibraryCategories as jest.MockedFunction<
    typeof getLibraryCategories
 >;
+
+const filtersHelper = new LibraryEntryFiltersHelper({});
+
+const TestWrapper = () => {
+   return (
+      <LibraryEntryFilterContext.Provider value={filtersHelper}>
+         <CategoriesFilter />
+      </LibraryEntryFilterContext.Provider>
+   );
+};
+
+const mockGetCategories = (values: string[]) => {
+   return jest
+      .spyOn(LibraryEntryFiltersHelper.prototype, "getCategories")
+      .mockImplementation(() => values);
+};
+
+const mockSetCategories = () => {
+   return jest.spyOn(LibraryEntryFiltersHelper.prototype, "setCategories");
+};
 
 const assertRendered = () => {
    const filter = screen.getByTestId("categories-filter");
@@ -23,19 +47,19 @@ const assertCategoriesEmptyRendered = () => {
 };
 
 describe("CategoriesFilter rendering tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
    it("CategoriesFilter - categories empty - test", async () => {
       getLibraryCategoriesMock.mockResolvedValue([]);
+      const getCategoriesFn = mockGetCategories([]);
 
-      const url = "/library";
-      const searchParams = "";
-      const { container } = renderWithRouter(
-         <CategoriesFilter />,
-         url,
-         searchParams
-      );
+      const { container } = renderWithRouter(<TestWrapper />);
 
       await waitFor(() => {
          assertCategoriesEmptyRendered();
+         expect(getCategoriesFn).toHaveBeenCalled();
       });
 
       expect(container).toMatchSnapshot();
@@ -44,17 +68,13 @@ describe("CategoriesFilter rendering tests", () => {
    it("CategoriesFilter - f_categories cat-1 - test", async () => {
       const categories = ["cat-1", "cat-2", "cat-3"];
       getLibraryCategoriesMock.mockResolvedValue(categories);
+      const getCategoriesFn = mockGetCategories(["cat-1"]);
 
-      const url = "/library";
-      const searchParams = "f_categories=cat-1";
-      const { container } = renderWithRouter(
-         <CategoriesFilter />,
-         url,
-         searchParams
-      );
+      const { container } = renderWithRouter(<TestWrapper />);
 
       await waitFor(() => {
          assertRendered();
+         expect(getCategoriesFn).toHaveBeenCalled();
       });
 
       expect(container).toMatchSnapshot();
@@ -69,62 +89,46 @@ describe("CategoriesFilter functinality tests", () => {
    it("CategoriesFilter - category selected - test", async () => {
       const categories = ["cat-1", "cat-2", "cat-3"];
       getLibraryCategoriesMock.mockResolvedValue(categories);
+      const getCategoriesFn = mockGetCategories([]);
+      const setCategoriesFn = mockSetCategories();
 
-      const url = "/library";
-      const searchParams = "";
-      const onUrlUpdateFn = jest.fn();
-      renderWithRouter(<CategoriesFilter />, url, searchParams, onUrlUpdateFn);
+      renderWithRouter(<TestWrapper />);
 
       await waitFor(() => {
          assertRendered();
-         expect(onUrlUpdateFn).not.toHaveBeenCalled();
+         expect(getCategoriesFn).toHaveBeenCalled();
+         expect(setCategoriesFn).not.toHaveBeenCalled();
       });
 
       const cat1 = screen.getByTestId("category-cat-1");
       await userEvent.click(cat1);
 
-      const expectedEvent = {
-         options: { history: "replace", scroll: false, shallow: false },
-         queryString: "?f_categories=cat-1",
-      };
-
       await waitFor(() => {
-         expect(onUrlUpdateFn).toHaveBeenCalledTimes(1);
+         expect(setCategoriesFn).toHaveBeenCalledTimes(1);
+         expect(setCategoriesFn).toHaveBeenCalledWith(["cat-1"]);
       });
-
-      const event = onUrlUpdateFn.mock.calls[0]![0]!;
-      expect(event.queryString).toEqual(expectedEvent.queryString);
-      expect(event.options).toEqual(expectedEvent.options);
    });
 
    it("CategoriesFilter - category unselected - test", async () => {
       const categories = ["cat-1", "cat-2", "cat-3"];
       getLibraryCategoriesMock.mockResolvedValue(categories);
+      const getCategoriesFn = mockGetCategories(["cat-1"]);
+      const setCategoriesFn = mockSetCategories();
 
-      const url = "/library";
-      const searchParams = "f_categories=cat-1";
-      const onUrlUpdateFn = jest.fn();
-      renderWithRouter(<CategoriesFilter />, url, searchParams, onUrlUpdateFn);
+      renderWithRouter(<TestWrapper />);
 
       await waitFor(() => {
          assertRendered();
-         expect(onUrlUpdateFn).not.toHaveBeenCalled();
+         expect(getCategoriesFn).toHaveBeenCalled();
+         expect(setCategoriesFn).not.toHaveBeenCalled();
       });
 
       const cat1 = screen.getByTestId("category-cat-1");
       await userEvent.click(cat1);
 
-      const expectedEvent = {
-         options: { history: "replace", scroll: false, shallow: false },
-         queryString: "",
-      };
-
       await waitFor(() => {
-         expect(onUrlUpdateFn).toHaveBeenCalledTimes(1);
+         expect(setCategoriesFn).toHaveBeenCalledTimes(1);
+         expect(setCategoriesFn).toHaveBeenCalledWith([]);
       });
-
-      const event = onUrlUpdateFn.mock.calls[0]![0]!;
-      expect(event.queryString).toEqual(expectedEvent.queryString);
-      expect(event.options).toEqual(expectedEvent.options);
    });
 });

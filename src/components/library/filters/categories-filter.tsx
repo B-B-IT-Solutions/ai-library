@@ -1,22 +1,27 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useState } from "react";
 import { filter, includes, isEmpty, map } from "es-toolkit/compat";
-import { debounce, useQueryState } from "nuqs";
+import { useDebouncedCallback } from "use-debounce";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Checkbox } from "@/components/shadcn/checkbox";
 import { Label } from "@/components/shadcn/label";
 import { useLoadLibraryCategories } from "@/data/ts-queries/library";
-import { librarySearchParams } from "../search-params";
+
+import { useLibraryEntryFiltersContext } from "./filters-context";
 
 export const CategoriesFilter: FC = () => {
-   const [f_categories, setCategories] = useQueryState(
-      "f_categories",
-      librarySearchParams["f_categories"]
+   const filtersContext = useLibraryEntryFiltersContext();
+   const [f_categories, setCategories] = useState(
+      filtersContext.getCategories()
    );
 
    const { data: categories = [], isLoading } = useLoadLibraryCategories();
+
+   const updateFiltersContext = useDebouncedCallback((values: string[]) => {
+      filtersContext.setCategories(values);
+   }, 400);
 
    const toggleCategory = (category: string) => {
       const isSelected = includes(f_categories, category);
@@ -24,9 +29,8 @@ export const CategoriesFilter: FC = () => {
          ? filter(f_categories, (c) => c !== category)
          : [...f_categories, category];
 
-      setCategories(newCategories, {
-         limitUrlUpdates: debounce(400),
-      });
+      setCategories(newCategories);
+      updateFiltersContext(newCategories);
    };
 
    const badge = () => {
