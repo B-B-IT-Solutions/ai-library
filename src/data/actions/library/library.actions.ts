@@ -150,8 +150,6 @@ export const getLibraryModels = async (): Promise<string[]> => {
    }
 };
 
-// ==================== Favorites ====================
-
 export const toggleLibraryEntryFavorite = async (
    entryId: string,
    isFavorite: boolean
@@ -179,8 +177,6 @@ export const toggleLibraryEntryFavorite = async (
       };
    }
 };
-
-// ==================== Collections CRUD ====================
 
 export const getLibraryCollections = async (): Promise<
    DLibraryCollection[]
@@ -267,8 +263,6 @@ export const deleteLibraryCollection = async (
       };
    }
 };
-
-// ==================== Collection Entries ====================
 
 export const addEntryToCollection = async (
    collectionId: string,
