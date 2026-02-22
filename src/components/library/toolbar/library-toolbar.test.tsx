@@ -18,7 +18,7 @@ const getLibraryModelsMock = getLibraryModels as jest.MockedFunction<
 
 const assertRendered = () => {
    const toolbar = screen.getByTestId("library-toolbar");
-   const filters = screen.getByTestId("library-entry-filters");
+   const filters = screen.getByTestId("library-entry-filters-trigger");
    const viewToggle = screen.getByTestId("view-toggle");
    const groupBy = screen.getByTestId("group-by-select");
    const sortBy = screen.getByTestId("sort-by-select");
@@ -39,11 +39,7 @@ describe("LibraryToolbar rendering tests", () => {
    it("LibraryToolbar - totalEntries 1 - test", async () => {
       const filters = dtestData.dLibraryEntriesFilter();
       const { container } = renderWithRouter(
-         <LibraryToolbar
-            viewMode={DListViewMode.GRID}
-            totalEntries={1}
-            filters={filters}
-         />
+         <LibraryToolbar viewMode={DListViewMode.GRID} filters={filters} />
       );
 
       await waitFor(() => {
@@ -56,11 +52,7 @@ describe("LibraryToolbar rendering tests", () => {
    it("LibraryToolbar - totalEntries 5 - test", async () => {
       const filters = dtestData.dLibraryEntriesFilter();
       const { container } = renderWithRouter(
-         <LibraryToolbar
-            viewMode={DListViewMode.GRID}
-            filters={filters}
-            totalEntries={5}
-         />
+         <LibraryToolbar viewMode={DListViewMode.GRID} filters={filters} />
       );
 
       await waitFor(() => {
