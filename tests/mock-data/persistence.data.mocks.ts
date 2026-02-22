@@ -398,6 +398,8 @@ export const pLibraryEntry = (index = 1): LibraryEntry => {
       id: `library-entry-${index}`,
       userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
       templateDescriptorId: `52e59bcf-7651-45f8-91bf-63b8a4e06d8${index}`,
+      updatedAt: new Date("2025-09-27"),
+      isFavorite: index % 2 === 0,
       createdAt: new Date("2025-09-27"),
    };
 };

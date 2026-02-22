@@ -29,7 +29,6 @@ import {
 import {
    CreateCollectionInput,
    DLibraryCollection,
-   DLibraryEntriesFilter,
    DLibraryEntriesPage,
    DLibraryEntriesPageQuery,
    UpdateCollectionInput,
@@ -38,18 +37,15 @@ import { ActionResult } from "@/data/types/utils";
 import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
 import { getNextPageParam, pageQuery } from "../utils";
 
+import { LoadLibraryEntriesParams } from "./types";
 import { libraryKeys } from "./utils";
-
-type LoadLibraryEntriesParams = {
-   filters?: DLibraryEntriesFilter;
-};
 
 // ==================== Preload Options ====================
 
 export const preloadLibraryEntriesOptions = (
-   props: LoadLibraryEntriesParams
+   params: LoadLibraryEntriesParams
 ): FetchQueryOptions<DLibraryEntriesPage, Error, DLibraryEntriesPage> => {
-   const { filters } = props;
+   const { filters } = params;
 
    return {
       queryKey: libraryKeys.entries(filters),
@@ -107,7 +103,7 @@ export const preloadLibraryCollectionsOptions = (): FetchQueryOptions<
 // ==================== Infinite Scroll ====================
 
 export const infiniteLoadLibraryEntriesOptions = (
-   props: LoadLibraryEntriesParams
+   params: LoadLibraryEntriesParams
 ): UndefinedInitialDataInfiniteOptions<
    DLibraryEntriesPage,
    Error,
@@ -115,7 +111,7 @@ export const infiniteLoadLibraryEntriesOptions = (
    QueryKey,
    number
 > => {
-   const { filters } = props;
+   const { filters } = params;
    return {
       queryKey: libraryKeys.entries(filters),
       queryFn: async ({ pageParam }) => {
