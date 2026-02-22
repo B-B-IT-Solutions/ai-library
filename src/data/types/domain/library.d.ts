@@ -1,8 +1,8 @@
 import z from "zod";
 
+import { Page, PageQuery } from "@/data/types/common";
 import { updateLibraryCollectionSchema } from "@/data/types/validators/library";
 
-import { Page, PageQuery } from "./common";
 import {
    DPromptTemplateDescriptor,
    DPromptTemplateDescriptorWithTemplate,

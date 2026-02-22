@@ -3,7 +3,7 @@
 import { validate as isValidUuid } from "uuid";
 
 import { requireUser } from "@/data/actions/auth-utils";
-import { formatError } from "@/data/actions/utils";
+import { EMPTY_PAGE, formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
@@ -12,7 +12,6 @@ import {
    DLibraryCollection,
    DLibraryEntriesPage,
    DLibraryEntriesPageQuery,
-   DLibraryEntry,
    DLibraryEntryWithPromptTemplate,
    UpdateCollectionInput,
 } from "@/data/types/domain/library";
@@ -23,14 +22,16 @@ import {
 } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 
-export const getLibraryEntries = async (): Promise<DLibraryEntry[]> => {
+export const getLibraryEntriesPage = async (
+   query?: DLibraryEntriesPageQuery
+): Promise<DLibraryEntriesPage> => {
    try {
       const user = await requireUser();
       const service = getLibrarySevice();
-      return service.getLibraryEntries(user.id);
+      return await service.getLibraryEntriesPage(user.id, query);
    } catch (error) {
       console.error(formatError(error));
-      return [];
+      return EMPTY_PAGE;
    }
 };
 
@@ -123,27 +124,6 @@ export const downloadTemplate = async (
       return {
          success: false,
          message: formatError(error),
-      };
-   }
-};
-
-// ==================== Filtering & Pagination ====================
-
-export const getLibraryEntriesPage = async (
-   query?: DLibraryEntriesPageQuery
-): Promise<DLibraryEntriesPage> => {
-   try {
-      const user = await requireUser();
-      const service = getLibrarySevice();
-      return await service.getLibraryEntriesPage(user.id, query);
-   } catch (error) {
-      console.error(formatError(error));
-      return {
-         content: [],
-         pageNumber: 1,
-         pageSize: 20,
-         totalPages: 0,
-         totalEntries: 0,
       };
    }
 };

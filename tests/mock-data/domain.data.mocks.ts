@@ -7,6 +7,7 @@ import {
    DLibraryCollection,
    DLibraryEntriesFilter,
    DLibraryEntriesPage,
+   DLibraryEntriesPageQuery,
    DLibraryEntry,
    DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
@@ -264,6 +265,18 @@ export const dLibraryEntry = (index = 1): DLibraryEntry => {
       isFavorite: index % 2 == 0,
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dLibraryEntriesPageQuery = (
+   index = 1
+): DLibraryEntriesPageQuery => {
+   return {
+      pagination: {
+         pageSize: 10,
+         pageNumber: 1,
+      },
+      filter: dLibraryEntriesFilter(index),
    };
 };
 

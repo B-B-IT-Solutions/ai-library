@@ -1,5 +1,14 @@
 import { join, map } from "es-toolkit/compat";
 
+export const EMPTY_PAGE = {
+   content: [],
+   pageNumber: 1,
+   pageSize: 10,
+   numberOfElements: 50,
+   totalPages: 0,
+   totalElements: 0,
+};
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const formatError = (error: any) => {
    const isZodError = error.name === "ZodError";

@@ -1,4 +1,13 @@
-import { formatError } from "./utils";
+import { EMPTY_PAGE, formatError } from "./utils";
+
+const expectedEmptyPage = {
+   content: [],
+   pageNumber: 1,
+   pageSize: 10,
+   numberOfElements: 50,
+   totalPages: 0,
+   totalElements: 0,
+};
 
 describe("formatError tests", () => {
    it("formatError - zod error -  test", async () => {
@@ -61,5 +70,11 @@ describe("formatError tests", () => {
       const result = formatError(error);
       const expectedResult = JSON.stringify(error.message);
       expect(result).toEqual(expectedResult);
+   });
+});
+
+describe("empty page tests", () => {
+   it("empty page test", async () => {
+      expect(EMPTY_PAGE).toEqual(expectedEmptyPage);
    });
 });
