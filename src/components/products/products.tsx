@@ -17,7 +17,7 @@ type ProductsProps = {
 export const Products = ({
    products,
    cart,
-   viewMode = "grid",
+   viewMode = DListViewMode.GRID,
 }: ProductsProps) => {
    const cartProductIds = new Set(cart.items.map((item) => item.productId));
 

@@ -41,7 +41,7 @@ import { getNextPageParam, pageQuery } from "../utils";
 import { libraryKeys } from "./utils";
 
 type LoadLibraryEntriesParams = {
-   filters: DLibraryEntriesFilter;
+   filters?: DLibraryEntriesFilter;
 };
 
 // ==================== Preload Options ====================
