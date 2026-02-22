@@ -2,7 +2,7 @@ jest.mock("@/data/actions/library");
 jest.mock("./search-params");
 
 import { screen, waitFor } from "@testing-library/dom";
-import { assertInDocument, renderRSC, resolveRSC } from "@tests";
+import { assertInDocument, renderAsyncRSC } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import {
@@ -83,8 +83,8 @@ describe("LibraryDashboard rendering tests", () => {
                return "false";
          }
       });
-      const Component = await resolveRSC(LibraryDashboard, {});
-      const { container } = renderRSC(Component);
+
+      const { container } = await renderAsyncRSC(LibraryDashboard, {});
 
       await waitFor(() => {
          assertRendered();
@@ -94,8 +94,7 @@ describe("LibraryDashboard rendering tests", () => {
    });
 
    it("LibraryDashboard - viewMode list - rendered test", async () => {
-      const Dashboard = await resolveRSC(LibraryDashboard, {});
-      const { container } = renderRSC(Dashboard);
+      const { container } = await renderAsyncRSC(LibraryDashboard, {});
 
       await waitFor(() => {
          assertRendered();

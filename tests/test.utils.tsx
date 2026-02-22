@@ -78,10 +78,10 @@ export const renderRSC = (
 };
 
 export const renderAsyncRSC = async <T,>(
-   asyncComponent: (props: T) => Promise<JSX.Element>,
+   rscComponent: (props: T) => Promise<JSX.Element>,
    props: T
 ) => {
-   const component = await asyncComponent(props);
+   const component = await rscComponent(props);
    return render(component, {
       wrapper: withRSCWrapper(),
    });
