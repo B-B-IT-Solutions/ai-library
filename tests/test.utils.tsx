@@ -61,29 +61,14 @@ export const withClientWrapper = (
    return Wrapper;
 };
 
-export const resolveRSC = async <T,>(
-   rsc: (props: T) => Promise<JSX.Element>,
-   props: T
-) => {
-   return rsc(props);
-};
-
-export const renderRSC = (
-   component: React.ReactNode,
-   searchParams?: string
-) => {
-   return render(component, {
-      wrapper: withRSCWrapper(searchParams),
-   });
-};
-
 export const renderAsyncRSC = async <T,>(
    rscComponent: (props: T) => Promise<JSX.Element>,
-   props: T
+   props: T,
+   searchParams?: string
 ) => {
    const component = await rscComponent(props);
    return render(component, {
-      wrapper: withRSCWrapper(),
+      wrapper: withRSCWrapper(searchParams),
    });
 };
 

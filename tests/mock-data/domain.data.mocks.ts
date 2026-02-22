@@ -6,6 +6,7 @@ import { DCart, DCartItem } from "@/data/types/domain/cart";
 import {
    DLibraryCollection,
    DLibraryEntriesFilter,
+   DLibraryEntriesPage,
    DLibraryEntry,
    DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
@@ -232,6 +233,18 @@ export const dLibraryCollection = (index = 1): DLibraryCollection => {
       entryCount: index + 5,
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dLibraryEntriesPage = (): DLibraryEntriesPage => {
+   const entries = dLibraryEntries();
+   return {
+      content: entries,
+      numberOfElements: entries.length,
+      pageNumber: 1,
+      pageSize: 3,
+      totalElements: 15,
+      totalPages: 5,
    };
 };
 
