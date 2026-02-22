@@ -1,5 +1,16 @@
 import { FC } from "react";
+import {
+   dehydrate,
+   HydrationBoundary,
+   QueryClient,
+} from "@tanstack/react-query";
 
+import {
+   infiniteLoadLibraryEntriesOptions,
+   preloadLibraryCategoriesOptions,
+   preloadLibraryCollectionsOptions,
+   preloadLibraryModelsOptions,
+} from "@/data/ts-queries/library";
 import { DLibraryEntriesFilter } from "@/data/types/domain/library";
 
 import { CreateLibraryEntryButton } from "./buttons/create-library-entry-button";
@@ -8,7 +19,9 @@ import { LibraryQuickNav } from "./navigation/library-quick-nav";
 import { librarySearchParamsCache } from "./search-params";
 import { LibraryToolbar } from "./toolbar/library-toolbar";
 
-export const LibraryDashboard: FC = () => {
+export const LibraryDashboard: FC = async () => {
+   const queryClient = new QueryClient();
+
    const viewMode = librarySearchParamsCache.get("view");
    const groupBy = librarySearchParamsCache.get("group");
    const sortBy = librarySearchParamsCache.get("sort");
@@ -19,36 +32,47 @@ export const LibraryDashboard: FC = () => {
       models: librarySearchParamsCache.get("f_models"),
    };
 
+   await Promise.all([
+      queryClient.prefetchInfiniteQuery(
+         infiniteLoadLibraryEntriesOptions({ filters })
+      ),
+      queryClient.prefetchQuery(preloadLibraryCategoriesOptions()),
+      queryClient.prefetchQuery(preloadLibraryModelsOptions()),
+      queryClient.prefetchQuery(preloadLibraryCollectionsOptions()),
+   ]);
+
    return (
-      <div className="flex h-full flex-col bg-slate-50">
-         <div className="space-y-4 border-b bg-white px-6 py-4">
-            <div className="flex items-center justify-between">
-               <div>
-                  <h1 className="text-2xl font-bold text-slate-900">
-                     Meine Bibliothek
-                  </h1>
-                  <p className="mt-1 text-sm text-slate-600">
-                     Verwalten Sie Ihre gespeicherten Prompt-Vorlagen
-                  </p>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+         <div className="flex h-full flex-col bg-slate-50">
+            <div className="space-y-4 border-b bg-white px-6 py-4">
+               <div className="flex items-center justify-between">
+                  <div>
+                     <h1 className="text-2xl font-bold text-slate-900">
+                        Meine Bibliothek
+                     </h1>
+                     <p className="mt-1 text-sm text-slate-600">
+                        Verwalten Sie Ihre gespeicherten Prompt-Vorlagen
+                     </p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                     <CreateLibraryEntryButton />
+                  </div>
                </div>
-               <div className="flex items-center gap-3">
-                  <CreateLibraryEntryButton />
-               </div>
+
+               <LibraryQuickNav filters={filters} />
             </div>
 
-            <LibraryQuickNav filters={filters} />
-         </div>
+            <LibraryToolbar viewMode={viewMode} filters={filters} />
 
-         <LibraryToolbar viewMode={viewMode} filters={filters} />
-
-         <div className="flex-1 overflow-y-auto">
-            <LibraryEntries
-               viewMode={viewMode}
-               groupBy={groupBy}
-               sortBy={sortBy}
-               filters={filters}
-            />
+            <div className="flex-1 overflow-y-auto">
+               <LibraryEntries
+                  viewMode={viewMode}
+                  groupBy={groupBy}
+                  sortBy={sortBy}
+                  filters={filters}
+               />
+            </div>
          </div>
-      </div>
+      </HydrationBoundary>
    );
 };
