@@ -1,5 +1,5 @@
 import {
-   createLoader,
+   createSearchParamsCache,
    type inferParserType,
    parseAsArrayOf,
    parseAsBoolean,
@@ -57,4 +57,5 @@ export type DLibrarySearchParamsFiltersType = Omit<
    "view" | "group" | "sort"
 >;
 
-export const loadLibrarySearchParams = createLoader(librarySearchParams);
+export const librarySearchParamsCache =
+   createSearchParamsCache(librarySearchParams);
