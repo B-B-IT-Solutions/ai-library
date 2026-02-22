@@ -31,21 +31,25 @@ const libraryService = new LibraryService(
    promptTemplateServiceMock
 );
 
-describe("getLibraryEntries tests", () => {
+describe("getLibraryEntriesPage tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("getLibraryEntries - entries retrieved - test", async () => {
+   it("getLibraryEntriesPage - entries retrieved - test", async () => {
       const userId = "user-id-1";
-      const entries = dtestData.dLibraryEntries();
-      libraryRepoMock.pGetLibraryEntries.mockResolvedValue(entries);
+      const page = dtestData.dLibraryEntriesPage();
+      const query = dtestData.dLibraryEntriesPageQuery();
+      libraryRepoMock.pGetLibraryEntriesPage.mockResolvedValue(page);
 
-      const result = await libraryService.getLibraryEntries(userId);
+      const result = await libraryService.getLibraryEntriesPage(userId, query);
 
-      expect(result).toEqual(entries);
-      expect(libraryRepoMock.pGetLibraryEntries).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntries).toHaveBeenCalledWith(userId);
+      expect(result).toEqual(page);
+      expect(libraryRepoMock.pGetLibraryEntriesPage).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryEntriesPage).toHaveBeenCalledWith(
+         userId,
+         query
+      );
    });
 });
 

@@ -33,8 +33,11 @@ export class LibraryService {
       this.promptTemplateService = promptTemplateService;
    }
 
-   async getLibraryEntries(userId: string): Promise<DLibraryEntry[]> {
-      return await this.libraryRepository.pGetLibraryEntries(userId);
+   async getLibraryEntriesPage(
+      userId: string,
+      query?: DLibraryEntriesPageQuery
+   ): Promise<DLibraryEntriesPage> {
+      return await this.libraryRepository.pGetLibraryEntriesPage(userId, query);
    }
 
    async getLibraryEntry(
@@ -124,15 +127,6 @@ export class LibraryService {
       return downloadData;
    }
 
-   // ==================== Filtering & Pagination ====================
-
-   async getLibraryEntriesPage(
-      userId: string,
-      query?: DLibraryEntriesPageQuery
-   ): Promise<DLibraryEntriesPage> {
-      return await this.libraryRepository.pGetLibraryEntriesPage(userId, query);
-   }
-
    async getLibraryCategories(userId: string): Promise<string[]> {
       return await this.libraryRepository.pGetLibraryCategories(userId);
    }
@@ -140,8 +134,6 @@ export class LibraryService {
    async getLibraryModels(userId: string): Promise<string[]> {
       return await this.libraryRepository.pGetLibraryModels(userId);
    }
-
-   // ==================== Favorites ====================
 
    async toggleFavorite(
       entryId: string,

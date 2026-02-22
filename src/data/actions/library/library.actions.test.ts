@@ -94,7 +94,7 @@ describe("getLibraryEntry tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("getLibraryEntries - user undefined - test", async () => {
+   it("getLibraryEntry - user undefined - test", async () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
       const entryId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";

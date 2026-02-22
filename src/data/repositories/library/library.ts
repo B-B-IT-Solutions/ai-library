@@ -144,8 +144,9 @@ export class LibraryRepository {
       userId: string,
       query?: DLibraryEntriesPageQuery
    ): Promise<DLibraryEntriesPage> {
-      const pageNumber = query?.pageNumber ?? 1;
-      const pageSize = query?.pageSize ?? 20;
+      const pagination = query?.pagination;
+      const pageNumber = pagination?.pageNumber ?? 1;
+      const pageSize = pagination?.pageSize ?? 20;
       const skip = (pageNumber - 1) * pageSize;
 
       const where = this.resolveWhereInput(userId, query?.filter);
@@ -175,7 +176,7 @@ export class LibraryRepository {
          pageNumber,
          pageSize,
          totalPages: Math.ceil(totalEntries / pageSize),
-         totalEntries,
+         totalElements: totalEntries,
       };
    }
 

@@ -1,5 +1,4 @@
 export {
-   getLibraryEntries,
    getLibraryEntry,
    createLibraryEntry,
    downloadTemplate,
