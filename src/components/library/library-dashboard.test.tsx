@@ -77,7 +77,7 @@ const assertRendered = () => {
 };
 
 describe("LibraryDashboard rendering tests", () => {
-   beforeEach(() => {
+   beforeAll(() => {
       const categories = ["cat-1", "cat-2", "cat-3"];
       const models = ["mod-1", "mod-2", "mod-3"];
       const page = dtestData.dLibraryEntriesPage();
@@ -86,6 +86,10 @@ describe("LibraryDashboard rendering tests", () => {
       getLibraryModelsMock.mockResolvedValue(models);
       getLibraryCollectionsMock.mockResolvedValue([]);
       getLibraryEntriesPageMock.mockResolvedValue(page);
+   });
+
+   beforeEach(() => {
+      jest.clearAllMocks();
    });
 
    it("LibraryDashboard rendered test", async () => {

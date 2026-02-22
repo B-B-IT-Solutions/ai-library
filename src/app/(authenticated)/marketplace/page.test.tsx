@@ -7,11 +7,12 @@ import { Metadata } from "next";
 
 import { getCart } from "@/data/actions/cart";
 import { getProducts } from "@/data/actions/product";
+import { DListViewMode } from "@/data/types/domain/common";
 
 import MarketplacePage, {
    MarketplacePageProps,
-   PageSearchParams,
    metadata,
+   PageSearchParams,
 } from "./page";
 
 const getCartMock = getCart as jest.MockedFunction<typeof getCart>;
@@ -56,7 +57,7 @@ describe("MarketplacePage rendering tests", () => {
       getProductsMock.mockResolvedValue(products);
       getCartMock.mockResolvedValue(cart);
 
-      const searchParams: PageSearchParams = { view: "list" };
+      const searchParams: PageSearchParams = { view: DListViewMode.LIST };
 
       const props: MarketplacePageProps = {
          searchParams: Promise.resolve(searchParams),
