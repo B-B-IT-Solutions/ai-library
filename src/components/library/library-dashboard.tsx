@@ -1,4 +1,3 @@
-import { FC } from "react";
 import {
    dehydrate,
    HydrationBoundary,
@@ -19,7 +18,7 @@ import { LibraryQuickNav } from "./navigation/library-quick-nav";
 import { librarySearchParamsCache } from "./search-params";
 import { LibraryToolbar } from "./toolbar/library-toolbar";
 
-export const LibraryDashboard: FC = async () => {
+export const LibraryDashboard = async () => {
    const queryClient = new QueryClient();
 
    const viewMode = librarySearchParamsCache.get("view");
@@ -43,7 +42,10 @@ export const LibraryDashboard: FC = async () => {
 
    return (
       <HydrationBoundary state={dehydrate(queryClient)}>
-         <div className="flex h-full flex-col bg-slate-50">
+         <div
+            className="flex h-full flex-col bg-slate-50"
+            data-testid="library-dashboard"
+         >
             <div className="space-y-4 border-b bg-white px-6 py-4">
                <div className="flex items-center justify-between">
                   <div>

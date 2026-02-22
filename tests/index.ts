@@ -14,6 +14,8 @@ export {
 } from "./assert.utils";
 
 export {
+   resolveRSC,
+   renderRSC,
    renderAsyncRSC,
    renderWithRouter,
    renderWithSidebar,

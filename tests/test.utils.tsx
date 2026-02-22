@@ -10,17 +10,54 @@ import {
 import mockRouter from "next-router-mock";
 import { MemoryRouterProvider } from "next-router-mock/MemoryRouterProvider/next-13.5";
 import {
-   OnUrlUpdateFunction,
-   type UrlUpdateEvent,
+   NuqsTestingAdapter,
+   type OnUrlUpdateFunction,
    withNuqsTestingAdapter,
 } from "nuqs/adapters/testing";
 
 import { SidebarProvider } from "@/components/shadcn/sidebar";
 import { TooltipProvider } from "@/components/shadcn/tooltip";
 
+const withRSCWrapper = (searchParams?: string) => {
+   const queryClient = testQueryClient();
+
+   const Wrapper = ({ children }: { children: React.ReactNode }) => {
+      return (
+         <QueryClientProvider client={queryClient}>
+            <NuqsTestingAdapter
+               searchParams={`?${searchParams}`}
+               defaultOptions={{
+                  shallow: false,
+               }}
+            >
+               {children}
+            </NuqsTestingAdapter>
+         </QueryClientProvider>
+      );
+   };
+   return Wrapper;
+};
+
+export const resolveRSC = async <T,>(
+   rsc: (props: T) => Promise<JSX.Element>,
+   props: T
+) => {
+   return rsc(props);
+};
+
+export const renderRSC = (
+   component: React.ReactNode,
+   searchParams?: string
+) => {
+   return render(component, {
+      wrapper: withRSCWrapper(searchParams),
+   });
+};
+
 export const renderAsyncRSC = async <T,>(
    asyncComponent: (props: T) => Promise<JSX.Element>,
-   props: T
+   props: T,
+   searchParams?: string
 ) => {
    const component = await asyncComponent(props);
    let result: RenderResult = {} as RenderResult;
@@ -29,7 +66,14 @@ export const renderAsyncRSC = async <T,>(
    await waitFor(() => {
       result = render(
          <QueryClientProvider client={queryClient}>
-            {component}
+            <NuqsTestingAdapter
+               searchParams={`?${searchParams}`}
+               defaultOptions={{
+                  shallow: false,
+               }}
+            >
+               {component}
+            </NuqsTestingAdapter>
          </QueryClientProvider>
       );
    });
@@ -88,6 +132,9 @@ export const renderWithRouter = (
             wrapper: withNuqsTestingAdapter({
                searchParams: `?${searchParams}`,
                onUrlUpdate: onNuqsUrlUpdate,
+               defaultOptions: {
+                  shallow: false,
+               },
             }),
          }
       ),
