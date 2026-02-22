@@ -88,7 +88,7 @@ describe("GroupBySelect functinality tests", () => {
       await userEvent.click(categoryOption);
 
       const expectedEvent = {
-         options: { history: "replace", scroll: false, shallow: false },
+         options: { history: "replace", scroll: false, shallow: true },
          queryString: "?group=category",
       };
 
@@ -125,7 +125,7 @@ describe("GroupBySelect functinality tests", () => {
       await userEvent.click(modelOption);
 
       const expectedEvent = {
-         options: { history: "replace", scroll: false, shallow: false },
+         options: { history: "replace", scroll: false, shallow: true },
          queryString: "?group=model",
       };
 

@@ -25,16 +25,11 @@ import { SearchFilter } from "./search-filter";
 export const LibraryFilters: FC = () => {
    const [showFilters, setShowFilters] = useState(false);
 
-   const [filters, setFilters] = useQueryStates(
-      {
-         f_search: librarySearchParams["f_search"],
-         f_categories: librarySearchParams["f_categories"],
-         f_models: librarySearchParams["f_models"],
-      },
-      {
-         shallow: false,
-      }
-   );
+   const [filters, setFilters] = useQueryStates({
+      f_search: librarySearchParams["f_search"],
+      f_categories: librarySearchParams["f_categories"],
+      f_models: librarySearchParams["f_models"],
+   });
 
    const [filtersContext] = useState<LibraryEntryFiltersHelper>(
       new LibraryEntryFiltersHelper(filters)
@@ -77,9 +72,24 @@ export const LibraryFilters: FC = () => {
                   <Separator />
                   <ModelsFilter />
                </div>
+               <div className="mt-3 flex justify-end">
+                  <Button
+                     variant="default"
+                     size="sm"
+                     onClick={applyFilters}
+                     data-testid="apply-filters-btn"
+                  >
+                     OK
+                  </Button>
+               </div>
             </LibraryEntryFilterContext.Provider>
          </div>
       );
+   };
+
+   const triggerBtnIcon = () => {
+      const Icon = showFilters ? ChevronUp : ChevronDown;
+      return <Icon className="h-4 w-4" />;
    };
 
    return (
@@ -94,24 +104,10 @@ export const LibraryFilters: FC = () => {
             >
                <Filter className="h-4 w-4" />
                Filter
-               {showFilters ? (
-                  <ChevronUp className="h-4 w-4" />
-               ) : (
-                  <ChevronDown className="h-4 w-4" />
-               )}
+               {triggerBtnIcon()}
             </Button>
          </PopoverTrigger>
-         <PopoverContent>
-            {renderFilters()}
-            <Button
-               variant="outline"
-               size="sm"
-               onClick={applyFilters}
-               data-testid="apply-filters-btn"
-            >
-               OK
-            </Button>
-         </PopoverContent>
+         <PopoverContent>{renderFilters()}</PopoverContent>
       </Popover>
    );
 };

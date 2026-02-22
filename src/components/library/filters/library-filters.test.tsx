@@ -130,7 +130,7 @@ describe("LibraryFilters functinality tests", () => {
       await userEvent.click(applyBtn);
 
       const expectedEvent = {
-         options: { history: "replace", scroll: false, shallow: false },
+         options: { history: "replace", scroll: false, shallow: true },
          queryString: "?f_search=test-123",
       };
 
@@ -176,7 +176,7 @@ describe("LibraryFilters functinality tests", () => {
       await userEvent.click(applyBtn);
 
       const expectedEvent = {
-         options: { history: "replace", scroll: false, shallow: false },
+         options: { history: "replace", scroll: false, shallow: true },
          queryString: "?f_categories=cat-2,cat-3",
       };
 
@@ -219,7 +219,7 @@ describe("LibraryFilters functinality tests", () => {
       await userEvent.click(applyBtn);
 
       const expectedEvent = {
-         options: { history: "replace", scroll: false, shallow: false },
+         options: { history: "replace", scroll: false, shallow: true },
          queryString: "?f_models=mod-2,mod-3",
       };
 

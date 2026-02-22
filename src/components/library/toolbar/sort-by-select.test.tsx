@@ -91,7 +91,7 @@ describe("SortBySelect functinality tests", () => {
       await userEvent.click(option);
 
       const expectedEvent = {
-         options: { history: "replace", scroll: false, shallow: false },
+         options: { history: "replace", scroll: false, shallow: true },
          queryString: "?sort=date-asc",
       };
 
@@ -128,7 +128,7 @@ describe("SortBySelect functinality tests", () => {
       await userEvent.click(option);
 
       const expectedEvent = {
-         options: { history: "replace", scroll: false, shallow: false },
+         options: { history: "replace", scroll: false, shallow: true },
          queryString: "?sort=name-asc",
       };
 
