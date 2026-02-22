@@ -1,83 +1,14 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`LibraryPage rendering tests LibraryPage - library items empty - test 1`] = `
+exports[`LibraryPage rendering tests LibraryPage - library page rendered - test 1`] = `
 <div>
   <div
+    class="h-full"
     data-testid="library-page"
   >
     <div
-      class="container mx-auto px-4 py-8"
-      data-testid="library"
-    >
-      <h1
-        class="mb-8 text-3xl font-bold text-slate-900"
-      >
-        Meine Bibliothek
-      </h1>
-      <div
-        class="py-12 text-center"
-        data-testid="library-empty"
-      >
-        <svg
-          aria-hidden="true"
-          class="lucide lucide-book-open mx-auto mb-4 h-16 w-16 text-slate-300"
-          fill="none"
-          height="24"
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-          width="24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12 7v14"
-          />
-          <path
-            d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"
-          />
-        </svg>
-        <h2
-          class="mb-2 text-xl font-semibold text-slate-900"
-        >
-          Ihre Bibliothek ist leer
-        </h2>
-        <p
-          class="mb-6 text-slate-600"
-        >
-          Estellen Sie Vorlagen oder abonnieren Sie, um auf Ihre Bibliothek zuzugreifen
-        </p>
-        <a
-          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
-          data-slot="button"
-          data-testid="create-library-entry-btn"
-          href="/library/new"
-        >
-          <svg
-            aria-hidden="true"
-            class="lucide lucide-plus mr-1 h-4 w-4"
-            fill="none"
-            height="24"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-            width="24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M5 12h14"
-            />
-            <path
-              d="M12 5v14"
-            />
-          </svg>
-          Neue Vorlage erstellen
-        </a>
-      </div>
-    </div>
+      data-testid="library-dashboard"
+    />
   </div>
 </div>
 `;
