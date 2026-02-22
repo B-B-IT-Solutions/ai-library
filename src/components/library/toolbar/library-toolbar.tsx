@@ -18,11 +18,7 @@ type Props = {
 
 export const LibraryToolbar: FC<Props> = ({ viewMode, filters }) => {
    const { data } = useInfiniteLoadLibraryEntries({
-      search: filters.search,
-      categories: filters.categories,
-      models: filters.models,
-      isFavorite: filters.isFavorite,
-      collectionIds: filters.collectionIds,
+      filters,
    });
 
    const totalEntries = useMemo(() => {

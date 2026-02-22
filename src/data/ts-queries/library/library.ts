@@ -29,6 +29,7 @@ import {
 import {
    CreateCollectionInput,
    DLibraryCollection,
+   DLibraryEntriesFilter,
    DLibraryEntriesPage,
    DLibraryEntriesPageQuery,
    UpdateCollectionInput,
@@ -40,35 +41,24 @@ import { getNextPageParam, pageQuery } from "../utils";
 import { libraryKeys } from "./utils";
 
 type LoadLibraryEntriesParams = {
-   search?: string;
-   categories?: string[];
-   models?: string[];
-   isFavorite?: boolean;
-   collectionIds?: string[];
+   filters: DLibraryEntriesFilter;
 };
 
 // ==================== Preload Options ====================
 
 export const preloadLibraryEntriesOptions = (
-   props?: LoadLibraryEntriesParams
+   props: LoadLibraryEntriesParams
 ): FetchQueryOptions<DLibraryEntriesPage, Error, DLibraryEntriesPage> => {
-   const { search, categories, models, isFavorite, collectionIds } =
-      props || {};
+   const { filters } = props;
+
    return {
-      queryKey: libraryKeys.entries(props),
+      queryKey: libraryKeys.entries(filters),
       queryFn: async () => {
-         const filter = {
-            search,
-            categories,
-            models,
-            isFavorite,
-            collectionIds,
-         };
          const query: DLibraryEntriesPageQuery = pageQuery(
             INIT_PAGE_NUMBER,
             PAGE_SIZE,
             undefined,
-            filter
+            filters
          );
          return await getLibraryEntriesPage(query);
       },
@@ -125,22 +115,15 @@ export const infiniteLoadLibraryEntriesOptions = (
    QueryKey,
    number
 > => {
-   const { search, categories, models, isFavorite, collectionIds } = props;
+   const { filters } = props;
    return {
-      queryKey: libraryKeys.entries(props),
+      queryKey: libraryKeys.entries(filters),
       queryFn: async ({ pageParam }) => {
-         const filter = {
-            search,
-            categories,
-            models,
-            isFavorite,
-            collectionIds,
-         };
          const query: DLibraryEntriesPageQuery = pageQuery(
             pageParam,
             PAGE_SIZE,
             undefined,
-            filter
+            filters
          );
          return await getLibraryEntriesPage(query);
       },

@@ -35,11 +35,7 @@ export const LibraryEntries: FC<Props> = ({
    const { data: collections = [] } = useLoadLibraryCollections();
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
       useInfiniteLoadLibraryEntries({
-         search: filters.search,
-         categories: filters.categories,
-         models: filters.models,
-         isFavorite: filters.isFavorite,
-         collectionIds: filters.collectionIds,
+         filters,
       });
 
    const entries = useMemo(
