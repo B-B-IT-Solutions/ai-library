@@ -1,9 +1,6 @@
-"use client";
-
-import { FC, useMemo } from "react";
+import { FC } from "react";
 
 import { ListViewToggle } from "@/components/shared/buttons";
-import { useInfiniteLoadLibraryEntries } from "@/data/ts-queries/library";
 import { DListViewMode } from "@/data/types/domain/common";
 import { DLibraryEntriesFilter } from "@/data/types/domain/library";
 import { LibraryFilters } from "../filters/library-filters";
@@ -14,18 +11,25 @@ import { SortBySelect } from "./sort-by-select";
 type Props = {
    viewMode: DListViewMode;
    filters: DLibraryEntriesFilter;
+   categories: string[];
 };
 
-export const LibraryToolbar: FC<Props> = ({ viewMode, filters }) => {
-   const { data } = useInfiniteLoadLibraryEntries({
-      filters,
-   });
+export const LibraryToolbar: FC<Props> = ({
+   viewMode,
+   filters,
+   categories,
+}) => {
+   // const { data } = useInfiniteLoadLibraryEntries({
+   //    filters,
+   // });
 
-   const totalEntries = useMemo(() => {
-      if (!data?.pages) return 0;
-      const firstPage = data.pages[0];
-      return firstPage?.totalEntries || 0;
-   }, [data]);
+   // const totalEntries = useMemo(() => {
+   //    if (!data?.pages) return 0;
+   //    const firstPage = data.pages[0];
+   //    return firstPage?.totalEntries || 0;
+   // }, [data]);
+
+   const totalEntries = 1;
 
    return (
       <div
@@ -34,7 +38,7 @@ export const LibraryToolbar: FC<Props> = ({ viewMode, filters }) => {
       >
          <div className="flex items-center gap-4">
             <ListViewToggle currentView={viewMode} />
-            <LibraryFilters />
+            <LibraryFilters categories={categories} />
             <GroupBySelect />
             <SortBySelect />
          </div>

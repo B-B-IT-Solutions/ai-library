@@ -3,14 +3,10 @@ jest.mock("@/data/actions/library");
 import { screen, waitFor } from "@testing-library/react";
 import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 
-import { getLibraryCategories, getLibraryModels } from "@/data/actions/library";
+import { getLibraryModels } from "@/data/actions/library";
 import { DListViewMode } from "@/data/types/domain/common";
 
 import { LibraryToolbar } from "./library-toolbar";
-
-const getLibraryCategoriesMock = getLibraryCategories as jest.MockedFunction<
-   typeof getLibraryCategories
->;
 
 const getLibraryModelsMock = getLibraryModels as jest.MockedFunction<
    typeof getLibraryModels
@@ -32,14 +28,19 @@ const assertRendered = () => {
 
 describe("LibraryToolbar rendering tests", () => {
    beforeEach(() => {
-      getLibraryCategoriesMock.mockResolvedValue([]);
       getLibraryModelsMock.mockResolvedValue([]);
    });
 
    it("LibraryToolbar - totalEntries 1 - test", async () => {
+      const categories = dtestData.dLibraryEntryCategories();
       const filters = dtestData.dLibraryEntriesFilter();
+
       const { container } = renderWithRouter(
-         <LibraryToolbar viewMode={DListViewMode.GRID} filters={filters} />
+         <LibraryToolbar
+            viewMode={DListViewMode.GRID}
+            filters={filters}
+            categories={categories}
+         />
       );
 
       await waitFor(() => {
@@ -50,9 +51,15 @@ describe("LibraryToolbar rendering tests", () => {
    });
 
    it("LibraryToolbar - totalEntries 5 - test", async () => {
+      const categories = dtestData.dLibraryEntryCategories();
       const filters = dtestData.dLibraryEntriesFilter();
+
       const { container } = renderWithRouter(
-         <LibraryToolbar viewMode={DListViewMode.GRID} filters={filters} />
+         <LibraryToolbar
+            viewMode={DListViewMode.GRID}
+            filters={filters}
+            categories={categories}
+         />
       );
 
       await waitFor(() => {

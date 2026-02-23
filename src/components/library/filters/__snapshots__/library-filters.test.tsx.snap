@@ -650,9 +650,8 @@ exports[`LibraryFilters rendering tests LibraryFilters - filters empty - test 1`
                 />
                 <div
                   class="text-sm text-slate-500"
-                  data-testid="models-empty"
                 >
-                  Keine Modelle verfügbar
+                  Lädt...
                 </div>
               </div>
               <div

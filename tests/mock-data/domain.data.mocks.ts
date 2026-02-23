@@ -219,6 +219,10 @@ export const dLibraryEntryWithPromptTemplate = (
    };
 };
 
+export const dLibraryEntryCategories = (count = 3): string[] => {
+   return range(0, count).map((i) => `cat-${i + 1}`);
+};
+
 export const dLibraryCollections = (count = 3): DLibraryCollection[] => {
    return range(0, count).map((i) => dLibraryCollection(i));
 };

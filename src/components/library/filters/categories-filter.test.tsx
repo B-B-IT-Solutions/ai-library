@@ -1,10 +1,7 @@
-jest.mock("@/data/actions/library");
-
+import { FC } from "react";
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, renderWithRouter } from "@tests";
-
-import { getLibraryCategories } from "@/data/actions/library";
+import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 
 import { CategoriesFilter } from "./categories-filter";
 import {
@@ -12,16 +9,16 @@ import {
    LibraryEntryFiltersHelper,
 } from "./filters-context";
 
-const getLibraryCategoriesMock = getLibraryCategories as jest.MockedFunction<
-   typeof getLibraryCategories
->;
-
 const filtersHelper = new LibraryEntryFiltersHelper({});
 
-const TestWrapper = () => {
+type WrapperProps = {
+   categories: string[];
+};
+
+const TestWrapper: FC<WrapperProps> = ({ categories }) => {
    return (
       <LibraryEntryFilterContext.Provider value={filtersHelper}>
-         <CategoriesFilter />
+         <CategoriesFilter categories={categories} />
       </LibraryEntryFilterContext.Provider>
    );
 };
@@ -52,10 +49,9 @@ describe("CategoriesFilter rendering tests", () => {
    });
 
    it("CategoriesFilter - categories empty - test", async () => {
-      getLibraryCategoriesMock.mockResolvedValue([]);
       const getCategoriesFn = mockGetCategories([]);
 
-      const { container } = renderWithRouter(<TestWrapper />);
+      const { container } = renderWithRouter(<TestWrapper categories={[]} />);
 
       await waitFor(() => {
          assertCategoriesEmptyRendered();
@@ -66,11 +62,12 @@ describe("CategoriesFilter rendering tests", () => {
    });
 
    it("CategoriesFilter - f_categories cat-1 - test", async () => {
-      const categories = ["cat-1", "cat-2", "cat-3"];
-      getLibraryCategoriesMock.mockResolvedValue(categories);
+      const categories = dtestData.dLibraryEntryCategories();
       const getCategoriesFn = mockGetCategories(["cat-1"]);
 
-      const { container } = renderWithRouter(<TestWrapper />);
+      const { container } = renderWithRouter(
+         <TestWrapper categories={categories} />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -87,12 +84,12 @@ describe("CategoriesFilter functinality tests", () => {
    });
 
    it("CategoriesFilter - category selected - test", async () => {
-      const categories = ["cat-1", "cat-2", "cat-3"];
-      getLibraryCategoriesMock.mockResolvedValue(categories);
+      const categories = dtestData.dLibraryEntryCategories();
+
       const getCategoriesFn = mockGetCategories([]);
       const setCategoriesFn = mockSetCategories();
 
-      renderWithRouter(<TestWrapper />);
+      renderWithRouter(<TestWrapper categories={categories} />);
 
       await waitFor(() => {
          assertRendered();
@@ -110,12 +107,12 @@ describe("CategoriesFilter functinality tests", () => {
    });
 
    it("CategoriesFilter - category unselected - test", async () => {
-      const categories = ["cat-1", "cat-2", "cat-3"];
-      getLibraryCategoriesMock.mockResolvedValue(categories);
+      const categories = dtestData.dLibraryEntryCategories();
+
       const getCategoriesFn = mockGetCategories(["cat-1"]);
       const setCategoriesFn = mockSetCategories();
 
-      renderWithRouter(<TestWrapper />);
+      renderWithRouter(<TestWrapper categories={categories} />);
 
       await waitFor(() => {
          assertRendered();

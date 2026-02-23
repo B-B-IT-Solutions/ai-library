@@ -22,7 +22,11 @@ import {
 import { ModelsFilter } from "./models-filter";
 import { SearchFilter } from "./search-filter";
 
-export const LibraryFilters: FC = () => {
+type Props = {
+   categories: string[];
+};
+
+export const LibraryFilters: FC<Props> = ({ categories }) => {
    const [showFilters, setShowFilters] = useState(false);
 
    const [filters, setFilters] = useQueryStates({
@@ -68,7 +72,7 @@ export const LibraryFilters: FC = () => {
                <div className="space-y-4">
                   <SearchFilter />
                   <Separator />
-                  <CategoriesFilter />
+                  <CategoriesFilter categories={categories} />
                   <Separator />
                   <ModelsFilter />
                </div>

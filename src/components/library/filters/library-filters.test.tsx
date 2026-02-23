@@ -10,15 +10,11 @@ jest.mock("use-debounce", () => ({
 
 import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, renderWithRouter } from "@tests";
+import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 
-import { getLibraryCategories, getLibraryModels } from "@/data/actions/library";
+import { getLibraryModels } from "@/data/actions/library";
 
 import { LibraryFilters } from "./library-filters";
-
-const getLibraryCategoriesMock = getLibraryCategories as jest.MockedFunction<
-   typeof getLibraryCategories
->;
 
 const getLibraryModelsMock = getLibraryModels as jest.MockedFunction<
    typeof getLibraryModels
@@ -49,13 +45,12 @@ describe("LibraryFilters rendering tests", () => {
    });
 
    it("LibraryFilters - filters empty - test", async () => {
-      getLibraryCategoriesMock.mockResolvedValue([]);
       getLibraryModelsMock.mockResolvedValue([]);
 
       const url = "/library";
       const searchParams = "";
       const { container } = renderWithRouter(
-         <LibraryFilters />,
+         <LibraryFilters categories={[]} />,
          url,
          searchParams
       );
@@ -68,16 +63,15 @@ describe("LibraryFilters rendering tests", () => {
    });
 
    it("LibraryFilters - filters defined - test", async () => {
-      const categories = ["cat-1", "cat-2", "cat-3"];
+      const categories = dtestData.dLibraryEntryCategories();
       const models = ["mod-1", "mod-2", "mod-3"];
 
-      getLibraryCategoriesMock.mockResolvedValue(categories);
       getLibraryModelsMock.mockResolvedValue(models);
 
       const url = "/library";
       const searchParams = "f_search=test-1";
       const { container } = renderWithRouter(
-         <LibraryFilters />,
+         <LibraryFilters categories={categories} />,
          url,
          searchParams
       );
@@ -96,16 +90,20 @@ describe("LibraryFilters functinality tests", () => {
    });
 
    it("LibraryFilters - search filter input - test", async () => {
-      const categories = ["cat-1", "cat-2", "cat-3"];
+      const categories = dtestData.dLibraryEntryCategories();
       const models = ["mod-1", "mod-2", "mod-3"];
 
-      getLibraryCategoriesMock.mockResolvedValue(categories);
       getLibraryModelsMock.mockResolvedValue(models);
 
       const url = "/library";
       const searchParams = "";
       const onUrlUpdateFn = jest.fn();
-      renderWithRouter(<LibraryFilters />, url, searchParams, onUrlUpdateFn);
+      renderWithRouter(
+         <LibraryFilters categories={categories} />,
+         url,
+         searchParams,
+         onUrlUpdateFn
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -144,16 +142,20 @@ describe("LibraryFilters functinality tests", () => {
    });
 
    it("LibraryFilters - category filters - test", async () => {
-      const categories = ["cat-1", "cat-2", "cat-3"];
+      const categories = dtestData.dLibraryEntryCategories();
       const models = ["mod-1", "mod-2", "mod-3"];
 
-      getLibraryCategoriesMock.mockResolvedValue(categories);
       getLibraryModelsMock.mockResolvedValue(models);
 
       const url = "/library";
       const searchParams = "f_categories=cat-1";
       const onUrlUpdateFn = jest.fn();
-      renderWithRouter(<LibraryFilters />, url, searchParams, onUrlUpdateFn);
+      renderWithRouter(
+         <LibraryFilters categories={categories} />,
+         url,
+         searchParams,
+         onUrlUpdateFn
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -190,13 +192,19 @@ describe("LibraryFilters functinality tests", () => {
    });
 
    it("LibraryFilters - model filters - test", async () => {
+      const categories = dtestData.dLibraryEntryCategories();
       const models = ["mod-1", "mod-2", "mod-3"];
       getLibraryModelsMock.mockResolvedValue(models);
 
       const url = "/library";
       const searchParams = "f_models=mod-1";
       const onUrlUpdateFn = jest.fn();
-      renderWithRouter(<LibraryFilters />, url, searchParams, onUrlUpdateFn);
+      renderWithRouter(
+         <LibraryFilters categories={categories} />,
+         url,
+         searchParams,
+         onUrlUpdateFn
+      );
 
       await waitFor(() => {
          assertRendered();

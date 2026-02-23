@@ -18,7 +18,6 @@ import {
    addEntryToCollection,
    createLibraryCollection,
    deleteLibraryCollection,
-   getLibraryCategories,
    getLibraryCollections,
    getLibraryEntriesPage,
    getLibraryModels,
@@ -57,19 +56,6 @@ export const preloadLibraryEntriesOptions = (
             filters
          );
          return await getLibraryEntriesPage(query);
-      },
-   };
-};
-
-export const preloadLibraryCategoriesOptions = (): FetchQueryOptions<
-   string[],
-   Error,
-   string[]
-> => {
-   return {
-      queryKey: libraryKeys.categories(),
-      queryFn: async () => {
-         return await getLibraryCategories();
       },
    };
 };
@@ -137,26 +123,6 @@ export const useInfiniteLoadLibraryEntries = (
 };
 
 // ==================== Regular Queries ====================
-
-export const loadLibraryCategoriesOptions = (): UndefinedInitialDataOptions<
-   string[],
-   Error,
-   string[]
-> => {
-   return {
-      queryKey: libraryKeys.categories(),
-      queryFn: async () => {
-         return await getLibraryCategories();
-      },
-      placeholderData: keepPreviousData,
-      staleTime: 5 * 60 * 1000,
-   };
-};
-
-export const useLoadLibraryCategories = (): UseQueryResult<string[]> => {
-   const options = loadLibraryCategoriesOptions();
-   return useQuery<string[]>(options);
-};
 
 export const loadLibraryModelsOptions = (): UndefinedInitialDataOptions<
    string[],
