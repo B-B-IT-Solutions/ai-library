@@ -66,7 +66,7 @@ export const CreateCollectionDialog: FC<Props> = ({ open, onOpenChange }) => {
 
    return (
       <Dialog open={open} onOpenChange={onOpenChange}>
-         <DialogContent>
+         <DialogContent data-testid="create-library-collection-dialog">
             <DialogHeader>
                <DialogTitle>Neue Sammlung erstellen</DialogTitle>
                <DialogDescription>
@@ -103,10 +103,15 @@ export const CreateCollectionDialog: FC<Props> = ({ open, onOpenChange }) => {
                         type="button"
                         variant="outline"
                         onClick={() => onOpenChange(false)}
+                        data-testid="cancel-btn"
                      >
                         Abbrechen
                      </Button>
-                     <Button type="submit" disabled={isPending}>
+                     <Button
+                        type="submit"
+                        disabled={isPending}
+                        data-testid="submit-btn"
+                     >
                         {submitBtnLabel()}
                      </Button>
                   </DialogFooter>
