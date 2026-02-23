@@ -766,9 +766,9 @@ exports[`LibraryDashboard rendering tests LibraryDashboard rendered test 1`] = `
       <span
         class="text-sm text-slate-600"
       >
-        0
+        1
          
-        Vorlagen
+        Vorlage
       </span>
     </div>
     <div
