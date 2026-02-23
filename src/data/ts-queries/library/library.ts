@@ -65,9 +65,7 @@ export const preloadLibraryCollectionsOptions = (): FetchQueryOptions<
 > => {
    return {
       queryKey: libraryKeys.collections(),
-      queryFn: async () => {
-         return await getLibraryCollections();
-      },
+      queryFn: getLibraryCollections,
    };
 };
 
@@ -92,7 +90,7 @@ export const infiniteLoadLibraryEntriesOptions = (
          );
          return await getLibraryEntriesPage(query);
       },
-      initialPageParam: 1,
+      initialPageParam: INIT_PAGE_NUMBER,
       getNextPageParam: getNextPageParam,
       staleTime: 5 * 60 * 1000,
    };

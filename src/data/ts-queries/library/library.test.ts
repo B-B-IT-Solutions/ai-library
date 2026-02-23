@@ -39,6 +39,7 @@ import { ActionResult } from "@/data/types/utils";
 import {
    createCollectionOptions,
    infiniteLoadLibraryEntriesOptions,
+   preloadLibraryCollectionsOptions,
    preloadLibraryEntriesOptions,
    toggleFavoriteOptions,
    useCreateCollection,
@@ -56,6 +57,10 @@ const mutationContextMock: MutationFunctionContext = {
 
 const getLibraryEntriesPageMock = getLibraryEntriesPage as jest.MockedFunction<
    typeof getLibraryEntriesPage
+>;
+
+const getLibraryCollectionsMock = getLibraryCollections as jest.MockedFunction<
+   typeof getLibraryCollections
 >;
 
 const toggleLibraryEntryFavoriteMock =
@@ -94,9 +99,41 @@ describe("prefetch options tests", () => {
          queryFn: jest.fn(),
       };
 
+      const expectedQuery: DLibraryEntriesPageQuery = {
+         pagination: {
+            pageNumber: 0,
+            pageSize: 10,
+         },
+         filter: params.filters,
+      };
+
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
       expect(getLibraryEntriesPageMock).toHaveBeenCalledTimes(1);
+      expect(getLibraryEntriesPageMock).toHaveBeenCalledWith(expectedQuery);
       expect(fnResult).toEqual(page);
+   });
+
+   test("preloadLibraryCollectionsOptions  - test", async () => {
+      const collections = dtestData.dLibraryCollections();
+      getLibraryCollectionsMock.mockResolvedValue(collections);
+
+      const options = preloadLibraryCollectionsOptions();
+      const queryFn = options.queryFn as QueryFunction<DLibraryCollection[]>;
+      const context = {} as QueryFunctionContext;
+      const fnResult = await queryFn(context);
+
+      const expectedOptions: UndefinedInitialDataOptions<
+         DLibraryEntriesPage,
+         Error,
+         DLibraryEntriesPage
+      > = {
+         queryKey: ["library", "collections"],
+         queryFn: jest.fn(),
+      };
+
+      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
+      expect(getLibraryCollectionsMock).toHaveBeenCalledTimes(1);
+      expect(fnResult).toEqual(collections);
    });
 });
 
@@ -118,7 +155,7 @@ describe("loadLibraryEntries hooks tests", () => {
       > = {
          queryKey: ["library", "entries", filters],
          queryFn: jest.fn(),
-         initialPageParam: 1,
+         initialPageParam: 0,
          getNextPageParam: jest.fn(),
          staleTime: 5 * 60 * 1000,
       };
@@ -140,14 +177,14 @@ describe("loadLibraryEntries hooks tests", () => {
 
       const expectedQuery: DLibraryEntriesPageQuery = {
          pagination: {
-            pageNumber: 1,
+            pageNumber: 0,
             pageSize: 10,
          },
          filter: params.filters,
       };
 
       await waitFor(() => {
-         expect(result.current.data?.pageParams).toEqual([1]);
+         expect(result.current.data?.pageParams).toEqual([0]);
          expect(result.current.data?.pages).toHaveLength(1);
          expect(result.current.data?.pages[0]).toEqual(page);
          expect(getLibraryEntriesPageMock).toHaveBeenCalledTimes(1);

@@ -146,7 +146,7 @@ export class LibraryRepository {
       const pagination = query?.pagination;
       const pageNumber = pagination?.pageNumber ?? 1;
       const pageSize = pagination?.pageSize ?? 20;
-      const skip = (pageNumber - 1) * pageSize;
+      const skip = pageNumber * pageSize;
 
       const where = this.resolveWhereInput(userId, query?.filter);
 
