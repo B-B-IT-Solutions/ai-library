@@ -22,7 +22,7 @@ import {
 } from "@/data/ts-queries/library";
 import { DLibraryCollection, DLibraryEntry } from "@/data/types/domain/library";
 
-import { CreateCollectionDialog } from "./create-collection-dialog";
+import { LibraryCollectionCreateDialog } from "./create-library-collection-dialog";
 
 type Props = {
    entry: DLibraryEntry;
@@ -31,7 +31,7 @@ type Props = {
    onOpenChange: (open: boolean) => void;
 };
 
-export const AddToCollectionDialog: FC<Props> = ({
+export const AddToLibraryCollectionDialog: FC<Props> = ({
    entry,
    collections,
    open,
@@ -187,7 +187,7 @@ export const AddToCollectionDialog: FC<Props> = ({
             </DialogContent>
          </Dialog>
 
-         <CreateCollectionDialog
+         <LibraryCollectionCreateDialog
             open={showCreateDialog}
             onOpenChange={setShowCreateDialog}
          />

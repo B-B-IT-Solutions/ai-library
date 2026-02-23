@@ -17,7 +17,7 @@ import {
 import { useLoadLibraryCollections } from "@/data/ts-queries/library";
 import { DLibraryEntriesFilter } from "@/data/types/domain/library";
 import { cn } from "@/lib/utils";
-import { CreateCollectionDialog } from "../dialog/create-collection-dialog";
+import { LibraryCollectionCreateDialog } from "../dialog";
 import { librarySearchParams } from "../search-params";
 
 type Props = {
@@ -120,7 +120,7 @@ export const LibraryQuickNav: FC<Props> = () => {
             </DropdownMenu>
          </div>
 
-         <CreateCollectionDialog
+         <LibraryCollectionCreateDialog
             open={showCreateDialog}
             onOpenChange={setShowCreateDialog}
          />

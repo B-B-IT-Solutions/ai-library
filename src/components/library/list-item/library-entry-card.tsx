@@ -18,7 +18,7 @@ import { DLibraryCollection, DLibraryEntry } from "@/data/types/domain/library";
 import { AddToFavoriteButton } from "../buttons/add-to-favorite-button";
 import { CreatePromptButton } from "../buttons/create-prompt-button";
 import { DownloadTemplateButton } from "../buttons/download-template-button";
-import { AddToCollectionDialog } from "../dialog/add-to-collection-dialog";
+import { AddToLibraryCollectionDialog } from "../dialog";
 
 type Props = {
    entry: DLibraryEntry;
@@ -152,7 +152,7 @@ export const LibraryEntryCard: FC<Props> = ({ entry, collections }) => {
             </div>
          </CardContent>
 
-         <AddToCollectionDialog
+         <AddToLibraryCollectionDialog
             entry={entry}
             collections={collections}
             open={showAddToCollectionDialog}

@@ -27,7 +27,10 @@ type Props = {
    onOpenChange: (open: boolean) => void;
 };
 
-export const CreateCollectionDialog: FC<Props> = ({ open, onOpenChange }) => {
+export const LibraryCollectionCreateDialog: FC<Props> = ({
+   open,
+   onOpenChange,
+}) => {
    const { mutate: createCollection, isPending } = useCreateCollection();
 
    const form = useForm<DLibraryCollectionUpdate>({
