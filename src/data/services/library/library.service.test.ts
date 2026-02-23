@@ -309,3 +309,23 @@ describe("downloadPromptTemplate tests", () => {
       );
    });
 });
+
+describe("getLibraryCategories tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("getLibraryCategories - categories retrieved - test", async () => {
+      const userId = "user-id-1";
+      const categories = dtestData.dLibraryEntryCategories();
+      libraryRepoMock.pGetLibraryCategories.mockResolvedValue(categories);
+
+      const result = await libraryService.getLibraryCategories(userId);
+
+      expect(result).toEqual(categories);
+      expect(libraryRepoMock.pGetLibraryCategories).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryCategories).toHaveBeenCalledWith(
+         userId
+      );
+   });
+});

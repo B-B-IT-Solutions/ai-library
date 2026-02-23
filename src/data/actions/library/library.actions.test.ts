@@ -14,6 +14,7 @@ import {
    composePromptFromTemplate,
    createLibraryEntry,
    downloadTemplate,
+   getLibraryCategories,
    getLibraryEntriesPage,
    getLibraryEntry,
 } from "./library.actions";
@@ -26,6 +27,7 @@ const sCreateLibraryEntry = LibraryService.prototype.createLibraryEntry;
 const sComposePromptFromTemplate =
    LibraryService.prototype.composePromptFromTemplate;
 const sDownloadTemplate = LibraryService.prototype.downloadPromptTemplate;
+const sGetLibraryCategories = LibraryService.prototype.getLibraryCategories;
 
 const sGetLibraryEntriesPageMock =
    sGetLibraryEntriesPage as jest.MockedFunction<typeof sGetLibraryEntriesPage>;
@@ -41,6 +43,9 @@ const sComposePromptFromTemplateMock =
    >;
 const sDownloadTemplateMock = sDownloadTemplate as jest.MockedFunction<
    typeof sDownloadTemplate
+>;
+const sGetLibraryCategoriesMock = sGetLibraryCategories as jest.MockedFunction<
+   typeof sGetLibraryCategories
 >;
 
 describe("getLibraryEntriesPage tests", () => {
@@ -410,5 +415,44 @@ describe("downloadTemplate tests", () => {
       expect(sDownloadTemplateMock).toHaveBeenCalledWith(descriptorId, user.id);
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(errorMessage);
+   });
+});
+
+describe("getLibraryCategories tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("getLibraryCategories - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await getLibraryCategories();
+
+      expect(result).toEqual([]);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetLibraryCategoriesMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("getLibraryCategories - categories retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const categories = dtestData.dLibraryEntryCategories();
+      sGetLibraryCategoriesMock.mockResolvedValue(categories);
+
+      const result = await getLibraryCategories();
+
+      expect(result).toEqual(categories);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetLibraryCategoriesMock).toHaveBeenCalledTimes(1);
+      expect(sGetLibraryCategoriesMock).toHaveBeenCalledWith(user.id);
    });
 });
