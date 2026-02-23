@@ -156,10 +156,16 @@ export const createCollectionOptions = (
       mutationFn: async (data: DLibraryCollectionUpdate) => {
          return await createLibraryCollection(data);
       },
-      onSuccess: () => {
-         queryClient.invalidateQueries({
-            queryKey: libraryKeys.collections(),
-         });
+      onSuccess: (result) => {
+         const currentData =
+            queryClient.getQueryData<DLibraryCollection[]>(
+               libraryKeys.collections()
+            ) || [];
+
+         if (result.data) {
+            const newData = [...currentData, result.data];
+            queryClient.setQueryData(libraryKeys.collections(), newData);
+         }
       },
    };
 };

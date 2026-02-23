@@ -271,11 +271,6 @@ describe("createCollection hooks tests", () => {
    });
 
    test("createCollectionOptions test", async () => {
-      const result: ActionResult<DLibraryCollection> = {
-         success: true,
-         message: "Collection created",
-         data: dtestData.dLibraryCollection(),
-      };
       const update = dtestData.dLibraryCollectionUpdate();
 
       const expectedOptions: UseMutationOptions<
@@ -291,29 +286,61 @@ describe("createCollection hooks tests", () => {
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
       expect(queryClientMock.invalidateQueries).not.toHaveBeenCalled();
 
-      if (options.onSuccess) {
-         options.onSuccess(result, update, undefined, mutationContextMock);
-      }
-
-      const expectedInvalidateFilters: InvalidateQueryFilters = {
-         queryKey: ["library", "collections"],
+      const result1: ActionResult<DLibraryCollection> = {
+         success: true,
+         message: "Collection created",
+         data: undefined,
       };
-      expect(queryClientMock.invalidateQueries).toHaveBeenCalledTimes(1);
-      expect(queryClientMock.invalidateQueries).toHaveBeenCalledWith(
-         expectedInvalidateFilters
+
+      options.onSuccess!(result1, update, undefined, mutationContextMock);
+
+      const expectedQueryKey: QueryKey = ["library", "collections"];
+      expect(queryClientMock.getQueryData).toHaveBeenCalledTimes(1);
+      expect(queryClientMock.getQueryData).toHaveBeenCalledWith(
+         expectedQueryKey
+      );
+      expect(queryClientMock.setQueryData).not.toHaveBeenCalled();
+
+      const result2: ActionResult<DLibraryCollection> = {
+         success: true,
+         message: "Collection created",
+         data: dtestData.dLibraryCollection(),
+      };
+
+      options.onSuccess!(result2, update, undefined, mutationContextMock);
+
+      expect(queryClientMock.getQueryData).toHaveBeenCalledTimes(2);
+      expect(queryClientMock.getQueryData).toHaveBeenNthCalledWith(
+         2,
+         expectedQueryKey
+      );
+
+      expect(queryClientMock.setQueryData).toHaveBeenCalledTimes(1);
+      expect(queryClientMock.setQueryData).toHaveBeenCalledWith(
+         expectedQueryKey,
+         [result2.data]
       );
    });
 
    test("useCreateCollection test", async () => {
+      const actionResult: ActionResult<DLibraryCollection> = {
+         success: true,
+         message: "Collection created",
+         data: dtestData.dLibraryCollection(),
+      };
+      createLibraryCollectionMock.mockResolvedValue(actionResult);
+
       const { result } = renderHookWithReactQuery(() => useCreateCollection());
 
-      const update = dtestData.dLibraryCollectionUpdate();
+      const newCollection = dtestData.dLibraryCollectionUpdate();
 
       await waitFor(() => {
-         result.current.mutate(update);
+         result.current.mutate(newCollection);
          expect(result.current.isSuccess).toBe(true);
          expect(createLibraryCollectionMock).toHaveBeenCalledTimes(1);
-         expect(createLibraryCollectionMock).toHaveBeenCalledWith(update);
+         expect(createLibraryCollectionMock).toHaveBeenCalledWith(
+            newCollection
+         );
       });
    });
 });
