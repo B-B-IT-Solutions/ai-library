@@ -17,6 +17,7 @@ import {
    getLibraryCategories,
    getLibraryEntriesPage,
    getLibraryEntry,
+   getLibraryModels,
 } from "./library.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
@@ -28,6 +29,7 @@ const sComposePromptFromTemplate =
    LibraryService.prototype.composePromptFromTemplate;
 const sDownloadTemplate = LibraryService.prototype.downloadPromptTemplate;
 const sGetLibraryCategories = LibraryService.prototype.getLibraryCategories;
+const sGetLibraryModels = LibraryService.prototype.getLibraryModels;
 
 const sGetLibraryEntriesPageMock =
    sGetLibraryEntriesPage as jest.MockedFunction<typeof sGetLibraryEntriesPage>;
@@ -46,6 +48,9 @@ const sDownloadTemplateMock = sDownloadTemplate as jest.MockedFunction<
 >;
 const sGetLibraryCategoriesMock = sGetLibraryCategories as jest.MockedFunction<
    typeof sGetLibraryCategories
+>;
+const sGetLibraryModelsMock = sGetLibraryModels as jest.MockedFunction<
+   typeof sGetLibraryModels
 >;
 
 describe("getLibraryEntriesPage tests", () => {
@@ -454,5 +459,44 @@ describe("getLibraryCategories tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetLibraryCategoriesMock).toHaveBeenCalledTimes(1);
       expect(sGetLibraryCategoriesMock).toHaveBeenCalledWith(user.id);
+   });
+});
+
+describe("getLibraryModels tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("getLibraryModels - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await getLibraryModels();
+
+      expect(result).toEqual([]);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetLibraryModelsMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("getLibraryModels - models retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const models = dtestData.dLibraryEntryModels();
+      sGetLibraryModelsMock.mockResolvedValue(models);
+
+      const result = await getLibraryModels();
+
+      expect(result).toEqual(models);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetLibraryModelsMock).toHaveBeenCalledTimes(1);
+      expect(sGetLibraryModelsMock).toHaveBeenCalledWith(user.id);
    });
 });

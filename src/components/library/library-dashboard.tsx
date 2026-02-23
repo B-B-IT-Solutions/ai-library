@@ -8,7 +8,6 @@ import { getLibraryCategories, getLibraryModels } from "@/data/actions/library";
 import {
    infiniteLoadLibraryEntriesOptions,
    preloadLibraryCollectionsOptions,
-   preloadLibraryModelsOptions,
 } from "@/data/ts-queries/library";
 import { DLibraryEntriesFilter } from "@/data/types/domain/library";
 
@@ -35,7 +34,6 @@ export const LibraryDashboard = async () => {
       queryClient.prefetchInfiniteQuery(
          infiniteLoadLibraryEntriesOptions({ filters })
       ),
-      // queryClient.prefetchQuery(preloadLibraryModelsOptions()),
       queryClient.prefetchQuery(preloadLibraryCollectionsOptions()),
    ]);
 

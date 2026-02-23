@@ -20,7 +20,6 @@ import {
    deleteLibraryCollection,
    getLibraryCollections,
    getLibraryEntriesPage,
-   getLibraryModels,
    removeEntryFromCollection,
    toggleLibraryEntryFavorite,
    updateLibraryCollection,
@@ -56,19 +55,6 @@ export const preloadLibraryEntriesOptions = (
             filters
          );
          return await getLibraryEntriesPage(query);
-      },
-   };
-};
-
-export const preloadLibraryModelsOptions = (): FetchQueryOptions<
-   string[],
-   Error,
-   string[]
-> => {
-   return {
-      queryKey: libraryKeys.models(),
-      queryFn: async () => {
-         return await getLibraryModels();
       },
    };
 };
@@ -123,26 +109,6 @@ export const useInfiniteLoadLibraryEntries = (
 };
 
 // ==================== Regular Queries ====================
-
-export const loadLibraryModelsOptions = (): UndefinedInitialDataOptions<
-   string[],
-   Error,
-   string[]
-> => {
-   return {
-      queryKey: libraryKeys.models(),
-      queryFn: async () => {
-         return await getLibraryModels();
-      },
-      placeholderData: keepPreviousData,
-      staleTime: 5 * 60 * 1000,
-   };
-};
-
-export const useLoadLibraryModels = (): UseQueryResult<string[]> => {
-   const options = loadLibraryModelsOptions();
-   return useQuery<string[]>(options);
-};
 
 export const loadLibraryCollectionsOptions = (): UndefinedInitialDataOptions<
    DLibraryCollection[],

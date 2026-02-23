@@ -329,3 +329,21 @@ describe("getLibraryCategories tests", () => {
       );
    });
 });
+
+describe("getLibraryModels tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("getLibraryModels - models retrieved - test", async () => {
+      const userId = "user-id-1";
+      const models = dtestData.dLibraryEntryModels();
+      libraryRepoMock.pGetLibraryModels.mockResolvedValue(models);
+
+      const result = await libraryService.getLibraryModels(userId);
+
+      expect(result).toEqual(models);
+      expect(libraryRepoMock.pGetLibraryModels).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryModels).toHaveBeenCalledWith(userId);
+   });
+});
