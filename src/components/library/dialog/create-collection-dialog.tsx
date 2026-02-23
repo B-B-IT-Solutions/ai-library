@@ -61,7 +61,6 @@ export const CreateCollectionDialog: FC<Props> = ({ open, onOpenChange }) => {
             </>
          );
       }
-
       return "Erstellen";
    };
 
