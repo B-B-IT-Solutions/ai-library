@@ -135,11 +135,7 @@ export class LibraryService {
       return await this.libraryRepository.pGetLibraryModels(userId);
    }
 
-   async toggleFavorite(
-      entryId: string,
-      userId: string,
-      isFavorite: boolean
-   ): Promise<void> {
+   async toggleFavorite(entryId: string, userId: string, isFavorite: boolean) {
       await this.libraryRepository.pToggleFavorite(entryId, userId, isFavorite);
    }
 

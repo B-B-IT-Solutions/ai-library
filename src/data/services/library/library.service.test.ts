@@ -347,3 +347,24 @@ describe("getLibraryModels tests", () => {
       expect(libraryRepoMock.pGetLibraryModels).toHaveBeenCalledWith(userId);
    });
 });
+
+describe("toggleFavorite tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("toggleFavorite - value toggled - test", async () => {
+      const userId = "user-id-1";
+      const entryId = "entry-id-1";
+      const isFavorite = true;
+
+      await libraryService.toggleFavorite(entryId, userId, isFavorite);
+
+      expect(libraryRepoMock.pToggleFavorite).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pToggleFavorite).toHaveBeenCalledWith(
+         entryId,
+         userId,
+         isFavorite
+      );
+   });
+});
