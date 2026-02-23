@@ -4,7 +4,7 @@ import {
    QueryClient,
 } from "@tanstack/react-query";
 
-import { getLibraryCategories } from "@/data/actions/library";
+import { getLibraryCategories, getLibraryModels } from "@/data/actions/library";
 import {
    infiniteLoadLibraryEntriesOptions,
    preloadLibraryCollectionsOptions,
@@ -35,11 +35,12 @@ export const LibraryDashboard = async () => {
       queryClient.prefetchInfiniteQuery(
          infiniteLoadLibraryEntriesOptions({ filters })
       ),
-      queryClient.prefetchQuery(preloadLibraryModelsOptions()),
+      // queryClient.prefetchQuery(preloadLibraryModelsOptions()),
       queryClient.prefetchQuery(preloadLibraryCollectionsOptions()),
    ]);
 
    const categories = await getLibraryCategories();
+   const models = await getLibraryModels();
 
    return (
       <HydrationBoundary state={dehydrate(queryClient)}>
@@ -69,6 +70,7 @@ export const LibraryDashboard = async () => {
                viewMode={viewMode}
                filters={filters}
                categories={categories}
+               models={models}
             />
 
             <div className="flex-1 overflow-y-auto">

@@ -24,9 +24,10 @@ import { SearchFilter } from "./search-filter";
 
 type Props = {
    categories: string[];
+   models: string[];
 };
 
-export const LibraryFilters: FC<Props> = ({ categories }) => {
+export const LibraryFilters: FC<Props> = ({ categories, models }) => {
    const [showFilters, setShowFilters] = useState(false);
 
    const [filters, setFilters] = useQueryStates({
@@ -74,7 +75,7 @@ export const LibraryFilters: FC<Props> = ({ categories }) => {
                   <Separator />
                   <CategoriesFilter categories={categories} />
                   <Separator />
-                  <ModelsFilter />
+                  <ModelsFilter models={models} />
                </div>
                <div className="mt-3 flex justify-end">
                   <Button

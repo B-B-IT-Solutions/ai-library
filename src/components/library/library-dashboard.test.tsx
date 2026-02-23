@@ -78,10 +78,8 @@ const assertRendered = () => {
 
 describe("LibraryDashboard rendering tests", () => {
    beforeAll(() => {
-      const models = ["mod-1", "mod-2", "mod-3"];
       const page = dtestData.dLibraryEntriesPage();
 
-      getLibraryModelsMock.mockResolvedValue(models);
       getLibraryCollectionsMock.mockResolvedValue([]);
       getLibraryEntriesPageMock.mockResolvedValue(page);
    });
@@ -94,13 +92,16 @@ describe("LibraryDashboard rendering tests", () => {
       librarySearchParamsCacheMock.get.mockImplementation(mockSearchParams);
 
       const categories = dtestData.dLibraryEntryCategories();
+      const models = dtestData.dLibraryEntryModels();
       getLibraryCategoriesMock.mockResolvedValue(categories);
+      getLibraryModelsMock.mockResolvedValue(models);
 
       const { container } = await renderAsyncRSC(LibraryDashboard, {});
 
       await waitFor(() => {
          assertRendered();
          expect(getLibraryCategoriesMock).toHaveBeenCalledTimes(1);
+         expect(getLibraryModelsMock).toHaveBeenCalledTimes(1);
       });
 
       expect(container).toMatchSnapshot();

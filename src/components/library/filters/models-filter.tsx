@@ -7,15 +7,16 @@ import { useDebouncedCallback } from "use-debounce";
 import { Badge } from "@/components/shadcn/badge";
 import { Checkbox } from "@/components/shadcn/checkbox";
 import { Label } from "@/components/shadcn/label";
-import { useLoadLibraryModels } from "@/data/ts-queries/library";
 
 import { useLibraryEntryFiltersContext } from "./filters-context";
 
-export const ModelsFilter: FC = () => {
+type Props = {
+   models: string[];
+};
+
+export const ModelsFilter: FC<Props> = ({ models }) => {
    const filtersContext = useLibraryEntryFiltersContext();
    const [f_models, setModels] = useState(filtersContext.getModels());
-
-   const { data: models = [], isLoading } = useLoadLibraryModels();
 
    const updateFiltersContext = useDebouncedCallback((values: string[]) => {
       filtersContext.setModels(values);
@@ -60,10 +61,6 @@ export const ModelsFilter: FC = () => {
          </div>
       );
    };
-
-   if (isLoading) {
-      return <div className="text-sm text-slate-500">Lädt...</div>;
-   }
 
    if (isEmpty(models)) {
       return (

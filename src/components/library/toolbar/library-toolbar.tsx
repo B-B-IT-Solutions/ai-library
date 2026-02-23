@@ -12,12 +12,14 @@ type Props = {
    viewMode: DListViewMode;
    filters: DLibraryEntriesFilter;
    categories: string[];
+   models: string[];
 };
 
 export const LibraryToolbar: FC<Props> = ({
    viewMode,
    filters,
    categories,
+   models,
 }) => {
    // const { data } = useInfiniteLoadLibraryEntries({
    //    filters,
@@ -38,7 +40,7 @@ export const LibraryToolbar: FC<Props> = ({
       >
          <div className="flex items-center gap-4">
             <ListViewToggle currentView={viewMode} />
-            <LibraryFilters categories={categories} />
+            <LibraryFilters categories={categories} models={models} />
             <GroupBySelect />
             <SortBySelect />
          </div>

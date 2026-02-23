@@ -1,10 +1,7 @@
-jest.mock("@/data/actions/library");
-
+import { FC } from "react";
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, renderWithRouter } from "@tests";
-
-import { getLibraryModels } from "@/data/actions/library";
+import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 
 import {
    LibraryEntryFilterContext,
@@ -12,16 +9,16 @@ import {
 } from "./filters-context";
 import { ModelsFilter } from "./models-filter";
 
-const getLibraryModelsMock = getLibraryModels as jest.MockedFunction<
-   typeof getLibraryModels
->;
-
 const filtersHelper = new LibraryEntryFiltersHelper({});
 
-const TestWrapper = () => {
+type WrapperProps = {
+   models: string[];
+};
+
+const TestWrapper: FC<WrapperProps> = ({ models }) => {
    return (
       <LibraryEntryFilterContext.Provider value={filtersHelper}>
-         <ModelsFilter />
+         <ModelsFilter models={models} />
       </LibraryEntryFilterContext.Provider>
    );
 };
@@ -48,10 +45,9 @@ const assertCategoriesEmptyRendered = () => {
 
 describe("ModelsFilter rendering tests", () => {
    it("ModelsFilter - models empty - test", async () => {
-      getLibraryModelsMock.mockResolvedValue([]);
       const getModelsFn = mockGetModels([]);
 
-      const { container } = renderWithRouter(<TestWrapper />);
+      const { container } = renderWithRouter(<TestWrapper models={[]} />);
 
       await waitFor(() => {
          assertCategoriesEmptyRendered();
@@ -62,11 +58,10 @@ describe("ModelsFilter rendering tests", () => {
    });
 
    it("ModelsFilter - f_models mod-1 - test", async () => {
-      const models = ["mod-1", "mod-2", "mod-3"];
-      getLibraryModelsMock.mockResolvedValue(models);
+      const models = dtestData.dLibraryEntryModels();
       const getModelsFn = mockGetModels(["mod-1"]);
 
-      const { container } = renderWithRouter(<TestWrapper />);
+      const { container } = renderWithRouter(<TestWrapper models={models} />);
 
       await waitFor(() => {
          assertRendered();
@@ -83,12 +78,11 @@ describe("ModelsFilter functinality tests", () => {
    });
 
    it("ModelsFilter - model selected - test", async () => {
-      const models = ["mod-1", "mod-2", "mod-3"];
-      getLibraryModelsMock.mockResolvedValue(models);
+      const models = dtestData.dLibraryEntryModels();
       const getModelsFn = mockGetModels([]);
       const setModelsFn = mockSetModels();
 
-      renderWithRouter(<TestWrapper />);
+      renderWithRouter(<TestWrapper models={models} />);
 
       await waitFor(() => {
          assertRendered();
@@ -106,12 +100,11 @@ describe("ModelsFilter functinality tests", () => {
    });
 
    it("ModelsFilter - model unselected - test", async () => {
-      const models = ["mod-1", "mod-2", "mod-3"];
-      getLibraryModelsMock.mockResolvedValue(models);
+      const models = dtestData.dLibraryEntryModels();
       const getModelsFn = mockGetModels(["mod-1"]);
       const setModelsFn = mockSetModels();
 
-      renderWithRouter(<ModelsFilter />);
+      renderWithRouter(<ModelsFilter models={models} />);
 
       await waitFor(() => {
          assertRendered();

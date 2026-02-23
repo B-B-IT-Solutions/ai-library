@@ -1,5 +1,3 @@
-jest.mock("@/data/actions/library");
-
 jest.mock("use-debounce", () => ({
    useDebouncedCallback: <T extends (...args: unknown[]) => unknown>(
       callback: T
@@ -12,13 +10,7 @@ import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 
-import { getLibraryModels } from "@/data/actions/library";
-
 import { LibraryFilters } from "./library-filters";
-
-const getLibraryModelsMock = getLibraryModels as jest.MockedFunction<
-   typeof getLibraryModels
->;
 
 const assertRendered = () => {
    const filters = screen.getByTestId("library-entry-filters-trigger");
@@ -45,12 +37,10 @@ describe("LibraryFilters rendering tests", () => {
    });
 
    it("LibraryFilters - filters empty - test", async () => {
-      getLibraryModelsMock.mockResolvedValue([]);
-
       const url = "/library";
       const searchParams = "";
       const { container } = renderWithRouter(
-         <LibraryFilters categories={[]} />,
+         <LibraryFilters categories={[]} models={[]} />,
          url,
          searchParams
       );
@@ -64,14 +54,12 @@ describe("LibraryFilters rendering tests", () => {
 
    it("LibraryFilters - filters defined - test", async () => {
       const categories = dtestData.dLibraryEntryCategories();
-      const models = ["mod-1", "mod-2", "mod-3"];
-
-      getLibraryModelsMock.mockResolvedValue(models);
+      const models = dtestData.dLibraryEntryModels();
 
       const url = "/library";
       const searchParams = "f_search=test-1";
       const { container } = renderWithRouter(
-         <LibraryFilters categories={categories} />,
+         <LibraryFilters categories={categories} models={models} />,
          url,
          searchParams
       );
@@ -91,15 +79,13 @@ describe("LibraryFilters functinality tests", () => {
 
    it("LibraryFilters - search filter input - test", async () => {
       const categories = dtestData.dLibraryEntryCategories();
-      const models = ["mod-1", "mod-2", "mod-3"];
-
-      getLibraryModelsMock.mockResolvedValue(models);
+      const models = dtestData.dLibraryEntryModels();
 
       const url = "/library";
       const searchParams = "";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(
-         <LibraryFilters categories={categories} />,
+         <LibraryFilters categories={categories} models={models} />,
          url,
          searchParams,
          onUrlUpdateFn
@@ -143,15 +129,13 @@ describe("LibraryFilters functinality tests", () => {
 
    it("LibraryFilters - category filters - test", async () => {
       const categories = dtestData.dLibraryEntryCategories();
-      const models = ["mod-1", "mod-2", "mod-3"];
-
-      getLibraryModelsMock.mockResolvedValue(models);
+      const models = dtestData.dLibraryEntryModels();
 
       const url = "/library";
       const searchParams = "f_categories=cat-1";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(
-         <LibraryFilters categories={categories} />,
+         <LibraryFilters categories={categories} models={models} />,
          url,
          searchParams,
          onUrlUpdateFn
@@ -193,14 +177,13 @@ describe("LibraryFilters functinality tests", () => {
 
    it("LibraryFilters - model filters - test", async () => {
       const categories = dtestData.dLibraryEntryCategories();
-      const models = ["mod-1", "mod-2", "mod-3"];
-      getLibraryModelsMock.mockResolvedValue(models);
+      const models = dtestData.dLibraryEntryModels();
 
       const url = "/library";
       const searchParams = "f_models=mod-1";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(
-         <LibraryFilters categories={categories} />,
+         <LibraryFilters categories={categories} models={models} />,
          url,
          searchParams,
          onUrlUpdateFn
