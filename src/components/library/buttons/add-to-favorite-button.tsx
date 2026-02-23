@@ -68,6 +68,7 @@ export const AddToFavoriteButton: FC<Props> = ({ entry }) => {
             isFavorite ? "Aus Favoriten entfernen" : "Zu Favoriten hinzufügen"
          }
          aria-pressed={entry.isFavorite}
+         data-testid="toggle-favorite-btn"
       >
          {icon()}
       </button>
