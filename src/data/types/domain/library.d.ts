@@ -53,17 +53,3 @@ export type DLibraryCollection = {
 export type DLibraryCollectionWithEntries = DLibraryCollection & {
    entries: DLibraryEntry[];
 };
-
-export type DCollectionUpdate = {
-   name?: string;
-   description?: string;
-   color?: string;
-   order?: number;
-};
-
-export type UpdateCollectionInput = {
-   name?: string;
-   description?: string;
-   color?: string;
-   order?: number;
-};

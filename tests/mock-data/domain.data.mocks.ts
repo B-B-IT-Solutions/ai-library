@@ -4,8 +4,8 @@ import { map } from "es-toolkit/compat";
 import { Sort } from "@/data/types/common";
 import { DCart, DCartItem } from "@/data/types/domain/cart";
 import {
-   DCollectionUpdate,
    DLibraryCollection,
+   DLibraryCollectionUpdate,
    DLibraryEntriesFilter,
    DLibraryEntriesPage,
    DLibraryEntriesPageQuery,
@@ -246,7 +246,9 @@ export const dLibraryCollection = (index = 1): DLibraryCollection => {
    };
 };
 
-export const dCollectionUpdate = (index = 1): DCollectionUpdate => {
+export const dLibraryCollectionUpdate = (
+   index = 1
+): DLibraryCollectionUpdate => {
    return {
       name: `name ${index}`,
       description: `description ${index}`,

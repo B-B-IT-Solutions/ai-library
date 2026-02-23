@@ -7,13 +7,12 @@ import {
    LibraryEntryWithPromptTemplateDescriptor,
 } from "@/data/types/db/library";
 import {
-   DCollectionUpdate,
    DLibraryCollection,
+   DLibraryCollectionUpdate,
    DLibraryEntriesPage,
    DLibraryEntriesPageQuery,
    DLibraryEntry,
    DLibraryEntryWithPromptTemplate,
-   UpdateCollectionInput,
 } from "@/data/types/domain/library";
 import {
    LibraryCollectionCreateInput,
@@ -257,7 +256,7 @@ export class LibraryRepository {
 
    async pCreateCollection(
       userId: string,
-      data: DCollectionUpdate
+      data: DLibraryCollectionUpdate
    ): Promise<DLibraryCollection> {
       const input: LibraryCollectionCreateInput = {
          user: {
@@ -286,7 +285,7 @@ export class LibraryRepository {
    async pUpdateCollection(
       collectionId: string,
       userId: string,
-      data: UpdateCollectionInput
+      data: DLibraryCollectionUpdate
    ): Promise<void> {
       await this.prisma.libraryCollection.update({
          where: {

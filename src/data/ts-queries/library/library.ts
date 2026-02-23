@@ -27,11 +27,10 @@ import {
    updateLibraryCollection,
 } from "@/data/actions/library";
 import {
-   DCollectionUpdate,
    DLibraryCollection,
+   DLibraryCollectionUpdate,
    DLibraryEntriesPage,
    DLibraryEntriesPageQuery,
-   UpdateCollectionInput,
 } from "@/data/types/domain/library";
 import { ActionResult } from "@/data/types/utils";
 import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
@@ -155,10 +154,10 @@ export const createCollectionOptions = (
 ): UseMutationOptions<
    ActionResult<DLibraryCollection>,
    Error,
-   DCollectionUpdate
+   DLibraryCollectionUpdate
 > => {
    return {
-      mutationFn: async (data: DCollectionUpdate) => {
+      mutationFn: async (data: DLibraryCollectionUpdate) => {
          return await createLibraryCollection(data);
       },
       onSuccess: () => {
@@ -172,7 +171,7 @@ export const createCollectionOptions = (
 export const useCreateCollection = (): UseMutationResult<
    ActionResult<DLibraryCollection>,
    Error,
-   DCollectionUpdate
+   DLibraryCollectionUpdate
 > => {
    const queryClient = useQueryClient();
    return useMutation(createCollectionOptions(queryClient));
@@ -181,7 +180,7 @@ export const useCreateCollection = (): UseMutationResult<
 export const useUpdateCollection = (): UseMutationResult<
    ActionResult,
    Error,
-   { collectionId: string; data: UpdateCollectionInput }
+   { collectionId: string; data: DLibraryCollectionUpdate }
 > => {
    const queryClient = useQueryClient();
 
@@ -191,7 +190,7 @@ export const useUpdateCollection = (): UseMutationResult<
          data,
       }: {
          collectionId: string;
-         data: UpdateCollectionInput;
+         data: DLibraryCollectionUpdate;
       }) => {
          return await updateLibraryCollection(collectionId, data);
       },

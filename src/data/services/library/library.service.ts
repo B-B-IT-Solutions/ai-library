@@ -7,13 +7,12 @@ import {
 import { PromptTemplateService } from "@/data/services/prompt-template";
 import { OrderProducts } from "@/data/types/db/order";
 import {
-   DCollectionUpdate,
    DLibraryCollection,
+   DLibraryCollectionUpdate,
    DLibraryEntriesPage,
    DLibraryEntriesPageQuery,
    DLibraryEntry,
    DLibraryEntryWithPromptTemplate,
-   UpdateCollectionInput,
 } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
@@ -147,7 +146,7 @@ export class LibraryService {
 
    async createCollection(
       userId: string,
-      data: DCollectionUpdate
+      data: DLibraryCollectionUpdate
    ): Promise<DLibraryCollection> {
       return await this.libraryRepository.pCreateCollection(userId, data);
    }
@@ -155,7 +154,7 @@ export class LibraryService {
    async updateCollection(
       collectionId: string,
       userId: string,
-      data: UpdateCollectionInput
+      data: DLibraryCollectionUpdate
    ): Promise<void> {
       await this.libraryRepository.pUpdateCollection(
          collectionId,

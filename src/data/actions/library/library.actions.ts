@@ -8,12 +8,11 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
-   DCollectionUpdate,
    DLibraryCollection,
+   DLibraryCollectionUpdate,
    DLibraryEntriesPage,
    DLibraryEntriesPageQuery,
    DLibraryEntryWithPromptTemplate,
-   UpdateCollectionInput,
 } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
@@ -192,7 +191,7 @@ export const getLibraryCollections = async (): Promise<
 };
 
 export const createLibraryCollection = async (
-   data: DCollectionUpdate
+   data: DLibraryCollectionUpdate
 ): Promise<ActionResult<DLibraryCollection>> => {
    try {
       const user = await requireUser();
@@ -215,7 +214,7 @@ export const createLibraryCollection = async (
 
 export const updateLibraryCollection = async (
    collectionId: string,
-   data: UpdateCollectionInput
+   data: DLibraryCollectionUpdate
 ): Promise<ActionResult> => {
    try {
       if (!isValidUuid(collectionId)) {

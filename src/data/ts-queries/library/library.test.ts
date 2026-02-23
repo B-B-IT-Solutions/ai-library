@@ -29,8 +29,8 @@ import {
    updateLibraryCollection,
 } from "@/data/actions/library";
 import {
-   DCollectionUpdate,
    DLibraryCollection,
+   DLibraryCollectionUpdate,
    DLibraryEntriesPage,
    DLibraryEntriesPageQuery,
 } from "@/data/types/domain/library";
@@ -202,12 +202,12 @@ describe("createCollection hooks tests", () => {
          message: "Collection created",
          data: dtestData.dLibraryCollection(),
       };
-      const update = dtestData.dCollectionUpdate();
+      const update = dtestData.dLibraryCollectionUpdate();
 
       const expectedOptions: UseMutationOptions<
          ActionResult<DLibraryCollection>,
          Error,
-         DCollectionUpdate
+         DLibraryCollectionUpdate
       > = {
          mutationFn: jest.fn(),
          onSuccess: jest.fn(),
@@ -233,7 +233,7 @@ describe("createCollection hooks tests", () => {
    test("useCreateCollection test", async () => {
       const { result } = renderHookWithReactQuery(() => useCreateCollection());
 
-      const update = dtestData.dCollectionUpdate();
+      const update = dtestData.dLibraryCollectionUpdate();
 
       await waitFor(() => {
          result.current.mutate(update);
