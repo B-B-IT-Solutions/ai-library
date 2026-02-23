@@ -174,6 +174,7 @@ export class LibraryRepository {
          content: map(entries, toDLibraryEntry),
          pageNumber,
          pageSize,
+         numberOfElements: entries.length,
          totalPages: Math.ceil(totalEntries / pageSize),
          totalElements: totalEntries,
       };

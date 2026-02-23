@@ -34,6 +34,8 @@ const toDLibraryEntryInternal = (
       userId: entry.userId,
       templateDescriptorId: entry.templateDescriptorId,
       templateDescriptor: toDPromptTemplateDescriptor(entry.templateDescriptor),
+      isFavorite: entry.isFavorite,
+      updatedAt: entry.updatedAt.toISOString(),
       createdAt: entry.createdAt.toISOString(),
    };
 };
@@ -48,6 +50,8 @@ const toDLibraryEntryWithPromptTemplateInternal = (
       templateDescriptor: toDPromptTemplateDescriptorWithTemplate(
          entry.templateDescriptor
       ),
+      isFavorite: entry.isFavorite,
+      updatedAt: entry.updatedAt.toISOString(),
       createdAt: entry.createdAt.toISOString(),
    };
 };
