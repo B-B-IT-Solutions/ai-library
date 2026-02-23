@@ -207,7 +207,7 @@ export const createLibraryCollection = async (
       console.error(formatError(error));
       return {
          success: false,
-         message: formatError(error),
+         message: "Sammlung konnte nicht erstellt werden",
       };
    }
 };
@@ -233,7 +233,7 @@ export const updateLibraryCollection = async (
       console.error(formatError(error));
       return {
          success: false,
-         message: formatError(error),
+         message: "Sammlung konnte nicht aktualisiert werden",
       };
    }
 };
@@ -258,7 +258,7 @@ export const deleteLibraryCollection = async (
       console.error(formatError(error));
       return {
          success: false,
-         message: formatError(error),
+         message: "Sammlung konnte nicht gelöscht werden",
       };
    }
 };
@@ -283,7 +283,7 @@ export const addEntryToCollection = async (
       console.error(formatError(error));
       return {
          success: false,
-         message: formatError(error),
+         message: "Vorlage konnte nicht zur Sammlung hizugefügt werden",
       };
    }
 };
@@ -308,7 +308,7 @@ export const removeEntryFromCollection = async (
       console.error(formatError(error));
       return {
          success: false,
-         message: formatError(error),
+         message: "Vorlage konnte nicht aus Sammlung entfernt werden",
       };
    }
 };
