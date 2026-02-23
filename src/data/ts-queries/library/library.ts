@@ -39,8 +39,6 @@ import { getNextPageParam, pageQuery } from "../utils";
 import { LoadLibraryEntriesParams, UpdateIsFavoriteParams } from "./types";
 import { libraryKeys } from "./utils";
 
-// ==================== Preload Options ====================
-
 export const preloadLibraryEntriesOptions = (
    params: LoadLibraryEntriesParams
 ): FetchQueryOptions<DLibraryEntriesPage, Error, DLibraryEntriesPage> => {
@@ -72,8 +70,6 @@ export const preloadLibraryCollectionsOptions = (): FetchQueryOptions<
       },
    };
 };
-
-// ==================== Infinite Scroll ====================
 
 export const infiniteLoadLibraryEntriesOptions = (
    params: LoadLibraryEntriesParams
@@ -109,8 +105,6 @@ export const useInfiniteLoadLibraryEntries = (
    return useInfiniteQuery(options);
 };
 
-// ==================== Regular Queries ====================
-
 export const loadLibraryCollectionsOptions = (): UndefinedInitialDataOptions<
    DLibraryCollection[],
    Error,
@@ -132,8 +126,6 @@ export const useLoadLibraryCollections = (): UseQueryResult<
    const options = loadLibraryCollectionsOptions();
    return useQuery<DLibraryCollection[]>(options);
 };
-
-// ==================== Mutations ====================
 
 export const toggleFavoriteOptions = (): UseMutationOptions<
    ActionResult,
