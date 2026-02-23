@@ -7,6 +7,7 @@ import {
    QueryKey,
    UndefinedInitialDataInfiniteOptions,
    UndefinedInitialDataOptions,
+   UseMutationOptions,
 } from "@tanstack/react-query";
 import { waitFor } from "@testing-library/dom";
 import { dtestData, renderHookWithReactQuery } from "@tests";
@@ -27,17 +28,25 @@ import {
    DLibraryEntriesPage,
    DLibraryEntriesPageQuery,
 } from "@/data/types/domain/library";
+import { ActionResult } from "@/data/types/utils";
 
 import {
    infiniteLoadLibraryEntriesOptions,
    preloadLibraryEntriesOptions,
+   toggleFavoriteOptions,
    useInfiniteLoadLibraryEntries,
+   useToggleFavorite,
 } from "./library";
-import { LoadLibraryEntriesParams } from "./types";
+import { LoadLibraryEntriesParams, UpdateIsFavoriteParams } from "./types";
 
 const getLibraryEntriesPageMock = getLibraryEntriesPage as jest.MockedFunction<
    typeof getLibraryEntriesPage
 >;
+
+const toggleLibraryEntryFavoriteMock =
+   toggleLibraryEntryFavorite as jest.MockedFunction<
+      typeof toggleLibraryEntryFavorite
+   >;
 
 describe("prefetch options tests", () => {
    beforeEach(() => {
@@ -123,6 +132,41 @@ describe("loadLibraryEntries hooks tests", () => {
          expect(result.current.data?.pages[0]).toEqual(page);
          expect(getLibraryEntriesPageMock).toHaveBeenCalledTimes(1);
          expect(getLibraryEntriesPageMock).toHaveBeenCalledWith(expectedQuery);
+      });
+   });
+});
+
+describe("toggleFavorite hooks tests", () => {
+   test("toggleFavoriteOptions test", async () => {
+      const expectedOptions: UseMutationOptions<
+         ActionResult,
+         Error,
+         UpdateIsFavoriteParams
+      > = {
+         mutationFn: jest.fn(),
+         onSuccess: jest.fn(),
+      };
+
+      const options = toggleFavoriteOptions();
+      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
+   });
+
+   test("useToggleFavorite test", async () => {
+      const { result } = renderHookWithReactQuery(() => useToggleFavorite());
+
+      const params: UpdateIsFavoriteParams = {
+         entryId: "1",
+         isFavorite: true,
+      };
+
+      await waitFor(() => {
+         result.current.mutate(params);
+         expect(result.current.isSuccess).toBe(true);
+         expect(toggleLibraryEntryFavoriteMock).toHaveBeenCalledTimes(1);
+         expect(toggleLibraryEntryFavoriteMock).toHaveBeenCalledWith(
+            params.entryId,
+            params.isFavorite
+         );
       });
    });
 });

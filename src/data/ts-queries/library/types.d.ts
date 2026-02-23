@@ -1,3 +1,5 @@
+import { DLibraryEntriesFilter } from "@/data/types/domain/library";
+
 export type LoadLibraryEntriesParams = {
    filters?: DLibraryEntriesFilter;
 };

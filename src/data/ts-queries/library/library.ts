@@ -8,6 +8,7 @@ import {
    useInfiniteQuery,
    UseInfiniteQueryResult,
    useMutation,
+   UseMutationOptions,
    UseMutationResult,
    useQuery,
    useQueryClient,
@@ -134,24 +135,26 @@ export const useLoadLibraryCollections = (): UseQueryResult<
 
 // ==================== Mutations ====================
 
+export const toggleFavoriteOptions = (): UseMutationOptions<
+   ActionResult,
+   Error,
+   UpdateIsFavoriteParams
+> => {
+   return {
+      mutationFn: async (params: UpdateIsFavoriteParams) => {
+         const { entryId, isFavorite } = params;
+         return await toggleLibraryEntryFavorite(entryId, isFavorite);
+      },
+   };
+};
+
 export const useToggleFavorite = (): UseMutationResult<
    ActionResult,
    Error,
    UpdateIsFavoriteParams
 > => {
-   const queryClient = useQueryClient();
-
-   return useMutation({
-      mutationFn: async (params: UpdateIsFavoriteParams) => {
-         const { entryId, isFavorite } = params;
-         return await toggleLibraryEntryFavorite(entryId, isFavorite);
-      },
-      onSuccess: (_, params) => {
-         queryClient.invalidateQueries({
-            queryKey: libraryKeys.entry(params.entryId),
-         });
-      },
-   });
+   const options = toggleFavoriteOptions();
+   return useMutation(options);
 };
 
 export const useCreateCollection = (): UseMutationResult<
