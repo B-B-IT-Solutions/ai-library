@@ -18,6 +18,7 @@ import {
    getLibraryEntriesPage,
    getLibraryEntry,
    getLibraryModels,
+   toggleLibraryEntryFavorite,
 } from "./library.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
@@ -30,6 +31,7 @@ const sComposePromptFromTemplate =
 const sDownloadTemplate = LibraryService.prototype.downloadPromptTemplate;
 const sGetLibraryCategories = LibraryService.prototype.getLibraryCategories;
 const sGetLibraryModels = LibraryService.prototype.getLibraryModels;
+const sToggleFavorite = LibraryService.prototype.toggleFavorite;
 
 const sGetLibraryEntriesPageMock =
    sGetLibraryEntriesPage as jest.MockedFunction<typeof sGetLibraryEntriesPage>;
@@ -51,6 +53,9 @@ const sGetLibraryCategoriesMock = sGetLibraryCategories as jest.MockedFunction<
 >;
 const sGetLibraryModelsMock = sGetLibraryModels as jest.MockedFunction<
    typeof sGetLibraryModels
+>;
+const sToggleFavoriteMock = sToggleFavorite as jest.MockedFunction<
+   typeof sToggleFavorite
 >;
 
 describe("getLibraryEntriesPage tests", () => {
@@ -498,5 +503,86 @@ describe("getLibraryModels tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetLibraryModelsMock).toHaveBeenCalledTimes(1);
       expect(sGetLibraryModelsMock).toHaveBeenCalledWith(user.id);
+   });
+});
+
+describe("toggleLibraryEntryFavorite tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("toggleLibraryEntryFavorite - invalid UUID - test", async () => {
+      const invalidId = "invalid-uuid-1";
+
+      const result = await toggleLibraryEntryFavorite(invalidId, true);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Die Anfrage konnte nicht bearbeitet werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sToggleFavoriteMock).not.toHaveBeenCalled();
+   });
+
+   it("toggleLibraryEntryFavorite - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await toggleLibraryEntryFavorite(entryId, true);
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Die Anfrage konnte nicht bearbeitet werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sToggleFavoriteMock).not.toHaveBeenCalled();
+   });
+
+   it("toggleLibraryEntryFavorite - success - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+
+      sToggleFavoriteMock.mockResolvedValue();
+
+      const result = await toggleLibraryEntryFavorite(entryId, true);
+      const expectedResult: ActionResult<DPromptUpdate> = {
+         success: true,
+         message: "Zu Favoriten hinzugefügt",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sToggleFavoriteMock).toHaveBeenCalledTimes(1);
+      expect(sToggleFavoriteMock).toHaveBeenCalledWith(entryId, user.id, true);
+   });
+
+   it("toggleLibraryEntryFavorite - error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const errorMessage = "Provided entryId couldn't be found";
+      const error = new Error(errorMessage);
+      sToggleFavoriteMock.mockRejectedValue(error);
+
+      const result = await toggleLibraryEntryFavorite(entryId, false);
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Die Anfrage konnte nicht bearbeitet werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sToggleFavoriteMock).toHaveBeenCalledTimes(1);
+      expect(sToggleFavoriteMock).toHaveBeenCalledWith(entryId, user.id, false);
    });
 });

@@ -156,7 +156,7 @@ export const toggleLibraryEntryFavorite = async (
 ): Promise<ActionResult> => {
    try {
       if (!isValidUuid(entryId)) {
-         throw new Error("Invalid entry ID.");
+         throw new Error("Invalid Entry ID.");
       }
 
       const user = await requireUser();
@@ -173,7 +173,7 @@ export const toggleLibraryEntryFavorite = async (
       console.error(formatError(error));
       return {
          success: false,
-         message: formatError(error),
+         message: "Die Anfrage konnte nicht bearbeitet werden",
       };
    }
 };
