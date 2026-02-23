@@ -7,7 +7,7 @@ import {
 import { PromptTemplateService } from "@/data/services/prompt-template";
 import { OrderProducts } from "@/data/types/db/order";
 import {
-   CreateCollectionInput,
+   DCollectionUpdate,
    DLibraryCollection,
    DLibraryEntriesPage,
    DLibraryEntriesPageQuery,
@@ -147,7 +147,7 @@ export class LibraryService {
 
    async createCollection(
       userId: string,
-      data: CreateCollectionInput
+      data: DCollectionUpdate
    ): Promise<DLibraryCollection> {
       return await this.libraryRepository.pCreateCollection(userId, data);
    }

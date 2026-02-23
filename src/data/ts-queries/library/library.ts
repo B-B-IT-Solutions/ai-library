@@ -2,6 +2,7 @@ import {
    FetchQueryOptions,
    InfiniteData,
    keepPreviousData,
+   QueryClient,
    QueryKey,
    UndefinedInitialDataInfiniteOptions,
    UndefinedInitialDataOptions,
@@ -26,7 +27,7 @@ import {
    updateLibraryCollection,
 } from "@/data/actions/library";
 import {
-   CreateCollectionInput,
+   DCollectionUpdate,
    DLibraryCollection,
    DLibraryEntriesPage,
    DLibraryEntriesPageQuery,
@@ -149,21 +150,32 @@ export const useToggleFavorite = (): UseMutationResult<
    return useMutation(options);
 };
 
-export const useCreateCollection = (): UseMutationResult<
+export const createCollectionOptions = (
+   queryClient: QueryClient
+): UseMutationOptions<
    ActionResult<DLibraryCollection>,
    Error,
-   CreateCollectionInput
+   DCollectionUpdate
 > => {
-   const queryClient = useQueryClient();
-
-   return useMutation({
-      mutationFn: async (data: CreateCollectionInput) => {
+   return {
+      mutationFn: async (data: DCollectionUpdate) => {
          return await createLibraryCollection(data);
       },
       onSuccess: () => {
-         queryClient.invalidateQueries({ queryKey: libraryKeys.collections() });
+         queryClient.invalidateQueries({
+            queryKey: libraryKeys.collections(),
+         });
       },
-   });
+   };
+};
+
+export const useCreateCollection = (): UseMutationResult<
+   ActionResult<DLibraryCollection>,
+   Error,
+   DCollectionUpdate
+> => {
+   const queryClient = useQueryClient();
+   return useMutation(createCollectionOptions(queryClient));
 };
 
 export const useUpdateCollection = (): UseMutationResult<

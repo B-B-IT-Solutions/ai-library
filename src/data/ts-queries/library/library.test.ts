@@ -2,6 +2,9 @@ jest.mock("@/data/actions/library");
 
 import {
    InfiniteData,
+   InvalidateQueryFilters,
+   MutationFunctionContext,
+   QueryClient,
    QueryFunction,
    QueryFunctionContext,
    QueryKey,
@@ -11,6 +14,7 @@ import {
 } from "@tanstack/react-query";
 import { waitFor } from "@testing-library/dom";
 import { dtestData, renderHookWithReactQuery } from "@tests";
+import { mockDeep } from "jest-mock-extended";
 
 import {
    addEntryToCollection,
@@ -25,19 +29,30 @@ import {
    updateLibraryCollection,
 } from "@/data/actions/library";
 import {
+   DCollectionUpdate,
+   DLibraryCollection,
    DLibraryEntriesPage,
    DLibraryEntriesPageQuery,
 } from "@/data/types/domain/library";
 import { ActionResult } from "@/data/types/utils";
 
 import {
+   createCollectionOptions,
    infiniteLoadLibraryEntriesOptions,
    preloadLibraryEntriesOptions,
    toggleFavoriteOptions,
+   useCreateCollection,
    useInfiniteLoadLibraryEntries,
    useToggleFavorite,
 } from "./library";
 import { LoadLibraryEntriesParams, UpdateIsFavoriteParams } from "./types";
+
+const queryClientMock = mockDeep<QueryClient>();
+
+const mutationContextMock: MutationFunctionContext = {
+   client: queryClientMock,
+   meta: {},
+};
 
 const getLibraryEntriesPageMock = getLibraryEntriesPage as jest.MockedFunction<
    typeof getLibraryEntriesPage
@@ -46,6 +61,11 @@ const getLibraryEntriesPageMock = getLibraryEntriesPage as jest.MockedFunction<
 const toggleLibraryEntryFavoriteMock =
    toggleLibraryEntryFavorite as jest.MockedFunction<
       typeof toggleLibraryEntryFavorite
+   >;
+
+const createLibraryCollectionMock =
+   createLibraryCollection as jest.MockedFunction<
+      typeof createLibraryCollection
    >;
 
 describe("prefetch options tests", () => {
@@ -167,6 +187,59 @@ describe("toggleFavorite hooks tests", () => {
             params.entryId,
             params.isFavorite
          );
+      });
+   });
+});
+
+describe("createCollection hooks tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("createCollectionOptions test", async () => {
+      const result: ActionResult<DLibraryCollection> = {
+         success: true,
+         message: "Collection created",
+         data: dtestData.dLibraryCollection(),
+      };
+      const update = dtestData.dCollectionUpdate();
+
+      const expectedOptions: UseMutationOptions<
+         ActionResult<DLibraryCollection>,
+         Error,
+         DCollectionUpdate
+      > = {
+         mutationFn: jest.fn(),
+         onSuccess: jest.fn(),
+      };
+
+      const options = createCollectionOptions(queryClientMock);
+      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
+      expect(queryClientMock.invalidateQueries).not.toHaveBeenCalled();
+
+      if (options.onSuccess) {
+         options.onSuccess(result, update, undefined, mutationContextMock);
+      }
+
+      const expectedInvalidateFilters: InvalidateQueryFilters = {
+         queryKey: ["library", "collections"],
+      };
+      expect(queryClientMock.invalidateQueries).toHaveBeenCalledTimes(1);
+      expect(queryClientMock.invalidateQueries).toHaveBeenCalledWith(
+         expectedInvalidateFilters
+      );
+   });
+
+   test("useCreateCollection test", async () => {
+      const { result } = renderHookWithReactQuery(() => useCreateCollection());
+
+      const update = dtestData.dCollectionUpdate();
+
+      await waitFor(() => {
+         result.current.mutate(update);
+         expect(result.current.isSuccess).toBe(true);
+         expect(createLibraryCollectionMock).toHaveBeenCalledTimes(1);
+         expect(createLibraryCollectionMock).toHaveBeenCalledWith(update);
       });
    });
 });

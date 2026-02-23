@@ -7,7 +7,7 @@ import {
    LibraryEntryWithPromptTemplateDescriptor,
 } from "@/data/types/db/library";
 import {
-   CreateCollectionInput,
+   DCollectionUpdate,
    DLibraryCollection,
    DLibraryEntriesPage,
    DLibraryEntriesPageQuery,
@@ -257,7 +257,7 @@ export class LibraryRepository {
 
    async pCreateCollection(
       userId: string,
-      data: CreateCollectionInput
+      data: DCollectionUpdate
    ): Promise<DLibraryCollection> {
       const input: LibraryCollectionCreateInput = {
          user: {

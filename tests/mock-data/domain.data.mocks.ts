@@ -4,6 +4,7 @@ import { map } from "es-toolkit/compat";
 import { Sort } from "@/data/types/common";
 import { DCart, DCartItem } from "@/data/types/domain/cart";
 import {
+   DCollectionUpdate,
    DLibraryCollection,
    DLibraryEntriesFilter,
    DLibraryEntriesPage,
@@ -237,11 +238,20 @@ export const dLibraryCollection = (index = 1): DLibraryCollection => {
       userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
       name: `name ${index}`,
       description: `description ${index}`,
-      color: `description ${index}`,
+      color: `color ${index}`,
       order: index,
       entryCount: index + 5,
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dCollectionUpdate = (index = 1): DCollectionUpdate => {
+   return {
+      name: `name ${index}`,
+      description: `description ${index}`,
+      color: `color ${index}`,
+      order: index,
    };
 };
 

@@ -54,9 +54,8 @@ export type DLibraryCollectionWithEntries = DLibraryCollection & {
    entries: DLibraryEntry[];
 };
 
-// Collection Input Types
-export type CreateCollectionInput = {
-   name: string;
+export type DCollectionUpdate = {
+   name?: string;
    description?: string;
    color?: string;
    order?: number;

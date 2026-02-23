@@ -8,7 +8,7 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
-   CreateCollectionInput,
+   DCollectionUpdate,
    DLibraryCollection,
    DLibraryEntriesPage,
    DLibraryEntriesPageQuery,
@@ -192,7 +192,7 @@ export const getLibraryCollections = async (): Promise<
 };
 
 export const createLibraryCollection = async (
-   data: CreateCollectionInput
+   data: DCollectionUpdate
 ): Promise<ActionResult<DLibraryCollection>> => {
    try {
       const user = await requireUser();
