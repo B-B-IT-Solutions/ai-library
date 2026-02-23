@@ -194,6 +194,41 @@ describe("loadLibraryEntries hooks tests", () => {
    });
 });
 
+describe("toggleFavorite hooks tests", () => {
+   test("toggleFavoriteOptions test", async () => {
+      const expectedOptions: UseMutationOptions<
+         ActionResult,
+         Error,
+         UpdateIsFavoriteParams
+      > = {
+         mutationFn: jest.fn(),
+         onSuccess: jest.fn(),
+      };
+
+      const options = toggleFavoriteOptions();
+      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
+   });
+
+   test("useToggleFavorite test", async () => {
+      const { result } = renderHookWithReactQuery(() => useToggleFavorite());
+
+      const params: UpdateIsFavoriteParams = {
+         entryId: "1",
+         isFavorite: true,
+      };
+
+      await waitFor(() => {
+         result.current.mutate(params);
+         expect(result.current.isSuccess).toBe(true);
+         expect(toggleLibraryEntryFavoriteMock).toHaveBeenCalledTimes(1);
+         expect(toggleLibraryEntryFavoriteMock).toHaveBeenCalledWith(
+            params.entryId,
+            params.isFavorite
+         );
+      });
+   });
+});
+
 describe("loadLibraryCollections hooks tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -226,41 +261,6 @@ describe("loadLibraryCollections hooks tests", () => {
       await waitFor(() => {
          expect(result.current.data).toEqual(collections);
          expect(getLibraryCollectionsMock).toHaveBeenCalledTimes(1);
-      });
-   });
-});
-
-describe("toggleFavorite hooks tests", () => {
-   test("toggleFavoriteOptions test", async () => {
-      const expectedOptions: UseMutationOptions<
-         ActionResult,
-         Error,
-         UpdateIsFavoriteParams
-      > = {
-         mutationFn: jest.fn(),
-         onSuccess: jest.fn(),
-      };
-
-      const options = toggleFavoriteOptions();
-      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
-   });
-
-   test("useToggleFavorite test", async () => {
-      const { result } = renderHookWithReactQuery(() => useToggleFavorite());
-
-      const params: UpdateIsFavoriteParams = {
-         entryId: "1",
-         isFavorite: true,
-      };
-
-      await waitFor(() => {
-         result.current.mutate(params);
-         expect(result.current.isSuccess).toBe(true);
-         expect(toggleLibraryEntryFavoriteMock).toHaveBeenCalledTimes(1);
-         expect(toggleLibraryEntryFavoriteMock).toHaveBeenCalledWith(
-            params.entryId,
-            params.isFavorite
-         );
       });
    });
 });

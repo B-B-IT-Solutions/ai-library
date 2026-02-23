@@ -103,26 +103,6 @@ export const useInfiniteLoadLibraryEntries = (
    return useInfiniteQuery(options);
 };
 
-export const loadLibraryCollectionsOptions = (): UndefinedInitialDataOptions<
-   DLibraryCollection[],
-   Error,
-   DLibraryCollection[]
-> => {
-   return {
-      queryKey: libraryKeys.collections(),
-      queryFn: getLibraryCollections,
-      placeholderData: keepPreviousData,
-      staleTime: 5 * 60 * 1000,
-   };
-};
-
-export const useLoadLibraryCollections = (): UseQueryResult<
-   DLibraryCollection[]
-> => {
-   const options = loadLibraryCollectionsOptions();
-   return useQuery<DLibraryCollection[]>(options);
-};
-
 export const toggleFavoriteOptions = (): UseMutationOptions<
    ActionResult,
    Error,
@@ -143,6 +123,26 @@ export const useToggleFavorite = (): UseMutationResult<
 > => {
    const options = toggleFavoriteOptions();
    return useMutation(options);
+};
+
+export const loadLibraryCollectionsOptions = (): UndefinedInitialDataOptions<
+   DLibraryCollection[],
+   Error,
+   DLibraryCollection[]
+> => {
+   return {
+      queryKey: libraryKeys.collections(),
+      queryFn: getLibraryCollections,
+      placeholderData: keepPreviousData,
+      staleTime: 5 * 60 * 1000,
+   };
+};
+
+export const useLoadLibraryCollections = (): UseQueryResult<
+   DLibraryCollection[]
+> => {
+   const options = loadLibraryCollectionsOptions();
+   return useQuery<DLibraryCollection[]>(options);
 };
 
 export const createCollectionOptions = (
