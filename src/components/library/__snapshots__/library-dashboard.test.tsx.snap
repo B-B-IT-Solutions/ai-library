@@ -790,6 +790,7 @@ exports[`LibraryDashboard rendering tests LibraryDashboard rendered test 1`] = `
               aria-label="Aus Favoriten entfernen"
               aria-pressed="true"
               class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 shadow-sm transition-all hover:bg-white"
+              data-testid="toggle-favorite-btn"
             >
               <svg
                 aria-hidden="true"
@@ -1056,6 +1057,7 @@ exports[`LibraryDashboard rendering tests LibraryDashboard rendered test 1`] = `
               aria-label="Zu Favoriten hinzufügen"
               aria-pressed="false"
               class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 shadow-sm transition-all hover:bg-white"
+              data-testid="toggle-favorite-btn"
             >
               <svg
                 aria-hidden="true"
@@ -1322,6 +1324,7 @@ exports[`LibraryDashboard rendering tests LibraryDashboard rendered test 1`] = `
               aria-label="Aus Favoriten entfernen"
               aria-pressed="true"
               class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 shadow-sm transition-all hover:bg-white"
+              data-testid="toggle-favorite-btn"
             >
               <svg
                 aria-hidden="true"

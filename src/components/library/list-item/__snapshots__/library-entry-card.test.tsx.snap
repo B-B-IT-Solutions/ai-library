@@ -11,6 +11,7 @@ exports[`LibraryEntryCard rendering tests LibraryEntryCard - viewMode grid - col
       aria-label="Zu Favoriten hinzufügen"
       aria-pressed="false"
       class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 shadow-sm transition-all hover:bg-white"
+      data-testid="toggle-favorite-btn"
     >
       <svg
         aria-hidden="true"
@@ -204,6 +205,7 @@ exports[`LibraryEntryCard rendering tests LibraryEntryCard - viewMode grid - ren
       aria-label="Zu Favoriten hinzufügen"
       aria-pressed="false"
       class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 shadow-sm transition-all hover:bg-white"
+      data-testid="toggle-favorite-btn"
     >
       <svg
         aria-hidden="true"
