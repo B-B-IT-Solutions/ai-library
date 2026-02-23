@@ -110,9 +110,7 @@ export const loadLibraryCollectionsOptions = (): UndefinedInitialDataOptions<
 > => {
    return {
       queryKey: libraryKeys.collections(),
-      queryFn: async () => {
-         return await getLibraryCollections();
-      },
+      queryFn: getLibraryCollections,
       placeholderData: keepPreviousData,
       staleTime: 5 * 60 * 1000,
    };
