@@ -1,11 +1,14 @@
 "use client";
 
-import { FC, useTransition } from "react";
+import { FC, useState, useTransition } from "react";
 import { Loader } from "lucide-react";
 import { Star } from "lucide-react";
 import { toast } from "sonner";
 
-import { useToggleFavorite } from "@/data/ts-queries/library";
+import {
+   UpdateIsFavoriteParams,
+   useToggleFavorite,
+} from "@/data/ts-queries/library";
 import { DLibraryEntry } from "@/data/types/domain/library";
 import { cn } from "@/lib/utils";
 
@@ -14,18 +17,20 @@ type Props = {
 };
 
 export const AddToFavoriteButton: FC<Props> = ({ entry }) => {
+   const [isFavorite, setFavorite] = useState<boolean>(entry.isFavorite);
    const [isPending, startTransition] = useTransition();
    const { mutate: toggleFavorite } = useToggleFavorite();
 
    const handleToggleFavorite = () => {
-      toggleFavorite(
-         {
-            entryId: entry.id,
-            isFavorite: !entry.isFavorite,
-         },
-         {
+      const params: UpdateIsFavoriteParams = {
+         entryId: entry.id,
+         isFavorite: !isFavorite,
+      };
+      startTransition(async () => {
+         toggleFavorite(params, {
             onSuccess: (result) => {
                if (result.success) {
+                  setFavorite(params.isFavorite);
                   toast.success(result.message);
                } else {
                   toast.error(result.message);
@@ -34,36 +39,20 @@ export const AddToFavoriteButton: FC<Props> = ({ entry }) => {
             onError: () => {
                toast.error("Fehler beim Aktualisieren der Favoriten");
             },
-         }
-      );
-   };
-
-   const handleDownload = () => {
-      startTransition(async () => {
-         // const result = await downloadTemplate(descriptor.id);
-         // if (result.success && result.data) {
-         //    const blob = new Blob([result.data], {
-         //       type: "application/json",
-         //    });
-         //    const fileName = `${descriptor.title.replace(/\s+/g, "_")}.json`;
-         //    saveAs(blob, fileName);
-         //    toast.success("Vorlage heruntergeladen!");
-         // } else {
-         //    toast.error(result.message);
-         // }
+         });
       });
    };
 
    const icon = () => {
       if (isPending) {
-         return <Loader className="mr-1.5 h-4 w-4 animate-spin" />;
+         return <Loader className="h-4 w-4 animate-spin text-slate-400" />;
       }
 
       return (
          <Star
             className={cn(
                "h-4 w-4 transition-colors",
-               entry.isFavorite
+               isFavorite
                   ? "fill-yellow-400 text-yellow-400"
                   : "text-slate-400 hover:text-yellow-400"
             )}
@@ -76,9 +65,7 @@ export const AddToFavoriteButton: FC<Props> = ({ entry }) => {
          onClick={handleToggleFavorite}
          className="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 shadow-sm transition-all hover:bg-white"
          aria-label={
-            entry.isFavorite
-               ? "Aus Favoriten entfernen"
-               : "Zu Favoriten hinzufügen"
+            isFavorite ? "Aus Favoriten entfernen" : "Zu Favoriten hinzufügen"
          }
          aria-pressed={entry.isFavorite}
       >

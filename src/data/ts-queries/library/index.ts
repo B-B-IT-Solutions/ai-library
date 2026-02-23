@@ -1,2 +1,2 @@
 export * from "./library";
-export * from "./utils";
+export { type UpdateIsFavoriteParams } from "./types";

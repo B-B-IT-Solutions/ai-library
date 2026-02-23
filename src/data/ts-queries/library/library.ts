@@ -35,7 +35,7 @@ import { ActionResult } from "@/data/types/utils";
 import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
 import { getNextPageParam, pageQuery } from "../utils";
 
-import { LoadLibraryEntriesParams } from "./types";
+import { LoadLibraryEntriesParams, UpdateIsFavoriteParams } from "./types";
 import { libraryKeys } from "./utils";
 
 // ==================== Preload Options ====================
@@ -137,22 +137,19 @@ export const useLoadLibraryCollections = (): UseQueryResult<
 export const useToggleFavorite = (): UseMutationResult<
    ActionResult,
    Error,
-   { entryId: string; isFavorite: boolean }
+   UpdateIsFavoriteParams
 > => {
    const queryClient = useQueryClient();
 
    return useMutation({
-      mutationFn: async ({
-         entryId,
-         isFavorite,
-      }: {
-         entryId: string;
-         isFavorite: boolean;
-      }) => {
+      mutationFn: async (params: UpdateIsFavoriteParams) => {
+         const { entryId, isFavorite } = params;
          return await toggleLibraryEntryFavorite(entryId, isFavorite);
       },
-      onSuccess: () => {
-         queryClient.invalidateQueries({ queryKey: libraryKeys.all });
+      onSuccess: (_, params) => {
+         queryClient.invalidateQueries({
+            queryKey: libraryKeys.entry(params.entryId),
+         });
       },
    });
 };
