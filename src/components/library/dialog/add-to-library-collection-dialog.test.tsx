@@ -19,7 +19,6 @@ import {
    useUpdateEntryCollections,
 } from "@/data/ts-queries/library";
 import { UpdateCollectionIdsParams } from "@/data/ts-queries/library/types";
-import { DLibraryCollection } from "@/data/types/domain/library";
 import { ActionResult } from "@/data/types/utils";
 
 import { AddToLibraryCollectionDialog } from "./add-to-library-collection-dialog";
@@ -109,32 +108,6 @@ const assertSaveBtnDisabled = () => {
    assertHasAttributeWithValue(saveBtn, "disabled", "");
 };
 
-const renderDialog = (
-   open: boolean,
-   onOpenChange = jest.fn(),
-   collections: DLibraryCollection[] = dtestData.dLibraryCollections(3),
-   mutateFn = jest.fn(),
-   collectionIdsData: string[] | undefined = [],
-   isLoading = false
-) => {
-   const mutationHookResult = updateMutationResultMock(mutateFn);
-   useUpdateEntryCollectionsMock.mockReturnValue(mutationHookResult);
-
-   useLoadEntryCollectionIdsMock.mockReturnValue(
-      queryResultMock(collectionIdsData, isLoading)
-   );
-
-   const entry = dtestData.dLibraryEntry();
-   return renderWithReactQuery(
-      <AddToLibraryCollectionDialog
-         entry={entry}
-         collections={collections}
-         open={open}
-         onOpenChange={onOpenChange}
-      />
-   );
-};
-
 describe("AddToLibraryCollectionDialog rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -152,6 +125,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
 
       const entry = dtestData.dLibraryEntry();
       const allCollections = dtestData.dLibraryCollections(6);
+      allCollections[0].color = null;
 
       const { container } = renderWithReactQuery(
          <AddToLibraryCollectionDialog
@@ -179,7 +153,6 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
 
       const entry = dtestData.dLibraryEntry();
       const allCollections = dtestData.dLibraryCollections(6);
-      allCollections[0].color = null;
 
       const { container } = renderWithReactQuery(
          <AddToLibraryCollectionDialog
@@ -486,6 +459,37 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       });
    });
 
+   it("AddToLibraryCollectionDialog - create first collection btn clicked - test", async () => {
+      const mutationResult = updateMutationResultMock();
+      const queryResult = queryResultMock();
+
+      useUpdateEntryCollectionsMock.mockReturnValue(mutationResult);
+      useLoadEntryCollectionIdsMock.mockReturnValue(queryResult);
+
+      const entry = dtestData.dLibraryEntry();
+
+      renderWithReactQuery(
+         <AddToLibraryCollectionDialog
+            entry={entry}
+            collections={[]}
+            open={true}
+            onOpenChange={jest.fn()}
+         />
+      );
+
+      await waitFor(() => {
+         assertDialogRendered();
+         assertCreateCollectionDialogNotRendered();
+      });
+
+      const createBtn = screen.getByTestId("create-first-collection-btn");
+      await userEvent.click(createBtn);
+
+      await waitFor(() => {
+         assertCreateCollectionDialogRendered();
+      });
+   });
+
    it("AddToLibraryCollectionDialog - create new collection btn clicked - test", async () => {
       const mutationResult = updateMutationResultMock();
       const queryResult = queryResultMock();
@@ -495,6 +499,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
 
       const entry = dtestData.dLibraryEntry();
       const allCollections = dtestData.dLibraryCollections(3);
+      allCollections[0].color = null;
 
       renderWithReactQuery(
          <AddToLibraryCollectionDialog

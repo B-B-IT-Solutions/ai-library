@@ -145,6 +145,7 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
                   size="sm"
                   onClick={() => setShowCreateDialog(true)}
                   className="gap-2"
+                  data-testid="create-first-collection-btn"
                >
                   <Plus className="h-4 w-4" />
                   Erste Sammlung erstellen
