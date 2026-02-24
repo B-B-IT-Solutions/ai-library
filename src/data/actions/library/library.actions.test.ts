@@ -22,6 +22,7 @@ import {
    getLibraryEntry,
    getLibraryModels,
    toggleLibraryEntryFavorite,
+   updateLibraryCollection,
 } from "./library.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
@@ -37,6 +38,7 @@ const sGetLibraryModels = LibraryService.prototype.getLibraryModels;
 const sToggleFavorite = LibraryService.prototype.toggleFavorite;
 const sGetCollections = LibraryService.prototype.getCollections;
 const sCreateCollection = LibraryService.prototype.createCollection;
+const sUpdateCollection = LibraryService.prototype.updateCollection;
 
 const sGetLibraryEntriesPageMock =
    sGetLibraryEntriesPage as jest.MockedFunction<typeof sGetLibraryEntriesPage>;
@@ -67,6 +69,9 @@ const sGetCollectionsMock = sGetCollections as jest.MockedFunction<
 >;
 const sCreateCollectionMock = sCreateCollection as jest.MockedFunction<
    typeof sCreateCollection
+>;
+const sUpdateCollectionMock = sUpdateCollection as jest.MockedFunction<
+   typeof sUpdateCollection
 >;
 
 describe("getLibraryEntriesPage tests", () => {
@@ -708,6 +713,101 @@ describe("createLibraryCollection tests", () => {
       expect(sCreateCollectionMock).toHaveBeenCalledWith(
          user.id,
          newCollection
+      );
+   });
+});
+
+describe("updateLibraryCollection tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("updateLibraryCollection - invalid UUID - test", async () => {
+      const invalidId = "invalid-uuid-1";
+
+      const data = dtestData.dLibraryCollectionUpdate();
+      const result = await updateLibraryCollection(invalidId, data);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Sammlung konnte nicht aktualisiert werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sUpdateCollectionMock).not.toHaveBeenCalled();
+   });
+
+   it("updateLibraryCollection - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
+      requireUserMock.mockRejectedValue(error);
+
+      const data = dtestData.dLibraryCollectionUpdate();
+      const result = await updateLibraryCollection(collectionId, data);
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Sammlung konnte nicht aktualisiert werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateCollectionMock).not.toHaveBeenCalled();
+   });
+
+   it("updateLibraryCollection - success - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
+
+      sUpdateCollectionMock.mockResolvedValue();
+
+      const data = dtestData.dLibraryCollectionUpdate();
+      const result = await updateLibraryCollection(collectionId, data);
+
+      const expectedResult: ActionResult<DPromptUpdate> = {
+         success: true,
+         message: "Sammlung erfolgreich aktualisiert",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sUpdateCollectionMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateCollectionMock).toHaveBeenCalledWith(
+         collectionId,
+         user.id,
+         data
+      );
+   });
+
+   it("updateLibraryCollection - error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
+      const errorMessage = "DB Error";
+      const error = new Error(errorMessage);
+      sUpdateCollectionMock.mockRejectedValue(error);
+
+      const data = dtestData.dLibraryCollectionUpdate();
+      const result = await updateLibraryCollection(collectionId, data);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Sammlung konnte nicht aktualisiert werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sUpdateCollectionMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateCollectionMock).toHaveBeenCalledWith(
+         collectionId,
+         user.id,
+         data
       );
    });
 });
