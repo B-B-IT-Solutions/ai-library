@@ -178,4 +178,11 @@ export class LibraryService {
    async getEntryCollectionIds(entryId: string): Promise<string[]> {
       return await this.libraryRepository.pGetEntryCollectionIds(entryId);
    }
+
+   async updateEntryCollections(
+      entryId: string,
+      collectionIds: string[]
+   ): Promise<void> {
+      await this.libraryRepository.pUpdateEntryCollections(entryId, collectionIds);
+   }
 }

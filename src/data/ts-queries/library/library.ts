@@ -26,6 +26,7 @@ import {
    getLibraryEntriesPage,
    removeEntryFromCollection,
    toggleLibraryEntryFavorite,
+   updateEntryCollections,
    updateLibraryCollection,
 } from "@/data/actions/library";
 import {
@@ -297,5 +298,29 @@ export const useLoadEntryCollectionIds = (
       queryFn: () => getEntryCollectionIds(entryId),
       enabled,
       staleTime: 5 * 60 * 1000,
+   });
+};
+
+export const useUpdateEntryCollections = (): UseMutationResult<
+   ActionResult,
+   Error,
+   { entryId: string; collectionIds: string[] }
+> => {
+   const queryClient = useQueryClient();
+
+   return useMutation({
+      mutationFn: async ({
+         entryId,
+         collectionIds,
+      }: {
+         entryId: string;
+         collectionIds: string[];
+      }) => {
+         return await updateEntryCollections(entryId, collectionIds);
+      },
+      onSuccess: (_, { entryId }) => {
+         queryClient.invalidateQueries({ queryKey: libraryKeys.entry(entryId) });
+         queryClient.invalidateQueries({ queryKey: libraryKeys.all });
+      },
    });
 };

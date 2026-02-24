@@ -313,6 +313,31 @@ export const removeEntryFromCollection = async (
    }
 };
 
+export const updateEntryCollections = async (
+   entryId: string,
+   collectionIds: string[]
+): Promise<ActionResult> => {
+   try {
+      if (!isValidUuid(entryId)) {
+         throw new Error("Invalid Entry ID.");
+      }
+
+      const service = getLibrarySevice();
+      await service.updateEntryCollections(entryId, collectionIds);
+
+      return {
+         success: true,
+         message: "Sammlungen aktualisiert",
+      };
+   } catch (error) {
+      console.error(formatError(error));
+      return {
+         success: false,
+         message: "Sammlungen konnten nicht aktualisiert werden",
+      };
+   }
+};
+
 export const getEntryCollectionIds = async (
    entryId: string
 ): Promise<string[]> => {

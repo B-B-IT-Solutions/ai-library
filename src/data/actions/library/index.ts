@@ -7,6 +7,7 @@ export {
    createLibraryCollection,
    deleteLibraryCollection,
    getEntryCollectionIds,
+   updateEntryCollections,
    getLibraryCategories,
    getLibraryCollections,
    getLibraryEntriesPage,

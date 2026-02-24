@@ -17,9 +17,8 @@ import {
 } from "@/components/shadcn/dialog";
 import { Label } from "@/components/shadcn/label";
 import {
-   useAddToCollection,
    useLoadEntryCollectionIds,
-   useRemoveFromCollection,
+   useUpdateEntryCollections,
 } from "@/data/ts-queries/library";
 import { DLibraryCollection, DLibraryEntry } from "@/data/types/domain/library";
 
@@ -38,8 +37,8 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
    open,
    onOpenChange,
 }) => {
-   const { mutate: addToCollection } = useAddToCollection();
-   const { mutate: removeFromCollection } = useRemoveFromCollection();
+   const { mutateAsync: updateCollectionsAsync, isPending: isSaving } =
+      useUpdateEntryCollections();
    const [showCreateDialog, setShowCreateDialog] = useState(false);
 
    const [selectedCollections, setSelectedCollections] = useState<string[]>([]);
@@ -56,47 +55,28 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
    }, [entryCollectionIds]);
 
    const handleToggle = (collectionId: string) => {
-      const isCurrentlyInCollection =
-         selectedCollections.includes(collectionId);
+      setSelectedCollections((prev) =>
+         prev.includes(collectionId)
+            ? prev.filter((id) => id !== collectionId)
+            : [...prev, collectionId]
+      );
+   };
 
-      if (isCurrentlyInCollection) {
-         // Remove from collection
-         removeFromCollection(
-            { collectionId, entryId: entry.id },
-            {
-               onSuccess: (result) => {
-                  if (result.success) {
-                     setSelectedCollections((prev) =>
-                        prev.filter((id) => id !== collectionId)
-                     );
-                     toast.success(result.message);
-                  } else {
-                     toast.error(result.message);
-                  }
-               },
-               onError: () => {
-                  toast.error("Fehler beim Entfernen aus der Sammlung");
-               },
-            }
-         );
-      } else {
-         // Add to collection
-         addToCollection(
-            { collectionId, entryId: entry.id },
-            {
-               onSuccess: (result) => {
-                  if (result.success) {
-                     setSelectedCollections((prev) => [...prev, collectionId]);
-                     toast.success(result.message);
-                  } else {
-                     toast.error(result.message);
-                  }
-               },
-               onError: () => {
-                  toast.error("Fehler beim Hinzufügen zur Sammlung");
-               },
-            }
-         );
+   const handleConfirm = async () => {
+      try {
+         const result = await updateCollectionsAsync({
+            entryId: entry.id,
+            collectionIds: selectedCollections,
+         });
+
+         if (result.success) {
+            toast.success(result.message);
+            onOpenChange(false);
+         } else {
+            toast.error(result.message);
+         }
+      } catch {
+         toast.error("Fehler beim Aktualisieren der Sammlungen");
       }
    };
 
@@ -201,8 +181,20 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
                      <Plus className="h-4 w-4" />
                      Neue Sammlung
                   </Button>
-                  <Button size="sm" onClick={() => onOpenChange(false)}>
-                     Fertig
+                  <Button
+                     size="sm"
+                     disabled={isLoading || isSaving}
+                     onClick={handleConfirm}
+                     data-testid="confirm-btn"
+                  >
+                     {isSaving ? (
+                        <>
+                           <Loader className="mr-1.5 h-4 w-4 animate-spin" />
+                           <span>Speichern...</span>
+                        </>
+                     ) : (
+                        "Fertig"
+                     )}
                   </Button>
                </DialogFooter>
             </DialogContent>
