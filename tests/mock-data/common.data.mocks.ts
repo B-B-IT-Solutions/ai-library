@@ -1,4 +1,7 @@
-import { UseMutationResult } from "@tanstack/react-query";
+import {
+   MutationObserverLoadingResult,
+   UseMutationResult,
+} from "@tanstack/react-query";
 
 type MediaQueryFn = (query: string) => MediaQueryList;
 
@@ -15,7 +18,7 @@ export const createMatchMedia = (matches: boolean): MediaQueryFn => {
 };
 
 export const useMutationResultMock = (
-   mutateFn: () => void
+   mutateFn = jest.fn()
 ): UseMutationResult => {
    return {
       mutate: mutateFn,
@@ -34,5 +37,27 @@ export const useMutationResultMock = (
       failureCount: 0,
       failureReason: null,
       context: undefined,
+   };
+};
+
+export const useMutationObserverLoadingResult = (
+   mutateFn = jest.fn()
+): MutationObserverLoadingResult => {
+   return {
+      mutate: async () => mutateFn(),
+      data: undefined,
+      variables: undefined,
+      error: null,
+      isError: false,
+      isIdle: false,
+      isPending: true,
+      isSuccess: false,
+      status: "pending",
+      context: undefined,
+      reset: jest.fn(),
+      failureCount: 0,
+      failureReason: new Error(""),
+      isPaused: false,
+      submittedAt: 1771920253399,
    };
 };
