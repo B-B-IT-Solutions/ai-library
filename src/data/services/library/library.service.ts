@@ -174,6 +174,7 @@ export class LibraryService {
       collectionIds: string[]
    ): Promise<void> {
       await this.libraryRepository.pUpdateEntryCollections(
+         userId,
          entryId,
          collectionIds
       );

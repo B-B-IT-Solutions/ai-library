@@ -442,3 +442,28 @@ describe("deleteCollection tests", () => {
       );
    });
 });
+
+describe("updateEntryCollections tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("updateEntryCollections - collection deleted - test", async () => {
+      const userId = "user-id-1";
+      const entryId = "entry-id-1";
+      const collectionIds = dtestData.dLibraryCollectionIds();
+
+      await libraryService.updateEntryCollections(
+         userId,
+         entryId,
+         collectionIds
+      );
+
+      expect(libraryRepoMock.pUpdateEntryCollections).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pUpdateEntryCollections).toHaveBeenCalledWith(
+         userId,
+         entryId,
+         collectionIds
+      );
+   });
+});

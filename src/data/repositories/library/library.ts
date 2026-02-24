@@ -319,6 +319,7 @@ export class LibraryRepository {
    }
 
    async pUpdateEntryCollections(
+      userId: string,
       entryId: string,
       collectionIds: string[]
    ): Promise<void> {
