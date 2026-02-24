@@ -407,15 +407,15 @@ describe("updateCollection hooks tests", () => {
       );
 
       const updaterFn = queryClientMock.setQueryData.mock.calls[0][1] as (
-         col: DLibraryCollection
-      ) => void;
+         cols: DLibraryCollection[]
+      ) => DLibraryCollection[];
 
-      const updatedCollection1 = updaterFn(collection1);
-      const expectedUpdatedCollection1 = { ...collection1, ...update };
-      expect(updatedCollection1).toEqual(expectedUpdatedCollection1);
+      const updatedCollection1 = { ...collection1, ...update };
+      const expectedUpdaterResult = [updatedCollection1, collection2];
 
-      const updatedCollection2 = updaterFn(collection2);
-      expect(updatedCollection2).toEqual(collection2);
+      const updaterParams = [collection1, collection2];
+      const updaterResult = updaterFn(updaterParams);
+      expect(updaterResult).toEqual(expectedUpdaterResult);
    });
 
    test("useUpdateCollection test", async () => {

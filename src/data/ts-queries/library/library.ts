@@ -15,7 +15,7 @@ import {
    useQueryClient,
    UseQueryResult,
 } from "@tanstack/react-query";
-import { filter } from "es-toolkit/compat";
+import { filter, map } from "es-toolkit/compat";
 
 import {
    addEntryToCollection,
@@ -193,11 +193,13 @@ export const updateCollectionOptions = (
          return await updateLibraryCollection(collectionId, data);
       },
       onSuccess: (_, params) => {
-         const updater = (col?: DLibraryCollection) => {
-            if (col?.id === params.collectionId) {
-               return { ...col, ...params.data };
-            }
-            return col;
+         const updater = (cols: DLibraryCollection[]) => {
+            return map(cols, (col) => {
+               if (col.id === params.collectionId) {
+                  return { ...col, ...params.data };
+               }
+               return col;
+            });
          };
 
          queryClient.setQueryData(libraryKeys.collections(), updater);
