@@ -6,15 +6,18 @@ import { dtestData } from "@tests";
 import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
 import { LibraryService } from "@/data/services/library";
+import { DLibraryCollection } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 
 import {
    composePromptFromTemplate,
+   createLibraryCollection,
    createLibraryEntry,
    downloadTemplate,
    getLibraryCategories,
+   getLibraryCollections,
    getLibraryEntriesPage,
    getLibraryEntry,
    getLibraryModels,
@@ -32,6 +35,8 @@ const sDownloadTemplate = LibraryService.prototype.downloadPromptTemplate;
 const sGetLibraryCategories = LibraryService.prototype.getLibraryCategories;
 const sGetLibraryModels = LibraryService.prototype.getLibraryModels;
 const sToggleFavorite = LibraryService.prototype.toggleFavorite;
+const sGetCollections = LibraryService.prototype.getCollections;
+const sCreateCollection = LibraryService.prototype.createCollection;
 
 const sGetLibraryEntriesPageMock =
    sGetLibraryEntriesPage as jest.MockedFunction<typeof sGetLibraryEntriesPage>;
@@ -56,6 +61,12 @@ const sGetLibraryModelsMock = sGetLibraryModels as jest.MockedFunction<
 >;
 const sToggleFavoriteMock = sToggleFavorite as jest.MockedFunction<
    typeof sToggleFavorite
+>;
+const sGetCollectionsMock = sGetCollections as jest.MockedFunction<
+   typeof sGetCollections
+>;
+const sCreateCollectionMock = sCreateCollection as jest.MockedFunction<
+   typeof sCreateCollection
 >;
 
 describe("getLibraryEntriesPage tests", () => {
@@ -584,5 +595,119 @@ describe("toggleLibraryEntryFavorite tests", () => {
       expect(result).toEqual(expectedResult);
       expect(sToggleFavoriteMock).toHaveBeenCalledTimes(1);
       expect(sToggleFavoriteMock).toHaveBeenCalledWith(entryId, user.id, false);
+   });
+});
+
+describe("getLibraryCollections tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("getLibraryCollections - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await getLibraryCollections();
+
+      expect(result).toEqual([]);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetCollectionsMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("getLibraryCollections - entries retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const collections = dtestData.dLibraryCollections();
+      sGetCollectionsMock.mockResolvedValue(collections);
+
+      const result = await getLibraryCollections();
+
+      expect(result).toEqual(collections);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetCollectionsMock).toHaveBeenCalledTimes(1);
+      expect(sGetCollectionsMock).toHaveBeenCalledWith(user.id);
+   });
+});
+
+describe("createLibraryCollection tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("createLibraryCollection - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const newCollection = dtestData.dLibraryCollectionUpdate();
+      const result = await createLibraryCollection(newCollection);
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Sammlung konnte nicht erstellt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sCreateCollectionMock).not.toHaveBeenCalled();
+   });
+
+   it("createLibraryCollection - success - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const createdCollection = dtestData.dLibraryCollection();
+      sCreateCollectionMock.mockResolvedValue(createdCollection);
+
+      const newCollection = dtestData.dLibraryCollectionUpdate();
+      const result = await createLibraryCollection(newCollection);
+
+      const expectedResult: ActionResult<DLibraryCollection> = {
+         success: true,
+         message: "Sammlung erfolgreich erstellt",
+         data: createdCollection,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sCreateCollectionMock).toHaveBeenCalledTimes(1);
+      expect(sCreateCollectionMock).toHaveBeenCalledWith(
+         user.id,
+         newCollection
+      );
+   });
+
+   it("createLibraryCollection - error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const errorMessage = "Db error";
+      const error = new Error(errorMessage);
+      sCreateCollectionMock.mockRejectedValue(error);
+
+      const newCollection = dtestData.dLibraryCollectionUpdate();
+      const result = await createLibraryCollection(newCollection);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Sammlung konnte nicht erstellt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sCreateCollectionMock).toHaveBeenCalledTimes(1);
+      expect(sCreateCollectionMock).toHaveBeenCalledWith(
+         user.id,
+         newCollection
+      );
    });
 });
