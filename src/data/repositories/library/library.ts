@@ -15,7 +15,6 @@ import {
 } from "@/data/types/domain/library";
 import {
    LibraryCollectionCreateInput,
-   LibraryCollectionEntryCreateInput,
    LibraryEntryCreateArgs,
    LibraryEntryCreateInput,
    LibraryEntryCreateManyArgs,
@@ -308,61 +307,6 @@ export class LibraryRepository {
    }
 
    // ==================== Collection Entries ====================
-
-   async pAddToCollection(collectionId: string, entryId: string) {
-      const input: LibraryCollectionEntryCreateInput = {
-         collection: {
-            connect: {
-               id: collectionId,
-            },
-         },
-         entry: {
-            connect: {
-               id: entryId,
-            },
-         },
-      };
-
-      await this.prisma.libraryCollectionEntry.create({
-         data: input,
-      });
-   }
-
-   async pRemoveFromCollection(collectionId: string, entryId: string) {
-      await this.prisma.libraryCollectionEntry.delete({
-         where: {
-            collectionId_entryId: {
-               collectionId,
-               entryId,
-            },
-         },
-      });
-   }
-
-   async pGetCollectionEntries(collectionId: string): Promise<DLibraryEntry[]> {
-      const collectionEntries =
-         await this.prisma.libraryCollectionEntry.findMany({
-            where: { collectionId },
-            include: {
-               entry: {
-                  include: {
-                     templateDescriptor: {
-                        include: {
-                           categories: true,
-                        },
-                     },
-                  },
-               },
-            },
-            orderBy: {
-               addedAt: "desc",
-            },
-         });
-
-      return map(collectionEntries, (ce) =>
-         toDLibraryEntry(ce.entry as LibraryEntryWithPromptTemplateDescriptor)
-      );
-   }
 
    async pGetEntryCollectionIds(entryId: string): Promise<string[]> {
       const collectionEntries =

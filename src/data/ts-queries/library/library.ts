@@ -18,13 +18,11 @@ import {
 import { filter, map } from "es-toolkit/compat";
 
 import {
-   addEntryToCollection,
    createLibraryCollection,
    deleteLibraryCollection,
    getEntryCollectionIds,
    getLibraryCollections,
    getLibraryEntriesPage,
-   removeEntryFromCollection,
    toggleLibraryEntryFavorite,
    updateEntryCollections,
    updateLibraryCollection,
@@ -241,52 +239,6 @@ export const useDeleteCollection = (): UseMutationResult<
 > => {
    const queryClient = useQueryClient();
    return useMutation(deleteCollectionOptions(queryClient));
-};
-
-export const useAddToCollection = (): UseMutationResult<
-   ActionResult,
-   Error,
-   { collectionId: string; entryId: string }
-> => {
-   const queryClient = useQueryClient();
-
-   return useMutation({
-      mutationFn: async ({
-         collectionId,
-         entryId,
-      }: {
-         collectionId: string;
-         entryId: string;
-      }) => {
-         return await addEntryToCollection(collectionId, entryId);
-      },
-      onSuccess: () => {
-         queryClient.invalidateQueries({ queryKey: libraryKeys.all });
-      },
-   });
-};
-
-export const useRemoveFromCollection = (): UseMutationResult<
-   ActionResult,
-   Error,
-   { collectionId: string; entryId: string }
-> => {
-   const queryClient = useQueryClient();
-
-   return useMutation({
-      mutationFn: async ({
-         collectionId,
-         entryId,
-      }: {
-         collectionId: string;
-         entryId: string;
-      }) => {
-         return await removeEntryFromCollection(collectionId, entryId);
-      },
-      onSuccess: () => {
-         queryClient.invalidateQueries({ queryKey: libraryKeys.all });
-      },
-   });
 };
 
 export const useLoadEntryCollectionIds = (

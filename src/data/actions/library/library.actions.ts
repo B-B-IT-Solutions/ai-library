@@ -263,56 +263,6 @@ export const deleteLibraryCollection = async (
    }
 };
 
-export const addEntryToCollection = async (
-   collectionId: string,
-   entryId: string
-): Promise<ActionResult> => {
-   try {
-      if (!isValidUuid(collectionId) || !isValidUuid(entryId)) {
-         throw new Error("Invalid ID.");
-      }
-
-      const service = getLibrarySevice();
-      await service.addToCollection(collectionId, entryId);
-
-      return {
-         success: true,
-         message: "Zur Sammlung hinzugefügt",
-      };
-   } catch (error) {
-      console.error(formatError(error));
-      return {
-         success: false,
-         message: "Vorlage konnte nicht zur Sammlung hizugefügt werden",
-      };
-   }
-};
-
-export const removeEntryFromCollection = async (
-   collectionId: string,
-   entryId: string
-): Promise<ActionResult> => {
-   try {
-      if (!isValidUuid(collectionId) || !isValidUuid(entryId)) {
-         throw new Error("Invalid ID.");
-      }
-
-      const service = getLibrarySevice();
-      await service.removeFromCollection(collectionId, entryId);
-
-      return {
-         success: true,
-         message: "Aus Sammlung entfernt",
-      };
-   } catch (error) {
-      console.error(formatError(error));
-      return {
-         success: false,
-         message: "Vorlage konnte nicht aus Sammlung entfernt werden",
-      };
-   }
-};
-
 export const updateEntryCollections = async (
    entryId: string,
    collectionIds: string[]

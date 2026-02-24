@@ -3,7 +3,6 @@ export {
    createLibraryEntry,
    downloadTemplate,
    composePromptFromTemplate,
-   addEntryToCollection,
    createLibraryCollection,
    deleteLibraryCollection,
    getEntryCollectionIds,
@@ -12,7 +11,6 @@ export {
    getLibraryCollections,
    getLibraryEntriesPage,
    getLibraryModels,
-   removeEntryFromCollection,
    toggleLibraryEntryFavorite,
    updateLibraryCollection,
 } from "./library.actions";

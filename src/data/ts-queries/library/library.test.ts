@@ -17,12 +17,10 @@ import { dtestData, renderHookWithReactQuery } from "@tests";
 import { mockDeep } from "jest-mock-extended";
 
 import {
-   addEntryToCollection,
    createLibraryCollection,
    deleteLibraryCollection,
    getLibraryCollections,
    getLibraryEntriesPage,
-   removeEntryFromCollection,
    toggleLibraryEntryFavorite,
    updateLibraryCollection,
 } from "@/data/actions/library";

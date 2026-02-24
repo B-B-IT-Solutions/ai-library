@@ -164,17 +164,6 @@ export class LibraryService {
       await this.libraryRepository.pDeleteCollection(collectionId, userId);
    }
 
-   async addToCollection(collectionId: string, entryId: string): Promise<void> {
-      await this.libraryRepository.pAddToCollection(collectionId, entryId);
-   }
-
-   async removeFromCollection(
-      collectionId: string,
-      entryId: string
-   ): Promise<void> {
-      await this.libraryRepository.pRemoveFromCollection(collectionId, entryId);
-   }
-
    async getEntryCollectionIds(entryId: string): Promise<string[]> {
       return await this.libraryRepository.pGetEntryCollectionIds(entryId);
    }
