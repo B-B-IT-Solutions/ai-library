@@ -93,6 +93,7 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
          <div
             key={collection.id}
             className="flex items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid="collection"
          >
             <Checkbox
                id={`collection-${collection.id}`}

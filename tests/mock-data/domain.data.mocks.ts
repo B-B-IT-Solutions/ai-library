@@ -1,4 +1,5 @@
 import { range } from "es-toolkit";
+import { map } from "es-toolkit/compat";
 
 import { Sort } from "@/data/types/common";
 import { DCart, DCartItem } from "@/data/types/domain/cart";
@@ -225,6 +226,11 @@ export const dLibraryEntryCategories = (count = 3): string[] => {
 
 export const dLibraryEntryModels = (count = 3): string[] => {
    return range(0, count).map((i) => `mod-${i + 1}`);
+};
+
+export const dLibraryCollectionIds = (count = 3): string[] => {
+   const collections = dLibraryCollections(count);
+   return map(collections, "id");
 };
 
 export const dLibraryCollections = (count = 3): DLibraryCollection[] => {
