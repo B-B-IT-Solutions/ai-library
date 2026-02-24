@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { filter, includes, isEmpty, map } from "es-toolkit/compat";
 import { Folder, Loader, Plus } from "lucide-react";
 import { toast } from "sonner";
@@ -41,6 +41,7 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
    const { mutate: updateCollections, isPending: isSaving } =
       useUpdateEntryCollections();
    const [showCreateDialog, setShowCreateDialog] = useState(false);
+   const initializedRef = useRef(false);
 
    const [selectedColIds, setSelectedColdIds] = useState<string[]>([]);
 
@@ -50,8 +51,9 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
    );
 
    useEffect(() => {
-      if (entryCollectionIds) {
+      if (entryCollectionIds && !initializedRef.current) {
          setSelectedColdIds(entryCollectionIds);
+         initializedRef.current = true;
       }
    }, [entryCollectionIds]);
 

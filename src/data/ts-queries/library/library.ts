@@ -247,11 +247,29 @@ export const useLoadEntryCollectionIds = (
    enabled: boolean
 ): UseQueryResult<string[]> => {
    return useQuery({
-      queryKey: libraryKeys.entry(entryId),
+      queryKey: libraryKeys.entryCollections(entryId),
       queryFn: () => getEntryCollectionIds(entryId),
       enabled,
       staleTime: 5 * 60 * 1000,
    });
+};
+
+export const updateEntryCollectionsOptions = (
+   queryClient: QueryClient
+): UseMutationOptions<ActionResult, Error, UpdateCollectionIdsParams> => {
+   return {
+      mutationFn: async (params: UpdateCollectionIdsParams) => {
+         const { entryId, collectionIds } = params;
+         return await updateEntryCollections(entryId, collectionIds);
+      },
+      onSuccess: (_, params) => {
+         const { entryId, collectionIds } = params;
+         queryClient.setQueryData(
+            libraryKeys.entryCollections(entryId),
+            collectionIds
+         );
+      },
+   };
 };
 
 export const useUpdateEntryCollections = (): UseMutationResult<
@@ -260,19 +278,5 @@ export const useUpdateEntryCollections = (): UseMutationResult<
    UpdateCollectionIdsParams
 > => {
    const queryClient = useQueryClient();
-
-   return useMutation({
-      mutationFn: async ({
-         entryId,
-         collectionIds,
-      }: UpdateCollectionIdsParams) => {
-         return await updateEntryCollections(entryId, collectionIds);
-      },
-      onSuccess: (_, { entryId }) => {
-         queryClient.invalidateQueries({
-            queryKey: libraryKeys.entry(entryId),
-         });
-         queryClient.invalidateQueries({ queryKey: libraryKeys.all });
-      },
-   });
+   return useMutation(updateEntryCollectionsOptions(queryClient));
 };
