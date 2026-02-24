@@ -99,6 +99,7 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
                id={`collection-${collection.id}`}
                checked={isSelected}
                onCheckedChange={() => handleToggle(collection.id)}
+               data-testid={`collection-${collection.id}`}
             />
             <Label
                htmlFor={`collection-${collection.id}`}

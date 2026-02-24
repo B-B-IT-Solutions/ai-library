@@ -27,6 +27,9 @@ import { AddToLibraryCollectionDialog } from "./add-to-library-collection-dialog
 type UseUpdateEntryCollectionsResult = ReturnType<
    typeof useUpdateEntryCollections
 >;
+
+type UseCreateCollectionResult = ReturnType<typeof useCreateCollection>;
+
 type UseLoadEntryCollectionIdsResult = ReturnType<
    typeof useLoadEntryCollectionIds
 >;
@@ -44,11 +47,16 @@ const useCreateCollectionMock = useCreateCollection as jest.MockedFunction<
    typeof useCreateCollection
 >;
 
-const mutationResultMock = (
+const updateMutationResultMock = (
    mutateFn = jest.fn()
 ): UseUpdateEntryCollectionsResult => {
    const result = ctestData.useMutationResultMock(mutateFn);
    return result as UseUpdateEntryCollectionsResult;
+};
+
+const createMutationResultMock = (): UseCreateCollectionResult => {
+   const result = ctestData.useMutationResultMock();
+   return result as UseCreateCollectionResult;
 };
 
 const mutationObserverLoadingResultMock =
@@ -74,6 +82,18 @@ const assertDialogNotRendered = () => {
    assertNotInDocument(dialog);
 };
 
+const assertCreateCollectionDialogRendered = () => {
+   const createDialog = screen.getByTestId("create-library-collection-dialog");
+   assertInDocument(createDialog);
+};
+
+const assertCreateCollectionDialogNotRendered = () => {
+   const createDialog = screen.queryByTestId(
+      "create-library-collection-dialog"
+   );
+   assertNotInDocument(createDialog);
+};
+
 const assertEntityCollectionIdsLoadingRendered = () => {
    const loading = screen.getByTestId("collections-loading");
    assertInDocument(loading);
@@ -97,7 +117,7 @@ const renderDialog = (
    collectionIdsData: string[] | undefined = [],
    isLoading = false
 ) => {
-   const mutationHookResult = mutationResultMock(mutateFn);
+   const mutationHookResult = updateMutationResultMock(mutateFn);
    useUpdateEntryCollectionsMock.mockReturnValue(mutationHookResult);
 
    useLoadEntryCollectionIdsMock.mockReturnValue(
@@ -118,15 +138,13 @@ const renderDialog = (
 describe("AddToLibraryCollectionDialog rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      useCreateCollectionMock.mockReturnValue(
-         ctestData.useMutationResultMock() as ReturnType<
-            typeof useCreateCollection
-         >
-      );
+
+      const mutationResult = createMutationResultMock();
+      useCreateCollectionMock.mockReturnValue(mutationResult);
    });
 
    it("AddToLibraryCollectionDialog - open true - test", async () => {
-      const mutationResult = mutationResultMock();
+      const mutationResult = updateMutationResultMock();
       const queryResult = queryResultMock();
 
       useUpdateEntryCollectionsMock.mockReturnValue(mutationResult);
@@ -153,7 +171,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
 
    it("AddToLibraryCollectionDialog - open true - isLoading true - test", async () => {
       const entryCollectionIds = dtestData.dLibraryCollectionIds(3);
-      const mutationResult = mutationResultMock();
+      const mutationResult = updateMutationResultMock();
       const queryResult = queryResultMock(entryCollectionIds, true);
 
       useUpdateEntryCollectionsMock.mockReturnValue(mutationResult);
@@ -161,6 +179,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
 
       const entry = dtestData.dLibraryEntry();
       const allCollections = dtestData.dLibraryCollections(6);
+      allCollections[0].color = null;
 
       const { container } = renderWithReactQuery(
          <AddToLibraryCollectionDialog
@@ -181,7 +200,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
    });
 
    it("AddToLibraryCollectionDialog - open true - empty library collections - test", async () => {
-      const mutationResult = mutationResultMock();
+      const mutationResult = updateMutationResultMock();
       const queryResult = queryResultMock();
 
       useUpdateEntryCollectionsMock.mockReturnValue(mutationResult);
@@ -234,7 +253,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
    });
 
    it("AddToLibraryCollectionDialog - open false - test", async () => {
-      const mutationResult = mutationResultMock();
+      const mutationResult = updateMutationResultMock();
       const queryResult = queryResultMock();
 
       useUpdateEntryCollectionsMock.mockReturnValue(mutationResult);
@@ -263,54 +282,9 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
 describe("AddToLibraryCollectionDialog functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      useCreateCollectionMock.mockReturnValue(
-         ctestData.useMutationResultMock() as ReturnType<
-            typeof useCreateCollection
-         >
-      );
-   });
 
-   it("AddToLibraryCollectionDialog - checkbox toggle - selects collection - test", async () => {
-      const collections = dtestData.dLibraryCollections(3);
-      renderDialog(true, jest.fn(), collections, jest.fn(), []);
-
-      await waitFor(() => {
-         const checkboxes = screen.getAllByRole("checkbox");
-         expect(checkboxes[0]).toHaveAttribute("data-state", "unchecked");
-      });
-
-      const checkboxes = screen.getAllByRole("checkbox");
-      await userEvent.click(checkboxes[0]);
-
-      await waitFor(() => {
-         expect(screen.getAllByRole("checkbox")[0]).toHaveAttribute(
-            "data-state",
-            "checked"
-         );
-      });
-   });
-
-   it("AddToLibraryCollectionDialog - checkbox toggle - deselects collection - test", async () => {
-      const collections = dtestData.dLibraryCollections(3);
-      const selectedIds = [collections[0].id];
-      renderDialog(true, jest.fn(), collections, jest.fn(), selectedIds);
-
-      await waitFor(() => {
-         expect(screen.getAllByRole("checkbox")[0]).toHaveAttribute(
-            "data-state",
-            "checked"
-         );
-      });
-
-      const checkboxes = screen.getAllByRole("checkbox");
-      await userEvent.click(checkboxes[0]);
-
-      await waitFor(() => {
-         expect(screen.getAllByRole("checkbox")[0]).toHaveAttribute(
-            "data-state",
-            "unchecked"
-         );
-      });
+      const mutationResult = createMutationResultMock();
+      useCreateCollectionMock.mockReturnValue(mutationResult);
    });
 
    it("AddToLibraryCollectionDialog - save btn clicked - success true - test", async () => {
@@ -319,26 +293,51 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
          message: "Sammlungen aktualisiert",
       };
 
+      const allCollections = dtestData.dLibraryCollections(3);
+      const collection1 = allCollections[0];
+      const collection2 = allCollections[1];
+      const collection3 = allCollections[2];
+      const selectedIds = [collection1.id, collection2.id];
+
       const onOpenChange = jest.fn();
       const mutateFn = jest.fn((_params: unknown, callbacks) => {
          callbacks.onSuccess(actionResult);
       });
 
-      const collections = dtestData.dLibraryCollections(3);
-      const selectedIds = [collections[0].id, collections[1].id];
-      renderDialog(true, onOpenChange, collections, mutateFn, selectedIds);
+      const mutationResult = updateMutationResultMock(mutateFn);
+      const queryResult = queryResultMock(selectedIds);
+
+      useUpdateEntryCollectionsMock.mockReturnValue(mutationResult);
+      useLoadEntryCollectionIdsMock.mockReturnValue(queryResult);
+
+      const entry = dtestData.dLibraryEntry();
+
+      renderWithReactQuery(
+         <AddToLibraryCollectionDialog
+            entry={entry}
+            collections={allCollections}
+            open={true}
+            onOpenChange={onOpenChange}
+         />
+      );
 
       await waitFor(() => {
          assertDialogRendered();
          expect(mutateFn).not.toHaveBeenCalled();
       });
 
+      const checkBox1 = screen.getByTestId(`collection-${collection1.id}`);
+      await userEvent.click(checkBox1);
+
+      const checkBox2 = screen.getByTestId(`collection-${collection3.id}`);
+      await userEvent.click(checkBox2);
+
       const saveBtn = screen.getByTestId("save-btn");
       await userEvent.click(saveBtn);
 
       const expectedParams: UpdateCollectionIdsParams = {
          entryId: dtestData.dLibraryEntry().id,
-         collectionIds: selectedIds,
+         collectionIds: [collection2.id, collection3.id],
       };
 
       const expectedCallback = expect.objectContaining({
@@ -365,28 +364,64 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
          message: "Fehler beim Speichern",
       };
 
+      const allCollections = dtestData.dLibraryCollections(3);
+      const collection1 = allCollections[0];
+      const collection2 = allCollections[1];
+      const collection3 = allCollections[2];
+      const selectedIds = [collection1.id];
+
       const onOpenChange = jest.fn();
       const mutateFn = jest.fn((_params: unknown, callbacks) => {
          callbacks.onSuccess(actionResult);
       });
 
-      renderDialog(
-         true,
-         onOpenChange,
-         dtestData.dLibraryCollections(3),
-         mutateFn,
-         []
+      const mutationResult = updateMutationResultMock(mutateFn);
+      const queryResult = queryResultMock(selectedIds);
+
+      useUpdateEntryCollectionsMock.mockReturnValue(mutationResult);
+      useLoadEntryCollectionIdsMock.mockReturnValue(queryResult);
+
+      const entry = dtestData.dLibraryEntry();
+
+      renderWithReactQuery(
+         <AddToLibraryCollectionDialog
+            entry={entry}
+            collections={allCollections}
+            open={true}
+            onOpenChange={onOpenChange}
+         />
       );
 
       await waitFor(() => {
          assertDialogRendered();
+         expect(mutateFn).not.toHaveBeenCalled();
       });
+
+      const checkBox1 = screen.getByTestId(`collection-${collection2.id}`);
+      await userEvent.click(checkBox1);
+
+      const checkBox2 = screen.getByTestId(`collection-${collection3.id}`);
+      await userEvent.click(checkBox2);
 
       const saveBtn = screen.getByTestId("save-btn");
       await userEvent.click(saveBtn);
 
+      const expectedParams: UpdateCollectionIdsParams = {
+         entryId: dtestData.dLibraryEntry().id,
+         collectionIds: [collection1.id, collection2.id, collection3.id],
+      };
+
+      const expectedCallback = expect.objectContaining({
+         onSuccess: expect.any(Function),
+         onError: expect.any(Function),
+      });
+
       await waitFor(() => {
          expect(mutateFn).toHaveBeenCalledTimes(1);
+         expect(mutateFn).toHaveBeenCalledWith(
+            expectedParams,
+            expectedCallback
+         );
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(actionResult.message);
          expect(onOpenChange).not.toHaveBeenCalled();
@@ -394,17 +429,30 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
    });
 
    it("AddToLibraryCollectionDialog - save btn clicked - onError - test", async () => {
+      const allCollections = dtestData.dLibraryCollections(3);
+      const collection1 = allCollections[0];
+      const selectedIds = [collection1.id];
+
       const onOpenChange = jest.fn();
       const mutateFn = jest.fn((_params: unknown, callbacks) => {
          callbacks.onError();
       });
 
-      renderDialog(
-         true,
-         onOpenChange,
-         dtestData.dLibraryCollections(3),
-         mutateFn,
-         []
+      const mutationResult = updateMutationResultMock(mutateFn);
+      const queryResult = queryResultMock(selectedIds);
+
+      useUpdateEntryCollectionsMock.mockReturnValue(mutationResult);
+      useLoadEntryCollectionIdsMock.mockReturnValue(queryResult);
+
+      const entry = dtestData.dLibraryEntry();
+
+      renderWithReactQuery(
+         <AddToLibraryCollectionDialog
+            entry={entry}
+            collections={allCollections}
+            open={true}
+            onOpenChange={onOpenChange}
+         />
       );
 
       await waitFor(() => {
@@ -414,8 +462,22 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       const saveBtn = screen.getByTestId("save-btn");
       await userEvent.click(saveBtn);
 
+      const expectedParams: UpdateCollectionIdsParams = {
+         entryId: dtestData.dLibraryEntry().id,
+         collectionIds: selectedIds,
+      };
+
+      const expectedCallback = expect.objectContaining({
+         onSuccess: expect.any(Function),
+         onError: expect.any(Function),
+      });
+
       await waitFor(() => {
          expect(mutateFn).toHaveBeenCalledTimes(1);
+         expect(mutateFn).toHaveBeenCalledWith(
+            expectedParams,
+            expectedCallback
+         );
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(
             "Fehler beim Aktualisieren der Sammlungen"
@@ -424,21 +486,35 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       });
    });
 
-   it("AddToLibraryCollectionDialog - create new collection btn - shows create dialog - test", async () => {
-      renderDialog(true);
+   it("AddToLibraryCollectionDialog - create new collection btn clicked - test", async () => {
+      const mutationResult = updateMutationResultMock();
+      const queryResult = queryResultMock();
+
+      useUpdateEntryCollectionsMock.mockReturnValue(mutationResult);
+      useLoadEntryCollectionIdsMock.mockReturnValue(queryResult);
+
+      const entry = dtestData.dLibraryEntry();
+      const allCollections = dtestData.dLibraryCollections(3);
+
+      renderWithReactQuery(
+         <AddToLibraryCollectionDialog
+            entry={entry}
+            collections={allCollections}
+            open={true}
+            onOpenChange={jest.fn()}
+         />
+      );
 
       await waitFor(() => {
          assertDialogRendered();
+         assertCreateCollectionDialogNotRendered();
       });
 
       const createBtn = screen.getByTestId("create-new-collection-btn");
       await userEvent.click(createBtn);
 
       await waitFor(() => {
-         const createDialog = screen.getByTestId(
-            "create-library-collection-dialog"
-         );
-         assertInDocument(createDialog);
+         assertCreateCollectionDialogRendered();
       });
    });
 });
