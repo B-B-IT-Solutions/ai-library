@@ -22,6 +22,7 @@ import {
    getLibraryCollections,
    getLibraryEntriesPage,
    toggleLibraryEntryFavorite,
+   updateEntryCollections,
    updateLibraryCollection,
 } from "@/data/actions/library";
 import {
@@ -41,15 +42,18 @@ import {
    preloadLibraryEntriesOptions,
    toggleFavoriteOptions,
    updateCollectionOptions,
+   updateEntryCollectionsOptions,
    useCreateCollection,
    useDeleteCollection,
    useInfiniteLoadLibraryEntries,
    useLoadLibraryCollections,
    useToggleFavorite,
    useUpdateCollection,
+   useUpdateEntryCollections,
 } from "./library";
 import {
    LoadLibraryEntriesParams,
+   UpdateCollectionIdsParams,
    UpdateCollectionParams,
    UpdateIsFavoriteParams,
 } from "./types";
@@ -88,6 +92,9 @@ const deleteLibraryCollectionMock =
    deleteLibraryCollection as jest.MockedFunction<
       typeof deleteLibraryCollection
    >;
+
+const updateEntryCollectionsMock =
+   updateEntryCollections as jest.MockedFunction<typeof updateEntryCollections>;
 
 describe("prefetch options tests", () => {
    beforeEach(() => {
@@ -509,6 +516,84 @@ describe("deleteCollection hooks tests", () => {
          expect(deleteLibraryCollectionMock).toHaveBeenCalledTimes(1);
          expect(deleteLibraryCollectionMock).toHaveBeenCalledWith(
             collection.id
+         );
+      });
+   });
+});
+
+describe("updateEntryCollections hooks tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("updateEntryCollectionsOptions test", async () => {
+      const expectedOptions: UseMutationOptions<
+         ActionResult,
+         Error,
+         DLibraryCollection
+      > = {
+         mutationFn: jest.fn(),
+         onSuccess: jest.fn(),
+      };
+
+      const options = updateEntryCollectionsOptions(queryClientMock);
+      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
+      expect(queryClientMock.setQueryData).not.toHaveBeenCalled();
+
+      const result: ActionResult = {
+         success: true,
+         message: "Collections updated",
+      };
+
+      const entryId = "entry-id-1";
+      const collectionIds = dtestData.dLibraryCollectionIds();
+
+      const params: UpdateCollectionIdsParams = {
+         entryId,
+         collectionIds,
+      };
+
+      options.onSuccess!(result, params, undefined, mutationContextMock);
+
+      const expectedQueryKey: QueryKey = [
+         "library",
+         "entry",
+         entryId,
+         "collections",
+      ];
+      expect(queryClientMock.setQueryData).toHaveBeenCalledTimes(1);
+      expect(queryClientMock.setQueryData).toHaveBeenCalledWith(
+         expectedQueryKey,
+         collectionIds
+      );
+   });
+
+   test("useUpdateEntryCollections test", async () => {
+      const actionResult: ActionResult = {
+         success: true,
+         message: "Collections updated",
+      };
+      updateEntryCollectionsMock.mockResolvedValue(actionResult);
+
+      const { result } = renderHookWithReactQuery(() =>
+         useUpdateEntryCollections()
+      );
+
+      const entryId = "entry-id-1";
+      const collectionIds = dtestData.dLibraryCollectionIds();
+
+      const params: UpdateCollectionIdsParams = {
+         entryId,
+         collectionIds,
+      };
+
+      await waitFor(() => {
+         result.current.mutate(params);
+         expect(result.current.isSuccess).toBe(true);
+         expect(updateEntryCollectionsMock).toHaveBeenCalledTimes(1);
+         expect(updateEntryCollectionsMock).toHaveBeenCalledWith(
+            params.entryId,
+            params.collectionIds
          );
       });
    });
