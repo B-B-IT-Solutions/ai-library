@@ -138,8 +138,6 @@ export class LibraryService {
       await this.libraryRepository.pToggleFavorite(entryId, userId, isFavorite);
    }
 
-   // ==================== Collections CRUD ====================
-
    async getCollections(userId: string): Promise<DLibraryCollection[]> {
       return await this.libraryRepository.pGetCollections(userId);
    }
@@ -166,8 +164,6 @@ export class LibraryService {
    async deleteCollection(collectionId: string, userId: string): Promise<void> {
       await this.libraryRepository.pDeleteCollection(collectionId, userId);
    }
-
-   // ==================== Collection Entries ====================
 
    async addToCollection(collectionId: string, entryId: string): Promise<void> {
       await this.libraryRepository.pAddToCollection(collectionId, entryId);

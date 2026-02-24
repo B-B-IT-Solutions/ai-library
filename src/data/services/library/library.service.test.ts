@@ -368,3 +368,37 @@ describe("toggleFavorite tests", () => {
       );
    });
 });
+
+describe("getCollections tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("getCollections - collections retrieved - test", async () => {
+      const userId = "user-id-1";
+
+      await libraryService.getCollections(userId);
+
+      expect(libraryRepoMock.pGetCollections).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetCollections).toHaveBeenCalledWith(userId);
+   });
+});
+
+describe("createCollection tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("createCollection - collections retrieved - test", async () => {
+      const userId = "user-id-1";
+      const data = dtestData.dLibraryCollectionUpdate();
+
+      await libraryService.createCollection(userId, data);
+
+      expect(libraryRepoMock.pCreateCollection).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pCreateCollection).toHaveBeenCalledWith(
+         userId,
+         data
+      );
+   });
+});
