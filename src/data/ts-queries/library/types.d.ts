@@ -16,3 +16,8 @@ export type UpdateCollectionParams = {
    collectionId: string;
    data: DLibraryCollectionUpdate;
 };
+
+export type UpdateCollectionIdsParams = {
+   entryId: string;
+   collectionIds: string[];
+};

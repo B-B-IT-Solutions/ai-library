@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useEffect, useState } from "react";
-import { isEmpty, map } from "es-toolkit/compat";
+import { filter, includes, isEmpty, map } from "es-toolkit/compat";
 import { Folder, Loader, Plus } from "lucide-react";
 import { toast } from "sonner";
 
@@ -20,6 +20,7 @@ import {
    useLoadEntryCollectionIds,
    useUpdateEntryCollections,
 } from "@/data/ts-queries/library";
+import { UpdateCollectionIdsParams } from "@/data/ts-queries/library/types";
 import { DLibraryCollection, DLibraryEntry } from "@/data/types/domain/library";
 
 import { LibraryCollectionCreateDialog } from "./create-library-collection-dialog";
@@ -37,11 +38,11 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
    open,
    onOpenChange,
 }) => {
-   const { mutateAsync: updateCollectionsAsync, isPending: isSaving } =
+   const { mutate: updateCollections, isPending: isSaving } =
       useUpdateEntryCollections();
    const [showCreateDialog, setShowCreateDialog] = useState(false);
 
-   const [selectedCollections, setSelectedCollections] = useState<string[]>([]);
+   const [selectedColIds, setSelectedColdIds] = useState<string[]>([]);
 
    const { data: entryCollectionIds, isLoading } = useLoadEntryCollectionIds(
       entry.id,
@@ -50,34 +51,38 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
 
    useEffect(() => {
       if (entryCollectionIds) {
-         setSelectedCollections(entryCollectionIds);
+         setSelectedColdIds(entryCollectionIds);
       }
    }, [entryCollectionIds]);
 
-   const handleToggle = (collectionId: string) => {
-      setSelectedCollections((prev) =>
-         prev.includes(collectionId)
-            ? prev.filter((id) => id !== collectionId)
-            : [...prev, collectionId]
-      );
+   const handleToggle = (colId: string) => {
+      const isSelected = includes(selectedColIds, colId);
+      const newColdIds = isSelected
+         ? filter(selectedColIds, (id) => id !== colId)
+         : [...selectedColIds, colId];
+
+      setSelectedColdIds(newColdIds);
    };
 
    const handleConfirm = async () => {
-      try {
-         const result = await updateCollectionsAsync({
-            entryId: entry.id,
-            collectionIds: selectedCollections,
-         });
+      const params: UpdateCollectionIdsParams = {
+         entryId: entry.id,
+         collectionIds: selectedColIds,
+      };
 
-         if (result.success) {
-            toast.success(result.message);
-            onOpenChange(false);
-         } else {
-            toast.error(result.message);
-         }
-      } catch {
-         toast.error("Fehler beim Aktualisieren der Sammlungen");
-      }
+      updateCollections(params, {
+         onSuccess: (result) => {
+            if (result.success) {
+               toast.success(result.message);
+               onOpenChange(false);
+            } else {
+               toast.error(result.message);
+            }
+         },
+         onError: () => {
+            toast.error("Fehler beim Aktualisieren der Sammlungen");
+         },
+      });
    };
 
    const renderCollectin = (
@@ -129,7 +134,7 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
 
       if (isEmpty(collections)) {
          return (
-            <div className="py-8 text-center">
+            <div className="py-8 text-center" data-testid="collections-empty">
                <p className="mb-4 text-sm text-slate-500">
                   Keine Sammlungen vorhanden
                </p>
@@ -147,9 +152,21 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
       }
 
       return map(collections, (collection) => {
-         const isSelected = selectedCollections.includes(collection.id);
+         const isSelected = includes(selectedColIds, collection.id);
          return renderCollectin(collection, isSelected);
       });
+   };
+
+   const saveBtnLabel = () => {
+      if (isSaving) {
+         return (
+            <>
+               <Loader className="mr-1.5 h-4 w-4 animate-spin" />
+               <span>Speichern...</span>
+            </>
+         );
+      }
+      return "OK";
    };
 
    return (
@@ -171,12 +188,13 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
                   {renderCollections()}
                </div>
 
-               <DialogFooter className="border-t pt-4">
+               <DialogFooter className="flex justify-between border-t pt-4 sm:justify-between">
                   <Button
                      variant="outline"
                      size="sm"
                      onClick={() => setShowCreateDialog(true)}
                      className="gap-2"
+                     data-testid="create-new-collection-btn"
                   >
                      <Plus className="h-4 w-4" />
                      Neue Sammlung
@@ -185,16 +203,9 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
                      size="sm"
                      disabled={isLoading || isSaving}
                      onClick={handleConfirm}
-                     data-testid="confirm-btn"
+                     data-testid="save-btn"
                   >
-                     {isSaving ? (
-                        <>
-                           <Loader className="mr-1.5 h-4 w-4 animate-spin" />
-                           <span>Speichern...</span>
-                        </>
-                     ) : (
-                        "Fertig"
-                     )}
+                     {saveBtnLabel()}
                   </Button>
                </DialogFooter>
             </DialogContent>

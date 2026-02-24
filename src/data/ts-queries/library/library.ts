@@ -39,6 +39,7 @@ import { getNextPageParam, pageQuery } from "../utils";
 
 import {
    LoadLibraryEntriesParams,
+   UpdateCollectionIdsParams,
    UpdateCollectionParams,
    UpdateIsFavoriteParams,
 } from "./types";
@@ -256,7 +257,7 @@ export const useLoadEntryCollectionIds = (
 export const useUpdateEntryCollections = (): UseMutationResult<
    ActionResult,
    Error,
-   { entryId: string; collectionIds: string[] }
+   UpdateCollectionIdsParams
 > => {
    const queryClient = useQueryClient();
 
@@ -264,14 +265,13 @@ export const useUpdateEntryCollections = (): UseMutationResult<
       mutationFn: async ({
          entryId,
          collectionIds,
-      }: {
-         entryId: string;
-         collectionIds: string[];
-      }) => {
+      }: UpdateCollectionIdsParams) => {
          return await updateEntryCollections(entryId, collectionIds);
       },
       onSuccess: (_, { entryId }) => {
-         queryClient.invalidateQueries({ queryKey: libraryKeys.entry(entryId) });
+         queryClient.invalidateQueries({
+            queryKey: libraryKeys.entry(entryId),
+         });
          queryClient.invalidateQueries({ queryKey: libraryKeys.all });
       },
    });
