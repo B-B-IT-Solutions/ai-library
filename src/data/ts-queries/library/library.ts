@@ -15,6 +15,7 @@ import {
    useQueryClient,
    UseQueryResult,
 } from "@tanstack/react-query";
+import { filter } from "es-toolkit/compat";
 
 import {
    addEntryToCollection,
@@ -213,22 +214,29 @@ export const useUpdateCollection = (): UseMutationResult<
    return useMutation(updateCollectionOptions(queryClient));
 };
 
+export const deleteCollectionOptions = (
+   queryClient: QueryClient
+): UseMutationOptions<ActionResult, Error, string> => {
+   return {
+      mutationFn: async (collectionId: string) => {
+         return await deleteLibraryCollection(collectionId);
+      },
+      onSuccess: (_, collectionId) => {
+         const updater = (cols: DLibraryCollection[]) => {
+            return filter(cols, (col) => col.id !== collectionId);
+         };
+         queryClient.setQueryData(libraryKeys.collections(), updater);
+      },
+   };
+};
+
 export const useDeleteCollection = (): UseMutationResult<
    ActionResult,
    Error,
    string
 > => {
    const queryClient = useQueryClient();
-
-   return useMutation({
-      mutationFn: async (collectionId: string) => {
-         return await deleteLibraryCollection(collectionId);
-      },
-      onSuccess: () => {
-         queryClient.invalidateQueries({ queryKey: libraryKeys.collections() });
-         queryClient.invalidateQueries({ queryKey: libraryKeys.all });
-      },
-   });
+   return useMutation(deleteCollectionOptions(queryClient));
 };
 
 export const useAddToCollection = (): UseMutationResult<
