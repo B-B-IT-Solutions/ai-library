@@ -23,6 +23,7 @@ import {
    getLibraryEntry,
    getLibraryModels,
    toggleLibraryEntryFavorite,
+   updateEntryCollections,
    updateLibraryCollection,
 } from "./library.actions";
 
@@ -41,6 +42,7 @@ const sGetCollections = LibraryService.prototype.getCollections;
 const sCreateCollection = LibraryService.prototype.createCollection;
 const sUpdateCollection = LibraryService.prototype.updateCollection;
 const sDeleteCollection = LibraryService.prototype.deleteCollection;
+const sUpdateEntryCollections = LibraryService.prototype.updateEntryCollections;
 
 const sGetLibraryEntriesPageMock =
    sGetLibraryEntriesPage as jest.MockedFunction<typeof sGetLibraryEntriesPage>;
@@ -78,6 +80,10 @@ const sUpdateCollectionMock = sUpdateCollection as jest.MockedFunction<
 const sDeleteCollectionMock = sDeleteCollection as jest.MockedFunction<
    typeof sDeleteCollection
 >;
+const sUpdateEntryCollectionsMock =
+   sUpdateEntryCollections as jest.MockedFunction<
+      typeof sUpdateEntryCollections
+   >;
 
 describe("getLibraryEntriesPage tests", () => {
    beforeEach(() => {
@@ -897,5 +903,103 @@ describe("deleteLibraryCollection tests", () => {
       expect(result).toEqual(expectedResult);
       expect(sDeleteCollectionMock).toHaveBeenCalledTimes(1);
       expect(sDeleteCollectionMock).toHaveBeenCalledWith(collectionId, user.id);
+   });
+});
+
+describe("updateEntryCollections tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("updateEntryCollections - invalid UUID - test", async () => {
+      const invalidId = "invalid-uuid-1";
+
+      const collectionsId = dtestData.dLibraryCollectionIds();
+      const result = await updateEntryCollections(invalidId, collectionsId);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Sammlungen konnten nicht aktualisiert werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sUpdateEntryCollectionsMock).not.toHaveBeenCalled();
+   });
+
+   it("updateEntryCollections - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const collectionsId = dtestData.dLibraryCollectionIds();
+
+      const result = await updateEntryCollections(entryId, collectionsId);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Sammlungen konnten nicht aktualisiert werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateEntryCollectionsMock).not.toHaveBeenCalled();
+   });
+
+   it("updateEntryCollections - success - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      sUpdateEntryCollectionsMock.mockResolvedValue();
+
+      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const collectionsId = dtestData.dLibraryCollectionIds();
+
+      const result = await updateEntryCollections(entryId, collectionsId);
+
+      const expectedResult: ActionResult<DPromptUpdate> = {
+         success: true,
+         message: "Sammlungen aktualisiert",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sUpdateEntryCollectionsMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateEntryCollectionsMock).toHaveBeenCalledWith(
+         user.id,
+         entryId,
+         collectionsId
+      );
+   });
+
+   it("updateEntryCollections - error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const errorMessage = "DB Error";
+      const error = new Error(errorMessage);
+      sUpdateEntryCollectionsMock.mockRejectedValue(error);
+
+      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const collectionsId = dtestData.dLibraryCollectionIds();
+
+      const result = await updateEntryCollections(entryId, collectionsId);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Sammlungen konnten nicht aktualisiert werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sUpdateEntryCollectionsMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateEntryCollectionsMock).toHaveBeenCalledWith(
+         user.id,
+         entryId,
+         collectionsId
+      );
    });
 });

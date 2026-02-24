@@ -169,9 +169,13 @@ export class LibraryService {
    }
 
    async updateEntryCollections(
+      userId: string,
       entryId: string,
       collectionIds: string[]
    ): Promise<void> {
-      await this.libraryRepository.pUpdateEntryCollections(entryId, collectionIds);
+      await this.libraryRepository.pUpdateEntryCollections(
+         entryId,
+         collectionIds
+      );
    }
 }
