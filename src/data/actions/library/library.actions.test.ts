@@ -15,6 +15,7 @@ import {
    composePromptFromTemplate,
    createLibraryCollection,
    createLibraryEntry,
+   deleteLibraryCollection,
    downloadTemplate,
    getLibraryCategories,
    getLibraryCollections,
@@ -39,6 +40,7 @@ const sToggleFavorite = LibraryService.prototype.toggleFavorite;
 const sGetCollections = LibraryService.prototype.getCollections;
 const sCreateCollection = LibraryService.prototype.createCollection;
 const sUpdateCollection = LibraryService.prototype.updateCollection;
+const sDeleteCollection = LibraryService.prototype.deleteCollection;
 
 const sGetLibraryEntriesPageMock =
    sGetLibraryEntriesPage as jest.MockedFunction<typeof sGetLibraryEntriesPage>;
@@ -72,6 +74,9 @@ const sCreateCollectionMock = sCreateCollection as jest.MockedFunction<
 >;
 const sUpdateCollectionMock = sUpdateCollection as jest.MockedFunction<
    typeof sUpdateCollection
+>;
+const sDeleteCollectionMock = sDeleteCollection as jest.MockedFunction<
+   typeof sDeleteCollection
 >;
 
 describe("getLibraryEntriesPage tests", () => {
@@ -809,5 +814,88 @@ describe("updateLibraryCollection tests", () => {
          user.id,
          data
       );
+   });
+});
+
+describe("deleteLibraryCollection tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("deleteLibraryCollection - invalid UUID - test", async () => {
+      const invalidId = "invalid-uuid-1";
+
+      const result = await deleteLibraryCollection(invalidId);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Sammlung konnte nicht gelöscht werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sDeleteCollectionMock).not.toHaveBeenCalled();
+   });
+
+   it("deleteLibraryCollection - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await deleteLibraryCollection(collectionId);
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Sammlung konnte nicht gelöscht werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sDeleteCollectionMock).not.toHaveBeenCalled();
+   });
+
+   it("deleteLibraryCollection - success - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
+
+      sDeleteCollectionMock.mockResolvedValue();
+
+      const result = await deleteLibraryCollection(collectionId);
+
+      const expectedResult: ActionResult<DPromptUpdate> = {
+         success: true,
+         message: "Sammlung erfolgreich gelöscht",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sDeleteCollectionMock).toHaveBeenCalledTimes(1);
+      expect(sDeleteCollectionMock).toHaveBeenCalledWith(collectionId, user.id);
+   });
+
+   it("deleteLibraryCollection - error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
+      const errorMessage = "DB Error";
+      const error = new Error(errorMessage);
+      sDeleteCollectionMock.mockRejectedValue(error);
+
+      const result = await deleteLibraryCollection(collectionId);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Sammlung konnte nicht gelöscht werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sDeleteCollectionMock).toHaveBeenCalledTimes(1);
+      expect(sDeleteCollectionMock).toHaveBeenCalledWith(collectionId, user.id);
    });
 });

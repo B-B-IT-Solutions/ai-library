@@ -423,3 +423,22 @@ describe("updateCollection tests", () => {
       );
    });
 });
+
+describe("deleteCollection tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("deleteCollection - collection deleted - test", async () => {
+      const userId = "user-id-1";
+      const collectionId = "collection-id-1";
+
+      await libraryService.deleteCollection(collectionId, userId);
+
+      expect(libraryRepoMock.pDeleteCollection).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pDeleteCollection).toHaveBeenCalledWith(
+         collectionId,
+         userId
+      );
+   });
+});
