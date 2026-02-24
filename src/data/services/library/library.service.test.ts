@@ -389,7 +389,7 @@ describe("createCollection tests", () => {
       jest.clearAllMocks();
    });
 
-   it("createCollection - collections retrieved - test", async () => {
+   it("createCollection - collection created - test", async () => {
       const userId = "user-id-1";
       const data = dtestData.dLibraryCollectionUpdate();
 
@@ -397,6 +397,27 @@ describe("createCollection tests", () => {
 
       expect(libraryRepoMock.pCreateCollection).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pCreateCollection).toHaveBeenCalledWith(
+         userId,
+         data
+      );
+   });
+});
+
+describe("updateCollection tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("updateCollection - collection updated - test", async () => {
+      const userId = "user-id-1";
+      const collectionId = "collection-id-1";
+      const data = dtestData.dLibraryCollectionUpdate();
+
+      await libraryService.updateCollection(collectionId, userId, data);
+
+      expect(libraryRepoMock.pUpdateCollection).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pUpdateCollection).toHaveBeenCalledWith(
+         collectionId,
          userId,
          data
       );

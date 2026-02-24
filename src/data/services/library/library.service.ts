@@ -153,7 +153,7 @@ export class LibraryService {
       collectionId: string,
       userId: string,
       data: DLibraryCollectionUpdate
-   ): Promise<void> {
+   ) {
       await this.libraryRepository.pUpdateCollection(
          collectionId,
          userId,
