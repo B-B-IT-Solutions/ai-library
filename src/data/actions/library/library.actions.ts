@@ -313,6 +313,22 @@ export const removeEntryFromCollection = async (
    }
 };
 
+export const getEntryCollectionIds = async (
+   entryId: string
+): Promise<string[]> => {
+   try {
+      if (!isValidUuid(entryId)) {
+         throw new Error("Invalid Entry ID.");
+      }
+
+      const service = getLibrarySevice();
+      return await service.getEntryCollectionIds(entryId);
+   } catch (error) {
+      console.error(formatError(error));
+      return [];
+   }
+};
+
 const getLibrarySevice = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getLibraryService();

@@ -21,6 +21,7 @@ import {
    addEntryToCollection,
    createLibraryCollection,
    deleteLibraryCollection,
+   getEntryCollectionIds,
    getLibraryCollections,
    getLibraryEntriesPage,
    removeEntryFromCollection,
@@ -284,5 +285,17 @@ export const useRemoveFromCollection = (): UseMutationResult<
       onSuccess: () => {
          queryClient.invalidateQueries({ queryKey: libraryKeys.all });
       },
+   });
+};
+
+export const useLoadEntryCollectionIds = (
+   entryId: string,
+   enabled: boolean
+): UseQueryResult<string[]> => {
+   return useQuery({
+      queryKey: libraryKeys.entry(entryId),
+      queryFn: () => getEntryCollectionIds(entryId),
+      enabled,
+      staleTime: 5 * 60 * 1000,
    });
 };

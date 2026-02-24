@@ -22,18 +22,3 @@ export type LibraryCollectionWithCount = Prisma.LibraryCollectionGetPayload<{
       };
    };
 }>;
-
-export type LibraryEntryWithCollections = Prisma.LibraryEntryGetPayload<{
-   include: {
-      templateDescriptor: {
-         include: {
-            categories: true;
-         };
-      };
-      collectionEntries: {
-         select: {
-            collectionId: true;
-         };
-      };
-   };
-}>;

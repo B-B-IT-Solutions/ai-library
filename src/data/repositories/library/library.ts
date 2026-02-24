@@ -3,7 +3,6 @@ import { flatMap, map, uniq } from "es-toolkit/compat";
 import { DbClient } from "@/data/types/db/common";
 import {
    LibraryCollectionWithCount,
-   LibraryEntryWithCollections,
    LibraryEntryWithPromptTemplateDescriptor,
 } from "@/data/types/db/library";
 import {
@@ -159,14 +158,11 @@ export class LibraryRepository {
                      categories: true,
                   },
                },
-               collectionEntries: {
-                  select: { collectionId: true },
-               },
             },
             orderBy: this.resolveSortOrder(query?.filter),
             skip,
             take: pageSize,
-         }) as Promise<LibraryEntryWithCollections[]>,
+         }) as Promise<LibraryEntryWithPromptTemplateDescriptor[]>,
          this.prisma.libraryEntry.count({ where }),
       ]);
 
@@ -355,9 +351,6 @@ export class LibraryRepository {
                            categories: true,
                         },
                      },
-                     collectionEntries: {
-                        select: { collectionId: true },
-                     },
                   },
                },
             },
@@ -367,8 +360,18 @@ export class LibraryRepository {
          });
 
       return map(collectionEntries, (ce) =>
-         toDLibraryEntry(ce.entry as LibraryEntryWithCollections)
+         toDLibraryEntry(ce.entry as LibraryEntryWithPromptTemplateDescriptor)
       );
+   }
+
+   async pGetEntryCollectionIds(entryId: string): Promise<string[]> {
+      const collectionEntries =
+         await this.prisma.libraryCollectionEntry.findMany({
+            where: { entryId },
+            select: { collectionId: true },
+         });
+
+      return map(collectionEntries, (ce) => ce.collectionId);
    }
 
    // ==================== Private Helpers ====================

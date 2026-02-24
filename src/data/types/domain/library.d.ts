@@ -25,7 +25,6 @@ export type DLibraryEntry = {
    templateDescriptorId: string;
    templateDescriptor: DPromptTemplateDescriptor;
    isFavorite: boolean;
-   collections: string[]; // Collection IDs
    createdAt: string;
    updatedAt: string;
 };

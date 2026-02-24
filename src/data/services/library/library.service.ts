@@ -11,7 +11,6 @@ import {
    DLibraryCollectionUpdate,
    DLibraryEntriesPage,
    DLibraryEntriesPageQuery,
-   DLibraryEntry,
    DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
@@ -176,7 +175,7 @@ export class LibraryService {
       await this.libraryRepository.pRemoveFromCollection(collectionId, entryId);
    }
 
-   async getCollectionEntries(collectionId: string): Promise<DLibraryEntry[]> {
-      return await this.libraryRepository.pGetCollectionEntries(collectionId);
+   async getEntryCollectionIds(entryId: string): Promise<string[]> {
+      return await this.libraryRepository.pGetEntryCollectionIds(entryId);
    }
 }

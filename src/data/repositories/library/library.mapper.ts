@@ -6,7 +6,6 @@ import {
 } from "@/data/repositories/prompt-template/prompt.template.mapper";
 import {
    LibraryCollectionWithCount,
-   LibraryEntryWithCollections,
    LibraryEntryWithPromptTemplate,
    LibraryEntryWithPromptTemplateDescriptor,
 } from "@/data/types/db/library";
@@ -23,19 +22,14 @@ export const toDLibraryEntries = (
 };
 
 export const toDLibraryEntry = (
-   entry: LibraryEntryWithPromptTemplateDescriptor | LibraryEntryWithCollections
+   entry: LibraryEntryWithPromptTemplateDescriptor
 ): DLibraryEntry => {
-   const collections = "collectionEntries" in entry
-      ? map(entry.collectionEntries, (ce) => ce.collectionId)
-      : [];
-
    return {
       id: entry.id,
       userId: entry.userId,
       templateDescriptorId: entry.templateDescriptorId,
       templateDescriptor: toDPromptTemplateDescriptor(entry.templateDescriptor),
       isFavorite: entry.isFavorite,
-      collections,
       createdAt: entry.createdAt.toISOString(),
       updatedAt: entry.updatedAt.toISOString(),
    };
@@ -44,10 +38,6 @@ export const toDLibraryEntry = (
 export const toDLibraryEntryWithPromptTemplate = (
    entry: LibraryEntryWithPromptTemplate
 ): DLibraryEntryWithPromptTemplate => {
-   const collections = "collectionEntries" in entry
-      ? map(entry.collectionEntries, (ce) => ce.collectionId)
-      : [];
-
    return {
       id: entry.id,
       userId: entry.userId,
@@ -56,7 +46,6 @@ export const toDLibraryEntryWithPromptTemplate = (
          entry.templateDescriptor
       ),
       isFavorite: entry.isFavorite,
-      collections,
       createdAt: entry.createdAt.toISOString(),
       updatedAt: entry.updatedAt.toISOString(),
    };

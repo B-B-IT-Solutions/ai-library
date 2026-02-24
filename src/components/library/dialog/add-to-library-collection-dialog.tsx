@@ -1,8 +1,8 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { isEmpty, map } from "es-toolkit/compat";
-import { Folder, Plus } from "lucide-react";
+import { Folder, Loader, Plus } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
@@ -18,6 +18,7 @@ import {
 import { Label } from "@/components/shadcn/label";
 import {
    useAddToCollection,
+   useLoadEntryCollectionIds,
    useRemoveFromCollection,
 } from "@/data/ts-queries/library";
 import { DLibraryCollection, DLibraryEntry } from "@/data/types/domain/library";
@@ -41,9 +42,18 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
    const { mutate: removeFromCollection } = useRemoveFromCollection();
    const [showCreateDialog, setShowCreateDialog] = useState(false);
 
-   const [selectedCollections, setSelectedCollections] = useState<string[]>(
-      entry.collections
+   const [selectedCollections, setSelectedCollections] = useState<string[]>([]);
+
+   const { data: entryCollectionIds, isLoading } = useLoadEntryCollectionIds(
+      entry.id,
+      open
    );
+
+   useEffect(() => {
+      if (entryCollectionIds) {
+         setSelectedCollections(entryCollectionIds);
+      }
+   }, [entryCollectionIds]);
 
    const handleToggle = (collectionId: string) => {
       const isCurrentlyInCollection =
@@ -126,6 +136,17 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
    };
 
    const renderCollections = () => {
+      if (isLoading) {
+         return (
+            <div
+               className="flex items-center justify-center py-8"
+               data-testid="collections-loading"
+            >
+               <Loader className="h-5 w-5 animate-spin text-slate-400" />
+            </div>
+         );
+      }
+
       if (isEmpty(collections)) {
          return (
             <div className="py-8 text-center">
