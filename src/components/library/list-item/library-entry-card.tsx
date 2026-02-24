@@ -1,8 +1,8 @@
 "use client";
 
 import { FC, useState } from "react";
-import { find, isEmpty, map } from "es-toolkit/compat";
-import { Eye, Folder, FolderPlus, MoreVertical } from "lucide-react";
+import { map } from "es-toolkit/compat";
+import { Eye, FolderPlus, MoreVertical } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
@@ -30,11 +30,6 @@ export const LibraryEntryCard: FC<Props> = ({ entry, collections }) => {
    const [showAddToCollectionDialog, setShowAddToCollectionDialog] =
       useState(false);
 
-   const getCollectionName = (collectionId: string) => {
-      const collection = find(collections, (c) => c.id === collectionId);
-      return collection?.name || "Unbekannt";
-   };
-
    const categories = () => {
       return (
          <div className="mb-2 flex flex-wrap gap-1" data-testid="categories">
@@ -48,29 +43,6 @@ export const LibraryEntryCard: FC<Props> = ({ entry, collections }) => {
             ))}
          </div>
       );
-   };
-
-   const badges = () => {
-      if (!isEmpty(entry.collections)) {
-         return (
-            <div className="flex flex-wrap gap-1" data-testid="badges">
-               {map(entry.collections.slice(0, 3), (collectionId) => (
-                  <span
-                     key={collectionId}
-                     className="inline-flex items-center rounded-md border border-blue-200 bg-blue-50 px-2 py-0.5 text-xs text-blue-700"
-                  >
-                     <Folder className="mr-1 h-3 w-3" />
-                     {getCollectionName(collectionId)}
-                  </span>
-               ))}
-               {entry.collections.length > 3 && (
-                  <span className="inline-flex items-center rounded-md border border-slate-200 bg-slate-100 px-2 py-0.5 text-xs text-slate-600">
-                     +{entry.collections.length - 3} mehr
-                  </span>
-               )}
-            </div>
-         );
-      }
    };
 
    const dropdownMenu = () => {
@@ -140,7 +112,6 @@ export const LibraryEntryCard: FC<Props> = ({ entry, collections }) => {
 
          <CardContent className="grid gap-3 p-5">
             {categories()}
-            {badges()}
 
             <p className="line-clamp-3 text-sm leading-relaxed text-slate-700">
                {template.description}
