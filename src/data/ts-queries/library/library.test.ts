@@ -2,7 +2,6 @@ jest.mock("@/data/actions/library");
 
 import {
    InfiniteData,
-   InvalidateQueryFilters,
    keepPreviousData,
    MutationFunctionContext,
    QueryClient,
@@ -42,12 +41,18 @@ import {
    preloadLibraryCollectionsOptions,
    preloadLibraryEntriesOptions,
    toggleFavoriteOptions,
+   updateCollectionOptions,
    useCreateCollection,
    useInfiniteLoadLibraryEntries,
    useLoadLibraryCollections,
    useToggleFavorite,
+   useUpdateCollection,
 } from "./library";
-import { LoadLibraryEntriesParams, UpdateIsFavoriteParams } from "./types";
+import {
+   LoadLibraryEntriesParams,
+   UpdateCollectionParams,
+   UpdateIsFavoriteParams,
+} from "./types";
 
 const queryClientMock = mockDeep<QueryClient>();
 
@@ -72,6 +77,11 @@ const toggleLibraryEntryFavoriteMock =
 const createLibraryCollectionMock =
    createLibraryCollection as jest.MockedFunction<
       typeof createLibraryCollection
+   >;
+
+const updateLibraryCollectionMock =
+   updateLibraryCollection as jest.MockedFunction<
+      typeof updateLibraryCollection
    >;
 
 describe("prefetch options tests", () => {
@@ -284,7 +294,8 @@ describe("createCollection hooks tests", () => {
 
       const options = createCollectionOptions(queryClientMock);
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
-      expect(queryClientMock.invalidateQueries).not.toHaveBeenCalled();
+      expect(queryClientMock.getQueryData).not.toHaveBeenCalled();
+      expect(queryClientMock.setQueryData).not.toHaveBeenCalled();
 
       const result1: ActionResult<DLibraryCollection> = {
          success: true,
@@ -340,6 +351,90 @@ describe("createCollection hooks tests", () => {
          expect(createLibraryCollectionMock).toHaveBeenCalledTimes(1);
          expect(createLibraryCollectionMock).toHaveBeenCalledWith(
             newCollection
+         );
+      });
+   });
+});
+
+describe("updateCollection hooks tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("updateCollectionOptions test", async () => {
+      const expectedOptions: UseMutationOptions<
+         ActionResult,
+         Error,
+         DLibraryCollection
+      > = {
+         mutationFn: jest.fn(),
+         onSuccess: jest.fn(),
+      };
+
+      const options = updateCollectionOptions(queryClientMock);
+      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
+      expect(queryClientMock.setQueryData).not.toHaveBeenCalled();
+
+      const result: ActionResult = {
+         success: true,
+         message: "Collection updated",
+         data: undefined,
+      };
+
+      const update = dtestData.dLibraryCollectionUpdate(789);
+      const collection1 = dtestData.dLibraryCollection(1);
+      const collection2 = dtestData.dLibraryCollection(2);
+
+      const params: UpdateCollectionParams = {
+         collectionId: collection1.id,
+         data: update,
+      };
+
+      options.onSuccess!(result, params, undefined, mutationContextMock);
+
+      const expectedQueryKey: QueryKey = ["library", "collections"];
+      expect(queryClientMock.setQueryData).toHaveBeenCalledTimes(1);
+      expect(queryClientMock.setQueryData).toHaveBeenCalledWith(
+         expectedQueryKey,
+         expect.any(Function)
+      );
+
+      const updaterFn = queryClientMock.setQueryData.mock.calls[0][1] as (
+         col: DLibraryCollection
+      ) => void;
+
+      const updatedCollection1 = updaterFn(collection1);
+      const expectedUpdatedCollection1 = { ...collection1, ...update };
+      expect(updatedCollection1).toEqual(expectedUpdatedCollection1);
+
+      const updatedCollection2 = updaterFn(collection2);
+      expect(updatedCollection2).toEqual(collection2);
+   });
+
+   test("useUpdateCollection test", async () => {
+      const actionResult: ActionResult = {
+         success: true,
+         message: "Collection updated",
+      };
+      updateLibraryCollectionMock.mockResolvedValue(actionResult);
+
+      const { result } = renderHookWithReactQuery(() => useUpdateCollection());
+
+      const update = dtestData.dLibraryCollectionUpdate(789);
+      const collection = dtestData.dLibraryCollection(1);
+
+      const params: UpdateCollectionParams = {
+         collectionId: collection.id,
+         data: update,
+      };
+
+      await waitFor(() => {
+         result.current.mutate(params);
+         expect(result.current.isSuccess).toBe(true);
+         expect(updateLibraryCollectionMock).toHaveBeenCalledTimes(1);
+         expect(updateLibraryCollectionMock).toHaveBeenCalledWith(
+            params.collectionId,
+            params.data
          );
       });
    });

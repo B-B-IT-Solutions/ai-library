@@ -287,7 +287,7 @@ export class LibraryRepository {
       collectionId: string,
       userId: string,
       data: DLibraryCollectionUpdate
-   ): Promise<void> {
+   ) {
       await this.prisma.libraryCollection.update({
          where: {
             id: collectionId,
@@ -302,10 +302,7 @@ export class LibraryRepository {
       });
    }
 
-   async pDeleteCollection(
-      collectionId: string,
-      userId: string
-   ): Promise<void> {
+   async pDeleteCollection(collectionId: string, userId: string) {
       await this.prisma.libraryCollection.delete({
          where: {
             id: collectionId,
@@ -316,10 +313,7 @@ export class LibraryRepository {
 
    // ==================== Collection Entries ====================
 
-   async pAddToCollection(
-      collectionId: string,
-      entryId: string
-   ): Promise<void> {
+   async pAddToCollection(collectionId: string, entryId: string) {
       const input: LibraryCollectionEntryCreateInput = {
          collection: {
             connect: {
@@ -338,10 +332,7 @@ export class LibraryRepository {
       });
    }
 
-   async pRemoveFromCollection(
-      collectionId: string,
-      entryId: string
-   ): Promise<void> {
+   async pRemoveFromCollection(collectionId: string, entryId: string) {
       await this.prisma.libraryCollectionEntry.delete({
          where: {
             collectionId_entryId: {

@@ -36,7 +36,11 @@ import { ActionResult } from "@/data/types/utils";
 import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
 import { getNextPageParam, pageQuery } from "../utils";
 
-import { LoadLibraryEntriesParams, UpdateIsFavoriteParams } from "./types";
+import {
+   LoadLibraryEntriesParams,
+   UpdateCollectionParams,
+   UpdateIsFavoriteParams,
+} from "./types";
 import { libraryKeys } from "./utils";
 
 export const preloadLibraryEntriesOptions = (
@@ -179,27 +183,34 @@ export const useCreateCollection = (): UseMutationResult<
    return useMutation(createCollectionOptions(queryClient));
 };
 
+export const updateCollectionOptions = (
+   queryClient: QueryClient
+): UseMutationOptions<ActionResult, Error, UpdateCollectionParams> => {
+   return {
+      mutationFn: async (params: UpdateCollectionParams) => {
+         const { collectionId, data } = params;
+         return await updateLibraryCollection(collectionId, data);
+      },
+      onSuccess: (_, params) => {
+         const updater = (col?: DLibraryCollection) => {
+            if (col?.id === params.collectionId) {
+               return { ...col, ...params.data };
+            }
+            return col;
+         };
+
+         queryClient.setQueryData(libraryKeys.collections(), updater);
+      },
+   };
+};
+
 export const useUpdateCollection = (): UseMutationResult<
    ActionResult,
    Error,
-   { collectionId: string; data: DLibraryCollectionUpdate }
+   UpdateCollectionParams
 > => {
    const queryClient = useQueryClient();
-
-   return useMutation({
-      mutationFn: async ({
-         collectionId,
-         data,
-      }: {
-         collectionId: string;
-         data: DLibraryCollectionUpdate;
-      }) => {
-         return await updateLibraryCollection(collectionId, data);
-      },
-      onSuccess: () => {
-         queryClient.invalidateQueries({ queryKey: libraryKeys.collections() });
-      },
-   });
+   return useMutation(updateCollectionOptions(queryClient));
 };
 
 export const useDeleteCollection = (): UseMutationResult<
