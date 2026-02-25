@@ -15,9 +15,11 @@ import {
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
 import { DLibraryCollection, DLibraryEntry } from "@/data/types/domain/library";
-import { AddToFavoriteButton } from "../buttons/add-to-favorite-button";
-import { CreatePromptButton } from "../buttons/create-prompt-button";
-import { DownloadTemplateButton } from "../buttons/download-template-button";
+import {
+   AddToFavoriteButton,
+   CreatePromptButton,
+   DownloadTemplateButton,
+} from "../buttons";
 import { AddToLibraryCollectionDialog } from "../collections";
 
 type Props = {

@@ -27,7 +27,7 @@ export const EditLibraryEntryPage = async ({ params }: PageProps) => {
 
    return (
       <div
-         className="flex h-screen flex-col bg-slate-50"
+         className="h-screen bg-slate-50"
          data-testid="edit-library-entry-page"
       >
          <LibraryEntryEdit entry={entry} />
