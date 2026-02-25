@@ -142,11 +142,7 @@ export const LibraryEntryForm: FC<Props> = ({ entry }) => {
    };
 
    return (
-      <Card
-         data-testid={
-            isEdit ? "edit-library-entry-form" : "new-library-entry-form"
-         }
-      >
+      <Card data-testid="library-entry-edit-form">
          <CardHeader className="border-b pb-6">
             <CardTitle className="text-2xl font-bold text-slate-900">
                {isEdit ? "Vorlage bearbeiten" : "Neue Vorlage erstellen"}

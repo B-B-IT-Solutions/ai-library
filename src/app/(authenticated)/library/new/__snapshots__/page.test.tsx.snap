@@ -8,7 +8,7 @@ exports[`NewLibraryEntryPage rendering tests NewLibraryEntryPage rendered test 1
   >
     <div
       class="flex h-screen flex-col bg-slate-50"
-      data-testid="library-entry-new"
+      data-testid="library-entry-edit"
     >
       <div
         class="border-b border-slate-200 bg-white px-6 py-4"

@@ -10,10 +10,10 @@ const expectedMetadata: Metadata = {
 
 const assertRendered = () => {
    const page = screen.getByTestId("new-library-entry-page");
-   const newEntry = screen.getByTestId("library-entry-new");
+   const entryEdit = screen.getByTestId("library-entry-edit");
 
    assertInDocument(page);
-   assertInDocument(newEntry);
+   assertInDocument(entryEdit);
 };
 
 describe("NewLibraryEntryPage rendering tests", () => {
