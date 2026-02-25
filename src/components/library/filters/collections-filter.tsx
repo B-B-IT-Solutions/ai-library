@@ -24,7 +24,7 @@ type Props = {
    filters: DLibraryEntriesFilter;
 };
 
-export const LibraryQuickNav: FC<Props> = () => {
+export const CollectionsFilter: FC<Props> = () => {
    const [f_collectionIds, setCollectionIds] = useQueryState(
       "f_collectionIds",
       librarySearchParams["f_collectionIds"]
