@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 
-import { DLibrarySearchParamsFiltersType } from "../search-params";
+import { DLibrarySearchParamsFiltersType } from "../../../search-params";
 
 export class LibraryEntryFiltersHelper {
    private filters: DLibrarySearchParamsFiltersType;

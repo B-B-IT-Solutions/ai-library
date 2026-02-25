@@ -60,7 +60,7 @@ export const PromptTemplateFields: FC<Props> = ({
    const renderField = (field: DPromptTemplateField, idx: number) => {
       const fieldName = watch(`fields.${idx}.name`);
       const isUsed = detectedVariables.includes(fieldName);
-      const hasName = fieldName && fieldName.trim() !== "";
+      const hasName = !isEmpty(fieldName);
 
       return (
          <PromptTemplateField
