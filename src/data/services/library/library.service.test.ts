@@ -443,6 +443,32 @@ describe("deleteCollection tests", () => {
    });
 });
 
+describe("getEntryCollectionIds tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("getEntryCollectionIds - collectionId retrieved - test", async () => {
+      const userId = "user-id-1";
+      const entryId = "entry-id-1";
+      const collectionIds = dtestData.dLibraryCollectionIds();
+
+      libraryRepoMock.pGetEntryCollectionIds.mockResolvedValue(collectionIds);
+
+      const result = await libraryService.getEntryCollectionIds(
+         userId,
+         entryId
+      );
+
+      expect(result).toEqual(collectionIds);
+      expect(libraryRepoMock.pGetEntryCollectionIds).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetEntryCollectionIds).toHaveBeenCalledWith(
+         userId,
+         entryId
+      );
+   });
+});
+
 describe("updateEntryCollections tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
