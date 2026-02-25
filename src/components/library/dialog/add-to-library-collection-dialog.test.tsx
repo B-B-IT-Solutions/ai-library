@@ -18,7 +18,10 @@ import {
    useLoadEntryCollectionIds,
    useUpdateEntryCollections,
 } from "@/data/ts-queries/library";
-import { UpdateCollectionIdsParams } from "@/data/ts-queries/library/types";
+import {
+   LoadCollectionIdsParams,
+   UpdateCollectionIdsParams,
+} from "@/data/ts-queries/library/types";
 import { ActionResult } from "@/data/types/utils";
 
 import { AddToLibraryCollectionDialog } from "./add-to-library-collection-dialog";
@@ -108,6 +111,15 @@ const assertSaveBtnDisabled = () => {
    assertHasAttributeWithValue(saveBtn, "disabled", "");
 };
 
+const assertEntryCollectionIdsLoaded = (entryId: string, enabled: boolean) => {
+   const expectedParams: LoadCollectionIdsParams = {
+      entryId,
+      enabled,
+   };
+   expect(useLoadEntryCollectionIdsMock).toHaveBeenCalledTimes(1);
+   expect(useLoadEntryCollectionIdsMock).toHaveBeenCalledWith(expectedParams);
+};
+
 describe("AddToLibraryCollectionDialog rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -138,6 +150,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
 
       await waitFor(() => {
          assertDialogRendered();
+         assertEntryCollectionIdsLoaded(entry.id, true);
       });
 
       expect(container).toMatchSnapshot();
@@ -193,6 +206,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       await waitFor(() => {
          assertDialogRendered();
          assertCollectionsEmptyRendered();
+         assertEntryCollectionIdsLoaded(entry.id, true);
       });
 
       expect(container).toMatchSnapshot();
@@ -246,6 +260,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
 
       await waitFor(() => {
          assertDialogNotRendered();
+         assertEntryCollectionIdsLoaded(entry.id, false);
       });
 
       expect(container).toMatchSnapshot();

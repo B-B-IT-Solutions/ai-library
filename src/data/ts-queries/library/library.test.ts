@@ -19,6 +19,7 @@ import { mockDeep } from "jest-mock-extended";
 import {
    createLibraryCollection,
    deleteLibraryCollection,
+   getEntryCollectionIds,
    getLibraryCollections,
    getLibraryEntriesPage,
    toggleLibraryEntryFavorite,
@@ -37,6 +38,7 @@ import {
    createCollectionOptions,
    deleteCollectionOptions,
    infiniteLoadLibraryEntriesOptions,
+   loadEntryCollectionIdsOptions,
    loadLibraryCollectionsOptions,
    preloadLibraryCollectionsOptions,
    preloadLibraryEntriesOptions,
@@ -46,12 +48,14 @@ import {
    useCreateCollection,
    useDeleteCollection,
    useInfiniteLoadLibraryEntries,
+   useLoadEntryCollectionIds,
    useLoadLibraryCollections,
    useToggleFavorite,
    useUpdateCollection,
    useUpdateEntryCollections,
 } from "./library";
 import {
+   LoadCollectionIdsParams,
    LoadLibraryEntriesParams,
    UpdateCollectionIdsParams,
    UpdateCollectionParams,
@@ -95,6 +99,10 @@ const deleteLibraryCollectionMock =
 
 const updateEntryCollectionsMock =
    updateEntryCollections as jest.MockedFunction<typeof updateEntryCollections>;
+
+const getEntryCollectionIdsMock = getEntryCollectionIds as jest.MockedFunction<
+   typeof getEntryCollectionIds
+>;
 
 describe("prefetch options tests", () => {
    beforeEach(() => {
@@ -517,6 +525,59 @@ describe("deleteCollection hooks tests", () => {
          expect(deleteLibraryCollectionMock).toHaveBeenCalledWith(
             collection.id
          );
+      });
+   });
+});
+
+describe("loadEntityCollectionIds hooks tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("loadEntryCollectionIdsOptions - test", async () => {
+      const entryId = "entry-id-1";
+      const enabled = true;
+
+      const expectedOptions: UndefinedInitialDataOptions<
+         string[],
+         Error,
+         string[]
+      > = {
+         queryKey: ["library", "entry", entryId, "collections"],
+         queryFn: jest.fn(),
+         placeholderData: keepPreviousData,
+         enabled: enabled,
+         staleTime: 5 * 60 * 1000,
+      };
+
+      const params: LoadCollectionIdsParams = {
+         entryId,
+         enabled,
+      };
+
+      const options = loadEntryCollectionIdsOptions(params);
+      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
+   });
+
+   test("useLoadEntryCollectionIds test", async () => {
+      const entryId = "entry-id-1";
+      const enabled = true;
+
+      const collectionIds = dtestData.dLibraryCollectionIds();
+      getEntryCollectionIdsMock.mockResolvedValue(collectionIds);
+
+      const params: LoadCollectionIdsParams = {
+         entryId,
+         enabled,
+      };
+
+      const { result } = renderHookWithReactQuery(() =>
+         useLoadEntryCollectionIds(params)
+      );
+
+      await waitFor(() => {
+         expect(result.current.data).toEqual(collectionIds);
+         expect(getEntryCollectionIdsMock).toHaveBeenCalledTimes(1);
       });
    });
 });

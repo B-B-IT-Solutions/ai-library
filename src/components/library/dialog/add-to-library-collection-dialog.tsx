@@ -45,10 +45,10 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
 
    const [selectedColIds, setSelectedColdIds] = useState<string[]>([]);
 
-   const { data: entryCollectionIds, isLoading } = useLoadEntryCollectionIds(
-      entry.id,
-      open
-   );
+   const { data: entryCollectionIds, isLoading } = useLoadEntryCollectionIds({
+      entryId: entry.id,
+      enabled: open,
+   });
 
    useEffect(() => {
       if (entryCollectionIds && !initializedRef.current) {

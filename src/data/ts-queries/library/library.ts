@@ -38,6 +38,7 @@ import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
 import { getNextPageParam, pageQuery } from "../utils";
 
 import {
+   LoadCollectionIdsParams,
    LoadLibraryEntriesParams,
    UpdateCollectionIdsParams,
    UpdateCollectionParams,
@@ -242,16 +243,23 @@ export const useDeleteCollection = (): UseMutationResult<
    return useMutation(deleteCollectionOptions(queryClient));
 };
 
-export const useLoadEntryCollectionIds = (
-   entryId: string,
-   enabled: boolean
-): UseQueryResult<string[]> => {
-   return useQuery({
+export const loadEntryCollectionIdsOptions = (
+   params: LoadCollectionIdsParams
+): UndefinedInitialDataOptions<string[], Error, string[]> => {
+   const { entryId, enabled } = params;
+   return {
       queryKey: libraryKeys.entryCollections(entryId),
       queryFn: () => getEntryCollectionIds(entryId),
+      placeholderData: keepPreviousData,
       enabled,
       staleTime: 5 * 60 * 1000,
-   });
+   };
+};
+
+export const useLoadEntryCollectionIds = (
+   params: LoadCollectionIdsParams
+): UseQueryResult<string[]> => {
+   return useQuery(loadEntryCollectionIdsOptions(params));
 };
 
 export const updateEntryCollectionsOptions = (

@@ -17,6 +17,11 @@ export type UpdateCollectionParams = {
    data: DLibraryCollectionUpdate;
 };
 
+export type LoadCollectionIdsParams = {
+   entryId: string;
+   enabled: boolean;
+};
+
 export type UpdateCollectionIdsParams = {
    entryId: string;
    collectionIds: string[];
