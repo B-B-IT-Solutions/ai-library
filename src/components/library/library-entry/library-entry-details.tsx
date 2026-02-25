@@ -1,10 +1,15 @@
 import { FC } from "react";
 import { isEmpty, map } from "es-toolkit/compat";
-import { ArrowLeft, Edit2 } from "lucide-react";
+import { ArrowLeft, Edit2, MoreVertical } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
+import {
+   DropdownMenu,
+   DropdownMenuContent,
+   DropdownMenuTrigger,
+} from "@/components/shadcn/dropdown-menu";
 import { MDRenderer } from "@/components/shared/md";
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
 import { CreatePromptButton } from "../buttons/create-prompt-button";
@@ -56,7 +61,7 @@ export const LibraryEntryDetails: FC<LibraryEntryDetailsProps> = ({
          <div className="mx-auto max-w-4xl">
             <Card className="rounded-lg border border-slate-300 bg-white">
                <CardHeader className="border-b border-slate-200">
-                  <div className="flex items-start justify-between">
+                  <div className="flex items-start justify-between gap-4">
                      <div className="flex-1">
                         <h1 className="mb-3 text-3xl font-bold text-slate-900">
                            {descriptor.title}
@@ -64,6 +69,38 @@ export const LibraryEntryDetails: FC<LibraryEntryDetailsProps> = ({
                         <span className="inline-block rounded-md border border-blue-200 bg-blue-100 px-3 py-1 text-sm text-blue-700">
                            {descriptor.recommendedModel}
                         </span>
+                     </div>
+                     <div className="flex shrink-0 items-center gap-2">
+                        <CreatePromptButton descriptor={descriptor} />
+                        <Link href={`/library/${entry.id}/edit`}>
+                           <Button
+                              variant="outline"
+                              size="sm"
+                              className="cursor-pointer gap-2"
+                              data-testid="edit-entry-button"
+                           >
+                              <Edit2 className="h-4 w-4" />
+                              Bearbeiten
+                           </Button>
+                        </Link>
+                        <DropdownMenu>
+                           <DropdownMenuTrigger asChild>
+                              <Button
+                                 variant="ghost"
+                                 size="sm"
+                                 className="cursor-pointer"
+                                 data-testid="more-options-btn"
+                              >
+                                 <MoreVertical className="h-4 w-4" />
+                              </Button>
+                           </DropdownMenuTrigger>
+                           <DropdownMenuContent align="end">
+                              <DownloadTemplateButton
+                                 descriptor={descriptor}
+                                 asMenuItem
+                              />
+                           </DropdownMenuContent>
+                        </DropdownMenu>
                      </div>
                   </div>
                   {categories()}
@@ -87,21 +124,6 @@ export const LibraryEntryDetails: FC<LibraryEntryDetailsProps> = ({
                   </div>
 
                   <PromptTextDisplay template={descriptor.promptTemplate} />
-
-                  <div className="flex gap-3 border-t border-slate-200 pt-4">
-                     <CreatePromptButton descriptor={descriptor} />
-                     <DownloadTemplateButton descriptor={descriptor} />
-                     <Link href={`/library/${entry.id}/edit`} className="ml-auto">
-                        <Button
-                           variant="outline"
-                           className="cursor-pointer gap-2"
-                           data-testid="edit-entry-button"
-                        >
-                           <Edit2 className="h-4 w-4" />
-                           Bearbeiten
-                        </Button>
-                     </Link>
-                  </div>
                </CardContent>
             </Card>
          </div>
