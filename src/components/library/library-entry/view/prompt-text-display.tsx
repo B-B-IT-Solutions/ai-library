@@ -1,17 +1,17 @@
 "use client";
 
-import { FC, useState } from "react";
+import { useState } from "react";
 import { Check, ChevronDown, ChevronRight, Copy } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
 import { DPromptTemplate } from "@/data/types/domain/prompt.template";
 import { cn } from "@/lib/utils";
 
-type PromptTextDisplayProps = {
+type Props = {
    template: DPromptTemplate;
 };
 
-export const PromptTextDisplay: FC<PromptTextDisplayProps> = ({ template }) => {
+export const PromptTextDisplay = ({ template }: Props) => {
    const [expanded, setExpanded] = useState(true);
    const [copied, setCopied] = useState(false);
 

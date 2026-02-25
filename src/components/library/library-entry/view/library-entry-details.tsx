@@ -1,4 +1,3 @@
-import { FC } from "react";
 import { isEmpty, map } from "es-toolkit/compat";
 import { ArrowLeft, Edit2, MoreVertical } from "lucide-react";
 import Link from "next/link";
@@ -16,13 +15,11 @@ import { CreatePromptButton, DownloadTemplateButton } from "../../buttons";
 
 import { PromptTextDisplay } from "./prompt-text-display";
 
-type LibraryEntryDetailsProps = {
+type Props = {
    entry: DLibraryEntryWithPromptTemplate;
 };
 
-export const LibraryEntryDetails: FC<LibraryEntryDetailsProps> = ({
-   entry,
-}) => {
+export const LibraryEntryDetails = ({ entry }: Props) => {
    const { templateDescriptor: descriptor } = entry;
 
    const categories = () => {

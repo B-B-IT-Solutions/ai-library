@@ -4,7 +4,7 @@ import { ReturnToLibraryButton } from "../../buttons";
 import { LibraryEntryForm } from "./new-library-entry-form";
 
 type Props = {
-   entry: DLibraryEntryWithPromptTemplate;
+   entry?: DLibraryEntryWithPromptTemplate;
 };
 
 export const LibraryEntryEdit = ({ entry }: Props) => {
