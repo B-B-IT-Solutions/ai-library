@@ -42,6 +42,44 @@ export class LibraryRepository {
       this.prisma = prisma;
    }
 
+   async pGetLibraryEntriesPage(
+      userId: string,
+      query?: DLibraryEntriesPageQuery
+   ): Promise<DLibraryEntriesPage> {
+      const pagination = query?.pagination;
+      const pageNumber = pagination?.pageNumber ?? 1;
+      const pageSize = pagination?.pageSize ?? 20;
+      const skip = pageNumber * pageSize;
+
+      const where = this.resolveWhereInput(userId, query?.filter);
+
+      const [entries, totalEntries] = await Promise.all([
+         this.prisma.libraryEntry.findMany({
+            where,
+            include: {
+               templateDescriptor: {
+                  include: {
+                     categories: true,
+                  },
+               },
+            },
+            orderBy: this.resolveSortOrder(query?.filter),
+            skip,
+            take: pageSize,
+         }) as Promise<LibraryEntryWithPromptTemplateDescriptor[]>,
+         this.prisma.libraryEntry.count({ where }),
+      ]);
+
+      return {
+         content: map(entries, toDLibraryEntry),
+         pageNumber,
+         pageSize,
+         numberOfElements: entries.length,
+         totalPages: Math.ceil(totalEntries / pageSize),
+         totalElements: totalEntries,
+      };
+   }
+
    async pGetLibraryEntries(userId: string): Promise<DLibraryEntry[]> {
       const entries: LibraryEntryWithPromptTemplateDescriptor[] =
          await this.prisma.libraryEntry.findMany({
@@ -134,44 +172,6 @@ export class LibraryRepository {
 
    // ==================== Filtering & Pagination ====================
 
-   async pGetLibraryEntriesPage(
-      userId: string,
-      query?: DLibraryEntriesPageQuery
-   ): Promise<DLibraryEntriesPage> {
-      const pagination = query?.pagination;
-      const pageNumber = pagination?.pageNumber ?? 1;
-      const pageSize = pagination?.pageSize ?? 20;
-      const skip = pageNumber * pageSize;
-
-      const where = this.resolveWhereInput(userId, query?.filter);
-
-      const [entries, totalEntries] = await Promise.all([
-         this.prisma.libraryEntry.findMany({
-            where,
-            include: {
-               templateDescriptor: {
-                  include: {
-                     categories: true,
-                  },
-               },
-            },
-            orderBy: this.resolveSortOrder(query?.filter),
-            skip,
-            take: pageSize,
-         }) as Promise<LibraryEntryWithPromptTemplateDescriptor[]>,
-         this.prisma.libraryEntry.count({ where }),
-      ]);
-
-      return {
-         content: map(entries, toDLibraryEntry),
-         pageNumber,
-         pageSize,
-         numberOfElements: entries.length,
-         totalPages: Math.ceil(totalEntries / pageSize),
-         totalElements: totalEntries,
-      };
-   }
-
    async pGetLibraryCategories(userId: string): Promise<string[]> {
       const entries = await this.prisma.libraryEntry.findMany({
          where: { userId },
@@ -232,11 +232,11 @@ export class LibraryRepository {
 
    async pGetCollections(userId: string): Promise<DLibraryCollection[]> {
       const collections = await this.prisma.libraryCollection.findMany({
-            where: { userId },
-            orderBy: {
-               order: "asc",
-            },
-         });
+         where: { userId },
+         orderBy: {
+            order: "asc",
+         },
+      });
 
       return toDLibraryCollections(collections);
    }
