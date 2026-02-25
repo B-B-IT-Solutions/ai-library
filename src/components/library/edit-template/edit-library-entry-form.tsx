@@ -25,14 +25,15 @@ import {
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 import { updatePromptTemplateSchema } from "@/data/types/validators/prompt";
+import { initPromptTemplateField } from "../utils";
+
 import {
    BasicInfo,
    DetectedVariables,
    PromptTemplateContent,
    PromptTemplateFields,
-} from "../create-template/sections";
-import { extractVariablesFromContent, getVariableStatus } from "../create-template/utils";
-import { initPromptTemplateField } from "../utils";
+} from "./sections";
+import { extractVariablesFromContent, getVariableStatus } from "./utils";
 
 type Props = {
    entry: DLibraryEntryWithPromptTemplate;
