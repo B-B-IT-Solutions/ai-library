@@ -127,7 +127,7 @@ exports[`PromptTemplateField rendering tests PromptTemplateField - - hasName tru
           <span
             class="text-slate-500"
           >
-            Verwenden Sie diesen Namen als {{undefined}}
+            Verwenden Sie diesen Namen als {{feldname}}
           </span>
         </p>
       </div>
@@ -414,7 +414,7 @@ exports[`PromptTemplateField rendering tests PromptTemplateField - hasName false
           <span
             class="text-slate-500"
           >
-            Verwenden Sie diesen Namen als {{undefined}}
+            Verwenden Sie diesen Namen als {{feldname}}
           </span>
         </p>
       </div>
@@ -728,7 +728,7 @@ exports[`PromptTemplateField rendering tests PromptTemplateField - hasName true 
           <span
             class="text-slate-500"
           >
-            Verwenden Sie diesen Namen als {{undefined}}
+            Verwenden Sie diesen Namen als {{feldname}}
           </span>
         </p>
       </div>

@@ -78,7 +78,7 @@ export const PromptTemplateField: FC<Props> = ({
    };
 
    const name = () => {
-      const value = watch(`fields.${index}.name`);
+      const value = watch(`fields.${index}.name`) || "feldname";
       return (
          <FormInput<DPromptTemplateUpdate>
             name={`fields.${index}.name`}
