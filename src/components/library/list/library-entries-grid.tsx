@@ -2,7 +2,8 @@ import { FC } from "react";
 import { isEmpty, map } from "es-toolkit/compat";
 
 import { DLibraryCollection, DLibraryEntry } from "@/data/types/domain/library";
-import { LibraryEntryCard } from "../list-item/library-entry-card";
+
+import { LibraryEntryCard } from "./list-item";
 
 type LibraryEntriesGridProps = {
    entries: DLibraryEntry[];

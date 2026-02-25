@@ -19,8 +19,8 @@ import {
    AddToFavoriteButton,
    CreatePromptButton,
    DownloadTemplateButton,
-} from "../buttons";
-import { AddToLibraryCollectionDialog } from "../collections";
+} from "../../buttons";
+import { AddToLibraryCollectionDialog } from "../../collections";
 
 type Props = {
    entry: DLibraryEntry;
