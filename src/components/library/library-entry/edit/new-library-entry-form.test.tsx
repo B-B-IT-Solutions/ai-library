@@ -38,7 +38,7 @@ const createLibraryEntryMock = createLibraryEntry as jest.MockedFunction<
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
 const assertRendered = () => {
-   const form = screen.getByTestId("new-library-entry-form");
+   const form = screen.getByTestId("library-entry-edit-form");
    const basicInfo = screen.getByTestId("basic-info");
    const templateContent = screen.getByTestId("prompt-template-content");
    const fields = screen.getByTestId("prompt-template-fields");

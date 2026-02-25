@@ -5,7 +5,7 @@ exports[`NewLibraryEntryForm rendering tests NewLibraryEntryForm - rendered - te
   <div
     class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
     data-slot="card"
-    data-testid="new-library-entry-form"
+    data-testid="library-entry-edit-form"
   >
     <div
       class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 border-b pb-6"
@@ -459,7 +459,7 @@ exports[`NewLibraryEntryForm rendering tests NewLibraryEntryForm - variables det
   <div
     class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
     data-slot="card"
-    data-testid="new-library-entry-form"
+    data-testid="library-entry-edit-form"
   >
     <div
       class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 border-b pb-6"
