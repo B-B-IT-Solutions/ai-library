@@ -3,8 +3,8 @@ import { FC } from "react";
 import { ListViewToggle } from "@/components/shared/buttons";
 import { DListViewMode } from "@/data/types/domain/common";
 import { DLibraryEntriesFilter } from "@/data/types/domain/library";
-import { LibraryFilters } from "../list/filters/library-filters";
 
+import { LibraryFilters } from "./filters/library-filters";
 import { GroupBySelect } from "./group-by-select";
 import { SortBySelect } from "./sort-by-select";
 
