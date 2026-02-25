@@ -271,8 +271,9 @@ export const getEntryCollectionIds = async (
          throw new Error("Invalid Entry ID.");
       }
 
+      const user = await requireUser();
       const service = getLibrarySevice();
-      return await service.getEntryCollectionIds(entryId);
+      return await service.getEntryCollectionIds(user.id, entryId);
    } catch (error) {
       console.error(formatError(error));
       return [];

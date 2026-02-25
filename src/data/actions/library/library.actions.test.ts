@@ -17,6 +17,7 @@ import {
    createLibraryEntry,
    deleteLibraryCollection,
    downloadTemplate,
+   getEntryCollectionIds,
    getLibraryCategories,
    getLibraryCollections,
    getLibraryEntriesPage,
@@ -42,6 +43,7 @@ const sGetCollections = LibraryService.prototype.getCollections;
 const sCreateCollection = LibraryService.prototype.createCollection;
 const sUpdateCollection = LibraryService.prototype.updateCollection;
 const sDeleteCollection = LibraryService.prototype.deleteCollection;
+const sGetEntryCollectionIds = LibraryService.prototype.getEntryCollectionIds;
 const sUpdateEntryCollections = LibraryService.prototype.updateEntryCollections;
 
 const sGetLibraryEntriesPageMock =
@@ -84,6 +86,8 @@ const sUpdateEntryCollectionsMock =
    sUpdateEntryCollections as jest.MockedFunction<
       typeof sUpdateEntryCollections
    >;
+const sGetEntryCollectionIdsMock =
+   sGetEntryCollectionIds as jest.MockedFunction<typeof sGetEntryCollectionIds>;
 
 describe("getLibraryEntriesPage tests", () => {
    beforeEach(() => {
@@ -903,6 +907,59 @@ describe("deleteLibraryCollection tests", () => {
       expect(result).toEqual(expectedResult);
       expect(sDeleteCollectionMock).toHaveBeenCalledTimes(1);
       expect(sDeleteCollectionMock).toHaveBeenCalledWith(collectionId, user.id);
+   });
+});
+
+describe("getEntryCollectionIds tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("getEntryCollectionIds - invalid UUID - test", async () => {
+      const invalidId = "invalid-uuid-1";
+
+      const result = await getEntryCollectionIds(invalidId);
+
+      expect(result).toEqual([]);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sGetEntryCollectionIdsMock).not.toHaveBeenCalled();
+   });
+
+   it("getEntryCollectionIds - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+
+      const result = await getEntryCollectionIds(entryId);
+
+      expect(result).toEqual([]);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetEntryCollectionIdsMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("getEntryCollectionIds - collectionIds retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const collectionIds = dtestData.dLibraryCollectionIds();
+      sGetEntryCollectionIdsMock.mockResolvedValue(collectionIds);
+
+      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+
+      const result = await getEntryCollectionIds(entryId);
+
+      expect(result).toEqual(collectionIds);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetEntryCollectionIdsMock).toHaveBeenCalledTimes(1);
+      expect(sGetEntryCollectionIdsMock).toHaveBeenCalledWith(user.id, entryId);
    });
 });
 

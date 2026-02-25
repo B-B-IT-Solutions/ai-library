@@ -164,8 +164,14 @@ export class LibraryService {
       await this.libraryRepository.pDeleteCollection(collectionId, userId);
    }
 
-   async getEntryCollectionIds(entryId: string): Promise<string[]> {
-      return await this.libraryRepository.pGetEntryCollectionIds(entryId);
+   async getEntryCollectionIds(
+      userId: string,
+      entryId: string
+   ): Promise<string[]> {
+      return await this.libraryRepository.pGetEntryCollectionIds(
+         userId,
+         entryId
+      );
    }
 
    async updateEntryCollections(

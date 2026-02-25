@@ -308,7 +308,10 @@ export class LibraryRepository {
 
    // ==================== Collection Entries ====================
 
-   async pGetEntryCollectionIds(entryId: string): Promise<string[]> {
+   async pGetEntryCollectionIds(
+      userId: string,
+      entryId: string
+   ): Promise<string[]> {
       const collectionEntries =
          await this.prisma.libraryCollectionEntry.findMany({
             where: { entryId },
