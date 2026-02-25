@@ -8,18 +8,17 @@ export const metadata: Metadata = {
    title: "Vorlage bearbeiten",
 };
 
-export type EditLibraryEntryPageParams = {
+export type PageParams = {
    id: string;
 };
 
-export type EditLibraryEntryPageProps = {
-   params: Promise<EditLibraryEntryPageParams>;
+export type PageProps = {
+   params: Promise<PageParams>;
 };
 
-export const EditLibraryEntryPage = async ({
-   params,
-}: EditLibraryEntryPageProps) => {
+export const EditLibraryEntryPage = async ({ params }: PageProps) => {
    const { id: entryId } = await params;
+
    const entry = await getLibraryEntry(entryId);
 
    if (!entry) {
