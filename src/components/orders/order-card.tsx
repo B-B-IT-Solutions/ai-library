@@ -1,12 +1,12 @@
 "use client";
 
 import { FC } from "react";
-import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import { DOrder } from "@/data/types/domain/order";
+import { formatDateTime } from "@/lib/utils";
 
 type OrderCardProps = {
    order: DOrder;
@@ -25,7 +25,7 @@ export const OrderCard: FC<OrderCardProps> = ({ order }) => {
 
       return (
          <span
-            className={`text-xs px-2 py-1 rounded border ${
+            className={`rounded border px-2 py-1 text-xs ${
                colors[order.status]
             }`}
          >
@@ -40,23 +40,23 @@ export const OrderCard: FC<OrderCardProps> = ({ order }) => {
 
    return (
       <Card
-         className="p-4 gap-0 bg-white border border-slate-300 rounded-lg hover:border-blue-500 transition-all"
+         className="gap-0 rounded-lg border border-slate-300 bg-white p-4 transition-all hover:border-blue-500"
          data-testid="order-card"
       >
-         <CardHeader className="p-0 gap-2 mb-3">
+         <CardHeader className="mb-3 gap-2 p-0">
             <div className="flex items-start justify-between gap-2">
                <div>
                   <p className="text-sm text-slate-600">
                      Order #{order.id.substring(0, 8)}...
                   </p>
                   <p className="text-xs text-slate-500">
-                     {format(new Date(order.createdAt), "PPP")}
+                     {formatDateTime(order.createdAt).dateTime}
                   </p>
                </div>
                {statusBadge()}
             </div>
          </CardHeader>
-         <CardContent className="p-0 space-y-3">
+         <CardContent className="space-y-3 p-0">
             <div className="flex justify-between text-sm">
                <span className="text-slate-600">
                   {order.items.length} item{order.items.length !== 1 ? "s" : ""}
