@@ -44,7 +44,6 @@ export type DLibraryCollection = {
    description: string | null;
    color: string | null;
    order: number;
-   entryCount: number; // Computed
    createdAt: string;
    updatedAt: string;
 };

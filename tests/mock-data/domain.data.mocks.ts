@@ -245,7 +245,6 @@ export const dLibraryCollection = (index = 1): DLibraryCollection => {
       description: `description ${index}`,
       color: `color ${index}`,
       order: index,
-      entryCount: index + 5,
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
    };

@@ -1,5 +1,4 @@
 import { LibraryEntry } from "@/generated/prisma/client";
-import { Prisma } from "@/generated/prisma/models";
 
 import {
    PromptTemplateDescriptorWithCategories,
@@ -14,11 +13,3 @@ export type LibraryEntryWithPromptTemplate = LibraryEntry & {
    templateDescriptor: PromptTemplateDescriptorWithTemplate;
 };
 
-// New types for Collections
-export type LibraryCollectionWithCount = Prisma.LibraryCollectionGetPayload<{
-   include: {
-      _count: {
-         select: { entries: true };
-      };
-   };
-}>;

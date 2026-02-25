@@ -1,10 +1,7 @@
 import { flatMap, map, uniq } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
-import {
-   LibraryCollectionWithCount,
-   LibraryEntryWithPromptTemplateDescriptor,
-} from "@/data/types/db/library";
+import { LibraryEntryWithPromptTemplateDescriptor } from "@/data/types/db/library";
 import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
@@ -234,14 +231,8 @@ export class LibraryRepository {
    // ==================== Collections CRUD ====================
 
    async pGetCollections(userId: string): Promise<DLibraryCollection[]> {
-      const collections: LibraryCollectionWithCount[] =
-         await this.prisma.libraryCollection.findMany({
+      const collections = await this.prisma.libraryCollection.findMany({
             where: { userId },
-            include: {
-               _count: {
-                  select: { entries: true },
-               },
-            },
             orderBy: {
                order: "asc",
             },

@@ -5,7 +5,6 @@ import {
    toDPromptTemplateDescriptorWithTemplate,
 } from "@/data/repositories/prompt-template/prompt.template.mapper";
 import {
-   LibraryCollectionWithCount,
    LibraryEntryWithPromptTemplate,
    LibraryEntryWithPromptTemplateDescriptor,
 } from "@/data/types/db/library";
@@ -14,6 +13,7 @@ import {
    DLibraryEntry,
    DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
+import { LibraryCollection } from "@/generated/prisma/client";
 
 export const toDLibraryEntries = (
    entries: LibraryEntryWithPromptTemplateDescriptor[]
@@ -54,13 +54,13 @@ export const toDLibraryEntryWithPromptTemplate = (
 // ==================== Collection Mappers ====================
 
 export const toDLibraryCollections = (
-   collections: LibraryCollectionWithCount[]
+   collections: LibraryCollection[]
 ): DLibraryCollection[] => {
    return map(collections, (c) => toDLibraryCollection(c));
 };
 
 export const toDLibraryCollection = (
-   collection: LibraryCollectionWithCount
+   collection: LibraryCollection
 ): DLibraryCollection => {
    return {
       id: collection.id,
@@ -69,7 +69,6 @@ export const toDLibraryCollection = (
       description: collection.description,
       color: collection.color,
       order: collection.order,
-      entryCount: collection._count.entries,
       createdAt: collection.createdAt.toISOString(),
       updatedAt: collection.updatedAt.toISOString(),
    };

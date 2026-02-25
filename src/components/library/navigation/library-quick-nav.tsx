@@ -95,14 +95,6 @@ export const LibraryQuickNav: FC<Props> = () => {
                                        {collection.name}
                                     </span>
                                  </div>
-                                 {collection.entryCount > 0 && (
-                                    <Badge
-                                       variant="secondary"
-                                       className="ml-2 h-5 flex-shrink-0 px-2 text-xs"
-                                    >
-                                       {collection.entryCount}
-                                    </Badge>
-                                 )}
                               </div>
                            </DropdownMenuItem>
                         );

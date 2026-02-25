@@ -3,7 +3,6 @@
 import { FC } from "react";
 import { Folder } from "lucide-react";
 
-import { Badge } from "@/components/shadcn/badge";
 import { CallbackFn } from "@/data/types/common";
 import { DLibraryCollection } from "@/data/types/domain/library";
 import { cn } from "@/lib/utils";
@@ -36,14 +35,6 @@ export const CollectionItem: FC<Props> = ({
             />
             <span className="truncate text-sm">{collection.name}</span>
          </div>
-         {collection.entryCount > 0 && (
-            <Badge
-               variant="secondary"
-               className="h-5 flex-shrink-0 px-2 text-xs"
-            >
-               {collection.entryCount}
-            </Badge>
-         )}
       </button>
    );
 };
