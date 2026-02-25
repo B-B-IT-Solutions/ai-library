@@ -17,7 +17,7 @@ import {
 import { useLoadLibraryCollections } from "@/data/ts-queries/library";
 import { DLibraryEntriesFilter } from "@/data/types/domain/library";
 import { cn } from "@/lib/utils";
-import { LibraryCollectionCreateDialog } from "../dialog";
+import { LibraryCollectionCreateDialog } from "../collections";
 import { librarySearchParams } from "../search-params";
 
 type Props = {
