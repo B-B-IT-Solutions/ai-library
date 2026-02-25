@@ -1,6 +1,7 @@
 export {
    getLibraryEntry,
    createLibraryEntry,
+   updateLibraryEntry,
    downloadTemplate,
    composePromptFromTemplate,
    createLibraryCollection,

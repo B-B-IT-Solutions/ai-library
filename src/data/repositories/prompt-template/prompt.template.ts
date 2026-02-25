@@ -98,6 +98,49 @@ export class PromptTemplateRepository {
       });
    }
 
+   async pUpdatePromptTemplateDescriptor(
+      descriptorId: string,
+      data: DPromptTemplateUpdate
+   ): Promise<void> {
+      await this.prisma.promptTemplateDescriptor.update({
+         where: { id: descriptorId },
+         data: {
+            title: data.title,
+            description: data.description,
+            recommendedModel: data.recommendedModel,
+            categories: {
+               set: [],
+               connectOrCreate: map(data.categories, (categoryName) => ({
+                  where: { name: categoryName },
+                  create: { name: categoryName },
+               })),
+            },
+            promptTemplate: {
+               update: {
+                  content: data.content,
+                  detailedDescription: data.detailedDescription,
+                  fields: {
+                     deleteMany: {},
+                     create: map(
+                        data.fields,
+                        (field: DPromptTemplateFieldUpdate) => ({
+                           name: field.name,
+                           label: field.label,
+                           description: field.description,
+                           type: field.type as DPromptTemplateFieldType,
+                           required: field.required,
+                           order: field.order,
+                           defaultValue: field.defaultValue,
+                           options: stringify(field.options),
+                        })
+                     ),
+                  },
+               },
+            },
+         },
+      });
+   }
+
    async pCreatePromptTemplateDescriptor(
       data: DPromptTemplateUpdate
    ): Promise<DPromptTemplateDescriptor> {

@@ -1,8 +1,9 @@
 import { FC } from "react";
 import { isEmpty, map } from "es-toolkit/compat";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Edit2 } from "lucide-react";
 import Link from "next/link";
 
+import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import { MDRenderer } from "@/components/shared/md";
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
@@ -90,6 +91,16 @@ export const LibraryEntryDetails: FC<LibraryEntryDetailsProps> = ({
                   <div className="flex gap-3 border-t border-slate-200 pt-4">
                      <CreatePromptButton descriptor={descriptor} />
                      <DownloadTemplateButton descriptor={descriptor} />
+                     <Link href={`/library/${entry.id}/edit`} className="ml-auto">
+                        <Button
+                           variant="outline"
+                           className="cursor-pointer gap-2"
+                           data-testid="edit-entry-button"
+                        >
+                           <Edit2 className="h-4 w-4" />
+                           Bearbeiten
+                        </Button>
+                     </Link>
                   </div>
                </CardContent>
             </Card>
