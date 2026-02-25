@@ -51,8 +51,6 @@ export const toDLibraryEntryWithPromptTemplate = (
    };
 };
 
-// ==================== Collection Mappers ====================
-
 export const toDLibraryCollections = (
    collections: LibraryCollection[]
 ): DLibraryCollection[] => {
