@@ -12,9 +12,8 @@ import {
 import { DLibraryEntriesFilter } from "@/data/types/domain/library";
 
 import { CreateLibraryEntryButton } from "./buttons";
-import { LibraryEntries } from "./list";
+import { CollectionsFilter, LibraryEntries, LibraryToolbar } from "./list";
 import { librarySearchParamsCache } from "./search-params";
-import { CollectionsFilter, LibraryToolbar } from "./toolbar";
 
 export const LibraryDashboard = async () => {
    const queryClient = new QueryClient();

@@ -12,7 +12,7 @@ import {
    PopoverTrigger,
 } from "@/components/shadcn/popover";
 import { Separator } from "@/components/shadcn/separator";
-import { librarySearchParams } from "../../search-params";
+import { librarySearchParams } from "../../../search-params";
 
 import { CategoriesFilter } from "./categories-filter";
 import {
