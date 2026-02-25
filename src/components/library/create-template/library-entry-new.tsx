@@ -1,4 +1,4 @@
-import { ReturnToLibraryButton } from "../buttons/return-to-library-button";
+import { ReturnToLibraryButton } from "../buttons";
 
 import { NewLibraryEntryForm } from "./new-library-entry-form";
 
