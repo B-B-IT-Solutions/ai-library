@@ -1,3 +1,5 @@
+jest.mock("@/data/actions/library");
+
 import { screen, waitFor } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import {
@@ -8,7 +10,13 @@ import {
 } from "@tests";
 import mockRouter from "next-router-mock";
 
+import { getEntryCollectionIds } from "@/data/actions/library";
+
 import { LibraryEntryCard } from "./library-entry-card";
+
+const getEntryCollectionIdsMock = getEntryCollectionIds as jest.MockedFunction<
+   typeof getEntryCollectionIds
+>;
 
 const assertRendered = () => {
    const entryCard = screen.getByTestId("library-entry-card");
@@ -134,6 +142,9 @@ describe("LibraryEntryCard functionality tests", () => {
    });
 
    it("LibraryEntryCard - dropdown - show add to collection dialog - test", async () => {
+      const collectionIds = dtestData.dLibraryCollectionIds();
+      getEntryCollectionIdsMock.mockResolvedValue(collectionIds);
+
       const entry = dtestData.dLibraryEntry();
       const collections = dtestData.dLibraryCollections();
 
