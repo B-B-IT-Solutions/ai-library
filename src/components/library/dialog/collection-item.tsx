@@ -4,16 +4,17 @@ import { FC } from "react";
 import { Folder } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
+import { CallbackFn } from "@/data/types/common";
 import { DLibraryCollection } from "@/data/types/domain/library";
 import { cn } from "@/lib/utils";
 
-type CollectionItemProps = {
+type Props = {
    collection: DLibraryCollection;
    isActive?: boolean;
-   onClick: () => void;
+   onClick: CallbackFn;
 };
 
-export const CollectionItem: FC<CollectionItemProps> = ({
+export const CollectionItem: FC<Props> = ({
    collection,
    isActive,
    onClick,
@@ -26,6 +27,7 @@ export const CollectionItem: FC<CollectionItemProps> = ({
             "hover:bg-slate-100",
             isActive && "bg-slate-100"
          )}
+         data-testid="collection-item"
       >
          <div className="flex min-w-0 items-center gap-2">
             <Folder
