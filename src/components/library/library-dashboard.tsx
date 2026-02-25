@@ -12,7 +12,7 @@ import {
 import { DLibraryEntriesFilter } from "@/data/types/domain/library";
 
 import { CreateLibraryEntryButton } from "./buttons";
-import { CollectionsFilter, LibraryEntries, LibraryToolbar } from "./list";
+import { CollectionsFilter, LibraryEntries, LibraryToolbar } from "./lists";
 import { librarySearchParamsCache } from "./search-params";
 
 export const LibraryDashboard = async () => {
