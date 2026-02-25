@@ -47,7 +47,3 @@ export type DLibraryCollection = {
    createdAt: string;
    updatedAt: string;
 };
-
-export type DLibraryCollectionWithEntries = DLibraryCollection & {
-   entries: DLibraryEntry[];
-};
