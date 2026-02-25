@@ -6,7 +6,6 @@ import {
 } from "@tests";
 import Placeholder from "@tiptap/extension-placeholder";
 import TextAlign from "@tiptap/extension-text-align";
-import Underline from "@tiptap/extension-underline";
 import { Editor, useEditor, UseEditorOptions } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Markdown } from "tiptap-markdown";
@@ -35,7 +34,6 @@ const createEditorConfig = (
          Placeholder.configure({
             placeholder,
          }),
-         Underline,
          TextAlign.configure({
             types: ["heading", "paragraph"],
          }),
