@@ -21,7 +21,7 @@ import { useCreateCollection } from "@/data/ts-queries/library";
 import { DLibraryCollectionUpdate } from "@/data/types/domain/library";
 import { updateLibraryCollectionSchema } from "@/data/types/validators/library";
 
-import { initLibraryCollection } from "./initValues";
+import { initLibraryCollection } from "./utils";
 
 type Props = {
    open: boolean;
