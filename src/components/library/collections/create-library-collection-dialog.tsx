@@ -20,7 +20,8 @@ import { FormInput, FormTextArea } from "@/components/shared/widgets";
 import { useCreateCollection } from "@/data/ts-queries/library";
 import { DLibraryCollectionUpdate } from "@/data/types/domain/library";
 import { updateLibraryCollectionSchema } from "@/data/types/validators/library";
-import { initLibraryCollection } from "../utils/initValues";
+
+import { initLibraryCollection } from "./initValues";
 
 type Props = {
    open: boolean;

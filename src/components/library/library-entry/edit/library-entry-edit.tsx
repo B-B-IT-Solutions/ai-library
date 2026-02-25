@@ -1,5 +1,5 @@
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
-import { ReturnToLibraryButton } from "../buttons";
+import { ReturnToLibraryButton } from "../../buttons";
 
 import { LibraryEntryForm } from "./new-library-entry-form";
 

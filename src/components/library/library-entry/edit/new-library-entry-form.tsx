@@ -25,8 +25,8 @@ import {
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 import { updatePromptTemplateSchema } from "@/data/types/validators/prompt";
-import { initPromptTempalte, initPromptTemplateField } from "../utils";
 
+import { initPromptTempalte, initPromptTemplateField } from "./initValues";
 import {
    BasicInfo,
    DetectedVariables,

@@ -1,14 +1,9 @@
-import { DLibraryCollectionUpdate } from "@/data/types/domain/library";
 import {
    DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 
-import {
-   initLibraryCollection,
-   initPromptTempalte,
-   initPromptTemplateField,
-} from "./initValues";
+import { initPromptTempalte, initPromptTemplateField } from "./initValues";
 
 export const expectedInitPromptTempalte: DPromptTemplateUpdate = {
    title: "",
@@ -70,12 +65,5 @@ describe("initPromptTemplateField tests", () => {
          label,
       };
       expect(initValue).toEqual(expectedValue);
-   });
-});
-
-describe("initLibraryCollection tests", () => {
-   it("initLibraryCollection test", () => {
-      const initValue = initLibraryCollection();
-      expect(initValue).toEqual(expectedInitLibraryCollection);
    });
 });
