@@ -5,7 +5,7 @@ import { groupBy as lodashGroupBy, map } from "es-toolkit/compat";
 
 import { DListGroupByMode } from "@/data/types/domain/common";
 import { DLibraryCollection, DLibraryEntry } from "@/data/types/domain/library";
-import { LibraryEntryCard } from "./list-item/library-entry-card";
+import { LibraryEntryCard } from "./items/library-entry-card";
 
 type GroupedEntries = {
    key: string;
