@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useMemo } from "react";
+import { useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { upperFirst } from "es-toolkit/compat";
 import { Loader, Save } from "lucide-react";
@@ -39,10 +39,6 @@ import {
    initPromptTemplateField,
 } from "./utils";
 
-type Props = {
-   entry?: DLibraryEntryWithPromptTemplate;
-};
-
 const initFromEntry = (
    entry: DLibraryEntryWithPromptTemplate
 ): DPromptTemplateUpdate => {
@@ -68,7 +64,11 @@ const initFromEntry = (
    };
 };
 
-export const LibraryEntryForm: FC<Props> = ({ entry }) => {
+type Props = {
+   entry?: DLibraryEntryWithPromptTemplate;
+};
+
+export const LibraryEntryForm = ({ entry }: Props) => {
    const router = useRouter();
    const isEdit = !!entry;
 
