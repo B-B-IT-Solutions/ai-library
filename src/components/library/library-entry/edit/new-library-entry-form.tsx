@@ -26,7 +26,6 @@ import {
 } from "@/data/types/domain/prompt.template";
 import { updatePromptTemplateSchema } from "@/data/types/validators/prompt";
 
-import { initPromptTempalte, initPromptTemplateField } from "./initValues";
 import {
    BasicInfo,
    DetectedVariables,
@@ -34,6 +33,10 @@ import {
    PromptTemplateFields,
 } from "./sections";
 import { extractVariablesFromContent, getVariableStatus } from "./utils";
+import {
+   initPromptTempalte,
+   initPromptTemplateField,
+} from "./utils/initValues";
 
 type Props = {
    entry?: DLibraryEntryWithPromptTemplate;
