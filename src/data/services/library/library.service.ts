@@ -7,7 +7,10 @@ import {
 import { PromptTemplateService } from "@/data/services/prompt-template";
 import { OrderProducts } from "@/data/types/db/order";
 import {
-   DLibraryEntry,
+   DLibraryCollection,
+   DLibraryCollectionUpdate,
+   DLibraryEntriesPage,
+   DLibraryEntriesPageQuery,
    DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
@@ -28,8 +31,11 @@ export class LibraryService {
       this.promptTemplateService = promptTemplateService;
    }
 
-   async getLibraryEntries(userId: string): Promise<DLibraryEntry[]> {
-      return await this.libraryRepository.pGetLibraryEntries(userId);
+   async getLibraryEntriesPage(
+      userId: string,
+      query?: DLibraryEntriesPageQuery
+   ): Promise<DLibraryEntriesPage> {
+      return await this.libraryRepository.pGetLibraryEntriesPage(userId, query);
    }
 
    async getLibraryEntry(
@@ -117,5 +123,66 @@ export class LibraryService {
       );
 
       return downloadData;
+   }
+
+   async getLibraryCategories(userId: string): Promise<string[]> {
+      return await this.libraryRepository.pGetLibraryCategories(userId);
+   }
+
+   async getLibraryModels(userId: string): Promise<string[]> {
+      return await this.libraryRepository.pGetLibraryModels(userId);
+   }
+
+   async toggleFavorite(entryId: string, userId: string, isFavorite: boolean) {
+      await this.libraryRepository.pToggleFavorite(entryId, userId, isFavorite);
+   }
+
+   async getCollections(userId: string): Promise<DLibraryCollection[]> {
+      return await this.libraryRepository.pGetCollections(userId);
+   }
+
+   async createCollection(
+      userId: string,
+      data: DLibraryCollectionUpdate
+   ): Promise<DLibraryCollection> {
+      return await this.libraryRepository.pCreateCollection(userId, data);
+   }
+
+   async updateCollection(
+      collectionId: string,
+      userId: string,
+      data: DLibraryCollectionUpdate
+   ) {
+      await this.libraryRepository.pUpdateCollection(
+         collectionId,
+         userId,
+         data
+      );
+   }
+
+   async deleteCollection(collectionId: string, userId: string): Promise<void> {
+      await this.libraryRepository.pDeleteCollection(collectionId, userId);
+   }
+
+   async getEntryCollectionIds(
+      userId: string,
+      entryId: string
+   ): Promise<string[]> {
+      return await this.libraryRepository.pGetEntryCollectionIds(
+         userId,
+         entryId
+      );
+   }
+
+   async updateEntryCollections(
+      userId: string,
+      entryId: string,
+      collectionIds: string[]
+   ): Promise<void> {
+      await this.libraryRepository.pUpdateEntryCollections(
+         userId,
+         entryId,
+         collectionIds
+      );
    }
 }

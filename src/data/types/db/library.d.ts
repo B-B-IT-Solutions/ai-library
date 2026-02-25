@@ -12,3 +12,4 @@ export type LibraryEntryWithPromptTemplateDescriptor = LibraryEntry & {
 export type LibraryEntryWithPromptTemplate = LibraryEntry & {
    templateDescriptor: PromptTemplateDescriptorWithTemplate;
 };
+

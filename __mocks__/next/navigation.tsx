@@ -13,7 +13,7 @@ module.exports = {
    usePathname() {
       return mockRouter.pathname;
    },
-   useSearchParams: jest.fn(() => {
+   useSearchParams: jest.fn().mockImplementation(() => {
       if (mockRouter.query) {
          const params = mockRouter.query as unknown as URLSearchParams;
          return new URLSearchParams(params);

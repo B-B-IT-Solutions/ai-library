@@ -1,27 +1,35 @@
-jest.mock("@/data/actions/library");
+jest.mock("@/components/library", () => ({
+   LibraryDashboard: () => {
+      return <div data-testid="library-dashboard" />;
+   },
+   librarySearchParamsCache: {
+      parse: jest.fn(),
+   },
+}));
 
 import { screen, waitFor } from "@testing-library/dom";
-import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
+import { assertInDocument, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 
-import { getLibraryEntries } from "@/data/actions/library";
+import { librarySearchParamsCache } from "@/components/library";
 
-import { LibraryPage, metadata } from "./page";
+import { LibraryPage, metadata, PageProps } from "./page";
 
-const getLibraryEntriesMock = getLibraryEntries as jest.MockedFunction<
-   typeof getLibraryEntries
->;
+const librarySearchParamsCacheParseMock =
+   librarySearchParamsCache.parse as jest.MockedFunction<
+      typeof librarySearchParamsCache.parse
+   >;
 
 const expectedMetadata: Metadata = {
-   title: "Meine Bibliothek",
+   title: "Meine Vorlagen",
 };
 
 const assertRendered = () => {
    const page = screen.getByTestId("library-page");
-   const library = screen.getByTestId("library");
+   const dashboard = screen.getByTestId("library-dashboard");
 
    assertInDocument(page);
-   assertInDocument(library);
+   assertInDocument(dashboard);
 };
 
 describe("LibraryPage rendering tests", () => {
@@ -29,28 +37,21 @@ describe("LibraryPage rendering tests", () => {
       jest.clearAllMocks();
    });
 
-   it("LibraryPage - library items empty - test", async () => {
-      getLibraryEntriesMock.mockResolvedValue([]);
+   it("LibraryPage - library page rendered - test", async () => {
+      const params = { view: "grid" };
 
-      const { container } = await renderAsyncRSC(LibraryPage, {});
+      const props: PageProps = {
+         searchParams: Promise.resolve(params),
+      };
 
-      await waitFor(() => {
-         assertRendered();
-         expect(getLibraryEntriesMock).toHaveBeenCalledTimes(1);
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("LibraryPage - library items - test", async () => {
-      const libraryEntries = dtestData.dLibraryEntries();
-      getLibraryEntriesMock.mockResolvedValue(libraryEntries);
-
-      const { container } = await renderAsyncRSC(LibraryPage, {});
+      const { container } = await renderAsyncRSC(LibraryPage, props);
 
       await waitFor(() => {
          assertRendered();
-         expect(getLibraryEntriesMock).toHaveBeenCalledTimes(1);
+         expect(librarySearchParamsCacheParseMock).toHaveBeenCalledTimes(1);
+         expect(librarySearchParamsCacheParseMock).toHaveBeenCalledWith(
+            props.searchParams
+         );
       });
 
       expect(container).toMatchSnapshot();

@@ -31,21 +31,25 @@ const libraryService = new LibraryService(
    promptTemplateServiceMock
 );
 
-describe("getLibraryEntries tests", () => {
+describe("getLibraryEntriesPage tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("getLibraryEntries - entries retrieved - test", async () => {
+   it("getLibraryEntriesPage - entries retrieved - test", async () => {
       const userId = "user-id-1";
-      const entries = dtestData.dLibraryEntries();
-      libraryRepoMock.pGetLibraryEntries.mockResolvedValue(entries);
+      const page = dtestData.dLibraryEntriesPage();
+      const query = dtestData.dLibraryEntriesPageQuery();
+      libraryRepoMock.pGetLibraryEntriesPage.mockResolvedValue(page);
 
-      const result = await libraryService.getLibraryEntries(userId);
+      const result = await libraryService.getLibraryEntriesPage(userId, query);
 
-      expect(result).toEqual(entries);
-      expect(libraryRepoMock.pGetLibraryEntries).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntries).toHaveBeenCalledWith(userId);
+      expect(result).toEqual(page);
+      expect(libraryRepoMock.pGetLibraryEntriesPage).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryEntriesPage).toHaveBeenCalledWith(
+         userId,
+         query
+      );
    });
 });
 
@@ -302,6 +306,190 @@ describe("downloadPromptTemplate tests", () => {
       expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
          expectedGetEntryPayload
+      );
+   });
+});
+
+describe("getLibraryCategories tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("getLibraryCategories - categories retrieved - test", async () => {
+      const userId = "user-id-1";
+      const categories = dtestData.dLibraryEntryCategories();
+      libraryRepoMock.pGetLibraryCategories.mockResolvedValue(categories);
+
+      const result = await libraryService.getLibraryCategories(userId);
+
+      expect(result).toEqual(categories);
+      expect(libraryRepoMock.pGetLibraryCategories).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryCategories).toHaveBeenCalledWith(
+         userId
+      );
+   });
+});
+
+describe("getLibraryModels tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("getLibraryModels - models retrieved - test", async () => {
+      const userId = "user-id-1";
+      const models = dtestData.dLibraryEntryModels();
+      libraryRepoMock.pGetLibraryModels.mockResolvedValue(models);
+
+      const result = await libraryService.getLibraryModels(userId);
+
+      expect(result).toEqual(models);
+      expect(libraryRepoMock.pGetLibraryModels).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetLibraryModels).toHaveBeenCalledWith(userId);
+   });
+});
+
+describe("toggleFavorite tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("toggleFavorite - value toggled - test", async () => {
+      const userId = "user-id-1";
+      const entryId = "entry-id-1";
+      const isFavorite = true;
+
+      await libraryService.toggleFavorite(entryId, userId, isFavorite);
+
+      expect(libraryRepoMock.pToggleFavorite).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pToggleFavorite).toHaveBeenCalledWith(
+         entryId,
+         userId,
+         isFavorite
+      );
+   });
+});
+
+describe("getCollections tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("getCollections - collections retrieved - test", async () => {
+      const userId = "user-id-1";
+
+      await libraryService.getCollections(userId);
+
+      expect(libraryRepoMock.pGetCollections).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetCollections).toHaveBeenCalledWith(userId);
+   });
+});
+
+describe("createCollection tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("createCollection - collection created - test", async () => {
+      const userId = "user-id-1";
+      const data = dtestData.dLibraryCollectionUpdate();
+
+      await libraryService.createCollection(userId, data);
+
+      expect(libraryRepoMock.pCreateCollection).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pCreateCollection).toHaveBeenCalledWith(
+         userId,
+         data
+      );
+   });
+});
+
+describe("updateCollection tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("updateCollection - collection updated - test", async () => {
+      const userId = "user-id-1";
+      const collectionId = "collection-id-1";
+      const data = dtestData.dLibraryCollectionUpdate();
+
+      await libraryService.updateCollection(collectionId, userId, data);
+
+      expect(libraryRepoMock.pUpdateCollection).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pUpdateCollection).toHaveBeenCalledWith(
+         collectionId,
+         userId,
+         data
+      );
+   });
+});
+
+describe("deleteCollection tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("deleteCollection - collection deleted - test", async () => {
+      const userId = "user-id-1";
+      const collectionId = "collection-id-1";
+
+      await libraryService.deleteCollection(collectionId, userId);
+
+      expect(libraryRepoMock.pDeleteCollection).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pDeleteCollection).toHaveBeenCalledWith(
+         collectionId,
+         userId
+      );
+   });
+});
+
+describe("getEntryCollectionIds tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("getEntryCollectionIds - collectionId retrieved - test", async () => {
+      const userId = "user-id-1";
+      const entryId = "entry-id-1";
+      const collectionIds = dtestData.dLibraryCollectionIds();
+
+      libraryRepoMock.pGetEntryCollectionIds.mockResolvedValue(collectionIds);
+
+      const result = await libraryService.getEntryCollectionIds(
+         userId,
+         entryId
+      );
+
+      expect(result).toEqual(collectionIds);
+      expect(libraryRepoMock.pGetEntryCollectionIds).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pGetEntryCollectionIds).toHaveBeenCalledWith(
+         userId,
+         entryId
+      );
+   });
+});
+
+describe("updateEntryCollections tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("updateEntryCollections - collection deleted - test", async () => {
+      const userId = "user-id-1";
+      const entryId = "entry-id-1";
+      const collectionIds = dtestData.dLibraryCollectionIds();
+
+      await libraryService.updateEntryCollections(
+         userId,
+         entryId,
+         collectionIds
+      );
+
+      expect(libraryRepoMock.pUpdateEntryCollections).toHaveBeenCalledTimes(1);
+      expect(libraryRepoMock.pUpdateEntryCollections).toHaveBeenCalledWith(
+         userId,
+         entryId,
+         collectionIds
       );
    });
 });

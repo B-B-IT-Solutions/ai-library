@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { ThemeProvider } from "next-themes";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import { TsQueryClientProvider } from "./ts-query-client/provider";
 
@@ -16,7 +17,13 @@ export const Providers: FC<ProvidersProps> = ({ children }) => {
             enableSystem={true}
             disableTransitionOnChange={true}
          >
-            {children}
+            <NuqsAdapter
+               defaultOptions={{
+                  shallow: false,
+               }}
+            >
+               {children}
+            </NuqsAdapter>
          </ThemeProvider>
       </TsQueryClientProvider>
    );

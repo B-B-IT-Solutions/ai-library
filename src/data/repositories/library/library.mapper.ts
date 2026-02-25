@@ -9,9 +9,11 @@ import {
    LibraryEntryWithPromptTemplateDescriptor,
 } from "@/data/types/db/library";
 import {
+   DLibraryCollection,
    DLibraryEntry,
    DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
+import { LibraryCollection } from "@/generated/prisma/client";
 
 export const toDLibraryEntries = (
    entries: LibraryEntryWithPromptTemplateDescriptor[]
@@ -27,7 +29,9 @@ export const toDLibraryEntry = (
       userId: entry.userId,
       templateDescriptorId: entry.templateDescriptorId,
       templateDescriptor: toDPromptTemplateDescriptor(entry.templateDescriptor),
+      isFavorite: entry.isFavorite,
       createdAt: entry.createdAt.toISOString(),
+      updatedAt: entry.updatedAt.toISOString(),
    };
 };
 
@@ -41,6 +45,29 @@ export const toDLibraryEntryWithPromptTemplate = (
       templateDescriptor: toDPromptTemplateDescriptorWithTemplate(
          entry.templateDescriptor
       ),
+      isFavorite: entry.isFavorite,
       createdAt: entry.createdAt.toISOString(),
+      updatedAt: entry.updatedAt.toISOString(),
+   };
+};
+
+export const toDLibraryCollections = (
+   collections: LibraryCollection[]
+): DLibraryCollection[] => {
+   return map(collections, (c) => toDLibraryCollection(c));
+};
+
+export const toDLibraryCollection = (
+   collection: LibraryCollection
+): DLibraryCollection => {
+   return {
+      id: collection.id,
+      userId: collection.userId,
+      name: collection.name,
+      description: collection.description,
+      color: collection.color,
+      order: collection.order,
+      createdAt: collection.createdAt.toISOString(),
+      updatedAt: collection.updatedAt.toISOString(),
    };
 };

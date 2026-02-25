@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { CopyButton } from "@/components/shared/buttons/copy-button";
+import { CopyButton } from "@/components/shared/buttons";
 import { DPromptDescriptor } from "@/data/types/domain/prompt";
 
 type CopyPromptButtonProps = {

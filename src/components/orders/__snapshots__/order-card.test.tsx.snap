@@ -1,0 +1,272 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`OrderCard rendering tests OrderCard - status COMPLETED - test 1`] = `
+<div>
+  <div
+    class="text-card-foreground flex flex-col shadow-sm gap-0 rounded-lg border border-slate-300 bg-white p-4 transition-all hover:border-blue-500"
+    data-slot="card"
+    data-testid="order-card"
+  >
+    <div
+      class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 mb-3 gap-2 p-0"
+      data-slot="card-header"
+    >
+      <div
+        class="flex items-start justify-between gap-2"
+      >
+        <div>
+          <p
+            class="text-sm text-slate-600"
+          >
+            Order #
+            10fbd76c
+            ...
+          </p>
+          <p
+            class="text-xs text-slate-500"
+          >
+            27. Sept. 2025, 02:00 AM
+          </p>
+        </div>
+        <span
+          class="rounded border px-2 py-1 text-xs bg-green-100 text-green-700 border-green-200"
+        >
+          COMPLETED
+        </span>
+      </div>
+    </div>
+    <div
+      class="space-y-3 p-0"
+      data-slot="card-content"
+    >
+      <div
+        class="flex justify-between text-sm"
+      >
+        <span
+          class="text-slate-600"
+        >
+          1
+           item
+        </span>
+        <span
+          class="font-bold text-slate-900"
+        >
+          $
+          59.97
+        </span>
+      </div>
+      <button
+        class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 w-full cursor-pointer"
+        data-slot="button"
+        data-testid="view-details-button"
+      >
+        View Details
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`OrderCard rendering tests OrderCard - status FAILED - test 1`] = `
+<div>
+  <div
+    class="text-card-foreground flex flex-col shadow-sm gap-0 rounded-lg border border-slate-300 bg-white p-4 transition-all hover:border-blue-500"
+    data-slot="card"
+    data-testid="order-card"
+  >
+    <div
+      class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 mb-3 gap-2 p-0"
+      data-slot="card-header"
+    >
+      <div
+        class="flex items-start justify-between gap-2"
+      >
+        <div>
+          <p
+            class="text-sm text-slate-600"
+          >
+            Order #
+            10fbd76c
+            ...
+          </p>
+          <p
+            class="text-xs text-slate-500"
+          >
+            27. Sept. 2025, 02:00 AM
+          </p>
+        </div>
+        <span
+          class="rounded border px-2 py-1 text-xs bg-red-100 text-red-700 border-red-200"
+        >
+          FAILED
+        </span>
+      </div>
+    </div>
+    <div
+      class="space-y-3 p-0"
+      data-slot="card-content"
+    >
+      <div
+        class="flex justify-between text-sm"
+      >
+        <span
+          class="text-slate-600"
+        >
+          3
+           item
+          s
+        </span>
+        <span
+          class="font-bold text-slate-900"
+        >
+          $
+          59.97
+        </span>
+      </div>
+      <button
+        class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 w-full cursor-pointer"
+        data-slot="button"
+        data-testid="view-details-button"
+      >
+        View Details
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`OrderCard rendering tests OrderCard - status PENDING - test 1`] = `
+<div>
+  <div
+    class="text-card-foreground flex flex-col shadow-sm gap-0 rounded-lg border border-slate-300 bg-white p-4 transition-all hover:border-blue-500"
+    data-slot="card"
+    data-testid="order-card"
+  >
+    <div
+      class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 mb-3 gap-2 p-0"
+      data-slot="card-header"
+    >
+      <div
+        class="flex items-start justify-between gap-2"
+      >
+        <div>
+          <p
+            class="text-sm text-slate-600"
+          >
+            Order #
+            10fbd76c
+            ...
+          </p>
+          <p
+            class="text-xs text-slate-500"
+          >
+            27. Sept. 2025, 02:00 AM
+          </p>
+        </div>
+        <span
+          class="rounded border px-2 py-1 text-xs bg-yellow-100 text-yellow-700 border-yellow-200"
+        >
+          PENDING
+        </span>
+      </div>
+    </div>
+    <div
+      class="space-y-3 p-0"
+      data-slot="card-content"
+    >
+      <div
+        class="flex justify-between text-sm"
+      >
+        <span
+          class="text-slate-600"
+        >
+          3
+           item
+          s
+        </span>
+        <span
+          class="font-bold text-slate-900"
+        >
+          $
+          59.97
+        </span>
+      </div>
+      <button
+        class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 w-full cursor-pointer"
+        data-slot="button"
+        data-testid="view-details-button"
+      >
+        View Details
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`OrderCard rendering tests OrderCard - status REFUNDED - test 1`] = `
+<div>
+  <div
+    class="text-card-foreground flex flex-col shadow-sm gap-0 rounded-lg border border-slate-300 bg-white p-4 transition-all hover:border-blue-500"
+    data-slot="card"
+    data-testid="order-card"
+  >
+    <div
+      class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 mb-3 gap-2 p-0"
+      data-slot="card-header"
+    >
+      <div
+        class="flex items-start justify-between gap-2"
+      >
+        <div>
+          <p
+            class="text-sm text-slate-600"
+          >
+            Order #
+            10fbd76c
+            ...
+          </p>
+          <p
+            class="text-xs text-slate-500"
+          >
+            27. Sept. 2025, 02:00 AM
+          </p>
+        </div>
+        <span
+          class="rounded border px-2 py-1 text-xs bg-gray-100 text-gray-700 border-gray-200"
+        >
+          REFUNDED
+        </span>
+      </div>
+    </div>
+    <div
+      class="space-y-3 p-0"
+      data-slot="card-content"
+    >
+      <div
+        class="flex justify-between text-sm"
+      >
+        <span
+          class="text-slate-600"
+        >
+          3
+           item
+          s
+        </span>
+        <span
+          class="font-bold text-slate-900"
+        >
+          $
+          59.97
+        </span>
+      </div>
+      <button
+        class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 w-full cursor-pointer"
+        data-slot="button"
+        data-testid="view-details-button"
+      >
+        View Details
+      </button>
+    </div>
+  </div>
+</div>
+`;

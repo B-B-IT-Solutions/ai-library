@@ -11,8 +11,6 @@ export interface DProductsFilter extends Filter {
    maxPrice?: number;
 }
 
-export type DProductViewMode = "grid" | "list";
-
 export type DProductType = "TEMPLATE" | "BUNDLE";
 export type DProductStatus = "ACTIVE" | "INACTIVE" | "ARCHIVED";
 

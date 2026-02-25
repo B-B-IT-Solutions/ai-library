@@ -3,16 +3,18 @@ import { Metadata } from "next";
 import { Marketplace } from "@/components/marketplace";
 import { getCart } from "@/data/actions/cart";
 import { getProducts } from "@/data/actions/product";
-import { DProductViewMode } from "@/data/types/domain/product";
+import { DListViewMode } from "@/data/types/domain/common";
 
 export const metadata: Metadata = {
    title: "Marktplatz",
 };
 
-export type MarketPlaceSearchParams = { view?: DProductViewMode };
+export type PageSearchParams = {
+   view?: DListViewMode;
+};
 
 export type MarketplacePageProps = {
-   searchParams?: Promise<MarketPlaceSearchParams>;
+   searchParams?: Promise<PageSearchParams>;
 };
 
 export const MarketplacePage = async (props: MarketplacePageProps) => {
@@ -27,7 +29,7 @@ export const MarketplacePage = async (props: MarketplacePageProps) => {
          data-testid="market-place-page"
       >
          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">
+            <h1 className="mb-2 text-3xl font-bold text-slate-900">
                Marktplatz
             </h1>
             <p className="text-slate-600">

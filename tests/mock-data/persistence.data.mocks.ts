@@ -32,6 +32,7 @@ import { Order } from "@/generated/prisma/browser";
 import {
    Cart,
    CartItem,
+   LibraryCollection,
    LibraryEntry,
    OrderItem,
    Product,
@@ -398,6 +399,25 @@ export const pLibraryEntry = (index = 1): LibraryEntry => {
       id: `library-entry-${index}`,
       userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
       templateDescriptorId: `52e59bcf-7651-45f8-91bf-63b8a4e06d8${index}`,
+      updatedAt: new Date("2025-09-27"),
+      isFavorite: index % 2 === 0,
+      createdAt: new Date("2025-09-27"),
+   };
+};
+
+export const pLibraryCollections = (count = 3): LibraryCollection[] => {
+   return range(0, count).map((i) => pLibraryCollection(i));
+};
+
+export const pLibraryCollection = (index = 1): LibraryCollection => {
+   return {
+      id: `457bf695-6f74-44aa-9b3a-e179ea9e817${index}`,
+      userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
+      name: `name ${index}`,
+      description: `description ${index}`,
+      color: `color ${index}`,
+      order: index,
+      updatedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),
    };
 };

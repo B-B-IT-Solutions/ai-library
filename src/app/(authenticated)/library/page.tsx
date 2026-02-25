@@ -1,18 +1,25 @@
 import { Metadata } from "next";
+import type { SearchParams } from "nuqs/server";
 
-import { Library } from "@/components/library";
-import { getLibraryEntries } from "@/data/actions/library";
+import {
+   LibraryDashboard,
+   librarySearchParamsCache,
+} from "@/components/library";
 
 export const metadata: Metadata = {
-   title: "Meine Bibliothek",
+   title: "Meine Vorlagen",
 };
 
-export const LibraryPage = async () => {
-   const entries = await getLibraryEntries();
+export type PageProps = {
+   searchParams: Promise<SearchParams>;
+};
+
+export const LibraryPage = async (props: PageProps) => {
+   await librarySearchParamsCache.parse(props.searchParams);
 
    return (
-      <div data-testid="library-page">
-         <Library entries={entries} />
+      <div data-testid="library-page" className="h-full">
+         <LibraryDashboard />
       </div>
    );
 };

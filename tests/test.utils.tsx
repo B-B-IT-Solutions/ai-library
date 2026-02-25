@@ -1,37 +1,75 @@
 import { JSX } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {
-   render,
-   renderHook,
-   RenderHookResult,
-   RenderResult,
-   waitFor,
-} from "@testing-library/react";
+import { render, renderHook, RenderHookResult } from "@testing-library/react";
 import mockRouter from "next-router-mock";
 import { MemoryRouterProvider } from "next-router-mock/MemoryRouterProvider/next-13.5";
+import {
+   NuqsTestingAdapter,
+   type OnUrlUpdateFunction,
+} from "nuqs/adapters/testing";
 
 import { SidebarProvider } from "@/components/shadcn/sidebar";
 import { TooltipProvider } from "@/components/shadcn/tooltip";
 
-export const renderAsyncRSC = async <T,>(
-   asyncComponent: (props: T) => Promise<JSX.Element>,
-   props: T
-) => {
-   const component = await asyncComponent(props);
-   let result: RenderResult = {} as RenderResult;
+const withRSCWrapper = (searchParams?: string) => {
    const queryClient = testQueryClient();
 
-   await waitFor(() => {
-      result = render(
+   const Wrapper = ({ children }: { children: React.ReactNode }) => {
+      return (
          <QueryClientProvider client={queryClient}>
-            {component}
+            <NuqsTestingAdapter
+               searchParams={`?${searchParams}`}
+               defaultOptions={{
+                  shallow: false,
+               }}
+            >
+               {children}
+            </NuqsTestingAdapter>
          </QueryClientProvider>
       );
-   });
-
-   return {
-      ...result,
    };
+
+   return Wrapper;
+};
+
+export const withClientWrapper = (
+   url: string = "/",
+   searchParams?: string,
+   onNuqsUrlUpdate?: OnUrlUpdateFunction
+) => {
+   const queryClient = testQueryClient();
+   mockRouter.push(url);
+
+   const Wrapper = ({ children }: { children: React.ReactNode }) => {
+      return (
+         <QueryClientProvider client={queryClient}>
+            <MemoryRouterProvider url={url}>
+               <NuqsTestingAdapter
+                  searchParams={`?${searchParams}`}
+                  onUrlUpdate={onNuqsUrlUpdate}
+                  defaultOptions={{
+                     shallow: false,
+                  }}
+               >
+                  <TooltipProvider>{children}</TooltipProvider>
+               </NuqsTestingAdapter>
+            </MemoryRouterProvider>
+         </QueryClientProvider>
+      );
+   };
+
+   return Wrapper;
+};
+
+export const renderAsyncRSC = async <T,>(
+   rscComponent: (props: T) => Promise<JSX.Element>,
+   props: T,
+   searchParams?: string
+) => {
+   const component = await rscComponent(props);
+   return render(component, {
+      wrapper: withRSCWrapper(searchParams),
+   });
 };
 
 export const renderWithReactQuery = (component: React.ReactNode) => {
@@ -66,19 +104,13 @@ export const renderWithTooltip = (component: React.ReactNode) => {
 
 export const renderWithRouter = (
    component: React.ReactNode,
-   url: string = "/"
+   url: string = "/",
+   searchParams?: string,
+   onNuqsUrlUpdate?: OnUrlUpdateFunction
 ) => {
-   const queryClient = testQueryClient();
-   mockRouter.push(url);
-   return {
-      ...render(
-         <QueryClientProvider client={queryClient}>
-            <MemoryRouterProvider url={url}>
-               <TooltipProvider>{component}</TooltipProvider>
-            </MemoryRouterProvider>
-         </QueryClientProvider>
-      ),
-   };
+   return render(component, {
+      wrapper: withClientWrapper(url, searchParams, onNuqsUrlUpdate),
+   });
 };
 
 export const renderWithSidebar = (
@@ -102,14 +134,9 @@ export const renderWithSidebar = (
 export const renderHookWithReactQuery = <Result, Props>(
    hookUnderTest: () => Result
 ): RenderHookResult<Result, Props> => {
-   const queryClient = testQueryClient();
-   const wrapper = ({ children }: { children?: React.ReactNode }) => (
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-   );
-
-   return {
-      ...renderHook(() => hookUnderTest(), { wrapper }),
-   };
+   return renderHook(() => hookUnderTest(), {
+      wrapper: withClientWrapper(),
+   });
 };
 
 export const getElementById = (id: string): HTMLElement => {

@@ -6,7 +6,7 @@ exports[`Products rendering tests Products - one product - test 1`] = `
     data-testid="products"
   >
     <div
-      class="flex justify-between items-center mb-6"
+      class="mb-6 flex items-center justify-between"
     >
       <h2
         class="text-2xl font-bold text-slate-900"
@@ -16,17 +16,17 @@ exports[`Products rendering tests Products - one product - test 1`] = `
         Produkt
       </h2>
       <div
-        class="flex items-center gap-1 bg-slate-100 p-1 rounded-lg"
+        class="flex items-center rounded-md border"
         data-testid="view-toggle"
       >
         <button
-          class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md px-3 has-[>svg]:px-2.5 gap-2 cursor-pointer"
+          class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-8 cursor-pointer rounded-r-none border-r px-3 bg-slate-100"
           data-slot="button"
           data-testid="grid-view-btn"
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-grid3x3 lucide-grid-3x3 w-4 h-4"
+            class="lucide lucide-grid3x3 lucide-grid-3x3 h-4 w-4"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -57,20 +57,15 @@ exports[`Products rendering tests Products - one product - test 1`] = `
               d="M15 3v18"
             />
           </svg>
-          <span
-            class="hidden sm:inline"
-          >
-            Raster
-          </span>
         </button>
         <button
-          class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md px-3 has-[>svg]:px-2.5 gap-2 cursor-pointer"
+          class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-8 cursor-pointer rounded-l-none px-3"
           data-slot="button"
           data-testid="list-view-btn"
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-list w-4 h-4"
+            class="lucide lucide-list h-4 w-4"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -100,16 +95,11 @@ exports[`Products rendering tests Products - one product - test 1`] = `
               d="M8 19h13"
             />
           </svg>
-          <span
-            class="hidden sm:inline"
-          >
-            Liste
-          </span>
         </button>
       </div>
     </div>
     <div
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+      class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
       data-testid="products-grid"
     >
       <div
@@ -254,7 +244,7 @@ exports[`Products rendering tests Products - viewMode grid - rendered test 1`] =
     data-testid="products"
   >
     <div
-      class="flex justify-between items-center mb-6"
+      class="mb-6 flex items-center justify-between"
     >
       <h2
         class="text-2xl font-bold text-slate-900"
@@ -264,17 +254,17 @@ exports[`Products rendering tests Products - viewMode grid - rendered test 1`] =
         Produkte
       </h2>
       <div
-        class="flex items-center gap-1 bg-slate-100 p-1 rounded-lg"
+        class="flex items-center rounded-md border"
         data-testid="view-toggle"
       >
         <button
-          class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md px-3 has-[>svg]:px-2.5 gap-2 cursor-pointer"
+          class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-8 cursor-pointer rounded-r-none border-r px-3 bg-slate-100"
           data-slot="button"
           data-testid="grid-view-btn"
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-grid3x3 lucide-grid-3x3 w-4 h-4"
+            class="lucide lucide-grid3x3 lucide-grid-3x3 h-4 w-4"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -305,20 +295,15 @@ exports[`Products rendering tests Products - viewMode grid - rendered test 1`] =
               d="M15 3v18"
             />
           </svg>
-          <span
-            class="hidden sm:inline"
-          >
-            Raster
-          </span>
         </button>
         <button
-          class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md px-3 has-[>svg]:px-2.5 gap-2 cursor-pointer"
+          class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-8 cursor-pointer rounded-l-none px-3"
           data-slot="button"
           data-testid="list-view-btn"
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-list w-4 h-4"
+            class="lucide lucide-list h-4 w-4"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -348,16 +333,11 @@ exports[`Products rendering tests Products - viewMode grid - rendered test 1`] =
               d="M8 19h13"
             />
           </svg>
-          <span
-            class="hidden sm:inline"
-          >
-            Liste
-          </span>
         </button>
       </div>
     </div>
     <div
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+      class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
       data-testid="products-grid"
     >
       <div
@@ -764,7 +744,7 @@ exports[`Products rendering tests Products - viewMode list - rendered test 1`] =
     data-testid="products"
   >
     <div
-      class="flex justify-between items-center mb-6"
+      class="mb-6 flex items-center justify-between"
     >
       <h2
         class="text-2xl font-bold text-slate-900"
@@ -774,17 +754,17 @@ exports[`Products rendering tests Products - viewMode list - rendered test 1`] =
         Produkte
       </h2>
       <div
-        class="flex items-center gap-1 bg-slate-100 p-1 rounded-lg"
+        class="flex items-center rounded-md border"
         data-testid="view-toggle"
       >
         <button
-          class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md px-3 has-[>svg]:px-2.5 gap-2 cursor-pointer"
+          class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-8 cursor-pointer rounded-r-none border-r px-3"
           data-slot="button"
           data-testid="grid-view-btn"
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-grid3x3 lucide-grid-3x3 w-4 h-4"
+            class="lucide lucide-grid3x3 lucide-grid-3x3 h-4 w-4"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -815,20 +795,15 @@ exports[`Products rendering tests Products - viewMode list - rendered test 1`] =
               d="M15 3v18"
             />
           </svg>
-          <span
-            class="hidden sm:inline"
-          >
-            Raster
-          </span>
         </button>
         <button
-          class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md px-3 has-[>svg]:px-2.5 gap-2 cursor-pointer"
+          class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-8 cursor-pointer rounded-l-none px-3 bg-slate-100"
           data-slot="button"
           data-testid="list-view-btn"
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-list w-4 h-4"
+            class="lucide lucide-list h-4 w-4"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -858,11 +833,6 @@ exports[`Products rendering tests Products - viewMode list - rendered test 1`] =
               d="M8 19h13"
             />
           </svg>
-          <span
-            class="hidden sm:inline"
-          >
-            Liste
-          </span>
         </button>
       </div>
     </div>

@@ -13,14 +13,14 @@ export const getNextPageParam = <T>(lastPage: Page<T>) => {
    return null;
 };
 
-export const pageQuery = (
+export const pageQuery = <TFilter extends Filter>(
    pageNumber: number,
    pageSize: number,
    globalFilter?: string,
-   filter?: Filter,
+   filter?: TFilter,
    sort?: Sort
-): PageQuery<Filter> => {
-   const query: PageQuery<Filter> = {
+): PageQuery<TFilter> => {
+   const query: PageQuery<TFilter> = {
       pagination: { pageNumber, pageSize },
       globalFilter,
       sort,
