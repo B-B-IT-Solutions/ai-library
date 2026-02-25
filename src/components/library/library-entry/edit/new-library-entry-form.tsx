@@ -32,11 +32,12 @@ import {
    PromptTemplateContent,
    PromptTemplateFields,
 } from "./sections";
-import { extractVariablesFromContent, getVariableStatus } from "./utils";
 import {
+   extractVariablesFromContent,
+   getVariableStatus,
    initPromptTempalte,
    initPromptTemplateField,
-} from "./utils/initValues";
+} from "./utils";
 
 type Props = {
    entry?: DLibraryEntryWithPromptTemplate;
