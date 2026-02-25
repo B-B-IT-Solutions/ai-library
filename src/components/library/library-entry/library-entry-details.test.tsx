@@ -10,14 +10,16 @@ const assertRendered = () => {
    const longDescription = screen.getByTestId("long-description");
    const content = screen.getByTestId("prompt-text");
    const createPromptBtn = screen.getByTestId("create-prompt-btn");
-   const downloadBtn = screen.getByTestId("download-template-btn");
+   const moreOptionsBtn = screen.getByTestId("more-options-btn");
+   // const downloadBtn = screen.getByTestId("download-template-btn");
 
    assertInDocument(libraryEntry);
    assertInDocument(shortDescription);
    assertInDocument(longDescription);
    assertInDocument(content);
    assertInDocument(createPromptBtn);
-   assertInDocument(downloadBtn);
+   assertInDocument(moreOptionsBtn);
+   // assertInDocument(downloadBtn);
 };
 
 const assertCategoriesRendered = () => {

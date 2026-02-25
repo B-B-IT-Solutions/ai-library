@@ -12,8 +12,7 @@ import {
 } from "@/components/shadcn/dropdown-menu";
 import { MDRenderer } from "@/components/shared/md";
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
-import { CreatePromptButton } from "../buttons/create-prompt-button";
-import { DownloadTemplateButton } from "../buttons/download-template-button";
+import { CreatePromptButton, DownloadTemplateButton } from "../buttons";
 
 import { PromptTextDisplay } from "./prompt-text-display";
 
