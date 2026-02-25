@@ -18,7 +18,8 @@ import {
 } from "@/components/shadcn/card";
 import { Form } from "@/components/shadcn/form";
 import { Separator } from "@/components/shadcn/separator";
-import { createLibraryEntry } from "@/data/actions/library";
+import { createLibraryEntry, updateLibraryEntry } from "@/data/actions/library";
+import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
 import {
    DPromptTemplateField,
    DPromptTemplateUpdate,
@@ -34,12 +35,42 @@ import {
 } from "./sections";
 import { extractVariablesFromContent, getVariableStatus } from "./utils";
 
-export const NewLibraryEntryForm: FC = () => {
+type Props = {
+   entry?: DLibraryEntryWithPromptTemplate;
+};
+
+const initFromEntry = (
+   entry: DLibraryEntryWithPromptTemplate
+): DPromptTemplateUpdate => {
+   const { templateDescriptor: descriptor } = entry;
+   return {
+      title: descriptor.title,
+      description: descriptor.description,
+      content: descriptor.promptTemplate.content,
+      detailedDescription: descriptor.promptTemplate.detailedDescription,
+      recommendedModel: descriptor.recommendedModel,
+      categories: descriptor.categories.map((c) => c.name),
+      categoryInput: "",
+      fields: descriptor.promptTemplate.fields.map((f) => ({
+         name: f.name,
+         label: f.label,
+         description: f.description ?? "",
+         type: f.type,
+         required: f.required,
+         order: f.order,
+         defaultValue: f.defaultValue ?? "",
+         options: f.options ?? [],
+      })),
+   };
+};
+
+export const LibraryEntryForm: FC<Props> = ({ entry }) => {
    const router = useRouter();
+   const isEdit = !!entry;
 
    const form = useForm<DPromptTemplateUpdate>({
       resolver: zodResolver(updatePromptTemplateSchema),
-      defaultValues: initPromptTempalte(),
+      defaultValues: entry ? initFromEntry(entry) : initPromptTempalte(),
    });
 
    const {
@@ -53,13 +84,11 @@ export const NewLibraryEntryForm: FC = () => {
 
    const content = form.watch("content");
 
-   // Extract variables from content
    const detectedVariables = useMemo(
       () => extractVariablesFromContent(content || ""),
       [content]
    );
 
-   // Determine variable status
    const variableStatus = useMemo(() => {
       const fieldNames = fields.map((f) =>
          form.getValues(`fields.${fields.indexOf(f)}.name`)
@@ -69,16 +98,13 @@ export const NewLibraryEntryForm: FC = () => {
 
    const handleAddField = () => {
       const order = fields.length;
-      const initValue = initPromptTemplateField(order);
-      addField(initValue);
+      addField(initPromptTemplateField(order));
    };
 
    const handleAddVariableAsField = (variableName: string) => {
       const order = fields.length;
-      const name = variableName;
       const label = upperFirst(variableName);
-      const initValue = initPromptTemplateField(order, name, label);
-      addField(initValue);
+      addField(initPromptTemplateField(order, variableName, label));
       toast.success(`Feld "${variableName}" hinzugefügt`);
    };
 
@@ -92,78 +118,35 @@ export const NewLibraryEntryForm: FC = () => {
    };
 
    const onSubmit: SubmitHandler<DPromptTemplateUpdate> = async (data) => {
-      const result = await createLibraryEntry({
-         title: data.title,
-         description: data.description,
-         content: data.content,
-         detailedDescription: data.detailedDescription,
-         recommendedModel: data.recommendedModel,
-         categories: data.categories,
-         fields: data.fields,
-      });
+      const result = isEdit
+         ? await updateLibraryEntry(entry.id, data)
+         : await createLibraryEntry({
+              title: data.title,
+              description: data.description,
+              content: data.content,
+              detailedDescription: data.detailedDescription,
+              recommendedModel: data.recommendedModel,
+              categories: data.categories,
+              fields: data.fields,
+           });
 
       if (result.success) {
          toast.success(result.message);
-         router.push("/library");
+         router.push(isEdit ? `/library/${entry.id}` : "/library");
       } else {
          toast.error(result.message);
       }
    };
 
-   const cancelBtn = () => {
-      return (
-         <Link href="/library">
-            <Button
-               type="button"
-               variant="outline"
-               disabled={form.formState.isSubmitting}
-               className="cursor-pointer"
-               data-testid="cancel-btn"
-            >
-               Abbrechen
-            </Button>
-         </Link>
-      );
-   };
-
-   const createBtn = () => {
-      const { isSubmitting } = form.formState;
-      return (
-         <Button
-            type="submit"
-            disabled={isSubmitting}
-            className="cursor-pointer"
-            data-testid="create-btn"
-         >
-            {isSubmitting ? (
-               <>
-                  <Loader className="h-4 w-4 animate-spin" />
-                  Wird erstellt...
-               </>
-            ) : (
-               <>
-                  <Save className="h-4 w-4" />
-                  Vorlage erstellen
-               </>
-            )}
-         </Button>
-      );
-   };
-
-   const buttons = () => {
-      return (
-         <div className="flex items-center justify-end gap-3 pt-2">
-            {cancelBtn()}
-            {createBtn()}
-         </div>
-      );
-   };
-
    return (
-      <Card data-testid="new-library-entry-form">
+      <Card
+         data-testid={
+            isEdit ? "edit-library-entry-form" : "new-library-entry-form"
+         }
+      >
          <CardHeader className="border-b pb-6">
             <CardTitle className="text-2xl font-bold text-slate-900">
-               Neue Vorlage erstellen
+               {isEdit ? "Vorlage bearbeiten" : "Neue Vorlage erstellen"}
             </CardTitle>
          </CardHeader>
          <CardContent>
@@ -204,7 +187,41 @@ export const NewLibraryEntryForm: FC = () => {
 
                   <Separator />
 
-                  {buttons()}
+                  <div className="flex items-center justify-end gap-3 pt-2">
+                     <Link href={isEdit ? `/library/${entry.id}` : "/library"}>
+                        <Button
+                           type="button"
+                           variant="outline"
+                           disabled={form.formState.isSubmitting}
+                           className="cursor-pointer"
+                           data-testid="cancel-btn"
+                        >
+                           Abbrechen
+                        </Button>
+                     </Link>
+                     <Button
+                        type="submit"
+                        disabled={form.formState.isSubmitting}
+                        className="cursor-pointer"
+                        data-testid={isEdit ? "save-btn" : "create-btn"}
+                     >
+                        {form.formState.isSubmitting ? (
+                           <>
+                              <Loader className="h-4 w-4 animate-spin" />
+                              {isEdit
+                                 ? "Wird gespeichert..."
+                                 : "Wird erstellt..."}
+                           </>
+                        ) : (
+                           <>
+                              <Save className="h-4 w-4" />
+                              {isEdit
+                                 ? "Vorlage speichern"
+                                 : "Vorlage erstellen"}
+                           </>
+                        )}
+                     </Button>
+                  </div>
                </form>
             </Form>
          </CardContent>

@@ -30,7 +30,7 @@ import { createLibraryEntry } from "@/data/actions/library";
 import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 
-import { NewLibraryEntryForm } from "./new-library-entry-form";
+import { LibraryEntryForm } from "./new-library-entry-form";
 
 const createLibraryEntryMock = createLibraryEntry as jest.MockedFunction<
    typeof createLibraryEntry
@@ -80,7 +80,7 @@ const assertFieldRendered = () => {
 
 describe("NewLibraryEntryForm rendering tests", () => {
    it("NewLibraryEntryForm - rendered - test", () => {
-      const { container } = render(<NewLibraryEntryForm />);
+      const { container } = render(<LibraryEntryForm />);
 
       assertRendered();
       assertDetectedVariablesNotRendered();
@@ -89,7 +89,7 @@ describe("NewLibraryEntryForm rendering tests", () => {
    });
 
    it("NewLibraryEntryForm - variables detected in content - test", async () => {
-      const { container } = render(<NewLibraryEntryForm />);
+      const { container } = render(<LibraryEntryForm />);
 
       assertRendered();
       assertDetectedVariablesNotRendered();
@@ -118,7 +118,7 @@ describe("NewLibraryEntryForm functionality tests", () => {
    });
 
    it("NewLibraryEntryForm - add new field btn clicked - test", async () => {
-      render(<NewLibraryEntryForm />);
+      render(<LibraryEntryForm />);
 
       assertRendered();
       assertFieldsEmptyRendered();
@@ -134,7 +134,7 @@ describe("NewLibraryEntryForm functionality tests", () => {
    });
 
    it("NewLibraryEntryForm - remove field btn clicked - test", async () => {
-      render(<NewLibraryEntryForm />);
+      render(<LibraryEntryForm />);
 
       assertRendered();
       assertFieldsEmptyRendered();
@@ -155,7 +155,7 @@ describe("NewLibraryEntryForm functionality tests", () => {
    });
 
    it("NewLibraryEntryForm - add variable as field - test", async () => {
-      render(<NewLibraryEntryForm />);
+      render(<LibraryEntryForm />);
 
       assertRendered();
       assertDetectedVariablesNotRendered();
@@ -188,7 +188,7 @@ describe("NewLibraryEntryForm functionality tests", () => {
    });
 
    it("NewLibraryEntryForm - sync all variables - test", async () => {
-      render(<NewLibraryEntryForm />);
+      render(<LibraryEntryForm />);
 
       assertRendered();
       assertDetectedVariablesNotRendered();
@@ -226,7 +226,7 @@ describe("NewLibraryEntryForm functionality tests", () => {
       };
       createLibraryEntryMock.mockResolvedValue(result);
 
-      render(<NewLibraryEntryForm />);
+      render(<LibraryEntryForm />);
 
       assertRendered();
 
@@ -280,7 +280,7 @@ describe("NewLibraryEntryForm functionality tests", () => {
       };
       createLibraryEntryMock.mockResolvedValue(result);
 
-      render(<NewLibraryEntryForm />);
+      render(<LibraryEntryForm />);
 
       assertRendered();
 
