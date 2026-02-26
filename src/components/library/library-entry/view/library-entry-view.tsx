@@ -74,10 +74,10 @@ export const LibraryEntryView = ({ entry }: Props) => {
                         <CreatePromptButton descriptor={descriptor} />
                         <EditLibraryEntryButton entry={entry} />
                         <DropdownMenu>
-                           <DropdownMenuTrigger asChild>
+                           <DropdownMenuTrigger asChild={true}>
                               <Button
-                                 variant="ghost"
-                                 size="sm"
+                                 variant="outline"
+                                 size="icon-sm"
                                  className="cursor-pointer"
                                  data-testid="more-options-btn"
                               >
@@ -87,7 +87,7 @@ export const LibraryEntryView = ({ entry }: Props) => {
                            <DropdownMenuContent align="end">
                               <DownloadTemplateButton
                                  descriptor={descriptor}
-                                 asMenuItem
+                                 asMenuItem={true}
                               />
                            </DropdownMenuContent>
                         </DropdownMenu>

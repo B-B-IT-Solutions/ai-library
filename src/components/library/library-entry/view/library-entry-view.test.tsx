@@ -1,5 +1,6 @@
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 
 import { LibraryEntryView } from "./library-entry-view";
@@ -12,7 +13,6 @@ const assertRendered = () => {
    const createPromptBtn = screen.getByTestId("create-prompt-btn");
    const editEntryBtn = screen.getByTestId("edit-entry-btn");
    const moreOptionsBtn = screen.getByTestId("more-options-btn");
-   // const downloadBtn = screen.getByTestId("download-template-btn");
 
    assertInDocument(libraryEntry);
    assertInDocument(shortDescription);
@@ -21,7 +21,6 @@ const assertRendered = () => {
    assertInDocument(createPromptBtn);
    assertInDocument(editEntryBtn);
    assertInDocument(moreOptionsBtn);
-   // assertInDocument(downloadBtn);
 };
 
 const assertCategoriesRendered = () => {
@@ -34,8 +33,18 @@ const assertCategoriesNotRendered = () => {
    assertNotInDocument(categories);
 };
 
-describe("LibraryEntryDetails rendering tests", () => {
-   it("LibraryEntryDetails - categories empty - rendered test", async () => {
+const assertContextMenuRendered = () => {
+   const downloadBtn = screen.getByTestId("download-template-menu-item");
+   assertInDocument(downloadBtn);
+};
+
+const assertContextMenuNotRendered = () => {
+   const downloadBtn = screen.queryByTestId("download-template-menu-item");
+   assertNotInDocument(downloadBtn);
+};
+
+describe("LibraryEntryView rendering tests", () => {
+   it("LibraryEntryView - categories empty - rendered test", async () => {
       const entry = dtestData.dLibraryEntryWithPromptTemplate();
       entry.templateDescriptor.categories = [];
 
@@ -44,12 +53,13 @@ describe("LibraryEntryDetails rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertCategoriesNotRendered();
+         assertContextMenuNotRendered();
       });
 
       expect(container).toMatchSnapshot();
    });
 
-   it("LibraryEntryDetails - with categories - rendered test", async () => {
+   it("LibraryEntryView - with categories - rendered test", async () => {
       const entry = dtestData.dLibraryEntryWithPromptTemplate();
 
       const { container } = render(<LibraryEntryView entry={entry} />);
@@ -57,8 +67,27 @@ describe("LibraryEntryDetails rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertCategoriesRendered();
+         assertContextMenuNotRendered();
       });
 
       expect(container).toMatchSnapshot();
+   });
+});
+
+describe("LibraryEntryView functionality tests", () => {
+   it("LibraryEntryView - context menu btn clicked - test", async () => {
+      const entry = dtestData.dLibraryEntryWithPromptTemplate();
+
+      render(<LibraryEntryView entry={entry} />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertContextMenuNotRendered();
+      });
+
+      const moreOptionsBtn = screen.getByTestId("more-options-btn");
+      await userEvent.click(moreOptionsBtn);
+
+      assertContextMenuRendered();
    });
 });
