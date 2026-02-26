@@ -63,6 +63,10 @@ describe("initPromptTempalte tests", () => {
 
    it("initPromptTempalte - existing entry test", () => {
       const entry = dtestData.dLibraryEntryWithPromptTemplate();
+      const field = entry.templateDescriptor.promptTemplate.fields[0];
+      field.description = null;
+      field.defaultValue = null;
+      field.options = undefined;
       const initValues = initPromptTempalte(entry);
       const expectedValues = expectedInitPromptTempalteExisting(entry);
       expect(initValues).toEqual(expectedValues);
