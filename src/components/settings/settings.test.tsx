@@ -3,6 +3,11 @@ jest.mock("./user/subscription", () => {
    return { Subscription };
 });
 
+jest.mock("./content/template-fields", () => {
+   const TemplateFields = () => <div data-testid="template-fields"></div>;
+   return { TemplateFields };
+});
+
 import { render, screen, waitFor } from "@testing-library/react";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 
@@ -36,6 +41,7 @@ describe("Settings rendering tests", () => {
          assertContentRendered("general-settings");
          assertContentNotRendered("account-settings");
          assertContentNotRendered("subscription");
+         assertContentNotRendered("template-fields");
       });
 
       expect(container).toMatchSnapshot();
@@ -50,6 +56,7 @@ describe("Settings rendering tests", () => {
          assertContentRendered("account-settings");
          assertContentNotRendered("general-settings");
          assertContentNotRendered("subscription");
+         assertContentNotRendered("template-fields");
       });
 
       expect(container).toMatchSnapshot();
@@ -66,6 +73,24 @@ describe("Settings rendering tests", () => {
          assertContentRendered("subscription");
          assertContentNotRendered("account-settings");
          assertContentNotRendered("general-settings");
+         assertContentNotRendered("template-fields");
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("Settings - section global-template-fields - test", async () => {
+      const user = dtestData.dUser();
+      const { container } = render(
+         <Settings user={user} section="template-fields" />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertContentRendered("template-fields");
+         assertContentNotRendered("account-settings");
+         assertContentNotRendered("general-settings");
+         assertContentNotRendered("subscription");
       });
 
       expect(container).toMatchSnapshot();

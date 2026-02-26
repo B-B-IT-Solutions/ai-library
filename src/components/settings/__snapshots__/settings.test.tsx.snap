@@ -717,6 +717,92 @@ exports[`Settings rendering tests Settings - section general - rendered - test 1
 </div>
 `;
 
+exports[`Settings rendering tests Settings - section global-template-fields - test 1`] = `
+<div>
+  <div
+    class="grid grid-cols-1 gap-8 lg:grid-cols-12"
+    data-testid="settings-view"
+  >
+    <aside
+      class="lg:col-span-3"
+      data-testid="navigation"
+    >
+      <nav
+        class="sticky top-8 space-y-1 rounded-lg border bg-card p-4 shadow-sm"
+      >
+        <div>
+          <p
+            class="mb-1 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase"
+          >
+            Konto
+          </p>
+          <a
+            class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground"
+            data-testid="general-link"
+            href="general"
+          >
+            <span
+              class="font-medium"
+            >
+              Allgemein
+            </span>
+          </a>
+          <a
+            class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground"
+            data-testid="account-link"
+            href="account"
+          >
+            <span
+              class="font-medium"
+            >
+              Konto
+            </span>
+          </a>
+          <a
+            class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground"
+            data-testid="subscription-link"
+            href="subscription"
+          >
+            <span
+              class="font-medium"
+            >
+              Abrechnung
+            </span>
+          </a>
+        </div>
+        <div
+          class="mt-4"
+        >
+          <p
+            class="mb-1 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase"
+          >
+            Inhalt
+          </p>
+          <a
+            class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all bg-primary text-primary-foreground shadow-sm"
+            data-testid="template-fields-link"
+            href="template-fields"
+          >
+            <span
+              class="font-medium"
+            >
+              Vorlagen-Felder
+            </span>
+          </a>
+        </div>
+      </nav>
+    </aside>
+    <main
+      class="lg:col-span-9"
+    >
+      <div
+        data-testid="template-fields"
+      />
+    </main>
+  </div>
+</div>
+`;
+
 exports[`Settings rendering tests Settings - section subscription - test 1`] = `
 <div>
   <div
