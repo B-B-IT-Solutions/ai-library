@@ -22,7 +22,7 @@ jest.mock("@/components/shared/md", () => {
 import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, assertNotInDocument } from "@tests";
+import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
@@ -79,7 +79,7 @@ const assertFieldRendered = () => {
 };
 
 describe("LibraryEntryForm rendering tests", () => {
-   it("LibraryEntryForm - rendered - test", () => {
+   it("LibraryEntryForm - new entry - rendered - test", () => {
       const { container } = render(<LibraryEntryForm />);
 
       assertRendered();
@@ -88,7 +88,7 @@ describe("LibraryEntryForm rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("LibraryEntryForm - variables detected in content - test", async () => {
+   it("LibraryEntryForm - new entry - variables detected in content - test", async () => {
       const { container } = render(<LibraryEntryForm />);
 
       assertRendered();
@@ -106,6 +106,30 @@ describe("LibraryEntryForm rendering tests", () => {
       await waitFor(() => {
          assertDetectedVariablesRendered();
       });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("LibraryEntryForm - existing entry - rendered - test", () => {
+      const entry = dtestData.dLibraryEntryWithPromptTemplate();
+
+      const { container } = render(<LibraryEntryForm entry={entry} />);
+
+      assertRendered();
+      assertDetectedVariablesNotRendered();
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("LibraryEntryForm - existing entry - variables detected in content - test", async () => {
+      const entry = dtestData.dLibraryEntryWithPromptTemplate();
+      entry.templateDescriptor.promptTemplate.content =
+         "Hello {{{{name}}, your role is {{{{role}}";
+
+      const { container } = render(<LibraryEntryForm entry={entry} />);
+
+      assertRendered();
+      assertDetectedVariablesRendered();
 
       expect(container).toMatchSnapshot();
    });
