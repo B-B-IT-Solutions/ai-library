@@ -1,3 +1,6 @@
+import { dtestData } from "@tests";
+
+import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
 import {
    DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
@@ -5,7 +8,32 @@ import {
 
 import { initPromptTempalte, initPromptTemplateField } from "./initValues";
 
-export const expectedInitPromptTempalte: DPromptTemplateUpdate = {
+const expectedInitPromptTempalteExisting = (
+   entry: DLibraryEntryWithPromptTemplate
+): DPromptTemplateUpdate => {
+   const { templateDescriptor: descriptor } = entry;
+   return {
+      title: descriptor.title,
+      description: descriptor.description,
+      content: descriptor.promptTemplate.content,
+      detailedDescription: descriptor.promptTemplate.detailedDescription,
+      recommendedModel: descriptor.recommendedModel,
+      categories: descriptor.categories.map((c) => c.name),
+      categoryInput: "",
+      fields: descriptor.promptTemplate.fields.map((f) => ({
+         name: f.name,
+         label: f.label,
+         description: f.description ?? "",
+         type: f.type,
+         required: f.required,
+         order: f.order,
+         defaultValue: f.defaultValue ?? "",
+         options: f.options ?? [],
+      })),
+   };
+};
+
+export const expectedInitPromptTempalteNew: DPromptTemplateUpdate = {
    title: "",
    description: "",
    content: "",
@@ -27,16 +55,17 @@ export const expectedInitPromptTemplateField: DPromptTemplateFieldUpdate = {
    options: [],
 };
 
-export const expectedInitLibraryCollection: DLibraryCollectionUpdate = {
-   name: "",
-   description: "",
-   color: "#3b82f6",
-};
-
 describe("initPromptTempalte tests", () => {
-   it("initPromptTempalte test", () => {
+   it("initPromptTempalte - new entry test", () => {
       const initValue = initPromptTempalte();
-      expect(initValue).toEqual(expectedInitPromptTempalte);
+      expect(initValue).toEqual(expectedInitPromptTempalteNew);
+   });
+
+   it("initPromptTempalte - existing entry test", () => {
+      const entry = dtestData.dLibraryEntryWithPromptTemplate();
+      const initValues = initPromptTempalte(entry);
+      const expectedValues = expectedInitPromptTempalteExisting(entry);
+      expect(initValues).toEqual(expectedValues);
    });
 });
 

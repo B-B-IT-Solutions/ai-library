@@ -1,19 +1,34 @@
-import { DLibraryCollectionUpdate } from "@/data/types/domain/library";
+import { map } from "es-toolkit/compat";
+
+import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
 import {
    DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 
-export const initPromptTempalte = (): DPromptTemplateUpdate => {
+export const initPromptTempalte = (
+   entry?: DLibraryEntryWithPromptTemplate
+): DPromptTemplateUpdate => {
+   const { templateDescriptor: descriptor } = entry || {};
+   const { promptTemplate } = descriptor || {};
    return {
-      title: "",
-      description: "",
-      content: "",
-      detailedDescription: "",
-      recommendedModel: "Claude 3.5 Sonnet",
-      categories: [],
+      title: descriptor?.title || "",
+      description: descriptor?.description || "",
+      content: promptTemplate?.content || "",
+      detailedDescription: promptTemplate?.detailedDescription || "",
+      recommendedModel: descriptor?.recommendedModel || "Claude 3.5 Sonnet",
+      categories: map(descriptor?.categories, (c) => c.name),
       categoryInput: "",
-      fields: [],
+      fields: map(promptTemplate?.fields, (f) => ({
+         name: f.name,
+         label: f.label,
+         description: f.description ?? "",
+         type: f.type,
+         required: f.required,
+         order: f.order,
+         defaultValue: f.defaultValue ?? "",
+         options: f.options ?? [],
+      })),
    };
 };
 

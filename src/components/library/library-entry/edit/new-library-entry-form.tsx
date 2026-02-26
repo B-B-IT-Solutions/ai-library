@@ -39,31 +39,6 @@ import {
    initPromptTemplateField,
 } from "./utils";
 
-const initFromEntry = (
-   entry: DLibraryEntryWithPromptTemplate
-): DPromptTemplateUpdate => {
-   const { templateDescriptor: descriptor } = entry;
-   return {
-      title: descriptor.title,
-      description: descriptor.description,
-      content: descriptor.promptTemplate.content,
-      detailedDescription: descriptor.promptTemplate.detailedDescription,
-      recommendedModel: descriptor.recommendedModel,
-      categories: descriptor.categories.map((c) => c.name),
-      categoryInput: "",
-      fields: descriptor.promptTemplate.fields.map((f) => ({
-         name: f.name,
-         label: f.label,
-         description: f.description ?? "",
-         type: f.type,
-         required: f.required,
-         order: f.order,
-         defaultValue: f.defaultValue ?? "",
-         options: f.options ?? [],
-      })),
-   };
-};
-
 type Props = {
    entry?: DLibraryEntryWithPromptTemplate;
 };
@@ -74,7 +49,7 @@ export const LibraryEntryForm = ({ entry }: Props) => {
 
    const form = useForm<DPromptTemplateUpdate>({
       resolver: zodResolver(updatePromptTemplateSchema),
-      defaultValues: entry ? initFromEntry(entry) : initPromptTempalte(),
+      defaultValues: initPromptTempalte(entry),
    });
 
    const {
