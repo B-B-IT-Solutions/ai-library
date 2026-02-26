@@ -27,6 +27,7 @@ model User {
   libraryCollections  LibraryCollection[]
   subscription        Subscription?
   subscriptionHistory SubscriptionHistory[]
+  globalFields        GlobalField[]
 
   @@map("user")
 }
@@ -200,6 +201,26 @@ model PromptTemplateCategory {
   templates PromptTemplateDescriptor[]
 
   @@map("prompt_template_category")
+}
+
+model GlobalField {
+  id           String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId       String                  @map("user_id") @db.Uuid
+  name         String                  @db.VarChar(100)
+  label        String                  @db.VarChar(250)
+  description  String?                 @db.VarChar(500)
+  type         PromptTemplateFieldType
+  required     Boolean                 @default(true)
+  defaultValue String?                 @map("default_value") @db.Text
+  options      Json?                   @db.JsonB
+  order        Int                     @default(0)
+  createdAt    DateTime                @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt    DateTime                @updatedAt @map("updated_at")
+  user         User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, name])
+  @@index([userId])
+  @@map("global_field")
 }
 
 model LibraryEntry {

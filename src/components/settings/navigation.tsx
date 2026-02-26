@@ -18,6 +18,7 @@ export const Navigation: FC<NavigationProps> = ({ active }) => {
       { section: "general", label: "Allgemein" },
       { section: "account", label: "Konto" },
       { section: "subscription", label: "Abrechnung" },
+      { section: "template-fields", label: "Vorlagen-Felder" },
    ];
 
    const navItem = (entry: NavigationItem) => {

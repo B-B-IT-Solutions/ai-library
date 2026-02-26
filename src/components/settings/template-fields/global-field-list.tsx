@@ -1,0 +1,169 @@
+"use client";
+
+import { FC, useState } from "react";
+import { map } from "es-toolkit/compat";
+import { Pencil, Plus, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+
+import {
+   AlertDialog,
+   AlertDialogAction,
+   AlertDialogCancel,
+   AlertDialogContent,
+   AlertDialogDescription,
+   AlertDialogFooter,
+   AlertDialogHeader,
+   AlertDialogTitle,
+} from "@/components/shadcn/alert-dialog";
+import { Badge } from "@/components/shadcn/badge";
+import { Button } from "@/components/shadcn/button";
+import { deleteGlobalField } from "@/data/actions/global-field";
+import { DGlobalField } from "@/data/types/domain/global-field";
+
+import { GlobalFieldFormDialog } from "./global-field-form-dialog";
+
+const FIELD_TYPE_LABELS: Record<string, string> = {
+   TEXT: "Text",
+   TEXTAREA: "Textarea",
+   EMAIL: "E-Mail",
+   NUMBER: "Nummer",
+   DATE: "Datum",
+   SELECT: "Auswahl",
+   CHECKBOX: "Checkbox",
+   RADIO: "Radio",
+};
+
+type Props = {
+   fields: DGlobalField[];
+};
+
+export const GlobalFieldList: FC<Props> = ({ fields }) => {
+   const router = useRouter();
+   const [dialogOpen, setDialogOpen] = useState(false);
+   const [editingField, setEditingField] = useState<DGlobalField | undefined>();
+   const [deleteDialogField, setDeleteDialogField] = useState<
+      DGlobalField | undefined
+   >();
+
+   const handleAdd = () => {
+      setEditingField(undefined);
+      setDialogOpen(true);
+   };
+
+   const handleEdit = (field: DGlobalField) => {
+      setEditingField(field);
+      setDialogOpen(true);
+   };
+
+   const handleDeleteConfirm = async () => {
+      if (!deleteDialogField) return;
+      const result = await deleteGlobalField(deleteDialogField.id);
+      if (result.success) {
+         toast.success(result.message);
+         router.refresh();
+      } else {
+         toast.error(result.message);
+      }
+      setDeleteDialogField(undefined);
+   };
+
+   const renderField = (field: DGlobalField) => {
+      return (
+         <div
+            key={field.id}
+            className="flex items-center justify-between rounded-lg border bg-card px-4 py-3 shadow-sm"
+            data-testid="global-field-card"
+         >
+            <div className="flex items-center gap-3">
+               <code className="rounded bg-slate-100 px-2 py-0.5 text-sm font-mono text-slate-700">
+                  {`{{${field.name}}}`}
+               </code>
+               <span className="text-sm font-medium text-slate-900">
+                  {field.label}
+               </span>
+               <Badge variant="secondary" className="text-xs">
+                  {FIELD_TYPE_LABELS[field.type] ?? field.type}
+               </Badge>
+            </div>
+            <div className="flex items-center gap-1">
+               <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => handleEdit(field)}
+                  data-testid="edit-btn"
+               >
+                  <Pencil className="h-4 w-4" />
+               </Button>
+               <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setDeleteDialogField(field)}
+                  data-testid="delete-btn"
+               >
+                  <Trash2 className="h-4 w-4 text-destructive" />
+               </Button>
+            </div>
+         </div>
+      );
+   };
+
+   return (
+      <div className="space-y-4" data-testid="global-field-list">
+         <div className="flex justify-end">
+            <Button
+               type="button"
+               variant="outline"
+               size="sm"
+               onClick={handleAdd}
+               data-testid="add-field-btn"
+            >
+               <Plus className="mr-2 h-4 w-4" />
+               Feld hinzufügen
+            </Button>
+         </div>
+
+         <div className="space-y-2">
+            {map(fields, renderField)}
+         </div>
+
+         <GlobalFieldFormDialog
+            open={dialogOpen}
+            onClose={() => setDialogOpen(false)}
+            field={editingField}
+         />
+
+         <AlertDialog
+            open={!!deleteDialogField}
+            onOpenChange={(o) => !o && setDeleteDialogField(undefined)}
+         >
+            <AlertDialogContent>
+               <AlertDialogHeader>
+                  <AlertDialogTitle>Feld löschen?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                     Möchten Sie das Feld{" "}
+                     <strong>
+                        {deleteDialogField
+                           ? `{{${deleteDialogField.name}}}`
+                           : ""}
+                     </strong>{" "}
+                     wirklich löschen? Diese Aktion kann nicht rückgängig
+                     gemacht werden.
+                  </AlertDialogDescription>
+               </AlertDialogHeader>
+               <AlertDialogFooter>
+                  <AlertDialogCancel>Abbrechen</AlertDialogCancel>
+                  <AlertDialogAction
+                     onClick={handleDeleteConfirm}
+                     className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                  >
+                     Löschen
+                  </AlertDialogAction>
+               </AlertDialogFooter>
+            </AlertDialogContent>
+         </AlertDialog>
+      </div>
+   );
+};

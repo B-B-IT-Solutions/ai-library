@@ -19,9 +19,11 @@ import {
 import { Form } from "@/components/shadcn/form";
 import { Separator } from "@/components/shadcn/separator";
 import { createLibraryEntry, updateLibraryEntry } from "@/data/actions/library";
+import { DGlobalField } from "@/data/types/domain/global-field";
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
 import {
    DPromptTemplateField,
+   DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 import { updatePromptTemplateSchema } from "@/data/types/validators/prompt";
@@ -41,9 +43,10 @@ import {
 
 type Props = {
    entry?: DLibraryEntryWithPromptTemplate;
+   globalFields?: DGlobalField[];
 };
 
-export const LibraryEntryEditForm = ({ entry }: Props) => {
+export const LibraryEntryEditForm = ({ entry, globalFields = [] }: Props) => {
    const router = useRouter();
    const isEdit = !!entry;
 
@@ -96,6 +99,14 @@ export const LibraryEntryEditForm = ({ entry }: Props) => {
          addedCount++;
       });
       toast.success(`${addedCount} Feld(er) synchronisiert`);
+   };
+
+   const handleAddGlobalFields = (gFields: DPromptTemplateFieldUpdate[]) => {
+      const currentCount = fields.length;
+      gFields.forEach((f, idx) => {
+         addField({ ...f, order: currentCount + idx });
+      });
+      toast.success(`${gFields.length} Feld(er) aus Bibliothek hinzugefügt`);
    };
 
    const onSubmit: SubmitHandler<DPromptTemplateUpdate> = async (data) => {
@@ -203,7 +214,9 @@ export const LibraryEntryEditForm = ({ entry }: Props) => {
                   <PromptTemplateFields
                      fields={fields as DPromptTemplateField[]}
                      detectedVariables={detectedVariables}
+                     globalFields={globalFields}
                      onAddField={handleAddField}
+                     onAddGlobalFields={handleAddGlobalFields}
                      onRemoveField={removeField}
                      control={form.control}
                      watch={form.watch}

@@ -1,5 +1,6 @@
 import { RepositoryFactory } from "@/data/repositories";
 import { CartService } from "@/data/services/cart";
+import { GlobalFieldService } from "@/data/services/global-field";
 import { LibraryService } from "@/data/services/library";
 import { OrderService } from "@/data/services/order";
 import { PromptService } from "@/data/services/prompt";
@@ -19,6 +20,7 @@ export class ServiceFactory {
    private subscriptionService?: SubscriptionService;
    private promptService?: PromptService;
    private promptTemplateService?: PromptTemplateService;
+   private globalFieldService?: GlobalFieldService;
 
    constructor(prisma: DbClient) {
       this.repositories = new RepositoryFactory(prisma);
@@ -101,5 +103,14 @@ export class ServiceFactory {
          );
       }
       return this.stripeService;
+   }
+
+   getGlobalFieldService(): GlobalFieldService {
+      if (!this.globalFieldService) {
+         this.globalFieldService = new GlobalFieldService(
+            this.repositories.globalFieldRepository()
+         );
+      }
+      return this.globalFieldService;
    }
 }

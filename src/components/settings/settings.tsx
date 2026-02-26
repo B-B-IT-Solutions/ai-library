@@ -7,6 +7,7 @@ import { AccountSettings } from "./account";
 import { GeneralSettings } from "./general";
 import { Navigation } from "./navigation";
 import { Subscription } from "./subscription";
+import { TemplateFields } from "./template-fields";
 
 type SettingsProps = {
    user: DUser;
@@ -20,6 +21,9 @@ export const Settings: FC<SettingsProps> = ({ user, section }) => {
       }
       if (section === "subscription") {
          return <Subscription />;
+      }
+      if (section === "template-fields") {
+         return <TemplateFields />;
       }
       return <GeneralSettings user={user} />;
    };
