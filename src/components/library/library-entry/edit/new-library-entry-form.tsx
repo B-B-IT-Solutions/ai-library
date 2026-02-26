@@ -140,7 +140,7 @@ export const LibraryEntryForm = ({ entry }: Props) => {
             type="submit"
             disabled={isSubmitting}
             className="cursor-pointer"
-            data-testid={isEdit ? "save-btn" : "create-btn"}
+            data-testid={"save-btn"}
          >
             {isSubmitting ? (
                <>

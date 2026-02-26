@@ -43,14 +43,14 @@ const assertRendered = () => {
    const templateContent = screen.getByTestId("prompt-template-content");
    const fields = screen.getByTestId("prompt-template-fields");
    const cancelBtn = screen.getByTestId("cancel-btn");
-   const createBtn = screen.getByTestId("create-btn");
+   const saveBtn = screen.getByTestId("save-btn");
 
    assertInDocument(form);
    assertInDocument(basicInfo);
    assertInDocument(templateContent);
    assertInDocument(fields);
    assertInDocument(cancelBtn);
-   assertInDocument(createBtn);
+   assertInDocument(saveBtn);
 };
 
 const assertDetectedVariablesRendered = () => {
@@ -230,8 +230,8 @@ describe("NewLibraryEntryForm functionality tests", () => {
 
       assertRendered();
 
-      const createBtn = screen.getByTestId("create-btn");
-      await userEvent.click(createBtn);
+      const saveBtn = screen.getByTestId("save-btn");
+      await userEvent.click(saveBtn);
 
       expect(createLibraryEntryMock).not.toHaveBeenCalled();
 
@@ -252,7 +252,7 @@ describe("NewLibraryEntryForm functionality tests", () => {
       await userEvent.type(detailedDescriptionTextarea, "Detailed description");
       await userEvent.type(content, "Template Content {{{{task}}");
 
-      await userEvent.click(createBtn);
+      await userEvent.click(saveBtn);
 
       const expectedPayload: DPromptTemplateUpdate = {
          title: "Test Template",
@@ -285,8 +285,8 @@ describe("NewLibraryEntryForm functionality tests", () => {
 
       assertRendered();
 
-      const createBtn = screen.getByTestId("create-btn");
-      await userEvent.click(createBtn);
+      const saveBtn = screen.getByTestId("save-btn");
+      await userEvent.click(saveBtn);
 
       expect(createLibraryEntryMock).not.toHaveBeenCalled();
 
@@ -307,7 +307,7 @@ describe("NewLibraryEntryForm functionality tests", () => {
       await userEvent.type(detailedDescriptionTextarea, "Detailed description");
       await userEvent.type(content, "Template Content {{{{task}}");
 
-      await userEvent.click(createBtn);
+      await userEvent.click(saveBtn);
 
       const expectedPayload: DPromptTemplateUpdate = {
          title: "Test Template",
