@@ -78,8 +78,8 @@ const assertFieldRendered = () => {
    assertNotInDocument(fieldsEmpty);
 };
 
-describe("NewLibraryEntryForm rendering tests", () => {
-   it("NewLibraryEntryForm - rendered - test", () => {
+describe("LibraryEntryForm rendering tests", () => {
+   it("LibraryEntryForm - rendered - test", () => {
       const { container } = render(<LibraryEntryForm />);
 
       assertRendered();
@@ -88,7 +88,7 @@ describe("NewLibraryEntryForm rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("NewLibraryEntryForm - variables detected in content - test", async () => {
+   it("LibraryEntryForm - variables detected in content - test", async () => {
       const { container } = render(<LibraryEntryForm />);
 
       assertRendered();
@@ -111,13 +111,13 @@ describe("NewLibraryEntryForm rendering tests", () => {
    });
 });
 
-describe("NewLibraryEntryForm functionality tests", () => {
+describe("LibraryEntryForm functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       mockRouter.push("/");
    });
 
-   it("NewLibraryEntryForm - add new field btn clicked - test", async () => {
+   it("LibraryEntryForm - add new field btn clicked - test", async () => {
       render(<LibraryEntryForm />);
 
       assertRendered();
@@ -133,7 +133,7 @@ describe("NewLibraryEntryForm functionality tests", () => {
       });
    });
 
-   it("NewLibraryEntryForm - remove field btn clicked - test", async () => {
+   it("LibraryEntryForm - remove field btn clicked - test", async () => {
       render(<LibraryEntryForm />);
 
       assertRendered();
@@ -154,7 +154,7 @@ describe("NewLibraryEntryForm functionality tests", () => {
       });
    });
 
-   it("NewLibraryEntryForm - add variable as field - test", async () => {
+   it("LibraryEntryForm - add variable as field - test", async () => {
       render(<LibraryEntryForm />);
 
       assertRendered();
@@ -187,7 +187,7 @@ describe("NewLibraryEntryForm functionality tests", () => {
       });
    });
 
-   it("NewLibraryEntryForm - sync all variables - test", async () => {
+   it("LibraryEntryForm - sync all variables - test", async () => {
       render(<LibraryEntryForm />);
 
       assertRendered();
@@ -219,7 +219,7 @@ describe("NewLibraryEntryForm functionality tests", () => {
       });
    });
 
-   it("NewLibraryEntryForm - create btn clicked  - success - test", async () => {
+   it("LibraryEntryForm - create btn clicked  - success - test", async () => {
       const result: ActionResult = {
          success: true,
          message: "Vorlage erfolgreich erstellt",
@@ -274,7 +274,7 @@ describe("NewLibraryEntryForm functionality tests", () => {
       });
    });
 
-   it("NewLibraryEntryForm - create btn clicked  - failed - test", async () => {
+   it("LibraryEntryForm - create btn clicked  - failed - test", async () => {
       const result: ActionResult = {
          success: false,
          message: "Vorlage erfolgreich erstellt",

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`NewLibraryEntryForm rendering tests NewLibraryEntryForm - rendered - test 1`] = `
+exports[`LibraryEntryForm rendering tests LibraryEntryForm - rendered - test 1`] = `
 <div>
   <div
     class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
@@ -454,7 +454,7 @@ exports[`NewLibraryEntryForm rendering tests NewLibraryEntryForm - rendered - te
 </div>
 `;
 
-exports[`NewLibraryEntryForm rendering tests NewLibraryEntryForm - variables detected in content - test 1`] = `
+exports[`LibraryEntryForm rendering tests LibraryEntryForm - variables detected in content - test 1`] = `
 <div>
   <div
     class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
