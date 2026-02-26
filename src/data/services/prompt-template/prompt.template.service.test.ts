@@ -182,6 +182,29 @@ describe("createPromptTemplateDescriptor tests", () => {
    });
 });
 
+describe("updatePromptTemplateDescriptor tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("updatePromptTemplateDescriptor - descriptor updated - test", async () => {
+      const update = dtestData.dPromptTemplateUpdate();
+      const descriptor = dtestData.dPromptTemplateDescriptor();
+
+      await promptTemplateService.updatePromptTemplateDescriptor(
+         descriptor.id,
+         update
+      );
+
+      expect(
+         promptTemplateRepoMock.pUpdatePromptTemplateDescriptor
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pUpdatePromptTemplateDescriptor
+      ).toHaveBeenCalledWith(descriptor.id, update);
+   });
+});
+
 describe("composePromptFromTemplate tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();

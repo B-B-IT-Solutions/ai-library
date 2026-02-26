@@ -43,17 +43,17 @@ export class PromptTemplateService {
       return await this.repository.pGetPromptTemplateCategories();
    }
 
+   async createPromptTemplateDescriptor(
+      data: DPromptTemplateUpdate
+   ): Promise<DPromptTemplateDescriptor> {
+      return await this.repository.pCreatePromptTemplateDescriptor(data);
+   }
+
    async updatePromptTemplateDescriptor(
       descriptorId: string,
       data: DPromptTemplateUpdate
    ) {
       await this.repository.pUpdatePromptTemplateDescriptor(descriptorId, data);
-   }
-
-   async createPromptTemplateDescriptor(
-      data: DPromptTemplateUpdate
-   ): Promise<DPromptTemplateDescriptor> {
-      return await this.repository.pCreatePromptTemplateDescriptor(data);
    }
 
    async composePromptFromTemplate(
