@@ -1,12 +1,12 @@
 import { DbClient } from "@/data/types/db/common";
 
 import { CartRepository } from "./cart";
-import { SettingsRepository } from "./settings";
 import { LibraryRepository } from "./library";
 import { OrderRepository } from "./order";
 import { ProductRepository } from "./product";
 import { PromptRepository } from "./prompt";
 import { PromptTemplateRepository } from "./prompt-template";
+import { SettingsRepository } from "./settings";
 import { SubscriptionRepository } from "./subscription";
 import { UserRepository } from "./user";
 

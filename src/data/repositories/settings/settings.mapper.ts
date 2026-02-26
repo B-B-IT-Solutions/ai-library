@@ -1,4 +1,4 @@
-import { map } from "es-toolkit/compat";
+import { isArray, map } from "es-toolkit/compat";
 
 import { DGlobalField } from "@/data/types/domain/global-field";
 import { GlobalField } from "@/generated/prisma/client";
@@ -17,9 +17,7 @@ export const toDGlobalField = (field: GlobalField): DGlobalField => {
       type: field.type,
       required: field.required,
       defaultValue: field.defaultValue,
-      options: Array.isArray(field.options)
-         ? (field.options as string[])
-         : null,
+      options: isArray(field.options) ? (field.options as string[]) : null,
       order: field.order,
       createdAt: field.createdAt.toISOString(),
       updatedAt: field.updatedAt.toISOString(),
