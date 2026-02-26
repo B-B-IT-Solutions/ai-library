@@ -1,4 +1,4 @@
-import { isEmpty, map } from "es-toolkit/compat";
+import { isEmpty } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
 import {
@@ -8,6 +8,10 @@ import {
 import {
    GlobalFieldCreateArgs,
    GlobalFieldCreateInput,
+   GlobalFieldDeleteArgs,
+   GlobalFieldFindManyArgs,
+   GlobalFieldUpdateArgs,
+   GlobalFieldUpdateInput,
 } from "@/generated/prisma/models";
 
 import { toDGlobalField, toDGlobalFields } from "./settings.mapper";
@@ -20,11 +24,12 @@ export class SettingsRepository {
    }
 
    async pGetGlobalFields(userId: string): Promise<DGlobalField[]> {
-      const fields = await this.prisma.globalField.findMany({
+      const args: GlobalFieldFindManyArgs = {
          where: { userId },
          orderBy: { order: "asc" },
-      });
+      };
 
+      const fields = await this.prisma.globalField.findMany(args);
       return toDGlobalFields(fields);
    }
 
@@ -48,12 +53,11 @@ export class SettingsRepository {
          },
       };
 
-      const createArgs: GlobalFieldCreateArgs = {
+      const args: GlobalFieldCreateArgs = {
          data: input,
       };
 
-      const field = await this.prisma.globalField.create(createArgs);
-
+      const field = await this.prisma.globalField.create(args);
       return toDGlobalField(field);
    }
 
@@ -62,28 +66,31 @@ export class SettingsRepository {
       userId: string,
       data: DGlobalFieldUpdate
    ): Promise<DGlobalField> {
-      const field = await this.prisma.globalField.update({
+      const input: GlobalFieldUpdateInput = {
+         name: data.name,
+         label: data.label,
+         description: data.description ?? null,
+         type: data.type,
+         required: data.required,
+         defaultValue: data.defaultValue ?? null,
+         options: !isEmpty(data.options) ? data.options : undefined,
+         order: data.order ?? 0,
+      };
+
+      const args: GlobalFieldUpdateArgs = {
          where: { id, userId },
-         data: {
-            name: data.name,
-            label: data.label,
-            description: data.description ?? null,
-            type: data.type,
-            required: data.required,
-            defaultValue: data.defaultValue ?? null,
-            options:
-               data.options && data.options.length > 0
-                  ? data.options
-                  : undefined,
-            order: data.order ?? 0,
-         },
-      });
+         data: input,
+      };
+
+      const field = await this.prisma.globalField.update(args);
       return toDGlobalField(field);
    }
 
-   async pDeleteGlobalField(id: string, userId: string): Promise<void> {
-      await this.prisma.globalField.delete({
+   async pDeleteGlobalField(id: string, userId: string) {
+      const arg: GlobalFieldDeleteArgs = {
          where: { id, userId },
-      });
+      };
+
+      await this.prisma.globalField.delete(arg);
    }
 }
