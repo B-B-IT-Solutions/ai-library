@@ -21,9 +21,15 @@ import {
    FormSelect,
    FormTextArea,
 } from "@/components/shared/widgets";
-import { createGlobalField, updateGlobalField } from "@/data/actions/global-field";
-import { DGlobalField, DGlobalFieldUpdate } from "@/data/types/domain/global-field";
-import { globalFieldSchema } from "@/data/types/validators/global-field";
+import {
+   createGlobalField,
+   updateGlobalField,
+} from "@/data/actions/global-field";
+import {
+   DGlobalField,
+   DGlobalFieldUpdate,
+} from "@/data/types/domain/global-field";
+import { globalFieldSchema } from "@/data/types/validators/settings";
 
 const FIELD_TYPES = [
    { value: "TEXT", label: "Text" },

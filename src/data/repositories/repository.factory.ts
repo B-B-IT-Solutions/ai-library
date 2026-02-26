@@ -1,7 +1,7 @@
 import { DbClient } from "@/data/types/db/common";
 
 import { CartRepository } from "./cart";
-import { GlobalFieldRepository } from "./global-field";
+import { SettingsRepository } from "./settings";
 import { LibraryRepository } from "./library";
 import { OrderRepository } from "./order";
 import { ProductRepository } from "./product";
@@ -20,7 +20,7 @@ export class RepositoryFactory {
    private promptRepo?: PromptRepository;
    private promptTemplateRepos?: PromptTemplateRepository;
    private subscriptionRepo?: SubscriptionRepository;
-   private globalFieldRepo?: GlobalFieldRepository;
+   private globalFieldRepo?: SettingsRepository;
 
    constructor(prisma: DbClient) {
       this.prisma = prisma;
@@ -82,9 +82,9 @@ export class RepositoryFactory {
       return this.subscriptionRepo;
    }
 
-   globalFieldRepository(): GlobalFieldRepository {
+   globalFieldRepository(): SettingsRepository {
       if (!this.globalFieldRepo) {
-         this.globalFieldRepo = new GlobalFieldRepository(this.prisma);
+         this.globalFieldRepo = new SettingsRepository(this.prisma);
       }
       return this.globalFieldRepo;
    }

@@ -1,9 +1,16 @@
-import { map } from "es-toolkit/compat";
+import { isEmpty, map } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
-import { DGlobalField, DGlobalFieldUpdate } from "@/data/types/domain/global-field";
+import {
+   DGlobalField,
+   DGlobalFieldUpdate,
+} from "@/data/types/domain/global-field";
+import {
+   GlobalFieldCreateArgs,
+   GlobalFieldCreateInput,
+} from "@/generated/prisma/models";
 
-export class GlobalFieldRepository {
+export class SettingsRepository {
    private prisma: DbClient;
 
    constructor(prisma: DbClient) {
@@ -22,22 +29,28 @@ export class GlobalFieldRepository {
       userId: string,
       data: DGlobalFieldUpdate
    ): Promise<DGlobalField> {
-      const field = await this.prisma.globalField.create({
-         data: {
-            userId,
-            name: data.name,
-            label: data.label,
-            description: data.description ?? null,
-            type: data.type,
-            required: data.required,
-            defaultValue: data.defaultValue ?? null,
-            options:
-               data.options && data.options.length > 0
-                  ? data.options
-                  : undefined,
-            order: data.order ?? 0,
+      const input: GlobalFieldCreateInput = {
+         name: data.name,
+         label: data.label,
+         description: data.description ?? null,
+         type: data.type,
+         required: data.required,
+         defaultValue: data.defaultValue ?? null,
+         options: !isEmpty(data.options) ? data.options : undefined,
+         order: data.order ?? 0,
+         user: {
+            connect: {
+               id: userId,
+            },
          },
-      });
+      };
+
+      const createArgs: GlobalFieldCreateArgs = {
+         data: input,
+      };
+
+      const field = await this.prisma.globalField.create(createArgs);
+
       return toDGlobalField(field);
    }
 
@@ -95,7 +108,9 @@ function toDGlobalField(field: {
       type: field.type as DGlobalField["type"],
       required: field.required,
       defaultValue: field.defaultValue,
-      options: Array.isArray(field.options) ? (field.options as string[]) : null,
+      options: Array.isArray(field.options)
+         ? (field.options as string[])
+         : null,
       order: field.order,
       createdAt: field.createdAt.toISOString(),
       updatedAt: field.updatedAt.toISOString(),

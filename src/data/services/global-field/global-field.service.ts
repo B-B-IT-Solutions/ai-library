@@ -1,10 +1,13 @@
-import { GlobalFieldRepository } from "@/data/repositories/global-field";
-import { DGlobalField, DGlobalFieldUpdate } from "@/data/types/domain/global-field";
+import { SettingsRepository } from "@/data/repositories/settings";
+import {
+   DGlobalField,
+   DGlobalFieldUpdate,
+} from "@/data/types/domain/global-field";
 
 export class GlobalFieldService {
-   private globalFieldRepository: GlobalFieldRepository;
+   private globalFieldRepository: SettingsRepository;
 
-   constructor(globalFieldRepository: GlobalFieldRepository) {
+   constructor(globalFieldRepository: SettingsRepository) {
       this.globalFieldRepository = globalFieldRepository;
    }
 
@@ -24,7 +27,11 @@ export class GlobalFieldService {
       userId: string,
       data: DGlobalFieldUpdate
    ): Promise<DGlobalField> {
-      return await this.globalFieldRepository.pUpdateGlobalField(id, userId, data);
+      return await this.globalFieldRepository.pUpdateGlobalField(
+         id,
+         userId,
+         data
+      );
    }
 
    async deleteGlobalField(id: string, userId: string): Promise<void> {
