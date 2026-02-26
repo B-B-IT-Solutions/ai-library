@@ -61,6 +61,8 @@ export const LibraryEntryForm = ({ entry }: Props) => {
       name: "fields",
    });
 
+   const { isSubmitting } = form.formState;
+
    const content = form.watch("content");
 
    const detectedVariables = useMemo(
@@ -97,23 +99,22 @@ export const LibraryEntryForm = ({ entry }: Props) => {
    };
 
    const onSubmit: SubmitHandler<DPromptTemplateUpdate> = async (data) => {
-      const result = isEdit
-         ? await updateLibraryEntry(entry.id, data)
-         : await createLibraryEntry({
-              title: data.title,
-              description: data.description,
-              content: data.content,
-              detailedDescription: data.detailedDescription,
-              recommendedModel: data.recommendedModel,
-              categories: data.categories,
-              fields: data.fields,
-           });
-
-      if (result.success) {
-         toast.success(result.message);
-         router.push(isEdit ? `/library/${entry.id}` : "/library");
+      if (isEdit) {
+         const result = await updateLibraryEntry(entry.id, data);
+         if (result.success) {
+            toast.success(result.message);
+            router.push(`/library/${entry.id}`);
+         } else {
+            toast.error(result.message);
+         }
       } else {
-         toast.error(result.message);
+         const result = await createLibraryEntry(data);
+         if (result.success) {
+            toast.success(result.message);
+            router.push("/library");
+         } else {
+            toast.error(result.message);
+         }
       }
    };
 
@@ -123,7 +124,7 @@ export const LibraryEntryForm = ({ entry }: Props) => {
             <Button
                type="button"
                variant="outline"
-               disabled={form.formState.isSubmitting}
+               disabled={isSubmitting}
                className="cursor-pointer"
                data-testid="cancel-btn"
             >
@@ -134,11 +135,10 @@ export const LibraryEntryForm = ({ entry }: Props) => {
    };
 
    const createBtn = () => {
-      const { isSubmitting } = form.formState;
       return (
          <Button
             type="submit"
-            disabled={form.formState.isSubmitting}
+            disabled={isSubmitting}
             className="cursor-pointer"
             data-testid={isEdit ? "save-btn" : "create-btn"}
          >

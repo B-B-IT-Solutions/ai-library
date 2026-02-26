@@ -262,6 +262,7 @@ describe("NewLibraryEntryForm functionality tests", () => {
          categories: [],
          fields: [],
          recommendedModel: "Claude 3.5 Sonnet",
+         categoryInput: "",
       };
 
       await waitFor(() => {
@@ -316,6 +317,7 @@ describe("NewLibraryEntryForm functionality tests", () => {
          categories: [],
          fields: [],
          recommendedModel: "Claude 3.5 Sonnet",
+         categoryInput: "",
       };
 
       await waitFor(() => {
