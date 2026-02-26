@@ -78,7 +78,7 @@ export const updateLibraryEntry = async (
 
       const user = await requireUser();
       const service = getLibrarySevice();
-      await service.updateLibraryEntry(entryId, user.id, data);
+      await service.updateLibraryEntry(user.id, entryId, data);
 
       return {
          success: true,

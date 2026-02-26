@@ -50,8 +50,8 @@ export class LibraryService {
    }
 
    async updateLibraryEntry(
-      entryId: string,
       userId: string,
+      entryId: string,
       data: DPromptTemplateUpdate
    ): Promise<void> {
       const entry = await this.getLibraryEntry(entryId, userId);
