@@ -26,14 +26,18 @@ import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
-import { createLibraryEntry } from "@/data/actions/library";
+import { createLibraryEntry, updateLibraryEntry } from "@/data/actions/library";
 import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 
 import { LibraryEntryForm } from "./new-library-entry-form";
+import { initPromptTempalte } from "./utils";
 
 const createLibraryEntryMock = createLibraryEntry as jest.MockedFunction<
    typeof createLibraryEntry
+>;
+const updateLibraryEntryMock = updateLibraryEntry as jest.MockedFunction<
+   typeof updateLibraryEntry
 >;
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
@@ -243,7 +247,7 @@ describe("LibraryEntryForm functionality tests", () => {
       });
    });
 
-   it("LibraryEntryForm - create btn clicked  - success - test", async () => {
+   it("LibraryEntryForm - new entry - save btn clicked  - success - test", async () => {
       const result: ActionResult = {
          success: true,
          message: "Vorlage erfolgreich erstellt",
@@ -298,7 +302,66 @@ describe("LibraryEntryForm functionality tests", () => {
       });
    });
 
-   it("LibraryEntryForm - create btn clicked  - failed - test", async () => {
+   it("LibraryEntryForm - existing entry - save btn clicked  - success - test", async () => {
+      const result: ActionResult = {
+         success: true,
+         message: "Vorlage erfolgreich erstellt",
+      };
+      updateLibraryEntryMock.mockResolvedValue(result);
+
+      const entry = dtestData.dLibraryEntryWithPromptTemplate();
+
+      render(<LibraryEntryForm entry={entry} />);
+
+      assertRendered();
+
+      const saveBtn = screen.getByTestId("save-btn");
+
+      // Fill in required fields
+      const title = screen.getByTestId("title");
+      const titleInput = within(title).getByTestId("input");
+      const description = screen.getByTestId("description");
+      const descriptionTextarea = within(description).getByTestId("textarea");
+      const detailedDescription = screen.getByTestId("detailedDescription");
+      const detailedDescriptionTextarea =
+         within(detailedDescription).getByTestId("textarea");
+      const content = screen
+         .getByTestId("tiptap-editor")
+         .querySelector("input")!;
+
+      await userEvent.type(titleInput, "Test Template");
+      await userEvent.type(descriptionTextarea, "Test Description");
+      await userEvent.type(detailedDescriptionTextarea, "Detailed description");
+      await userEvent.type(content, "Template Content {{{{task}}");
+
+      await userEvent.click(saveBtn);
+
+      const initValue = initPromptTempalte(entry);
+      const expectedPayload: DPromptTemplateUpdate = {
+         title: initValue.title + "Test Template",
+         description: initValue.description + "Test Description",
+         detailedDescription:
+            initValue.detailedDescription + "Detailed description",
+         content: initValue.content + "Template Content {{task}}",
+         categories: initValue.categories,
+         fields: initValue.fields,
+         recommendedModel: initValue.recommendedModel,
+         categoryInput: "",
+      };
+
+      await waitFor(() => {
+         expect(updateLibraryEntryMock).toHaveBeenCalledTimes(1);
+         expect(updateLibraryEntryMock).toHaveBeenCalledWith(
+            entry.id,
+            expectedPayload
+         );
+         expect(toastMock.success).toHaveBeenCalledTimes(1);
+         expect(toastMock.success).toHaveBeenCalledWith(result.message);
+         expect(mockRouter.pathname).toEqual(`/library/${entry.id}`);
+      });
+   });
+
+   it("LibraryEntryForm - new entry - save btn clicked  - failed - test", async () => {
       const result: ActionResult = {
          success: false,
          message: "Vorlage erfolgreich erstellt",
@@ -347,6 +410,64 @@ describe("LibraryEntryForm functionality tests", () => {
       await waitFor(() => {
          expect(createLibraryEntryMock).toHaveBeenCalledTimes(1);
          expect(createLibraryEntryMock).toHaveBeenCalledWith(expectedPayload);
+         expect(toastMock.error).toHaveBeenCalledTimes(1);
+         expect(toastMock.error).toHaveBeenCalledWith(result.message);
+         expect(mockRouter.pathname).toEqual("/");
+      });
+   });
+
+   it("LibraryEntryForm - existing entry - save btn clicked  - failed - test", async () => {
+      const result: ActionResult = {
+         success: false,
+         message: "Vorlage erfolgreich erstellt",
+      };
+      updateLibraryEntryMock.mockResolvedValue(result);
+
+      const entry = dtestData.dLibraryEntryWithPromptTemplate();
+
+      render(<LibraryEntryForm entry={entry} />);
+
+      assertRendered();
+
+      // Fill in required fields
+      const title = screen.getByTestId("title");
+      const titleInput = within(title).getByTestId("input");
+      const description = screen.getByTestId("description");
+      const descriptionTextarea = within(description).getByTestId("textarea");
+      const detailedDescription = screen.getByTestId("detailedDescription");
+      const detailedDescriptionTextarea =
+         within(detailedDescription).getByTestId("textarea");
+      const content = screen
+         .getByTestId("tiptap-editor")
+         .querySelector("input")!;
+
+      await userEvent.type(titleInput, "Test Template");
+      await userEvent.type(descriptionTextarea, "Test Description");
+      await userEvent.type(detailedDescriptionTextarea, "Detailed description");
+      await userEvent.type(content, "Template Content {{{{task}}");
+
+      const saveBtn = screen.getByTestId("save-btn");
+      await userEvent.click(saveBtn);
+
+      const initValue = initPromptTempalte(entry);
+      const expectedPayload: DPromptTemplateUpdate = {
+         title: initValue.title + "Test Template",
+         description: initValue.description + "Test Description",
+         detailedDescription:
+            initValue.detailedDescription + "Detailed description",
+         content: initValue.content + "Template Content {{task}}",
+         categories: initValue.categories,
+         fields: initValue.fields,
+         recommendedModel: initValue.recommendedModel,
+         categoryInput: "",
+      };
+
+      await waitFor(() => {
+         expect(updateLibraryEntryMock).toHaveBeenCalledTimes(1);
+         expect(updateLibraryEntryMock).toHaveBeenCalledWith(
+            entry.id,
+            expectedPayload
+         );
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
          expect(mockRouter.pathname).toEqual("/");
