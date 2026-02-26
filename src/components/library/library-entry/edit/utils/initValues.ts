@@ -12,11 +12,11 @@ export const initPromptTempalte = (
    const { templateDescriptor: descriptor } = entry || {};
    const { promptTemplate } = descriptor || {};
    return {
-      title: descriptor?.title || "",
-      description: descriptor?.description || "",
-      content: promptTemplate?.content || "",
-      detailedDescription: promptTemplate?.detailedDescription || "",
-      recommendedModel: descriptor?.recommendedModel || "Claude 3.5 Sonnet",
+      title: descriptor?.title ?? "",
+      description: descriptor?.description ?? "",
+      content: promptTemplate?.content ?? "",
+      detailedDescription: promptTemplate?.detailedDescription ?? "",
+      recommendedModel: descriptor?.recommendedModel ?? "Claude 3.5 Sonnet",
       categories: map(descriptor?.categories, (c) => c.name),
       categoryInput: "",
       fields: map(promptTemplate?.fields, (f) => ({
