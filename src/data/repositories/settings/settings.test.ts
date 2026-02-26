@@ -3,7 +3,6 @@ import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { DGlobalFieldUpdate } from "@/data/types/domain/global-field";
 import {
    GlobalFieldCreateArgs,
    GlobalFieldCreateInput,
