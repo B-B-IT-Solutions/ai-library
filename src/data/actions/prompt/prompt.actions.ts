@@ -17,26 +17,26 @@ import { formatError } from "../utils";
 export const getPrompts = async (
    query?: DPromptDescriptorsPageQuery
 ): Promise<DPromptDescriptorsPage> => {
-   const service = getPromptSevice();
+   const service = getSevice();
    return await service.getPrompts(query);
 };
 
 export const getPrompt = async (
    id: string
 ): Promise<DPromptDescriptor | undefined> => {
-   const service = getPromptSevice();
+   const service = getSevice();
    return await service.getPrompt(id);
 };
 
 export const getPromptCategories = async (): Promise<string[]> => {
-   const service = getPromptSevice();
+   const service = getSevice();
    const categories = await service.getPromptCategories();
    return map(categories, (c) => c.name);
 };
 
 export const createPrompt = async (data: DPromptUpdate) => {
    try {
-      const service = getPromptSevice();
+      const service = getSevice();
       await service.createPrompt(data);
       return {
          success: true,
@@ -56,7 +56,7 @@ export const updatePrompt = async (
    createVersion: boolean
 ) => {
    try {
-      const service = getPromptSevice();
+      const service = getSevice();
       await service.updatePrompt(promptId, data, createVersion);
       return {
          success: true,
@@ -72,7 +72,7 @@ export const updatePrompt = async (
 
 export const toggleFavorite = async (id: string, isFavorite: boolean) => {
    try {
-      const service = getPromptSevice();
+      const service = getSevice();
       await service.toggleFavorite(id, isFavorite);
       revalidatePath(`/prompts/${id}`);
       return {
@@ -91,7 +91,7 @@ export const toggleFavorite = async (id: string, isFavorite: boolean) => {
 
 export const deletePrompt = async (id: string) => {
    try {
-      const service = getPromptSevice();
+      const service = getSevice();
       await service.deletePrompt(id);
       return {
          success: true,
@@ -105,7 +105,7 @@ export const deletePrompt = async (id: string) => {
    }
 };
 
-const getPromptSevice = (dbClient: DbClient = prisma) => {
+const getSevice = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getPromptService();
 };

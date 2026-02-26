@@ -26,7 +26,7 @@ export const getLibraryEntriesPage = async (
 ): Promise<DLibraryEntriesPage> => {
    try {
       const user = await requireUser();
-      const service = getLibrarySevice();
+      const service = getSevice();
       return await service.getLibraryEntriesPage(user.id, query);
    } catch (error) {
       console.error(formatError(error));
@@ -39,7 +39,7 @@ export const getLibraryEntry = async (
 ): Promise<DLibraryEntryWithPromptTemplate | null> => {
    try {
       const user = await requireUser();
-      const service = getLibrarySevice();
+      const service = getSevice();
       return await service.getLibraryEntry(entryId, user.id);
    } catch (error) {
       console.error(formatError(error));
@@ -52,7 +52,7 @@ export const createLibraryEntry = async (
 ): Promise<ActionResult> => {
    try {
       const user = await requireUser();
-      const service = getLibrarySevice();
+      const service = getSevice();
       await service.createLibraryEntry(data, user.id);
       return {
          success: true,
@@ -77,7 +77,7 @@ export const updateLibraryEntry = async (
       }
 
       const user = await requireUser();
-      const service = getLibrarySevice();
+      const service = getSevice();
       await service.updateLibraryEntry(user.id, entryId, data);
 
       return {
@@ -104,7 +104,7 @@ export const composePromptFromTemplate = async (
 
       const user = await requireUser();
 
-      const service = getLibrarySevice();
+      const service = getSevice();
       const promptData = await service.composePromptFromTemplate(
          descriptorId,
          fieldValues,
@@ -133,7 +133,7 @@ export const downloadTemplate = async (
 
       const user = await requireUser();
 
-      const service = getLibrarySevice();
+      const service = getSevice();
       const downloadData = await service.downloadPromptTemplate(
          descriptorId,
          user.id
@@ -156,7 +156,7 @@ export const downloadTemplate = async (
 export const getLibraryCategories = async (): Promise<string[]> => {
    try {
       const user = await requireUser();
-      const service = getLibrarySevice();
+      const service = getSevice();
       return await service.getLibraryCategories(user.id);
    } catch (error) {
       console.error(formatError(error));
@@ -167,7 +167,7 @@ export const getLibraryCategories = async (): Promise<string[]> => {
 export const getLibraryModels = async (): Promise<string[]> => {
    try {
       const user = await requireUser();
-      const service = getLibrarySevice();
+      const service = getSevice();
       return await service.getLibraryModels(user.id);
    } catch (error) {
       console.error(formatError(error));
@@ -185,7 +185,7 @@ export const toggleLibraryEntryFavorite = async (
       }
 
       const user = await requireUser();
-      const service = getLibrarySevice();
+      const service = getSevice();
       await service.toggleFavorite(entryId, user.id, isFavorite);
 
       return {
@@ -208,7 +208,7 @@ export const getLibraryCollections = async (): Promise<
 > => {
    try {
       const user = await requireUser();
-      const service = getLibrarySevice();
+      const service = getSevice();
       return await service.getCollections(user.id);
    } catch (error) {
       console.error(formatError(error));
@@ -221,7 +221,7 @@ export const createLibraryCollection = async (
 ): Promise<ActionResult<DLibraryCollection>> => {
    try {
       const user = await requireUser();
-      const service = getLibrarySevice();
+      const service = getSevice();
       const collection = await service.createCollection(user.id, data);
 
       return {
@@ -248,7 +248,7 @@ export const updateLibraryCollection = async (
       }
 
       const user = await requireUser();
-      const service = getLibrarySevice();
+      const service = getSevice();
       await service.updateCollection(collectionId, user.id, data);
 
       return {
@@ -273,7 +273,7 @@ export const deleteLibraryCollection = async (
       }
 
       const user = await requireUser();
-      const service = getLibrarySevice();
+      const service = getSevice();
       await service.deleteCollection(collectionId, user.id);
 
       return {
@@ -298,7 +298,7 @@ export const getEntryCollectionIds = async (
       }
 
       const user = await requireUser();
-      const service = getLibrarySevice();
+      const service = getSevice();
       return await service.getEntryCollectionIds(user.id, entryId);
    } catch (error) {
       console.error(formatError(error));
@@ -316,7 +316,7 @@ export const updateEntryCollections = async (
       }
 
       const user = await requireUser();
-      const service = getLibrarySevice();
+      const service = getSevice();
       await service.updateEntryCollections(user.id, entryId, collectionIds);
 
       return {
@@ -332,7 +332,7 @@ export const updateEntryCollections = async (
    }
 };
 
-const getLibrarySevice = (dbClient: DbClient = prisma) => {
+const getSevice = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getLibraryService();
 };

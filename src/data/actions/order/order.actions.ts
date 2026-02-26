@@ -12,8 +12,8 @@ import { DOrder } from "@/data/types/domain/order";
 export const getOrders = async (): Promise<DOrder[]> => {
    try {
       const user = await requireUser();
-      const orderService = getOrderSevice();
-      return orderService.getOrders(user.id);
+      const service = getSevice();
+      return service.getOrders(user.id);
    } catch (error) {
       console.error(formatError(error));
       return [];
@@ -27,15 +27,15 @@ export const getOrder = async (orderId: string): Promise<DOrder | null> => {
       }
       const user = await requireUser();
 
-      const orderService = getOrderSevice();
-      return orderService.getOrder(orderId, user.id);
+      const service = getSevice();
+      return service.getOrder(orderId, user.id);
    } catch (error) {
       console.error(formatError(error));
       return null;
    }
 };
 
-const getOrderSevice = (dbClient: DbClient = prisma) => {
+const getSevice = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getOrderService();
 };
