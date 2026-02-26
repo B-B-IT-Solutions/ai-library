@@ -43,7 +43,7 @@ type Props = {
    entry?: DLibraryEntryWithPromptTemplate;
 };
 
-export const LibraryEntryForm = ({ entry }: Props) => {
+export const LibraryEntryEditForm = ({ entry }: Props) => {
    const router = useRouter();
    const isEdit = !!entry;
 

@@ -1,7 +1,7 @@
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
 import { ReturnToLibraryButton } from "../../buttons";
 
-import { LibraryEntryForm } from "./new-library-entry-form";
+import { LibraryEntryEditForm } from "./library-entry-edit-form";
 
 type Props = {
    entry?: DLibraryEntryWithPromptTemplate;
@@ -48,7 +48,7 @@ export const LibraryEntryEdit = ({ entry }: Props) => {
                <div className="mb-4">
                   <ReturnToLibraryButton />
                </div>
-               <LibraryEntryForm entry={entry} />
+               <LibraryEntryEditForm entry={entry} />
             </div>
          </div>
       </div>

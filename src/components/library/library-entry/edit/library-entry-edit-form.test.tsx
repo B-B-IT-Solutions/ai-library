@@ -30,7 +30,7 @@ import { createLibraryEntry, updateLibraryEntry } from "@/data/actions/library";
 import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 
-import { LibraryEntryForm } from "./new-library-entry-form";
+import { LibraryEntryEditForm } from "./library-entry-edit-form";
 import { initPromptTempalte } from "./utils";
 
 const createLibraryEntryMock = createLibraryEntry as jest.MockedFunction<
@@ -82,9 +82,9 @@ const assertFieldRendered = () => {
    assertNotInDocument(fieldsEmpty);
 };
 
-describe("LibraryEntryForm rendering tests", () => {
-   it("LibraryEntryForm - new entry - rendered - test", () => {
-      const { container } = render(<LibraryEntryForm />);
+describe("LibraryEntryEditForm rendering tests", () => {
+   it("LibraryEntryEditForm - new entry - rendered - test", () => {
+      const { container } = render(<LibraryEntryEditForm />);
 
       assertRendered();
       assertDetectedVariablesNotRendered();
@@ -92,8 +92,8 @@ describe("LibraryEntryForm rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("LibraryEntryForm - new entry - variables detected in content - test", async () => {
-      const { container } = render(<LibraryEntryForm />);
+   it("LibraryEntryEditForm - new entry - variables detected in content - test", async () => {
+      const { container } = render(<LibraryEntryEditForm />);
 
       assertRendered();
       assertDetectedVariablesNotRendered();
@@ -114,10 +114,10 @@ describe("LibraryEntryForm rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("LibraryEntryForm - existing entry - rendered - test", () => {
+   it("LibraryEntryEditForm - existing entry - rendered - test", () => {
       const entry = dtestData.dLibraryEntryWithPromptTemplate();
 
-      const { container } = render(<LibraryEntryForm entry={entry} />);
+      const { container } = render(<LibraryEntryEditForm entry={entry} />);
 
       assertRendered();
       assertDetectedVariablesNotRendered();
@@ -125,12 +125,12 @@ describe("LibraryEntryForm rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("LibraryEntryForm - existing entry - variables detected in content - test", async () => {
+   it("LibraryEntryEditForm - existing entry - variables detected in content - test", async () => {
       const entry = dtestData.dLibraryEntryWithPromptTemplate();
       entry.templateDescriptor.promptTemplate.content =
          "Hello {{{{name}}, your role is {{{{role}}";
 
-      const { container } = render(<LibraryEntryForm entry={entry} />);
+      const { container } = render(<LibraryEntryEditForm entry={entry} />);
 
       assertRendered();
       assertDetectedVariablesRendered();
@@ -139,14 +139,14 @@ describe("LibraryEntryForm rendering tests", () => {
    });
 });
 
-describe("LibraryEntryForm functionality tests", () => {
+describe("LibraryEntryEditForm functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       mockRouter.push("/");
    });
 
-   it("LibraryEntryForm - add new field btn clicked - test", async () => {
-      render(<LibraryEntryForm />);
+   it("LibraryEntryEditForm - add new field btn clicked - test", async () => {
+      render(<LibraryEntryEditForm />);
 
       assertRendered();
       assertFieldsEmptyRendered();
@@ -161,8 +161,8 @@ describe("LibraryEntryForm functionality tests", () => {
       });
    });
 
-   it("LibraryEntryForm - remove field btn clicked - test", async () => {
-      render(<LibraryEntryForm />);
+   it("LibraryEntryEditForm - remove field btn clicked - test", async () => {
+      render(<LibraryEntryEditForm />);
 
       assertRendered();
       assertFieldsEmptyRendered();
@@ -182,8 +182,8 @@ describe("LibraryEntryForm functionality tests", () => {
       });
    });
 
-   it("LibraryEntryForm - add variable as field - test", async () => {
-      render(<LibraryEntryForm />);
+   it("LibraryEntryEditForm - add variable as field - test", async () => {
+      render(<LibraryEntryEditForm />);
 
       assertRendered();
       assertDetectedVariablesNotRendered();
@@ -215,8 +215,8 @@ describe("LibraryEntryForm functionality tests", () => {
       });
    });
 
-   it("LibraryEntryForm - sync all variables - test", async () => {
-      render(<LibraryEntryForm />);
+   it("LibraryEntryEditForm - sync all variables - test", async () => {
+      render(<LibraryEntryEditForm />);
 
       assertRendered();
       assertDetectedVariablesNotRendered();
@@ -247,14 +247,14 @@ describe("LibraryEntryForm functionality tests", () => {
       });
    });
 
-   it("LibraryEntryForm - new entry - save btn clicked  - success - test", async () => {
+   it("LibraryEntryEditForm - new entry - save btn clicked  - success - test", async () => {
       const result: ActionResult = {
          success: true,
          message: "Vorlage erfolgreich erstellt",
       };
       createLibraryEntryMock.mockResolvedValue(result);
 
-      render(<LibraryEntryForm />);
+      render(<LibraryEntryEditForm />);
 
       assertRendered();
 
@@ -302,7 +302,7 @@ describe("LibraryEntryForm functionality tests", () => {
       });
    });
 
-   it("LibraryEntryForm - existing entry - save btn clicked  - success - test", async () => {
+   it("LibraryEntryEditForm - existing entry - save btn clicked  - success - test", async () => {
       const result: ActionResult = {
          success: true,
          message: "Vorlage erfolgreich erstellt",
@@ -311,7 +311,7 @@ describe("LibraryEntryForm functionality tests", () => {
 
       const entry = dtestData.dLibraryEntryWithPromptTemplate();
 
-      render(<LibraryEntryForm entry={entry} />);
+      render(<LibraryEntryEditForm entry={entry} />);
 
       assertRendered();
 
@@ -361,14 +361,14 @@ describe("LibraryEntryForm functionality tests", () => {
       });
    });
 
-   it("LibraryEntryForm - new entry - save btn clicked  - failed - test", async () => {
+   it("LibraryEntryEditForm - new entry - save btn clicked  - failed - test", async () => {
       const result: ActionResult = {
          success: false,
          message: "Vorlage erfolgreich erstellt",
       };
       createLibraryEntryMock.mockResolvedValue(result);
 
-      render(<LibraryEntryForm />);
+      render(<LibraryEntryEditForm />);
 
       assertRendered();
 
@@ -416,7 +416,7 @@ describe("LibraryEntryForm functionality tests", () => {
       });
    });
 
-   it("LibraryEntryForm - existing entry - save btn clicked  - failed - test", async () => {
+   it("LibraryEntryEditForm - existing entry - save btn clicked  - failed - test", async () => {
       const result: ActionResult = {
          success: false,
          message: "Vorlage erfolgreich erstellt",
@@ -425,7 +425,7 @@ describe("LibraryEntryForm functionality tests", () => {
 
       const entry = dtestData.dLibraryEntryWithPromptTemplate();
 
-      render(<LibraryEntryForm entry={entry} />);
+      render(<LibraryEntryEditForm entry={entry} />);
 
       assertRendered();
 
