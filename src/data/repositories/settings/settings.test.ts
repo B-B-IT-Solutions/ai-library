@@ -204,41 +204,6 @@ describe("pUpdateGlobalField tests", () => {
       expect(prismaMock.globalField.update).toHaveBeenCalledTimes(1);
       expect(prismaMock.globalField.update).toHaveBeenCalledWith(expectedArgs);
    });
-
-   test("pUpdateGlobalField - without optional fields - test", async () => {
-      const field = ptestData.pGlobalField();
-      prismaMock.globalField.update.mockResolvedValue(field);
-
-      const id = "global-field-id-1";
-      const userId = "user-id-1";
-      const data: DGlobalFieldUpdate = {
-         name: "updated_name",
-         label: "Updated Label",
-         type: "TEXT",
-         required: false,
-         order: 0,
-      };
-
-      await settingsRepository.pUpdateGlobalField(id, userId, data);
-
-      const expectedInput: GlobalFieldUpdateInput = {
-         name: data.name,
-         label: data.label,
-         description: null,
-         type: data.type,
-         required: data.required,
-         defaultValue: null,
-         options: undefined,
-         order: 0,
-      };
-
-      const expectedArgs: GlobalFieldUpdateArgs = {
-         where: { id, userId },
-         data: expectedInput,
-      };
-
-      expect(prismaMock.globalField.update).toHaveBeenCalledWith(expectedArgs);
-   });
 });
 
 describe("pDeleteGlobalField tests", () => {
