@@ -32,6 +32,7 @@ import { Order } from "@/generated/prisma/browser";
 import {
    Cart,
    CartItem,
+   GlobalField,
    LibraryCollection,
    LibraryEntry,
    OrderItem,
@@ -656,5 +657,26 @@ export const pPromptVersion = (index = 1): PromptVersion => {
       version: index,
       content: `content ${index}`,
       createdAt: new Date("2025-09-27"),
+   };
+};
+
+export const pGlobalFields = (count = 3): GlobalField[] => {
+   return range(0, count).map((i) => pGlobalField(i));
+};
+
+export const pGlobalField = (index = 1): GlobalField => {
+   return {
+      id: `global-field-id-${index}`,
+      userId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      name: `field_name_${index}`,
+      label: `Label ${index}`,
+      description: `description ${index}`,
+      type: "SELECT",
+      required: true,
+      defaultValue: `default-${index}`,
+      options: ["option 1", "option 2", "option 3"],
+      order: index,
+      createdAt: new Date("2025-09-27"),
+      updatedAt: new Date("2025-09-27"),
    };
 };

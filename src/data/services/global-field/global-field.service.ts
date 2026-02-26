@@ -28,8 +28,8 @@ export class GlobalFieldService {
       data: DGlobalFieldUpdate
    ): Promise<DGlobalField> {
       return await this.globalFieldRepository.pUpdateGlobalField(
-         id,
          userId,
+         id,
          data
       );
    }

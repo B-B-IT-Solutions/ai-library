@@ -40,12 +40,12 @@ export class SettingsRepository {
       const input: GlobalFieldCreateInput = {
          name: data.name,
          label: data.label,
-         description: data.description ?? null,
+         description: data.description,
          type: data.type,
          required: data.required,
-         defaultValue: data.defaultValue ?? null,
+         defaultValue: data.defaultValue,
          options: !isEmpty(data.options) ? data.options : undefined,
-         order: data.order ?? 0,
+         order: data.order,
          user: {
             connect: {
                id: userId,
@@ -62,19 +62,19 @@ export class SettingsRepository {
    }
 
    async pUpdateGlobalField(
-      id: string,
       userId: string,
+      id: string,
       data: DGlobalFieldUpdate
    ): Promise<DGlobalField> {
       const input: GlobalFieldUpdateInput = {
          name: data.name,
          label: data.label,
-         description: data.description ?? null,
+         description: data.description,
          type: data.type,
          required: data.required,
-         defaultValue: data.defaultValue ?? null,
+         defaultValue: data.defaultValue,
          options: !isEmpty(data.options) ? data.options : undefined,
-         order: data.order ?? 0,
+         order: data.order,
       };
 
       const args: GlobalFieldUpdateArgs = {
