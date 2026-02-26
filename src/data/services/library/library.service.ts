@@ -49,21 +49,6 @@ export class LibraryService {
       return await this.libraryRepository.pGetLibraryEntry(params);
    }
 
-   async updateLibraryEntry(
-      userId: string,
-      entryId: string,
-      data: DPromptTemplateUpdate
-   ): Promise<void> {
-      const entry = await this.getLibraryEntry(entryId, userId);
-      if (!entry) {
-         throw new Error("Library entry not found");
-      }
-      await this.promptTemplateService.updatePromptTemplateDescriptor(
-         entry.templateDescriptorId,
-         data
-      );
-   }
-
    async createLibraryEntry(data: DPromptTemplateUpdate, userId: string) {
       const ptd =
          await this.promptTemplateService.createPromptTemplateDescriptor(data);
@@ -84,6 +69,21 @@ export class LibraryService {
             );
          }
       }
+   }
+
+   async updateLibraryEntry(
+      userId: string,
+      entryId: string,
+      data: DPromptTemplateUpdate
+   ) {
+      const entry = await this.getLibraryEntry(entryId, userId);
+      if (!entry) {
+         throw new Error("Library entry not found");
+      }
+      await this.promptTemplateService.updatePromptTemplateDescriptor(
+         entry.templateDescriptorId,
+         data
+      );
    }
 
    async deleteLibraryEntries(userId: string) {

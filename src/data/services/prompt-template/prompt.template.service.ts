@@ -46,7 +46,7 @@ export class PromptTemplateService {
    async updatePromptTemplateDescriptor(
       descriptorId: string,
       data: DPromptTemplateUpdate
-   ): Promise<void> {
+   ) {
       await this.repository.pUpdatePromptTemplateDescriptor(descriptorId, data);
    }
 
