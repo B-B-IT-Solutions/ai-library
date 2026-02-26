@@ -6,6 +6,7 @@ import { OrderService } from "./order";
 import { PromptService } from "./prompt";
 import { PromptTemplateService } from "./prompt-template";
 import { ServiceFactory } from "./service.factory";
+import { SettingsService } from "./settings";
 import { StripeService } from "./stripe/stripe.service";
 import { SubscriptionService } from "./subscription";
 import { UserService } from "./user";
@@ -112,6 +113,19 @@ describe("getStripeService tests", () => {
    it("getStripeService - existing instance - test", () => {
       const service1 = serviceFactory.getStripeService();
       const service2 = serviceFactory.getStripeService();
+      expect(service1).toBe(service2);
+   });
+});
+
+describe("getSettingsService tests", () => {
+   it("getSettingsService - new instance - test", () => {
+      const service = serviceFactory.getSettingsService();
+      expect(service).toBeInstanceOf(SettingsService);
+   });
+
+   it("getSettingsService - existing instance - test", () => {
+      const service1 = serviceFactory.getSettingsService();
+      const service2 = serviceFactory.getSettingsService();
       expect(service1).toBe(service2);
    });
 });

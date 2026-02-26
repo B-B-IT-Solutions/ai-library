@@ -4,7 +4,7 @@ import { LibraryService } from "@/data/services/library";
 import { OrderService } from "@/data/services/order";
 import { PromptService } from "@/data/services/prompt";
 import { PromptTemplateService } from "@/data/services/prompt-template";
-import { GlobalFieldService } from "@/data/services/settings";
+import { SettingsService } from "@/data/services/settings";
 import { StripeService } from "@/data/services/stripe";
 import { SubscriptionService } from "@/data/services/subscription";
 import { UserService } from "@/data/services/user";
@@ -20,7 +20,7 @@ export class ServiceFactory {
    private subscriptionService?: SubscriptionService;
    private promptService?: PromptService;
    private promptTemplateService?: PromptTemplateService;
-   private globalFieldService?: GlobalFieldService;
+   private settingsService?: SettingsService;
 
    constructor(prisma: DbClient) {
       this.repositories = new RepositoryFactory(prisma);
@@ -105,12 +105,12 @@ export class ServiceFactory {
       return this.stripeService;
    }
 
-   getGlobalFieldService(): GlobalFieldService {
-      if (!this.globalFieldService) {
-         this.globalFieldService = new GlobalFieldService(
+   getSettingsService(): SettingsService {
+      if (!this.settingsService) {
+         this.settingsService = new SettingsService(
             this.repositories.settingsRepository()
          );
       }
-      return this.globalFieldService;
+      return this.settingsService;
    }
 }

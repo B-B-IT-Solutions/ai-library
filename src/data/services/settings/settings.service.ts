@@ -4,22 +4,22 @@ import {
    DGlobalFieldUpdate,
 } from "@/data/types/domain/global-field";
 
-export class GlobalFieldService {
-   private globalFieldRepository: SettingsRepository;
+export class SettingsService {
+   private settingsRepository: SettingsRepository;
 
    constructor(globalFieldRepository: SettingsRepository) {
-      this.globalFieldRepository = globalFieldRepository;
+      this.settingsRepository = globalFieldRepository;
    }
 
    async getGlobalFields(userId: string): Promise<DGlobalField[]> {
-      return await this.globalFieldRepository.pGetGlobalFields(userId);
+      return await this.settingsRepository.pGetGlobalFields(userId);
    }
 
    async createGlobalField(
       userId: string,
       data: DGlobalFieldUpdate
    ): Promise<DGlobalField> {
-      return await this.globalFieldRepository.pCreateGlobalField(userId, data);
+      return await this.settingsRepository.pCreateGlobalField(userId, data);
    }
 
    async updateGlobalField(
@@ -27,14 +27,10 @@ export class GlobalFieldService {
       userId: string,
       data: DGlobalFieldUpdate
    ): Promise<DGlobalField> {
-      return await this.globalFieldRepository.pUpdateGlobalField(
-         userId,
-         id,
-         data
-      );
+      return await this.settingsRepository.pUpdateGlobalField(userId, id, data);
    }
 
    async deleteGlobalField(id: string, userId: string): Promise<void> {
-      await this.globalFieldRepository.pDeleteGlobalField(id, userId);
+      await this.settingsRepository.pDeleteGlobalField(id, userId);
    }
 }

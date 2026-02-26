@@ -1,1 +1,1 @@
-export { GlobalFieldService } from "./settings.service";
+export { SettingsService } from "./settings.service";

@@ -7,7 +7,10 @@ import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
-import { DGlobalField, DGlobalFieldUpdate } from "@/data/types/domain/global-field";
+import {
+   DGlobalField,
+   DGlobalFieldUpdate,
+} from "@/data/types/domain/global-field";
 import { ActionResult } from "@/data/types/utils";
 
 export const getGlobalFields = async (): Promise<DGlobalField[]> => {
@@ -68,9 +71,7 @@ export const updateGlobalField = async (
    }
 };
 
-export const deleteGlobalField = async (
-   id: string
-): Promise<ActionResult> => {
+export const deleteGlobalField = async (id: string): Promise<ActionResult> => {
    try {
       if (!isValidUuid(id)) {
          throw new Error("Invalid field ID.");
@@ -94,5 +95,5 @@ export const deleteGlobalField = async (
 
 const getService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
-   return factory.getGlobalFieldService();
+   return factory.getSettingsService();
 };
