@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { map } from "es-toolkit/compat";
 import Link from "next/link";
 
 import { DSettingsSection } from "@/data/types/domain/settings";
@@ -18,22 +19,27 @@ type NavigationProps = {
    active: DSettingsSection;
 };
 
-export const Navigation: FC<NavigationProps> = ({ active }) => {
-   const groups: NavigationGroup[] = [
-      {
-         label: "Konto",
-         items: [
-            { section: "general", label: "Allgemein" },
-            { section: "account", label: "Konto" },
-            { section: "subscription", label: "Abrechnung" },
-         ],
-      },
-      {
-         label: "Inhalt",
-         items: [{ section: "template-fields", label: "Vorlagen-Felder" }],
-      },
-   ];
+const groups: NavigationGroup[] = [
+   {
+      label: "Konto",
+      items: [
+         { section: "general", label: "Allgemein" },
+         { section: "account", label: "Konto" },
+         { section: "subscription", label: "Abrechnung" },
+      ],
+   },
+   {
+      label: "Inhalt",
+      items: [
+         {
+            section: "template-fields",
+            label: "Vorlagen-Felder",
+         },
+      ],
+   },
+];
 
+export const Navigation: FC<NavigationProps> = ({ active }) => {
    const navItem = (entry: NavigationItem) => {
       const isActive = active === entry.section;
       const styles = isActive
@@ -59,14 +65,14 @@ export const Navigation: FC<NavigationProps> = ({ active }) => {
          <p className="mb-1 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase">
             {group.label}
          </p>
-         {group.items.map((entry) => navItem(entry))}
+         {map(group.items, (entry) => navItem(entry))}
       </div>
    );
 
    return (
       <aside className="lg:col-span-3" data-testid="navigation">
          <nav className="sticky top-8 space-y-1 rounded-lg border bg-card p-4 shadow-sm">
-            {groups.map((group, index) => navGroup(group, index))}
+            {map(groups, (group, index) => navGroup(group, index))}
          </nav>
       </aside>
    );
