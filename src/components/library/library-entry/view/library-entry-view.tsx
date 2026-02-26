@@ -1,5 +1,5 @@
 import { isEmpty, map } from "es-toolkit/compat";
-import { ArrowLeft, Edit2, MoreVertical } from "lucide-react";
+import { ArrowLeft, MoreVertical } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
@@ -11,7 +11,11 @@ import {
 } from "@/components/shadcn/dropdown-menu";
 import { MDRenderer } from "@/components/shared/md";
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
-import { CreatePromptButton, DownloadTemplateButton } from "../../buttons";
+import {
+   CreatePromptButton,
+   DownloadTemplateButton,
+   EditLibraryEntryButton,
+} from "../../buttons";
 
 import { PromptTextDisplay } from "./prompt-text-display";
 
@@ -68,17 +72,7 @@ export const LibraryEntryView = ({ entry }: Props) => {
                      </div>
                      <div className="flex shrink-0 items-center gap-2">
                         <CreatePromptButton descriptor={descriptor} />
-                        <Link href={`/library/${entry.id}/edit`}>
-                           <Button
-                              variant="outline"
-                              size="sm"
-                              className="cursor-pointer gap-2"
-                              data-testid="edit-entry-button"
-                           >
-                              <Edit2 className="h-4 w-4" />
-                              Bearbeiten
-                           </Button>
-                        </Link>
+                        <EditLibraryEntryButton entry={entry} />
                         <DropdownMenu>
                            <DropdownMenuTrigger asChild>
                               <Button

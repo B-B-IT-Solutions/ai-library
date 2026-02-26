@@ -10,6 +10,7 @@ const assertRendered = () => {
    const longDescription = screen.getByTestId("long-description");
    const content = screen.getByTestId("prompt-text");
    const createPromptBtn = screen.getByTestId("create-prompt-btn");
+   const editEntryBtn = screen.getByTestId("edit-entry-btn");
    const moreOptionsBtn = screen.getByTestId("more-options-btn");
    // const downloadBtn = screen.getByTestId("download-template-btn");
 
@@ -18,6 +19,7 @@ const assertRendered = () => {
    assertInDocument(longDescription);
    assertInDocument(content);
    assertInDocument(createPromptBtn);
+   assertInDocument(editEntryBtn);
    assertInDocument(moreOptionsBtn);
    // assertInDocument(downloadBtn);
 };
