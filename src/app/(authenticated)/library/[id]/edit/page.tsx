@@ -5,7 +5,7 @@ import { LibraryEntryEdit } from "@/components/library";
 import { getLibraryEntry } from "@/data/actions/library";
 
 export const metadata: Metadata = {
-   title: "Vorlage bearbeiten",
+   title: "Vorlage Bearbeiten",
 };
 
 export type PageParams = {
@@ -28,7 +28,7 @@ export const EditLibraryEntryPage = async ({ params }: PageProps) => {
    return (
       <div
          className="h-screen bg-slate-50"
-         data-testid="edit-library-entry-page"
+         data-testid="library-entry-edit-page"
       >
          <LibraryEntryEdit entry={entry} />
       </div>

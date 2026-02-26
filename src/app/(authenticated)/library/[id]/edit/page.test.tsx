@@ -7,7 +7,7 @@ import { notFound } from "next/navigation";
 
 import { getLibraryEntry } from "@/data/actions/library";
 
-import { LibraryEntryPage, metadata, PageParams, PageProps } from "./page";
+import { EditLibraryEntryPage, metadata, PageParams, PageProps } from "./page";
 
 const getLibraryEntryMock = getLibraryEntry as jest.MockedFunction<
    typeof getLibraryEntry
@@ -16,23 +16,23 @@ const getLibraryEntryMock = getLibraryEntry as jest.MockedFunction<
 const notFoundMock = notFound as jest.MockedFunction<typeof notFound>;
 
 const expectedMetadata: Metadata = {
-   title: "Vorlage",
+   title: "Vorlage Bearbeiten",
 };
 
 const assertRendered = () => {
-   const page = screen.getByTestId("library-entry-view-page");
-   const viewEntry = screen.getByTestId("library-entry-view");
+   const page = screen.getByTestId("library-entry-edit-page");
+   const editEntry = screen.getByTestId("library-entry-edit");
 
    assertInDocument(page);
-   assertInDocument(viewEntry);
+   assertInDocument(editEntry);
 };
 
-describe("LibraryEntryPage rendering tests", () => {
+describe("EditLibraryEntryPage rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("LibraryEntryPage - library entry null - test", async () => {
+   it("EditLibraryEntryPage - library entry null - test", async () => {
       getLibraryEntryMock.mockResolvedValue(null);
 
       const params: PageParams = { id: "entry-id-1" };
@@ -40,7 +40,7 @@ describe("LibraryEntryPage rendering tests", () => {
          params: Promise.resolve(params),
       };
 
-      const { container } = await renderAsyncRSC(LibraryEntryPage, props);
+      const { container } = await renderAsyncRSC(EditLibraryEntryPage, props);
 
       await waitFor(() => {
          expect(getLibraryEntryMock).toHaveBeenCalledTimes(1);
@@ -50,7 +50,7 @@ describe("LibraryEntryPage rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("LibraryEntryPage - library entry defined - test", async () => {
+   it("EditLibraryEntryPage - library entry defined - test", async () => {
       const libraryEntry = dtestData.dLibraryEntryWithPromptTemplate();
       getLibraryEntryMock.mockResolvedValue(libraryEntry);
 
@@ -59,7 +59,7 @@ describe("LibraryEntryPage rendering tests", () => {
          params: Promise.resolve(params),
       };
 
-      const { container } = await renderAsyncRSC(LibraryEntryPage, props);
+      const { container } = await renderAsyncRSC(EditLibraryEntryPage, props);
 
       await waitFor(() => {
          assertRendered();
@@ -70,8 +70,8 @@ describe("LibraryEntryPage rendering tests", () => {
    });
 });
 
-describe("LibraryEntryPage functionality tests", () => {
-   it("LibraryEntryPage - metadata - test", async () => {
+describe("EditLibraryEntryPage functionality tests", () => {
+   it("EditLibraryEntryPage - metadata - test", async () => {
       expect(metadata).toEqual(expectedMetadata);
    });
 });

@@ -4,7 +4,7 @@ exports[`LibraryEntryView rendering tests LibraryEntryView - categories empty - 
 <div>
   <div
     class="container mx-auto px-4 py-8"
-    data-testid="library-entry-details"
+    data-testid="library-entry-view"
   >
     <div
       class="mb-6"
@@ -304,7 +304,7 @@ exports[`LibraryEntryView rendering tests LibraryEntryView - with categories - r
 <div>
   <div
     class="container mx-auto px-4 py-8"
-    data-testid="library-entry-details"
+    data-testid="library-entry-view"
   >
     <div
       class="mb-6"

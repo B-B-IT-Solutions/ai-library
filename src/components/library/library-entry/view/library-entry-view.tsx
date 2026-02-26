@@ -46,7 +46,7 @@ export const LibraryEntryView = ({ entry }: Props) => {
    return (
       <div
          className="container mx-auto px-4 py-8"
-         data-testid="library-entry-details"
+         data-testid="library-entry-view"
       >
          <div className="mb-6">
             <Link
