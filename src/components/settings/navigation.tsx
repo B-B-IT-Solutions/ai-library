@@ -9,16 +9,29 @@ type NavigationItem = {
    label: string;
 };
 
+type NavigationGroup = {
+   label: string;
+   items: NavigationItem[];
+};
+
 type NavigationProps = {
    active: DSettingsSection;
 };
 
 export const Navigation: FC<NavigationProps> = ({ active }) => {
-   const items: NavigationItem[] = [
-      { section: "general", label: "Allgemein" },
-      { section: "account", label: "Konto" },
-      { section: "subscription", label: "Abrechnung" },
-      { section: "template-fields", label: "Vorlagen-Felder" },
+   const groups: NavigationGroup[] = [
+      {
+         label: "Konto",
+         items: [
+            { section: "general", label: "Allgemein" },
+            { section: "account", label: "Konto" },
+            { section: "subscription", label: "Abrechnung" },
+         ],
+      },
+      {
+         label: "Inhalt",
+         items: [{ section: "template-fields", label: "Vorlagen-Felder" }],
+      },
    ];
 
    const navItem = (entry: NavigationItem) => {
@@ -41,13 +54,19 @@ export const Navigation: FC<NavigationProps> = ({ active }) => {
       );
    };
 
+   const navGroup = (group: NavigationGroup, index: number) => (
+      <div key={group.label} className={index > 0 ? "mt-4" : undefined}>
+         <p className="mb-1 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+            {group.label}
+         </p>
+         {group.items.map((entry) => navItem(entry))}
+      </div>
+   );
+
    return (
       <aside className="lg:col-span-3" data-testid="navigation">
          <nav className="sticky top-8 space-y-1 rounded-lg border bg-card p-4 shadow-sm">
-            <h2 className="mb-3 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase">
-               Navigation
-            </h2>
-            {items.map((entry) => navItem(entry))}
+            {groups.map((group, index) => navGroup(group, index))}
          </nav>
       </aside>
    );
