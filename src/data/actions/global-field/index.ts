@@ -3,4 +3,4 @@ export {
    createGlobalField,
    updateGlobalField,
    deleteGlobalField,
-} from "./global-field.actions";
+} from "./settings.actions";
