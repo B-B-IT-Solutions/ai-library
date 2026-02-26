@@ -12,8 +12,8 @@ import {
    GlobalFieldUpdateInput,
 } from "@/generated/prisma/models";
 
-import { SettingsRepository } from "./settings";
 import { toDGlobalField, toDGlobalFields } from "./settings.mapper";
+import { SettingsRepository } from "./settings.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const settingsRepository = new SettingsRepository(prismaMock);
@@ -217,7 +217,7 @@ describe("pDeleteGlobalField tests", () => {
       const id = "global-field-id-1";
       const userId = "user-id-1";
 
-      await settingsRepository.pDeleteGlobalField(id, userId);
+      await settingsRepository.pDeleteGlobalField(userId, id);
 
       const expectedArgs: GlobalFieldDeleteArgs = {
          where: { id, userId },
