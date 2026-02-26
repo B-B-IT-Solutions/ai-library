@@ -10,6 +10,8 @@ import {
    GlobalFieldCreateInput,
 } from "@/generated/prisma/models";
 
+import { toDGlobalField, toDGlobalFields } from "./settings.mapper";
+
 export class SettingsRepository {
    private prisma: DbClient;
 
@@ -22,7 +24,8 @@ export class SettingsRepository {
          where: { userId },
          orderBy: { order: "asc" },
       });
-      return map(fields, toDGlobalField);
+
+      return toDGlobalFields(fields);
    }
 
    async pCreateGlobalField(
@@ -83,36 +86,4 @@ export class SettingsRepository {
          where: { id, userId },
       });
    }
-}
-
-function toDGlobalField(field: {
-   id: string;
-   userId: string;
-   name: string;
-   label: string;
-   description: string | null;
-   type: string;
-   required: boolean;
-   defaultValue: string | null;
-   options: unknown;
-   order: number;
-   createdAt: Date;
-   updatedAt: Date;
-}): DGlobalField {
-   return {
-      id: field.id,
-      userId: field.userId,
-      name: field.name,
-      label: field.label,
-      description: field.description,
-      type: field.type as DGlobalField["type"],
-      required: field.required,
-      defaultValue: field.defaultValue,
-      options: Array.isArray(field.options)
-         ? (field.options as string[])
-         : null,
-      order: field.order,
-      createdAt: field.createdAt.toISOString(),
-      updatedAt: field.updatedAt.toISOString(),
-   };
 }
