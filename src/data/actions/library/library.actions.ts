@@ -67,6 +67,32 @@ export const createLibraryEntry = async (
    }
 };
 
+export const updateLibraryEntry = async (
+   entryId: string,
+   data: DPromptTemplateUpdate
+): Promise<ActionResult> => {
+   try {
+      if (!isValidUuid(entryId)) {
+         throw new Error("Invalid Entry ID.");
+      }
+
+      const user = await requireUser();
+      const service = getLibrarySevice();
+      await service.updateLibraryEntry(user.id, entryId, data);
+
+      return {
+         success: true,
+         message: "Vorlage erfolgreich aktualisiert",
+      };
+   } catch (error) {
+      console.error(formatError(error));
+      return {
+         success: false,
+         message: "Vorlage konnte nicht aktualisiert werden",
+      };
+   }
+};
+
 export const composePromptFromTemplate = async (
    descriptorId: string,
    fieldValues: DPromptTemplateFieldValues

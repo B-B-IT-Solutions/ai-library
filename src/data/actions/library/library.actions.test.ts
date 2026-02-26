@@ -26,6 +26,7 @@ import {
    toggleLibraryEntryFavorite,
    updateEntryCollections,
    updateLibraryCollection,
+   updateLibraryEntry,
 } from "./library.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
@@ -33,6 +34,7 @@ const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 const sGetLibraryEntriesPage = LibraryService.prototype.getLibraryEntriesPage;
 const sGetLibraryEntry = LibraryService.prototype.getLibraryEntry;
 const sCreateLibraryEntry = LibraryService.prototype.createLibraryEntry;
+const sUpdateLibraryEntry = LibraryService.prototype.updateLibraryEntry;
 const sComposePromptFromTemplate =
    LibraryService.prototype.composePromptFromTemplate;
 const sDownloadTemplate = LibraryService.prototype.downloadPromptTemplate;
@@ -53,6 +55,9 @@ const sGetLibraryEntryMock = sGetLibraryEntry as jest.MockedFunction<
 >;
 const sCreateLibraryEntryMock = sCreateLibraryEntry as jest.MockedFunction<
    typeof sCreateLibraryEntry
+>;
+const sUpdateLibraryEntryMock = sUpdateLibraryEntry as jest.MockedFunction<
+   typeof sUpdateLibraryEntry
 >;
 const sComposePromptFromTemplateMock =
    sComposePromptFromTemplate as jest.MockedFunction<
@@ -271,6 +276,106 @@ describe("createLibraryEntry tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sCreateLibraryEntryMock).toHaveBeenCalledTimes(1);
       expect(sCreateLibraryEntryMock).toHaveBeenCalledWith(updateData, user.id);
+   });
+});
+
+describe("updateLibraryEntry tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("updateLibraryEntry - invalid UUID - test", async () => {
+      const invalidId = "invalid-uuid-1";
+      const updateData = dtestData.dPromptTemplateUpdate();
+
+      const result = await updateLibraryEntry(invalidId, updateData);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Vorlage konnte nicht aktualisiert werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sUpdateLibraryEntryMock).not.toHaveBeenCalled();
+   });
+
+   it("updateLibraryEntry - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const updateData = dtestData.dPromptTemplateUpdate();
+
+      const result = await updateLibraryEntry(entryId, updateData);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Vorlage konnte nicht aktualisiert werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateLibraryEntryMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("createLibraryEntry - error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const error = new Error("db error");
+      sUpdateLibraryEntryMock.mockRejectedValue(error);
+
+      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const updateData = dtestData.dPromptTemplateUpdate();
+
+      const result = await updateLibraryEntry(entryId, updateData);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Vorlage konnte nicht aktualisiert werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateLibraryEntryMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateLibraryEntryMock).toHaveBeenCalledWith(
+         user.id,
+         entryId,
+         updateData
+      );
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("createLibraryEntry - entry created - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sUpdateLibraryEntryMock.mockResolvedValue();
+
+      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const updateData = dtestData.dPromptTemplateUpdate();
+
+      const result = await updateLibraryEntry(entryId, updateData);
+
+      const expectedResult: ActionResult = {
+         success: true,
+         message: "Vorlage erfolgreich aktualisiert",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateLibraryEntryMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateLibraryEntryMock).toHaveBeenCalledWith(
+         user.id,
+         entryId,
+         updateData
+      );
    });
 });
 

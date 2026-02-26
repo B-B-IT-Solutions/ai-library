@@ -7,12 +7,7 @@ import { notFound } from "next/navigation";
 
 import { getLibraryEntry } from "@/data/actions/library";
 
-import {
-   LibraryEntryPage,
-   LibraryEntryPageParams,
-   LibraryEntryPageProps,
-   metadata,
-} from "./page";
+import { LibraryEntryPage, metadata, PageParams, PageProps } from "./page";
 
 const getLibraryEntryMock = getLibraryEntry as jest.MockedFunction<
    typeof getLibraryEntry
@@ -25,11 +20,11 @@ const expectedMetadata: Metadata = {
 };
 
 const assertRendered = () => {
-   const page = screen.getByTestId("library-entry-page");
-   const libraryEntry = screen.getByTestId("library-entry-details");
+   const page = screen.getByTestId("library-entry-view-page");
+   const viewEntry = screen.getByTestId("library-entry-view");
 
    assertInDocument(page);
-   assertInDocument(libraryEntry);
+   assertInDocument(viewEntry);
 };
 
 describe("LibraryEntryPage rendering tests", () => {
@@ -40,8 +35,8 @@ describe("LibraryEntryPage rendering tests", () => {
    it("LibraryEntryPage - library entry null - test", async () => {
       getLibraryEntryMock.mockResolvedValue(null);
 
-      const params: LibraryEntryPageParams = { id: "entry-id-1" };
-      const props: LibraryEntryPageProps = {
+      const params: PageParams = { id: "entry-id-1" };
+      const props: PageProps = {
          params: Promise.resolve(params),
       };
 
@@ -59,8 +54,8 @@ describe("LibraryEntryPage rendering tests", () => {
       const libraryEntry = dtestData.dLibraryEntryWithPromptTemplate();
       getLibraryEntryMock.mockResolvedValue(libraryEntry);
 
-      const params: LibraryEntryPageParams = { id: "entry-id-1" };
-      const props: LibraryEntryPageProps = {
+      const params: PageParams = { id: "entry-id-1" };
+      const props: PageProps = {
          params: Promise.resolve(params),
       };
 

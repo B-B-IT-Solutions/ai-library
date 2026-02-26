@@ -71,6 +71,21 @@ export class LibraryService {
       }
    }
 
+   async updateLibraryEntry(
+      userId: string,
+      entryId: string,
+      data: DPromptTemplateUpdate
+   ) {
+      const entry = await this.getLibraryEntry(entryId, userId);
+      if (!entry) {
+         throw new Error("Library entry not found");
+      }
+      await this.promptTemplateService.updatePromptTemplateDescriptor(
+         entry.templateDescriptorId,
+         data
+      );
+   }
+
    async deleteLibraryEntries(userId: string) {
       await this.libraryRepository.pDeleteLibraryEntries(userId);
    }

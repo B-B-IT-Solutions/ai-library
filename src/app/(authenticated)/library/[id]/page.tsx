@@ -1,22 +1,22 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { LibraryEntryDetails } from "@/components/library";
+import { LibraryEntryView } from "@/components/library";
 import { getLibraryEntry } from "@/data/actions/library";
 
 export const metadata: Metadata = {
    title: "Vorlage",
 };
 
-export type LibraryEntryPageParams = {
+export type PageParams = {
    id: string;
 };
 
-export type LibraryEntryPageProps = {
-   params: Promise<LibraryEntryPageParams>;
+export type PageProps = {
+   params: Promise<PageParams>;
 };
 
-export const LibraryEntryPage = async ({ params }: LibraryEntryPageProps) => {
+export const LibraryEntryPage = async ({ params }: PageProps) => {
    const { id: entryId } = await params;
    const entry = await getLibraryEntry(entryId);
 
@@ -25,8 +25,8 @@ export const LibraryEntryPage = async ({ params }: LibraryEntryPageProps) => {
    }
 
    return (
-      <div data-testid="library-entry-page">
-         <LibraryEntryDetails entry={entry} />
+      <div data-testid="library-entry-view-page">
+         <LibraryEntryView entry={entry} />
       </div>
    );
 };

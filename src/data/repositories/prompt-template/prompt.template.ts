@@ -18,6 +18,8 @@ import { Prisma } from "@/generated/prisma/client";
 import {
    PromptTemplateDescriptorCreateArgs,
    PromptTemplateDescriptorCreateInput,
+   PromptTemplateDescriptorUpdateArgs,
+   PromptTemplateDescriptorUpdateInput,
    PromptTemplateDescriptorWhereInput,
 } from "@/generated/prisma/models";
 import { stringify } from "@/lib/utils";
@@ -148,6 +150,53 @@ export class PromptTemplateRepository {
       return toDPromptTemplateDescriptor(
          newEntry as PromptTemplateDescriptorWithCategories
       );
+   }
+
+   async pUpdatePromptTemplateDescriptor(
+      descriptorId: string,
+      data: DPromptTemplateUpdate
+   ) {
+      const input: PromptTemplateDescriptorUpdateInput = {
+         title: data.title,
+         description: data.description,
+         recommendedModel: data.recommendedModel,
+         categories: {
+            set: [],
+            connectOrCreate: map(data.categories, (categoryName) => ({
+               where: { name: categoryName },
+               create: { name: categoryName },
+            })),
+         },
+         promptTemplate: {
+            update: {
+               content: data.content,
+               detailedDescription: data.detailedDescription,
+               fields: {
+                  deleteMany: {},
+                  create: map(
+                     data.fields,
+                     (field: DPromptTemplateFieldUpdate) => ({
+                        name: field.name,
+                        label: field.label,
+                        description: field.description,
+                        type: field.type as DPromptTemplateFieldType,
+                        required: field.required,
+                        order: field.order,
+                        defaultValue: field.defaultValue,
+                        options: stringify(field.options),
+                     })
+                  ),
+               },
+            },
+         },
+      };
+
+      const args: PromptTemplateDescriptorUpdateArgs = {
+         where: { id: descriptorId },
+         data: input,
+      };
+
+      await this.prisma.promptTemplateDescriptor.update(args);
    }
 
    private resolveGetPromptTemplateDescriptorsWhereInput(

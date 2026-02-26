@@ -49,6 +49,13 @@ export class PromptTemplateService {
       return await this.repository.pCreatePromptTemplateDescriptor(data);
    }
 
+   async updatePromptTemplateDescriptor(
+      descriptorId: string,
+      data: DPromptTemplateUpdate
+   ) {
+      await this.repository.pUpdatePromptTemplateDescriptor(descriptorId, data);
+   }
+
    async composePromptFromTemplate(
       descriptorId: string,
       fieldValues: DPromptTemplateFieldValues

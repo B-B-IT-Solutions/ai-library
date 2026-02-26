@@ -11,11 +11,9 @@ import {
 } from "@/data/ts-queries/library";
 import { DLibraryEntriesFilter } from "@/data/types/domain/library";
 
-import { CreateLibraryEntryButton } from "./buttons/create-library-entry-button";
-import { CollectionsFilter } from "./filters/collections-filter";
-import { LibraryEntries } from "./list/library-entries";
+import { CreateLibraryEntryButton } from "./buttons";
+import { CollectionsFilter, LibraryEntries, LibraryToolbar } from "./lists";
 import { librarySearchParamsCache } from "./search-params";
-import { LibraryToolbar } from "./toolbar/library-toolbar";
 
 export const LibraryDashboard = async () => {
    const queryClient = new QueryClient();

@@ -4,13 +4,18 @@ import { map } from "es-toolkit/compat";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { DPromptTemplateFieldUpdate } from "@/data/types/domain/prompt.template";
+import {
+   DPromptTemplateFieldType,
+   DPromptTemplateFieldUpdate,
+} from "@/data/types/domain/prompt.template";
 import { Prisma } from "@/generated/prisma/client";
 import {
    PromptTemplateDescriptorCreateArgs,
    PromptTemplateDescriptorCreateInput,
    PromptTemplateDescriptorFindFirstArgs,
    PromptTemplateDescriptorFindManyArgs,
+   PromptTemplateDescriptorUpdateArgs,
+   PromptTemplateDescriptorUpdateInput,
    PromptTemplateFindFirstArgs,
 } from "@/generated/prisma/models";
 import { stringify } from "@/lib/utils";
@@ -431,6 +436,66 @@ describe("pCreatePromptTemplateDescriptor tests", () => {
       );
       expect(prismaMock.promptTemplateDescriptor.create).toHaveBeenCalledWith(
          expectedCreateArgs
+      );
+   });
+});
+
+describe("pUpdatePromptTemplateDescriptor tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pUpdatePromptTemplateDescriptor - descriptor updated - test", async () => {
+      const data = dtestData.dPromptTemplateUpdate();
+      const descriptor = ptestData.pPromptTemplateDescriptorWithCategories();
+
+      await repository.pUpdatePromptTemplateDescriptor(descriptor.id, data);
+
+      const expectedInput: PromptTemplateDescriptorUpdateInput = {
+         title: data.title,
+         description: data.description,
+         recommendedModel: data.recommendedModel,
+         categories: {
+            set: [],
+            connectOrCreate: map(data.categories, (categoryName) => ({
+               where: { name: categoryName },
+               create: { name: categoryName },
+            })),
+         },
+         promptTemplate: {
+            update: {
+               content: data.content,
+               detailedDescription: data.detailedDescription,
+               fields: {
+                  deleteMany: {},
+                  create: map(
+                     data.fields,
+                     (field: DPromptTemplateFieldUpdate) => ({
+                        name: field.name,
+                        label: field.label,
+                        description: field.description,
+                        type: field.type as DPromptTemplateFieldType,
+                        required: field.required,
+                        order: field.order,
+                        defaultValue: field.defaultValue,
+                        options: stringify(field.options),
+                     })
+                  ),
+               },
+            },
+         },
+      };
+
+      const expectedUpdateArgs: PromptTemplateDescriptorUpdateArgs = {
+         where: { id: descriptor.id },
+         data: expectedInput,
+      };
+
+      expect(prismaMock.promptTemplateDescriptor.update).toHaveBeenCalledTimes(
+         1
+      );
+      expect(prismaMock.promptTemplateDescriptor.update).toHaveBeenCalledWith(
+         expectedUpdateArgs
       );
    });
 });

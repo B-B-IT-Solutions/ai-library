@@ -63,6 +63,7 @@ describe("SelectField rendering tests", () => {
       const field: DPromptTemplateField = {
          ...baseField,
          required: true,
+         options: undefined,
       };
 
       const { container } = render(<TestWrapper field={field} />);
