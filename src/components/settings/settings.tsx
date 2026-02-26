@@ -3,11 +3,9 @@ import { FC } from "react";
 import { DSettingsSection } from "@/data/types/domain/settings";
 import { DUser } from "@/data/types/domain/user";
 
-import { AccountSettings } from "./account";
-import { GeneralSettings } from "./general";
+import { TemplateFields } from "./content";
 import { Navigation } from "./navigation";
-import { Subscription } from "./subscription";
-import { TemplateFields } from "./template-fields";
+import { AccountSettings, GeneralSettings, Subscription } from "./user";
 
 type SettingsProps = {
    user: DUser;
