@@ -117,6 +117,55 @@ export const LibraryEntryForm = ({ entry }: Props) => {
       }
    };
 
+   const cancelBtn = () => {
+      return (
+         <Link href={isEdit ? `/library/${entry.id}` : "/library"}>
+            <Button
+               type="button"
+               variant="outline"
+               disabled={form.formState.isSubmitting}
+               className="cursor-pointer"
+               data-testid="cancel-btn"
+            >
+               Abbrechen
+            </Button>
+         </Link>
+      );
+   };
+
+   const createBtn = () => {
+      const { isSubmitting } = form.formState;
+      return (
+         <Button
+            type="submit"
+            disabled={form.formState.isSubmitting}
+            className="cursor-pointer"
+            data-testid={isEdit ? "save-btn" : "create-btn"}
+         >
+            {isSubmitting ? (
+               <>
+                  <Loader className="h-4 w-4 animate-spin" />
+                  {isEdit ? "Wird gespeichert..." : "Wird erstellt..."}
+               </>
+            ) : (
+               <>
+                  <Save className="h-4 w-4" />
+                  {isEdit ? "Vorlage speichern" : "Vorlage erstellen"}
+               </>
+            )}
+         </Button>
+      );
+   };
+
+   const buttons = () => {
+      return (
+         <div className="flex items-center justify-end gap-3 pt-2">
+            {cancelBtn()}
+            {createBtn()}
+         </div>
+      );
+   };
+
    return (
       <Card data-testid="library-entry-edit-form">
          <CardHeader className="border-b pb-6">
@@ -161,42 +210,7 @@ export const LibraryEntryForm = ({ entry }: Props) => {
                   />
 
                   <Separator />
-
-                  <div className="flex items-center justify-end gap-3 pt-2">
-                     <Link href={isEdit ? `/library/${entry.id}` : "/library"}>
-                        <Button
-                           type="button"
-                           variant="outline"
-                           disabled={form.formState.isSubmitting}
-                           className="cursor-pointer"
-                           data-testid="cancel-btn"
-                        >
-                           Abbrechen
-                        </Button>
-                     </Link>
-                     <Button
-                        type="submit"
-                        disabled={form.formState.isSubmitting}
-                        className="cursor-pointer"
-                        data-testid={isEdit ? "save-btn" : "create-btn"}
-                     >
-                        {form.formState.isSubmitting ? (
-                           <>
-                              <Loader className="h-4 w-4 animate-spin" />
-                              {isEdit
-                                 ? "Wird gespeichert..."
-                                 : "Wird erstellt..."}
-                           </>
-                        ) : (
-                           <>
-                              <Save className="h-4 w-4" />
-                              {isEdit
-                                 ? "Vorlage speichern"
-                                 : "Vorlage erstellen"}
-                           </>
-                        )}
-                     </Button>
-                  </div>
+                  {buttons()}
                </form>
             </Form>
          </CardContent>
