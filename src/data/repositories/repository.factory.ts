@@ -20,7 +20,7 @@ export class RepositoryFactory {
    private promptRepo?: PromptRepository;
    private promptTemplateRepos?: PromptTemplateRepository;
    private subscriptionRepo?: SubscriptionRepository;
-   private globalFieldRepo?: SettingsRepository;
+   private settingsRepo?: SettingsRepository;
 
    constructor(prisma: DbClient) {
       this.prisma = prisma;
@@ -82,10 +82,10 @@ export class RepositoryFactory {
       return this.subscriptionRepo;
    }
 
-   globalFieldRepository(): SettingsRepository {
-      if (!this.globalFieldRepo) {
-         this.globalFieldRepo = new SettingsRepository(this.prisma);
+   settingsRepository(): SettingsRepository {
+      if (!this.settingsRepo) {
+         this.settingsRepo = new SettingsRepository(this.prisma);
       }
-      return this.globalFieldRepo;
+      return this.settingsRepo;
    }
 }

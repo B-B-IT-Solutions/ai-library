@@ -1,10 +1,10 @@
 import { RepositoryFactory } from "@/data/repositories";
 import { CartService } from "@/data/services/cart";
-import { GlobalFieldService } from "@/data/services/global-field";
 import { LibraryService } from "@/data/services/library";
 import { OrderService } from "@/data/services/order";
 import { PromptService } from "@/data/services/prompt";
 import { PromptTemplateService } from "@/data/services/prompt-template";
+import { GlobalFieldService } from "@/data/services/settings";
 import { StripeService } from "@/data/services/stripe";
 import { SubscriptionService } from "@/data/services/subscription";
 import { UserService } from "@/data/services/user";
@@ -108,7 +108,7 @@ export class ServiceFactory {
    getGlobalFieldService(): GlobalFieldService {
       if (!this.globalFieldService) {
          this.globalFieldService = new GlobalFieldService(
-            this.repositories.globalFieldRepository()
+            this.repositories.settingsRepository()
          );
       }
       return this.globalFieldService;
