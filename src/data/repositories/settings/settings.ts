@@ -86,7 +86,7 @@ export class SettingsRepository {
       return toDGlobalField(field);
    }
 
-   async pDeleteGlobalField(id: string, userId: string) {
+   async pDeleteGlobalField(userId: string, id: string) {
       const arg: GlobalFieldDeleteArgs = {
          where: { id, userId },
       };

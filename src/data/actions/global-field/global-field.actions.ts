@@ -56,7 +56,7 @@ export const updateGlobalField = async (
 
       const user = await requireUser();
       const service = getService();
-      const field = await service.updateGlobalField(id, user.id, data);
+      const field = await service.updateGlobalField(user.id, id, data);
       return {
          success: true,
          message: "Feld erfolgreich aktualisiert",
@@ -79,7 +79,7 @@ export const deleteGlobalField = async (id: string): Promise<ActionResult> => {
 
       const user = await requireUser();
       const service = getService();
-      await service.deleteGlobalField(id, user.id);
+      await service.deleteGlobalField(user.id, id);
       return {
          success: true,
          message: "Feld erfolgreich gelöscht",

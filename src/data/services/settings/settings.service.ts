@@ -23,14 +23,14 @@ export class SettingsService {
    }
 
    async updateGlobalField(
-      id: string,
       userId: string,
+      id: string,
       data: DGlobalFieldUpdate
    ): Promise<DGlobalField> {
       return await this.settingsRepository.pUpdateGlobalField(userId, id, data);
    }
 
-   async deleteGlobalField(id: string, userId: string): Promise<void> {
-      await this.settingsRepository.pDeleteGlobalField(id, userId);
+   async deleteGlobalField(userId: string, id: string): Promise<void> {
+      await this.settingsRepository.pDeleteGlobalField(userId, id);
    }
 }

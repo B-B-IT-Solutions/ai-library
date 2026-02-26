@@ -3,7 +3,10 @@ import { map } from "es-toolkit/compat";
 
 import { Sort } from "@/data/types/common";
 import { DCart, DCartItem } from "@/data/types/domain/cart";
-import { DGlobalFieldUpdate } from "@/data/types/domain/global-field";
+import {
+   DGlobalField,
+   DGlobalFieldUpdate,
+} from "@/data/types/domain/global-field";
 import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
@@ -710,9 +713,30 @@ export const sort = (field = "field1", desc = false): Sort => {
    return { field, desc };
 };
 
+export const dGlobalFields = (count = 3): DGlobalField[] => {
+   return range(0, count).map((i) => dGlobalField(i));
+};
+
+export const dGlobalField = (index = 1): DGlobalField => {
+   return {
+      id: `global-field-id-${index}`,
+      userId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      name: `name-${index}`,
+      label: `label ${index}`,
+      description: `description ${index}`,
+      type: "NUMBER",
+      required: true,
+      defaultValue: `defaultValue-${index}`,
+      options: [`option ${index}`, `option ${index + 1}`],
+      order: index,
+      createdAt: new Date("2025-09-27").toISOString(),
+      updatedAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
 export const dGlobalFieldUpdate = (index = 1): DGlobalFieldUpdate => {
    return {
-      name: `name_${index}`,
+      name: `name-${index}`,
       label: `label ${index}`,
       description: `description ${index}`,
       type: "NUMBER",
