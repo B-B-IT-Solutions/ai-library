@@ -1,4 +1,4 @@
-jest.mock("./subscription", () => {
+jest.mock("./user/subscription", () => {
    const Subscription = () => <div data-testid="subscription"></div>;
    return { Subscription };
 });

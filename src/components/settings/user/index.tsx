@@ -1,3 +1,3 @@
 export { AccountSettings } from "./account";
 export { GeneralSettings } from "./general";
-export { Subscription } from "./subscription";
+export { Subscription, PricingPlans } from "./subscription";
