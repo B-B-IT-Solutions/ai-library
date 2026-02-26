@@ -21,10 +21,7 @@ import {
    FormSelect,
    FormTextArea,
 } from "@/components/shared/widgets";
-import {
-   createGlobalField,
-   updateGlobalField,
-} from "@/data/actions/global-field";
+import { createGlobalField, updateGlobalField } from "@/data/actions/settings";
 import {
    DGlobalField,
    DGlobalFieldUpdate,

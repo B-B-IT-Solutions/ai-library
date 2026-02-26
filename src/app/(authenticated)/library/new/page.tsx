@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 import { LibraryEntryEdit } from "@/components/library";
-import { getGlobalFields } from "@/data/actions/global-field";
+import { getGlobalFields } from "@/data/actions/settings";
 
 export const metadata: Metadata = {
    title: "Neue Vorlage erstellen",

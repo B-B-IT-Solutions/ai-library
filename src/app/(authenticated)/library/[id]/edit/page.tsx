@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { LibraryEntryEdit } from "@/components/library";
-import { getGlobalFields } from "@/data/actions/global-field";
 import { getLibraryEntry } from "@/data/actions/library";
+import { getGlobalFields } from "@/data/actions/settings";
 
 export const metadata: Metadata = {
    title: "Vorlage Bearbeiten",

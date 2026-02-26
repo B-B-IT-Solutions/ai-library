@@ -18,7 +18,7 @@ import {
 } from "@/components/shadcn/alert-dialog";
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
-import { deleteGlobalField } from "@/data/actions/global-field";
+import { deleteGlobalField } from "@/data/actions/settings";
 import { DGlobalField } from "@/data/types/domain/global-field";
 
 import { GlobalFieldFormDialog } from "./global-field-form-dialog";
@@ -76,7 +76,7 @@ export const GlobalFieldList: FC<Props> = ({ fields }) => {
             data-testid="global-field-card"
          >
             <div className="flex items-center gap-3">
-               <code className="rounded bg-slate-100 px-2 py-0.5 text-sm font-mono text-slate-700">
+               <code className="rounded bg-slate-100 px-2 py-0.5 font-mono text-sm text-slate-700">
                   {`{{${field.name}}}`}
                </code>
                <span className="text-sm font-medium text-slate-900">
@@ -125,9 +125,7 @@ export const GlobalFieldList: FC<Props> = ({ fields }) => {
             </Button>
          </div>
 
-         <div className="space-y-2">
-            {map(fields, renderField)}
-         </div>
+         <div className="space-y-2">{map(fields, renderField)}</div>
 
          <GlobalFieldFormDialog
             open={dialogOpen}
@@ -157,7 +155,7 @@ export const GlobalFieldList: FC<Props> = ({ fields }) => {
                   <AlertDialogCancel>Abbrechen</AlertDialogCancel>
                   <AlertDialogAction
                      onClick={handleDeleteConfirm}
-                     className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                     className="text-destructive-foreground bg-destructive hover:bg-destructive/90"
                   >
                      Löschen
                   </AlertDialogAction>

@@ -1,6 +1,6 @@
 import { BookOpen } from "lucide-react";
 
-import { getGlobalFields } from "@/data/actions/global-field";
+import { getGlobalFields } from "@/data/actions/settings";
 
 import { GlobalFieldList } from "./global-field-list";
 
@@ -10,7 +10,9 @@ export const TemplateFields = async () => {
    const emptyState = () => (
       <div className="rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 py-12 text-center">
          <BookOpen className="mx-auto mb-3 h-8 w-8 text-slate-400" />
-         <p className="font-medium text-slate-600">Noch keine globalen Felder</p>
+         <p className="font-medium text-slate-600">
+            Noch keine globalen Felder
+         </p>
          <p className="mt-1 text-sm text-slate-400">
             Erstellen Sie Felder, die Sie in mehreren Vorlagen wiederverwenden
             möchten
