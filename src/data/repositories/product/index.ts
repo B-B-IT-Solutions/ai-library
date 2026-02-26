@@ -1,1 +1,1 @@
-export { ProductRepository } from "./product";
+export { ProductRepository } from "./product.repository";

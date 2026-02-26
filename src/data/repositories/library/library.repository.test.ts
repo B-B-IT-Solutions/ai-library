@@ -14,7 +14,7 @@ import {
    LibraryEntryFindUniqueArgs,
 } from "@/generated/prisma/models";
 
-import { GetLibraryEntryParams, LibraryRepository } from "./library";
+import { GetLibraryEntryParams, LibraryRepository } from "./library.repository";
 import {
    toDLibraryEntries,
    toDLibraryEntryWithPromptTemplate,

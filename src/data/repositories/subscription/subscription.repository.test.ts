@@ -19,7 +19,7 @@ import {
    SubscriptionUpdateInput,
 } from "@/generated/prisma/models";
 
-import { SubscriptionRepository } from "./subscription";
+import { SubscriptionRepository } from "./subscription.repository";
 import {
    toDSubscription,
    toDSubscriptionPlan,

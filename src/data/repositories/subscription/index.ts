@@ -1,4 +1,4 @@
 export {
    SubscriptionRepository,
    type GetSubscriptionParams,
-} from "./subscription";
+} from "./subscription.repository";

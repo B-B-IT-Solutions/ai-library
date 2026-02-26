@@ -18,7 +18,7 @@ import {
    PromptDescriptorWhereInput,
 } from "@/generated/prisma/models";
 
-import { GetPromptQuery, PromptRepository } from "./prompt";
+import { GetPromptQuery, PromptRepository } from "./prompt.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 

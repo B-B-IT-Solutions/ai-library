@@ -13,7 +13,7 @@ import {
    UserUpdateArgs,
 } from "@/generated/prisma/models";
 
-import { UserRepository } from "./user";
+import { UserRepository } from "./user.repository";
 import { toDUserInternal } from "./user.mapper";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;

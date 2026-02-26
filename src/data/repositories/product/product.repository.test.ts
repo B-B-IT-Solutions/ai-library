@@ -10,7 +10,7 @@ import {
    ProductWhereUniqueInput,
 } from "@/generated/prisma/models";
 
-import { ProductRepository } from "./product";
+import { ProductRepository } from "./product.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const productRepository = new ProductRepository(prismaMock);

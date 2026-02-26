@@ -15,12 +15,12 @@ import {
    OrderUpdateArgs,
 } from "@/generated/prisma/models";
 
-import { OrderRepository } from "./order";
 import {
    toDOrder,
    toDOrdersWithItems,
    toDOrderWithItems,
 } from "./order.mapper";
+import { OrderRepository } from "./order.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 

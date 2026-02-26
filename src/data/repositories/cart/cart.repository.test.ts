@@ -14,7 +14,7 @@ import {
    CartItemFindUniqueArgs,
 } from "@/generated/prisma/models";
 
-import { CartRepository } from "./cart";
+import { CartRepository } from "./cart.repository";
 import { toDCart, toDCartItem } from "./cart.mapper";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;

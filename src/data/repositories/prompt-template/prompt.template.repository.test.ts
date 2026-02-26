@@ -20,7 +20,7 @@ import {
 } from "@/generated/prisma/models";
 import { stringify } from "@/lib/utils";
 
-import { PromptTemplateRepository } from "./prompt.template";
+import { PromptTemplateRepository } from "./prompt.template.repository";
 import {
    toDPromptTemplate,
    toDPromptTemplateDescriptor,

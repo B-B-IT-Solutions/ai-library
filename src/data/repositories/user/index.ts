@@ -1,1 +1,1 @@
-export { UserRepository } from "./user";
+export { UserRepository } from "./user.repository";
