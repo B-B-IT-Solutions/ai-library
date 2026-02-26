@@ -19,7 +19,7 @@ type Props = {
    entry: DLibraryEntryWithPromptTemplate;
 };
 
-export const LibraryEntryDetails = ({ entry }: Props) => {
+export const LibraryEntryView = ({ entry }: Props) => {
    const { templateDescriptor: descriptor } = entry;
 
    const categories = () => {

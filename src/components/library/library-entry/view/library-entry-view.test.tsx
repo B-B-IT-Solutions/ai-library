@@ -2,7 +2,7 @@ import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 
-import { LibraryEntryDetails } from "./library-entry-details";
+import { LibraryEntryView } from "./library-entry-view";
 
 const assertRendered = () => {
    const libraryEntry = screen.getByTestId("library-entry-details");
@@ -37,7 +37,7 @@ describe("LibraryEntryDetails rendering tests", () => {
       const entry = dtestData.dLibraryEntryWithPromptTemplate();
       entry.templateDescriptor.categories = [];
 
-      const { container } = render(<LibraryEntryDetails entry={entry} />);
+      const { container } = render(<LibraryEntryView entry={entry} />);
 
       await waitFor(() => {
          assertRendered();
@@ -50,7 +50,7 @@ describe("LibraryEntryDetails rendering tests", () => {
    it("LibraryEntryDetails - with categories - rendered test", async () => {
       const entry = dtestData.dLibraryEntryWithPromptTemplate();
 
-      const { container } = render(<LibraryEntryDetails entry={entry} />);
+      const { container } = render(<LibraryEntryView entry={entry} />);
 
       await waitFor(() => {
          assertRendered();

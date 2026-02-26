@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { LibraryEntryDetails } from "@/components/library";
+import { LibraryEntryView } from "@/components/library";
 import { getLibraryEntry } from "@/data/actions/library";
 
 export const metadata: Metadata = {
@@ -26,7 +26,7 @@ export const LibraryEntryPage = async ({ params }: PageProps) => {
 
    return (
       <div data-testid="library-entry-page">
-         <LibraryEntryDetails entry={entry} />
+         <LibraryEntryView entry={entry} />
       </div>
    );
 };
