@@ -210,6 +210,7 @@ export const LibraryEntryForm = ({ entry }: Props) => {
                   />
 
                   <Separator />
+
                   {buttons()}
                </form>
             </Form>
