@@ -23,6 +23,7 @@ type Props<T extends FieldValues> = {
    message?: string;
    type?: HTMLInputTypeAttribute;
    className?: string;
+   fixStyling?: boolean;
    control: Control<T>;
 };
 
@@ -35,6 +36,7 @@ export const FormInput = <T extends FieldValues>({
    message,
    type,
    className,
+   fixStyling,
    control,
 }: Props<T>) => {
    const renderlabel = () => {
@@ -55,6 +57,26 @@ export const FormInput = <T extends FieldValues>({
       }
    };
 
+   const renderMessage = () => {
+      if (message) {
+         return (
+            <FormMessage>
+               <span className="text-slate-500">{message}</span>
+            </FormMessage>
+         );
+      }
+
+      if (fixStyling) {
+         return (
+            <FormMessage>
+               <span className="invisible text-sm">.</span>
+            </FormMessage>
+         );
+      }
+
+      return <FormMessage />;
+   };
+
    return (
       <FormField
          control={control}
@@ -71,9 +93,7 @@ export const FormInput = <T extends FieldValues>({
                      data-testid="input"
                   />
                </FormControl>
-               <FormMessage>
-                  {message && <span className="text-slate-500">{message}</span>}
-               </FormMessage>
+               {renderMessage()}
             </FormItem>
          )}
       />

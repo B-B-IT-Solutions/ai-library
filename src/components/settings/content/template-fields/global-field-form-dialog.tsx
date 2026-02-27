@@ -109,7 +109,7 @@ export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
                         name="label"
                         label="Label"
                         placeholder="z.B. Zielgruppe"
-                        className="pb-7"
+                        fixStyling={true}
                         control={form.control}
                      />
                      <FormSelect<DGlobalFieldUpdate>

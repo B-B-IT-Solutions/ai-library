@@ -13,6 +13,7 @@ type Props = {
    required?: boolean;
    message?: string;
    className?: string;
+   fixStyling?: boolean;
 };
 
 const TestWrapper: FC<Props> = ({
@@ -23,6 +24,7 @@ const TestWrapper: FC<Props> = ({
    required,
    message,
    className,
+   fixStyling,
 }) => {
    const form = useForm({
       defaultValues: {
@@ -40,6 +42,7 @@ const TestWrapper: FC<Props> = ({
             required={required}
             message={message}
             className={className}
+            fixStyling={fixStyling}
             control={form.control}
          />
       </FormProvider>
@@ -52,7 +55,7 @@ const assertRendered = (name: string) => {
 };
 
 describe("FormInput rendering tests", () => {
-   it("FormInput - message undefined - test", () => {
+   it("FormInput - message undefined - fixStlying true - test", () => {
       const name = "test-1";
       const { container } = render(
          <TestWrapper
@@ -63,6 +66,7 @@ describe("FormInput rendering tests", () => {
             required={true}
             message={undefined}
             className="pb-7"
+            fixStyling={true}
          />
       );
 
@@ -71,7 +75,26 @@ describe("FormInput rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("FormInput  - message defined -  test", () => {
+   it("FormInput - message undefined - fixStlying false - test", () => {
+      const name = "test-1";
+      const { container } = render(
+         <TestWrapper
+            name={name}
+            label="Label 1"
+            placeholder="Placeholder 1"
+            description="Description 1"
+            required={true}
+            message={undefined}
+            fixStyling={false}
+         />
+      );
+
+      assertRendered(name);
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("FormInput - message defined -  test", () => {
       const name = "test-1";
       const { container } = render(
          <TestWrapper
