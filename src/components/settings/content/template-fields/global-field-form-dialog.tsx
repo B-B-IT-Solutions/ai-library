@@ -86,7 +86,7 @@ export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
 
    return (
       <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
-         <DialogContent className="sm:max-w-lg">
+         <DialogContent className="sm:max-w-3xl">
             <DialogHeader>
                <DialogTitle>
                   {isEdit ? "Feld bearbeiten" : "Neues Feld erstellen"}
@@ -109,6 +109,7 @@ export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
                         name="label"
                         label="Label"
                         placeholder="z.B. Zielgruppe"
+                        className="pb-7"
                         control={form.control}
                      />
                      <FormSelect<DGlobalFieldUpdate>

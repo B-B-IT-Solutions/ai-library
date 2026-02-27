@@ -44,7 +44,7 @@ exports[`FormInput rendering tests FormInput  - message defined -  test 1`] = `
 exports[`FormInput rendering tests FormInput - message undefined - test 1`] = `
 <div>
   <div
-    class="grid gap-2"
+    class="grid gap-2 pb-7"
     data-slot="form-item"
     data-testid="test-1"
   >

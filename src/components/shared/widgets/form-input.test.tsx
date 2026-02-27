@@ -12,6 +12,7 @@ type Props = {
    description?: string | null;
    required?: boolean;
    message?: string;
+   className?: string;
 };
 
 const TestWrapper: FC<Props> = ({
@@ -21,6 +22,7 @@ const TestWrapper: FC<Props> = ({
    description,
    required,
    message,
+   className,
 }) => {
    const form = useForm({
       defaultValues: {
@@ -37,6 +39,7 @@ const TestWrapper: FC<Props> = ({
             description={description}
             required={required}
             message={message}
+            className={className}
             control={form.control}
          />
       </FormProvider>
@@ -59,6 +62,7 @@ describe("FormInput rendering tests", () => {
             description="Description 1"
             required={true}
             message={undefined}
+            className="pb-7"
          />
       );
 

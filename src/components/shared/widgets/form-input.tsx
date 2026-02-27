@@ -12,6 +12,7 @@ import {
    FormMessage,
 } from "@/components/shadcn/form";
 import { Input } from "@/components/shadcn/input";
+import { cn } from "@/lib/utils";
 
 type Props<T extends FieldValues> = {
    name: Path<T>;
@@ -21,6 +22,7 @@ type Props<T extends FieldValues> = {
    required?: boolean;
    message?: string;
    type?: HTMLInputTypeAttribute;
+   className?: string;
    control: Control<T>;
 };
 
@@ -32,6 +34,7 @@ export const FormInput = <T extends FieldValues>({
    required,
    message,
    type,
+   className,
    control,
 }: Props<T>) => {
    const renderlabel = () => {
@@ -57,7 +60,7 @@ export const FormInput = <T extends FieldValues>({
          control={control}
          name={name}
          render={({ field }) => (
-            <FormItem data-testid={name}>
+            <FormItem className={cn(className)} data-testid={name}>
                {renderlabel()}
                {renderDescription()}
                <FormControl>
