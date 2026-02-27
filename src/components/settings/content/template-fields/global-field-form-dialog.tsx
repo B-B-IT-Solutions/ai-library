@@ -78,6 +78,38 @@ export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
       }
    };
 
+   const formInputs = () => {
+      return (
+         <div className="grid grid-cols-2 gap-4">
+            <TemplateFieldName<DGlobalTemplateFieldUpdate>
+               name={"name"}
+               control={form.control}
+               watch={form.watch}
+            />
+            <TemplateFieldLabel<DGlobalTemplateFieldUpdate>
+               name={"label"}
+               control={form.control}
+            />
+            <TemplateFieldType<DGlobalTemplateFieldUpdate>
+               name={"type"}
+               control={form.control}
+            />
+            <TemplateFieldDefaultValue<DGlobalTemplateFieldUpdate>
+               name="defaultValue"
+               control={form.control}
+            />
+            <TemplateFieldDescription<DGlobalTemplateFieldUpdate>
+               name="description"
+               control={form.control}
+            />
+            <TemplateFieldRequired<DGlobalTemplateFieldUpdate>
+               name="required"
+               control={form.control}
+            />
+         </div>
+      );
+   };
+
    return (
       <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
          <DialogContent className="sm:max-w-3xl">
@@ -91,33 +123,7 @@ export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="space-y-4"
                >
-                  <div className="grid grid-cols-2 gap-4">
-                     <TemplateFieldName<DGlobalTemplateFieldUpdate>
-                        name={"name"}
-                        control={form.control}
-                        watch={form.watch}
-                     />
-                     <TemplateFieldLabel<DGlobalTemplateFieldUpdate>
-                        name={"label"}
-                        control={form.control}
-                     />
-                     <TemplateFieldType<DGlobalTemplateFieldUpdate>
-                        name={"type"}
-                        control={form.control}
-                     />
-                     <TemplateFieldDefaultValue<DGlobalTemplateFieldUpdate>
-                        name="defaultValue"
-                        control={form.control}
-                     />
-                     <TemplateFieldDescription<DGlobalTemplateFieldUpdate>
-                        name="description"
-                        control={form.control}
-                     />
-                     <TemplateFieldRequired<DGlobalTemplateFieldUpdate>
-                        name="required"
-                        control={form.control}
-                     />
-                  </div>
+                  {formInputs()}
                   <DialogFooter>
                      <Button
                         type="button"

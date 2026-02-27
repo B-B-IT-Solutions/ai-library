@@ -68,70 +68,34 @@ export const PromptTemplateField: FC<Props> = ({
       );
    };
 
-   const name = () => {
-      return (
-         <TemplateFieldName<DPromptTemplateUpdate>
-            name={`fields.${index}.name`}
-            control={control}
-            watch={watch}
-         />
-      );
-   };
-
-   const label = () => {
-      return (
-         <TemplateFieldLabel<DPromptTemplateUpdate>
-            name={`fields.${index}.label`}
-            control={control}
-         />
-      );
-   };
-
-   const type = () => {
-      return (
-         <TemplateFieldType<DPromptTemplateUpdate>
-            name={`fields.${index}.type`}
-            control={control}
-         />
-      );
-   };
-
-   const defaultValue = () => {
-      return (
-         <TemplateFieldDefaultValue<DPromptTemplateUpdate>
-            name={`fields.${index}.defaultValue`}
-            control={control}
-         />
-      );
-   };
-
-   const description = () => {
-      return (
-         <TemplateFieldDescription<DPromptTemplateUpdate>
-            name={`fields.${index}.description`}
-            control={control}
-         />
-      );
-   };
-
-   const required = () => {
-      return (
-         <TemplateFieldRequired<DPromptTemplateUpdate>
-            name={`fields.${index}.required`}
-            control={control}
-         />
-      );
-   };
-
-   const fields = () => {
+   const formInputs = () => {
       return (
          <div className="grid grid-cols-2 gap-4">
-            {name()}
-            {label()}
-            {type()}
-            {defaultValue()}
-            {description()}
-            {required()}
+            <TemplateFieldName<DPromptTemplateUpdate>
+               name={`fields.${index}.name`}
+               control={control}
+               watch={watch}
+            />
+            <TemplateFieldLabel<DPromptTemplateUpdate>
+               name={`fields.${index}.label`}
+               control={control}
+            />
+            <TemplateFieldType<DPromptTemplateUpdate>
+               name={`fields.${index}.type`}
+               control={control}
+            />
+            <TemplateFieldDefaultValue<DPromptTemplateUpdate>
+               name={`fields.${index}.defaultValue`}
+               control={control}
+            />
+            <TemplateFieldDescription<DPromptTemplateUpdate>
+               name={`fields.${index}.description`}
+               control={control}
+            />
+            <TemplateFieldRequired<DPromptTemplateUpdate>
+               name={`fields.${index}.required`}
+               control={control}
+            />
          </div>
       );
    };
@@ -148,7 +112,7 @@ export const PromptTemplateField: FC<Props> = ({
          data-testid="prompt-template-field"
       >
          {header()}
-         {fields()}
+         {formInputs()}
       </div>
    );
 };
