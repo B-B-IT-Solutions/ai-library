@@ -1,7 +1,7 @@
 import { DSettingsSection } from "@/data/types/domain/settings";
 import { DUser } from "@/data/types/domain/user";
 
-import { TemplateFields } from "./content";
+import { GlobalTemplateFields } from "./content";
 import { Navigation } from "./navigation";
 import { AccountSettings, GeneralSettings, Subscription } from "./user";
 
@@ -19,7 +19,7 @@ export const Settings = ({ user, section }: Props) => {
          return <Subscription />;
       }
       if (section === "template-fields") {
-         return <TemplateFields />;
+         return <GlobalTemplateFields />;
       }
       return <GeneralSettings user={user} />;
    };

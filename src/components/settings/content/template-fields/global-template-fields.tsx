@@ -5,7 +5,7 @@ import { getGlobalFields } from "@/data/actions/settings";
 
 import { GlobalFieldList } from "./global-field-list";
 
-export const TemplateFields = async () => {
+export const GlobalTemplateFields = async () => {
    const fields = await getGlobalFields();
 
    const emptyState = () => {

@@ -4,8 +4,8 @@ jest.mock("./user/subscription", () => {
 });
 
 jest.mock("./content/template-fields", () => {
-   const TemplateFields = () => <div data-testid="template-fields"></div>;
-   return { TemplateFields };
+   const GlobalTemplateFields = () => <div data-testid="template-fields"></div>;
+   return { GlobalTemplateFields };
 });
 
 import { render, screen, waitFor } from "@testing-library/react";
