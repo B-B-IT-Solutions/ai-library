@@ -110,6 +110,42 @@ export const GlobalFieldList: FC<Props> = ({ fields }) => {
       );
    };
 
+   const deleteDialog = () => {
+      return (
+         <AlertDialog
+            open={!!deleteDialogField}
+            onOpenChange={(o) => !o && setDeleteDialogField(undefined)}
+         >
+            <AlertDialogContent>
+               <AlertDialogHeader>
+                  <AlertDialogTitle>Feld löschen?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                     Möchten Sie das Feld{" "}
+                     <strong>
+                        {deleteDialogField
+                           ? `{{${deleteDialogField.name}}}`
+                           : ""}
+                     </strong>{" "}
+                     wirklich löschen? Diese Aktion kann nicht rückgängig
+                     gemacht werden.
+                  </AlertDialogDescription>
+               </AlertDialogHeader>
+               <AlertDialogFooter>
+                  <AlertDialogCancel className="cursor-pointer">
+                     Abbrechen
+                  </AlertDialogCancel>
+                  <AlertDialogAction
+                     onClick={handleDeleteConfirm}
+                     className="cursor-pointer bg-destructive hover:bg-destructive/90"
+                  >
+                     Löschen
+                  </AlertDialogAction>
+               </AlertDialogFooter>
+            </AlertDialogContent>
+         </AlertDialog>
+      );
+   };
+
    return (
       <div className="space-y-4" data-testid="global-fields-list">
          <div className="flex justify-end">
@@ -133,35 +169,7 @@ export const GlobalFieldList: FC<Props> = ({ fields }) => {
             field={editingField}
          />
 
-         <AlertDialog
-            open={!!deleteDialogField}
-            onOpenChange={(o) => !o && setDeleteDialogField(undefined)}
-         >
-            <AlertDialogContent>
-               <AlertDialogHeader>
-                  <AlertDialogTitle>Feld löschen?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                     Möchten Sie das Feld{" "}
-                     <strong>
-                        {deleteDialogField
-                           ? `{{${deleteDialogField.name}}}`
-                           : ""}
-                     </strong>{" "}
-                     wirklich löschen? Diese Aktion kann nicht rückgängig
-                     gemacht werden.
-                  </AlertDialogDescription>
-               </AlertDialogHeader>
-               <AlertDialogFooter>
-                  <AlertDialogCancel>Abbrechen</AlertDialogCancel>
-                  <AlertDialogAction
-                     onClick={handleDeleteConfirm}
-                     className="text-destructive-foreground bg-destructive hover:bg-destructive/90"
-                  >
-                     Löschen
-                  </AlertDialogAction>
-               </AlertDialogFooter>
-            </AlertDialogContent>
-         </AlertDialog>
+         {deleteDialog()}
       </div>
    );
 };
