@@ -6,15 +6,18 @@ import {
    DGlobalTemplateFieldUpdate,
 } from "@/data/types/domain/settings";
 import {
-   GlobalFieldCreateArgs,
-   GlobalFieldCreateInput,
-   GlobalFieldDeleteArgs,
-   GlobalFieldFindManyArgs,
-   GlobalFieldUpdateArgs,
-   GlobalFieldUpdateInput,
+   GlobalTemplateFieldCreateArgs,
+   GlobalTemplateFieldCreateInput,
+   GlobalTemplateFieldDeleteArgs,
+   GlobalTemplateFieldFindManyArgs,
+   GlobalTemplateFieldUpdateArgs,
+   GlobalTemplateFieldUpdateInput,
 } from "@/generated/prisma/models";
 
-import { toDGlobalField, toDGlobalFields } from "./settings.mapper";
+import {
+   toDGlobalTemplateField,
+   toDGlobalTemplateFields,
+} from "./settings.mapper";
 
 export class SettingsRepository {
    private prisma: DbClient;
@@ -23,21 +26,23 @@ export class SettingsRepository {
       this.prisma = prisma;
    }
 
-   async pGetGlobalFields(userId: string): Promise<DGlobalTemplateField[]> {
-      const args: GlobalFieldFindManyArgs = {
+   async pGetGlobalTemplateFields(
+      userId: string
+   ): Promise<DGlobalTemplateField[]> {
+      const args: GlobalTemplateFieldFindManyArgs = {
          where: { userId },
          orderBy: { order: "asc" },
       };
 
-      const fields = await this.prisma.globalField.findMany(args);
-      return toDGlobalFields(fields);
+      const fields = await this.prisma.globalTemplateField.findMany(args);
+      return toDGlobalTemplateFields(fields);
    }
 
-   async pCreateGlobalField(
+   async pCreateGlobalTemplateField(
       userId: string,
       data: DGlobalTemplateFieldUpdate
    ): Promise<DGlobalTemplateField> {
-      const input: GlobalFieldCreateInput = {
+      const input: GlobalTemplateFieldCreateInput = {
          name: data.name,
          label: data.label,
          description: data.description,
@@ -53,20 +58,20 @@ export class SettingsRepository {
          },
       };
 
-      const args: GlobalFieldCreateArgs = {
+      const args: GlobalTemplateFieldCreateArgs = {
          data: input,
       };
 
-      const field = await this.prisma.globalField.create(args);
-      return toDGlobalField(field);
+      const field = await this.prisma.globalTemplateField.create(args);
+      return toDGlobalTemplateField(field);
    }
 
-   async pUpdateGlobalField(
+   async pUpdateGlobalTemplateField(
       userId: string,
       id: string,
       data: DGlobalTemplateFieldUpdate
    ): Promise<DGlobalTemplateField> {
-      const input: GlobalFieldUpdateInput = {
+      const input: GlobalTemplateFieldUpdateInput = {
          name: data.name,
          label: data.label,
          description: data.description,
@@ -77,20 +82,20 @@ export class SettingsRepository {
          order: data.order,
       };
 
-      const args: GlobalFieldUpdateArgs = {
+      const args: GlobalTemplateFieldUpdateArgs = {
          where: { id, userId },
          data: input,
       };
 
-      const field = await this.prisma.globalField.update(args);
-      return toDGlobalField(field);
+      const field = await this.prisma.globalTemplateField.update(args);
+      return toDGlobalTemplateField(field);
    }
 
-   async pDeleteGlobalField(userId: string, id: string) {
-      const arg: GlobalFieldDeleteArgs = {
+   async pDeleteGlobalTemplateField(userId: string, id: string) {
+      const arg: GlobalTemplateFieldDeleteArgs = {
          where: { id, userId },
       };
 
-      await this.prisma.globalField.delete(arg);
+      await this.prisma.globalTemplateField.delete(arg);
    }
 }

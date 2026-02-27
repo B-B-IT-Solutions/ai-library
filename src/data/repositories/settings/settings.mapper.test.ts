@@ -2,17 +2,22 @@ import { ptestData } from "@tests";
 import { isArray, map } from "es-toolkit/compat";
 
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
-import { GlobalField } from "@/generated/prisma/client";
+import { GlobalTemplateField } from "@/generated/prisma/client";
 
-import { toDGlobalField, toDGlobalFields } from "./settings.mapper";
+import {
+   toDGlobalTemplateField,
+   toDGlobalTemplateFields,
+} from "./settings.mapper";
 
-const toDGlobalFieldsInternal = (
-   fields: GlobalField[]
+const toDGlobalTemplateFieldsInternal = (
+   fields: GlobalTemplateField[]
 ): DGlobalTemplateField[] => {
-   return map(fields, (f) => toDGlobalFieldInternal(f));
+   return map(fields, (f) => toDGlobalTemplateFieldInternal(f));
 };
 
-const toDGlobalFieldInternal = (field: GlobalField): DGlobalTemplateField => {
+const toDGlobalTemplateFieldInternal = (
+   field: GlobalTemplateField
+): DGlobalTemplateField => {
    return {
       id: field.id,
       userId: field.userId,
@@ -29,38 +34,38 @@ const toDGlobalFieldInternal = (field: GlobalField): DGlobalTemplateField => {
    };
 };
 
-describe("toDGlobalFields tests", () => {
+describe("toDGlobalTemplateFields tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("toDGlobalFields test", async () => {
+   it("toDGlobalTemplateFields test", async () => {
       const fields = ptestData.pGlobalFields();
-      const result = toDGlobalFields(fields);
-      const expectedResult = toDGlobalFieldsInternal(fields);
+      const result = toDGlobalTemplateFields(fields);
+      const expectedResult = toDGlobalTemplateFieldsInternal(fields);
       expect(result).toEqual(expectedResult);
    });
 
-   it("toDGlobalField test", async () => {
+   it("toDGlobalTemplateField test", async () => {
       const field = ptestData.pGlobalField();
-      const result = toDGlobalField(field);
-      const expectedResult = toDGlobalFieldInternal(field);
+      const result = toDGlobalTemplateField(field);
+      const expectedResult = toDGlobalTemplateFieldInternal(field);
       expect(result).toEqual(expectedResult);
    });
 
-   it("toDGlobalField - options is null - test", async () => {
+   it("toDGlobalTemplateField - options is null - test", async () => {
       const field = ptestData.pGlobalField();
       field.options = null;
-      const result = toDGlobalField(field);
-      const expectedResult = toDGlobalFieldInternal(field);
+      const result = toDGlobalTemplateField(field);
+      const expectedResult = toDGlobalTemplateFieldInternal(field);
       expect(result).toEqual(expectedResult);
    });
 
-   it("toDGlobalField - options is non-array value - test", async () => {
+   it("toDGlobalTemplateField - options is non-array value - test", async () => {
       const field = ptestData.pGlobalField();
       field.options = "some-string";
-      const result = toDGlobalField(field);
-      const expectedResult = toDGlobalFieldInternal(field);
+      const result = toDGlobalTemplateField(field);
+      const expectedResult = toDGlobalTemplateFieldInternal(field);
       expect(result).toEqual(expectedResult);
    });
 });

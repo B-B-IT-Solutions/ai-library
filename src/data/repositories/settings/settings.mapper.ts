@@ -1,15 +1,17 @@
 import { isArray, map } from "es-toolkit/compat";
 
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
-import { GlobalField } from "@/generated/prisma/client";
+import { GlobalTemplateField } from "@/generated/prisma/client";
 
-export const toDGlobalFields = (
-   fields: GlobalField[]
+export const toDGlobalTemplateFields = (
+   fields: GlobalTemplateField[]
 ): DGlobalTemplateField[] => {
-   return map(fields, toDGlobalField);
+   return map(fields, toDGlobalTemplateField);
 };
 
-export const toDGlobalField = (field: GlobalField): DGlobalTemplateField => {
+export const toDGlobalTemplateField = (
+   field: GlobalTemplateField
+): DGlobalTemplateField => {
    return {
       id: field.id,
       userId: field.userId,
