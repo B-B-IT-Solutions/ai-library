@@ -1,12 +1,12 @@
 import { isEmpty } from "es-toolkit/compat";
 import { Braces } from "lucide-react";
 
-import { getGlobalFields } from "@/data/actions/settings";
+import { getGlobalTemplateFields } from "@/data/actions/settings";
 
 import { GlobalFieldList } from "./global-field-list";
 
 export const GlobalTemplateFields = async () => {
-   const fields = await getGlobalFields();
+   const fields = await getGlobalTemplateFields();
 
    const emptyState = () => {
       if (isEmpty(fields)) {

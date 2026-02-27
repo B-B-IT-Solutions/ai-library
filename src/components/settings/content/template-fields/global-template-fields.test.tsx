@@ -8,13 +8,14 @@ import {
    renderAsyncRSC,
 } from "@tests";
 
-import { getGlobalFields } from "@/data/actions/settings";
+import { getGlobalTemplateFields } from "@/data/actions/settings";
 
 import { GlobalTemplateFields } from "./global-template-fields";
 
-const getGlobalFieldsMock = getGlobalFields as jest.MockedFunction<
-   typeof getGlobalFields
->;
+const getGlobalTemplateFieldsMock =
+   getGlobalTemplateFields as jest.MockedFunction<
+      typeof getGlobalTemplateFields
+   >;
 
 const assertRendered = () => {
    const tempalteFields = screen.getByTestId("global-template-fields");
@@ -40,7 +41,7 @@ describe("TemplateFields rendering tests", () => {
    });
 
    it("TemplateFields - fields empty - test", async () => {
-      getGlobalFieldsMock.mockResolvedValue([]);
+      getGlobalTemplateFieldsMock.mockResolvedValue([]);
 
       const { container } = await renderAsyncRSC(GlobalTemplateFields, {});
 
@@ -54,7 +55,7 @@ describe("TemplateFields rendering tests", () => {
 
    it("TemplateFields - fields retrieved - test", async () => {
       const fields = dtestData.dGlobalTemplateFields();
-      getGlobalFieldsMock.mockResolvedValue(fields);
+      getGlobalTemplateFieldsMock.mockResolvedValue(fields);
 
       const { container } = await renderAsyncRSC(GlobalTemplateFields, {});
 

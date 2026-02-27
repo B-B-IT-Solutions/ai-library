@@ -18,7 +18,7 @@ import {
 } from "@/components/shadcn/alert-dialog";
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
-import { deleteGlobalField } from "@/data/actions/settings";
+import { deleteGlobalTemplateField } from "@/data/actions/settings";
 import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
 
@@ -61,7 +61,7 @@ export const GlobalFieldList: FC<Props> = ({ fields }) => {
 
    const handleDeleteConfirm = async () => {
       if (deleteDialogField) {
-         const result = await deleteGlobalField(deleteDialogField.id);
+         const result = await deleteGlobalTemplateField(deleteDialogField.id);
          if (result.success) {
             toast.success(result.message);
             router.refresh();

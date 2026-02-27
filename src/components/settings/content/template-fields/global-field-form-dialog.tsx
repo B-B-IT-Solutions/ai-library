@@ -21,7 +21,10 @@ import {
    FormSelect,
    FormTextArea,
 } from "@/components/shared/widgets";
-import { createGlobalField, updateGlobalField } from "@/data/actions/settings";
+import {
+   createGlobalTemplateField,
+   updateGlobalTemplateField,
+} from "@/data/actions/settings";
 import {
    DGlobalTemplateField,
    DGlobalTemplateFieldUpdate,
@@ -64,7 +67,7 @@ export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
 
    const onSubmit: SubmitHandler<DGlobalTemplateFieldUpdate> = async (data) => {
       if (isEdit) {
-         const result = await updateGlobalField(field.id, data);
+         const result = await updateGlobalTemplateField(field.id, data);
          if (result.success) {
             toast.success(result.message);
             router.refresh();
@@ -73,7 +76,7 @@ export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
             toast.error(result.message);
          }
       } else {
-         const result = await createGlobalField(data);
+         const result = await createGlobalTemplateField(data);
          if (result.success) {
             toast.success(result.message);
             router.refresh();

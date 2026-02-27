@@ -13,7 +13,9 @@ import {
 } from "@/data/types/domain/settings";
 import { ActionResult } from "@/data/types/utils";
 
-export const getGlobalFields = async (): Promise<DGlobalTemplateField[]> => {
+export const getGlobalTemplateFields = async (): Promise<
+   DGlobalTemplateField[]
+> => {
    try {
       const user = await requireUser();
       const service = getService();
@@ -24,7 +26,7 @@ export const getGlobalFields = async (): Promise<DGlobalTemplateField[]> => {
    }
 };
 
-export const createGlobalField = async (
+export const createGlobalTemplateField = async (
    data: DGlobalTemplateFieldUpdate
 ): Promise<ActionResult<DGlobalTemplateField>> => {
    try {
@@ -45,7 +47,7 @@ export const createGlobalField = async (
    }
 };
 
-export const updateGlobalField = async (
+export const updateGlobalTemplateField = async (
    id: string,
    data: DGlobalTemplateFieldUpdate
 ): Promise<ActionResult<DGlobalTemplateField>> => {
@@ -71,7 +73,9 @@ export const updateGlobalField = async (
    }
 };
 
-export const deleteGlobalField = async (id: string): Promise<ActionResult> => {
+export const deleteGlobalTemplateField = async (
+   id: string
+): Promise<ActionResult> => {
    try {
       if (!isValidUuid(id)) {
          throw new Error("Invalid field ID.");

@@ -9,10 +9,10 @@ import { DGlobalTemplateField } from "@/data/types/domain/settings";
 import { ActionResult } from "@/data/types/utils";
 
 import {
-   createGlobalField,
-   deleteGlobalField,
-   getGlobalFields,
-   updateGlobalField,
+   createGlobalTemplateField,
+   deleteGlobalTemplateField,
+   getGlobalTemplateFields,
+   updateGlobalTemplateField,
 } from "./settings.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
@@ -43,7 +43,7 @@ const sDeleteGlobalTemplateFieldMock =
       typeof sDeleteGlobalTemplateField
    >;
 
-describe("getGlobalFields tests", () => {
+describe("getGlobalTemplateFields tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -53,11 +53,11 @@ describe("getGlobalFields tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("getGlobalFields - user undefined - test", async () => {
+   it("getGlobalTemplateFields - user undefined - test", async () => {
       const error = new Error("Unknown user");
       requireUserMock.mockRejectedValue(error);
 
-      const result = await getGlobalFields();
+      const result = await getGlobalTemplateFields();
 
       expect(result).toEqual([]);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
@@ -66,14 +66,14 @@ describe("getGlobalFields tests", () => {
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
-   it("getGlobalFields - fields retrieved - test", async () => {
+   it("getGlobalTemplateFields - fields retrieved - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
       const fields = dtestData.dGlobalTemplateFields();
       sGetGlobalTemplateFieldsMock.mockResolvedValue(fields);
 
-      const result = await getGlobalFields();
+      const result = await getGlobalTemplateFields();
 
       expect(result).toEqual(fields);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
@@ -82,7 +82,7 @@ describe("getGlobalFields tests", () => {
    });
 });
 
-describe("createGlobalField tests", () => {
+describe("createGlobalTemplateField tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -92,12 +92,12 @@ describe("createGlobalField tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("createGlobalField - user undefined - test", async () => {
+   it("createGlobalTemplateField - user undefined - test", async () => {
       const error = new Error("Unknown user");
       requireUserMock.mockRejectedValue(error);
 
       const data = dtestData.dGlobalTemplateFieldUpdate();
-      const result = await createGlobalField(data);
+      const result = await createGlobalTemplateField(data);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -110,7 +110,7 @@ describe("createGlobalField tests", () => {
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("createGlobalField - error - test", async () => {
+   it("createGlobalTemplateField - error - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -118,7 +118,7 @@ describe("createGlobalField tests", () => {
       sCreateGlobalTemplateFieldMock.mockRejectedValue(error);
 
       const data = dtestData.dGlobalTemplateFieldUpdate();
-      const result = await createGlobalField(data);
+      const result = await createGlobalTemplateField(data);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -135,7 +135,7 @@ describe("createGlobalField tests", () => {
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("createGlobalField - field created - test", async () => {
+   it("createGlobalTemplateField - field created - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -143,7 +143,7 @@ describe("createGlobalField tests", () => {
       sCreateGlobalTemplateFieldMock.mockResolvedValue(field);
 
       const data = dtestData.dGlobalTemplateFieldUpdate();
-      const result = await createGlobalField(data);
+      const result = await createGlobalTemplateField(data);
 
       const expectedResult: ActionResult<DGlobalTemplateField> = {
          success: true,
@@ -161,7 +161,7 @@ describe("createGlobalField tests", () => {
    });
 });
 
-describe("updateGlobalField tests", () => {
+describe("updateGlobalTemplateField tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -171,11 +171,11 @@ describe("updateGlobalField tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("updateGlobalField - invalid UUID - test", async () => {
+   it("updateGlobalTemplateField - invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
       const data = dtestData.dGlobalTemplateFieldUpdate();
 
-      const result = await updateGlobalField(invalidId, data);
+      const result = await updateGlobalTemplateField(invalidId, data);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -187,14 +187,14 @@ describe("updateGlobalField tests", () => {
       expect(sUpdateGlobalTemplateFieldMock).not.toHaveBeenCalled();
    });
 
-   it("updateGlobalField - user undefined - test", async () => {
+   it("updateGlobalTemplateField - user undefined - test", async () => {
       const error = new Error("Unknown user");
       requireUserMock.mockRejectedValue(error);
 
       const id = "123e4567-e89b-12d3-a456-426614174000";
       const data = dtestData.dGlobalTemplateFieldUpdate();
 
-      const result = await updateGlobalField(id, data);
+      const result = await updateGlobalTemplateField(id, data);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -207,7 +207,7 @@ describe("updateGlobalField tests", () => {
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("updateGlobalField - error - test", async () => {
+   it("updateGlobalTemplateField - error - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -217,7 +217,7 @@ describe("updateGlobalField tests", () => {
       const id = "123e4567-e89b-12d3-a456-426614174000";
       const data = dtestData.dGlobalTemplateFieldUpdate();
 
-      const result = await updateGlobalField(id, data);
+      const result = await updateGlobalTemplateField(id, data);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -235,7 +235,7 @@ describe("updateGlobalField tests", () => {
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("updateGlobalField - field updated - test", async () => {
+   it("updateGlobalTemplateField - field updated - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -245,7 +245,7 @@ describe("updateGlobalField tests", () => {
       const id = "123e4567-e89b-12d3-a456-426614174000";
       const data = dtestData.dGlobalTemplateFieldUpdate();
 
-      const result = await updateGlobalField(id, data);
+      const result = await updateGlobalTemplateField(id, data);
 
       const expectedResult: ActionResult<DGlobalTemplateField> = {
          success: true,
@@ -264,7 +264,7 @@ describe("updateGlobalField tests", () => {
    });
 });
 
-describe("deleteGlobalField tests", () => {
+describe("deleteGlobalTemplateField tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -274,10 +274,10 @@ describe("deleteGlobalField tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("deleteGlobalField - invalid UUID - test", async () => {
+   it("deleteGlobalTemplateField - invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
 
-      const result = await deleteGlobalField(invalidId);
+      const result = await deleteGlobalTemplateField(invalidId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -289,13 +289,13 @@ describe("deleteGlobalField tests", () => {
       expect(sDeleteGlobalTemplateFieldMock).not.toHaveBeenCalled();
    });
 
-   it("deleteGlobalField - user undefined - test", async () => {
+   it("deleteGlobalTemplateField - user undefined - test", async () => {
       const error = new Error("Unknown user");
       requireUserMock.mockRejectedValue(error);
 
       const id = "123e4567-e89b-12d3-a456-426614174000";
 
-      const result = await deleteGlobalField(id);
+      const result = await deleteGlobalTemplateField(id);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -308,7 +308,7 @@ describe("deleteGlobalField tests", () => {
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("deleteGlobalField - error - test", async () => {
+   it("deleteGlobalTemplateField - error - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -317,7 +317,7 @@ describe("deleteGlobalField tests", () => {
 
       const id = "123e4567-e89b-12d3-a456-426614174000";
 
-      const result = await deleteGlobalField(id);
+      const result = await deleteGlobalTemplateField(id);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -331,7 +331,7 @@ describe("deleteGlobalField tests", () => {
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("deleteGlobalField - field deleted - test", async () => {
+   it("deleteGlobalTemplateField - field deleted - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -339,7 +339,7 @@ describe("deleteGlobalField tests", () => {
 
       const id = "123e4567-e89b-12d3-a456-426614174000";
 
-      const result = await deleteGlobalField(id);
+      const result = await deleteGlobalTemplateField(id);
 
       const expectedResult: ActionResult = {
          success: true,

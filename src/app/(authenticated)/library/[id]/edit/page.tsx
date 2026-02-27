@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 
 import { LibraryEntryEdit } from "@/components/library";
 import { getLibraryEntry } from "@/data/actions/library";
-import { getGlobalFields } from "@/data/actions/settings";
+import { getGlobalTemplateFields } from "@/data/actions/settings";
 
 export const metadata: Metadata = {
    title: "Vorlage Bearbeiten",
@@ -22,7 +22,7 @@ export const EditLibraryEntryPage = async ({ params }: PageProps) => {
 
    const [entry, globalFields] = await Promise.all([
       getLibraryEntry(entryId),
-      getGlobalFields(),
+      getGlobalTemplateFields(),
    ]);
 
    if (!entry) {

@@ -1,6 +1,6 @@
 export {
-   getGlobalFields,
-   createGlobalField,
-   updateGlobalField,
-   deleteGlobalField,
+   getGlobalTemplateFields,
+   createGlobalTemplateField,
+   updateGlobalTemplateField,
+   deleteGlobalTemplateField,
 } from "./settings.actions";
