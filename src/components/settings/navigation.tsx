@@ -30,7 +30,7 @@ const groups: NavigationGroup[] = [
       label: "Inhalt",
       items: [
          {
-            section: "template-fields",
+            section: "global-template-fields",
             label: "Vorlagen-Felder",
          },
       ],

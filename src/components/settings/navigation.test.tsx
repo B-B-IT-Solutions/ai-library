@@ -30,7 +30,9 @@ const assertUserGroupRendered = () => {
 
 const assertContentGroupRendered = () => {
    const contentGroup = screen.getByTestId("content-group");
-   const globalTemplateFieldsLink = screen.getByTestId("template-fields-link");
+   const globalTemplateFieldsLink = screen.getByTestId(
+      "global-template-fields-link"
+   );
 
    assertInDocument(contentGroup);
    assertInDocument(globalTemplateFieldsLink);

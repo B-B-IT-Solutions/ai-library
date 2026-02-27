@@ -62,8 +62,8 @@ exports[`Navigation rendering tests Navigation - active account - test 1`] = `
         </p>
         <a
           class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground"
-          data-testid="template-fields-link"
-          href="template-fields"
+          data-testid="global-template-fields-link"
+          href="global-template-fields"
         >
           <span
             class="font-medium"
@@ -139,8 +139,8 @@ exports[`Navigation rendering tests Navigation - active general - test 1`] = `
         </p>
         <a
           class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground"
-          data-testid="template-fields-link"
-          href="template-fields"
+          data-testid="global-template-fields-link"
+          href="global-template-fields"
         >
           <span
             class="font-medium"
@@ -216,8 +216,8 @@ exports[`Navigation rendering tests Navigation - active subscription - test 1`] 
         </p>
         <a
           class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground"
-          data-testid="template-fields-link"
-          href="template-fields"
+          data-testid="global-template-fields-link"
+          href="global-template-fields"
         >
           <span
             class="font-medium"
