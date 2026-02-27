@@ -94,7 +94,7 @@ export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
          <DialogContent className="sm:max-w-3xl">
             <DialogHeader>
                <DialogTitle>
-                  {isEdit ? "Feld bearbeiten" : "Neues Feld erstellen"}
+                  {isEdit ? "Feld Bearbeiten" : "Neues Feld Erstellen"}
                </DialogTitle>
             </DialogHeader>
             <Form {...form}>
