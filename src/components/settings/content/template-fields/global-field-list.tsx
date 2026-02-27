@@ -156,7 +156,7 @@ export const GlobalFieldList: FC<Props> = ({ fields }) => {
                onClick={handleAdd}
                data-testid="add-field-btn"
             >
-               <Plus className="mr-2 h-4 w-4" />
+               <Plus className="mr-1 h-4 w-4" />
                Feld hinzufügen
             </Button>
          </div>
