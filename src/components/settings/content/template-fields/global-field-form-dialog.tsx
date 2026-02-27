@@ -100,7 +100,7 @@ export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
                   <div className="grid grid-cols-2 gap-4">
                      <FormInput<DGlobalFieldUpdate>
                         name="name"
-                        label="Feldname"
+                        label="Name"
                         placeholder="z.B. zielgruppe"
                         message="Verwenden Sie diesen Namen als {{name}}"
                         control={form.control}
@@ -114,7 +114,7 @@ export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
                      />
                      <FormSelect<DGlobalFieldUpdate>
                         name="type"
-                        label="Feldtyp"
+                        label="Typ"
                         options={FIELD_TYPES}
                         control={form.control}
                      />
