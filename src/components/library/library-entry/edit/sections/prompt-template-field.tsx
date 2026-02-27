@@ -82,8 +82,8 @@ export const PromptTemplateField: FC<Props> = ({
       return (
          <FormInput<DPromptTemplateUpdate>
             name={`fields.${index}.name`}
-            label="Feldname"
-            placeholder="z.B. thema"
+            label="Name"
+            placeholder="Name des Feldes"
             message={`Verwenden Sie diesen Namen als {{${value}}}`}
             control={control}
          />
@@ -95,7 +95,8 @@ export const PromptTemplateField: FC<Props> = ({
          <FormInput<DPromptTemplateUpdate>
             name={`fields.${index}.label`}
             label="Label"
-            placeholder="z.B. Thema"
+            placeholder="Label des Feldes"
+            fixStyling={true}
             control={control}
          />
       );
@@ -105,7 +106,7 @@ export const PromptTemplateField: FC<Props> = ({
       return (
          <FormSelect<DPromptTemplateUpdate>
             name={`fields.${index}.type`}
-            label="Feldtyp"
+            label="Typ"
             options={FIELD_TYPES}
             control={control}
          />

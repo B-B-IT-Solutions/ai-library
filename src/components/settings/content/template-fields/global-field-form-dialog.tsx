@@ -101,14 +101,14 @@ export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
                      <FormInput<DGlobalFieldUpdate>
                         name="name"
                         label="Name"
-                        placeholder="z.B. zielgruppe"
+                        placeholder="Name des Feldes"
                         message="Verwenden Sie diesen Namen als {{name}}"
                         control={form.control}
                      />
                      <FormInput<DGlobalFieldUpdate>
                         name="label"
                         label="Label"
-                        placeholder="z.B. Zielgruppe"
+                        placeholder="Label des Feldes"
                         fixStyling={true}
                         control={form.control}
                      />

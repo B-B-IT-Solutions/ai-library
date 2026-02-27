@@ -13,7 +13,9 @@ exports[`Settings rendering tests Settings - section account - test 1`] = `
       <nav
         class="sticky top-8 space-y-1 rounded-lg border bg-card p-4 shadow-sm"
       >
-        <div>
+        <div
+          data-testid="user-group"
+        >
           <p
             class="mb-1 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase"
           >
@@ -55,6 +57,7 @@ exports[`Settings rendering tests Settings - section account - test 1`] = `
         </div>
         <div
           class="mt-4"
+          data-testid="content-group"
         >
           <p
             class="mb-1 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase"
@@ -189,7 +192,9 @@ exports[`Settings rendering tests Settings - section general - rendered - test 1
       <nav
         class="sticky top-8 space-y-1 rounded-lg border bg-card p-4 shadow-sm"
       >
-        <div>
+        <div
+          data-testid="user-group"
+        >
           <p
             class="mb-1 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase"
           >
@@ -231,6 +236,7 @@ exports[`Settings rendering tests Settings - section general - rendered - test 1
         </div>
         <div
           class="mt-4"
+          data-testid="content-group"
         >
           <p
             class="mb-1 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase"
@@ -730,7 +736,9 @@ exports[`Settings rendering tests Settings - section global-template-fields - te
       <nav
         class="sticky top-8 space-y-1 rounded-lg border bg-card p-4 shadow-sm"
       >
-        <div>
+        <div
+          data-testid="user-group"
+        >
           <p
             class="mb-1 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase"
           >
@@ -772,6 +780,7 @@ exports[`Settings rendering tests Settings - section global-template-fields - te
         </div>
         <div
           class="mt-4"
+          data-testid="content-group"
         >
           <p
             class="mb-1 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase"
@@ -816,7 +825,9 @@ exports[`Settings rendering tests Settings - section subscription - test 1`] = `
       <nav
         class="sticky top-8 space-y-1 rounded-lg border bg-card p-4 shadow-sm"
       >
-        <div>
+        <div
+          data-testid="user-group"
+        >
           <p
             class="mb-1 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase"
           >
@@ -858,6 +869,7 @@ exports[`Settings rendering tests Settings - section subscription - test 1`] = `
         </div>
         <div
           class="mt-4"
+          data-testid="content-group"
         >
           <p
             class="mb-1 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase"
