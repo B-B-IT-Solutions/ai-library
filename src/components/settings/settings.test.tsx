@@ -4,7 +4,9 @@ jest.mock("./user/subscription", () => {
 });
 
 jest.mock("./content/template-fields", () => {
-   const GlobalTemplateFields = () => <div data-testid="template-fields"></div>;
+   const GlobalTemplateFields = () => (
+      <div data-testid="global-template-fields"></div>
+   );
    return { GlobalTemplateFields };
 });
 
@@ -41,7 +43,7 @@ describe("Settings rendering tests", () => {
          assertContentRendered("general-settings");
          assertContentNotRendered("account-settings");
          assertContentNotRendered("subscription");
-         assertContentNotRendered("template-fields");
+         assertContentNotRendered("global-template-fields");
       });
 
       expect(container).toMatchSnapshot();
@@ -56,7 +58,7 @@ describe("Settings rendering tests", () => {
          assertContentRendered("account-settings");
          assertContentNotRendered("general-settings");
          assertContentNotRendered("subscription");
-         assertContentNotRendered("template-fields");
+         assertContentNotRendered("global-template-fields");
       });
 
       expect(container).toMatchSnapshot();
@@ -73,7 +75,7 @@ describe("Settings rendering tests", () => {
          assertContentRendered("subscription");
          assertContentNotRendered("account-settings");
          assertContentNotRendered("general-settings");
-         assertContentNotRendered("template-fields");
+         assertContentNotRendered("global-template-fields");
       });
 
       expect(container).toMatchSnapshot();
@@ -82,12 +84,12 @@ describe("Settings rendering tests", () => {
    it("Settings - section global-template-fields - test", async () => {
       const user = dtestData.dUser();
       const { container } = render(
-         <Settings user={user} section="template-fields" />
+         <Settings user={user} section="global-template-fields" />
       );
 
       await waitFor(() => {
          assertRendered();
-         assertContentRendered("template-fields");
+         assertContentRendered("global-template-fields");
          assertContentNotRendered("account-settings");
          assertContentNotRendered("general-settings");
          assertContentNotRendered("subscription");

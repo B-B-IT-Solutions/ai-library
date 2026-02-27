@@ -4,7 +4,7 @@ exports[`TemplateFields rendering tests TemplateFields - fields empty - test 1`]
 <div>
   <div
     class="space-y-6"
-    data-testid="template-fields"
+    data-testid="global-template-fields"
   >
     <div>
       <h2
@@ -131,7 +131,7 @@ exports[`TemplateFields rendering tests TemplateFields - fields retrieved - test
 <div>
   <div
     class="space-y-6"
-    data-testid="template-fields"
+    data-testid="global-template-fields"
   >
     <div>
       <h2

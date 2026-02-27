@@ -788,7 +788,7 @@ exports[`Settings rendering tests Settings - section global-template-fields - te
             Inhalt
           </p>
           <a
-            class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all bg-primary text-primary-foreground shadow-sm"
+            class="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground"
             data-testid="template-fields-link"
             href="template-fields"
           >
@@ -805,7 +805,7 @@ exports[`Settings rendering tests Settings - section global-template-fields - te
       class="lg:col-span-9"
     >
       <div
-        data-testid="template-fields"
+        data-testid="global-template-fields"
       />
     </main>
   </div>

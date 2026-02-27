@@ -17,7 +17,7 @@ const getGlobalFieldsMock = getGlobalFields as jest.MockedFunction<
 >;
 
 const assertRendered = () => {
-   const tempalteFields = screen.getByTestId("template-fields");
+   const tempalteFields = screen.getByTestId("global-template-fields");
    const fieldsList = screen.getByTestId("global-fields-list");
 
    assertInDocument(tempalteFields);

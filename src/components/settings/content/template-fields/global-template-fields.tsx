@@ -29,7 +29,7 @@ export const GlobalTemplateFields = async () => {
    };
 
    return (
-      <div className="space-y-6" data-testid="template-fields">
+      <div className="space-y-6" data-testid="global-template-fields">
          <div>
             <h2 className="text-xl font-semibold text-slate-900">
                Vorlagen-Felder

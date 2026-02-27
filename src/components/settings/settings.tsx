@@ -18,7 +18,7 @@ export const Settings = ({ user, section }: Props) => {
       if (section === "subscription") {
          return <Subscription />;
       }
-      if (section === "template-fields") {
+      if (section === "global-template-fields") {
          return <GlobalTemplateFields />;
       }
       return <GeneralSettings user={user} />;

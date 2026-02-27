@@ -1,1 +1,5 @@
-export type DSettingsSection = "general" | "account" | "subscription" | "template-fields";
+export type DSettingsSection =
+   | "general"
+   | "account"
+   | "subscription"
+   | "global-template-fields";
