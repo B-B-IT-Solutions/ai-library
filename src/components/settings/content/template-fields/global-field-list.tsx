@@ -111,7 +111,7 @@ export const GlobalFieldList: FC<Props> = ({ fields }) => {
    };
 
    return (
-      <div className="space-y-4" data-testid="global-field-list">
+      <div className="space-y-4" data-testid="global-fields-list">
          <div className="flex justify-end">
             <Button
                type="button"
