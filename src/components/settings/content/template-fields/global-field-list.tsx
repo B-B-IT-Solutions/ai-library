@@ -57,15 +57,16 @@ export const GlobalFieldList: FC<Props> = ({ fields }) => {
    };
 
    const handleDeleteConfirm = async () => {
-      if (!deleteDialogField) return;
-      const result = await deleteGlobalField(deleteDialogField.id);
-      if (result.success) {
-         toast.success(result.message);
-         router.refresh();
-      } else {
-         toast.error(result.message);
+      if (deleteDialogField) {
+         const result = await deleteGlobalField(deleteDialogField.id);
+         if (result.success) {
+            toast.success(result.message);
+            router.refresh();
+         } else {
+            toast.error(result.message);
+         }
+         setDeleteDialogField(undefined);
       }
-      setDeleteDialogField(undefined);
    };
 
    const renderField = (field: DGlobalField) => {
@@ -110,7 +111,7 @@ export const GlobalFieldList: FC<Props> = ({ fields }) => {
       );
    };
 
-   const deleteDialog = () => {
+   const comfirmDeleteDialog = () => {
       return (
          <AlertDialog
             open={!!deleteDialogField}
@@ -169,7 +170,7 @@ export const GlobalFieldList: FC<Props> = ({ fields }) => {
             field={editingField}
          />
 
-         {deleteDialog()}
+         {comfirmDeleteDialog()}
       </div>
    );
 };
