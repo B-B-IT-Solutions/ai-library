@@ -16,11 +16,13 @@ import {
 } from "@/components/shadcn/dialog";
 import { Form } from "@/components/shadcn/form";
 import {
-   FormCheckBox,
-   FormInput,
-   FormSelect,
-   FormTextArea,
-} from "@/components/shared/widgets";
+   TemplateFieldDefaultValue,
+   TemplateFieldDescription,
+   TemplateFieldLabel,
+   TemplateFieldName,
+   TemplateFieldRequired,
+   TemplateFieldType,
+} from "@/components/shared/template-fields";
 import {
    createGlobalTemplateField,
    updateGlobalTemplateField,
@@ -30,17 +32,6 @@ import {
    DGlobalTemplateFieldUpdate,
 } from "@/data/types/domain/settings";
 import { globalTemplateFieldSchema } from "@/data/types/validators/settings";
-
-const FIELD_TYPES = [
-   { value: "TEXT", label: "Text" },
-   { value: "TEXTAREA", label: "Textarea" },
-   { value: "EMAIL", label: "E-Mail" },
-   { value: "NUMBER", label: "Nummer" },
-   { value: "DATE", label: "Datum" },
-   { value: "SELECT", label: "Auswahl" },
-   { value: "CHECKBOX", label: "Checkbox" },
-   { value: "RADIO", label: "Radio" },
-];
 
 type Props = {
    open: boolean;
@@ -87,8 +78,6 @@ export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
       }
    };
 
-   const nameValue = form.watch("name") || "name";
-
    return (
       <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
          <DialogContent className="sm:max-w-3xl">
@@ -103,44 +92,29 @@ export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
                   className="space-y-4"
                >
                   <div className="grid grid-cols-2 gap-4">
-                     <FormInput<DGlobalTemplateFieldUpdate>
-                        name="name"
-                        label="Name"
-                        placeholder="Name des Feldes"
-                        message={`Verwenden Sie diesen Namen als {{${nameValue}}}`}
+                     <TemplateFieldName<DGlobalTemplateFieldUpdate>
+                        name={"name"}
+                        control={form.control}
+                        watch={form.watch}
+                     />
+                     <TemplateFieldLabel<DGlobalTemplateFieldUpdate>
+                        name={"label"}
                         control={form.control}
                      />
-                     <FormInput<DGlobalTemplateFieldUpdate>
-                        name="label"
-                        label="Label"
-                        placeholder="Label des Feldes"
-                        fixStyling={true}
+                     <TemplateFieldType<DGlobalTemplateFieldUpdate>
+                        name={"type"}
                         control={form.control}
                      />
-                     <FormSelect<DGlobalTemplateFieldUpdate>
-                        name="type"
-                        label="Typ"
-                        options={FIELD_TYPES}
-                        control={form.control}
-                     />
-                     <FormInput<DGlobalTemplateFieldUpdate>
+                     <TemplateFieldDefaultValue<DGlobalTemplateFieldUpdate>
                         name="defaultValue"
-                        label="Standardwert"
-                        placeholder="Standardwert des Feldes"
                         control={form.control}
                      />
-                     <FormTextArea<DGlobalTemplateFieldUpdate>
+                     <TemplateFieldDescription<DGlobalTemplateFieldUpdate>
                         name="description"
-                        label="Beschreibung"
-                        placeholder="Beschreibung des Feldes"
-                        rows={2}
-                        className="col-span-2"
                         control={form.control}
                      />
-                     <FormCheckBox<DGlobalTemplateFieldUpdate>
+                     <TemplateFieldRequired<DGlobalTemplateFieldUpdate>
                         name="required"
-                        label="Dieses Feld ist erforderlich"
-                        className="col-span-2"
                         control={form.control}
                      />
                   </div>

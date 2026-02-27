@@ -6,24 +6,15 @@ import { Control, UseFormWatch } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
 import {
-   FormCheckBox,
-   FormInput,
-   FormSelect,
-   FormTextArea,
-} from "@/components/shared/widgets";
+   TemplateFieldDefaultValue,
+   TemplateFieldDescription,
+   TemplateFieldLabel,
+   TemplateFieldName,
+   TemplateFieldRequired,
+   TemplateFieldType,
+} from "@/components/shared/template-fields";
 import { CallbackFn } from "@/data/types/common";
 import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
-
-const FIELD_TYPES = [
-   { value: "TEXT", label: "Text" },
-   { value: "TEXTAREA", label: "Textarea" },
-   { value: "EMAIL", label: "E-Mail" },
-   { value: "NUMBER", label: "Nummer" },
-   { value: "DATE", label: "Datum" },
-   { value: "SELECT", label: "Auswahl" },
-   { value: "CHECKBOX", label: "Checkbox" },
-   { value: "RADIO", label: "Radio" },
-];
 
 type Props = {
    index: number;
@@ -78,25 +69,19 @@ export const PromptTemplateField: FC<Props> = ({
    };
 
    const name = () => {
-      const value = watch(`fields.${index}.name`) || "feldname";
       return (
-         <FormInput<DPromptTemplateUpdate>
+         <TemplateFieldName<DPromptTemplateUpdate>
             name={`fields.${index}.name`}
-            label="Name"
-            placeholder="Name des Feldes"
-            message={`Verwenden Sie diesen Namen als {{${value}}}`}
             control={control}
+            watch={watch}
          />
       );
    };
 
    const label = () => {
       return (
-         <FormInput<DPromptTemplateUpdate>
+         <TemplateFieldLabel<DPromptTemplateUpdate>
             name={`fields.${index}.label`}
-            label="Label"
-            placeholder="Label des Feldes"
-            fixStyling={true}
             control={control}
          />
       );
@@ -104,10 +89,8 @@ export const PromptTemplateField: FC<Props> = ({
 
    const type = () => {
       return (
-         <FormSelect<DPromptTemplateUpdate>
+         <TemplateFieldType<DPromptTemplateUpdate>
             name={`fields.${index}.type`}
-            label="Typ"
-            options={FIELD_TYPES}
             control={control}
          />
       );
@@ -115,10 +98,8 @@ export const PromptTemplateField: FC<Props> = ({
 
    const defaultValue = () => {
       return (
-         <FormInput<DPromptTemplateUpdate>
+         <TemplateFieldDefaultValue<DPromptTemplateUpdate>
             name={`fields.${index}.defaultValue`}
-            label="Standardwert"
-            placeholder="Standardwert des Feldes"
             control={control}
          />
       );
@@ -126,12 +107,8 @@ export const PromptTemplateField: FC<Props> = ({
 
    const description = () => {
       return (
-         <FormTextArea<DPromptTemplateUpdate>
+         <TemplateFieldDescription<DPromptTemplateUpdate>
             name={`fields.${index}.description`}
-            label="Beschreibung"
-            placeholder="Beschreibung des Feldes"
-            rows={2}
-            className="col-span-2"
             control={control}
          />
       );
@@ -139,10 +116,8 @@ export const PromptTemplateField: FC<Props> = ({
 
    const required = () => {
       return (
-         <FormCheckBox<DPromptTemplateUpdate>
+         <TemplateFieldRequired<DPromptTemplateUpdate>
             name={`fields.${index}.required`}
-            label="Dieses Feld ist erforderlich"
-            className="col-span-2"
             control={control}
          />
       );
