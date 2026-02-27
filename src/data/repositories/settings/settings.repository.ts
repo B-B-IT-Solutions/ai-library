@@ -1,7 +1,10 @@
 import { isEmpty } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
-import { DGlobalField, DGlobalFieldUpdate } from "@/data/types/domain/settings";
+import {
+   DGlobalField,
+   DGlobalTemplateFieldUpdate,
+} from "@/data/types/domain/settings";
 import {
    GlobalFieldCreateArgs,
    GlobalFieldCreateInput,
@@ -32,7 +35,7 @@ export class SettingsRepository {
 
    async pCreateGlobalField(
       userId: string,
-      data: DGlobalFieldUpdate
+      data: DGlobalTemplateFieldUpdate
    ): Promise<DGlobalField> {
       const input: GlobalFieldCreateInput = {
          name: data.name,
@@ -61,7 +64,7 @@ export class SettingsRepository {
    async pUpdateGlobalField(
       userId: string,
       id: string,
-      data: DGlobalFieldUpdate
+      data: DGlobalTemplateFieldUpdate
    ): Promise<DGlobalField> {
       const input: GlobalFieldUpdateInput = {
          name: data.name,

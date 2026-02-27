@@ -55,7 +55,7 @@ describe("pCreateGlobalField tests", () => {
       prismaMock.globalField.create.mockResolvedValue(field);
 
       const userId = "user-id-1";
-      const data = dtestData.dGlobalFieldUpdate();
+      const data = dtestData.dGlobalTemplateFieldUpdate();
 
       const result = await settingsRepository.pCreateGlobalField(userId, data);
 
@@ -91,7 +91,7 @@ describe("pCreateGlobalField tests", () => {
       prismaMock.globalField.create.mockResolvedValue(field);
 
       const userId = "user-id-1";
-      const data = dtestData.dGlobalFieldUpdate(11);
+      const data = dtestData.dGlobalTemplateFieldUpdate(11);
       data.options = [];
 
       const result = await settingsRepository.pCreateGlobalField(userId, data);
@@ -135,7 +135,7 @@ describe("pUpdateGlobalField tests", () => {
 
       const userId = "user-id-1";
       const id = "global-field-id-1";
-      const data = dtestData.dGlobalFieldUpdate(123);
+      const data = dtestData.dGlobalTemplateFieldUpdate(123);
 
       const result = await settingsRepository.pUpdateGlobalField(
          userId,
@@ -172,7 +172,7 @@ describe("pUpdateGlobalField tests", () => {
 
       const userId = "user-id-1";
       const id = "global-field-id-1";
-      const data = dtestData.dGlobalFieldUpdate(123);
+      const data = dtestData.dGlobalTemplateFieldUpdate(123);
       data.options = [];
 
       const result = await settingsRepository.pUpdateGlobalField(

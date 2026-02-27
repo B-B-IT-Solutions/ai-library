@@ -1,5 +1,8 @@
 import { SettingsRepository } from "@/data/repositories/settings";
-import { DGlobalField, DGlobalFieldUpdate } from "@/data/types/domain/settings";
+import {
+   DGlobalField,
+   DGlobalTemplateFieldUpdate,
+} from "@/data/types/domain/settings";
 
 export class SettingsService {
    private settingsRepository: SettingsRepository;
@@ -14,7 +17,7 @@ export class SettingsService {
 
    async createGlobalField(
       userId: string,
-      data: DGlobalFieldUpdate
+      data: DGlobalTemplateFieldUpdate
    ): Promise<DGlobalField> {
       return await this.settingsRepository.pCreateGlobalField(userId, data);
    }
@@ -22,7 +25,7 @@ export class SettingsService {
    async updateGlobalField(
       userId: string,
       id: string,
-      data: DGlobalFieldUpdate
+      data: DGlobalTemplateFieldUpdate
    ): Promise<DGlobalField> {
       return await this.settingsRepository.pUpdateGlobalField(userId, id, data);
    }

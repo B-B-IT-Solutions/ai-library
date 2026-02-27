@@ -22,8 +22,11 @@ import {
    FormTextArea,
 } from "@/components/shared/widgets";
 import { createGlobalField, updateGlobalField } from "@/data/actions/settings";
-import { DGlobalField, DGlobalFieldUpdate } from "@/data/types/domain/settings";
-import { globalFieldSchema } from "@/data/types/validators/settings";
+import {
+   DGlobalField,
+   DGlobalTemplateFieldUpdate,
+} from "@/data/types/domain/settings";
+import { globalTemplateFieldSchema } from "@/data/types/validators/settings";
 
 const FIELD_TYPES = [
    { value: "TEXT", label: "Text" },
@@ -46,8 +49,8 @@ export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
    const router = useRouter();
    const isEdit = !!field;
 
-   const form = useForm<DGlobalFieldUpdate>({
-      resolver: zodResolver(globalFieldSchema),
+   const form = useForm<DGlobalTemplateFieldUpdate>({
+      resolver: zodResolver(globalTemplateFieldSchema),
       defaultValues: getDefaultValues(field),
    });
 
@@ -59,7 +62,7 @@ export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
 
    const { isSubmitting } = form.formState;
 
-   const onSubmit: SubmitHandler<DGlobalFieldUpdate> = async (data) => {
+   const onSubmit: SubmitHandler<DGlobalTemplateFieldUpdate> = async (data) => {
       if (isEdit) {
          const result = await updateGlobalField(field.id, data);
          if (result.success) {
@@ -95,33 +98,33 @@ export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
                   className="space-y-4"
                >
                   <div className="grid grid-cols-2 gap-4">
-                     <FormInput<DGlobalFieldUpdate>
+                     <FormInput<DGlobalTemplateFieldUpdate>
                         name="name"
                         label="Name"
                         placeholder="Name des Feldes"
                         message="Verwenden Sie diesen Namen als {{name}}"
                         control={form.control}
                      />
-                     <FormInput<DGlobalFieldUpdate>
+                     <FormInput<DGlobalTemplateFieldUpdate>
                         name="label"
                         label="Label"
                         placeholder="Label des Feldes"
                         fixStyling={true}
                         control={form.control}
                      />
-                     <FormSelect<DGlobalFieldUpdate>
+                     <FormSelect<DGlobalTemplateFieldUpdate>
                         name="type"
                         label="Typ"
                         options={FIELD_TYPES}
                         control={form.control}
                      />
-                     <FormInput<DGlobalFieldUpdate>
+                     <FormInput<DGlobalTemplateFieldUpdate>
                         name="defaultValue"
                         label="Standardwert"
                         placeholder="Standardwert des Feldes"
                         control={form.control}
                      />
-                     <FormTextArea<DGlobalFieldUpdate>
+                     <FormTextArea<DGlobalTemplateFieldUpdate>
                         name="description"
                         label="Beschreibung"
                         placeholder="Beschreibung des Feldes"
@@ -129,7 +132,7 @@ export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
                         className="col-span-2"
                         control={form.control}
                      />
-                     <FormCheckBox<DGlobalFieldUpdate>
+                     <FormCheckBox<DGlobalTemplateFieldUpdate>
                         name="required"
                         label="Dieses Feld ist erforderlich"
                         className="col-span-2"
@@ -160,7 +163,7 @@ export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
    );
 };
 
-function getDefaultValues(field?: DGlobalField): DGlobalFieldUpdate {
+function getDefaultValues(field?: DGlobalField): DGlobalTemplateFieldUpdate {
    return {
       name: field?.name ?? "",
       label: field?.label ?? "",

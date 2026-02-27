@@ -88,7 +88,7 @@ describe("createGlobalField tests", () => {
       const error = new Error("Unknown user");
       requireUserMock.mockRejectedValue(error);
 
-      const data = dtestData.dGlobalFieldUpdate();
+      const data = dtestData.dGlobalTemplateFieldUpdate();
       const result = await createGlobalField(data);
 
       const expectedResult: ActionResult = {
@@ -109,7 +109,7 @@ describe("createGlobalField tests", () => {
       const error = new Error("db error");
       sCreateGlobalFieldMock.mockRejectedValue(error);
 
-      const data = dtestData.dGlobalFieldUpdate();
+      const data = dtestData.dGlobalTemplateFieldUpdate();
       const result = await createGlobalField(data);
 
       const expectedResult: ActionResult = {
@@ -131,7 +131,7 @@ describe("createGlobalField tests", () => {
       const field = dtestData.dGlobalField();
       sCreateGlobalFieldMock.mockResolvedValue(field);
 
-      const data = dtestData.dGlobalFieldUpdate();
+      const data = dtestData.dGlobalTemplateFieldUpdate();
       const result = await createGlobalField(data);
 
       const expectedResult: ActionResult<DGlobalField> = {
@@ -159,7 +159,7 @@ describe("updateGlobalField tests", () => {
 
    it("updateGlobalField - invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
-      const data = dtestData.dGlobalFieldUpdate();
+      const data = dtestData.dGlobalTemplateFieldUpdate();
 
       const result = await updateGlobalField(invalidId, data);
 
@@ -178,7 +178,7 @@ describe("updateGlobalField tests", () => {
       requireUserMock.mockRejectedValue(error);
 
       const id = "123e4567-e89b-12d3-a456-426614174000";
-      const data = dtestData.dGlobalFieldUpdate();
+      const data = dtestData.dGlobalTemplateFieldUpdate();
 
       const result = await updateGlobalField(id, data);
 
@@ -201,7 +201,7 @@ describe("updateGlobalField tests", () => {
       sUpdateGlobalFieldMock.mockRejectedValue(error);
 
       const id = "123e4567-e89b-12d3-a456-426614174000";
-      const data = dtestData.dGlobalFieldUpdate();
+      const data = dtestData.dGlobalTemplateFieldUpdate();
 
       const result = await updateGlobalField(id, data);
 
@@ -225,7 +225,7 @@ describe("updateGlobalField tests", () => {
       sUpdateGlobalFieldMock.mockResolvedValue(field);
 
       const id = "123e4567-e89b-12d3-a456-426614174000";
-      const data = dtestData.dGlobalFieldUpdate();
+      const data = dtestData.dGlobalTemplateFieldUpdate();
 
       const result = await updateGlobalField(id, data);
 

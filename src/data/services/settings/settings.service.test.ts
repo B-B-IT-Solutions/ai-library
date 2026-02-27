@@ -41,7 +41,7 @@ describe("createGlobalField tests", () => {
       const field = dtestData.dGlobalField();
       settingsRepoMock.pCreateGlobalField.mockResolvedValue(field);
 
-      const data = dtestData.dGlobalFieldUpdate();
+      const data = dtestData.dGlobalTemplateFieldUpdate();
       const result = await settingsService.createGlobalField(userId, data);
 
       expect(result).toEqual(field);
@@ -64,7 +64,7 @@ describe("updateGlobalField tests", () => {
 
       const id = "global-field-id-1";
       const userId = "user-id-1";
-      const data = dtestData.dGlobalFieldUpdate();
+      const data = dtestData.dGlobalTemplateFieldUpdate();
 
       const result = await settingsService.updateGlobalField(userId, id, data);
 

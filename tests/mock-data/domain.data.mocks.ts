@@ -46,7 +46,10 @@ import {
    DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
-import { DGlobalField, DGlobalFieldUpdate } from "@/data/types/domain/settings";
+import {
+   DGlobalField,
+   DGlobalTemplateFieldUpdate,
+} from "@/data/types/domain/settings";
 import {
    DStripeBillingPortalSessionResponse,
    DStripeCheckoutResponse,
@@ -731,7 +734,9 @@ export const dGlobalField = (index = 1): DGlobalField => {
    };
 };
 
-export const dGlobalFieldUpdate = (index = 1): DGlobalFieldUpdate => {
+export const dGlobalTemplateFieldUpdate = (
+   index = 1
+): DGlobalTemplateFieldUpdate => {
    return {
       name: `name-${index}`,
       label: `label ${index}`,

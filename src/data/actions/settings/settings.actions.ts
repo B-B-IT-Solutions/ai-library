@@ -7,7 +7,10 @@ import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
-import { DGlobalField, DGlobalFieldUpdate } from "@/data/types/domain/settings";
+import {
+   DGlobalField,
+   DGlobalTemplateFieldUpdate,
+} from "@/data/types/domain/settings";
 import { ActionResult } from "@/data/types/utils";
 
 export const getGlobalFields = async (): Promise<DGlobalField[]> => {
@@ -22,7 +25,7 @@ export const getGlobalFields = async (): Promise<DGlobalField[]> => {
 };
 
 export const createGlobalField = async (
-   data: DGlobalFieldUpdate
+   data: DGlobalTemplateFieldUpdate
 ): Promise<ActionResult<DGlobalField>> => {
    try {
       const user = await requireUser();
@@ -44,7 +47,7 @@ export const createGlobalField = async (
 
 export const updateGlobalField = async (
    id: string,
-   data: DGlobalFieldUpdate
+   data: DGlobalTemplateFieldUpdate
 ): Promise<ActionResult<DGlobalField>> => {
    try {
       if (!isValidUuid(id)) {
