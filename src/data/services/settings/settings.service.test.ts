@@ -18,12 +18,12 @@ describe("getGlobalFields tests", () => {
       jest.clearAllMocks();
    });
 
-   it("getGlobalFields - fields retrieved - test", async () => {
+   it("getGlobalTemplateFields - fields retrieved - test", async () => {
       const userId = "user-id-1";
       const fields = dtestData.dGlobalTemplateFields();
       settingsRepoMock.pGetGlobalTemplateFields.mockResolvedValue(fields);
 
-      const result = await settingsService.getGlobalFields(userId);
+      const result = await settingsService.getGlobalTemplateFields(userId);
 
       expect(result).toEqual(fields);
       expect(settingsRepoMock.pGetGlobalTemplateFields).toHaveBeenCalledTimes(
@@ -35,18 +35,21 @@ describe("getGlobalFields tests", () => {
    });
 });
 
-describe("createGlobalField tests", () => {
+describe("createGlobalTemplateField tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("createGlobalField - field created - test", async () => {
+   it("createGlobalTemplateField - field created - test", async () => {
       const userId = "user-id-1";
       const field = dtestData.dGlobalTemplateField();
       settingsRepoMock.pCreateGlobalTemplateField.mockResolvedValue(field);
 
       const data = dtestData.dGlobalTemplateFieldUpdate();
-      const result = await settingsService.createGlobalField(userId, data);
+      const result = await settingsService.createGlobalTemplateField(
+         userId,
+         data
+      );
 
       expect(result).toEqual(field);
       expect(settingsRepoMock.pCreateGlobalTemplateField).toHaveBeenCalledTimes(
@@ -59,12 +62,12 @@ describe("createGlobalField tests", () => {
    });
 });
 
-describe("updateGlobalField tests", () => {
+describe("updateGlobalTemplateField tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("updateGlobalField - field updated - test", async () => {
+   it("updateGlobalTemplateField - field updated - test", async () => {
       const field = dtestData.dGlobalTemplateField();
       settingsRepoMock.pUpdateGlobalTemplateField.mockResolvedValue(field);
 
@@ -72,7 +75,11 @@ describe("updateGlobalField tests", () => {
       const userId = "user-id-1";
       const data = dtestData.dGlobalTemplateFieldUpdate();
 
-      const result = await settingsService.updateGlobalField(userId, id, data);
+      const result = await settingsService.updateGlobalTemplateField(
+         userId,
+         id,
+         data
+      );
 
       expect(result).toEqual(field);
       expect(settingsRepoMock.pUpdateGlobalTemplateField).toHaveBeenCalledTimes(
@@ -86,16 +93,16 @@ describe("updateGlobalField tests", () => {
    });
 });
 
-describe("deleteGlobalField tests", () => {
+describe("deleteGlobalTemplateField tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("deleteGlobalField - field deleted - test", async () => {
+   it("deleteGlobalTemplateField - field deleted - test", async () => {
       const id = "global-field-id-1";
       const userId = "user-id-1";
 
-      await settingsService.deleteGlobalField(userId, id);
+      await settingsService.deleteGlobalTemplateField(userId, id);
 
       expect(settingsRepoMock.pDeleteGlobalTemplateField).toHaveBeenCalledTimes(
          1

@@ -17,23 +17,31 @@ import {
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
-const sGetGlobalFields = SettingsService.prototype.getGlobalFields;
-const sCreateGlobalField = SettingsService.prototype.createGlobalField;
-const sUpdateGlobalField = SettingsService.prototype.updateGlobalField;
-const sDeleteGlobalField = SettingsService.prototype.deleteGlobalField;
+const sGetGlobalTemplateFields =
+   SettingsService.prototype.getGlobalTemplateFields;
+const sCreateGlobalTemplateField =
+   SettingsService.prototype.createGlobalTemplateField;
+const sUpdateGlobalTemplateField =
+   SettingsService.prototype.updateGlobalTemplateField;
+const sDeleteGlobalTemplateField =
+   SettingsService.prototype.deleteGlobalTemplateField;
 
-const sGetGlobalFieldsMock = sGetGlobalFields as jest.MockedFunction<
-   typeof sGetGlobalFields
->;
-const sCreateGlobalFieldMock = sCreateGlobalField as jest.MockedFunction<
-   typeof sCreateGlobalField
->;
-const sUpdateGlobalFieldMock = sUpdateGlobalField as jest.MockedFunction<
-   typeof sUpdateGlobalField
->;
-const sDeleteGlobalFieldMock = sDeleteGlobalField as jest.MockedFunction<
-   typeof sDeleteGlobalField
->;
+const sGetGlobalTemplateFieldsMock =
+   sGetGlobalTemplateFields as jest.MockedFunction<
+      typeof sGetGlobalTemplateFields
+   >;
+const sCreateGlobalTemplateFieldMock =
+   sCreateGlobalTemplateField as jest.MockedFunction<
+      typeof sCreateGlobalTemplateField
+   >;
+const sUpdateGlobalTemplateFieldMock =
+   sUpdateGlobalTemplateField as jest.MockedFunction<
+      typeof sUpdateGlobalTemplateField
+   >;
+const sDeleteGlobalTemplateFieldMock =
+   sDeleteGlobalTemplateField as jest.MockedFunction<
+      typeof sDeleteGlobalTemplateField
+   >;
 
 describe("getGlobalFields tests", () => {
    beforeEach(() => {
@@ -53,7 +61,7 @@ describe("getGlobalFields tests", () => {
 
       expect(result).toEqual([]);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetGlobalFieldsMock).not.toHaveBeenCalled();
+      expect(sGetGlobalTemplateFieldsMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
@@ -63,14 +71,14 @@ describe("getGlobalFields tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const fields = dtestData.dGlobalTemplateFields();
-      sGetGlobalFieldsMock.mockResolvedValue(fields);
+      sGetGlobalTemplateFieldsMock.mockResolvedValue(fields);
 
       const result = await getGlobalFields();
 
       expect(result).toEqual(fields);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetGlobalFieldsMock).toHaveBeenCalledTimes(1);
-      expect(sGetGlobalFieldsMock).toHaveBeenCalledWith(user.id);
+      expect(sGetGlobalTemplateFieldsMock).toHaveBeenCalledTimes(1);
+      expect(sGetGlobalTemplateFieldsMock).toHaveBeenCalledWith(user.id);
    });
 });
 
@@ -98,7 +106,7 @@ describe("createGlobalField tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCreateGlobalFieldMock).not.toHaveBeenCalled();
+      expect(sCreateGlobalTemplateFieldMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
@@ -107,7 +115,7 @@ describe("createGlobalField tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const error = new Error("db error");
-      sCreateGlobalFieldMock.mockRejectedValue(error);
+      sCreateGlobalTemplateFieldMock.mockRejectedValue(error);
 
       const data = dtestData.dGlobalTemplateFieldUpdate();
       const result = await createGlobalField(data);
@@ -119,8 +127,11 @@ describe("createGlobalField tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCreateGlobalFieldMock).toHaveBeenCalledTimes(1);
-      expect(sCreateGlobalFieldMock).toHaveBeenCalledWith(user.id, data);
+      expect(sCreateGlobalTemplateFieldMock).toHaveBeenCalledTimes(1);
+      expect(sCreateGlobalTemplateFieldMock).toHaveBeenCalledWith(
+         user.id,
+         data
+      );
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
@@ -129,7 +140,7 @@ describe("createGlobalField tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const field = dtestData.dGlobalTemplateField();
-      sCreateGlobalFieldMock.mockResolvedValue(field);
+      sCreateGlobalTemplateFieldMock.mockResolvedValue(field);
 
       const data = dtestData.dGlobalTemplateFieldUpdate();
       const result = await createGlobalField(data);
@@ -142,8 +153,11 @@ describe("createGlobalField tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCreateGlobalFieldMock).toHaveBeenCalledTimes(1);
-      expect(sCreateGlobalFieldMock).toHaveBeenCalledWith(user.id, data);
+      expect(sCreateGlobalTemplateFieldMock).toHaveBeenCalledTimes(1);
+      expect(sCreateGlobalTemplateFieldMock).toHaveBeenCalledWith(
+         user.id,
+         data
+      );
    });
 });
 
@@ -170,7 +184,7 @@ describe("updateGlobalField tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sUpdateGlobalFieldMock).not.toHaveBeenCalled();
+      expect(sUpdateGlobalTemplateFieldMock).not.toHaveBeenCalled();
    });
 
    it("updateGlobalField - user undefined - test", async () => {
@@ -189,7 +203,7 @@ describe("updateGlobalField tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateGlobalFieldMock).not.toHaveBeenCalled();
+      expect(sUpdateGlobalTemplateFieldMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
@@ -198,7 +212,7 @@ describe("updateGlobalField tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const error = new Error("db error");
-      sUpdateGlobalFieldMock.mockRejectedValue(error);
+      sUpdateGlobalTemplateFieldMock.mockRejectedValue(error);
 
       const id = "123e4567-e89b-12d3-a456-426614174000";
       const data = dtestData.dGlobalTemplateFieldUpdate();
@@ -212,8 +226,12 @@ describe("updateGlobalField tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateGlobalFieldMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateGlobalFieldMock).toHaveBeenCalledWith(user.id, id, data);
+      expect(sUpdateGlobalTemplateFieldMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateGlobalTemplateFieldMock).toHaveBeenCalledWith(
+         user.id,
+         id,
+         data
+      );
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
@@ -222,7 +240,7 @@ describe("updateGlobalField tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const field = dtestData.dGlobalTemplateField();
-      sUpdateGlobalFieldMock.mockResolvedValue(field);
+      sUpdateGlobalTemplateFieldMock.mockResolvedValue(field);
 
       const id = "123e4567-e89b-12d3-a456-426614174000";
       const data = dtestData.dGlobalTemplateFieldUpdate();
@@ -237,8 +255,12 @@ describe("updateGlobalField tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateGlobalFieldMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateGlobalFieldMock).toHaveBeenCalledWith(user.id, id, data);
+      expect(sUpdateGlobalTemplateFieldMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateGlobalTemplateFieldMock).toHaveBeenCalledWith(
+         user.id,
+         id,
+         data
+      );
    });
 });
 
@@ -264,7 +286,7 @@ describe("deleteGlobalField tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sDeleteGlobalFieldMock).not.toHaveBeenCalled();
+      expect(sDeleteGlobalTemplateFieldMock).not.toHaveBeenCalled();
    });
 
    it("deleteGlobalField - user undefined - test", async () => {
@@ -282,7 +304,7 @@ describe("deleteGlobalField tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteGlobalFieldMock).not.toHaveBeenCalled();
+      expect(sDeleteGlobalTemplateFieldMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
@@ -291,7 +313,7 @@ describe("deleteGlobalField tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const error = new Error("db error");
-      sDeleteGlobalFieldMock.mockRejectedValue(error);
+      sDeleteGlobalTemplateFieldMock.mockRejectedValue(error);
 
       const id = "123e4567-e89b-12d3-a456-426614174000";
 
@@ -304,8 +326,8 @@ describe("deleteGlobalField tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteGlobalFieldMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteGlobalFieldMock).toHaveBeenCalledWith(user.id, id);
+      expect(sDeleteGlobalTemplateFieldMock).toHaveBeenCalledTimes(1);
+      expect(sDeleteGlobalTemplateFieldMock).toHaveBeenCalledWith(user.id, id);
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
@@ -313,7 +335,7 @@ describe("deleteGlobalField tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      sDeleteGlobalFieldMock.mockResolvedValue();
+      sDeleteGlobalTemplateFieldMock.mockResolvedValue();
 
       const id = "123e4567-e89b-12d3-a456-426614174000";
 
@@ -326,7 +348,7 @@ describe("deleteGlobalField tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteGlobalFieldMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteGlobalFieldMock).toHaveBeenCalledWith(user.id, id);
+      expect(sDeleteGlobalTemplateFieldMock).toHaveBeenCalledTimes(1);
+      expect(sDeleteGlobalTemplateFieldMock).toHaveBeenCalledWith(user.id, id);
    });
 });

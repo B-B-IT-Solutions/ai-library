@@ -11,11 +11,13 @@ export class SettingsService {
       this.settingsRepository = globalFieldRepository;
    }
 
-   async getGlobalFields(userId: string): Promise<DGlobalTemplateField[]> {
+   async getGlobalTemplateFields(
+      userId: string
+   ): Promise<DGlobalTemplateField[]> {
       return await this.settingsRepository.pGetGlobalTemplateFields(userId);
    }
 
-   async createGlobalField(
+   async createGlobalTemplateField(
       userId: string,
       data: DGlobalTemplateFieldUpdate
    ): Promise<DGlobalTemplateField> {
@@ -25,7 +27,7 @@ export class SettingsService {
       );
    }
 
-   async updateGlobalField(
+   async updateGlobalTemplateField(
       userId: string,
       id: string,
       data: DGlobalTemplateFieldUpdate
@@ -37,7 +39,7 @@ export class SettingsService {
       );
    }
 
-   async deleteGlobalField(userId: string, id: string): Promise<void> {
+   async deleteGlobalTemplateField(userId: string, id: string): Promise<void> {
       await this.settingsRepository.pDeleteGlobalTemplateField(userId, id);
    }
 }

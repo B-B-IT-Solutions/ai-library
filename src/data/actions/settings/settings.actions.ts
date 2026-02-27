@@ -17,7 +17,7 @@ export const getGlobalFields = async (): Promise<DGlobalTemplateField[]> => {
    try {
       const user = await requireUser();
       const service = getService();
-      return await service.getGlobalFields(user.id);
+      return await service.getGlobalTemplateFields(user.id);
    } catch (error) {
       console.error(formatError(error));
       return [];
@@ -30,7 +30,7 @@ export const createGlobalField = async (
    try {
       const user = await requireUser();
       const service = getService();
-      const field = await service.createGlobalField(user.id, data);
+      const field = await service.createGlobalTemplateField(user.id, data);
       return {
          success: true,
          message: "Feld erfolgreich erstellt",
@@ -56,7 +56,7 @@ export const updateGlobalField = async (
 
       const user = await requireUser();
       const service = getService();
-      const field = await service.updateGlobalField(user.id, id, data);
+      const field = await service.updateGlobalTemplateField(user.id, id, data);
       return {
          success: true,
          message: "Feld erfolgreich aktualisiert",
@@ -79,7 +79,7 @@ export const deleteGlobalField = async (id: string): Promise<ActionResult> => {
 
       const user = await requireUser();
       const service = getService();
-      await service.deleteGlobalField(user.id, id);
+      await service.deleteGlobalTemplateField(user.id, id);
       return {
          success: true,
          message: "Feld erfolgreich gelöscht",
