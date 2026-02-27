@@ -9,7 +9,9 @@ exports[`Navigation rendering tests Navigation - active account - test 1`] = `
     <nav
       class="sticky top-8 space-y-1 rounded-lg border bg-card p-4 shadow-sm"
     >
-      <div>
+      <div
+        data-testid="user-group"
+      >
         <p
           class="mb-1 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase"
         >
@@ -51,6 +53,7 @@ exports[`Navigation rendering tests Navigation - active account - test 1`] = `
       </div>
       <div
         class="mt-4"
+        data-testid="content-group"
       >
         <p
           class="mb-1 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase"
@@ -83,7 +86,9 @@ exports[`Navigation rendering tests Navigation - active general - test 1`] = `
     <nav
       class="sticky top-8 space-y-1 rounded-lg border bg-card p-4 shadow-sm"
     >
-      <div>
+      <div
+        data-testid="user-group"
+      >
         <p
           class="mb-1 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase"
         >
@@ -125,6 +130,7 @@ exports[`Navigation rendering tests Navigation - active general - test 1`] = `
       </div>
       <div
         class="mt-4"
+        data-testid="content-group"
       >
         <p
           class="mb-1 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase"
@@ -157,7 +163,9 @@ exports[`Navigation rendering tests Navigation - active subscription - test 1`] 
     <nav
       class="sticky top-8 space-y-1 rounded-lg border bg-card p-4 shadow-sm"
     >
-      <div>
+      <div
+        data-testid="user-group"
+      >
         <p
           class="mb-1 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase"
         >
@@ -199,6 +207,7 @@ exports[`Navigation rendering tests Navigation - active subscription - test 1`] 
       </div>
       <div
         class="mt-4"
+        data-testid="content-group"
       >
         <p
           class="mb-1 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase"

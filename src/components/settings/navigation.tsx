@@ -1,9 +1,8 @@
-import { FC } from "react";
 import { map } from "es-toolkit/compat";
 import Link from "next/link";
 
 import { DSettingsSection } from "@/data/types/domain/settings";
-import { cn } from "@/lib/utils";
+import { cn, toTestId } from "@/lib/utils";
 
 type NavigationItem = {
    section: DSettingsSection;
@@ -11,16 +10,14 @@ type NavigationItem = {
 };
 
 type NavigationGroup = {
+   id: string;
    label: string;
    items: NavigationItem[];
 };
 
-type NavigationProps = {
-   active: DSettingsSection;
-};
-
 const groups: NavigationGroup[] = [
    {
+      id: "user",
       label: "Konto",
       items: [
          { section: "general", label: "Allgemein" },
@@ -29,6 +26,7 @@ const groups: NavigationGroup[] = [
       ],
    },
    {
+      id: "content",
       label: "Inhalt",
       items: [
          {
@@ -39,7 +37,11 @@ const groups: NavigationGroup[] = [
    },
 ];
 
-export const Navigation: FC<NavigationProps> = ({ active }) => {
+type Props = {
+   active: DSettingsSection;
+};
+
+export const Navigation = ({ active }: Props) => {
    const navItem = (entry: NavigationItem) => {
       const isActive = active === entry.section;
       const styles = isActive
@@ -60,14 +62,21 @@ export const Navigation: FC<NavigationProps> = ({ active }) => {
       );
    };
 
-   const navGroup = (group: NavigationGroup, index: number) => (
-      <div key={group.label} className={index > 0 ? "mt-4" : undefined}>
-         <p className="mb-1 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase">
-            {group.label}
-         </p>
-         {map(group.items, (entry) => navItem(entry))}
-      </div>
-   );
+   const navGroup = (group: NavigationGroup, index: number) => {
+      const styles = index > 0 ? "mt-4" : undefined;
+      return (
+         <div
+            key={index}
+            className={styles}
+            data-testid={`${toTestId(group.id)}-group`}
+         >
+            <p className="mb-1 px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+               {group.label}
+            </p>
+            {map(group.items, (entry) => navItem(entry))}
+         </div>
+      );
+   };
 
    return (
       <aside className="lg:col-span-3" data-testid="navigation">
