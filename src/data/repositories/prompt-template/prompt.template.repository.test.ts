@@ -20,13 +20,13 @@ import {
 } from "@/generated/prisma/models";
 import { stringify } from "@/lib/utils";
 
-import { PromptTemplateRepository } from "./prompt.template.repository";
 import {
    toDPromptTemplate,
    toDPromptTemplateDescriptor,
    toDPromptTemplateDescriptors,
    toDPromptTemplateDescriptorWithTemplate,
 } from "./prompt.template.mapper";
+import { PromptTemplateRepository } from "./prompt.template.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
