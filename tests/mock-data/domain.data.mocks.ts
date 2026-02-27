@@ -47,7 +47,7 @@ import {
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 import {
-   DGlobalField,
+   DGlobalTemplateField,
    DGlobalTemplateFieldUpdate,
 } from "@/data/types/domain/settings";
 import {
@@ -713,11 +713,11 @@ export const sort = (field = "field1", desc = false): Sort => {
    return { field, desc };
 };
 
-export const dGlobalFields = (count = 3): DGlobalField[] => {
-   return range(0, count).map((i) => dGlobalField(i));
+export const dGlobalTemplateFields = (count = 3): DGlobalTemplateField[] => {
+   return range(0, count).map((i) => dGlobalTemplateField(i));
 };
 
-export const dGlobalField = (index = 1): DGlobalField => {
+export const dGlobalTemplateField = (index = 1): DGlobalTemplateField => {
    return {
       id: `global-field-id-${index}`,
       userId: `334db648-f300-4284-8149-075ff465d75${index}`,

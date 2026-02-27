@@ -23,7 +23,7 @@ import {
 } from "@/components/shared/widgets";
 import { createGlobalField, updateGlobalField } from "@/data/actions/settings";
 import {
-   DGlobalField,
+   DGlobalTemplateField,
    DGlobalTemplateFieldUpdate,
 } from "@/data/types/domain/settings";
 import { globalTemplateFieldSchema } from "@/data/types/validators/settings";
@@ -42,7 +42,7 @@ const FIELD_TYPES = [
 type Props = {
    open: boolean;
    onClose: () => void;
-   field?: DGlobalField;
+   field?: DGlobalTemplateField;
 };
 
 export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
@@ -163,7 +163,9 @@ export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
    );
 };
 
-function getDefaultValues(field?: DGlobalField): DGlobalTemplateFieldUpdate {
+function getDefaultValues(
+   field?: DGlobalTemplateField
+): DGlobalTemplateFieldUpdate {
    return {
       name: field?.name ?? "",
       label: field?.label ?? "",

@@ -13,7 +13,7 @@ import {
    PopoverTrigger,
 } from "@/components/shadcn/popover";
 import { DPromptTemplateFieldUpdate } from "@/data/types/domain/prompt.template";
-import { DGlobalField } from "@/data/types/domain/settings";
+import { DGlobalTemplateField } from "@/data/types/domain/settings";
 
 const FIELD_TYPE_LABELS: Record<string, string> = {
    TEXT: "Text",
@@ -27,7 +27,7 @@ const FIELD_TYPE_LABELS: Record<string, string> = {
 };
 
 type Props = {
-   globalFields: DGlobalField[];
+   globalFields: DGlobalTemplateField[];
    existingFieldNames: string[];
    onAddFields: (fields: DPromptTemplateFieldUpdate[]) => void;
 };

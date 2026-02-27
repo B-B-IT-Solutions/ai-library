@@ -5,7 +5,7 @@ import { dtestData } from "@tests";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { SettingsService } from "@/data/services/settings";
-import { DGlobalField } from "@/data/types/domain/settings";
+import { DGlobalTemplateField } from "@/data/types/domain/settings";
 import { ActionResult } from "@/data/types/utils";
 
 import {
@@ -62,7 +62,7 @@ describe("getGlobalFields tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const fields = dtestData.dGlobalFields();
+      const fields = dtestData.dGlobalTemplateFields();
       sGetGlobalFieldsMock.mockResolvedValue(fields);
 
       const result = await getGlobalFields();
@@ -128,13 +128,13 @@ describe("createGlobalField tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const field = dtestData.dGlobalField();
+      const field = dtestData.dGlobalTemplateField();
       sCreateGlobalFieldMock.mockResolvedValue(field);
 
       const data = dtestData.dGlobalTemplateFieldUpdate();
       const result = await createGlobalField(data);
 
-      const expectedResult: ActionResult<DGlobalField> = {
+      const expectedResult: ActionResult<DGlobalTemplateField> = {
          success: true,
          message: "Feld erfolgreich erstellt",
          data: field,
@@ -221,7 +221,7 @@ describe("updateGlobalField tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const field = dtestData.dGlobalField();
+      const field = dtestData.dGlobalTemplateField();
       sUpdateGlobalFieldMock.mockResolvedValue(field);
 
       const id = "123e4567-e89b-12d3-a456-426614174000";
@@ -229,7 +229,7 @@ describe("updateGlobalField tests", () => {
 
       const result = await updateGlobalField(id, data);
 
-      const expectedResult: ActionResult<DGlobalField> = {
+      const expectedResult: ActionResult<DGlobalTemplateField> = {
          success: true,
          message: "Feld erfolgreich aktualisiert",
          data: field,

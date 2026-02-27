@@ -8,12 +8,12 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
-   DGlobalField,
+   DGlobalTemplateField,
    DGlobalTemplateFieldUpdate,
 } from "@/data/types/domain/settings";
 import { ActionResult } from "@/data/types/utils";
 
-export const getGlobalFields = async (): Promise<DGlobalField[]> => {
+export const getGlobalFields = async (): Promise<DGlobalTemplateField[]> => {
    try {
       const user = await requireUser();
       const service = getService();
@@ -26,7 +26,7 @@ export const getGlobalFields = async (): Promise<DGlobalField[]> => {
 
 export const createGlobalField = async (
    data: DGlobalTemplateFieldUpdate
-): Promise<ActionResult<DGlobalField>> => {
+): Promise<ActionResult<DGlobalTemplateField>> => {
    try {
       const user = await requireUser();
       const service = getService();
@@ -48,7 +48,7 @@ export const createGlobalField = async (
 export const updateGlobalField = async (
    id: string,
    data: DGlobalTemplateFieldUpdate
-): Promise<ActionResult<DGlobalField>> => {
+): Promise<ActionResult<DGlobalTemplateField>> => {
    try {
       if (!isValidUuid(id)) {
          throw new Error("Invalid field ID.");

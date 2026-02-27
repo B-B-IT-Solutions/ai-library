@@ -25,7 +25,7 @@ import {
    DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
-import { DGlobalField } from "@/data/types/domain/settings";
+import { DGlobalTemplateField } from "@/data/types/domain/settings";
 import { updatePromptTemplateSchema } from "@/data/types/validators/prompt";
 
 import {
@@ -43,7 +43,7 @@ import {
 
 type Props = {
    entry?: DLibraryEntryWithPromptTemplate;
-   globalFields?: DGlobalField[];
+   globalFields?: DGlobalTemplateField[];
 };
 
 export const LibraryEntryEditForm = ({ entry, globalFields = [] }: Props) => {

@@ -20,7 +20,7 @@ import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
 import { deleteGlobalField } from "@/data/actions/settings";
 import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
-import { DGlobalField } from "@/data/types/domain/settings";
+import { DGlobalTemplateField } from "@/data/types/domain/settings";
 
 import { GlobalFieldFormDialog } from "./global-field-form-dialog";
 
@@ -36,15 +36,17 @@ const FIELD_TYPE_LABELS: Record<DPromptTemplateFieldType, string> = {
 };
 
 type Props = {
-   fields: DGlobalField[];
+   fields: DGlobalTemplateField[];
 };
 
 export const GlobalFieldList: FC<Props> = ({ fields }) => {
    const router = useRouter();
    const [dialogOpen, setDialogOpen] = useState(false);
-   const [editingField, setEditingField] = useState<DGlobalField | undefined>();
+   const [editingField, setEditingField] = useState<
+      DGlobalTemplateField | undefined
+   >();
    const [deleteDialogField, setDeleteDialogField] = useState<
-      DGlobalField | undefined
+      DGlobalTemplateField | undefined
    >();
 
    const handleAdd = () => {
@@ -52,7 +54,7 @@ export const GlobalFieldList: FC<Props> = ({ fields }) => {
       setDialogOpen(true);
    };
 
-   const handleEdit = (field: DGlobalField) => {
+   const handleEdit = (field: DGlobalTemplateField) => {
       setEditingField(field);
       setDialogOpen(true);
    };
@@ -70,7 +72,7 @@ export const GlobalFieldList: FC<Props> = ({ fields }) => {
       }
    };
 
-   const renderField = (field: DGlobalField) => {
+   const renderField = (field: DGlobalTemplateField) => {
       return (
          <div
             key={field.id}

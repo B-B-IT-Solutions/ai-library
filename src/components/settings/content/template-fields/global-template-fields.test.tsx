@@ -53,7 +53,7 @@ describe("TemplateFields rendering tests", () => {
    });
 
    it("TemplateFields - fields retrieved - test", async () => {
-      const fields = dtestData.dGlobalFields();
+      const fields = dtestData.dGlobalTemplateFields();
       getGlobalFieldsMock.mockResolvedValue(fields);
 
       const { container } = await renderAsyncRSC(GlobalTemplateFields, {});

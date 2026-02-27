@@ -1,12 +1,12 @@
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
-import { DGlobalField } from "@/data/types/domain/settings";
+import { DGlobalTemplateField } from "@/data/types/domain/settings";
 import { ReturnToLibraryButton } from "../../buttons";
 
 import { LibraryEntryEditForm } from "./library-entry-edit-form";
 
 type Props = {
    entry?: DLibraryEntryWithPromptTemplate;
-   globalFields?: DGlobalField[];
+   globalFields?: DGlobalTemplateField[];
 };
 
 export const LibraryEntryEdit = ({ entry, globalFields = [] }: Props) => {

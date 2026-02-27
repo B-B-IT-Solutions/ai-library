@@ -2,7 +2,7 @@ import { isEmpty } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
 import {
-   DGlobalField,
+   DGlobalTemplateField,
    DGlobalTemplateFieldUpdate,
 } from "@/data/types/domain/settings";
 import {
@@ -23,7 +23,7 @@ export class SettingsRepository {
       this.prisma = prisma;
    }
 
-   async pGetGlobalFields(userId: string): Promise<DGlobalField[]> {
+   async pGetGlobalFields(userId: string): Promise<DGlobalTemplateField[]> {
       const args: GlobalFieldFindManyArgs = {
          where: { userId },
          orderBy: { order: "asc" },
@@ -36,7 +36,7 @@ export class SettingsRepository {
    async pCreateGlobalField(
       userId: string,
       data: DGlobalTemplateFieldUpdate
-   ): Promise<DGlobalField> {
+   ): Promise<DGlobalTemplateField> {
       const input: GlobalFieldCreateInput = {
          name: data.name,
          label: data.label,
@@ -65,7 +65,7 @@ export class SettingsRepository {
       userId: string,
       id: string,
       data: DGlobalTemplateFieldUpdate
-   ): Promise<DGlobalField> {
+   ): Promise<DGlobalTemplateField> {
       const input: GlobalFieldUpdateInput = {
          name: data.name,
          label: data.label,

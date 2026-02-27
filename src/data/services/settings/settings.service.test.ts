@@ -20,7 +20,7 @@ describe("getGlobalFields tests", () => {
 
    it("getGlobalFields - fields retrieved - test", async () => {
       const userId = "user-id-1";
-      const fields = dtestData.dGlobalFields();
+      const fields = dtestData.dGlobalTemplateFields();
       settingsRepoMock.pGetGlobalFields.mockResolvedValue(fields);
 
       const result = await settingsService.getGlobalFields(userId);
@@ -38,7 +38,7 @@ describe("createGlobalField tests", () => {
 
    it("createGlobalField - field created - test", async () => {
       const userId = "user-id-1";
-      const field = dtestData.dGlobalField();
+      const field = dtestData.dGlobalTemplateField();
       settingsRepoMock.pCreateGlobalField.mockResolvedValue(field);
 
       const data = dtestData.dGlobalTemplateFieldUpdate();
@@ -59,7 +59,7 @@ describe("updateGlobalField tests", () => {
    });
 
    it("updateGlobalField - field updated - test", async () => {
-      const field = dtestData.dGlobalField();
+      const field = dtestData.dGlobalTemplateField();
       settingsRepoMock.pUpdateGlobalField.mockResolvedValue(field);
 
       const id = "global-field-id-1";

@@ -12,7 +12,7 @@ import {
    DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
-import { DGlobalField } from "@/data/types/domain/settings";
+import { DGlobalTemplateField } from "@/data/types/domain/settings";
 
 import { GlobalFieldsPicker } from "./global-fields-picker";
 import { PromptTemplateField } from "./prompt-template-field";
@@ -20,7 +20,7 @@ import { PromptTemplateField } from "./prompt-template-field";
 type Props = {
    fields: DPromptTemplateField[];
    detectedVariables: string[];
-   globalFields?: DGlobalField[];
+   globalFields?: DGlobalTemplateField[];
    onAddField: CallbackFn;
    onAddGlobalFields?: (fields: DPromptTemplateFieldUpdate[]) => void;
    onRemoveField: (index: number) => void;

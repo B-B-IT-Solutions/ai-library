@@ -1,16 +1,18 @@
 import { ptestData } from "@tests";
 import { isArray, map } from "es-toolkit/compat";
 
-import { DGlobalField } from "@/data/types/domain/settings";
+import { DGlobalTemplateField } from "@/data/types/domain/settings";
 import { GlobalField } from "@/generated/prisma/client";
 
 import { toDGlobalField, toDGlobalFields } from "./settings.mapper";
 
-const toDGlobalFieldsInternal = (fields: GlobalField[]): DGlobalField[] => {
+const toDGlobalFieldsInternal = (
+   fields: GlobalField[]
+): DGlobalTemplateField[] => {
    return map(fields, (f) => toDGlobalFieldInternal(f));
 };
 
-const toDGlobalFieldInternal = (field: GlobalField): DGlobalField => {
+const toDGlobalFieldInternal = (field: GlobalField): DGlobalTemplateField => {
    return {
       id: field.id,
       userId: field.userId,
