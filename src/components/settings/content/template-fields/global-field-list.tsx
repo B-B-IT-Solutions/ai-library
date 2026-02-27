@@ -156,6 +156,7 @@ export const GlobalFieldList: FC<Props> = ({ fields }) => {
                variant="outline"
                size="sm"
                onClick={handleAdd}
+               className="cursor-pointer"
                data-testid="add-field-btn"
             >
                <Plus className="mr-1 h-4 w-4" />
