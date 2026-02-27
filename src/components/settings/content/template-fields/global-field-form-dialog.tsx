@@ -87,6 +87,8 @@ export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
       }
    };
 
+   const nameValue = form.watch("name") || "name";
+
    return (
       <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
          <DialogContent className="sm:max-w-3xl">
@@ -105,7 +107,7 @@ export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
                         name="name"
                         label="Name"
                         placeholder="Name des Feldes"
-                        message="Verwenden Sie diesen Namen als {{name}}"
+                        message={`Verwenden Sie diesen Namen als {{${nameValue}}}`}
                         control={form.control}
                      />
                      <FormInput<DGlobalTemplateFieldUpdate>
