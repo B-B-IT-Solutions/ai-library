@@ -12,8 +12,8 @@ import {
    PopoverContent,
    PopoverTrigger,
 } from "@/components/shadcn/popover";
-import { DGlobalField } from "@/data/types/domain/global-field";
 import { DPromptTemplateFieldUpdate } from "@/data/types/domain/prompt.template";
+import { DGlobalField } from "@/data/types/domain/settings";
 
 const FIELD_TYPE_LABELS: Record<string, string> = {
    TEXT: "Text",
@@ -98,17 +98,17 @@ export const GlobalFieldsPicker: FC<Props> = ({
             </Button>
          </PopoverTrigger>
          <PopoverContent className="w-80 p-0" align="end">
-            <div className="p-3 border-b">
-               <p className="text-sm font-medium text-slate-900 mb-2">
+            <div className="border-b p-3">
+               <p className="mb-2 text-sm font-medium text-slate-900">
                   Globale Felder importieren
                </p>
                <div className="relative">
-                  <Search className="absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
+                  <Search className="absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
                   <Input
                      placeholder="Suchen..."
                      value={search}
                      onChange={(e) => setSearch(e.target.value)}
-                     className="pl-7 h-8 text-sm"
+                     className="h-8 pl-7 text-sm"
                   />
                </div>
             </div>
@@ -129,20 +129,17 @@ export const GlobalFieldsPicker: FC<Props> = ({
                            type="button"
                            onClick={() => toggleField(field.id, alreadyAdded)}
                            disabled={alreadyAdded}
-                           className={`w-full flex items-center justify-between px-3 py-2 text-left text-sm transition-colors
-                              ${alreadyAdded ? "opacity-50 cursor-not-allowed bg-slate-50" : "hover:bg-accent cursor-pointer"}
-                              ${isSelected ? "bg-accent" : ""}
-                           `}
+                           className={`flex w-full items-center justify-between px-3 py-2 text-left text-sm transition-colors ${alreadyAdded ? "cursor-not-allowed bg-slate-50 opacity-50" : "cursor-pointer hover:bg-accent"} ${isSelected ? "bg-accent" : ""} `}
                            data-testid="global-field-option"
                         >
-                           <div className="flex items-center gap-2 min-w-0">
+                           <div className="flex min-w-0 items-center gap-2">
                               {alreadyAdded ? (
                                  <Check className="h-3.5 w-3.5 shrink-0 text-green-600" />
                               ) : (
                                  <div
                                     className={`h-3.5 w-3.5 shrink-0 rounded border ${
                                        isSelected
-                                          ? "bg-primary border-primary"
+                                          ? "border-primary bg-primary"
                                           : "border-slate-300"
                                     }`}
                                  >
@@ -154,7 +151,7 @@ export const GlobalFieldsPicker: FC<Props> = ({
                               <span className="truncate font-medium">
                                  {field.label}
                               </span>
-                              <code className="shrink-0 text-xs text-slate-500 font-mono">
+                              <code className="shrink-0 font-mono text-xs text-slate-500">
                                  {`{{${field.name}}}`}
                               </code>
                            </div>

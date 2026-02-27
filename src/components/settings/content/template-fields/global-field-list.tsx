@@ -19,8 +19,8 @@ import {
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
 import { deleteGlobalField } from "@/data/actions/settings";
-import { DGlobalField } from "@/data/types/domain/global-field";
 import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
+import { DGlobalField } from "@/data/types/domain/settings";
 
 import { GlobalFieldFormDialog } from "./global-field-form-dialog";
 

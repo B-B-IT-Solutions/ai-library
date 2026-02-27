@@ -7,12 +7,12 @@ import { Control, UseFormWatch } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
 import { CallbackFn } from "@/data/types/common";
-import { DGlobalField } from "@/data/types/domain/global-field";
 import {
    DPromptTemplateField,
    DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
+import { DGlobalField } from "@/data/types/domain/settings";
 
 import { GlobalFieldsPicker } from "./global-fields-picker";
 import { PromptTemplateField } from "./prompt-template-field";

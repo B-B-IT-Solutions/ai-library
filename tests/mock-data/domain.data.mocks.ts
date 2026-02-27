@@ -4,10 +4,6 @@ import { map } from "es-toolkit/compat";
 import { Sort } from "@/data/types/common";
 import { DCart, DCartItem } from "@/data/types/domain/cart";
 import {
-   DGlobalField,
-   DGlobalFieldUpdate,
-} from "@/data/types/domain/global-field";
-import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
    DLibraryEntriesFilter,
@@ -50,6 +46,7 @@ import {
    DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
+import { DGlobalField, DGlobalFieldUpdate } from "@/data/types/domain/settings";
 import {
    DStripeBillingPortalSessionResponse,
    DStripeCheckoutResponse,

@@ -1,10 +1,7 @@
 import { isEmpty } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
-import {
-   DGlobalField,
-   DGlobalFieldUpdate,
-} from "@/data/types/domain/global-field";
+import { DGlobalField, DGlobalFieldUpdate } from "@/data/types/domain/settings";
 import {
    GlobalFieldCreateArgs,
    GlobalFieldCreateInput,

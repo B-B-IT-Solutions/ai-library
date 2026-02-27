@@ -19,13 +19,13 @@ import {
 import { Form } from "@/components/shadcn/form";
 import { Separator } from "@/components/shadcn/separator";
 import { createLibraryEntry, updateLibraryEntry } from "@/data/actions/library";
-import { DGlobalField } from "@/data/types/domain/global-field";
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
 import {
    DPromptTemplateField,
    DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
+import { DGlobalField } from "@/data/types/domain/settings";
 import { updatePromptTemplateSchema } from "@/data/types/validators/prompt";
 
 import {

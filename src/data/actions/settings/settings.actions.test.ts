@@ -5,7 +5,7 @@ import { dtestData } from "@tests";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { SettingsService } from "@/data/services/settings";
-import { DGlobalField } from "@/data/types/domain/global-field";
+import { DGlobalField } from "@/data/types/domain/settings";
 import { ActionResult } from "@/data/types/utils";
 
 import {

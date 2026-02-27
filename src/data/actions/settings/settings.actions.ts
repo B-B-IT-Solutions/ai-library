@@ -7,10 +7,7 @@ import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
-import {
-   DGlobalField,
-   DGlobalFieldUpdate,
-} from "@/data/types/domain/global-field";
+import { DGlobalField, DGlobalFieldUpdate } from "@/data/types/domain/settings";
 import { ActionResult } from "@/data/types/utils";
 
 export const getGlobalFields = async (): Promise<DGlobalField[]> => {

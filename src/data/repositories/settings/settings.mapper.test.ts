@@ -1,7 +1,7 @@
 import { ptestData } from "@tests";
 import { isArray, map } from "es-toolkit/compat";
 
-import { DGlobalField } from "@/data/types/domain/global-field";
+import { DGlobalField } from "@/data/types/domain/settings";
 import { GlobalField } from "@/generated/prisma/client";
 
 import { toDGlobalField, toDGlobalFields } from "./settings.mapper";

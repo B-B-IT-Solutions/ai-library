@@ -22,10 +22,7 @@ import {
    FormTextArea,
 } from "@/components/shared/widgets";
 import { createGlobalField, updateGlobalField } from "@/data/actions/settings";
-import {
-   DGlobalField,
-   DGlobalFieldUpdate,
-} from "@/data/types/domain/global-field";
+import { DGlobalField, DGlobalFieldUpdate } from "@/data/types/domain/settings";
 import { globalFieldSchema } from "@/data/types/validators/settings";
 
 const FIELD_TYPES = [

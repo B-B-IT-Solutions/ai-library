@@ -1,5 +1,5 @@
-import { DGlobalField } from "@/data/types/domain/global-field";
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
+import { DGlobalField } from "@/data/types/domain/settings";
 import { ReturnToLibraryButton } from "../../buttons";
 
 import { LibraryEntryEditForm } from "./library-entry-edit-form";
@@ -50,7 +50,10 @@ export const LibraryEntryEdit = ({ entry, globalFields = [] }: Props) => {
                <div className="mb-4">
                   <ReturnToLibraryButton />
                </div>
-               <LibraryEntryEditForm entry={entry} globalFields={globalFields} />
+               <LibraryEntryEditForm
+                  entry={entry}
+                  globalFields={globalFields}
+               />
             </div>
          </div>
       </div>

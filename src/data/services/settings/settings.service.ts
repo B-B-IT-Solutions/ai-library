@@ -1,8 +1,5 @@
 import { SettingsRepository } from "@/data/repositories/settings";
-import {
-   DGlobalField,
-   DGlobalFieldUpdate,
-} from "@/data/types/domain/global-field";
+import { DGlobalField, DGlobalFieldUpdate } from "@/data/types/domain/settings";
 
 export class SettingsService {
    private settingsRepository: SettingsRepository;
