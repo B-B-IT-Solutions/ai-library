@@ -21,13 +21,17 @@ describe("getGlobalFields tests", () => {
    it("getGlobalFields - fields retrieved - test", async () => {
       const userId = "user-id-1";
       const fields = dtestData.dGlobalTemplateFields();
-      settingsRepoMock.pGetGlobalFields.mockResolvedValue(fields);
+      settingsRepoMock.pGetGlobalTemplateFields.mockResolvedValue(fields);
 
       const result = await settingsService.getGlobalFields(userId);
 
       expect(result).toEqual(fields);
-      expect(settingsRepoMock.pGetGlobalFields).toHaveBeenCalledTimes(1);
-      expect(settingsRepoMock.pGetGlobalFields).toHaveBeenCalledWith(userId);
+      expect(settingsRepoMock.pGetGlobalTemplateFields).toHaveBeenCalledTimes(
+         1
+      );
+      expect(settingsRepoMock.pGetGlobalTemplateFields).toHaveBeenCalledWith(
+         userId
+      );
    });
 });
 
@@ -39,14 +43,16 @@ describe("createGlobalField tests", () => {
    it("createGlobalField - field created - test", async () => {
       const userId = "user-id-1";
       const field = dtestData.dGlobalTemplateField();
-      settingsRepoMock.pCreateGlobalField.mockResolvedValue(field);
+      settingsRepoMock.pCreateGlobalTemplateField.mockResolvedValue(field);
 
       const data = dtestData.dGlobalTemplateFieldUpdate();
       const result = await settingsService.createGlobalField(userId, data);
 
       expect(result).toEqual(field);
-      expect(settingsRepoMock.pCreateGlobalField).toHaveBeenCalledTimes(1);
-      expect(settingsRepoMock.pCreateGlobalField).toHaveBeenCalledWith(
+      expect(settingsRepoMock.pCreateGlobalTemplateField).toHaveBeenCalledTimes(
+         1
+      );
+      expect(settingsRepoMock.pCreateGlobalTemplateField).toHaveBeenCalledWith(
          userId,
          data
       );
@@ -60,7 +66,7 @@ describe("updateGlobalField tests", () => {
 
    it("updateGlobalField - field updated - test", async () => {
       const field = dtestData.dGlobalTemplateField();
-      settingsRepoMock.pUpdateGlobalField.mockResolvedValue(field);
+      settingsRepoMock.pUpdateGlobalTemplateField.mockResolvedValue(field);
 
       const id = "global-field-id-1";
       const userId = "user-id-1";
@@ -69,8 +75,10 @@ describe("updateGlobalField tests", () => {
       const result = await settingsService.updateGlobalField(userId, id, data);
 
       expect(result).toEqual(field);
-      expect(settingsRepoMock.pUpdateGlobalField).toHaveBeenCalledTimes(1);
-      expect(settingsRepoMock.pUpdateGlobalField).toHaveBeenCalledWith(
+      expect(settingsRepoMock.pUpdateGlobalTemplateField).toHaveBeenCalledTimes(
+         1
+      );
+      expect(settingsRepoMock.pUpdateGlobalTemplateField).toHaveBeenCalledWith(
          userId,
          id,
          data
@@ -89,8 +97,10 @@ describe("deleteGlobalField tests", () => {
 
       await settingsService.deleteGlobalField(userId, id);
 
-      expect(settingsRepoMock.pDeleteGlobalField).toHaveBeenCalledTimes(1);
-      expect(settingsRepoMock.pDeleteGlobalField).toHaveBeenCalledWith(
+      expect(settingsRepoMock.pDeleteGlobalTemplateField).toHaveBeenCalledTimes(
+         1
+      );
+      expect(settingsRepoMock.pDeleteGlobalTemplateField).toHaveBeenCalledWith(
          userId,
          id
       );
