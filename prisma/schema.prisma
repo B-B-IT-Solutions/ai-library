@@ -9,25 +9,25 @@ datasource db {
 }
 
 model User {
-  id                  String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name                String                @default("NO_NAME") @db.VarChar(250)
-  email               String                @unique(map: "user_email_idx") @db.VarChar(250)
-  emailVerified       DateTime?             @map("email_verified") @db.Timestamp(6)
-  image               String?
-  password            String?               @db.VarChar(250)
-  role                String                @default("user") @db.VarChar(50)
-  stripeCustomerId    String?               @unique @map("stripe_customer_id") @db.VarChar(250)
-  createdAt           DateTime              @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt           DateTime              @updatedAt @map("updated_at")
-  accounts            Account[]
-  sessions            Session[]
-  carts               Cart[]
-  orders              Order[]
-  libraries           LibraryEntry[]
-  libraryCollections  LibraryCollection[]
-  subscription        Subscription?
-  subscriptionHistory SubscriptionHistory[]
-  globalFields        GlobalField[]
+  id                   String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                 String                @default("NO_NAME") @db.VarChar(250)
+  email                String                @unique(map: "user_email_idx") @db.VarChar(250)
+  emailVerified        DateTime?             @map("email_verified") @db.Timestamp(6)
+  image                String?
+  password             String?               @db.VarChar(250)
+  role                 String                @default("user") @db.VarChar(50)
+  stripeCustomerId     String?               @unique @map("stripe_customer_id") @db.VarChar(250)
+  createdAt            DateTime              @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt            DateTime              @updatedAt @map("updated_at")
+  accounts             Account[]
+  sessions             Session[]
+  carts                Cart[]
+  orders               Order[]
+  libraries            LibraryEntry[]
+  libraryCollections   LibraryCollection[]
+  subscription         Subscription?
+  subscriptionHistory  SubscriptionHistory[]
+  globalTemplateFields GlobalTemplateField[]
 
   @@map("user")
 }
@@ -203,7 +203,7 @@ model PromptTemplateCategory {
   @@map("prompt_template_category")
 }
 
-model GlobalField {
+model GlobalTemplateField {
   id           String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   userId       String                  @map("user_id") @db.Uuid
   name         String                  @db.VarChar(100)
@@ -231,9 +231,9 @@ model LibraryEntry {
   createdAt            DateTime @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt            DateTime @default(now()) @updatedAt @map("updated_at")
 
-  user              User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user               User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
   templateDescriptor PromptTemplateDescriptor @relation(fields: [templateDescriptorId], references: [id], onDelete: Cascade)
-  collectionEntries LibraryCollectionEntry[]
+  collectionEntries  LibraryCollectionEntry[]
 
   @@unique([userId, templateDescriptorId])
   @@index([userId, isFavorite])
