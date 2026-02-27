@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`TemplateFieldName rendering tests TemplateFieldName rendered test 1`] = `
+exports[`TemplateFieldDefaultValue rendering tests TemplateFieldDefaultValue rendered test 1`] = `
 <div>
   <div
     class="grid gap-2"
@@ -13,7 +13,7 @@ exports[`TemplateFieldName rendering tests TemplateFieldName rendered test 1`] =
       data-slot="form-label"
       for="_r_0_-form-item"
     >
-      Name
+      Standardwert
     </label>
     <input
       aria-describedby="_r_0_-form-item-description"
@@ -23,20 +23,9 @@ exports[`TemplateFieldName rendering tests TemplateFieldName rendered test 1`] =
       data-testid="input"
       id="_r_0_-form-item"
       name="test-1"
-      placeholder="Name des Feldes"
+      placeholder="Standardwert des Feldes"
       value=""
     />
-    <p
-      class="text-destructive text-sm"
-      data-slot="form-message"
-      id="_r_0_-form-item-message"
-    >
-      <span
-        class="text-slate-500"
-      >
-        Verwenden Sie diesen Namen als {{feldname}}
-      </span>
-    </p>
   </div>
 </div>
 `;
