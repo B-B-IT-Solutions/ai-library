@@ -5,6 +5,7 @@ import { DGlobalTemplateField } from "@/data/types/domain/settings";
 
 import {
    existingTemplateFieldInitValues,
+   globalTemplateFieldInitValues,
    newTemplateFieldInitValues,
 } from "./init-values";
 
@@ -40,6 +41,39 @@ export const expectedNewTemplateFieldInitValues = (
    };
 };
 
+describe("globalTemplateFieldInitValues tests", () => {
+   it("globalTemplateFieldInitValues - new field init values - test", () => {
+      const result = globalTemplateFieldInitValues();
+      const expectedResult = expectedNewTemplateFieldInitValues(0);
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("globalTemplateFieldInitValues - existing field init values - test", () => {
+      const field = dtestData.dGlobalTemplateField();
+      const result = globalTemplateFieldInitValues(field);
+      const expectedResult = expectedExistingTemplateFieldInitValues(field);
+      expect(result).toEqual(expectedResult);
+   });
+});
+
+describe("newTemplateFieldInitValues tests", () => {
+   it("newTemplateFieldInitValues test", () => {
+      const result1 = newTemplateFieldInitValues(1);
+      const expectedResult1 = expectedNewTemplateFieldInitValues(1);
+      expect(result1).toEqual(expectedResult1);
+
+      const name = "name-1";
+      const label = "label-1";
+      const result2 = newTemplateFieldInitValues(2, name, label);
+      const expectedResult2 = expectedNewTemplateFieldInitValues(
+         2,
+         name,
+         label
+      );
+      expect(result2).toEqual(expectedResult2);
+   });
+});
+
 describe("existingTemplateFieldInitValues tests", () => {
    it("existingTemplateFieldInitValues - global template field - test", () => {
       const field1 = dtestData.dGlobalTemplateField();
@@ -68,24 +102,6 @@ describe("existingTemplateFieldInitValues tests", () => {
       field2.options = null;
       const result2 = existingTemplateFieldInitValues(field1);
       const expectedResult2 = expectedExistingTemplateFieldInitValues(field1);
-      expect(result2).toEqual(expectedResult2);
-   });
-});
-
-describe("newTemplateFieldInitValues tests", () => {
-   it("newTemplateFieldInitValues test", () => {
-      const result1 = newTemplateFieldInitValues(1);
-      const expectedResult1 = expectedNewTemplateFieldInitValues(1);
-      expect(result1).toEqual(expectedResult1);
-
-      const name = "name-1";
-      const label = "label-1";
-      const result2 = newTemplateFieldInitValues(2, name, label);
-      const expectedResult2 = expectedNewTemplateFieldInitValues(
-         2,
-         name,
-         label
-      );
       expect(result2).toEqual(expectedResult2);
    });
 });

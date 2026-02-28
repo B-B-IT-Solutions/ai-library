@@ -23,6 +23,7 @@ import {
    TemplateFieldRequired,
    TemplateFieldType,
 } from "@/components/shared/template-fields";
+import { globalTemplateFieldInitValues } from "@/components/shared/template-fields/utils/init-values";
 import {
    createGlobalTemplateField,
    updateGlobalTemplateField,
@@ -45,12 +46,12 @@ export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
 
    const form = useForm<DGlobalTemplateFieldUpdate>({
       resolver: zodResolver(globalTemplateFieldSchema),
-      defaultValues: getDefaultValues(field),
+      defaultValues: globalTemplateFieldInitValues(field),
    });
 
    useEffect(() => {
       if (open) {
-         form.reset(getDefaultValues(field));
+         form.reset(globalTemplateFieldInitValues(field));
       }
    }, [open, field, form]);
 
@@ -147,18 +148,3 @@ export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
       </Dialog>
    );
 };
-
-function getDefaultValues(
-   field?: DGlobalTemplateField
-): DGlobalTemplateFieldUpdate {
-   return {
-      name: field?.name ?? "",
-      label: field?.label ?? "",
-      description: field?.description ?? "",
-      type: field?.type ?? "TEXT",
-      required: field?.required ?? true,
-      defaultValue: field?.defaultValue ?? "",
-      options: field?.options ?? [],
-      order: field?.order ?? 0,
-   };
-}
