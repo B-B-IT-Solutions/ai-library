@@ -1,8 +1,17 @@
+jest.mock("@/data/actions/settings");
+
 import { screen, waitFor } from "@testing-library/dom";
-import { assertInDocument, renderAsyncRSC } from "@tests";
+import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 
+import { getGlobalTemplateFields } from "@/data/actions/settings";
+
 import { metadata, NewLibraryEntryPage } from "./page";
+
+const getGlobalTemplateFieldsMock =
+   getGlobalTemplateFields as jest.MockedFunction<
+      typeof getGlobalTemplateFields
+   >;
 
 const expectedMetadata: Metadata = {
    title: "Neue Vorlage erstellen",
@@ -18,6 +27,9 @@ const assertRendered = () => {
 
 describe("NewLibraryEntryPage rendering tests", () => {
    it("NewLibraryEntryPage rendered test", async () => {
+      const templateFields = dtestData.dGlobalTemplateFields();
+      getGlobalTemplateFieldsMock.mockResolvedValue(templateFields);
+
       const { container } = await renderAsyncRSC(NewLibraryEntryPage, {});
 
       await waitFor(() => {

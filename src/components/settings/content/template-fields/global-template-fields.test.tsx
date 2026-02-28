@@ -19,7 +19,7 @@ const getGlobalTemplateFieldsMock =
 
 const assertRendered = () => {
    const tempalteFields = screen.getByTestId("global-template-fields");
-   const fieldsList = screen.getByTestId("global-fields-list");
+   const fieldsList = screen.getByTestId("template-fields-list");
 
    assertInDocument(tempalteFields);
    assertInDocument(fieldsList);
