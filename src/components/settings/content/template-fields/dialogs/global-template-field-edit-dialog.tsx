@@ -116,12 +116,11 @@ export const GlobalTemplateFieldEditDialog = ({
    };
 
    return (
-      <Dialog
-         open={open}
-         onOpenChange={(o) => !o && onClose()}
-         data-testid="template-field-edit-dialog"
-      >
-         <DialogContent className="sm:max-w-3xl">
+      <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
+         <DialogContent
+            className="sm:max-w-3xl"
+            data-testid="template-field-edit-dialog"
+         >
             <DialogHeader>
                <DialogTitle>
                   {isEdit ? "Feld Bearbeiten" : "Neues Feld Erstellen"}
@@ -139,6 +138,7 @@ export const GlobalTemplateFieldEditDialog = ({
                         variant="outline"
                         onClick={onClose}
                         disabled={isSubmitting}
+                        data-testid="cancel-btn"
                      >
                         Abbrechen
                      </Button>

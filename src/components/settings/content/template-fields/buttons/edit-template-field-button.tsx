@@ -11,7 +11,7 @@ type Props = {
    field: DGlobalTemplateField;
 };
 
-export const EditGlobalTemplateFieldButton = ({ field }: Props) => {
+export const EditTemplateFieldButton = ({ field }: Props) => {
    const [dialogOpen, setDialogOpen] = useState(false);
 
    const handleEdit = () => {
@@ -25,7 +25,7 @@ export const EditGlobalTemplateFieldButton = ({ field }: Props) => {
             variant="ghost"
             size="sm"
             onClick={handleEdit}
-            data-testid="edit-tempplate-field-btn"
+            data-testid="edit-template-field-btn"
          >
             <Pencil className="h-4 w-4" />
          </Button>

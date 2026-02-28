@@ -1,1 +1,1 @@
-export { EditGlobalTemplateFieldButton } from "./edit-global-template-field-button";
+export { EditTemplateFieldButton } from "./edit-template-field-button";

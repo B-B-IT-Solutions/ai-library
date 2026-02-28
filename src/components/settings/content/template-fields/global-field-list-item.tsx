@@ -21,7 +21,7 @@ import { getFieldTypeLabel } from "@/components/shared/template-fields";
 import { deleteGlobalTemplateField } from "@/data/actions/settings";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
 
-import { EditGlobalTemplateFieldButton } from "./buttons";
+import { EditTemplateFieldButton } from "./buttons";
 
 type Props = {
    field: DGlobalTemplateField;
@@ -100,7 +100,7 @@ export const GlobalFieldListItem = ({ field }: Props) => {
             </Badge>
          </div>
          <div className="flex items-center gap-1">
-            <EditGlobalTemplateFieldButton field={field} />
+            <EditTemplateFieldButton field={field} />
             <Button
                type="button"
                variant="ghost"
