@@ -7,17 +7,14 @@ import {
    DGlobalTemplateFieldUpdate,
 } from "@/data/types/domain/settings";
 
-export function existingTemplateFieldInitValues(
-   field: DGlobalTemplateField
-): DGlobalTemplateFieldUpdate;
+type TemplateFieldInitValuesFn = {
+   (field: DGlobalTemplateField): DGlobalTemplateFieldUpdate;
+   (field: DPromptTemplateField): DPromptTemplateFieldUpdate;
+};
 
-export function existingTemplateFieldInitValues(
-   field: DPromptTemplateField
-): DPromptTemplateFieldUpdate;
-
-export function existingTemplateFieldInitValues(
+export const existingTemplateFieldInitValues: TemplateFieldInitValuesFn = (
    field: DGlobalTemplateField | DPromptTemplateField
-): DGlobalTemplateFieldUpdate | DPromptTemplateFieldUpdate {
+): DGlobalTemplateFieldUpdate | DPromptTemplateFieldUpdate => {
    return {
       name: field.name,
       label: field.label,
@@ -28,7 +25,7 @@ export function existingTemplateFieldInitValues(
       options: field.options ?? [],
       order: field.order,
    };
-}
+};
 
 export const newTemplateFieldInitValues = (
    order: number,
