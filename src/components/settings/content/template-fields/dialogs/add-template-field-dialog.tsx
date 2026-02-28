@@ -68,7 +68,7 @@ export const GlobalTemplateFieldAddDialog = ({ open, onClose }: Props) => {
    };
 
    return (
-      <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
+      <Dialog open={open} onOpenChange={onClose}>
          <DialogContent
             className="sm:max-w-3xl"
             data-testid="template-field-add-dialog"

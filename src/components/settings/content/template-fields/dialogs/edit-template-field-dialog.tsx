@@ -99,11 +99,17 @@ export const GlobalTemplateFieldEditDialog = ({
                         variant="outline"
                         onClick={onClose}
                         disabled={isSubmitting}
+                        className="cursor-pointer"
                         data-testid="cancel-btn"
                      >
                         Abbrechen
                      </Button>
-                     <Button type="submit" disabled={isSubmitting}>
+                     <Button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="cursor-pointer"
+                        data-testid="submit-btn"
+                     >
                         {confirmBtnLabel()}
                      </Button>
                   </DialogFooter>
