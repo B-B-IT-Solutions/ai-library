@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import { deleteGlobalTemplateField } from "@/data/actions/settings";
 import { ActionResult } from "@/data/types/utils";
 
-import { GlobalTemplateFieldDeleteConfirmDialog } from "./template-field-confirm-delete-dialog";
+import { GlobalTemplateFieldDeleteConfirmDialog } from "./delete-template-field-dialog";
 
 const deleteGlobalTemplateFieldMock =
    deleteGlobalTemplateField as jest.MockedFunction<
