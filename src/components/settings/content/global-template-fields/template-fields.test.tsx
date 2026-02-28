@@ -18,16 +18,16 @@ const getGlobalTemplateFieldsMock =
    >;
 
 const assertRendered = () => {
-   const tempalteFields = screen.getByTestId("template-fields");
-   assertInDocument(tempalteFields);
+   const fields = screen.getByTestId("template-fields");
+   assertInDocument(fields);
 };
 
 const assertFieldsRendered = () => {
    const addBtn = screen.getByTestId("add-template-field-btn");
-   const items = screen.getAllByTestId("template-field-item");
+   const fieldItems = screen.getAllByTestId("template-field");
 
    assertInDocument(addBtn);
-   expect(items).toHaveLength(3);
+   expect(fieldItems).toHaveLength(3);
 };
 
 const assertEmptyStateRendered = () => {

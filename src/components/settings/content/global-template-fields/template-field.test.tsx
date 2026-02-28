@@ -4,11 +4,11 @@ import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 import { GlobalTemplateFieldItem } from "./template-field";
 
 const assertRendered = () => {
-   const item = screen.getByTestId("template-field-item");
+   const field = screen.getByTestId("template-field");
    const editBtn = screen.getByTestId("edit-template-field-btn");
    const deleteBtn = screen.getByTestId("delete-template-field-btn");
 
-   assertInDocument(item);
+   assertInDocument(field);
    assertInDocument(editBtn);
    assertInDocument(deleteBtn);
 };
