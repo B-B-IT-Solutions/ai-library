@@ -1,9 +1,11 @@
-import { isEmpty } from "es-toolkit/compat";
+import { isEmpty, map } from "es-toolkit/compat";
 import { Braces } from "lucide-react";
 
 import { getGlobalTemplateFields } from "@/data/actions/settings";
+import { DGlobalTemplateField } from "@/data/types/domain/settings";
 
-import { GlobalTemplateFieldsList } from "./template-fields-list";
+import { AddTemplateFieldButton } from "./buttons";
+import { GlobalTemplateFieldItem } from "./template-field";
 
 export const GlobalTemplateFields = async () => {
    const fields = await getGlobalTemplateFields();
@@ -28,8 +30,27 @@ export const GlobalTemplateFields = async () => {
       }
    };
 
+   const renderField = (field: DGlobalTemplateField) => {
+      return <GlobalTemplateFieldItem field={field} key={field.id} />;
+   };
+
+   const renderFields = () => {
+      if (isEmpty(fields)) {
+         return emptyState();
+      }
+      return (
+         <div className="space-y-4">
+            <div className="flex justify-end">
+               <AddTemplateFieldButton />
+            </div>
+
+            <div className="space-y-2">{map(fields, renderField)}</div>
+         </div>
+      );
+   };
+
    return (
-      <div className="space-y-6" data-testid="global-template-fields">
+      <div className="space-y-6" data-testid="template-fields">
          <div>
             <h2 className="text-xl font-semibold text-slate-900">
                Vorlagen-Felder
@@ -40,9 +61,7 @@ export const GlobalTemplateFields = async () => {
             </p>
          </div>
 
-         <GlobalTemplateFieldsList fields={fields} />
-
-         {emptyState()}
+         {renderFields()}
       </div>
    );
 };

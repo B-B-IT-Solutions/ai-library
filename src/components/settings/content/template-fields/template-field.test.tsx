@@ -1,7 +1,7 @@
 import { screen, waitFor } from "@testing-library/react";
 import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 
-import { GlobalTemplateFieldItem } from "./template-field-item";
+import { GlobalTemplateFieldItem } from "./template-field";
 
 const assertRendered = () => {
    const item = screen.getByTestId("template-field-item");
