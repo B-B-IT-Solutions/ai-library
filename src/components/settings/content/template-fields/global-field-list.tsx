@@ -22,7 +22,8 @@ import { getFieldTypeLabel } from "@/components/shared/template-fields";
 import { deleteGlobalTemplateField } from "@/data/actions/settings";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
 
-import { GlobalFieldFormDialog } from "./global-field-form-dialog";
+import { GlobalTemplateFieldEditDialog } from "./dialogs";
+import { GlobalFieldListItem } from "./global-field-list-item";
 
 type Props = {
    fields: DGlobalTemplateField[];
@@ -59,6 +60,10 @@ export const GlobalFieldList: FC<Props> = ({ fields }) => {
          }
          setDeleteDialogField(undefined);
       }
+   };
+
+   const renderField_ = (field: DGlobalTemplateField) => {
+      return <GlobalFieldListItem field={field} key={field.id} />;
    };
 
    const renderField = (field: DGlobalTemplateField) => {
@@ -155,9 +160,9 @@ export const GlobalFieldList: FC<Props> = ({ fields }) => {
             </Button>
          </div>
 
-         <div className="space-y-2">{map(fields, renderField)}</div>
+         <div className="space-y-2">{map(fields, renderField_)}</div>
 
-         <GlobalFieldFormDialog
+         <GlobalTemplateFieldEditDialog
             open={dialogOpen}
             onClose={() => setDialogOpen(false)}
             field={editingField}

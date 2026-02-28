@@ -1,3 +1,5 @@
+import { map } from "es-toolkit/compat";
+
 import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
 
 export const TEMPLATE_FIELD_LABELS: Record<DPromptTemplateFieldType, string> = {
@@ -11,7 +13,8 @@ export const TEMPLATE_FIELD_LABELS: Record<DPromptTemplateFieldType, string> = {
    RADIO: "Radio",
 };
 
-export const TEMPLATE_FIELD_OPTIONS = Object.entries(TEMPLATE_FIELD_LABELS).map(
+export const TEMPLATE_FIELD_OPTIONS = map(
+   Object.entries(TEMPLATE_FIELD_LABELS),
    ([value, label]) => ({
       value,
       label,

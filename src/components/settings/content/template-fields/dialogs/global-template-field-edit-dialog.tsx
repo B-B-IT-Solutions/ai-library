@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect } from "react";
+import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -40,7 +40,11 @@ type Props = {
    field?: DGlobalTemplateField;
 };
 
-export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
+export const GlobalTemplateFieldEditDialog = ({
+   open,
+   onClose,
+   field,
+}: Props) => {
    const router = useRouter();
    const isEdit = !!field;
 
@@ -112,7 +116,11 @@ export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
    };
 
    return (
-      <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
+      <Dialog
+         open={open}
+         onOpenChange={(o) => !o && onClose()}
+         data-testid="template-field-edit-dialog"
+      >
          <DialogContent className="sm:max-w-3xl">
             <DialogHeader>
                <DialogTitle>
