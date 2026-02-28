@@ -1,24 +1,5 @@
-"use client";
-
-import { useState } from "react";
-import { Trash2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-
-import {
-   AlertDialog,
-   AlertDialogAction,
-   AlertDialogCancel,
-   AlertDialogContent,
-   AlertDialogDescription,
-   AlertDialogFooter,
-   AlertDialogHeader,
-   AlertDialogTitle,
-} from "@/components/shadcn/alert-dialog";
 import { Badge } from "@/components/shadcn/badge";
-import { Button } from "@/components/shadcn/button";
 import { getFieldTypeLabel } from "@/components/shared/template-fields";
-import { deleteGlobalTemplateField } from "@/data/actions/settings";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
 
 import { DeleteTemplateFieldButton, EditTemplateFieldButton } from "./buttons";
@@ -28,60 +9,6 @@ type Props = {
 };
 
 export const GlobalFieldListItem = ({ field }: Props) => {
-   const router = useRouter();
-   const [deleteDialogField, setDeleteDialogField] = useState<
-      DGlobalTemplateField | undefined
-   >();
-
-   const handleDeleteConfirm = async () => {
-      if (deleteDialogField) {
-         const result = await deleteGlobalTemplateField(deleteDialogField.id);
-         if (result.success) {
-            toast.success(result.message);
-            router.refresh();
-         } else {
-            toast.error(result.message);
-         }
-         setDeleteDialogField(undefined);
-      }
-   };
-
-   const comfirmDeleteDialog = () => {
-      return (
-         <AlertDialog
-            open={!!deleteDialogField}
-            onOpenChange={(o) => !o && setDeleteDialogField(undefined)}
-         >
-            <AlertDialogContent>
-               <AlertDialogHeader>
-                  <AlertDialogTitle>Feld löschen?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                     Möchten Sie das Feld{" "}
-                     <strong>
-                        {deleteDialogField
-                           ? `{{${deleteDialogField.name}}}`
-                           : ""}
-                     </strong>{" "}
-                     wirklich löschen? Diese Aktion kann nicht rückgängig
-                     gemacht werden.
-                  </AlertDialogDescription>
-               </AlertDialogHeader>
-               <AlertDialogFooter>
-                  <AlertDialogCancel className="cursor-pointer">
-                     Abbrechen
-                  </AlertDialogCancel>
-                  <AlertDialogAction
-                     onClick={handleDeleteConfirm}
-                     className="cursor-pointer bg-destructive hover:bg-destructive/90"
-                  >
-                     Löschen
-                  </AlertDialogAction>
-               </AlertDialogFooter>
-            </AlertDialogContent>
-         </AlertDialog>
-      );
-   };
-
    return (
       <div
          key={field.id}
@@ -102,16 +29,6 @@ export const GlobalFieldListItem = ({ field }: Props) => {
          <div className="flex items-center gap-1">
             <EditTemplateFieldButton field={field} />
             <DeleteTemplateFieldButton field={field} />
-            <Button
-               type="button"
-               variant="ghost"
-               size="sm"
-               onClick={() => setDeleteDialogField(field)}
-               data-testid="delete-btn"
-            >
-               <Trash2 className="h-4 w-4 text-destructive" />
-            </Button>
-            {comfirmDeleteDialog()}
          </div>
       </div>
    );

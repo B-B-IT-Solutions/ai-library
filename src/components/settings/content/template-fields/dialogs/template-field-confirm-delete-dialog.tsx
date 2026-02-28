@@ -1,5 +1,7 @@
 "use client";
 
+import { useTransition } from "react";
+import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -28,9 +30,10 @@ export const GlobalTemplateFieldDeleteConfirmDialog = ({
    field,
 }: Props) => {
    const router = useRouter();
+   const [isPending, startTransition] = useTransition();
 
    const handleDeleteConfirm = async () => {
-      if (open) {
+      startTransition(async () => {
          const result = await deleteGlobalTemplateField(field.id);
          if (result.success) {
             toast.success(result.message);
@@ -39,7 +42,19 @@ export const GlobalTemplateFieldDeleteConfirmDialog = ({
             toast.error(result.message);
          }
          onClose();
+      });
+   };
+
+   const confirmBtnLabel = () => {
+      if (isPending) {
+         return (
+            <>
+               <Loader className="h-4 w-4" />
+               Wird gelöscht
+            </>
+         );
       }
+      return "Löschen";
    };
 
    return (
@@ -62,9 +77,10 @@ export const GlobalTemplateFieldDeleteConfirmDialog = ({
                </AlertDialogCancel>
                <AlertDialogAction
                   onClick={handleDeleteConfirm}
+                  disabled={isPending}
                   className="cursor-pointer bg-destructive hover:bg-destructive/90"
                >
-                  Löschen
+                  {confirmBtnLabel()}
                </AlertDialogAction>
             </AlertDialogFooter>
          </AlertDialogContent>
