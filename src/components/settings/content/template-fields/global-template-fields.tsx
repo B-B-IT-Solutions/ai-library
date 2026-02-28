@@ -3,7 +3,7 @@ import { Braces } from "lucide-react";
 
 import { getGlobalTemplateFields } from "@/data/actions/settings";
 
-import { GlobalFieldList } from "./global-field-list";
+import { GlobalTemplateFieldsList } from "./template-fields-list";
 
 export const GlobalTemplateFields = async () => {
    const fields = await getGlobalTemplateFields();
@@ -40,7 +40,7 @@ export const GlobalTemplateFields = async () => {
             </p>
          </div>
 
-         <GlobalFieldList fields={fields} />
+         <GlobalTemplateFieldsList fields={fields} />
 
          {emptyState()}
       </div>
