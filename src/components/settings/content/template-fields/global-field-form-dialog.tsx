@@ -52,7 +52,7 @@ export const GlobalFieldFormDialog: FC<Props> = ({ open, onClose, field }) => {
       if (open) {
          form.reset(getDefaultValues(field));
       }
-   }, [open, field]);
+   }, [open, field, form]);
 
    const { isSubmitting } = form.formState;
 

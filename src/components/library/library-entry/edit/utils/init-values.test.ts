@@ -6,7 +6,7 @@ import {
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 
-import { initPromptTempalte, initPromptTemplateField } from "./initValues";
+import { initPromptTempalte, initPromptTemplateField } from "./init-values";
 
 const expectedInitPromptTempalteExisting = (
    entry: DLibraryEntryWithPromptTemplate

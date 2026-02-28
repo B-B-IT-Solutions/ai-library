@@ -1,2 +1,2 @@
 export { extractVariablesFromContent, getVariableStatus } from "./variables";
-export { initPromptTempalte, initPromptTemplateField } from "./initValues";
+export { initPromptTempalte, initPromptTemplateField } from "./init-values";
