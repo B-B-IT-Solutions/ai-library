@@ -23,7 +23,6 @@ import { createLibraryEntry, updateLibraryEntry } from "@/data/actions/library";
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
 import {
    DPromptTemplateField,
-   DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
@@ -101,12 +100,18 @@ export const LibraryEntryEditForm = ({ entry, globalFields = [] }: Props) => {
       toast.success(`${addedCount} Feld(er) synchronisiert`);
    };
 
-   const handleAddGlobalFields = (gFields: DPromptTemplateFieldUpdate[]) => {
-      const currentCount = fields.length;
-      gFields.forEach((f, idx) => {
-         addField({ ...f, order: currentCount + idx });
-      });
-      toast.success(`${gFields.length} Feld(er) aus Bibliothek hinzugefügt`);
+   const handleAddGlobalFieldIds = (newIds: string[]) => {
+      const current = form.getValues("globalFieldIds");
+      form.setValue("globalFieldIds", [...current, ...newIds]);
+      toast.success(`${newIds.length} Feld(er) aus Bibliothek hinzugefügt`);
+   };
+
+   const handleRemoveGlobalFieldId = (id: string) => {
+      const current = form.getValues("globalFieldIds");
+      form.setValue(
+         "globalFieldIds",
+         current.filter((i) => i !== id)
+      );
    };
 
    const onSubmit: SubmitHandler<DPromptTemplateUpdate> = async (data) => {
@@ -215,8 +220,10 @@ export const LibraryEntryEditForm = ({ entry, globalFields = [] }: Props) => {
                      fields={fields as DPromptTemplateField[]}
                      detectedVariables={detectedVariables}
                      globalFields={globalFields}
+                     globalFieldIds={form.watch("globalFieldIds")}
                      onAddField={handleAddField}
-                     onAddGlobalFields={handleAddGlobalFields}
+                     onAddGlobalFieldIds={handleAddGlobalFieldIds}
+                     onRemoveGlobalFieldId={handleRemoveGlobalFieldId}
                      onRemoveField={removeField}
                      control={form.control}
                      watch={form.watch}

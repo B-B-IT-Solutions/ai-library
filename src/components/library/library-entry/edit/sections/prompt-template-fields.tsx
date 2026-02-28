@@ -1,15 +1,15 @@
 "use client";
 
 import { FC } from "react";
-import { isEmpty, map } from "es-toolkit/compat";
-import { Plus } from "lucide-react";
+import { filter, isEmpty, map } from "es-toolkit/compat";
+import { Plus, Trash2 } from "lucide-react";
 import { Control, UseFormWatch } from "react-hook-form";
 
+import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
 import { CallbackFn } from "@/data/types/common";
 import {
    DPromptTemplateField,
-   DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
@@ -21,8 +21,10 @@ type Props = {
    fields: DPromptTemplateField[];
    detectedVariables: string[];
    globalFields?: DGlobalTemplateField[];
+   globalFieldIds?: string[];
    onAddField: CallbackFn;
-   onAddGlobalFields?: (fields: DPromptTemplateFieldUpdate[]) => void;
+   onAddGlobalFieldIds?: (ids: string[]) => void;
+   onRemoveGlobalFieldId?: (id: string) => void;
    onRemoveField: (index: number) => void;
    control: Control<DPromptTemplateUpdate>;
    watch: UseFormWatch<DPromptTemplateUpdate>;
@@ -32,14 +34,16 @@ export const PromptTemplateFields: FC<Props> = ({
    fields,
    detectedVariables,
    globalFields = [],
+   globalFieldIds = [],
    onAddField,
-   onAddGlobalFields,
+   onAddGlobalFieldIds,
+   onRemoveGlobalFieldId,
    onRemoveField,
    control,
    watch,
 }) => {
-   const existingFieldNames = map(fields, (_, idx) =>
-      watch(`fields.${idx}.name`)
+   const resolvedGlobalFields = filter(globalFields, (f) =>
+      globalFieldIds.includes(f.id)
    );
 
    const header = () => {
@@ -54,11 +58,11 @@ export const PromptTemplateFields: FC<Props> = ({
                </p>
             </div>
             <div className="flex items-center gap-2">
-               {globalFields.length > 0 && onAddGlobalFields && (
+               {globalFields.length > 0 && onAddGlobalFieldIds && (
                   <GlobalFieldsPicker
                      globalFields={globalFields}
-                     existingFieldNames={existingFieldNames}
-                     onAddFields={onAddGlobalFields}
+                     selectedGlobalFieldIds={globalFieldIds}
+                     onAddFields={onAddGlobalFieldIds}
                   />
                )}
                <Button
@@ -73,6 +77,55 @@ export const PromptTemplateFields: FC<Props> = ({
                   Feld hinzufügen
                </Button>
             </div>
+         </div>
+      );
+   };
+
+   const renderGlobalFields = () => {
+      if (isEmpty(resolvedGlobalFields)) return null;
+      return (
+         <div className="space-y-2" data-testid="global-fields">
+            <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+               Globale Felder
+            </p>
+            {map(resolvedGlobalFields, (field) => (
+               <div
+                  key={field.id}
+                  className="flex items-center justify-between rounded-lg border border-blue-200 bg-blue-50 px-4 py-3"
+                  data-testid="global-field-reference"
+               >
+                  <div className="flex items-center gap-3">
+                     <div>
+                        <span className="text-sm font-medium text-slate-900">
+                           {field.label}
+                        </span>
+                        <code className="ml-2 font-mono text-xs text-slate-500">
+                           {`{{${field.name}}}`}
+                        </code>
+                     </div>
+                     <Badge variant="secondary" className="text-xs">
+                        {field.type}
+                     </Badge>
+                     {field.required && (
+                        <Badge variant="outline" className="text-xs">
+                           Pflicht
+                        </Badge>
+                     )}
+                  </div>
+                  {onRemoveGlobalFieldId && (
+                     <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="cursor-pointer"
+                        onClick={() => onRemoveGlobalFieldId(field.id)}
+                        data-testid="remove-global-field-btn"
+                     >
+                        <Trash2 className="h-4 w-4" />
+                     </Button>
+                  )}
+               </div>
+            ))}
          </div>
       );
    };
@@ -119,6 +172,7 @@ export const PromptTemplateFields: FC<Props> = ({
    return (
       <section className="space-y-4" data-testid="prompt-template-fields">
          {header()}
+         {renderGlobalFields()}
          {renderFields()}
       </section>
    );

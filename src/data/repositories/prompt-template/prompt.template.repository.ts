@@ -121,6 +121,7 @@ export class PromptTemplateRepository {
             create: {
                content: data.content,
                detailedDescription: data.detailedDescription,
+               globalFieldIds: stringify(data.globalFieldIds),
                fields: {
                   create: map(
                      data.fields,
@@ -171,6 +172,7 @@ export class PromptTemplateRepository {
             update: {
                content: data.content,
                detailedDescription: data.detailedDescription,
+               globalFieldIds: stringify(data.globalFieldIds),
                fields: {
                   deleteMany: {},
                   create: map(

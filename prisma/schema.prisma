@@ -154,6 +154,7 @@ model PromptTemplate {
   id                  String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   detailedDescription String   @map("detailed_description") @db.Text
   content             String   @map("content") @db.Text
+  globalFieldIds      Json?    @map("global_field_ids") @db.JsonB
   createdAt           DateTime @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt           DateTime @updatedAt @map("updated_at")
 

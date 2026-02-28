@@ -289,6 +289,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
          content: "Template Content {{task}}",
          categories: [],
          fields: [],
+         globalFieldIds: [],
          recommendedModel: "Claude 3.5 Sonnet",
          categoryInput: "",
       };
@@ -345,6 +346,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
          content: initValue.content + "Template Content {{task}}",
          categories: initValue.categories,
          fields: initValue.fields,
+         globalFieldIds: initValue.globalFieldIds,
          recommendedModel: initValue.recommendedModel,
          categoryInput: "",
       };
@@ -403,6 +405,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
          content: "Template Content {{task}}",
          categories: [],
          fields: [],
+         globalFieldIds: [],
          recommendedModel: "Claude 3.5 Sonnet",
          categoryInput: "",
       };
@@ -458,6 +461,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
          content: initValue.content + "Template Content {{task}}",
          categories: initValue.categories,
          fields: initValue.fields,
+         globalFieldIds: initValue.globalFieldIds,
          recommendedModel: initValue.recommendedModel,
          categoryInput: "",
       };

@@ -12,7 +12,6 @@ import {
    PopoverContent,
    PopoverTrigger,
 } from "@/components/shadcn/popover";
-import { DPromptTemplateFieldUpdate } from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
 
 const FIELD_TYPE_LABELS: Record<string, string> = {
@@ -28,13 +27,13 @@ const FIELD_TYPE_LABELS: Record<string, string> = {
 
 type Props = {
    globalFields: DGlobalTemplateField[];
-   existingFieldNames: string[];
-   onAddFields: (fields: DPromptTemplateFieldUpdate[]) => void;
+   selectedGlobalFieldIds: string[];
+   onAddFields: (ids: string[]) => void;
 };
 
 export const GlobalFieldsPicker: FC<Props> = ({
    globalFields,
-   existingFieldNames,
+   selectedGlobalFieldIds,
    onAddFields,
 }) => {
    const [open, setOpen] = useState(false);
@@ -56,21 +55,7 @@ export const GlobalFieldsPicker: FC<Props> = ({
    };
 
    const handleAdd = () => {
-      const selected = filter(globalFields, (f) => selectedIds.includes(f.id));
-      const converted: DPromptTemplateFieldUpdate[] = map(
-         selected,
-         (f, idx) => ({
-            name: f.name,
-            label: f.label,
-            description: f.description ?? "",
-            type: f.type,
-            required: f.required,
-            order: idx,
-            defaultValue: f.defaultValue ?? "",
-            options: f.options ?? [],
-         })
-      );
-      onAddFields(converted);
+      onAddFields(selectedIds);
       setSelectedIds([]);
       setOpen(false);
    };
@@ -119,8 +104,8 @@ export const GlobalFieldsPicker: FC<Props> = ({
                   </p>
                ) : (
                   map(filtered, (field) => {
-                     const alreadyAdded = existingFieldNames.includes(
-                        field.name
+                     const alreadyAdded = selectedGlobalFieldIds.includes(
+                        field.id
                      );
                      const isSelected = selectedIds.includes(field.id);
                      return (
