@@ -107,7 +107,7 @@ describe("promptTemplateFieldSchema - tests", () => {
 
    it("promptTemplateFieldSchema - name exceeds max length - test", () => {
       const fieldData = {
-         name: "a".repeat(101),
+         name: "a".repeat(51),
          label: "Label",
          type: "TEXT" as const,
       };
@@ -118,7 +118,7 @@ describe("promptTemplateFieldSchema - tests", () => {
 
    it("promptTemplateFieldSchema - name at max length valid - test", () => {
       const fieldData = {
-         name: "a".repeat(100),
+         name: "a".repeat(50),
          label: "Label",
          type: "TEXT" as const,
          required: true,
@@ -126,7 +126,7 @@ describe("promptTemplateFieldSchema - tests", () => {
       };
 
       const validatedValues = promptTemplateFieldSchema.parse(fieldData);
-      expect(validatedValues.name).toBe("a".repeat(100));
+      expect(validatedValues.name).toBe("a".repeat(50));
    });
 
    it("promptTemplateFieldSchema - label empty string invalid - test", () => {
