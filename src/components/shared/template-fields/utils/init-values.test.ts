@@ -3,7 +3,10 @@ import { dtestData } from "@tests";
 import { DPromptTemplateField } from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
 
-import { existingTemplateFieldInitValues } from "./init-values";
+import {
+   existingTemplateFieldInitValues,
+   newTemplateFieldInitValues,
+} from "./init-values";
 
 const expectedExistingTemplateFieldInitValues = (
    field: DGlobalTemplateField | DPromptTemplateField
@@ -20,7 +23,24 @@ const expectedExistingTemplateFieldInitValues = (
    };
 };
 
-describe("initPromptTemplateField tests", () => {
+export const expectedNewTemplateFieldInitValues = (
+   order: number,
+   name?: string,
+   label?: string
+) => {
+   return {
+      name: name || "",
+      label: label || "",
+      description: "",
+      type: "TEXT",
+      required: true,
+      order: order,
+      defaultValue: "",
+      options: [],
+   };
+};
+
+describe("existingTemplateFieldInitValues tests", () => {
    it("existingTemplateFieldInitValues - global template field - test", () => {
       const field1 = dtestData.dGlobalTemplateField();
       const result1 = existingTemplateFieldInitValues(field1);
@@ -48,6 +68,24 @@ describe("initPromptTemplateField tests", () => {
       field2.options = null;
       const result2 = existingTemplateFieldInitValues(field1);
       const expectedResult2 = expectedExistingTemplateFieldInitValues(field1);
+      expect(result2).toEqual(expectedResult2);
+   });
+});
+
+describe("newTemplateFieldInitValues tests", () => {
+   it("newTemplateFieldInitValues test", () => {
+      const result1 = newTemplateFieldInitValues(1);
+      const expectedResult1 = expectedNewTemplateFieldInitValues(1);
+      expect(result1).toEqual(expectedResult1);
+
+      const name = "name-1";
+      const label = "label-1";
+      const result2 = newTemplateFieldInitValues(2, name, label);
+      const expectedResult2 = expectedNewTemplateFieldInitValues(
+         2,
+         name,
+         label
+      );
       expect(result2).toEqual(expectedResult2);
    });
 });

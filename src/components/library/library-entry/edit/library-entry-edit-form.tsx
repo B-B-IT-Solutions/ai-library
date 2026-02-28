@@ -18,6 +18,7 @@ import {
 } from "@/components/shadcn/card";
 import { Form } from "@/components/shadcn/form";
 import { Separator } from "@/components/shadcn/separator";
+import { newTemplateFieldInitValues } from "@/components/shared/template-fields";
 import { createLibraryEntry, updateLibraryEntry } from "@/data/actions/library";
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
 import {
@@ -38,7 +39,6 @@ import {
    extractVariablesFromContent,
    getVariableStatus,
    initPromptTempalte,
-   initPromptTemplateField,
 } from "./utils";
 
 type Props = {
@@ -82,13 +82,13 @@ export const LibraryEntryEditForm = ({ entry, globalFields = [] }: Props) => {
 
    const handleAddField = () => {
       const order = fields.length;
-      addField(initPromptTemplateField(order));
+      addField(newTemplateFieldInitValues(order));
    };
 
    const handleAddVariableAsField = (variableName: string) => {
       const order = fields.length;
       const label = upperFirst(variableName);
-      addField(initPromptTemplateField(order, variableName, label));
+      addField(newTemplateFieldInitValues(order, variableName, label));
       toast.success(`Feld "${variableName}" hinzugefügt`);
    };
 
