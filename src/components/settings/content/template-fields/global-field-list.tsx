@@ -8,7 +8,7 @@ import { Button } from "@/components/shadcn/button";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
 
 import { GlobalTemplateFieldEditDialog } from "./dialogs";
-import { GlobalFieldListItem } from "./global-field-list-item";
+import { GlobalTemplateFieldItem } from "./template-field-item";
 
 type Props = {
    fields: DGlobalTemplateField[];
@@ -26,7 +26,7 @@ export const GlobalFieldList: FC<Props> = ({ fields }) => {
    };
 
    const renderField_ = (field: DGlobalTemplateField) => {
-      return <GlobalFieldListItem field={field} key={field.id} />;
+      return <GlobalTemplateFieldItem field={field} key={field.id} />;
    };
 
    return (

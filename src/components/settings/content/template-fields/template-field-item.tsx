@@ -8,12 +8,12 @@ type Props = {
    field: DGlobalTemplateField;
 };
 
-export const GlobalFieldListItem = ({ field }: Props) => {
+export const GlobalTemplateFieldItem = ({ field }: Props) => {
    return (
       <div
          key={field.id}
          className="flex items-center justify-between rounded-lg border bg-card px-4 py-3 shadow-sm"
-         data-testid="global-template-field"
+         data-testid="template-field-item"
       >
          <div className="flex items-center gap-3">
             <code className="rounded bg-slate-100 px-2 py-0.5 font-mono text-sm text-slate-700">

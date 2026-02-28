@@ -59,7 +59,7 @@ export const GlobalTemplateFieldDeleteConfirmDialog = ({
 
    return (
       <AlertDialog open={open} onOpenChange={onClose}>
-         <AlertDialogContent data-testid="template-delete-dialog">
+         <AlertDialogContent data-testid="template-field-delete-dialog">
             <AlertDialogHeader>
                <AlertDialogTitle>Feld löschen?</AlertDialogTitle>
                <AlertDialogDescription>
@@ -79,6 +79,7 @@ export const GlobalTemplateFieldDeleteConfirmDialog = ({
                   onClick={handleDeleteConfirm}
                   disabled={isPending}
                   className="cursor-pointer bg-destructive hover:bg-destructive/90"
+                  data-testid="confirm-btn"
                >
                   {confirmBtnLabel()}
                </AlertDialogAction>
