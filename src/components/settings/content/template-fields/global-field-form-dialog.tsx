@@ -23,7 +23,7 @@ import {
    TemplateFieldRequired,
    TemplateFieldType,
 } from "@/components/shared/template-fields";
-import { globalTemplateFieldInitValues } from "@/components/shared/template-fields/utils/init-values";
+import { globalTemplateFieldInitValues } from "@/components/shared/template-fields";
 import {
    createGlobalTemplateField,
    updateGlobalTemplateField,
