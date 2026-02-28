@@ -4,16 +4,7 @@ import { Control, FieldPath, FieldValues } from "react-hook-form";
 
 import { FormSelect } from "@/components/shared/widgets";
 
-const FIELD_TYPES = [
-   { value: "TEXT", label: "Text" },
-   { value: "TEXTAREA", label: "Textarea" },
-   { value: "EMAIL", label: "E-Mail" },
-   { value: "NUMBER", label: "Nummer" },
-   { value: "DATE", label: "Datum" },
-   { value: "SELECT", label: "Auswahl" },
-   { value: "CHECKBOX", label: "Checkbox" },
-   { value: "RADIO", label: "Radio" },
-];
+import { TEMPLATE_FIELD_OPTIONS } from "./utils/utils";
 
 type Props<T extends FieldValues> = {
    name: FieldPath<T>;
@@ -28,7 +19,7 @@ export const TemplateFieldType = <T extends FieldValues>({
       <FormSelect<T>
          name={name}
          label="Typ"
-         options={FIELD_TYPES}
+         options={TEMPLATE_FIELD_OPTIONS}
          control={control}
       />
    );

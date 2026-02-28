@@ -9,3 +9,4 @@ export {
    newTemplateFieldInitValues,
    globalTemplateFieldInitValues,
 } from "./utils/init-values";
+export { TEMPLATE_FIELD_OPTIONS, getFieldTypeLabel } from "./utils/utils";

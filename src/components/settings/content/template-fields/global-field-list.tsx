@@ -18,22 +18,11 @@ import {
 } from "@/components/shadcn/alert-dialog";
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
+import { getFieldTypeLabel } from "@/components/shared/template-fields";
 import { deleteGlobalTemplateField } from "@/data/actions/settings";
-import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
 
 import { GlobalFieldFormDialog } from "./global-field-form-dialog";
-
-const FIELD_TYPE_LABELS: Record<DPromptTemplateFieldType, string> = {
-   TEXT: "Text",
-   TEXTAREA: "Textarea",
-   EMAIL: "E-Mail",
-   NUMBER: "Nummer",
-   DATE: "Datum",
-   SELECT: "Auswahl",
-   CHECKBOX: "Checkbox",
-   RADIO: "Radio",
-};
 
 type Props = {
    fields: DGlobalTemplateField[];
@@ -87,7 +76,7 @@ export const GlobalFieldList: FC<Props> = ({ fields }) => {
                   {field.label}
                </span>
                <Badge variant="secondary" className="text-xs">
-                  {FIELD_TYPE_LABELS[field.type] ?? field.type}
+                  {getFieldTypeLabel(field.type)}
                </Badge>
             </div>
             <div className="flex items-center gap-1">
