@@ -70,6 +70,7 @@ export class PromptTemplateRepository {
                promptTemplate: {
                   include: {
                      fields: true,
+                     globalFields: true,
                   },
                },
             },
@@ -86,6 +87,7 @@ export class PromptTemplateRepository {
          where: { id },
          include: {
             fields: true,
+            globalFields: true,
          },
       });
 
@@ -121,7 +123,6 @@ export class PromptTemplateRepository {
             create: {
                content: data.content,
                detailedDescription: data.detailedDescription,
-               globalFieldIds: stringify(data.globalFieldIds),
                fields: {
                   create: map(
                      data.fields,
@@ -136,6 +137,12 @@ export class PromptTemplateRepository {
                         options: stringify(field.options),
                      })
                   ),
+               },
+               globalFields: {
+                  create: map(data.globalFieldIds, (id, idx) => ({
+                     globalFieldId: id,
+                     order: idx,
+                  })),
                },
             },
          },
@@ -172,7 +179,6 @@ export class PromptTemplateRepository {
             update: {
                content: data.content,
                detailedDescription: data.detailedDescription,
-               globalFieldIds: stringify(data.globalFieldIds),
                fields: {
                   deleteMany: {},
                   create: map(
@@ -188,6 +194,13 @@ export class PromptTemplateRepository {
                         options: stringify(field.options),
                      })
                   ),
+               },
+               globalFields: {
+                  deleteMany: {},
+                  create: map(data.globalFieldIds, (id, idx) => ({
+                     globalFieldId: id,
+                     order: idx,
+                  })),
                },
             },
          },

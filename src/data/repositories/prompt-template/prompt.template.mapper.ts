@@ -53,7 +53,9 @@ export const toDPromptTemplate = (
       content: prompt.content,
       detailedDescription: prompt.detailedDescription,
       fields: toDTemplateFields(prompt.fields),
-      globalFieldIds: (prompt.globalFieldIds as string[]) ?? [],
+      globalFieldIds: prompt.globalFields
+         .sort((a, b) => a.order - b.order)
+         .map((gf) => gf.globalFieldId),
       updatedAt: prompt.updatedAt.toISOString(),
       createdAt: prompt.createdAt.toISOString(),
    };
