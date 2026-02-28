@@ -14,12 +14,12 @@ const assertRendered = () => {
 };
 
 const assertDialogRendered = () => {
-   const dialog = screen.getByTestId("template-field-edit-dialog");
+   const dialog = screen.getByTestId("template-field-add-dialog");
    assertInDocument(dialog);
 };
 
 const assertDialogNotRendered = () => {
-   const dialog = screen.queryByTestId("template-field-edit-dialog");
+   const dialog = screen.queryByTestId("template-field-add-dialog");
    assertNotInDocument(dialog);
 };
 
