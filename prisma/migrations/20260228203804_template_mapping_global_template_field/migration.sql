@@ -1,12 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the column `global_field_ids` on the `prompt_template` table. All the data in the column will be lost.
-
-*/
--- AlterTable
-ALTER TABLE "prompt_template" DROP COLUMN "global_field_ids";
-
 -- CreateTable
 CREATE TABLE "prompt_template_global_field" (
     "prompt_template_id" UUID NOT NULL,
