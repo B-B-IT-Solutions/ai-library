@@ -66,6 +66,7 @@ export const LibraryEntryEditForm = ({ entry, globalFields = [] }: Props) => {
    const { isSubmitting } = form.formState;
 
    const content = form.watch("content");
+   const currentGlobalFieldIds = form.watch("globalFieldIds");
 
    const detectedVariables = useMemo(
       () => extractVariablesFromContent(content || ""),
@@ -73,11 +74,17 @@ export const LibraryEntryEditForm = ({ entry, globalFields = [] }: Props) => {
    );
 
    const variableStatus = useMemo(() => {
-      const fieldNames = fields.map((f) =>
+      const customFieldNames = fields.map((f) =>
          form.getValues(`fields.${fields.indexOf(f)}.name`)
       );
-      return getVariableStatus(detectedVariables, fieldNames);
-   }, [detectedVariables, fields, form]);
+      const globalFieldNames = globalFields
+         .filter((gf) => currentGlobalFieldIds.includes(gf.id))
+         .map((gf) => gf.name);
+      return getVariableStatus(detectedVariables, [
+         ...customFieldNames,
+         ...globalFieldNames,
+      ]);
+   }, [detectedVariables, fields, form, globalFields, currentGlobalFieldIds]);
 
    const handleAddField = () => {
       const order = fields.length;
