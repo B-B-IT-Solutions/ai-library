@@ -4,7 +4,7 @@ exports[`GlobalTemplateFieldItem rendering tests GlobalTemplateFieldItem render 
 <div>
   <div
     class="flex items-center justify-between rounded-lg border bg-card px-4 py-3 shadow-sm"
-    data-testid="template-field-item"
+    data-testid="template-field"
   >
     <div
       class="flex items-center gap-3"

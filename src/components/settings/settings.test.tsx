@@ -3,7 +3,7 @@ jest.mock("./user/subscription", () => {
    return { Subscription };
 });
 
-jest.mock("./content/template-fields", () => {
+jest.mock("./content/global-template-fields", () => {
    const GlobalTemplateFields = () => (
       <div data-testid="global-template-fields"></div>
    );

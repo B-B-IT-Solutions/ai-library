@@ -10,7 +10,7 @@ import {
 
 import { getGlobalTemplateFields } from "@/data/actions/settings";
 
-import { GlobalTemplateFields } from "./global-template-fields";
+import { GlobalTemplateFields } from "./template-fields";
 
 const getGlobalTemplateFieldsMock =
    getGlobalTemplateFields as jest.MockedFunction<
@@ -18,11 +18,16 @@ const getGlobalTemplateFieldsMock =
    >;
 
 const assertRendered = () => {
-   const tempalteFields = screen.getByTestId("global-template-fields");
-   const fieldsList = screen.getByTestId("template-fields-list");
+   const fields = screen.getByTestId("template-fields");
+   assertInDocument(fields);
+};
 
-   assertInDocument(tempalteFields);
-   assertInDocument(fieldsList);
+const assertFieldsRendered = () => {
+   const addBtn = screen.getByTestId("add-template-field-btn");
+   const fieldItems = screen.getAllByTestId("template-field");
+
+   assertInDocument(addBtn);
+   expect(fieldItems).toHaveLength(3);
 };
 
 const assertEmptyStateRendered = () => {
@@ -61,6 +66,7 @@ describe("TemplateFields rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertFieldsRendered();
          assertEmptyStateNotRendered();
       });
 
