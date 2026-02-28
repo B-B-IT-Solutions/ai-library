@@ -7,6 +7,7 @@ import { Plus } from "lucide-react";
 import { Button } from "@/components/shadcn/button";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
 
+import { AddTemplateFieldButton } from "./buttons";
 import { GlobalTemplateFieldEditDialog } from "./dialogs";
 import { GlobalTemplateFieldItem } from "./template-field-item";
 
@@ -32,6 +33,7 @@ export const GlobalFieldList: FC<Props> = ({ fields }) => {
    return (
       <div className="space-y-4" data-testid="global-fields-list">
          <div className="flex justify-end">
+            <AddTemplateFieldButton />
             <Button
                type="button"
                variant="outline"
