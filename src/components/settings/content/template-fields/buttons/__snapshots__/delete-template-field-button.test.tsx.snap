@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`DeleteTemplateFieldButton rendering tests DeleteTemplateFieldButton rendered test 1`] = `
+<div>
+  <button
+    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
+    data-slot="button"
+    data-testid="delete-template-field-btn"
+    type="button"
+  >
+    <svg
+      aria-hidden="true"
+      class="lucide lucide-trash2 lucide-trash-2 h-4 w-4 text-destructive"
+      fill="none"
+      height="24"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M10 11v6"
+      />
+      <path
+        d="M14 11v6"
+      />
+      <path
+        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"
+      />
+      <path
+        d="M3 6h18"
+      />
+      <path
+        d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+      />
+    </svg>
+  </button>
+  <div
+    data-slot="alert-dialog"
+    data-testid="mock-react-alert-dialog-root"
+  >
+    <div
+      data-slot="alert-dialog-portal"
+      data-testid="mock-react-alert-dialog-portal"
+    >
+      <div
+        class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+        data-slot="alert-dialog-overlay"
+        data-testid="mock-react-alert-dialog-overlay"
+      />
+    </div>
+  </div>
+</div>
+`;

@@ -7,29 +7,29 @@ import {
    renderWithRouter,
 } from "@tests";
 
-import { EditTemplateFieldButton } from "./edit-template-field-button";
+import { DeleteTemplateFieldButton } from "./delete-template-field-button";
 
 const assertRendered = () => {
-   const editBtn = screen.getByTestId("edit-template-field-btn");
-   assertInDocument(editBtn);
+   const deleteBtn = screen.getByTestId("delete-template-field-btn");
+   assertInDocument(deleteBtn);
 };
 
 const assertDialogRendered = () => {
-   const dialog = screen.getByTestId("template-field-edit-dialog");
+   const dialog = screen.getByTestId("template-delete-dialog");
    assertInDocument(dialog);
 };
 
 const assertDialogNotRendered = () => {
-   const dialog = screen.queryByTestId("template-field-edit-dialog");
+   const dialog = screen.queryByTestId("template-delete-dialog");
    assertNotInDocument(dialog);
 };
 
-describe("EditTemplateFieldButton rendering tests", () => {
-   it("EditTemplateFieldButton rendered test", async () => {
+describe("DeleteTemplateFieldButton rendering tests", () => {
+   it("DeleteTemplateFieldButton rendered test", async () => {
       const field = dtestData.dGlobalTemplateField();
 
       const { container } = renderWithRouter(
-         <EditTemplateFieldButton field={field} />
+         <DeleteTemplateFieldButton field={field} />
       );
 
       await waitFor(() => {
@@ -41,19 +41,19 @@ describe("EditTemplateFieldButton rendering tests", () => {
    });
 });
 
-describe("EditTemplateFieldButton functionality tests", () => {
-   it("EditLibraryEntryButton - edit btn clicked - test", async () => {
+describe("DeleteTemplateFieldButton functionality tests", () => {
+   it("DeleteTemplateFieldButton - delete btn clicked - test", async () => {
       const field = dtestData.dGlobalTemplateField();
 
-      renderWithRouter(<EditTemplateFieldButton field={field} />);
+      renderWithRouter(<DeleteTemplateFieldButton field={field} />);
 
       await waitFor(() => {
          assertRendered();
          assertDialogNotRendered();
       });
 
-      const editBtn = screen.getByTestId("edit-template-field-btn");
-      await userEvent.click(editBtn);
+      const deleteBtn = screen.getByTestId("delete-template-field-btn");
+      await userEvent.click(deleteBtn);
 
       await waitFor(() => {
          assertDialogRendered();

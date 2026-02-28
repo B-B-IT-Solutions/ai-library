@@ -21,7 +21,7 @@ import { getFieldTypeLabel } from "@/components/shared/template-fields";
 import { deleteGlobalTemplateField } from "@/data/actions/settings";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
 
-import { EditTemplateFieldButton } from "./buttons";
+import { DeleteTemplateFieldButton, EditTemplateFieldButton } from "./buttons";
 
 type Props = {
    field: DGlobalTemplateField;
@@ -101,6 +101,7 @@ export const GlobalFieldListItem = ({ field }: Props) => {
          </div>
          <div className="flex items-center gap-1">
             <EditTemplateFieldButton field={field} />
+            <DeleteTemplateFieldButton field={field} />
             <Button
                type="button"
                variant="ghost"
@@ -110,6 +111,7 @@ export const GlobalFieldListItem = ({ field }: Props) => {
             >
                <Trash2 className="h-4 w-4 text-destructive" />
             </Button>
+            {comfirmDeleteDialog()}
          </div>
       </div>
    );
