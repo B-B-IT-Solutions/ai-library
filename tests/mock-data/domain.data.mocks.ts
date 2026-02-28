@@ -47,6 +47,10 @@ import {
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 import {
+   DGlobalTemplateField,
+   DGlobalTemplateFieldUpdate,
+} from "@/data/types/domain/settings";
+import {
    DStripeBillingPortalSessionResponse,
    DStripeCheckoutResponse,
 } from "@/data/types/domain/stripe";
@@ -707,4 +711,40 @@ export const dPromptsFilter = (): DPromptDescriptorsFilter => {
 
 export const sort = (field = "field1", desc = false): Sort => {
    return { field, desc };
+};
+
+export const dGlobalTemplateFields = (count = 3): DGlobalTemplateField[] => {
+   return range(0, count).map((i) => dGlobalTemplateField(i));
+};
+
+export const dGlobalTemplateField = (index = 1): DGlobalTemplateField => {
+   return {
+      id: `global-field-id-${index}`,
+      userId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      name: `name-${index}`,
+      label: `label ${index}`,
+      description: `description ${index}`,
+      type: "NUMBER",
+      required: true,
+      defaultValue: `defaultValue-${index}`,
+      options: [`option ${index}`, `option ${index + 1}`],
+      order: index,
+      createdAt: new Date("2025-09-27").toISOString(),
+      updatedAt: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dGlobalTemplateFieldUpdate = (
+   index = 1
+): DGlobalTemplateFieldUpdate => {
+   return {
+      name: `name-${index}`,
+      label: `label ${index}`,
+      description: `description ${index}`,
+      type: "NUMBER",
+      required: true,
+      defaultValue: `defaultValue-${index}`,
+      options: [`option ${index}`, `option ${index + 1}`],
+      order: index,
+   };
 };

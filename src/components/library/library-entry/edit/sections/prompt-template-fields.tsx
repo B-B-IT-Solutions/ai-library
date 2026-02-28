@@ -9,15 +9,20 @@ import { Button } from "@/components/shadcn/button";
 import { CallbackFn } from "@/data/types/common";
 import {
    DPromptTemplateField,
+   DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
+import { DGlobalTemplateField } from "@/data/types/domain/settings";
 
+import { GlobalFieldsPicker } from "./global-fields-picker";
 import { PromptTemplateField } from "./prompt-template-field";
 
 type Props = {
    fields: DPromptTemplateField[];
    detectedVariables: string[];
+   globalFields?: DGlobalTemplateField[];
    onAddField: CallbackFn;
+   onAddGlobalFields?: (fields: DPromptTemplateFieldUpdate[]) => void;
    onRemoveField: (index: number) => void;
    control: Control<DPromptTemplateUpdate>;
    watch: UseFormWatch<DPromptTemplateUpdate>;
@@ -26,11 +31,17 @@ type Props = {
 export const PromptTemplateFields: FC<Props> = ({
    fields,
    detectedVariables,
+   globalFields = [],
    onAddField,
+   onAddGlobalFields,
    onRemoveField,
    control,
    watch,
 }) => {
+   const existingFieldNames = map(fields, (_, idx) =>
+      watch(`fields.${idx}.name`)
+   );
+
    const header = () => {
       return (
          <div className="flex items-center justify-between">
@@ -42,17 +53,26 @@ export const PromptTemplateFields: FC<Props> = ({
                   Definieren Sie Felder, die Benutzer ausfüllen können
                </p>
             </div>
-            <Button
-               type="button"
-               onClick={onAddField}
-               variant="outline"
-               size="sm"
-               className="cursor-pointer"
-               data-testid="add-btn"
-            >
-               <Plus className="mr-2 h-4 w-4" />
-               Feld hinzufügen
-            </Button>
+            <div className="flex items-center gap-2">
+               {globalFields.length > 0 && onAddGlobalFields && (
+                  <GlobalFieldsPicker
+                     globalFields={globalFields}
+                     existingFieldNames={existingFieldNames}
+                     onAddFields={onAddGlobalFields}
+                  />
+               )}
+               <Button
+                  type="button"
+                  onClick={onAddField}
+                  variant="outline"
+                  size="sm"
+                  className="cursor-pointer"
+                  data-testid="add-btn"
+               >
+                  <Plus className="mr-2 h-4 w-4" />
+                  Feld hinzufügen
+               </Button>
+            </div>
          </div>
       );
    };

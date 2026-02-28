@@ -18,24 +18,24 @@ type DGetPromptTemplatesParams = {
 export const getPromptTemplates = async (
    params?: DGetPromptTemplatesParams
 ): Promise<DPromptTemplateDescriptor[]> => {
-   const service = getPromptTemplateService();
+   const service = getService();
    return await service.getPromptTemplateDescriptors(params);
 };
 
 export const getPromptTemplate = async (
    id: string
 ): Promise<DPromptTemplate | null> => {
-   const service = getPromptTemplateService();
+   const service = getService();
    return await service.getPromptTemplate(id);
 };
 
 export const getPromptTemplateCategories = async (): Promise<string[]> => {
-   const service = getPromptTemplateService();
+   const service = getService();
    const categories = await service.getPromptTemplateCategories();
    return map(categories, (c) => c.name);
 };
 
-const getPromptTemplateService = (dbClient: DbClient = prisma) => {
+const getService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getPromptTemplateService();
 };

@@ -18,12 +18,15 @@ import {
 } from "@/components/shadcn/card";
 import { Form } from "@/components/shadcn/form";
 import { Separator } from "@/components/shadcn/separator";
+import { newTemplateFieldInitValues } from "@/components/shared/template-fields";
 import { createLibraryEntry, updateLibraryEntry } from "@/data/actions/library";
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
 import {
    DPromptTemplateField,
+   DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
+import { DGlobalTemplateField } from "@/data/types/domain/settings";
 import { updatePromptTemplateSchema } from "@/data/types/validators/prompt";
 
 import {
@@ -36,14 +39,14 @@ import {
    extractVariablesFromContent,
    getVariableStatus,
    initPromptTempalte,
-   initPromptTemplateField,
 } from "./utils";
 
 type Props = {
    entry?: DLibraryEntryWithPromptTemplate;
+   globalFields?: DGlobalTemplateField[];
 };
 
-export const LibraryEntryEditForm = ({ entry }: Props) => {
+export const LibraryEntryEditForm = ({ entry, globalFields = [] }: Props) => {
    const router = useRouter();
    const isEdit = !!entry;
 
@@ -79,13 +82,13 @@ export const LibraryEntryEditForm = ({ entry }: Props) => {
 
    const handleAddField = () => {
       const order = fields.length;
-      addField(initPromptTemplateField(order));
+      addField(newTemplateFieldInitValues(order));
    };
 
    const handleAddVariableAsField = (variableName: string) => {
       const order = fields.length;
       const label = upperFirst(variableName);
-      addField(initPromptTemplateField(order, variableName, label));
+      addField(newTemplateFieldInitValues(order, variableName, label));
       toast.success(`Feld "${variableName}" hinzugefügt`);
    };
 
@@ -96,6 +99,14 @@ export const LibraryEntryEditForm = ({ entry }: Props) => {
          addedCount++;
       });
       toast.success(`${addedCount} Feld(er) synchronisiert`);
+   };
+
+   const handleAddGlobalFields = (gFields: DPromptTemplateFieldUpdate[]) => {
+      const currentCount = fields.length;
+      gFields.forEach((f, idx) => {
+         addField({ ...f, order: currentCount + idx });
+      });
+      toast.success(`${gFields.length} Feld(er) aus Bibliothek hinzugefügt`);
    };
 
    const onSubmit: SubmitHandler<DPromptTemplateUpdate> = async (data) => {
@@ -203,7 +214,9 @@ export const LibraryEntryEditForm = ({ entry }: Props) => {
                   <PromptTemplateFields
                      fields={fields as DPromptTemplateField[]}
                      detectedVariables={detectedVariables}
+                     globalFields={globalFields}
                      onAddField={handleAddField}
+                     onAddGlobalFields={handleAddGlobalFields}
                      onRemoveField={removeField}
                      control={form.control}
                      watch={form.watch}

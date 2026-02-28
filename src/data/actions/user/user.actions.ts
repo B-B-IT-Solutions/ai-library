@@ -29,7 +29,7 @@ export const signUpUser = async (data: DUserSignUp) => {
    try {
       const validatedData: DUserSignUp = signUpSchema.parse(data);
 
-      const service = getUserService();
+      const service = getService();
       await service.signUpUser(validatedData);
 
       await signIn("credentials", {
@@ -76,7 +76,7 @@ export const signOutUser = async () => {
 };
 
 export const getUserById = async (userId: string): Promise<DUser> => {
-   const service = getUserService();
+   const service = getService();
    const user = await service.getUserById(userId);
    if (!user) {
       throw new Error("User not found");
@@ -91,7 +91,7 @@ export const updateUserProfile = async (
       const user = await requireUser();
       const validatedData = updateProfileSchema.parse(data);
 
-      const service = getUserService();
+      const service = getService();
       service.updateUser(user.id, validatedData);
 
       return {
@@ -116,8 +116,8 @@ export const updatePassword = async (
       const user = await requireUser();
       const validatedData = updatePasswordSchema.parse(data);
 
-      const userService = getUserService();
-      await userService.updatePassword(user.id, validatedData);
+      const service = getService();
+      await service.updatePassword(user.id, validatedData);
 
       await signOut({ redirect: false });
 
@@ -144,8 +144,8 @@ export const deleteUser = async (
       const validatedData = deleteAccountSchema.parse(data);
 
       await prisma.$transaction(async (tx) => {
-         const userService = getUserService(tx);
-         await userService.deleteUser(user.id, validatedData);
+         const service = getService(tx);
+         await service.deleteUser(user.id, validatedData);
       });
 
       await signOut({ redirectTo: "/p" });
@@ -165,7 +165,7 @@ export const deleteUser = async (
    }
 };
 
-const getUserService = (dbClient: DbClient = prisma) => {
+const getService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getUserService();
 };

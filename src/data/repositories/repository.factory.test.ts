@@ -7,6 +7,7 @@ import { ProductRepository } from "./product";
 import { PromptRepository } from "./prompt";
 import { PromptTemplateRepository } from "./prompt-template";
 import { RepositoryFactory } from "./repository.factory";
+import { SettingsRepository } from "./settings";
 import { SubscriptionRepository } from "./subscription";
 import { UserRepository } from "./user";
 
@@ -119,6 +120,19 @@ describe("RepositoryFactory tests", () => {
       it("subscriptionRepository - existing instance - test", () => {
          const repository1 = factory.subscriptionRepository();
          const repository2 = factory.subscriptionRepository();
+         expect(repository1).toBe(repository2);
+      });
+   });
+
+   describe("settingsRepository tests", () => {
+      it("settingsRepository - new instance - test", () => {
+         const repository = factory.settingsRepository();
+         expect(repository).toBeInstanceOf(SettingsRepository);
+      });
+
+      it("settingsRepository - existing instance - test", () => {
+         const repository1 = factory.settingsRepository();
+         const repository2 = factory.settingsRepository();
          expect(repository1).toBe(repository2);
       });
    });

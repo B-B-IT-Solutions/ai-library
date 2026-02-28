@@ -1,1 +1,5 @@
-export type { DSettingsSection } from "./settings";
+export type {
+   DSettingsSection,
+   DGlobalTemplateFieldUpdate,
+   DGlobalTemplateField,
+} from "./settings";

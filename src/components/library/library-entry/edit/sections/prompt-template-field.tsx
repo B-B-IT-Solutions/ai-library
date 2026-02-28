@@ -6,24 +6,15 @@ import { Control, UseFormWatch } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
 import {
-   FormCheckBox,
-   FormInput,
-   FormSelect,
-   FormTextArea,
-} from "@/components/shared/widgets";
+   TemplateFieldDefaultValue,
+   TemplateFieldDescription,
+   TemplateFieldLabel,
+   TemplateFieldName,
+   TemplateFieldRequired,
+   TemplateFieldType,
+} from "@/components/shared/template-fields";
 import { CallbackFn } from "@/data/types/common";
 import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
-
-const FIELD_TYPES = [
-   { value: "TEXT", label: "Text" },
-   { value: "TEXTAREA", label: "Textarea" },
-   { value: "EMAIL", label: "E-Mail" },
-   { value: "NUMBER", label: "Nummer" },
-   { value: "DATE", label: "Datum" },
-   { value: "SELECT", label: "Auswahl" },
-   { value: "CHECKBOX", label: "Checkbox" },
-   { value: "RADIO", label: "Radio" },
-];
 
 type Props = {
    index: number;
@@ -77,85 +68,34 @@ export const PromptTemplateField: FC<Props> = ({
       );
    };
 
-   const name = () => {
-      const value = watch(`fields.${index}.name`) || "feldname";
-      return (
-         <FormInput<DPromptTemplateUpdate>
-            name={`fields.${index}.name`}
-            label="Feldname"
-            placeholder="z.B. thema"
-            message={`Verwenden Sie diesen Namen als {{${value}}}`}
-            control={control}
-         />
-      );
-   };
-
-   const label = () => {
-      return (
-         <FormInput<DPromptTemplateUpdate>
-            name={`fields.${index}.label`}
-            label="Label"
-            placeholder="z.B. Thema"
-            control={control}
-         />
-      );
-   };
-
-   const type = () => {
-      return (
-         <FormSelect<DPromptTemplateUpdate>
-            name={`fields.${index}.type`}
-            label="Feldtyp"
-            options={FIELD_TYPES}
-            control={control}
-         />
-      );
-   };
-
-   const defaultValue = () => {
-      return (
-         <FormInput<DPromptTemplateUpdate>
-            name={`fields.${index}.defaultValue`}
-            label="Standardwert"
-            placeholder="Standardwert des Feldes"
-            control={control}
-         />
-      );
-   };
-
-   const description = () => {
-      return (
-         <FormTextArea<DPromptTemplateUpdate>
-            name={`fields.${index}.description`}
-            label="Beschreibung"
-            placeholder="Beschreibung des Feldes"
-            rows={2}
-            className="col-span-2"
-            control={control}
-         />
-      );
-   };
-
-   const required = () => {
-      return (
-         <FormCheckBox<DPromptTemplateUpdate>
-            name={`fields.${index}.required`}
-            label="Dieses Feld ist erforderlich"
-            className="col-span-2"
-            control={control}
-         />
-      );
-   };
-
-   const fields = () => {
+   const formInputs = () => {
       return (
          <div className="grid grid-cols-2 gap-4">
-            {name()}
-            {label()}
-            {type()}
-            {defaultValue()}
-            {description()}
-            {required()}
+            <TemplateFieldName<DPromptTemplateUpdate>
+               name={`fields.${index}.name`}
+               control={control}
+               watch={watch}
+            />
+            <TemplateFieldLabel<DPromptTemplateUpdate>
+               name={`fields.${index}.label`}
+               control={control}
+            />
+            <TemplateFieldType<DPromptTemplateUpdate>
+               name={`fields.${index}.type`}
+               control={control}
+            />
+            <TemplateFieldDefaultValue<DPromptTemplateUpdate>
+               name={`fields.${index}.defaultValue`}
+               control={control}
+            />
+            <TemplateFieldDescription<DPromptTemplateUpdate>
+               name={`fields.${index}.description`}
+               control={control}
+            />
+            <TemplateFieldRequired<DPromptTemplateUpdate>
+               name={`fields.${index}.required`}
+               control={control}
+            />
          </div>
       );
    };
@@ -172,7 +112,7 @@ export const PromptTemplateField: FC<Props> = ({
          data-testid="prompt-template-field"
       >
          {header()}
-         {fields()}
+         {formInputs()}
       </div>
    );
 };

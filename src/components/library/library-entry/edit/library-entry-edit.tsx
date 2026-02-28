@@ -1,13 +1,15 @@
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
+import { DGlobalTemplateField } from "@/data/types/domain/settings";
 import { ReturnToLibraryButton } from "../../buttons";
 
 import { LibraryEntryEditForm } from "./library-entry-edit-form";
 
 type Props = {
    entry?: DLibraryEntryWithPromptTemplate;
+   globalFields?: DGlobalTemplateField[];
 };
 
-export const LibraryEntryEdit = ({ entry }: Props) => {
+export const LibraryEntryEdit = ({ entry, globalFields = [] }: Props) => {
    const header = () => {
       if (entry) {
          return (
@@ -48,7 +50,10 @@ export const LibraryEntryEdit = ({ entry }: Props) => {
                <div className="mb-4">
                   <ReturnToLibraryButton />
                </div>
-               <LibraryEntryEditForm entry={entry} />
+               <LibraryEntryEditForm
+                  entry={entry}
+                  globalFields={globalFields}
+               />
             </div>
          </div>
       </div>

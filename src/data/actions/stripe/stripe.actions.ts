@@ -19,8 +19,8 @@ export const createOrderCheckoutSession = async (): Promise<
    ActionResult<DStripeCheckoutResponse>
 > => {
    try {
-      const stripeService = getStripeService();
-      const result = await stripeService.createOrderCheckoutSession();
+      const service = getService();
+      const result = await service.createOrderCheckoutSession();
 
       return {
          success: true,
@@ -49,8 +49,8 @@ export const createSubscriptionCheckoutSession = async (
       };
 
       const data = await prisma.$transaction(async (tx) => {
-         const stripeService = getStripeService(tx);
-         return await stripeService.createSubscriptionCheckoutSession(payload);
+         const service = getService(tx);
+         return await service.createSubscriptionCheckoutSession(payload);
       });
 
       return {
@@ -71,8 +71,8 @@ export const cancelSubscription = async (): Promise<ActionResult<void>> => {
       const user = await requireUser();
 
       await prisma.$transaction(async (tx) => {
-         const stripeService = getStripeService(tx);
-         await stripeService.cancelSubscription(user.id);
+         const service = getService(tx);
+         await service.cancelSubscription(user.id);
       });
 
       return {
@@ -92,8 +92,8 @@ export const reactivateSubscription = async (): Promise<ActionResult<void>> => {
       const user = await requireUser();
 
       await prisma.$transaction(async (tx) => {
-         const stripeService = getStripeService(tx);
-         await stripeService.reactivateSubscription(user.id);
+         const service = getService(tx);
+         await service.reactivateSubscription(user.id);
       });
 
       return {
@@ -113,8 +113,8 @@ export const createCustomerPortal = async (): Promise<
 > => {
    try {
       const user = await requireUser();
-      const stripeService = getStripeService();
-      const data = await stripeService.createPortalSession(user.id);
+      const service = getService();
+      const data = await service.createPortalSession(user.id);
       return {
          success: true,
          message: "Billing Portal session created established",
@@ -128,7 +128,7 @@ export const createCustomerPortal = async (): Promise<
    }
 };
 
-const getStripeService = (dbClient: DbClient = prisma) => {
+const getService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getStripeService();
 };

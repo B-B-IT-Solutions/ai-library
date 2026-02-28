@@ -1,8 +1,4 @@
-import {
-   extractVariablesFromContent,
-   getVariableStatus,
-   VariableStatus,
-} from "./variables";
+import { extractVariablesFromContent, getVariableStatus } from "./variables";
 
 describe("extractVariablesFromContent", () => {
    it("should return empty array when content has no variables", () => {

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import { LibraryEntryEdit } from "@/components/library";
 import { getLibraryEntry } from "@/data/actions/library";
+import { getGlobalTemplateFields } from "@/data/actions/settings";
 
 export const metadata: Metadata = {
    title: "Vorlage Bearbeiten",
@@ -19,7 +20,10 @@ export type PageProps = {
 export const EditLibraryEntryPage = async ({ params }: PageProps) => {
    const { id: entryId } = await params;
 
-   const entry = await getLibraryEntry(entryId);
+   const [entry, globalFields] = await Promise.all([
+      getLibraryEntry(entryId),
+      getGlobalTemplateFields(),
+   ]);
 
    if (!entry) {
       return notFound();
@@ -30,7 +34,7 @@ export const EditLibraryEntryPage = async ({ params }: PageProps) => {
          className="h-screen bg-slate-50"
          data-testid="library-entry-edit-page"
       >
-         <LibraryEntryEdit entry={entry} />
+         <LibraryEntryEdit entry={entry} globalFields={globalFields} />
       </div>
    );
 };

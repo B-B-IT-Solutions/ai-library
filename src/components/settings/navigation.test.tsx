@@ -8,14 +8,34 @@ import { Navigation } from "./navigation";
 
 const assertRendered = () => {
    const navigation = screen.getByTestId("navigation");
+   assertInDocument(navigation);
+};
+
+const assertGroupsRendered = () => {
+   assertUserGroupRendered();
+   assertContentGroupRendered();
+};
+
+const assertUserGroupRendered = () => {
+   const userGroup = screen.getByTestId("user-group");
    const generalLink = screen.getByTestId("general-link");
    const accountLink = screen.getByTestId("account-link");
    const subscriptionLink = screen.getByTestId("subscription-link");
 
-   assertInDocument(navigation);
+   assertInDocument(userGroup);
    assertInDocument(generalLink);
    assertInDocument(accountLink);
    assertInDocument(subscriptionLink);
+};
+
+const assertContentGroupRendered = () => {
+   const contentGroup = screen.getByTestId("content-group");
+   const globalTemplateFieldsLink = screen.getByTestId(
+      "global-template-fields-link"
+   );
+
+   assertInDocument(contentGroup);
+   assertInDocument(globalTemplateFieldsLink);
 };
 
 describe("Navigation rendering tests", () => {
@@ -28,6 +48,7 @@ describe("Navigation rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertGroupsRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -38,6 +59,7 @@ describe("Navigation rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertGroupsRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -48,6 +70,7 @@ describe("Navigation rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertGroupsRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -64,6 +87,7 @@ describe("Navigation functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertGroupsRendered();
          expect(mockRouter.pathname).toEqual("/");
       });
 

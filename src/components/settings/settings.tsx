@@ -1,25 +1,25 @@
-import { FC } from "react";
-
 import { DSettingsSection } from "@/data/types/domain/settings";
 import { DUser } from "@/data/types/domain/user";
 
-import { AccountSettings } from "./account";
-import { GeneralSettings } from "./general";
+import { GlobalTemplateFields } from "./content";
 import { Navigation } from "./navigation";
-import { Subscription } from "./subscription";
+import { AccountSettings, GeneralSettings, Subscription } from "./user";
 
-type SettingsProps = {
+type Props = {
    user: DUser;
    section: DSettingsSection;
 };
 
-export const Settings: FC<SettingsProps> = ({ user, section }) => {
+export const Settings = ({ user, section }: Props) => {
    const content = () => {
       if (section === "account") {
          return <AccountSettings />;
       }
       if (section === "subscription") {
          return <Subscription />;
+      }
+      if (section === "global-template-fields") {
+         return <GlobalTemplateFields />;
       }
       return <GeneralSettings user={user} />;
    };

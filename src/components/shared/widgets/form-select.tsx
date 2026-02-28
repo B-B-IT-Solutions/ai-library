@@ -81,7 +81,7 @@ export const FormSelect = <T extends FieldValues>({
                {renderDescription()}
                <Select value={field.value} onValueChange={field.onChange}>
                   <FormControl>
-                     <SelectTrigger>
+                     <SelectTrigger className="w-full">
                         <SelectValue placeholder={placeholder} />
                      </SelectTrigger>
                   </FormControl>

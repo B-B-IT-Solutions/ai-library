@@ -9,13 +9,13 @@ import { DProduct } from "@/data/types/domain/product";
 import { ActionResult } from "@/data/types/utils";
 
 export const getCart = async (): Promise<DCart> => {
-   const service = getCartSevice();
+   const service = getSevice();
    return service.getCart();
 };
 
 export const addToCart = async (product: DProduct): Promise<ActionResult> => {
    try {
-      const service = getCartSevice();
+      const service = getSevice();
       await service.addToCart(product);
       return {
          success: true,
@@ -32,7 +32,7 @@ export const addToCart = async (product: DProduct): Promise<ActionResult> => {
 
 export const removeFromCart = async (itemId: string): Promise<ActionResult> => {
    try {
-      const service = getCartSevice();
+      const service = getSevice();
       await service.removeFromCart(itemId);
       return {
          success: true,
@@ -51,11 +51,11 @@ export const migrateSessionCartToUser = async (
    sessionCartId: string,
    userId: string
 ) => {
-   const service = getCartSevice();
+   const service = getSevice();
    await service.migrateSessionCartToUser(sessionCartId, userId);
 };
 
-const getCartSevice = (dbClient: DbClient = prisma) => {
+const getSevice = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getCartService();
 };

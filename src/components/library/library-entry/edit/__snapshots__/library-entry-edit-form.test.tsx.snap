@@ -127,7 +127,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
               aria-describedby="_r_r_-form-item-description"
               aria-expanded="false"
               aria-invalid="false"
-              class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+              class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
               data-size="default"
               data-slot="form-control"
               data-state="closed"
@@ -460,34 +460,38 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                 Definieren Sie Felder, die Benutzer ausfüllen können
               </p>
             </div>
-            <button
-              class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
-              data-slot="button"
-              data-testid="add-btn"
-              type="button"
+            <div
+              class="flex items-center gap-2"
             >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-plus mr-2 h-4 w-4"
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
+              <button
+                class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
+                data-slot="button"
+                data-testid="add-btn"
+                type="button"
               >
-                <path
-                  d="M5 12h14"
-                />
-                <path
-                  d="M12 5v14"
-                />
-              </svg>
-              Feld hinzufügen
-            </button>
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-plus mr-2 h-4 w-4"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M5 12h14"
+                  />
+                  <path
+                    d="M12 5v14"
+                  />
+                </svg>
+                Feld hinzufügen
+              </button>
+            </div>
           </div>
           <div
             class="space-y-4"
@@ -598,7 +602,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-slot="form-label"
                     for="_r_v_-form-item"
                   >
-                    Feldname
+                    Name
                   </label>
                   <input
                     aria-describedby="_r_v_-form-item-description"
@@ -608,7 +612,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-testid="input"
                     id="_r_v_-form-item"
                     name="fields.0.name"
-                    placeholder="z.B. thema"
+                    placeholder="Name des Feldes"
                     value="field 0"
                   />
                   <p
@@ -644,9 +648,20 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-testid="input"
                     id="_r_10_-form-item"
                     name="fields.0.label"
-                    placeholder="z.B. Thema"
+                    placeholder="Label des Feldes"
                     value="label 0"
                   />
+                  <p
+                    class="text-destructive text-sm"
+                    data-slot="form-message"
+                    id="_r_10_-form-item-message"
+                  >
+                    <span
+                      class="invisible text-sm"
+                    >
+                      .
+                    </span>
+                  </p>
                 </div>
                 <div
                   class="grid gap-2"
@@ -659,7 +674,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-slot="form-label"
                     for="_r_11_-form-item"
                   >
-                    Feldtyp
+                    Typ
                   </label>
                   <button
                     aria-autocomplete="none"
@@ -667,7 +682,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     aria-describedby="_r_11_-form-item-description"
                     aria-expanded="false"
                     aria-invalid="false"
-                    class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+                    class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
                     data-size="default"
                     data-slot="form-control"
                     data-state="closed"
@@ -977,7 +992,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-slot="form-label"
                     for="_r_16_-form-item"
                   >
-                    Feldname
+                    Name
                   </label>
                   <input
                     aria-describedby="_r_16_-form-item-description"
@@ -987,7 +1002,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-testid="input"
                     id="_r_16_-form-item"
                     name="fields.1.name"
-                    placeholder="z.B. thema"
+                    placeholder="Name des Feldes"
                     value="field 1"
                   />
                   <p
@@ -1023,9 +1038,20 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-testid="input"
                     id="_r_17_-form-item"
                     name="fields.1.label"
-                    placeholder="z.B. Thema"
+                    placeholder="Label des Feldes"
                     value="label 1"
                   />
+                  <p
+                    class="text-destructive text-sm"
+                    data-slot="form-message"
+                    id="_r_17_-form-item-message"
+                  >
+                    <span
+                      class="invisible text-sm"
+                    >
+                      .
+                    </span>
+                  </p>
                 </div>
                 <div
                   class="grid gap-2"
@@ -1038,7 +1064,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-slot="form-label"
                     for="_r_18_-form-item"
                   >
-                    Feldtyp
+                    Typ
                   </label>
                   <button
                     aria-autocomplete="none"
@@ -1046,7 +1072,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     aria-describedby="_r_18_-form-item-description"
                     aria-expanded="false"
                     aria-invalid="false"
-                    class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+                    class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
                     data-size="default"
                     data-slot="form-control"
                     data-state="closed"
@@ -1356,7 +1382,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-slot="form-label"
                     for="_r_1d_-form-item"
                   >
-                    Feldname
+                    Name
                   </label>
                   <input
                     aria-describedby="_r_1d_-form-item-description"
@@ -1366,7 +1392,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-testid="input"
                     id="_r_1d_-form-item"
                     name="fields.2.name"
-                    placeholder="z.B. thema"
+                    placeholder="Name des Feldes"
                     value="field 2"
                   />
                   <p
@@ -1402,9 +1428,20 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-testid="input"
                     id="_r_1e_-form-item"
                     name="fields.2.label"
-                    placeholder="z.B. Thema"
+                    placeholder="Label des Feldes"
                     value="label 2"
                   />
+                  <p
+                    class="text-destructive text-sm"
+                    data-slot="form-message"
+                    id="_r_1e_-form-item-message"
+                  >
+                    <span
+                      class="invisible text-sm"
+                    >
+                      .
+                    </span>
+                  </p>
                 </div>
                 <div
                   class="grid gap-2"
@@ -1417,7 +1454,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-slot="form-label"
                     for="_r_1f_-form-item"
                   >
-                    Feldtyp
+                    Typ
                   </label>
                   <button
                     aria-autocomplete="none"
@@ -1425,7 +1462,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     aria-describedby="_r_1f_-form-item-description"
                     aria-expanded="false"
                     aria-invalid="false"
-                    class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+                    class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
                     data-size="default"
                     data-slot="form-control"
                     data-state="closed"
@@ -1819,7 +1856,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
               aria-describedby="_r_2k_-form-item-description"
               aria-expanded="false"
               aria-invalid="false"
-              class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+              class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
               data-size="default"
               data-slot="form-control"
               data-state="closed"
@@ -2442,34 +2479,38 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                 Definieren Sie Felder, die Benutzer ausfüllen können
               </p>
             </div>
-            <button
-              class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
-              data-slot="button"
-              data-testid="add-btn"
-              type="button"
+            <div
+              class="flex items-center gap-2"
             >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-plus mr-2 h-4 w-4"
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
+              <button
+                class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
+                data-slot="button"
+                data-testid="add-btn"
+                type="button"
               >
-                <path
-                  d="M5 12h14"
-                />
-                <path
-                  d="M12 5v14"
-                />
-              </svg>
-              Feld hinzufügen
-            </button>
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-plus mr-2 h-4 w-4"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M5 12h14"
+                  />
+                  <path
+                    d="M12 5v14"
+                  />
+                </svg>
+                Feld hinzufügen
+              </button>
+            </div>
           </div>
           <div
             class="space-y-4"
@@ -2580,7 +2621,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-slot="form-label"
                     for="_r_2o_-form-item"
                   >
-                    Feldname
+                    Name
                   </label>
                   <input
                     aria-describedby="_r_2o_-form-item-description"
@@ -2590,7 +2631,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-testid="input"
                     id="_r_2o_-form-item"
                     name="fields.0.name"
-                    placeholder="z.B. thema"
+                    placeholder="Name des Feldes"
                     value="field 0"
                   />
                   <p
@@ -2626,9 +2667,20 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-testid="input"
                     id="_r_2p_-form-item"
                     name="fields.0.label"
-                    placeholder="z.B. Thema"
+                    placeholder="Label des Feldes"
                     value="label 0"
                   />
+                  <p
+                    class="text-destructive text-sm"
+                    data-slot="form-message"
+                    id="_r_2p_-form-item-message"
+                  >
+                    <span
+                      class="invisible text-sm"
+                    >
+                      .
+                    </span>
+                  </p>
                 </div>
                 <div
                   class="grid gap-2"
@@ -2641,7 +2693,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-slot="form-label"
                     for="_r_2q_-form-item"
                   >
-                    Feldtyp
+                    Typ
                   </label>
                   <button
                     aria-autocomplete="none"
@@ -2649,7 +2701,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     aria-describedby="_r_2q_-form-item-description"
                     aria-expanded="false"
                     aria-invalid="false"
-                    class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+                    class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
                     data-size="default"
                     data-slot="form-control"
                     data-state="closed"
@@ -2959,7 +3011,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-slot="form-label"
                     for="_r_2v_-form-item"
                   >
-                    Feldname
+                    Name
                   </label>
                   <input
                     aria-describedby="_r_2v_-form-item-description"
@@ -2969,7 +3021,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-testid="input"
                     id="_r_2v_-form-item"
                     name="fields.1.name"
-                    placeholder="z.B. thema"
+                    placeholder="Name des Feldes"
                     value="field 1"
                   />
                   <p
@@ -3005,9 +3057,20 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-testid="input"
                     id="_r_30_-form-item"
                     name="fields.1.label"
-                    placeholder="z.B. Thema"
+                    placeholder="Label des Feldes"
                     value="label 1"
                   />
+                  <p
+                    class="text-destructive text-sm"
+                    data-slot="form-message"
+                    id="_r_30_-form-item-message"
+                  >
+                    <span
+                      class="invisible text-sm"
+                    >
+                      .
+                    </span>
+                  </p>
                 </div>
                 <div
                   class="grid gap-2"
@@ -3020,7 +3083,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-slot="form-label"
                     for="_r_31_-form-item"
                   >
-                    Feldtyp
+                    Typ
                   </label>
                   <button
                     aria-autocomplete="none"
@@ -3028,7 +3091,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     aria-describedby="_r_31_-form-item-description"
                     aria-expanded="false"
                     aria-invalid="false"
-                    class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+                    class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
                     data-size="default"
                     data-slot="form-control"
                     data-state="closed"
@@ -3338,7 +3401,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-slot="form-label"
                     for="_r_36_-form-item"
                   >
-                    Feldname
+                    Name
                   </label>
                   <input
                     aria-describedby="_r_36_-form-item-description"
@@ -3348,7 +3411,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-testid="input"
                     id="_r_36_-form-item"
                     name="fields.2.name"
-                    placeholder="z.B. thema"
+                    placeholder="Name des Feldes"
                     value="field 2"
                   />
                   <p
@@ -3384,9 +3447,20 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-testid="input"
                     id="_r_37_-form-item"
                     name="fields.2.label"
-                    placeholder="z.B. Thema"
+                    placeholder="Label des Feldes"
                     value="label 2"
                   />
+                  <p
+                    class="text-destructive text-sm"
+                    data-slot="form-message"
+                    id="_r_37_-form-item-message"
+                  >
+                    <span
+                      class="invisible text-sm"
+                    >
+                      .
+                    </span>
+                  </p>
                 </div>
                 <div
                   class="grid gap-2"
@@ -3399,7 +3473,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-slot="form-label"
                     for="_r_38_-form-item"
                   >
-                    Feldtyp
+                    Typ
                   </label>
                   <button
                     aria-autocomplete="none"
@@ -3407,7 +3481,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     aria-describedby="_r_38_-form-item-description"
                     aria-expanded="false"
                     aria-invalid="false"
-                    class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+                    class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
                     data-size="default"
                     data-slot="form-control"
                     data-state="closed"
@@ -3797,7 +3871,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - new entry -
               aria-describedby="_r_3_-form-item-description"
               aria-expanded="false"
               aria-invalid="false"
-              class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+              class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
               data-size="default"
               data-slot="form-control"
               data-state="closed"
@@ -4023,34 +4097,38 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - new entry -
                 Definieren Sie Felder, die Benutzer ausfüllen können
               </p>
             </div>
-            <button
-              class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
-              data-slot="button"
-              data-testid="add-btn"
-              type="button"
+            <div
+              class="flex items-center gap-2"
             >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-plus mr-2 h-4 w-4"
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
+              <button
+                class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
+                data-slot="button"
+                data-testid="add-btn"
+                type="button"
               >
-                <path
-                  d="M5 12h14"
-                />
-                <path
-                  d="M12 5v14"
-                />
-              </svg>
-              Feld hinzufügen
-            </button>
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-plus mr-2 h-4 w-4"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M5 12h14"
+                  />
+                  <path
+                    d="M12 5v14"
+                  />
+                </svg>
+                Feld hinzufügen
+              </button>
+            </div>
           </div>
           <div
             class="rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 py-12 text-center"
@@ -4251,7 +4329,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - new entry -
               aria-describedby="_r_f_-form-item-description"
               aria-expanded="false"
               aria-invalid="false"
-              class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+              class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
               data-size="default"
               data-slot="form-control"
               data-state="closed"
@@ -4767,34 +4845,38 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - new entry -
                 Definieren Sie Felder, die Benutzer ausfüllen können
               </p>
             </div>
-            <button
-              class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
-              data-slot="button"
-              data-testid="add-btn"
-              type="button"
+            <div
+              class="flex items-center gap-2"
             >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-plus mr-2 h-4 w-4"
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
+              <button
+                class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
+                data-slot="button"
+                data-testid="add-btn"
+                type="button"
               >
-                <path
-                  d="M5 12h14"
-                />
-                <path
-                  d="M12 5v14"
-                />
-              </svg>
-              Feld hinzufügen
-            </button>
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-plus mr-2 h-4 w-4"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M5 12h14"
+                  />
+                  <path
+                    d="M12 5v14"
+                  />
+                </svg>
+                Feld hinzufügen
+              </button>
+            </div>
           </div>
           <div
             class="rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 py-12 text-center"

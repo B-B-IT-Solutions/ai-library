@@ -11,17 +11,17 @@ import {
 
 export const getSubscriptionPlans = async (): Promise<DSubscriptionPlan[]> => {
    await requireUser();
-   const subscriptionService = getSubscriptionService();
-   return await subscriptionService.getAvailablePlans();
+   const service = getService();
+   return await service.getAvailablePlans();
 };
 
 export const getSubscription = async (): Promise<DSubscription | null> => {
    const user = await requireUser();
-   const subscriptionService = getSubscriptionService();
-   return await subscriptionService.getSubscription(user.id);
+   const service = getService();
+   return await service.getSubscription(user.id);
 };
 
-const getSubscriptionService = (dbClient: DbClient = prisma) => {
+const getService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getSubscriptionService();
 };
