@@ -291,6 +291,40 @@ describe("GlobalTemplateFieldsPicker functionality tests", () => {
          expect(addFieldsFn).toHaveBeenCalledWith(expectedPayload);
       });
    });
+
+   it("GlobalTemplateFieldsPicker - open/close - test", async () => {
+      const fields = dtestData.dGlobalTemplateFields();
+      const selectedFieldIds = dtestData.dGlobalTemplateFieldIds(1);
+      const addFieldsFn = jest.fn();
+
+      render(
+         <GlobalTemplateFieldsPicker
+            globalFields={fields}
+            selectedGlobalFieldIds={selectedFieldIds}
+            onAddFields={addFieldsFn}
+         />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertContentNotRendered();
+      });
+
+      const pickerBtn = screen.getByTestId("global-template-fields-picker");
+      await userEvent.click(pickerBtn);
+
+      await waitFor(() => {
+         assertFieldsRendered();
+         assertContentRendered();
+         expect(addFieldsFn).not.toHaveBeenCalled();
+      });
+
+      await userEvent.keyboard("{Escape}");
+
+      await waitFor(() => {
+         assertContentNotRendered();
+      });
+   });
 });
 
 // describe("GlobalTemplateFieldsPicker search tests", () => {
@@ -330,104 +364,6 @@ describe("GlobalTemplateFieldsPicker functionality tests", () => {
 //       await waitFor(() => {
 //          assertInDocument(screen.getByTestId("fields-empty"));
 //       });
-//    });
-// });
-
-// describe("GlobalTemplateFieldsPicker selection tests", () => {
-//    it("already added fields are disabled", async () => {
-//       const fields = dtestData.dGlobalTemplateFields(3);
-//       renderComponent({
-//          globalFields: fields,
-//          selectedGlobalFieldIds: [fields[0].id],
-//       });
-
-//       await openPopover();
-
-//       const options = screen.getAllByTestId("global-template-field-option");
-//       expect(options[0]).toBeDisabled();
-//       expect(options[1]).not.toBeDisabled();
-//       expect(options[2]).not.toBeDisabled();
-//    });
-
-//    it("clicking an already added field does nothing", async () => {
-//       const fields = dtestData.dGlobalTemplateFields(3);
-//       const onAddFields = jest.fn();
-//       renderComponent({
-//          globalFields: fields,
-//          selectedGlobalFieldIds: [fields[0].id],
-//          onAddFields,
-//       });
-
-//       await openPopover();
-
-//       const options = screen.getAllByTestId("global-template-field-option");
-//       userEvent.click(options[0]);
-
-//       await waitFor(() => {
-//          expect(screen.queryByTestId("add-fields-btn")).not.toBeInTheDocument();
-//       });
-//    });
-
-//    it("shows add button with singular label after selecting one field", async () => {
-//       renderComponent();
-
-//       await openPopover();
-
-//       userEvent.click(screen.getAllByTestId("global-template-field-option")[0]);
-
-//       await waitFor(() => {
-//          const addBtn = screen.getByTestId("add-fields-btn");
-//          assertInDocument(addBtn);
-//          expect(addBtn).toHaveTextContent("1 Feld hinzufügen");
-//       });
-//    });
-
-//    it("shows add button with plural label after selecting multiple fields", async () => {
-//       renderComponent();
-
-//       await openPopover();
-
-//       const options = screen.getAllByTestId("global-template-field-option");
-//       userEvent.click(options[0]);
-//       userEvent.click(options[1]);
-
-//       await waitFor(() => {
-//          const addBtn = screen.getByTestId("add-fields-btn");
-//          assertInDocument(addBtn);
-//          expect(addBtn).toHaveTextContent("2 Felder hinzufügen");
-//       });
-//    });
-
-//    it("deselects a field when clicked again", async () => {
-//       renderComponent();
-
-//       await openPopover();
-
-//       const options = screen.getAllByTestId("global-template-field-option");
-//       userEvent.click(options[0]);
-//       userEvent.click(options[1]);
-
-//       await waitFor(() => {
-//          expect(screen.getByTestId("add-fields-btn")).toHaveTextContent(
-//             "2 Felder hinzufügen"
-//          );
-//       });
-
-//       userEvent.click(options[0]);
-
-//       await waitFor(() => {
-//          expect(screen.getByTestId("add-fields-btn")).toHaveTextContent(
-//             "1 Feld hinzufügen"
-//          );
-//       });
-//    });
-
-//    it("hides add button when no fields are selected", async () => {
-//       renderComponent();
-
-//       await openPopover();
-
-//       expect(screen.queryByTestId("add-fields-btn")).not.toBeInTheDocument();
 //    });
 // });
 

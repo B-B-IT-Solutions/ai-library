@@ -18,6 +18,7 @@ const Root: React.FC<{
 
    React.useEffect(() => {
       setInternalOpen(open);
+      onOpenChange?.(open);
    }, [open]);
 
    const setOpen = (v: boolean) => {
@@ -73,6 +74,16 @@ const Content: React.FC<{
 }> = ({ children, ...props }) => {
    clearProps(props);
    const ctx = React.useContext(PopoverContext)!;
+
+   React.useEffect(() => {
+      const handleKeyDown = (e: KeyboardEvent) => {
+         if (e.key === "Escape") {
+            ctx.setOpen(false);
+         }
+      };
+      document.addEventListener("keydown", handleKeyDown);
+      return () => document.removeEventListener("keydown", handleKeyDown);
+   }, [ctx]);
 
    if (!ctx.open) {
       return null;
