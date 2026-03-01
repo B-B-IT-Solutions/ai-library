@@ -1,0 +1,267 @@
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { assertInDocument, dtestData } from "@tests";
+
+import { GlobalTemplateFieldsPicker } from "./global-template-fields-picker";
+
+const assertRendered = async () => {
+   const picker = screen.getByTestId("global-template-fields-picker");
+   const header = screen.getByTestId("picker-header");
+   const fieldSearch = screen.getByTestId("field-search");
+   const searchInput = screen.getByTestId("search-input");
+   const fieldsList = screen.getByTestId("fields-list");
+   const fieldOptions = screen.getAllByTestId("field-option");
+
+   assertInDocument(picker);
+   assertInDocument(header);
+   assertInDocument(fieldSearch);
+   assertInDocument(searchInput);
+   assertInDocument(fieldsList);
+   expect(fieldOptions).toHaveLength(3);
+};
+
+describe("GlobalTemplateFieldsPicker rendering tests", () => {
+   it("GlobalTemplateFieldsPicker rendered test", async () => {
+      const fields = dtestData.dGlobalTemplateFields();
+      const selectedFieldIds = dtestData.dGlobalTemplateFieldIds(1);
+
+      const { container } = render(
+         <GlobalTemplateFieldsPicker
+            globalFields={fields}
+            selectedGlobalFieldIds={selectedFieldIds}
+            onAddFields={jest.fn()}
+         />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   // it("opens popover when trigger button is clicked", async () => {
+   //    renderComponent();
+
+   //    await openPopover();
+
+   //    assertInDocument(screen.getByTestId("seach-input"));
+   // });
+
+   // it("displays all global fields when popover is open", async () => {
+   //    renderComponent();
+
+   //    await openPopover();
+
+   //    const options = screen.getAllByTestId("global-template-field-option");
+   //    expect(options).toHaveLength(3);
+   // });
+});
+
+// describe("GlobalTemplateFieldsPicker search tests", () => {
+//    it("filters fields by name", async () => {
+//       renderComponent();
+
+//       await openPopover();
+
+//       userEvent.type(screen.getByTestId("seach-input"), "name-1");
+
+//       await waitFor(() => {
+//          const options = screen.getAllByTestId("global-template-field-option");
+//          expect(options).toHaveLength(1);
+//       });
+//    });
+
+//    it("filters fields by label", async () => {
+//       renderComponent();
+
+//       await openPopover();
+
+//       userEvent.type(screen.getByTestId("seach-input"), "label 2");
+
+//       await waitFor(() => {
+//          const options = screen.getAllByTestId("global-template-field-option");
+//          expect(options).toHaveLength(1);
+//       });
+//    });
+
+//    it("shows empty state when no fields match search", async () => {
+//       renderComponent();
+
+//       await openPopover();
+
+//       userEvent.type(screen.getByTestId("seach-input"), "does-not-exist-xyz");
+
+//       await waitFor(() => {
+//          assertInDocument(screen.getByTestId("fields-empty"));
+//       });
+//    });
+// });
+
+// describe("GlobalTemplateFieldsPicker selection tests", () => {
+//    it("already added fields are disabled", async () => {
+//       const fields = dtestData.dGlobalTemplateFields(3);
+//       renderComponent({
+//          globalFields: fields,
+//          selectedGlobalFieldIds: [fields[0].id],
+//       });
+
+//       await openPopover();
+
+//       const options = screen.getAllByTestId("global-template-field-option");
+//       expect(options[0]).toBeDisabled();
+//       expect(options[1]).not.toBeDisabled();
+//       expect(options[2]).not.toBeDisabled();
+//    });
+
+//    it("clicking an already added field does nothing", async () => {
+//       const fields = dtestData.dGlobalTemplateFields(3);
+//       const onAddFields = jest.fn();
+//       renderComponent({
+//          globalFields: fields,
+//          selectedGlobalFieldIds: [fields[0].id],
+//          onAddFields,
+//       });
+
+//       await openPopover();
+
+//       const options = screen.getAllByTestId("global-template-field-option");
+//       userEvent.click(options[0]);
+
+//       await waitFor(() => {
+//          expect(screen.queryByTestId("add-fields-btn")).not.toBeInTheDocument();
+//       });
+//    });
+
+//    it("shows add button with singular label after selecting one field", async () => {
+//       renderComponent();
+
+//       await openPopover();
+
+//       userEvent.click(screen.getAllByTestId("global-template-field-option")[0]);
+
+//       await waitFor(() => {
+//          const addBtn = screen.getByTestId("add-fields-btn");
+//          assertInDocument(addBtn);
+//          expect(addBtn).toHaveTextContent("1 Feld hinzufügen");
+//       });
+//    });
+
+//    it("shows add button with plural label after selecting multiple fields", async () => {
+//       renderComponent();
+
+//       await openPopover();
+
+//       const options = screen.getAllByTestId("global-template-field-option");
+//       userEvent.click(options[0]);
+//       userEvent.click(options[1]);
+
+//       await waitFor(() => {
+//          const addBtn = screen.getByTestId("add-fields-btn");
+//          assertInDocument(addBtn);
+//          expect(addBtn).toHaveTextContent("2 Felder hinzufügen");
+//       });
+//    });
+
+//    it("deselects a field when clicked again", async () => {
+//       renderComponent();
+
+//       await openPopover();
+
+//       const options = screen.getAllByTestId("global-template-field-option");
+//       userEvent.click(options[0]);
+//       userEvent.click(options[1]);
+
+//       await waitFor(() => {
+//          expect(screen.getByTestId("add-fields-btn")).toHaveTextContent(
+//             "2 Felder hinzufügen"
+//          );
+//       });
+
+//       userEvent.click(options[0]);
+
+//       await waitFor(() => {
+//          expect(screen.getByTestId("add-fields-btn")).toHaveTextContent(
+//             "1 Feld hinzufügen"
+//          );
+//       });
+//    });
+
+//    it("hides add button when no fields are selected", async () => {
+//       renderComponent();
+
+//       await openPopover();
+
+//       expect(screen.queryByTestId("add-fields-btn")).not.toBeInTheDocument();
+//    });
+// });
+
+// describe("GlobalTemplateFieldsPicker add/close tests", () => {
+//    it("calls onAddFields with selected field ids", async () => {
+//       const fields = dtestData.dGlobalTemplateFields(3);
+//       const onAddFields = jest.fn();
+//       renderComponent({ globalFields: fields, onAddFields });
+
+//       await openPopover();
+
+//       userEvent.click(screen.getAllByTestId("global-template-field-option")[0]);
+
+//       await waitFor(() => {
+//          assertInDocument(screen.getByTestId("add-fields-btn"));
+//       });
+
+//       userEvent.click(screen.getByTestId("add-fields-btn"));
+
+//       await waitFor(() => {
+//          expect(onAddFields).toHaveBeenCalledTimes(1);
+//          expect(onAddFields).toHaveBeenCalledWith([fields[0].id]);
+//       });
+//    });
+
+//    it("closes popover after adding fields", async () => {
+//       renderComponent();
+
+//       await openPopover();
+
+//       userEvent.click(screen.getAllByTestId("global-template-field-option")[0]);
+
+//       await waitFor(() => {
+//          assertInDocument(screen.getByTestId("add-fields-btn"));
+//       });
+
+//       userEvent.click(screen.getByTestId("add-fields-btn"));
+
+//       await waitFor(() => {
+//          assertNotInDocument(screen.queryByTestId("seach-input"));
+//       });
+//    });
+
+//    it("resets search and selection when popover is closed", async () => {
+//       renderComponent();
+
+//       await openPopover();
+
+//       userEvent.type(screen.getByTestId("seach-input"), "name-1");
+//       userEvent.click(screen.getAllByTestId("global-template-field-option")[0]);
+
+//       await waitFor(() => {
+//          assertInDocument(screen.getByTestId("add-fields-btn"));
+//       });
+
+//       // Close via Escape key
+//       userEvent.keyboard("{Escape}");
+
+//       await waitFor(() => {
+//          assertNotInDocument(screen.queryByTestId("seach-input"));
+//       });
+
+//       // Reopen and verify state is reset
+//       await openPopover();
+
+//       await waitFor(() => {
+//          const options = screen.getAllByTestId("global-template-field-option");
+//          expect(options).toHaveLength(3);
+//          expect(screen.queryByTestId("add-fields-btn")).not.toBeInTheDocument();
+//       });
+//    });
+// });

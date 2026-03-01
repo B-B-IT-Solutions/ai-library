@@ -713,6 +713,11 @@ export const sort = (field = "field1", desc = false): Sort => {
    return { field, desc };
 };
 
+export const dGlobalTemplateFieldIds = (count = 1): string[] => {
+   const fields = dGlobalTemplateFields(count);
+   return map(fields, "id");
+};
+
 export const dGlobalTemplateFields = (count = 3): DGlobalTemplateField[] => {
    return range(0, count).map((i) => dGlobalTemplateField(i));
 };

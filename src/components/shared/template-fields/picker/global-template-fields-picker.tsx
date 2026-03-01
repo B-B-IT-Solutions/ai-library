@@ -70,7 +70,7 @@ export const GlobalTemplateFieldsPicker = ({
             onClick={() => toggleField(field.id, alreadyAdded)}
             disabled={alreadyAdded}
             className={`flex w-full items-center justify-between px-3 py-2 text-left text-sm transition-colors ${alreadyAdded ? "cursor-not-allowed bg-slate-50 opacity-50" : "cursor-pointer hover:bg-accent"} ${isSelected ? "bg-accent" : ""} `}
-            data-testid="global-template-field-option"
+            data-testid="field-option"
          >
             <div className="flex min-w-0 items-center gap-2">
                {alreadyAdded ? (
@@ -135,35 +135,35 @@ export const GlobalTemplateFieldsPicker = ({
 
    return (
       <Popover open={open} onOpenChange={handleOpenChange}>
-         <PopoverTrigger asChild>
+         <PopoverTrigger asChild={true}>
             <Button
                type="button"
                variant="outline"
                size="sm"
                className="cursor-pointer"
-               data-testid="global-template-fields-btn"
+               data-testid="global-template-fields-picker"
             >
                <Braces className="mr-1 h-4 w-4" />
                Globale Felder
             </Button>
          </PopoverTrigger>
          <PopoverContent className="w-80 p-0" align="end">
-            <div className="border-b p-3">
+            <div className="border-b p-3" data-testid="picker-header">
                <p className="mb-2 text-sm font-medium text-slate-900">
                   Globale Felder importieren
                </p>
-               <div className="relative" data-testid="seach-field">
+               <div className="relative" data-testid="field-search">
                   <Search className="absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
                   <Input
                      placeholder="Suchen..."
                      value={search}
                      onChange={(e) => setSearch(e.target.value)}
                      className="h-8 pl-7 text-sm"
-                     data-testid="seach-input"
+                     data-testid="search-input"
                   />
                </div>
             </div>
-            <div className="max-h-56 overflow-y-auto">
+            <div className="max-h-56 overflow-y-auto" data-testid="fields-list">
                {renderFields()}
                {/* {filtered.length === 0 ? (
                   <p className="py-6 text-center text-sm text-slate-400">
