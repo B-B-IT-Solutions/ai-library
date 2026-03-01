@@ -229,9 +229,9 @@ export const LibraryEntryEditForm = ({ entry, globalFields }: Props) => {
                      globalFields={globalFields}
                      globalFieldIds={form.watch("globalFieldIds")}
                      onAddField={handleAddField}
+                     onRemoveField={removeField}
                      onAddGlobalFieldIds={handleAddGlobalFieldIds}
                      onRemoveGlobalFieldId={handleRemoveGlobalFieldId}
-                     onRemoveField={removeField}
                      control={form.control}
                      watch={form.watch}
                   />
