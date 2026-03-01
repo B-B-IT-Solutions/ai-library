@@ -1,18 +1,21 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, dtestData } from "@tests";
+import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 
 import { GlobalTemplateFieldsPicker } from "./global-template-fields-picker";
 
 const assertRendered = async () => {
    const picker = screen.getByTestId("global-template-fields-picker");
+   assertInDocument(picker);
+};
+
+const assertContentRendered = async () => {
    const header = screen.getByTestId("picker-header");
    const fieldSearch = screen.getByTestId("field-search");
    const searchInput = screen.getByTestId("search-input");
    const fieldsList = screen.getByTestId("fields-list");
    const fieldOptions = screen.getAllByTestId("field-option");
 
-   assertInDocument(picker);
    assertInDocument(header);
    assertInDocument(fieldSearch);
    assertInDocument(searchInput);
@@ -20,8 +23,20 @@ const assertRendered = async () => {
    expect(fieldOptions).toHaveLength(3);
 };
 
+const assertContentNotRendered = async () => {
+   const header = screen.queryByTestId("picker-header");
+   const fieldSearch = screen.queryByTestId("field-search");
+   const searchInput = screen.queryByTestId("search-input");
+   const fieldsList = screen.queryByTestId("fields-list");
+
+   assertNotInDocument(header);
+   assertNotInDocument(fieldSearch);
+   assertNotInDocument(searchInput);
+   assertNotInDocument(fieldsList);
+};
+
 describe("GlobalTemplateFieldsPicker rendering tests", () => {
-   it("GlobalTemplateFieldsPicker rendered test", async () => {
+   it("GlobalTemplateFieldsPicker - open false - test", async () => {
       const fields = dtestData.dGlobalTemplateFields();
       const selectedFieldIds = dtestData.dGlobalTemplateFieldIds(1);
 
@@ -35,27 +50,38 @@ describe("GlobalTemplateFieldsPicker rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertContentNotRendered();
       });
 
       expect(container).toMatchSnapshot();
    });
 
-   // it("opens popover when trigger button is clicked", async () => {
-   //    renderComponent();
+   it("GlobalTemplateFieldsPicker - open true - test", async () => {
+      const fields = dtestData.dGlobalTemplateFields();
+      const selectedFieldIds = dtestData.dGlobalTemplateFieldIds(1);
 
-   //    await openPopover();
+      const { container } = render(
+         <GlobalTemplateFieldsPicker
+            globalFields={fields}
+            selectedGlobalFieldIds={selectedFieldIds}
+            onAddFields={jest.fn()}
+         />
+      );
 
-   //    assertInDocument(screen.getByTestId("seach-input"));
-   // });
+      await waitFor(() => {
+         assertRendered();
+         assertContentNotRendered();
+      });
 
-   // it("displays all global fields when popover is open", async () => {
-   //    renderComponent();
+      const pickerBtn = screen.getByTestId("global-template-fields-picker");
+      await userEvent.click(pickerBtn);
 
-   //    await openPopover();
+      await waitFor(() => {
+         assertContentRendered();
+      });
 
-   //    const options = screen.getAllByTestId("global-template-field-option");
-   //    expect(options).toHaveLength(3);
-   // });
+      expect(container).toMatchSnapshot();
+   });
 });
 
 // describe("GlobalTemplateFieldsPicker search tests", () => {
