@@ -171,35 +171,56 @@ describe("GlobalTemplateFieldsPicker rendering tests", () => {
    });
 });
 
-// describe("GlobalTemplateFieldsPicker functionality tests", () => {
-//    it("GlobalTemplateFieldsPicker - field selected - test", async () => {
-//       const fields = dtestData.dGlobalTemplateFields();
-//       const selectedFieldIds = dtestData.dGlobalTemplateFieldIds(1);
+describe("GlobalTemplateFieldsPicker functionality tests", () => {
+   it("GlobalTemplateFieldsPicker - field selected - test", async () => {
+      const fields = dtestData.dGlobalTemplateFields();
+      const addFieldsFn = jest.fn();
 
-//       const { container } = render(
-//          <GlobalTemplateFieldsPicker
-//             globalFields={fields}
-//             selectedGlobalFieldIds={selectedFieldIds}
-//             onAddFields={jest.fn()}
-//          />
-//       );
+      render(
+         <GlobalTemplateFieldsPicker
+            globalFields={fields}
+            selectedGlobalFieldIds={[]}
+            onAddFields={addFieldsFn}
+         />
+      );
 
-//       await waitFor(() => {
-//          assertRendered();
-//          assertContentNotRendered();
-//       });
+      await waitFor(() => {
+         assertRendered();
+      });
 
-//       const pickerBtn = screen.getByTestId("global-template-fields-picker");
-//       await userEvent.click(pickerBtn);
+      const pickerBtn = screen.getByTestId("global-template-fields-picker");
+      await userEvent.click(pickerBtn);
 
-//       await waitFor(() => {
-//          assertContentRendered();
-//          assertFieldsRendered();
-//       });
+      await waitFor(() => {
+         assertFieldsRendered();
+         expect(addFieldsFn).not.toHaveBeenCalled();
+      });
 
-//       expect(container).toMatchSnapshot();
-//    });
-// });
+      const fieldOption1 = screen.getAllByTestId("field-option")[0];
+      await userEvent.click(fieldOption1);
+
+      await waitFor(() => {
+         expect(addFieldsFn).not.toHaveBeenCalled();
+      });
+
+      const fieldOption2 = screen.getAllByTestId("field-option")[1];
+      await userEvent.click(fieldOption2);
+
+      await waitFor(() => {
+         expect(addFieldsFn).not.toHaveBeenCalled();
+      });
+
+      const addBtn = screen.getByTestId("add-fields-btn");
+      await userEvent.click(addBtn);
+
+      const expectedPayload: string[] = [fields[0].id, fields[1].id];
+
+      await waitFor(() => {
+         expect(addFieldsFn).toHaveBeenCalledTimes(1);
+         expect(addFieldsFn).toHaveBeenCalledWith(expectedPayload);
+      });
+   });
+});
 
 // describe("GlobalTemplateFieldsPicker search tests", () => {
 //    it("filters fields by name", async () => {
