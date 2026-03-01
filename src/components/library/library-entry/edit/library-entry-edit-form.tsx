@@ -66,7 +66,7 @@ export const LibraryEntryEditForm = ({ entry, globalFields }: Props) => {
    const { isSubmitting } = form.formState;
 
    const content = form.watch("content");
-   const currentGlobalFieldIds = form.watch("globalFieldIds");
+   const globalFieldIds = form.watch("globalFieldIds");
 
    const detectedVariables = useMemo(
       () => extractVariablesFromContent(content || ""),
@@ -78,12 +78,12 @@ export const LibraryEntryEditForm = ({ entry, globalFields }: Props) => {
          form.getValues(`fields.${fields.indexOf(f)}.name`)
       );
       const globalFieldNames = globalFields
-         .filter((gf) => includes(currentGlobalFieldIds, gf.id))
+         .filter((gf) => includes(globalFieldIds, gf.id))
          .map((gf) => gf.name);
 
       const allFieldNames = [...templateFieldNames, ...globalFieldNames];
       return getVariableStatus(detectedVariables, allFieldNames);
-   }, [detectedVariables, fields, form, globalFields, currentGlobalFieldIds]);
+   }, [detectedVariables, fields, form, globalFields, globalFieldIds]);
 
    const handleAddField = () => {
       const order = fields.length;
