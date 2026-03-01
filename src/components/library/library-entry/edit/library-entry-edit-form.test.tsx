@@ -22,7 +22,14 @@ jest.mock("@/components/shared/md", () => {
 import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
+import {
+   assertInDocument,
+   assertNotInDocument,
+   dtestData,
+   typeIntoInput,
+   typeIntoTextArea,
+   typeIntoTipTap,
+} from "@tests";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
@@ -32,6 +39,8 @@ import { ActionResult } from "@/data/types/utils";
 
 import { LibraryEntryEditForm } from "./library-entry-edit-form";
 import { initPromptTempalte } from "./utils";
+
+jest.setTimeout(10000);
 
 const createLibraryEntryMock = createLibraryEntry as jest.MockedFunction<
    typeof createLibraryEntry
@@ -80,18 +89,6 @@ const assertFieldRendered = () => {
 
    assertInDocument(field);
    assertNotInDocument(fieldsEmpty);
-};
-
-const typeIntoInput = async (testId: string, value: string) => {
-   const field = screen.getByTestId(testId);
-   const input = within(field).getByTestId("input");
-   await userEvent.type(input, value);
-};
-
-const typeIntoTextArea = async (testId: string, value: string) => {
-   const field = screen.getByTestId(testId);
-   const input = within(field).getByTestId("textarea");
-   await userEvent.type(input, value);
 };
 
 describe("LibraryEntryEditForm rendering tests", () => {
@@ -287,21 +284,10 @@ describe("LibraryEntryEditForm functionality tests", () => {
       expect(createLibraryEntryMock).not.toHaveBeenCalled();
 
       // Fill in required fields
-      const title = screen.getByTestId("title");
-      const titleInput = within(title).getByTestId("input");
-      const description = screen.getByTestId("description");
-      const descriptionTextarea = within(description).getByTestId("textarea");
-      const detailedDescription = screen.getByTestId("detailedDescription");
-      const detailedDescriptionTextarea =
-         within(detailedDescription).getByTestId("textarea");
-      const content = screen
-         .getByTestId("tiptap-editor")
-         .querySelector("input")!;
-
-      await userEvent.type(titleInput, "Test Template");
-      await userEvent.type(descriptionTextarea, "Test Description");
-      await userEvent.type(detailedDescriptionTextarea, "Detailed description");
-      await userEvent.type(content, "Template Content {{{{task}}");
+      await typeIntoInput("title", "Test Template");
+      await typeIntoTextArea("description", "Test Description");
+      await typeIntoTextArea("detailedDescription", "Detailed description");
+      await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
 
       await userEvent.click(saveBtn);
 
@@ -343,21 +329,10 @@ describe("LibraryEntryEditForm functionality tests", () => {
       const saveBtn = screen.getByTestId("save-btn");
 
       // Fill in required fields
-      const title = screen.getByTestId("title");
-      const titleInput = within(title).getByTestId("input");
-      const description = screen.getByTestId("description");
-      const descriptionTextarea = within(description).getByTestId("textarea");
-      const detailedDescription = screen.getByTestId("detailedDescription");
-      const detailedDescriptionTextarea =
-         within(detailedDescription).getByTestId("textarea");
-      const content = screen
-         .getByTestId("tiptap-editor")
-         .querySelector("input")!;
-
-      await userEvent.type(titleInput, "Test Template");
-      await userEvent.type(descriptionTextarea, "Test Description");
-      await userEvent.type(detailedDescriptionTextarea, "Detailed description");
-      await userEvent.type(content, "Template Content {{{{task}}");
+      await typeIntoInput("title", "Test Template");
+      await typeIntoTextArea("description", "Test Description");
+      await typeIntoTextArea("detailedDescription", "Detailed description");
+      await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
 
       await userEvent.click(saveBtn);
 
@@ -405,21 +380,10 @@ describe("LibraryEntryEditForm functionality tests", () => {
       expect(createLibraryEntryMock).not.toHaveBeenCalled();
 
       // Fill in required fields
-      const title = screen.getByTestId("title");
-      const titleInput = within(title).getByTestId("input");
-      const description = screen.getByTestId("description");
-      const descriptionTextarea = within(description).getByTestId("textarea");
-      const detailedDescription = screen.getByTestId("detailedDescription");
-      const detailedDescriptionTextarea =
-         within(detailedDescription).getByTestId("textarea");
-      const content = screen
-         .getByTestId("tiptap-editor")
-         .querySelector("input")!;
-
-      await userEvent.type(titleInput, "Test Template");
-      await userEvent.type(descriptionTextarea, "Test Description");
-      await userEvent.type(detailedDescriptionTextarea, "Detailed description");
-      await userEvent.type(content, "Template Content {{{{task}}");
+      await typeIntoInput("title", "Test Template");
+      await typeIntoTextArea("description", "Test Description");
+      await typeIntoTextArea("detailedDescription", "Detailed description");
+      await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
 
       await userEvent.click(saveBtn);
 
@@ -459,21 +423,10 @@ describe("LibraryEntryEditForm functionality tests", () => {
       assertRendered();
 
       // Fill in required fields
-      const title = screen.getByTestId("title");
-      const titleInput = within(title).getByTestId("input");
-      const description = screen.getByTestId("description");
-      const descriptionTextarea = within(description).getByTestId("textarea");
-      const detailedDescription = screen.getByTestId("detailedDescription");
-      const detailedDescriptionTextarea =
-         within(detailedDescription).getByTestId("textarea");
-      const content = screen
-         .getByTestId("tiptap-editor")
-         .querySelector("input")!;
-
-      await userEvent.type(titleInput, "Test Template");
-      await userEvent.type(descriptionTextarea, "Test Description");
-      await userEvent.type(detailedDescriptionTextarea, "Detailed description");
-      await userEvent.type(content, "Template Content {{{{task}}");
+      await typeIntoInput("title", "Test Template");
+      await typeIntoTextArea("description", "Test Description");
+      await typeIntoTextArea("detailedDescription", "Detailed description");
+      await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
 
       const saveBtn = screen.getByTestId("save-btn");
       await userEvent.click(saveBtn);

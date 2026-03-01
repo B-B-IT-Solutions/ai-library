@@ -40,8 +40,6 @@ import {
    initPromptTempalte,
 } from "./utils";
 
-jest.setTimeout(10000);
-
 type Props = {
    entry?: DLibraryEntryWithPromptTemplate;
    globalFields: DGlobalTemplateField[];
