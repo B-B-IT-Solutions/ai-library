@@ -18,6 +18,8 @@ const Root: React.FC<{
 
    React.useEffect(() => {
       setInternalOpen(open);
+      onOpenChange?.(open);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [open]);
 
    const setOpen = (v: boolean) => {
@@ -43,6 +45,7 @@ const Trigger: React.FC<{
 
    if (asChild && React.isValidElement(children)) {
       return React.cloneElement(children as React.ReactElement<any>, {
+         ...props,
          onClick: () => ctx.setOpen(!ctx.open),
       });
    }
