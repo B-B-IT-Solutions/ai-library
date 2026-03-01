@@ -31,7 +31,7 @@ type Props = {
    onAddFields: (ids: string[]) => void;
 };
 
-export const GlobalFieldsPicker: FC<Props> = ({
+export const GlobalTemplateFieldsPicker: FC<Props> = ({
    globalFields,
    selectedGlobalFieldIds,
    onAddFields,

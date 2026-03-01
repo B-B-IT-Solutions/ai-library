@@ -14,7 +14,7 @@ import {
 } from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
 
-import { GlobalFieldsPicker } from "./global-fields-picker";
+import { GlobalTemplateFieldsPicker } from "./global-template-fields-picker";
 import { PromptTemplateField } from "./prompt-template-field";
 
 type Props = {
@@ -59,7 +59,7 @@ export const PromptTemplateFields: FC<Props> = ({
             </div>
             <div className="flex items-center gap-2">
                {globalFields.length > 0 && onAddGlobalFieldIds && (
-                  <GlobalFieldsPicker
+                  <GlobalTemplateFieldsPicker
                      globalFields={globalFields}
                      selectedGlobalFieldIds={globalFieldIds}
                      onAddFields={onAddGlobalFieldIds}
