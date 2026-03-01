@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { includes, upperFirst } from "es-toolkit/compat";
+import { filter, includes, upperFirst } from "es-toolkit/compat";
 import { Loader, Save } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -116,7 +116,7 @@ export const LibraryEntryEditForm = ({ entry, globalFields }: Props) => {
       const current = form.getValues("globalFieldIds");
       form.setValue(
          "globalFieldIds",
-         current.filter((i) => i !== id)
+         filter(current, (i) => i !== id)
       );
    };
 
