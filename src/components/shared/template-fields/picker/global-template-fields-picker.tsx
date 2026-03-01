@@ -40,7 +40,7 @@ export const GlobalTemplateFieldsPicker = ({
    const toggleField = (id: string, alreadyAdded: boolean) => {
       if (!alreadyAdded) {
          setSelectedIds((prev) =>
-            prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
+            includes(prev, id) ? filter(prev, (i) => i !== id) : [...prev, id]
          );
       }
    };

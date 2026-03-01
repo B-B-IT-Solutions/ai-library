@@ -292,6 +292,53 @@ describe("GlobalTemplateFieldsPicker functionality tests", () => {
       });
    });
 
+   it("GlobalTemplateFieldsPicker - field search - test", async () => {
+      const fields = dtestData.dGlobalTemplateFields();
+      const selectedFieldIds = dtestData.dGlobalTemplateFieldIds(1);
+
+      render(
+         <GlobalTemplateFieldsPicker
+            globalFields={fields}
+            selectedGlobalFieldIds={selectedFieldIds}
+            onAddFields={jest.fn()}
+         />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertContentNotRendered();
+      });
+
+      const pickerBtn = screen.getByTestId("global-template-fields-picker");
+      await userEvent.click(pickerBtn);
+
+      await waitFor(() => {
+         assertFieldsRendered();
+         assertContentRendered();
+      });
+
+      const fieldOptions1 = screen.getAllByTestId("field-option");
+      expect(fieldOptions1).toHaveLength(3);
+
+      const field1 = fields[0];
+      const input = screen.getByTestId("search-input");
+
+      await userEvent.type(input, field1.name);
+
+      const fieldOptions2 = screen.getAllByTestId("field-option");
+      expect(fieldOptions2).toHaveLength(1);
+
+      await userEvent.clear(input);
+
+      const fieldOptions3 = screen.getAllByTestId("field-option");
+      expect(fieldOptions3).toHaveLength(3);
+
+      await userEvent.type(input, field1.label);
+
+      const fieldOptions4 = screen.getAllByTestId("field-option");
+      expect(fieldOptions4).toHaveLength(1);
+   });
+
    it("GlobalTemplateFieldsPicker - open/close - test", async () => {
       const fields = dtestData.dGlobalTemplateFields();
       const selectedFieldIds = dtestData.dGlobalTemplateFieldIds(1);
@@ -363,76 +410,6 @@ describe("GlobalTemplateFieldsPicker functionality tests", () => {
 
 //       await waitFor(() => {
 //          assertInDocument(screen.getByTestId("fields-empty"));
-//       });
-//    });
-// });
-
-// describe("GlobalTemplateFieldsPicker add/close tests", () => {
-//    it("calls onAddFields with selected field ids", async () => {
-//       const fields = dtestData.dGlobalTemplateFields(3);
-//       const onAddFields = jest.fn();
-//       renderComponent({ globalFields: fields, onAddFields });
-
-//       await openPopover();
-
-//       userEvent.click(screen.getAllByTestId("global-template-field-option")[0]);
-
-//       await waitFor(() => {
-//          assertInDocument(screen.getByTestId("add-fields-btn"));
-//       });
-
-//       userEvent.click(screen.getByTestId("add-fields-btn"));
-
-//       await waitFor(() => {
-//          expect(onAddFields).toHaveBeenCalledTimes(1);
-//          expect(onAddFields).toHaveBeenCalledWith([fields[0].id]);
-//       });
-//    });
-
-//    it("closes popover after adding fields", async () => {
-//       renderComponent();
-
-//       await openPopover();
-
-//       userEvent.click(screen.getAllByTestId("global-template-field-option")[0]);
-
-//       await waitFor(() => {
-//          assertInDocument(screen.getByTestId("add-fields-btn"));
-//       });
-
-//       userEvent.click(screen.getByTestId("add-fields-btn"));
-
-//       await waitFor(() => {
-//          assertNotInDocument(screen.queryByTestId("seach-input"));
-//       });
-//    });
-
-//    it("resets search and selection when popover is closed", async () => {
-//       renderComponent();
-
-//       await openPopover();
-
-//       userEvent.type(screen.getByTestId("seach-input"), "name-1");
-//       userEvent.click(screen.getAllByTestId("global-template-field-option")[0]);
-
-//       await waitFor(() => {
-//          assertInDocument(screen.getByTestId("add-fields-btn"));
-//       });
-
-//       // Close via Escape key
-//       userEvent.keyboard("{Escape}");
-
-//       await waitFor(() => {
-//          assertNotInDocument(screen.queryByTestId("seach-input"));
-//       });
-
-//       // Reopen and verify state is reset
-//       await openPopover();
-
-//       await waitFor(() => {
-//          const options = screen.getAllByTestId("global-template-field-option");
-//          expect(options).toHaveLength(3);
-//          expect(screen.queryByTestId("add-fields-btn")).not.toBeInTheDocument();
 //       });
 //    });
 // });
