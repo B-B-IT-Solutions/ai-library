@@ -170,7 +170,7 @@ model PromptTemplateGlobalField {
   order            Int    @default(0)
 
   promptTemplate PromptTemplate      @relation(fields: [promptTemplateId], references: [id], onDelete: Cascade)
-  globalField    GlobalTemplateField @relation(fields: [globalFieldId], references: [id], onDelete: Cascade)
+  globalField    GlobalTemplateField @relation(fields: [globalFieldId], references: [id])
 
   @@id([promptTemplateId, globalFieldId])
   @@index([promptTemplateId])
@@ -218,19 +218,19 @@ model PromptTemplateCategory {
 }
 
 model GlobalTemplateField {
-  id           String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId       String                  @map("user_id") @db.Uuid
-  name         String                  @db.VarChar(100)
-  label        String                  @db.VarChar(250)
-  description  String?                 @db.VarChar(500)
-  type         PromptTemplateFieldType
-  required     Boolean                 @default(true)
-  defaultValue String?                 @map("default_value") @db.Text
-  options      Json?                   @db.JsonB
-  order        Int                     @default(0)
-  createdAt    DateTime                @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt    DateTime                @updatedAt @map("updated_at")
-  user           User                        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id              String                      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId          String                      @map("user_id") @db.Uuid
+  name            String                      @db.VarChar(100)
+  label           String                      @db.VarChar(250)
+  description     String?                     @db.VarChar(500)
+  type            PromptTemplateFieldType
+  required        Boolean                     @default(true)
+  defaultValue    String?                     @map("default_value") @db.Text
+  options         Json?                       @db.JsonB
+  order           Int                         @default(0)
+  createdAt       DateTime                    @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt       DateTime                    @updatedAt @map("updated_at")
+  user            User                        @relation(fields: [userId], references: [id], onDelete: Cascade)
   promptTemplates PromptTemplateGlobalField[]
 
   @@unique([userId, name])

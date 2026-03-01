@@ -14,4 +14,4 @@ CREATE INDEX "prompt_template_global_field_prompt_template_id_idx" ON "prompt_te
 ALTER TABLE "prompt_template_global_field" ADD CONSTRAINT "prompt_template_global_field_prompt_template_id_fkey" FOREIGN KEY ("prompt_template_id") REFERENCES "prompt_template"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "prompt_template_global_field" ADD CONSTRAINT "prompt_template_global_field_global_field_id_fkey" FOREIGN KEY ("global_field_id") REFERENCES "global_field"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "prompt_template_global_field" ADD CONSTRAINT "prompt_template_global_field_global_field_id_fkey" FOREIGN KEY ("global_field_id") REFERENCES "global_field"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
