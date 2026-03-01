@@ -194,9 +194,9 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
       await userEvent.click(submitBtn);
 
       const expectedValues: DPromptTemplateFieldValues = {
-         "field 0": "option 1",
-         "field 1": "option 1",
-         "field 2": "option 1",
+         field_0: "option 1",
+         field_1: "option 1",
+         field_2: "option 1",
       };
       expect(composePromptFromTemplateMock).toHaveBeenCalledTimes(1);
       expect(composePromptFromTemplateMock).toHaveBeenCalledWith(
@@ -241,9 +241,9 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
       await userEvent.click(submitBtn);
 
       const expectedValues: DPromptTemplateFieldValues = {
-         "field 0": "option 1",
-         "field 1": "option 1",
-         "field 2": "option 1",
+         field_0: "option 1",
+         field_1: "option 1",
+         field_2: "option 1",
       };
       await waitFor(() => {
          expect(composePromptFromTemplateMock).toHaveBeenCalledTimes(1);

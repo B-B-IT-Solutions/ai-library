@@ -194,6 +194,8 @@ exports[`PromptsList rendering tests PromptsList - filters displayed - rendered 
           >
             <div
               class="w-full min-h-[42px] cursor-pointer rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white hover:border-slate-300 px-3 py-2 flex items-center flex-wrap gap-2 transition-all shadow-sm"
+              data-slot="popover-trigger"
+              data-testid="popover-trigger"
             >
               <span
                 class="text-slate-400 text-sm"
