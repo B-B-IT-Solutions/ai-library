@@ -92,12 +92,12 @@ const assertTemplateFieldRendered = () => {
 };
 
 const assertGlobalFieldsRendered = () => {
-   const globalFields = screen.getByTestId("global-fields");
+   const globalFields = screen.getByTestId("prompt-global-template-fields");
    assertInDocument(globalFields);
 };
 
 const assertGlobalFieldsNotRendered = () => {
-   const globalFields = screen.queryByTestId("global-fields");
+   const globalFields = screen.queryByTestId("prompt-global-template-fields");
    assertNotInDocument(globalFields);
 };
 

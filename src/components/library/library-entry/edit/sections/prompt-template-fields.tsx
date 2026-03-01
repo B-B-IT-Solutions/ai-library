@@ -80,9 +80,10 @@ export const PromptTemplateFields: FC<Props> = ({
    };
 
    const renderGlobalField = (field: DGlobalTemplateField) => {
-      const isUsed = detectedVariables.includes(field.name);
+      const isUsed = includes(detectedVariables, field.name);
       return (
          <PromptGlobalTemplateField
+            key={field.id}
             field={field}
             isUsed={isUsed}
             onRemoveGlobalFieldId={onRemoveGlobalFieldId}
@@ -93,7 +94,10 @@ export const PromptTemplateFields: FC<Props> = ({
    const renderGlobalFields = () => {
       if (!isEmpty(resolvedGlobalFields)) {
          return (
-            <div className="space-y-2" data-testid="global-fields">
+            <div
+               className="space-y-2"
+               data-testid="prompt-global-template-fields"
+            >
                <p className="text-xs font-medium tracking-wide text-slate-400 uppercase">
                   Globale Felder
                </p>
