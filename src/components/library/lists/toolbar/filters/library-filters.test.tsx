@@ -67,6 +67,7 @@ describe("LibraryFilters rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertFiltersNotRendered();
       });
 
       const filtersBtn = screen.getByTestId("library-entry-filters-trigger");
