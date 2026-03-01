@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { upperFirst } from "es-toolkit/compat";
+import { includes, upperFirst } from "es-toolkit/compat";
 import { Loader, Save } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -74,16 +74,15 @@ export const LibraryEntryEditForm = ({ entry, globalFields }: Props) => {
    );
 
    const variableStatus = useMemo(() => {
-      const customFieldNames = fields.map((f) =>
+      const templateFieldNames = fields.map((f) =>
          form.getValues(`fields.${fields.indexOf(f)}.name`)
       );
       const globalFieldNames = globalFields
-         .filter((gf) => currentGlobalFieldIds.includes(gf.id))
+         .filter((gf) => includes(currentGlobalFieldIds, gf.id))
          .map((gf) => gf.name);
-      return getVariableStatus(detectedVariables, [
-         ...customFieldNames,
-         ...globalFieldNames,
-      ]);
+
+      const allFieldNames = [...templateFieldNames, ...globalFieldNames];
+      return getVariableStatus(detectedVariables, allFieldNames);
    }, [detectedVariables, fields, form, globalFields, currentGlobalFieldIds]);
 
    const handleAddField = () => {

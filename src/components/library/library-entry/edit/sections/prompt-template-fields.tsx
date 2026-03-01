@@ -23,9 +23,9 @@ type Props = {
    globalFields?: DGlobalTemplateField[];
    globalFieldIds?: string[];
    onAddField: CallbackFn;
+   onRemoveField: (index: number) => void;
    onAddGlobalFieldIds?: (ids: string[]) => void;
    onRemoveGlobalFieldId?: (id: string) => void;
-   onRemoveField: (index: number) => void;
    control: Control<DPromptTemplateUpdate>;
    watch: UseFormWatch<DPromptTemplateUpdate>;
 };
@@ -36,9 +36,9 @@ export const PromptTemplateFields: FC<Props> = ({
    globalFields = [],
    globalFieldIds = [],
    onAddField,
+   onRemoveField,
    onAddGlobalFieldIds,
    onRemoveGlobalFieldId,
-   onRemoveField,
    control,
    watch,
 }) => {
