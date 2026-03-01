@@ -18,7 +18,6 @@ const Root: React.FC<{
 
    React.useEffect(() => {
       setInternalOpen(open);
-      onOpenChange?.(open);
    }, [open]);
 
    const setOpen = (v: boolean) => {

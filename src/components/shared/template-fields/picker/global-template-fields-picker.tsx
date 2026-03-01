@@ -52,7 +52,6 @@ export const GlobalTemplateFieldsPicker = ({
    };
 
    const handleOpenChange = (o: boolean) => {
-      console.log(o);
       setOpen(o);
       if (!o) {
          setSearch("");
