@@ -110,7 +110,7 @@ export const LibraryEntryEditForm = ({ entry, globalFields = [] }: Props) => {
    const handleAddGlobalFieldIds = (newIds: string[]) => {
       const current = form.getValues("globalFieldIds");
       form.setValue("globalFieldIds", [...current, ...newIds]);
-      toast.success(`${newIds.length} Feld(er) aus Bibliothek hinzugefügt`);
+      toast.success(`${newIds.length} globale Feld(er) hinzugefügt`);
    };
 
    const handleRemoveGlobalFieldId = (id: string) => {

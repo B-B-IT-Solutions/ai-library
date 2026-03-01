@@ -111,6 +111,7 @@ export class LibraryRepository {
                   promptTemplate: {
                      include: {
                         fields: true,
+                        globalFields: true,
                      },
                   },
                },
