@@ -434,6 +434,7 @@ describe("updatePromptTemplateSchema - tests", () => {
       categories: ["Marketing", "Sales"],
       categoryInput: "",
       fields: [validField],
+      globalFieldIds: [],
    };
 
    describe("Valid data", () => {
@@ -452,6 +453,7 @@ describe("updatePromptTemplateSchema - tests", () => {
             recommendedModel: "gpt-4",
             categories: ["Marketing"],
             fields: [],
+            globalFieldIds: [],
          };
 
          const validatedValues = updatePromptTemplateSchema.parse(templateData);
@@ -741,6 +743,7 @@ describe("updatePromptTemplateSchema - tests", () => {
             recommendedModel: "gpt-4",
             categories: [],
             fields: [],
+            globalFieldIds: [],
          };
 
          const validatedValues = updatePromptTemplateSchema.parse(templateData);
@@ -844,6 +847,7 @@ describe("updatePromptTemplateSchema - tests", () => {
             recommendedModel: "gpt-4-turbo",
             categories: ["Marketing", "Email", "Sales"],
             categoryInput: "",
+            globalFieldIds: [],
             fields: [
                {
                   name: "firstName",
@@ -893,6 +897,7 @@ describe("updatePromptTemplateSchema - tests", () => {
             recommendedModel: "M",
             categories: [],
             fields: [],
+            globalFieldIds: [],
          };
 
          const validatedValues =
