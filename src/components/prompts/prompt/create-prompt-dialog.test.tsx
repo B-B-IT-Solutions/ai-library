@@ -99,9 +99,9 @@ describe("CreatePromptDialog functionality tests", () => {
       await userEvent.click(submitBtn);
 
       const expectedValues: DPromptTemplateFieldValues = {
-         "field 0": "option 1",
-         "field 1": "option 1",
-         "field 2": "option 1",
+         field_0: "option 1",
+         field_1: "option 1",
+         field_2: "option 1",
       };
       expect(submitFn).toHaveBeenCalledWith(expectedValues);
       expect(submitFn).toHaveBeenCalledTimes(1);

@@ -1107,7 +1107,7 @@ exports[`EditLibraryEntryPage rendering tests EditLibraryEntryPage - library ent
                   </div>
                   <div
                     class="space-y-2"
-                    data-testid="global-fields"
+                    data-testid="prompt-global-template-fields"
                   >
                     <p
                       class="text-xs font-medium tracking-wide text-slate-400 uppercase"
@@ -1116,7 +1116,7 @@ exports[`EditLibraryEntryPage rendering tests EditLibraryEntryPage - library ent
                     </p>
                     <div
                       class="flex items-center justify-between rounded-lg border px-4 py-3 border-orange-200 bg-orange-50"
-                      data-testid="global-field-reference"
+                      data-testid="prompt-global-template-field"
                     >
                       <div
                         class="flex items-center gap-3"
