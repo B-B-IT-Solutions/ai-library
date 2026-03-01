@@ -58,13 +58,6 @@ export const PromptTemplateFields: FC<Props> = ({
                </p>
             </div>
             <div className="flex items-center gap-2">
-               {globalFields.length > 0 && onAddGlobalFieldIds && (
-                  <GlobalTemplateFieldsPicker
-                     globalFields={globalFields}
-                     selectedGlobalFieldIds={globalFieldIds}
-                     onAddFields={onAddGlobalFieldIds}
-                  />
-               )}
                <Button
                   type="button"
                   onClick={onAddField}
@@ -76,6 +69,13 @@ export const PromptTemplateFields: FC<Props> = ({
                   <Plus className="mr-1 h-4 w-4" />
                   Feld hinzufügen
                </Button>
+               {globalFields.length > 0 && onAddGlobalFieldIds && (
+                  <GlobalTemplateFieldsPicker
+                     globalFields={globalFields}
+                     selectedGlobalFieldIds={globalFieldIds}
+                     onAddFields={onAddGlobalFieldIds}
+                  />
+               )}
             </div>
          </div>
       );

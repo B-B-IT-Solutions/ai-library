@@ -32,7 +32,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-plus mr-2 h-4 w-4"
+            class="lucide lucide-plus mr-1 h-4 w-4"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -509,7 +509,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               id="_r_7_-form-item"
               name="fields.1.name"
               placeholder="Name des Feldes"
-              value="field 1"
+              value="field_1"
             />
             <p
               class="text-destructive text-sm"
@@ -519,7 +519,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               <span
                 class="text-slate-500"
               >
-                Verwenden Sie diesen Namen als {{field 1}}
+                Verwenden Sie diesen Namen als {{field_1}}
               </span>
             </p>
           </div>
@@ -844,7 +844,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               id="_r_e_-form-item"
               name="fields.2.name"
               placeholder="Name des Feldes"
-              value="field 2"
+              value="field_2"
             />
             <p
               class="text-destructive text-sm"
@@ -854,7 +854,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               <span
                 class="text-slate-500"
               >
-                Verwenden Sie diesen Namen als {{field 2}}
+                Verwenden Sie diesen Namen als {{field_2}}
               </span>
             </p>
           </div>
@@ -1100,7 +1100,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields emp
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-plus mr-2 h-4 w-4"
+            class="lucide lucide-plus mr-1 h-4 w-4"
             fill="none"
             height="24"
             stroke="currentColor"
