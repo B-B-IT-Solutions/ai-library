@@ -7,6 +7,7 @@ import { Control, UseFormWatch } from "react-hook-form";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
+import { GlobalTemplateFieldsPicker } from "@/components/shared/template-fields";
 import { CallbackFn } from "@/data/types/common";
 import {
    DPromptTemplateField,
@@ -14,7 +15,6 @@ import {
 } from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
 
-import { GlobalTemplateFieldsPicker } from "./global-template-fields-picker";
 import { PromptTemplateField } from "./prompt-template-field";
 
 type Props = {

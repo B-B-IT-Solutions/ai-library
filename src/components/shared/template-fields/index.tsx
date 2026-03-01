@@ -13,3 +13,4 @@ export {
    TEMPLATE_FIELD_OPTIONS,
    getTemplateFieldTypeLabel,
 } from "./utils/utils";
+export { GlobalTemplateFieldsPicker } from "./picker";
