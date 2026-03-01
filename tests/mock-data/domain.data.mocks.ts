@@ -540,6 +540,7 @@ export const dPromptTemplate = (index = 1): DPromptTemplate => {
       content: `content ${index}`,
       detailedDescription: `detailedDescription ${index}`,
       fields: dPromptTemplateFields(3),
+      globalFieldIds: dGlobalTemplateFieldIds(),
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
    };
@@ -554,6 +555,7 @@ export const dPromptTemplateUpdate = (index = 1): DPromptTemplateUpdate => {
       categories: ["category 1"],
       recommendedModel: `model ${index}`,
       fields: dPromptTemplateFieldUpdates(),
+      globalFieldIds: dGlobalTemplateFieldIds(),
    };
 };
 
