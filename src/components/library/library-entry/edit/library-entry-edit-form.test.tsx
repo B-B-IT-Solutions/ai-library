@@ -82,6 +82,18 @@ const assertFieldRendered = () => {
    assertNotInDocument(fieldsEmpty);
 };
 
+const typeIntoInput = async (testId: string, value: string) => {
+   const field = screen.getByTestId(testId);
+   const input = within(field).getByTestId("input");
+   await userEvent.type(input, value);
+};
+
+const typeIntoTextArea = async (testId: string, value: string) => {
+   const field = screen.getByTestId(testId);
+   const input = within(field).getByTestId("textarea");
+   await userEvent.type(input, value);
+};
+
 describe("LibraryEntryEditForm rendering tests", () => {
    it("LibraryEntryEditForm - new entry - rendered - test", () => {
       const { container } = render(<LibraryEntryEditForm globalFields={[]} />);
