@@ -132,6 +132,11 @@ describe("GlobalTemplateFieldsPicker rendering tests", () => {
          assertAddBtnNotRendered();
       });
 
+      const fieldOptions = screen.getAllByTestId("field-option");
+      expect(fieldOptions[0]).toBeDisabled();
+      expect(fieldOptions[1]).not.toBeDisabled();
+      expect(fieldOptions[2]).not.toBeDisabled();
+
       expect(container).toMatchSnapshot();
    });
 
@@ -160,6 +165,11 @@ describe("GlobalTemplateFieldsPicker rendering tests", () => {
          assertAddBtnNotRendered();
       });
 
+      const fieldOptions = screen.getAllByTestId("field-option");
+      expect(fieldOptions[0]).not.toBeDisabled();
+      expect(fieldOptions[1]).not.toBeDisabled();
+      expect(fieldOptions[2]).not.toBeDisabled();
+
       const fieldOption = screen.getAllByTestId("field-option")[0];
       await userEvent.click(fieldOption);
 
@@ -186,6 +196,7 @@ describe("GlobalTemplateFieldsPicker functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertContentNotRendered();
       });
 
       const pickerBtn = screen.getByTestId("global-template-fields-picker");
@@ -193,6 +204,7 @@ describe("GlobalTemplateFieldsPicker functionality tests", () => {
 
       await waitFor(() => {
          assertFieldsRendered();
+         assertContentRendered();
          expect(addFieldsFn).not.toHaveBeenCalled();
       });
 
@@ -216,6 +228,65 @@ describe("GlobalTemplateFieldsPicker functionality tests", () => {
       const expectedPayload: string[] = [fields[0].id, fields[1].id];
 
       await waitFor(() => {
+         assertContentNotRendered();
+         expect(addFieldsFn).toHaveBeenCalledTimes(1);
+         expect(addFieldsFn).toHaveBeenCalledWith(expectedPayload);
+      });
+   });
+   it("GlobalTemplateFieldsPicker - field unselected - test", async () => {
+      const fields = dtestData.dGlobalTemplateFields();
+      const selectedFieldIds = dtestData.dGlobalTemplateFieldIds(1);
+      const addFieldsFn = jest.fn();
+
+      render(
+         <GlobalTemplateFieldsPicker
+            globalFields={fields}
+            selectedGlobalFieldIds={selectedFieldIds}
+            onAddFields={addFieldsFn}
+         />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertContentNotRendered();
+      });
+
+      const pickerBtn = screen.getByTestId("global-template-fields-picker");
+      await userEvent.click(pickerBtn);
+
+      await waitFor(() => {
+         assertFieldsRendered();
+         assertContentRendered();
+         expect(addFieldsFn).not.toHaveBeenCalled();
+      });
+
+      const fieldOption1 = screen.getAllByTestId("field-option")[1];
+      await userEvent.click(fieldOption1);
+
+      await waitFor(() => {
+         expect(addFieldsFn).not.toHaveBeenCalled();
+      });
+
+      const fieldOption2 = screen.getAllByTestId("field-option")[2];
+      await userEvent.click(fieldOption2);
+
+      await waitFor(() => {
+         expect(addFieldsFn).not.toHaveBeenCalled();
+      });
+
+      await userEvent.click(fieldOption1);
+
+      await waitFor(() => {
+         expect(addFieldsFn).not.toHaveBeenCalled();
+      });
+
+      const addBtn = screen.getByTestId("add-fields-btn");
+      await userEvent.click(addBtn);
+
+      const expectedPayload: string[] = [fields[2].id];
+
+      await waitFor(() => {
+         assertContentNotRendered();
          expect(addFieldsFn).toHaveBeenCalledTimes(1);
          expect(addFieldsFn).toHaveBeenCalledWith(expectedPayload);
       });
