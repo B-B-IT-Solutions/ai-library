@@ -76,19 +76,29 @@ const assertDetectedVariablesNotRendered = () => {
    assertNotInDocument(variables);
 };
 
-const assertFieldsEmptyRendered = () => {
+const assertTemplateFieldsEmptyRendered = () => {
    const fieldsEmpty = screen.getByTestId("fields-empty");
    const field = screen.queryByTestId("prompt-template-field");
    assertInDocument(fieldsEmpty);
    assertNotInDocument(field);
 };
 
-const assertFieldRendered = () => {
+const assertTemplateFieldRendered = () => {
    const field = screen.getByTestId("prompt-template-field");
    const fieldsEmpty = screen.queryByTestId("fields-empty");
 
    assertInDocument(field);
    assertNotInDocument(fieldsEmpty);
+};
+
+const assertGlobalFieldsRendered = () => {
+   const globalFields = screen.getByTestId("global-fields");
+   assertInDocument(globalFields);
+};
+
+const assertGlobalFieldsNotRendered = () => {
+   const globalFields = screen.queryByTestId("global-fields");
+   assertNotInDocument(globalFields);
 };
 
 describe("LibraryEntryEditForm rendering tests", () => {
@@ -160,12 +170,56 @@ describe("LibraryEntryEditForm functionality tests", () => {
       mockRouter.push("/");
    });
 
-   it("LibraryEntryEditForm - add new field btn clicked - test", async () => {
+   it("LibraryEntryEditForm - add global field btn clicked - test", async () => {
       const fields = dtestData.dGlobalTemplateFields();
       render(<LibraryEntryEditForm globalFields={fields} />);
 
       assertRendered();
-      assertFieldsEmptyRendered();
+      assertGlobalFieldsNotRendered();
+
+      const globalFieldBtn = screen.getByTestId(
+         "global-template-fields-picker"
+      );
+      await userEvent.click(globalFieldBtn);
+
+      const fieldOption1 = screen.getAllByTestId("field-option")[0];
+      await userEvent.click(fieldOption1);
+
+      assertGlobalFieldsNotRendered();
+
+      const addBtn = screen.getByTestId("add-fields-btn");
+      await userEvent.click(addBtn);
+
+      assertGlobalFieldsRendered();
+      expect(toastMock.success).toHaveBeenCalledTimes(1);
+      expect(toastMock.success).toHaveBeenCalledWith(
+         "1 globale Feld(er) hinzugefügt"
+      );
+   });
+
+   it("LibraryEntryEditForm - remove global field btn clicked - test", async () => {
+      const entry = dtestData.dLibraryEntryWithPromptTemplate();
+      const fields = dtestData.dGlobalTemplateFields();
+
+      render(<LibraryEntryEditForm entry={entry} globalFields={fields} />);
+
+      assertRendered();
+      assertGlobalFieldsRendered();
+
+      const removeGlobalFieldBtn = screen.getByTestId(
+         "remove-global-field-btn"
+      );
+      await userEvent.click(removeGlobalFieldBtn);
+
+      assertGlobalFieldsNotRendered();
+   });
+
+   it("LibraryEntryEditForm - add new template field btn clicked - test", async () => {
+      const fields = dtestData.dGlobalTemplateFields();
+      render(<LibraryEntryEditForm globalFields={fields} />);
+
+      assertRendered();
+      assertTemplateFieldsEmptyRendered();
 
       const fieldsSection = screen.getByTestId("prompt-template-fields");
       const addFieldBtn = within(fieldsSection).getByTestId("add-btn");
@@ -173,29 +227,29 @@ describe("LibraryEntryEditForm functionality tests", () => {
       await userEvent.click(addFieldBtn);
 
       await waitFor(() => {
-         assertFieldRendered();
+         assertTemplateFieldRendered();
       });
    });
 
-   it("LibraryEntryEditForm - remove field btn clicked - test", async () => {
+   it("LibraryEntryEditForm - remove template field btn clicked - test", async () => {
       const fields = dtestData.dGlobalTemplateFields();
       render(<LibraryEntryEditForm globalFields={fields} />);
 
       assertRendered();
-      assertFieldsEmptyRendered();
+      assertTemplateFieldsEmptyRendered();
 
       const fieldsSection = screen.getByTestId("prompt-template-fields");
       const addFieldBtn = within(fieldsSection).getByTestId("add-btn");
       await userEvent.click(addFieldBtn);
 
-      assertFieldRendered();
+      assertTemplateFieldRendered();
 
       const field = screen.getByTestId("prompt-template-field");
       const removeBtn = within(field).getByTestId("remove-btn");
       await userEvent.click(removeBtn);
 
       await waitFor(() => {
-         assertFieldsEmptyRendered();
+         assertTemplateFieldsEmptyRendered();
       });
    });
 
@@ -205,7 +259,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
 
       assertRendered();
       assertDetectedVariablesNotRendered();
-      assertFieldsEmptyRendered();
+      assertTemplateFieldsEmptyRendered();
 
       const content = screen
          .getByTestId("tiptap-editor")
@@ -225,7 +279,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
       await userEvent.click(addVariableBtn);
 
       await waitFor(() => {
-         assertFieldRendered();
+         assertTemplateFieldRendered();
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(
             'Feld "name" hinzugefügt'
@@ -239,7 +293,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
 
       assertRendered();
       assertDetectedVariablesNotRendered();
-      assertFieldsEmptyRendered();
+      assertTemplateFieldsEmptyRendered();
 
       const content = screen
          .getByTestId("tiptap-editor")
