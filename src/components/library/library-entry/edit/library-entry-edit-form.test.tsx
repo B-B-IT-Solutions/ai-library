@@ -84,7 +84,7 @@ const assertFieldRendered = () => {
 
 describe("LibraryEntryEditForm rendering tests", () => {
    it("LibraryEntryEditForm - new entry - rendered - test", () => {
-      const { container } = render(<LibraryEntryEditForm />);
+      const { container } = render(<LibraryEntryEditForm globalFields={[]} />);
 
       assertRendered();
       assertDetectedVariablesNotRendered();
@@ -93,7 +93,7 @@ describe("LibraryEntryEditForm rendering tests", () => {
    });
 
    it("LibraryEntryEditForm - new entry - variables detected in content - test", async () => {
-      const { container } = render(<LibraryEntryEditForm />);
+      const { container } = render(<LibraryEntryEditForm globalFields={[]} />);
 
       assertRendered();
       assertDetectedVariablesNotRendered();
@@ -116,8 +116,11 @@ describe("LibraryEntryEditForm rendering tests", () => {
 
    it("LibraryEntryEditForm - existing entry - rendered - test", () => {
       const entry = dtestData.dLibraryEntryWithPromptTemplate();
+      const fields = dtestData.dGlobalTemplateFields();
 
-      const { container } = render(<LibraryEntryEditForm entry={entry} />);
+      const { container } = render(
+         <LibraryEntryEditForm entry={entry} globalFields={fields} />
+      );
 
       assertRendered();
       assertDetectedVariablesNotRendered();
@@ -126,11 +129,14 @@ describe("LibraryEntryEditForm rendering tests", () => {
    });
 
    it("LibraryEntryEditForm - existing entry - variables detected in content - test", async () => {
+      const fields = dtestData.dGlobalTemplateFields();
       const entry = dtestData.dLibraryEntryWithPromptTemplate();
       entry.templateDescriptor.promptTemplate.content =
          "Hello {{{{name}}, your role is {{{{role}}";
 
-      const { container } = render(<LibraryEntryEditForm entry={entry} />);
+      const { container } = render(
+         <LibraryEntryEditForm entry={entry} globalFields={fields} />
+      );
 
       assertRendered();
       assertDetectedVariablesRendered();
@@ -146,7 +152,8 @@ describe("LibraryEntryEditForm functionality tests", () => {
    });
 
    it("LibraryEntryEditForm - add new field btn clicked - test", async () => {
-      render(<LibraryEntryEditForm />);
+      const fields = dtestData.dGlobalTemplateFields();
+      render(<LibraryEntryEditForm globalFields={fields} />);
 
       assertRendered();
       assertFieldsEmptyRendered();
@@ -162,7 +169,8 @@ describe("LibraryEntryEditForm functionality tests", () => {
    });
 
    it("LibraryEntryEditForm - remove field btn clicked - test", async () => {
-      render(<LibraryEntryEditForm />);
+      const fields = dtestData.dGlobalTemplateFields();
+      render(<LibraryEntryEditForm globalFields={fields} />);
 
       assertRendered();
       assertFieldsEmptyRendered();
@@ -183,7 +191,8 @@ describe("LibraryEntryEditForm functionality tests", () => {
    });
 
    it("LibraryEntryEditForm - add variable as field - test", async () => {
-      render(<LibraryEntryEditForm />);
+      const fields = dtestData.dGlobalTemplateFields();
+      render(<LibraryEntryEditForm globalFields={fields} />);
 
       assertRendered();
       assertDetectedVariablesNotRendered();
@@ -216,7 +225,8 @@ describe("LibraryEntryEditForm functionality tests", () => {
    });
 
    it("LibraryEntryEditForm - sync all variables - test", async () => {
-      render(<LibraryEntryEditForm />);
+      const fields = dtestData.dGlobalTemplateFields();
+      render(<LibraryEntryEditForm globalFields={fields} />);
 
       assertRendered();
       assertDetectedVariablesNotRendered();
@@ -254,7 +264,8 @@ describe("LibraryEntryEditForm functionality tests", () => {
       };
       createLibraryEntryMock.mockResolvedValue(result);
 
-      render(<LibraryEntryEditForm />);
+      const fields = dtestData.dGlobalTemplateFields();
+      render(<LibraryEntryEditForm globalFields={fields} />);
 
       assertRendered();
 
@@ -311,8 +322,9 @@ describe("LibraryEntryEditForm functionality tests", () => {
       updateLibraryEntryMock.mockResolvedValue(result);
 
       const entry = dtestData.dLibraryEntryWithPromptTemplate();
+      const fields = dtestData.dGlobalTemplateFields();
 
-      render(<LibraryEntryEditForm entry={entry} />);
+      render(<LibraryEntryEditForm entry={entry} globalFields={fields} />);
 
       assertRendered();
 
@@ -370,7 +382,8 @@ describe("LibraryEntryEditForm functionality tests", () => {
       };
       createLibraryEntryMock.mockResolvedValue(result);
 
-      render(<LibraryEntryEditForm />);
+      const fields = dtestData.dGlobalTemplateFields();
+      render(<LibraryEntryEditForm globalFields={fields} />);
 
       assertRendered();
 
@@ -427,8 +440,9 @@ describe("LibraryEntryEditForm functionality tests", () => {
       updateLibraryEntryMock.mockResolvedValue(result);
 
       const entry = dtestData.dLibraryEntryWithPromptTemplate();
+      const fields = dtestData.dGlobalTemplateFields();
 
-      render(<LibraryEntryEditForm entry={entry} />);
+      render(<LibraryEntryEditForm entry={entry} globalFields={fields} />);
 
       assertRendered();
 

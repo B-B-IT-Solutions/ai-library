@@ -16,7 +16,7 @@ const assertRendered = () => {
 
 describe("LibraryEntryEdit rendering tests", () => {
    it("LibraryEntryEdit - new entry - test", async () => {
-      const { container } = render(<LibraryEntryEdit />);
+      const { container } = render(<LibraryEntryEdit globalFields={[]} />);
 
       await waitFor(() => {
          assertRendered();
@@ -27,7 +27,11 @@ describe("LibraryEntryEdit rendering tests", () => {
 
    it("LibraryEntryEdit - edit existing entry - test", async () => {
       const entry = dtestData.dLibraryEntryWithPromptTemplate();
-      const { container } = render(<LibraryEntryEdit entry={entry} />);
+      const fields = dtestData.dGlobalTemplateFields();
+
+      const { container } = render(
+         <LibraryEntryEdit entry={entry} globalFields={fields} />
+      );
 
       await waitFor(() => {
          assertRendered();

@@ -42,10 +42,10 @@ import {
 
 type Props = {
    entry?: DLibraryEntryWithPromptTemplate;
-   globalFields?: DGlobalTemplateField[];
+   globalFields: DGlobalTemplateField[];
 };
 
-export const LibraryEntryEditForm = ({ entry, globalFields = [] }: Props) => {
+export const LibraryEntryEditForm = ({ entry, globalFields }: Props) => {
    const router = useRouter();
    const isEdit = !!entry;
 
