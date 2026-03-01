@@ -8,22 +8,42 @@ jest.mock("use-debounce", () => ({
 
 import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, dtestData, renderWithRouter } from "@tests";
+import {
+   assertInDocument,
+   assertNotInDocument,
+   dtestData,
+   renderWithRouter,
+} from "@tests";
 
 import { LibraryFilters } from "./library-filters";
 
 const assertRendered = () => {
    const filters = screen.getByTestId("library-entry-filters-trigger");
+   assertInDocument(filters);
+};
+
+const assertFiltersRendered = () => {
    const search = screen.getByTestId("search-filter");
    const categories = screen.getByTestId("categories-filter");
    const models = screen.getByTestId("models-filter");
    const applyBtn = screen.getByTestId("apply-filters-btn");
 
-   assertInDocument(filters);
    assertInDocument(search);
    assertInDocument(categories);
    assertInDocument(models);
    assertInDocument(applyBtn);
+};
+
+const assertFiltersNotRendered = () => {
+   const search = screen.queryByTestId("search-filter");
+   const categories = screen.queryByTestId("categories-filter");
+   const models = screen.queryByTestId("models-filter");
+   const applyBtn = screen.queryByTestId("apply-filters-btn");
+
+   assertNotInDocument(search);
+   assertNotInDocument(categories);
+   assertNotInDocument(models);
+   assertNotInDocument(applyBtn);
 };
 
 const assertCategoriesEmptyRendered = () => {
@@ -46,6 +66,13 @@ describe("LibraryFilters rendering tests", () => {
       );
 
       await waitFor(() => {
+         assertRendered();
+      });
+
+      const filtersBtn = screen.getByTestId("library-entry-filters-trigger");
+      await userEvent.click(filtersBtn);
+
+      await waitFor(() => {
          assertCategoriesEmptyRendered();
       });
 
@@ -66,6 +93,14 @@ describe("LibraryFilters rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertFiltersNotRendered();
+      });
+
+      const filtersBtn = screen.getByTestId("library-entry-filters-trigger");
+      await userEvent.click(filtersBtn);
+
+      await waitFor(() => {
+         assertFiltersRendered();
       });
 
       expect(container).toMatchSnapshot();
