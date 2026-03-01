@@ -73,7 +73,7 @@ export const PromptTemplateFields: FC<Props> = ({
                   className="cursor-pointer"
                   data-testid="add-btn"
                >
-                  <Plus className="mr-2 h-4 w-4" />
+                  <Plus className="mr-1 h-4 w-4" />
                   Feld hinzufügen
                </Button>
             </div>
@@ -85,7 +85,7 @@ export const PromptTemplateFields: FC<Props> = ({
       if (isEmpty(resolvedGlobalFields)) return null;
       return (
          <div className="space-y-2" data-testid="global-fields">
-            <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+            <p className="text-xs font-medium tracking-wide text-slate-400 uppercase">
                Globale Felder
             </p>
             {map(resolvedGlobalFields, (field) => {

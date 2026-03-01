@@ -2,7 +2,7 @@
 
 import { FC, useState } from "react";
 import { filter, map } from "es-toolkit/compat";
-import { BookOpen, Check, Search } from "lucide-react";
+import { Braces, Check, Search } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
@@ -78,8 +78,8 @@ export const GlobalFieldsPicker: FC<Props> = ({
                className="cursor-pointer"
                data-testid="aus-bibliothek-btn"
             >
-               <BookOpen className="mr-2 h-4 w-4" />
-               Aus Bibliothek
+               <Braces className="mr-1 h-4 w-4" />
+               Globale Felder
             </Button>
          </PopoverTrigger>
          <PopoverContent className="w-80 p-0" align="end">
