@@ -12,7 +12,7 @@ import {
    TemplateFieldName,
    TemplateFieldRequired,
    TemplateFieldType,
-} from "@/components/shared/template-fields";
+} from "@/components/shared/global-template-fields";
 import { CallbackFn } from "@/data/types/common";
 import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
 

@@ -1,6 +1,6 @@
 import { map } from "es-toolkit/compat";
 
-import { existingTemplateFieldInitValues } from "@/components/shared/template-fields";
+import { existingTemplateFieldInitValues } from "@/components/shared/global-template-fields";
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
 import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
 
