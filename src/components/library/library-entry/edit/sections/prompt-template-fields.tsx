@@ -1,11 +1,10 @@
 "use client";
 
 import { FC } from "react";
-import { filter, isEmpty, map } from "es-toolkit/compat";
-import { AlertCircle, CheckCircle2, Plus, Trash2 } from "lucide-react";
+import { filter, includes, isEmpty, map } from "es-toolkit/compat";
+import { Plus } from "lucide-react";
 import { Control, UseFormWatch } from "react-hook-form";
 
-import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
 import { GlobalTemplateFieldsPicker } from "@/components/shared/template-fields";
 import { CallbackFn } from "@/data/types/common";
@@ -15,17 +14,18 @@ import {
 } from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
 
+import { PromptGlobalTemplateField } from "./prompt-global-template-field";
 import { PromptTemplateField } from "./prompt-template-field";
 
 type Props = {
    fields: DPromptTemplateField[];
    detectedVariables: string[];
-   globalFields?: DGlobalTemplateField[];
-   globalFieldIds?: string[];
+   globalFields: DGlobalTemplateField[];
+   globalFieldIds: string[];
    onAddField: CallbackFn;
    onRemoveField: (index: number) => void;
-   onAddGlobalFieldIds?: (ids: string[]) => void;
-   onRemoveGlobalFieldId?: (id: string) => void;
+   onAddGlobalFieldIds: (ids: string[]) => void;
+   onRemoveGlobalFieldId: (id: string) => void;
    control: Control<DPromptTemplateUpdate>;
    watch: UseFormWatch<DPromptTemplateUpdate>;
 };
@@ -33,8 +33,8 @@ type Props = {
 export const PromptTemplateFields: FC<Props> = ({
    fields,
    detectedVariables,
-   globalFields = [],
-   globalFieldIds = [],
+   globalFields,
+   globalFieldIds,
    onAddField,
    onRemoveField,
    onAddGlobalFieldIds,
@@ -43,7 +43,7 @@ export const PromptTemplateFields: FC<Props> = ({
    watch,
 }) => {
    const resolvedGlobalFields = filter(globalFields, (f) =>
-      globalFieldIds.includes(f.id)
+      includes(globalFieldIds, f.id)
    );
 
    const header = () => {
@@ -69,86 +69,41 @@ export const PromptTemplateFields: FC<Props> = ({
                   <Plus className="mr-1 h-4 w-4" />
                   Feld hinzufügen
                </Button>
-               {globalFields.length > 0 && onAddGlobalFieldIds && (
-                  <GlobalTemplateFieldsPicker
-                     globalFields={globalFields}
-                     selectedGlobalFieldIds={globalFieldIds}
-                     onAddFields={onAddGlobalFieldIds}
-                  />
-               )}
+               <GlobalTemplateFieldsPicker
+                  globalFields={globalFields}
+                  selectedGlobalFieldIds={globalFieldIds}
+                  onAddFields={onAddGlobalFieldIds}
+               />
             </div>
          </div>
       );
    };
 
-   const renderGlobalFields = () => {
-      if (isEmpty(resolvedGlobalFields)) return null;
+   const renderGlobalField = (field: DGlobalTemplateField) => {
+      const isUsed = detectedVariables.includes(field.name);
       return (
-         <div className="space-y-2" data-testid="global-fields">
-            <p className="text-xs font-medium tracking-wide text-slate-400 uppercase">
-               Globale Felder
-            </p>
-            {map(resolvedGlobalFields, (field) => {
-               const isUsed = detectedVariables.includes(field.name);
-               return (
-                  <div
-                     key={field.id}
-                     className={`flex items-center justify-between rounded-lg border px-4 py-3 ${
-                        isUsed
-                           ? "border-green-200 bg-green-50"
-                           : "border-orange-200 bg-orange-50"
-                     }`}
-                     data-testid="global-field-reference"
-                  >
-                     <div className="flex items-center gap-3">
-                        <div>
-                           <span className="text-sm font-medium text-slate-900">
-                              {field.label}
-                           </span>
-                           <code className="ml-2 font-mono text-xs text-slate-500">
-                              {`{{${field.name}}}`}
-                           </code>
-                        </div>
-                        <Badge variant="secondary" className="text-xs">
-                           {field.type}
-                        </Badge>
-                        {field.required && (
-                           <Badge variant="outline" className="text-xs">
-                              Pflicht
-                           </Badge>
-                        )}
-                        {isUsed ? (
-                           <span className="flex items-center gap-1 rounded-full bg-green-100 px-2 py-1 text-xs text-green-800">
-                              <CheckCircle2 className="h-3 w-3" />
-                              Im Content verwendet
-                           </span>
-                        ) : (
-                           <span className="flex items-center gap-1 rounded-full bg-orange-100 px-2 py-1 text-xs text-orange-800">
-                              <AlertCircle className="h-3 w-3" />
-                              Nicht verwendet
-                           </span>
-                        )}
-                     </div>
-                     {onRemoveGlobalFieldId && (
-                        <Button
-                           type="button"
-                           variant="ghost"
-                           size="sm"
-                           className="cursor-pointer"
-                           onClick={() => onRemoveGlobalFieldId(field.id)}
-                           data-testid="remove-global-field-btn"
-                        >
-                           <Trash2 className="h-4 w-4" />
-                        </Button>
-                     )}
-                  </div>
-               );
-            })}
-         </div>
+         <PromptGlobalTemplateField
+            field={field}
+            isUsed={isUsed}
+            onRemoveGlobalFieldId={onRemoveGlobalFieldId}
+         />
       );
    };
 
-   const renderField = (field: DPromptTemplateField, idx: number) => {
+   const renderGlobalFields = () => {
+      if (!isEmpty(resolvedGlobalFields)) {
+         return (
+            <div className="space-y-2" data-testid="global-fields">
+               <p className="text-xs font-medium tracking-wide text-slate-400 uppercase">
+                  Globale Felder
+               </p>
+               {map(resolvedGlobalFields, renderGlobalField)}
+            </div>
+         );
+      }
+   };
+
+   const renderTemplateField = (field: DPromptTemplateField, idx: number) => {
       const fieldName = watch(`fields.${idx}.name`);
       const isUsed = detectedVariables.includes(fieldName);
       const hasName = !isEmpty(fieldName);
@@ -166,7 +121,7 @@ export const PromptTemplateFields: FC<Props> = ({
       );
    };
 
-   const renderFields = () => {
+   const renderTemplateFields = () => {
       if (isEmpty(fields)) {
          return (
             <div
@@ -182,7 +137,7 @@ export const PromptTemplateFields: FC<Props> = ({
       }
       return (
          <div className="space-y-4" data-testid="fields">
-            {map(fields, (field, idx) => renderField(field, idx))}
+            {map(fields, (field, idx) => renderTemplateField(field, idx))}
          </div>
       );
    };
@@ -191,7 +146,7 @@ export const PromptTemplateFields: FC<Props> = ({
       <section className="space-y-4" data-testid="prompt-template-fields">
          {header()}
          {renderGlobalFields()}
-         {renderFields()}
+         {renderTemplateFields()}
       </section>
    );
 };

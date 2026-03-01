@@ -1,30 +1,40 @@
-import { FC } from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData } from "@tests";
+import { map } from "es-toolkit/compat";
 import { FormProvider, useForm } from "react-hook-form";
 
+import { existingTemplateFieldInitValues } from "@/components/shared/template-fields";
 import { CallbackFn } from "@/data/types/common";
 import {
    DPromptTemplateField,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
+import { DGlobalTemplateField } from "@/data/types/domain/settings";
 
 import { PromptTemplateFields } from "./prompt-template-fields";
 
 type Props = {
    fields: DPromptTemplateField[];
+   globalFields: DGlobalTemplateField[];
+   globalFieldIds: string[];
    detectedVariables: string[];
    onAddField: CallbackFn;
    onRemoveField: (index: number) => void;
+   onAddGlobalFieldIds: (ids: string[]) => void;
+   onRemoveGlobalFieldId: (id: string) => void;
 };
 
-const TestWrapper: FC<Props> = ({
+const TestWrapper = ({
    fields,
+   globalFields,
+   globalFieldIds,
    detectedVariables,
    onAddField,
    onRemoveField,
-}) => {
+   onAddGlobalFieldIds,
+   onRemoveGlobalFieldId,
+}: Props) => {
    const form = useForm<DPromptTemplateUpdate>({
       defaultValues: {
          title: "",
@@ -34,7 +44,8 @@ const TestWrapper: FC<Props> = ({
          recommendedModel: "Claude 3.5 Sonnet",
          categories: [],
          categoryInput: "",
-         fields: fields,
+         fields: map(fields, existingTemplateFieldInitValues),
+         globalFieldIds: [],
       },
    });
 
@@ -42,9 +53,13 @@ const TestWrapper: FC<Props> = ({
       <FormProvider {...form}>
          <PromptTemplateFields
             fields={fields}
+            globalFields={globalFields}
+            globalFieldIds={globalFieldIds}
             detectedVariables={detectedVariables}
             onAddField={onAddField}
             onRemoveField={onRemoveField}
+            onAddGlobalFieldIds={onAddGlobalFieldIds}
+            onRemoveGlobalFieldId={onRemoveGlobalFieldId}
             control={form.control}
             watch={form.watch}
          />
@@ -81,9 +96,13 @@ describe("PromptTemplateFieldss rendering tests", () => {
       const { container } = render(
          <TestWrapper
             fields={[]}
+            globalFields={[]}
+            globalFieldIds={[]}
             detectedVariables={[]}
             onAddField={jest.fn()}
             onRemoveField={jest.fn()}
+            onAddGlobalFieldIds={jest.fn()}
+            onRemoveGlobalFieldId={jest.fn()}
          />
       );
 
@@ -100,9 +119,13 @@ describe("PromptTemplateFieldss rendering tests", () => {
       const { container } = render(
          <TestWrapper
             fields={fields}
+            globalFields={[]}
+            globalFieldIds={[]}
             detectedVariables={[]}
             onAddField={jest.fn()}
             onRemoveField={jest.fn()}
+            onAddGlobalFieldIds={jest.fn()}
+            onRemoveGlobalFieldId={jest.fn()}
          />
       );
 
@@ -122,9 +145,13 @@ describe("PromptTemplateFields functionality tests", () => {
       render(
          <TestWrapper
             fields={fields}
+            globalFields={[]}
+            globalFieldIds={[]}
             detectedVariables={detectedVariables}
             onAddField={addFieldFn}
             onRemoveField={jest.fn()}
+            onAddGlobalFieldIds={jest.fn()}
+            onRemoveGlobalFieldId={jest.fn()}
          />
       );
 
@@ -144,9 +171,13 @@ describe("PromptTemplateFields functionality tests", () => {
       render(
          <TestWrapper
             fields={fields}
+            globalFields={[]}
+            globalFieldIds={[]}
             detectedVariables={detectedVariables}
             onAddField={jest.fn()}
             onRemoveField={removeFieldFn}
+            onAddGlobalFieldIds={jest.fn()}
+            onRemoveGlobalFieldId={jest.fn()}
          />
       );
 
