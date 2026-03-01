@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 type Props = {
    field: DGlobalTemplateField;
-   onToggle: (id: string, alreadyAdded: boolean) => void;
+   onToggle: (id: string) => void;
    alreadyAdded: boolean;
    isSelected: boolean;
 };
@@ -47,7 +47,7 @@ export const GlobalTemplateFieldOption = ({
    return (
       <button
          type="button"
-         onClick={() => onToggle(field.id, alreadyAdded)}
+         onClick={() => onToggle(field.id)}
          disabled={alreadyAdded}
          className={cn(
             "flex w-full items-center justify-between px-3 py-2 text-left text-sm transition-colors",

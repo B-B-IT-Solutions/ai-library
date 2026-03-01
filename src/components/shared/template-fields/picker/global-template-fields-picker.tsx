@@ -37,12 +37,10 @@ export const GlobalTemplateFieldsPicker = ({
          includes(f.label.toLowerCase(), search.toLowerCase())
    );
 
-   const toggleField = (id: string, alreadyAdded: boolean) => {
-      if (!alreadyAdded) {
-         setSelectedIds((prev) =>
-            includes(prev, id) ? filter(prev, (i) => i !== id) : [...prev, id]
-         );
-      }
+   const toggleField = (id: string) => {
+      setSelectedIds((prev) =>
+         includes(prev, id) ? filter(prev, (i) => i !== id) : [...prev, id]
+      );
    };
 
    const handleAdd = () => {

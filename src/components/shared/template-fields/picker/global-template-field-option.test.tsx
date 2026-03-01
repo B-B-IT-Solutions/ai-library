@@ -3,7 +3,6 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData } from "@tests";
 
 import { GlobalTemplateFieldOption } from "./global-template-field-option";
-import { GlobalTemplateFieldsPicker } from "./global-template-fields-picker";
 
 const assertRendered = async () => {
    const option = screen.getByTestId("field-option");
@@ -112,7 +111,7 @@ describe("GlobalTemplateFieldOption functionality tests", () => {
 
       await waitFor(() => {
          expect(onToggleFn).toHaveBeenCalledTimes(1);
-         expect(onToggleFn).toHaveBeenCalledWith(field.id, false);
+         expect(onToggleFn).toHaveBeenCalledWith(field.id);
       });
    });
 
@@ -139,7 +138,7 @@ describe("GlobalTemplateFieldOption functionality tests", () => {
 
       await waitFor(() => {
          expect(onToggleFn).toHaveBeenCalledTimes(1);
-         expect(onToggleFn).toHaveBeenCalledWith(field.id, false);
+         expect(onToggleFn).toHaveBeenCalledWith(field.id);
       });
    });
 });
