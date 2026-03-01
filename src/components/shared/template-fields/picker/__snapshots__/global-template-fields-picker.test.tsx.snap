@@ -134,7 +134,7 @@ exports[`GlobalTemplateFieldsPicker rendering tests GlobalTemplateFieldsPicker -
           data-testid="fields-list"
         >
           <button
-            class="flex w-full items-center justify-between px-3 py-2 text-left text-sm transition-colors cursor-pointer hover:bg-accent bg-accent "
+            class="flex w-full items-center justify-between px-3 py-2 text-left text-sm transition-colors cursor-pointer hover:bg-accent bg-accent"
             data-testid="field-option"
             type="button"
           >
@@ -181,7 +181,7 @@ exports[`GlobalTemplateFieldsPicker rendering tests GlobalTemplateFieldsPicker -
             </span>
           </button>
           <button
-            class="flex w-full items-center justify-between px-3 py-2 text-left text-sm transition-colors cursor-pointer hover:bg-accent  "
+            class="flex w-full items-center justify-between px-3 py-2 text-left text-sm transition-colors cursor-pointer hover:bg-accent"
             data-testid="field-option"
             type="button"
           >
@@ -210,7 +210,7 @@ exports[`GlobalTemplateFieldsPicker rendering tests GlobalTemplateFieldsPicker -
             </span>
           </button>
           <button
-            class="flex w-full items-center justify-between px-3 py-2 text-left text-sm transition-colors cursor-pointer hover:bg-accent  "
+            class="flex w-full items-center justify-between px-3 py-2 text-left text-sm transition-colors cursor-pointer hover:bg-accent"
             data-testid="field-option"
             type="button"
           >
@@ -457,7 +457,7 @@ exports[`GlobalTemplateFieldsPicker rendering tests GlobalTemplateFieldsPicker -
           data-testid="fields-list"
         >
           <button
-            class="flex w-full items-center justify-between px-3 py-2 text-left text-sm transition-colors cursor-not-allowed bg-slate-50 opacity-50  "
+            class="flex w-full items-center justify-between px-3 py-2 text-left text-sm transition-colors cursor-not-allowed bg-slate-50 opacity-50"
             data-testid="field-option"
             disabled=""
             type="button"
@@ -501,7 +501,7 @@ exports[`GlobalTemplateFieldsPicker rendering tests GlobalTemplateFieldsPicker -
             </span>
           </button>
           <button
-            class="flex w-full items-center justify-between px-3 py-2 text-left text-sm transition-colors cursor-pointer hover:bg-accent  "
+            class="flex w-full items-center justify-between px-3 py-2 text-left text-sm transition-colors cursor-pointer hover:bg-accent"
             data-testid="field-option"
             type="button"
           >
@@ -530,7 +530,7 @@ exports[`GlobalTemplateFieldsPicker rendering tests GlobalTemplateFieldsPicker -
             </span>
           </button>
           <button
-            class="flex w-full items-center justify-between px-3 py-2 text-left text-sm transition-colors cursor-pointer hover:bg-accent  "
+            class="flex w-full items-center justify-between px-3 py-2 text-left text-sm transition-colors cursor-pointer hover:bg-accent"
             data-testid="field-option"
             type="button"
           >
