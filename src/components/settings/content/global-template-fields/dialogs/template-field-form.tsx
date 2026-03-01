@@ -9,7 +9,7 @@ import {
    TemplateFieldName,
    TemplateFieldRequired,
    TemplateFieldType,
-} from "@/components/shared/global-template-fields";
+} from "@/components/shared/template-fields";
 import { DGlobalTemplateFieldUpdate } from "@/data/types/domain/settings";
 
 type Props = {

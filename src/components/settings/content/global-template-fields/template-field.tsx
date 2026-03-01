@@ -1,5 +1,5 @@
 import { Badge } from "@/components/shadcn/badge";
-import { getFieldTypeLabel } from "@/components/shared/global-template-fields";
+import { getFieldTypeLabel } from "@/components/shared/template-fields";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
 
 import { DeleteTemplateFieldButton, EditTemplateFieldButton } from "./buttons";

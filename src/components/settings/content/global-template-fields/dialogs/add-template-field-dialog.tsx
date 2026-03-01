@@ -16,7 +16,7 @@ import {
    DialogTitle,
 } from "@/components/shadcn/dialog";
 import { Form } from "@/components/shadcn/form";
-import { globalTemplateFieldInitValues } from "@/components/shared/global-template-fields";
+import { globalTemplateFieldInitValues } from "@/components/shared/template-fields";
 import { createGlobalTemplateField } from "@/data/actions/settings";
 import { DGlobalTemplateFieldUpdate } from "@/data/types/domain/settings";
 import { globalTemplateFieldSchema } from "@/data/types/validators/settings";

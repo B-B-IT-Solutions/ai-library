@@ -7,7 +7,7 @@ import { assertInDocument, assertNotInDocument } from "@tests";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
-import { globalTemplateFieldInitValues } from "@/components/shared/global-template-fields";
+import { globalTemplateFieldInitValues } from "@/components/shared/template-fields";
 import { createGlobalTemplateField } from "@/data/actions/settings";
 import {
    DGlobalTemplateField,

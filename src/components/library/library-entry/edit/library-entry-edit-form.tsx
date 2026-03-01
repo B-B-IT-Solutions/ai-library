@@ -18,7 +18,7 @@ import {
 } from "@/components/shadcn/card";
 import { Form } from "@/components/shadcn/form";
 import { Separator } from "@/components/shadcn/separator";
-import { newTemplateFieldInitValues } from "@/components/shared/global-template-fields";
+import { newTemplateFieldInitValues } from "@/components/shared/template-fields";
 import { createLibraryEntry, updateLibraryEntry } from "@/data/actions/library";
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
 import {
