@@ -21,6 +21,6 @@ export const TEMPLATE_FIELD_OPTIONS = map(
    })
 );
 
-export const getFieldTypeLabel = (type: DPromptTemplateFieldType) => {
+export const getTemplateFieldTypeLabel = (type: DPromptTemplateFieldType) => {
    return TEMPLATE_FIELD_LABELS[type] ?? type;
 };

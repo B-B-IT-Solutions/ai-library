@@ -12,18 +12,8 @@ import {
    PopoverContent,
    PopoverTrigger,
 } from "@/components/shadcn/popover";
+import { getTemplateFieldTypeLabel } from "@/components/shared/template-fields";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
-
-const FIELD_TYPE_LABELS: Record<string, string> = {
-   TEXT: "Text",
-   TEXTAREA: "Textarea",
-   EMAIL: "E-Mail",
-   NUMBER: "Nummer",
-   DATE: "Datum",
-   SELECT: "Auswahl",
-   CHECKBOX: "Checkbox",
-   RADIO: "Radio",
-};
 
 type Props = {
    globalFields: DGlobalTemplateField[];
@@ -144,7 +134,7 @@ export const GlobalTemplateFieldsPicker: FC<Props> = ({
                               variant="secondary"
                               className="ml-2 shrink-0 text-xs"
                            >
-                              {FIELD_TYPE_LABELS[field.type] ?? field.type}
+                              {getTemplateFieldTypeLabel(field.type)}
                            </Badge>
                         </button>
                      );
