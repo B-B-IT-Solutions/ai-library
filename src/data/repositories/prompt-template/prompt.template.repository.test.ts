@@ -251,6 +251,7 @@ describe("pGetPromptTemplateDescriptorWithTemplate tests", () => {
             promptTemplate: {
                include: {
                   fields: true,
+                  globalFields: true,
                },
             },
          },
@@ -283,6 +284,7 @@ describe("pGetPromptTemplateDescriptorWithTemplate tests", () => {
             promptTemplate: {
                include: {
                   fields: true,
+                  globalFields: true,
                },
             },
          },
@@ -312,6 +314,7 @@ describe("pGetPromptTemplate tests", () => {
          where: { id },
          include: {
             fields: true,
+            globalFields: true,
          },
       };
       expect(result).toBeNull();
@@ -333,6 +336,7 @@ describe("pGetPromptTemplate tests", () => {
          where: { id },
          include: {
             fields: true,
+            globalFields: true,
          },
       };
       expect(result).toEqual(expectedResult);
@@ -419,6 +423,12 @@ describe("pCreatePromptTemplateDescriptor tests", () => {
                      })
                   ),
                },
+               globalFields: {
+                  create: map(data.globalFieldIds, (id, idx) => ({
+                     globalFieldId: id,
+                     order: idx,
+                  })),
+               },
             },
          },
       };
@@ -481,6 +491,13 @@ describe("pUpdatePromptTemplateDescriptor tests", () => {
                         options: stringify(field.options),
                      })
                   ),
+               },
+               globalFields: {
+                  deleteMany: {},
+                  create: map(data.globalFieldIds, (id, idx) => ({
+                     globalFieldId: id,
+                     order: idx,
+                  })),
                },
             },
          },
