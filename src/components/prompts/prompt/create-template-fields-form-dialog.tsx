@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { map } from "es-toolkit/compat";
 import { X } from "lucide-react";
 
 import { TemplateFieldForm } from "@/components/prompt-templates";
@@ -12,61 +12,59 @@ import {
    DialogTitle,
 } from "@/components/shadcn/dialog";
 import { CallbackFn } from "@/data/types/common";
-import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
-   DPromptTemplateDescriptorWithTemplate,
+   DPromptTemplateDataPromptGeneration,
+   DPromptTemplateDescriptor,
+   DPromptTemplateField,
    DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
-
-import { PromptEdit } from "./prompt-edit";
 
 type Props = {
    onSubmit: (values: DPromptTemplateFieldValues) => void;
    onCancel: CallbackFn;
-} & (
-   | {
-        mode: "fields-form";
-        descriptor: DPromptTemplateDescriptorWithTemplate;
-        promptUpdate?: undefined;
-     }
-   | {
-        mode: "review";
-        descriptor?: undefined;
-        promptUpdate: DPromptUpdate;
-     }
-);
+   descriptor: DPromptTemplateDescriptor;
+   templateData: DPromptTemplateDataPromptGeneration;
+};
 
-export const CreatePromptDialog: FC<Props> = ({
+export const CreateTemplateFieldsFormDialog = ({
    onSubmit,
    onCancel,
-   mode,
    descriptor,
-   promptUpdate,
-}) => {
-   const title = () => {
-      if (mode === "fields-form") {
-         return "Prompt-Vorlage ausfüllen";
-      }
-      return "Prompt-Vorschau";
-   };
-
+   templateData,
+}: Props) => {
    const content = () => {
-      if (mode === "fields-form") {
-         return (
-            <div className="space-y-4">
-               <div className="text-sm text-muted-foreground">
-                  <p className="font-semibold">{descriptor.title}</p>
-                  <p>{descriptor.description}</p>
-               </div>
-               <TemplateFieldForm
-                  fields={descriptor.promptTemplate.fields}
-                  onSubmit={onSubmit}
-                  onCancel={onCancel}
-               />
+      const mappedGlobalFields: DPromptTemplateField[] = map(
+         templateData.globalFields,
+         (f) => ({
+            id: f.id,
+            promptTemplateId: "",
+            name: f.name,
+            label: f.label,
+            description: f.description,
+            type: f.type,
+            required: f.required,
+            order: f.order,
+            defaultValue: f.defaultValue,
+            options: f.options,
+         })
+      );
+      const allFields = [
+         ...mappedGlobalFields,
+         ...templateData.template.fields,
+      ];
+      return (
+         <div className="space-y-4">
+            <div className="text-sm text-muted-foreground">
+               <p className="font-semibold">{descriptor.title}</p>
+               <p>{descriptor.description}</p>
             </div>
-         );
-      }
-      return <PromptEdit prompt={promptUpdate} mode="review-template" />;
+            <TemplateFieldForm
+               fields={allFields}
+               onSubmit={onSubmit}
+               onCancel={onCancel}
+            />
+         </div>
+      );
    };
 
    return (
@@ -89,7 +87,7 @@ export const CreatePromptDialog: FC<Props> = ({
                </button>
             </DialogClose>
             <DialogHeader>
-               <DialogTitle>{title()}</DialogTitle>
+               <DialogTitle>Vorlage Felder Ausfüllen</DialogTitle>
             </DialogHeader>
             {content()}
          </DialogContent>

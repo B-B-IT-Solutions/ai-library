@@ -77,7 +77,7 @@ export const BasicInfo: FC<Props> = ({ control, watch, setValue }) => {
          <FormDynamicValues<DPromptTemplateUpdate>
             name="categories"
             nameInput="categoryInput"
-            label="Empfohlenes Modell"
+            label="Kategorien"
             placeholder="Kategorie hinzufügen"
             control={control}
             watch={watch}

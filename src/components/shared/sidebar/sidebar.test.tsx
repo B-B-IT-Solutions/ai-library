@@ -9,6 +9,8 @@ import {
 } from "@tests";
 import mockRouter from "next-router-mock";
 
+import { toTestId } from "@/lib/utils";
+
 import { Sidebar } from "./sidebar";
 
 const assertRendered = () => {
@@ -34,19 +36,23 @@ const assertHeader = () => {
 };
 
 const assertMenuItems = () => {
-   const groupApplication = screen.getByText("Application");
+   const groupPrompts = screen.getByTestId("group-prompts");
    const prompts = screen.getByTestId("menu-item-prompts");
    const library = screen.getByTestId("menu-item-library");
+
+   const groupLibrary = screen.getByTestId("group-library");
    const marketplace = screen.getByTestId("menu-item-marketplace");
 
-   const groupOther = screen.getByText("Other");
+   const groupOther = screen.getByTestId("group-other");
    const feedback = screen.getByTestId("menu-item-feedback");
    const invitePeople = screen.getByTestId("menu-item-invite-people");
    const settings = screen.getByTestId("menu-item-settings");
 
-   assertInDocument(groupApplication);
+   assertInDocument(groupPrompts);
    assertInDocument(prompts);
    assertInDocument(library);
+
+   assertInDocument(groupLibrary);
    assertInDocument(marketplace);
 
    assertInDocument(groupOther);
@@ -55,11 +61,9 @@ const assertMenuItems = () => {
    assertInDocument(settings);
 };
 
-const assertMenuItemActive = (menuItem: string, active: boolean) => {
-   const settingsLink = screen
-      .getByText(menuItem)
-      .closest("a") as HTMLAnchorElement;
-   assertHasAttributeWithValue(settingsLink, "data-active", `${active}`);
+const assertMenuItemActive = (id: string, active: boolean) => {
+   const link = screen.getByTestId(`menu-item${toTestId(id)}`);
+   assertHasAttributeWithValue(link, "data-active", `${active}`);
 };
 
 describe("Sidebar rendering tests", () => {
@@ -102,11 +106,13 @@ describe("Sidebar rendering tests", () => {
 describe("Sidebar functionality tests", () => {
    beforeEach(() => {
       window.matchMedia = ctestData.createMatchMedia(false);
+      jest.clearAllMocks();
+      mockRouter.push("/");
    });
 
-   const assertNavigateToMenuItem = async (menu: string, url: string) => {
-      const promptsLink = screen.getByText(menu);
-      await userEvent.click(promptsLink);
+   const assertNavigateToMenuItem = async (id: string, url: string) => {
+      const link = screen.getByTestId(`menu-item${toTestId(id)}`);
+      await userEvent.click(link);
 
       await waitFor(() => {
          expect(mockRouter.pathname).toEqual(url);
@@ -123,12 +129,12 @@ describe("Sidebar functionality tests", () => {
          expect(mockRouter.pathname).toEqual(url);
       });
 
-      await assertNavigateToMenuItem("Prompts", "/prompts");
-      await assertNavigateToMenuItem("Meine Bibliothek", "/library");
-      await assertNavigateToMenuItem("Marktplatz", "/marketplace");
-      await assertNavigateToMenuItem("Feedback", "/feedback");
-      await assertNavigateToMenuItem("Personen einladen", "/invite-people");
-      await assertNavigateToMenuItem("Einstellungen", "/settings/general");
+      await assertNavigateToMenuItem("/prompts", "/prompts");
+      await assertNavigateToMenuItem("/library", "/library");
+      await assertNavigateToMenuItem("/marketplace", "/marketplace");
+      await assertNavigateToMenuItem("/feedback", "/feedback");
+      await assertNavigateToMenuItem("/invite-people", "/invite-people");
+      await assertNavigateToMenuItem("/settings", "/settings/general");
    });
 
    it("Sidebar - active menu item highlighted - test", async () => {
@@ -138,9 +144,9 @@ describe("Sidebar functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertMenuItemActive("Einstellungen", true);
-         assertMenuItemActive("Prompts", false);
-         assertMenuItemActive("Meine Bibliothek", false);
+         assertMenuItemActive("/settings", true);
+         assertMenuItemActive("/prompts", false);
+         assertMenuItemActive("/library", false);
       });
    });
 

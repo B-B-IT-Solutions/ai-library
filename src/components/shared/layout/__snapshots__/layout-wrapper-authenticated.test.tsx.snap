@@ -91,13 +91,14 @@ exports[`AuthenticatedLayoutWrapper rendering tests AuthenticatedLayoutWrapper -
                 class="relative flex w-full min-w-0 flex-col p-2"
                 data-sidebar="group"
                 data-slot="sidebar-group"
+                data-testid="group-prompts"
               >
                 <div
                   class="text-sidebar-foreground/70 ring-sidebar-ring flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium outline-hidden transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0 group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0"
                   data-sidebar="group-label"
                   data-slot="sidebar-group-label"
                 >
-                  Application
+                  Prompts
                 </div>
                 <div
                   class="w-full text-sm"
@@ -113,7 +114,6 @@ exports[`AuthenticatedLayoutWrapper rendering tests AuthenticatedLayoutWrapper -
                       class="group/menu-item relative"
                       data-sidebar="menu-item"
                       data-slot="sidebar-menu-item"
-                      data-testid="menu-item-prompts"
                     >
                       <a
                         class="peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 text-sm"
@@ -121,7 +121,7 @@ exports[`AuthenticatedLayoutWrapper rendering tests AuthenticatedLayoutWrapper -
                         data-sidebar="menu-button"
                         data-size="default"
                         data-slot="sidebar-menu-button"
-                        data-testid="mock-link"
+                        data-testid="menu-item-prompts"
                         href="/prompts"
                       >
                         <svg
@@ -162,7 +162,6 @@ exports[`AuthenticatedLayoutWrapper rendering tests AuthenticatedLayoutWrapper -
                       class="group/menu-item relative"
                       data-sidebar="menu-item"
                       data-slot="sidebar-menu-item"
-                      data-testid="menu-item-library"
                     >
                       <a
                         class="peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 text-sm"
@@ -170,7 +169,7 @@ exports[`AuthenticatedLayoutWrapper rendering tests AuthenticatedLayoutWrapper -
                         data-sidebar="menu-button"
                         data-size="default"
                         data-slot="sidebar-menu-button"
-                        data-testid="mock-link"
+                        data-testid="menu-item-library"
                         href="/library"
                       >
                         <svg
@@ -194,15 +193,40 @@ exports[`AuthenticatedLayoutWrapper rendering tests AuthenticatedLayoutWrapper -
                           />
                         </svg>
                         <span>
-                          Meine Bibliothek
+                          Vorlagen
                         </span>
                       </a>
                     </li>
+                  </ul>
+                </div>
+              </div>
+              <div
+                class="relative flex w-full min-w-0 flex-col p-2"
+                data-sidebar="group"
+                data-slot="sidebar-group"
+                data-testid="group-library"
+              >
+                <div
+                  class="text-sidebar-foreground/70 ring-sidebar-ring flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium outline-hidden transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0 group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0"
+                  data-sidebar="group-label"
+                  data-slot="sidebar-group-label"
+                >
+                  Bibliothek
+                </div>
+                <div
+                  class="w-full text-sm"
+                  data-sidebar="group-content"
+                  data-slot="sidebar-group-content"
+                >
+                  <ul
+                    class="flex w-full min-w-0 flex-col gap-1"
+                    data-sidebar="menu"
+                    data-slot="sidebar-menu"
+                  >
                     <li
                       class="group/menu-item relative"
                       data-sidebar="menu-item"
                       data-slot="sidebar-menu-item"
-                      data-testid="menu-item-marketplace"
                     >
                       <a
                         class="peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 text-sm"
@@ -210,7 +234,7 @@ exports[`AuthenticatedLayoutWrapper rendering tests AuthenticatedLayoutWrapper -
                         data-sidebar="menu-button"
                         data-size="default"
                         data-slot="sidebar-menu-button"
-                        data-testid="mock-link"
+                        data-testid="menu-item-marketplace"
                         href="/marketplace"
                       >
                         <svg
@@ -237,7 +261,7 @@ exports[`AuthenticatedLayoutWrapper rendering tests AuthenticatedLayoutWrapper -
                           />
                         </svg>
                         <span>
-                          Marktplatz
+                          Bibliothek
                         </span>
                       </a>
                     </li>
@@ -245,7 +269,6 @@ exports[`AuthenticatedLayoutWrapper rendering tests AuthenticatedLayoutWrapper -
                       class="group/menu-item relative"
                       data-sidebar="menu-item"
                       data-slot="sidebar-menu-item"
-                      data-testid="menu-item-orders"
                     >
                       <a
                         class="peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 text-sm"
@@ -253,7 +276,7 @@ exports[`AuthenticatedLayoutWrapper rendering tests AuthenticatedLayoutWrapper -
                         data-sidebar="menu-button"
                         data-size="default"
                         data-slot="sidebar-menu-button"
-                        data-testid="mock-link"
+                        data-testid="menu-item-orders"
                         href="/orders"
                       >
                         <svg
@@ -294,6 +317,7 @@ exports[`AuthenticatedLayoutWrapper rendering tests AuthenticatedLayoutWrapper -
                 class="relative flex w-full min-w-0 flex-col p-2"
                 data-sidebar="group"
                 data-slot="sidebar-group"
+                data-testid="group-other"
               >
                 <div
                   class="text-sidebar-foreground/70 ring-sidebar-ring flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium outline-hidden transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0 group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0"
@@ -316,7 +340,6 @@ exports[`AuthenticatedLayoutWrapper rendering tests AuthenticatedLayoutWrapper -
                       class="group/menu-item relative"
                       data-sidebar="menu-item"
                       data-slot="sidebar-menu-item"
-                      data-testid="menu-item-feedback"
                     >
                       <a
                         class="peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 text-sm"
@@ -324,7 +347,7 @@ exports[`AuthenticatedLayoutWrapper rendering tests AuthenticatedLayoutWrapper -
                         data-sidebar="menu-button"
                         data-size="default"
                         data-slot="sidebar-menu-button"
-                        data-testid="mock-link"
+                        data-testid="menu-item-feedback"
                         href="/feedback"
                       >
                         <svg
@@ -356,7 +379,6 @@ exports[`AuthenticatedLayoutWrapper rendering tests AuthenticatedLayoutWrapper -
                       class="group/menu-item relative"
                       data-sidebar="menu-item"
                       data-slot="sidebar-menu-item"
-                      data-testid="menu-item-invite-people"
                     >
                       <a
                         class="peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 text-sm"
@@ -364,7 +386,7 @@ exports[`AuthenticatedLayoutWrapper rendering tests AuthenticatedLayoutWrapper -
                         data-sidebar="menu-button"
                         data-size="default"
                         data-slot="sidebar-menu-button"
-                        data-testid="mock-link"
+                        data-testid="menu-item-invite-people"
                         href="/invite-people"
                       >
                         <svg
@@ -404,7 +426,6 @@ exports[`AuthenticatedLayoutWrapper rendering tests AuthenticatedLayoutWrapper -
                       class="group/menu-item relative"
                       data-sidebar="menu-item"
                       data-slot="sidebar-menu-item"
-                      data-testid="menu-item-settings"
                     >
                       <a
                         class="peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 text-sm"
@@ -412,7 +433,7 @@ exports[`AuthenticatedLayoutWrapper rendering tests AuthenticatedLayoutWrapper -
                         data-sidebar="menu-button"
                         data-size="default"
                         data-slot="sidebar-menu-button"
-                        data-testid="mock-link"
+                        data-testid="menu-item-settings"
                         href="/settings/general"
                       >
                         <svg

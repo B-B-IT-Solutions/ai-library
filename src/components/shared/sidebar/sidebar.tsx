@@ -23,8 +23,9 @@ import { LoginUser } from "@/data/types/next-auth";
 import { APP_NAME } from "@/lib/constants";
 import { toTestId } from "@/lib/utils";
 
-import { navigationMenu1, navigationMenu2 } from "./menus";
+import { navigationMenu1, navigationMenu2, navigationMenu3 } from "./menus";
 import { SidebarFooter } from "./sidebar-footer";
+import { DMenuItem } from "./types";
 
 type SidebarProps = {
    user: LoginUser;
@@ -39,15 +40,12 @@ export const Sidebar: FC<SidebarProps> = ({ user }) => {
       return startsWith(pathName, path);
    };
 
-   const renderMenu = (menuItems: typeof navigationMenu1) => {
+   const renderMenu = (menuItems: DMenuItem[]) => {
       return map(menuItems, (m) => {
          return (
-            <SidebarMenuItem
-               key={m.id}
-               data-testid={`menu-item${toTestId(m.id)}`}
-            >
+            <SidebarMenuItem key={m.id}>
                <SidebarMenuButton asChild={true} isActive={isActive(m.id)}>
-                  <Link href={m.url}>
+                  <Link href={m.url} data-testid={`menu-item${toTestId(m.id)}`}>
                      <m.icon />
                      <span>{m.title}</span>
                   </Link>
@@ -99,16 +97,22 @@ export const Sidebar: FC<SidebarProps> = ({ user }) => {
             {appHeader()}
          </SidebarHeader>
          <SidebarContent data-testid="sidebar-content">
-            <SidebarGroup>
-               <SidebarGroupLabel>Application</SidebarGroupLabel>
+            <SidebarGroup data-testid="group-prompts">
+               <SidebarGroupLabel>Prompts</SidebarGroupLabel>
                <SidebarGroupContent>
                   <SidebarMenu>{renderMenu(navigationMenu1)}</SidebarMenu>
                </SidebarGroupContent>
             </SidebarGroup>
-            <SidebarGroup>
-               <SidebarGroupLabel>Other</SidebarGroupLabel>
+            <SidebarGroup data-testid="group-library">
+               <SidebarGroupLabel>Bibliothek</SidebarGroupLabel>
                <SidebarGroupContent>
                   <SidebarMenu>{renderMenu(navigationMenu2)}</SidebarMenu>
+               </SidebarGroupContent>
+            </SidebarGroup>
+            <SidebarGroup data-testid="group-other">
+               <SidebarGroupLabel>Other</SidebarGroupLabel>
+               <SidebarGroupContent>
+                  <SidebarMenu>{renderMenu(navigationMenu3)}</SidebarMenu>
                </SidebarGroupContent>
             </SidebarGroup>
          </SidebarContent>

@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useState } from "react";
-import { isEmpty, map, sum } from "es-toolkit/compat";
+import { isEmpty, map } from "es-toolkit/compat";
 import { Filter, Loader2, Plus } from "lucide-react";
 import Link from "next/link";
 
@@ -46,7 +46,6 @@ export const PromptsList: FC = () => {
       ...filters,
    });
 
-   const count = sum(map(pages, (p) => p.numberOfElements));
    const hasPrompts = pages.some((page) => page.content.length > 0);
 
    const filtersBtn = () => {
@@ -62,11 +61,11 @@ export const PromptsList: FC = () => {
             className={cn("relative transition-all duration-200", styles)}
             data-testid="filters-btn"
          >
-            <Filter className="w-4 h-4 mr-2" />
+            <Filter className="mr-2 h-4 w-4" />
             <span className="text-sm font-medium">Filter</span>
             {hasActiveFilters && !showFilters && (
                <span
-                  className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-md"
+                  className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white shadow-md"
                   data-testid="filters-count-badge"
                >
                   {activeFilterCount}
@@ -81,11 +80,11 @@ export const PromptsList: FC = () => {
          <Button
             asChild={true}
             size="sm"
-            className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-md hover:shadow-lg transition-all duration-200"
+            className="bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-md transition-all duration-200 hover:from-blue-700 hover:to-blue-800 hover:shadow-lg"
             data-testid="create-prompt-btn"
          >
             <Link href="/prompts/new" className="flex items-center gap-2">
-               <Plus className="w-4 h-4" />
+               <Plus className="h-4 w-4" />
                <span className="text-sm font-medium">Neu</span>
             </Link>
          </Button>
@@ -95,21 +94,11 @@ export const PromptsList: FC = () => {
    const promptItemsHeader = () => {
       return (
          <div
-            className="px-6 py-4 border-b border-slate-200/80 flex justify-between items-center bg-gradient-to-r from-white to-slate-50/50 sticky top-0 z-10 backdrop-blur-sm"
+            className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200/80 bg-gradient-to-r from-white to-slate-50/50 px-3 py-2 backdrop-blur-sm"
             data-testid="prompts-list-header"
          >
-            <div className="flex items-center gap-3">
-               <h3 className="text-base font-bold text-slate-800 tracking-tight">
-                  Bibliothek
-               </h3>
-               <span className="text-xs font-medium text-slate-600 bg-slate-100 px-2.5 py-1 rounded-full shadow-sm">
-                  {count}
-               </span>
-            </div>
-            <div className="flex items-center gap-2">
-               {filtersBtn()}
-               {createPromptBtn()}
-            </div>
+            {filtersBtn()}
+            {createPromptBtn()}
          </div>
       );
    };
@@ -128,7 +117,7 @@ export const PromptsList: FC = () => {
 
       return (
          <div
-            className="flex-1 px-1 pt-1 overflow-y-auto bg-slate-50/30"
+            className="flex-1 overflow-y-auto bg-slate-50/30 px-1 pt-1"
             data-testid="prompts-list-items"
          >
             <div className="flex flex-col space-y-1">
@@ -155,7 +144,7 @@ export const PromptsList: FC = () => {
    };
 
    return (
-      <div className="flex flex-col h-full bg-white" data-testid="prompts-list">
+      <div className="flex h-full flex-col bg-white" data-testid="prompts-list">
          <FiltersContext.Provider value={fitlerContext}>
             {promptItemsHeader()}
             {promptFilters()}

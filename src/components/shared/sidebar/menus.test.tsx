@@ -8,7 +8,7 @@ import {
    Users,
 } from "lucide-react";
 
-import { navigationMenu1, navigationMenu2 } from "./menus";
+import { navigationMenu1, navigationMenu2, navigationMenu3 } from "./menus";
 import { DMenuItem } from "./types";
 
 const expectedNavigationMenu1: DMenuItem[] = [
@@ -20,13 +20,16 @@ const expectedNavigationMenu1: DMenuItem[] = [
    },
    {
       id: "/library",
-      title: "Meine Bibliothek",
+      title: "Vorlagen",
       icon: BookOpen,
       url: "/library",
    },
+];
+
+const expectedNavigationMenu2: DMenuItem[] = [
    {
       id: "/marketplace",
-      title: "Marktplatz",
+      title: "Bibliothek",
       icon: ShoppingBag,
       url: "/marketplace",
    },
@@ -38,7 +41,7 @@ const expectedNavigationMenu1: DMenuItem[] = [
    },
 ];
 
-export const expectedNavigationMenu2: DMenuItem[] = [
+export const expectedNavigationMenu3: DMenuItem[] = [
    {
       id: "/feedback",
       title: "Feedback",
@@ -66,5 +69,9 @@ describe("navigationMenus tests", () => {
 
    test("navigationMenu2 test", () => {
       expect(navigationMenu2).toEqual(expectedNavigationMenu2);
+   });
+
+   test("navigationMenu3 test", () => {
+      expect(navigationMenu3).toEqual(expectedNavigationMenu3);
    });
 });

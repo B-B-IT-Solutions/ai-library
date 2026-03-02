@@ -5,7 +5,7 @@ import { assertInDocument, dtestData } from "@tests";
 
 import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 
-import { CreatePromptDialog } from "./create-prompt-dialog";
+import { CreateTemplateFieldsFormDialog } from "./create-template-fields-form-dialog";
 
 const assertDialogRendered = () => {
    const dialog = screen.getByTestId("create-prompt-dialog");
@@ -17,21 +17,21 @@ const assertFieldsFormRendered = () => {
    assertInDocument(form);
 };
 
-const assertPromptEditRendered = () => {
-   const promptEdit = screen.getByTestId("prompt-edit");
-   assertInDocument(promptEdit);
-};
+describe("CreateTemplateFieldsFormDialog rendering tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
 
-describe("CreatePromptDialog rendering tests", () => {
-   it("CreatePromptDialog - mode fields-form - test", async () => {
+   it("CreateTemplateFieldsFormDialog - mode fields-form - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const templateData = dtestData.dPromptTemplateDataPromptGeneration();
       const submitFn = jest.fn();
       const cancelFn = jest.fn();
 
       const { container } = render(
-         <CreatePromptDialog
-            mode="fields-form"
+         <CreateTemplateFieldsFormDialog
             descriptor={descriptor}
+            templateData={templateData}
             onSubmit={submitFn}
             onCancel={cancelFn}
          />
@@ -44,37 +44,16 @@ describe("CreatePromptDialog rendering tests", () => {
 
       expect(container).toMatchSnapshot();
    });
-
-   it("CreatePromptDialog - mode review - test", async () => {
-      const promptUpdate = dtestData.dPromptUpdate();
-      const submitFn = jest.fn();
-      const cancelFn = jest.fn();
-
-      const { container } = render(
-         <CreatePromptDialog
-            mode="review"
-            promptUpdate={promptUpdate}
-            onSubmit={submitFn}
-            onCancel={cancelFn}
-         />
-      );
-
-      await waitFor(() => {
-         assertDialogRendered();
-         assertPromptEditRendered();
-      });
-
-      expect(container).toMatchSnapshot();
-   });
 });
 
-describe("CreatePromptDialog functionality tests", () => {
+describe("CreateTemplateFieldsFormDialog functionality tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
-   it("CreatePromptDialog - mode fields-form - submit clicked - test", async () => {
+   it("CreateTemplateFieldsFormDialog - submit clicked - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const templateData = dtestData.dPromptTemplateDataPromptGeneration();
       const submitFn = jest.fn();
       const cancelFn = jest.fn();
       const submitFormCallback = async (values: DPromptTemplateFieldValues) => {
@@ -82,9 +61,9 @@ describe("CreatePromptDialog functionality tests", () => {
       };
 
       render(
-         <CreatePromptDialog
-            mode="fields-form"
+         <CreateTemplateFieldsFormDialog
             descriptor={descriptor}
+            templateData={templateData}
             onSubmit={submitFormCallback}
             onCancel={cancelFn}
          />
@@ -102,21 +81,25 @@ describe("CreatePromptDialog functionality tests", () => {
          field_0: "option 1",
          field_1: "option 1",
          field_2: "option 1",
+         name_0: "defaultValue-0",
+         name_1: "defaultValue-1",
+         name_2: "defaultValue-2",
       };
-      expect(submitFn).toHaveBeenCalledWith(expectedValues);
       expect(submitFn).toHaveBeenCalledTimes(1);
+      expect(submitFn).toHaveBeenCalledWith(expectedValues);
       expect(cancelFn).not.toHaveBeenCalled();
    });
 
-   it("CreatePromptDialog - mode fields-form - cancel clicked - test", async () => {
+   it("CreateTemplateFieldsFormDialog - cancel clicked - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const templateData = dtestData.dPromptTemplateDataPromptGeneration();
       const submitFn = jest.fn();
       const cancelFn = jest.fn();
 
       render(
-         <CreatePromptDialog
-            mode="fields-form"
+         <CreateTemplateFieldsFormDialog
             descriptor={descriptor}
+            templateData={templateData}
             onSubmit={submitFn}
             onCancel={cancelFn}
          />
@@ -136,15 +119,16 @@ describe("CreatePromptDialog functionality tests", () => {
       });
    });
 
-   it("CreatePromptDialog - close bnt clicked - test", async () => {
+   it("CreateTemplateFieldsFormDialog - close btn clicked - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const templateData = dtestData.dPromptTemplateDataPromptGeneration();
       const submitFn = jest.fn();
       const cancelFn = jest.fn();
 
       render(
-         <CreatePromptDialog
-            mode="fields-form"
+         <CreateTemplateFieldsFormDialog
             descriptor={descriptor}
+            templateData={templateData}
             onSubmit={submitFn}
             onCancel={cancelFn}
          />

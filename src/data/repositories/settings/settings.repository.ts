@@ -38,6 +38,23 @@ export class SettingsRepository {
       return toDGlobalTemplateFields(fields);
    }
 
+   async pGetGlobalTemplateFieldsByIds(
+      userId: string,
+      ids: string[]
+   ): Promise<DGlobalTemplateField[]> {
+      const args: GlobalTemplateFieldFindManyArgs = {
+         where: {
+            userId,
+            id: {
+               in: ids,
+            },
+         },
+      };
+
+      const fields = await this.prisma.globalTemplateField.findMany(args);
+      return toDGlobalTemplateFields(fields);
+   }
+
    async pCreateGlobalTemplateField(
       userId: string,
       data: DGlobalTemplateFieldUpdate

@@ -22,7 +22,7 @@ export type DGlobalTemplateField = {
    type: DPromptTemplateFieldType;
    required: boolean;
    defaultValue: string | null;
-   options: string[] | null;
+   options?: string[];
    order: number;
    createdAt: string;
    updatedAt: string;

@@ -48,6 +48,41 @@ describe("pGetGlobalFields tests", () => {
    });
 });
 
+describe("pGetGlobalTemplateFieldsByIds tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pGetGlobalTemplateFieldsByIds test", async () => {
+      const fields = ptestData.pGlobalFields();
+      prismaMock.globalTemplateField.findMany.mockResolvedValue(fields);
+
+      const userId = "user-id-1";
+      const ids = dtestData.dGlobalTemplateFieldIds();
+      const result = await settingsRepository.pGetGlobalTemplateFieldsByIds(
+         userId,
+         ids
+      );
+
+      const expectedResult = toDGlobalTemplateFields(fields);
+
+      const expectedArgs: GlobalTemplateFieldFindManyArgs = {
+         where: {
+            userId,
+            id: {
+               in: ids,
+            },
+         },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.globalTemplateField.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.globalTemplateField.findMany).toHaveBeenCalledWith(
+         expectedArgs
+      );
+   });
+});
+
 describe("pCreateGlobalTemplateField tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);

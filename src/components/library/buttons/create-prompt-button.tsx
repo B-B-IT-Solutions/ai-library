@@ -1,18 +1,21 @@
 "use client";
 
 import { FC, useState, useTransition } from "react";
+import { isEmpty } from "es-toolkit/compat";
 import { Loader, Plus } from "lucide-react";
 import { toast } from "sonner";
 
-import { CreatePromptDialog } from "@/components/prompts";
+import {
+   CreatePromptPreviewDialog,
+   CreateTemplateFieldsFormDialog,
+} from "@/components/prompts";
 import { Button } from "@/components/shadcn/button";
 import { composePromptFromTemplate } from "@/data/actions/library";
-import { getPromptTemplate } from "@/data/actions/prompt";
+import { getPromptGenerationTemplateData } from "@/data/actions/prompt";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
-   DPromptTemplate,
+   DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
-   DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
 import { cn } from "@/lib/utils";
@@ -27,22 +30,23 @@ type Mode = "fields-form" | "review";
 export const CreatePromptButton: FC<Props> = ({ descriptor, className }) => {
    const [isPending, startTransition] = useTransition();
    const [mode, setMode] = useState<Mode | null>(null);
-   const [promptTemplate, setPromptTemplate] = useState<DPromptTemplate | null>(
-      null
-   );
+   const [templateData, setTemplateData] =
+      useState<DPromptTemplateDataPromptGeneration | null>(null);
    const [generatedPrompt, setGeneratedPrompt] = useState<DPromptUpdate | null>(
       null
    );
 
    const handleCreate = async () => {
       startTransition(async () => {
-         const promptTemplate = await getPromptTemplate(
+         const data = await getPromptGenerationTemplateData(
             descriptor.promptTemplateId
          );
 
-         const hasFields = promptTemplate && promptTemplate.fields.length > 0;
+         const { template, globalFields } = data || {};
+         const hasFields = !isEmpty(template?.fields) || !isEmpty(globalFields);
+
          if (hasFields) {
-            setPromptTemplate(promptTemplate);
+            setTemplateData(data);
             setMode("fields-form");
          } else {
             await composePrompt({});
@@ -70,26 +74,19 @@ export const CreatePromptButton: FC<Props> = ({ descriptor, className }) => {
    const dialog = () => {
       if (mode === "review" && generatedPrompt) {
          return (
-            <CreatePromptDialog
-               onSubmit={composePrompt}
+            <CreatePromptPreviewDialog
                onCancel={handleCancel}
-               mode="review"
                promptUpdate={generatedPrompt}
             />
          );
       }
-      if (mode === "fields-form" && descriptor) {
-         const tempalte = promptTemplate as DPromptTemplate;
-         const desc: DPromptTemplateDescriptorWithTemplate = {
-            ...descriptor,
-            promptTemplate: tempalte,
-         };
+      if (mode === "fields-form" && templateData) {
          return (
-            <CreatePromptDialog
+            <CreateTemplateFieldsFormDialog
                onSubmit={composePrompt}
                onCancel={handleCancel}
-               mode="fields-form"
-               descriptor={desc}
+               descriptor={descriptor}
+               templateData={templateData}
             />
          );
       }

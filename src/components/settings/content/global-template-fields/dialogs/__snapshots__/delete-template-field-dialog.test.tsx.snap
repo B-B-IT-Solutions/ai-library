@@ -38,7 +38,7 @@ exports[`GlobalTemplateFieldDeleteConfirmDialog rendering tests GlobalTemplateFi
           >
             Möchten Sie das Feld 
             <strong>
-              {{name-1}}
+              {{name_1}}
             </strong>
              
             wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.

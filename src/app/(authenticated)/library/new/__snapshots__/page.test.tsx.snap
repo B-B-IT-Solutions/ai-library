@@ -269,7 +269,7 @@ exports[`NewLibraryEntryPage rendering tests NewLibraryEntryPage rendered test 1
                       data-slot="form-label"
                       for="_r_5_-form-item"
                     >
-                      Empfohlenes Modell
+                      Kategorien
                     </label>
                     <div
                       class="flex gap-2"
