@@ -25,13 +25,15 @@ const assertPromptEditRendered = () => {
 describe("CreatePromptDialog rendering tests", () => {
    it("CreatePromptDialog - mode fields-form - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const templateData = dtestData.dPromptTemplateDataPromptGeneration();
       const submitFn = jest.fn();
       const cancelFn = jest.fn();
 
       const { container } = render(
          <CreatePromptDialog
             mode="fields-form"
-            templateData={descriptor}
+            descriptor={descriptor}
+            templateData={templateData}
             onSubmit={submitFn}
             onCancel={cancelFn}
          />
@@ -75,6 +77,7 @@ describe("CreatePromptDialog functionality tests", () => {
 
    it("CreatePromptDialog - mode fields-form - submit clicked - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const templateData = dtestData.dPromptTemplateDataPromptGeneration();
       const submitFn = jest.fn();
       const cancelFn = jest.fn();
       const submitFormCallback = async (values: DPromptTemplateFieldValues) => {
@@ -84,7 +87,8 @@ describe("CreatePromptDialog functionality tests", () => {
       render(
          <CreatePromptDialog
             mode="fields-form"
-            templateData={descriptor}
+            descriptor={descriptor}
+            templateData={templateData}
             onSubmit={submitFormCallback}
             onCancel={cancelFn}
          />
@@ -110,13 +114,15 @@ describe("CreatePromptDialog functionality tests", () => {
 
    it("CreatePromptDialog - mode fields-form - cancel clicked - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const templateData = dtestData.dPromptTemplateDataPromptGeneration();
       const submitFn = jest.fn();
       const cancelFn = jest.fn();
 
       render(
          <CreatePromptDialog
             mode="fields-form"
-            templateData={descriptor}
+            descriptor={descriptor}
+            templateData={templateData}
             onSubmit={submitFn}
             onCancel={cancelFn}
          />
@@ -138,13 +144,15 @@ describe("CreatePromptDialog functionality tests", () => {
 
    it("CreatePromptDialog - close bnt clicked - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const templateData = dtestData.dPromptTemplateDataPromptGeneration();
       const submitFn = jest.fn();
       const cancelFn = jest.fn();
 
       render(
          <CreatePromptDialog
             mode="fields-form"
-            templateData={descriptor}
+            descriptor={descriptor}
+            templateData={templateData}
             onSubmit={submitFn}
             onCancel={cancelFn}
          />

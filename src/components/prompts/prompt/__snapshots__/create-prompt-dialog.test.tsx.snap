@@ -59,7 +59,7 @@ exports[`CreatePromptDialog rendering tests CreatePromptDialog - mode fields-for
             data-slot="dialog-title"
             data-testid="mock-react-dialog-title"
           >
-            Prompt-Vorlage ausfüllen
+            Vorlage Felder Ausfüllen
           </div>
         </div>
         <div
@@ -85,7 +85,7 @@ exports[`CreatePromptDialog rendering tests CreatePromptDialog - mode fields-for
               <div
                 class="grid gap-2"
                 data-slot="form-item"
-                data-testid="field_0"
+                data-testid="name-0"
               >
                 <label
                   class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
@@ -108,10 +108,130 @@ exports[`CreatePromptDialog rendering tests CreatePromptDialog - mode fields-for
                    
                   description 0
                 </p>
+                <input
+                  aria-describedby="_r_0_-form-item-description"
+                  aria-invalid="false"
+                  class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                  data-slot="form-control"
+                  data-testid="input"
+                  id="_r_0_-form-item"
+                  name="name-0"
+                  type="number"
+                  value="defaultValue-0"
+                />
+              </div>
+            </div>
+            <div>
+              <div
+                class="grid gap-2"
+                data-slot="form-item"
+                data-testid="name-1"
+              >
+                <label
+                  class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
+                  data-error="false"
+                  data-slot="form-label"
+                  for="_r_1_-form-item"
+                >
+                  label 1
+                  <span
+                    class="text-destructive"
+                  >
+                    *
+                  </span>
+                </label>
+                <p
+                  class="text-muted-foreground text-sm"
+                  data-slot="form-description"
+                  id="_r_1_-form-item-description"
+                >
+                   
+                  description 1
+                </p>
+                <input
+                  aria-describedby="_r_1_-form-item-description"
+                  aria-invalid="false"
+                  class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                  data-slot="form-control"
+                  data-testid="input"
+                  id="_r_1_-form-item"
+                  name="name-1"
+                  type="number"
+                  value="defaultValue-1"
+                />
+              </div>
+            </div>
+            <div>
+              <div
+                class="grid gap-2"
+                data-slot="form-item"
+                data-testid="name-2"
+              >
+                <label
+                  class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
+                  data-error="false"
+                  data-slot="form-label"
+                  for="_r_2_-form-item"
+                >
+                  label 2
+                  <span
+                    class="text-destructive"
+                  >
+                    *
+                  </span>
+                </label>
+                <p
+                  class="text-muted-foreground text-sm"
+                  data-slot="form-description"
+                  id="_r_2_-form-item-description"
+                >
+                   
+                  description 2
+                </p>
+                <input
+                  aria-describedby="_r_2_-form-item-description"
+                  aria-invalid="false"
+                  class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                  data-slot="form-control"
+                  data-testid="input"
+                  id="_r_2_-form-item"
+                  name="name-2"
+                  type="number"
+                  value="defaultValue-2"
+                />
+              </div>
+            </div>
+            <div>
+              <div
+                class="grid gap-2"
+                data-slot="form-item"
+                data-testid="field_0"
+              >
+                <label
+                  class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
+                  data-error="false"
+                  data-slot="form-label"
+                  for="_r_3_-form-item"
+                >
+                  label 0
+                  <span
+                    class="text-destructive"
+                  >
+                    *
+                  </span>
+                </label>
+                <p
+                  class="text-muted-foreground text-sm"
+                  data-slot="form-description"
+                  id="_r_3_-form-item-description"
+                >
+                   
+                  description 0
+                </p>
                 <button
                   aria-autocomplete="none"
-                  aria-controls="radix-_r_1_"
-                  aria-describedby="_r_0_-form-item-description"
+                  aria-controls="radix-_r_4_"
+                  aria-describedby="_r_3_-form-item-description"
                   aria-expanded="false"
                   aria-invalid="false"
                   class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
@@ -119,7 +239,7 @@ exports[`CreatePromptDialog rendering tests CreatePromptDialog - mode fields-for
                   data-slot="form-control"
                   data-state="closed"
                   dir="ltr"
-                  id="_r_0_-form-item"
+                  id="_r_3_-form-item"
                   role="combobox"
                   type="button"
                 >
@@ -184,7 +304,7 @@ exports[`CreatePromptDialog rendering tests CreatePromptDialog - mode fields-for
                   class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
                   data-error="false"
                   data-slot="form-label"
-                  for="_r_2_-form-item"
+                  for="_r_5_-form-item"
                 >
                   label 1
                   <span
@@ -196,15 +316,15 @@ exports[`CreatePromptDialog rendering tests CreatePromptDialog - mode fields-for
                 <p
                   class="text-muted-foreground text-sm"
                   data-slot="form-description"
-                  id="_r_2_-form-item-description"
+                  id="_r_5_-form-item-description"
                 >
                    
                   description 1
                 </p>
                 <button
                   aria-autocomplete="none"
-                  aria-controls="radix-_r_3_"
-                  aria-describedby="_r_2_-form-item-description"
+                  aria-controls="radix-_r_6_"
+                  aria-describedby="_r_5_-form-item-description"
                   aria-expanded="false"
                   aria-invalid="false"
                   class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
@@ -212,7 +332,7 @@ exports[`CreatePromptDialog rendering tests CreatePromptDialog - mode fields-for
                   data-slot="form-control"
                   data-state="closed"
                   dir="ltr"
-                  id="_r_2_-form-item"
+                  id="_r_5_-form-item"
                   role="combobox"
                   type="button"
                 >
@@ -277,7 +397,7 @@ exports[`CreatePromptDialog rendering tests CreatePromptDialog - mode fields-for
                   class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
                   data-error="false"
                   data-slot="form-label"
-                  for="_r_4_-form-item"
+                  for="_r_7_-form-item"
                 >
                   label 2
                   <span
@@ -289,15 +409,15 @@ exports[`CreatePromptDialog rendering tests CreatePromptDialog - mode fields-for
                 <p
                   class="text-muted-foreground text-sm"
                   data-slot="form-description"
-                  id="_r_4_-form-item-description"
+                  id="_r_7_-form-item-description"
                 >
                    
                   description 2
                 </p>
                 <button
                   aria-autocomplete="none"
-                  aria-controls="radix-_r_5_"
-                  aria-describedby="_r_4_-form-item-description"
+                  aria-controls="radix-_r_8_"
+                  aria-describedby="_r_7_-form-item-description"
                   aria-expanded="false"
                   aria-invalid="false"
                   class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
@@ -305,7 +425,7 @@ exports[`CreatePromptDialog rendering tests CreatePromptDialog - mode fields-for
                   data-slot="form-control"
                   data-state="closed"
                   dir="ltr"
-                  id="_r_4_-form-item"
+                  id="_r_7_-form-item"
                   role="combobox"
                   type="button"
                 >
@@ -518,17 +638,17 @@ exports[`CreatePromptDialog rendering tests CreatePromptDialog - mode review - t
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_f_-form-item"
+                    for="_r_i_-form-item"
                   >
                     Titel
                   </label>
                   <input
-                    aria-describedby="_r_f_-form-item-description"
+                    aria-describedby="_r_i_-form-item-description"
                     aria-invalid="false"
                     class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                     data-slot="form-control"
                     data-testid="input"
-                    id="_r_f_-form-item"
+                    id="_r_i_-form-item"
                     name="title"
                     placeholder="Prompt-Titel eingeben..."
                     value="title 1"
@@ -543,7 +663,7 @@ exports[`CreatePromptDialog rendering tests CreatePromptDialog - mode review - t
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_g_-form-item"
+                    for="_r_j_-form-item"
                   >
                     Empfohlenes Modell
                   </label>
@@ -552,13 +672,13 @@ exports[`CreatePromptDialog rendering tests CreatePromptDialog - mode review - t
                     data-testid="mock-react-popover-root"
                   >
                     <button
-                      aria-describedby="_r_g_-form-item-description"
+                      aria-describedby="_r_j_-form-item-description"
                       aria-expanded="false"
                       aria-invalid="false"
                       class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full justify-between font-normal"
                       data-slot="popover-trigger"
                       data-testid="recommended-model-trigger-btn"
-                      id="_r_g_-form-item"
+                      id="_r_j_-form-item"
                       role="combobox"
                     >
                       model 1
@@ -597,7 +717,7 @@ exports[`CreatePromptDialog rendering tests CreatePromptDialog - mode review - t
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_h_-form-item"
+                    for="_r_k_-form-item"
                   >
                     Kategorien
                   </label>
@@ -645,12 +765,12 @@ exports[`CreatePromptDialog rendering tests CreatePromptDialog - mode review - t
                     class="flex gap-2"
                   >
                     <input
-                      aria-describedby="_r_h_-form-item-description"
+                      aria-describedby="_r_k_-form-item-description"
                       aria-invalid="false"
                       class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                       data-slot="form-control"
                       data-testid="input"
-                      id="_r_h_-form-item"
+                      id="_r_k_-form-item"
                       name="categoryInput"
                       placeholder="Kategorie hinzufügen"
                     />
@@ -1313,11 +1433,11 @@ exports[`CreatePromptDialog rendering tests CreatePromptDialog - mode review - t
                       class="flex items-start gap-2"
                     >
                       <textarea
-                        aria-describedby="_r_j_-form-item-description"
+                        aria-describedby="_r_m_-form-item-description"
                         aria-invalid="false"
                         class="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1"
                         data-slot="form-control"
-                        id="_r_j_-form-item"
+                        id="_r_m_-form-item"
                         name="followUpPrompts.0"
                         placeholder="Folge-Prompt eingeben"
                         style="min-height: 66px; max-height: 9007199254740991px; height: 6px;"
@@ -1362,11 +1482,11 @@ exports[`CreatePromptDialog rendering tests CreatePromptDialog - mode review - t
                       class="flex items-start gap-2"
                     >
                       <textarea
-                        aria-describedby="_r_k_-form-item-description"
+                        aria-describedby="_r_n_-form-item-description"
                         aria-invalid="false"
                         class="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1"
                         data-slot="form-control"
-                        id="_r_k_-form-item"
+                        id="_r_n_-form-item"
                         name="followUpPrompts.1"
                         placeholder="Folge-Prompt eingeben"
                         style="min-height: 66px; max-height: 9007199254740991px; height: 6px;"
@@ -1411,11 +1531,11 @@ exports[`CreatePromptDialog rendering tests CreatePromptDialog - mode review - t
                       class="flex items-start gap-2"
                     >
                       <textarea
-                        aria-describedby="_r_l_-form-item-description"
+                        aria-describedby="_r_o_-form-item-description"
                         aria-invalid="false"
                         class="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1"
                         data-slot="form-control"
-                        id="_r_l_-form-item"
+                        id="_r_o_-form-item"
                         name="followUpPrompts.2"
                         placeholder="Folge-Prompt eingeben"
                         style="min-height: 66px; max-height: 9007199254740991px; height: 6px;"
