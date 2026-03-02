@@ -121,14 +121,10 @@ export const TemplateFieldForm: FC<Props> = ({
                         />
                      </div>
                      <p className="text-xs text-muted-foreground">
-                        <span className="inline-block rounded bg-orange-100 px-1 text-orange-700 italic mr-1">
+                        <code className="rounded bg-slate-100 px-1 font-mono mr-1">
                            {"{{platzhalter}}"}
-                        </span>
-                        noch nicht ausgefüllt ·{" "}
-                        <span className="inline-block rounded bg-green-100 px-1 text-green-800 font-medium mr-1">
-                           wert
-                        </span>
-                        ausgefüllt
+                        </code>
+                        = noch nicht ausgefüllt
                      </p>
                   </div>
                </div>

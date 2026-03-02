@@ -520,34 +520,25 @@ exports[`CreateTemplateFieldsFormDialog rendering tests CreateTemplateFieldsForm
                   class="flex-1 overflow-y-auto rounded-md border bg-muted/30 p-4 max-h-[60vh]"
                 >
                   <div
-                    class="flex flex-col gap-3"
+                    class="text-slate-700 leading-relaxed"
                     data-testid="template-preview"
                   >
                     <div
-                      class="text-sm leading-relaxed whitespace-pre-wrap"
+                      data-testid="react-markdown-mock"
                     >
-                      <span>
-                        content 1
-                      </span>
+                      content 1
                     </div>
                   </div>
                 </div>
                 <p
                   class="text-xs text-muted-foreground"
                 >
-                  <span
-                    class="inline-block rounded bg-orange-100 px-1 text-orange-700 italic mr-1"
+                  <code
+                    class="rounded bg-slate-100 px-1 font-mono mr-1"
                   >
                     {{platzhalter}}
-                  </span>
-                  noch nicht ausgefüllt ·
-                   
-                  <span
-                    class="inline-block rounded bg-green-100 px-1 text-green-800 font-medium mr-1"
-                  >
-                    wert
-                  </span>
-                  ausgefüllt
+                  </code>
+                  = noch nicht ausgefüllt
                 </p>
               </div>
             </div>
