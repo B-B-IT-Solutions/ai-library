@@ -45,7 +45,7 @@ export const CreateTemplateFieldsFormDialog = ({
             required: f.required,
             order: f.order,
             defaultValue: f.defaultValue,
-            options: f.options ?? undefined,
+            options: f.options,
          })
       );
       const allFields = [
