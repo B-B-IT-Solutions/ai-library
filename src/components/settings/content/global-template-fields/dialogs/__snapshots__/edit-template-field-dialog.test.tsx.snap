@@ -81,7 +81,7 @@ exports[`GlobalTemplateFieldEditDialog rendering tests GlobalTemplateFieldEditDi
                 id="_r_0_-form-item"
                 name="name"
                 placeholder="Name des Feldes"
-                value="name-1"
+                value="name_1"
               />
               <p
                 class="text-destructive text-sm"
@@ -91,7 +91,7 @@ exports[`GlobalTemplateFieldEditDialog rendering tests GlobalTemplateFieldEditDi
                 <span
                   class="text-slate-500"
                 >
-                  Verwenden Sie diesen Namen als {{name-1}}
+                  Verwenden Sie diesen Namen als {{name_1}}
                 </span>
               </p>
             </div>
@@ -163,7 +163,7 @@ exports[`GlobalTemplateFieldEditDialog rendering tests GlobalTemplateFieldEditDi
                   data-slot="select-value"
                   style="pointer-events: none;"
                 >
-                  Nummer
+                  Text
                 </span>
                 <svg
                   aria-hidden="true"
@@ -192,6 +192,7 @@ exports[`GlobalTemplateFieldEditDialog rendering tests GlobalTemplateFieldEditDi
                 tabindex="-1"
               >
                 <option
+                  selected=""
                   value="TEXT"
                 >
                   Text
@@ -207,7 +208,6 @@ exports[`GlobalTemplateFieldEditDialog rendering tests GlobalTemplateFieldEditDi
                   E-Mail
                 </option>
                 <option
-                  selected=""
                   value="NUMBER"
                 >
                   Nummer

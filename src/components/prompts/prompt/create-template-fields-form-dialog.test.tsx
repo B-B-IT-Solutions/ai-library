@@ -5,7 +5,7 @@ import { assertInDocument, dtestData } from "@tests";
 
 import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 
-import { CreateTemplateFieldsFormDialog } from "./create-template-fields-form-dialog-";
+import { CreateTemplateFieldsFormDialog } from "./create-template-fields-form-dialog";
 
 const assertDialogRendered = () => {
    const dialog = screen.getByTestId("create-prompt-dialog");

@@ -5,8 +5,10 @@ import { isEmpty } from "es-toolkit/compat";
 import { Loader, Plus } from "lucide-react";
 import { toast } from "sonner";
 
-import { CreatePromptDialog } from "@/components/prompts";
-import { CreateTemplateFieldsFormDialog } from "@/components/prompts/prompt/create-template-fields-form-dialog-";
+import {
+   CreatePromptPreviewDialog,
+   CreateTemplateFieldsFormDialog,
+} from "@/components/prompts";
 import { Button } from "@/components/shadcn/button";
 import { composePromptFromTemplate } from "@/data/actions/library";
 import { getPromptGenerationTemplateData } from "@/data/actions/prompt";
@@ -72,10 +74,8 @@ export const CreatePromptButton: FC<Props> = ({ descriptor, className }) => {
    const dialog = () => {
       if (mode === "review" && generatedPrompt) {
          return (
-            <CreatePromptDialog
-               onSubmit={composePrompt}
+            <CreatePromptPreviewDialog
                onCancel={handleCancel}
-               mode="review"
                promptUpdate={generatedPrompt}
             />
          );
