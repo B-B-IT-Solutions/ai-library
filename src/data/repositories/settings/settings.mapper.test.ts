@@ -40,21 +40,21 @@ describe("toDGlobalTemplateFields tests", () => {
    });
 
    it("toDGlobalTemplateFields test", async () => {
-      const fields = ptestData.pGlobalFields();
+      const fields = ptestData.pGlobalTemplateFields();
       const result = toDGlobalTemplateFields(fields);
       const expectedResult = toDGlobalTemplateFieldsInternal(fields);
       expect(result).toEqual(expectedResult);
    });
 
    it("toDGlobalTemplateField test", async () => {
-      const field = ptestData.pGlobalField();
+      const field = ptestData.pGlobalTemplateField();
       const result = toDGlobalTemplateField(field);
       const expectedResult = toDGlobalTemplateFieldInternal(field);
       expect(result).toEqual(expectedResult);
    });
 
    it("toDGlobalTemplateField - options is null - test", async () => {
-      const field = ptestData.pGlobalField();
+      const field = ptestData.pGlobalTemplateField();
       field.options = null;
       const result = toDGlobalTemplateField(field);
       const expectedResult = toDGlobalTemplateFieldInternal(field);
@@ -62,7 +62,7 @@ describe("toDGlobalTemplateFields tests", () => {
    });
 
    it("toDGlobalTemplateField - options is non-array value - test", async () => {
-      const field = ptestData.pGlobalField();
+      const field = ptestData.pGlobalTemplateField();
       field.options = "some-string";
       const result = toDGlobalTemplateField(field);
       const expectedResult = toDGlobalTemplateFieldInternal(field);

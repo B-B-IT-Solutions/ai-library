@@ -40,7 +40,6 @@ const TestWrapper = ({
          title: "",
          description: "",
          content: "",
-         detailedDescription: "",
          recommendedModel: "Claude 3.5 Sonnet",
          categories: [],
          categoryInput: "",

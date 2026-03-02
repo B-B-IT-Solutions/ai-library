@@ -32,7 +32,7 @@ import { Order } from "@/generated/prisma/browser";
 import {
    Cart,
    CartItem,
-   GlobalField,
+   GlobalTemplateField,
    LibraryCollection,
    LibraryEntry,
    OrderItem,
@@ -506,9 +506,8 @@ export const pPromptTemplate = (index = 1): PromptTemplateWithFields => {
    return {
       id: `8b82ebb2-5966-4788-8fed-3ad18c08e28${index}`,
       content: `content ${index}`,
-      detailedDescription: `detailedDescription ${index}`,
       fields: pPromptTemplateFields(3),
-      globalFields: pGlobalFields(),
+      globalFields: pGlobalTemplateFields(),
       updatedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),
    };
@@ -661,11 +660,11 @@ export const pPromptVersion = (index = 1): PromptVersion => {
    };
 };
 
-export const pGlobalFields = (count = 3): GlobalField[] => {
-   return range(0, count).map((i) => pGlobalField(i));
+export const pGlobalTemplateFields = (count = 3): GlobalTemplateField[] => {
+   return range(0, count).map((i) => pGlobalTemplateField(i));
 };
 
-export const pGlobalField = (index = 1): GlobalField => {
+export const pGlobalTemplateField = (index = 1): GlobalTemplateField => {
    return {
       id: `global-field-id-${index}`,
       userId: `334db648-f300-4284-8149-075ff465d75${index}`,

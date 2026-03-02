@@ -169,7 +169,7 @@ exports[`LibraryEntryView rendering tests LibraryEntryView - categories empty - 
           </div>
         </div>
         <div
-          class="space-y-6 p-6"
+          class="p-6"
           data-slot="card-content"
         >
           <div
@@ -188,25 +188,6 @@ exports[`LibraryEntryView rendering tests LibraryEntryView - categories empty - 
                 data-testid="react-markdown-mock"
               >
                 description 1
-              </div>
-            </div>
-          </div>
-          <div
-            data-testid="long-description"
-          >
-            <h2
-              class="mb-3 text-xl font-semibold text-slate-900"
-            >
-              Detaillierte Beschreibung
-            </h2>
-            <div
-              class="text-slate-700 leading-relaxed"
-              data-testid="react-md"
-            >
-              <div
-                data-testid="react-markdown-mock"
-              >
-                detailedDescription 1
               </div>
             </div>
           </div>
@@ -494,7 +475,7 @@ exports[`LibraryEntryView rendering tests LibraryEntryView - with categories - r
           </div>
         </div>
         <div
-          class="space-y-6 p-6"
+          class="p-6"
           data-slot="card-content"
         >
           <div
@@ -513,25 +494,6 @@ exports[`LibraryEntryView rendering tests LibraryEntryView - with categories - r
                 data-testid="react-markdown-mock"
               >
                 description 1
-              </div>
-            </div>
-          </div>
-          <div
-            data-testid="long-description"
-          >
-            <h2
-              class="mb-3 text-xl font-semibold text-slate-900"
-            >
-              Detaillierte Beschreibung
-            </h2>
-            <div
-              class="text-slate-700 leading-relaxed"
-              data-testid="react-md"
-            >
-              <div
-                data-testid="react-markdown-mock"
-              >
-                detailedDescription 1
               </div>
             </div>
           </div>

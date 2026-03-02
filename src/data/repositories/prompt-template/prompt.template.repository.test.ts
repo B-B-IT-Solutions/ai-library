@@ -406,7 +406,6 @@ describe("pCreatePromptTemplateDescriptor tests", () => {
          promptTemplate: {
             create: {
                content: data.content,
-               detailedDescription: data.detailedDescription,
                fields: {
                   create: map(
                      data.fields,
@@ -474,7 +473,6 @@ describe("pUpdatePromptTemplateDescriptor tests", () => {
          promptTemplate: {
             update: {
                content: data.content,
-               detailedDescription: data.detailedDescription,
                fields: {
                   deleteMany: {},
                   create: map(

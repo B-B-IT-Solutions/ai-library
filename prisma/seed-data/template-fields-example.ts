@@ -22,20 +22,6 @@ export const codeReviewTemplateWithFields: PromptTemplateDescriptorCreateInput =
       },
       promptTemplate: {
          create: {
-            detailedDescription: `Diese Vorlage hilft Ihnen dabei, professionelle Code-Reviews durchzuführen.
-
-## Funktionsweise
-1. Fügen Sie Ihren Code-Snippet ein
-2. Wählen Sie die Programmiersprache
-3. Bestimmen Sie den Fokusbereich
-4. Optional: Aktivieren Sie Refactoring-Vorschläge
-
-Die KI analysiert dann Ihren Code und gibt detailliertes Feedback zu:
-- Code-Qualität und Lesbarkeit
-- Potenzielle Bugs und Fehlerquellen
-- Performance-Optimierungen
-- Sicherheitsaspekte
-- Best Practices für die gewählte Sprache`,
             content: `Bitte führe eine professionelle Code-Review für den folgenden {{programming_language}}-Code durch:
 
 \`\`\`{{programming_language}}
@@ -148,20 +134,6 @@ export const emailTemplateWithFields: PromptTemplateDescriptorCreateInput = {
    },
    promptTemplate: {
       create: {
-         detailedDescription: `Diese Vorlage hilft Ihnen, professionelle E-Mails für verschiedene geschäftliche Situationen zu verfassen.
-
-## Anwendungsbereiche
-- Kundenanfragen
-- Geschäftsvorschläge
-- Follow-ups
-- Beschwerdemanagement
-- Interne Kommunikation
-
-Die KI erstellt eine E-Mail, die:
-- Den richtigen Ton trifft
-- Professionell und präzise formuliert ist
-- Die gewünschte Botschaft klar vermittelt
-- Call-to-Actions enthält (optional)`,
          content: `Erstelle eine professionelle E-Mail mit folgenden Parametern:
 
 **Empfänger:** {{recipient}}
@@ -273,20 +245,6 @@ export const socialMediaPostTemplate: PromptTemplateDescriptorCreateInput = {
    },
    promptTemplate: {
       create: {
-         detailedDescription: `Erstellen Sie professionelle Social Media Posts, die perfekt auf die jeweilige Plattform abgestimmt sind.
-
-## Funktionen
-- Plattform-spezifische Anpassung (LinkedIn, Instagram, Facebook, Twitter/X)
-- Tonalität-Auswahl für Ihre Zielgruppe
-- Automatische Hashtag-Vorschläge
-- Call-to-Action Integration
-- Emoji-Optimierung (optional)
-
-Die KI berücksichtigt:
-- Optimale Zeichenlänge für die Plattform
-- Beste Posting-Praktiken
-- Engagement-fördernde Elemente
-- SEO-Optimierung (wo relevant)`,
          content: `Erstelle einen professionellen Social Media Post mit folgenden Parametern:
 
 **Plattform:** {{platform}}
@@ -430,21 +388,6 @@ export const productDescriptionTemplate: PromptTemplateDescriptorCreateInput = {
    },
    promptTemplate: {
       create: {
-         detailedDescription: `Erstellen Sie verkaufsstarke Produktbeschreibungen für Online-Shops und Marktplätze.
-
-## Features
-- Zielgruppen-spezifische Ansprache
-- Benefit-orientierte Formulierung
-- SEO-Optimierung
-- Verschiedene Längen-Optionen
-- Emotionale Kaufanreize
-
-Die KI erstellt Beschreibungen, die:
-- Produktmerkmale in Vorteile übersetzen
-- Die richtigen Keywords enthalten
-- Kaufhemmungen abbauen
-- Vertrauen aufbauen
-- Zur Conversion führen`,
          content: `Erstelle eine professionelle Produktbeschreibung mit folgenden Parametern:
 
 **Produktname:** {{product_name}}
@@ -576,21 +519,6 @@ export const blogOutlineTemplate: PromptTemplateDescriptorCreateInput = {
    },
    promptTemplate: {
       create: {
-         detailedDescription: `Erstellen Sie professionelle Blog-Strukturen, die als Grundlage für hochwertige Artikel dienen.
-
-## Was Sie erhalten
-- Optimierte Überschriften (H1-H3)
-- Logischer Content-Aufbau
-- Keywords-Integration
-- Inhaltliche Schwerpunkte
-- Meta-Beschreibung
-
-Perfekt für:
-- SEO-optimierte Blog-Artikel
-- Thought-Leadership Content
-- How-To Guides
-- Listicles
-- Produktvergleiche`,
          content: `Erstelle eine detaillierte Struktur für einen Blog-Artikel mit folgenden Parametern:
 
 **Thema:** {{topic}}
@@ -740,21 +668,6 @@ export const marketingEmailTemplate: PromptTemplateDescriptorCreateInput = {
    },
    promptTemplate: {
       create: {
-         detailedDescription: `Erstellen Sie professionelle Marketing-E-Mails, die gelesen werden und zur Conversion führen.
-
-## Features
-- Aufmerksamkeitsstarke Betreffzeilen
-- Strukturierter Aufbau
-- Klare Call-to-Actions
-- Personalisierungselemente
-- A/B-Test Varianten (optional)
-
-Ideal für:
-- Newsletter-Kampagnen
-- Produktankündigungen
-- Sales-Promotions
-- Event-Einladungen
-- Re-Engagement Kampagnen`,
          content: `Erstelle eine professionelle Marketing-E-Mail mit folgenden Parametern:
 
 **Kampagnen-Typ:** {{campaign_type}}
@@ -927,21 +840,6 @@ export const seoMetaDescriptionTemplate: PromptTemplateDescriptorCreateInput = {
    },
    promptTemplate: {
       create: {
-         detailedDescription: `Erstellen Sie SEO-optimierte Meta-Descriptions und Title-Tags für Ihre Webseiten.
-
-## Was Sie erhalten
-- Klickstarke Title-Tags (50-60 Zeichen)
-- Überzeugende Meta-Descriptions (150-160 Zeichen)
-- Keyword-Optimierung
-- Mehrere Varianten zum Testen
-- Call-to-Action Integration
-
-Die KI berücksichtigt:
-- Optimale Zeichenlänge
-- Keyword-Platzierung
-- CTR-Optimierung
-- SERP-Snippet Vorschau
-- Aktuelle SEO Best Practices`,
          content: `Erstelle SEO-optimierte Meta-Tags mit folgenden Parametern:
 
 **Seiten-URL:** {{page_url}}

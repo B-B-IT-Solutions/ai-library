@@ -13,7 +13,6 @@ export const initPromptTempalte = (
       title: descriptor?.title ?? "",
       description: descriptor?.description ?? "",
       content: promptTemplate?.content ?? "",
-      detailedDescription: promptTemplate?.detailedDescription ?? "",
       recommendedModel: descriptor?.recommendedModel ?? "Claude 3.5 Sonnet",
       categories: map(descriptor?.categories, "name"),
       categoryInput: "",

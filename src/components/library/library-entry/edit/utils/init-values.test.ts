@@ -15,7 +15,6 @@ const expectedInitPromptTempalteExisting = (
       title: descriptor.title,
       description: descriptor.description,
       content: descriptor.promptTemplate.content,
-      detailedDescription: descriptor.promptTemplate.detailedDescription,
       recommendedModel: descriptor.recommendedModel,
       categories: descriptor.categories.map((c) => c.name),
       categoryInput: "",
@@ -37,7 +36,7 @@ const expectedInitPromptTempalteNew: DPromptTemplateUpdate = {
    title: "",
    description: "",
    content: "",
-   detailedDescription: "",
+
    recommendedModel: "Claude 3.5 Sonnet",
    categories: [],
    categoryInput: "",

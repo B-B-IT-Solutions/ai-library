@@ -100,17 +100,17 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_c_-form-item"
+                    for="_r_b_-form-item"
                   >
                     Titel
                   </label>
                   <input
-                    aria-describedby="_r_c_-form-item-description"
+                    aria-describedby="_r_b_-form-item-description"
                     aria-invalid="false"
                     class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                     data-slot="form-control"
                     data-testid="input"
-                    id="_r_c_-form-item"
+                    id="_r_b_-form-item"
                     name="title"
                     placeholder="z.B. Blog-Post Generator"
                     value="title 1"
@@ -125,49 +125,22 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_d_-form-item"
+                    for="_r_c_-form-item"
                   >
                     Beschreibung
                   </label>
                   <textarea
-                    aria-describedby="_r_d_-form-item-description"
+                    aria-describedby="_r_c_-form-item-description"
                     aria-invalid="false"
                     class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                     data-slot="form-control"
                     data-testid="textarea"
-                    id="_r_d_-form-item"
+                    id="_r_c_-form-item"
                     name="description"
                     placeholder="Beschreibung der Vorlage"
                     rows="3"
                   >
                     description 1
-                  </textarea>
-                </div>
-                <div
-                  class="grid gap-2"
-                  data-slot="form-item"
-                  data-testid="detailedDescription"
-                >
-                  <label
-                    class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
-                    data-error="false"
-                    data-slot="form-label"
-                    for="_r_e_-form-item"
-                  >
-                    Detaillierte Beschreibung
-                  </label>
-                  <textarea
-                    aria-describedby="_r_e_-form-item-description"
-                    aria-invalid="false"
-                    class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                    data-slot="form-control"
-                    data-testid="textarea"
-                    id="_r_e_-form-item"
-                    name="detailedDescription"
-                    placeholder="Ausführliche Beschreibung der Vorlage"
-                    rows="4"
-                  >
-                    detailedDescription 1
                   </textarea>
                 </div>
                 <div
@@ -179,14 +152,14 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_f_-form-item"
+                    for="_r_d_-form-item"
                   >
                     Empfohlenes Modell
                   </label>
                   <button
                     aria-autocomplete="none"
-                    aria-controls="radix-_r_g_"
-                    aria-describedby="_r_f_-form-item-description"
+                    aria-controls="radix-_r_e_"
+                    aria-describedby="_r_d_-form-item-description"
                     aria-expanded="false"
                     aria-invalid="false"
                     class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
@@ -194,7 +167,7 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                     data-slot="form-control"
                     data-state="closed"
                     dir="ltr"
-                    id="_r_f_-form-item"
+                    id="_r_d_-form-item"
                     role="combobox"
                     type="button"
                   >
@@ -264,7 +237,7 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_h_-form-item"
+                    for="_r_f_-form-item"
                   >
                     Kategorien
                   </label>
@@ -382,12 +355,12 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                     class="flex gap-2"
                   >
                     <input
-                      aria-describedby="_r_h_-form-item-description"
+                      aria-describedby="_r_f_-form-item-description"
                       aria-invalid="false"
                       class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                       data-slot="form-control"
                       data-testid="input"
-                      id="_r_h_-form-item"
+                      id="_r_f_-form-item"
                       name="categoryInput"
                       placeholder="Kategorie hinzufügen"
                       value=""
@@ -1323,17 +1296,17 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                           class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                           data-error="false"
                           data-slot="form-label"
-                          for="_r_j_-form-item"
+                          for="_r_h_-form-item"
                         >
                           Name
                         </label>
                         <input
-                          aria-describedby="_r_j_-form-item-description"
+                          aria-describedby="_r_h_-form-item-description"
                           aria-invalid="false"
                           class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                           data-slot="form-control"
                           data-testid="input"
-                          id="_r_j_-form-item"
+                          id="_r_h_-form-item"
                           name="fields.0.name"
                           placeholder="Name des Feldes"
                           value="field_0"
@@ -1341,7 +1314,7 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                         <p
                           class="text-destructive text-sm"
                           data-slot="form-message"
-                          id="_r_j_-form-item-message"
+                          id="_r_h_-form-item-message"
                         >
                           <span
                             class="text-slate-500"
@@ -1359,17 +1332,17 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                           class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                           data-error="false"
                           data-slot="form-label"
-                          for="_r_k_-form-item"
+                          for="_r_i_-form-item"
                         >
                           Label
                         </label>
                         <input
-                          aria-describedby="_r_k_-form-item-description"
+                          aria-describedby="_r_i_-form-item-description"
                           aria-invalid="false"
                           class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                           data-slot="form-control"
                           data-testid="input"
-                          id="_r_k_-form-item"
+                          id="_r_i_-form-item"
                           name="fields.0.label"
                           placeholder="Label des Feldes"
                           value="label 0"
@@ -1377,7 +1350,7 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                         <p
                           class="text-destructive text-sm"
                           data-slot="form-message"
-                          id="_r_k_-form-item-message"
+                          id="_r_i_-form-item-message"
                         >
                           <span
                             class="invisible text-sm"
@@ -1395,14 +1368,14 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                           class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                           data-error="false"
                           data-slot="form-label"
-                          for="_r_l_-form-item"
+                          for="_r_j_-form-item"
                         >
                           Typ
                         </label>
                         <button
                           aria-autocomplete="none"
-                          aria-controls="radix-_r_m_"
-                          aria-describedby="_r_l_-form-item-description"
+                          aria-controls="radix-_r_k_"
+                          aria-describedby="_r_j_-form-item-description"
                           aria-expanded="false"
                           aria-invalid="false"
                           class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
@@ -1410,7 +1383,7 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                           data-slot="form-control"
                           data-state="closed"
                           dir="ltr"
-                          id="_r_l_-form-item"
+                          id="_r_j_-form-item"
                           role="combobox"
                           type="button"
                         >
@@ -1498,17 +1471,17 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                           class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                           data-error="false"
                           data-slot="form-label"
-                          for="_r_n_-form-item"
+                          for="_r_l_-form-item"
                         >
                           Standardwert
                         </label>
                         <input
-                          aria-describedby="_r_n_-form-item-description"
+                          aria-describedby="_r_l_-form-item-description"
                           aria-invalid="false"
                           class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                           data-slot="form-control"
                           data-testid="input"
-                          id="_r_n_-form-item"
+                          id="_r_l_-form-item"
                           name="fields.0.defaultValue"
                           placeholder="Standardwert des Feldes"
                           value="option 1"
@@ -1523,17 +1496,17 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                           class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                           data-error="false"
                           data-slot="form-label"
-                          for="_r_o_-form-item"
+                          for="_r_m_-form-item"
                         >
                           Beschreibung
                         </label>
                         <textarea
-                          aria-describedby="_r_o_-form-item-description"
+                          aria-describedby="_r_m_-form-item-description"
                           aria-invalid="false"
                           class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                           data-slot="form-control"
                           data-testid="textarea"
-                          id="_r_o_-form-item"
+                          id="_r_m_-form-item"
                           name="fields.0.description"
                           placeholder="Beschreibung des Feldes"
                           rows="2"
@@ -1551,12 +1524,12 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                         >
                           <button
                             aria-checked="true"
-                            aria-describedby="_r_p_-form-item-description"
+                            aria-describedby="_r_n_-form-item-description"
                             aria-invalid="false"
                             class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
                             data-slot="form-control"
                             data-state="checked"
-                            id="_r_p_-form-item"
+                            id="_r_n_-form-item"
                             role="checkbox"
                             type="button"
                             value="on"
@@ -1602,7 +1575,7 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                             class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive cursor-pointer"
                             data-error="false"
                             data-slot="form-label"
-                            for="_r_p_-form-item"
+                            for="_r_n_-form-item"
                           >
                             Dieses Feld ist erforderlich
                           </label>
@@ -1713,17 +1686,17 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                           class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                           data-error="false"
                           data-slot="form-label"
-                          for="_r_q_-form-item"
+                          for="_r_o_-form-item"
                         >
                           Name
                         </label>
                         <input
-                          aria-describedby="_r_q_-form-item-description"
+                          aria-describedby="_r_o_-form-item-description"
                           aria-invalid="false"
                           class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                           data-slot="form-control"
                           data-testid="input"
-                          id="_r_q_-form-item"
+                          id="_r_o_-form-item"
                           name="fields.1.name"
                           placeholder="Name des Feldes"
                           value="field_1"
@@ -1731,7 +1704,7 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                         <p
                           class="text-destructive text-sm"
                           data-slot="form-message"
-                          id="_r_q_-form-item-message"
+                          id="_r_o_-form-item-message"
                         >
                           <span
                             class="text-slate-500"
@@ -1749,17 +1722,17 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                           class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                           data-error="false"
                           data-slot="form-label"
-                          for="_r_r_-form-item"
+                          for="_r_p_-form-item"
                         >
                           Label
                         </label>
                         <input
-                          aria-describedby="_r_r_-form-item-description"
+                          aria-describedby="_r_p_-form-item-description"
                           aria-invalid="false"
                           class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                           data-slot="form-control"
                           data-testid="input"
-                          id="_r_r_-form-item"
+                          id="_r_p_-form-item"
                           name="fields.1.label"
                           placeholder="Label des Feldes"
                           value="label 1"
@@ -1767,7 +1740,7 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                         <p
                           class="text-destructive text-sm"
                           data-slot="form-message"
-                          id="_r_r_-form-item-message"
+                          id="_r_p_-form-item-message"
                         >
                           <span
                             class="invisible text-sm"
@@ -1785,14 +1758,14 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                           class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                           data-error="false"
                           data-slot="form-label"
-                          for="_r_s_-form-item"
+                          for="_r_q_-form-item"
                         >
                           Typ
                         </label>
                         <button
                           aria-autocomplete="none"
-                          aria-controls="radix-_r_t_"
-                          aria-describedby="_r_s_-form-item-description"
+                          aria-controls="radix-_r_r_"
+                          aria-describedby="_r_q_-form-item-description"
                           aria-expanded="false"
                           aria-invalid="false"
                           class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
@@ -1800,7 +1773,7 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                           data-slot="form-control"
                           data-state="closed"
                           dir="ltr"
-                          id="_r_s_-form-item"
+                          id="_r_q_-form-item"
                           role="combobox"
                           type="button"
                         >
@@ -1888,17 +1861,17 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                           class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                           data-error="false"
                           data-slot="form-label"
-                          for="_r_u_-form-item"
+                          for="_r_s_-form-item"
                         >
                           Standardwert
                         </label>
                         <input
-                          aria-describedby="_r_u_-form-item-description"
+                          aria-describedby="_r_s_-form-item-description"
                           aria-invalid="false"
                           class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                           data-slot="form-control"
                           data-testid="input"
-                          id="_r_u_-form-item"
+                          id="_r_s_-form-item"
                           name="fields.1.defaultValue"
                           placeholder="Standardwert des Feldes"
                           value="option 1"
@@ -1913,17 +1886,17 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                           class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                           data-error="false"
                           data-slot="form-label"
-                          for="_r_v_-form-item"
+                          for="_r_t_-form-item"
                         >
                           Beschreibung
                         </label>
                         <textarea
-                          aria-describedby="_r_v_-form-item-description"
+                          aria-describedby="_r_t_-form-item-description"
                           aria-invalid="false"
                           class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                           data-slot="form-control"
                           data-testid="textarea"
-                          id="_r_v_-form-item"
+                          id="_r_t_-form-item"
                           name="fields.1.description"
                           placeholder="Beschreibung des Feldes"
                           rows="2"
@@ -1941,12 +1914,12 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                         >
                           <button
                             aria-checked="true"
-                            aria-describedby="_r_10_-form-item-description"
+                            aria-describedby="_r_u_-form-item-description"
                             aria-invalid="false"
                             class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
                             data-slot="form-control"
                             data-state="checked"
-                            id="_r_10_-form-item"
+                            id="_r_u_-form-item"
                             role="checkbox"
                             type="button"
                             value="on"
@@ -1992,7 +1965,7 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                             class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive cursor-pointer"
                             data-error="false"
                             data-slot="form-label"
-                            for="_r_10_-form-item"
+                            for="_r_u_-form-item"
                           >
                             Dieses Feld ist erforderlich
                           </label>
@@ -2103,17 +2076,17 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                           class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                           data-error="false"
                           data-slot="form-label"
-                          for="_r_11_-form-item"
+                          for="_r_v_-form-item"
                         >
                           Name
                         </label>
                         <input
-                          aria-describedby="_r_11_-form-item-description"
+                          aria-describedby="_r_v_-form-item-description"
                           aria-invalid="false"
                           class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                           data-slot="form-control"
                           data-testid="input"
-                          id="_r_11_-form-item"
+                          id="_r_v_-form-item"
                           name="fields.2.name"
                           placeholder="Name des Feldes"
                           value="field_2"
@@ -2121,7 +2094,7 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                         <p
                           class="text-destructive text-sm"
                           data-slot="form-message"
-                          id="_r_11_-form-item-message"
+                          id="_r_v_-form-item-message"
                         >
                           <span
                             class="text-slate-500"
@@ -2139,17 +2112,17 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                           class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                           data-error="false"
                           data-slot="form-label"
-                          for="_r_12_-form-item"
+                          for="_r_10_-form-item"
                         >
                           Label
                         </label>
                         <input
-                          aria-describedby="_r_12_-form-item-description"
+                          aria-describedby="_r_10_-form-item-description"
                           aria-invalid="false"
                           class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                           data-slot="form-control"
                           data-testid="input"
-                          id="_r_12_-form-item"
+                          id="_r_10_-form-item"
                           name="fields.2.label"
                           placeholder="Label des Feldes"
                           value="label 2"
@@ -2157,7 +2130,7 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                         <p
                           class="text-destructive text-sm"
                           data-slot="form-message"
-                          id="_r_12_-form-item-message"
+                          id="_r_10_-form-item-message"
                         >
                           <span
                             class="invisible text-sm"
@@ -2175,14 +2148,14 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                           class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                           data-error="false"
                           data-slot="form-label"
-                          for="_r_13_-form-item"
+                          for="_r_11_-form-item"
                         >
                           Typ
                         </label>
                         <button
                           aria-autocomplete="none"
-                          aria-controls="radix-_r_14_"
-                          aria-describedby="_r_13_-form-item-description"
+                          aria-controls="radix-_r_12_"
+                          aria-describedby="_r_11_-form-item-description"
                           aria-expanded="false"
                           aria-invalid="false"
                           class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
@@ -2190,7 +2163,7 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                           data-slot="form-control"
                           data-state="closed"
                           dir="ltr"
-                          id="_r_13_-form-item"
+                          id="_r_11_-form-item"
                           role="combobox"
                           type="button"
                         >
@@ -2278,17 +2251,17 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                           class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                           data-error="false"
                           data-slot="form-label"
-                          for="_r_15_-form-item"
+                          for="_r_13_-form-item"
                         >
                           Standardwert
                         </label>
                         <input
-                          aria-describedby="_r_15_-form-item-description"
+                          aria-describedby="_r_13_-form-item-description"
                           aria-invalid="false"
                           class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                           data-slot="form-control"
                           data-testid="input"
-                          id="_r_15_-form-item"
+                          id="_r_13_-form-item"
                           name="fields.2.defaultValue"
                           placeholder="Standardwert des Feldes"
                           value="option 1"
@@ -2303,17 +2276,17 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                           class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                           data-error="false"
                           data-slot="form-label"
-                          for="_r_16_-form-item"
+                          for="_r_14_-form-item"
                         >
                           Beschreibung
                         </label>
                         <textarea
-                          aria-describedby="_r_16_-form-item-description"
+                          aria-describedby="_r_14_-form-item-description"
                           aria-invalid="false"
                           class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                           data-slot="form-control"
                           data-testid="textarea"
-                          id="_r_16_-form-item"
+                          id="_r_14_-form-item"
                           name="fields.2.description"
                           placeholder="Beschreibung des Feldes"
                           rows="2"
@@ -2331,12 +2304,12 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                         >
                           <button
                             aria-checked="true"
-                            aria-describedby="_r_17_-form-item-description"
+                            aria-describedby="_r_15_-form-item-description"
                             aria-invalid="false"
                             class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
                             data-slot="form-control"
                             data-state="checked"
-                            id="_r_17_-form-item"
+                            id="_r_15_-form-item"
                             role="checkbox"
                             type="button"
                             value="on"
@@ -2382,7 +2355,7 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                             class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive cursor-pointer"
                             data-error="false"
                             data-slot="form-label"
-                            for="_r_17_-form-item"
+                            for="_r_15_-form-item"
                           >
                             Dieses Feld ist erforderlich
                           </label>
@@ -2599,7 +2572,7 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - new entry - test 1`
                 <div
                   class="grid gap-2"
                   data-slot="form-item"
-                  data-testid="detailedDescription"
+                  data-testid="recommendedModel"
                 >
                   <label
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
@@ -2607,37 +2580,12 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - new entry - test 1`
                     data-slot="form-label"
                     for="_r_2_-form-item"
                   >
-                    Detaillierte Beschreibung
-                  </label>
-                  <textarea
-                    aria-describedby="_r_2_-form-item-description"
-                    aria-invalid="false"
-                    class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                    data-slot="form-control"
-                    data-testid="textarea"
-                    id="_r_2_-form-item"
-                    name="detailedDescription"
-                    placeholder="Ausführliche Beschreibung der Vorlage"
-                    rows="4"
-                  />
-                </div>
-                <div
-                  class="grid gap-2"
-                  data-slot="form-item"
-                  data-testid="recommendedModel"
-                >
-                  <label
-                    class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
-                    data-error="false"
-                    data-slot="form-label"
-                    for="_r_3_-form-item"
-                  >
                     Empfohlenes Modell
                   </label>
                   <button
                     aria-autocomplete="none"
-                    aria-controls="radix-_r_4_"
-                    aria-describedby="_r_3_-form-item-description"
+                    aria-controls="radix-_r_3_"
+                    aria-describedby="_r_2_-form-item-description"
                     aria-expanded="false"
                     aria-invalid="false"
                     class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
@@ -2645,7 +2593,7 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - new entry - test 1`
                     data-slot="form-control"
                     data-state="closed"
                     dir="ltr"
-                    id="_r_3_-form-item"
+                    id="_r_2_-form-item"
                     role="combobox"
                     type="button"
                   >
@@ -2718,7 +2666,7 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - new entry - test 1`
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_5_-form-item"
+                    for="_r_4_-form-item"
                   >
                     Kategorien
                   </label>
@@ -2726,12 +2674,12 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - new entry - test 1`
                     class="flex gap-2"
                   >
                     <input
-                      aria-describedby="_r_5_-form-item-description"
+                      aria-describedby="_r_4_-form-item-description"
                       aria-invalid="false"
                       class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                       data-slot="form-control"
                       data-testid="input"
-                      id="_r_5_-form-item"
+                      id="_r_4_-form-item"
                       name="categoryInput"
                       placeholder="Kategorie hinzufügen"
                       value=""

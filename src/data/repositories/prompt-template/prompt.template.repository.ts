@@ -121,7 +121,6 @@ export class PromptTemplateRepository {
          promptTemplate: {
             create: {
                content: data.content,
-               detailedDescription: data.detailedDescription,
                fields: {
                   create: map(
                      data.fields,
@@ -177,7 +176,6 @@ export class PromptTemplateRepository {
          promptTemplate: {
             update: {
                content: data.content,
-               detailedDescription: data.detailedDescription,
                fields: {
                   deleteMany: {},
                   create: map(

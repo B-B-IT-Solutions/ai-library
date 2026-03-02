@@ -340,7 +340,6 @@ describe("LibraryEntryEditForm functionality tests", () => {
       // Fill in required fields
       await typeIntoInput("title", "Test Template");
       await typeIntoTextArea("description", "Test Description");
-      await typeIntoTextArea("detailedDescription", "Detailed description");
       await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
 
       await userEvent.click(saveBtn);
@@ -348,7 +347,6 @@ describe("LibraryEntryEditForm functionality tests", () => {
       const expectedPayload: DPromptTemplateUpdate = {
          title: "Test Template",
          description: "Test Description",
-         detailedDescription: "Detailed description",
          content: "Template Content {{task}}",
          categories: [],
          fields: [],
@@ -385,7 +383,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
       // Fill in required fields
       await typeIntoInput("title", "Test Template");
       await typeIntoTextArea("description", "Test Description");
-      await typeIntoTextArea("detailedDescription", "Detailed description");
+
       await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
 
       await userEvent.click(saveBtn);
@@ -394,8 +392,6 @@ describe("LibraryEntryEditForm functionality tests", () => {
       const expectedPayload: DPromptTemplateUpdate = {
          title: initValue.title + "Test Template",
          description: initValue.description + "Test Description",
-         detailedDescription:
-            initValue.detailedDescription + "Detailed description",
          content: initValue.content + "Template Content {{task}}",
          categories: initValue.categories,
          fields: initValue.fields,
@@ -436,7 +432,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
       // Fill in required fields
       await typeIntoInput("title", "Test Template");
       await typeIntoTextArea("description", "Test Description");
-      await typeIntoTextArea("detailedDescription", "Detailed description");
+
       await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
 
       await userEvent.click(saveBtn);
@@ -444,7 +440,6 @@ describe("LibraryEntryEditForm functionality tests", () => {
       const expectedPayload: DPromptTemplateUpdate = {
          title: "Test Template",
          description: "Test Description",
-         detailedDescription: "Detailed description",
          content: "Template Content {{task}}",
          categories: [],
          fields: [],
@@ -479,7 +474,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
       // Fill in required fields
       await typeIntoInput("title", "Test Template");
       await typeIntoTextArea("description", "Test Description");
-      await typeIntoTextArea("detailedDescription", "Detailed description");
+
       await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
 
       const saveBtn = screen.getByTestId("save-btn");
@@ -489,8 +484,6 @@ describe("LibraryEntryEditForm functionality tests", () => {
       const expectedPayload: DPromptTemplateUpdate = {
          title: initValue.title + "Test Template",
          description: initValue.description + "Test Description",
-         detailedDescription:
-            initValue.detailedDescription + "Detailed description",
          content: initValue.content + "Template Content {{task}}",
          categories: initValue.categories,
          fields: initValue.fields,

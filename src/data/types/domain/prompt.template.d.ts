@@ -19,7 +19,6 @@ export type DPromptTemplateCategory = {
 
 export type DPromptTemplate = {
    id: string;
-   detailedDescription: string;
    content: string;
    fields: DPromptTemplateField[];
    globalFieldIds: string[];

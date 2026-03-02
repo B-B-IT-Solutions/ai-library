@@ -548,7 +548,6 @@ export const dPromptTemplate = (index = 1): DPromptTemplate => {
    return {
       id: `7c1c8898-199c-4274-8139-a883efdc676${index}`,
       content: `content ${index}`,
-      detailedDescription: `detailedDescription ${index}`,
       fields: dPromptTemplateFields(3),
       globalFieldIds: dGlobalTemplateFieldIds(1),
       updatedAt: new Date("2025-09-27").toISOString(),
@@ -560,7 +559,6 @@ export const dPromptTemplateUpdate = (index = 1): DPromptTemplateUpdate => {
    return {
       title: `title ${index}`,
       description: `updated description ${index}`,
-      detailedDescription: `updated detailedDescription ${index}`,
       content: `updated content ${index}`,
       categories: ["category 1"],
       recommendedModel: `model ${index}`,
