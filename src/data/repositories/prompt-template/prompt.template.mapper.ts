@@ -67,15 +67,17 @@ export const toDTemplateFields = (
 
 export const toDTemplateField = (
    field: PromptTemplateField
-): DPromptTemplateField => ({
-   id: field.id,
-   promptTemplateId: field.promptTemplateId,
-   name: field.name,
-   label: field.label,
-   description: field.description,
-   type: field.type,
-   required: field.required,
-   order: field.order,
-   defaultValue: field.defaultValue,
-   options: field.options as string[] | undefined,
-});
+): DPromptTemplateField => {
+   return {
+      id: field.id,
+      promptTemplateId: field.promptTemplateId,
+      name: field.name,
+      label: field.label,
+      description: field.description,
+      type: field.type,
+      required: field.required,
+      order: field.order,
+      defaultValue: field.defaultValue,
+      options: field.options as string[] | undefined,
+   };
+};

@@ -18,7 +18,6 @@ import {
    PromptTemplateDescriptorUpdateInput,
    PromptTemplateFindFirstArgs,
 } from "@/generated/prisma/models";
-import { stringify } from "@/lib/utils";
 
 import {
    toDPromptTemplate,
@@ -419,7 +418,7 @@ describe("pCreatePromptTemplateDescriptor tests", () => {
                         required: field.required,
                         order: field.order,
                         defaultValue: field.defaultValue,
-                        options: stringify(field.options),
+                        options: field.options,
                      })
                   ),
                },
@@ -488,7 +487,7 @@ describe("pUpdatePromptTemplateDescriptor tests", () => {
                         required: field.required,
                         order: field.order,
                         defaultValue: field.defaultValue,
-                        options: stringify(field.options),
+                        options: field.options,
                      })
                   ),
                },

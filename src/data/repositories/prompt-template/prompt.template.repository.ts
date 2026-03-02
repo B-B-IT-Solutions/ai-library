@@ -22,7 +22,6 @@ import {
    PromptTemplateDescriptorUpdateInput,
    PromptTemplateDescriptorWhereInput,
 } from "@/generated/prisma/models";
-import { stringify } from "@/lib/utils";
 
 import {
    toDPromptTemplate,
@@ -134,7 +133,7 @@ export class PromptTemplateRepository {
                         required: field.required,
                         order: field.order,
                         defaultValue: field.defaultValue,
-                        options: stringify(field.options),
+                        options: field.options,
                      })
                   ),
                },
@@ -191,7 +190,7 @@ export class PromptTemplateRepository {
                         required: field.required,
                         order: field.order,
                         defaultValue: field.defaultValue,
-                        options: stringify(field.options),
+                        options: field.options,
                      })
                   ),
                },
