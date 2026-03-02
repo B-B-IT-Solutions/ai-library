@@ -1,4 +1,5 @@
 jest.mock("@/data/repositories/prompt-template");
+jest.mock("@/data/services/settings");
 jest.mock("./template.engine");
 
 import { dtestData, ptestData } from "@tests";
@@ -7,22 +8,101 @@ import { DeepMockProxy } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import { PromptTemplateRepository } from "@/data/repositories/prompt-template";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
-import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
+import {
+   DPromptTemplateDataPromptGeneration,
+   DPromptTemplateFieldValues,
+} from "@/data/types/domain/prompt.template";
+import { ServiceFactory } from "../service.factory";
+import { SettingsService } from "../settings";
 
 import { PromptTemplateService } from "./prompt.template.service";
 import { FieldsValidationResult, TemplateEngine } from "./template.engine";
+
+const serviceFactory = new ServiceFactory(prisma);
+const settingsService = serviceFactory.getSettingsService();
+
+const settingsServiceMock = settingsService as DeepMockProxy<SettingsService>;
 
 const promptTemplateRepo = new PromptTemplateRepository(prisma);
 const promptTemplateRepoMock =
    promptTemplateRepo as DeepMockProxy<PromptTemplateRepository>;
 
-const promptTemplateService = new PromptTemplateService(promptTemplateRepoMock);
+const promptTemplateService = new PromptTemplateService(
+   promptTemplateRepoMock,
+   settingsServiceMock
+);
 
 const sValidate = TemplateEngine.validate;
 const sReplace = TemplateEngine.replace;
 
 const sValidateMock = sValidate as jest.MockedFunction<typeof sValidate>;
 const sReplaceMock = sReplace as jest.MockedFunction<typeof sReplace>;
+
+describe("getTemplateDataForPromptGeneration tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("getTemplateDataForPromptGeneration - template null - test", async () => {
+      const userId = "user-id-1";
+      promptTemplateRepoMock.pGetPromptTemplate.mockResolvedValue(null);
+
+      const templateId = "template-id-1";
+      const result =
+         await promptTemplateService.getTemplateDataForPromptGeneration(
+            userId,
+            templateId
+         );
+
+      expect(result).toBeNull();
+      expect(promptTemplateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(
+         1
+      );
+      expect(promptTemplateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
+         templateId
+      );
+      expect(
+         settingsServiceMock.getGlobalTemplateFieldsByIds
+      ).not.toHaveBeenCalled();
+   });
+
+   it("getTemplateDataForPromptGeneration - data retrieved - test", async () => {
+      const userId = "user-id-1";
+      const template = dtestData.dPromptTemplate();
+      promptTemplateRepoMock.pGetPromptTemplate.mockResolvedValue(template);
+
+      const globalFields = dtestData.dGlobalTemplateFields();
+      settingsServiceMock.getGlobalTemplateFieldsByIds.mockResolvedValue(
+         globalFields
+      );
+
+      const { id, globalFieldIds } = template;
+      const result =
+         await promptTemplateService.getTemplateDataForPromptGeneration(
+            userId,
+            id
+         );
+
+      const expectedResult: DPromptTemplateDataPromptGeneration = {
+         template,
+         globalFields,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(promptTemplateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(
+         1
+      );
+      expect(promptTemplateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
+         id
+      );
+      expect(
+         settingsServiceMock.getGlobalTemplateFieldsByIds
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         settingsServiceMock.getGlobalTemplateFieldsByIds
+      ).toHaveBeenCalledWith(userId, globalFieldIds);
+   });
+});
 
 describe("getPromptTemplateDescriptors tests", () => {
    beforeEach(() => {

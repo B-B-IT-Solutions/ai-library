@@ -40,6 +40,7 @@ import {
 import {
    DPromptTemplate,
    DPromptTemplateCategory,
+   DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
    DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateField,
@@ -499,6 +500,15 @@ export const dInstruction = (index = 1): DInstruction => {
       title: `title ${index}`,
       description: `description ${index}`,
       step: index,
+   };
+};
+
+export const dPromptTemplateDataPromptGeneration = (
+   index = 1
+): DPromptTemplateDataPromptGeneration => {
+   return {
+      template: dPromptTemplate(index),
+      globalFields: dGlobalTemplateFields(),
    };
 };
 

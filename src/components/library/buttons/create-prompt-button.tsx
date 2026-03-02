@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { CreatePromptDialog } from "@/components/prompts";
 import { Button } from "@/components/shadcn/button";
 import { composePromptFromTemplate } from "@/data/actions/library";
-import { getPromptGenerationTemplateData } from "@/data/actions/prompt/prompt.template.actions";
+import { getPromptGenerationTemplateData } from "@/data/actions/prompt";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
    DPromptTemplateDataPromptGeneration,

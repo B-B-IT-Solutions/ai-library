@@ -1,22 +1,33 @@
 jest.mock("@/data/services/prompt-template");
+jest.mock("@/data/actions/auth-utils");
 
 import { dtestData } from "@tests";
 import { map } from "es-toolkit/compat";
 
+import { requireUser } from "@/data/actions/auth-utils";
 import { PromptTemplateService } from "@/data/services/prompt-template";
 
 import {
+   getPromptGenerationTemplateData,
    getPromptTemplate,
    getPromptTemplateCategories,
    getPromptTemplates,
 } from "./prompt.template.actions";
 
+const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
+
+const sGetTemplateDataForPromptGeneration =
+   PromptTemplateService.prototype.getTemplateDataForPromptGeneration;
 const sGetPromptTemplateDescriptors =
    PromptTemplateService.prototype.getPromptTemplateDescriptors;
 const sGetPromptTemplate = PromptTemplateService.prototype.getPromptTemplate;
 const sGetPromptTemplateCategories =
    PromptTemplateService.prototype.getPromptTemplateCategories;
 
+const sGetTemplateDataForPromptGenerationMock =
+   sGetTemplateDataForPromptGeneration as jest.MockedFunction<
+      typeof sGetTemplateDataForPromptGeneration
+   >;
 const sGetPromptTemplateDescriptorsMock =
    sGetPromptTemplateDescriptors as jest.MockedFunction<
       typeof sGetPromptTemplateDescriptors
@@ -28,6 +39,50 @@ const sGetPromptTemplateCategoriesMock =
    sGetPromptTemplateCategories as jest.MockedFunction<
       typeof sGetPromptTemplateCategories
    >;
+
+describe("getPromptGenerationTemplateData tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("getPromptGenerationTemplateData - user undefined - test", async () => {
+      const error = new Error("Unknown user");
+      requireUserMock.mockRejectedValue(error);
+
+      const templateId = "prompt-template-id";
+      const result = await getPromptGenerationTemplateData(templateId);
+
+      expect(result).toEqual(null);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetTemplateDataForPromptGenerationMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("getPromptGenerationTemplateData - data retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const data = dtestData.dPromptTemplateDataPromptGeneration();
+      sGetTemplateDataForPromptGenerationMock.mockResolvedValue(data);
+
+      const templateId = "prompt-template-id";
+      const result = await getPromptGenerationTemplateData(templateId);
+
+      expect(result).toEqual(data);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetTemplateDataForPromptGenerationMock).toHaveBeenCalledTimes(1);
+      expect(sGetTemplateDataForPromptGenerationMock).toHaveBeenCalledWith(
+         user.id,
+         templateId
+      );
+   });
+});
 
 describe("getPromptTemplates tests", () => {
    beforeEach(() => {

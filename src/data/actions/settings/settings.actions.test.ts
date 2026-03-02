@@ -12,7 +12,6 @@ import {
    createGlobalTemplateField,
    deleteGlobalTemplateField,
    getGlobalTemplateFields,
-   getGlobalTemplateFieldsByIds,
    updateGlobalTemplateField,
 } from "./settings.actions";
 
@@ -20,8 +19,6 @@ const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
 const sGetGlobalTemplateFields =
    SettingsService.prototype.getGlobalTemplateFields;
-const sGetGlobalTemplateFieldsByIds =
-   SettingsService.prototype.getGlobalTemplateFieldsByIds;
 const sCreateGlobalTemplateField =
    SettingsService.prototype.createGlobalTemplateField;
 const sUpdateGlobalTemplateField =
@@ -32,10 +29,6 @@ const sDeleteGlobalTemplateField =
 const sGetGlobalTemplateFieldsMock =
    sGetGlobalTemplateFields as jest.MockedFunction<
       typeof sGetGlobalTemplateFields
-   >;
-const sGetGlobalTemplateFieldsByIdsMock =
-   sGetGlobalTemplateFieldsByIds as jest.MockedFunction<
-      typeof sGetGlobalTemplateFieldsByIds
    >;
 const sCreateGlobalTemplateFieldMock =
    sCreateGlobalTemplateField as jest.MockedFunction<
@@ -86,50 +79,6 @@ describe("getGlobalTemplateFields tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetGlobalTemplateFieldsMock).toHaveBeenCalledTimes(1);
       expect(sGetGlobalTemplateFieldsMock).toHaveBeenCalledWith(user.id);
-   });
-});
-
-describe("getGlobalTemplateFieldsByIds tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("getGlobalTemplateFieldsByIds - user undefined - test", async () => {
-      const error = new Error("Unknown user");
-      requireUserMock.mockRejectedValue(error);
-
-      const ids = dtestData.dGlobalTemplateFieldIds();
-      const result = await getGlobalTemplateFieldsByIds(ids);
-
-      expect(result).toEqual([]);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetGlobalTemplateFieldsByIdsMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-      expect(console.error).toHaveBeenCalledWith(error.message);
-   });
-
-   it("getGlobalTemplateFieldsByIds - fields retrieved - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const fields = dtestData.dGlobalTemplateFields();
-      sGetGlobalTemplateFieldsByIdsMock.mockResolvedValue(fields);
-
-      const ids = dtestData.dGlobalTemplateFieldIds();
-      const result = await getGlobalTemplateFieldsByIds(ids);
-
-      expect(result).toEqual(fields);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetGlobalTemplateFieldsByIdsMock).toHaveBeenCalledTimes(1);
-      expect(sGetGlobalTemplateFieldsByIdsMock).toHaveBeenCalledWith(
-         user.id,
-         ids
-      );
    });
 });
 

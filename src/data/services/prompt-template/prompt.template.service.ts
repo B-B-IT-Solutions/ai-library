@@ -32,9 +32,9 @@ export class PromptTemplateService {
 
    async getTemplateDataForPromptGeneration(
       userId: string,
-      id: string
+      teamplateId: string
    ): Promise<DPromptTemplateDataPromptGeneration | null> {
-      const template = await this.getPromptTemplate(id);
+      const template = await this.getPromptTemplate(teamplateId);
 
       if (template) {
          const globalFields =
@@ -50,6 +50,7 @@ export class PromptTemplateService {
       }
       return null;
    }
+
    async getPromptTemplateDescriptors(
       params?: DGetPromptTemplatesDescriptorsParams
    ): Promise<DPromptTemplateDescriptor[]> {

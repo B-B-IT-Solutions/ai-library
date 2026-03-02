@@ -26,19 +26,6 @@ export const getGlobalTemplateFields = async (): Promise<
    }
 };
 
-export const getGlobalTemplateFieldsByIds = async (
-   ids: string[]
-): Promise<DGlobalTemplateField[]> => {
-   try {
-      const user = await requireUser();
-      const service = getService();
-      return await service.getGlobalTemplateFieldsByIds(user.id, ids);
-   } catch (error) {
-      console.error(formatError(error));
-      return [];
-   }
-};
-
 export const createGlobalTemplateField = async (
    data: DGlobalTemplateFieldUpdate
 ): Promise<ActionResult<DGlobalTemplateField>> => {
