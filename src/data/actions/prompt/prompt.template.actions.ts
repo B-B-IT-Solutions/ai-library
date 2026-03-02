@@ -7,12 +7,22 @@ import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
    DPromptTemplate,
+   DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
 } from "@/data/types/domain/prompt.template";
+import { requireUser } from "../auth-utils";
 
 type DGetPromptTemplatesParams = {
    search?: string;
    categories?: string[];
+};
+
+export const getPromptGenerationTemplateData = async (
+   id: string
+): Promise<DPromptTemplateDataPromptGeneration | null> => {
+   const user = await requireUser();
+   const service = getService();
+   return await service.getTemplateDataForPromptGeneration(user.id, id);
 };
 
 export const getPromptTemplates = async (

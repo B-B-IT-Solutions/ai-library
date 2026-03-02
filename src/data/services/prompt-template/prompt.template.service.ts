@@ -3,11 +3,13 @@ import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
    DPromptTemplate,
    DPromptTemplateCategory,
+   DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
    DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateFieldValues,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
+import { SettingsService } from "../settings";
 
 import { TemplateEngine } from "./template.engine";
 
@@ -18,11 +20,36 @@ type DGetPromptTemplatesDescriptorsParams = {
 
 export class PromptTemplateService {
    private repository: PromptTemplateRepository;
+   private settingService: SettingsService;
 
-   constructor(repository: PromptTemplateRepository) {
+   constructor(
+      repository: PromptTemplateRepository,
+      settingsService: SettingsService
+   ) {
       this.repository = repository;
+      this.settingService = settingsService;
    }
 
+   async getTemplateDataForPromptGeneration(
+      userId: string,
+      id: string
+   ): Promise<DPromptTemplateDataPromptGeneration | null> {
+      const template = await this.getPromptTemplate(id);
+
+      if (template) {
+         const globalFields =
+            await this.settingService.getGlobalTemplateFieldsByIds(
+               userId,
+               template.globalFieldIds
+            );
+
+         return {
+            template,
+            globalFields,
+         };
+      }
+      return null;
+   }
    async getPromptTemplateDescriptors(
       params?: DGetPromptTemplatesDescriptorsParams
    ): Promise<DPromptTemplateDescriptor[]> {

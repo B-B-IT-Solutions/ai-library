@@ -8,16 +8,13 @@ import { toast } from "sonner";
 import { CreatePromptDialog } from "@/components/prompts";
 import { Button } from "@/components/shadcn/button";
 import { composePromptFromTemplate } from "@/data/actions/library";
-import { getPromptTemplate } from "@/data/actions/prompt";
-import { getGlobalTemplateFieldsByIds } from "@/data/actions/settings";
+import { getPromptGenerationTemplateData } from "@/data/actions/prompt/prompt.template.actions";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
-   DPromptTemplate,
+   DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
-   DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
-import { DGlobalTemplateField } from "@/data/types/domain/settings";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -30,36 +27,23 @@ type Mode = "fields-form" | "review";
 export const CreatePromptButton: FC<Props> = ({ descriptor, className }) => {
    const [isPending, startTransition] = useTransition();
    const [mode, setMode] = useState<Mode | null>(null);
-   const [promptTemplate, setPromptTemplate] = useState<DPromptTemplate | null>(
-      null
-   );
+   const [templateData, setTemplateData] =
+      useState<DPromptTemplateDataPromptGeneration | null>(null);
    const [generatedPrompt, setGeneratedPrompt] = useState<DPromptUpdate | null>(
       null
    );
-   const [globalFields, setGlobalFields] = useState<DGlobalTemplateField[]>([]);
 
    const handleCreate = async () => {
       startTransition(async () => {
-         const template = await getPromptTemplate(descriptor.promptTemplateId);
+         const data = await getPromptGenerationTemplateData(
+            descriptor.promptTemplateId
+         );
 
-         const { fields, globalFieldIds } = template || {};
-         const hasFields = !isEmpty(fields) || !isEmpty(globalFieldIds);
+         const { template, globalFields } = data || {};
+         const hasFields = !isEmpty(template?.fields) || !isEmpty(globalFields);
 
          if (hasFields) {
-            if (!isEmpty(globalFieldIds)) {
-               const fields = await getGlobalTemplateFieldsByIds(
-                  globalFieldIds!
-               );
-               const sorted = [...fields].sort(
-                  (a, b) =>
-                     globalFieldIds!.indexOf(a.id) -
-                     globalFieldIds!.indexOf(b.id)
-               );
-               setGlobalFields(sorted);
-            } else {
-               setGlobalFields([]);
-            }
-            setPromptTemplate(template);
+            setTemplateData(data);
             setMode("fields-form");
          } else {
             await composePrompt({});
@@ -70,7 +54,6 @@ export const CreatePromptButton: FC<Props> = ({ descriptor, className }) => {
    const handleCancel = () => {
       setMode(null);
       setGeneratedPrompt(null);
-      setGlobalFields([]);
    };
 
    const composePrompt = async (values: DPromptTemplateFieldValues) => {
@@ -96,19 +79,14 @@ export const CreatePromptButton: FC<Props> = ({ descriptor, className }) => {
             />
          );
       }
-      if (mode === "fields-form" && descriptor) {
-         const tempalte = promptTemplate as DPromptTemplate;
-         const desc: DPromptTemplateDescriptorWithTemplate = {
-            ...descriptor,
-            promptTemplate: tempalte,
-         };
+      if (mode === "fields-form" && templateData) {
          return (
             <CreatePromptDialog
                onSubmit={composePrompt}
                onCancel={handleCancel}
                mode="fields-form"
-               descriptor={desc}
-               globalFields={globalFields}
+               descriptor={descriptor}
+               templateData={templateData}
             />
          );
       }

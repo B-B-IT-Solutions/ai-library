@@ -1,5 +1,6 @@
 "use client";
 
+import { map } from "es-toolkit/compat";
 import { X } from "lucide-react";
 
 import { TemplateFieldForm } from "@/components/prompt-templates";
@@ -13,11 +14,11 @@ import {
 import { CallbackFn } from "@/data/types/common";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
-   DPromptTemplateDescriptorWithTemplate,
+   DPromptTemplateDataPromptGeneration,
+   DPromptTemplateDescriptor,
    DPromptTemplateField,
    DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
-import { DGlobalTemplateField } from "@/data/types/domain/settings";
 
 import { PromptEdit } from "./prompt-edit";
 
@@ -27,13 +28,14 @@ type Props = {
 } & (
    | {
         mode: "fields-form";
-        descriptor: DPromptTemplateDescriptorWithTemplate;
-        globalFields: DGlobalTemplateField[];
+        descriptor: DPromptTemplateDescriptor;
+        templateData: DPromptTemplateDataPromptGeneration;
         promptUpdate?: undefined;
      }
    | {
         mode: "review";
         descriptor?: undefined;
+        templateData?: undefined;
         globalFields?: undefined;
         promptUpdate: DPromptUpdate;
      }
@@ -44,7 +46,7 @@ export const CreatePromptDialog = ({
    onCancel,
    mode,
    descriptor,
-   globalFields,
+   templateData,
    promptUpdate,
 }: Props) => {
    const title = () => {
@@ -56,7 +58,8 @@ export const CreatePromptDialog = ({
 
    const content = () => {
       if (mode === "fields-form") {
-         const mappedGlobalFields: DPromptTemplateField[] = globalFields.map(
+         const mappedGlobalFields: DPromptTemplateField[] = map(
+            templateData.globalFields,
             (f) => ({
                id: f.id,
                promptTemplateId: "",
@@ -72,7 +75,7 @@ export const CreatePromptDialog = ({
          );
          const allFields = [
             ...mappedGlobalFields,
-            ...descriptor.promptTemplate.fields,
+            ...templateData.template.fields,
          ];
          return (
             <div className="space-y-4">

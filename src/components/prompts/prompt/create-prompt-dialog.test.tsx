@@ -31,7 +31,7 @@ describe("CreatePromptDialog rendering tests", () => {
       const { container } = render(
          <CreatePromptDialog
             mode="fields-form"
-            descriptor={descriptor}
+            templateData={descriptor}
             onSubmit={submitFn}
             onCancel={cancelFn}
          />
@@ -84,7 +84,7 @@ describe("CreatePromptDialog functionality tests", () => {
       render(
          <CreatePromptDialog
             mode="fields-form"
-            descriptor={descriptor}
+            templateData={descriptor}
             onSubmit={submitFormCallback}
             onCancel={cancelFn}
          />
@@ -116,7 +116,7 @@ describe("CreatePromptDialog functionality tests", () => {
       render(
          <CreatePromptDialog
             mode="fields-form"
-            descriptor={descriptor}
+            templateData={descriptor}
             onSubmit={submitFn}
             onCancel={cancelFn}
          />
@@ -144,7 +144,7 @@ describe("CreatePromptDialog functionality tests", () => {
       render(
          <CreatePromptDialog
             mode="fields-form"
-            descriptor={descriptor}
+            templateData={descriptor}
             onSubmit={submitFn}
             onCancel={cancelFn}
          />

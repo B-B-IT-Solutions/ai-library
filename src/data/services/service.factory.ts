@@ -78,7 +78,8 @@ export class ServiceFactory {
    getPromptTemplateService(): PromptTemplateService {
       if (!this.promptTemplateService) {
          this.promptTemplateService = new PromptTemplateService(
-            this.repositories.promptTemplateRepository()
+            this.repositories.promptTemplateRepository(),
+            this.getSettingsService()
          );
       }
       return this.promptTemplateService;
