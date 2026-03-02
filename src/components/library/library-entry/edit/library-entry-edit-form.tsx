@@ -206,22 +206,16 @@ export const LibraryEntryEditForm = ({ entry, globalFields }: Props) => {
                      watch={form.watch}
                      setValue={form.setValue}
                   />
-
                   <Separator />
-
                   <PromptTemplateContent control={form.control} />
-
                   <Separator />
-
                   <DetectedVariables
                      detectedVariables={detectedVariables}
                      variableStatus={variableStatus}
                      onAddVariable={handleAddVariableAsField}
                      onSyncAll={handleSyncAllVariables}
                   />
-
                   {detectedVariables.length > 0 && <Separator />}
-
                   <PromptTemplateFields
                      fields={fields as DPromptTemplateField[]}
                      detectedVariables={detectedVariables}
@@ -234,9 +228,7 @@ export const LibraryEntryEditForm = ({ entry, globalFields }: Props) => {
                      control={form.control}
                      watch={form.watch}
                   />
-
                   <Separator />
-
                   {buttons()}
                </form>
             </Form>
