@@ -1,6 +1,5 @@
 "use client";
 
-import { FC } from "react";
 import { X } from "lucide-react";
 
 import { TemplateFieldForm } from "@/components/prompt-templates";
@@ -40,14 +39,14 @@ type Props = {
      }
 );
 
-export const CreatePromptDialog: FC<Props> = ({
+export const CreatePromptDialog = ({
    onSubmit,
    onCancel,
    mode,
    descriptor,
    globalFields,
    promptUpdate,
-}) => {
+}: Props) => {
    const title = () => {
       if (mode === "fields-form") {
          return "Prompt-Vorlage ausfüllen";

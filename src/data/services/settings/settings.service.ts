@@ -17,6 +17,16 @@ export class SettingsService {
       return await this.settingsRepository.pGetGlobalTemplateFields(userId);
    }
 
+   async getGlobalTemplateFieldsByIds(
+      userId: string,
+      ids: string[]
+   ): Promise<DGlobalTemplateField[]> {
+      return await this.settingsRepository.pGetGlobalTemplateFieldsByIds(
+         userId,
+         ids
+      );
+   }
+
    async createGlobalTemplateField(
       userId: string,
       data: DGlobalTemplateFieldUpdate

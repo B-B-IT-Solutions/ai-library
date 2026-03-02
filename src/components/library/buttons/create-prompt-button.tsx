@@ -9,7 +9,7 @@ import { CreatePromptDialog } from "@/components/prompts";
 import { Button } from "@/components/shadcn/button";
 import { composePromptFromTemplate } from "@/data/actions/library";
 import { getPromptTemplate } from "@/data/actions/prompt";
-import { getGlobalTemplateFields } from "@/data/actions/settings";
+import { getGlobalTemplateFieldsByIds } from "@/data/actions/settings";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
    DPromptTemplate,
@@ -36,9 +36,7 @@ export const CreatePromptButton: FC<Props> = ({ descriptor, className }) => {
    const [generatedPrompt, setGeneratedPrompt] = useState<DPromptUpdate | null>(
       null
    );
-   const [globalFields, setGlobalFields] = useState<DGlobalTemplateField[]>(
-      []
-   );
+   const [globalFields, setGlobalFields] = useState<DGlobalTemplateField[]>([]);
 
    const handleCreate = async () => {
       startTransition(async () => {
@@ -49,11 +47,10 @@ export const CreatePromptButton: FC<Props> = ({ descriptor, className }) => {
 
          if (hasFields) {
             if (!isEmpty(globalFieldIds)) {
-               const allGlobalFields = await getGlobalTemplateFields();
-               const filtered = allGlobalFields.filter((f) =>
-                  globalFieldIds!.includes(f.id)
+               const fields = await getGlobalTemplateFieldsByIds(
+                  globalFieldIds!
                );
-               const sorted = [...filtered].sort(
+               const sorted = [...fields].sort(
                   (a, b) =>
                      globalFieldIds!.indexOf(a.id) -
                      globalFieldIds!.indexOf(b.id)

@@ -1,5 +1,6 @@
 export {
    getGlobalTemplateFields,
+   getGlobalTemplateFieldsByIds,
    createGlobalTemplateField,
    updateGlobalTemplateField,
    deleteGlobalTemplateField,
