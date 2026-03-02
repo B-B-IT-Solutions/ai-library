@@ -270,7 +270,7 @@ exports[`EditLibraryEntryPage rendering tests EditLibraryEntryPage - library ent
                       data-slot="form-label"
                       for="_r_5_-form-item"
                     >
-                      Empfohlenes Modell
+                      Kategorien
                     </label>
                     <div
                       class="mt-2 flex flex-wrap gap-2"

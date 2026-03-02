@@ -1,6 +1,7 @@
 "use client";
 
 import { FC, useState, useTransition } from "react";
+import { isEmpty } from "es-toolkit/compat";
 import { Loader, Plus } from "lucide-react";
 import { toast } from "sonner";
 
@@ -8,6 +9,7 @@ import { CreatePromptDialog } from "@/components/prompts";
 import { Button } from "@/components/shadcn/button";
 import { composePromptFromTemplate } from "@/data/actions/library";
 import { getPromptTemplate } from "@/data/actions/prompt";
+import { getGlobalTemplateFields } from "@/data/actions/settings";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
    DPromptTemplate,
@@ -15,6 +17,7 @@ import {
    DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
+import { DGlobalTemplateField } from "@/data/types/domain/settings";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -33,16 +36,33 @@ export const CreatePromptButton: FC<Props> = ({ descriptor, className }) => {
    const [generatedPrompt, setGeneratedPrompt] = useState<DPromptUpdate | null>(
       null
    );
+   const [globalFields, setGlobalFields] = useState<DGlobalTemplateField[]>(
+      []
+   );
 
    const handleCreate = async () => {
       startTransition(async () => {
-         const promptTemplate = await getPromptTemplate(
-            descriptor.promptTemplateId
-         );
+         const template = await getPromptTemplate(descriptor.promptTemplateId);
 
-         const hasFields = promptTemplate && promptTemplate.fields.length > 0;
+         const { fields, globalFieldIds } = template || {};
+         const hasFields = !isEmpty(fields) || !isEmpty(globalFieldIds);
+
          if (hasFields) {
-            setPromptTemplate(promptTemplate);
+            if (!isEmpty(globalFieldIds)) {
+               const allGlobalFields = await getGlobalTemplateFields();
+               const filtered = allGlobalFields.filter((f) =>
+                  globalFieldIds!.includes(f.id)
+               );
+               const sorted = [...filtered].sort(
+                  (a, b) =>
+                     globalFieldIds!.indexOf(a.id) -
+                     globalFieldIds!.indexOf(b.id)
+               );
+               setGlobalFields(sorted);
+            } else {
+               setGlobalFields([]);
+            }
+            setPromptTemplate(template);
             setMode("fields-form");
          } else {
             await composePrompt({});
@@ -53,6 +73,7 @@ export const CreatePromptButton: FC<Props> = ({ descriptor, className }) => {
    const handleCancel = () => {
       setMode(null);
       setGeneratedPrompt(null);
+      setGlobalFields([]);
    };
 
    const composePrompt = async (values: DPromptTemplateFieldValues) => {
@@ -90,6 +111,7 @@ export const CreatePromptButton: FC<Props> = ({ descriptor, className }) => {
                onCancel={handleCancel}
                mode="fields-form"
                descriptor={desc}
+               globalFields={globalFields}
             />
          );
       }

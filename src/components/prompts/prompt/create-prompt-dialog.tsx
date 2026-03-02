@@ -15,8 +15,10 @@ import { CallbackFn } from "@/data/types/common";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
    DPromptTemplateDescriptorWithTemplate,
+   DPromptTemplateField,
    DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
+import { DGlobalTemplateField } from "@/data/types/domain/settings";
 
 import { PromptEdit } from "./prompt-edit";
 
@@ -27,11 +29,13 @@ type Props = {
    | {
         mode: "fields-form";
         descriptor: DPromptTemplateDescriptorWithTemplate;
+        globalFields: DGlobalTemplateField[];
         promptUpdate?: undefined;
      }
    | {
         mode: "review";
         descriptor?: undefined;
+        globalFields?: undefined;
         promptUpdate: DPromptUpdate;
      }
 );
@@ -41,6 +45,7 @@ export const CreatePromptDialog: FC<Props> = ({
    onCancel,
    mode,
    descriptor,
+   globalFields,
    promptUpdate,
 }) => {
    const title = () => {
@@ -52,6 +57,24 @@ export const CreatePromptDialog: FC<Props> = ({
 
    const content = () => {
       if (mode === "fields-form") {
+         const mappedGlobalFields: DPromptTemplateField[] = globalFields.map(
+            (f) => ({
+               id: f.id,
+               promptTemplateId: "",
+               name: f.name,
+               label: f.label,
+               description: f.description,
+               type: f.type,
+               required: f.required,
+               order: f.order,
+               defaultValue: f.defaultValue,
+               options: f.options ?? undefined,
+            })
+         );
+         const allFields = [
+            ...descriptor.promptTemplate.fields,
+            ...mappedGlobalFields,
+         ];
          return (
             <div className="space-y-4">
                <div className="text-sm text-muted-foreground">
@@ -59,7 +82,7 @@ export const CreatePromptDialog: FC<Props> = ({
                   <p>{descriptor.description}</p>
                </div>
                <TemplateFieldForm
-                  fields={descriptor.promptTemplate.fields}
+                  fields={allFields}
                   onSubmit={onSubmit}
                   onCancel={onCancel}
                />

@@ -266,7 +266,7 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
                     data-slot="form-label"
                     for="_r_h_-form-item"
                   >
-                    Empfohlenes Modell
+                    Kategorien
                   </label>
                   <div
                     class="mt-2 flex flex-wrap gap-2"
@@ -2720,7 +2720,7 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - new entry - test 1`
                     data-slot="form-label"
                     for="_r_5_-form-item"
                   >
-                    Empfohlenes Modell
+                    Kategorien
                   </label>
                   <div
                     class="flex gap-2"
