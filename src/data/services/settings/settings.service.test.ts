@@ -35,6 +35,32 @@ describe("getGlobalFields tests", () => {
    });
 });
 
+describe("getGlobalTemplateFieldsByIds tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("getGlobalTemplateFieldsByIds - fields retrieved - test", async () => {
+      const userId = "user-id-1";
+      const fields = dtestData.dGlobalTemplateFields();
+      settingsRepoMock.pGetGlobalTemplateFieldsByIds.mockResolvedValue(fields);
+
+      const ids = dtestData.dGlobalTemplateFieldIds();
+      const result = await settingsService.getGlobalTemplateFieldsByIds(
+         userId,
+         ids
+      );
+
+      expect(result).toEqual(fields);
+      expect(
+         settingsRepoMock.pGetGlobalTemplateFieldsByIds
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         settingsRepoMock.pGetGlobalTemplateFieldsByIds
+      ).toHaveBeenCalledWith(userId, ids);
+   });
+});
+
 describe("createGlobalTemplateField tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
