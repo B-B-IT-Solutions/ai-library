@@ -42,8 +42,10 @@ function parseTemplate(
    return segments;
 }
 
-const Ellipsis = () => (
-   <span className="select-none px-1 text-xs text-muted-foreground">···</span>
+const OmissionMark = ({ hiddenCount }: { hiddenCount: number }) => (
+   <span className="mx-0.5 inline-block align-middle select-none rounded border border-dashed border-muted-foreground/40 bg-muted px-2 py-px text-xs text-muted-foreground leading-5">
+      ··· {hiddenCount} Zeichen ausgeblendet ···
+   </span>
 );
 
 function collapseTextSegment(
@@ -54,43 +56,41 @@ function collapseTextSegment(
    if (text.length <= CONTEXT_CHARS + 20) return text;
 
    const half = Math.floor(CONTEXT_CHARS / 2);
+   const hiddenCount = text.length - CONTEXT_CHARS;
 
    if (!prevIsPlaceholder && nextIsPlaceholder) {
-      // Leading text: show only the tail leading into the placeholder
       return (
          <>
-            <Ellipsis />
+            <OmissionMark hiddenCount={text.length - CONTEXT_CHARS} />
             {text.slice(-CONTEXT_CHARS)}
          </>
       );
    }
 
    if (prevIsPlaceholder && !nextIsPlaceholder) {
-      // Trailing text: show only the head after the placeholder
       return (
          <>
             {text.slice(0, CONTEXT_CHARS)}
-            <Ellipsis />
+            <OmissionMark hiddenCount={text.length - CONTEXT_CHARS} />
          </>
       );
    }
 
    if (prevIsPlaceholder && nextIsPlaceholder) {
-      // Between two placeholders: show tail of previous context + head of next
       return (
          <>
             {text.slice(0, half)}
-            <Ellipsis />
+            <OmissionMark hiddenCount={hiddenCount} />
             {text.slice(-half)}
          </>
       );
    }
 
-   // No adjacent placeholders (no placeholders at all)
+   // No adjacent placeholders
    return (
       <>
          {text.slice(0, CONTEXT_CHARS)}
-         <Ellipsis />
+         <OmissionMark hiddenCount={text.length - CONTEXT_CHARS} />
       </>
    );
 }
