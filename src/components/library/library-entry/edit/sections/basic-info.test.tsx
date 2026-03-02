@@ -10,7 +10,6 @@ const TestWrapper = () => {
          title: "",
          description: "",
          content: "",
-         detailedDescription: "",
          recommendedModel: "Claude 3.5 Sonnet",
          categories: [],
          categoryInput: "",
@@ -34,14 +33,12 @@ const assertRendered = () => {
    const field = screen.getByTestId("basic-info");
    const title = screen.getByTestId("title");
    const description = screen.getByTestId("description");
-   const detailedDescription = screen.getByTestId("detailedDescription");
    const recommendedModel = screen.getByTestId("recommendedModel");
    const categories = screen.getByTestId("categories");
 
    assertInDocument(field);
    assertInDocument(title);
    assertInDocument(description);
-   assertInDocument(detailedDescription);
    assertInDocument(recommendedModel);
    assertInDocument(categories);
 };

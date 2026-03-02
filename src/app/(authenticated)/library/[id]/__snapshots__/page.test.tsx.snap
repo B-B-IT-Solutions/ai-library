@@ -3,6 +3,7 @@
 exports[`LibraryEntryPage rendering tests LibraryEntryPage - library entry defined - test 1`] = `
 <div>
   <div
+    class="h-screen bg-slate-50"
     data-testid="library-entry-view-page"
   >
     <div
@@ -41,7 +42,7 @@ exports[`LibraryEntryPage rendering tests LibraryEntryPage - library entry defin
         </a>
       </div>
       <div
-        class="mx-auto max-w-4xl"
+        class="mx-auto max-w-5xl p-4"
       >
         <div
           class="text-card-foreground flex flex-col gap-6 py-6 shadow-sm rounded-lg border border-slate-300 bg-white"
@@ -192,7 +193,7 @@ exports[`LibraryEntryPage rendering tests LibraryEntryPage - library entry defin
             </div>
           </div>
           <div
-            class="space-y-6 p-6"
+            class="p-6"
             data-slot="card-content"
           >
             <div
@@ -211,25 +212,6 @@ exports[`LibraryEntryPage rendering tests LibraryEntryPage - library entry defin
                   data-testid="react-markdown-mock"
                 >
                   description 1
-                </div>
-              </div>
-            </div>
-            <div
-              data-testid="long-description"
-            >
-              <h2
-                class="mb-3 text-xl font-semibold text-slate-900"
-              >
-                Detaillierte Beschreibung
-              </h2>
-              <div
-                class="text-slate-700 leading-relaxed"
-                data-testid="react-md"
-              >
-                <div
-                  data-testid="react-markdown-mock"
-                >
-                  detailedDescription 1
                 </div>
               </div>
             </div>
@@ -309,11 +291,16 @@ exports[`LibraryEntryPage rendering tests LibraryEntryPage - library entry defin
                 class="rounded-b-lg border border-t-0 border-slate-200 bg-white p-4"
                 data-testid="content"
               >
-                <pre
-                  class="max-h-96 overflow-x-auto overflow-y-auto font-mono text-sm whitespace-pre-wrap text-slate-800"
+                <div
+                  class="text-slate-700 leading-relaxed"
+                  data-testid="react-md"
                 >
-                  content 1
-                </pre>
+                  <div
+                    data-testid="react-markdown-mock"
+                  >
+                    content 1
+                  </div>
+                </div>
               </div>
             </div>
           </div>

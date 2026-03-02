@@ -51,7 +51,6 @@ export const toDPromptTemplate = (
    return {
       id: prompt.id,
       content: prompt.content,
-      detailedDescription: prompt.detailedDescription,
       fields: toDTemplateFields(prompt.fields),
       globalFieldIds: map(prompt.globalFields, (gf) => gf.globalFieldId),
       updatedAt: prompt.updatedAt.toISOString(),

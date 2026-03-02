@@ -25,7 +25,10 @@ export const LibraryEntryPage = async ({ params }: PageProps) => {
    }
 
    return (
-      <div data-testid="library-entry-view-page">
+      <div
+         className="h-screen bg-slate-50"
+         data-testid="library-entry-view-page"
+      >
          <LibraryEntryView entry={entry} />
       </div>
    );

@@ -49,18 +49,6 @@ export const BasicInfo: FC<Props> = ({ control, watch, setValue }) => {
       );
    };
 
-   const detailedDescription = () => {
-      return (
-         <FormTextArea<DPromptTemplateUpdate>
-            name="detailedDescription"
-            label="Detaillierte Beschreibung"
-            placeholder="Ausführliche Beschreibung der Vorlage"
-            rows={4}
-            control={control}
-         />
-      );
-   };
-
    const recommendedModel = () => {
       return (
          <FormSelect<DPromptTemplateUpdate>
@@ -90,7 +78,6 @@ export const BasicInfo: FC<Props> = ({ control, watch, setValue }) => {
       <section className="space-y-4" data-testid="basic-info">
          {title()}
          {description()}
-         {detailedDescription()}
          {recommendedModel()}
          {renderCategories()}
       </section>

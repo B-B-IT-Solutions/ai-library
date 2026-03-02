@@ -27,9 +27,6 @@ export const promptTemplateFieldSchema = z.object({
 export const updatePromptTemplateSchema = z.object({
    title: z.string().min(1, "Titel ist erforderlich"),
    description: z.string().min(1, "Beschreibung ist erforderlich"),
-   detailedDescription: z
-      .string()
-      .min(1, "Detaillierte Beschreibung ist erforderlich"),
    content: z.string().min(1, "Prompt-Vorlage ist erforderlich"),
    recommendedModel: z.string().min(1, "Modell ist erforderlich"),
    categories: z.array(z.string()),

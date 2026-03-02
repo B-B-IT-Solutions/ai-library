@@ -27,7 +27,7 @@ describe("pGetGlobalFields tests", () => {
    });
 
    test("pGetGlobalTemplateFields test", async () => {
-      const fields = ptestData.pGlobalFields();
+      const fields = ptestData.pGlobalTemplateFields();
       prismaMock.globalTemplateField.findMany.mockResolvedValue(fields);
 
       const userId = "user-id-1";
@@ -54,7 +54,7 @@ describe("pGetGlobalTemplateFieldsByIds tests", () => {
    });
 
    test("pGetGlobalTemplateFieldsByIds test", async () => {
-      const fields = ptestData.pGlobalFields();
+      const fields = ptestData.pGlobalTemplateFields();
       prismaMock.globalTemplateField.findMany.mockResolvedValue(fields);
 
       const userId = "user-id-1";
@@ -89,7 +89,7 @@ describe("pCreateGlobalTemplateField tests", () => {
    });
 
    test("pCreateGlobalTemplateField - field created - test", async () => {
-      const field = ptestData.pGlobalField();
+      const field = ptestData.pGlobalTemplateField();
       prismaMock.globalTemplateField.create.mockResolvedValue(field);
 
       const userId = "user-id-1";
@@ -130,7 +130,7 @@ describe("pCreateGlobalTemplateField tests", () => {
    });
 
    test("pCreateGlobalTemplateField - field created  - options empty - test", async () => {
-      const field = ptestData.pGlobalField();
+      const field = ptestData.pGlobalTemplateField();
       prismaMock.globalTemplateField.create.mockResolvedValue(field);
 
       const userId = "user-id-1";
@@ -178,7 +178,7 @@ describe("pUpdateGlobalTemplateField tests", () => {
    });
 
    test("pUpdateGlobalTemplateField - field updated - all fields - test", async () => {
-      const field = ptestData.pGlobalField();
+      const field = ptestData.pGlobalTemplateField();
       prismaMock.globalTemplateField.update.mockResolvedValue(field);
 
       const userId = "user-id-1";
@@ -217,7 +217,7 @@ describe("pUpdateGlobalTemplateField tests", () => {
    });
 
    test("pUpdateGlobalTemplateField - field updated - options empty - test", async () => {
-      const field = ptestData.pGlobalField();
+      const field = ptestData.pGlobalTemplateField();
       prismaMock.globalTemplateField.update.mockResolvedValue(field);
 
       const userId = "user-id-1";
@@ -263,7 +263,7 @@ describe("pDeleteGlobalTemplateField tests", () => {
    });
 
    test("pDeleteGlobalTemplateField test", async () => {
-      const field = ptestData.pGlobalField();
+      const field = ptestData.pGlobalTemplateField();
       prismaMock.globalTemplateField.delete.mockResolvedValue(field);
 
       const id = "global-field-id-1";

@@ -428,7 +428,6 @@ describe("updatePromptTemplateSchema - tests", () => {
    const validTemplateData = {
       title: "Test Template",
       description: "A test template description",
-      detailedDescription: "A detailed description of the test template",
       content: "Hello {{email}}, welcome to {{company}}!",
       recommendedModel: "gpt-4",
       categories: ["Marketing", "Sales"],
@@ -448,7 +447,6 @@ describe("updatePromptTemplateSchema - tests", () => {
          const templateData = {
             title: "Test Template",
             description: "A test description",
-            detailedDescription: "A detailed description",
             content: "Content {{name}}",
             recommendedModel: "gpt-4",
             categories: ["Marketing"],
@@ -544,7 +542,6 @@ describe("updatePromptTemplateSchema - tests", () => {
       it("updatePromptTemplateSchema - missing title invalid - test", () => {
          const templateData = {
             description: "A test description",
-            detailedDescription: "A detailed description",
             content: "Content",
             recommendedModel: "gpt-4",
             categories: [],
@@ -580,33 +577,6 @@ describe("updatePromptTemplateSchema - tests", () => {
       it("updatePromptTemplateSchema - missing description invalid - test", () => {
          const templateData = {
             title: "Test",
-            detailedDescription: "A detailed description",
-            content: "Content",
-            recommendedModel: "gpt-4",
-            categories: [],
-            fields: [],
-         };
-
-         const fn = () => updatePromptTemplateSchema.parse(templateData);
-         expect(fn).toThrow(ZodError);
-      });
-   });
-
-   describe("Detailed description validation", () => {
-      it("updatePromptTemplateSchema - empty detailedDescription invalid - test", () => {
-         const templateData = {
-            ...validTemplateData,
-            detailedDescription: "",
-         };
-
-         const fn = () => updatePromptTemplateSchema.parse(templateData);
-         expect(fn).toThrow(ZodError);
-      });
-
-      it("updatePromptTemplateSchema - missing detailedDescription invalid - test", () => {
-         const templateData = {
-            title: "Test",
-            description: "Description",
             content: "Content",
             recommendedModel: "gpt-4",
             categories: [],
@@ -633,7 +603,6 @@ describe("updatePromptTemplateSchema - tests", () => {
          const templateData = {
             title: "Test",
             description: "Description",
-            detailedDescription: "Detailed",
             recommendedModel: "gpt-4",
             categories: [],
             fields: [],
@@ -671,7 +640,6 @@ describe("updatePromptTemplateSchema - tests", () => {
          const templateData = {
             title: "Test",
             description: "Description",
-            detailedDescription: "Detailed",
             content: "Content",
             categories: [],
             fields: [],
@@ -702,7 +670,6 @@ describe("updatePromptTemplateSchema - tests", () => {
          const templateData = {
             title: "Test",
             description: "Description",
-            detailedDescription: "Detailed",
             content: "Content",
             recommendedModel: "gpt-4",
             fields: [],
@@ -738,7 +705,6 @@ describe("updatePromptTemplateSchema - tests", () => {
          const templateData = {
             title: "Test",
             description: "Description",
-            detailedDescription: "Detailed",
             content: "Content",
             recommendedModel: "gpt-4",
             categories: [],
@@ -776,7 +742,6 @@ describe("updatePromptTemplateSchema - tests", () => {
          const templateData = {
             title: "Test",
             description: "Description",
-            detailedDescription: "Detailed",
             content: "Content",
             recommendedModel: "gpt-4",
             categories: [],
@@ -840,8 +805,6 @@ describe("updatePromptTemplateSchema - tests", () => {
          const realWorldTemplate = {
             title: "Marketing Email Campaign",
             description: "Create personalized marketing emails",
-            detailedDescription:
-               "This template helps you create personalized marketing emails for your campaigns with customizable fields.",
             content:
                "Dear {{firstName}} {{lastName}},\n\nWe are excited to offer you {{offer}}.\n\nBest regards,\n{{company}}",
             recommendedModel: "gpt-4-turbo",
@@ -892,7 +855,6 @@ describe("updatePromptTemplateSchema - tests", () => {
          const minimalTemplate = {
             title: "T",
             description: "D",
-            detailedDescription: "DD",
             content: "C",
             recommendedModel: "M",
             categories: [],

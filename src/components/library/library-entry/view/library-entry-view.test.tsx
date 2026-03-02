@@ -8,7 +8,6 @@ import { LibraryEntryView } from "./library-entry-view";
 const assertRendered = () => {
    const libraryEntry = screen.getByTestId("library-entry-view");
    const shortDescription = screen.getByTestId("short-description");
-   const longDescription = screen.getByTestId("long-description");
    const content = screen.getByTestId("prompt-text");
    const createPromptBtn = screen.getByTestId("create-prompt-btn");
    const editEntryBtn = screen.getByTestId("edit-entry-btn");
@@ -16,7 +15,6 @@ const assertRendered = () => {
 
    assertInDocument(libraryEntry);
    assertInDocument(shortDescription);
-   assertInDocument(longDescription);
    assertInDocument(content);
    assertInDocument(createPromptBtn);
    assertInDocument(editEntryBtn);

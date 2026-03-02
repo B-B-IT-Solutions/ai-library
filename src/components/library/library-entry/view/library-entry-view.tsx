@@ -58,7 +58,7 @@ export const LibraryEntryView = ({ entry }: Props) => {
             </Link>
          </div>
 
-         <div className="mx-auto max-w-4xl">
+         <div className="mx-auto max-w-5xl p-4">
             <Card className="rounded-lg border border-slate-300 bg-white">
                <CardHeader className="border-b border-slate-200">
                   <div className="flex items-start justify-between gap-4">
@@ -96,21 +96,12 @@ export const LibraryEntryView = ({ entry }: Props) => {
                   {categories()}
                </CardHeader>
 
-               <CardContent className="space-y-6 p-6">
+               <CardContent className="p-6">
                   <div data-testid="short-description">
                      <h2 className="mb-3 text-xl font-semibold text-slate-900">
                         Beschreibung
                      </h2>
                      <MDRenderer>{descriptor.description}</MDRenderer>
-                  </div>
-
-                  <div data-testid="long-description">
-                     <h2 className="mb-3 text-xl font-semibold text-slate-900">
-                        Detaillierte Beschreibung
-                     </h2>
-                     <MDRenderer>
-                        {descriptor.promptTemplate.detailedDescription}
-                     </MDRenderer>
                   </div>
 
                   <PromptTextDisplay template={descriptor.promptTemplate} />
