@@ -27,7 +27,7 @@ const toDGlobalTemplateFieldInternal = (
       type: field.type,
       required: field.required,
       defaultValue: field.defaultValue,
-      options: isArray(field.options) ? (field.options as string[]) : null,
+      options: field.options as string[] | undefined,
       order: field.order,
       createdAt: field.createdAt.toISOString(),
       updatedAt: field.updatedAt.toISOString(),
