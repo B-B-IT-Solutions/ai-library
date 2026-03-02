@@ -1,3 +1,5 @@
+import { upperCase } from "es-toolkit/compat";
+
 import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
 
 import {
@@ -42,10 +44,12 @@ describe("template field type tests", () => {
 
    it("getTemplateFieldTypeLabel - test", () => {
       const result1 = getTemplateFieldTypeLabel("TEXT");
-      expect(result1).toEqual(expecteTemplateFieldLabels.TEXT);
+      const expectedResult1 = upperCase(expecteTemplateFieldLabels.TEXT);
+      expect(result1).toEqual(expectedResult1);
 
       const result2 = getTemplateFieldTypeLabel("NUMBER");
-      expect(result2).toEqual(expecteTemplateFieldLabels.NUMBER);
+      const expectedResult2 = upperCase(expecteTemplateFieldLabels.NUMBER);
+      expect(result2).toEqual(expectedResult2);
 
       const type = "UNKNOW" as DPromptTemplateFieldType;
       const result3 = getTemplateFieldTypeLabel(type);

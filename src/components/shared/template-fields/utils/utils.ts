@@ -1,4 +1,4 @@
-import { map } from "es-toolkit/compat";
+import { map, upperCase } from "es-toolkit/compat";
 
 import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
 
@@ -22,5 +22,6 @@ export const TEMPLATE_FIELD_OPTIONS = map(
 );
 
 export const getTemplateFieldTypeLabel = (type: DPromptTemplateFieldType) => {
-   return TEMPLATE_FIELD_LABELS[type] ?? type;
+   const label = TEMPLATE_FIELD_LABELS[type] ?? type;
+   return upperCase(label);
 };
