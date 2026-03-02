@@ -1,7 +1,6 @@
 import {
    BookOpen,
    FileText,
-   LayoutTemplate,
    Package,
    Send,
    Settings,
@@ -20,13 +19,16 @@ export const navigationMenu1: DMenuItem[] = [
    },
    {
       id: "/library",
-      title: "Meine Bibliothek",
+      title: "Vorlagen",
       icon: BookOpen,
       url: "/library",
    },
+];
+
+export const navigationMenu2: DMenuItem[] = [
    {
       id: "/marketplace",
-      title: "Marktplatz",
+      title: "Bibliothek",
       icon: ShoppingBag,
       url: "/marketplace",
    },
@@ -38,7 +40,7 @@ export const navigationMenu1: DMenuItem[] = [
    },
 ];
 
-export const navigationMenu2: DMenuItem[] = [
+export const navigationMenu3: DMenuItem[] = [
    {
       id: "/feedback",
       title: "Feedback",
