@@ -20,17 +20,20 @@ import { RadioField } from "./field/field-radio";
 import { SelectField } from "./field/field-select";
 import { TextAreaField } from "./field/field-textarea";
 import { buildFieldsSchema } from "./fields.schema";
+import { TemplatePreview } from "./template-preview";
 
 type Props = {
    fields: DPromptTemplateField[];
    onSubmit: (values: DPromptTemplateFieldValues) => void;
    onCancel: CallbackFn;
+   templateContent?: string;
 };
 
 export const TemplateFieldForm: FC<Props> = ({
    fields,
    onSubmit,
    onCancel,
+   templateContent,
 }) => {
    const fieldsSchema = buildFieldsSchema(fields);
    type DFieldsType = z.infer<typeof fieldsSchema>;
@@ -47,6 +50,8 @@ export const TemplateFieldForm: FC<Props> = ({
          {}
       ),
    });
+
+   const currentValues = form.watch() as DPromptTemplateFieldValues;
 
    const renderField = (field: DPromptTemplateField) => {
       switch (field.type) {
@@ -76,6 +81,25 @@ export const TemplateFieldForm: FC<Props> = ({
       onSubmit(data as DPromptTemplateFieldValues);
    };
 
+   const formContent = (
+      <>
+         <div className="space-y-4">{renderFields()}</div>
+         <div className="flex justify-end gap-2 pt-2">
+            <Button
+               type="button"
+               variant="outline"
+               onClick={onCancel}
+               data-testid="cancel-btn"
+            >
+               Abbrechen
+            </Button>
+            <Button type="submit" data-testid="submit-btn">
+               Vorschau generieren
+            </Button>
+         </div>
+      </>
+   );
+
    return (
       <Form {...form}>
          <form
@@ -83,20 +107,34 @@ export const TemplateFieldForm: FC<Props> = ({
             className="space-y-4"
             data-testid="prompt-template-fields-form"
          >
-            {renderFields()}
-            <div className="flex justify-end gap-2">
-               <Button
-                  type="button"
-                  variant="outline"
-                  onClick={onCancel}
-                  data-testid="cancel-btn"
-               >
-                  Abbrechen
-               </Button>
-               <Button type="submit" data-testid="submit-btn">
-                  Vorschau generieren
-               </Button>
-            </div>
+            {templateContent ? (
+               <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                  <div className="space-y-4">{formContent}</div>
+                  <div className="flex flex-col gap-2">
+                     <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                        Prompt-Vorschau
+                     </p>
+                     <div className="flex-1 overflow-y-auto rounded-md border bg-muted/30 p-4 max-h-[60vh]">
+                        <TemplatePreview
+                           content={templateContent}
+                           values={currentValues}
+                        />
+                     </div>
+                     <p className="text-xs text-muted-foreground">
+                        <span className="inline-block rounded bg-orange-100 px-1 text-orange-700 italic mr-1">
+                           {"{{platzhalter}}"}
+                        </span>
+                        noch nicht ausgefüllt ·{" "}
+                        <span className="inline-block rounded bg-green-100 px-1 text-green-800 font-medium mr-1">
+                           wert
+                        </span>
+                        ausgefüllt
+                     </p>
+                  </div>
+               </div>
+            ) : (
+               formContent
+            )}
          </form>
       </Form>
    );

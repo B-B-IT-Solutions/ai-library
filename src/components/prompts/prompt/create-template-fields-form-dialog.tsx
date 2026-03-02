@@ -56,12 +56,12 @@ export const CreateTemplateFieldsFormDialog = ({
          <div className="space-y-4">
             <div className="text-sm text-muted-foreground">
                <p className="font-semibold">{descriptor.title}</p>
-               <p>{descriptor.description}</p>
             </div>
             <TemplateFieldForm
                fields={allFields}
                onSubmit={onSubmit}
                onCancel={onCancel}
+               templateContent={templateData.template.content}
             />
          </div>
       );
