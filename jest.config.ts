@@ -57,6 +57,8 @@ module.exports = {
          "<rootDir>/__mocks__/@radix-ui/react-dialog.tsx",
       "^@radix-ui/react-dropdown-menu$":
          "<rootDir>/__mocks__/@radix-ui/react-dropdown-menu.tsx",
+      "^@radix-ui/react-popover$":
+         "<rootDir>/__mocks__/@radix-ui/react-popover.tsx",
       "^@radix-ui/react-portal$":
          "<rootDir>/__mocks__/@radix-ui/react-portal.tsx",
       "^@radix-ui/react-presence$":

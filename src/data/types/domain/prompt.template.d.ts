@@ -20,6 +20,7 @@ export type DPromptTemplate = {
    detailedDescription: string;
    content: string;
    fields: DPromptTemplateField[];
+   globalFieldIds: string[];
    updatedAt: string;
    createdAt: string;
 };

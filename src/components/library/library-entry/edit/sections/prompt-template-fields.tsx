@@ -1,29 +1,31 @@
 "use client";
 
 import { FC } from "react";
-import { isEmpty, map } from "es-toolkit/compat";
+import { filter, includes, isEmpty, map } from "es-toolkit/compat";
 import { Plus } from "lucide-react";
 import { Control, UseFormWatch } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
+import { GlobalTemplateFieldsPicker } from "@/components/shared/template-fields";
 import { CallbackFn } from "@/data/types/common";
 import {
    DPromptTemplateField,
-   DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
 
-import { GlobalFieldsPicker } from "./global-fields-picker";
+import { PromptGlobalTemplateField } from "./prompt-global-template-field";
 import { PromptTemplateField } from "./prompt-template-field";
 
 type Props = {
    fields: DPromptTemplateField[];
    detectedVariables: string[];
-   globalFields?: DGlobalTemplateField[];
+   globalFields: DGlobalTemplateField[];
+   globalFieldIds: string[];
    onAddField: CallbackFn;
-   onAddGlobalFields?: (fields: DPromptTemplateFieldUpdate[]) => void;
    onRemoveField: (index: number) => void;
+   onAddGlobalFieldIds: (ids: string[]) => void;
+   onRemoveGlobalFieldId: (id: string) => void;
    control: Control<DPromptTemplateUpdate>;
    watch: UseFormWatch<DPromptTemplateUpdate>;
 };
@@ -31,15 +33,17 @@ type Props = {
 export const PromptTemplateFields: FC<Props> = ({
    fields,
    detectedVariables,
-   globalFields = [],
+   globalFields,
+   globalFieldIds,
    onAddField,
-   onAddGlobalFields,
    onRemoveField,
+   onAddGlobalFieldIds,
+   onRemoveGlobalFieldId,
    control,
    watch,
 }) => {
-   const existingFieldNames = map(fields, (_, idx) =>
-      watch(`fields.${idx}.name`)
+   const resolvedGlobalFields = filter(globalFields, (f) =>
+      includes(globalFieldIds, f.id)
    );
 
    const header = () => {
@@ -54,13 +58,6 @@ export const PromptTemplateFields: FC<Props> = ({
                </p>
             </div>
             <div className="flex items-center gap-2">
-               {globalFields.length > 0 && onAddGlobalFields && (
-                  <GlobalFieldsPicker
-                     globalFields={globalFields}
-                     existingFieldNames={existingFieldNames}
-                     onAddFields={onAddGlobalFields}
-                  />
-               )}
                <Button
                   type="button"
                   onClick={onAddField}
@@ -69,15 +66,48 @@ export const PromptTemplateFields: FC<Props> = ({
                   className="cursor-pointer"
                   data-testid="add-btn"
                >
-                  <Plus className="mr-2 h-4 w-4" />
+                  <Plus className="mr-1 h-4 w-4" />
                   Feld hinzufügen
                </Button>
+               <GlobalTemplateFieldsPicker
+                  globalFields={globalFields}
+                  selectedGlobalFieldIds={globalFieldIds}
+                  onAddFields={onAddGlobalFieldIds}
+               />
             </div>
          </div>
       );
    };
 
-   const renderField = (field: DPromptTemplateField, idx: number) => {
+   const renderGlobalField = (field: DGlobalTemplateField) => {
+      const isUsed = includes(detectedVariables, field.name);
+      return (
+         <PromptGlobalTemplateField
+            key={field.id}
+            field={field}
+            isUsed={isUsed}
+            onRemoveGlobalFieldId={onRemoveGlobalFieldId}
+         />
+      );
+   };
+
+   const renderGlobalFields = () => {
+      if (!isEmpty(resolvedGlobalFields)) {
+         return (
+            <div
+               className="space-y-2"
+               data-testid="prompt-global-template-fields"
+            >
+               <p className="text-xs font-medium tracking-wide text-slate-400 uppercase">
+                  Globale Felder
+               </p>
+               {map(resolvedGlobalFields, renderGlobalField)}
+            </div>
+         );
+      }
+   };
+
+   const renderTemplateField = (field: DPromptTemplateField, idx: number) => {
       const fieldName = watch(`fields.${idx}.name`);
       const isUsed = detectedVariables.includes(fieldName);
       const hasName = !isEmpty(fieldName);
@@ -95,7 +125,7 @@ export const PromptTemplateFields: FC<Props> = ({
       );
    };
 
-   const renderFields = () => {
+   const renderTemplateFields = () => {
       if (isEmpty(fields)) {
          return (
             <div
@@ -111,7 +141,7 @@ export const PromptTemplateFields: FC<Props> = ({
       }
       return (
          <div className="space-y-4" data-testid="fields">
-            {map(fields, (field, idx) => renderField(field, idx))}
+            {map(fields, (field, idx) => renderTemplateField(field, idx))}
          </div>
       );
    };
@@ -119,7 +149,8 @@ export const PromptTemplateFields: FC<Props> = ({
    return (
       <section className="space-y-4" data-testid="prompt-template-fields">
          {header()}
-         {renderFields()}
+         {renderGlobalFields()}
+         {renderTemplateFields()}
       </section>
    );
 };

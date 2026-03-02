@@ -18,5 +18,6 @@ export const initPromptTempalte = (
       categories: map(descriptor?.categories, "name"),
       categoryInput: "",
       fields: map(promptTemplate?.fields, existingTemplateFieldInitValues),
+      globalFieldIds: promptTemplate?.globalFieldIds ?? [],
    };
 };

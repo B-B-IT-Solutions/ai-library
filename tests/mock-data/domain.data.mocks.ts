@@ -540,6 +540,7 @@ export const dPromptTemplate = (index = 1): DPromptTemplate => {
       content: `content ${index}`,
       detailedDescription: `detailedDescription ${index}`,
       fields: dPromptTemplateFields(3),
+      globalFieldIds: dGlobalTemplateFieldIds(1),
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
    };
@@ -554,6 +555,7 @@ export const dPromptTemplateUpdate = (index = 1): DPromptTemplateUpdate => {
       categories: ["category 1"],
       recommendedModel: `model ${index}`,
       fields: dPromptTemplateFieldUpdates(),
+      globalFieldIds: dGlobalTemplateFieldIds(),
    };
 };
 
@@ -565,7 +567,7 @@ export const dPromptTemplateField = (index = 1): DPromptTemplateField => {
    return {
       id: `7e736436-8c94-4ec9-bd21-1db1b52d357${index}`,
       promptTemplateId: `8b82ebb2-5966-4788-8fed-3ad18c08e28${index}`,
-      name: `field ${index}`,
+      name: `field_${index}`,
       label: `label ${index}`,
       description: `description ${index}`,
       type: "SELECT",
@@ -711,6 +713,11 @@ export const dPromptsFilter = (): DPromptDescriptorsFilter => {
 
 export const sort = (field = "field1", desc = false): Sort => {
    return { field, desc };
+};
+
+export const dGlobalTemplateFieldIds = (count = 1): string[] => {
+   const fields = dGlobalTemplateFields(count);
+   return map(fields, "id");
 };
 
 export const dGlobalTemplateFields = (count = 3): DGlobalTemplateField[] => {

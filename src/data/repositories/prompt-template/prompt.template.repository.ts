@@ -22,7 +22,6 @@ import {
    PromptTemplateDescriptorUpdateInput,
    PromptTemplateDescriptorWhereInput,
 } from "@/generated/prisma/models";
-import { stringify } from "@/lib/utils";
 
 import {
    toDPromptTemplate,
@@ -70,6 +69,7 @@ export class PromptTemplateRepository {
                promptTemplate: {
                   include: {
                      fields: true,
+                     globalFields: true,
                   },
                },
             },
@@ -86,6 +86,7 @@ export class PromptTemplateRepository {
          where: { id },
          include: {
             fields: true,
+            globalFields: true,
          },
       });
 
@@ -132,9 +133,15 @@ export class PromptTemplateRepository {
                         required: field.required,
                         order: field.order,
                         defaultValue: field.defaultValue,
-                        options: stringify(field.options),
+                        options: field.options,
                      })
                   ),
+               },
+               globalFields: {
+                  create: map(data.globalFieldIds, (id, idx) => ({
+                     globalFieldId: id,
+                     order: idx,
+                  })),
                },
             },
          },
@@ -183,9 +190,16 @@ export class PromptTemplateRepository {
                         required: field.required,
                         order: field.order,
                         defaultValue: field.defaultValue,
-                        options: stringify(field.options),
+                        options: field.options,
                      })
                   ),
+               },
+               globalFields: {
+                  deleteMany: {},
+                  create: map(data.globalFieldIds, (id, idx) => ({
+                     globalFieldId: id,
+                     order: idx,
+                  })),
                },
             },
          },

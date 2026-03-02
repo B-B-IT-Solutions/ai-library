@@ -32,7 +32,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-plus mr-2 h-4 w-4"
+            class="lucide lucide-plus mr-1 h-4 w-4"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -51,6 +51,157 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
             />
           </svg>
           Feld hinzufügen
+        </button>
+        <div
+          data-slot="popover"
+          data-testid="mock-react-popover-root"
+        >
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
+            data-slot="popover-trigger"
+            data-testid="global-template-fields-picker"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-braces mr-1 h-4 w-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"
+              />
+              <path
+                d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"
+              />
+            </svg>
+            Globale Felder
+          </button>
+          <div
+            data-testid="mock-react-popover-portal"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="space-y-2"
+      data-testid="prompt-global-template-fields"
+    >
+      <p
+        class="text-xs font-medium tracking-wide text-slate-400 uppercase"
+      >
+        Globale Felder
+      </p>
+      <div
+        class="flex items-center justify-between rounded-lg border px-4 py-3 border-orange-200 bg-orange-50"
+        data-testid="prompt-global-template-field"
+      >
+        <div
+          class="flex items-center gap-3"
+        >
+          <div>
+            <span
+              class="text-sm font-medium text-slate-900"
+            >
+              label 0
+            </span>
+            <code
+              class="ml-2 font-mono text-xs text-slate-500"
+            >
+              {{name-0}}
+            </code>
+          </div>
+          <span
+            class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 text-xs"
+            data-slot="badge"
+          >
+            NUMBER
+          </span>
+          <span
+            class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground text-xs"
+            data-slot="badge"
+          >
+            Pflicht
+          </span>
+          <span
+            class="flex items-center gap-1 rounded-full bg-orange-100 px-2 py-1 text-xs text-orange-800"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-circle-alert h-3 w-3"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+              />
+              <line
+                x1="12"
+                x2="12"
+                y1="8"
+                y2="12"
+              />
+              <line
+                x1="12"
+                x2="12.01"
+                y1="16"
+                y2="16"
+              />
+            </svg>
+            Nicht verwendet
+          </span>
+        </div>
+        <button
+          class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
+          data-slot="button"
+          data-testid="remove-global-field-btn"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-trash2 lucide-trash-2 h-4 w-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10 11v6"
+            />
+            <path
+              d="M14 11v6"
+            />
+            <path
+              d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"
+            />
+            <path
+              d="M3 6h18"
+            />
+            <path
+              d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+            />
+          </svg>
         </button>
       </div>
     </div>
@@ -509,7 +660,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               id="_r_7_-form-item"
               name="fields.1.name"
               placeholder="Name des Feldes"
-              value="field 1"
+              value="field_1"
             />
             <p
               class="text-destructive text-sm"
@@ -519,7 +670,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               <span
                 class="text-slate-500"
               >
-                Verwenden Sie diesen Namen als {{field 1}}
+                Verwenden Sie diesen Namen als {{field_1}}
               </span>
             </p>
           </div>
@@ -844,7 +995,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               id="_r_e_-form-item"
               name="fields.2.name"
               placeholder="Name des Feldes"
-              value="field 2"
+              value="field_2"
             />
             <p
               class="text-destructive text-sm"
@@ -854,7 +1005,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields - t
               <span
                 class="text-slate-500"
               >
-                Verwenden Sie diesen Namen als {{field 2}}
+                Verwenden Sie diesen Namen als {{field_2}}
               </span>
             </p>
           </div>
@@ -1100,7 +1251,7 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields emp
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-plus mr-2 h-4 w-4"
+            class="lucide lucide-plus mr-1 h-4 w-4"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -1120,6 +1271,42 @@ exports[`PromptTemplateFieldss rendering tests PromptTemplateFields - fields emp
           </svg>
           Feld hinzufügen
         </button>
+        <div
+          data-slot="popover"
+          data-testid="mock-react-popover-root"
+        >
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
+            data-slot="popover-trigger"
+            data-testid="global-template-fields-picker"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-braces mr-1 h-4 w-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"
+              />
+              <path
+                d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"
+              />
+            </svg>
+            Globale Felder
+          </button>
+          <div
+            data-testid="mock-react-popover-portal"
+          />
+        </div>
       </div>
     </div>
     <div

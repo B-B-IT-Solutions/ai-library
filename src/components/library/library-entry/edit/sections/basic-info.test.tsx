@@ -15,6 +15,7 @@ const TestWrapper = () => {
          categories: [],
          categoryInput: "",
          fields: [],
+         globalFieldIds: [],
       },
    });
 

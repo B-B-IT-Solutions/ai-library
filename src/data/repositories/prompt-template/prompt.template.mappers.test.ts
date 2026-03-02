@@ -61,6 +61,7 @@ const toDPromptTemplateInternal = (
       content: prompt.content,
       detailedDescription: prompt.detailedDescription,
       fields: toDTemplateFieldsInternal(prompt.fields),
+      globalFieldIds: map(prompt.globalFields, (gf) => gf.globalFieldId),
       updatedAt: prompt.updatedAt.toISOString(),
       createdAt: prompt.createdAt.toISOString(),
    };

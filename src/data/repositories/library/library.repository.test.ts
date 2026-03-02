@@ -14,11 +14,11 @@ import {
    LibraryEntryFindUniqueArgs,
 } from "@/generated/prisma/models";
 
-import { GetLibraryEntryParams, LibraryRepository } from "./library.repository";
 import {
    toDLibraryEntries,
    toDLibraryEntryWithPromptTemplate,
 } from "./library.mapper";
+import { GetLibraryEntryParams, LibraryRepository } from "./library.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const libraryRepository = new LibraryRepository(prismaMock);
@@ -84,6 +84,7 @@ describe("pGetLibraryEntry tests", () => {
                   promptTemplate: {
                      include: {
                         fields: true,
+                        globalFields: true,
                      },
                   },
                },
@@ -121,6 +122,7 @@ describe("pGetLibraryEntry tests", () => {
                   promptTemplate: {
                      include: {
                         fields: true,
+                        globalFields: true,
                      },
                   },
                },
@@ -160,6 +162,7 @@ describe("pGetLibraryEntry tests", () => {
                   promptTemplate: {
                      include: {
                         fields: true,
+                        globalFields: true,
                      },
                   },
                },

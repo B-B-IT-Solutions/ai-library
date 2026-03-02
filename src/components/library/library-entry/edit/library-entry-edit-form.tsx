@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { upperFirst } from "es-toolkit/compat";
+import { filter, includes, upperFirst } from "es-toolkit/compat";
 import { Loader, Save } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -23,7 +23,6 @@ import { createLibraryEntry, updateLibraryEntry } from "@/data/actions/library";
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
 import {
    DPromptTemplateField,
-   DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
@@ -43,10 +42,10 @@ import {
 
 type Props = {
    entry?: DLibraryEntryWithPromptTemplate;
-   globalFields?: DGlobalTemplateField[];
+   globalFields: DGlobalTemplateField[];
 };
 
-export const LibraryEntryEditForm = ({ entry, globalFields = [] }: Props) => {
+export const LibraryEntryEditForm = ({ entry, globalFields }: Props) => {
    const router = useRouter();
    const isEdit = !!entry;
 
@@ -67,6 +66,7 @@ export const LibraryEntryEditForm = ({ entry, globalFields = [] }: Props) => {
    const { isSubmitting } = form.formState;
 
    const content = form.watch("content");
+   const globalFieldIds = form.watch("globalFieldIds");
 
    const detectedVariables = useMemo(
       () => extractVariablesFromContent(content || ""),
@@ -74,11 +74,16 @@ export const LibraryEntryEditForm = ({ entry, globalFields = [] }: Props) => {
    );
 
    const variableStatus = useMemo(() => {
-      const fieldNames = fields.map((f) =>
+      const templateFieldNames = fields.map((f) =>
          form.getValues(`fields.${fields.indexOf(f)}.name`)
       );
-      return getVariableStatus(detectedVariables, fieldNames);
-   }, [detectedVariables, fields, form]);
+      const globalFieldNames = globalFields
+         .filter((gf) => includes(globalFieldIds, gf.id))
+         .map((gf) => gf.name);
+
+      const allFieldNames = [...templateFieldNames, ...globalFieldNames];
+      return getVariableStatus(detectedVariables, allFieldNames);
+   }, [detectedVariables, fields, form, globalFields, globalFieldIds]);
 
    const handleAddField = () => {
       const order = fields.length;
@@ -101,12 +106,18 @@ export const LibraryEntryEditForm = ({ entry, globalFields = [] }: Props) => {
       toast.success(`${addedCount} Feld(er) synchronisiert`);
    };
 
-   const handleAddGlobalFields = (gFields: DPromptTemplateFieldUpdate[]) => {
-      const currentCount = fields.length;
-      gFields.forEach((f, idx) => {
-         addField({ ...f, order: currentCount + idx });
-      });
-      toast.success(`${gFields.length} Feld(er) aus Bibliothek hinzugefügt`);
+   const handleAddGlobalFieldIds = (newIds: string[]) => {
+      const current = form.getValues("globalFieldIds");
+      form.setValue("globalFieldIds", [...current, ...newIds]);
+      toast.success(`${newIds.length} globale Feld(er) hinzugefügt`);
+   };
+
+   const handleRemoveGlobalFieldId = (id: string) => {
+      const current = form.getValues("globalFieldIds");
+      form.setValue(
+         "globalFieldIds",
+         filter(current, (i) => i !== id)
+      );
    };
 
    const onSubmit: SubmitHandler<DPromptTemplateUpdate> = async (data) => {
@@ -145,7 +156,7 @@ export const LibraryEntryEditForm = ({ entry, globalFields = [] }: Props) => {
       );
    };
 
-   const createBtn = () => {
+   const submitBtn = () => {
       return (
          <Button
             type="submit"
@@ -172,7 +183,7 @@ export const LibraryEntryEditForm = ({ entry, globalFields = [] }: Props) => {
       return (
          <div className="flex items-center justify-end gap-3 pt-2">
             {cancelBtn()}
-            {createBtn()}
+            {submitBtn()}
          </div>
       );
    };
@@ -195,35 +206,29 @@ export const LibraryEntryEditForm = ({ entry, globalFields = [] }: Props) => {
                      watch={form.watch}
                      setValue={form.setValue}
                   />
-
                   <Separator />
-
                   <PromptTemplateContent control={form.control} />
-
                   <Separator />
-
                   <DetectedVariables
                      detectedVariables={detectedVariables}
                      variableStatus={variableStatus}
                      onAddVariable={handleAddVariableAsField}
                      onSyncAll={handleSyncAllVariables}
                   />
-
                   {detectedVariables.length > 0 && <Separator />}
-
                   <PromptTemplateFields
                      fields={fields as DPromptTemplateField[]}
                      detectedVariables={detectedVariables}
                      globalFields={globalFields}
+                     globalFieldIds={form.watch("globalFieldIds")}
                      onAddField={handleAddField}
-                     onAddGlobalFields={handleAddGlobalFields}
                      onRemoveField={removeField}
+                     onAddGlobalFieldIds={handleAddGlobalFieldIds}
+                     onRemoveGlobalFieldId={handleRemoveGlobalFieldId}
                      control={form.control}
                      watch={form.watch}
                   />
-
                   <Separator />
-
                   {buttons()}
                </form>
             </Form>

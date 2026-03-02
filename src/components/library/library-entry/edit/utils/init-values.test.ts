@@ -1,4 +1,5 @@
 import { dtestData } from "@tests";
+import { map } from "es-toolkit/compat";
 
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
 import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
@@ -9,6 +10,7 @@ const expectedInitPromptTempalteExisting = (
    entry: DLibraryEntryWithPromptTemplate
 ): DPromptTemplateUpdate => {
    const { templateDescriptor: descriptor } = entry;
+   const { promptTemplate } = descriptor;
    return {
       title: descriptor.title,
       description: descriptor.description,
@@ -17,7 +19,7 @@ const expectedInitPromptTempalteExisting = (
       recommendedModel: descriptor.recommendedModel,
       categories: descriptor.categories.map((c) => c.name),
       categoryInput: "",
-      fields: descriptor.promptTemplate.fields.map((f) => ({
+      fields: map(promptTemplate.fields, (f) => ({
          name: f.name,
          label: f.label,
          description: f.description ?? "",
@@ -27,6 +29,7 @@ const expectedInitPromptTempalteExisting = (
          defaultValue: f.defaultValue ?? "",
          options: f.options ?? [],
       })),
+      globalFieldIds: promptTemplate.globalFieldIds ?? [],
    };
 };
 
@@ -39,6 +42,7 @@ const expectedInitPromptTempalteNew: DPromptTemplateUpdate = {
    categories: [],
    categoryInput: "",
    fields: [],
+   globalFieldIds: [],
 };
 
 describe("initPromptTempalte tests", () => {

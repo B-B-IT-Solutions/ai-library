@@ -21,6 +21,9 @@ export {
    renderHookWithReactQuery,
    renderWithReactQuery,
    getElementById,
+   typeIntoInput,
+   typeIntoTextArea,
+   typeIntoTipTap,
 } from "./test.utils";
 
 export * as ptestData from "./mock-data/persistence.data.mocks";

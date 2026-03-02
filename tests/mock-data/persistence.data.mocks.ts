@@ -508,6 +508,7 @@ export const pPromptTemplate = (index = 1): PromptTemplateWithFields => {
       content: `content ${index}`,
       detailedDescription: `detailedDescription ${index}`,
       fields: pPromptTemplateFields(3),
+      globalFields: pGlobalFields(),
       updatedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),
    };

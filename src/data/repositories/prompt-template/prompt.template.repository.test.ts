@@ -18,7 +18,6 @@ import {
    PromptTemplateDescriptorUpdateInput,
    PromptTemplateFindFirstArgs,
 } from "@/generated/prisma/models";
-import { stringify } from "@/lib/utils";
 
 import {
    toDPromptTemplate,
@@ -251,6 +250,7 @@ describe("pGetPromptTemplateDescriptorWithTemplate tests", () => {
             promptTemplate: {
                include: {
                   fields: true,
+                  globalFields: true,
                },
             },
          },
@@ -283,6 +283,7 @@ describe("pGetPromptTemplateDescriptorWithTemplate tests", () => {
             promptTemplate: {
                include: {
                   fields: true,
+                  globalFields: true,
                },
             },
          },
@@ -312,6 +313,7 @@ describe("pGetPromptTemplate tests", () => {
          where: { id },
          include: {
             fields: true,
+            globalFields: true,
          },
       };
       expect(result).toBeNull();
@@ -333,6 +335,7 @@ describe("pGetPromptTemplate tests", () => {
          where: { id },
          include: {
             fields: true,
+            globalFields: true,
          },
       };
       expect(result).toEqual(expectedResult);
@@ -415,9 +418,15 @@ describe("pCreatePromptTemplateDescriptor tests", () => {
                         required: field.required,
                         order: field.order,
                         defaultValue: field.defaultValue,
-                        options: stringify(field.options),
+                        options: field.options,
                      })
                   ),
+               },
+               globalFields: {
+                  create: map(data.globalFieldIds, (id, idx) => ({
+                     globalFieldId: id,
+                     order: idx,
+                  })),
                },
             },
          },
@@ -478,9 +487,16 @@ describe("pUpdatePromptTemplateDescriptor tests", () => {
                         required: field.required,
                         order: field.order,
                         defaultValue: field.defaultValue,
-                        options: stringify(field.options),
+                        options: field.options,
                      })
                   ),
+               },
+               globalFields: {
+                  deleteMany: {},
+                  create: map(data.globalFieldIds, (id, idx) => ({
+                     globalFieldId: id,
+                     order: idx,
+                  })),
                },
             },
          },

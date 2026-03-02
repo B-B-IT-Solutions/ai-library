@@ -1,6 +1,13 @@
 import { JSX } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render, renderHook, RenderHookResult } from "@testing-library/react";
+import {
+   render,
+   renderHook,
+   RenderHookResult,
+   screen,
+   within,
+} from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import mockRouter from "next-router-mock";
 import { MemoryRouterProvider } from "next-router-mock/MemoryRouterProvider/next-13.5";
 import {
@@ -10,6 +17,23 @@ import {
 
 import { SidebarProvider } from "@/components/shadcn/sidebar";
 import { TooltipProvider } from "@/components/shadcn/tooltip";
+
+export const typeIntoInput = async (testId: string, value: string) => {
+   const field = screen.getByTestId(testId);
+   const input = within(field).getByTestId("input");
+   await userEvent.type(input, value);
+};
+
+export const typeIntoTextArea = async (testId: string, value: string) => {
+   const field = screen.getByTestId(testId);
+   const input = within(field).getByTestId("textarea");
+   await userEvent.type(input, value);
+};
+
+export const typeIntoTipTap = async (testId: string, value: string) => {
+   const content = screen.getByTestId(testId).querySelector("input")!;
+   await userEvent.type(content, value);
+};
 
 const withRSCWrapper = (searchParams?: string) => {
    const queryClient = testQueryClient();

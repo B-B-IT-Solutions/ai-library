@@ -17,12 +17,10 @@ const assertRendered = () => {
    const filters = screen.getByTestId("template-filters");
    const search = screen.getByTestId("search-input");
    const categories = screen.getByTestId("categories-combo-box");
-   const category1 = screen.getByText("category 2");
 
    assertInDocument(filters);
    assertInDocument(search);
    assertInDocument(categories);
-   assertInDocument(category1);
 };
 
 describe("TemplateFilters rendering tests", () => {
@@ -88,7 +86,7 @@ describe("TemplateFilters functionality tests", () => {
       });
 
       const comboBox = screen.getByTestId("categories-combo-box");
-      userEvent.click(comboBox);
+      await userEvent.click(comboBox);
 
       const cat1 = screen.getByText(loadedCategories[0]);
       await userEvent.click(cat1);

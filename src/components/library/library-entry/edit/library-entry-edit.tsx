@@ -6,10 +6,10 @@ import { LibraryEntryEditForm } from "./library-entry-edit-form";
 
 type Props = {
    entry?: DLibraryEntryWithPromptTemplate;
-   globalFields?: DGlobalTemplateField[];
+   globalFields: DGlobalTemplateField[];
 };
 
-export const LibraryEntryEdit = ({ entry, globalFields = [] }: Props) => {
+export const LibraryEntryEdit = ({ entry, globalFields }: Props) => {
    const header = () => {
       if (entry) {
          return (

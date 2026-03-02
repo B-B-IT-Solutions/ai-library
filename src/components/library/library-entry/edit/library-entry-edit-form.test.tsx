@@ -22,7 +22,14 @@ jest.mock("@/components/shared/md", () => {
 import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
+import {
+   assertInDocument,
+   assertNotInDocument,
+   dtestData,
+   typeIntoInput,
+   typeIntoTextArea,
+   typeIntoTipTap,
+} from "@tests";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
@@ -32,6 +39,8 @@ import { ActionResult } from "@/data/types/utils";
 
 import { LibraryEntryEditForm } from "./library-entry-edit-form";
 import { initPromptTempalte } from "./utils";
+
+jest.setTimeout(10000);
 
 const createLibraryEntryMock = createLibraryEntry as jest.MockedFunction<
    typeof createLibraryEntry
@@ -67,14 +76,14 @@ const assertDetectedVariablesNotRendered = () => {
    assertNotInDocument(variables);
 };
 
-const assertFieldsEmptyRendered = () => {
+const assertTemplateFieldsEmptyRendered = () => {
    const fieldsEmpty = screen.getByTestId("fields-empty");
    const field = screen.queryByTestId("prompt-template-field");
    assertInDocument(fieldsEmpty);
    assertNotInDocument(field);
 };
 
-const assertFieldRendered = () => {
+const assertTemplateFieldRendered = () => {
    const field = screen.getByTestId("prompt-template-field");
    const fieldsEmpty = screen.queryByTestId("fields-empty");
 
@@ -82,9 +91,19 @@ const assertFieldRendered = () => {
    assertNotInDocument(fieldsEmpty);
 };
 
+const assertGlobalFieldsRendered = () => {
+   const globalFields = screen.getByTestId("prompt-global-template-fields");
+   assertInDocument(globalFields);
+};
+
+const assertGlobalFieldsNotRendered = () => {
+   const globalFields = screen.queryByTestId("prompt-global-template-fields");
+   assertNotInDocument(globalFields);
+};
+
 describe("LibraryEntryEditForm rendering tests", () => {
    it("LibraryEntryEditForm - new entry - rendered - test", () => {
-      const { container } = render(<LibraryEntryEditForm />);
+      const { container } = render(<LibraryEntryEditForm globalFields={[]} />);
 
       assertRendered();
       assertDetectedVariablesNotRendered();
@@ -93,7 +112,7 @@ describe("LibraryEntryEditForm rendering tests", () => {
    });
 
    it("LibraryEntryEditForm - new entry - variables detected in content - test", async () => {
-      const { container } = render(<LibraryEntryEditForm />);
+      const { container } = render(<LibraryEntryEditForm globalFields={[]} />);
 
       assertRendered();
       assertDetectedVariablesNotRendered();
@@ -116,8 +135,11 @@ describe("LibraryEntryEditForm rendering tests", () => {
 
    it("LibraryEntryEditForm - existing entry - rendered - test", () => {
       const entry = dtestData.dLibraryEntryWithPromptTemplate();
+      const fields = dtestData.dGlobalTemplateFields();
 
-      const { container } = render(<LibraryEntryEditForm entry={entry} />);
+      const { container } = render(
+         <LibraryEntryEditForm entry={entry} globalFields={fields} />
+      );
 
       assertRendered();
       assertDetectedVariablesNotRendered();
@@ -126,11 +148,14 @@ describe("LibraryEntryEditForm rendering tests", () => {
    });
 
    it("LibraryEntryEditForm - existing entry - variables detected in content - test", async () => {
+      const fields = dtestData.dGlobalTemplateFields();
       const entry = dtestData.dLibraryEntryWithPromptTemplate();
       entry.templateDescriptor.promptTemplate.content =
          "Hello {{{{name}}, your role is {{{{role}}";
 
-      const { container } = render(<LibraryEntryEditForm entry={entry} />);
+      const { container } = render(
+         <LibraryEntryEditForm entry={entry} globalFields={fields} />
+      );
 
       assertRendered();
       assertDetectedVariablesRendered();
@@ -145,11 +170,56 @@ describe("LibraryEntryEditForm functionality tests", () => {
       mockRouter.push("/");
    });
 
-   it("LibraryEntryEditForm - add new field btn clicked - test", async () => {
-      render(<LibraryEntryEditForm />);
+   it("LibraryEntryEditForm - add global field btn clicked - test", async () => {
+      const fields = dtestData.dGlobalTemplateFields();
+      render(<LibraryEntryEditForm globalFields={fields} />);
 
       assertRendered();
-      assertFieldsEmptyRendered();
+      assertGlobalFieldsNotRendered();
+
+      const globalFieldBtn = screen.getByTestId(
+         "global-template-fields-picker"
+      );
+      await userEvent.click(globalFieldBtn);
+
+      const fieldOption1 = screen.getAllByTestId("field-option")[0];
+      await userEvent.click(fieldOption1);
+
+      assertGlobalFieldsNotRendered();
+
+      const addBtn = screen.getByTestId("add-fields-btn");
+      await userEvent.click(addBtn);
+
+      assertGlobalFieldsRendered();
+      expect(toastMock.success).toHaveBeenCalledTimes(1);
+      expect(toastMock.success).toHaveBeenCalledWith(
+         "1 globale Feld(er) hinzugefügt"
+      );
+   });
+
+   it("LibraryEntryEditForm - remove global field btn clicked - test", async () => {
+      const entry = dtestData.dLibraryEntryWithPromptTemplate();
+      const fields = dtestData.dGlobalTemplateFields();
+
+      render(<LibraryEntryEditForm entry={entry} globalFields={fields} />);
+
+      assertRendered();
+      assertGlobalFieldsRendered();
+
+      const removeGlobalFieldBtn = screen.getByTestId(
+         "remove-global-field-btn"
+      );
+      await userEvent.click(removeGlobalFieldBtn);
+
+      assertGlobalFieldsNotRendered();
+   });
+
+   it("LibraryEntryEditForm - add new template field btn clicked - test", async () => {
+      const fields = dtestData.dGlobalTemplateFields();
+      render(<LibraryEntryEditForm globalFields={fields} />);
+
+      assertRendered();
+      assertTemplateFieldsEmptyRendered();
 
       const fieldsSection = screen.getByTestId("prompt-template-fields");
       const addFieldBtn = within(fieldsSection).getByTestId("add-btn");
@@ -157,37 +227,39 @@ describe("LibraryEntryEditForm functionality tests", () => {
       await userEvent.click(addFieldBtn);
 
       await waitFor(() => {
-         assertFieldRendered();
+         assertTemplateFieldRendered();
       });
    });
 
-   it("LibraryEntryEditForm - remove field btn clicked - test", async () => {
-      render(<LibraryEntryEditForm />);
+   it("LibraryEntryEditForm - remove template field btn clicked - test", async () => {
+      const fields = dtestData.dGlobalTemplateFields();
+      render(<LibraryEntryEditForm globalFields={fields} />);
 
       assertRendered();
-      assertFieldsEmptyRendered();
+      assertTemplateFieldsEmptyRendered();
 
       const fieldsSection = screen.getByTestId("prompt-template-fields");
       const addFieldBtn = within(fieldsSection).getByTestId("add-btn");
       await userEvent.click(addFieldBtn);
 
-      assertFieldRendered();
+      assertTemplateFieldRendered();
 
       const field = screen.getByTestId("prompt-template-field");
       const removeBtn = within(field).getByTestId("remove-btn");
       await userEvent.click(removeBtn);
 
       await waitFor(() => {
-         assertFieldsEmptyRendered();
+         assertTemplateFieldsEmptyRendered();
       });
    });
 
    it("LibraryEntryEditForm - add variable as field - test", async () => {
-      render(<LibraryEntryEditForm />);
+      const fields = dtestData.dGlobalTemplateFields();
+      render(<LibraryEntryEditForm globalFields={fields} />);
 
       assertRendered();
       assertDetectedVariablesNotRendered();
-      assertFieldsEmptyRendered();
+      assertTemplateFieldsEmptyRendered();
 
       const content = screen
          .getByTestId("tiptap-editor")
@@ -207,7 +279,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
       await userEvent.click(addVariableBtn);
 
       await waitFor(() => {
-         assertFieldRendered();
+         assertTemplateFieldRendered();
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(
             'Feld "name" hinzugefügt'
@@ -216,11 +288,12 @@ describe("LibraryEntryEditForm functionality tests", () => {
    });
 
    it("LibraryEntryEditForm - sync all variables - test", async () => {
-      render(<LibraryEntryEditForm />);
+      const fields = dtestData.dGlobalTemplateFields();
+      render(<LibraryEntryEditForm globalFields={fields} />);
 
       assertRendered();
       assertDetectedVariablesNotRendered();
-      assertFieldsEmptyRendered();
+      assertTemplateFieldsEmptyRendered();
 
       const content = screen
          .getByTestId("tiptap-editor")
@@ -254,7 +327,8 @@ describe("LibraryEntryEditForm functionality tests", () => {
       };
       createLibraryEntryMock.mockResolvedValue(result);
 
-      render(<LibraryEntryEditForm />);
+      const fields = dtestData.dGlobalTemplateFields();
+      render(<LibraryEntryEditForm globalFields={fields} />);
 
       assertRendered();
 
@@ -264,21 +338,10 @@ describe("LibraryEntryEditForm functionality tests", () => {
       expect(createLibraryEntryMock).not.toHaveBeenCalled();
 
       // Fill in required fields
-      const title = screen.getByTestId("title");
-      const titleInput = within(title).getByTestId("input");
-      const description = screen.getByTestId("description");
-      const descriptionTextarea = within(description).getByTestId("textarea");
-      const detailedDescription = screen.getByTestId("detailedDescription");
-      const detailedDescriptionTextarea =
-         within(detailedDescription).getByTestId("textarea");
-      const content = screen
-         .getByTestId("tiptap-editor")
-         .querySelector("input")!;
-
-      await userEvent.type(titleInput, "Test Template");
-      await userEvent.type(descriptionTextarea, "Test Description");
-      await userEvent.type(detailedDescriptionTextarea, "Detailed description");
-      await userEvent.type(content, "Template Content {{{{task}}");
+      await typeIntoInput("title", "Test Template");
+      await typeIntoTextArea("description", "Test Description");
+      await typeIntoTextArea("detailedDescription", "Detailed description");
+      await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
 
       await userEvent.click(saveBtn);
 
@@ -289,6 +352,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
          content: "Template Content {{task}}",
          categories: [],
          fields: [],
+         globalFieldIds: [],
          recommendedModel: "Claude 3.5 Sonnet",
          categoryInput: "",
       };
@@ -310,29 +374,19 @@ describe("LibraryEntryEditForm functionality tests", () => {
       updateLibraryEntryMock.mockResolvedValue(result);
 
       const entry = dtestData.dLibraryEntryWithPromptTemplate();
+      const fields = dtestData.dGlobalTemplateFields();
 
-      render(<LibraryEntryEditForm entry={entry} />);
+      render(<LibraryEntryEditForm entry={entry} globalFields={fields} />);
 
       assertRendered();
 
       const saveBtn = screen.getByTestId("save-btn");
 
       // Fill in required fields
-      const title = screen.getByTestId("title");
-      const titleInput = within(title).getByTestId("input");
-      const description = screen.getByTestId("description");
-      const descriptionTextarea = within(description).getByTestId("textarea");
-      const detailedDescription = screen.getByTestId("detailedDescription");
-      const detailedDescriptionTextarea =
-         within(detailedDescription).getByTestId("textarea");
-      const content = screen
-         .getByTestId("tiptap-editor")
-         .querySelector("input")!;
-
-      await userEvent.type(titleInput, "Test Template");
-      await userEvent.type(descriptionTextarea, "Test Description");
-      await userEvent.type(detailedDescriptionTextarea, "Detailed description");
-      await userEvent.type(content, "Template Content {{{{task}}");
+      await typeIntoInput("title", "Test Template");
+      await typeIntoTextArea("description", "Test Description");
+      await typeIntoTextArea("detailedDescription", "Detailed description");
+      await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
 
       await userEvent.click(saveBtn);
 
@@ -345,6 +399,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
          content: initValue.content + "Template Content {{task}}",
          categories: initValue.categories,
          fields: initValue.fields,
+         globalFieldIds: initValue.globalFieldIds,
          recommendedModel: initValue.recommendedModel,
          categoryInput: "",
       };
@@ -368,7 +423,8 @@ describe("LibraryEntryEditForm functionality tests", () => {
       };
       createLibraryEntryMock.mockResolvedValue(result);
 
-      render(<LibraryEntryEditForm />);
+      const fields = dtestData.dGlobalTemplateFields();
+      render(<LibraryEntryEditForm globalFields={fields} />);
 
       assertRendered();
 
@@ -378,21 +434,10 @@ describe("LibraryEntryEditForm functionality tests", () => {
       expect(createLibraryEntryMock).not.toHaveBeenCalled();
 
       // Fill in required fields
-      const title = screen.getByTestId("title");
-      const titleInput = within(title).getByTestId("input");
-      const description = screen.getByTestId("description");
-      const descriptionTextarea = within(description).getByTestId("textarea");
-      const detailedDescription = screen.getByTestId("detailedDescription");
-      const detailedDescriptionTextarea =
-         within(detailedDescription).getByTestId("textarea");
-      const content = screen
-         .getByTestId("tiptap-editor")
-         .querySelector("input")!;
-
-      await userEvent.type(titleInput, "Test Template");
-      await userEvent.type(descriptionTextarea, "Test Description");
-      await userEvent.type(detailedDescriptionTextarea, "Detailed description");
-      await userEvent.type(content, "Template Content {{{{task}}");
+      await typeIntoInput("title", "Test Template");
+      await typeIntoTextArea("description", "Test Description");
+      await typeIntoTextArea("detailedDescription", "Detailed description");
+      await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
 
       await userEvent.click(saveBtn);
 
@@ -403,6 +448,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
          content: "Template Content {{task}}",
          categories: [],
          fields: [],
+         globalFieldIds: [],
          recommendedModel: "Claude 3.5 Sonnet",
          categoryInput: "",
       };
@@ -424,27 +470,17 @@ describe("LibraryEntryEditForm functionality tests", () => {
       updateLibraryEntryMock.mockResolvedValue(result);
 
       const entry = dtestData.dLibraryEntryWithPromptTemplate();
+      const fields = dtestData.dGlobalTemplateFields();
 
-      render(<LibraryEntryEditForm entry={entry} />);
+      render(<LibraryEntryEditForm entry={entry} globalFields={fields} />);
 
       assertRendered();
 
       // Fill in required fields
-      const title = screen.getByTestId("title");
-      const titleInput = within(title).getByTestId("input");
-      const description = screen.getByTestId("description");
-      const descriptionTextarea = within(description).getByTestId("textarea");
-      const detailedDescription = screen.getByTestId("detailedDescription");
-      const detailedDescriptionTextarea =
-         within(detailedDescription).getByTestId("textarea");
-      const content = screen
-         .getByTestId("tiptap-editor")
-         .querySelector("input")!;
-
-      await userEvent.type(titleInput, "Test Template");
-      await userEvent.type(descriptionTextarea, "Test Description");
-      await userEvent.type(detailedDescriptionTextarea, "Detailed description");
-      await userEvent.type(content, "Template Content {{{{task}}");
+      await typeIntoInput("title", "Test Template");
+      await typeIntoTextArea("description", "Test Description");
+      await typeIntoTextArea("detailedDescription", "Detailed description");
+      await typeIntoTipTap("tiptap-editor", "Template Content {{{{task}}");
 
       const saveBtn = screen.getByTestId("save-btn");
       await userEvent.click(saveBtn);
@@ -458,6 +494,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
          content: initValue.content + "Template Content {{task}}",
          categories: initValue.categories,
          fields: initValue.fields,
+         globalFieldIds: initValue.globalFieldIds,
          recommendedModel: initValue.recommendedModel,
          categoryInput: "",
       };

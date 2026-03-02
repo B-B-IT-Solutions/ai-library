@@ -1,7 +1,7 @@
 import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
 
 import {
-   getFieldTypeLabel,
+   getTemplateFieldTypeLabel,
    TEMPLATE_FIELD_LABELS,
    TEMPLATE_FIELD_OPTIONS,
 } from "./utils";
@@ -40,15 +40,15 @@ describe("template field type tests", () => {
       expect(TEMPLATE_FIELD_OPTIONS).toEqual(expectedTemplateFieldOptions);
    });
 
-   it("getFieldTypeLabel - test", () => {
-      const result1 = getFieldTypeLabel("TEXT");
+   it("getTemplateFieldTypeLabel - test", () => {
+      const result1 = getTemplateFieldTypeLabel("TEXT");
       expect(result1).toEqual(expecteTemplateFieldLabels.TEXT);
 
-      const result2 = getFieldTypeLabel("NUMBER");
+      const result2 = getTemplateFieldTypeLabel("NUMBER");
       expect(result2).toEqual(expecteTemplateFieldLabels.NUMBER);
 
       const type = "UNKNOW" as DPromptTemplateFieldType;
-      const result3 = getFieldTypeLabel(type);
+      const result3 = getTemplateFieldTypeLabel(type);
       expect(result3).toEqual(type);
    });
 });
