@@ -92,6 +92,36 @@ describe("CreatePromptButton functionality - no fields - tests", () => {
       jest.resetAllMocks();
    });
 
+   it("CreatePromptButton - submit clicked - success - data null - test", async () => {
+      getPromptGenerationTemplateDataMock.mockResolvedValue(null);
+
+      const promptUpdate = dtestData.dPromptUpdate();
+      const result: ActionResult<DPromptUpdate> = {
+         success: true,
+         message: "Prompt erfolgreich generiert",
+         data: promptUpdate,
+      };
+      composePromptFromTemplateMock.mockResolvedValue(result);
+
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+
+      render(<CreatePromptButton descriptor={descriptor} />);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(composePromptFromTemplateMock).not.toHaveBeenCalled();
+      });
+
+      const createPromptBtn = screen.getByTestId("create-prompt-btn");
+      await userEvent.click(createPromptBtn);
+
+      expect(composePromptFromTemplateMock).toHaveBeenCalledTimes(1);
+      expect(composePromptFromTemplateMock).toHaveBeenCalledWith(
+         descriptor.id,
+         {}
+      );
+   });
+
    it("CreatePromptButton - submit clicked - success - test", async () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
       data.template.fields = [];
