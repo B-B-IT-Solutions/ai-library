@@ -1,12 +1,14 @@
 "use client";
 
-import { FC } from "react";
+import { FC, ReactNode, useState } from "react";
 
 import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 
 type Segment =
    | { type: "text"; content: string }
    | { type: "placeholder"; name: string; value: string | null };
+
+const CONTEXT_CHARS = 80;
 
 function parseTemplate(
    content: string,
@@ -40,44 +42,127 @@ function parseTemplate(
    return segments;
 }
 
+const Ellipsis = () => (
+   <span className="select-none px-1 text-xs text-muted-foreground">···</span>
+);
+
+function collapseTextSegment(
+   text: string,
+   prevIsPlaceholder: boolean,
+   nextIsPlaceholder: boolean
+): ReactNode {
+   if (text.length <= CONTEXT_CHARS + 20) return text;
+
+   const half = Math.floor(CONTEXT_CHARS / 2);
+
+   if (!prevIsPlaceholder && nextIsPlaceholder) {
+      // Leading text: show only the tail leading into the placeholder
+      return (
+         <>
+            <Ellipsis />
+            {text.slice(-CONTEXT_CHARS)}
+         </>
+      );
+   }
+
+   if (prevIsPlaceholder && !nextIsPlaceholder) {
+      // Trailing text: show only the head after the placeholder
+      return (
+         <>
+            {text.slice(0, CONTEXT_CHARS)}
+            <Ellipsis />
+         </>
+      );
+   }
+
+   if (prevIsPlaceholder && nextIsPlaceholder) {
+      // Between two placeholders: show tail of previous context + head of next
+      return (
+         <>
+            {text.slice(0, half)}
+            <Ellipsis />
+            {text.slice(-half)}
+         </>
+      );
+   }
+
+   // No adjacent placeholders (no placeholders at all)
+   return (
+      <>
+         {text.slice(0, CONTEXT_CHARS)}
+         <Ellipsis />
+      </>
+   );
+}
+
 type Props = {
    content: string;
    values: DPromptTemplateFieldValues;
 };
 
 export const TemplatePreview: FC<Props> = ({ content, values }) => {
+   const [showFull, setShowFull] = useState(false);
+
    const segments = parseTemplate(content, values);
+   const hasLongText = segments.some(
+      (s) => s.type === "text" && s.content.length > CONTEXT_CHARS + 20
+   );
 
    return (
-      <div
-         className="text-sm leading-relaxed whitespace-pre-wrap"
-         data-testid="template-preview"
-      >
-         {segments.map((segment, i) => {
-            if (segment.type === "text") {
-               return <span key={i}>{segment.content}</span>;
-            }
+      <div className="flex flex-col gap-3" data-testid="template-preview">
+         <div className="text-sm leading-relaxed whitespace-pre-wrap">
+            {segments.map((segment, i) => {
+               if (segment.type === "text") {
+                  if (showFull) return <span key={i}>{segment.content}</span>;
 
-            if (segment.value) {
+                  const prevIsPlaceholder =
+                     i > 0 && segments[i - 1].type === "placeholder";
+                  const nextIsPlaceholder =
+                     i < segments.length - 1 &&
+                     segments[i + 1].type === "placeholder";
+
+                  return (
+                     <span key={i}>
+                        {collapseTextSegment(
+                           segment.content,
+                           prevIsPlaceholder,
+                           nextIsPlaceholder
+                        )}
+                     </span>
+                  );
+               }
+
+               if (segment.value) {
+                  return (
+                     <span
+                        key={i}
+                        className="rounded bg-green-100 px-0.5 font-medium text-green-800 not-italic"
+                     >
+                        {segment.value}
+                     </span>
+                  );
+               }
+
                return (
                   <span
                      key={i}
-                     className="rounded bg-green-100 px-0.5 font-medium text-green-800 not-italic"
+                     className="rounded bg-orange-100 px-0.5 text-orange-700 italic"
                   >
-                     {segment.value}
+                     {`{{${segment.name}}}`}
                   </span>
                );
-            }
+            })}
+         </div>
 
-            return (
-               <span
-                  key={i}
-                  className="rounded bg-orange-100 px-0.5 text-orange-700 italic"
-               >
-                  {`{{${segment.name}}}`}
-               </span>
-            );
-         })}
+         {hasLongText && (
+            <button
+               type="button"
+               onClick={() => setShowFull((v) => !v)}
+               className="self-start text-xs text-muted-foreground underline-offset-2 hover:underline"
+            >
+               {showFull ? "Kompaktansicht" : "Vollständigen Prompt anzeigen"}
+            </button>
+         )}
       </div>
    );
 };

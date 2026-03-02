@@ -520,12 +520,16 @@ exports[`CreateTemplateFieldsFormDialog rendering tests CreateTemplateFieldsForm
                   class="flex-1 overflow-y-auto rounded-md border bg-muted/30 p-4 max-h-[60vh]"
                 >
                   <div
-                    class="whitespace-pre-wrap text-sm leading-relaxed"
+                    class="flex flex-col gap-3"
                     data-testid="template-preview"
                   >
-                    <span>
-                      content 1
-                    </span>
+                    <div
+                      class="text-sm leading-relaxed whitespace-pre-wrap"
+                    >
+                      <span>
+                        content 1
+                      </span>
+                    </div>
                   </div>
                 </div>
                 <p
