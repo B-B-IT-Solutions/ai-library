@@ -2,7 +2,6 @@
 CREATE TABLE "prompt_template_global_field" (
     "prompt_template_id" UUID NOT NULL,
     "global_field_id" UUID NOT NULL,
-    "order" INTEGER NOT NULL DEFAULT 0,
 
     CONSTRAINT "prompt_template_global_field_pkey" PRIMARY KEY ("prompt_template_id","global_field_id")
 );
