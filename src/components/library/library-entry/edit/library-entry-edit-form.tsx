@@ -156,7 +156,7 @@ export const LibraryEntryEditForm = ({ entry, globalFields }: Props) => {
       );
    };
 
-   const createBtn = () => {
+   const submitBtn = () => {
       return (
          <Button
             type="submit"
@@ -183,7 +183,7 @@ export const LibraryEntryEditForm = ({ entry, globalFields }: Props) => {
       return (
          <div className="flex items-center justify-end gap-3 pt-2">
             {cancelBtn()}
-            {createBtn()}
+            {submitBtn()}
          </div>
       );
    };
