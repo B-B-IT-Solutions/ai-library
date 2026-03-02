@@ -738,10 +738,10 @@ export const dGlobalTemplateField = (index = 1): DGlobalTemplateField => {
    return {
       id: `global-field-id-${index}`,
       userId: `334db648-f300-4284-8149-075ff465d75${index}`,
-      name: `name-${index}`,
+      name: `name_${index}`,
       label: `label ${index}`,
       description: `description ${index}`,
-      type: "NUMBER",
+      type: "TEXT",
       required: true,
       defaultValue: `defaultValue-${index}`,
       options: [`option ${index}`, `option ${index + 1}`],

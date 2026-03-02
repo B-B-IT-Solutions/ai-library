@@ -6,6 +6,7 @@ import { Loader, Plus } from "lucide-react";
 import { toast } from "sonner";
 
 import { CreatePromptDialog } from "@/components/prompts";
+import { CreateTemplateFieldsFormDialog } from "@/components/prompts/prompt/create-template-fields-form-dialog-";
 import { Button } from "@/components/shadcn/button";
 import { composePromptFromTemplate } from "@/data/actions/library";
 import { getPromptGenerationTemplateData } from "@/data/actions/prompt";
@@ -81,10 +82,9 @@ export const CreatePromptButton: FC<Props> = ({ descriptor, className }) => {
       }
       if (mode === "fields-form" && templateData) {
          return (
-            <CreatePromptDialog
+            <CreateTemplateFieldsFormDialog
                onSubmit={composePrompt}
                onCancel={handleCancel}
-               mode="fields-form"
                descriptor={descriptor}
                templateData={templateData}
             />
