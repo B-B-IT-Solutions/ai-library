@@ -49,7 +49,7 @@ export const CreatePromptDialog = ({
 }: Props) => {
    const title = () => {
       if (mode === "fields-form") {
-         return "Prompt-Vorlage ausfüllen";
+         return "Vorlage Felder Ausfüllen";
       }
       return "Prompt-Vorschau";
    };
@@ -71,8 +71,8 @@ export const CreatePromptDialog = ({
             })
          );
          const allFields = [
-            ...descriptor.promptTemplate.fields,
             ...mappedGlobalFields,
+            ...descriptor.promptTemplate.fields,
          ];
          return (
             <div className="space-y-4">
