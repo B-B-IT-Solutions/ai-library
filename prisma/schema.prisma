@@ -167,6 +167,7 @@ model PromptTemplate {
 model PromptTemplateGlobalField {
   promptTemplateId String @map("prompt_template_id") @db.Uuid
   globalFieldId    String @map("global_field_id") @db.Uuid
+  order            Int    @default(0)
 
   promptTemplate PromptTemplate      @relation(fields: [promptTemplateId], references: [id], onDelete: Cascade)
   globalField    GlobalTemplateField @relation(fields: [globalFieldId], references: [id])
