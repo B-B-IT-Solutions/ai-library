@@ -109,24 +109,28 @@ export const TemplateFieldForm: FC<Props> = ({
          >
             {templateContent ? (
                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-                  <div className="space-y-4">{formContent}</div>
                   <div className="flex flex-col gap-2">
-                     <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                     <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
                         Prompt-Vorschau
                      </p>
-                     <div className="flex-1 overflow-y-auto rounded-md border bg-muted/30 p-4 max-h-[60vh]">
+                     <div className="max-h-[60vh] flex-1 overflow-y-auto rounded-md border bg-muted/30 p-4">
                         <TemplatePreview
                            content={templateContent}
                            values={currentValues}
                         />
                      </div>
                      <p className="text-xs text-muted-foreground">
-                        <code className="rounded bg-slate-100 px-1 font-mono mr-1">
+                        <span className="mr-1 inline-block rounded bg-orange-100 px-1 text-orange-700 italic">
                            {"{{platzhalter}}"}
-                        </code>
-                        = noch nicht ausgefüllt
+                        </span>
+                        noch nicht ausgefüllt ·{" "}
+                        <span className="mr-1 inline-block rounded bg-green-100 px-1 font-medium text-green-800">
+                           wert
+                        </span>
+                        ausgefüllt
                      </p>
                   </div>
+                  <div className="space-y-4">{formContent}</div>
                </div>
             ) : (
                formContent
