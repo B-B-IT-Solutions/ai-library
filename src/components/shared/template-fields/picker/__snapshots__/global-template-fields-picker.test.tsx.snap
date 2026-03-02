@@ -177,7 +177,7 @@ exports[`GlobalTemplateFieldsPicker rendering tests GlobalTemplateFieldsPicker -
               class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 ml-2 shrink-0 text-xs"
               data-slot="badge"
             >
-              Nummer
+              NUMMER
             </span>
           </button>
           <button
@@ -206,7 +206,7 @@ exports[`GlobalTemplateFieldsPicker rendering tests GlobalTemplateFieldsPicker -
               class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 ml-2 shrink-0 text-xs"
               data-slot="badge"
             >
-              Nummer
+              NUMMER
             </span>
           </button>
           <button
@@ -235,7 +235,7 @@ exports[`GlobalTemplateFieldsPicker rendering tests GlobalTemplateFieldsPicker -
               class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 ml-2 shrink-0 text-xs"
               data-slot="badge"
             >
-              Nummer
+              NUMMER
             </span>
           </button>
         </div>
@@ -497,7 +497,7 @@ exports[`GlobalTemplateFieldsPicker rendering tests GlobalTemplateFieldsPicker -
               class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 ml-2 shrink-0 text-xs"
               data-slot="badge"
             >
-              Nummer
+              NUMMER
             </span>
           </button>
           <button
@@ -526,7 +526,7 @@ exports[`GlobalTemplateFieldsPicker rendering tests GlobalTemplateFieldsPicker -
               class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 ml-2 shrink-0 text-xs"
               data-slot="badge"
             >
-              Nummer
+              NUMMER
             </span>
           </button>
           <button
@@ -555,7 +555,7 @@ exports[`GlobalTemplateFieldsPicker rendering tests GlobalTemplateFieldsPicker -
               class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 ml-2 shrink-0 text-xs"
               data-slot="badge"
             >
-              Nummer
+              NUMMER
             </span>
           </button>
         </div>
