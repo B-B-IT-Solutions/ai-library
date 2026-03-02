@@ -58,7 +58,7 @@ export const LibraryEntryView = ({ entry }: Props) => {
             </Link>
          </div>
 
-         <div className="mx-auto max-w-4xl">
+         <div className="mx-auto max-w-5xl p-4">
             <Card className="rounded-lg border border-slate-300 bg-white">
                <CardHeader className="border-b border-slate-200">
                   <div className="flex items-start justify-between gap-4">

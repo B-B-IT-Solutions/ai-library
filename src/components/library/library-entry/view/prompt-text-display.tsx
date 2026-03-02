@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Check, ChevronDown, ChevronRight, Copy } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
+import { MDRenderer } from "@/components/shared/md";
 import { DPromptTemplate } from "@/data/types/domain/prompt.template";
 import { cn } from "@/lib/utils";
 
@@ -77,9 +78,7 @@ export const PromptTextDisplay = ({ template }: Props) => {
                className="rounded-b-lg border border-t-0 border-slate-200 bg-white p-4"
                data-testid="content"
             >
-               <pre className="max-h-96 overflow-x-auto overflow-y-auto font-mono text-sm whitespace-pre-wrap text-slate-800">
-                  {template.content}
-               </pre>
+               <MDRenderer>{template.content}</MDRenderer>
             </div>
          );
       }
