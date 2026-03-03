@@ -42,10 +42,9 @@ export const FormDynamicValues = <T extends FieldValues>({
       field.onChange(filter(values, (v: string) => v !== value));
    };
 
-   return (
-      <FormItem className={cn(className)} data-testid={name}>
-         <FormLabel>{label}</FormLabel>
-         {!isEmpty(values) && (
+   const renderValues = () => {
+      if (!isEmpty(values)) {
+         return (
             <div className="flex flex-wrap gap-2" data-testid="current-values">
                {map(values, (value: string, idx: number) => (
                   <div
@@ -64,7 +63,14 @@ export const FormDynamicValues = <T extends FieldValues>({
                   </div>
                ))}
             </div>
-         )}
+         );
+      }
+   };
+
+   return (
+      <FormItem className={cn(className)} data-testid={name}>
+         <FormLabel>{label}</FormLabel>
+         {renderValues()}
          <div className="flex gap-2">
             <Input
                value={inputValue}

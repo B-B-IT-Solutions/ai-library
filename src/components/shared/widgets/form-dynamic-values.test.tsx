@@ -17,7 +17,7 @@ const TestWrapper: FC<Props> = ({
    name,
    label,
    placeholder,
-   initialValues = [],
+   initialValues,
 }) => {
    const form = useForm({
       defaultValues: {
@@ -68,6 +68,23 @@ const assertValueNotRendered = (value: string) => {
 };
 
 describe("FormDynamicValues rendering tests", () => {
+   it("FormDynamicValues - init values undefined - test", () => {
+      const name = "categories";
+      const { container } = render(
+         <TestWrapper
+            name={name}
+            label="Categories"
+            placeholder="Add category"
+            initialValues={undefined}
+         />
+      );
+
+      assertRendered(name);
+      assertValuesNotRendered();
+
+      expect(container).toMatchSnapshot();
+   });
+
    it("FormDynamicValues - init values empty - test", () => {
       const name = "categories";
       const { container } = render(
