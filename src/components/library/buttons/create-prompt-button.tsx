@@ -5,10 +5,8 @@ import { isEmpty } from "es-toolkit/compat";
 import { Loader, Plus } from "lucide-react";
 import { toast } from "sonner";
 
-import {
-   CreatePromptPreviewDialog,
-   CreateTemplateFieldsFormDialog,
-} from "@/components/prompts";
+import { CreateTemplateFieldsFormDialog } from "@/components/prompt-templates";
+import { CreatePromptPreviewDialog } from "@/components/prompts";
 import { Button } from "@/components/shadcn/button";
 import { composePromptFromTemplate } from "@/data/actions/library";
 import { getPromptGenerationTemplateData } from "@/data/actions/prompt";
