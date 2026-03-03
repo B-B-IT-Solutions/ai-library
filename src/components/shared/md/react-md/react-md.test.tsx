@@ -43,7 +43,7 @@ describe("ReactMd funcitonality tests", () => {
       assertStringifyEqual(rehypePlugins, expectedRehypePlugins);
    });
 
-   it("toRehypePlugins - invalid plugins - test", async () => {
+   it("toRehypePlugins - invalid plugins - test", () => {
       const values = dtestData.dPromptTemplateFieldValues();
       const plugins = [
          {
@@ -54,6 +54,6 @@ describe("ReactMd funcitonality tests", () => {
 
       const fn = () => toRehypePlugins(plugins);
 
-      await expect(fn).rejects.toThrow(Error);
+      expect(fn).rejects.toThrow(Error);
    });
 });
