@@ -4,17 +4,17 @@ import remarkGfm from "remark-gfm";
 
 import { components } from "./components";
 
-type ReactMdProps = {
+type Props = {
    children: string;
    className?: string;
    "data-testid"?: string;
 };
 
-export const ReactMd: FC<ReactMdProps> = ({
+export const ReactMd = ({
    children,
    className = "text-slate-700 leading-relaxed",
    "data-testid": testid = "react-md",
-}) => {
+}: Props) => {
    return (
       <div className={className} data-testid={testid}>
          <ReactMarkdown components={components} remarkPlugins={[remarkGfm]}>

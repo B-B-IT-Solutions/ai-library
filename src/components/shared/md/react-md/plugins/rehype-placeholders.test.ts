@@ -219,3 +219,16 @@ describe("rehypePlaceholders - tree with no text nodes", () => {
       expect(tree.children[0].children).toEqual([]);
    });
 });
+
+describe("rehypePlaceholders - guard: index undefined / no parent", () => {
+   it("does not modify a root-level text node (index and parent are undefined)", () => {
+      // When the tree itself is a text node, visit calls the visitor with
+      // index=undefined and parent=undefined — the guard `if (index === undefined || !parent) return`
+      // must fire and leave the node unchanged.
+      const tree = { type: "text", value: "{{name}}" };
+      const transformer = rehypePlaceholders({ name: "Alice" });
+      transformer(tree);
+
+      expect(tree.value).toBe("{{name}}");
+   });
+});
