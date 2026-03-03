@@ -1,11 +1,12 @@
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument } from "@tests";
+import { assertInDocument, dtestData, typeIntoInput } from "@tests";
 
 import {
    DPromptTemplateField,
    DPromptTemplateFieldType,
+   DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
 
 import { TemplateFieldForm } from "./template-fields-form";
@@ -30,11 +31,13 @@ const createField = (
 };
 
 const assertRendered = () => {
-   const form = screen.getByTestId("prompt-template-fields-form");
+   const form = screen.getByTestId("template-fields-form");
+   const preview = screen.getByTestId("template-preview");
    const submitBtn = screen.getByTestId("submit-btn");
    const cancelBtn = screen.getByTestId("cancel-btn");
 
    assertInDocument(form);
+   assertInDocument(preview);
    assertInDocument(submitBtn);
    assertInDocument(cancelBtn);
 };
@@ -67,12 +70,15 @@ describe("TemplateFieldForm rendering tests", () => {
          country,
       ];
 
+      const templateData = dtestData.dPromptTemplateDataPromptGeneration();
+      templateData.template.fields = fields;
+
       const onSubmit = jest.fn();
       const onCancel = jest.fn();
 
       const { container } = render(
          <TemplateFieldForm
-            fields={fields}
+            templateData={templateData}
             onSubmit={onSubmit}
             onCancel={onCancel}
          />
@@ -88,42 +94,61 @@ describe("TemplateFieldForm rendering tests", () => {
 
 describe("TemplateFieldForm functionality tests", () => {
    it("TemplateFieldForm - submit btn clicked - test", async () => {
-      const fields = [createField("TEXT", "name", "Name")];
+      const field = createField("TEXT", "name", "Name");
+      const templateData = dtestData.dPromptTemplateDataPromptGeneration();
+      templateData.template.fields.push(field);
+
       const onSubmit = jest.fn();
       const onCancel = jest.fn();
 
       render(
          <TemplateFieldForm
-            fields={fields}
+            templateData={templateData}
             onSubmit={onSubmit}
             onCancel={onCancel}
          />
       );
 
-      const input = screen.getByRole("textbox");
-      await userEvent.type(input, "John Doe");
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      await typeIntoInput("name", "John Doe");
 
       const submitBtn = screen.getByTestId("submit-btn");
       await userEvent.click(submitBtn);
 
+      const expectedPayload: DPromptTemplateFieldValues = {
+         name: "John Doe",
+         field_0: "option 1",
+         field_1: "option 1",
+         field_2: "option 1",
+         name_0: "defaultValue-0",
+         name_1: "defaultValue-1",
+         name_2: "defaultValue-2",
+      };
       await waitFor(() => {
          expect(onSubmit).toHaveBeenCalledTimes(1);
-         expect(onSubmit).toHaveBeenCalledWith({ name: "John Doe" });
+         expect(onSubmit).toHaveBeenCalledWith(expectedPayload);
       });
    });
 
    it("TemplateFieldForm - cancel btn click - test", async () => {
-      const fields = [createField("TEXT", "name", "Name")];
+      const templateData = dtestData.dPromptTemplateDataPromptGeneration();
       const onSubmit = jest.fn();
       const onCancel = jest.fn();
 
       render(
          <TemplateFieldForm
-            fields={fields}
+            templateData={templateData}
             onSubmit={onSubmit}
             onCancel={onCancel}
          />
       );
+
+      await waitFor(() => {
+         assertRendered();
+      });
 
       const cancelBtn = screen.getByTestId("cancel-btn");
       await userEvent.click(cancelBtn);

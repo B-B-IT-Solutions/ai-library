@@ -13,7 +13,7 @@ const assertDialogRendered = () => {
 };
 
 const assertFieldsFormRendered = () => {
-   const form = screen.getByTestId("prompt-template-fields-form");
+   const form = screen.getByTestId("template-fields-form");
    assertInDocument(form);
 };
 

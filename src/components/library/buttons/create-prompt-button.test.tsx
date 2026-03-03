@@ -218,7 +218,7 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
       await userEvent.click(createPromptBtn);
 
       await waitFor(() => {
-         const dialog = screen.getByTestId("prompt-template-fields-form");
+         const dialog = screen.getByTestId("template-fields-form");
          assertInDocument(dialog);
          expect(composePromptFromTemplateMock).not.toHaveBeenCalled();
       });
@@ -268,7 +268,7 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
       await userEvent.click(createPromptBtn);
 
       await waitFor(() => {
-         const dialog = screen.getByTestId("prompt-template-fields-form");
+         const dialog = screen.getByTestId("template-fields-form");
          assertInDocument(dialog);
          expect(composePromptFromTemplateMock).not.toHaveBeenCalled();
       });
@@ -311,7 +311,7 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
       await userEvent.click(createPromptBtn);
 
       await waitFor(() => {
-         const dialog = screen.getByTestId("prompt-template-fields-form");
+         const dialog = screen.getByTestId("template-fields-form");
          assertInDocument(dialog);
       });
 
@@ -319,7 +319,7 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
       await userEvent.click(cancelBtn);
 
       await waitFor(() => {
-         const dialog = screen.queryByTestId("prompt-template-fields-form");
+         const dialog = screen.queryByTestId("template-fields-form");
          assertNotInDocument(dialog);
       });
    });
