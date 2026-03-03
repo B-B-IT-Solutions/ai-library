@@ -1,8 +1,14 @@
+jest.mock("./plugins/rehype-placeholders");
+
 import { render, screen } from "@testing-library/react";
 import { assertInDocument, assertStringifyEqual, dtestData } from "@tests";
 
 import { rehypePlaceholders } from "./plugins/rehype-placeholders";
 import { ReactMd, toRehypePlugins } from "./react-md";
+
+const rehypePlaceholdersMock = rehypePlaceholders as jest.MockedFunction<
+   typeof rehypePlaceholders
+>;
 
 const assertRendered = () => {
    const renderer = screen.getByTestId("react-md");
@@ -41,6 +47,12 @@ describe("ReactMd funcitonality tests", () => {
       const rehypePlugins = toRehypePlugins(plugins);
       const expectedRehypePlugins = [() => rehypePlaceholders(values)];
       assertStringifyEqual(rehypePlugins, expectedRehypePlugins);
+      expect(rehypePlaceholdersMock).not.toHaveBeenCalled();
+
+      const placeholdersPlugin = rehypePlugins[0];
+      placeholdersPlugin();
+      expect(rehypePlaceholdersMock).toHaveBeenCalledTimes(1);
+      expect(rehypePlaceholdersMock).toHaveBeenCalledWith(values);
    });
 
    it("toRehypePlugins - invalid plugins - test", () => {
@@ -54,6 +66,6 @@ describe("ReactMd funcitonality tests", () => {
 
       const fn = () => toRehypePlugins(plugins);
 
-      expect(fn).rejects.toThrow(Error);
+      expect(fn).toThrow(Error);
    });
 });
