@@ -134,7 +134,7 @@ export class PromptTemplateService {
       };
    }
 
-   protected resolveAllTemplateFields(
+   resolveAllTemplateFields(
       template: DPromptTemplate,
       globalFields: DGlobalTemplateField[]
    ) {
