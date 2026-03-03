@@ -6,7 +6,7 @@ import { Control, FieldPath, FieldValues } from "react-hook-form";
 import { FormInput, FormSelect } from "@/components/shared/widgets";
 import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
 
-const OPTION_TYPES = ["SELECT", "RADIO"];
+import { isOptionsFieldType } from "./utils/utils";
 
 type Props<T extends FieldValues> = {
    name: FieldPath<T>;
@@ -34,7 +34,7 @@ export const TemplateFieldDefaultValue = <T extends FieldValues>({
       }
    };
 
-   if (OPTION_TYPES.includes(type)) {
+   if (isOptionsFieldType(type)) {
       return (
          <FormSelect<T>
             name={name}

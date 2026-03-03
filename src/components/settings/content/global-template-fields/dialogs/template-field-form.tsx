@@ -11,15 +11,12 @@ import {
    TemplateFieldSelectOptions,
    TemplateFieldType,
 } from "@/components/shared/template-fields";
-import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateFieldUpdate } from "@/data/types/domain/settings";
 
 type Props = {
    watch: UseFormWatch<DGlobalTemplateFieldUpdate>;
    control: Control<DGlobalTemplateFieldUpdate>;
 };
-
-const OPTION_TYPES: DPromptTemplateFieldType[] = ["SELECT", "RADIO"];
 
 export const GlobalTemplateFieldForm = ({ watch, control }: Props) => {
    const type = watch("type");
@@ -46,12 +43,11 @@ export const GlobalTemplateFieldForm = ({ watch, control }: Props) => {
             type={type}
             options={options}
          />
-         {OPTION_TYPES.includes(type) && (
-            <TemplateFieldSelectOptions<DGlobalTemplateFieldUpdate>
-               name="options"
-               control={control}
-            />
-         )}
+         <TemplateFieldSelectOptions<DGlobalTemplateFieldUpdate>
+            name="options"
+            type={type}
+            control={control}
+         />
          <TemplateFieldDescription<DGlobalTemplateFieldUpdate>
             name="description"
             control={control}
