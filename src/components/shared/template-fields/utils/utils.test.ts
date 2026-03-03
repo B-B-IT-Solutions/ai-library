@@ -4,14 +4,18 @@ import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
 
 import {
    getTemplateFieldTypeLabel,
+   isOptionsFieldType,
+   OPTIONS_FIELD_TYPES,
    TEMPLATE_FIELD_LABELS,
    TEMPLATE_FIELD_OPTIONS,
 } from "./utils";
 
-export const expecteTemplateFieldLabels: Record<
-   DPromptTemplateFieldType,
-   string
-> = {
+const expectedOptionFieldTypes: DPromptTemplateFieldType[] = [
+   "SELECT",
+   "RADIO",
+];
+
+const expecteTemplateFieldLabels: Record<DPromptTemplateFieldType, string> = {
    TEXT: "Text",
    TEXTAREA: "Textarea",
    EMAIL: "E-Mail",
@@ -34,6 +38,10 @@ const expectedTemplateFieldOptions = [
 ];
 
 describe("template field type tests", () => {
+   it("OPTION_FIEDL_TYPES test", () => {
+      expect(OPTIONS_FIELD_TYPES).toEqual(expectedOptionFieldTypes);
+   });
+
    it("TEMPLATE_FIELD_LABELS test", () => {
       expect(TEMPLATE_FIELD_LABELS).toEqual(expecteTemplateFieldLabels);
    });
@@ -54,5 +62,13 @@ describe("template field type tests", () => {
       const type = "UNKNOW" as DPromptTemplateFieldType;
       const result3 = getTemplateFieldTypeLabel(type);
       expect(result3).toEqual(type);
+   });
+
+   it("isOptionsFieldType - test", () => {
+      expect(isOptionsFieldType("TEXT")).toEqual(false);
+      expect(isOptionsFieldType("NUMBER")).toEqual(false);
+      expect(isOptionsFieldType("EMAIL")).toEqual(false);
+      expect(isOptionsFieldType("SELECT")).toEqual(true);
+      expect(isOptionsFieldType("RADIO")).toEqual(true);
    });
 });

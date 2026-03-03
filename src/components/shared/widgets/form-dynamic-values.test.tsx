@@ -8,7 +8,6 @@ import { FormDynamicValues } from "./form-dynamic-values";
 
 type Props = {
    name: string;
-   nameInput: string;
    label: string;
    placeholder: string;
    initialValues?: string[];
@@ -16,15 +15,13 @@ type Props = {
 
 const TestWrapper: FC<Props> = ({
    name,
-   nameInput,
    label,
    placeholder,
-   initialValues = [],
+   initialValues,
 }) => {
    const form = useForm({
       defaultValues: {
          [name]: initialValues,
-         [nameInput]: "",
       },
    });
 
@@ -32,12 +29,9 @@ const TestWrapper: FC<Props> = ({
       <FormProvider {...form}>
          <FormDynamicValues
             name={name}
-            nameInput={nameInput}
             label={label}
             placeholder={placeholder}
             control={form.control}
-            watch={form.watch}
-            setValue={form.setValue}
          />
       </FormProvider>
    );
@@ -46,7 +40,7 @@ const TestWrapper: FC<Props> = ({
 const assertRendered = (name: string) => {
    const field = screen.getByTestId(name);
    const input = screen.getByTestId("input");
-   const addBtn = screen.getByTestId("add-btn");
+   const addBtn = screen.getByTestId("add-value-btn");
 
    assertInDocument(field);
    assertInDocument(input);
@@ -74,13 +68,28 @@ const assertValueNotRendered = (value: string) => {
 };
 
 describe("FormDynamicValues rendering tests", () => {
-   it("FormDynamicValues - init values empty - test", () => {
+   it("FormDynamicValues - init values undefined - test", () => {
       const name = "categories";
-      const nameInput = "categoryInput";
       const { container } = render(
          <TestWrapper
             name={name}
-            nameInput={nameInput}
+            label="Categories"
+            placeholder="Add category"
+            initialValues={undefined}
+         />
+      );
+
+      assertRendered(name);
+      assertValuesNotRendered();
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("FormDynamicValues - init values empty - test", () => {
+      const name = "categories";
+      const { container } = render(
+         <TestWrapper
+            name={name}
             label="Categories"
             placeholder="Add category"
             initialValues={[]}
@@ -95,13 +104,11 @@ describe("FormDynamicValues rendering tests", () => {
 
    it("FormDynamicValues - init values - test", () => {
       const name = "categories";
-      const nameInput = "categoryInput";
       const initialValues = ["JavaScript", "TypeScript", "React"];
 
       const { container } = render(
          <TestWrapper
             name={name}
-            nameInput={nameInput}
             label="Categories"
             placeholder="Add category"
             initialValues={initialValues}
@@ -120,14 +127,13 @@ describe("FormDynamicValues functionality tests", () => {
       render(
          <TestWrapper
             name="categories"
-            nameInput="categoryInput"
             label="Categories"
             placeholder="Add category"
          />
       );
 
       const input = screen.getByTestId("input") as HTMLInputElement;
-      const addBtn = screen.getByTestId("add-btn");
+      const addBtn = screen.getByTestId("add-value-btn");
 
       const value = "JavaScript";
       await userEvent.type(input, value);
@@ -144,7 +150,6 @@ describe("FormDynamicValues functionality tests", () => {
       render(
          <TestWrapper
             name="categories"
-            nameInput="categoryInput"
             label="Categories"
             placeholder="Add category"
          />
@@ -166,7 +171,6 @@ describe("FormDynamicValues functionality tests", () => {
       render(
          <TestWrapper
             name="categories"
-            nameInput="categoryInput"
             label="Categories"
             placeholder="Add category"
             initialValues={["JavaScript", "TypeScript"]}
@@ -176,7 +180,7 @@ describe("FormDynamicValues functionality tests", () => {
       const value = "JavaScript";
       assertValueRendered(value);
 
-      const removeBtns = screen.getAllByTestId("remove-btn");
+      const removeBtns = screen.getAllByTestId("remove-value-btn");
 
       await userEvent.click(removeBtns[0]);
 
@@ -187,7 +191,6 @@ describe("FormDynamicValues functionality tests", () => {
       render(
          <TestWrapper
             name="categories"
-            nameInput="categoryInput"
             label="Categories"
             placeholder="Add category"
             initialValues={["JavaScript"]}
@@ -200,7 +203,7 @@ describe("FormDynamicValues functionality tests", () => {
       });
 
       const input = screen.getByTestId("input");
-      const addBtn = screen.getByTestId("add-btn");
+      const addBtn = screen.getByTestId("add-value-btn");
 
       await userEvent.type(input, "JavaScript");
       await userEvent.click(addBtn);
@@ -215,7 +218,6 @@ describe("FormDynamicValues functionality tests", () => {
       render(
          <TestWrapper
             name="categories"
-            nameInput="categoryInput"
             label="Categories"
             placeholder="Add category"
          />
@@ -224,7 +226,7 @@ describe("FormDynamicValues functionality tests", () => {
       assertValuesNotRendered();
 
       const input = screen.getByTestId("input");
-      const addBtn = screen.getByTestId("add-btn");
+      const addBtn = screen.getByTestId("add-value-btn");
 
       await userEvent.type(input, "   ");
       await userEvent.click(addBtn);

@@ -180,7 +180,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
               Kategorien
             </label>
             <div
-              class="mt-2 flex flex-wrap gap-2"
+              class="flex flex-wrap gap-2"
               data-testid="current-values"
             >
               <div
@@ -193,7 +193,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                 </span>
                 <button
                   class="cursor-pointer text-slate-500 hover:text-slate-700"
-                  data-testid="remove-btn"
+                  data-testid="remove-value-btn"
                   type="button"
                 >
                   <svg
@@ -228,7 +228,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                 </span>
                 <button
                   class="cursor-pointer text-slate-500 hover:text-slate-700"
-                  data-testid="remove-btn"
+                  data-testid="remove-value-btn"
                   type="button"
                 >
                   <svg
@@ -263,7 +263,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                 </span>
                 <button
                   class="cursor-pointer text-slate-500 hover:text-slate-700"
-                  data-testid="remove-btn"
+                  data-testid="remove-value-btn"
                   type="button"
                 >
                   <svg
@@ -293,20 +293,16 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
               class="flex gap-2"
             >
               <input
-                aria-describedby="_r_q_-form-item-description"
-                aria-invalid="false"
                 class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
-                data-slot="form-control"
+                data-slot="input"
                 data-testid="input"
-                id="_r_q_-form-item"
-                name="categoryInput"
                 placeholder="Kategorie hinzufügen"
                 value=""
               />
               <button
                 class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
                 data-slot="button"
-                data-testid="add-btn"
+                data-testid="add-value-btn"
                 type="button"
               >
                 <svg
@@ -903,17 +899,233 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                   >
                     Standardwert
                   </label>
-                  <input
+                  <button
+                    aria-autocomplete="none"
+                    aria-controls="radix-_r_11_"
                     aria-describedby="_r_10_-form-item-description"
+                    aria-expanded="false"
                     aria-invalid="false"
-                    class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                    class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
+                    data-size="default"
                     data-slot="form-control"
-                    data-testid="input"
+                    data-state="closed"
+                    dir="ltr"
                     id="_r_10_-form-item"
-                    name="fields.0.defaultValue"
-                    placeholder="Standardwert des Feldes"
-                    value="option 1"
+                    role="combobox"
+                    type="button"
+                  >
+                    <span
+                      data-slot="select-value"
+                      style="pointer-events: none;"
+                    >
+                      option 1
+                    </span>
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-chevron-down size-4 opacity-50"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="m6 9 6 6 6-6"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    data-testid="mock-react-portal"
                   />
+                  <select
+                    aria-hidden="true"
+                    style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
+                    tabindex="-1"
+                  >
+                    <option
+                      selected=""
+                      value="option 1"
+                    >
+                      option 1
+                    </option>
+                    <option
+                      value="option 2"
+                    >
+                      option 2
+                    </option>
+                    <option
+                      value="option 3"
+                    >
+                      option 3
+                    </option>
+                  </select>
+                </div>
+                <div
+                  class="grid gap-2 col-span-2"
+                  data-slot="form-item"
+                  data-testid="fields.0.options"
+                >
+                  <label
+                    class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+                    data-error="false"
+                    data-slot="form-label"
+                    for="_r_12_-form-item"
+                  >
+                    Optionen
+                  </label>
+                  <div
+                    class="flex flex-wrap gap-2"
+                    data-testid="current-values"
+                  >
+                    <div
+                      class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                    >
+                      <span
+                        class="text-sm"
+                      >
+                        option 1
+                      </span>
+                      <button
+                        class="cursor-pointer text-slate-500 hover:text-slate-700"
+                        data-testid="remove-value-btn"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-x h-3 w-3"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M18 6 6 18"
+                          />
+                          <path
+                            d="m6 6 12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    <div
+                      class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                    >
+                      <span
+                        class="text-sm"
+                      >
+                        option 2
+                      </span>
+                      <button
+                        class="cursor-pointer text-slate-500 hover:text-slate-700"
+                        data-testid="remove-value-btn"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-x h-3 w-3"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M18 6 6 18"
+                          />
+                          <path
+                            d="m6 6 12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    <div
+                      class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                    >
+                      <span
+                        class="text-sm"
+                      >
+                        option 3
+                      </span>
+                      <button
+                        class="cursor-pointer text-slate-500 hover:text-slate-700"
+                        data-testid="remove-value-btn"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-x h-3 w-3"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M18 6 6 18"
+                          />
+                          <path
+                            d="m6 6 12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    class="flex gap-2"
+                  >
+                    <input
+                      class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                      data-slot="input"
+                      data-testid="input"
+                      placeholder="Option eingeben"
+                      value=""
+                    />
+                    <button
+                      class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+                      data-slot="button"
+                      data-testid="add-value-btn"
+                      type="button"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="lucide lucide-plus h-4 w-4"
+                        fill="none"
+                        height="24"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M5 12h14"
+                        />
+                        <path
+                          d="M12 5v14"
+                        />
+                      </svg>
+                      Hinzufügen
+                    </button>
+                  </div>
                 </div>
                 <div
                   class="grid gap-2 col-span-2"
@@ -924,17 +1136,17 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_11_-form-item"
+                    for="_r_13_-form-item"
                   >
                     Beschreibung
                   </label>
                   <textarea
-                    aria-describedby="_r_11_-form-item-description"
+                    aria-describedby="_r_13_-form-item-description"
                     aria-invalid="false"
                     class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                     data-slot="form-control"
                     data-testid="textarea"
-                    id="_r_11_-form-item"
+                    id="_r_13_-form-item"
                     name="fields.0.description"
                     placeholder="Beschreibung des Feldes"
                     rows="2"
@@ -952,12 +1164,12 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                   >
                     <button
                       aria-checked="true"
-                      aria-describedby="_r_12_-form-item-description"
+                      aria-describedby="_r_14_-form-item-description"
                       aria-invalid="false"
                       class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
                       data-slot="form-control"
                       data-state="checked"
-                      id="_r_12_-form-item"
+                      id="_r_14_-form-item"
                       role="checkbox"
                       type="button"
                       value="on"
@@ -1003,7 +1215,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                       class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive cursor-pointer"
                       data-error="false"
                       data-slot="form-label"
-                      for="_r_12_-form-item"
+                      for="_r_14_-form-item"
                     >
                       Dieses Feld ist erforderlich
                     </label>
@@ -1114,17 +1326,17 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_13_-form-item"
+                    for="_r_15_-form-item"
                   >
                     Name
                   </label>
                   <input
-                    aria-describedby="_r_13_-form-item-description"
+                    aria-describedby="_r_15_-form-item-description"
                     aria-invalid="false"
                     class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                     data-slot="form-control"
                     data-testid="input"
-                    id="_r_13_-form-item"
+                    id="_r_15_-form-item"
                     name="fields.1.name"
                     placeholder="Name des Feldes"
                     value="field_1"
@@ -1132,7 +1344,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                   <p
                     class="text-destructive text-sm"
                     data-slot="form-message"
-                    id="_r_13_-form-item-message"
+                    id="_r_15_-form-item-message"
                   >
                     <span
                       class="text-slate-500"
@@ -1150,17 +1362,17 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_14_-form-item"
+                    for="_r_16_-form-item"
                   >
                     Label
                   </label>
                   <input
-                    aria-describedby="_r_14_-form-item-description"
+                    aria-describedby="_r_16_-form-item-description"
                     aria-invalid="false"
                     class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                     data-slot="form-control"
                     data-testid="input"
-                    id="_r_14_-form-item"
+                    id="_r_16_-form-item"
                     name="fields.1.label"
                     placeholder="Label des Feldes"
                     value="label 1"
@@ -1168,7 +1380,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                   <p
                     class="text-destructive text-sm"
                     data-slot="form-message"
-                    id="_r_14_-form-item-message"
+                    id="_r_16_-form-item-message"
                   >
                     <span
                       class="invisible text-sm"
@@ -1186,14 +1398,14 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_15_-form-item"
+                    for="_r_17_-form-item"
                   >
                     Typ
                   </label>
                   <button
                     aria-autocomplete="none"
-                    aria-controls="radix-_r_16_"
-                    aria-describedby="_r_15_-form-item-description"
+                    aria-controls="radix-_r_18_"
+                    aria-describedby="_r_17_-form-item-description"
                     aria-expanded="false"
                     aria-invalid="false"
                     class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
@@ -1201,7 +1413,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-slot="form-control"
                     data-state="closed"
                     dir="ltr"
-                    id="_r_15_-form-item"
+                    id="_r_17_-form-item"
                     role="combobox"
                     type="button"
                   >
@@ -1289,21 +1501,237 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_17_-form-item"
+                    for="_r_19_-form-item"
                   >
                     Standardwert
                   </label>
-                  <input
-                    aria-describedby="_r_17_-form-item-description"
+                  <button
+                    aria-autocomplete="none"
+                    aria-controls="radix-_r_1a_"
+                    aria-describedby="_r_19_-form-item-description"
+                    aria-expanded="false"
                     aria-invalid="false"
-                    class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                    class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
+                    data-size="default"
                     data-slot="form-control"
-                    data-testid="input"
-                    id="_r_17_-form-item"
-                    name="fields.1.defaultValue"
-                    placeholder="Standardwert des Feldes"
-                    value="option 1"
+                    data-state="closed"
+                    dir="ltr"
+                    id="_r_19_-form-item"
+                    role="combobox"
+                    type="button"
+                  >
+                    <span
+                      data-slot="select-value"
+                      style="pointer-events: none;"
+                    >
+                      option 1
+                    </span>
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-chevron-down size-4 opacity-50"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="m6 9 6 6 6-6"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    data-testid="mock-react-portal"
                   />
+                  <select
+                    aria-hidden="true"
+                    style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
+                    tabindex="-1"
+                  >
+                    <option
+                      selected=""
+                      value="option 1"
+                    >
+                      option 1
+                    </option>
+                    <option
+                      value="option 2"
+                    >
+                      option 2
+                    </option>
+                    <option
+                      value="option 3"
+                    >
+                      option 3
+                    </option>
+                  </select>
+                </div>
+                <div
+                  class="grid gap-2 col-span-2"
+                  data-slot="form-item"
+                  data-testid="fields.1.options"
+                >
+                  <label
+                    class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+                    data-error="false"
+                    data-slot="form-label"
+                    for="_r_1b_-form-item"
+                  >
+                    Optionen
+                  </label>
+                  <div
+                    class="flex flex-wrap gap-2"
+                    data-testid="current-values"
+                  >
+                    <div
+                      class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                    >
+                      <span
+                        class="text-sm"
+                      >
+                        option 1
+                      </span>
+                      <button
+                        class="cursor-pointer text-slate-500 hover:text-slate-700"
+                        data-testid="remove-value-btn"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-x h-3 w-3"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M18 6 6 18"
+                          />
+                          <path
+                            d="m6 6 12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    <div
+                      class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                    >
+                      <span
+                        class="text-sm"
+                      >
+                        option 2
+                      </span>
+                      <button
+                        class="cursor-pointer text-slate-500 hover:text-slate-700"
+                        data-testid="remove-value-btn"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-x h-3 w-3"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M18 6 6 18"
+                          />
+                          <path
+                            d="m6 6 12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    <div
+                      class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                    >
+                      <span
+                        class="text-sm"
+                      >
+                        option 3
+                      </span>
+                      <button
+                        class="cursor-pointer text-slate-500 hover:text-slate-700"
+                        data-testid="remove-value-btn"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-x h-3 w-3"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M18 6 6 18"
+                          />
+                          <path
+                            d="m6 6 12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    class="flex gap-2"
+                  >
+                    <input
+                      class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                      data-slot="input"
+                      data-testid="input"
+                      placeholder="Option eingeben"
+                      value=""
+                    />
+                    <button
+                      class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+                      data-slot="button"
+                      data-testid="add-value-btn"
+                      type="button"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="lucide lucide-plus h-4 w-4"
+                        fill="none"
+                        height="24"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M5 12h14"
+                        />
+                        <path
+                          d="M12 5v14"
+                        />
+                      </svg>
+                      Hinzufügen
+                    </button>
+                  </div>
                 </div>
                 <div
                   class="grid gap-2 col-span-2"
@@ -1314,17 +1742,17 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_18_-form-item"
+                    for="_r_1c_-form-item"
                   >
                     Beschreibung
                   </label>
                   <textarea
-                    aria-describedby="_r_18_-form-item-description"
+                    aria-describedby="_r_1c_-form-item-description"
                     aria-invalid="false"
                     class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                     data-slot="form-control"
                     data-testid="textarea"
-                    id="_r_18_-form-item"
+                    id="_r_1c_-form-item"
                     name="fields.1.description"
                     placeholder="Beschreibung des Feldes"
                     rows="2"
@@ -1342,12 +1770,12 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                   >
                     <button
                       aria-checked="true"
-                      aria-describedby="_r_19_-form-item-description"
+                      aria-describedby="_r_1d_-form-item-description"
                       aria-invalid="false"
                       class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
                       data-slot="form-control"
                       data-state="checked"
-                      id="_r_19_-form-item"
+                      id="_r_1d_-form-item"
                       role="checkbox"
                       type="button"
                       value="on"
@@ -1393,7 +1821,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                       class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive cursor-pointer"
                       data-error="false"
                       data-slot="form-label"
-                      for="_r_19_-form-item"
+                      for="_r_1d_-form-item"
                     >
                       Dieses Feld ist erforderlich
                     </label>
@@ -1504,17 +1932,17 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_1a_-form-item"
+                    for="_r_1e_-form-item"
                   >
                     Name
                   </label>
                   <input
-                    aria-describedby="_r_1a_-form-item-description"
+                    aria-describedby="_r_1e_-form-item-description"
                     aria-invalid="false"
                     class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                     data-slot="form-control"
                     data-testid="input"
-                    id="_r_1a_-form-item"
+                    id="_r_1e_-form-item"
                     name="fields.2.name"
                     placeholder="Name des Feldes"
                     value="field_2"
@@ -1522,7 +1950,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                   <p
                     class="text-destructive text-sm"
                     data-slot="form-message"
-                    id="_r_1a_-form-item-message"
+                    id="_r_1e_-form-item-message"
                   >
                     <span
                       class="text-slate-500"
@@ -1540,17 +1968,17 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_1b_-form-item"
+                    for="_r_1f_-form-item"
                   >
                     Label
                   </label>
                   <input
-                    aria-describedby="_r_1b_-form-item-description"
+                    aria-describedby="_r_1f_-form-item-description"
                     aria-invalid="false"
                     class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                     data-slot="form-control"
                     data-testid="input"
-                    id="_r_1b_-form-item"
+                    id="_r_1f_-form-item"
                     name="fields.2.label"
                     placeholder="Label des Feldes"
                     value="label 2"
@@ -1558,7 +1986,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                   <p
                     class="text-destructive text-sm"
                     data-slot="form-message"
-                    id="_r_1b_-form-item-message"
+                    id="_r_1f_-form-item-message"
                   >
                     <span
                       class="invisible text-sm"
@@ -1576,14 +2004,14 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_1c_-form-item"
+                    for="_r_1g_-form-item"
                   >
                     Typ
                   </label>
                   <button
                     aria-autocomplete="none"
-                    aria-controls="radix-_r_1d_"
-                    aria-describedby="_r_1c_-form-item-description"
+                    aria-controls="radix-_r_1h_"
+                    aria-describedby="_r_1g_-form-item-description"
                     aria-expanded="false"
                     aria-invalid="false"
                     class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
@@ -1591,7 +2019,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-slot="form-control"
                     data-state="closed"
                     dir="ltr"
-                    id="_r_1c_-form-item"
+                    id="_r_1g_-form-item"
                     role="combobox"
                     type="button"
                   >
@@ -1679,21 +2107,237 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_1e_-form-item"
+                    for="_r_1i_-form-item"
                   >
                     Standardwert
                   </label>
-                  <input
-                    aria-describedby="_r_1e_-form-item-description"
+                  <button
+                    aria-autocomplete="none"
+                    aria-controls="radix-_r_1j_"
+                    aria-describedby="_r_1i_-form-item-description"
+                    aria-expanded="false"
                     aria-invalid="false"
-                    class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                    class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
+                    data-size="default"
                     data-slot="form-control"
-                    data-testid="input"
-                    id="_r_1e_-form-item"
-                    name="fields.2.defaultValue"
-                    placeholder="Standardwert des Feldes"
-                    value="option 1"
+                    data-state="closed"
+                    dir="ltr"
+                    id="_r_1i_-form-item"
+                    role="combobox"
+                    type="button"
+                  >
+                    <span
+                      data-slot="select-value"
+                      style="pointer-events: none;"
+                    >
+                      option 1
+                    </span>
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-chevron-down size-4 opacity-50"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="m6 9 6 6 6-6"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    data-testid="mock-react-portal"
                   />
+                  <select
+                    aria-hidden="true"
+                    style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
+                    tabindex="-1"
+                  >
+                    <option
+                      selected=""
+                      value="option 1"
+                    >
+                      option 1
+                    </option>
+                    <option
+                      value="option 2"
+                    >
+                      option 2
+                    </option>
+                    <option
+                      value="option 3"
+                    >
+                      option 3
+                    </option>
+                  </select>
+                </div>
+                <div
+                  class="grid gap-2 col-span-2"
+                  data-slot="form-item"
+                  data-testid="fields.2.options"
+                >
+                  <label
+                    class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+                    data-error="false"
+                    data-slot="form-label"
+                    for="_r_1k_-form-item"
+                  >
+                    Optionen
+                  </label>
+                  <div
+                    class="flex flex-wrap gap-2"
+                    data-testid="current-values"
+                  >
+                    <div
+                      class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                    >
+                      <span
+                        class="text-sm"
+                      >
+                        option 1
+                      </span>
+                      <button
+                        class="cursor-pointer text-slate-500 hover:text-slate-700"
+                        data-testid="remove-value-btn"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-x h-3 w-3"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M18 6 6 18"
+                          />
+                          <path
+                            d="m6 6 12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    <div
+                      class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                    >
+                      <span
+                        class="text-sm"
+                      >
+                        option 2
+                      </span>
+                      <button
+                        class="cursor-pointer text-slate-500 hover:text-slate-700"
+                        data-testid="remove-value-btn"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-x h-3 w-3"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M18 6 6 18"
+                          />
+                          <path
+                            d="m6 6 12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    <div
+                      class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                    >
+                      <span
+                        class="text-sm"
+                      >
+                        option 3
+                      </span>
+                      <button
+                        class="cursor-pointer text-slate-500 hover:text-slate-700"
+                        data-testid="remove-value-btn"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-x h-3 w-3"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M18 6 6 18"
+                          />
+                          <path
+                            d="m6 6 12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    class="flex gap-2"
+                  >
+                    <input
+                      class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                      data-slot="input"
+                      data-testid="input"
+                      placeholder="Option eingeben"
+                      value=""
+                    />
+                    <button
+                      class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+                      data-slot="button"
+                      data-testid="add-value-btn"
+                      type="button"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="lucide lucide-plus h-4 w-4"
+                        fill="none"
+                        height="24"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M5 12h14"
+                        />
+                        <path
+                          d="M12 5v14"
+                        />
+                      </svg>
+                      Hinzufügen
+                    </button>
+                  </div>
                 </div>
                 <div
                   class="grid gap-2 col-span-2"
@@ -1704,17 +2348,17 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_1f_-form-item"
+                    for="_r_1l_-form-item"
                   >
                     Beschreibung
                   </label>
                   <textarea
-                    aria-describedby="_r_1f_-form-item-description"
+                    aria-describedby="_r_1l_-form-item-description"
                     aria-invalid="false"
                     class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                     data-slot="form-control"
                     data-testid="textarea"
-                    id="_r_1f_-form-item"
+                    id="_r_1l_-form-item"
                     name="fields.2.description"
                     placeholder="Beschreibung des Feldes"
                     rows="2"
@@ -1732,12 +2376,12 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                   >
                     <button
                       aria-checked="true"
-                      aria-describedby="_r_1g_-form-item-description"
+                      aria-describedby="_r_1m_-form-item-description"
                       aria-invalid="false"
                       class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
                       data-slot="form-control"
                       data-state="checked"
-                      id="_r_1g_-form-item"
+                      id="_r_1m_-form-item"
                       role="checkbox"
                       type="button"
                       value="on"
@@ -1783,7 +2427,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                       class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive cursor-pointer"
                       data-error="false"
                       data-slot="form-label"
-                      for="_r_1g_-form-item"
+                      for="_r_1m_-form-item"
                     >
                       Dieses Feld ist erforderlich
                     </label>
@@ -1891,17 +2535,17 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
               class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
               data-error="false"
               data-slot="form-label"
-              for="_r_2e_-form-item"
+              for="_r_2t_-form-item"
             >
               Titel
             </label>
             <input
-              aria-describedby="_r_2e_-form-item-description"
+              aria-describedby="_r_2t_-form-item-description"
               aria-invalid="false"
               class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
               data-slot="form-control"
               data-testid="input"
-              id="_r_2e_-form-item"
+              id="_r_2t_-form-item"
               name="title"
               placeholder="z.B. Blog-Post Generator"
               value="title 1"
@@ -1916,17 +2560,17 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
               class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
               data-error="false"
               data-slot="form-label"
-              for="_r_2f_-form-item"
+              for="_r_2u_-form-item"
             >
               Beschreibung
             </label>
             <textarea
-              aria-describedby="_r_2f_-form-item-description"
+              aria-describedby="_r_2u_-form-item-description"
               aria-invalid="false"
               class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
               data-slot="form-control"
               data-testid="textarea"
-              id="_r_2f_-form-item"
+              id="_r_2u_-form-item"
               name="description"
               placeholder="Beschreibung der Vorlage"
               rows="3"
@@ -1943,14 +2587,14 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
               class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
               data-error="false"
               data-slot="form-label"
-              for="_r_2g_-form-item"
+              for="_r_2v_-form-item"
             >
               Empfohlenes Modell
             </label>
             <button
               aria-autocomplete="none"
-              aria-controls="radix-_r_2h_"
-              aria-describedby="_r_2g_-form-item-description"
+              aria-controls="radix-_r_30_"
+              aria-describedby="_r_2v_-form-item-description"
               aria-expanded="false"
               aria-invalid="false"
               class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
@@ -1958,7 +2602,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
               data-slot="form-control"
               data-state="closed"
               dir="ltr"
-              id="_r_2g_-form-item"
+              id="_r_2v_-form-item"
               role="combobox"
               type="button"
             >
@@ -2028,12 +2672,12 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
               class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
               data-error="false"
               data-slot="form-label"
-              for="_r_2i_-form-item"
+              for="_r_31_-form-item"
             >
               Kategorien
             </label>
             <div
-              class="mt-2 flex flex-wrap gap-2"
+              class="flex flex-wrap gap-2"
               data-testid="current-values"
             >
               <div
@@ -2046,7 +2690,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                 </span>
                 <button
                   class="cursor-pointer text-slate-500 hover:text-slate-700"
-                  data-testid="remove-btn"
+                  data-testid="remove-value-btn"
                   type="button"
                 >
                   <svg
@@ -2081,7 +2725,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                 </span>
                 <button
                   class="cursor-pointer text-slate-500 hover:text-slate-700"
-                  data-testid="remove-btn"
+                  data-testid="remove-value-btn"
                   type="button"
                 >
                   <svg
@@ -2116,7 +2760,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                 </span>
                 <button
                   class="cursor-pointer text-slate-500 hover:text-slate-700"
-                  data-testid="remove-btn"
+                  data-testid="remove-value-btn"
                   type="button"
                 >
                   <svg
@@ -2146,20 +2790,16 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
               class="flex gap-2"
             >
               <input
-                aria-describedby="_r_2i_-form-item-description"
-                aria-invalid="false"
                 class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
-                data-slot="form-control"
+                data-slot="input"
                 data-testid="input"
-                id="_r_2i_-form-item"
-                name="categoryInput"
                 placeholder="Kategorie hinzufügen"
                 value=""
               />
               <button
                 class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
                 data-slot="button"
-                data-testid="add-btn"
+                data-testid="add-value-btn"
                 type="button"
               >
                 <svg
@@ -2867,17 +3507,17 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_2k_-form-item"
+                    for="_r_33_-form-item"
                   >
                     Name
                   </label>
                   <input
-                    aria-describedby="_r_2k_-form-item-description"
+                    aria-describedby="_r_33_-form-item-description"
                     aria-invalid="false"
                     class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                     data-slot="form-control"
                     data-testid="input"
-                    id="_r_2k_-form-item"
+                    id="_r_33_-form-item"
                     name="fields.0.name"
                     placeholder="Name des Feldes"
                     value="field_0"
@@ -2885,7 +3525,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                   <p
                     class="text-destructive text-sm"
                     data-slot="form-message"
-                    id="_r_2k_-form-item-message"
+                    id="_r_33_-form-item-message"
                   >
                     <span
                       class="text-slate-500"
@@ -2903,17 +3543,17 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_2l_-form-item"
+                    for="_r_34_-form-item"
                   >
                     Label
                   </label>
                   <input
-                    aria-describedby="_r_2l_-form-item-description"
+                    aria-describedby="_r_34_-form-item-description"
                     aria-invalid="false"
                     class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                     data-slot="form-control"
                     data-testid="input"
-                    id="_r_2l_-form-item"
+                    id="_r_34_-form-item"
                     name="fields.0.label"
                     placeholder="Label des Feldes"
                     value="label 0"
@@ -2921,7 +3561,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                   <p
                     class="text-destructive text-sm"
                     data-slot="form-message"
-                    id="_r_2l_-form-item-message"
+                    id="_r_34_-form-item-message"
                   >
                     <span
                       class="invisible text-sm"
@@ -2939,14 +3579,14 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_2m_-form-item"
+                    for="_r_35_-form-item"
                   >
                     Typ
                   </label>
                   <button
                     aria-autocomplete="none"
-                    aria-controls="radix-_r_2n_"
-                    aria-describedby="_r_2m_-form-item-description"
+                    aria-controls="radix-_r_36_"
+                    aria-describedby="_r_35_-form-item-description"
                     aria-expanded="false"
                     aria-invalid="false"
                     class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
@@ -2954,7 +3594,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-slot="form-control"
                     data-state="closed"
                     dir="ltr"
-                    id="_r_2m_-form-item"
+                    id="_r_35_-form-item"
                     role="combobox"
                     type="button"
                   >
@@ -3042,21 +3682,237 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_2o_-form-item"
+                    for="_r_37_-form-item"
                   >
                     Standardwert
                   </label>
-                  <input
-                    aria-describedby="_r_2o_-form-item-description"
+                  <button
+                    aria-autocomplete="none"
+                    aria-controls="radix-_r_38_"
+                    aria-describedby="_r_37_-form-item-description"
+                    aria-expanded="false"
                     aria-invalid="false"
-                    class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                    class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
+                    data-size="default"
                     data-slot="form-control"
-                    data-testid="input"
-                    id="_r_2o_-form-item"
-                    name="fields.0.defaultValue"
-                    placeholder="Standardwert des Feldes"
-                    value="option 1"
+                    data-state="closed"
+                    dir="ltr"
+                    id="_r_37_-form-item"
+                    role="combobox"
+                    type="button"
+                  >
+                    <span
+                      data-slot="select-value"
+                      style="pointer-events: none;"
+                    >
+                      option 1
+                    </span>
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-chevron-down size-4 opacity-50"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="m6 9 6 6 6-6"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    data-testid="mock-react-portal"
                   />
+                  <select
+                    aria-hidden="true"
+                    style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
+                    tabindex="-1"
+                  >
+                    <option
+                      selected=""
+                      value="option 1"
+                    >
+                      option 1
+                    </option>
+                    <option
+                      value="option 2"
+                    >
+                      option 2
+                    </option>
+                    <option
+                      value="option 3"
+                    >
+                      option 3
+                    </option>
+                  </select>
+                </div>
+                <div
+                  class="grid gap-2 col-span-2"
+                  data-slot="form-item"
+                  data-testid="fields.0.options"
+                >
+                  <label
+                    class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+                    data-error="false"
+                    data-slot="form-label"
+                    for="_r_39_-form-item"
+                  >
+                    Optionen
+                  </label>
+                  <div
+                    class="flex flex-wrap gap-2"
+                    data-testid="current-values"
+                  >
+                    <div
+                      class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                    >
+                      <span
+                        class="text-sm"
+                      >
+                        option 1
+                      </span>
+                      <button
+                        class="cursor-pointer text-slate-500 hover:text-slate-700"
+                        data-testid="remove-value-btn"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-x h-3 w-3"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M18 6 6 18"
+                          />
+                          <path
+                            d="m6 6 12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    <div
+                      class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                    >
+                      <span
+                        class="text-sm"
+                      >
+                        option 2
+                      </span>
+                      <button
+                        class="cursor-pointer text-slate-500 hover:text-slate-700"
+                        data-testid="remove-value-btn"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-x h-3 w-3"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M18 6 6 18"
+                          />
+                          <path
+                            d="m6 6 12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    <div
+                      class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                    >
+                      <span
+                        class="text-sm"
+                      >
+                        option 3
+                      </span>
+                      <button
+                        class="cursor-pointer text-slate-500 hover:text-slate-700"
+                        data-testid="remove-value-btn"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-x h-3 w-3"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M18 6 6 18"
+                          />
+                          <path
+                            d="m6 6 12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    class="flex gap-2"
+                  >
+                    <input
+                      class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                      data-slot="input"
+                      data-testid="input"
+                      placeholder="Option eingeben"
+                      value=""
+                    />
+                    <button
+                      class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+                      data-slot="button"
+                      data-testid="add-value-btn"
+                      type="button"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="lucide lucide-plus h-4 w-4"
+                        fill="none"
+                        height="24"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M5 12h14"
+                        />
+                        <path
+                          d="M12 5v14"
+                        />
+                      </svg>
+                      Hinzufügen
+                    </button>
+                  </div>
                 </div>
                 <div
                   class="grid gap-2 col-span-2"
@@ -3067,17 +3923,17 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_2p_-form-item"
+                    for="_r_3a_-form-item"
                   >
                     Beschreibung
                   </label>
                   <textarea
-                    aria-describedby="_r_2p_-form-item-description"
+                    aria-describedby="_r_3a_-form-item-description"
                     aria-invalid="false"
                     class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                     data-slot="form-control"
                     data-testid="textarea"
-                    id="_r_2p_-form-item"
+                    id="_r_3a_-form-item"
                     name="fields.0.description"
                     placeholder="Beschreibung des Feldes"
                     rows="2"
@@ -3095,12 +3951,12 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                   >
                     <button
                       aria-checked="true"
-                      aria-describedby="_r_2q_-form-item-description"
+                      aria-describedby="_r_3b_-form-item-description"
                       aria-invalid="false"
                       class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
                       data-slot="form-control"
                       data-state="checked"
-                      id="_r_2q_-form-item"
+                      id="_r_3b_-form-item"
                       role="checkbox"
                       type="button"
                       value="on"
@@ -3146,7 +4002,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                       class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive cursor-pointer"
                       data-error="false"
                       data-slot="form-label"
-                      for="_r_2q_-form-item"
+                      for="_r_3b_-form-item"
                     >
                       Dieses Feld ist erforderlich
                     </label>
@@ -3257,17 +4113,17 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_2r_-form-item"
+                    for="_r_3c_-form-item"
                   >
                     Name
                   </label>
                   <input
-                    aria-describedby="_r_2r_-form-item-description"
+                    aria-describedby="_r_3c_-form-item-description"
                     aria-invalid="false"
                     class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                     data-slot="form-control"
                     data-testid="input"
-                    id="_r_2r_-form-item"
+                    id="_r_3c_-form-item"
                     name="fields.1.name"
                     placeholder="Name des Feldes"
                     value="field_1"
@@ -3275,7 +4131,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                   <p
                     class="text-destructive text-sm"
                     data-slot="form-message"
-                    id="_r_2r_-form-item-message"
+                    id="_r_3c_-form-item-message"
                   >
                     <span
                       class="text-slate-500"
@@ -3293,17 +4149,17 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_2s_-form-item"
+                    for="_r_3d_-form-item"
                   >
                     Label
                   </label>
                   <input
-                    aria-describedby="_r_2s_-form-item-description"
+                    aria-describedby="_r_3d_-form-item-description"
                     aria-invalid="false"
                     class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                     data-slot="form-control"
                     data-testid="input"
-                    id="_r_2s_-form-item"
+                    id="_r_3d_-form-item"
                     name="fields.1.label"
                     placeholder="Label des Feldes"
                     value="label 1"
@@ -3311,7 +4167,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                   <p
                     class="text-destructive text-sm"
                     data-slot="form-message"
-                    id="_r_2s_-form-item-message"
+                    id="_r_3d_-form-item-message"
                   >
                     <span
                       class="invisible text-sm"
@@ -3329,14 +4185,14 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_2t_-form-item"
+                    for="_r_3e_-form-item"
                   >
                     Typ
                   </label>
                   <button
                     aria-autocomplete="none"
-                    aria-controls="radix-_r_2u_"
-                    aria-describedby="_r_2t_-form-item-description"
+                    aria-controls="radix-_r_3f_"
+                    aria-describedby="_r_3e_-form-item-description"
                     aria-expanded="false"
                     aria-invalid="false"
                     class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
@@ -3344,7 +4200,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-slot="form-control"
                     data-state="closed"
                     dir="ltr"
-                    id="_r_2t_-form-item"
+                    id="_r_3e_-form-item"
                     role="combobox"
                     type="button"
                   >
@@ -3432,21 +4288,237 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_2v_-form-item"
+                    for="_r_3g_-form-item"
                   >
                     Standardwert
                   </label>
-                  <input
-                    aria-describedby="_r_2v_-form-item-description"
+                  <button
+                    aria-autocomplete="none"
+                    aria-controls="radix-_r_3h_"
+                    aria-describedby="_r_3g_-form-item-description"
+                    aria-expanded="false"
                     aria-invalid="false"
-                    class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                    class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
+                    data-size="default"
                     data-slot="form-control"
-                    data-testid="input"
-                    id="_r_2v_-form-item"
-                    name="fields.1.defaultValue"
-                    placeholder="Standardwert des Feldes"
-                    value="option 1"
+                    data-state="closed"
+                    dir="ltr"
+                    id="_r_3g_-form-item"
+                    role="combobox"
+                    type="button"
+                  >
+                    <span
+                      data-slot="select-value"
+                      style="pointer-events: none;"
+                    >
+                      option 1
+                    </span>
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-chevron-down size-4 opacity-50"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="m6 9 6 6 6-6"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    data-testid="mock-react-portal"
                   />
+                  <select
+                    aria-hidden="true"
+                    style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
+                    tabindex="-1"
+                  >
+                    <option
+                      selected=""
+                      value="option 1"
+                    >
+                      option 1
+                    </option>
+                    <option
+                      value="option 2"
+                    >
+                      option 2
+                    </option>
+                    <option
+                      value="option 3"
+                    >
+                      option 3
+                    </option>
+                  </select>
+                </div>
+                <div
+                  class="grid gap-2 col-span-2"
+                  data-slot="form-item"
+                  data-testid="fields.1.options"
+                >
+                  <label
+                    class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+                    data-error="false"
+                    data-slot="form-label"
+                    for="_r_3i_-form-item"
+                  >
+                    Optionen
+                  </label>
+                  <div
+                    class="flex flex-wrap gap-2"
+                    data-testid="current-values"
+                  >
+                    <div
+                      class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                    >
+                      <span
+                        class="text-sm"
+                      >
+                        option 1
+                      </span>
+                      <button
+                        class="cursor-pointer text-slate-500 hover:text-slate-700"
+                        data-testid="remove-value-btn"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-x h-3 w-3"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M18 6 6 18"
+                          />
+                          <path
+                            d="m6 6 12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    <div
+                      class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                    >
+                      <span
+                        class="text-sm"
+                      >
+                        option 2
+                      </span>
+                      <button
+                        class="cursor-pointer text-slate-500 hover:text-slate-700"
+                        data-testid="remove-value-btn"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-x h-3 w-3"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M18 6 6 18"
+                          />
+                          <path
+                            d="m6 6 12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    <div
+                      class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                    >
+                      <span
+                        class="text-sm"
+                      >
+                        option 3
+                      </span>
+                      <button
+                        class="cursor-pointer text-slate-500 hover:text-slate-700"
+                        data-testid="remove-value-btn"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-x h-3 w-3"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M18 6 6 18"
+                          />
+                          <path
+                            d="m6 6 12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    class="flex gap-2"
+                  >
+                    <input
+                      class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                      data-slot="input"
+                      data-testid="input"
+                      placeholder="Option eingeben"
+                      value=""
+                    />
+                    <button
+                      class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+                      data-slot="button"
+                      data-testid="add-value-btn"
+                      type="button"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="lucide lucide-plus h-4 w-4"
+                        fill="none"
+                        height="24"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M5 12h14"
+                        />
+                        <path
+                          d="M12 5v14"
+                        />
+                      </svg>
+                      Hinzufügen
+                    </button>
+                  </div>
                 </div>
                 <div
                   class="grid gap-2 col-span-2"
@@ -3457,17 +4529,17 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_30_-form-item"
+                    for="_r_3j_-form-item"
                   >
                     Beschreibung
                   </label>
                   <textarea
-                    aria-describedby="_r_30_-form-item-description"
+                    aria-describedby="_r_3j_-form-item-description"
                     aria-invalid="false"
                     class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                     data-slot="form-control"
                     data-testid="textarea"
-                    id="_r_30_-form-item"
+                    id="_r_3j_-form-item"
                     name="fields.1.description"
                     placeholder="Beschreibung des Feldes"
                     rows="2"
@@ -3485,12 +4557,12 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                   >
                     <button
                       aria-checked="true"
-                      aria-describedby="_r_31_-form-item-description"
+                      aria-describedby="_r_3k_-form-item-description"
                       aria-invalid="false"
                       class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
                       data-slot="form-control"
                       data-state="checked"
-                      id="_r_31_-form-item"
+                      id="_r_3k_-form-item"
                       role="checkbox"
                       type="button"
                       value="on"
@@ -3536,7 +4608,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                       class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive cursor-pointer"
                       data-error="false"
                       data-slot="form-label"
-                      for="_r_31_-form-item"
+                      for="_r_3k_-form-item"
                     >
                       Dieses Feld ist erforderlich
                     </label>
@@ -3647,17 +4719,17 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_32_-form-item"
+                    for="_r_3l_-form-item"
                   >
                     Name
                   </label>
                   <input
-                    aria-describedby="_r_32_-form-item-description"
+                    aria-describedby="_r_3l_-form-item-description"
                     aria-invalid="false"
                     class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                     data-slot="form-control"
                     data-testid="input"
-                    id="_r_32_-form-item"
+                    id="_r_3l_-form-item"
                     name="fields.2.name"
                     placeholder="Name des Feldes"
                     value="field_2"
@@ -3665,7 +4737,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                   <p
                     class="text-destructive text-sm"
                     data-slot="form-message"
-                    id="_r_32_-form-item-message"
+                    id="_r_3l_-form-item-message"
                   >
                     <span
                       class="text-slate-500"
@@ -3683,17 +4755,17 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_33_-form-item"
+                    for="_r_3m_-form-item"
                   >
                     Label
                   </label>
                   <input
-                    aria-describedby="_r_33_-form-item-description"
+                    aria-describedby="_r_3m_-form-item-description"
                     aria-invalid="false"
                     class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
                     data-slot="form-control"
                     data-testid="input"
-                    id="_r_33_-form-item"
+                    id="_r_3m_-form-item"
                     name="fields.2.label"
                     placeholder="Label des Feldes"
                     value="label 2"
@@ -3701,7 +4773,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                   <p
                     class="text-destructive text-sm"
                     data-slot="form-message"
-                    id="_r_33_-form-item-message"
+                    id="_r_3m_-form-item-message"
                   >
                     <span
                       class="invisible text-sm"
@@ -3719,14 +4791,14 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_34_-form-item"
+                    for="_r_3n_-form-item"
                   >
                     Typ
                   </label>
                   <button
                     aria-autocomplete="none"
-                    aria-controls="radix-_r_35_"
-                    aria-describedby="_r_34_-form-item-description"
+                    aria-controls="radix-_r_3o_"
+                    aria-describedby="_r_3n_-form-item-description"
                     aria-expanded="false"
                     aria-invalid="false"
                     class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
@@ -3734,7 +4806,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     data-slot="form-control"
                     data-state="closed"
                     dir="ltr"
-                    id="_r_34_-form-item"
+                    id="_r_3n_-form-item"
                     role="combobox"
                     type="button"
                   >
@@ -3822,21 +4894,237 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_36_-form-item"
+                    for="_r_3p_-form-item"
                   >
                     Standardwert
                   </label>
-                  <input
-                    aria-describedby="_r_36_-form-item-description"
+                  <button
+                    aria-autocomplete="none"
+                    aria-controls="radix-_r_3q_"
+                    aria-describedby="_r_3p_-form-item-description"
+                    aria-expanded="false"
                     aria-invalid="false"
-                    class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                    class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
+                    data-size="default"
                     data-slot="form-control"
-                    data-testid="input"
-                    id="_r_36_-form-item"
-                    name="fields.2.defaultValue"
-                    placeholder="Standardwert des Feldes"
-                    value="option 1"
+                    data-state="closed"
+                    dir="ltr"
+                    id="_r_3p_-form-item"
+                    role="combobox"
+                    type="button"
+                  >
+                    <span
+                      data-slot="select-value"
+                      style="pointer-events: none;"
+                    >
+                      option 1
+                    </span>
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-chevron-down size-4 opacity-50"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="m6 9 6 6 6-6"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    data-testid="mock-react-portal"
                   />
+                  <select
+                    aria-hidden="true"
+                    style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
+                    tabindex="-1"
+                  >
+                    <option
+                      selected=""
+                      value="option 1"
+                    >
+                      option 1
+                    </option>
+                    <option
+                      value="option 2"
+                    >
+                      option 2
+                    </option>
+                    <option
+                      value="option 3"
+                    >
+                      option 3
+                    </option>
+                  </select>
+                </div>
+                <div
+                  class="grid gap-2 col-span-2"
+                  data-slot="form-item"
+                  data-testid="fields.2.options"
+                >
+                  <label
+                    class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+                    data-error="false"
+                    data-slot="form-label"
+                    for="_r_3r_-form-item"
+                  >
+                    Optionen
+                  </label>
+                  <div
+                    class="flex flex-wrap gap-2"
+                    data-testid="current-values"
+                  >
+                    <div
+                      class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                    >
+                      <span
+                        class="text-sm"
+                      >
+                        option 1
+                      </span>
+                      <button
+                        class="cursor-pointer text-slate-500 hover:text-slate-700"
+                        data-testid="remove-value-btn"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-x h-3 w-3"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M18 6 6 18"
+                          />
+                          <path
+                            d="m6 6 12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    <div
+                      class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                    >
+                      <span
+                        class="text-sm"
+                      >
+                        option 2
+                      </span>
+                      <button
+                        class="cursor-pointer text-slate-500 hover:text-slate-700"
+                        data-testid="remove-value-btn"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-x h-3 w-3"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M18 6 6 18"
+                          />
+                          <path
+                            d="m6 6 12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    <div
+                      class="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
+                    >
+                      <span
+                        class="text-sm"
+                      >
+                        option 3
+                      </span>
+                      <button
+                        class="cursor-pointer text-slate-500 hover:text-slate-700"
+                        data-testid="remove-value-btn"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-x h-3 w-3"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M18 6 6 18"
+                          />
+                          <path
+                            d="m6 6 12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    class="flex gap-2"
+                  >
+                    <input
+                      class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                      data-slot="input"
+                      data-testid="input"
+                      placeholder="Option eingeben"
+                      value=""
+                    />
+                    <button
+                      class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+                      data-slot="button"
+                      data-testid="add-value-btn"
+                      type="button"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="lucide lucide-plus h-4 w-4"
+                        fill="none"
+                        height="24"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M5 12h14"
+                        />
+                        <path
+                          d="M12 5v14"
+                        />
+                      </svg>
+                      Hinzufügen
+                    </button>
+                  </div>
                 </div>
                 <div
                   class="grid gap-2 col-span-2"
@@ -3847,17 +5135,17 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                     class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
                     data-error="false"
                     data-slot="form-label"
-                    for="_r_37_-form-item"
+                    for="_r_3s_-form-item"
                   >
                     Beschreibung
                   </label>
                   <textarea
-                    aria-describedby="_r_37_-form-item-description"
+                    aria-describedby="_r_3s_-form-item-description"
                     aria-invalid="false"
                     class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                     data-slot="form-control"
                     data-testid="textarea"
-                    id="_r_37_-form-item"
+                    id="_r_3s_-form-item"
                     name="fields.2.description"
                     placeholder="Beschreibung des Feldes"
                     rows="2"
@@ -3875,12 +5163,12 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                   >
                     <button
                       aria-checked="true"
-                      aria-describedby="_r_38_-form-item-description"
+                      aria-describedby="_r_3t_-form-item-description"
                       aria-invalid="false"
                       class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
                       data-slot="form-control"
                       data-state="checked"
-                      id="_r_38_-form-item"
+                      id="_r_3t_-form-item"
                       role="checkbox"
                       type="button"
                       value="on"
@@ -3926,7 +5214,7 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
                       class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive cursor-pointer"
                       data-error="false"
                       data-slot="form-label"
-                      for="_r_38_-form-item"
+                      for="_r_3t_-form-item"
                     >
                       Dieses Feld ist erforderlich
                     </label>
@@ -4180,20 +5468,16 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - new entry -
               class="flex gap-2"
             >
               <input
-                aria-describedby="_r_4_-form-item-description"
-                aria-invalid="false"
                 class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
-                data-slot="form-control"
+                data-slot="input"
                 data-testid="input"
-                id="_r_4_-form-item"
-                name="categoryInput"
                 placeholder="Kategorie hinzufügen"
                 value=""
               />
               <button
                 class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
                 data-slot="button"
-                data-testid="add-btn"
+                data-testid="add-value-btn"
                 type="button"
               >
                 <svg
@@ -4649,20 +5933,16 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - new entry -
               class="flex gap-2"
             >
               <input
-                aria-describedby="_r_f_-form-item-description"
-                aria-invalid="false"
                 class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
-                data-slot="form-control"
+                data-slot="input"
                 data-testid="input"
-                id="_r_f_-form-item"
-                name="categoryInput"
                 placeholder="Kategorie hinzufügen"
                 value=""
               />
               <button
                 class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
                 data-slot="button"
-                data-testid="add-btn"
+                data-testid="add-value-btn"
                 type="button"
               >
                 <svg

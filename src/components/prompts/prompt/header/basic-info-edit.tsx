@@ -2,7 +2,7 @@
 
 import { FC, useState } from "react";
 import { BookType, Check, ChevronsUpDown, Plus, X } from "lucide-react";
-import { Control, UseFormSetValue, UseFormWatch } from "react-hook-form";
+import { Control } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
 import {
@@ -42,11 +42,9 @@ const AI_MODELS = [
 
 type Props = {
    control: Control<DPromptUpdate>;
-   watch: UseFormWatch<DPromptUpdate>;
-   setValue: UseFormSetValue<DPromptUpdate>;
 };
 
-export const BasicInfoEdit: FC<Props> = ({ control, watch, setValue }) => {
+export const BasicInfoEdit: FC<Props> = ({ control }) => {
    const [open, setOpen] = useState(false);
    const [customModel, setCustomModel] = useState("");
 
@@ -148,12 +146,9 @@ export const BasicInfoEdit: FC<Props> = ({ control, watch, setValue }) => {
       return (
          <FormDynamicValues<DPromptUpdate>
             name="categories"
-            nameInput="categoryInput"
             label="Kategorien"
             placeholder="Kategorie hinzufügen"
             control={control}
-            watch={watch}
-            setValue={setValue}
          />
       );
    };

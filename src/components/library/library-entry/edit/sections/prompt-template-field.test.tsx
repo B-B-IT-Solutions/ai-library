@@ -24,7 +24,6 @@ const TestWrapper: FC<Props> = ({ index, isUsed, hasName, onRemove }) => {
          content: "",
          recommendedModel: "Claude 3.5 Sonnet",
          categories: [],
-         categoryInput: "",
          fields: [],
       },
    });

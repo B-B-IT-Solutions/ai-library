@@ -11,12 +11,12 @@ exports[`FormDynamicValues rendering tests FormDynamicValues - init values - tes
       class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
       data-error="false"
       data-slot="form-label"
-      for="_r_1_-form-item"
+      for="_r_2_-form-item"
     >
       Categories
     </label>
     <div
-      class="mt-2 flex flex-wrap gap-2"
+      class="flex flex-wrap gap-2"
       data-testid="current-values"
     >
       <div
@@ -29,7 +29,7 @@ exports[`FormDynamicValues rendering tests FormDynamicValues - init values - tes
         </span>
         <button
           class="cursor-pointer text-slate-500 hover:text-slate-700"
-          data-testid="remove-btn"
+          data-testid="remove-value-btn"
           type="button"
         >
           <svg
@@ -64,7 +64,7 @@ exports[`FormDynamicValues rendering tests FormDynamicValues - init values - tes
         </span>
         <button
           class="cursor-pointer text-slate-500 hover:text-slate-700"
-          data-testid="remove-btn"
+          data-testid="remove-value-btn"
           type="button"
         >
           <svg
@@ -99,7 +99,7 @@ exports[`FormDynamicValues rendering tests FormDynamicValues - init values - tes
         </span>
         <button
           class="cursor-pointer text-slate-500 hover:text-slate-700"
-          data-testid="remove-btn"
+          data-testid="remove-value-btn"
           type="button"
         >
           <svg
@@ -129,20 +129,16 @@ exports[`FormDynamicValues rendering tests FormDynamicValues - init values - tes
       class="flex gap-2"
     >
       <input
-        aria-describedby="_r_1_-form-item-description"
-        aria-invalid="false"
         class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
-        data-slot="form-control"
+        data-slot="input"
         data-testid="input"
-        id="_r_1_-form-item"
-        name="categoryInput"
         placeholder="Add category"
         value=""
       />
       <button
         class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
         data-slot="button"
-        data-testid="add-btn"
+        data-testid="add-value-btn"
         type="button"
       >
         <svg
@@ -183,6 +179,64 @@ exports[`FormDynamicValues rendering tests FormDynamicValues - init values empty
       class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
       data-error="false"
       data-slot="form-label"
+      for="_r_1_-form-item"
+    >
+      Categories
+    </label>
+    <div
+      class="flex gap-2"
+    >
+      <input
+        class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+        data-slot="input"
+        data-testid="input"
+        placeholder="Add category"
+        value=""
+      />
+      <button
+        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+        data-slot="button"
+        data-testid="add-value-btn"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-plus h-4 w-4"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M5 12h14"
+          />
+          <path
+            d="M12 5v14"
+          />
+        </svg>
+        Hinzufügen
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`FormDynamicValues rendering tests FormDynamicValues - init values undefined - test 1`] = `
+<div>
+  <div
+    class="grid gap-2"
+    data-slot="form-item"
+    data-testid="categories"
+  >
+    <label
+      class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+      data-error="false"
+      data-slot="form-label"
       for="_r_0_-form-item"
     >
       Categories
@@ -191,20 +245,16 @@ exports[`FormDynamicValues rendering tests FormDynamicValues - init values empty
       class="flex gap-2"
     >
       <input
-        aria-describedby="_r_0_-form-item-description"
-        aria-invalid="false"
         class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
-        data-slot="form-control"
+        data-slot="input"
         data-testid="input"
-        id="_r_0_-form-item"
-        name="categoryInput"
         placeholder="Add category"
         value=""
       />
       <button
         class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
         data-slot="button"
-        data-testid="add-btn"
+        data-testid="add-value-btn"
         type="button"
       >
         <svg

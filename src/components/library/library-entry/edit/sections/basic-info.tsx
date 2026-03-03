@@ -1,7 +1,7 @@
 "use client";
 
 import { FC } from "react";
-import { Control, UseFormSetValue, UseFormWatch } from "react-hook-form";
+import { Control } from "react-hook-form";
 
 import {
    FormDynamicValues,
@@ -21,11 +21,9 @@ const RECOMMENDED_MODELS = [
 
 type Props = {
    control: Control<DPromptTemplateUpdate>;
-   watch: UseFormWatch<DPromptTemplateUpdate>;
-   setValue: UseFormSetValue<DPromptTemplateUpdate>;
 };
 
-export const BasicInfo: FC<Props> = ({ control, watch, setValue }) => {
+export const BasicInfo: FC<Props> = ({ control }) => {
    const title = () => {
       return (
          <FormInput<DPromptTemplateUpdate>
@@ -64,12 +62,9 @@ export const BasicInfo: FC<Props> = ({ control, watch, setValue }) => {
       return (
          <FormDynamicValues<DPromptTemplateUpdate>
             name="categories"
-            nameInput="categoryInput"
             label="Kategorien"
             placeholder="Kategorie hinzufügen"
             control={control}
-            watch={watch}
-            setValue={setValue}
          />
       );
    };

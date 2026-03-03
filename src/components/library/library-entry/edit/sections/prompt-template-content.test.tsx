@@ -12,7 +12,6 @@ const TestWrapper = () => {
          content: "",
          recommendedModel: "Claude 3.5 Sonnet",
          categories: [],
-         categoryInput: "",
          fields: [],
       },
    });
