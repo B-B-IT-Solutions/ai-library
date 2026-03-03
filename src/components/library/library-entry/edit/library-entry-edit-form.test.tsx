@@ -352,7 +352,6 @@ describe("LibraryEntryEditForm functionality tests", () => {
          fields: [],
          globalFieldIds: [],
          recommendedModel: "Claude 3.5 Sonnet",
-         categoryInput: "",
       };
 
       await waitFor(() => {
@@ -397,7 +396,6 @@ describe("LibraryEntryEditForm functionality tests", () => {
          fields: initValue.fields,
          globalFieldIds: initValue.globalFieldIds,
          recommendedModel: initValue.recommendedModel,
-         categoryInput: "",
       };
 
       await waitFor(() => {
@@ -445,7 +443,6 @@ describe("LibraryEntryEditForm functionality tests", () => {
          fields: [],
          globalFieldIds: [],
          recommendedModel: "Claude 3.5 Sonnet",
-         categoryInput: "",
       };
 
       await waitFor(() => {
@@ -489,7 +486,6 @@ describe("LibraryEntryEditForm functionality tests", () => {
          fields: initValue.fields,
          globalFieldIds: initValue.globalFieldIds,
          recommendedModel: initValue.recommendedModel,
-         categoryInput: "",
       };
 
       await waitFor(() => {

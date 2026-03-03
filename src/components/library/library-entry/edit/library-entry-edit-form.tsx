@@ -203,8 +203,6 @@ export const LibraryEntryEditForm = ({ entry, globalFields }: Props) => {
                >
                   <BasicInfo
                      control={form.control}
-                     watch={form.watch}
-                     setValue={form.setValue}
                   />
                   <Separator />
                   <PromptTemplateContent control={form.control} />

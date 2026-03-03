@@ -17,7 +17,6 @@ const expectedInitPromptTempalteExisting = (
       content: descriptor.promptTemplate.content,
       recommendedModel: descriptor.recommendedModel,
       categories: descriptor.categories.map((c) => c.name),
-      categoryInput: "",
       fields: map(promptTemplate.fields, (f) => ({
          name: f.name,
          label: f.label,
@@ -39,7 +38,6 @@ const expectedInitPromptTempalteNew: DPromptTemplateUpdate = {
 
    recommendedModel: "Claude 3.5 Sonnet",
    categories: [],
-   categoryInput: "",
    fields: [],
    globalFieldIds: [],
 };

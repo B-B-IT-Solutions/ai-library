@@ -243,8 +243,6 @@ export const PromptEdit: FC<PromptEditProps> = ({ prompt, mode }) => {
                >
                   <BasicInfoEdit
                      control={form.control}
-                     watch={form.watch}
-                     setValue={form.setValue}
                   />
 
                   <Separator />

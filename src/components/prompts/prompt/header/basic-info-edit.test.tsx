@@ -30,8 +30,6 @@ const TestWrapper = ({
       <FormProvider {...methods}>
          <BasicInfoEdit
             control={methods.control}
-            watch={methods.watch}
-            setValue={methods.setValue}
          />
       </FormProvider>
    );

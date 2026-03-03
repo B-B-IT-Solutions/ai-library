@@ -431,7 +431,6 @@ describe("updatePromptTemplateSchema - tests", () => {
       content: "Hello {{email}}, welcome to {{company}}!",
       recommendedModel: "gpt-4",
       categories: ["Marketing", "Sales"],
-      categoryInput: "",
       fields: [validField],
       globalFieldIds: [],
    };
@@ -441,22 +440,6 @@ describe("updatePromptTemplateSchema - tests", () => {
          const validatedValues =
             updatePromptTemplateSchema.parse(validTemplateData);
          expect(validatedValues).toEqual(validTemplateData);
-      });
-
-      it("updatePromptTemplateSchema - valid data without optional categoryInput - test", () => {
-         const templateData = {
-            title: "Test Template",
-            description: "A test description",
-            content: "Content {{name}}",
-            recommendedModel: "gpt-4",
-            categories: ["Marketing"],
-            fields: [],
-            globalFieldIds: [],
-         };
-
-         const validatedValues = updatePromptTemplateSchema.parse(templateData);
-         expect(validatedValues.categoryInput).toBeUndefined();
-         expect(validatedValues.title).toBe("Test Template");
       });
 
       it("updatePromptTemplateSchema - empty categories array valid - test", () => {
@@ -700,43 +683,6 @@ describe("updatePromptTemplateSchema - tests", () => {
       });
    });
 
-   describe("CategoryInput validation", () => {
-      it("updatePromptTemplateSchema - categoryInput optional - test", () => {
-         const templateData = {
-            title: "Test",
-            description: "Description",
-            content: "Content",
-            recommendedModel: "gpt-4",
-            categories: [],
-            fields: [],
-            globalFieldIds: [],
-         };
-
-         const validatedValues = updatePromptTemplateSchema.parse(templateData);
-         expect(validatedValues.categoryInput).toBeUndefined();
-      });
-
-      it("updatePromptTemplateSchema - categoryInput can be empty string - test", () => {
-         const templateData = {
-            ...validTemplateData,
-            categoryInput: "",
-         };
-
-         const validatedValues = updatePromptTemplateSchema.parse(templateData);
-         expect(validatedValues.categoryInput).toBe("");
-      });
-
-      it("updatePromptTemplateSchema - categoryInput with value valid - test", () => {
-         const templateData = {
-            ...validTemplateData,
-            categoryInput: "New Category",
-         };
-
-         const validatedValues = updatePromptTemplateSchema.parse(templateData);
-         expect(validatedValues.categoryInput).toBe("New Category");
-      });
-   });
-
    describe("Fields validation", () => {
       it("updatePromptTemplateSchema - missing fields invalid - test", () => {
          const templateData = {
@@ -809,7 +755,6 @@ describe("updatePromptTemplateSchema - tests", () => {
                "Dear {{firstName}} {{lastName}},\n\nWe are excited to offer you {{offer}}.\n\nBest regards,\n{{company}}",
             recommendedModel: "gpt-4-turbo",
             categories: ["Marketing", "Email", "Sales"],
-            categoryInput: "",
             globalFieldIds: [],
             fields: [
                {

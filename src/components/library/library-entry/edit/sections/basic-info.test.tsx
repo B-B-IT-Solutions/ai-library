@@ -12,7 +12,6 @@ const TestWrapper = () => {
          content: "",
          recommendedModel: "Claude 3.5 Sonnet",
          categories: [],
-         categoryInput: "",
          fields: [],
          globalFieldIds: [],
       },
@@ -22,8 +21,6 @@ const TestWrapper = () => {
       <FormProvider {...form}>
          <BasicInfo
             control={form.control}
-            watch={form.watch}
-            setValue={form.setValue}
          />
       </FormProvider>
    );

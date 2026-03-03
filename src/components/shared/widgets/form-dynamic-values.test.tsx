@@ -8,7 +8,6 @@ import { FormDynamicValues } from "./form-dynamic-values";
 
 type Props = {
    name: string;
-   nameInput: string;
    label: string;
    placeholder: string;
    initialValues?: string[];
@@ -16,7 +15,6 @@ type Props = {
 
 const TestWrapper: FC<Props> = ({
    name,
-   nameInput,
    label,
    placeholder,
    initialValues = [],
@@ -24,7 +22,6 @@ const TestWrapper: FC<Props> = ({
    const form = useForm({
       defaultValues: {
          [name]: initialValues,
-         [nameInput]: "",
       },
    });
 
@@ -32,12 +29,9 @@ const TestWrapper: FC<Props> = ({
       <FormProvider {...form}>
          <FormDynamicValues
             name={name}
-            nameInput={nameInput}
             label={label}
             placeholder={placeholder}
             control={form.control}
-            watch={form.watch}
-            setValue={form.setValue}
          />
       </FormProvider>
    );
@@ -76,11 +70,9 @@ const assertValueNotRendered = (value: string) => {
 describe("FormDynamicValues rendering tests", () => {
    it("FormDynamicValues - init values empty - test", () => {
       const name = "categories";
-      const nameInput = "categoryInput";
       const { container } = render(
          <TestWrapper
             name={name}
-            nameInput={nameInput}
             label="Categories"
             placeholder="Add category"
             initialValues={[]}
@@ -95,13 +87,11 @@ describe("FormDynamicValues rendering tests", () => {
 
    it("FormDynamicValues - init values - test", () => {
       const name = "categories";
-      const nameInput = "categoryInput";
       const initialValues = ["JavaScript", "TypeScript", "React"];
 
       const { container } = render(
          <TestWrapper
             name={name}
-            nameInput={nameInput}
             label="Categories"
             placeholder="Add category"
             initialValues={initialValues}
@@ -120,7 +110,6 @@ describe("FormDynamicValues functionality tests", () => {
       render(
          <TestWrapper
             name="categories"
-            nameInput="categoryInput"
             label="Categories"
             placeholder="Add category"
          />
@@ -144,7 +133,6 @@ describe("FormDynamicValues functionality tests", () => {
       render(
          <TestWrapper
             name="categories"
-            nameInput="categoryInput"
             label="Categories"
             placeholder="Add category"
          />
@@ -166,7 +154,6 @@ describe("FormDynamicValues functionality tests", () => {
       render(
          <TestWrapper
             name="categories"
-            nameInput="categoryInput"
             label="Categories"
             placeholder="Add category"
             initialValues={["JavaScript", "TypeScript"]}
@@ -187,7 +174,6 @@ describe("FormDynamicValues functionality tests", () => {
       render(
          <TestWrapper
             name="categories"
-            nameInput="categoryInput"
             label="Categories"
             placeholder="Add category"
             initialValues={["JavaScript"]}
@@ -215,7 +201,6 @@ describe("FormDynamicValues functionality tests", () => {
       render(
          <TestWrapper
             name="categories"
-            nameInput="categoryInput"
             label="Categories"
             placeholder="Add category"
          />

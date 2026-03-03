@@ -1,13 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { filter, includes, isEmpty, map, trim } from "es-toolkit/compat";
-import { Plus, X } from "lucide-react";
-import { Control, FieldValues, Path, useController } from "react-hook-form";
+import { Control, FieldValues, Path } from "react-hook-form";
 
-import { Button } from "@/components/shadcn/button";
-import { FormItem, FormLabel } from "@/components/shadcn/form";
-import { Input } from "@/components/shadcn/input";
+import { FormDynamicValues } from "@/components/shared/widgets";
 
 type Props<T extends FieldValues> = {
    name: Path<T>;
@@ -18,72 +13,14 @@ export const TemplateFieldSelectOptions = <T extends FieldValues>({
    name,
    control,
 }: Props<T>) => {
-   const [inputValue, setInputValue] = useState("");
-   const { field } = useController({ name, control });
-
-   const values: string[] = field.value ?? [];
-
-   const handleAdd = () => {
-      const newValue = trim(inputValue);
-      if (newValue && !includes(values, newValue)) {
-         field.onChange([...values, newValue]);
-         setInputValue("");
-      }
-   };
-
-   const handleRemove = (val: string) => {
-      field.onChange(filter(values, (v: string) => v !== val));
-   };
-
    return (
-      <FormItem className="col-span-2" data-testid="options">
-         <FormLabel>Optionen</FormLabel>
-         {!isEmpty(values) && (
-            <div
-               className="mt-2 flex flex-wrap gap-2"
-               data-testid="current-values"
-            >
-               {map(values, (value: string, idx: number) => (
-                  <div
-                     key={idx}
-                     className="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1"
-                  >
-                     <span className="text-sm">{value}</span>
-                     <button
-                        type="button"
-                        onClick={() => handleRemove(value)}
-                        className="cursor-pointer text-slate-500 hover:text-slate-700"
-                        data-testid="remove-btn"
-                     >
-                        <X className="h-3 w-3" />
-                     </button>
-                  </div>
-               ))}
-            </div>
-         )}
-         <div className="flex gap-2">
-            <Input
-               value={inputValue}
-               onChange={(e) => setInputValue(e.target.value)}
-               placeholder="Option eingeben"
-               onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                     e.preventDefault();
-                     handleAdd();
-                  }
-               }}
-               data-testid="option-input"
-            />
-            <Button
-               type="button"
-               onClick={handleAdd}
-               variant="outline"
-               className="cursor-pointer"
-               data-testid="add-btn"
-            >
-               <Plus className="h-4 w-4" />
-            </Button>
-         </div>
-      </FormItem>
+      <div className="col-span-2">
+         <FormDynamicValues<T>
+            name={name}
+            label="Optionen"
+            placeholder="Option eingeben"
+            control={control}
+         />
+      </div>
    );
 };

@@ -15,7 +15,6 @@ export const initPromptTempalte = (
       content: promptTemplate?.content ?? "",
       recommendedModel: descriptor?.recommendedModel ?? "Claude 3.5 Sonnet",
       categories: map(descriptor?.categories, "name"),
-      categoryInput: "",
       fields: map(promptTemplate?.fields, existingTemplateFieldInitValues),
       globalFieldIds: promptTemplate?.globalFieldIds ?? [],
    };

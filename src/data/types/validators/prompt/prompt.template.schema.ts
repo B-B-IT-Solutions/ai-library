@@ -30,7 +30,6 @@ export const updatePromptTemplateSchema = z.object({
    content: z.string().min(1, "Prompt-Vorlage ist erforderlich"),
    recommendedModel: z.string().min(1, "Modell ist erforderlich"),
    categories: z.array(z.string()),
-   categoryInput: z.string().optional(),
    fields: z.array(promptTemplateFieldSchema),
    globalFieldIds: z.array(z.string()),
 });
