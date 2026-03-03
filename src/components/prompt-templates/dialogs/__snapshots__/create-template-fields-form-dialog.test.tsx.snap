@@ -76,7 +76,7 @@ exports[`CreateTemplateFieldsFormDialog rendering tests CreateTemplateFieldsForm
           </div>
           <form
             class="space-y-4"
-            data-testid="prompt-template-fields-form"
+            data-testid="template-fields-form"
           >
             <div
               class="grid grid-cols-1 gap-6 lg:grid-cols-2"

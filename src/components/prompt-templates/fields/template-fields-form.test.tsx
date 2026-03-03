@@ -31,7 +31,7 @@ const createField = (
 };
 
 const assertRendered = () => {
-   const form = screen.getByTestId("prompt-template-fields-form");
+   const form = screen.getByTestId("template-fields-form");
    const preview = screen.getByTestId("template-preview");
    const submitBtn = screen.getByTestId("submit-btn");
    const cancelBtn = screen.getByTestId("cancel-btn");
@@ -109,6 +109,10 @@ describe("TemplateFieldForm functionality tests", () => {
          />
       );
 
+      await waitFor(() => {
+         assertRendered();
+      });
+
       await typeIntoInput("name", "John Doe");
 
       const submitBtn = screen.getByTestId("submit-btn");
@@ -141,6 +145,10 @@ describe("TemplateFieldForm functionality tests", () => {
             onCancel={onCancel}
          />
       );
+
+      await waitFor(() => {
+         assertRendered();
+      });
 
       const cancelBtn = screen.getByTestId("cancel-btn");
       await userEvent.click(cancelBtn);

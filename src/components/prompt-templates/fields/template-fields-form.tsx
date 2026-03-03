@@ -151,7 +151,7 @@ export const TemplateFieldForm: FC<Props> = ({
          <form
             onSubmit={form.handleSubmit(onSubmitInternal)}
             className="space-y-4"
-            data-testid="prompt-template-fields-form"
+            data-testid="template-fields-form"
          >
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                {preview()}
