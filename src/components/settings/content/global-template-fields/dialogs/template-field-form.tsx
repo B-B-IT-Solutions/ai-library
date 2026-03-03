@@ -8,6 +8,7 @@ import {
    TemplateFieldLabel,
    TemplateFieldName,
    TemplateFieldRequired,
+   TemplateFieldSelectOptions,
    TemplateFieldType,
 } from "@/components/shared/template-fields";
 import { DGlobalTemplateFieldUpdate } from "@/data/types/domain/settings";
@@ -17,7 +18,11 @@ type Props = {
    control: Control<DGlobalTemplateFieldUpdate>;
 };
 
+const OPTION_TYPES = ["SELECT", "RADIO"];
+
 export const GlobalTemplateFieldForm = ({ watch, control }: Props) => {
+   const type = watch("type");
+
    return (
       <div className="grid grid-cols-2 gap-4" data-testid="template-field-form">
          <TemplateFieldName<DGlobalTemplateFieldUpdate>
@@ -37,6 +42,12 @@ export const GlobalTemplateFieldForm = ({ watch, control }: Props) => {
             name="defaultValue"
             control={control}
          />
+         {OPTION_TYPES.includes(type) && (
+            <TemplateFieldSelectOptions<DGlobalTemplateFieldUpdate>
+               name="options"
+               control={control}
+            />
+         )}
          <TemplateFieldDescription<DGlobalTemplateFieldUpdate>
             name="description"
             control={control}
