@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`TemplatePreview rendering tests TemplatePreview rendered test 1`] = `
+<div>
+  <div
+    class="leading-relaxed text-slate-700"
+    data-testid="template-preview"
+  >
+    <div
+      class="text-slate-700 leading-relaxed"
+      data-testid="react-md"
+    >
+      <div
+        data-testid="react-markdown-mock"
+      >
+        content 1
+      </div>
+    </div>
+  </div>
+</div>
+`;
