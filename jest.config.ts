@@ -36,7 +36,7 @@ module.exports = {
       "^.+\\.(png|jpg|jpeg|svg)$": "jest-transform-stub",
    },
    transformIgnorePatterns: [
-      "/node_modules/(?!(@auth|next-auth|oauth4webapi|jose|@panva|preact-render-to-string|preact|uuid|nuqs)/)",
+      "/node_modules/(?!(@auth|next-auth|oauth4webapi|jose|@panva|preact-render-to-string|preact|uuid|nuqs|unist-util-visit|unist-util-visit-parents|unist-util-is)/)",
       "^.+\\.module\\.(css|sass|scss)$",
    ],
    moduleNameMapper: {
