@@ -8,11 +8,13 @@ import { Control, FieldValues, Path, useController } from "react-hook-form";
 import { Button } from "@/components/shadcn/button";
 import { FormItem, FormLabel } from "@/components/shadcn/form";
 import { Input } from "@/components/shadcn/input";
+import { cn } from "@/lib/utils";
 
 type Props<T extends FieldValues> = {
    name: Path<T>;
    label: string;
    placeholder: string;
+   className?: string;
    control: Control<T>;
 };
 
@@ -20,6 +22,7 @@ export const FormDynamicValues = <T extends FieldValues>({
    name,
    label,
    placeholder,
+   className,
    control,
 }: Props<T>) => {
    const [inputValue, setInputValue] = useState("");
@@ -40,10 +43,10 @@ export const FormDynamicValues = <T extends FieldValues>({
    };
 
    return (
-      <FormItem data-testid={name}>
+      <FormItem className={cn(className)} data-testid={name}>
          <FormLabel>{label}</FormLabel>
          {!isEmpty(values) && (
-            <div className="mt-2 flex flex-wrap gap-2" data-testid="current-values">
+            <div className="flex flex-wrap gap-2" data-testid="current-values">
                {map(values, (value: string, idx: number) => (
                   <div
                      key={idx}

@@ -14,13 +14,12 @@ export const TemplateFieldSelectOptions = <T extends FieldValues>({
    control,
 }: Props<T>) => {
    return (
-      <div className="col-span-2">
-         <FormDynamicValues<T>
-            name={name}
-            label="Optionen"
-            placeholder="Option eingeben"
-            control={control}
-         />
-      </div>
+      <FormDynamicValues<T>
+         name={name}
+         label="Optionen"
+         placeholder="Option eingeben"
+         className="col-span-2"
+         control={control}
+      />
    );
 };
