@@ -55,6 +55,7 @@ describe("GlobalTemplateFieldForm rendering tests", () => {
    it("GlobalTemplateFieldForm - type NUMBER - test", () => {
       const data = dtestData.dGlobalTemplateFieldUpdate();
       data.type = "NUMBER";
+      data.options = undefined;
       const { container } = render(<TestWrapper data={data} />);
 
       assertRendered();
