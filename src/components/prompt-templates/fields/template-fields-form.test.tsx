@@ -94,7 +94,7 @@ describe("TemplateFieldForm rendering tests", () => {
 
 describe("TemplateFieldForm functionality tests", () => {
    it("TemplateFieldForm - submit btn clicked - test", async () => {
-      const field = createField("TEXT", "name", "Name");
+      const field = createField("TEXT", "name", "Name", true);
       const templateData = dtestData.dPromptTemplateDataPromptGeneration();
       templateData.allFields.push(field);
 
@@ -111,11 +111,18 @@ describe("TemplateFieldForm functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         expect(onSubmit).not.toHaveBeenCalled();
+      });
+
+      const submitBtn = screen.getByTestId("submit-btn");
+      await userEvent.click(submitBtn);
+
+      await waitFor(() => {
+         expect(onSubmit).not.toHaveBeenCalled();
       });
 
       await typeIntoInput("name", "John Doe");
 
-      const submitBtn = screen.getByTestId("submit-btn");
       await userEvent.click(submitBtn);
 
       const expectedPayload: DPromptTemplateFieldValues = {

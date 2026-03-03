@@ -65,7 +65,9 @@ export const buildFieldsSchema = (fields: DPromptTemplateField[]) => {
             validator = booleanValidator(field);
             break;
          default:
-            validator = z.string();
+            validator = field.required
+               ? z.string().min(1, `${field.label} ist erforderlich`)
+               : z.string();
       }
 
       shape[field.name] = validator;
