@@ -47,23 +47,10 @@ export class PromptTemplateService {
                template.globalFieldIds
             );
 
-         const allFieldNames = new Set([
-            ...map(template.fields, (f) => f.name),
-            ...map(globalFields, (f) => f.name),
-         ]);
-         const allVariableNames = TemplateEngine.extractVariables(
-            template.content
+         const allFields = this.resolveAllTemplateFields(
+            template,
+            globalFields
          );
-         const missingVariableNames = filter(
-            allVariableNames,
-            (name) => !allFieldNames.has(name)
-         );
-
-         const allFields = [
-            ...template.fields,
-            ...this.globalFieldsToTemplateFields(globalFields),
-            ...this.missingVariablesToTemplateFields(missingVariableNames),
-         ];
 
          return {
             template,
@@ -147,7 +134,7 @@ export class PromptTemplateService {
       };
    }
 
-   private resolveAllTemplateFields(
+   protected resolveAllTemplateFields(
       template: DPromptTemplate,
       globalFields: DGlobalTemplateField[]
    ) {
