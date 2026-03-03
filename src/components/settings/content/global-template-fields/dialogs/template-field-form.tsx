@@ -11,7 +11,6 @@ import {
    TemplateFieldSelectOptions,
    TemplateFieldType,
 } from "@/components/shared/template-fields";
-import { FormSelect } from "@/components/shared/widgets";
 import { DPromptTemplateFieldType } from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateFieldUpdate } from "@/data/types/domain/settings";
 
@@ -25,37 +24,6 @@ const OPTION_TYPES: DPromptTemplateFieldType[] = ["SELECT", "RADIO"];
 export const GlobalTemplateFieldForm = ({ watch, control }: Props) => {
    const type = watch("type");
    const options = watch("options") ?? [];
-
-   const renderDefaultValue = () => {
-      if (OPTION_TYPES.includes(type)) {
-         return (
-            <FormSelect<DGlobalTemplateFieldUpdate>
-               name="defaultValue"
-               label="Standardwert"
-               placeholder="Standardwert auswählen"
-               options={options}
-               control={control}
-            />
-         );
-      }
-      return (
-         <TemplateFieldDefaultValue<DGlobalTemplateFieldUpdate>
-            name="defaultValue"
-            control={control}
-         />
-      );
-   };
-
-   const renderSelectedOptions = () => {
-      if (OPTION_TYPES.includes(type)) {
-         return (
-            <TemplateFieldSelectOptions<DGlobalTemplateFieldUpdate>
-               name="options"
-               control={control}
-            />
-         );
-      }
-   };
 
    return (
       <div className="grid grid-cols-2 gap-4" data-testid="template-field-form">
@@ -72,8 +40,18 @@ export const GlobalTemplateFieldForm = ({ watch, control }: Props) => {
             name={"type"}
             control={control}
          />
-         {renderDefaultValue()}
-         {renderSelectedOptions()}
+         <TemplateFieldDefaultValue<DGlobalTemplateFieldUpdate>
+            name="defaultValue"
+            control={control}
+            type={type}
+            options={options}
+         />
+         {OPTION_TYPES.includes(type) && (
+            <TemplateFieldSelectOptions<DGlobalTemplateFieldUpdate>
+               name="options"
+               control={control}
+            />
+         )}
          <TemplateFieldDescription<DGlobalTemplateFieldUpdate>
             name="description"
             control={control}
