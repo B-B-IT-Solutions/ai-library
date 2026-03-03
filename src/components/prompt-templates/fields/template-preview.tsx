@@ -6,7 +6,10 @@ import remarkGfm from "remark-gfm";
 import { visit } from "unist-util-visit";
 
 import { components } from "@/components/shared/md/react-md/components";
-import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
+import {
+   DPromptTemplate,
+   DPromptTemplateFieldValues,
+} from "@/data/types/domain/prompt.template";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type HastNode = any;
@@ -72,14 +75,14 @@ function rehypePlaceholders(values: DPromptTemplateFieldValues) {
 }
 
 type Props = {
-   content: string;
+   template: DPromptTemplate;
    values: DPromptTemplateFieldValues;
 };
 
-export const TemplatePreview: FC<Props> = ({ content, values }) => {
+export const TemplatePreview: FC<Props> = ({ template, values }) => {
    return (
       <div
-         className="text-slate-700 leading-relaxed"
+         className="leading-relaxed text-slate-700"
          data-testid="template-preview"
       >
          <ReactMarkdown
@@ -87,7 +90,7 @@ export const TemplatePreview: FC<Props> = ({ content, values }) => {
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[() => rehypePlaceholders(values)]}
          >
-            {content}
+            {template.content}
          </ReactMarkdown>
       </div>
    );

@@ -10,6 +10,7 @@ import { Button } from "@/components/shadcn/button";
 import { Form } from "@/components/shadcn/form";
 import { CallbackFn } from "@/data/types/common";
 import {
+   DPromptTemplateDataPromptGeneration,
    DPromptTemplateField,
    DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
@@ -23,18 +24,35 @@ import { buildFieldsSchema } from "./fields.schema";
 import { TemplatePreview } from "./template-preview";
 
 type Props = {
-   fields: DPromptTemplateField[];
+   templateData: DPromptTemplateDataPromptGeneration;
    onSubmit: (values: DPromptTemplateFieldValues) => void;
    onCancel: CallbackFn;
-   templateContent?: string;
 };
 
 export const TemplateFieldForm: FC<Props> = ({
-   fields,
+   templateData,
    onSubmit,
    onCancel,
-   templateContent,
 }) => {
+   const { template, globalFields } = templateData;
+
+   const mappedGlobalFields: DPromptTemplateField[] = map(
+      globalFields,
+      (f) => ({
+         id: f.id,
+         promptTemplateId: "",
+         name: f.name,
+         label: f.label,
+         description: f.description,
+         type: f.type,
+         required: f.required,
+         order: f.order,
+         defaultValue: f.defaultValue,
+         options: f.options,
+      })
+   );
+   const fields = [...mappedGlobalFields, ...template.fields];
+
    const fieldsSchema = buildFieldsSchema(fields);
    type DFieldsType = z.infer<typeof fieldsSchema>;
 
@@ -107,7 +125,7 @@ export const TemplateFieldForm: FC<Props> = ({
             className="space-y-4"
             data-testid="prompt-template-fields-form"
          >
-            {templateContent ? (
+            {template.content ? (
                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                   <div className="flex flex-col gap-2">
                      <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
@@ -115,7 +133,7 @@ export const TemplateFieldForm: FC<Props> = ({
                      </p>
                      <div className="max-h-[60vh] flex-1 overflow-y-auto rounded-md border bg-muted/30 p-4">
                         <TemplatePreview
-                           content={templateContent}
+                           template={template}
                            values={currentValues}
                         />
                      </div>

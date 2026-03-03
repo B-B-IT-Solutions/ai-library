@@ -1,6 +1,5 @@
 "use client";
 
-import { map } from "es-toolkit/compat";
 import { X } from "lucide-react";
 
 import { TemplateFieldForm } from "@/components/prompt-templates";
@@ -15,7 +14,6 @@ import { CallbackFn } from "@/data/types/common";
 import {
    DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
-   DPromptTemplateField,
    DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
 
@@ -33,35 +31,15 @@ export const CreateTemplateFieldsFormDialog = ({
    templateData,
 }: Props) => {
    const content = () => {
-      const mappedGlobalFields: DPromptTemplateField[] = map(
-         templateData.globalFields,
-         (f) => ({
-            id: f.id,
-            promptTemplateId: "",
-            name: f.name,
-            label: f.label,
-            description: f.description,
-            type: f.type,
-            required: f.required,
-            order: f.order,
-            defaultValue: f.defaultValue,
-            options: f.options,
-         })
-      );
-      const allFields = [
-         ...mappedGlobalFields,
-         ...templateData.template.fields,
-      ];
       return (
          <div className="space-y-4">
             <div className="text-sm text-muted-foreground">
                <p className="font-semibold">{descriptor.title}</p>
             </div>
             <TemplateFieldForm
-               fields={allFields}
+               templateData={templateData}
                onSubmit={onSubmit}
                onCancel={onCancel}
-               templateContent={templateData.template.content}
             />
          </div>
       );
