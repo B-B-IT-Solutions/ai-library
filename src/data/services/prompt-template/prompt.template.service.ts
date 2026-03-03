@@ -1,4 +1,4 @@
-import { map } from "es-toolkit/compat";
+import { filter, map } from "es-toolkit/compat";
 
 import { PromptTemplateRepository } from "@/data/repositories/prompt-template";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
@@ -8,9 +8,11 @@ import {
    DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
    DPromptTemplateDescriptorWithTemplate,
+   DPromptTemplateField,
    DPromptTemplateFieldValues,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
+import { DGlobalTemplateField } from "@/data/types/domain/settings";
 import { SettingsService } from "../settings";
 
 import { TemplateEngine } from "./template.engine";
@@ -48,34 +50,23 @@ export class PromptTemplateService {
          const existingFieldNames = new Set(
             map(template.fields, (f) => f.name)
          );
-         const missingVariables = TemplateEngine.extractVariables(
+         const existingTemplateVariables = TemplateEngine.extractVariables(
             template.content
-         ).filter((name) => !existingFieldNames.has(name));
+         );
+         const missingTemplateVariables = filter(
+            existingTemplateVariables,
+            (name) => !existingFieldNames.has(name)
+         );
 
-         const resolvedTemplate =
-            missingVariables.length === 0
-               ? template
-               : {
-                    ...template,
-                    fields: [
-                       ...template.fields,
-                       ...missingVariables.map((name, index) => ({
-                          id: name,
-                          promptTemplateId: template.id,
-                          name,
-                          label: name,
-                          description: null,
-                          type: "TEXT" as const,
-                          required: true,
-                          order: template.fields.length + index,
-                          defaultValue: null,
-                       })),
-                    ],
-                 };
+         const allFields = [
+            ...template.fields,
+            ...this.globalFieldToTemplateFields(globalFields),
+            ...this.missingVariablesToTemplateFields(missingTemplateVariables),
+         ];
 
          return {
-            template: resolvedTemplate,
-            globalFields,
+            template,
+            allFields,
          };
       }
       return null;
@@ -151,6 +142,54 @@ export class PromptTemplateService {
          recommendedModel: descriptor.recommendedModel,
          categories: descriptor.categories.map((cat) => cat.name),
          followUpPrompts: [],
+      };
+   }
+
+   private globalFieldToTemplateFields(
+      gfs: DGlobalTemplateField[]
+   ): DPromptTemplateField[] {
+      return map(gfs, this.globalFieldToTemplateField);
+   }
+
+   private globalFieldToTemplateField(
+      gf: DGlobalTemplateField
+   ): DPromptTemplateField {
+      return {
+         id: gf.id,
+         promptTemplateId: "",
+         name: gf.name,
+         label: gf.label,
+         description: gf.description,
+         type: gf.type,
+         required: gf.required,
+         order: gf.order,
+         defaultValue: gf.defaultValue,
+         options: gf.options,
+      };
+   }
+
+   private missingVariablesToTemplateFields(
+      variableNames: string[]
+   ): DPromptTemplateField[] {
+      return map(variableNames, (v, idx) =>
+         this.missingVariableToTemplateField(v, idx)
+      );
+   }
+
+   private missingVariableToTemplateField(
+      name: string,
+      index: number
+   ): DPromptTemplateField {
+      return {
+         id: name,
+         promptTemplateId: "",
+         name,
+         label: name,
+         description: null,
+         type: "TEXT" as const,
+         required: true,
+         order: 100 + index,
+         defaultValue: null,
       };
    }
 }

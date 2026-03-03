@@ -40,8 +40,7 @@ export const CreatePromptButton: FC<Props> = ({ descriptor, className }) => {
             descriptor.promptTemplateId
          );
 
-         const { template, globalFields } = data || {};
-         const hasFields = !isEmpty(template?.fields) || !isEmpty(globalFields);
+         const hasFields = !isEmpty(data?.allFields);
 
          if (hasFields) {
             setTemplateData(data);

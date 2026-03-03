@@ -81,10 +81,8 @@ describe("CreateTemplateFieldsFormDialog functionality tests", () => {
          field_0: "option 1",
          field_1: "option 1",
          field_2: "option 1",
-         name_0: "defaultValue-0",
-         name_1: "defaultValue-1",
-         name_2: "defaultValue-2",
       };
+
       expect(submitFn).toHaveBeenCalledTimes(1);
       expect(submitFn).toHaveBeenCalledWith(expectedValues);
       expect(cancelFn).not.toHaveBeenCalled();

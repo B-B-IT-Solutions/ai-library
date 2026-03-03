@@ -34,24 +34,7 @@ export const TemplateFieldForm: FC<Props> = ({
    onSubmit,
    onCancel,
 }) => {
-   const { template, globalFields } = templateData;
-
-   const mappedGlobalFields: DPromptTemplateField[] = map(
-      globalFields,
-      (f) => ({
-         id: f.id,
-         promptTemplateId: "",
-         name: f.name,
-         label: f.label,
-         description: f.description,
-         type: f.type,
-         required: f.required,
-         order: f.order,
-         defaultValue: f.defaultValue,
-         options: f.options,
-      })
-   );
-   const fields = [...mappedGlobalFields, ...template.fields];
+   const { template, allFields: fields } = templateData;
 
    const fieldsSchema = buildFieldsSchema(fields);
 
