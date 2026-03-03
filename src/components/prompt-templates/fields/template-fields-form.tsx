@@ -3,7 +3,7 @@
 import { FC } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { map, reduce } from "es-toolkit/compat";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/shadcn/button";
@@ -54,6 +54,7 @@ export const TemplateFieldForm: FC<Props> = ({
    const fields = [...mappedGlobalFields, ...template.fields];
 
    const fieldsSchema = buildFieldsSchema(fields);
+
    type DFieldsType = z.infer<typeof fieldsSchema>;
 
    const form = useForm<DFieldsType>({
@@ -69,7 +70,9 @@ export const TemplateFieldForm: FC<Props> = ({
       ),
    });
 
-   const currentValues = form.watch() as DPromptTemplateFieldValues;
+   const currentValues = useWatch<DFieldsType>({
+      control: form.control,
+   }) as DPromptTemplateFieldValues;
 
    const renderField = (field: DPromptTemplateField) => {
       switch (field.type) {
@@ -99,23 +102,48 @@ export const TemplateFieldForm: FC<Props> = ({
       onSubmit(data as DPromptTemplateFieldValues);
    };
 
-   const formContent = (
-      <>
+   const preview = () => {
+      return (
+         <div className="flex flex-col gap-2">
+            <div className="max-h-[65vh] flex-1 overflow-y-auto rounded-md border bg-muted/30 p-4">
+               <TemplatePreview template={template} values={currentValues} />
+            </div>
+            <p className="text-xs text-muted-foreground">
+               <span className="mr-1 inline-block rounded bg-orange-100 px-1 text-orange-700 italic">
+                  {"{{platzhalter}}"}
+               </span>
+               noch nicht ausgefüllt ·{" "}
+               <span className="mr-1 inline-block rounded bg-green-100 px-1 font-medium text-green-800">
+                  wert
+               </span>
+               ausgefüllt
+            </p>
+         </div>
+      );
+   };
+
+   const fieldInputs = () => (
+      <div className="flex flex-col justify-between">
          <div className="space-y-4">{renderFields()}</div>
          <div className="flex justify-end gap-2 pt-2">
             <Button
                type="button"
                variant="outline"
                onClick={onCancel}
+               className="cursor-pointer"
                data-testid="cancel-btn"
             >
                Abbrechen
             </Button>
-            <Button type="submit" data-testid="submit-btn">
+            <Button
+               type="submit"
+               className="cursor-pointer"
+               data-testid="submit-btn"
+            >
                Vorschau generieren
             </Button>
          </div>
-      </>
+      </div>
    );
 
    return (
@@ -125,34 +153,10 @@ export const TemplateFieldForm: FC<Props> = ({
             className="space-y-4"
             data-testid="prompt-template-fields-form"
          >
-            {template.content ? (
-               <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-                  <div className="flex flex-col gap-2">
-                     <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
-                        Prompt-Vorschau
-                     </p>
-                     <div className="max-h-[60vh] flex-1 overflow-y-auto rounded-md border bg-muted/30 p-4">
-                        <TemplatePreview
-                           template={template}
-                           values={currentValues}
-                        />
-                     </div>
-                     <p className="text-xs text-muted-foreground">
-                        <span className="mr-1 inline-block rounded bg-orange-100 px-1 text-orange-700 italic">
-                           {"{{platzhalter}}"}
-                        </span>
-                        noch nicht ausgefüllt ·{" "}
-                        <span className="mr-1 inline-block rounded bg-green-100 px-1 font-medium text-green-800">
-                           wert
-                        </span>
-                        ausgefüllt
-                     </p>
-                  </div>
-                  <div className="space-y-4">{formContent}</div>
-               </div>
-            ) : (
-               formContent
-            )}
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+               {preview()}
+               {fieldInputs()}
+            </div>
          </form>
       </Form>
    );
