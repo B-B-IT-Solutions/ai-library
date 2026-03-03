@@ -4,12 +4,14 @@ type ReactMarkdownProps = {
    children: ReactNode;
    components?: any;
    remarkPlugins?: any[];
+   rehypePlugins?: any[];
 };
 
 const ReactMarkdown: FC<ReactMarkdownProps> = ({
    children,
    components,
    remarkPlugins,
+   rehypePlugins,
    ...props
 }) => {
    return (

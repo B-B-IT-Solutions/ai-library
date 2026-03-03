@@ -45,6 +45,7 @@ import {
    DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateField,
    DPromptTemplateFieldUpdate,
+   DPromptTemplateFieldValues,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 import {
@@ -604,6 +605,16 @@ export const dPromptTemplateFieldUpdate = (
       order: index,
       options: ["option 1", "option 2", "option 3"],
       defaultValue: "option 1",
+   };
+};
+
+export const dPromptTemplateFieldValues = (
+   index = 1
+): DPromptTemplateFieldValues => {
+   return {
+      field_1: `value 1 - ${index}`,
+      field_2: `value 2 - ${index}`,
+      field_3: `value 3 - ${index}`,
    };
 };
 

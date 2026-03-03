@@ -1,7 +1,8 @@
 import { render, screen } from "@testing-library/react";
-import { assertInDocument } from "@tests";
+import { assertInDocument, assertStringifyEqual, dtestData } from "@tests";
 
-import { ReactMd } from "./react-md";
+import { rehypePlaceholders } from "./plugins/rehype-placeholders";
+import { ReactMd, toRehypePlugins } from "./react-md";
 
 const assertRendered = () => {
    const renderer = screen.getByTestId("react-md");
@@ -25,5 +26,34 @@ describe("ReactMd rendering tests", () => {
       assertRendered();
 
       expect(container).toMatchSnapshot();
+   });
+});
+
+describe("ReactMd funcitonality tests", () => {
+   it("toRehypePlugins - valid plugins - test", () => {
+      const values = dtestData.dPromptTemplateFieldValues();
+      const plugins = [
+         {
+            type: "rehype-placeholders" as const,
+            value: values,
+         },
+      ];
+      const rehypePlugins = toRehypePlugins(plugins);
+      const expectedRehypePlugins = [() => rehypePlaceholders(values)];
+      assertStringifyEqual(rehypePlugins, expectedRehypePlugins);
+   });
+
+   it("toRehypePlugins - invalid plugins - test", async () => {
+      const values = dtestData.dPromptTemplateFieldValues();
+      const plugins = [
+         {
+            type: "invalid" as const,
+            value: values,
+         },
+      ];
+
+      const fn = () => toRehypePlugins(plugins);
+
+      await expect(fn).rejects.toThrow(Error);
    });
 });
