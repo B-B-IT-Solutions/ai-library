@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { render, screen } from "@testing-library/react";
-import { assertInDocument, dtestData } from "@tests";
+import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { DGlobalTemplateFieldUpdate } from "@/data/types/domain/settings";
@@ -41,12 +41,35 @@ const assertRendered = () => {
    assertInDocument(required);
 };
 
+const assertOptionsRendered = () => {
+   const options = screen.getByTestId("options");
+   assertInDocument(options);
+};
+
+const assertOptionsNotRendered = () => {
+   const options = screen.queryByTestId("options");
+   assertNotInDocument(options);
+};
+
 describe("GlobalTemplateFieldForm rendering tests", () => {
-   it("GlobalTemplateFieldForm rendered test", () => {
+   it("GlobalTemplateFieldForm - type NUMBER - test", () => {
       const data = dtestData.dGlobalTemplateFieldUpdate();
+      data.type = "NUMBER";
       const { container } = render(<TestWrapper data={data} />);
 
       assertRendered();
+      assertOptionsNotRendered();
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("GlobalTemplateFieldForm - type SELECT - test", () => {
+      const data = dtestData.dGlobalTemplateFieldUpdate();
+      data.type = "SELECT";
+      const { container } = render(<TestWrapper data={data} />);
+
+      assertRendered();
+      assertOptionsRendered();
 
       expect(container).toMatchSnapshot();
    });
