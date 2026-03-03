@@ -47,21 +47,22 @@ export class PromptTemplateService {
                template.globalFieldIds
             );
 
-         const existingFieldNames = new Set(
-            map(template.fields, (f) => f.name)
-         );
-         const existingTemplateVariables = TemplateEngine.extractVariables(
+         const allFieldNames = new Set([
+            ...map(template.fields, (f) => f.name),
+            ...map(globalFields, (f) => f.name),
+         ]);
+         const allVariableNames = TemplateEngine.extractVariables(
             template.content
          );
-         const missingTemplateVariables = filter(
-            existingTemplateVariables,
-            (name) => !existingFieldNames.has(name)
+         const missingVariableNames = filter(
+            allVariableNames,
+            (name) => !allFieldNames.has(name)
          );
 
          const allFields = [
             ...template.fields,
-            ...this.globalFieldToTemplateFields(globalFields),
-            ...this.missingVariablesToTemplateFields(missingTemplateVariables),
+            ...this.globalFieldsToTemplateFields(globalFields),
+            ...this.missingVariablesToTemplateFields(missingVariableNames),
          ];
 
          return {
@@ -69,6 +70,7 @@ export class PromptTemplateService {
             allFields,
          };
       }
+
       return null;
    }
 
@@ -145,7 +147,30 @@ export class PromptTemplateService {
       };
    }
 
-   private globalFieldToTemplateFields(
+   private resolveAllTemplateFields(
+      template: DPromptTemplate,
+      globalFields: DGlobalTemplateField[]
+   ) {
+      const allFieldNames = new Set([
+         ...map(template.fields, (f) => f.name),
+         ...map(globalFields, (f) => f.name),
+      ]);
+      const allVariableNames = TemplateEngine.extractVariables(
+         template.content
+      );
+      const missingVariableNames = filter(
+         allVariableNames,
+         (name) => !allFieldNames.has(name)
+      );
+
+      return [
+         ...template.fields,
+         ...this.globalFieldsToTemplateFields(globalFields),
+         ...this.missingVariablesToTemplateFields(missingVariableNames),
+      ];
+   }
+
+   private globalFieldsToTemplateFields(
       gfs: DGlobalTemplateField[]
    ): DPromptTemplateField[] {
       return map(gfs, this.globalFieldToTemplateField);
