@@ -52,8 +52,7 @@ describe("CreatePromptButton rendering tests", () => {
 
    it("CreatePromptButton - without fields - rendered test", async () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
-      data.template.fields = [];
-      data.globalFields = [];
+      data.allFields = [];
       getPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
@@ -124,8 +123,7 @@ describe("CreatePromptButton functionality - no fields - tests", () => {
 
    it("CreatePromptButton - submit clicked - success - test", async () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
-      data.template.fields = [];
-      data.globalFields = [];
+      data.allFields = [];
       getPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
       const promptUpdate = dtestData.dPromptUpdate();
@@ -157,8 +155,7 @@ describe("CreatePromptButton functionality - no fields - tests", () => {
 
    it("CreatePromptButton - submit clicked - error - test", async () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
-      data.template.fields = [];
-      data.globalFields = [];
+      data.allFields = [];
       getPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
       const result: ActionResult<DPromptUpdate> = {
@@ -230,10 +227,8 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
          field_0: "option 1",
          field_1: "option 1",
          field_2: "option 1",
-         name_0: "defaultValue-0",
-         name_1: "defaultValue-1",
-         name_2: "defaultValue-2",
       };
+
       expect(composePromptFromTemplateMock).toHaveBeenCalledTimes(1);
       expect(composePromptFromTemplateMock).toHaveBeenCalledWith(
          descriptor.id,
@@ -280,10 +275,8 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
          field_0: "option 1",
          field_1: "option 1",
          field_2: "option 1",
-         name_0: "defaultValue-0",
-         name_1: "defaultValue-1",
-         name_2: "defaultValue-2",
       };
+
       await waitFor(() => {
          expect(composePromptFromTemplateMock).toHaveBeenCalledTimes(1);
          expect(composePromptFromTemplateMock).toHaveBeenCalledWith(

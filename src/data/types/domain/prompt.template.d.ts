@@ -28,7 +28,7 @@ export type DPromptTemplate = {
 
 export type DPromptTemplateDataPromptGeneration = {
    template: DPromptTemplate;
-   globalFields: DGlobalTemplateField[];
+   allFields: DPromptTemplateField[];
 };
 
 export type DPromptTemplateDescriptor = {

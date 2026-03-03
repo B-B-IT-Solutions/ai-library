@@ -71,7 +71,7 @@ describe("TemplateFieldForm rendering tests", () => {
       ];
 
       const templateData = dtestData.dPromptTemplateDataPromptGeneration();
-      templateData.template.fields = fields;
+      templateData.allFields = fields;
 
       const onSubmit = jest.fn();
       const onCancel = jest.fn();
@@ -94,9 +94,9 @@ describe("TemplateFieldForm rendering tests", () => {
 
 describe("TemplateFieldForm functionality tests", () => {
    it("TemplateFieldForm - submit btn clicked - test", async () => {
-      const field = createField("TEXT", "name", "Name");
+      const field = createField("TEXT", "name", "Name", true);
       const templateData = dtestData.dPromptTemplateDataPromptGeneration();
-      templateData.template.fields.push(field);
+      templateData.allFields.push(field);
 
       const onSubmit = jest.fn();
       const onCancel = jest.fn();
@@ -111,11 +111,18 @@ describe("TemplateFieldForm functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         expect(onSubmit).not.toHaveBeenCalled();
+      });
+
+      const submitBtn = screen.getByTestId("submit-btn");
+      await userEvent.click(submitBtn);
+
+      await waitFor(() => {
+         expect(onSubmit).not.toHaveBeenCalled();
       });
 
       await typeIntoInput("name", "John Doe");
 
-      const submitBtn = screen.getByTestId("submit-btn");
       await userEvent.click(submitBtn);
 
       const expectedPayload: DPromptTemplateFieldValues = {
@@ -123,10 +130,8 @@ describe("TemplateFieldForm functionality tests", () => {
          field_0: "option 1",
          field_1: "option 1",
          field_2: "option 1",
-         name_0: "defaultValue-0",
-         name_1: "defaultValue-1",
-         name_2: "defaultValue-2",
       };
+
       await waitFor(() => {
          expect(onSubmit).toHaveBeenCalledTimes(1);
          expect(onSubmit).toHaveBeenCalledWith(expectedPayload);

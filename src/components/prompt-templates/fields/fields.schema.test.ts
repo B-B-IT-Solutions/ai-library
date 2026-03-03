@@ -235,6 +235,75 @@ describe("fieldsSchema - text - tests", () => {
       }
    });
 
+   it("text - invalid - empty - required - test", () => {
+      const field = createField("TEXT", true, "name");
+      const fields = [field];
+      const schema = buildFieldsSchema(fields);
+
+      const result = schema.safeParse({ name: "" });
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+         expect(result.error.issues[0].message).toBe("Test Field ist erforderlich");
+      }
+   });
+
+   it("textarea - valid - required - test", () => {
+      const field = createField("TEXTAREA", true, "description");
+      const fields = [field];
+      const schema = buildFieldsSchema(fields);
+
+      const result = schema.safeParse({ description: "Long text here" });
+
+      expect(result.success).toBe(true);
+   });
+
+   it("textarea - invalid - empty - required - test", () => {
+      const field = createField("TEXTAREA", true, "description");
+      const fields = [field];
+      const schema = buildFieldsSchema(fields);
+
+      const result = schema.safeParse({ description: "" });
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+         expect(result.error.issues[0].message).toBe("Test Field ist erforderlich");
+      }
+   });
+
+   it("select - valid - required - test", () => {
+      const field = createField("SELECT", true, "country");
+      const fields = [field];
+      const schema = buildFieldsSchema(fields);
+
+      const result = schema.safeParse({ country: "DE" });
+
+      expect(result.success).toBe(true);
+   });
+
+   it("select - valid - optional - test", () => {
+      const field = createField("SELECT", false, "country");
+      const fields = [field];
+      const schema = buildFieldsSchema(fields);
+
+      const result = schema.safeParse({ country: "" });
+
+      expect(result.success).toBe(true);
+   });
+
+   it("select - invalid - empty - required - test", () => {
+      const field = createField("SELECT", true, "country");
+      const fields = [field];
+      const schema = buildFieldsSchema(fields);
+
+      const result = schema.safeParse({ country: "" });
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+         expect(result.error.issues[0].message).toBe("Test Field ist erforderlich");
+      }
+   });
+
    it("radio - valid - optional - test", () => {
       const field = createField("RADIO", false, "choice");
       const fields = [field];
@@ -245,6 +314,29 @@ describe("fieldsSchema - text - tests", () => {
       expect(result.success).toBe(true);
       if (result.success) {
          expect(result.data.choice).toBe("Option A");
+      }
+   });
+
+   it("radio - valid - required - test", () => {
+      const field = createField("RADIO", true, "choice");
+      const fields = [field];
+      const schema = buildFieldsSchema(fields);
+
+      const result = schema.safeParse({ choice: "Option A" });
+
+      expect(result.success).toBe(true);
+   });
+
+   it("radio - invalid - empty - required - test", () => {
+      const field = createField("RADIO", true, "choice");
+      const fields = [field];
+      const schema = buildFieldsSchema(fields);
+
+      const result = schema.safeParse({ choice: "" });
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+         expect(result.error.issues[0].message).toBe("Test Field ist erforderlich");
       }
    });
 });

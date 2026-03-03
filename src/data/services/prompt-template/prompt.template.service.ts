@@ -1,3 +1,5 @@
+import { filter, map } from "es-toolkit/compat";
+
 import { PromptTemplateRepository } from "@/data/repositories/prompt-template";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
@@ -6,9 +8,11 @@ import {
    DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
    DPromptTemplateDescriptorWithTemplate,
+   DPromptTemplateField,
    DPromptTemplateFieldValues,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
+import { DGlobalTemplateField } from "@/data/types/domain/settings";
 import { SettingsService } from "../settings";
 
 import { TemplateEngine } from "./template.engine";
@@ -43,11 +47,17 @@ export class PromptTemplateService {
                template.globalFieldIds
             );
 
+         const allFields = this.resolveAllTemplateFields(
+            template,
+            globalFields
+         );
+
          return {
             template,
-            globalFields,
+            allFields,
          };
       }
+
       return null;
    }
 
@@ -121,6 +131,77 @@ export class PromptTemplateService {
          recommendedModel: descriptor.recommendedModel,
          categories: descriptor.categories.map((cat) => cat.name),
          followUpPrompts: [],
+      };
+   }
+
+   resolveAllTemplateFields(
+      template: DPromptTemplate,
+      globalFields: DGlobalTemplateField[]
+   ) {
+      const allFieldNames = new Set([
+         ...map(template.fields, (f) => f.name),
+         ...map(globalFields, (f) => f.name),
+      ]);
+      const allVariableNames = TemplateEngine.extractVariables(
+         template.content
+      );
+      const missingVariableNames = filter(
+         allVariableNames,
+         (name) => !allFieldNames.has(name)
+      );
+
+      return [
+         ...template.fields,
+         ...this.globalFieldsToTemplateFields(globalFields),
+         ...this.missingVariablesToTemplateFields(missingVariableNames),
+      ];
+   }
+
+   private globalFieldsToTemplateFields(
+      gfs: DGlobalTemplateField[]
+   ): DPromptTemplateField[] {
+      return map(gfs, this.globalFieldToTemplateField);
+   }
+
+   private globalFieldToTemplateField(
+      gf: DGlobalTemplateField
+   ): DPromptTemplateField {
+      return {
+         id: gf.id,
+         promptTemplateId: "",
+         name: gf.name,
+         label: gf.label,
+         description: gf.description,
+         type: gf.type,
+         required: gf.required,
+         order: gf.order,
+         defaultValue: gf.defaultValue,
+         options: gf.options,
+      };
+   }
+
+   private missingVariablesToTemplateFields(
+      variableNames: string[]
+   ): DPromptTemplateField[] {
+      return map(variableNames, (v, idx) =>
+         this.missingVariableToTemplateField(v, idx)
+      );
+   }
+
+   private missingVariableToTemplateField(
+      name: string,
+      index: number
+   ): DPromptTemplateField {
+      return {
+         id: name,
+         promptTemplateId: "",
+         name,
+         label: name,
+         description: null,
+         type: "TEXT" as const,
+         required: true,
+         order: 100 + index,
+         defaultValue: null,
       };
    }
 }

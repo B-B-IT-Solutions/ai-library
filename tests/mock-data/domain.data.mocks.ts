@@ -509,7 +509,7 @@ export const dPromptTemplateDataPromptGeneration = (
 ): DPromptTemplateDataPromptGeneration => {
    return {
       template: dPromptTemplate(index),
-      globalFields: dGlobalTemplateFields(),
+      allFields: dPromptTemplateFields(),
    };
 };
 
