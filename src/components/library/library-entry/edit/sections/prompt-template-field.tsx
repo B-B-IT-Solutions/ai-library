@@ -11,6 +11,7 @@ import {
    TemplateFieldLabel,
    TemplateFieldName,
    TemplateFieldRequired,
+   TemplateFieldSelectOptions,
    TemplateFieldType,
 } from "@/components/shared/template-fields";
 import { CallbackFn } from "@/data/types/common";
@@ -33,6 +34,9 @@ export const PromptTemplateField: FC<Props> = ({
    control,
    watch,
 }) => {
+   const type = watch(`fields.${index}.type`);
+   const options = watch(`fields.${index}.options`) ?? [];
+
    const header = () => {
       return (
          <div
@@ -86,6 +90,13 @@ export const PromptTemplateField: FC<Props> = ({
             />
             <TemplateFieldDefaultValue<DPromptTemplateUpdate>
                name={`fields.${index}.defaultValue`}
+               type={type}
+               options={options}
+               control={control}
+            />
+            <TemplateFieldSelectOptions<DPromptTemplateUpdate>
+               name={`fields.${index}.options`}
+               type={type}
                control={control}
             />
             <TemplateFieldDescription<DPromptTemplateUpdate>

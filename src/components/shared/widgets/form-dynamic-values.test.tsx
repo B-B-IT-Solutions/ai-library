@@ -40,7 +40,7 @@ const TestWrapper: FC<Props> = ({
 const assertRendered = (name: string) => {
    const field = screen.getByTestId(name);
    const input = screen.getByTestId("input");
-   const addBtn = screen.getByTestId("add-btn");
+   const addBtn = screen.getByTestId("add-value-btn");
 
    assertInDocument(field);
    assertInDocument(input);
@@ -133,7 +133,7 @@ describe("FormDynamicValues functionality tests", () => {
       );
 
       const input = screen.getByTestId("input") as HTMLInputElement;
-      const addBtn = screen.getByTestId("add-btn");
+      const addBtn = screen.getByTestId("add-value-btn");
 
       const value = "JavaScript";
       await userEvent.type(input, value);
@@ -180,7 +180,7 @@ describe("FormDynamicValues functionality tests", () => {
       const value = "JavaScript";
       assertValueRendered(value);
 
-      const removeBtns = screen.getAllByTestId("remove-btn");
+      const removeBtns = screen.getAllByTestId("remove-value-btn");
 
       await userEvent.click(removeBtns[0]);
 
@@ -203,7 +203,7 @@ describe("FormDynamicValues functionality tests", () => {
       });
 
       const input = screen.getByTestId("input");
-      const addBtn = screen.getByTestId("add-btn");
+      const addBtn = screen.getByTestId("add-value-btn");
 
       await userEvent.type(input, "JavaScript");
       await userEvent.click(addBtn);
@@ -226,7 +226,7 @@ describe("FormDynamicValues functionality tests", () => {
       assertValuesNotRendered();
 
       const input = screen.getByTestId("input");
-      const addBtn = screen.getByTestId("add-btn");
+      const addBtn = screen.getByTestId("add-value-btn");
 
       await userEvent.type(input, "   ");
       await userEvent.click(addBtn);

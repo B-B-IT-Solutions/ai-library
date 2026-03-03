@@ -56,7 +56,7 @@ export const FormDynamicValues = <T extends FieldValues>({
                         type="button"
                         onClick={() => handleRemoveValue(value)}
                         className="cursor-pointer text-slate-500 hover:text-slate-700"
-                        data-testid="remove-btn"
+                        data-testid="remove-value-btn"
                      >
                         <X className="h-3 w-3" />
                      </button>
@@ -89,7 +89,7 @@ export const FormDynamicValues = <T extends FieldValues>({
                onClick={handleAddValue}
                variant="outline"
                className="cursor-pointer"
-               data-testid="add-btn"
+               data-testid="add-value-btn"
             >
                <Plus className="h-4 w-4" />
                Hinzufügen
