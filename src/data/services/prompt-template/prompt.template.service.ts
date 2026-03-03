@@ -1,3 +1,5 @@
+import { map } from "es-toolkit/compat";
+
 import { PromptTemplateRepository } from "@/data/repositories/prompt-template";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
@@ -43,8 +45,36 @@ export class PromptTemplateService {
                template.globalFieldIds
             );
 
+         const existingFieldNames = new Set(
+            map(template.fields, (f) => f.name)
+         );
+         const missingVariables = TemplateEngine.extractVariables(
+            template.content
+         ).filter((name) => !existingFieldNames.has(name));
+
+         const resolvedTemplate =
+            missingVariables.length === 0
+               ? template
+               : {
+                    ...template,
+                    fields: [
+                       ...template.fields,
+                       ...missingVariables.map((name, index) => ({
+                          id: name,
+                          promptTemplateId: template.id,
+                          name,
+                          label: name,
+                          description: null,
+                          type: "TEXT" as const,
+                          required: true,
+                          order: template.fields.length + index,
+                          defaultValue: null,
+                       })),
+                    ],
+                 };
+
          return {
-            template,
+            template: resolvedTemplate,
             globalFields,
          };
       }
