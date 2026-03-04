@@ -2,43 +2,29 @@ jest.mock("sonner");
 
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import {
-   assertInDocument,
-   assertNotInDocument,
-   dtestData,
-   renderWithRouter,
-} from "@tests";
+import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 import mockRouter from "next-router-mock";
 
 import { PromptItem } from "./prompt-item";
 
 const assertRendered = () => {
    const listItem = screen.getByTestId("prompt-list-item");
-   const isFavorite = screen.getByTestId("is-favorite");
+   const viewBtn = screen.getByTestId("view-details-link-title");
+   const categories = screen.getByTestId("categories");
 
    assertInDocument(listItem);
-   assertInDocument(isFavorite);
-};
-
-const assertCategoriesRendered = () => {
-   const categories = screen.getByTestId("categories");
+   assertInDocument(viewBtn);
    assertInDocument(categories);
 };
 
-const assertCategoriesNotRendered = () => {
-   const categories = screen.queryByTestId("categories");
-   assertNotInDocument(categories);
-};
-
-describe("PromptListItem rendering tests", () => {
+describe("PromptItem rendering tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
    });
 
-   it("PromptListItem - isSelected false - rendered test", async () => {
+   it("PromptItem - categories empty - rendered test", async () => {
       const prompt = dtestData.dPromptDescriptor();
       prompt.categories = [];
-      prompt.isFavorite = false;
 
       const url = `/prompts/random-prompt-id-123`;
       const { container } = renderWithRouter(
@@ -48,13 +34,12 @@ describe("PromptListItem rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertCategoriesNotRendered();
       });
 
       expect(container).toMatchSnapshot();
    });
 
-   it("PromptListItem - isSelected true - rendered test", async () => {
+   it("PromptItem - with categories - rendered test", async () => {
       const prompt = dtestData.dPromptDescriptor();
 
       const url = `/prompts/${prompt.id}`;
@@ -64,55 +49,19 @@ describe("PromptListItem rendering tests", () => {
       );
       await waitFor(() => {
          assertRendered();
-         assertCategoriesRendered();
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("PromptListItem - categories 1 - rendered test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
-      const categories = dtestData.dPromptCategories(1);
-      prompt.categories = categories;
-
-      const url = `/prompts/${prompt.id}`;
-      const { container } = renderWithRouter(
-         <PromptItem prompt={prompt} />,
-         url
-      );
-      await waitFor(() => {
-         assertRendered();
-         assertCategoriesRendered();
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("PromptListItem - categories 2 - rendered test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
-      const categories = dtestData.dPromptCategories(3);
-      prompt.categories = categories;
-
-      const url = `/prompts/${prompt.id}`;
-      const { container } = renderWithRouter(
-         <PromptItem prompt={prompt} />,
-         url
-      );
-      await waitFor(() => {
-         assertRendered();
-         assertCategoriesRendered();
       });
 
       expect(container).toMatchSnapshot();
    });
 });
 
-describe("PromptListItem functionality tests", () => {
+describe("PromptItem functionality tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
+      mockRouter.push("/");
    });
 
-   it("PromptListItem - item clicked - test", async () => {
+   it("PromptItem - view btn clicked - test", async () => {
       const prompt = dtestData.dPromptDescriptor();
 
       const url = "/prompts";
@@ -123,8 +72,8 @@ describe("PromptListItem functionality tests", () => {
          expect(mockRouter.pathname).toEqual(url);
       });
 
-      const listItem = screen.getByTestId("prompt-list-item");
-      await userEvent.click(listItem);
+      const viewBtn = screen.getByTestId("view-details-link-title");
+      await userEvent.click(viewBtn);
 
       await waitFor(() => {
          expect(mockRouter.pathname).toEqual(`/prompts/${prompt.id}`);
