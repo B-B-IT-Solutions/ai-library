@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import {
    dehydrate,
    HydrationBoundary,
@@ -12,11 +13,11 @@ import {
    preloadPromptTemplatesOptions,
 } from "@/data/ts-queries/prompt";
 
-export type PromptsLayoutProps = {
-   children: React.ReactNode;
+export type Props = {
+   children: ReactNode;
 };
 
-const PromptsLayout = async (props: Readonly<PromptsLayoutProps>) => {
+const PromptsLayout = async (props: Readonly<Props>) => {
    const queryClient = new QueryClient();
    await queryClient.prefetchQuery(preloadPromptsOptions());
    await queryClient.prefetchQuery(preloadPromptCategoriesOptions());
