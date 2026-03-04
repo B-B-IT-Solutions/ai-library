@@ -84,11 +84,11 @@ describe("LibraryDashboard rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("LibraryEntries - groupBy datae - test", async () => {
+   it("LibraryEntries - groups - test", async () => {
       const { container } = renderWithRouter(
          <LibraryEntries
             viewMode={DListViewMode.LIST}
-            groupBy={DListGroupByMode.DATE}
+            groupBy={DListGroupByMode.MODEL}
             sortBy={DListSortByMode.DATE_DESC}
             filters={{}}
          />
