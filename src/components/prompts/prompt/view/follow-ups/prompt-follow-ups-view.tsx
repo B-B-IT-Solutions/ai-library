@@ -43,7 +43,7 @@ export const PromptFollowUps: FC<PromptFollowUpsProps> = ({ prompt }) => {
    const content = () => {
       if (expanded) {
          return (
-            <div className="space-y-2 mt-3">
+            <div className="mt-3 space-y-2">
                {map(followUps, (followUp) => (
                   <PromptFollowUp key={followUp.id} followUp={followUp} />
                ))}
@@ -58,11 +58,11 @@ export const PromptFollowUps: FC<PromptFollowUpsProps> = ({ prompt }) => {
          <div data-testid="prompt-follow-ups">
             <button
                onClick={() => setExpanded((prev) => !prev)}
-               className="w-full flex items-center justify-between py-2 hover:bg-slate-50 -mx-2 px-2 rounded-lg transition-colors cursor-pointer"
+               className="-mx-2 flex w-full cursor-pointer items-center justify-between rounded-lg px-2 py-2 transition-colors hover:bg-slate-50"
                data-testid="expand-btn"
             >
                <div className="flex items-center gap-2">
-                  <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
+                  <h3 className="flex items-center gap-2 text-lg font-semibold text-slate-900">
                      <MessageSquarePlus className="h-5 w-5 text-indigo-600" />
                      Folge-Prompts
                   </h3>

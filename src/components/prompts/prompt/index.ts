@@ -1,2 +1,2 @@
-export { PromptEdit } from "./prompt-edit";
-export { PromptView } from "./prompt-view";
+export { PromptEdit } from "./edit/prompt-edit";
+export { PromptView } from "./view/prompt-view";

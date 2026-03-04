@@ -3,11 +3,11 @@
 exports[`PromptFollowUp rendering tests PromptFollowUp rendered test 1`] = `
 <div>
   <div
-    class="group relative flex items-center justify-between p-3 bg-slate-50 rounded-lg border border-slate-200"
+    class="group relative flex items-center justify-between rounded-lg border border-slate-200 bg-slate-50 p-3"
     data-testid="prompt-follow-up"
   >
     <pre
-      class="whitespace-pre-wrap text-sm font-mono text-slate-700 pr-10"
+      class="pr-10 font-mono text-sm whitespace-pre-wrap text-slate-700"
       data-testid="text"
     >
       content 1

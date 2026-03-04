@@ -22,7 +22,7 @@ import {
    DeletePromptButton,
    EditPromptButton,
    ToggleFavoriteButton,
-} from "../buttons";
+} from "../../buttons";
 
 import { PromptContent } from "./content/prompt-content-view";
 import { PromptFollowUps } from "./follow-ups/prompt-follow-ups-view";
