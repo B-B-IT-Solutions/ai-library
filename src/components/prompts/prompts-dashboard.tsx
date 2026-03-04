@@ -5,8 +5,15 @@ import {
 } from "@tanstack/react-query";
 
 import { infiniteLoadPromptsOptions } from "@/data/ts-queries/prompt/prompt";
+import {
+   DListGroupByMode,
+   DListSortByMode,
+   DListViewMode,
+} from "@/data/types/domain/common";
+import { DPromptDescriptorsFilter } from "@/data/types/domain/prompt";
 
 import { CreatePromptButton } from "./buttons";
+import { Prompts } from "./lists";
 
 export const PromptsDashboard = async () => {
    const queryClient = new QueryClient();
@@ -14,6 +21,11 @@ export const PromptsDashboard = async () => {
    await Promise.all([
       queryClient.prefetchInfiniteQuery(infiniteLoadPromptsOptions({})),
    ]);
+
+   const viewMode = DListViewMode.GRID;
+   const groupBy = DListGroupByMode.NONE;
+   const sortBy = DListSortByMode.DATE_DESC;
+   const filters: DPromptDescriptorsFilter = {};
 
    return (
       <HydrationBoundary state={dehydrate(queryClient)}>
@@ -47,12 +59,12 @@ export const PromptsDashboard = async () => {
             /> */}
 
             <div className="flex-1 overflow-y-auto">
-               {/* <LibraryEntries
+               <Prompts
                   viewMode={viewMode}
                   groupBy={groupBy}
                   sortBy={sortBy}
                   filters={filters}
-               /> */}
+               />
             </div>
          </div>
       </HydrationBoundary>

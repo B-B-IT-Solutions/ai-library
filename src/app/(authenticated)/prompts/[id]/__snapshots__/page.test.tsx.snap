@@ -3,7 +3,7 @@
 exports[`PromptPage rendering tests PromptPage - prompt found - rendered test 1`] = `
 <div>
   <div
-    class="h-screen flex flex-col bg-slate-50"
+    class="h-screen bg-slate-50"
     data-testid="prompt-page"
   >
     <div

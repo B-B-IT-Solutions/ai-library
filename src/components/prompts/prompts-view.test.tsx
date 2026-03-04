@@ -1,7 +1,7 @@
 import { screen, waitFor } from "@testing-library/react";
 import { assertInDocument, renderWithReactQuery } from "@tests";
 
-import { PromptView } from "./prompt-view";
+import { PromptView } from "./prompts-view";
 
 const assertRendered = () => {
    const view = screen.getByTestId("prompt-view");

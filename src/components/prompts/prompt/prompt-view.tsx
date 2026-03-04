@@ -1,4 +1,3 @@
-import { FC } from "react";
 import { isEmpty, map } from "es-toolkit/compat";
 import { Calendar, Clock, Cpu, MoreVertical } from "lucide-react";
 
@@ -29,11 +28,11 @@ import { PromptContent } from "./content/prompt-content-view";
 import { PromptFollowUps } from "./follow-ups/prompt-follow-ups-view";
 import { PromptVersions } from "./versions/prompt-versions";
 
-type PromptViewProps = {
+type Props = {
    prompt: DPromptDescriptor;
 };
 
-export const PromptView: FC<PromptViewProps> = ({ prompt }) => {
+export const PromptView = ({ prompt }: Props) => {
    const actions = () => {
       return (
          <div className="flex items-center gap-2">

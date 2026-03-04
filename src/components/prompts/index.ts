@@ -5,5 +5,5 @@ export { CreatePromptPreviewDialog } from "./dialogs/create-prompt-preview-dialo
 export { PromptListItem } from "./lists/items/prompt-list-item";
 export { PromptsEmpty } from "./prompts-empty";
 export { PromptsList } from "./lists/prompts-list";
-export { PromptView } from "./prompt-view";
+export { PromptView } from "./prompt/prompt-view";
 export { PromptCreateEdit } from "./prompt-create-edit";
