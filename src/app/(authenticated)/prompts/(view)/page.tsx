@@ -6,7 +6,7 @@ export const metadata = {
 
 const PromptsPage = async () => {
    return (
-      <div className="flex flex-col bg-slate-50" data-testid="prompts-page">
+      <div className="h-full" data-testid="prompts-page">
          <PromptView />
       </div>
    );

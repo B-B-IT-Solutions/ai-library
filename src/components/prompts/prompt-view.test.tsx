@@ -5,10 +5,10 @@ import { PromptView } from "./prompt-view";
 
 const assertRendered = () => {
    const view = screen.getByTestId("prompt-view");
-   const promptsEmpty = screen.getByTestId("prompts-empty");
+   const createBtn = screen.getByTestId("create-prompt-btn");
 
    assertInDocument(view);
-   assertInDocument(promptsEmpty);
+   assertInDocument(createBtn);
 };
 
 describe("PromptView rendering tests", () => {
