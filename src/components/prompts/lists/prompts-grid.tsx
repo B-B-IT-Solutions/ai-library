@@ -13,7 +13,7 @@ export const PromptsGrid = ({ prompts }: Props) => {
       return (
          <div
             className="flex flex-col items-center justify-center py-16 text-center"
-            data-testid="library-entries-empty"
+            data-testid="prompts-empty"
          >
             <p className="text-lg font-medium text-slate-600">
                Keine Prompts gefunden
@@ -28,7 +28,7 @@ export const PromptsGrid = ({ prompts }: Props) => {
    return (
       <div
          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-         data-testid="library-entries-grid"
+         data-testid="prompts-grid"
       >
          {map(prompts, (prompt) => (
             <PromptItem key={prompt.id} prompt={prompt} />
