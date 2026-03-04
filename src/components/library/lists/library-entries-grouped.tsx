@@ -5,6 +5,7 @@ import { groupBy as lodashGroupBy, map } from "es-toolkit/compat";
 
 import { DListGroupByMode } from "@/data/types/domain/common";
 import { DLibraryCollection, DLibraryEntry } from "@/data/types/domain/library";
+
 import { LibraryEntryCard } from "./items/library-entry-card";
 
 type GroupedEntries = {
@@ -52,7 +53,7 @@ export const LibraryEntriesGrouped: FC<LibraryEntriesGroupedProps> = ({
    }
 
    return (
-      <div className="space-y-8">
+      <div className="space-y-8" data-testid="library-entries-groups">
          {map(grouped, (group) => (
             <div key={group.key}>
                <h3 className="mb-4 text-lg font-semibold text-slate-800">
