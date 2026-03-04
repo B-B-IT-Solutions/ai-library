@@ -11,7 +11,7 @@ import {
 } from "@/components/shadcn/dialog";
 import { CallbackFn } from "@/data/types/common";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
-import { PromptEdit } from "../prompt/prompt-edit";
+import { PromptEdit } from "../prompt";
 
 type Props = {
    onCancel: CallbackFn;
