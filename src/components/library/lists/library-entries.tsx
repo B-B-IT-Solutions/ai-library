@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useMemo } from "react";
+import { useMemo } from "react";
 import { flatMap } from "es-toolkit/compat";
 
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
@@ -26,12 +26,12 @@ type Props = {
    filters: DLibraryEntriesFilter;
 };
 
-export const LibraryEntries: FC<Props> = ({
+export const LibraryEntries = ({
    viewMode,
    groupBy,
    sortBy,
    filters,
-}) => {
+}: Props) => {
    const { data: collections = [] } = useLoadLibraryCollections();
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
       useInfiniteLoadLibraryEntries({
@@ -56,20 +56,18 @@ export const LibraryEntries: FC<Props> = ({
 
    if (groupBy !== DListGroupByMode.NONE) {
       return (
-         <div className="p-6">
-            <LibraryEntriesGrouped
-               entries={entries}
-               groupBy={groupBy}
-               collections={collections}
-            />
-         </div>
+         <LibraryEntriesGrouped
+            entries={entries}
+            groupBy={groupBy}
+            collections={collections}
+         />
       );
    }
 
    if (viewMode === DListViewMode.LIST) {
       return (
          <InfiniteScroll
-            hasMore={hasNextPage ?? false}
+            hasMore={hasNextPage}
             isLoading={isFetching}
             next={fetchNextPage}
             threshold={0.7}
@@ -86,7 +84,7 @@ export const LibraryEntries: FC<Props> = ({
 
    return (
       <InfiniteScroll
-         hasMore={hasNextPage ?? false}
+         hasMore={hasNextPage}
          isLoading={isFetching}
          next={fetchNextPage}
          threshold={0.7}

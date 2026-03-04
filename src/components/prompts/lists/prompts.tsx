@@ -61,7 +61,7 @@ export const Prompts: FC<Props> = ({ viewMode, groupBy, sortBy, filters }) => {
 
    return (
       <InfiniteScroll
-         hasMore={hasNextPage ?? false}
+         hasMore={hasNextPage}
          isLoading={isFetching}
          next={fetchNextPage}
          threshold={0.7}
