@@ -86,7 +86,7 @@ describe("prefetch options tests", () => {
 
 describe("loadPrompts hooks tests", () => {
    test("infiniteLoadPromptsOptions - test", async () => {
-      const filter = dtestData.dPromptsFilter();
+      const filter = dtestData.dPromptDescriptorsFilter();
       const params: LoadPromptsParams = {
          search: "test 1",
          categories: filter.categories,
@@ -113,7 +113,7 @@ describe("loadPrompts hooks tests", () => {
    test("useInfiniteLoadPrompts test", async () => {
       const promptsPage = dtestData.dPromptDescriptorsPage();
       getPromptsMock.mockResolvedValue(promptsPage);
-      const filter = dtestData.dPromptsFilter();
+      const filter = dtestData.dPromptDescriptorsFilter();
       const params: LoadPromptsParams = {
          search: "test 1",
          categories: filter.categories,
