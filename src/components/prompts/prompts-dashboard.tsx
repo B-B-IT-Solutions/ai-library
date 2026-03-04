@@ -13,7 +13,7 @@ import {
 import { DPromptDescriptorsFilter } from "@/data/types/domain/prompt";
 
 import { CreatePromptButton } from "./buttons";
-import { Prompts } from "./lists";
+import { Prompts, PromptsToolbar } from "./lists";
 
 export const PromptsDashboard = async () => {
    const queryClient = new QueryClient();
@@ -49,12 +49,12 @@ export const PromptsDashboard = async () => {
                </div>
             </div>
 
-            {/* <LibraryToolbar
+            <PromptsToolbar
                viewMode={viewMode}
                filters={filters}
-               categories={categories}
-               models={models}
-            /> */}
+               categories={[]}
+               models={[]}
+            />
 
             <div className="flex-1 overflow-y-auto">
                <Prompts
