@@ -10,7 +10,7 @@ import {
 } from "@tests";
 import mockRouter from "next-router-mock";
 
-import { PromptListItem } from "./prompt-list-item";
+import { PromptItem } from "./prompt-item";
 
 const assertRendered = () => {
    const listItem = screen.getByTestId("prompt-list-item");
@@ -42,7 +42,7 @@ describe("PromptListItem rendering tests", () => {
 
       const url = `/prompts/random-prompt-id-123`;
       const { container } = renderWithRouter(
-         <PromptListItem prompt={prompt} />,
+         <PromptItem prompt={prompt} />,
          url
       );
 
@@ -59,7 +59,7 @@ describe("PromptListItem rendering tests", () => {
 
       const url = `/prompts/${prompt.id}`;
       const { container } = renderWithRouter(
-         <PromptListItem prompt={prompt} />,
+         <PromptItem prompt={prompt} />,
          url
       );
       await waitFor(() => {
@@ -77,7 +77,7 @@ describe("PromptListItem rendering tests", () => {
 
       const url = `/prompts/${prompt.id}`;
       const { container } = renderWithRouter(
-         <PromptListItem prompt={prompt} />,
+         <PromptItem prompt={prompt} />,
          url
       );
       await waitFor(() => {
@@ -95,7 +95,7 @@ describe("PromptListItem rendering tests", () => {
 
       const url = `/prompts/${prompt.id}`;
       const { container } = renderWithRouter(
-         <PromptListItem prompt={prompt} />,
+         <PromptItem prompt={prompt} />,
          url
       );
       await waitFor(() => {
@@ -116,7 +116,7 @@ describe("PromptListItem functionality tests", () => {
       const prompt = dtestData.dPromptDescriptor();
 
       const url = "/prompts";
-      renderWithRouter(<PromptListItem prompt={prompt} />, url);
+      renderWithRouter(<PromptItem prompt={prompt} />, url);
 
       await waitFor(() => {
          assertRendered();

@@ -47,8 +47,6 @@ export const PromptsDashboard = async () => {
                      <CreatePromptButton />
                   </div>
                </div>
-
-               {/* <CollectionsFilter filters={filters} /> */}
             </div>
 
             {/* <LibraryToolbar

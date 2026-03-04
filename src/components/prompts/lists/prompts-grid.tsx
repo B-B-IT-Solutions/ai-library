@@ -2,7 +2,7 @@ import { isEmpty, map } from "es-toolkit/compat";
 
 import { DPromptDescriptor } from "@/data/types/domain/prompt";
 
-import { PromptListItem } from "./items/prompt-list-item";
+import { PromptItem } from "./items/prompt-item";
 
 type Props = {
    prompts: DPromptDescriptor[];
@@ -31,7 +31,7 @@ export const PromptsGrid = ({ prompts }: Props) => {
          data-testid="library-entries-grid"
       >
          {map(prompts, (prompt) => (
-            <PromptListItem key={prompt.id} prompt={prompt} />
+            <PromptItem key={prompt.id} prompt={prompt} />
          ))}
       </div>
    );
