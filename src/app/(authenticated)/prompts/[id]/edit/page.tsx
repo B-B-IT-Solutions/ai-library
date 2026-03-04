@@ -25,7 +25,7 @@ const EditPromptPage = async (props: PageProps) => {
    return (
       <div
          className="flex h-screen flex-col bg-slate-50"
-         data-testid="edit-prompt-page"
+         data-testid="prompt-edit-page"
       >
          {/* Top Navigation Bar */}
          <div className="border-b border-slate-200 bg-white px-6 py-4">

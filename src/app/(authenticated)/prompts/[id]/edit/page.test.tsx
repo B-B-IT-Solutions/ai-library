@@ -18,7 +18,7 @@ const expectedMetadata: Metadata = {
 };
 
 const assertRendered = () => {
-   const page = screen.getByTestId("edit-prompt-page");
+   const page = screen.getByTestId("prompt-edit-page");
    const promptEdit = screen.getByTestId("prompt-edit");
 
    assertInDocument(page);
