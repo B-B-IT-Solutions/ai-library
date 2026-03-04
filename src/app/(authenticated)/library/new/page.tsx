@@ -4,7 +4,7 @@ import { LibraryEntryEdit } from "@/components/library";
 import { getGlobalTemplateFields } from "@/data/actions/settings";
 
 export const metadata: Metadata = {
-   title: "Neue Vorlage erstellen",
+   title: "Neue Vorlage",
 };
 
 export const NewLibraryEntryPage = async () => {

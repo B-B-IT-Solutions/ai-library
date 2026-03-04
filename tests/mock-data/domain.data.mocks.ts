@@ -717,12 +717,12 @@ export const dPromptsPageQuery = (): DPromptDescriptorsPageQuery => {
          pageNumber: 15,
          pageSize: 5,
       },
-      filter: dPromptsFilter(),
+      filter: dPromptDescriptorsFilter(),
       globalFilter: "test 1",
    };
 };
 
-export const dPromptsFilter = (): DPromptDescriptorsFilter => {
+export const dPromptDescriptorsFilter = (): DPromptDescriptorsFilter => {
    return {
       search: "search-1",
       categories: ["cat 1", "cat 2", "cat 3"],

@@ -1,5 +1,5 @@
 import {
-   BookOpen,
+   Braces,
    FileText,
    Package,
    Send,
@@ -12,16 +12,16 @@ import { DMenuItem } from "./types";
 
 export const navigationMenu1: DMenuItem[] = [
    {
+      id: "/library",
+      title: "Vorlagen",
+      icon: Braces,
+      url: "/library",
+   },
+   {
       id: "/prompts",
       title: "Prompts",
       icon: FileText,
       url: "/prompts",
-   },
-   {
-      id: "/library",
-      title: "Vorlagen",
-      icon: BookOpen,
-      url: "/library",
    },
 ];
 
