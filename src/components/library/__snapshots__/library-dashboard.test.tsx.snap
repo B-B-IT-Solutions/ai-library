@@ -16,7 +16,7 @@ exports[`LibraryDashboard rendering tests LibraryDashboard rendered test 1`] = `
           <h1
             class="text-2xl font-bold text-slate-900"
           >
-            Meine Bibliothek
+            Meine Prompt-Vorlagen
           </h1>
           <p
             class="mt-1 text-sm text-slate-600"
