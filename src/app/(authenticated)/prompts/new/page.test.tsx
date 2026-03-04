@@ -2,27 +2,27 @@ import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 
-import CreatePromptPage, { metadata } from "./page";
+import { metadata, NewPromptPage } from "./page";
 
 const expectedMetadata: Metadata = {
    title: "Create Prompt",
 };
 
 const assertRendered = () => {
-   const page = screen.getByTestId("create-prompt-page");
-   const promptCreateEdit = screen.getByTestId("prompt-create-edit");
+   const page = screen.getByTestId("prompt-new-page");
+   const promptCreateEdit = screen.getByTestId("prompt-edit");
 
    assertInDocument(page);
    assertInDocument(promptCreateEdit);
 };
 
-describe("CreatePromptPage rendering tests", () => {
+describe("NewPromptPage rendering tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
    });
 
-   it("CreatePromptPage - prompt found -rendered test", async () => {
-      const { container } = await renderAsyncRSC(CreatePromptPage, {});
+   it("NewPromptPage - prompt found -rendered test", async () => {
+      const { container } = await renderAsyncRSC(NewPromptPage, {});
 
       await waitFor(() => {
          assertRendered();
@@ -32,8 +32,8 @@ describe("CreatePromptPage rendering tests", () => {
    });
 });
 
-describe("CreatePromptPage functionality tests", () => {
-   it("CreatePromptPage - metadata - test", async () => {
+describe("NewPromptPage functionality tests", () => {
+   it("NewPromptPage - metadata - test", async () => {
       expect(metadata).toEqual(expectedMetadata);
    });
 });

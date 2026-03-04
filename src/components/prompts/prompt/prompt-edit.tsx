@@ -241,9 +241,7 @@ export const PromptEdit: FC<PromptEditProps> = ({ prompt, mode }) => {
                   className="space-y-6"
                   data-testid="edit-form"
                >
-                  <BasicInfoEdit
-                     control={form.control}
-                  />
+                  <BasicInfoEdit control={form.control} />
 
                   <Separator />
                   <PromptContentEdit control={form.control} isEdit={isEdit} />
