@@ -14,7 +14,7 @@ const getGlobalTemplateFieldsMock =
    >;
 
 const expectedMetadata: Metadata = {
-   title: "Neue Vorlage erstellen",
+   title: "Neue Vorlage",
 };
 
 const assertRendered = () => {

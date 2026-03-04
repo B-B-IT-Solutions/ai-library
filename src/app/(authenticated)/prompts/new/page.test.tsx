@@ -5,7 +5,7 @@ import { Metadata } from "next";
 import { metadata, NewPromptPage } from "./page";
 
 const expectedMetadata: Metadata = {
-   title: "Create Prompt",
+   title: "Neuer Prompt",
 };
 
 const assertRendered = () => {

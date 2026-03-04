@@ -1,7 +1,7 @@
 import { PromptEdit } from "@/components/prompts";
 
 export const metadata = {
-   title: "Create Prompt",
+   title: "Neuer Prompt",
 };
 
 export const NewPromptPage = async () => {
