@@ -48,7 +48,7 @@ export class PromptRepository {
       ]);
 
       return {
-         content: data,
+         content: data as PromptDescriptorWithRelations[],
          numberOfElements: data.length,
          pageNumber: pageNumber,
          pageSize: pageSize,
