@@ -17,6 +17,7 @@ import {
    PromptDescriptorCreateInput,
    PromptDescriptorUpdateInput,
    PromptFollowUpCreateWithoutPromptInput,
+   PromptFollowUpScalarWhereInput,
    PromptFollowUpUpdateManyWithoutPromptNestedInput,
    PromptFollowUpUpdateWithWhereUniqueWithoutPromptInput,
 } from "@/generated/prisma/models";
@@ -153,11 +154,7 @@ export class PromptService {
 
       const deleteMany = isEmpty(idsToDelete)
          ? undefined
-         : {
-              id: {
-                 in: idsToDelete,
-              },
-           };
+         : this.deleteFollowUpsInput(idsToDelete);
 
       const followUpPromptUpdates: PromptFollowUpUpdateManyWithoutPromptNestedInput =
          {
@@ -184,6 +181,15 @@ export class PromptService {
       });
    }
 
+   private createFollowUpsInput(
+      followUpPrompts: DPromptFollowUpUpdate[]
+   ): PromptFollowUpCreateWithoutPromptInput[] {
+      return map(followUpPrompts, (f) => ({
+         content: f.content,
+         order: f.order,
+      }));
+   }
+
    private updateFollowUpsInput(
       followUpPrompts: DPromptFollowUpUpdate[]
    ): PromptFollowUpUpdateWithWhereUniqueWithoutPromptInput[] {
@@ -193,12 +199,13 @@ export class PromptService {
       }));
    }
 
-   private createFollowUpsInput(
-      followUpPrompts: DPromptFollowUpUpdate[]
-   ): PromptFollowUpCreateWithoutPromptInput[] {
-      return map(followUpPrompts, (f) => ({
-         content: f.content,
-         order: f.order,
-      }));
+   private deleteFollowUpsInput(
+      followUpPromptIds: string[]
+   ): PromptFollowUpScalarWhereInput {
+      return {
+         id: {
+            in: followUpPromptIds,
+         },
+      };
    }
 }
