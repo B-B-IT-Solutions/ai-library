@@ -680,7 +680,7 @@ export const dPromptFollowUpUpdates = (count = 3): DPromptFollowUpUpdate[] => {
 
 export const dPromptFollowUpUpdate = (index = 1): DPromptFollowUpUpdate => {
    return {
-      content: `prompt follow up ${index}`,
+      content: `prompt follow up update ${index}`,
       order: index,
    };
 };
