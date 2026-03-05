@@ -18,6 +18,7 @@ import {
    PromptDescriptorUpdateInput,
    PromptFollowUpCreateWithoutPromptInput,
    PromptFollowUpUpdateManyWithoutPromptNestedInput,
+   PromptFollowUpUpdateWithWhereUniqueWithoutPromptInput,
 } from "@/generated/prisma/models";
 
 import { toDPromptDescriptor, toDPromptDescriptorsPage } from "./prompt.mapper";
@@ -144,10 +145,7 @@ export class PromptService {
 
       const update = isEmpty(followUpsWithId)
          ? undefined
-         : map(followUpsWithId, (f) => ({
-              where: { id: f.id! },
-              data: { content: f.content, order: f.order },
-           }));
+         : this.updateFollowUpsInput(followUpsWithId);
 
       const create = isEmpty(followUpsWithoutId)
          ? undefined
@@ -184,6 +182,15 @@ export class PromptService {
             },
          };
       });
+   }
+
+   private updateFollowUpsInput(
+      followUpPrompts: DPromptFollowUpUpdate[]
+   ): PromptFollowUpUpdateWithWhereUniqueWithoutPromptInput[] {
+      return map(followUpPrompts, (f) => ({
+         where: { id: f.id! },
+         data: { content: f.content, order: f.order },
+      }));
    }
 
    private createFollowUpsInput(
