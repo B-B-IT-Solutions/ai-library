@@ -47,6 +47,7 @@ import {
    PromptTemplateCategory,
    PromptTemplateDescriptor,
    PromptTemplateField,
+   PromptTemplateGlobalField,
    PromptVersion,
    Subscription,
    SubscriptionHistory,
@@ -507,7 +508,7 @@ export const pPromptTemplate = (index = 1): PromptTemplateWithFields => {
       id: `8b82ebb2-5966-4788-8fed-3ad18c08e28${index}`,
       content: `content ${index}`,
       fields: pPromptTemplateFields(3),
-      globalFields: pGlobalTemplateFields(),
+      globalFields: pPromptTemplateGlobalFields(),
       updatedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),
    };
@@ -657,6 +658,22 @@ export const pPromptVersion = (index = 1): PromptVersion => {
       version: index,
       content: `content ${index}`,
       createdAt: new Date("2025-09-27"),
+   };
+};
+
+export const pPromptTemplateGlobalFields = (
+   count = 3
+): PromptTemplateGlobalField[] => {
+   return range(0, count).map((i) => pPromptTemplateGlobalField(i));
+};
+
+export const pPromptTemplateGlobalField = (
+   index = 1
+): PromptTemplateGlobalField => {
+   return {
+      globalFieldId: `global-field-id-${index}`,
+      promptTemplateId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      order: index,
    };
 };
 

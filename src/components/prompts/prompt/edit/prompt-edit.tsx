@@ -57,7 +57,7 @@ export const PromptEdit: FC<PromptEditProps> = ({ prompt, mode }) => {
             content: prompt.content,
             categories: prompt.categories.map((c) => c.name),
             recommendedModel: prompt.recommendedModel,
-            followUpPrompts: prompt.followUpPrompts.map((f) => f.content),
+            followUpPrompts: prompt.followUpPrompts,
          };
       }
       if (isReview) {
@@ -89,12 +89,15 @@ export const PromptEdit: FC<PromptEditProps> = ({ prompt, mode }) => {
       remove: removeFollowUpPrompt,
    } = useFieldArray({
       control: form.control,
-      name: "followUpPrompts" as never,
+      name: "followUpPrompts",
+      keyName: "_key",
    });
 
    const handleSave = async (data: DPromptUpdate, createVersion: boolean) => {
       const filteredCategories = removeEmpty(data.categories);
-      const filteredFollowUpPrompts = removeEmpty(data.followUpPrompts);
+      const filteredFollowUpPrompts = data.followUpPrompts
+         .filter((f) => f.content.trim() !== "")
+         .map((f, idx) => ({ ...f, order: idx }));
 
       const payload: DPromptUpdate = {
          ...data,

@@ -827,7 +827,7 @@ exports[`PromptEdit rendering tests PromptEdit - create mode - rendered test 1`]
                   class="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1"
                   data-slot="form-control"
                   id="_r_4_-form-item"
-                  name="followUpPrompts.0"
+                  name="followUpPrompts.0.content"
                   placeholder="Folge-Prompt eingeben"
                   style="min-height: 66px; max-height: 9007199254740991px; height: 6px;"
                 />
@@ -1892,7 +1892,7 @@ exports[`PromptEdit rendering tests PromptEdit - edit mode - rendered test 1`] =
                   class="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1"
                   data-slot="form-control"
                   id="_r_9_-form-item"
-                  name="followUpPrompts.0"
+                  name="followUpPrompts.0.content"
                   placeholder="Folge-Prompt eingeben"
                   style="min-height: 66px; max-height: 9007199254740991px; height: 6px;"
                 >
@@ -1941,7 +1941,7 @@ exports[`PromptEdit rendering tests PromptEdit - edit mode - rendered test 1`] =
                   class="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1"
                   data-slot="form-control"
                   id="_r_a_-form-item"
-                  name="followUpPrompts.1"
+                  name="followUpPrompts.1.content"
                   placeholder="Folge-Prompt eingeben"
                   style="min-height: 66px; max-height: 9007199254740991px; height: 6px;"
                 >
@@ -1990,7 +1990,7 @@ exports[`PromptEdit rendering tests PromptEdit - edit mode - rendered test 1`] =
                   class="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1"
                   data-slot="form-control"
                   id="_r_b_-form-item"
-                  name="followUpPrompts.2"
+                  name="followUpPrompts.2.content"
                   placeholder="Folge-Prompt eingeben"
                   style="min-height: 66px; max-height: 9007199254740991px; height: 6px;"
                 >

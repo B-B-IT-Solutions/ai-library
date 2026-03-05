@@ -6,14 +6,21 @@ import { MessageSquarePlus, Plus } from "lucide-react";
 import { Control, FieldArrayWithId } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
-import { DPromptUpdate } from "@/data/types/domain/prompt";
+import {
+   DPromptFollowUpUpdate,
+   DPromptUpdate,
+} from "@/data/types/domain/prompt";
 
 import { PromptFollowUpEdit } from "./prompt-follow-up-edit";
 
 type PromptFollowUpsEditProps = {
    control: Control<DPromptUpdate>;
-   followUpPrompts: FieldArrayWithId<DPromptUpdate, "followUpPrompts", "id">[];
-   addFollowUpPrompt: (value: string) => void;
+   followUpPrompts: FieldArrayWithId<
+      DPromptUpdate,
+      "followUpPrompts",
+      "_key"
+   >[];
+   addFollowUpPrompt: (value: DPromptFollowUpUpdate) => void;
    removeFollowUpPrompt: (index: number) => void;
 };
 
@@ -25,9 +32,17 @@ export const PromptFollowUpsEdit: FC<PromptFollowUpsEditProps> = ({
 }) => {
    useEffect(() => {
       if (followUpPrompts.length === 0) {
-         addFollowUpPrompt("");
+         addFollowUpPrompt({ content: "", order: 0 });
       }
    }, [followUpPrompts.length, addFollowUpPrompt]);
+
+   const addNewFollowUpPrompt = () => {
+      const newFollowUp: DPromptFollowUpUpdate = {
+         content: "",
+         order: followUpPrompts.length,
+      };
+      addFollowUpPrompt(newFollowUp);
+   };
 
    const prompts = () => {
       return (
@@ -51,7 +66,7 @@ export const PromptFollowUpsEdit: FC<PromptFollowUpsEditProps> = ({
                type="button"
                variant="outline"
                size="sm"
-               onClick={() => addFollowUpPrompt("")}
+               onClick={addNewFollowUpPrompt}
                data-testid="add-btn"
             >
                <Plus className="h-4 w-4" />

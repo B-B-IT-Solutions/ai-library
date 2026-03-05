@@ -384,6 +384,7 @@ export class StripeService {
    }
 
    async handleInvoicePaymentSucceeded(invoice: Stripe.Invoice): Promise<void> {
+      // @ts-expect-error to revisit later, subscription field was removed in v20, it could potential be retrieved as invoice.lines.data[0]?.subscription;
       const stripeSubscriptionId = invoice.subscription as string;
 
       if (!stripeSubscriptionId) {
@@ -434,6 +435,7 @@ export class StripeService {
    }
 
    async handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void> {
+      // @ts-expect-error to revisit later, subscription field was removed in v20, it could potential be retrieved as invoice.lines.data[0]?.subscription;
       const stripeSubscriptionId = invoice.subscription as string;
 
       if (!stripeSubscriptionId) {

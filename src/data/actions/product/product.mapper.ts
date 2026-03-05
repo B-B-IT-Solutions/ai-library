@@ -1,4 +1,6 @@
 import { map } from "es-toolkit/compat";
+import { LucideIcon } from "lucide-react";
+import * as Icons from "lucide-react";
 
 import { toDPromptTemplateDescriptor } from "@/data/repositories/prompt-template/prompt.template.mapper";
 import {
@@ -90,7 +92,7 @@ const toDFeatures = (features: ProductFeature[]): DFeature[] => {
 
 const toDFeature = (f: ProductFeature): DFeature => {
    return {
-      icon: f.icon,
+      icon: Icons[f.icon as keyof typeof Icons] as LucideIcon,
       title: f.title,
       description: f.description,
    };

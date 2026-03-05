@@ -927,11 +927,11 @@ exports[`CreatePromptPreviewDialog rendering tests CreatePromptPreviewDialog ren
                         class="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1"
                         data-slot="form-control"
                         id="_r_4_-form-item"
-                        name="followUpPrompts.0"
+                        name="followUpPrompts.0.content"
                         placeholder="Folge-Prompt eingeben"
                         style="min-height: 66px; max-height: 9007199254740991px; height: 6px;"
                       >
-                        prompt follow up 0
+                        prompt follow up update 0
                       </textarea>
                       <button
                         class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:border-red-300 hover:bg-red-50 hover:text-red-600"
@@ -976,11 +976,11 @@ exports[`CreatePromptPreviewDialog rendering tests CreatePromptPreviewDialog ren
                         class="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1"
                         data-slot="form-control"
                         id="_r_5_-form-item"
-                        name="followUpPrompts.1"
+                        name="followUpPrompts.1.content"
                         placeholder="Folge-Prompt eingeben"
                         style="min-height: 66px; max-height: 9007199254740991px; height: 6px;"
                       >
-                        prompt follow up 1
+                        prompt follow up update 1
                       </textarea>
                       <button
                         class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:border-red-300 hover:bg-red-50 hover:text-red-600"
@@ -1025,11 +1025,11 @@ exports[`CreatePromptPreviewDialog rendering tests CreatePromptPreviewDialog ren
                         class="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1"
                         data-slot="form-control"
                         id="_r_6_-form-item"
-                        name="followUpPrompts.2"
+                        name="followUpPrompts.2.content"
                         placeholder="Folge-Prompt eingeben"
                         style="min-height: 66px; max-height: 9007199254740991px; height: 6px;"
                       >
-                        prompt follow up 2
+                        prompt follow up update 2
                       </textarea>
                       <button
                         class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 shrink-0 hover:border-red-300 hover:bg-red-50 hover:text-red-600"

@@ -2,6 +2,9 @@ import z from "zod";
 
 import { Filter, Page, PageQuery } from "@/data/types/common";
 import { updatePromptSchema } from "@/data/types/validators/prompt";
+import { updatePromptFollowUpSchema } from "../validators/prompt/prompt.schema";
+
+export type DPromptFollowUpUpdate = z.infer<typeof updatePromptFollowUpSchema>;
 
 export type DPromptUpdate = z.infer<typeof updatePromptSchema>;
 

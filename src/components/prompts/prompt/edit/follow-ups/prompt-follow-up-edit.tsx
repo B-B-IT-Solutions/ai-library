@@ -23,7 +23,7 @@ export const PromptFollowUpEdit: FC<PromptFollowUpEditProps> = ({
    return (
       <FormField
          control={control}
-         name={`followUpPrompts.${index}`}
+         name={`followUpPrompts.${index}.content`}
          render={({ field }) => (
             <FormItem data-testid="follow-up-prompt-edit">
                <div className="flex items-start gap-2">

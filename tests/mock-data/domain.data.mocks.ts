@@ -1,5 +1,6 @@
 import { range } from "es-toolkit";
 import { map } from "es-toolkit/compat";
+import { Check } from "lucide-react";
 
 import { Sort } from "@/data/types/common";
 import { DCart, DCartItem } from "@/data/types/domain/cart";
@@ -34,6 +35,7 @@ import {
    DPromptDescriptorsPage,
    DPromptDescriptorsPageQuery,
    DPromptFollowUp,
+   DPromptFollowUpUpdate,
    DPromptUpdate,
    DPromptVersion,
 } from "@/data/types/domain/prompt";
@@ -463,7 +465,7 @@ export const dFeatures = (count = 3): DFeature[] => {
 
 export const dFeature = (index = 1): DFeature => {
    return {
-      icon: `Check`,
+      icon: Check,
       title: `title ${index}`,
       description: `description ${index}`,
    };
@@ -668,12 +670,31 @@ export const dPromptUpdate = (index = 1): DPromptUpdate => {
       content: `updated content ${index}`,
       categories: ["category 1"],
       recommendedModel: `model ${index}`,
-      followUpPrompts: dFollowUpPrompts(),
+      followUpPrompts: dPromptFollowUpUpdates(),
    };
 };
 
-export const dFollowUpPrompts = (count = 3): string[] => {
-   return range(0, count).map((i) => `prompt follow up ${i}`);
+export const dPromptFollowUpUpdates = (count = 3): DPromptFollowUpUpdate[] => {
+   return range(0, count).map((i) => dPromptFollowUpUpdate(i));
+};
+
+export const dPromptFollowUpUpdate = (index = 1): DPromptFollowUpUpdate => {
+   return {
+      content: `prompt follow up update ${index}`,
+      order: index,
+   };
+};
+
+export const dFollowUpPrompts = (count = 3): DPromptFollowUp[] => {
+   return range(0, count).map((i) => dFollowUpPrompt(i));
+};
+
+export const dFollowUpPrompt = (index = 1): DPromptFollowUp => {
+   return {
+      id: `f23c15c7-7d2d-40a2-a895-6a78516b9b3${index}`,
+      content: `prompt follow up ${index}`,
+      order: index,
+   };
 };
 
 export const dPromptCategories = (count = 3): DPromptCategory[] => {

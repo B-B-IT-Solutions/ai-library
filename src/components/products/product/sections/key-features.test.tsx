@@ -40,7 +40,6 @@ describe("KeyFeatures rendering tests", () => {
 
    it("KeyFeatures - features defined -  test", async () => {
       const product = dtestData.dProduct();
-      product.features[0].icon = "null";
 
       const { container } = render(<KeyFeatures product={product} />);
 
