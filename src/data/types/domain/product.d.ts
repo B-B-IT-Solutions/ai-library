@@ -1,3 +1,5 @@
+import { LucideIcon } from "lucide-react";
+
 import { Filter, Page, PageQuery } from "@/data/types/common";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
@@ -32,7 +34,7 @@ export type DProduct = {
 };
 
 export type DFeature = {
-   icon: string;
+   icon: LucideIcon;
    title: string;
    description: string;
 };

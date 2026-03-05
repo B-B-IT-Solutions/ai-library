@@ -1,5 +1,6 @@
 import { range } from "es-toolkit";
 import { map } from "es-toolkit/compat";
+import { Check } from "lucide-react";
 
 import { Sort } from "@/data/types/common";
 import { DCart, DCartItem } from "@/data/types/domain/cart";
@@ -463,7 +464,7 @@ export const dFeatures = (count = 3): DFeature[] => {
 
 export const dFeature = (index = 1): DFeature => {
    return {
-      icon: `Check`,
+      icon: Check,
       title: `title ${index}`,
       description: `description ${index}`,
    };

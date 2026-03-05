@@ -1,7 +1,9 @@
-export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "KI Bibliothek";
-export const APP_DESCRIPTION =
+export const APP_NAME: string =
+   process.env.NEXT_PUBLIC_APP_NAME || "KI Bibliothek";
+export const APP_DESCRIPTION: string =
    process.env.NEXT_PUBLIC_APP_DESCRIPTION || "Modernene KI-Bibliothek";
-export const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
+export const APP_URL: string =
+   process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
 export const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
 export const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;

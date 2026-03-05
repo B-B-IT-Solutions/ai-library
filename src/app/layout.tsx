@@ -29,7 +29,7 @@ const RootLayout = (props: Readonly<RootLayoutProps>) => {
    return (
       <html lang="en" suppressHydrationWarning={true}>
          <body
-            className={`${inter.className} antialiased h-screen`}
+            className={`${inter.className} h-screen antialiased`}
             data-testid="root-layout"
          >
             <Providers>
