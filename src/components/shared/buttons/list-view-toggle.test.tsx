@@ -3,6 +3,8 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument, renderWithRouter } from "@tests";
 import mockRouter from "next-router-mock";
 
+import { DListViewMode } from "@/data/types/domain/common";
+
 import { ListViewToggle } from "./list-view-toggle";
 
 const assertRendered = () => {
@@ -17,7 +19,9 @@ const assertRendered = () => {
 
 describe("ListViewToggle rendering tests", () => {
    it("ListViewToggle - view grid - test", async () => {
-      const { container } = render(<ListViewToggle currentView="grid" />);
+      const { container } = render(
+         <ListViewToggle currentView={DListViewMode.GRID} />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -27,7 +31,9 @@ describe("ListViewToggle rendering tests", () => {
    });
 
    it("ListViewToggle - view list - test", async () => {
-      const { container } = render(<ListViewToggle currentView="list" />);
+      const { container } = render(
+         <ListViewToggle currentView={DListViewMode.LIST} />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -44,7 +50,10 @@ describe("ListViewToggle functinality tests", () => {
 
    it("ListViewToggle - list toggle clicked - test", async () => {
       const url = "/marketplace";
-      renderWithRouter(<ListViewToggle currentView="grid" />, url);
+      renderWithRouter(
+         <ListViewToggle currentView={DListViewMode.GRID} />,
+         url
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -62,7 +71,10 @@ describe("ListViewToggle functinality tests", () => {
 
    it("ListViewToggle - grid toggle clicked - test", async () => {
       const url = "/marketplace?view=list";
-      renderWithRouter(<ListViewToggle currentView="list" />, url);
+      renderWithRouter(
+         <ListViewToggle currentView={DListViewMode.LIST} />,
+         url
+      );
 
       await waitFor(() => {
          assertRendered();

@@ -27,7 +27,7 @@ export const ListViewToggle: FC<Props> = ({ currentView }) => {
          <Button
             variant="ghost"
             size="sm"
-            onClick={() => updateViewMode("grid")}
+            onClick={() => updateViewMode(DListViewMode.GRID)}
             className={cn(
                "h-8 cursor-pointer rounded-r-none border-r px-3",
                currentView === "grid" && "bg-slate-100"
@@ -39,7 +39,7 @@ export const ListViewToggle: FC<Props> = ({ currentView }) => {
          <Button
             variant="ghost"
             size="sm"
-            onClick={() => updateViewMode("list")}
+            onClick={() => updateViewMode(DListViewMode.LIST)}
             className={cn(
                "h-8 cursor-pointer rounded-l-none px-3",
                currentView === "list" && "bg-slate-100"
