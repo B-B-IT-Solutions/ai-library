@@ -36,6 +36,14 @@ export const PromptFollowUpsEdit: FC<PromptFollowUpsEditProps> = ({
       }
    }, [followUpPrompts.length, addFollowUpPrompt]);
 
+   const addNewFollowUpPrompt = () => {
+      const newFollowUp: DPromptFollowUpUpdate = {
+         content: "",
+         order: followUpPrompts.length,
+      };
+      addFollowUpPrompt(newFollowUp);
+   };
+
    const prompts = () => {
       return (
          <div className="space-y-4">
@@ -58,12 +66,7 @@ export const PromptFollowUpsEdit: FC<PromptFollowUpsEditProps> = ({
                type="button"
                variant="outline"
                size="sm"
-               onClick={() =>
-                  addFollowUpPrompt({
-                     content: "",
-                     order: followUpPrompts.length,
-                  })
-               }
+               onClick={addNewFollowUpPrompt}
                data-testid="add-btn"
             >
                <Plus className="h-4 w-4" />
