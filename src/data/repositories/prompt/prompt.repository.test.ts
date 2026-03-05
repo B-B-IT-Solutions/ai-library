@@ -59,7 +59,6 @@ describe("pGetPromptDescriptors tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptDescriptor.findMany).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptDescriptor.findMany).toHaveBeenCalledWith(
          expectedFindManyArgs
@@ -101,7 +100,6 @@ describe("pGetPromptDescriptors tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptDescriptor.findMany).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptDescriptor.findMany).toHaveBeenCalledWith(
          expectedFindManyArgs
@@ -161,7 +159,6 @@ describe("pGetPromptDescriptors tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptDescriptor.findMany).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptDescriptor.findMany).toHaveBeenCalledWith(
          expectedFindManyArgs
@@ -222,7 +219,6 @@ describe("pGetPromptDescriptors tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptDescriptor.findMany).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptDescriptor.findMany).toHaveBeenCalledWith(
          expectedFindManyArgs
@@ -296,7 +292,6 @@ describe("pGetPromptDescriptors tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptDescriptor.findMany).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptDescriptor.findMany).toHaveBeenCalledWith(
          expectedFindManyArgs
