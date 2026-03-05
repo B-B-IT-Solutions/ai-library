@@ -32,7 +32,7 @@ export class PromptRepository {
 
       const whereClause = this.resolveGetPromptDescriptorsWhereInput(query);
 
-      const [data, count] = await this.prisma.$transaction([
+      const [data, count] = await Promise.all([
          this.prisma.promptDescriptor.findMany({
             where: whereClause,
             skip: pageNumber * pageSize,

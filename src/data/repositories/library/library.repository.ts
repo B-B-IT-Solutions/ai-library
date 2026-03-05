@@ -1,4 +1,4 @@
-import { flatMap, map, uniq } from "es-toolkit/compat";
+import { flatMap, isEmpty, map, uniq } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
 import { LibraryEntryWithPromptTemplateDescriptor } from "@/data/types/db/library";
@@ -18,6 +18,7 @@ import {
    LibraryEntryCreateManyInput,
    LibraryEntryWhereInput,
    LibraryEntryWhereUniqueInput,
+   PromptTemplateDescriptorWhereInput,
 } from "@/generated/prisma/models";
 
 import {
@@ -340,40 +341,36 @@ export class LibraryRepository {
 
       if (!filter) return where;
 
+      const templateDescriptorWhere: PromptTemplateDescriptorWhereInput = {};
+
       // Search
       if (filter.search) {
-         where.templateDescriptor = {
-            OR: [
-               { title: { contains: filter.search, mode: "insensitive" } },
-               {
-                  description: { contains: filter.search, mode: "insensitive" },
-               },
-            ],
-         };
+         templateDescriptorWhere.OR = [
+            { title: { contains: filter.search, mode: "insensitive" } },
+            { description: { contains: filter.search, mode: "insensitive" } },
+         ];
       }
 
       // Categories
-      if (filter.categories && filter.categories.length > 0) {
-         where.templateDescriptor = {
-            ...where.templateDescriptor,
-            categories: {
-               some: {
-                  name: {
-                     in: filter.categories,
-                  },
+      if (!isEmpty(filter.categories)) {
+         templateDescriptorWhere.categories = {
+            some: {
+               name: {
+                  in: filter.categories,
                },
             },
          };
       }
 
       // Models
-      if (filter.models && filter.models.length > 0) {
-         where.templateDescriptor = {
-            ...where.templateDescriptor,
-            recommendedModel: {
-               in: filter.models,
-            },
+      if (!isEmpty(filter.models)) {
+         templateDescriptorWhere.recommendedModel = {
+            in: filter.models,
          };
+      }
+
+      if (Object.keys(templateDescriptorWhere).length > 0) {
+         where.templateDescriptor = templateDescriptorWhere;
       }
 
       // Favorites
@@ -390,17 +387,6 @@ export class LibraryRepository {
                },
             },
          };
-      }
-
-      // Date Range
-      if (filter.dateRange) {
-         where.createdAt = {};
-         if (filter.dateRange.start) {
-            where.createdAt.gte = new Date(filter.dateRange.start);
-         }
-         if (filter.dateRange.end) {
-            where.createdAt.lte = new Date(filter.dateRange.end);
-         }
       }
 
       return where;
