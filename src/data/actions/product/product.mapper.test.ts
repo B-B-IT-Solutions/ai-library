@@ -1,5 +1,7 @@
 import { ptestData } from "@tests";
 import { forEach } from "es-toolkit/compat";
+import { LucideIcon } from "lucide-react";
+import * as Icons from "lucide-react";
 
 import { ProductWithDetails, ProductWithItems } from "@/data/types/db/product";
 import {
@@ -91,9 +93,11 @@ const assertFeatures = (dFeatures: DFeature[], features: ProductFeature[]) => {
 };
 
 const assertFeature = (df: DFeature, f: ProductFeature) => {
+   const expectedIcon = Icons[f.icon as keyof typeof Icons] as LucideIcon;
+
    expect(df.title).toEqual(f.title);
    expect(df.description).toEqual(f.description);
-   expect(df.icon).toEqual(f.icon);
+   expect(df.icon).toEqual(expectedIcon);
 };
 
 const assertUseCases = (dUseCases: DUseCase[], useCases: ProductUseCase[]) => {

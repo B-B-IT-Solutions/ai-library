@@ -318,17 +318,16 @@ export class LibraryRepository {
       entryId: string,
       collectionIds: string[]
    ): Promise<void> {
-      await this.prisma.$transaction([
-         this.prisma.libraryCollectionEntry.deleteMany({
-            where: { entryId },
-         }),
-         this.prisma.libraryCollectionEntry.createMany({
-            data: map(collectionIds, (collectionId) => ({
-               entryId,
-               collectionId,
-            })),
-         }),
-      ]);
+      await this.prisma.libraryCollectionEntry.deleteMany({
+         where: { entryId },
+      });
+
+      await this.prisma.libraryCollectionEntry.createMany({
+         data: map(collectionIds, (collectionId) => ({
+            entryId,
+            collectionId,
+         })),
+      });
    }
 
    // ==================== Private Helpers ====================
