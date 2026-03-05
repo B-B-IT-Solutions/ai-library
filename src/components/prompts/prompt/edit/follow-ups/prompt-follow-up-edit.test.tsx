@@ -22,7 +22,7 @@ const TestWrapper = ({
          content: "",
          categories: [],
          recommendedModel: "",
-         followUpPrompts: [defaultValue],
+         followUpPrompts: [{ content: defaultValue, order: 0 }],
       },
    });
 

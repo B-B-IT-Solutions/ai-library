@@ -18,16 +18,24 @@ const TestWrapper = ({
          content: "",
          categories: [],
          recommendedModel: "",
-         followUpPrompts: followUpPrompts,
+         followUpPrompts: followUpPrompts.map((content, i) => ({
+            content,
+            order: i,
+         })),
       },
    });
 
    const { fields, append, remove } = useFieldArray({
       control: form.control,
       name: "followUpPrompts",
+      keyName: "_key",
    });
 
-   const addFollowUpPrompt = (value: string) => {
+   const addFollowUpPrompt = (value: {
+      content: string;
+      order: number;
+      id?: string;
+   }) => {
       append(value);
    };
 

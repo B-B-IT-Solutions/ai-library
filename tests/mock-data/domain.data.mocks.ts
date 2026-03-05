@@ -673,8 +673,14 @@ export const dPromptUpdate = (index = 1): DPromptUpdate => {
    };
 };
 
-export const dFollowUpPrompts = (count = 3): string[] => {
-   return range(0, count).map((i) => `prompt follow up ${i}`);
+export const dFollowUpPrompts = (
+   count = 3
+): { id: string; content: string; order: number }[] => {
+   return range(0, count).map((i) => ({
+      id: `f23c15c7-7d2d-40a2-a895-6a78516b9b3${i}`,
+      content: `prompt follow up ${i}`,
+      order: i,
+   }));
 };
 
 export const dPromptCategories = (count = 3): DPromptCategory[] => {

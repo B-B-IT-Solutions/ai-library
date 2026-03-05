@@ -186,7 +186,7 @@ describe("PromptEdit functionality tests", () => {
          content: prompt.content,
          categories: prompt.categories.map((c) => c.name),
          recommendedModel: prompt.recommendedModel,
-         followUpPrompts: prompt.followUpPrompts.map((f) => f.content),
+         followUpPrompts: prompt.followUpPrompts,
       };
 
       await waitFor(() => {
@@ -233,7 +233,7 @@ describe("PromptEdit functionality tests", () => {
          content: prompt.content,
          categories: prompt.categories.map((c) => c.name),
          recommendedModel: prompt.recommendedModel,
-         followUpPrompts: prompt.followUpPrompts.map((f) => f.content),
+         followUpPrompts: prompt.followUpPrompts,
       };
 
       await waitFor(() => {
@@ -277,7 +277,7 @@ describe("PromptEdit functionality tests", () => {
          content: prompt1.content,
          categories: prompt1.categories.map((c) => c.name),
          recommendedModel: prompt1.recommendedModel,
-         followUpPrompts: prompt1.followUpPrompts.map((f) => f.content),
+         followUpPrompts: prompt1.followUpPrompts,
       };
 
       await waitFor(() => {

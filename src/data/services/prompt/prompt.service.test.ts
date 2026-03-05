@@ -263,29 +263,27 @@ describe("updatePrompt tests", () => {
             set: [],
             connectOrCreate: [
                {
-                  where: {
-                     name: "category 1",
-                  },
-                  create: {
-                     name: "category 1",
-                  },
+                  where: { name: "category 1" },
+                  create: { name: "category 1" },
                },
             ],
          },
          followUpPrompts: {
-            deleteMany: {},
-            create: [
+            upsert: [
                {
-                  content: "prompt follow up 0",
-                  order: 0,
+                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b30" },
+                  update: { content: "prompt follow up 0", order: 0 },
+                  create: { content: "prompt follow up 0", order: 0 },
                },
                {
-                  content: "prompt follow up 1",
-                  order: 1,
+                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b31" },
+                  update: { content: "prompt follow up 1", order: 1 },
+                  create: { content: "prompt follow up 1", order: 1 },
                },
                {
-                  content: "prompt follow up 2",
-                  order: 2,
+                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b32" },
+                  update: { content: "prompt follow up 2", order: 2 },
+                  create: { content: "prompt follow up 2", order: 2 },
                },
             ],
          },
@@ -324,29 +322,27 @@ describe("updatePrompt tests", () => {
             set: [],
             connectOrCreate: [
                {
-                  where: {
-                     name: "category 1",
-                  },
-                  create: {
-                     name: "category 1",
-                  },
+                  where: { name: "category 1" },
+                  create: { name: "category 1" },
                },
             ],
          },
          followUpPrompts: {
-            deleteMany: {},
-            create: [
+            upsert: [
                {
-                  content: "prompt follow up 0",
-                  order: 0,
+                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b30" },
+                  update: { content: "prompt follow up 0", order: 0 },
+                  create: { content: "prompt follow up 0", order: 0 },
                },
                {
-                  content: "prompt follow up 1",
-                  order: 1,
+                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b31" },
+                  update: { content: "prompt follow up 1", order: 1 },
+                  create: { content: "prompt follow up 1", order: 1 },
                },
                {
-                  content: "prompt follow up 2",
-                  order: 2,
+                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b32" },
+                  update: { content: "prompt follow up 2", order: 2 },
+                  create: { content: "prompt follow up 2", order: 2 },
                },
             ],
          },
@@ -380,29 +376,27 @@ describe("updatePrompt tests", () => {
             set: [],
             connectOrCreate: [
                {
-                  where: {
-                     name: "category 1",
-                  },
-                  create: {
-                     name: "category 1",
-                  },
+                  where: { name: "category 1" },
+                  create: { name: "category 1" },
                },
             ],
          },
          followUpPrompts: {
-            deleteMany: {},
-            create: [
+            upsert: [
                {
-                  content: "prompt follow up 0",
-                  order: 0,
+                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b30" },
+                  update: { content: "prompt follow up 0", order: 0 },
+                  create: { content: "prompt follow up 0", order: 0 },
                },
                {
-                  content: "prompt follow up 1",
-                  order: 1,
+                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b31" },
+                  update: { content: "prompt follow up 1", order: 1 },
+                  create: { content: "prompt follow up 1", order: 1 },
                },
                {
-                  content: "prompt follow up 2",
-                  order: 2,
+                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b32" },
+                  update: { content: "prompt follow up 2", order: 2 },
+                  create: { content: "prompt follow up 2", order: 2 },
                },
             ],
          },
@@ -435,29 +429,27 @@ describe("updatePrompt tests", () => {
             set: [],
             connectOrCreate: [
                {
-                  where: {
-                     name: "category 1",
-                  },
-                  create: {
-                     name: "category 1",
-                  },
+                  where: { name: "category 1" },
+                  create: { name: "category 1" },
                },
             ],
          },
          followUpPrompts: {
-            deleteMany: {},
-            create: [
+            upsert: [
                {
-                  content: "prompt follow up 0",
-                  order: 0,
+                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b30" },
+                  update: { content: "prompt follow up 0", order: 0 },
+                  create: { content: "prompt follow up 0", order: 0 },
                },
                {
-                  content: "prompt follow up 1",
-                  order: 1,
+                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b31" },
+                  update: { content: "prompt follow up 1", order: 1 },
+                  create: { content: "prompt follow up 1", order: 1 },
                },
                {
-                  content: "prompt follow up 2",
-                  order: 2,
+                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b32" },
+                  update: { content: "prompt follow up 2", order: 2 },
+                  create: { content: "prompt follow up 2", order: 2 },
                },
             ],
          },
@@ -490,29 +482,27 @@ describe("updatePrompt tests", () => {
             set: [],
             connectOrCreate: [
                {
-                  where: {
-                     name: "category 1",
-                  },
-                  create: {
-                     name: "category 1",
-                  },
+                  where: { name: "category 1" },
+                  create: { name: "category 1" },
                },
             ],
          },
          followUpPrompts: {
-            deleteMany: {},
-            create: [
+            upsert: [
                {
-                  content: "prompt follow up 0",
-                  order: 0,
+                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b30" },
+                  update: { content: "prompt follow up 0", order: 0 },
+                  create: { content: "prompt follow up 0", order: 0 },
                },
                {
-                  content: "prompt follow up 1",
-                  order: 1,
+                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b31" },
+                  update: { content: "prompt follow up 1", order: 1 },
+                  create: { content: "prompt follow up 1", order: 1 },
                },
                {
-                  content: "prompt follow up 2",
-                  order: 2,
+                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b32" },
+                  update: { content: "prompt follow up 2", order: 2 },
+                  create: { content: "prompt follow up 2", order: 2 },
                },
             ],
          },
