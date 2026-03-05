@@ -35,6 +35,7 @@ import {
    DPromptDescriptorsPage,
    DPromptDescriptorsPageQuery,
    DPromptFollowUp,
+   DPromptFollowUpUpdate,
    DPromptUpdate,
    DPromptVersion,
 } from "@/data/types/domain/prompt";
@@ -669,18 +670,31 @@ export const dPromptUpdate = (index = 1): DPromptUpdate => {
       content: `updated content ${index}`,
       categories: ["category 1"],
       recommendedModel: `model ${index}`,
-      followUpPrompts: dFollowUpPrompts(),
+      followUpPrompts: dPromptFollowUpUpdates(),
    };
 };
 
-export const dFollowUpPrompts = (
-   count = 3
-): { id: string; content: string; order: number }[] => {
-   return range(0, count).map((i) => ({
-      id: `f23c15c7-7d2d-40a2-a895-6a78516b9b3${i}`,
-      content: `prompt follow up ${i}`,
-      order: i,
-   }));
+export const dPromptFollowUpUpdates = (count = 3): DPromptFollowUpUpdate[] => {
+   return range(0, count).map((i) => dPromptFollowUpUpdate(i));
+};
+
+export const dPromptFollowUpUpdate = (index = 1): DPromptFollowUpUpdate => {
+   return {
+      content: `prompt follow up ${index}`,
+      order: index,
+   };
+};
+
+export const dFollowUpPrompts = (count = 3): DPromptFollowUp[] => {
+   return range(0, count).map((i) => dFollowUpPrompt(i));
+};
+
+export const dFollowUpPrompt = (index = 1): DPromptFollowUp => {
+   return {
+      id: `f23c15c7-7d2d-40a2-a895-6a78516b9b3${index}`,
+      content: `prompt follow up ${index}`,
+      order: index,
+   };
 };
 
 export const dPromptCategories = (count = 3): DPromptCategory[] => {

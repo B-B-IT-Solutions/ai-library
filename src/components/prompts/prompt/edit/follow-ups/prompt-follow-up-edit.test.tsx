@@ -1,28 +1,32 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument } from "@tests";
+import { assertInDocument, dtestData } from "@tests";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { DPromptUpdate } from "@/data/types/domain/prompt";
+import {
+   DPromptFollowUpUpdate,
+   DPromptUpdate,
+} from "@/data/types/domain/prompt";
 
 import { PromptFollowUpEdit } from "./prompt-follow-up-edit";
 
+type Props = {
+   index?: number;
+   followUpUpdate: DPromptFollowUpUpdate;
+   removeFollowUpPrompt: jest.Mock;
+};
 const TestWrapper = ({
    index = 0,
-   defaultValue = "",
+   followUpUpdate,
    removeFollowUpPrompt,
-}: {
-   index?: number;
-   defaultValue?: string;
-   removeFollowUpPrompt: jest.Mock;
-}) => {
+}: Props) => {
    const methods = useForm<DPromptUpdate>({
       defaultValues: {
          title: "",
          content: "",
          categories: [],
          recommendedModel: "",
-         followUpPrompts: [{ content: defaultValue, order: 0 }],
+         followUpPrompts: [followUpUpdate],
       },
    });
 
@@ -51,12 +55,11 @@ describe("PromptFollowUpEdit rendering tests", () => {
    });
 
    it("PromptFollowUpEdit rendered test", async () => {
+      const udpate = dtestData.dPromptFollowUpUpdate();
       const removeFn = jest.fn();
+
       const { container } = render(
-         <TestWrapper
-            removeFollowUpPrompt={removeFn}
-            defaultValue="follow-up prompt 123"
-         />
+         <TestWrapper removeFollowUpPrompt={removeFn} followUpUpdate={udpate} />
       );
 
       await waitFor(() => {
@@ -73,9 +76,17 @@ describe("PromptFollowUpEdit functionality tests", () => {
    });
 
    it("PromptFollowUpEdit - remove btn clicked - index 1 - test", async () => {
+      const udpate = dtestData.dPromptFollowUpUpdate();
       const removeFn = jest.fn();
       const index = 1;
-      render(<TestWrapper index={index} removeFollowUpPrompt={removeFn} />);
+
+      render(
+         <TestWrapper
+            index={index}
+            removeFollowUpPrompt={removeFn}
+            followUpUpdate={udpate}
+         />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -90,9 +101,17 @@ describe("PromptFollowUpEdit functionality tests", () => {
    });
 
    it("PromptFollowUpEdit - remove btn clicked - index 5 - test", async () => {
+      const udpate = dtestData.dPromptFollowUpUpdate();
       const removeFn = jest.fn();
       const index = 5;
-      render(<TestWrapper index={index} removeFollowUpPrompt={removeFn} />);
+
+      render(
+         <TestWrapper
+            index={index}
+            removeFollowUpPrompt={removeFn}
+            followUpUpdate={udpate}
+         />
+      );
 
       await waitFor(() => {
          assertRendered();

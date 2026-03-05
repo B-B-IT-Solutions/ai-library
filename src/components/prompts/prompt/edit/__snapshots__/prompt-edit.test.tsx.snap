@@ -246,7 +246,7 @@ exports[`PromptEdit rendering tests PromptEdit - create mode - rendered test 1`]
             data-testid="content"
           >
             <div
-              class="overflow-hidden rounded-lg border border-slate-200 bg-white"
+              class="border border-slate-200 rounded-lg overflow-hidden bg-white"
               data-testid="tiptap-editor"
             >
               <div
@@ -1311,7 +1311,7 @@ exports[`PromptEdit rendering tests PromptEdit - edit mode - rendered test 1`] =
             data-testid="content"
           >
             <div
-              class="overflow-hidden rounded-lg border border-slate-200 bg-white"
+              class="border border-slate-200 rounded-lg overflow-hidden bg-white"
               data-testid="tiptap-editor"
             >
               <div
