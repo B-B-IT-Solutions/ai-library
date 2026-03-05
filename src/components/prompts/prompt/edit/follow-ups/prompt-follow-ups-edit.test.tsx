@@ -1,27 +1,27 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument } from "@tests";
+import { assertInDocument, dtestData } from "@tests";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 
-import { DPromptUpdate } from "@/data/types/domain/prompt";
+import {
+   DPromptFollowUpUpdate,
+   DPromptUpdate,
+} from "@/data/types/domain/prompt";
 
 import { PromptFollowUpsEdit } from "./prompt-follow-ups-edit";
 
-const TestWrapper = ({
-   followUpPrompts = [],
-}: {
-   followUpPrompts?: string[];
-}) => {
+type Props = {
+   followUpUpdates: DPromptFollowUpUpdate[];
+};
+
+const TestWrapper = ({ followUpUpdates }: Props) => {
    const form = useForm<DPromptUpdate>({
       defaultValues: {
          title: "",
          content: "",
          categories: [],
          recommendedModel: "",
-         followUpPrompts: followUpPrompts.map((content, i) => ({
-            content,
-            order: i,
-         })),
+         followUpPrompts: followUpUpdates,
       },
    });
 
@@ -31,11 +31,7 @@ const TestWrapper = ({
       keyName: "_key",
    });
 
-   const addFollowUpPrompt = (value: {
-      content: string;
-      order: number;
-      id?: string;
-   }) => {
+   const addFollowUpPrompt = (value: DPromptFollowUpUpdate) => {
       append(value);
    };
 
@@ -74,7 +70,7 @@ describe("PromptFollowUpsEdit rendering tests", () => {
    });
 
    it("PromptFollowUpsEdit - empty array - rendered test", async () => {
-      const { container } = render(<TestWrapper followUpPrompts={[]} />);
+      const { container } = render(<TestWrapper followUpUpdates={[]} />);
 
       await waitFor(() => {
          assertRendered();
@@ -85,12 +81,12 @@ describe("PromptFollowUpsEdit rendering tests", () => {
    });
 
    it("PromptFollowUpsEdit - with prompts - rendered test", async () => {
-      const prompts = ["Prompt 1", "Prompt 2"];
-      const { container } = render(<TestWrapper followUpPrompts={prompts} />);
+      const updates = dtestData.dPromptFollowUpUpdates();
+      const { container } = render(<TestWrapper followUpUpdates={updates} />);
 
       await waitFor(() => {
          assertRendered();
-         assertFollowUpsRendered(prompts.length);
+         assertFollowUpsRendered(updates.length);
       });
 
       expect(container).toMatchSnapshot();
@@ -103,36 +99,36 @@ describe("PromptFollowUpsEdit functionality tests", () => {
    });
 
    it("PromptFollowUpsEdit - add btn clicked - test", async () => {
-      const prompts = ["Prompt 1"];
-      render(<TestWrapper followUpPrompts={prompts} />);
+      const updates = dtestData.dPromptFollowUpUpdates(3);
+      render(<TestWrapper followUpUpdates={updates} />);
 
       await waitFor(() => {
          assertRendered();
-         assertFollowUpsRendered(1);
+         assertFollowUpsRendered(updates.length);
       });
 
       const addBtn = screen.getByTestId("add-btn");
       await userEvent.click(addBtn);
 
       await waitFor(() => {
-         assertFollowUpsRendered(2);
+         assertFollowUpsRendered(updates.length + 1);
       });
    });
 
-   it("PromptFollowUpsEdit - remove button removes prompt", async () => {
-      const prompts = ["Prompt 1", "Prompt 2"];
-      render(<TestWrapper followUpPrompts={prompts} />);
+   it("PromptFollowUpsEdit - remove btn clicked - test", async () => {
+      const updates = dtestData.dPromptFollowUpUpdates(5);
+      render(<TestWrapper followUpUpdates={updates} />);
 
       await waitFor(() => {
          assertRendered();
-         assertFollowUpsRendered(2);
+         assertFollowUpsRendered(updates.length);
       });
 
       const removeBtn = screen.getAllByTestId("remove-btn")[0];
       await userEvent.click(removeBtn);
 
       await waitFor(() => {
-         assertFollowUpsRendered(1);
+         assertFollowUpsRendered(updates.length - 1);
       });
    });
 });
