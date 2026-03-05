@@ -154,15 +154,15 @@ describe("createPrompt tests", () => {
          followUpPrompts: {
             create: [
                {
-                  content: "prompt follow up 0",
+                  content: "prompt follow up update 0",
                   order: 0,
                },
                {
-                  content: "prompt follow up 1",
+                  content: "prompt follow up update 1",
                   order: 1,
                },
                {
-                  content: "prompt follow up 2",
+                  content: "prompt follow up update 2",
                   order: 2,
                },
             ],
@@ -198,15 +198,15 @@ describe("createPrompt tests", () => {
          followUpPrompts: {
             create: [
                {
-                  content: "prompt follow up 0",
+                  content: "prompt follow up update 0",
                   order: 0,
                },
                {
-                  content: "prompt follow up 1",
+                  content: "prompt follow up update 1",
                   order: 1,
                },
                {
-                  content: "prompt follow up 2",
+                  content: "prompt follow up update 2",
                   order: 2,
                },
             ],
@@ -254,6 +254,11 @@ describe("updatePrompt tests", () => {
 
       await expect(fn).rejects.toThrow("db error");
 
+      const expectedFollowUpPromptUpdates = promptService.followUpPromptUpdates(
+         currentPrompt,
+         promptUpdate
+      );
+
       const expectedData: PromptDescriptorUpdateInput = {
          title: promptUpdate.title,
          content: promptUpdate.content,
@@ -268,25 +273,7 @@ describe("updatePrompt tests", () => {
                },
             ],
          },
-         followUpPrompts: {
-            upsert: [
-               {
-                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b30" },
-                  update: { content: "prompt follow up 0", order: 0 },
-                  create: { content: "prompt follow up 0", order: 0 },
-               },
-               {
-                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b31" },
-                  update: { content: "prompt follow up 1", order: 1 },
-                  create: { content: "prompt follow up 1", order: 1 },
-               },
-               {
-                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b32" },
-                  update: { content: "prompt follow up 2", order: 2 },
-                  create: { content: "prompt follow up 2", order: 2 },
-               },
-            ],
-         },
+         followUpPrompts: expectedFollowUpPromptUpdates,
          versions: {
             create: {
                version: 2,
@@ -313,6 +300,11 @@ describe("updatePrompt tests", () => {
 
       await promptService.updatePrompt(promptId, promptUpdate, false);
 
+      const expectedFollowUpPromptUpdates = promptService.followUpPromptUpdates(
+         currentPrompt,
+         promptUpdate
+      );
+
       const expectedData: PromptDescriptorUpdateInput = {
          title: promptUpdate.title,
          content: promptUpdate.content,
@@ -327,25 +319,7 @@ describe("updatePrompt tests", () => {
                },
             ],
          },
-         followUpPrompts: {
-            upsert: [
-               {
-                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b30" },
-                  update: { content: "prompt follow up 0", order: 0 },
-                  create: { content: "prompt follow up 0", order: 0 },
-               },
-               {
-                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b31" },
-                  update: { content: "prompt follow up 1", order: 1 },
-                  create: { content: "prompt follow up 1", order: 1 },
-               },
-               {
-                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b32" },
-                  update: { content: "prompt follow up 2", order: 2 },
-                  create: { content: "prompt follow up 2", order: 2 },
-               },
-            ],
-         },
+         followUpPrompts: expectedFollowUpPromptUpdates,
          versions: undefined,
       };
 
@@ -367,6 +341,11 @@ describe("updatePrompt tests", () => {
 
       await promptService.updatePrompt(promptId, promptUpdate, true);
 
+      const expectedFollowUpPromptUpdates = promptService.followUpPromptUpdates(
+         currentPrompt,
+         promptUpdate
+      );
+
       const expectedData: PromptDescriptorUpdateInput = {
          title: promptUpdate.title,
          content: promptUpdate.content,
@@ -381,25 +360,7 @@ describe("updatePrompt tests", () => {
                },
             ],
          },
-         followUpPrompts: {
-            upsert: [
-               {
-                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b30" },
-                  update: { content: "prompt follow up 0", order: 0 },
-                  create: { content: "prompt follow up 0", order: 0 },
-               },
-               {
-                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b31" },
-                  update: { content: "prompt follow up 1", order: 1 },
-                  create: { content: "prompt follow up 1", order: 1 },
-               },
-               {
-                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b32" },
-                  update: { content: "prompt follow up 2", order: 2 },
-                  create: { content: "prompt follow up 2", order: 2 },
-               },
-            ],
-         },
+         followUpPrompts: expectedFollowUpPromptUpdates,
          versions: undefined,
       };
 
@@ -420,6 +381,11 @@ describe("updatePrompt tests", () => {
 
       await promptService.updatePrompt(promptId, promptUpdate, false);
 
+      const expectedFollowUpPromptUpdates = promptService.followUpPromptUpdates(
+         currentPrompt,
+         promptUpdate
+      );
+
       const expectedData: PromptDescriptorUpdateInput = {
          title: promptUpdate.title,
          content: promptUpdate.content,
@@ -434,25 +400,7 @@ describe("updatePrompt tests", () => {
                },
             ],
          },
-         followUpPrompts: {
-            upsert: [
-               {
-                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b30" },
-                  update: { content: "prompt follow up 0", order: 0 },
-                  create: { content: "prompt follow up 0", order: 0 },
-               },
-               {
-                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b31" },
-                  update: { content: "prompt follow up 1", order: 1 },
-                  create: { content: "prompt follow up 1", order: 1 },
-               },
-               {
-                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b32" },
-                  update: { content: "prompt follow up 2", order: 2 },
-                  create: { content: "prompt follow up 2", order: 2 },
-               },
-            ],
-         },
+         followUpPrompts: expectedFollowUpPromptUpdates,
          versions: undefined,
       };
 
@@ -473,6 +421,11 @@ describe("updatePrompt tests", () => {
 
       await promptService.updatePrompt(promptId, promptUpdate, true);
 
+      const expectedFollowUpPromptUpdates = promptService.followUpPromptUpdates(
+         currentPrompt,
+         promptUpdate
+      );
+
       const expectedData: PromptDescriptorUpdateInput = {
          title: promptUpdate.title,
          content: promptUpdate.content,
@@ -487,25 +440,7 @@ describe("updatePrompt tests", () => {
                },
             ],
          },
-         followUpPrompts: {
-            upsert: [
-               {
-                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b30" },
-                  update: { content: "prompt follow up 0", order: 0 },
-                  create: { content: "prompt follow up 0", order: 0 },
-               },
-               {
-                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b31" },
-                  update: { content: "prompt follow up 1", order: 1 },
-                  create: { content: "prompt follow up 1", order: 1 },
-               },
-               {
-                  where: { id: "f23c15c7-7d2d-40a2-a895-6a78516b9b32" },
-                  update: { content: "prompt follow up 2", order: 2 },
-                  create: { content: "prompt follow up 2", order: 2 },
-               },
-            ],
-         },
+         followUpPrompts: expectedFollowUpPromptUpdates,
          versions: {
             create: {
                version: 2,
