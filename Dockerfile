@@ -13,7 +13,7 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 COPY prisma ./prisma/
 
-RUN npm ci --no-audit --no-fund
+RUN npm ci --no-audit --no-fund --no-update-notifier
 
 # ============================================
 # Stage 2: Build Next.js application in standalone mode
