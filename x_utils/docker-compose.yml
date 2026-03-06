@@ -5,7 +5,7 @@ services:
          dockerfile: Dockerfile
          target: migratedb
       environment:
-         DATABASE_URL: postgresql://user1:test@localhost:5432/ailibrary
+         DATABASE_URL: postgresql://user1:test@postgres:5432/ailibrary
       depends_on:
          postgres:
             condition: service_healthy
@@ -20,7 +20,7 @@ services:
       tty: true # Keeps the container running for debugging
       environment:
          NODE_ENV: production
-         DATABASE_URL: postgresql://user1:test@localhost:5432/ailibrary
+         DATABASE_URL: postgresql://user1:test@postgres:5432/ailibrary
 
          # Auth
          AUTH_SECRET: ${AUTH_SECRET:-Aiz4c+4Dnf73sUe5bVqufL9hcmGBJYGNF/P0GsiJ1Uk=}
