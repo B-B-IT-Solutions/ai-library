@@ -32,7 +32,7 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 
 # Prisma-Client generieren und App bauen
-RUN npx prisma generate --no-engine
+# RUN npx prisma generate --no-engine
 RUN npm run build
 
 # ============================================
