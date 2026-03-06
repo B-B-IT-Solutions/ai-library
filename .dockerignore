@@ -1,7 +1,9 @@
 __mocks__
 .claude
+.github
 .next
 .vscode
+config
 coverage
 docs
 node_modules
