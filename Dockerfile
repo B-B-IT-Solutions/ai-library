@@ -2,9 +2,11 @@ FROM node:22-alpine AS base
 
 # ── Abhängigkeiten installieren ──────────────────────────────────────────────
 FROM base AS deps
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat openssl
 WORKDIR /app
 
+# Install dependencies
 COPY package.json package-lock.json* ./
 COPY prisma ./prisma/
 
@@ -17,6 +19,8 @@ WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
+ENV NEXT_TELEMETRY_DISABLED 1
 
 # Prisma-Client generieren und App bauen
 RUN npx prisma generate --no-engine
@@ -31,8 +35,8 @@ ENV NODE_ENV=production
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-RUN addgroup --system --gid 1001 nodejs \
- && adduser  --system --uid 1001 nextjs
+RUN addgroup --system --gid 1001 nodejs 
+RUN adduser  --system --uid 1001 nextjs
 
 # Standalone-Output kopieren
 COPY --from=builder /app/public ./public
