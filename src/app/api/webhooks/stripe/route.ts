@@ -1,8 +1,7 @@
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
-import { STRIPE_WEBHOOK_SECRET } from "@/lib/constants";
-import { stripe } from "@/lib/stripe/stripe-server";
+import { getWebhookSecret, stripe } from "@/lib/stripe/stripe-server";
 
 import { handleStripeEvent } from "./stripe.event.handler";
 
@@ -22,7 +21,7 @@ export const POST = async (req: NextRequest) => {
       const event = stripe.webhooks.constructEvent(
          body,
          signature,
-         STRIPE_WEBHOOK_SECRET!
+         getWebhookSecret()
       );
       return handleStripeEvent(event);
    } catch {

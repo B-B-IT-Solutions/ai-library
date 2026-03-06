@@ -1,6 +1,6 @@
 import Stripe from "stripe";
 
-import { stripe, stripeConfig } from "./stripe-server";
+import { stripe, stripeConfig, getWebhookSecret } from "./stripe-server";
 
 const expectedStripeConfig: Stripe.StripeConfig = {
    apiVersion: "2025-12-15.clover",
@@ -48,12 +48,9 @@ describe("stripe-server", () => {
          jest.unmock("@/lib/constants");
       });
 
-      it("should throw an error on module import", async () => {
-         const fn = async () => {
-            await import("./stripe-server");
-         };
-
-         await expect(fn).rejects.toThrow(
+      it("should throw an error when stripe client is first accessed", async () => {
+         const { stripe: lazyStripe } = await import("./stripe-server");
+         expect(() => lazyStripe.getApiField("version")).toThrow(
             "STRIPE_SECRET_KEY is not set in environment variables"
          );
       });
@@ -71,12 +68,9 @@ describe("stripe-server", () => {
          jest.unmock("@/lib/constants");
       });
 
-      it("should throw an error on module import", async () => {
-         const fn = async () => {
-            await import("./stripe-server");
-         };
-
-         await expect(fn).rejects.toThrow(
+      it("should throw an error when stripe client is first accessed", async () => {
+         const { stripe: lazyStripe } = await import("./stripe-server");
+         expect(() => lazyStripe.getApiField("version")).toThrow(
             "STRIPE_SECRET_KEY is not set in environment variables"
          );
       });
@@ -94,12 +88,9 @@ describe("stripe-server", () => {
          jest.unmock("@/lib/constants");
       });
 
-      it("should throw an error on module import", async () => {
-         const fn = async () => {
-            await import("./stripe-server");
-         };
-
-         await expect(fn).rejects.toThrow(
+      it("should throw an error when getWebhookSecret is called", async () => {
+         const { getWebhookSecret: lazyGetWebhookSecret } = await import("./stripe-server");
+         expect(() => lazyGetWebhookSecret()).toThrow(
             "STRIPE_WEBHOOK_SECRET is not set in environment variables"
          );
       });
@@ -117,12 +108,9 @@ describe("stripe-server", () => {
          jest.unmock("@/lib/constants");
       });
 
-      it("should throw an error on module import", async () => {
-         const fn = async () => {
-            await import("./stripe-server");
-         };
-
-         await expect(fn).rejects.toThrow(
+      it("should throw an error when getWebhookSecret is called", async () => {
+         const { getWebhookSecret: lazyGetWebhookSecret } = await import("./stripe-server");
+         expect(() => lazyGetWebhookSecret()).toThrow(
             "STRIPE_WEBHOOK_SECRET is not set in environment variables"
          );
       });
