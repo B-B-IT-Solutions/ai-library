@@ -2,13 +2,12 @@ jest.mock("@/lib/stripe/stripe-server");
 jest.mock("./stripe.event.handler");
 
 import { ntestData, stripeTestData } from "@tests";
-import { DeepMockProxy } from "jest-mock-extended";
+import { DeepMockProxy, mockDeep } from "jest-mock-extended";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
-import { STRIPE_WEBHOOK_SECRET } from "@/lib/constants";
-import { stripe } from "@/lib/stripe/stripe-server";
+import { getStripe, getWebhookSecret } from "@/lib/stripe/stripe-server";
 
 import { POST } from "./route";
 import { handleStripeEvent } from "./stripe.event.handler";
@@ -16,7 +15,18 @@ import { handleStripeEvent } from "./stripe.event.handler";
 const nextResponseMock = NextResponse as unknown as DeepMockProxy<NextResponse>;
 const nextRequestMock = NextRequest as unknown as DeepMockProxy<NextRequest>;
 
-export const stripeMock = stripe as unknown as DeepMockProxy<Stripe>;
+export const stripeMock = mockDeep<Stripe>({
+   funcPropSupport: true,
+}) as DeepMockProxy<Stripe>;
+
+const stripeWeebhookSecretMock = "webhook-secret-1";
+
+const getStripeMock = getStripe as jest.MockedFunction<typeof getStripe>;
+
+const getWebhookSecretMock = getWebhookSecret as jest.MockedFunction<
+   typeof getWebhookSecret
+>;
+
 const handleStripeEventMock = handleStripeEvent as jest.MockedFunction<
    typeof handleStripeEvent
 >;
@@ -24,7 +34,10 @@ const headersMock = headers as jest.MockedFunction<typeof headers>;
 
 describe("POST tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
+
+      getStripeMock.mockReturnValue(stripeMock);
+      getWebhookSecretMock.mockReturnValue(stripeWeebhookSecretMock);
    });
 
    it("POST - signature null - test", async () => {
@@ -75,7 +88,7 @@ describe("POST tests", () => {
       expect(stripeMock.webhooks.constructEvent).toHaveBeenCalledWith(
          body,
          signature,
-         STRIPE_WEBHOOK_SECRET
+         stripeWeebhookSecretMock
       );
       expect(handleStripeEventMock).not.toHaveBeenCalled();
    });
@@ -102,7 +115,7 @@ describe("POST tests", () => {
       expect(stripeMock.webhooks.constructEvent).toHaveBeenCalledWith(
          body,
          signature,
-         STRIPE_WEBHOOK_SECRET
+         stripeWeebhookSecretMock
       );
       expect(handleStripeEventMock).toHaveBeenCalledTimes(1);
       expect(handleStripeEventMock).toHaveBeenCalledWith(stripeEvent);
