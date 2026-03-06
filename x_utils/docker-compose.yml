@@ -7,10 +7,13 @@ services:
          - POSTGRES_PASSWORD=test
          - POSTGRES_USER=user1
          - POSTGRES_DB=ailibrary
-      # healthcheck:
-      #    test: ["CMD", "pg_isready", "-U", "user1"]
+      healthcheck:
+         test: ["CMD-SHELL", "pg_isready -U user1 -d ailibrary"]
+         interval: 5s
+         timeout: 5s
+         retries: 10
       volumes:
-         - prm_data:/var/lib/postgresql/data
+         - postgres_data:/var/lib/postgresql/data
 volumes:
-   prm_data:
+   postgres_data:
       driver: local
