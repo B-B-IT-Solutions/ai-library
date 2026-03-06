@@ -17,7 +17,7 @@ jobs:
          pull-requests: write
    build-and-push-image:
       runs-on: ubuntu-24.04
-      needs: ci
+      # needs: ci
       permissions:
          contents: write
          packages: write
