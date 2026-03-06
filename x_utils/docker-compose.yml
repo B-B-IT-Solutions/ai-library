@@ -1,10 +1,11 @@
 services:
-   app:
+   ai-library:
       build:
          context: ../.
          dockerfile: Dockerfile
       ports:
          - "3000:3000"
+      tty: true # Keeps the container running for debugging
       environment:
          NODE_ENV: production
          DATABASE_URL: postgresql://user1:test@localhost:5432/ailibrary

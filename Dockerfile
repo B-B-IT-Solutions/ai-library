@@ -72,8 +72,9 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 # Prisma-Schema für Migrations-Laufzeit
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
-# COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
-# COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/prisma ./node_modules/prisma
 
 # Switch to non-root user for security best practices
 USER nextjs
@@ -81,4 +82,4 @@ USER nextjs
 EXPOSE 3000
 
 # Migrationen ausführen und dann die App starten
-CMD ["sh", "-c", "npm run db:migrate && node server.js"]
+CMD ["sh", "-c", "node ./node_modules/prisma/build/index.js migrate deploy && node server.js"]
