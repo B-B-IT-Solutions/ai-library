@@ -61,6 +61,17 @@ services:
          - postgres_data:/var/lib/postgresql/data
       restart: unless-stopped
 
+   # prisma-studio:
+   #    image: node:22-alpine
+   #    ports:
+   #       - "5555:5555"
+   #    command: npx prisma studio --port 5555 --browser none
+   #    depends_on:
+   #       postgres:
+   #          condition: service_healthy
+   #       ai-library:
+   #          condition: service_started
+
 volumes:
    postgres_data:
       driver: local

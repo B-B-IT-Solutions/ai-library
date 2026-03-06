@@ -14,6 +14,7 @@ COPY package.json package-lock.json* ./
 COPY prisma ./prisma
 
 RUN npm ci --no-audit --no-fund --no-update-notifier
+RUN npx --no-install prisma generate
 
 # ============================================
 # Stage 2: DB Migration Stage
@@ -76,7 +77,6 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 # cached responses are available immediately on startup, uncomment this line:
 
 # COPY --from=builder --chown=node:node /app/.next/cache ./.next/cache
-
 
 # Switch to non-root user for security best practices
 USER nextjs
