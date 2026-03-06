@@ -18,7 +18,7 @@ import {
    DSubscriptionUpdate,
 } from "@/data/types/domain/subscription";
 import { APP_URL } from "@/lib/constants";
-import { stripe } from "@/lib/stripe/stripe-server";
+import { getStripe } from "@/lib/stripe/stripe-server";
 
 import { cartToOrderCreate, mapStripeStatus, toStripePriceUnit } from "./utils";
 
@@ -63,6 +63,7 @@ export class StripeService {
          quantity: item.quantity,
       }));
 
+      const stripe = getStripe();
       const checkoutSession = await stripe.checkout.sessions.create({
          mode: "payment",
          payment_method_types: ["card"],
@@ -150,6 +151,8 @@ export class StripeService {
             },
          },
       };
+
+      const stripe = getStripe();
       const session = await stripe.checkout.sessions.create(sessionParams);
 
       const subscriptionData: DSubscriptionCreate = {
@@ -194,6 +197,8 @@ export class StripeService {
       const stripeSubscriptionUpdate: Stripe.SubscriptionUpdateParams = {
          cancel_at_period_end: true,
       };
+
+      const stripe = getStripe();
       await stripe.subscriptions.update(
          subscription.stripeSubscriptionId,
          stripeSubscriptionUpdate
@@ -240,6 +245,8 @@ export class StripeService {
       const stripeSubscriptionUpdate: Stripe.SubscriptionUpdateParams = {
          cancel_at_period_end: false,
       };
+
+      const stripe = getStripe();
       await stripe.subscriptions.update(
          subscription.stripeSubscriptionId,
          stripeSubscriptionUpdate
@@ -274,6 +281,7 @@ export class StripeService {
          throw new Error("Missing userId or subscription in checkout session");
       }
 
+      const stripe = getStripe();
       const stripeSubscription =
          await stripe.subscriptions.retrieve(stripeSubscriptionId);
 
@@ -402,6 +410,7 @@ export class StripeService {
          return;
       }
 
+      const stripe = getStripe();
       // Get the Stripe subscription to get updated period dates
       const stripeSubscription =
          await stripe.subscriptions.retrieve(stripeSubscriptionId);
@@ -486,6 +495,7 @@ export class StripeService {
          throw new Error("No active subscription found");
       }
 
+      const stripe = getStripe();
       const session = await stripe.billingPortal.sessions.create({
          customer: subscription.stripeCustomerId,
          return_url: `${APP_URL}/settings/subscription`,
@@ -513,6 +523,8 @@ export class StripeService {
             userId,
          },
       };
+
+      const stripe = getStripe();
       const customer = await stripe.customers.create(data);
 
       await this.userService.updateUserStripeCustomerId(userId, customer.id);

@@ -6,7 +6,7 @@ jest.mock("@/lib/stripe/stripe-server");
 jest.mock("@/data/actions/auth-utils");
 
 import { dtestData, stripeTestData } from "@tests";
-import { DeepMockProxy } from "jest-mock-extended";
+import { DeepMockProxy, mockDeep } from "jest-mock-extended";
 import Stripe from "stripe";
 
 import { requireUser } from "@/data/actions/auth-utils";
@@ -27,7 +27,7 @@ import {
    DSubscriptionHistoryCreate,
    DSubscriptionUpdate,
 } from "@/data/types/domain/subscription";
-import { stripe } from "@/lib/stripe/stripe-server";
+import { getStripe } from "@/lib/stripe/stripe-server";
 
 import { StripeService } from "./stripe.service";
 import { cartToOrderCreate } from "./utils";
@@ -43,7 +43,11 @@ const sUpdateOrderMock = sUpdateOrder as jest.MockedFunction<
    typeof sUpdateOrder
 >;
 
-const stripeMock = stripe as unknown as DeepMockProxy<Stripe>;
+export const stripeMock = mockDeep<Stripe>({
+   funcPropSupport: true,
+}) as DeepMockProxy<Stripe>;
+
+const getStripeMock = getStripe as jest.MockedFunction<typeof getStripe>;
 
 const serviceFactory = new ServiceFactory(prisma);
 const cartService = serviceFactory.getCartService();
@@ -67,6 +71,7 @@ const stripeService = new StripeService(
 describe("createOrderCheckoutSession tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
+      getStripeMock.mockReturnValue(stripeMock);
    });
 
    it("createOrderCheckoutSession - user not authenticated - test", async () => {
@@ -295,6 +300,7 @@ describe("createOrderCheckoutSession tests", () => {
 describe("createSubscriptionCheckoutSession tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
+      getStripeMock.mockReturnValue(stripeMock);
    });
 
    it("createSubscriptionCheckoutSession - successful checkout with monthly billing - test", async () => {
@@ -724,6 +730,7 @@ describe("createSubscriptionCheckoutSession tests", () => {
 describe("cancelSubscription tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
+      getStripeMock.mockReturnValue(stripeMock);
    });
 
    it("cancelSubscription - successful cancellation - test", async () => {
@@ -861,6 +868,7 @@ describe("cancelSubscription tests", () => {
 describe("reactivateSubscription tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
+      getStripeMock.mockReturnValue(stripeMock);
    });
 
    it("reactivateSubscription - successful reactivation - test", async () => {
@@ -990,6 +998,7 @@ describe("reactivateSubscription tests", () => {
 describe("handleSubscriptionCheckoutCompleted tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
+      getStripeMock.mockReturnValue(stripeMock);
    });
 
    it("handleSubscriptionCheckoutCompleted - successful handling - test", async () => {
@@ -1202,6 +1211,7 @@ describe("handleSubscriptionUpdated tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
+      getStripeMock.mockReturnValue(stripeMock);
    });
 
    afterEach(() => {
@@ -1410,6 +1420,7 @@ describe("handleSubscriptionDeleted tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
+      getStripeMock.mockReturnValue(stripeMock);
    });
 
    afterEach(() => {
@@ -1503,6 +1514,7 @@ describe("handleInvoicePaymentSucceeded tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
+      getStripeMock.mockReturnValue(stripeMock);
    });
 
    afterEach(() => {
@@ -1651,6 +1663,7 @@ describe("handleInvoicePaymentFailed tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
+      getStripeMock.mockReturnValue(stripeMock);
    });
 
    afterEach(() => {
@@ -1775,6 +1788,7 @@ describe("handleInvoicePaymentFailed tests", () => {
 describe("createPortalSession tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
+      getStripeMock.mockReturnValue(stripeMock);
    });
 
    it("createPortalSession - successful portal session creation - test", async () => {
@@ -1884,6 +1898,7 @@ describe("createPortalSession tests", () => {
 describe("getOrCreateStripeCustomer tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
+      getStripeMock.mockReturnValue(stripeMock);
    });
 
    it("getOrCreateStripeCustomer - returns existing customer ID - test", async () => {

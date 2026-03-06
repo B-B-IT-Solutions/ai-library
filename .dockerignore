@@ -1,19 +1,25 @@
-.git
-.gitignore
+__mocks__
+.claude
+.next
+.vscode
+coverage
+docs
+node_modules
+
+tests
+
 .env
 .env.*
 !.env.example
+.git
+.gitignore
+.prettierrc
+next-env.d.ts
 
-node_modules
-.next
-out
-
-*.log
 *.md
+*.log
 
-.vscode
-.idea
+tsconfig.tsbuildinfo
 
-__tests__
-**/*.test.ts
-**/*.spec.ts
+
+
