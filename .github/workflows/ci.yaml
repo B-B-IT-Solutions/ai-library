@@ -15,10 +15,10 @@ jobs:
       env:
          DATABASE_URL: "postgres://localhost:51213"
       steps:
-         - name: Setup Node v20
+         - name: Setup Node v22
            uses: actions/setup-node@v4
            with:
-              node-version: 20
+              node-version: v22
 
          - name: Checkout Code
            uses: actions/checkout@v4

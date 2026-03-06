@@ -17,7 +17,7 @@ jobs:
          pull-requests: write
    build-and-push-image:
       runs-on: ubuntu-24.04
-      needs: ci
+      # needs: ci
       permissions:
          contents: write
          packages: write
@@ -25,10 +25,10 @@ jobs:
          id-token: write
          checks: write
       steps:
-         - name: Setup Node v20
+         - name: Setup Node v22
            uses: actions/setup-node@v4
            with:
-              node-version: 20
+              node-version: 22
 
          - name: Checkout repository
            uses: actions/checkout@v4
@@ -46,14 +46,14 @@ jobs:
            with:
               images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-         # - name: Build and push Docker image
-         #   id: push
-         #   uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
-         #   with:
-         #      context: .
-         #      push: ${{ github.event_name == 'release' }}
-         #      tags: ${{ steps.meta.outputs.tags }}
-         #      labels: ${{ steps.meta.outputs.labels }}
+         - name: Build and push Docker image
+           id: push
+           uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+           with:
+              context: .
+              push: ${{ github.event_name == 'release' }}
+              tags: ${{ steps.meta.outputs.tags }}
+              labels: ${{ steps.meta.outputs.labels }}
 
          # - name: Generate artifact attestation
          #   uses: actions/attest-build-provenance@v1

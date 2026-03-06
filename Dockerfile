@@ -11,12 +11,20 @@ WORKDIR /app
 
 # Install dependencies
 COPY package.json package-lock.json* ./
-# COPY prisma ./prisma
+COPY prisma ./prisma
 
 RUN npm ci --no-audit --no-fund --no-update-notifier
+RUN npx --no-install prisma generate
 
 # ============================================
-# Stage 2: Build Next.js application in standalone mode
+# Stage 2: DB Migration Stage
+# ============================================
+
+FROM deps AS migratedb
+CMD ["node", "node_modules/prisma/build/index.js", "migrate", "deploy"]
+
+# ============================================
+# Stage 3: Build Next.js application in standalone mode
 # ============================================
 
 FROM base AS builder
@@ -27,6 +35,8 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 # Copy application source code
 COPY . .
+# Copy generated prisma files/types
+COPY --from=deps /app/src/generated/prisma ./src/generated/prisma
 
 # Disable telemetry
 ENV NEXT_TELEMETRY_DISABLED=1
@@ -70,15 +80,10 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 # COPY --from=builder --chown=node:node /app/.next/cache ./.next/cache
 
-# Prisma-Schema für Migrations-Laufzeit
-# COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
-# COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
-# COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
-
 # Switch to non-root user for security best practices
 USER nextjs
 
 EXPOSE 3000
 
 # Migrationen ausführen und dann die App starten
-CMD ["sh", "-c", "npx prisma migrate deploy && node server.js"]
+CMD ["node", "server.js"]
