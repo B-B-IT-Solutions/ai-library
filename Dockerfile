@@ -35,7 +35,6 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 # Copy application source code
 COPY . .
-
 # Copy generated prisma files/types
 COPY --from=deps /app/src/generated/prisma ./src/generated/prisma
 
