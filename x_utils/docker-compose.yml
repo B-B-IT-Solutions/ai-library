@@ -1,4 +1,16 @@
 services:
+   ai-library-db-migration:
+      build:
+         context: ../.
+         dockerfile: Dockerfile
+         target: migratedb
+      environment:
+         DATABASE_URL: postgresql://user1:test@localhost:5432/ailibrary
+      depends_on:
+         postgres:
+            condition: service_healthy
+      restart: on-failure
+
    ai-library:
       build:
          context: ../.
@@ -28,6 +40,8 @@ services:
       depends_on:
          postgres:
             condition: service_healthy
+         ai-library-db-migration:
+            condition: service_completed_successfully
       restart: unless-stopped
 
    postgres:

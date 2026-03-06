@@ -1,4 +1,15 @@
 services:
+  migrate:
+    build:
+      context: .
+      target: migrate
+    environment:
+      DATABASE_URL: postgresql://user1:changeme@db:5432/ailibrary
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: on-failure
+
   app:
     build: .
     ports:
@@ -25,6 +36,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
     restart: unless-stopped
 
   db:

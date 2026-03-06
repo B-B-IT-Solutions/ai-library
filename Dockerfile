@@ -16,7 +16,14 @@ COPY prisma ./prisma
 RUN npm ci --no-audit --no-fund --no-update-notifier
 
 # ============================================
-# Stage 2: Build Next.js application in standalone mode
+# Stage 2: DB Migration Stage
+# ============================================
+
+FROM deps AS migratedb
+CMD ["node", "node_modules/prisma/build/index.js", "migrate", "deploy"]
+
+# ============================================
+# Stage 3: Build Next.js application in standalone mode
 # ============================================
 
 FROM base AS builder
@@ -77,4 +84,4 @@ USER nextjs
 EXPOSE 3000
 
 # Migrationen ausführen und dann die App starten
-CMD ["sh", "-c", "node ./node_modules/prisma/build/index.js migrate deploy && node server.js"]
+CMD ["node", "server.js"]
