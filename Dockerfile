@@ -11,7 +11,7 @@ WORKDIR /app
 
 # Install dependencies
 COPY package.json package-lock.json* ./
-COPY prisma ./prisma/
+COPY prisma ./prisma
 
 RUN npm ci --no-audit --no-fund --no-update-notifier
 
