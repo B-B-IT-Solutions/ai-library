@@ -46,7 +46,7 @@ jobs:
 
          - name: Build and push DB Migrations Docker Image
            id: push-dbmigrations
-           uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+           uses: docker/build-push-action@ee4ca42718e8055047b1f3c375628b031d4d3a95
            with:
               context: .
               target: dbmigrations
@@ -62,7 +62,7 @@ jobs:
 
          - name: Build and push App Docker Image
            id: push-app
-           uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+           uses: docker/build-push-action@ee4ca42718e8055047b1f3c375628b031d4d3a95
            with:
               context: .
               push: ${{ github.event_name == 'release' }}
