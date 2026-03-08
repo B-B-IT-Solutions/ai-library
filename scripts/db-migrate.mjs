@@ -1,5 +1,10 @@
 import { execSync } from "node:child_process";
 
+//   In der Azure-Infrastruktur muss der Migration-Container folgende Umgebungsvariablen bekommen:
+//   - USE_AZURE_IDENTITY=true
+//   - AZURE_CLIENT_ID=<client-id-der-user-assigned-identity>
+//   - DATABASE_URL=postgresql://<username>@<server>.postgres.database.azure.com:5432/<dbname>?sslmode=require
+
 async function main() {
    if (process.env.USE_AZURE_IDENTITY === "true") {
       const { ManagedIdentityCredential } = await import("@azure/identity");
