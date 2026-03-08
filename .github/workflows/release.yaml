@@ -40,36 +40,36 @@ jobs:
               username: ${{ github.actor }}
               password: ${{ secrets.GITHUB_TOKEN }}
 
-         - name: Extract metadata (tags, labels) for Docker
-           id: meta
-           uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
-           with:
-              images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
-         - name: Build and push Docker image
-           id: push
-           uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
-           with:
-              context: .
-              push: ${{ github.event_name == 'release' }}
-              tags: ${{ steps.meta.outputs.tags }}
-              labels: ${{ steps.meta.outputs.labels }}
-
-         - name: Extract metadata (tags, labels) for migratedb Docker image
-           id: meta-migratedb
+         - name: Retrieve metadata for DB Migrations Docker Image
+           id: db-migrations-meta
            uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
            with:
               images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-db-migrations
 
-         - name: Build and push migratedb Docker image
+         - name: Build and push DB Migrations Docker Image
            id: push-migratedb
            uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
            with:
               context: .
               target: migratedb
               push: ${{ github.event_name == 'release' }}
-              tags: ${{ steps.meta-migratedb.outputs.tags }}
-              labels: ${{ steps.meta-migratedb.outputs.labels }}
+              tags: ${{ steps.db-migrations-meta.outputs.tags }}
+              labels: ${{ steps.db-migrations-meta.outputs.labels }}
+
+         - name: Retrieve metadata for App Docker Image
+           id: app-meta
+           uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+           with:
+              images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+         - name: Build and push App Docker Image
+           id: push
+           uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+           with:
+              context: .
+              push: ${{ github.event_name == 'release' }}
+              tags: ${{ steps.app-meta.outputs.tags }}
+              labels: ${{ steps.app-meta.outputs.labels }}
 
          # - name: Generate artifact attestation
          #   uses: actions/attest-build-provenance@v1
