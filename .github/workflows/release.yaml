@@ -28,6 +28,9 @@ jobs:
          - name: Checkout repository
            uses: actions/checkout@v4
 
+         - name: Set lowercase image name
+           run: echo "IMAGE_NAME_LOWER=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
+
          - name: Set up Docker Buildx
            uses: docker/setup-buildx-action@v3
 
@@ -53,8 +56,8 @@ jobs:
               push: ${{ github.event_name == 'release' }}
               tags: ${{ steps.db-migrations-meta.outputs.tags }}
               labels: ${{ steps.db-migrations-meta.outputs.labels }}
-              cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ lower(env.IMAGE_NAME) }}-db-migrations:cache
-              cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ lower(env.IMAGE_NAME) }}-db-migrations:cache,mode=max
+              cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}-db-migrations:cache
+              cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}-db-migrations:cache,mode=max
 
          - name: Retrieve metadata for App Docker Image
            id: app-meta
@@ -70,8 +73,8 @@ jobs:
               push: ${{ github.event_name == 'release' }}
               tags: ${{ steps.app-meta.outputs.tags }}
               labels: ${{ steps.app-meta.outputs.labels }}
-              cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ lower(env.IMAGE_NAME) }}:cache
-              cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ lower(env.IMAGE_NAME) }}:cache,mode=max
+              cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}:cache
+              cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}:cache,mode=max
 
          # - name: Generate artifact attestation
          #   uses: actions/attest-build-provenance@v1
