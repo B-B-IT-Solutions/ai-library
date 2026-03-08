@@ -25,51 +25,56 @@ jobs:
          id-token: write
          checks: write
       steps:
-         - name: Setup Node v22
-           uses: actions/setup-node@v4
-           with:
-              node-version: 22
-
          - name: Checkout repository
            uses: actions/checkout@v4
 
-         - name: Log in to Github Container registry
+         - name: Set lowercase image name
+           run: echo "IMAGE_NAME_LOWER=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
+
+         - name: Set up Docker Buildx
+           uses: docker/setup-buildx-action@v3
+
+         - name: Login to Github Container registry
            uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
            with:
               registry: ghcr.io
               username: ${{ github.actor }}
               password: ${{ secrets.GITHUB_TOKEN }}
 
-         - name: Extract metadata (tags, labels) for Docker
-           id: meta
-           uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
-           with:
-              images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
-         - name: Build and push Docker image
-           id: push
-           uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
-           with:
-              context: .
-              push: ${{ github.event_name == 'release' }}
-              tags: ${{ steps.meta.outputs.tags }}
-              labels: ${{ steps.meta.outputs.labels }}
-
-         - name: Extract metadata (tags, labels) for migratedb Docker image
-           id: meta-migratedb
-           uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+         - name: Retrieve metadata for DB Migrations Docker Image
+           id: db-migrations-meta
+           uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051
            with:
               images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-db-migrations
 
-         - name: Build and push migratedb Docker image
-           id: push-migratedb
-           uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+         - name: Build and push DB Migrations Docker Image
+           id: push-dbmigrations
+           uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8
            with:
               context: .
-              target: migratedb
+              target: dbmigrations
               push: ${{ github.event_name == 'release' }}
-              tags: ${{ steps.meta-migratedb.outputs.tags }}
-              labels: ${{ steps.meta-migratedb.outputs.labels }}
+              tags: ${{ steps.db-migrations-meta.outputs.tags }}
+              labels: ${{ steps.db-migrations-meta.outputs.labels }}
+              cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}-db-migrations:cache
+              cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}-db-migrations:cache,mode=max
+
+         - name: Retrieve metadata for App Docker Image
+           id: app-meta
+           uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051
+           with:
+              images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+         - name: Build and push App Docker Image
+           id: push-app
+           uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8
+           with:
+              context: .
+              push: ${{ github.event_name == 'release' }}
+              tags: ${{ steps.app-meta.outputs.tags }}
+              labels: ${{ steps.app-meta.outputs.labels }}
+              cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}:cache
+              cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}:cache,mode=max
 
          # - name: Generate artifact attestation
          #   uses: actions/attest-build-provenance@v1
