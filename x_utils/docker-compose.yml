@@ -3,7 +3,7 @@ services:
       build:
          context: ../.
          dockerfile: Dockerfile
-         target: migratedb
+         target: dbmigrations
       environment:
          DATABASE_URL: postgresql://user1:test@postgres:5432/ailibrary
       depends_on:

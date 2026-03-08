@@ -20,7 +20,7 @@ RUN npx --no-install prisma generate
 # Stage 2: DB Migration Stage
 # ============================================
 
-FROM deps AS migratedb
+FROM deps AS dbmigrations
 CMD ["node", "node_modules/prisma/build/index.js", "migrate", "deploy"]
 
 # ============================================
