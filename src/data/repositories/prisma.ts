@@ -35,9 +35,10 @@ function createPrismaClient(): PrismaClient {
    if (process.env.USE_AZURE_IDENTITY === "true") {
       const pool = createAzureIdentityPool();
       const adapter = new PrismaPg(pool);
-      return new PrismaClient({ adapter }).$extends(
-         extendsConfig
-      ) as unknown as PrismaClient;
+      return new PrismaClient({
+         log: ["query", "info", "warn", "error"],
+         adapter,
+      }).$extends(extendsConfig) as unknown as PrismaClient;
    }
 
    return new PrismaClient().$extends(extendsConfig) as unknown as PrismaClient;
