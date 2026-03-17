@@ -72,10 +72,9 @@ describe("signUpSchema tests", () => {
    });
 
    it("signUpSchema - acceptTerms missing - test", () => {
-      const invalidFormData = validFormData;
-      invalidFormData.acceptTerms = undefined as unknown as boolean;
+      const formData = { ...validFormData, acceptTerms: undefined };
 
-      const fn = () => signUpSchema.parse(invalidFormData);
+      const fn = () => signUpSchema.parse(formData);
       expect(fn).toThrow(ZodError);
       expect(fn).toThrow("acceptTerms");
       expect(fn).toThrow("Invalid input: expected boolean, received undefined");
