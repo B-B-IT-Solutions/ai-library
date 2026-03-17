@@ -601,3 +601,80 @@ describe("deleteUser tests", () => {
       expect(compareMock).toHaveBeenCalledWith(data.password, user.password);
    });
 });
+
+describe("saveLegalNoticesAccepted tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("saveLegalNoticesAccepted - iubenda synced true - test", async () => {
+      const user = dtestData.dUserInternal();
+
+      const reqHeader = ntestData.headers();
+      headersMock.mockResolvedValue(reqHeader);
+
+      const ipAddress = "10.0.0.1";
+      resolveIpAddresseMock.mockReturnValue(ipAddress);
+
+      const iubendaLegalNoticesSynced = true;
+      iubendaServiceMock.saveLegalNoticesAccepted.mockResolvedValue(
+         iubendaLegalNoticesSynced
+      );
+
+      const acceptedAt = new Date();
+      await userService.saveLegalNoticesAccepted(user, acceptedAt);
+
+      const expectedLegalNoticesParams: LegalNoticesAcceptedParams = {
+         user,
+         acceptedAt,
+         ipAddress,
+      };
+
+      const expecteUserUpdateData: UserUpdateData = {
+         iubendaLegalNoticesSynced,
+      };
+
+      expect(iubendaServiceMock.saveLegalNoticesAccepted).toHaveBeenCalledTimes(
+         1
+      );
+      expect(iubendaServiceMock.saveLegalNoticesAccepted).toHaveBeenCalledWith(
+         expectedLegalNoticesParams
+      );
+      expect(userRepoMock.pUpdateUser).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pUpdateUser).toHaveBeenCalledWith(
+         user.id,
+         expecteUserUpdateData
+      );
+   });
+
+   it("signUpUser - user created - iubenda synced false - test", async () => {
+      const user = dtestData.dUserInternal();
+      userRepoMock.pCreateUser.mockResolvedValue(user);
+
+      const reqHeader = ntestData.headers();
+      headersMock.mockResolvedValue(reqHeader);
+
+      resolveIpAddresseMock.mockReturnValue(undefined);
+
+      const iubendaLegalNoticesSynced = false;
+      iubendaServiceMock.saveLegalNoticesAccepted.mockResolvedValue(
+         iubendaLegalNoticesSynced
+      );
+
+      const acceptedAt = new Date();
+      await userService.saveLegalNoticesAccepted(user, acceptedAt);
+
+      const expectedLegalNoticesParams: LegalNoticesAcceptedParams = {
+         user,
+         acceptedAt,
+      };
+
+      expect(iubendaServiceMock.saveLegalNoticesAccepted).toHaveBeenCalledTimes(
+         1
+      );
+      expect(iubendaServiceMock.saveLegalNoticesAccepted).toHaveBeenCalledWith(
+         expectedLegalNoticesParams
+      );
+      expect(userRepoMock.pUpdateUser).not.toHaveBeenCalled();
+   });
+});
