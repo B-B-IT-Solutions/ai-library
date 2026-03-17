@@ -208,6 +208,7 @@ export const dUserCreate = (index = 1): DUserCreate => {
       name: `User ${index}`,
       email: "test@email.com",
       hashedPassword: "hashedPassword-1",
+      legalNoticesAcceptedAt: new Date("2025-09-27"),
    };
 };
 
