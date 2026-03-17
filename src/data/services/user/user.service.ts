@@ -106,10 +106,10 @@ export class UserService {
    }
 
    async updateIubendaLegalNoticesSynced(userId: string, synced: boolean) {
-      await this.userRepository.pUpdateIubendaLegalNoticesSynced(
-         userId,
-         synced
-      );
+      const updateData: UserUpdateData = {
+         iubendaLegalNoticesSynced: synced,
+      };
+      await this.userRepository.pUpdateUser(userId, updateData);
    }
 
    async updatePassword(userId: string, data: DUserPasswordUpdate) {

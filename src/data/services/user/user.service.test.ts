@@ -71,7 +71,11 @@ describe("signUpUser tests", () => {
    it("signUpUser - user created - iubenda synced true - test", async () => {
       const createdUser = dtestData.dUserInternal();
       userRepoMock.pCreateUser.mockResolvedValue(createdUser);
-      iubendaServiceMock.saveLegalNoticesAccepted.mockResolvedValue(true);
+
+      const iubendaLegalNoticesSynced = true;
+      iubendaServiceMock.saveLegalNoticesAccepted.mockResolvedValue(
+         iubendaLegalNoticesSynced
+      );
 
       const data: DUserSignUp = {
          name: "Test 1",
@@ -97,6 +101,10 @@ describe("signUpUser tests", () => {
          acceptedAt: expectedCreateData.legalNoticesAcceptedAt,
       };
 
+      const expecteUserUpdateData: UserUpdateData = {
+         iubendaLegalNoticesSynced,
+      };
+
       expect(result).toEqual(expectedResult);
       expect(userRepoMock.pCreateUser).toHaveBeenCalledTimes(1);
       expect(userRepoMock.pCreateUser).toHaveBeenCalledWith(expectedCreateData);
@@ -106,18 +114,21 @@ describe("signUpUser tests", () => {
       expect(iubendaServiceMock.saveLegalNoticesAccepted).toHaveBeenCalledWith(
          expectedLegalNoticesParams
       );
-      expect(
-         userRepoMock.pUpdateIubendaLegalNoticesSynced
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         userRepoMock.pUpdateIubendaLegalNoticesSynced
-      ).toHaveBeenCalledWith(createdUser.id, true);
+      expect(userRepoMock.pUpdateUser).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pUpdateUser).toHaveBeenCalledWith(
+         createdUser.id,
+         expecteUserUpdateData
+      );
    });
 
    it("signUpUser - user created - iubenda synced false - test", async () => {
       const createdUser = dtestData.dUserInternal();
       userRepoMock.pCreateUser.mockResolvedValue(createdUser);
-      iubendaServiceMock.saveLegalNoticesAccepted.mockResolvedValue(false);
+
+      const iubendaLegalNoticesSynced = false;
+      iubendaServiceMock.saveLegalNoticesAccepted.mockResolvedValue(
+         iubendaLegalNoticesSynced
+      );
 
       const data: DUserSignUp = {
          name: "Test 1",
@@ -152,9 +163,7 @@ describe("signUpUser tests", () => {
       expect(iubendaServiceMock.saveLegalNoticesAccepted).toHaveBeenCalledWith(
          expectedLegalNoticesParams
       );
-      expect(
-         userRepoMock.pUpdateIubendaLegalNoticesSynced
-      ).not.toHaveBeenCalled();
+      expect(userRepoMock.pUpdateUser).not.toHaveBeenCalled();
    });
 });
 
@@ -365,16 +374,22 @@ describe("updateIubendaLegalNoticesSynced tests", () => {
 
    it("updateIubendaLegalNoticesSynced - sync status updated - test", async () => {
       const userId = "user-id-1";
-      const synced = true;
+      const iubendaLegalNoticesSynced = true;
 
-      await userService.updateIubendaLegalNoticesSynced(userId, synced);
+      await userService.updateIubendaLegalNoticesSynced(
+         userId,
+         iubendaLegalNoticesSynced
+      );
 
-      expect(
-         userRepoMock.pUpdateIubendaLegalNoticesSynced
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         userRepoMock.pUpdateIubendaLegalNoticesSynced
-      ).toHaveBeenCalledWith(userId, synced);
+      const expecteUserUpdateData: UserUpdateData = {
+         iubendaLegalNoticesSynced,
+      };
+
+      expect(userRepoMock.pUpdateUser).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pUpdateUser).toHaveBeenCalledWith(
+         userId,
+         expecteUserUpdateData
+      );
    });
 });
 
