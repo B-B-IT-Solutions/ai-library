@@ -44,17 +44,17 @@ describe("signUpSchema tests", () => {
    };
 
    it("signUpSchema - data valid - test", async () => {
-      const validatedValues = signUpSchema.parse(validFormData);
+      const formData = { ...validFormData };
+
+      const validatedValues = signUpSchema.parse(formData);
       expect(validatedValues).toEqual(validFormData);
    });
 
    it("signUpSchema - data invalid - test", async () => {
-      const formData: DUserSignUp = {
-         name: "Test 1",
+      const formData = {
+         ...validFormData,
          email: "email.com",
-         password: "123456",
          confirmPassword: "123",
-         acceptTerms: true,
       };
 
       const fn = () => signUpSchema.parse(formData);
@@ -63,6 +63,7 @@ describe("signUpSchema tests", () => {
 
    it("signUpSchema - acceptTerms false - test", () => {
       const formData = { ...validFormData, acceptTerms: false };
+
       const fn = () => signUpSchema.parse(formData);
       expect(fn).toThrow(ZodError);
       expect(fn).toThrow("acceptTerms");
