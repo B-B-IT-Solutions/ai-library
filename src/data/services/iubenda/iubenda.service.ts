@@ -1,3 +1,5 @@
+import axios from "axios";
+
 import { DUser } from "@/data/types/domain/user";
 
 const IUBENDA_CONSENT_URL = "https://consent.iubenda.com/consent";
@@ -73,19 +75,9 @@ export class IubendaService {
    }
 
    private async postConsent(payload: IubendaConsentPayload): Promise<void> {
-      const response = await fetch(IUBENDA_CONSENT_URL, {
-         method: "POST",
-         headers: {
-            "Content-Type": "application/json",
-            ApiKey: this.apiKey!,
-         },
-         body: JSON.stringify(payload),
+      await axios.post(IUBENDA_CONSENT_URL, payload, {
+         headers: { ApiKey: this.apiKey! },
       });
-
-      if (!response.ok) {
-         const body = await response.text();
-         throw new Error(`HTTP ${response.status}: ${body}`);
-      }
    }
 
    private buildLegalNoticesPayload(
