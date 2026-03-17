@@ -11,6 +11,7 @@ import {
 } from "@/data/types/domain/user";
 import { compare, hash } from "@/lib/encrypt";
 import { CartService } from "../cart";
+import { IubendaService } from "../iubenda";
 import { LibraryService } from "../library";
 import { OrderService } from "../order";
 
@@ -21,30 +22,47 @@ export class UserService {
    private cartService: CartService;
    private libraryService: LibraryService;
    private orderService: OrderService;
+   private iubendaService: IubendaService;
 
    constructor(
       userRepository: UserRepository,
       cartService: CartService,
       libraryService: LibraryService,
-      orderService: OrderService
+      orderService: OrderService,
+      iubendaService: IubendaService
    ) {
       this.userRepository = userRepository;
       this.cartService = cartService;
       this.libraryService = libraryService;
       this.orderService = orderService;
+      this.iubendaService = iubendaService;
    }
 
    async signUpUser(data: DUserSignUp): Promise<DUser> {
       const hashedPassword = await hash(data.password);
+      const consentAcceptedAt = new Date();
 
       const newUser: DUserCreate = {
          name: data.name,
          email: data.email,
          hashedPassword: hashedPassword,
-         consentAcceptedAt: new Date(),
+         consentAcceptedAt,
       };
 
       const user = await this.userRepository.pCreateUser(newUser);
+
+      // Fire-and-forget: do not block registration if iubenda is unavailable
+      this.iubendaService
+         .recordConsent({
+            userId: user.id,
+            email: user.email,
+            fullName: user.name,
+            consentAcceptedAt,
+         })
+         .catch((err) =>
+            console.error("[UserService] Failed to record consent:", err)
+         );
+
       return toDUser(user);
    }
 
