@@ -32,6 +32,8 @@ const assertRendered = () => {
 };
 
 const assertFieldsRendered = () => {
+   assertLegalNoticesLinksRendered();
+
    const name = screen.getByTestId("name-field");
    const email = screen.getByTestId("email-field");
    const password = screen.getByTestId("password-field");
@@ -47,6 +49,24 @@ const assertFieldsRendered = () => {
    assertInDocument(acceptTerms);
    assertInDocument(signUpBtn);
    assertInDocument(singInLink);
+};
+
+const assertLegalNoticesLinksRendered = () => {
+   const termsLink = screen.getByTestId("terms_conditions_link");
+   const privacyPolicyLink = screen.getByTestId("privacy_policy_link");
+
+   assertInDocument(termsLink);
+   assertHasAttributeWithValue(
+      termsLink,
+      "href",
+      "https://www.iubenda.com/terms-and-conditions/97062585"
+   );
+   assertInDocument(privacyPolicyLink);
+   assertHasAttributeWithValue(
+      privacyPolicyLink,
+      "href",
+      "https://www.iubenda.com/privacy-policy/97062585/full-legal"
+   );
 };
 
 const assertCallbackUrl = (url: string) => {

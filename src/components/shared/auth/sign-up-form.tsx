@@ -300,6 +300,7 @@ export const SignUpForm = () => {
                               href="https://www.iubenda.com/terms-and-conditions/97062585"
                               target="_blank"
                               className="font-medium text-primary underline-offset-2 hover:underline"
+                              data-testid="terms_conditions_link"
                            >
                               AGB
                            </Link>{" "}
@@ -308,6 +309,7 @@ export const SignUpForm = () => {
                               href="https://www.iubenda.com/privacy-policy/97062585/full-legal"
                               target="_blank"
                               className="font-medium text-primary underline-offset-2 hover:underline"
+                              data-testid="privacy_policy_link"
                            >
                               Datenschutzerklärung
                            </Link>{" "}
