@@ -2,18 +2,15 @@ jest.mock("./prisma", () => ({
    ...jest.requireActual("./prisma"),
 }));
 
-jest.mock("@azure/identity");
-
-import { ManagedIdentityCredential } from "@azure/identity";
-import { PrismaClient } from "@prisma/client";
 import { assertStringifyEqual } from "@tests";
+
+import { PrismaClient } from "@/generated/prisma/client";
 
 import prisma, { extendsConfig } from "./prisma";
 
-const ManagedIdentityCredentialMock =
-   ManagedIdentityCredential as jest.MockedClass<
-      typeof ManagedIdentityCredential
-   >;
+const globalForPrisma = global as unknown as {
+   prisma: PrismaClient;
+};
 
 export const expectedExtendsConfig = {};
 
@@ -31,62 +28,50 @@ describe("config tests", () => {
    });
 });
 
-// describe("createPrismaClient - USE_AZURE_IDENTITY false - tests", () => {
-//    const originalEnv = process.env;
+describe("createPrismaClient - USE_AZURE_IDENTITY false - tests", () => {
+   const originalEnv = process.env;
 
-//    beforeEach(() => {
-//       // jest.resetModules();
-//    });
+   afterEach(() => {
+      process.env = originalEnv;
+      jest.resetModules();
+      delete global.prisma;
+   });
 
-//    afterEach(() => {
-//       process.env = originalEnv;
-//    });
+   it("sets globalForPrisma.prisma in non-production environment", () => {
+      delete global.prisma;
+      jest.resetModules();
 
-//    it("sets globalForPrisma.prisma in non-production environment", () => {
-//       let prisma: PrismaClient;
-//       let prismaGlobal: PrismaClient;
+      require("./prisma");
 
-//       jest.isolateModules(() => {
-//          prisma = import("./prisma");
-//          prismaGlobal = global.prisma;
-//       });
+      expect(global.prisma).not.toBeUndefined();
+   });
 
-//       expect(prisma).not.toBeUndefined();
-//       expect(prismaGlobal).not.toBeUndefined();
-//    });
+   it("reuses existing globalForPrisma.prisma when already set", () => {
+      const mockExistingPrisma = { existing: true };
+      global.prisma = mockExistingPrisma;
+      jest.resetModules();
 
-//    it("reuses existing globalForPrisma.prisma when already set", async () => {
-//       const mockExistingPrisma = { existing: true };
+      const result = require("./prisma").default;
 
-//       let prisma: PrismaClient;
+      expect(result).toBe(mockExistingPrisma);
+   });
 
-//       await jest.isolateModulesAsync(async () => {
-//          delete global.prisma;
-//          global.prisma = mockExistingPrisma;
+   it("does not set globalForPrisma.prisma in production environment", () => {
+      delete global.prisma;
+      process.env = { ...originalEnv, NODE_ENV: "production" };
+      jest.resetModules();
 
-//          prisma = await import("./prisma");
-//       });
+      require("./prisma");
 
-//       // expect(prisma.default.default).toBe(mockExistingPrisma);
-//    });
-
-//    it("does not set globalForPrisma.prisma in production environment", () => {
-//       process.env = { ...originalEnv, NODE_ENV: "production" };
-//       delete global.prisma;
-
-//       jest.isolateModules(() => import("./prisma"));
-
-//       expect(global.prisma).toBeUndefined();
-//    });
-// });
+      expect(global.prisma).toBeUndefined();
+   });
+});
 
 describe("createPrismaClient - USE_AZURE_IDENTITY true - tests", () => {
    const originalEnv = process.env;
 
    beforeEach(() => {
-      jest.resetModules();
       delete global.prisma;
-
       process.env = {
          ...originalEnv,
          USE_AZURE_IDENTITY: "true",
@@ -97,27 +82,36 @@ describe("createPrismaClient - USE_AZURE_IDENTITY true - tests", () => {
 
    afterEach(() => {
       process.env = originalEnv;
+      jest.resetModules();
+      delete global.prisma;
    });
 
-   it("test", async () => {
+   it("creates ManagedIdentityCredential, Pool, PrismaPg and PrismaClient with adapter", () => {
       const mockGetToken = jest.fn().mockResolvedValue({ token: "mock-token" });
-      ManagedIdentityCredentialMock.mockImplementation(() => ({
-         getToken: mockGetToken,
-         msiRetryConfig: {},
-      }));
-
+      const MockManagedIdentityCredential = jest
+         .fn()
+         .mockImplementation(() => ({
+            getToken: mockGetToken,
+         }));
       const MockPool = jest.fn().mockImplementation(() => ({}));
       const MockPrismaPg = jest.fn().mockImplementation(() => ({}));
       const MockPrismaClient = jest.fn().mockImplementation(() => ({
          $extends: jest.fn().mockReturnThis(),
       }));
 
-      jest.isolateModules(async () => {
-         await import("./prisma");
-      });
+      jest.resetModules();
+      jest.doMock("@azure/identity", () => ({
+         ManagedIdentityCredential: MockManagedIdentityCredential,
+      }));
+      jest.doMock("pg", () => ({ Pool: MockPool }));
+      jest.doMock("@prisma/adapter-pg", () => ({ PrismaPg: MockPrismaPg }));
+      jest.doMock("@/generated/prisma/client", () => ({
+         PrismaClient: MockPrismaClient,
+      }));
 
-      expect(ManagedIdentityCredentialMock).toHaveBeenCalledTimes(1);
-      expect(ManagedIdentityCredentialMock).toHaveBeenCalledWith({
+      require("./prisma");
+
+      expect(MockManagedIdentityCredential).toHaveBeenCalledWith({
          clientId: "test-client-id",
       });
       expect(MockPool).toHaveBeenCalledWith(
@@ -138,75 +132,71 @@ describe("createPrismaClient - USE_AZURE_IDENTITY true - tests", () => {
       );
    });
 
-   // it("uses default port 5432 when DATABASE_URL has no port", () => {
-   //    process.env.DATABASE_URL = "postgresql://testuser@testhost/testdb";
+   it("uses default port 5432 when DATABASE_URL has no port", () => {
+      process.env.DATABASE_URL = "postgresql://testuser@testhost/testdb";
 
-   //    jest.isolateModules(() => import("./prisma"));
+      const MockPool = jest.fn().mockImplementation(() => ({}));
+      const MockPrismaClient = jest.fn().mockImplementation(() => ({
+         $extends: jest.fn().mockReturnThis(),
+      }));
 
-   //    const MockPool = jest.fn().mockImplementation(() => ({}));
-   //    const MockPrismaClient = jest.fn().mockImplementation(() => ({
-   //       $extends: jest.fn().mockReturnThis(),
-   //    }));
+      jest.resetModules();
+      jest.doMock("@azure/identity", () => ({
+         ManagedIdentityCredential: jest.fn().mockImplementation(() => ({
+            getToken: jest.fn(),
+         })),
+      }));
+      jest.doMock("pg", () => ({ Pool: MockPool }));
+      jest.doMock("@prisma/adapter-pg", () => ({
+         PrismaPg: jest.fn().mockImplementation(() => ({})),
+      }));
+      jest.doMock("@/generated/prisma/client", () => ({
+         PrismaClient: MockPrismaClient,
+      }));
 
-   //    jest.isolateModules(() => {
-   //       jest.doMock("@azure/identity", () => ({
-   //          ManagedIdentityCredential: jest.fn().mockImplementation(() => ({
-   //             getToken: jest.fn(),
-   //          })),
-   //       }));
-   //       jest.doMock("pg", () => ({ Pool: MockPool }));
-   //       jest.doMock("@prisma/adapter-pg", () => ({
-   //          PrismaPg: jest.fn().mockImplementation(() => ({})),
-   //       }));
-   //       jest.doMock("@/generated/prisma/client", () => ({
-   //          PrismaClient: MockPrismaClient,
-   //       }));
+      require("./prisma");
 
-   //       require("./prisma");
-   //    });
+      expect(MockPool).toHaveBeenCalledWith(
+         expect.objectContaining({ port: 5432 })
+      );
+   });
 
-   //    expect(MockPool).toHaveBeenCalledWith(
-   //       expect.objectContaining({ port: 5432 })
-   //    );
-   // });
+   it("pool password function calls getToken with Azure scope and returns token", async () => {
+      const mockToken = "azure-access-token";
+      const mockGetToken = jest.fn().mockResolvedValue({ token: mockToken });
+      const MockManagedIdentityCredential = jest
+         .fn()
+         .mockImplementation(() => ({
+            getToken: mockGetToken,
+         }));
+      let capturedPoolConfig: any;
+      const MockPool = jest.fn().mockImplementation((config: any) => {
+         capturedPoolConfig = config;
+         return {};
+      });
+      const MockPrismaClient = jest.fn().mockImplementation(() => ({
+         $extends: jest.fn().mockReturnThis(),
+      }));
 
-   // it("pool password function calls getToken with Azure scope and returns token", async () => {
-   //    const mockToken = "azure-access-token";
-   //    const mockGetToken = jest.fn().mockResolvedValue({ token: mockToken });
-   //    const MockManagedIdentityCredential = jest
-   //       .fn()
-   //       .mockImplementation(() => ({
-   //          getToken: mockGetToken,
-   //       }));
-   //    let capturedPoolConfig: any;
-   //    const MockPool = jest.fn().mockImplementation((config: any) => {
-   //       capturedPoolConfig = config;
-   //       return {};
-   //    });
-   //    const MockPrismaClient = jest.fn().mockImplementation(() => ({
-   //       $extends: jest.fn().mockReturnThis(),
-   //    }));
+      jest.resetModules();
+      jest.doMock("@azure/identity", () => ({
+         ManagedIdentityCredential: MockManagedIdentityCredential,
+      }));
+      jest.doMock("pg", () => ({ Pool: MockPool }));
+      jest.doMock("@prisma/adapter-pg", () => ({
+         PrismaPg: jest.fn().mockImplementation(() => ({})),
+      }));
+      jest.doMock("@/generated/prisma/client", () => ({
+         PrismaClient: MockPrismaClient,
+      }));
 
-   //    jest.isolateModules(() => {
-   //       jest.doMock("@azure/identity", () => ({
-   //          ManagedIdentityCredential: MockManagedIdentityCredential,
-   //       }));
-   //       jest.doMock("pg", () => ({ Pool: MockPool }));
-   //       jest.doMock("@prisma/adapter-pg", () => ({
-   //          PrismaPg: jest.fn().mockImplementation(() => ({})),
-   //       }));
-   //       jest.doMock("@/generated/prisma/client", () => ({
-   //          PrismaClient: MockPrismaClient,
-   //       }));
+      require("./prisma");
 
-   //       require("./prisma");
-   //    });
-
-   //    expect(capturedPoolConfig).toBeDefined();
-   //    const password = await capturedPoolConfig.password();
-   //    expect(password).toBe(mockToken);
-   //    expect(mockGetToken).toHaveBeenCalledWith(
-   //       "https://ossrdbms-aad.database.windows.net/.default"
-   //    );
-   // });
+      expect(capturedPoolConfig).toBeDefined();
+      const password = await capturedPoolConfig.password();
+      expect(password).toBe(mockToken);
+      expect(mockGetToken).toHaveBeenCalledWith(
+         "https://ossrdbms-aad.database.windows.net/.default"
+      );
+   });
 });
