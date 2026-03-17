@@ -41,6 +41,7 @@ export class UserService {
          name: data.name,
          email: data.email,
          hashedPassword: hashedPassword,
+         consentAcceptedAt: new Date(),
       };
 
       const user = await this.userRepository.pCreateUser(newUser);

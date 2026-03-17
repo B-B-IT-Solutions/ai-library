@@ -76,22 +76,6 @@ const SignUpPage = async (props: SignUpPageProps) => {
                   <SignUpForm />
                </CardContent>
             </Card>
-            <p className="text-center text-xs text-muted-foreground mt-6">
-               By creating an account, you agree to our{" "}
-               <Link
-                  href="/terms"
-                  className="underline underline-offset-2 hover:text-foreground transition-colors"
-               >
-                  Terms of Service
-               </Link>{" "}
-               and{" "}
-               <Link
-                  href="/privacy"
-                  className="underline underline-offset-2 hover:text-foreground transition-colors"
-               >
-                  Privacy Policy
-               </Link>
-            </p>
          </div>
       </div>
    );

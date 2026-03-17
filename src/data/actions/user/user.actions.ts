@@ -24,13 +24,22 @@ import {
    updatePasswordSchema,
    updateProfileSchema,
 } from "@/data/types/validators/user";
+import { recordIubendaConsent } from "@/lib/iubenda";
 
 export const signUpUser = async (data: DUserSignUp) => {
    try {
       const validatedData: DUserSignUp = signUpSchema.parse(data);
 
       const service = getService();
-      await service.signUpUser(validatedData);
+      const user = await service.signUpUser(validatedData);
+
+      // Fire-and-forget: record consent in iubenda (non-blocking)
+      recordIubendaConsent({
+         userId: user.id,
+         email: user.email,
+         fullName: user.name,
+         consentAcceptedAt: new Date(),
+      });
 
       await signIn("credentials", {
          email: data.email,

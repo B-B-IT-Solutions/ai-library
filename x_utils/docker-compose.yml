@@ -1,48 +1,48 @@
 services:
-   ai-library-db-migration:
-      build:
-         context: ../.
-         dockerfile: Dockerfile
-         target: dbmigrations
-      environment:
-         DATABASE_URL: postgresql://user1:test@postgres:5432/ailibrary
-      depends_on:
-         postgres:
-            condition: service_healthy
-      restart: on-failure
+   # ai-library-db-migration:
+   #    build:
+   #       context: ../.
+   #       dockerfile: Dockerfile
+   #       target: dbmigrations
+   #    environment:
+   #       DATABASE_URL: postgresql://user1:test@postgres:5432/ailibrary
+   #    depends_on:
+   #       postgres:
+   #          condition: service_healthy
+   #    restart: on-failure
 
-   ai-library:
-      build:
-         context: ../.
-         dockerfile: Dockerfile
-      ports:
-         - "3000:3000"
-      tty: true # Keeps the container running for debugging
-      environment:
-         NODE_ENV: production
-         DATABASE_URL: postgresql://user1:test@postgres:5432/ailibrary
+   # ai-library:
+   #    build:
+   #       context: ../.
+   #       dockerfile: Dockerfile
+   #    ports:
+   #       - "3000:3000"
+   #    tty: true # Keeps the container running for debugging
+   #    environment:
+   #       NODE_ENV: production
+   #       DATABASE_URL: postgresql://user1:test@postgres:5432/ailibrary
 
-         # Auth
-         AUTH_SECRET: ${AUTH_SECRET:-Aiz4c+4Dnf73sUe5bVqufL9hcmGBJYGNF/P0GsiJ1Uk=}
-         AUTH_URL: ${AUTH_URL:-http://localhost:3000}
-         NEXTAUTH_URL_INTERNAL: ${NEXTAUTH_URL_INTERNAL:-http://app:3000}
-         ENCRYPTION_KEY: ${ENCRYPTION_KEY:-SxhULoMRflRMqDrr4FAsQ+RCEY4vMiC0lCXkth87eIU=}
+   #       # Auth
+   #       AUTH_SECRET: ${AUTH_SECRET:-Aiz4c+4Dnf73sUe5bVqufL9hcmGBJYGNF/P0GsiJ1Uk=}
+   #       AUTH_URL: ${AUTH_URL:-http://localhost:3000}
+   #       NEXTAUTH_URL_INTERNAL: ${NEXTAUTH_URL_INTERNAL:-http://app:3000}
+   #       ENCRYPTION_KEY: ${ENCRYPTION_KEY:-SxhULoMRflRMqDrr4FAsQ+RCEY4vMiC0lCXkth87eIU=}
 
-         # App
-         NEXT_PUBLIC_APP_NAME: ${NEXT_PUBLIC_APP_NAME:-KI Bibliothek}
-         NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL:-http://localhost:3000}
-         NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+   #       # App
+   #       NEXT_PUBLIC_APP_NAME: ${NEXT_PUBLIC_APP_NAME:-KI Bibliothek}
+   #       NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL:-http://localhost:3000}
+   #       NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
 
-         # Stripe
-         NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:-pk_test_51Q0isdGzyOS6MDj9jupMzmMbVOY7gY4YJqASAOOsBRDOT1zFriorzVEHJ01OLpit8466us18VrT0T1MJcVORpwMy00kvVlPbCo}
-         STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-sk_test_51Q0isdGzyOS6MDj9oYHbn9aJ0Sg345BEEnShqffhJN3KkEeJJLs2JZkN5ehokIYkBNaHvIbiRHZKPu2CU0iakZEd00fh8FB4QH}
-         STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-whsec_a20319e73f73437fb80be610305e42b2741a5c8d81c531e391931b1d0e7a0603}
-      depends_on:
-         postgres:
-            condition: service_healthy
-         ai-library-db-migration:
-            condition: service_completed_successfully
-      restart: unless-stopped
+   #       # Stripe
+   #       NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:-pk_test_51Q0isdGzyOS6MDj9jupMzmMbVOY7gY4YJqASAOOsBRDOT1zFriorzVEHJ01OLpit8466us18VrT0T1MJcVORpwMy00kvVlPbCo}
+   #       STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-sk_test_51Q0isdGzyOS6MDj9oYHbn9aJ0Sg345BEEnShqffhJN3KkEeJJLs2JZkN5ehokIYkBNaHvIbiRHZKPu2CU0iakZEd00fh8FB4QH}
+   #       STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-whsec_a20319e73f73437fb80be610305e42b2741a5c8d81c531e391931b1d0e7a0603}
+   #    depends_on:
+   #       postgres:
+   #          condition: service_healthy
+   #       ai-library-db-migration:
+   #          condition: service_completed_successfully
+   #    restart: unless-stopped
 
    postgres:
       image: postgres:16.2

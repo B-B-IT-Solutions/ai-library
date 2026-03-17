@@ -13,6 +13,12 @@ export const signUpSchema = z
       confirmPassword: z
          .string()
          .min(6, "Confirm password must be at least 6 characters"),
+      acceptTerms: z
+         .boolean()
+         .refine((val) => val === true, {
+            message:
+               "Sie müssen die AGB und Datenschutzerklärung akzeptieren",
+         }),
    })
    .refine((data) => data.password === data.confirmPassword, {
       message: "Passwords don't match",

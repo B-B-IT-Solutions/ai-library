@@ -47,6 +47,7 @@ export class UserRepository {
          name: data.name,
          email: data.email,
          password: data.hashedPassword,
+         consentAcceptedAt: data.consentAcceptedAt,
       };
 
       const newUser = await this.prisma.user.create({
