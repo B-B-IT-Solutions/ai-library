@@ -21,7 +21,8 @@ RUN npx --no-install prisma generate
 # ============================================
 
 FROM deps AS dbmigrations
-CMD ["node", "node_modules/prisma/build/index.js", "migrate", "deploy"]
+COPY scripts/db-migrate.mjs ./scripts/db-migrate.mjs
+CMD ["node", "scripts/db-migrate.mjs"]
 
 # ============================================
 # Stage 3: Build Next.js application in standalone mode

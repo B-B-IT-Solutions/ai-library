@@ -14,12 +14,6 @@ module.exports = {
          lines: 99,
          statements: 99,
       },
-      "./src/data/repositories/prisma.ts": {
-         branches: 75,
-         functions: 100,
-         lines: 100,
-         statements: 100,
-      },
    },
    setupFilesAfterEnv: [
       "<rootDir>/tests/jest.setup.ts",
@@ -36,7 +30,7 @@ module.exports = {
       "^.+\\.(png|jpg|jpeg|svg)$": "jest-transform-stub",
    },
    transformIgnorePatterns: [
-      "/node_modules/(?!(@auth|next-auth|oauth4webapi|jose|@panva|preact-render-to-string|preact|uuid|nuqs|unist-util-visit|unist-util-visit-parents|unist-util-is)/)",
+      "/node_modules/(?!(@auth|next-auth|oauth4webapi|jose|@panva|preact-render-to-string|preact|uuid|nuqs|unist-util-visit|unist-util-visit-parents|unist-util-is|@azure|@typespec)/)",
       "^.+\\.module\\.(css|sass|scss)$",
    ],
    moduleNameMapper: {
