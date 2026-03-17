@@ -12,7 +12,7 @@ export const extendsConfig = {};
 
 const AZURE_TOKEN_SCOPE = "https://ossrdbms-aad.database.windows.net/.default";
 
-function createAzureIdentityPool(): Pool {
+const createAzureIdentityPool = (): Pool => {
    const clientId = process.env.AZURE_CLIENT_ID;
    const credential = new ManagedIdentityCredential({ clientId });
 
@@ -29,20 +29,20 @@ function createAzureIdentityPool(): Pool {
          return tokenResponse.token;
       },
    });
-}
+};
 
-function createPrismaClient(): PrismaClient {
+const createPrismaClient = (): PrismaClient => {
    if (process.env.USE_AZURE_IDENTITY === "true") {
       const pool = createAzureIdentityPool();
       const adapter = new PrismaPg(pool);
       return new PrismaClient({
-         log: ["query", "info", "warn", "error"],
+         log: ["warn", "error"],
          adapter,
       }).$extends(extendsConfig) as unknown as PrismaClient;
    }
 
    return new PrismaClient().$extends(extendsConfig) as unknown as PrismaClient;
-}
+};
 
 const prisma = globalForPrisma.prisma || createPrismaClient();
 
