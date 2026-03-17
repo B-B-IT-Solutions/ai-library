@@ -1,3 +1,5 @@
+import { DUser } from "@/data/types/domain/user";
+
 const IUBENDA_CONSENT_URL = "https://consent.iubenda.com/consent";
 const MAX_ATTEMPTS = 3;
 const RETRY_DELAYS_MS = [0, 1_000, 2_000];
@@ -13,11 +15,9 @@ type IubendaConsentPayload = {
    timestamp: string;
 };
 
-export type RecordConsentParams = {
-   userId: string;
-   email: string;
-   fullName: string;
-   consentAcceptedAt: Date;
+export type LegalNoticesAcceptedParams = {
+   user: DUser;
+   acceptedAt: Date;
 };
 
 export class IubendaService {
@@ -29,9 +29,12 @@ export class IubendaService {
 
    /**
     * Records consent in iubenda with up to 3 attempts (exponential backoff).
+
     * @returns true if consent was successfully recorded, false if all attempts failed.
     */
-   async recordConsent(params: RecordConsentParams): Promise<boolean> {
+   async saveLegalNoticesAccepted(
+      params: LegalNoticesAcceptedParams
+   ): Promise<boolean> {
       if (!this.apiKey) {
          console.warn(
             "[IubendaService] IUBENDA_API_KEY not set – skipping consent recording"
@@ -39,7 +42,7 @@ export class IubendaService {
          return false;
       }
 
-      const payload = this.buildPayload(params);
+      const payload = this.buildLegalNoticesPayload(params);
 
       for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
          const delayMs = RETRY_DELAYS_MS[attempt - 1];
@@ -54,12 +57,12 @@ export class IubendaService {
             const isLastAttempt = attempt === MAX_ATTEMPTS;
             if (isLastAttempt) {
                console.error(
-                  `[IubendaService] All ${MAX_ATTEMPTS} attempts failed for user ${params.userId}:`,
+                  `[IubendaService] All ${MAX_ATTEMPTS} attempts failed for user ${params.user.id}:`,
                   error
                );
             } else {
                console.warn(
-                  `[IubendaService] Attempt ${attempt} failed for user ${params.userId}, retrying in ${RETRY_DELAYS_MS[attempt]}ms:`,
+                  `[IubendaService] Attempt ${attempt} failed for user ${params.user.id}, retrying in ${RETRY_DELAYS_MS[attempt]}ms:`,
                   error
                );
             }
@@ -85,12 +88,15 @@ export class IubendaService {
       }
    }
 
-   private buildPayload(params: RecordConsentParams): IubendaConsentPayload {
+   private buildLegalNoticesPayload(
+      params: LegalNoticesAcceptedParams
+   ): IubendaConsentPayload {
+      const { user, acceptedAt } = params;
       return {
          subject: {
-            id: params.userId,
-            email: params.email,
-            full_name: params.fullName,
+            id: user.id,
+            email: user.email,
+            full_name: user.name,
          },
          legal_notices: [
             { identifier: "privacy_policy" },
@@ -101,12 +107,12 @@ export class IubendaService {
                content: JSON.stringify({
                   action: "registration",
                   source: "signup_form",
-                  accepted_at: params.consentAcceptedAt.toISOString(),
+                  accepted_at: acceptedAt.toISOString(),
                }),
                form: "Registrierungsformular – Checkbox: AGB und Datenschutzerklärung",
             },
          ],
-         timestamp: params.consentAcceptedAt.toISOString(),
+         timestamp: acceptedAt.toISOString(),
       };
    }
 

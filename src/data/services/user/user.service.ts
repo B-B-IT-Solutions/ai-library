@@ -1,4 +1,8 @@
 import { UserRepository } from "@/data/repositories/user";
+import {
+   IubendaService,
+   LegalNoticesAcceptedParams,
+} from "@/data/services/iubenda";
 import { UserUpdateData } from "@/data/types/db/user";
 import {
    DUser,
@@ -11,7 +15,6 @@ import {
 } from "@/data/types/domain/user";
 import { compare, hash } from "@/lib/encrypt";
 import { CartService } from "../cart";
-import { IubendaService } from "../iubenda";
 import { LibraryService } from "../library";
 import { OrderService } from "../order";
 
@@ -40,29 +43,17 @@ export class UserService {
 
    async signUpUser(data: DUserSignUp): Promise<DUser> {
       const hashedPassword = await hash(data.password);
-      const consentAcceptedAt = new Date();
+      const legalNoticesAcceptedAt = new Date();
 
       const newUser: DUserCreate = {
          name: data.name,
          email: data.email,
          hashedPassword: hashedPassword,
-         consentAcceptedAt,
+         consentAcceptedAt: legalNoticesAcceptedAt,
       };
 
       const user = await this.userRepository.pCreateUser(newUser);
-
-      this.iubendaService
-         .recordConsent({
-            userId: user.id,
-            email: user.email,
-            fullName: user.name,
-            consentAcceptedAt,
-         })
-         .then((synced) => {
-            if (synced) {
-               this.userRepository.pUpdateIubendaConsentSynced(user.id, true);
-            }
-         });
+      this.saveLegalNoticesAccepted(user, legalNoticesAcceptedAt);
 
       return toDUser(user);
    }
@@ -159,5 +150,18 @@ export class UserService {
       await this.libraryService.deleteLibraryEntries(userId);
       await this.orderService.deleteOrders(userId);
       await this.userRepository.pDeleteUser(userId);
+   }
+
+   async saveLegalNoticesAccepted(user: DUser, acceptedAt: Date) {
+      const params: LegalNoticesAcceptedParams = {
+         user,
+         acceptedAt,
+      };
+
+      this.iubendaService.saveLegalNoticesAccepted(params).then((synced) => {
+         if (synced) {
+            this.userRepository.pUpdateIubendaConsentSynced(user.id, true);
+         }
+      });
    }
 }
