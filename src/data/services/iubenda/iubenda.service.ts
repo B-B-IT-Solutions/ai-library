@@ -1,36 +1,26 @@
-import axios from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import axiosRetry from "axios-retry";
 
-import { DUser } from "@/data/types/domain/user";
+import { getIubendaApiKey, getIubendaConsentUrl } from "@/lib/constants";
 
-const IUBENDA_CONSENT_URL = "https://consent.iubenda.com/consent";
-const MAX_ATTEMPTS = 3;
+import { IubendaConsentPayload, LegalNoticesAcceptedParams } from "./types";
 
-type IubendaConsentPayload = {
-   subject: {
-      id: string;
-      email: string;
-      full_name?: string;
-   };
-   legal_notices: { identifier: string }[];
-   proofs: { content: string; form: string }[];
-   timestamp: string;
-};
-
-export type LegalNoticesAcceptedParams = {
-   user: DUser;
-   acceptedAt: Date;
-};
+const RETRY_COUNTS = 3;
 
 export class IubendaService {
-   private apiKey: string | undefined;
-   private client = axios.create();
+   private apiKey: string;
+   private consentUrl: string;
+   private axios: AxiosInstance;
 
-   constructor(apiKey?: string) {
-      this.apiKey = apiKey ?? process.env.IUBENDA_API_KEY;
+   constructor() {
+      this.apiKey = getIubendaApiKey();
+      this.consentUrl = getIubendaConsentUrl();
+      this.axios = axios.create({
+         baseURL: this.consentUrl,
+      });
 
-      axiosRetry(this.client, {
-         retries: MAX_ATTEMPTS - 1,
+      axiosRetry(this.axios, {
+         retries: RETRY_COUNTS - 1,
          retryDelay: axiosRetry.exponentialDelay,
          onRetry: (retryCount, error) => {
             console.warn(
@@ -41,34 +31,22 @@ export class IubendaService {
       });
    }
 
-   /**
-    * Records consent in iubenda with up to 3 attempts (exponential backoff).
-    * @returns true if consent was successfully recorded, false if all attempts failed.
-    */
    async saveLegalNoticesAccepted(
       params: LegalNoticesAcceptedParams
    ): Promise<boolean> {
-      if (!this.apiKey) {
-         console.warn(
-            "[IubendaService] IUBENDA_API_KEY not set – skipping consent recording"
-         );
-         return false;
-      }
-
       try {
-         await this.client.post(
-            IUBENDA_CONSENT_URL,
-            this.buildLegalNoticesPayload(params),
-            {
-               headers: {
-                  ApiKey: this.apiKey,
-               },
-            }
-         );
+         const payload = this.buildLegalNoticesPayload(params);
+         const config: AxiosRequestConfig = {
+            headers: {
+               ApiKey: this.apiKey,
+            },
+         };
+         await this.axios.post("/consent", payload, config);
+
          return true;
       } catch (error) {
          console.error(
-            `[IubendaService] All ${MAX_ATTEMPTS} attempts failed for user ${params.user.id}:`,
+            `[IubendaService] All ${RETRY_COUNTS} attempts failed for user ${params.user.id}:`,
             error
          );
          return false;

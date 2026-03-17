@@ -10,6 +10,9 @@ export const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
 export const NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY =
    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
 
+export const IUBENDA_API_KEY = process.env.IUBENDA_API_KEY;
+export const IUBENDA_CONSENT_URL = process.env.IUBENDA_CONSENT_URL;
+
 // Subscription Plan IDs (set after seeding database)
 export const STRIPE_FREE_PLAN_ID = process.env.STRIPE_FREE_PLAN_ID;
 export const STRIPE_BASIC_PLAN_ID = process.env.STRIPE_BASIC_PLAN_ID;
@@ -17,3 +20,19 @@ export const STRIPE_PRO_PLAN_ID = process.env.STRIPE_PRO_PLAN_ID;
 
 export const INIT_PAGE_NUMBER = 0;
 export const PAGE_SIZE = 10;
+
+export const getIubendaApiKey = (): string => {
+   if (!IUBENDA_API_KEY) {
+      throw new Error("IUBENDA_API_KEY is not set in environment variables");
+   }
+   return IUBENDA_API_KEY;
+};
+
+export const getIubendaConsentUrl = (): string => {
+   if (!IUBENDA_CONSENT_URL) {
+      throw new Error(
+         "IUBENDA_CONSENT_URL is not set in environment variables"
+      );
+   }
+   return IUBENDA_CONSENT_URL;
+};
