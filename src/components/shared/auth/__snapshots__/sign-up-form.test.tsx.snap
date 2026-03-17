@@ -304,6 +304,94 @@ exports[`SignUpForm rendering tests SignUpForm - callbackUrl defined -  rendered
       </div>
       <div
         class="group/field flex w-full gap-3 data-[invalid=true]:text-destructive flex-col [&>*]:w-full [&>.sr-only]:w-auto"
+        data-invalid="false"
+        data-orientation="vertical"
+        data-slot="field"
+        role="group"
+      >
+        <div
+          class="flex items-start gap-3"
+        >
+          <button
+            aria-checked="false"
+            aria-invalid="false"
+            class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 mt-0.5 shrink-0"
+            data-slot="checkbox"
+            data-state="unchecked"
+            data-testid="accept-terms-checkbox"
+            id="acceptTerms"
+            role="checkbox"
+            type="button"
+            value="on"
+          >
+            <div
+              data-testid="mock-react-presence"
+            >
+              <span
+                class="grid place-content-center text-current transition-none"
+                data-slot="checkbox-indicator"
+                data-state="unchecked"
+                style="pointer-events: none;"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-check size-3.5"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M20 6 9 17l-5-5"
+                  />
+                </svg>
+              </span>
+            </div>
+          </button>
+          <input
+            aria-hidden="true"
+            style="position: absolute; pointer-events: none; opacity: 0; margin: 0px; transform: translateX(-100%); width: 0px; height: 0px;"
+            tabindex="-1"
+            type="checkbox"
+            value="on"
+          />
+          <label
+            class="cursor-pointer text-sm leading-snug text-muted-foreground select-none"
+            for="acceptTerms"
+          >
+            Ich habe die
+             
+            <a
+              class="font-medium text-primary underline-offset-2 hover:underline"
+              data-testid="mock-link"
+              href="https://www.iubenda.com/terms-and-conditions/97062585"
+              target="_blank"
+            >
+              AGB
+            </a>
+             
+            und die
+             
+            <a
+              class="font-medium text-primary underline-offset-2 hover:underline"
+              data-testid="mock-link"
+              href="https://www.iubenda.com/privacy-policy/97062585/full-legal"
+              target="_blank"
+            >
+              Datenschutzerklärung
+            </a>
+             
+            gelesen und akzeptiere diese.
+          </label>
+        </div>
+      </div>
+      <div
+        class="group/field flex w-full gap-3 data-[invalid=true]:text-destructive flex-col [&>*]:w-full [&>.sr-only]:w-auto"
         data-orientation="vertical"
         data-slot="field"
         role="group"
@@ -636,6 +724,94 @@ exports[`SignUpForm rendering tests SignUpForm - callbackUrl undefined -  render
               />
             </svg>
           </button>
+        </div>
+      </div>
+      <div
+        class="group/field flex w-full gap-3 data-[invalid=true]:text-destructive flex-col [&>*]:w-full [&>.sr-only]:w-auto"
+        data-invalid="false"
+        data-orientation="vertical"
+        data-slot="field"
+        role="group"
+      >
+        <div
+          class="flex items-start gap-3"
+        >
+          <button
+            aria-checked="false"
+            aria-invalid="false"
+            class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 mt-0.5 shrink-0"
+            data-slot="checkbox"
+            data-state="unchecked"
+            data-testid="accept-terms-checkbox"
+            id="acceptTerms"
+            role="checkbox"
+            type="button"
+            value="on"
+          >
+            <div
+              data-testid="mock-react-presence"
+            >
+              <span
+                class="grid place-content-center text-current transition-none"
+                data-slot="checkbox-indicator"
+                data-state="unchecked"
+                style="pointer-events: none;"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-check size-3.5"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M20 6 9 17l-5-5"
+                  />
+                </svg>
+              </span>
+            </div>
+          </button>
+          <input
+            aria-hidden="true"
+            style="position: absolute; pointer-events: none; opacity: 0; margin: 0px; transform: translateX(-100%); width: 0px; height: 0px;"
+            tabindex="-1"
+            type="checkbox"
+            value="on"
+          />
+          <label
+            class="cursor-pointer text-sm leading-snug text-muted-foreground select-none"
+            for="acceptTerms"
+          >
+            Ich habe die
+             
+            <a
+              class="font-medium text-primary underline-offset-2 hover:underline"
+              data-testid="mock-link"
+              href="https://www.iubenda.com/terms-and-conditions/97062585"
+              target="_blank"
+            >
+              AGB
+            </a>
+             
+            und die
+             
+            <a
+              class="font-medium text-primary underline-offset-2 hover:underline"
+              data-testid="mock-link"
+              href="https://www.iubenda.com/privacy-policy/97062585/full-legal"
+              target="_blank"
+            >
+              Datenschutzerklärung
+            </a>
+             
+            gelesen und akzeptiere diese.
+          </label>
         </div>
       </div>
       <div
