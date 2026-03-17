@@ -35,28 +35,50 @@ describe("signInSchema tests", () => {
 });
 
 describe("signUpSchema tests", () => {
-   it("signUpSchema - data valid - test", async () => {
-      const formData: DUserSignUp = {
-         name: "Test 1",
-         email: "test1@email.com",
-         password: "123456",
-         confirmPassword: "123456",
-      };
+   const validFormData: DUserSignUp = {
+      name: "Test 1",
+      email: "test1@email.com",
+      password: "123456",
+      confirmPassword: "123456",
+      acceptTerms: true,
+   };
 
-      const validatedValues = signUpSchema.parse(formData);
-      expect(validatedValues).toEqual(formData);
+   it("signUpSchema - data valid - test", async () => {
+      const validatedValues = signUpSchema.parse(validFormData);
+      expect(validatedValues).toEqual(validFormData);
    });
 
-   it("signUpSchema - data invalid - test", async () => {
+   it("signUpSchema - data invalid - invalid email and mismatched passwords - test", async () => {
       const formData: DUserSignUp = {
          name: "Test 1",
          email: "email.com",
          password: "123456",
          confirmPassword: "123",
+         acceptTerms: true,
       };
 
       const fn = () => signUpSchema.parse(formData);
       expect(fn).toThrow(ZodError);
+   });
+
+   it("signUpSchema - acceptTerms false - test", () => {
+      const formData = { ...validFormData, acceptTerms: false };
+      const fn = () => signUpSchema.parse(formData);
+      expect(fn).toThrow(ZodError);
+      expect(fn).toThrow("acceptTerms");
+      expect(fn).toThrow(
+         "Sie müssen die AGB und Datenschutzerklärung akzeptieren"
+      );
+   });
+
+   it("signUpSchema - acceptTerms missing - test", () => {
+      const invalidFormData = validFormData;
+      invalidFormData.acceptTerms = undefined as unknown as boolean;
+
+      const fn = () => signUpSchema.parse(invalidFormData);
+      expect(fn).toThrow(ZodError);
+      expect(fn).toThrow("acceptTerms");
+      expect(fn).toThrow("Invalid input: expected boolean, received undefined");
    });
 });
 
