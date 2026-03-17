@@ -46,7 +46,7 @@ export class IubendaService {
          return true;
       } catch (error) {
          console.error(
-            `[IubendaService] All ${RETRY_COUNTS} attempts failed for user ${params.user.id}:`,
+            `[IubendaService] All attempts to save legal notices failed for user ${params.user.id}:`,
             error
          );
          return false;
