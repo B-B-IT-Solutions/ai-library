@@ -59,7 +59,11 @@ export class IubendaService {
          await this.client.post(
             IUBENDA_CONSENT_URL,
             this.buildLegalNoticesPayload(params),
-            { headers: { ApiKey: this.apiKey } }
+            {
+               headers: {
+                  ApiKey: this.apiKey,
+               },
+            }
          );
          return true;
       } catch (error) {
