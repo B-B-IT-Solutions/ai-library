@@ -48,7 +48,7 @@ describe("signUpSchema tests", () => {
       expect(validatedValues).toEqual(validFormData);
    });
 
-   it("signUpSchema - data invalid - invalid email and mismatched passwords - test", async () => {
+   it("signUpSchema - data invalid - test", async () => {
       const formData: DUserSignUp = {
          name: "Test 1",
          email: "email.com",
