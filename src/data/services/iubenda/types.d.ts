@@ -13,7 +13,8 @@ export type IubendaConsentPayload = {
    subject: {
       id: string;
       email: string;
-      full_name?: string;
+      full_name: string;
+      ip_address?: string;
    };
    legal_notices: LegalNotice[];
    proofs: Proof[];
@@ -23,4 +24,5 @@ export type IubendaConsentPayload = {
 export type LegalNoticesAcceptedParams = {
    user: DUser;
    acceptedAt: Date;
+   ipAddress?: string;
 };

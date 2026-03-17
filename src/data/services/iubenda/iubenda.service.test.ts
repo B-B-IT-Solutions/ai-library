@@ -34,6 +34,7 @@ const mockedGetConsentUrl = getIubendaConsentUrl as jest.MockedFunction<
 const buildParams = (index = 1): LegalNoticesAcceptedParams => ({
    user: dtestData.dUser(index),
    acceptedAt: new Date("2025-09-27T10:00:00.000Z"),
+   ipAddress: "10.0.0.1",
 });
 
 describe("IubendaService - constructor - tests", () => {
@@ -91,6 +92,7 @@ describe("saveLegalNoticesAccepted - tests", () => {
             id: params.user.id,
             email: params.user.email,
             full_name: params.user.name,
+            ip_address: params.ipAddress,
          },
          legal_notices: [
             { identifier: "privacy_policy" },
@@ -130,6 +132,7 @@ describe("saveLegalNoticesAccepted - tests", () => {
             id: params.user.id,
             email: params.user.email,
             full_name: params.user.name,
+            ip_address: params.ipAddress,
          },
          legal_notices: [
             { identifier: "privacy_policy" },

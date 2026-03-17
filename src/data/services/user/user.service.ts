@@ -41,7 +41,7 @@ export class UserService {
       this.iubendaService = iubendaService;
    }
 
-   async signUpUser(data: DUserSignUp): Promise<DUser> {
+   async signUpUser(data: DUserSignUp, ipAddress?: string): Promise<DUser> {
       const hashedPassword = await hash(data.password);
       const legalNoticesAcceptedAt = new Date();
 
@@ -53,7 +53,7 @@ export class UserService {
       };
 
       const user = await this.userRepository.pCreateUser(newUser);
-      this.saveLegalNoticesAccepted(user, legalNoticesAcceptedAt);
+      this.saveLegalNoticesAccepted(user, legalNoticesAcceptedAt, ipAddress);
 
       return toDUser(user);
    }
@@ -159,10 +159,15 @@ export class UserService {
       await this.userRepository.pDeleteUser(userId);
    }
 
-   async saveLegalNoticesAccepted(user: DUser, acceptedAt: Date) {
+   async saveLegalNoticesAccepted(
+      user: DUser,
+      acceptedAt: Date,
+      ipAddress?: string
+   ) {
       const params: LegalNoticesAcceptedParams = {
          user,
          acceptedAt,
+         ipAddress,
       };
 
       this.iubendaService.saveLegalNoticesAccepted(params).then((synced) => {

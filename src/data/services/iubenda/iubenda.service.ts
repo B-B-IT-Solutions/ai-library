@@ -57,12 +57,13 @@ export class IubendaService {
    private buildLegalNoticesPayload(
       params: LegalNoticesAcceptedParams
    ): IubendaConsentPayload {
-      const { user, acceptedAt } = params;
+      const { user, acceptedAt, ipAddress } = params;
       return {
          subject: {
             id: user.id,
             email: user.email,
             full_name: user.name,
+            ip_address: ipAddress,
          },
          legal_notices: [
             { identifier: "privacy_policy" },

@@ -9,6 +9,14 @@ export const EMPTY_PAGE = {
    totalElements: 0,
 };
 
+export const resolveIpAddresse = (headers: Headers) => {
+   return (
+      headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+      headers.get("x-real-ip") ??
+      undefined
+   );
+};
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const formatError = (error: any) => {
    const isZodError = error.name === "ZodError";

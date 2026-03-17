@@ -76,6 +76,7 @@ describe("signUpUser tests", () => {
       iubendaServiceMock.saveLegalNoticesAccepted.mockResolvedValue(
          iubendaLegalNoticesSynced
       );
+      const ipAddress = "10.0.0.1";
 
       const data: DUserSignUp = {
          name: "Test 1",
@@ -85,7 +86,7 @@ describe("signUpUser tests", () => {
          acceptTerms: true,
       };
 
-      const result = await userService.signUpUser(data);
+      const result = await userService.signUpUser(data, ipAddress);
 
       const expectedResult = toDUser(createdUser);
 
@@ -99,6 +100,7 @@ describe("signUpUser tests", () => {
       const expectedLegalNoticesParams: LegalNoticesAcceptedParams = {
          user: createdUser,
          acceptedAt: expectedCreateData.legalNoticesAcceptedAt,
+         ipAddress: ipAddress,
       };
 
       const expecteUserUpdateData: UserUpdateData = {

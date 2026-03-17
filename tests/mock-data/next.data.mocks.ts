@@ -17,7 +17,7 @@ export const cookies = (cookies: CookieValues): ReadonlyRequestCookies => {
    ) as unknown as ReadonlyRequestCookies;
 };
 
-export const headers = (init: HeadersInit): ReadonlyHeaders => {
+export const headers = (init: HeadersInit = {}): ReadonlyHeaders => {
    return new Headers(init);
 };
 
