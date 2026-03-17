@@ -15,6 +15,7 @@ export class IubendaService {
    constructor() {
       this.apiKey = getIubendaApiKey();
       this.consentUrl = getIubendaConsentUrl();
+
       this.axios = axios.create({
          baseURL: this.consentUrl,
       });
