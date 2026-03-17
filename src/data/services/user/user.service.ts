@@ -49,7 +49,7 @@ export class UserService {
          name: data.name,
          email: data.email,
          hashedPassword: hashedPassword,
-         consentAcceptedAt: legalNoticesAcceptedAt,
+         legalNoticesAcceptedAt,
       };
 
       const user = await this.userRepository.pCreateUser(newUser);
