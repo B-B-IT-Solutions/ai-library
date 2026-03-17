@@ -293,11 +293,11 @@ export const SignUpForm = () => {
                         />
                         <label
                            htmlFor="acceptTerms"
-                           className="text-sm leading-snug text-muted-foreground cursor-pointer select-none"
+                           className="cursor-pointer text-sm leading-snug text-muted-foreground select-none"
                         >
                            Ich habe die{" "}
                            <Link
-                              href="/agb"
+                              href="https://www.iubenda.com/terms-and-conditions/97062585"
                               target="_blank"
                               className="font-medium text-primary underline-offset-2 hover:underline"
                            >
@@ -305,7 +305,7 @@ export const SignUpForm = () => {
                            </Link>{" "}
                            und die{" "}
                            <Link
-                              href="/datenschutz"
+                              href="https://www.iubenda.com/privacy-policy/97062585/full-legal"
                               target="_blank"
                               className="font-medium text-primary underline-offset-2 hover:underline"
                            >
