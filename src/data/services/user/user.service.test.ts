@@ -4,10 +4,12 @@ jest.mock("@/data/services/library");
 jest.mock("@/data/services/order");
 jest.mock("@/data/services/iubenda");
 jest.mock("@/lib/encrypt");
+jest.mock("@/lib/utils");
 
-import { dtestData } from "@tests";
+import { dtestData, ntestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 import MockDate from "mockdate";
+import { headers } from "next/headers";
 
 import prisma from "@/data/repositories/prisma";
 import { UserRepository } from "@/data/repositories/user";
@@ -29,12 +31,18 @@ import {
    DUserUpdate,
 } from "@/data/types/domain/user";
 import { compare, hash } from "@/lib/encrypt";
+import { resolveIpAddresse } from "@/lib/utils";
 
 import { toDUser } from "./user.mapper";
 import { UserService } from "./user.service";
 
 const compareMock = compare as jest.MockedFunction<typeof compare>;
 const hashMock = hash as jest.MockedFunction<typeof hash>;
+
+const headersMock = headers as jest.MockedFunction<typeof headers>;
+const resolveIpAddresseMock = resolveIpAddresse as jest.MockedFunction<
+   typeof resolveIpAddresse
+>;
 
 const serviceFactory = new ServiceFactory(prisma);
 const cartService = serviceFactory.getCartService();
@@ -72,11 +80,16 @@ describe("signUpUser tests", () => {
       const createdUser = dtestData.dUserInternal();
       userRepoMock.pCreateUser.mockResolvedValue(createdUser);
 
+      const reqHeader = ntestData.headers();
+      headersMock.mockResolvedValue(reqHeader);
+
+      const ipAddress = "10.0.0.1";
+      resolveIpAddresseMock.mockReturnValue(ipAddress);
+
       const iubendaLegalNoticesSynced = true;
       iubendaServiceMock.saveLegalNoticesAccepted.mockResolvedValue(
          iubendaLegalNoticesSynced
       );
-      const ipAddress = "10.0.0.1";
 
       const data: DUserSignUp = {
          name: "Test 1",
@@ -86,7 +99,7 @@ describe("signUpUser tests", () => {
          acceptTerms: true,
       };
 
-      const result = await userService.signUpUser(data, ipAddress);
+      const result = await userService.signUpUser(data);
 
       const expectedResult = toDUser(createdUser);
 
@@ -126,6 +139,11 @@ describe("signUpUser tests", () => {
    it("signUpUser - user created - iubenda synced false - test", async () => {
       const createdUser = dtestData.dUserInternal();
       userRepoMock.pCreateUser.mockResolvedValue(createdUser);
+
+      const reqHeader = ntestData.headers();
+      headersMock.mockResolvedValue(reqHeader);
+
+      resolveIpAddresseMock.mockReturnValue(undefined);
 
       const iubendaLegalNoticesSynced = false;
       iubendaServiceMock.saveLegalNoticesAccepted.mockResolvedValue(

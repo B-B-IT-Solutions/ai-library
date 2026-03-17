@@ -1,3 +1,5 @@
+import { headers } from "next/headers";
+
 import { UserRepository } from "@/data/repositories/user";
 import { CartService } from "@/data/services//cart";
 import { LibraryService } from "@/data/services//library";
@@ -17,6 +19,7 @@ import {
    DUserUpdate,
 } from "@/data/types/domain/user";
 import { compare, hash } from "@/lib/encrypt";
+import { resolveIpAddresse } from "@/lib/utils";
 
 import { toDUser } from "./user.mapper";
 
@@ -41,7 +44,7 @@ export class UserService {
       this.iubendaService = iubendaService;
    }
 
-   async signUpUser(data: DUserSignUp, ipAddress?: string): Promise<DUser> {
+   async signUpUser(data: DUserSignUp): Promise<DUser> {
       const hashedPassword = await hash(data.password);
       const legalNoticesAcceptedAt = new Date();
 
@@ -53,7 +56,7 @@ export class UserService {
       };
 
       const user = await this.userRepository.pCreateUser(newUser);
-      this.saveLegalNoticesAccepted(user, legalNoticesAcceptedAt, ipAddress);
+      this.saveLegalNoticesAccepted(user, legalNoticesAcceptedAt);
 
       return toDUser(user);
    }
@@ -159,11 +162,10 @@ export class UserService {
       await this.userRepository.pDeleteUser(userId);
    }
 
-   async saveLegalNoticesAccepted(
-      user: DUser,
-      acceptedAt: Date,
-      ipAddress?: string
-   ) {
+   async saveLegalNoticesAccepted(user: DUser, acceptedAt: Date) {
+      const headersList = await headers();
+      const ipAddress = resolveIpAddresse(headersList);
+
       const params: LegalNoticesAcceptedParams = {
          user,
          acceptedAt,

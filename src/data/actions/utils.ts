@@ -1,6 +1,4 @@
-import { includes, join, map } from "es-toolkit/compat";
-
-const LOOPBACK_ADDRESSES = ["::1", "127.0.0.1"];
+import { join, map } from "es-toolkit/compat";
 
 export const EMPTY_PAGE = {
    content: [],
@@ -9,19 +7,6 @@ export const EMPTY_PAGE = {
    numberOfElements: 50,
    totalPages: 0,
    totalElements: 0,
-};
-
-export const resolveIpAddresse = (headers: Headers): string | undefined => {
-   const ip =
-      headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-      headers.get("x-real-ip") ??
-      undefined;
-
-   if (!ip || includes(LOOPBACK_ADDRESSES, ip)) {
-      return undefined;
-   }
-
-   return ip;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -1,11 +1,10 @@
 "use server";
 
 import { isRedirectError } from "next/dist/client/components/redirect-error";
-import { headers } from "next/headers";
 
 import { signIn, signOut } from "@/auth";
 import { requireUser } from "@/data/actions/auth-utils";
-import { formatError, resolveIpAddresse } from "@/data/actions/utils";
+import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
@@ -30,11 +29,8 @@ export const signUpUser = async (data: DUserSignUp) => {
    try {
       const validatedData: DUserSignUp = signUpSchema.parse(data);
 
-      const headersList = await headers();
-      const ipAddress = resolveIpAddresse(headersList);
-
       const service = getService();
-      await service.signUpUser(validatedData, ipAddress);
+      await service.signUpUser(validatedData);
 
       await signIn("credentials", {
          email: data.email,

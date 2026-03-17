@@ -1,7 +1,10 @@
+import { ntestData } from "@tests";
+
 import {
    cn,
    formatDateTime,
    navigateToExternalUrl,
+   resolveIpAddresse,
    stringify,
    toTestId,
 } from "./utils";
@@ -75,5 +78,46 @@ describe("utils tests", () => {
          timeOnly: "03:08 PM",
       };
       expect(result).toEqual(expectedResult);
+   });
+});
+
+describe("resolveIpAddresse tests", () => {
+   it("resolveIpAddresse - x-forwarded-for set - returns ip - test", () => {
+      const headers = ntestData.headers({ "x-forwarded-for": "192.168.1.1" });
+      expect(resolveIpAddresse(headers)).toBe("192.168.1.1");
+   });
+
+   it("resolveIpAddresse - x-forwarded-for multiple ips - returns first ip - test", () => {
+      const headers = ntestData.headers({
+         "x-forwarded-for": "192.168.1.1,10.0.0.1,172.16.0.1",
+      });
+      expect(resolveIpAddresse(headers)).toBe("192.168.1.1");
+   });
+
+   it("resolveIpAddresse - x-forwarded-for multiple ips with spaces - returns first ip trimmed - test", () => {
+      const headers = ntestData.headers({
+         "x-forwarded-for": "  192.168.1.1 , 10.0.0.1",
+      });
+      expect(resolveIpAddresse(headers)).toBe("192.168.1.1");
+   });
+
+   it("resolveIpAddresse - x-forwarded-for not set - x-real-ip set - returns x-real-ip - test", () => {
+      const headers = ntestData.headers({ "x-real-ip": "10.0.0.1" });
+      expect(resolveIpAddresse(headers)).toBe("10.0.0.1");
+   });
+
+   it("resolveIpAddresse - no headers set - returns undefined - test", () => {
+      const headers = ntestData.headers();
+      expect(resolveIpAddresse(headers)).toBeUndefined();
+   });
+
+   it("resolveIpAddresse - ipv6 loopback ::1 - returns undefined - test", () => {
+      const headers = ntestData.headers({ "x-forwarded-for": "::1" });
+      expect(resolveIpAddresse(headers)).toBeUndefined();
+   });
+
+   it("resolveIpAddresse - ipv4 loopback 127.0.0.1 - returns undefined - test", () => {
+      const headers = ntestData.headers({ "x-forwarded-for": "127.0.0.1" });
+      expect(resolveIpAddresse(headers)).toBeUndefined();
    });
 });

@@ -1,21 +1,15 @@
 jest.mock("@/data/services/user");
 jest.mock("@/data/services/iubenda");
 jest.mock("@/data/actions/auth-utils");
-jest.mock("@/data/actions/utils", () => ({
-   ...jest.requireActual("@/data/actions/utils"),
-   resolveIpAddresse: jest.fn(),
-}));
 jest.mock("next/dist/client/components/redirect-error");
 
 import { PrismaClient } from "@prisma/client";
-import { dtestData, ntestData } from "@tests";
+import { dtestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
-import { headers } from "next/headers";
 
 import { signIn, signOut } from "@/auth";
 import { requireUser } from "@/data/actions/auth-utils";
-import { resolveIpAddresse } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { UserService } from "@/data/services/user";
 import {
@@ -35,11 +29,6 @@ import {
    updatePassword,
    updateUserProfile,
 } from "./user.actions";
-
-const headersMock = headers as jest.MockedFunction<typeof headers>;
-const resolveIpAddresseMock = resolveIpAddresse as jest.MockedFunction<
-   typeof resolveIpAddresse
->;
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
@@ -152,12 +141,6 @@ describe("signUpUser tests", () => {
    });
 
    it("signUpUser - valid form values - test", async () => {
-      const reqHeader = ntestData.headers();
-      headersMock.mockResolvedValue(reqHeader);
-
-      const ipAddress = "10.0.0.1";
-      resolveIpAddresseMock.mockReturnValue(ipAddress);
-
       const data: DUserSignUp = {
          name: "Test 1",
          email: "test1@email.com",
@@ -178,7 +161,7 @@ describe("signUpUser tests", () => {
       };
       expect(result).toEqual(expectedResult);
       expect(sSignUpUserMock).toHaveBeenCalledTimes(1);
-      expect(sSignUpUserMock).toHaveBeenCalledWith(data, ipAddress);
+      expect(sSignUpUserMock).toHaveBeenCalledWith(data);
       expect(signInMock).toHaveBeenCalledTimes(1);
       expect(signInMock).toHaveBeenCalledWith(
          "credentials",
@@ -187,12 +170,6 @@ describe("signUpUser tests", () => {
    });
 
    it("signUpUser - invalid form values - test", async () => {
-      const reqHeader = ntestData.headers();
-      headersMock.mockResolvedValue(reqHeader);
-
-      const ipAddress = "10.0.0.11";
-      resolveIpAddresseMock.mockReturnValue(ipAddress);
-
       const data: DUserSignUp = {
          name: "Test 1",
          email: "email.com",
@@ -216,12 +193,6 @@ describe("signUpUser tests", () => {
    });
 
    it("signUpUser - redirect error - test", async () => {
-      const reqHeader = ntestData.headers();
-      headersMock.mockResolvedValue(reqHeader);
-
-      const ipAddress = "10.0.0.17";
-      resolveIpAddresseMock.mockReturnValue(ipAddress);
-
       const data: DUserSignUp = {
          name: "Test 1",
          email: "test1@email.com",
@@ -243,7 +214,7 @@ describe("signUpUser tests", () => {
 
       await expect(fn).rejects.toThrow(Error);
       expect(sSignUpUserMock).toHaveBeenCalledTimes(1);
-      expect(sSignUpUserMock).toHaveBeenCalledWith(data, ipAddress);
+      expect(sSignUpUserMock).toHaveBeenCalledWith(data);
       expect(signInMock).toHaveBeenCalledTimes(1);
       expect(signInMock).toHaveBeenCalledWith(
          "credentials",
