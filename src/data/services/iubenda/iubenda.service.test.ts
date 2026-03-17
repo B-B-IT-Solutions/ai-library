@@ -40,18 +40,20 @@ const buildParams = (index = 1): LegalNoticesAcceptedParams => ({
    acceptedAt: new Date("2025-09-27T10:00:00.000Z"),
 });
 
-describe("IubendaService tests", () => {
-   let service: IubendaService;
-
+describe("IubendaService - constructor - tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       mockedGetApiKey.mockReturnValue(TEST_API_KEY);
       mockedGetConsentUrl.mockReturnValue(TEST_CONSENT_URL);
       mockedAxiosCreate.mockReturnValue(mockAxiosInstance);
-      service = new IubendaService();
    });
 
    it("constructor - test", () => {
+      const consoleWarn = jest.spyOn(console, "warn").mockImplementation();
+
+      const service = new IubendaService();
+
+      expect(service).toBeDefined();
       expect(mockedAxiosCreate).toHaveBeenCalledTimes(1);
       expect(mockedAxiosCreate).toHaveBeenCalledWith({
          baseURL: TEST_CONSENT_URL,
@@ -62,16 +64,8 @@ describe("IubendaService tests", () => {
       expect(axiosInstance).toEqual(mockAxiosInstance);
       expect(config?.retries).toBe(2);
       expect(config?.retryDelay).toBe(axiosRetry.exponentialDelay);
-   });
 
-   it("onRetry - logs warning with retry count and error message - test", () => {
-      const consoleWarn = jest
-         .spyOn(console, "warn")
-         .mockImplementation(() => {});
-
-      const [, config] = mockedAxiosRetry.mock.calls[0];
       const error = new AxiosError("timeout");
-
       config?.onRetry?.(1, error, {} as never);
 
       expect(consoleWarn).toHaveBeenCalledWith(
@@ -79,11 +73,21 @@ describe("IubendaService tests", () => {
          error.message
       );
    });
+});
+
+describe("saveLegalNoticesAccepted - tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      mockedGetApiKey.mockReturnValue(TEST_API_KEY);
+      mockedGetConsentUrl.mockReturnValue(TEST_CONSENT_URL);
+      mockedAxiosCreate.mockReturnValue(mockAxiosInstance);
+   });
 
    it("saveLegalNoticesAccepted - success true - test", async () => {
       mockPost.mockResolvedValue({ status: 200 });
       const params = buildParams(1);
 
+      const service = new IubendaService();
       const result = await service.saveLegalNoticesAccepted(params);
 
       const expectedPayload: IubendaConsentPayload = {
@@ -119,13 +123,10 @@ describe("IubendaService tests", () => {
 
    it("saveLegalNoticesAccepted - success false - test", async () => {
       mockPost.mockRejectedValue(new Error("Network error"));
-
-      const consoleError = jest
-         .spyOn(console, "error")
-         .mockImplementation(() => {});
-
+      const consoleError = jest.spyOn(console, "error").mockImplementation();
       const params = buildParams(123);
 
+      const service = new IubendaService();
       const result = await service.saveLegalNoticesAccepted(params);
 
       const expectedPayload: IubendaConsentPayload = {
