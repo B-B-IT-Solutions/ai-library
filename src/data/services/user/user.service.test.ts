@@ -2,13 +2,20 @@ jest.mock("@/data/repositories/user");
 jest.mock("@/data/services/cart");
 jest.mock("@/data/services/library");
 jest.mock("@/data/services/order");
+jest.mock("@/data/services/iubenda");
 jest.mock("@/lib/encrypt");
 
 import { dtestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
+import MockDate from "mockdate";
 
 import prisma from "@/data/repositories/prisma";
 import { UserRepository } from "@/data/repositories/user";
+import { ServiceFactory } from "@/data/services//service.factory";
+import { CartService } from "@/data/services/cart";
+import { IubendaService } from "@/data/services/iubenda";
+import { LibraryService } from "@/data/services/library";
+import { OrderService } from "@/data/services/order";
 import { UserUpdateData } from "@/data/types/db/user";
 import {
    DUserAccountDelete,
@@ -19,10 +26,6 @@ import {
    DUserUpdate,
 } from "@/data/types/domain/user";
 import { compare, hash } from "@/lib/encrypt";
-import { CartService } from "../cart";
-import { LibraryService } from "../library";
-import { OrderService } from "../order";
-import { ServiceFactory } from "../service.factory";
 
 import { toDUser } from "./user.mapper";
 import { UserService } from "./user.service";
@@ -34,10 +37,12 @@ const serviceFactory = new ServiceFactory(prisma);
 const cartService = serviceFactory.getCartService();
 const libraryService = serviceFactory.getLibraryService();
 const orderService = serviceFactory.getOrderService();
+const iubendaService = serviceFactory.getIubendaService();
 
 const cartServiceMock = cartService as DeepMockProxy<CartService>;
 const libraryServiceMock = libraryService as DeepMockProxy<LibraryService>;
 const orderServiceMock = orderService as DeepMockProxy<OrderService>;
+const iubendaServiceMock = iubendaService as DeepMockProxy<IubendaService>;
 
 const userRepo = new UserRepository(prisma);
 const userRepoMock = userRepo as DeepMockProxy<UserRepository>;
@@ -46,23 +51,31 @@ const userService = new UserService(
    userRepoMock,
    cartServiceMock,
    libraryServiceMock,
-   orderServiceMock
+   orderServiceMock,
+   iubendaServiceMock
 );
 
 describe("signUpUser tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      MockDate.set("2025-09-27");
    });
 
-   it("signUpUser - user created - test", async () => {
+   afterEach(() => {
+      MockDate.reset();
+   });
+
+   it("signUpUser - user created - iubenda synced true - test", async () => {
       const createdUser = dtestData.dUserInternal();
       userRepoMock.pCreateUser.mockResolvedValue(createdUser);
+      iubendaServiceMock.saveLegalNoticesAccepted.mockResolvedValue(true);
 
       const data: DUserSignUp = {
          name: "Test 1",
          email: "test1@email.com",
          password: "123456",
          confirmPassword: "123456",
+         acceptTerms: true,
       };
 
       const result = await userService.signUpUser(data);
@@ -73,11 +86,50 @@ describe("signUpUser tests", () => {
          name: data.name,
          email: data.email,
          hashedPassword: await hash(data.password),
+         legalNoticesAcceptedAt: new Date("2025-09-27"),
       };
 
       expect(result).toEqual(expectedResult);
       expect(userRepoMock.pCreateUser).toHaveBeenCalledTimes(1);
       expect(userRepoMock.pCreateUser).toHaveBeenCalledWith(expectedCreateData);
+      expect(
+         userRepoMock.pUpdateIubendaLegalNoticesSynced
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         userRepoMock.pUpdateIubendaLegalNoticesSynced
+      ).toHaveBeenCalledWith(createdUser.id, true);
+   });
+
+   it("signUpUser - user created - iubenda synced false - test", async () => {
+      const createdUser = dtestData.dUserInternal();
+      userRepoMock.pCreateUser.mockResolvedValue(createdUser);
+      iubendaServiceMock.saveLegalNoticesAccepted.mockResolvedValue(false);
+
+      const data: DUserSignUp = {
+         name: "Test 1",
+         email: "test1@email.com",
+         password: "123456",
+         confirmPassword: "123456",
+         acceptTerms: true,
+      };
+
+      const result = await userService.signUpUser(data);
+
+      const expectedResult = toDUser(createdUser);
+
+      const expectedCreateData: DUserCreate = {
+         name: data.name,
+         email: data.email,
+         hashedPassword: await hash(data.password),
+         legalNoticesAcceptedAt: new Date("2025-09-27"),
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(userRepoMock.pCreateUser).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pCreateUser).toHaveBeenCalledWith(expectedCreateData);
+      expect(
+         userRepoMock.pUpdateIubendaLegalNoticesSynced
+      ).not.toHaveBeenCalled();
    });
 });
 
@@ -278,6 +330,26 @@ describe("updateUserStripeCustomerId tests", () => {
          userId,
          expectedData
       );
+   });
+});
+
+describe("updateIubendaLegalNoticesSynced tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("updateIubendaLegalNoticesSynced - sync status updated - test", async () => {
+      const userId = "user-id-1";
+      const synced = true;
+
+      await userService.updateIubendaLegalNoticesSynced(userId, synced);
+
+      expect(
+         userRepoMock.pUpdateIubendaLegalNoticesSynced
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         userRepoMock.pUpdateIubendaLegalNoticesSynced
+      ).toHaveBeenCalledWith(userId, synced);
    });
 });
 

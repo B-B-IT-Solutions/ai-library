@@ -1,4 +1,7 @@
 import { UserRepository } from "@/data/repositories/user";
+import { CartService } from "@/data/services//cart";
+import { LibraryService } from "@/data/services//library";
+import { OrderService } from "@/data/services//order";
 import {
    IubendaService,
    LegalNoticesAcceptedParams,
@@ -14,9 +17,6 @@ import {
    DUserUpdate,
 } from "@/data/types/domain/user";
 import { compare, hash } from "@/lib/encrypt";
-import { CartService } from "../cart";
-import { LibraryService } from "../library";
-import { OrderService } from "../order";
 
 import { toDUser } from "./user.mapper";
 
@@ -105,6 +105,13 @@ export class UserService {
       await this.userRepository.pUpdateUser(userId, updateData);
    }
 
+   async updateIubendaLegalNoticesSynced(userId: string, synced: boolean) {
+      await this.userRepository.pUpdateIubendaLegalNoticesSynced(
+         userId,
+         synced
+      );
+   }
+
    async updatePassword(userId: string, data: DUserPasswordUpdate) {
       const user = await this.userRepository.pGetUserById(userId);
       if (!user) {
@@ -160,7 +167,7 @@ export class UserService {
 
       this.iubendaService.saveLegalNoticesAccepted(params).then((synced) => {
          if (synced) {
-            this.userRepository.pUpdateIubendaLegalNoticesSynced(user.id, true);
+            this.updateIubendaLegalNoticesSynced(user.id, true);
          }
       });
    }
