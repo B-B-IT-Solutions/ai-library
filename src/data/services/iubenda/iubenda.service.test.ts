@@ -92,7 +92,6 @@ describe("saveLegalNoticesAccepted - tests", () => {
             id: params.user.id,
             email: params.user.email,
             full_name: params.user.name,
-            ip_address: params.ipAddress,
          },
          legal_notices: [
             { identifier: "privacy_policy" },
@@ -108,6 +107,7 @@ describe("saveLegalNoticesAccepted - tests", () => {
                form: "Registrierungsformular – Checkbox: AGB und Datenschutzerklärung",
             },
          ],
+         ip_address: params.ipAddress,
          timestamp: params.acceptedAt.toISOString(),
       };
 
@@ -132,7 +132,6 @@ describe("saveLegalNoticesAccepted - tests", () => {
             id: params.user.id,
             email: params.user.email,
             full_name: params.user.name,
-            ip_address: params.ipAddress,
          },
          legal_notices: [
             { identifier: "privacy_policy" },
@@ -148,6 +147,7 @@ describe("saveLegalNoticesAccepted - tests", () => {
                form: "Registrierungsformular – Checkbox: AGB und Datenschutzerklärung",
             },
          ],
+         ip_address: params.ipAddress,
          timestamp: params.acceptedAt.toISOString(),
       };
 

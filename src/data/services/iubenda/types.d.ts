@@ -14,10 +14,10 @@ export type IubendaConsentPayload = {
       id: string;
       email: string;
       full_name: string;
-      ip_address?: string;
    };
    legal_notices: LegalNotice[];
    proofs: Proof[];
+   ip_address?: string;
    timestamp: string;
 };
 

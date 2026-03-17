@@ -63,7 +63,6 @@ export class IubendaService {
             id: user.id,
             email: user.email,
             full_name: user.name,
-            ip_address: ipAddress,
          },
          legal_notices: [
             { identifier: "privacy_policy" },
@@ -79,6 +78,7 @@ export class IubendaService {
                form: "Registrierungsformular – Checkbox: AGB und Datenschutzerklärung",
             },
          ],
+         ip_address: ipAddress,
          timestamp: acceptedAt.toISOString(),
       };
    }
