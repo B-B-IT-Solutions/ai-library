@@ -16,6 +16,10 @@ const createAzureIdentityPool = (): Pool => {
    const clientId = process.env.AZURE_CLIENT_ID;
    const credential = new ManagedIdentityCredential({ clientId });
 
+   console.log("process.env.USE_AZURE_IDENTITY");
+   console.log(process.env.USE_AZURE_IDENTITY);
+   console.log(credential);
+
    const url = new URL(process.env.DATABASE_URL!);
 
    return new Pool({
