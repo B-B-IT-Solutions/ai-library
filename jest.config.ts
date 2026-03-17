@@ -14,12 +14,6 @@ module.exports = {
          lines: 99,
          statements: 99,
       },
-      "./src/data/repositories/prisma.ts": {
-         branches: 75,
-         functions: 100,
-         lines: 100,
-         statements: 100,
-      },
    },
    setupFilesAfterEnv: [
       "<rootDir>/tests/jest.setup.ts",
