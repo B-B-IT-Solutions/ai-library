@@ -24,6 +24,7 @@ import {
    updatePasswordSchema,
    updateProfileSchema,
 } from "@/data/types/validators/user";
+
 export const signUpUser = async (data: DUserSignUp) => {
    try {
       const validatedData: DUserSignUp = signUpSchema.parse(data);
