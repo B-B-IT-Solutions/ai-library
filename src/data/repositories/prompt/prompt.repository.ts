@@ -117,7 +117,7 @@ export class PromptRepository {
       }
 
       const { globalFilter, filter } = query;
-      const { categories, isFavorite } = filter || {};
+      const { userId, categories, isFavorite } = filter || {};
 
       const searchClause: PromptDescriptorWhereInput[] | undefined =
          globalFilter
@@ -157,6 +157,7 @@ export class PromptRepository {
          isFavorite !== undefined ? { isFavorite } : undefined;
 
       return {
+         userId,
          OR: searchClause,
          AND: categoriesClause,
          ...favoriteClause,

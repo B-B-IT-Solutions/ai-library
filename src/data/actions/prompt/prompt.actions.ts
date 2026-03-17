@@ -12,13 +12,18 @@ import {
    DPromptDescriptorsPageQuery,
    DPromptUpdate,
 } from "@/data/types/domain/prompt";
+import { requireUser } from "../auth-utils";
 import { formatError } from "../utils";
 
 export const getPrompts = async (
    query?: DPromptDescriptorsPageQuery
 ): Promise<DPromptDescriptorsPage> => {
+   const user = await requireUser();
    const service = getSevice();
-   return await service.getPrompts(query);
+   return await service.getPrompts({
+      ...query,
+      filter: { ...query?.filter, userId: user.id },
+   });
 };
 
 export const getPrompt = async (
@@ -36,8 +41,9 @@ export const getPromptCategories = async (): Promise<string[]> => {
 
 export const createPrompt = async (data: DPromptUpdate) => {
    try {
+      const user = await requireUser();
       const service = getSevice();
-      await service.createPrompt(data);
+      await service.createPrompt(data, user.id);
       return {
          success: true,
          message: "Prompt erfolgreich erstellt.",

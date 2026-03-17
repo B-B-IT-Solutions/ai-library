@@ -16,6 +16,7 @@ export type PromptDescriptorsPageQuery = PageQuery<PromptDescriptorsFilter>;
 export type PromptDescriptorsPage = Page<PromptDescriptorWithRelations>;
 
 export declare interface PromptDescriptorsFilter extends Filter {
+   userId?: string;
    categories?: string[];
    isFavorite?: boolean;
 }

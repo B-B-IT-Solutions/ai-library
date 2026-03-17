@@ -52,12 +52,13 @@ export class PromptService {
       return await this.promptRepository.pGetPromptCategories();
    }
 
-   async createPrompt(data: DPromptUpdate) {
+   async createPrompt(data: DPromptUpdate, userId: string) {
       const prompt = updatePromptSchema.parse(data);
       const categories = this.createOrConnectCategories(prompt.categories);
       const followUps = this.createFollowUpsInput(prompt.followUpPrompts);
 
       const toSave: PromptDescriptorCreateInput = {
+         userId,
          title: prompt.title,
          content: prompt.content,
          recommendedModel: prompt.recommendedModel,
