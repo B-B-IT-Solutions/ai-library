@@ -1,9 +1,5 @@
 jest.mock("axios");
-jest.mock("axios-retry", () => {
-   const mock = jest.fn();
-   mock.exponentialDelay = jest.fn();
-   return mock;
-});
+jest.mock("axios-retry");
 jest.mock("@/lib/constants");
 
 import { dtestData } from "@tests";
