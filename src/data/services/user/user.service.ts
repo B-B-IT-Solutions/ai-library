@@ -160,7 +160,7 @@ export class UserService {
 
       this.iubendaService.saveLegalNoticesAccepted(params).then((synced) => {
          if (synced) {
-            this.userRepository.pUpdateIubendaConsentSynced(user.id, true);
+            this.userRepository.pUpdateIubendaLegalNoticesSynced(user.id, true);
          }
       });
    }

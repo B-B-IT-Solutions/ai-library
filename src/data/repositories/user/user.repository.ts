@@ -64,10 +64,10 @@ export class UserRepository {
       });
    }
 
-   async pUpdateIubendaConsentSynced(userId: string, synced: boolean) {
+   async pUpdateIubendaLegalNoticesSynced(userId: string, synced: boolean) {
       await this.prisma.user.update({
          where: { id: userId },
-         data: { iubendaConsentSynced: synced },
+         data: { iubendaLegalNoticesSynced: synced },
       });
    }
 
