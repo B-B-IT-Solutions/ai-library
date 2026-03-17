@@ -2,6 +2,7 @@ import {
    APP_DESCRIPTION,
    APP_NAME,
    APP_URL,
+   getIubendaApiKey,
    INIT_PAGE_NUMBER,
    PAGE_SIZE,
    STRIPE_SECRET_KEY,
@@ -21,5 +22,31 @@ describe("Constants tests", () => {
       );
       expect(INIT_PAGE_NUMBER).toEqual(0);
       expect(PAGE_SIZE).toEqual(10);
+   });
+});
+
+describe("createPrismaClient - USE_AZURE_IDENTITY false - tests", () => {
+   const originalEnv = process.env;
+
+   afterEach(() => {
+      process.env = originalEnv;
+      jest.resetModules();
+   });
+
+   it("sets globalForPrisma.prisma in non-production environment", () => {
+      jest.resetModules();
+
+      require("./constants");
+
+      expect(getIubendaApiKey()).not.toBeUndefined();
+   });
+
+   it("does not set globalForPrisma.prisma in production environment", () => {
+      process.env = { ...originalEnv, NODE_ENV: "production" };
+      jest.resetModules();
+
+      require("./prisma");
+
+      expect(globalForPrisma.prisma).toBeUndefined();
    });
 });
