@@ -32,10 +32,13 @@ const assertRendered = () => {
 };
 
 const assertFieldsRendered = () => {
+   assertLegalNoticesLinksRendered();
+
    const name = screen.getByTestId("name-field");
    const email = screen.getByTestId("email-field");
    const password = screen.getByTestId("password-field");
    const confirmPassword = screen.getByTestId("confirm-password-field");
+   const acceptTerms = screen.getByTestId("accept-terms-checkbox");
    const signUpBtn = screen.getByTestId("sign-up-btn");
    const singInLink = screen.getByTestId("sign-in-link");
 
@@ -43,8 +46,27 @@ const assertFieldsRendered = () => {
    assertInDocument(email);
    assertInDocument(password);
    assertInDocument(confirmPassword);
+   assertInDocument(acceptTerms);
    assertInDocument(signUpBtn);
    assertInDocument(singInLink);
+};
+
+const assertLegalNoticesLinksRendered = () => {
+   const termsLink = screen.getByTestId("terms_conditions_link");
+   const privacyPolicyLink = screen.getByTestId("privacy_policy_link");
+
+   assertInDocument(termsLink);
+   assertHasAttributeWithValue(
+      termsLink,
+      "href",
+      "https://www.iubenda.com/terms-and-conditions/97062585"
+   );
+   assertInDocument(privacyPolicyLink);
+   assertHasAttributeWithValue(
+      privacyPolicyLink,
+      "href",
+      "https://www.iubenda.com/privacy-policy/97062585/full-legal"
+   );
 };
 
 const assertCallbackUrl = (url: string) => {
@@ -197,6 +219,9 @@ describe("SignUpForm functionality tests", () => {
          expect(text).toBeInTheDocument();
       }, options);
 
+      const acceptTerms = getElementById("acceptTerms");
+      await userEvent.click(acceptTerms);
+
       userEvent.click(signUpBtn);
 
       const expectedFormData = {
@@ -204,6 +229,7 @@ describe("SignUpForm functionality tests", () => {
          email: emailValue,
          password: passwordValue,
          confirmPassword: passwordValue,
+         acceptTerms: true,
       };
 
       await waitFor(() => {
@@ -275,6 +301,9 @@ describe("SignUpForm functionality tests", () => {
          expect(text).toBeInTheDocument();
       }, options);
 
+      const acceptTerms = getElementById("acceptTerms");
+      await userEvent.click(acceptTerms);
+
       userEvent.click(signUpBtn);
 
       const expectedFormData = {
@@ -282,6 +311,7 @@ describe("SignUpForm functionality tests", () => {
          email: emailValue,
          password: passwordValue,
          confirmPassword: passwordValue,
+         acceptTerms: true,
       };
 
       await waitFor(() => {

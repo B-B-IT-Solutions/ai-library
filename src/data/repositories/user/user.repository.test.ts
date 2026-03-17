@@ -13,8 +13,8 @@ import {
    UserUpdateArgs,
 } from "@/generated/prisma/models";
 
-import { UserRepository } from "./user.repository";
 import { toDUserInternal } from "./user.mapper";
+import { UserRepository } from "./user.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const userRepository = new UserRepository(prismaMock);
@@ -183,6 +183,7 @@ describe("pCreateUser tests", () => {
          name: createData.name,
          email: createData.email,
          password: createData.hashedPassword,
+         legalNoticesAcceptedAt: createData.legalNoticesAcceptedAt,
       };
 
       const expectedCreateArgs: UserCreateArgs = {

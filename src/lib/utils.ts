@@ -1,7 +1,9 @@
 import { type ClassValue, clsx } from "clsx";
 import { trim } from "es-toolkit";
-import { replace, toLower } from "es-toolkit/compat";
+import { includes, replace, toLower } from "es-toolkit/compat";
 import { twMerge } from "tailwind-merge";
+
+const LOOPBACK_ADDRESSES = ["::1", "127.0.0.1"];
 
 export const toTestId = (text: string) => {
    const trimmed = trim(text);
@@ -19,6 +21,19 @@ export const stringify = <T>(value: T) => {
 
 export const navigateToExternalUrl = (url: string) => {
    window.location.href = url;
+};
+
+export const resolveIpAddresse = (headers: Headers): string | undefined => {
+   const ip =
+      headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+      headers.get("x-real-ip") ??
+      undefined;
+
+   if (!ip || includes(LOOPBACK_ADDRESSES, ip)) {
+      return undefined;
+   }
+
+   return ip;
 };
 
 export const formatDateTime = (dateString: string) => {

@@ -1,5 +1,6 @@
 import { RepositoryFactory } from "@/data/repositories";
 import { CartService } from "@/data/services/cart";
+import { IubendaService } from "@/data/services/iubenda";
 import { LibraryService } from "@/data/services/library";
 import { OrderService } from "@/data/services/order";
 import { PromptService } from "@/data/services/prompt";
@@ -21,6 +22,7 @@ export class ServiceFactory {
    private promptService?: PromptService;
    private promptTemplateService?: PromptTemplateService;
    private settingsService?: SettingsService;
+   private iubendaService?: IubendaService;
 
    constructor(prisma: DbClient) {
       this.repositories = new RepositoryFactory(prisma);
@@ -32,7 +34,8 @@ export class ServiceFactory {
             this.repositories.userRepository(),
             this.getCartService(),
             this.getLibraryService(),
-            this.getOrderService()
+            this.getOrderService(),
+            this.getIubendaService()
          );
       }
       return this.userService;
@@ -113,5 +116,12 @@ export class ServiceFactory {
          );
       }
       return this.settingsService;
+   }
+
+   getIubendaService(): IubendaService {
+      if (!this.iubendaService) {
+         this.iubendaService = new IubendaService();
+      }
+      return this.iubendaService;
    }
 }

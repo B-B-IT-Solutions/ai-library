@@ -35,28 +35,50 @@ describe("signInSchema tests", () => {
 });
 
 describe("signUpSchema tests", () => {
+   const validFormData: DUserSignUp = {
+      name: "Test 1",
+      email: "test1@email.com",
+      password: "123456",
+      confirmPassword: "123456",
+      acceptTerms: true,
+   };
+
    it("signUpSchema - data valid - test", async () => {
-      const formData: DUserSignUp = {
-         name: "Test 1",
-         email: "test1@email.com",
-         password: "123456",
-         confirmPassword: "123456",
-      };
+      const formData = { ...validFormData };
 
       const validatedValues = signUpSchema.parse(formData);
-      expect(validatedValues).toEqual(formData);
+      expect(validatedValues).toEqual(validFormData);
    });
 
    it("signUpSchema - data invalid - test", async () => {
-      const formData: DUserSignUp = {
-         name: "Test 1",
+      const formData = {
+         ...validFormData,
          email: "email.com",
-         password: "123456",
          confirmPassword: "123",
       };
 
       const fn = () => signUpSchema.parse(formData);
       expect(fn).toThrow(ZodError);
+   });
+
+   it("signUpSchema - acceptTerms false - test", () => {
+      const formData = { ...validFormData, acceptTerms: false };
+
+      const fn = () => signUpSchema.parse(formData);
+      expect(fn).toThrow(ZodError);
+      expect(fn).toThrow("acceptTerms");
+      expect(fn).toThrow(
+         "Sie müssen die AGB und Datenschutzerklärung akzeptieren"
+      );
+   });
+
+   it("signUpSchema - acceptTerms missing - test", () => {
+      const formData = { ...validFormData, acceptTerms: undefined };
+
+      const fn = () => signUpSchema.parse(formData);
+      expect(fn).toThrow(ZodError);
+      expect(fn).toThrow("acceptTerms");
+      expect(fn).toThrow("Invalid input: expected boolean, received undefined");
    });
 });
 

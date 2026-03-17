@@ -1,6 +1,7 @@
 import prisma from "@/data/repositories/prisma";
 
 import { CartService } from "./cart";
+import { IubendaService } from "./iubenda";
 import { LibraryService } from "./library";
 import { OrderService } from "./order";
 import { PromptService } from "./prompt";
@@ -126,6 +127,19 @@ describe("getSettingsService tests", () => {
    it("getSettingsService - existing instance - test", () => {
       const service1 = serviceFactory.getSettingsService();
       const service2 = serviceFactory.getSettingsService();
+      expect(service1).toBe(service2);
+   });
+});
+
+describe("getIubendaService tests", () => {
+   it("getIubendaService - new instance - test", () => {
+      const service = serviceFactory.getIubendaService();
+      expect(service).toBeInstanceOf(IubendaService);
+   });
+
+   it("getIubendaService - existing instance - test", () => {
+      const service1 = serviceFactory.getIubendaService();
+      const service2 = serviceFactory.getIubendaService();
       expect(service1).toBe(service2);
    });
 });

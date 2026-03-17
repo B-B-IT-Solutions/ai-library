@@ -2,13 +2,25 @@ jest.mock("@/data/repositories/user");
 jest.mock("@/data/services/cart");
 jest.mock("@/data/services/library");
 jest.mock("@/data/services/order");
+jest.mock("@/data/services/iubenda");
 jest.mock("@/lib/encrypt");
+jest.mock("@/lib/utils");
 
-import { dtestData } from "@tests";
+import { dtestData, ntestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
+import MockDate from "mockdate";
+import { headers } from "next/headers";
 
 import prisma from "@/data/repositories/prisma";
 import { UserRepository } from "@/data/repositories/user";
+import { ServiceFactory } from "@/data/services//service.factory";
+import { CartService } from "@/data/services/cart";
+import {
+   IubendaService,
+   LegalNoticesAcceptedParams,
+} from "@/data/services/iubenda";
+import { LibraryService } from "@/data/services/library";
+import { OrderService } from "@/data/services/order";
 import { UserUpdateData } from "@/data/types/db/user";
 import {
    DUserAccountDelete,
@@ -19,10 +31,7 @@ import {
    DUserUpdate,
 } from "@/data/types/domain/user";
 import { compare, hash } from "@/lib/encrypt";
-import { CartService } from "../cart";
-import { LibraryService } from "../library";
-import { OrderService } from "../order";
-import { ServiceFactory } from "../service.factory";
+import { resolveIpAddresse } from "@/lib/utils";
 
 import { toDUser } from "./user.mapper";
 import { UserService } from "./user.service";
@@ -30,14 +39,21 @@ import { UserService } from "./user.service";
 const compareMock = compare as jest.MockedFunction<typeof compare>;
 const hashMock = hash as jest.MockedFunction<typeof hash>;
 
+const headersMock = headers as jest.MockedFunction<typeof headers>;
+const resolveIpAddresseMock = resolveIpAddresse as jest.MockedFunction<
+   typeof resolveIpAddresse
+>;
+
 const serviceFactory = new ServiceFactory(prisma);
 const cartService = serviceFactory.getCartService();
 const libraryService = serviceFactory.getLibraryService();
 const orderService = serviceFactory.getOrderService();
+const iubendaService = serviceFactory.getIubendaService();
 
 const cartServiceMock = cartService as DeepMockProxy<CartService>;
 const libraryServiceMock = libraryService as DeepMockProxy<LibraryService>;
 const orderServiceMock = orderService as DeepMockProxy<OrderService>;
+const iubendaServiceMock = iubendaService as DeepMockProxy<IubendaService>;
 
 const userRepo = new UserRepository(prisma);
 const userRepoMock = userRepo as DeepMockProxy<UserRepository>;
@@ -46,23 +62,41 @@ const userService = new UserService(
    userRepoMock,
    cartServiceMock,
    libraryServiceMock,
-   orderServiceMock
+   orderServiceMock,
+   iubendaServiceMock
 );
 
 describe("signUpUser tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      MockDate.set("2025-09-27");
    });
 
-   it("signUpUser - user created - test", async () => {
+   afterEach(() => {
+      MockDate.reset();
+   });
+
+   it("signUpUser - user created - iubenda synced true - test", async () => {
       const createdUser = dtestData.dUserInternal();
       userRepoMock.pCreateUser.mockResolvedValue(createdUser);
+
+      const reqHeader = ntestData.headers();
+      headersMock.mockResolvedValue(reqHeader);
+
+      const ipAddress = "10.0.0.1";
+      resolveIpAddresseMock.mockReturnValue(ipAddress);
+
+      const iubendaLegalNoticesSynced = true;
+      iubendaServiceMock.saveLegalNoticesAccepted.mockResolvedValue(
+         iubendaLegalNoticesSynced
+      );
 
       const data: DUserSignUp = {
          name: "Test 1",
          email: "test1@email.com",
          password: "123456",
          confirmPassword: "123456",
+         acceptTerms: true,
       };
 
       const result = await userService.signUpUser(data);
@@ -73,11 +107,83 @@ describe("signUpUser tests", () => {
          name: data.name,
          email: data.email,
          hashedPassword: await hash(data.password),
+         legalNoticesAcceptedAt: new Date("2025-09-27"),
+      };
+
+      const expectedLegalNoticesParams: LegalNoticesAcceptedParams = {
+         user: createdUser,
+         acceptedAt: expectedCreateData.legalNoticesAcceptedAt,
+         ipAddress: ipAddress,
+      };
+
+      const expecteUserUpdateData: UserUpdateData = {
+         iubendaLegalNoticesSynced,
       };
 
       expect(result).toEqual(expectedResult);
       expect(userRepoMock.pCreateUser).toHaveBeenCalledTimes(1);
       expect(userRepoMock.pCreateUser).toHaveBeenCalledWith(expectedCreateData);
+      expect(iubendaServiceMock.saveLegalNoticesAccepted).toHaveBeenCalledTimes(
+         1
+      );
+      expect(iubendaServiceMock.saveLegalNoticesAccepted).toHaveBeenCalledWith(
+         expectedLegalNoticesParams
+      );
+      expect(userRepoMock.pUpdateUser).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pUpdateUser).toHaveBeenCalledWith(
+         createdUser.id,
+         expecteUserUpdateData
+      );
+   });
+
+   it("signUpUser - user created - iubenda synced false - test", async () => {
+      const createdUser = dtestData.dUserInternal();
+      userRepoMock.pCreateUser.mockResolvedValue(createdUser);
+
+      const reqHeader = ntestData.headers();
+      headersMock.mockResolvedValue(reqHeader);
+
+      resolveIpAddresseMock.mockReturnValue(undefined);
+
+      const iubendaLegalNoticesSynced = false;
+      iubendaServiceMock.saveLegalNoticesAccepted.mockResolvedValue(
+         iubendaLegalNoticesSynced
+      );
+
+      const data: DUserSignUp = {
+         name: "Test 1",
+         email: "test1@email.com",
+         password: "123456",
+         confirmPassword: "123456",
+         acceptTerms: true,
+      };
+
+      const result = await userService.signUpUser(data);
+
+      const expectedResult = toDUser(createdUser);
+
+      const expectedCreateData: DUserCreate = {
+         name: data.name,
+         email: data.email,
+         hashedPassword: await hash(data.password),
+         legalNoticesAcceptedAt: new Date("2025-09-27"),
+      };
+
+      const expectedLegalNoticesParams: LegalNoticesAcceptedParams = {
+         user: createdUser,
+         acceptedAt: expectedCreateData.legalNoticesAcceptedAt,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(userRepoMock.pCreateUser).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pCreateUser).toHaveBeenCalledWith(expectedCreateData);
+      expect(iubendaServiceMock.saveLegalNoticesAccepted).toHaveBeenCalledTimes(
+         1
+      );
+      expect(iubendaServiceMock.saveLegalNoticesAccepted).toHaveBeenCalledWith(
+         expectedLegalNoticesParams
+      );
+      expect(userRepoMock.pUpdateUser).not.toHaveBeenCalled();
    });
 });
 
@@ -281,6 +387,32 @@ describe("updateUserStripeCustomerId tests", () => {
    });
 });
 
+describe("updateIubendaLegalNoticesSynced tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("updateIubendaLegalNoticesSynced - sync status updated - test", async () => {
+      const userId = "user-id-1";
+      const iubendaLegalNoticesSynced = true;
+
+      await userService.updateIubendaLegalNoticesSynced(
+         userId,
+         iubendaLegalNoticesSynced
+      );
+
+      const expecteUserUpdateData: UserUpdateData = {
+         iubendaLegalNoticesSynced,
+      };
+
+      expect(userRepoMock.pUpdateUser).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pUpdateUser).toHaveBeenCalledWith(
+         userId,
+         expecteUserUpdateData
+      );
+   });
+});
+
 describe("updatePassword tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -467,5 +599,82 @@ describe("deleteUser tests", () => {
       expect(userRepoMock.pDeleteUser).toHaveBeenCalledWith(user.id);
       expect(compareMock).toHaveBeenCalledTimes(1);
       expect(compareMock).toHaveBeenCalledWith(data.password, user.password);
+   });
+});
+
+describe("saveLegalNoticesAccepted tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("saveLegalNoticesAccepted - iubenda synced true - test", async () => {
+      const user = dtestData.dUserInternal();
+
+      const reqHeader = ntestData.headers();
+      headersMock.mockResolvedValue(reqHeader);
+
+      const ipAddress = "10.0.0.1";
+      resolveIpAddresseMock.mockReturnValue(ipAddress);
+
+      const iubendaLegalNoticesSynced = true;
+      iubendaServiceMock.saveLegalNoticesAccepted.mockResolvedValue(
+         iubendaLegalNoticesSynced
+      );
+
+      const acceptedAt = new Date();
+      await userService.saveLegalNoticesAccepted(user, acceptedAt);
+
+      const expectedLegalNoticesParams: LegalNoticesAcceptedParams = {
+         user,
+         acceptedAt,
+         ipAddress,
+      };
+
+      const expecteUserUpdateData: UserUpdateData = {
+         iubendaLegalNoticesSynced,
+      };
+
+      expect(iubendaServiceMock.saveLegalNoticesAccepted).toHaveBeenCalledTimes(
+         1
+      );
+      expect(iubendaServiceMock.saveLegalNoticesAccepted).toHaveBeenCalledWith(
+         expectedLegalNoticesParams
+      );
+      expect(userRepoMock.pUpdateUser).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pUpdateUser).toHaveBeenCalledWith(
+         user.id,
+         expecteUserUpdateData
+      );
+   });
+
+   it("signUpUser - user created - iubenda synced false - test", async () => {
+      const user = dtestData.dUserInternal();
+      userRepoMock.pCreateUser.mockResolvedValue(user);
+
+      const reqHeader = ntestData.headers();
+      headersMock.mockResolvedValue(reqHeader);
+
+      resolveIpAddresseMock.mockReturnValue(undefined);
+
+      const iubendaLegalNoticesSynced = false;
+      iubendaServiceMock.saveLegalNoticesAccepted.mockResolvedValue(
+         iubendaLegalNoticesSynced
+      );
+
+      const acceptedAt = new Date();
+      await userService.saveLegalNoticesAccepted(user, acceptedAt);
+
+      const expectedLegalNoticesParams: LegalNoticesAcceptedParams = {
+         user,
+         acceptedAt,
+      };
+
+      expect(iubendaServiceMock.saveLegalNoticesAccepted).toHaveBeenCalledTimes(
+         1
+      );
+      expect(iubendaServiceMock.saveLegalNoticesAccepted).toHaveBeenCalledWith(
+         expectedLegalNoticesParams
+      );
+      expect(userRepoMock.pUpdateUser).not.toHaveBeenCalled();
    });
 });

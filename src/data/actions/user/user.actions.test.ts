@@ -1,4 +1,5 @@
 jest.mock("@/data/services/user");
+jest.mock("@/data/services/iubenda");
 jest.mock("@/data/actions/auth-utils");
 jest.mock("next/dist/client/components/redirect-error");
 
@@ -145,6 +146,7 @@ describe("signUpUser tests", () => {
          email: "test1@email.com",
          password: "123456",
          confirmPassword: "123456",
+         acceptTerms: true,
       };
       const result = await signUpUser(data);
 
@@ -173,6 +175,7 @@ describe("signUpUser tests", () => {
          email: "email.com",
          password: "123456",
          confirmPassword: "123",
+         acceptTerms: true,
       };
       isRedirectErrorock.mockReturnValue(false);
 
@@ -195,6 +198,7 @@ describe("signUpUser tests", () => {
          email: "test1@email.com",
          password: "123456",
          confirmPassword: "123456",
+         acceptTerms: true,
       };
 
       const error = new Error("redirect error");

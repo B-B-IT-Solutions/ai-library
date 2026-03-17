@@ -1,4 +1,3 @@
-import { User } from "@/generated/prisma/client";
 import { UserUpdateInput } from "@/generated/prisma/models";
 
 export type UserUpdateData = Omit<
@@ -8,5 +7,3 @@ export type UserUpdateData = Omit<
    "updatedAt",
    "createdAt"
 >;
-
-export type PUser = Omit<User, "password">;

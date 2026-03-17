@@ -30,6 +30,7 @@ export type DUserCreate = {
    name: string;
    email: string;
    hashedPassword: string;
+   legalNoticesAcceptedAt: Date;
 };
 
 export type DUserUpdate = z.infer<typeof updateProfileSchema>;

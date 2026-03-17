@@ -9,25 +9,27 @@ datasource db {
 }
 
 model User {
-  id                   String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name                 String                @default("NO_NAME") @db.VarChar(250)
-  email                String                @unique(map: "user_email_idx") @db.VarChar(250)
-  emailVerified        DateTime?             @map("email_verified") @db.Timestamp(6)
-  image                String?
-  password             String?               @db.VarChar(250)
-  role                 String                @default("user") @db.VarChar(50)
-  stripeCustomerId     String?               @unique @map("stripe_customer_id") @db.VarChar(250)
-  createdAt            DateTime              @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt            DateTime              @updatedAt @map("updated_at")
-  accounts             Account[]
-  sessions             Session[]
-  carts                Cart[]
-  orders               Order[]
-  libraries            LibraryEntry[]
-  libraryCollections   LibraryCollection[]
-  subscription         Subscription?
-  subscriptionHistory  SubscriptionHistory[]
-  globalTemplateFields GlobalTemplateField[]
+  id                        String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                      String                @default("NO_NAME") @db.VarChar(250)
+  email                     String                @unique(map: "user_email_idx") @db.VarChar(250)
+  emailVerified             DateTime?             @map("email_verified") @db.Timestamp(6)
+  image                     String?
+  password                  String?               @db.VarChar(250)
+  role                      String                @default("user") @db.VarChar(50)
+  stripeCustomerId          String?               @unique @map("stripe_customer_id") @db.VarChar(250)
+  legalNoticesAcceptedAt    DateTime?             @map("legal_notices_accepted_at") @db.Timestamp(6)
+  iubendaLegalNoticesSynced Boolean               @default(false) @map("iubenda_legal_notices_synced")
+  createdAt                 DateTime              @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt                 DateTime              @updatedAt @map("updated_at")
+  accounts                  Account[]
+  sessions                  Session[]
+  carts                     Cart[]
+  orders                    Order[]
+  libraries                 LibraryEntry[]
+  libraryCollections        LibraryCollection[]
+  subscription              Subscription?
+  subscriptionHistory       SubscriptionHistory[]
+  globalTemplateFields      GlobalTemplateField[]
 
   @@map("user")
 }

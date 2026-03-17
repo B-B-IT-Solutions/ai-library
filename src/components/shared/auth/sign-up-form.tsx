@@ -8,6 +8,7 @@ import { useSearchParams } from "next/navigation";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
+import { Checkbox } from "@/components/shadcn/checkbox";
 import {
    Field,
    FieldError,
@@ -42,6 +43,7 @@ export const SignUpForm = () => {
          email: "",
          password: "",
          confirmPassword: "",
+         acceptTerms: false,
       },
    });
 
@@ -268,6 +270,51 @@ export const SignUpForm = () => {
                               <Eye className="h-4 w-4" data-testid="eye-icon" />
                            )}
                         </button>
+                     </div>
+                     {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                     )}
+                  </Field>
+               )}
+            />
+            <Controller
+               name="acceptTerms"
+               control={control}
+               render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                     <div className="flex items-start gap-3">
+                        <Checkbox
+                           id="acceptTerms"
+                           checked={field.value}
+                           onCheckedChange={field.onChange}
+                           aria-invalid={fieldState.invalid}
+                           className="mt-0.5 shrink-0"
+                           data-testid="accept-terms-checkbox"
+                        />
+                        <label
+                           htmlFor="acceptTerms"
+                           className="cursor-pointer text-sm leading-snug text-muted-foreground select-none"
+                        >
+                           Ich habe die{" "}
+                           <Link
+                              href="https://www.iubenda.com/terms-and-conditions/97062585"
+                              target="_blank"
+                              className="font-medium text-primary underline-offset-2 hover:underline"
+                              data-testid="terms_conditions_link"
+                           >
+                              AGB
+                           </Link>{" "}
+                           und die{" "}
+                           <Link
+                              href="https://www.iubenda.com/privacy-policy/97062585/full-legal"
+                              target="_blank"
+                              className="font-medium text-primary underline-offset-2 hover:underline"
+                              data-testid="privacy_policy_link"
+                           >
+                              Datenschutzerklärung
+                           </Link>{" "}
+                           gelesen und akzeptiere diese.
+                        </label>
                      </div>
                      {fieldState.invalid && (
                         <FieldError errors={[fieldState.error]} />

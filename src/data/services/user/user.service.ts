@@ -1,4 +1,13 @@
+import { headers } from "next/headers";
+
 import { UserRepository } from "@/data/repositories/user";
+import { CartService } from "@/data/services//cart";
+import { LibraryService } from "@/data/services//library";
+import { OrderService } from "@/data/services//order";
+import {
+   IubendaService,
+   LegalNoticesAcceptedParams,
+} from "@/data/services/iubenda";
 import { UserUpdateData } from "@/data/types/db/user";
 import {
    DUser,
@@ -10,9 +19,7 @@ import {
    DUserUpdate,
 } from "@/data/types/domain/user";
 import { compare, hash } from "@/lib/encrypt";
-import { CartService } from "../cart";
-import { LibraryService } from "../library";
-import { OrderService } from "../order";
+import { resolveIpAddresse } from "@/lib/utils";
 
 import { toDUser } from "./user.mapper";
 
@@ -21,29 +28,36 @@ export class UserService {
    private cartService: CartService;
    private libraryService: LibraryService;
    private orderService: OrderService;
+   private iubendaService: IubendaService;
 
    constructor(
       userRepository: UserRepository,
       cartService: CartService,
       libraryService: LibraryService,
-      orderService: OrderService
+      orderService: OrderService,
+      iubendaService: IubendaService
    ) {
       this.userRepository = userRepository;
       this.cartService = cartService;
       this.libraryService = libraryService;
       this.orderService = orderService;
+      this.iubendaService = iubendaService;
    }
 
    async signUpUser(data: DUserSignUp): Promise<DUser> {
       const hashedPassword = await hash(data.password);
+      const legalNoticesAcceptedAt = new Date();
 
       const newUser: DUserCreate = {
          name: data.name,
          email: data.email,
          hashedPassword: hashedPassword,
+         legalNoticesAcceptedAt,
       };
 
       const user = await this.userRepository.pCreateUser(newUser);
+      this.saveLegalNoticesAccepted(user, legalNoticesAcceptedAt);
+
       return toDUser(user);
    }
 
@@ -94,6 +108,13 @@ export class UserService {
       await this.userRepository.pUpdateUser(userId, updateData);
    }
 
+   async updateIubendaLegalNoticesSynced(userId: string, synced: boolean) {
+      const updateData: UserUpdateData = {
+         iubendaLegalNoticesSynced: synced,
+      };
+      await this.userRepository.pUpdateUser(userId, updateData);
+   }
+
    async updatePassword(userId: string, data: DUserPasswordUpdate) {
       const user = await this.userRepository.pGetUserById(userId);
       if (!user) {
@@ -139,5 +160,22 @@ export class UserService {
       await this.libraryService.deleteLibraryEntries(userId);
       await this.orderService.deleteOrders(userId);
       await this.userRepository.pDeleteUser(userId);
+   }
+
+   async saveLegalNoticesAccepted(user: DUser, acceptedAt: Date) {
+      const headersList = await headers();
+      const ipAddress = resolveIpAddresse(headersList);
+
+      const params: LegalNoticesAcceptedParams = {
+         user,
+         acceptedAt,
+         ipAddress,
+      };
+
+      this.iubendaService.saveLegalNoticesAccepted(params).then((synced) => {
+         if (synced) {
+            this.updateIubendaLegalNoticesSynced(user.id, true);
+         }
+      });
    }
 }

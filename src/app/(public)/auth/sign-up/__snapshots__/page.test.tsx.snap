@@ -71,29 +71,6 @@ exports[`SignUpPage rendering tests SignUpPage - user not signed in - rendered t
           />
         </div>
       </div>
-      <p
-        class="text-center text-xs text-muted-foreground mt-6"
-      >
-        By creating an account, you agree to our
-         
-        <a
-          class="underline underline-offset-2 hover:text-foreground transition-colors"
-          data-testid="mock-link"
-          href="/terms"
-        >
-          Terms of Service
-        </a>
-         
-        and
-         
-        <a
-          class="underline underline-offset-2 hover:text-foreground transition-colors"
-          data-testid="mock-link"
-          href="/privacy"
-        >
-          Privacy Policy
-        </a>
-      </p>
     </div>
   </div>
 </div>
