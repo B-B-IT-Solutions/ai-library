@@ -51,7 +51,6 @@ export class UserService {
 
       const user = await this.userRepository.pCreateUser(newUser);
 
-      // Fire-and-forget: do not block registration if iubenda is unavailable
       this.iubendaService
          .recordConsent({
             userId: user.id,
@@ -59,9 +58,11 @@ export class UserService {
             fullName: user.name,
             consentAcceptedAt,
          })
-         .catch((err) =>
-            console.error("[UserService] Failed to record consent:", err)
-         );
+         .then((synced) => {
+            if (synced) {
+               this.userRepository.pUpdateIubendaConsentSynced(user.id, true);
+            }
+         });
 
       return toDUser(user);
    }

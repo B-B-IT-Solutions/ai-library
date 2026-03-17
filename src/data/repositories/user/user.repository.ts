@@ -64,6 +64,13 @@ export class UserRepository {
       });
    }
 
+   async pUpdateIubendaConsentSynced(userId: string, synced: boolean) {
+      await this.prisma.user.update({
+         where: { id: userId },
+         data: { iubendaConsentSynced: synced },
+      });
+   }
+
    async pUpdatePassword(userId: string, newPasswordHash: string) {
       return await this.prisma.user.update({
          where: { id: userId },

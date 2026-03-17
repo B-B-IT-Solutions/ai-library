@@ -18,6 +18,7 @@ model User {
   role                 String                @default("user") @db.VarChar(50)
   stripeCustomerId     String?               @unique @map("stripe_customer_id") @db.VarChar(250)
   consentAcceptedAt    DateTime?             @map("consent_accepted_at") @db.Timestamp(6)
+  iubendaConsentSynced Boolean               @default(false) @map("iubenda_consent_synced")
   createdAt            DateTime              @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt            DateTime              @updatedAt @map("updated_at")
   accounts             Account[]

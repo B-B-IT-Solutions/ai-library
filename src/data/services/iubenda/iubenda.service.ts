@@ -1,3 +1,7 @@
+const IUBENDA_CONSENT_URL = "https://consent.iubenda.com/consent";
+const MAX_ATTEMPTS = 3;
+const RETRY_DELAYS_MS = [0, 1_000, 2_000];
+
 type IubendaConsentPayload = {
    subject: {
       id: string;
@@ -23,15 +27,66 @@ export class IubendaService {
       this.apiKey = apiKey ?? process.env.IUBENDA_API_KEY;
    }
 
-   async recordConsent(params: RecordConsentParams): Promise<void> {
+   /**
+    * Records consent in iubenda with up to 3 attempts (exponential backoff).
+    * @returns true if consent was successfully recorded, false if all attempts failed.
+    */
+   async recordConsent(params: RecordConsentParams): Promise<boolean> {
       if (!this.apiKey) {
          console.warn(
             "[IubendaService] IUBENDA_API_KEY not set – skipping consent recording"
          );
-         return;
+         return false;
       }
 
-      const payload: IubendaConsentPayload = {
+      const payload = this.buildPayload(params);
+
+      for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+         const delayMs = RETRY_DELAYS_MS[attempt - 1];
+         if (delayMs > 0) {
+            await this.sleep(delayMs);
+         }
+
+         try {
+            await this.postConsent(payload);
+            return true;
+         } catch (error) {
+            const isLastAttempt = attempt === MAX_ATTEMPTS;
+            if (isLastAttempt) {
+               console.error(
+                  `[IubendaService] All ${MAX_ATTEMPTS} attempts failed for user ${params.userId}:`,
+                  error
+               );
+            } else {
+               console.warn(
+                  `[IubendaService] Attempt ${attempt} failed for user ${params.userId}, retrying in ${RETRY_DELAYS_MS[attempt]}ms:`,
+                  error
+               );
+            }
+         }
+      }
+
+      return false;
+   }
+
+   private async postConsent(payload: IubendaConsentPayload): Promise<void> {
+      const response = await fetch(IUBENDA_CONSENT_URL, {
+         method: "POST",
+         headers: {
+            "Content-Type": "application/json",
+            ApiKey: this.apiKey!,
+         },
+         body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+         const body = await response.text();
+         throw new Error(`HTTP ${response.status}: ${body}`);
+      }
+   }
+
+   private buildPayload(params: RecordConsentParams): IubendaConsentPayload {
+      return {
          subject: {
             id: params.userId,
             email: params.email,
@@ -53,21 +108,9 @@ export class IubendaService {
          ],
          timestamp: params.consentAcceptedAt.toISOString(),
       };
+   }
 
-      const response = await fetch("https://consent.iubenda.com/consent", {
-         method: "POST",
-         headers: {
-            "Content-Type": "application/json",
-            ApiKey: this.apiKey,
-         },
-         body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-         const body = await response.text();
-         throw new Error(
-            `[IubendaService] Consent recording failed (${response.status}): ${body}`
-         );
-      }
+   private sleep(ms: number): Promise<void> {
+      return new Promise((resolve) => setTimeout(resolve, ms));
    }
 }
