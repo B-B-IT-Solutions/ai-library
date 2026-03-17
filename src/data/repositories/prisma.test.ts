@@ -6,18 +6,21 @@ import { assertStringifyEqual } from "@tests";
 
 import { PrismaClient } from "@/generated/prisma/client";
 
-import prisma, { extendsConfig } from "./prisma";
+import prisma, { AZURE_TOKEN_SCOPE, extendsConfig } from "./prisma";
 
 const globalForPrisma = global as unknown as {
-   prisma: PrismaClient;
+   prisma?: PrismaClient;
 };
 
-export const expectedExtendsConfig = {};
+const expectedExtendsConfig = {};
+
+const expectedAzureTokenScope =
+   "https://ossrdbms-aad.database.windows.net/.default";
 
 describe("prisma tests", () => {
    it("prisma test", async () => {
       expect(prisma).not.toBeNull();
-      expect(global.prisma).not.toBeNull();
+      expect(globalForPrisma.prisma).not.toBeNull();
    });
 });
 
@@ -25,6 +28,11 @@ describe("config tests", () => {
    it("extendsConfig test", async () => {
       expect(prisma).not.toBeNull();
       assertStringifyEqual(extendsConfig, expectedExtendsConfig);
+   });
+
+   it("AZURE_TOKEN_SCOPE test", async () => {
+      expect(prisma).not.toBeNull();
+      expect(AZURE_TOKEN_SCOPE).toEqual(expectedAzureTokenScope);
    });
 });
 
@@ -34,21 +42,21 @@ describe("createPrismaClient - USE_AZURE_IDENTITY false - tests", () => {
    afterEach(() => {
       process.env = originalEnv;
       jest.resetModules();
-      delete global.prisma;
+      delete globalForPrisma.prisma;
    });
 
    it("sets globalForPrisma.prisma in non-production environment", () => {
-      delete global.prisma;
+      delete globalForPrisma.prisma;
       jest.resetModules();
 
       require("./prisma");
 
-      expect(global.prisma).not.toBeUndefined();
+      expect(globalForPrisma.prisma).not.toBeUndefined();
    });
 
    it("reuses existing globalForPrisma.prisma when already set", () => {
-      const mockExistingPrisma = { existing: true };
-      global.prisma = mockExistingPrisma;
+      const mockExistingPrisma = { existing: true } as unknown as PrismaClient;
+      globalForPrisma.prisma = mockExistingPrisma;
       jest.resetModules();
 
       const result = require("./prisma").default;
@@ -57,13 +65,13 @@ describe("createPrismaClient - USE_AZURE_IDENTITY false - tests", () => {
    });
 
    it("does not set globalForPrisma.prisma in production environment", () => {
-      delete global.prisma;
+      delete globalForPrisma.prisma;
       process.env = { ...originalEnv, NODE_ENV: "production" };
       jest.resetModules();
 
       require("./prisma");
 
-      expect(global.prisma).toBeUndefined();
+      expect(globalForPrisma.prisma).toBeUndefined();
    });
 });
 
@@ -71,7 +79,7 @@ describe("createPrismaClient - USE_AZURE_IDENTITY true - tests", () => {
    const originalEnv = process.env;
 
    beforeEach(() => {
-      delete global.prisma;
+      delete globalForPrisma.prisma;
       process.env = {
          ...originalEnv,
          USE_AZURE_IDENTITY: "true",
@@ -83,7 +91,7 @@ describe("createPrismaClient - USE_AZURE_IDENTITY true - tests", () => {
    afterEach(() => {
       process.env = originalEnv;
       jest.resetModules();
-      delete global.prisma;
+      delete globalForPrisma.prisma;
    });
 
    it("creates ManagedIdentityCredential, Pool, PrismaPg and PrismaClient with adapter", () => {
@@ -195,8 +203,6 @@ describe("createPrismaClient - USE_AZURE_IDENTITY true - tests", () => {
       expect(capturedPoolConfig).toBeDefined();
       const password = await capturedPoolConfig.password();
       expect(password).toBe(mockToken);
-      expect(mockGetToken).toHaveBeenCalledWith(
-         "https://ossrdbms-aad.database.windows.net/.default"
-      );
+      expect(mockGetToken).toHaveBeenCalledWith(expectedAzureTokenScope);
    });
 });

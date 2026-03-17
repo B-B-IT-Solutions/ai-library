@@ -10,7 +10,8 @@ const globalForPrisma = global as unknown as {
 
 export const extendsConfig = {};
 
-const AZURE_TOKEN_SCOPE = "https://ossrdbms-aad.database.windows.net/.default";
+export const AZURE_TOKEN_SCOPE =
+   "https://ossrdbms-aad.database.windows.net/.default";
 
 const createAzureIdentityPool = (): Pool => {
    const clientId = process.env.AZURE_CLIENT_ID;
