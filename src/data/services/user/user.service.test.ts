@@ -13,7 +13,10 @@ import prisma from "@/data/repositories/prisma";
 import { UserRepository } from "@/data/repositories/user";
 import { ServiceFactory } from "@/data/services//service.factory";
 import { CartService } from "@/data/services/cart";
-import { IubendaService } from "@/data/services/iubenda";
+import {
+   IubendaService,
+   LegalNoticesAcceptedParams,
+} from "@/data/services/iubenda";
 import { LibraryService } from "@/data/services/library";
 import { OrderService } from "@/data/services/order";
 import { UserUpdateData } from "@/data/types/db/user";
@@ -89,9 +92,20 @@ describe("signUpUser tests", () => {
          legalNoticesAcceptedAt: new Date("2025-09-27"),
       };
 
+      const expectedLegalNoticesParams: LegalNoticesAcceptedParams = {
+         user: createdUser,
+         acceptedAt: expectedCreateData.legalNoticesAcceptedAt,
+      };
+
       expect(result).toEqual(expectedResult);
       expect(userRepoMock.pCreateUser).toHaveBeenCalledTimes(1);
       expect(userRepoMock.pCreateUser).toHaveBeenCalledWith(expectedCreateData);
+      expect(iubendaServiceMock.saveLegalNoticesAccepted).toHaveBeenCalledTimes(
+         1
+      );
+      expect(iubendaServiceMock.saveLegalNoticesAccepted).toHaveBeenCalledWith(
+         expectedLegalNoticesParams
+      );
       expect(
          userRepoMock.pUpdateIubendaLegalNoticesSynced
       ).toHaveBeenCalledTimes(1);
@@ -124,9 +138,20 @@ describe("signUpUser tests", () => {
          legalNoticesAcceptedAt: new Date("2025-09-27"),
       };
 
+      const expectedLegalNoticesParams: LegalNoticesAcceptedParams = {
+         user: createdUser,
+         acceptedAt: expectedCreateData.legalNoticesAcceptedAt,
+      };
+
       expect(result).toEqual(expectedResult);
       expect(userRepoMock.pCreateUser).toHaveBeenCalledTimes(1);
       expect(userRepoMock.pCreateUser).toHaveBeenCalledWith(expectedCreateData);
+      expect(iubendaServiceMock.saveLegalNoticesAccepted).toHaveBeenCalledTimes(
+         1
+      );
+      expect(iubendaServiceMock.saveLegalNoticesAccepted).toHaveBeenCalledWith(
+         expectedLegalNoticesParams
+      );
       expect(
          userRepoMock.pUpdateIubendaLegalNoticesSynced
       ).not.toHaveBeenCalled();
