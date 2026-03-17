@@ -40,6 +40,16 @@ describe("resolveIpAddresse tests", () => {
       const headers = ntestData.headers();
       expect(resolveIpAddresse(headers)).toBeUndefined();
    });
+
+   it("resolveIpAddresse - ipv6 loopback ::1 - returns undefined - test", () => {
+      const headers = ntestData.headers({ "x-forwarded-for": "::1" });
+      expect(resolveIpAddresse(headers)).toBeUndefined();
+   });
+
+   it("resolveIpAddresse - ipv4 loopback 127.0.0.1 - returns undefined - test", () => {
+      const headers = ntestData.headers({ "x-forwarded-for": "127.0.0.1" });
+      expect(resolveIpAddresse(headers)).toBeUndefined();
+   });
 });
 
 describe("formatError tests", () => {
