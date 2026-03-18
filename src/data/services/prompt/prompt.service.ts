@@ -23,8 +23,11 @@ export class PromptService {
       return await this.promptRepository.pGetPromptDescriptors(userId, query);
    }
 
-   async getPrompt(promptId: string): Promise<DPromptDescriptor | null> {
-      return await this.promptRepository.pGetPromptDescriptor(promptId);
+   async getPrompt(
+      userId: string,
+      promptId: string
+   ): Promise<DPromptDescriptor | null> {
+      return await this.promptRepository.pGetPromptDescriptor(userId, promptId);
    }
 
    async getPromptCategories(): Promise<string[]> {
@@ -38,12 +41,15 @@ export class PromptService {
    }
 
    async updatePrompt(
+      userId: string,
       promptId: string,
       data: DPromptUpdate,
       createVersion: boolean
    ) {
-      const current =
-         await this.promptRepository.pGetPromptDescriptor(promptId);
+      const current = await this.promptRepository.pGetPromptDescriptor(
+         userId,
+         promptId
+      );
 
       if (!current) {
          throw new Error("Prompt not found");
@@ -63,11 +69,11 @@ export class PromptService {
       );
    }
 
-   async toggleFavorite(promptId: string, isFavorite: boolean) {
-      await this.promptRepository.pToggleFavorite(promptId, isFavorite);
+   async toggleFavorite(userId: string, promptId: string, isFavorite: boolean) {
+      await this.promptRepository.pToggleFavorite(userId, promptId, isFavorite);
    }
 
-   async deletePrompt(promptId: string) {
-      await this.promptRepository.pDeletePrompt(promptId);
+   async deletePrompt(userId: string, promptId: string) {
+      await this.promptRepository.pDeletePrompt(userId, promptId);
    }
 }

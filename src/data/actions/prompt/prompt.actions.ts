@@ -36,7 +36,7 @@ export const getPrompt = async (
 
       const user = await requireUser();
       const service = getSevice();
-      return await service.getPrompt(promptId);
+      return await service.getPrompt(user.id, promptId);
    } catch (error) {
       console.error(formatError(error));
       return null;
@@ -84,7 +84,7 @@ export const updatePrompt = async (
 
       const user = await requireUser();
       const service = getSevice();
-      await service.updatePrompt(promptId, data, createVersion);
+      await service.updatePrompt(user.id, promptId, data, createVersion);
       return {
          success: true,
          message: "Prompt erfolgreich aktualisiert.",
@@ -106,7 +106,7 @@ export const toggleFavorite = async (promptId: string, isFavorite: boolean) => {
 
       const user = await requireUser();
       const service = getSevice();
-      await service.toggleFavorite(promptId, isFavorite);
+      await service.toggleFavorite(user.id, promptId, isFavorite);
 
       return {
          success: true,
@@ -131,7 +131,7 @@ export const deletePrompt = async (promptId: string) => {
 
       const user = await requireUser();
       const service = getSevice();
-      await service.deletePrompt(promptId);
+      await service.deletePrompt(user.id, promptId);
       return {
          success: true,
          message: "Prompt erfolgreich gelöscht.",

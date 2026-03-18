@@ -337,18 +337,23 @@ describe("pGetPromptDescriptor tests", () => {
       mockReset(prismaMock);
    });
 
-   test("pGetPromptDescriptor - id defiend - slug undefined - test", async () => {
+   test("pGetPromptDescriptor - prompt found - test", async () => {
       const prompt = ptestData.pPromptDescriptorWithRelations();
       prismaMock.promptDescriptor.findFirst.mockResolvedValue(prompt);
 
       const promptId = "1";
-      const result = await promptRepository.pGetPromptDescriptor(promptId);
+      const userId = "user-id-1";
+      const result = await promptRepository.pGetPromptDescriptor(
+         userId,
+         promptId
+      );
 
       const expectedResult = toDPromptDescriptor(prompt);
 
       const expectedWhere: PromptDescriptorFindFirstArgs = {
          where: {
             id: promptId,
+            userId,
          },
          include: {
             categories: true,
@@ -367,15 +372,20 @@ describe("pGetPromptDescriptor tests", () => {
       );
    });
 
-   test("pGetPromptDescriptor - id undefiend - slug defined - test", async () => {
+   test("pGetPromptDescriptor - prompt not found (wrong user) - test", async () => {
       prismaMock.promptDescriptor.findFirst.mockResolvedValue(null);
 
       const promptId = "1";
-      const result = await promptRepository.pGetPromptDescriptor(promptId);
+      const userId = "other-user-id";
+      const result = await promptRepository.pGetPromptDescriptor(
+         userId,
+         promptId
+      );
 
       const expectedWhere: PromptDescriptorFindFirstArgs = {
          where: {
             id: promptId,
+            userId,
          },
          include: {
             categories: true,
@@ -585,11 +595,12 @@ describe("pToggleFavorite tests", () => {
 
    test("pToggleFavorite - isFavorite true - test", async () => {
       const promptId = "prompt-id-1";
+      const userId = "user-id-1";
 
-      await promptRepository.pToggleFavorite(promptId, true);
+      await promptRepository.pToggleFavorite(userId, promptId, true);
 
       const expectedUpdateArgs: PromptDescriptorUpdateArgs = {
-         where: { id: promptId },
+         where: { id: promptId, userId },
          data: { isFavorite: true },
       };
 
@@ -601,11 +612,12 @@ describe("pToggleFavorite tests", () => {
 
    test("pToggleFavorite - isFavorite false - test", async () => {
       const promptId = "prompt-id-1";
+      const userId = "user-id-1";
 
-      await promptRepository.pToggleFavorite(promptId, false);
+      await promptRepository.pToggleFavorite(userId, promptId, false);
 
       const expectedUpdateArgs: PromptDescriptorUpdateArgs = {
-         where: { id: promptId },
+         where: { id: promptId, userId },
          data: { isFavorite: false },
       };
 
@@ -623,11 +635,12 @@ describe("pDeletePrompt tests", () => {
 
    test("pDeletePrompt - prompt deleted - test", async () => {
       const promptId = "prompt-id-1";
+      const userId = "user-id-1";
 
-      await promptRepository.pDeletePrompt(promptId);
+      await promptRepository.pDeletePrompt(userId, promptId);
 
       const expectedUpdateArgs: PromptDescriptorDeleteArgs = {
-         where: { id: promptId },
+         where: { id: promptId, userId },
       };
 
       expect(prismaMock.promptDescriptor.delete).toHaveBeenCalledTimes(1);

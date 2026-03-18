@@ -200,7 +200,7 @@ describe("getPrompt tests", () => {
 
       expect(result).toBeNull();
       expect(sGetPromptMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptMock).toHaveBeenCalledWith(promptId);
+      expect(sGetPromptMock).toHaveBeenCalledWith(user.id, promptId);
    });
 
    it("getPrompt  - product defined - test", async () => {
@@ -215,7 +215,7 @@ describe("getPrompt tests", () => {
 
       expect(result).toEqual(prompt);
       expect(sGetPromptMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptMock).toHaveBeenCalledWith(id);
+      expect(sGetPromptMock).toHaveBeenCalledWith(user.id, id);
    });
 });
 
@@ -352,7 +352,12 @@ describe("updatePrompt tests", () => {
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sUpdatePromptMock).toHaveBeenCalledTimes(1);
-      expect(sUpdatePromptMock).toHaveBeenCalledWith(promptId, prompt, false);
+      expect(sUpdatePromptMock).toHaveBeenCalledWith(
+         user.id,
+         promptId,
+         prompt,
+         false
+      );
    });
 
    it("updatePrompt - prompt updated - createVersion true - test", async () => {
@@ -371,7 +376,12 @@ describe("updatePrompt tests", () => {
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sUpdatePromptMock).toHaveBeenCalledTimes(1);
-      expect(sUpdatePromptMock).toHaveBeenCalledWith(promptId, prompt, true);
+      expect(sUpdatePromptMock).toHaveBeenCalledWith(
+         user.id,
+         promptId,
+         prompt,
+         true
+      );
    });
 });
 
@@ -437,7 +447,7 @@ describe("toggleFavorite tests", () => {
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sToggleFavoriteMock).toHaveBeenCalledTimes(1);
-      expect(sToggleFavoriteMock).toHaveBeenCalledWith(promptId, true);
+      expect(sToggleFavoriteMock).toHaveBeenCalledWith(user.id, promptId, true);
    });
 
    it("toggleFavorite - remove from favorites - test", async () => {
@@ -455,7 +465,11 @@ describe("toggleFavorite tests", () => {
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sToggleFavoriteMock).toHaveBeenCalledTimes(1);
-      expect(sToggleFavoriteMock).toHaveBeenCalledWith(promptId, false);
+      expect(sToggleFavoriteMock).toHaveBeenCalledWith(
+         user.id,
+         promptId,
+         false
+      );
    });
 });
 
@@ -521,6 +535,6 @@ describe("deletePrompt tests", () => {
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sDeletePromptMock).toHaveBeenCalledTimes(1);
-      expect(sDeletePromptMock).toHaveBeenCalledWith(promptId);
+      expect(sDeletePromptMock).toHaveBeenCalledWith(user.id, promptId);
    });
 });

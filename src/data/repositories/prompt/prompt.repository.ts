@@ -73,11 +73,12 @@ export class PromptRepository {
    }
 
    async pGetPromptDescriptor(
+      userId: string,
       promptId: string
    ): Promise<DPromptDescriptor | null> {
       const data: PromptDescriptorWithRelations | null =
          await this.prisma.promptDescriptor.findFirst({
-            where: { id: promptId },
+            where: { id: promptId, userId },
             include: {
                categories: true,
                versions: {
@@ -168,16 +169,20 @@ export class PromptRepository {
       });
    }
 
-   async pToggleFavorite(promptId: string, isFavorite: boolean) {
+   async pToggleFavorite(
+      userId: string,
+      promptId: string,
+      isFavorite: boolean
+   ) {
       await this.prisma.promptDescriptor.update({
-         where: { id: promptId },
+         where: { id: promptId, userId },
          data: { isFavorite },
       });
    }
 
-   async pDeletePrompt(promptId: string) {
+   async pDeletePrompt(userId: string, promptId: string) {
       await this.prisma.promptDescriptor.delete({
-         where: { id: promptId },
+         where: { id: promptId, userId },
       });
    }
 
