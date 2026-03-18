@@ -98,11 +98,7 @@ export class PromptRepository {
 
    async pGetPromptCategories(userId: string): Promise<DPromptCategory[]> {
       return await this.prisma.promptCategory.findMany({
-         where: {
-            prompts: {
-               some: { userId },
-            },
-         },
+         where: { userId },
          select: {
             name: true,
          },
@@ -110,7 +106,10 @@ export class PromptRepository {
    }
 
    async pCreatePrompt(userId: string, data: DPromptUpdate) {
-      const categories = this.createOrConnectCategories(data.categories);
+      const categories = this.createOrConnectCategories(
+         userId,
+         data.categories
+      );
       const followUps = this.createFollowUpsInput(data.followUpPrompts);
 
       const toSave: PromptDescriptorCreateInput = {
@@ -153,7 +152,10 @@ export class PromptRepository {
            }
          : undefined;
 
-      const categories = this.createOrConnectCategories(data.categories);
+      const categories = this.createOrConnectCategories(
+         userId,
+         data.categories
+      );
       const followUpPrompts = this.followUpPromptUpdates(current, data);
 
       const toSave: PromptDescriptorUpdateInput = {
@@ -228,15 +230,17 @@ export class PromptRepository {
    }
 
    private createOrConnectCategories(
+      userId: string,
       categories: string[]
    ): PromptCategoryCreateOrConnectWithoutPromptsInput[] {
       return map(categories, (cat: string) => {
          return {
             where: {
-               name: cat,
+               userId_name: { userId, name: cat },
             },
             create: {
                name: cat,
+               userId,
             },
          };
       });

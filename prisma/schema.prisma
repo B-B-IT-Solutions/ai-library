@@ -31,6 +31,7 @@ model User {
   subscriptionHistory       SubscriptionHistory[]
   globalTemplateFields      GlobalTemplateField[]
   promptDescriptors         PromptDescriptor[]
+  promptCategories          PromptCategory[]
 
   @@map("user")
 }
@@ -108,9 +109,13 @@ model Prompt {
 
 model PromptCategory {
   id      Int                @id @default(autoincrement())
-  name    String             @unique @db.VarChar(250)
+  userId  String             @map("user_id") @db.Uuid
+  name    String             @db.VarChar(250)
   prompts PromptDescriptor[]
+  user    User               @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@unique([userId, name])
+  @@index([userId])
   @@map("prompt_category")
 }
 
