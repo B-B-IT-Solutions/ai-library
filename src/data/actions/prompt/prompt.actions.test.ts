@@ -1,9 +1,12 @@
 jest.mock("@/data/services/prompt");
+jest.mock("@/data/actions/auth-utils");
 
 import { dtestData } from "@tests";
 import { map } from "es-toolkit/compat";
 import { revalidatePath } from "next/cache";
 
+import { requireUser } from "@/data/actions/auth-utils";
+import { EMPTY_PAGE } from "@/data/actions/utils";
 import { PromptService } from "@/data/services/prompt";
 import { DPromptDescriptorsPageQuery } from "@/data/types/domain/prompt";
 
@@ -16,6 +19,8 @@ import {
    toggleFavorite,
    updatePrompt,
 } from "./prompt.actions";
+
+const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
 const sGetPrompts = PromptService.prototype.getPrompts;
 const sGetPrompt = PromptService.prototype.getPrompt;
@@ -49,10 +54,31 @@ const revalidatePathMock = revalidatePath as jest.MockedFunction<
 
 describe("getPromptss tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("getPrompts - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await getPrompts();
+
+      expect(result).toEqual(EMPTY_PAGE);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptsMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
    it("getPrompts - query undefined - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
       const page = dtestData.dPromptDescriptorsPage();
       sGetPromptsMock.mockResolvedValue(page);
 
@@ -60,10 +86,13 @@ describe("getPromptss tests", () => {
 
       expect(result).toEqual(page);
       expect(sGetPromptsMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptsMock).toHaveBeenCalledWith(undefined);
+      expect(sGetPromptsMock).toHaveBeenCalledWith(user.id, undefined);
    });
 
    it("getPrompts - query empty - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
       const page = dtestData.dPromptDescriptorsPage();
       sGetPromptsMock.mockResolvedValue(page);
 
@@ -72,10 +101,13 @@ describe("getPromptss tests", () => {
 
       expect(result).toEqual(page);
       expect(sGetPromptsMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptsMock).toHaveBeenCalledWith(query);
+      expect(sGetPromptsMock).toHaveBeenCalledWith(user.id, query);
    });
 
    it("getPrompts - query defined - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
       const page = dtestData.dPromptDescriptorsPage();
       sGetPromptsMock.mockResolvedValue(page);
 
@@ -84,7 +116,7 @@ describe("getPromptss tests", () => {
 
       expect(result).toEqual(page);
       expect(sGetPromptsMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptsMock).toHaveBeenCalledWith(query);
+      expect(sGetPromptsMock).toHaveBeenCalledWith(user.id, query);
    });
 });
 
