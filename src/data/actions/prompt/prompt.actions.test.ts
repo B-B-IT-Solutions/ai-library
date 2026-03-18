@@ -9,6 +9,7 @@ import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
 import { PromptService } from "@/data/services/prompt";
 import { DPromptDescriptorsPageQuery } from "@/data/types/domain/prompt";
+import { ActionResult } from "@/data/types/utils";
 
 import {
    createPrompt,
@@ -168,36 +169,67 @@ describe("getPrompt tests", () => {
 
 describe("createPrompt tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("createPrompt - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+      const prompt = dtestData.dPromptUpdate();
+
+      const result = await createPrompt(prompt);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Prompt konnte nicht erstellt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sCreatePromptMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
    });
 
    it("createPrompt - error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
       const prompt = dtestData.dPromptUpdate();
       sCreatePromptMock.mockRejectedValue(new Error("db error"));
 
-      const result = await createPrompt(prompt);
+      const result: ActionResult = await createPrompt(prompt);
       const expectedResult = {
          success: false,
-         message: "db error",
+         message: "Prompt konnte nicht erstellt werden",
       };
 
       expect(result).toEqual(expectedResult);
       expect(sCreatePromptMock).toHaveBeenCalledTimes(1);
-      expect(sCreatePromptMock).toHaveBeenCalledWith(prompt);
+      expect(sCreatePromptMock).toHaveBeenCalledWith(user.id, prompt);
    });
 
    it("createPrompt - prompt created  - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      sCreatePromptMock.mockResolvedValue();
+
       const prompt = dtestData.dPromptUpdate();
 
       const result = await createPrompt(prompt);
-      const expectedResult = {
+      const expectedResult: ActionResult = {
          success: true,
          message: "Prompt erfolgreich erstellt.",
       };
 
       expect(result).toEqual(expectedResult);
       expect(sCreatePromptMock).toHaveBeenCalledTimes(1);
-      expect(sCreatePromptMock).toHaveBeenCalledWith(prompt);
+      expect(sCreatePromptMock).toHaveBeenCalledWith(user.id, prompt);
    });
 });
 
