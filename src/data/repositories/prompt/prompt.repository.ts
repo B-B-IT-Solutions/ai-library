@@ -22,10 +22,6 @@ import {
 } from "@/generated/prisma/models";
 import { DEFAULT_PAGINATION } from "../utils";
 
-export type GetPromptQuery = {
-   promptId: string;
-};
-
 export class PromptRepository {
    private prisma: DbClient;
 
@@ -71,11 +67,10 @@ export class PromptRepository {
    }
 
    async pGetPromptDescriptor(
-      query: GetPromptQuery
+      promptId: string
    ): Promise<PromptDescriptorWithRelations | null> {
-      const { promptId: id } = query;
       return await this.prisma.promptDescriptor.findFirst({
-         where: { id },
+         where: { id: promptId },
          include: {
             categories: true,
             versions: {

@@ -17,7 +17,7 @@ import {
    PromptFollowUpUpdateManyWithoutPromptNestedInput,
 } from "@/generated/prisma/models";
 
-import { GetPromptQuery, PromptRepository } from "./prompt.repository";
+import { PromptRepository } from "./prompt.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
@@ -335,12 +335,12 @@ describe("pGetPromptDescriptor tests", () => {
       const prompt = ptestData.pPromptDescriptorWithRelations();
       prismaMock.promptDescriptor.findFirst.mockResolvedValue(prompt);
 
-      const query: GetPromptQuery = { promptId: "1" };
-      const result = await promptRepository.pGetPromptDescriptor(query);
+      const promptId = "1";
+      const result = await promptRepository.pGetPromptDescriptor(promptId);
 
       const expectedWhere: PromptDescriptorFindFirstArgs = {
          where: {
-            id: query.promptId,
+            id: promptId,
          },
          include: {
             categories: true,
@@ -362,12 +362,12 @@ describe("pGetPromptDescriptor tests", () => {
    test("pGetPromptDescriptor - id undefiend - slug defined - test", async () => {
       prismaMock.promptDescriptor.findFirst.mockResolvedValue(null);
 
-      const query: GetPromptQuery = { promptId: "1" };
-      const result = await promptRepository.pGetPromptDescriptor(query);
+      const promptId = "1";
+      const result = await promptRepository.pGetPromptDescriptor(promptId);
 
       const expectedWhere: PromptDescriptorFindFirstArgs = {
          where: {
-            id: query.promptId,
+            id: promptId,
          },
          include: {
             categories: true,

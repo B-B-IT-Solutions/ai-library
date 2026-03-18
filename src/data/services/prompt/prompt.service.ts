@@ -35,9 +35,8 @@ export class PromptService {
 
    async getPrompt(promptId: string): Promise<DPromptDescriptor | undefined> {
       if (isValidUuid(promptId)) {
-         const data = await this.promptRepository.pGetPromptDescriptor({
-            promptId,
-         });
+         const data =
+            await this.promptRepository.pGetPromptDescriptor(promptId);
          if (data) {
             return toDPromptDescriptor(data);
          }
@@ -59,9 +58,8 @@ export class PromptService {
       data: DPromptUpdate,
       createVersion: boolean
    ) {
-      const current = await this.promptRepository.pGetPromptDescriptor({
-         promptId,
-      });
+      const current =
+         await this.promptRepository.pGetPromptDescriptor(promptId);
 
       if (!current) {
          throw new Error("Prompt not found");

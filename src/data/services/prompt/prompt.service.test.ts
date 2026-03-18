@@ -113,9 +113,9 @@ describe("getPrompt tests", () => {
 
       expect(result).toBeUndefined();
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith({
-         promptId,
-      });
+      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith(
+         promptId
+      );
    });
 
    it("getPrompt  - product defined - test", async () => {
@@ -128,9 +128,9 @@ describe("getPrompt tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith({
-         promptId,
-      });
+      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith(
+         promptId
+      );
    });
 });
 
@@ -179,9 +179,9 @@ describe("updatePrompt tests", () => {
       await expect(fn).rejects.toThrow("Prompt not found");
 
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith({
-         promptId,
-      });
+      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith(
+         promptId
+      );
       expect(promptRepoMock.pUpdatePrompt).not.toHaveBeenCalled();
    });
 
@@ -200,9 +200,9 @@ describe("updatePrompt tests", () => {
       await expect(fn).rejects.toThrow("db error");
 
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith({
-         promptId,
-      });
+      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith(
+         promptId
+      );
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
          promptId,
@@ -224,9 +224,9 @@ describe("updatePrompt tests", () => {
       await promptService.updatePrompt(promptId, promptUpdate, false);
 
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith({
-         promptId,
-      });
+      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith(
+         promptId
+      );
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
          promptId,
@@ -248,6 +248,9 @@ describe("updatePrompt tests", () => {
       await promptService.updatePrompt(promptId, promptUpdate, true);
 
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith(
+         promptId
+      );
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
          promptId,
@@ -268,9 +271,9 @@ describe("updatePrompt tests", () => {
       await promptService.updatePrompt(promptId, promptUpdate, false);
 
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith({
-         promptId,
-      });
+      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith(
+         promptId
+      );
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
          promptId,
@@ -291,9 +294,9 @@ describe("updatePrompt tests", () => {
       await promptService.updatePrompt(promptId, promptUpdate, true);
 
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith({
-         promptId,
-      });
+      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith(
+         promptId
+      );
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
          promptId,
