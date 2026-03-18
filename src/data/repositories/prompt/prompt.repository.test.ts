@@ -485,6 +485,7 @@ describe("pUpdatePrompt tests", () => {
    });
 
    test("pUpdatePrompt - no version created - test", async () => {
+      const userId = "user-id-1";
       const promptId = "prompt-id-1";
       const data = dtestData.dPromptUpdate();
       const current = dtestData.dPromptDescriptor();
@@ -493,6 +494,7 @@ describe("pUpdatePrompt tests", () => {
       prismaMock.promptDescriptor.update.mockResolvedValue(updated);
 
       const result = await promptRepository.pUpdatePrompt(
+         userId,
          promptId,
          data,
          current,
@@ -506,7 +508,7 @@ describe("pUpdatePrompt tests", () => {
       );
 
       const expectedUpdateArgs: PromptDescriptorUpdateArgs = {
-         where: { id: promptId },
+         where: { id: promptId, userId },
          data: {
             title: data.title,
             content: data.content,
@@ -534,6 +536,7 @@ describe("pUpdatePrompt tests", () => {
    });
 
    test("pUpdatePrompt - version created - test", async () => {
+      const userId = "user-id-1";
       const promptId = "prompt-id-1";
       const data = dtestData.dPromptUpdate();
       const current = dtestData.dPromptDescriptor();
@@ -542,6 +545,7 @@ describe("pUpdatePrompt tests", () => {
       prismaMock.promptDescriptor.update.mockResolvedValue(updated);
 
       const result = await promptRepository.pUpdatePrompt(
+         userId,
          promptId,
          data,
          current,
@@ -555,7 +559,7 @@ describe("pUpdatePrompt tests", () => {
       );
 
       const expectedUpdateArgs: PromptDescriptorUpdateArgs = {
-         where: { id: promptId },
+         where: { id: promptId, userId },
          data: {
             title: data.title,
             content: data.content,

@@ -132,6 +132,7 @@ export class PromptRepository {
    }
 
    async pUpdatePrompt(
+      userId: string,
       promptId: string,
       data: DPromptUpdate,
       current: DPromptDescriptor,
@@ -164,7 +165,7 @@ export class PromptRepository {
       };
 
       return await this.prisma.promptDescriptor.update({
-         where: { id: promptId },
+         where: { id: promptId, userId },
          data: toSave,
       });
    }

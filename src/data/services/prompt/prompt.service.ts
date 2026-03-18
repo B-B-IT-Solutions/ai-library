@@ -61,6 +61,7 @@ export class PromptService {
       const versionIdx = updateVersions ? currentVersion + 1 : currentVersion;
 
       await this.promptRepository.pUpdatePrompt(
+         userId,
          promptId,
          update,
          current,

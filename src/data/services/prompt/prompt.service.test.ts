@@ -197,6 +197,7 @@ describe("updatePrompt tests", () => {
       );
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
+         userId,
          promptId,
          promptUpdate,
          currentPrompt,
@@ -223,6 +224,7 @@ describe("updatePrompt tests", () => {
       );
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
+         userId,
          promptId,
          promptUpdate,
          currentPrompt,
@@ -249,6 +251,7 @@ describe("updatePrompt tests", () => {
       );
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
+         userId,
          promptId,
          promptUpdate,
          currentPrompt,
@@ -274,6 +277,7 @@ describe("updatePrompt tests", () => {
       );
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
+         userId,
          promptId,
          promptUpdate,
          currentPrompt,
@@ -299,6 +303,7 @@ describe("updatePrompt tests", () => {
       );
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
+         userId,
          promptId,
          promptUpdate,
          currentPrompt,
