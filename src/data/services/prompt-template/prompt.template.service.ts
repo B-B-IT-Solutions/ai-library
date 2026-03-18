@@ -38,7 +38,7 @@ export class PromptTemplateService {
       userId: string,
       teamplateId: string
    ): Promise<DPromptTemplateDataPromptGeneration | null> {
-      const template = await this.getPromptTemplate(teamplateId);
+      const template = await this.getPromptTemplate(userId, teamplateId);
 
       if (template) {
          const globalFields =
@@ -68,38 +68,57 @@ export class PromptTemplateService {
    }
 
    async getPromptTemplateDescriptorWithTemplate(
-      id: string
+      userId: string,
+      descriptorId: string
    ): Promise<DPromptTemplateDescriptorWithTemplate | null> {
-      return await this.repository.pGetPromptTemplateDescriptorWithTemplate(id);
+      return await this.repository.pGetPromptTemplateDescriptorWithTemplate(
+         userId,
+         descriptorId
+      );
    }
 
-   async getPromptTemplate(id: string): Promise<DPromptTemplate | null> {
-      return await this.repository.pGetPromptTemplate(id);
+   async getPromptTemplate(
+      userId: string,
+      templateId: string
+   ): Promise<DPromptTemplate | null> {
+      return await this.repository.pGetPromptTemplate(userId, templateId);
    }
 
-   async getPromptTemplateCategories(): Promise<DPromptTemplateCategory[]> {
-      return await this.repository.pGetPromptTemplateCategories();
+   async getPromptTemplateCategories(userId: string): Promise<string[]> {
+      const categories =
+         await this.repository.pGetPromptTemplateCategories(userId);
+      return map(categories, (c) => c.name);
    }
 
    async createPromptTemplateDescriptor(
+      userId: string,
       data: DPromptTemplateUpdate
    ): Promise<DPromptTemplateDescriptor> {
-      return await this.repository.pCreatePromptTemplateDescriptor(data);
+      return await this.repository.pCreatePromptTemplateDescriptor(
+         userId,
+         data
+      );
    }
 
    async updatePromptTemplateDescriptor(
+      userId: string,
       descriptorId: string,
       data: DPromptTemplateUpdate
    ) {
-      await this.repository.pUpdatePromptTemplateDescriptor(descriptorId, data);
+      await this.repository.pUpdatePromptTemplateDescriptor(
+         userId,
+         descriptorId,
+         data
+      );
    }
 
    async composePromptFromTemplate(
+      userId: string,
       descriptorId: string,
       fieldValues: DPromptTemplateFieldValues
    ): Promise<DPromptUpdate> {
       const descriptor =
-         await this.getPromptTemplateDescriptorWithTemplate(descriptorId);
+         await this.getPromptTemplateDescriptorWithTemplate(userId, descriptorId);
 
       if (!descriptor) {
          throw new Error(

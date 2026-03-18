@@ -496,6 +496,7 @@ export const pPromptTemplateDescriptor = (
 ): PromptTemplateDescriptor => {
    return {
       id: `334db648-f300-4284-8149-075ff465d75${index}`,
+      userId: `819855b3-1477-4255-b6cd-08fea96aaf1${index}`,
       title: `title ${index}`,
       description: `description ${index}`,
       recommendedModel: `model ${index}`,
@@ -544,6 +545,7 @@ export const pPromptTemplateCategories = (
 export const pPromptTemplateCategory = (index = 1): PromptTemplateCategory => {
    return {
       id: Math.random(),
+      userId: `819855b3-1477-4255-b6cd-08fea96aaf1${index}`,
       name: `category ${index}`,
    };
 };
@@ -588,6 +590,7 @@ export const pPromptDescriptors = (count = 3): PromptDescriptor[] => {
 export const pPromptDescriptor = (index = 1): PromptDescriptor => {
    return {
       id: `334db648-f300-4284-8149-075ff465d75${index}`,
+      userId: `819855b3-1477-4255-b6cd-08fea96aaf1${index}`,
       title: `title ${index}`,
       content: `content ${index}`,
       recommendedModel: `model ${index}`,
@@ -606,6 +609,11 @@ export const pPromptDescriptorCreateInput = (
       content: `content ${index}`,
       recommendedModel: `model ${index}`,
       isFavorite: true,
+      user: {
+         connect: {
+            id: `819855b3-1477-4255-b6cd-08fea96aaf1${index}`,
+         },
+      },
       updatedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),
    };
@@ -631,6 +639,7 @@ export const pPromptCategories = (count = 3): PromptCategory[] => {
 export const pPromptCategory = (index = 1): PromptCategory => {
    return {
       id: Math.random(),
+      userId: `819855b3-1477-4255-b6cd-08fea96aaf1${index}`,
       name: `category ${index}`,
    };
 };

@@ -237,14 +237,13 @@ describe("pGetPromptTemplateDescriptorWithTemplate tests", () => {
    test("pGetPromptTemplateDescriptorWithTemplate - descriptor null - test", async () => {
       prismaMock.promptTemplateDescriptor.findFirst.mockResolvedValue(null);
 
+      const userId = "user-id-1";
       const id = "prompt-template-descriptor-id-1";
       const result =
-         await repository.pGetPromptTemplateDescriptorWithTemplate(id);
+         await repository.pGetPromptTemplateDescriptorWithTemplate(userId, id);
 
       const expectedWhere: PromptTemplateDescriptorFindFirstArgs = {
-         where: {
-            id,
-         },
+         where: { id, userId },
          include: {
             categories: true,
             promptTemplate: {
@@ -268,16 +267,15 @@ describe("pGetPromptTemplateDescriptorWithTemplate tests", () => {
       const template = ptestData.pPromptTemplateDescriptorWithTemplate();
       prismaMock.promptTemplateDescriptor.findFirst.mockResolvedValue(template);
 
+      const userId = "user-id-1";
       const id = "prompt-template-descriptor-id-1";
       const result =
-         await repository.pGetPromptTemplateDescriptorWithTemplate(id);
+         await repository.pGetPromptTemplateDescriptorWithTemplate(userId, id);
 
       const expectedResult = toDPromptTemplateDescriptorWithTemplate(template);
 
       const expectedWhere: PromptTemplateDescriptorFindFirstArgs = {
-         where: {
-            id,
-         },
+         where: { id, userId },
          include: {
             categories: true,
             promptTemplate: {
@@ -306,11 +304,15 @@ describe("pGetPromptTemplate tests", () => {
    test("pGetPromptTemplate - template null - test", async () => {
       prismaMock.promptTemplate.findFirst.mockResolvedValue(null);
 
+      const userId = "user-id-1";
       const id = "prompt-template-id-1";
-      const result = await repository.pGetPromptTemplate(id);
+      const result = await repository.pGetPromptTemplate(userId, id);
 
       const expectedWhere: PromptTemplateFindFirstArgs = {
-         where: { id },
+         where: {
+            id,
+            promptTemplateDescriptor: { userId },
+         },
          include: {
             fields: true,
             globalFields: true,
@@ -327,12 +329,16 @@ describe("pGetPromptTemplate tests", () => {
       const prompt = ptestData.pPromptTemplate();
       prismaMock.promptTemplate.findFirst.mockResolvedValue(prompt);
 
+      const userId = "user-id-1";
       const id = "prompt-template-id-1";
-      const result = await repository.pGetPromptTemplate(id);
+      const result = await repository.pGetPromptTemplate(userId, id);
       const expectedResult = toDPromptTemplate(prompt);
 
       const expectedWhere: PromptTemplateFindFirstArgs = {
-         where: { id },
+         where: {
+            id,
+            promptTemplateDescriptor: { userId },
+         },
          include: {
             fields: true,
             globalFields: true,
@@ -352,12 +358,14 @@ describe("pGetPromptTemplateCategories queries tests", () => {
    });
 
    test("pGetPromptTemplateCategories - categories retrieved - test", async () => {
+      const userId = "user-id-1";
       const categories = ptestData.pPromptTemplateCategories();
       prismaMock.promptTemplateCategory.findMany.mockResolvedValue(categories);
 
-      const result = await repository.pGetPromptTemplateCategories();
+      const result = await repository.pGetPromptTemplateCategories(userId);
 
       const expectedFindMayArgs: Prisma.PromptTemplateCategoryFindManyArgs = {
+         where: { userId },
          select: {
             name: true,
          },
@@ -379,13 +387,17 @@ describe("pCreatePromptTemplateDescriptor tests", () => {
    });
 
    test("pCreatePromptTemplateDescriptor - descriptor created - test", async () => {
+      const userId = "user-id-123";
       const data = dtestData.dPromptTemplateUpdate();
       const newDescriptor = ptestData.pPromptTemplateDescriptorWithCategories();
       prismaMock.promptTemplateDescriptor.create.mockResolvedValue(
          newDescriptor
       );
 
-      const result = await repository.pCreatePromptTemplateDescriptor(data);
+      const result = await repository.pCreatePromptTemplateDescriptor(
+         userId,
+         data
+      );
 
       const expectedResult = toDPromptTemplateDescriptor(newDescriptor);
 
@@ -394,12 +406,13 @@ describe("pCreatePromptTemplateDescriptor tests", () => {
          description: data.description,
          recommendedModel: data.recommendedModel,
          categories: {
-            connectOrCreate: map(data.categories, (categoryName: string) => ({
+            connectOrCreate: map(data.categories, (catName: string) => ({
                where: {
-                  name: categoryName,
+                  userId_name: { userId, name: catName },
                },
                create: {
-                  name: categoryName,
+                  name: catName,
+                  userId,
                },
             })),
          },
@@ -429,6 +442,11 @@ describe("pCreatePromptTemplateDescriptor tests", () => {
                },
             },
          },
+         user: {
+            connect: {
+               id: userId,
+            },
+         },
       };
 
       const expectedCreateArgs: PromptTemplateDescriptorCreateArgs = {
@@ -454,10 +472,15 @@ describe("pUpdatePromptTemplateDescriptor tests", () => {
    });
 
    test("pUpdatePromptTemplateDescriptor - descriptor updated - test", async () => {
+      const userId = "user-id-123";
       const data = dtestData.dPromptTemplateUpdate();
       const descriptor = ptestData.pPromptTemplateDescriptorWithCategories();
 
-      await repository.pUpdatePromptTemplateDescriptor(descriptor.id, data);
+      await repository.pUpdatePromptTemplateDescriptor(
+         userId,
+         descriptor.id,
+         data
+      );
 
       const expectedInput: PromptTemplateDescriptorUpdateInput = {
          title: data.title,
@@ -465,9 +488,9 @@ describe("pUpdatePromptTemplateDescriptor tests", () => {
          recommendedModel: data.recommendedModel,
          categories: {
             set: [],
-            connectOrCreate: map(data.categories, (categoryName) => ({
-               where: { name: categoryName },
-               create: { name: categoryName },
+            connectOrCreate: map(data.categories, (catName) => ({
+               where: { userId_name: { userId, name: catName } },
+               create: { name: catName, userId },
             })),
          },
          promptTemplate: {

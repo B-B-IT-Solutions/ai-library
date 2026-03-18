@@ -51,7 +51,10 @@ export class LibraryService {
 
    async createLibraryEntry(data: DPromptTemplateUpdate, userId: string) {
       const ptd =
-         await this.promptTemplateService.createPromptTemplateDescriptor(data);
+         await this.promptTemplateService.createPromptTemplateDescriptor(
+            userId,
+            data
+         );
 
       await this.libraryRepository.pCreateLibraryEntry(userId, ptd.id);
    }
@@ -81,6 +84,7 @@ export class LibraryService {
          throw new Error("Library entry not found");
       }
       await this.promptTemplateService.updatePromptTemplateDescriptor(
+         userId,
          entry.templateDescriptorId,
          data
       );
@@ -106,6 +110,7 @@ export class LibraryService {
       }
 
       return await this.promptTemplateService.composePromptFromTemplate(
+         userId,
          entry.templateDescriptorId,
          fieldValues
       );

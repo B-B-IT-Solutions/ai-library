@@ -28,20 +28,15 @@ jobs:
            with:
               baseline-file: .github/data/.secrets.baseline
 
-         # - name: npm install, build
-         #   run: |
-         #      npm install
-         #      npm run build
-
-         # - name: run Lighthouse CI
-         #   run: |
-         #      npm install -g @lhci/cli@0.15.1
-         #      npm run test:lhci
-         #   env:
-         #      LHCI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         - name: Install Dependencies
+           run: npm ci
 
          - name: Run Tests
-           uses: ArtiomTr/jest-coverage-report-action@v2
+           run: npm run test -- --coverage
+
+         - name: Report Coverage
+           if: always() && github.event_name == 'pull_request'
+           uses: MishaKav/jest-coverage-comment@main
            with:
-              output: ${{ github.event_name == 'pull_request' && 'comment' || 'report-markdown' }}
-              test-script: npm run test
+              coverage-summary-path: ./coverage/coverage-summary.json
+              title: Test Coverage

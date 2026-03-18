@@ -75,11 +75,10 @@ exports[`CreateTemplateFieldsFormDialog rendering tests CreateTemplateFieldsForm
             </p>
           </div>
           <form
-            class="space-y-4"
             data-testid="template-fields-form"
           >
             <div
-              class="grid grid-cols-1 gap-6 lg:grid-cols-2"
+              class="grid grid-cols-1 gap-6 lg:min-h-[40vh] lg:grid-cols-2"
             >
               <div
                 class="flex flex-col gap-2"

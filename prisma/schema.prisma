@@ -9,18 +9,18 @@ datasource db {
 }
 
 model User {
-  id                        String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name                      String                @default("NO_NAME") @db.VarChar(250)
-  email                     String                @unique(map: "user_email_idx") @db.VarChar(250)
-  emailVerified             DateTime?             @map("email_verified") @db.Timestamp(6)
+  id                        String                     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                      String                     @default("NO_NAME") @db.VarChar(250)
+  email                     String                     @unique(map: "user_email_idx") @db.VarChar(250)
+  emailVerified             DateTime?                  @map("email_verified") @db.Timestamp(6)
   image                     String?
-  password                  String?               @db.VarChar(250)
-  role                      String                @default("user") @db.VarChar(50)
-  stripeCustomerId          String?               @unique @map("stripe_customer_id") @db.VarChar(250)
-  legalNoticesAcceptedAt    DateTime?             @map("legal_notices_accepted_at") @db.Timestamp(6)
-  iubendaLegalNoticesSynced Boolean               @default(false) @map("iubenda_legal_notices_synced")
-  createdAt                 DateTime              @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt                 DateTime              @updatedAt @map("updated_at")
+  password                  String?                    @db.VarChar(250)
+  role                      String                     @default("user") @db.VarChar(50)
+  stripeCustomerId          String?                    @unique @map("stripe_customer_id") @db.VarChar(250)
+  legalNoticesAcceptedAt    DateTime?                  @map("legal_notices_accepted_at") @db.Timestamp(6)
+  iubendaLegalNoticesSynced Boolean                    @default(false) @map("iubenda_legal_notices_synced")
+  createdAt                 DateTime                   @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt                 DateTime                   @updatedAt @map("updated_at")
   accounts                  Account[]
   sessions                  Session[]
   carts                     Cart[]
@@ -31,6 +31,9 @@ model User {
   subscriptionHistory       SubscriptionHistory[]
   globalTemplateFields      GlobalTemplateField[]
   promptDescriptors         PromptDescriptor[]
+  promptCategories          PromptCategory[]
+  promptTemplateCategories  PromptTemplateCategory[]
+  promptTemplateDescriptors PromptTemplateDescriptor[]
 
   @@map("user")
 }
@@ -108,9 +111,13 @@ model Prompt {
 
 model PromptCategory {
   id      Int                @id @default(autoincrement())
-  name    String             @unique @db.VarChar(250)
+  userId  String             @map("user_id") @db.Uuid
+  name    String             @db.VarChar(250)
   prompts PromptDescriptor[]
+  user    User               @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@unique([userId, name])
+  @@index([userId])
   @@map("prompt_category")
 }
 
@@ -141,6 +148,7 @@ model PromptFollowUp {
 
 model PromptTemplateDescriptor {
   id               String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId           String                   @map("user_id") @db.Uuid
   title            String                   @db.VarChar(250)
   description      String                   @db.VarChar(750)
   categories       PromptTemplateCategory[]
@@ -149,10 +157,12 @@ model PromptTemplateDescriptor {
   createdAt        DateTime                 @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt        DateTime                 @updatedAt @map("updated_at")
 
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   promptTemplate PromptTemplate @relation(fields: [promptTemplateId], references: [id], onDelete: Cascade)
   productItems   ProductItem[]
   libraries      LibraryEntry[]
 
+  @@index([userId])
   @@map("prompt_template_descriptor")
 }
 
@@ -216,9 +226,13 @@ enum PromptTemplateFieldType {
 
 model PromptTemplateCategory {
   id        Int                        @id @default(autoincrement())
-  name      String                     @unique @db.VarChar(250)
+  userId    String                     @map("user_id") @db.Uuid
+  name      String                     @db.VarChar(250)
   templates PromptTemplateDescriptor[]
+  user      User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@unique([userId, name])
+  @@index([userId])
   @@map("prompt_template_category")
 }
 

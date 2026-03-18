@@ -59,11 +59,12 @@ export class PromptTemplateRepository {
    }
 
    async pGetPromptTemplateDescriptorWithTemplate(
+      userId: string,
       id: string
    ): Promise<DPromptTemplateDescriptorWithTemplate | null> {
       const template: PromptTemplateDescriptorWithTemplate | null =
          await this.prisma.promptTemplateDescriptor.findFirst({
-            where: { id },
+            where: { id, userId },
             include: {
                categories: true,
                promptTemplate: {
@@ -81,9 +82,15 @@ export class PromptTemplateRepository {
       return null;
    }
 
-   async pGetPromptTemplate(id: string): Promise<DPromptTemplate | null> {
+   async pGetPromptTemplate(
+      userId: string,
+      id: string
+   ): Promise<DPromptTemplate | null> {
       const template = await this.prisma.promptTemplate.findFirst({
-         where: { id },
+         where: {
+            id,
+            promptTemplateDescriptor: { userId },
+         },
          include: {
             fields: true,
             globalFields: true,
@@ -93,8 +100,11 @@ export class PromptTemplateRepository {
       return template ? toDPromptTemplate(template) : null;
    }
 
-   async pGetPromptTemplateCategories(): Promise<DPromptTemplateCategory[]> {
+   async pGetPromptTemplateCategories(
+      userId: string
+   ): Promise<DPromptTemplateCategory[]> {
       return await this.prisma.promptTemplateCategory.findMany({
+         where: { userId },
          select: {
             name: true,
          },
@@ -102,6 +112,7 @@ export class PromptTemplateRepository {
    }
 
    async pCreatePromptTemplateDescriptor(
+      userId: string,
       data: DPromptTemplateUpdate
    ): Promise<DPromptTemplateDescriptor> {
       const input: PromptTemplateDescriptorCreateInput = {
@@ -109,12 +120,13 @@ export class PromptTemplateRepository {
          description: data.description,
          recommendedModel: data.recommendedModel,
          categories: {
-            connectOrCreate: map(data.categories, (categoryName) => ({
+            connectOrCreate: map(data.categories, (catName) => ({
                where: {
-                  name: categoryName,
+                  userId_name: { userId, name: catName },
                },
                create: {
-                  name: categoryName,
+                  name: catName,
+                  userId,
                },
             })),
          },
@@ -144,6 +156,11 @@ export class PromptTemplateRepository {
                },
             },
          },
+         user: {
+            connect: {
+               id: userId,
+            },
+         },
       };
 
       const args: PromptTemplateDescriptorCreateArgs = {
@@ -159,6 +176,7 @@ export class PromptTemplateRepository {
    }
 
    async pUpdatePromptTemplateDescriptor(
+      userId: string,
       descriptorId: string,
       data: DPromptTemplateUpdate
    ) {
@@ -168,9 +186,9 @@ export class PromptTemplateRepository {
          recommendedModel: data.recommendedModel,
          categories: {
             set: [],
-            connectOrCreate: map(data.categories, (categoryName) => ({
-               where: { name: categoryName },
-               create: { name: categoryName },
+            connectOrCreate: map(data.categories, (catName) => ({
+               where: { userId_name: { userId, name: catName } },
+               create: { name: catName, userId },
             })),
          },
          promptTemplate: {

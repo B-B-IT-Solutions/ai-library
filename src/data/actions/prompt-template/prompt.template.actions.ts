@@ -1,6 +1,5 @@
 "use server";
-
-import { map } from "es-toolkit/compat";
+import { validate as isValidUuid } from "uuid";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { formatError } from "@/data/actions/utils";
@@ -42,16 +41,31 @@ export const getPromptTemplates = async (
 };
 
 export const getPromptTemplate = async (
-   id: string
+   templateId: string
 ): Promise<DPromptTemplate | null> => {
-   const service = getService();
-   return await service.getPromptTemplate(id);
+   try {
+      if (!isValidUuid(templateId)) {
+         throw new Error("Invalid Template ID.");
+      }
+
+      const user = await requireUser();
+      const service = getService();
+      return await service.getPromptTemplate(user.id, templateId);
+   } catch (error) {
+      console.error(formatError(error));
+      return null;
+   }
 };
 
 export const getPromptTemplateCategories = async (): Promise<string[]> => {
-   const service = getService();
-   const categories = await service.getPromptTemplateCategories();
-   return map(categories, (c) => c.name);
+   try {
+      const user = await requireUser();
+      const service = getService();
+      return await service.getPromptTemplateCategories(user.id);
+   } catch (error) {
+      console.error(formatError(error));
+      return [];
+   }
 };
 
 const getService = (dbClient: DbClient = prisma) => {

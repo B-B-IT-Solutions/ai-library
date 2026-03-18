@@ -419,11 +419,7 @@ describe("getPromptCategories queries tests", () => {
       const result = await promptRepository.pGetPromptCategories(userId);
 
       const expectedFindMayArgs: PromptCategoryFindManyArgs = {
-         where: {
-            prompts: {
-               some: { userId },
-            },
-         },
+         where: { userId },
          select: {
             name: true,
          },
@@ -459,8 +455,8 @@ describe("pCreatePrompt tests", () => {
             categories: {
                connectOrCreate: [
                   {
-                     where: { name: "category 1" },
-                     create: { name: "category 1" },
+                     where: { userId_name: { userId, name: "category 1" } },
+                     create: { name: "category 1", userId },
                   },
                ],
             },
@@ -524,8 +520,8 @@ describe("pUpdatePrompt tests", () => {
                set: [],
                connectOrCreate: [
                   {
-                     where: { name: "category 1" },
-                     create: { name: "category 1" },
+                     where: { userId_name: { userId, name: "category 1" } },
+                     create: { name: "category 1", userId },
                   },
                ],
             },
@@ -575,8 +571,8 @@ describe("pUpdatePrompt tests", () => {
                set: [],
                connectOrCreate: [
                   {
-                     where: { name: "category 1" },
-                     create: { name: "category 1" },
+                     where: { userId_name: { userId, name: "category 1" } },
+                     create: { name: "category 1", userId },
                   },
                ],
             },

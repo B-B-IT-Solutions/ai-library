@@ -621,6 +621,10 @@ export const dPromptTemplateFieldValues = (
    };
 };
 
+export const dPromptTemplateCategoriesString = (count = 3): string[] => {
+   return map(dPromptTemplateCategories(count), (c) => c.name);
+};
+
 export const dPromptTemplateCategories = (
    count = 3
 ): DPromptTemplateCategory[] => {
