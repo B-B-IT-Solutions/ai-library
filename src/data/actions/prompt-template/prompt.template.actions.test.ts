@@ -129,10 +129,44 @@ describe("getPromptTemplates tests", () => {
 
 describe("getPromptTemplate tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
    });
 
-   it("getPromptTemplate  - promptTemplate null - test", async () => {
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("getPromptTemplate - invalid UUID - test", async () => {
+      const invalidId = "invalid-uuid-1";
+
+      const result = await getPromptTemplate(invalidId);
+
+      expect(result).toBeNull();
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sGetPromptTemplateMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith("Invalid Template ID.");
+   });
+
+   it("getPromptTemplate - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const result = await getPromptTemplate(id);
+
+      expect(result).toBeNull();
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptTemplateMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("getPromptTemplate - promptTemplate null - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
       sGetPromptTemplateMock.mockResolvedValue(null);
 
       const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
@@ -143,7 +177,10 @@ describe("getPromptTemplate tests", () => {
       expect(sGetPromptTemplateMock).toHaveBeenCalledWith(id);
    });
 
-   it("getPromptTemplate  - promptTemplate defined - test", async () => {
+   it("getPromptTemplate - promptTemplate defined - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
       const prompt = dtestData.dPromptTemplate();
       sGetPromptTemplateMock.mockResolvedValue(prompt);
 

@@ -1,4 +1,5 @@
 "use server";
+import { validate as isValidUuid } from "uuid";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { formatError } from "@/data/actions/utils";
@@ -42,8 +43,18 @@ export const getPromptTemplates = async (
 export const getPromptTemplate = async (
    templateId: string
 ): Promise<DPromptTemplate | null> => {
-   const service = getService();
-   return await service.getPromptTemplate(templateId);
+   try {
+      if (!isValidUuid(templateId)) {
+         throw new Error("Invalid Template ID.");
+      }
+
+      await requireUser();
+      const service = getService();
+      return await service.getPromptTemplate(templateId);
+   } catch (error) {
+      console.error(formatError(error));
+      return null;
+   }
 };
 
 export const getPromptTemplateCategories = async (): Promise<string[]> => {
