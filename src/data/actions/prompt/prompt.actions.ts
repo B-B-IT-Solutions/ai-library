@@ -1,7 +1,7 @@
 "use server";
-
 import { map } from "es-toolkit/compat";
 import { revalidatePath } from "next/cache";
+import { validate as isValidUuid } from "uuid";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE, formatError } from "@/data/actions/utils";
@@ -29,10 +29,16 @@ export const getPrompts = async (
 };
 
 export const getPrompt = async (
-   id: string
-): Promise<DPromptDescriptor | undefined> => {
-   const service = getSevice();
-   return await service.getPrompt(id);
+   promptId: string
+): Promise<DPromptDescriptor | null> => {
+   try {
+      const user = await requireUser();
+      const service = getSevice();
+      return await service.getPrompt(promptId);
+   } catch (error) {
+      console.error(formatError(error));
+      return null;
+   }
 };
 
 export const getPromptCategories = async (): Promise<string[]> => {
@@ -65,6 +71,11 @@ export const updatePrompt = async (
    createVersion: boolean
 ) => {
    try {
+      if (!isValidUuid(promptId)) {
+         throw new Error("Invalid Prompt ID.");
+      }
+
+      const user = await requireUser();
       const service = getSevice();
       await service.updatePrompt(promptId, data, createVersion);
       return {
@@ -79,11 +90,16 @@ export const updatePrompt = async (
    }
 };
 
-export const toggleFavorite = async (id: string, isFavorite: boolean) => {
+export const toggleFavorite = async (promptId: string, isFavorite: boolean) => {
    try {
+      if (!isValidUuid(promptId)) {
+         throw new Error("Invalid Prompt ID.");
+      }
+
+      const user = await requireUser();
       const service = getSevice();
-      await service.toggleFavorite(id, isFavorite);
-      revalidatePath(`/prompts/${id}`);
+      await service.toggleFavorite(promptId, isFavorite);
+      revalidatePath(`/prompts/${promptId}`);
       return {
          success: true,
          message: isFavorite
@@ -98,10 +114,15 @@ export const toggleFavorite = async (id: string, isFavorite: boolean) => {
    }
 };
 
-export const deletePrompt = async (id: string) => {
+export const deletePrompt = async (promptId: string) => {
    try {
+      if (!isValidUuid(promptId)) {
+         throw new Error("Invalid Prompt ID.");
+      }
+
+      const user = await requireUser();
       const service = getSevice();
-      await service.deletePrompt(id);
+      await service.deletePrompt(promptId);
       return {
          success: true,
          message: "Prompt erfolgreich gelöscht.",

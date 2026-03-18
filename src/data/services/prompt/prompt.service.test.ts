@@ -88,17 +88,7 @@ describe("getPrompt tests", () => {
       jest.resetAllMocks();
    });
 
-   it("getPrompt  - id invalid - test", async () => {
-      promptRepoMock.pGetPromptDescriptor.mockResolvedValue(null);
-
-      const promptId = "new";
-      const result = await promptService.getPrompt(promptId);
-
-      expect(result).toBeNull();
-      expect(promptRepoMock.pGetPromptDescriptor).not.toHaveBeenCalled();
-   });
-
-   it("getPrompt  - promt undefined - test", async () => {
+   it("getPrompt  - prompt undefined - test", async () => {
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(null);
 
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
@@ -111,7 +101,7 @@ describe("getPrompt tests", () => {
       );
    });
 
-   it("getPrompt  - product defined - test", async () => {
+   it("getPrompt  - prompt defined - test", async () => {
       const prompt = dtestData.dPromptDescriptor();
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(prompt);
 
