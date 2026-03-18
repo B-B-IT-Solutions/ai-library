@@ -415,9 +415,15 @@ describe("getPromptCategories queries tests", () => {
       const categories = ptestData.pPromptCategories();
       prismaMock.promptCategory.findMany.mockResolvedValue(categories);
 
-      const result = await promptRepository.pGetPromptCategories();
+      const userId = "user-id-1";
+      const result = await promptRepository.pGetPromptCategories(userId);
 
       const expectedFindMayArgs: PromptCategoryFindManyArgs = {
+         where: {
+            prompts: {
+               some: { userId },
+            },
+         },
          select: {
             name: true,
          },

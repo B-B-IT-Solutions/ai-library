@@ -30,8 +30,9 @@ export class PromptService {
       return await this.promptRepository.pGetPromptDescriptor(userId, promptId);
    }
 
-   async getPromptCategories(): Promise<string[]> {
-      const categories = await this.promptRepository.pGetPromptCategories();
+   async getPromptCategories(userId: string): Promise<string[]> {
+      const categories =
+         await this.promptRepository.pGetPromptCategories(userId);
       return map(categories, (c) => c.name);
    }
 

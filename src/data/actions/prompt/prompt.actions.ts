@@ -47,7 +47,7 @@ export const getPromptCategories = async (): Promise<string[]> => {
    try {
       const user = await requireUser();
       const service = getSevice();
-      return await service.getPromptCategories();
+      return await service.getPromptCategories(user.id);
    } catch (error) {
       console.error(formatError(error));
       return [];

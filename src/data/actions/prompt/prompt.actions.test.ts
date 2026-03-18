@@ -134,7 +134,7 @@ describe("getPromptCategories tests", () => {
 
       expect(result).toEqual([]);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCreatePromptMock).not.toHaveBeenCalled();
+      expect(sGetPromptCategoriesMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
@@ -150,6 +150,7 @@ describe("getPromptCategories tests", () => {
       expect(result).toEqual(categories);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetPromptCategoriesMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptCategoriesMock).toHaveBeenCalledWith(user.id);
    });
 });
 
@@ -170,7 +171,7 @@ describe("getPrompt tests", () => {
 
       expect(result).toBeNull();
       expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sGetPromptsMock).not.toHaveBeenCalled();
+      expect(sGetPromptMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith("Invalid Prompt ID.");
    });
@@ -184,7 +185,7 @@ describe("getPrompt tests", () => {
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptsMock).not.toHaveBeenCalled();
+      expect(sGetPromptMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(error.message);
    });

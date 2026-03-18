@@ -96,8 +96,13 @@ export class PromptRepository {
       return null;
    }
 
-   async pGetPromptCategories(): Promise<DPromptCategory[]> {
+   async pGetPromptCategories(userId: string): Promise<DPromptCategory[]> {
       return await this.prisma.promptCategory.findMany({
+         where: {
+            prompts: {
+               some: { userId },
+            },
+         },
          select: {
             name: true,
          },
