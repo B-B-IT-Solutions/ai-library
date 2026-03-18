@@ -3,9 +3,9 @@ import { isEmpty } from "es-toolkit/compat";
 import { DbClient } from "@/data/types/db/common";
 import {
    PromptDescriptorsPage,
-   PromptDescriptorsPageQuery,
    PromptDescriptorWithRelations,
 } from "@/data/types/db/prompt";
+import { DPromptDescriptorsPageQuery } from "@/data/types/domain/prompt";
 import {
    PromptDescriptorCreateInput,
    PromptDescriptorUpdateInput,
@@ -25,12 +25,16 @@ export class PromptRepository {
    }
 
    async pGetPromptDescriptors(
-      query?: PromptDescriptorsPageQuery
+      userId: string,
+      query?: DPromptDescriptorsPageQuery
    ): Promise<PromptDescriptorsPage> {
       const { pagination } = query || {};
       const { pageNumber, pageSize } = pagination || DEFAULT_PAGINATION;
 
-      const whereClause = this.resolveGetPromptDescriptorsWhereInput(query);
+      const whereClause = this.resolveGetPromptDescriptorsWhereInput(
+         userId,
+         query
+      );
 
       const [data, count] = await Promise.all([
          this.prisma.promptDescriptor.findMany({
@@ -110,13 +114,10 @@ export class PromptRepository {
    }
 
    private resolveGetPromptDescriptorsWhereInput(
-      query?: PromptDescriptorsPageQuery
+      userId: string,
+      query?: DPromptDescriptorsPageQuery
    ): PromptDescriptorWhereInput | undefined {
-      if (isEmpty(query)) {
-         return undefined;
-      }
-
-      const { globalFilter, filter } = query;
+      const { globalFilter, filter } = query || {};
       const { categories, isFavorite } = filter || {};
 
       const searchClause: PromptDescriptorWhereInput[] | undefined =
@@ -157,6 +158,7 @@ export class PromptRepository {
          isFavorite !== undefined ? { isFavorite } : undefined;
 
       return {
+         userId,
          OR: searchClause,
          AND: categoriesClause,
          ...favoriteClause,

@@ -3,6 +3,8 @@
 import { map } from "es-toolkit/compat";
 import { revalidatePath } from "next/cache";
 
+import { requireUser } from "@/data/actions/auth-utils";
+import { EMPTY_PAGE, formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
@@ -12,13 +14,18 @@ import {
    DPromptDescriptorsPageQuery,
    DPromptUpdate,
 } from "@/data/types/domain/prompt";
-import { formatError } from "../utils";
 
 export const getPrompts = async (
    query?: DPromptDescriptorsPageQuery
 ): Promise<DPromptDescriptorsPage> => {
-   const service = getSevice();
-   return await service.getPrompts(query);
+   try {
+      const user = await requireUser();
+      const service = getSevice();
+      return await service.getPrompts(user.id, query);
+   } catch (error) {
+      console.error(formatError(error));
+      return EMPTY_PAGE;
+   }
 };
 
 export const getPrompt = async (
@@ -36,16 +43,18 @@ export const getPromptCategories = async (): Promise<string[]> => {
 
 export const createPrompt = async (data: DPromptUpdate) => {
    try {
+      const user = await requireUser();
       const service = getSevice();
-      await service.createPrompt(data);
+      await service.createPrompt(user.id, data);
       return {
          success: true,
          message: "Prompt erfolgreich erstellt.",
       };
    } catch (error) {
+      console.error(formatError(error));
       return {
          success: false,
-         message: formatError(error),
+         message: "Prompt konnte nicht erstellt werden",
       };
    }
 };

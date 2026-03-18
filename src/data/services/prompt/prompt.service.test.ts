@@ -26,43 +26,53 @@ describe("getPromptss tests", () => {
    });
 
    it("getPrompts - query undefined - test", async () => {
+      const userId = "user-id-1";
       const page = ptestData.pPromptDescriptorsPage();
       promptRepoMock.pGetPromptDescriptors.mockResolvedValue(page);
 
-      const result = await promptService.getPrompts();
+      const result = await promptService.getPrompts(userId);
       const expectedResult = toDPromptDescriptorsPage(page);
 
       expect(result).toEqual(expectedResult);
       expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledWith(
+         userId,
          undefined
       );
    });
 
    it("getPrompts - query empty - test", async () => {
+      const userId = "user-id-123";
       const page = ptestData.pPromptDescriptorsPage();
       promptRepoMock.pGetPromptDescriptors.mockResolvedValue(page);
 
       const query: DPromptDescriptorsPageQuery = {};
-      const result = await promptService.getPrompts(query);
+      const result = await promptService.getPrompts(userId, query);
       const expectedResult = toDPromptDescriptorsPage(page);
 
       expect(result).toEqual(expectedResult);
       expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledWith(query);
+      expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledWith(
+         userId,
+         query
+      );
    });
 
    it("getPrompts - query defined - test", async () => {
+      const userId = "user-id-456";
       const page = ptestData.pPromptDescriptorsPage();
       promptRepoMock.pGetPromptDescriptors.mockResolvedValue(page);
 
       const query = dtestData.dPromptsPageQuery();
-      const result = await promptService.getPrompts(query);
+      const result = await promptService.getPrompts(userId, query);
       const expectedResult = toDPromptDescriptorsPage(page);
 
       expect(result).toEqual(expectedResult);
       expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledWith(query);
+      expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledWith(
+         userId,
+         query
+      );
    });
 });
 
@@ -128,10 +138,11 @@ describe("createPrompt tests", () => {
    });
 
    it("createPrompt - error - test", async () => {
+      const userId = "user-id-123";
       const prompt = dtestData.dPromptUpdate();
       promptRepoMock.pCreatePrompt.mockRejectedValue(new Error("db error"));
 
-      await expect(promptService.createPrompt(prompt)).rejects.toThrow(
+      await expect(promptService.createPrompt(userId, prompt)).rejects.toThrow(
          "db error"
       );
 
@@ -168,6 +179,11 @@ describe("createPrompt tests", () => {
                },
             ],
          },
+         user: {
+            connect: {
+               id: userId,
+            },
+         },
       };
 
       expect(promptRepoMock.pCreatePrompt).toHaveBeenCalledTimes(1);
@@ -175,9 +191,10 @@ describe("createPrompt tests", () => {
    });
 
    it("createPrompt - prompt created  - test", async () => {
+      const userId = "user-id-456";
       const prompt = dtestData.dPromptUpdate();
 
-      await promptService.createPrompt(prompt);
+      await promptService.createPrompt(userId, prompt);
 
       const promptToSave: PromptDescriptorCreateInput = {
          title: prompt.title,
@@ -211,6 +228,11 @@ describe("createPrompt tests", () => {
                   order: 2,
                },
             ],
+         },
+         user: {
+            connect: {
+               id: userId,
+            },
          },
       };
 

@@ -32,9 +32,13 @@ export class PromptService {
    }
 
    async getPrompts(
+      userId: string,
       query?: DPromptDescriptorsPageQuery
    ): Promise<DPromptDescriptorsPage> {
-      const data = await this.promptRepository.pGetPromptDescriptors(query);
+      const data = await this.promptRepository.pGetPromptDescriptors(
+         userId,
+         query
+      );
       return toDPromptDescriptorsPage(data);
    }
 
@@ -52,7 +56,7 @@ export class PromptService {
       return await this.promptRepository.pGetPromptCategories();
    }
 
-   async createPrompt(data: DPromptUpdate) {
+   async createPrompt(userId: string, data: DPromptUpdate) {
       const prompt = updatePromptSchema.parse(data);
       const categories = this.createOrConnectCategories(prompt.categories);
       const followUps = this.createFollowUpsInput(prompt.followUpPrompts);
@@ -67,6 +71,11 @@ export class PromptService {
          },
          followUpPrompts: {
             create: followUps,
+         },
+         user: {
+            connect: {
+               id: userId,
+            },
          },
       };
 

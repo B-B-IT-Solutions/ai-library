@@ -30,6 +30,7 @@ model User {
   subscription              Subscription?
   subscriptionHistory       SubscriptionHistory[]
   globalTemplateFields      GlobalTemplateField[]
+  promptDescriptors         PromptDescriptor[]
 
   @@map("user")
 }
@@ -79,6 +80,7 @@ model VerificationToken {
 
 model PromptDescriptor {
   id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId           String           @map("user_id") @db.Uuid
   title            String           @db.VarChar(500)
   content          String           @db.Text
   categories       PromptCategory[]
@@ -87,10 +89,12 @@ model PromptDescriptor {
   currentVersion   Int              @default(0) @map("current_version")
   createdAt        DateTime         @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt        DateTime         @updatedAt @map("updated_at")
+  user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   prompt           Prompt?
   versions         PromptVersion[]
   followUpPrompts  PromptFollowUp[]
 
+  @@index([userId])
   @@map("prompt_descriptor")
 }
 
