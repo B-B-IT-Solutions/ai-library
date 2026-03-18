@@ -1,11 +1,10 @@
 jest.mock("@/data/repositories/prompt");
 
-import { dtestData, ptestData } from "@tests";
+import { dtestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import { PromptRepository } from "@/data/repositories/prompt";
-import { toDPromptDescriptor } from "@/data/repositories/prompt/prompt.mapper";
 import { DPromptDescriptorsPageQuery } from "@/data/types/domain/prompt";
 
 import { PromptService } from "./prompt.service";
@@ -74,7 +73,7 @@ describe("getPromptCategories tests", () => {
    });
 
    it("getPromptCategories test", async () => {
-      const categories = ptestData.pPromptCategories();
+      const categories = dtestData.dPromptCategories();
       promptRepoMock.pGetPromptCategories.mockResolvedValue(categories);
 
       const result = await promptService.getPromptCategories();
@@ -95,7 +94,7 @@ describe("getPrompt tests", () => {
       const promptId = "new";
       const result = await promptService.getPrompt(promptId);
 
-      expect(result).toBeUndefined();
+      expect(result).toBeNull();
       expect(promptRepoMock.pGetPromptDescriptor).not.toHaveBeenCalled();
    });
 
@@ -105,7 +104,7 @@ describe("getPrompt tests", () => {
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const result = await promptService.getPrompt(promptId);
 
-      expect(result).toBeUndefined();
+      expect(result).toBeNull();
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith(
          promptId
@@ -113,14 +112,13 @@ describe("getPrompt tests", () => {
    });
 
    it("getPrompt  - product defined - test", async () => {
-      const prompt = ptestData.pPromptDescriptorWithRelations();
+      const prompt = dtestData.dPromptDescriptor();
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(prompt);
 
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const result = await promptService.getPrompt(promptId);
-      const expectedResult = toDPromptDescriptor(prompt);
 
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual(prompt);
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith(
          promptId
@@ -182,7 +180,7 @@ describe("updatePrompt tests", () => {
    it("updatePrompt - error - test", async () => {
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const promptUpdate = dtestData.dPromptUpdate();
-      const currentPrompt = ptestData.pPromptDescriptorWithRelations();
+      const currentPrompt = dtestData.dPromptDescriptor();
       currentPrompt.currentVersion = 1;
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
       const error = new Error("db error");
@@ -210,7 +208,7 @@ describe("updatePrompt tests", () => {
    it("updatePrompt - content not changed - createVersion false - test", async () => {
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const promptUpdate = dtestData.dPromptUpdate();
-      const currentPrompt = ptestData.pPromptDescriptorWithRelations();
+      const currentPrompt = dtestData.dPromptDescriptor();
       currentPrompt.content = promptUpdate.content;
       currentPrompt.currentVersion = 1;
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
@@ -234,7 +232,7 @@ describe("updatePrompt tests", () => {
    it("updatePrompt - content not changed - createVersion true - test", async () => {
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const promptUpdate = dtestData.dPromptUpdate();
-      const currentPrompt = ptestData.pPromptDescriptorWithRelations();
+      const currentPrompt = dtestData.dPromptDescriptor();
       currentPrompt.content = promptUpdate.content;
       currentPrompt.currentVersion = 1;
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
@@ -258,7 +256,7 @@ describe("updatePrompt tests", () => {
    it("updatePrompt - content changed - createVersion false - test", async () => {
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const promptUpdate = dtestData.dPromptUpdate();
-      const currentPrompt = ptestData.pPromptDescriptorWithRelations();
+      const currentPrompt = dtestData.dPromptDescriptor();
       currentPrompt.currentVersion = 1;
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
 
@@ -281,7 +279,7 @@ describe("updatePrompt tests", () => {
    it("updatePrompt - content changed - createVersion true - test", async () => {
       const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const promptUpdate = dtestData.dPromptUpdate();
-      const currentPrompt = ptestData.pPromptDescriptorWithRelations();
+      const currentPrompt = dtestData.dPromptDescriptor();
       currentPrompt.currentVersion = 1;
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(currentPrompt);
 

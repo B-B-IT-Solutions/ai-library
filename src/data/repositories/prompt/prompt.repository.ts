@@ -6,6 +6,8 @@ import {
    PromptDescriptorWithRelations,
 } from "@/data/types/db/prompt";
 import {
+   DPromptCategory,
+   DPromptDescriptor,
    DPromptDescriptorsPage,
    DPromptDescriptorsPageQuery,
    DPromptFollowUpUpdate,
@@ -23,7 +25,7 @@ import {
 } from "@/generated/prisma/models";
 import { DEFAULT_PAGINATION } from "../utils";
 
-import { toDPromptDescriptorsPage } from "./prompt.mapper";
+import { toDPromptDescriptor, toDPromptDescriptorsPage } from "./prompt.mapper";
 
 export class PromptRepository {
    private prisma: DbClient;
@@ -72,22 +74,28 @@ export class PromptRepository {
 
    async pGetPromptDescriptor(
       promptId: string
-   ): Promise<PromptDescriptorWithRelations | null> {
-      return await this.prisma.promptDescriptor.findFirst({
-         where: { id: promptId },
-         include: {
-            categories: true,
-            versions: {
-               orderBy: { version: "desc" },
+   ): Promise<DPromptDescriptor | null> {
+      const data: PromptDescriptorWithRelations | null =
+         await this.prisma.promptDescriptor.findFirst({
+            where: { id: promptId },
+            include: {
+               categories: true,
+               versions: {
+                  orderBy: { version: "desc" },
+               },
+               followUpPrompts: {
+                  orderBy: { order: "asc" },
+               },
             },
-            followUpPrompts: {
-               orderBy: { order: "asc" },
-            },
-         },
-      });
+         });
+
+      if (data) {
+         return toDPromptDescriptor(data);
+      }
+      return null;
    }
 
-   async pGetPromptCategories() {
+   async pGetPromptCategories(): Promise<DPromptCategory[]> {
       return await this.prisma.promptCategory.findMany({
          select: {
             name: true,

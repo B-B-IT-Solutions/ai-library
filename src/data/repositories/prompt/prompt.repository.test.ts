@@ -17,7 +17,7 @@ import {
    PromptFollowUpUpdateManyWithoutPromptNestedInput,
 } from "@/generated/prisma/models";
 
-import { toDPromptDescriptorsPage } from "./prompt.mapper";
+import { toDPromptDescriptor, toDPromptDescriptorsPage } from "./prompt.mapper";
 import { PromptRepository } from "./prompt.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
@@ -344,6 +344,8 @@ describe("pGetPromptDescriptor tests", () => {
       const promptId = "1";
       const result = await promptRepository.pGetPromptDescriptor(promptId);
 
+      const expectedResult = toDPromptDescriptor(prompt);
+
       const expectedWhere: PromptDescriptorFindFirstArgs = {
          where: {
             id: promptId,
@@ -358,7 +360,7 @@ describe("pGetPromptDescriptor tests", () => {
             },
          },
       };
-      expect(result).toEqual(prompt);
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.promptDescriptor.findFirst).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptDescriptor.findFirst).toHaveBeenCalledWith(
          expectedWhere
