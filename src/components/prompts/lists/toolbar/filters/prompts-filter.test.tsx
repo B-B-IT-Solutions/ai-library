@@ -1,10 +1,20 @@
+jest.mock("@/data/ts-queries/prompt");
+
+import { UseQueryResult } from "@tanstack/react-query";
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, renderWithReactQuery } from "@tests";
 
+import { useLoadPromptCategories } from "@/data/ts-queries/prompt";
+
 import { FiltersContext } from "./context";
 import { PromptFilters } from "./prompts-filter";
 import { DFiltersContext } from "./types";
+
+const useLoadPromptCategoriesMock =
+   useLoadPromptCategories as jest.MockedFunction<
+      typeof useLoadPromptCategories
+   >;
 
 const mockFiltersContext = (
    search: string,
@@ -24,6 +34,10 @@ const renderWithContext = (contextValue: DFiltersContext | null) => {
          <PromptFilters />
       </FiltersContext.Provider>
    );
+};
+
+const queryResult = (categories?: string[]) => {
+   return { data: categories } as unknown as UseQueryResult<string[]>;
 };
 
 const assertRendered = () => {
@@ -51,6 +65,9 @@ const assertResetnBtnNotDisabled = () => {
 describe("PromptFilters rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+
+      const categoryOptions = queryResult([]);
+      useLoadPromptCategoriesMock.mockReturnValue(categoryOptions);
    });
 
    it("PromptFilters - filterContext null - test", () => {
@@ -88,6 +105,9 @@ describe("PromptFilters rendering tests", () => {
 describe("PromptFilters functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+
+      const categoryOptions = queryResult([]);
+      useLoadPromptCategoriesMock.mockReturnValue(categoryOptions);
    });
 
    it("PromptFilters - reset btn clicked - test", async () => {

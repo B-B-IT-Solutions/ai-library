@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { ptestData } from "@tests";
+import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
@@ -14,9 +14,11 @@ import {
    PromptDescriptorFindManyArgs,
    PromptDescriptorUpdateArgs,
    PromptDescriptorWhereInput,
+   PromptFollowUpUpdateManyWithoutPromptNestedInput,
 } from "@/generated/prisma/models";
 
-import { GetPromptQuery, PromptRepository } from "./prompt.repository";
+import { toDPromptDescriptor, toDPromptDescriptorsPage } from "./prompt.mapper";
+import { PromptRepository } from "./prompt.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
@@ -35,7 +37,7 @@ describe("pGetPromptDescriptors tests", () => {
 
       const result = await promptRepository.pGetPromptDescriptors(userId);
 
-      const expectedResult: PromptDescriptorsPage = {
+      const expectedDbResult: PromptDescriptorsPage = {
          content: prompts,
          numberOfElements: prompts.length,
          pageNumber: 0,
@@ -43,6 +45,7 @@ describe("pGetPromptDescriptors tests", () => {
          totalElements: 3,
          totalPages: 1,
       };
+      const expectedResult = toDPromptDescriptorsPage(expectedDbResult);
       const expectedWhereClause: PromptDescriptorWhereInput = {
          userId,
       };
@@ -82,7 +85,7 @@ describe("pGetPromptDescriptors tests", () => {
          query
       );
 
-      const expectedResult: PromptDescriptorsPage = {
+      const expectedDbResult: PromptDescriptorsPage = {
          content: prompts,
          numberOfElements: prompts.length,
          pageNumber: 0,
@@ -90,6 +93,7 @@ describe("pGetPromptDescriptors tests", () => {
          totalElements: 3,
          totalPages: 1,
       };
+      const expectedResult = toDPromptDescriptorsPage(expectedDbResult);
       const expectedWhereClause: PromptDescriptorWhereInput = {
          userId,
       };
@@ -132,7 +136,7 @@ describe("pGetPromptDescriptors tests", () => {
          query
       );
 
-      const expectedResult: PromptDescriptorsPage = {
+      const expectedDbResult: PromptDescriptorsPage = {
          content: prompts,
          numberOfElements: prompts.length,
          pageNumber: 3,
@@ -140,6 +144,7 @@ describe("pGetPromptDescriptors tests", () => {
          totalElements: 21,
          totalPages: 5,
       };
+      const expectedResult = toDPromptDescriptorsPage(expectedDbResult);
       const expectedWhereClause: PromptDescriptorWhereInput = {
          userId,
          OR: [
@@ -199,7 +204,7 @@ describe("pGetPromptDescriptors tests", () => {
          query
       );
 
-      const expectedResult: PromptDescriptorsPage = {
+      const expectedDbResult: PromptDescriptorsPage = {
          content: prompts,
          numberOfElements: prompts.length,
          pageNumber: 3,
@@ -207,6 +212,7 @@ describe("pGetPromptDescriptors tests", () => {
          totalElements: 21,
          totalPages: 5,
       };
+      const expectedResult = toDPromptDescriptorsPage(expectedDbResult);
       const expectedWhereClause: PromptDescriptorWhereInput = {
          userId,
          AND: [
@@ -264,7 +270,7 @@ describe("pGetPromptDescriptors tests", () => {
          query
       );
 
-      const expectedResult: PromptDescriptorsPage = {
+      const expectedDbResult: PromptDescriptorsPage = {
          content: prompts,
          numberOfElements: prompts.length,
          pageNumber: 3,
@@ -272,6 +278,7 @@ describe("pGetPromptDescriptors tests", () => {
          totalElements: 21,
          totalPages: 5,
       };
+      const expectedResult = toDPromptDescriptorsPage(expectedDbResult);
       const expectedWhereClause: PromptDescriptorWhereInput = {
          userId,
          OR: [
@@ -330,16 +337,23 @@ describe("pGetPromptDescriptor tests", () => {
       mockReset(prismaMock);
    });
 
-   test("pGetPromptDescriptor - id defiend - slug undefined - test", async () => {
+   test("pGetPromptDescriptor - prompt found - test", async () => {
       const prompt = ptestData.pPromptDescriptorWithRelations();
       prismaMock.promptDescriptor.findFirst.mockResolvedValue(prompt);
 
-      const query: GetPromptQuery = { id: "1" };
-      const result = await promptRepository.pGetPromptDescriptor(query);
+      const promptId = "1";
+      const userId = "user-id-1";
+      const result = await promptRepository.pGetPromptDescriptor(
+         userId,
+         promptId
+      );
+
+      const expectedResult = toDPromptDescriptor(prompt);
 
       const expectedWhere: PromptDescriptorFindFirstArgs = {
          where: {
-            id: query.id,
+            id: promptId,
+            userId,
          },
          include: {
             categories: true,
@@ -351,22 +365,27 @@ describe("pGetPromptDescriptor tests", () => {
             },
          },
       };
-      expect(result).toEqual(prompt);
+      expect(result).toEqual(expectedResult);
       expect(prismaMock.promptDescriptor.findFirst).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptDescriptor.findFirst).toHaveBeenCalledWith(
          expectedWhere
       );
    });
 
-   test("pGetPromptDescriptor - id undefiend - slug defined - test", async () => {
+   test("pGetPromptDescriptor - prompt not found (wrong user) - test", async () => {
       prismaMock.promptDescriptor.findFirst.mockResolvedValue(null);
 
-      const query: GetPromptQuery = { id: "1" };
-      const result = await promptRepository.pGetPromptDescriptor(query);
+      const promptId = "1";
+      const userId = "other-user-id";
+      const result = await promptRepository.pGetPromptDescriptor(
+         userId,
+         promptId
+      );
 
       const expectedWhere: PromptDescriptorFindFirstArgs = {
          where: {
-            id: query.id,
+            id: promptId,
+            userId,
          },
          include: {
             categories: true,
@@ -396,9 +415,15 @@ describe("getPromptCategories queries tests", () => {
       const categories = ptestData.pPromptCategories();
       prismaMock.promptCategory.findMany.mockResolvedValue(categories);
 
-      const result = await promptRepository.pGetPromptCategories();
+      const userId = "user-id-1";
+      const result = await promptRepository.pGetPromptCategories(userId);
 
       const expectedFindMayArgs: PromptCategoryFindManyArgs = {
+         where: {
+            prompts: {
+               some: { userId },
+            },
+         },
          select: {
             name: true,
          },
@@ -418,15 +443,41 @@ describe("pCreatePrompt tests", () => {
    });
 
    test("pCreatePrompt - prompt created - test", async () => {
-      const input = ptestData.pPromptDescriptorCreateInput();
-      prismaMock.promptDescriptor.create.mockResolvedValue(input);
-      const result = await promptRepository.pCreatePrompt(input);
+      const userId = "user-id-123";
+      const data = dtestData.dPromptUpdate();
+      const created = ptestData.pPromptDescriptor();
+      prismaMock.promptDescriptor.create.mockResolvedValue(created);
+
+      const result = await promptRepository.pCreatePrompt(userId, data);
 
       const expectedCreateArgs: PromptDescriptorCreateArgs = {
-         data: input,
+         data: {
+            title: data.title,
+            content: data.content,
+            recommendedModel: data.recommendedModel,
+            currentVersion: 0,
+            categories: {
+               connectOrCreate: [
+                  {
+                     where: { name: "category 1" },
+                     create: { name: "category 1" },
+                  },
+               ],
+            },
+            followUpPrompts: {
+               create: [
+                  { content: "prompt follow up update 0", order: 0 },
+                  { content: "prompt follow up update 1", order: 1 },
+                  { content: "prompt follow up update 2", order: 2 },
+               ],
+            },
+            user: {
+               connect: { id: userId },
+            },
+         },
       };
 
-      expect(result).toEqual(input);
+      expect(result).toEqual(created);
       expect(prismaMock.promptDescriptor.create).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptDescriptor.create).toHaveBeenCalledWith(
          expectedCreateArgs
@@ -439,18 +490,107 @@ describe("pUpdatePrompt tests", () => {
       mockReset(prismaMock);
    });
 
-   test("pUpdatePrompt - prompt updated - test", async () => {
+   test("pUpdatePrompt - no version created - test", async () => {
+      const userId = "user-id-1";
       const promptId = "prompt-id-1";
-      const input = ptestData.pPromptDescriptorUpdateInput();
-      prismaMock.promptDescriptor.update.mockResolvedValue(input);
-      const result = await promptRepository.pUpdatePrompt(promptId, input);
+      const data = dtestData.dPromptUpdate();
+      const current = dtestData.dPromptDescriptor();
+      current.currentVersion = 1;
+      const updated = ptestData.pPromptDescriptor();
+      prismaMock.promptDescriptor.update.mockResolvedValue(updated);
+
+      const result = await promptRepository.pUpdatePrompt(
+         userId,
+         promptId,
+         data,
+         current,
+         1,
+         false
+      );
+
+      const expectedFollowUpUpdates = promptRepository.followUpPromptUpdates(
+         current,
+         data
+      );
 
       const expectedUpdateArgs: PromptDescriptorUpdateArgs = {
-         where: { id: promptId },
-         data: input,
+         where: { id: promptId, userId },
+         data: {
+            title: data.title,
+            content: data.content,
+            recommendedModel: data.recommendedModel,
+            currentVersion: 1,
+            categories: {
+               set: [],
+               connectOrCreate: [
+                  {
+                     where: { name: "category 1" },
+                     create: { name: "category 1" },
+                  },
+               ],
+            },
+            followUpPrompts: expectedFollowUpUpdates,
+            versions: undefined,
+         },
       };
 
-      expect(result).toEqual(input);
+      expect(result).toEqual(updated);
+      expect(prismaMock.promptDescriptor.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptDescriptor.update).toHaveBeenCalledWith(
+         expectedUpdateArgs
+      );
+   });
+
+   test("pUpdatePrompt - version created - test", async () => {
+      const userId = "user-id-1";
+      const promptId = "prompt-id-1";
+      const data = dtestData.dPromptUpdate();
+      const current = dtestData.dPromptDescriptor();
+      current.currentVersion = 1;
+      const updated = ptestData.pPromptDescriptor();
+      prismaMock.promptDescriptor.update.mockResolvedValue(updated);
+
+      const result = await promptRepository.pUpdatePrompt(
+         userId,
+         promptId,
+         data,
+         current,
+         2,
+         true
+      );
+
+      const expectedFollowUpUpdates = promptRepository.followUpPromptUpdates(
+         current,
+         data
+      );
+
+      const expectedUpdateArgs: PromptDescriptorUpdateArgs = {
+         where: { id: promptId, userId },
+         data: {
+            title: data.title,
+            content: data.content,
+            recommendedModel: data.recommendedModel,
+            currentVersion: 2,
+            categories: {
+               set: [],
+               connectOrCreate: [
+                  {
+                     where: { name: "category 1" },
+                     create: { name: "category 1" },
+                  },
+               ],
+            },
+            followUpPrompts: expectedFollowUpUpdates,
+            versions: {
+               create: {
+                  version: 2,
+                  content: data.content,
+               },
+            },
+         },
+      };
+
+      expect(result).toEqual(updated);
       expect(prismaMock.promptDescriptor.update).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptDescriptor.update).toHaveBeenCalledWith(
          expectedUpdateArgs
@@ -465,11 +605,12 @@ describe("pToggleFavorite tests", () => {
 
    test("pToggleFavorite - isFavorite true - test", async () => {
       const promptId = "prompt-id-1";
+      const userId = "user-id-1";
 
-      await promptRepository.pToggleFavorite(promptId, true);
+      await promptRepository.pToggleFavorite(userId, promptId, true);
 
       const expectedUpdateArgs: PromptDescriptorUpdateArgs = {
-         where: { id: promptId },
+         where: { id: promptId, userId },
          data: { isFavorite: true },
       };
 
@@ -481,11 +622,12 @@ describe("pToggleFavorite tests", () => {
 
    test("pToggleFavorite - isFavorite false - test", async () => {
       const promptId = "prompt-id-1";
+      const userId = "user-id-1";
 
-      await promptRepository.pToggleFavorite(promptId, false);
+      await promptRepository.pToggleFavorite(userId, promptId, false);
 
       const expectedUpdateArgs: PromptDescriptorUpdateArgs = {
-         where: { id: promptId },
+         where: { id: promptId, userId },
          data: { isFavorite: false },
       };
 
@@ -503,16 +645,169 @@ describe("pDeletePrompt tests", () => {
 
    test("pDeletePrompt - prompt deleted - test", async () => {
       const promptId = "prompt-id-1";
+      const userId = "user-id-1";
 
-      await promptRepository.pDeletePrompt(promptId);
+      await promptRepository.pDeletePrompt(userId, promptId);
 
       const expectedUpdateArgs: PromptDescriptorDeleteArgs = {
-         where: { id: promptId },
+         where: { id: promptId, userId },
       };
 
       expect(prismaMock.promptDescriptor.delete).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptDescriptor.delete).toHaveBeenCalledWith(
          expectedUpdateArgs
       );
+   });
+});
+
+describe("followUpPromptUpdates tests", () => {
+   const id0 = "f23c15c7-7d2d-40a2-a895-6a78516b9b30";
+   const id1 = "f23c15c7-7d2d-40a2-a895-6a78516b9b31";
+   const id2 = "f23c15c7-7d2d-40a2-a895-6a78516b9b32";
+
+   it("all new follow-ups (no ids) - existing deleted - test", () => {
+      const current = dtestData.dPromptDescriptor();
+      const promptUpdate = dtestData.dPromptUpdate();
+
+      const result = promptRepository.followUpPromptUpdates(
+         current,
+         promptUpdate
+      );
+
+      const expectedResult: PromptFollowUpUpdateManyWithoutPromptNestedInput = {
+         update: undefined,
+         create: [
+            { content: "prompt follow up update 0", order: 0 },
+            { content: "prompt follow up update 1", order: 1 },
+            { content: "prompt follow up update 2", order: 2 },
+         ],
+         deleteMany: { id: { in: [id0, id1, id2] } },
+      };
+
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("all existing follow-ups updated (matching ids) - test", () => {
+      const current = dtestData.dPromptDescriptor();
+      const promptUpdate = dtestData.dPromptUpdate();
+      promptUpdate.followUpPrompts = [
+         { id: id0, content: "updated 0", order: 0 },
+         { id: id1, content: "updated 1", order: 1 },
+         { id: id2, content: "updated 2", order: 2 },
+      ];
+
+      const result = promptRepository.followUpPromptUpdates(
+         current,
+         promptUpdate
+      );
+
+      const expectedResult: PromptFollowUpUpdateManyWithoutPromptNestedInput = {
+         update: [
+            { where: { id: id0 }, data: { content: "updated 0", order: 0 } },
+            { where: { id: id1 }, data: { content: "updated 1", order: 1 } },
+            { where: { id: id2 }, data: { content: "updated 2", order: 2 } },
+         ],
+         create: undefined,
+         deleteMany: undefined,
+      };
+
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("empty update list - all existing deleted - test", () => {
+      const current = dtestData.dPromptDescriptor();
+      const promptUpdate = dtestData.dPromptUpdate();
+      promptUpdate.followUpPrompts = [];
+
+      const result = promptRepository.followUpPromptUpdates(
+         current,
+         promptUpdate
+      );
+
+      const expectedResult: PromptFollowUpUpdateManyWithoutPromptNestedInput = {
+         update: undefined,
+         create: undefined,
+         deleteMany: { id: { in: [id0, id1, id2] } },
+      };
+
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("mix: 2 updated + 1 new + 1 deleted - test", () => {
+      const current = dtestData.dPromptDescriptor();
+      const promptUpdate = dtestData.dPromptUpdate();
+      promptUpdate.followUpPrompts = [
+         { id: id0, content: "updated 0", order: 0 },
+         { id: id1, content: "updated 1", order: 1 },
+         { content: "new follow up", order: 2 },
+      ];
+
+      const result = promptRepository.followUpPromptUpdates(
+         current,
+         promptUpdate
+      );
+
+      const expectedResult: PromptFollowUpUpdateManyWithoutPromptNestedInput = {
+         update: [
+            {
+               where: { id: id0 },
+               data: { content: "updated 0", order: 0 },
+            },
+            {
+               where: { id: id1 },
+               data: { content: "updated 1", order: 1 },
+            },
+         ],
+         create: [{ content: "new follow up", order: 2 }],
+         deleteMany: { id: { in: [id2] } },
+      };
+
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("no existing follow-ups, no updates - all undefined - test", () => {
+      const current = dtestData.dPromptDescriptor();
+      current.followUpPrompts = [];
+      const promptUpdate = dtestData.dPromptUpdate();
+      promptUpdate.followUpPrompts = [];
+
+      const result = promptRepository.followUpPromptUpdates(
+         current,
+         promptUpdate
+      );
+
+      const expectedResult: PromptFollowUpUpdateManyWithoutPromptNestedInput = {
+         update: undefined,
+         create: undefined,
+         deleteMany: undefined,
+      };
+
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("no existing follow-ups, add new - test", () => {
+      const current = dtestData.dPromptDescriptor();
+      current.followUpPrompts = [];
+      const promptUpdate = dtestData.dPromptUpdate();
+      promptUpdate.followUpPrompts = [
+         { content: "new 1", order: 0 },
+         { content: "new 2", order: 1 },
+      ];
+
+      const result = promptRepository.followUpPromptUpdates(
+         current,
+         promptUpdate
+      );
+
+      const expectedResult: PromptFollowUpUpdateManyWithoutPromptNestedInput = {
+         update: undefined,
+         create: [
+            { content: "new 1", order: 0 },
+            { content: "new 2", order: 1 },
+         ],
+         deleteMany: undefined,
+      };
+
+      expect(result).toEqual(expectedResult);
    });
 });

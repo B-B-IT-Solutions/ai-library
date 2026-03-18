@@ -3,7 +3,6 @@ jest.mock("@/data/actions/auth-utils");
 
 import { dtestData } from "@tests";
 import { map } from "es-toolkit/compat";
-import { revalidatePath } from "next/cache";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
@@ -47,10 +46,6 @@ const sDeletePromptMock = sDeletePrompt as jest.MockedFunction<
 >;
 const sToggleFavoriteMock = sToggleFavorite as jest.MockedFunction<
    typeof sToggleFavorite
->;
-
-const revalidatePathMock = revalidatePath as jest.MockedFunction<
-   typeof revalidatePath
 >;
 
 describe("getPromptss tests", () => {
@@ -123,38 +118,96 @@ describe("getPromptss tests", () => {
 
 describe("getPromptCategories tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("getPromptCategories - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await getPromptCategories();
+
+      expect(result).toEqual([]);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptCategoriesMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
    });
 
    it("getPromptCategories test", async () => {
-      const categories = dtestData.dPromptCategories();
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const categories = dtestData.dPromptCategoriesString();
       sGetPromptCategoriesMock.mockResolvedValue(categories);
 
       const result = await getPromptCategories();
-      const expectedResult = map(categories, (c) => c.name);
 
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual(categories);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetPromptCategoriesMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptCategoriesMock).toHaveBeenCalledWith(user.id);
    });
 });
 
 describe("getPrompt tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("getPrompt - invalid UUID - test", async () => {
+      const invalidId = "invalid-uuid-1";
+
+      const result = await getPrompt(invalidId);
+
+      expect(result).toBeNull();
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sGetPromptMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith("Invalid Prompt ID.");
+   });
+
+   it("getPrompt - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const result = await getPrompt(promptId);
+
+      expect(result).toBeNull();
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
    it("getPrompt  - promt undefined - test", async () => {
-      sGetPromptMock.mockResolvedValue(undefined);
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
 
-      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const result = await getPrompt(id);
+      sGetPromptMock.mockResolvedValue(null);
 
-      expect(result).toBeUndefined();
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const result = await getPrompt(promptId);
+
+      expect(result).toBeNull();
       expect(sGetPromptMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptMock).toHaveBeenCalledWith(id);
+      expect(sGetPromptMock).toHaveBeenCalledWith(user.id, promptId);
    });
 
    it("getPrompt  - product defined - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
       const prompt = dtestData.dPromptDescriptor();
       sGetPromptMock.mockResolvedValue(prompt);
 
@@ -163,7 +216,7 @@ describe("getPrompt tests", () => {
 
       expect(result).toEqual(prompt);
       expect(sGetPromptMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptMock).toHaveBeenCalledWith(id);
+      expect(sGetPromptMock).toHaveBeenCalledWith(user.id, id);
    });
 });
 
@@ -236,139 +289,253 @@ describe("createPrompt tests", () => {
 
 describe("updatePrompt tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
    });
 
-   it("updatePrompt - error - test", async () => {
-      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const prompt = dtestData.dPromptUpdate();
-      sUpdatePromptMock.mockRejectedValue(new Error("db error"));
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
 
-      const result = await updatePrompt(id, prompt, false);
-      const expectedResult = {
+   it("updatePrompt - invalid UUID - test", async () => {
+      const invalidId = "invalid-uuid-1";
+
+      const prompt = dtestData.dPromptUpdate();
+
+      const result = await updatePrompt(invalidId, prompt, false);
+
+      const expectedResult: ActionResult = {
          success: false,
-         message: "db error",
+         message: "Prompt konnte nicht aktualisiert werden",
       };
 
       expect(result).toEqual(expectedResult);
-      expect(sUpdatePromptMock).toHaveBeenCalledTimes(1);
-      expect(sUpdatePromptMock).toHaveBeenCalledWith(id, prompt, false);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sUpdatePromptMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith("Invalid Prompt ID.");
+   });
+
+   it("updatePrompt - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const prompt = dtestData.dPromptUpdate();
+
+      const result = await updatePrompt(promptId, prompt, false);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Prompt konnte nicht aktualisiert werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePromptMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
    it("updatePrompt - prompt updated - createVersion false - test", async () => {
-      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const prompt = dtestData.dPromptUpdate();
 
-      const result = await updatePrompt(id, prompt, false);
+      const result = await updatePrompt(promptId, prompt, false);
       const expectedResult = {
          success: true,
          message: "Prompt erfolgreich aktualisiert.",
       };
 
       expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sUpdatePromptMock).toHaveBeenCalledTimes(1);
-      expect(sUpdatePromptMock).toHaveBeenCalledWith(id, prompt, false);
+      expect(sUpdatePromptMock).toHaveBeenCalledWith(
+         user.id,
+         promptId,
+         prompt,
+         false
+      );
    });
 
    it("updatePrompt - prompt updated - createVersion true - test", async () => {
-      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const prompt = dtestData.dPromptUpdate();
 
-      const result = await updatePrompt(id, prompt, true);
+      const result = await updatePrompt(promptId, prompt, true);
       const expectedResult = {
          success: true,
          message: "Prompt erfolgreich aktualisiert.",
       };
 
       expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sUpdatePromptMock).toHaveBeenCalledTimes(1);
-      expect(sUpdatePromptMock).toHaveBeenCalledWith(id, prompt, true);
+      expect(sUpdatePromptMock).toHaveBeenCalledWith(
+         user.id,
+         promptId,
+         prompt,
+         true
+      );
    });
 });
 
 describe("toggleFavorite tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
    });
 
-   it("toggleFavorite - error - test", async () => {
-      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      sToggleFavoriteMock.mockRejectedValue(new Error("db error"));
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
 
-      const result = await toggleFavorite(id, true);
-      const expectedResult = {
+   it("toggleFavorite - invalid UUID - test", async () => {
+      const invalidId = "invalid-uuid-1";
+
+      const result = await toggleFavorite(invalidId, true);
+
+      const expectedResult: ActionResult = {
          success: false,
-         message: "db error",
+         message: "Prompt konnte nicht aktualisiert werden",
       };
 
       expect(result).toEqual(expectedResult);
-      expect(revalidatePathMock).not.toHaveBeenCalled();
-      expect(sToggleFavoriteMock).toHaveBeenCalledTimes(1);
-      expect(sToggleFavoriteMock).toHaveBeenCalledWith(id, true);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sToggleFavoriteMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith("Invalid Prompt ID.");
+   });
+
+   it("toggleFavorite - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+
+      const result = await toggleFavorite(promptId, true);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Prompt konnte nicht aktualisiert werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sToggleFavoriteMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
    it("toggleFavorite - add to favorites - test", async () => {
-      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
 
-      const result = await toggleFavorite(id, true);
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+
+      const result = await toggleFavorite(promptId, true);
       const expectedResult = {
          success: true,
          message: "Zu Favoriten hinzugefügt",
       };
 
       expect(result).toEqual(expectedResult);
-      expect(revalidatePathMock).toHaveBeenCalledTimes(1);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sToggleFavoriteMock).toHaveBeenCalledTimes(1);
-      expect(sToggleFavoriteMock).toHaveBeenCalledWith(id, true);
+      expect(sToggleFavoriteMock).toHaveBeenCalledWith(user.id, promptId, true);
    });
 
    it("toggleFavorite - remove from favorites - test", async () => {
-      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
 
-      const result = await toggleFavorite(id, false);
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+
+      const result = await toggleFavorite(promptId, false);
       const expectedResult = {
          success: true,
          message: "Aus Favoriten entfernt",
       };
 
       expect(result).toEqual(expectedResult);
-      expect(revalidatePathMock).toHaveBeenCalledTimes(1);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sToggleFavoriteMock).toHaveBeenCalledTimes(1);
-      expect(sToggleFavoriteMock).toHaveBeenCalledWith(id, false);
+      expect(sToggleFavoriteMock).toHaveBeenCalledWith(
+         user.id,
+         promptId,
+         false
+      );
    });
 });
 
 describe("deletePrompt tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
    });
 
-   it("deletePrompt - error - test", async () => {
-      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      sDeletePromptMock.mockRejectedValue(new Error("db error"));
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
 
-      const result = await deletePrompt(id);
-      const expectedResult = {
+   it("deletePrompt - invalid UUID - test", async () => {
+      const invalidId = "invalid-uuid-1";
+
+      const result = await deletePrompt(invalidId);
+
+      const expectedResult: ActionResult = {
          success: false,
-         message: "db error",
+         message: "Prompt konnte nicht gelöscht werden",
       };
 
       expect(result).toEqual(expectedResult);
-      expect(sDeletePromptMock).toHaveBeenCalledTimes(1);
-      expect(sDeletePromptMock).toHaveBeenCalledWith(id);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sDeletePromptMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith("Invalid Prompt ID.");
+   });
+
+   it("deletePrompt - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+
+      const result = await deletePrompt(promptId);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Prompt konnte nicht gelöscht werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sDeletePromptMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
    it("deletePrompt - prompt deleted - test", async () => {
-      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
 
-      const result = await deletePrompt(id);
-      const expectedResult = {
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+
+      const result = await deletePrompt(promptId);
+      const expectedResult: ActionResult = {
          success: true,
          message: "Prompt erfolgreich gelöscht.",
       };
 
       expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sDeletePromptMock).toHaveBeenCalledTimes(1);
-      expect(sDeletePromptMock).toHaveBeenCalledWith(id);
+      expect(sDeletePromptMock).toHaveBeenCalledWith(user.id, promptId);
    });
 });

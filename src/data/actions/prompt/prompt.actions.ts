@@ -1,7 +1,5 @@
 "use server";
-
-import { map } from "es-toolkit/compat";
-import { revalidatePath } from "next/cache";
+import { validate as isValidUuid } from "uuid";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE, formatError } from "@/data/actions/utils";
@@ -29,16 +27,31 @@ export const getPrompts = async (
 };
 
 export const getPrompt = async (
-   id: string
-): Promise<DPromptDescriptor | undefined> => {
-   const service = getSevice();
-   return await service.getPrompt(id);
+   promptId: string
+): Promise<DPromptDescriptor | null> => {
+   try {
+      if (!isValidUuid(promptId)) {
+         throw new Error("Invalid Prompt ID.");
+      }
+
+      const user = await requireUser();
+      const service = getSevice();
+      return await service.getPrompt(user.id, promptId);
+   } catch (error) {
+      console.error(formatError(error));
+      return null;
+   }
 };
 
 export const getPromptCategories = async (): Promise<string[]> => {
-   const service = getSevice();
-   const categories = await service.getPromptCategories();
-   return map(categories, (c) => c.name);
+   try {
+      const user = await requireUser();
+      const service = getSevice();
+      return await service.getPromptCategories(user.id);
+   } catch (error) {
+      console.error(formatError(error));
+      return [];
+   }
 };
 
 export const createPrompt = async (data: DPromptUpdate) => {
@@ -65,25 +78,36 @@ export const updatePrompt = async (
    createVersion: boolean
 ) => {
    try {
+      if (!isValidUuid(promptId)) {
+         throw new Error("Invalid Prompt ID.");
+      }
+
+      const user = await requireUser();
       const service = getSevice();
-      await service.updatePrompt(promptId, data, createVersion);
+      await service.updatePrompt(user.id, promptId, data, createVersion);
       return {
          success: true,
          message: "Prompt erfolgreich aktualisiert.",
       };
    } catch (error) {
+      console.error(formatError(error));
       return {
          success: false,
-         message: formatError(error),
+         message: "Prompt konnte nicht aktualisiert werden",
       };
    }
 };
 
-export const toggleFavorite = async (id: string, isFavorite: boolean) => {
+export const toggleFavorite = async (promptId: string, isFavorite: boolean) => {
    try {
+      if (!isValidUuid(promptId)) {
+         throw new Error("Invalid Prompt ID.");
+      }
+
+      const user = await requireUser();
       const service = getSevice();
-      await service.toggleFavorite(id, isFavorite);
-      revalidatePath(`/prompts/${id}`);
+      await service.toggleFavorite(user.id, promptId, isFavorite);
+
       return {
          success: true,
          message: isFavorite
@@ -91,25 +115,32 @@ export const toggleFavorite = async (id: string, isFavorite: boolean) => {
             : "Aus Favoriten entfernt",
       };
    } catch (error) {
+      console.error(formatError(error));
       return {
          success: false,
-         message: formatError(error),
+         message: "Prompt konnte nicht aktualisiert werden",
       };
    }
 };
 
-export const deletePrompt = async (id: string) => {
+export const deletePrompt = async (promptId: string) => {
    try {
+      if (!isValidUuid(promptId)) {
+         throw new Error("Invalid Prompt ID.");
+      }
+
+      const user = await requireUser();
       const service = getSevice();
-      await service.deletePrompt(id);
+      await service.deletePrompt(user.id, promptId);
       return {
          success: true,
          message: "Prompt erfolgreich gelöscht.",
       };
    } catch (error) {
+      console.error(formatError(error));
       return {
          success: false,
-         message: formatError(error),
+         message: "Prompt konnte nicht gelöscht werden",
       };
    }
 };

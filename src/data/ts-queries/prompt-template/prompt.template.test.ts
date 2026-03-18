@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/prompt");
+jest.mock("@/data/actions/prompt-template");
 
 import {
    QueryFunction,
@@ -11,7 +11,7 @@ import { dtestData, renderHookWithReactQuery } from "@tests";
 import {
    getPromptTemplateCategories,
    getPromptTemplates,
-} from "@/data/actions/prompt";
+} from "@/data/actions/prompt-template";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 import {
