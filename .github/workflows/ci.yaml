@@ -31,16 +31,6 @@ jobs:
          - name: Install Dependencies
            run: npm ci
 
-         # - name: npm build
-         #   run: npm run build
-
-         # - name: run Lighthouse CI
-         #   run: |
-         #      npm install -g @lhci/cli@0.15.1
-         #      npm run test:lhci
-         #   env:
-         #      LHCI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
          - name: Run Tests
            run: npm run test
 
