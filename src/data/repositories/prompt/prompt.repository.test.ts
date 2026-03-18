@@ -17,6 +17,7 @@ import {
    PromptFollowUpUpdateManyWithoutPromptNestedInput,
 } from "@/generated/prisma/models";
 
+import { toDPromptDescriptorsPage } from "./prompt.mapper";
 import { PromptRepository } from "./prompt.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
@@ -36,7 +37,7 @@ describe("pGetPromptDescriptors tests", () => {
 
       const result = await promptRepository.pGetPromptDescriptors(userId);
 
-      const expectedResult: PromptDescriptorsPage = {
+      const expectedDbResult: PromptDescriptorsPage = {
          content: prompts,
          numberOfElements: prompts.length,
          pageNumber: 0,
@@ -44,6 +45,7 @@ describe("pGetPromptDescriptors tests", () => {
          totalElements: 3,
          totalPages: 1,
       };
+      const expectedResult = toDPromptDescriptorsPage(expectedDbResult);
       const expectedWhereClause: PromptDescriptorWhereInput = {
          userId,
       };
@@ -83,7 +85,7 @@ describe("pGetPromptDescriptors tests", () => {
          query
       );
 
-      const expectedResult: PromptDescriptorsPage = {
+      const expectedDbResult: PromptDescriptorsPage = {
          content: prompts,
          numberOfElements: prompts.length,
          pageNumber: 0,
@@ -91,6 +93,7 @@ describe("pGetPromptDescriptors tests", () => {
          totalElements: 3,
          totalPages: 1,
       };
+      const expectedResult = toDPromptDescriptorsPage(expectedDbResult);
       const expectedWhereClause: PromptDescriptorWhereInput = {
          userId,
       };
@@ -133,7 +136,7 @@ describe("pGetPromptDescriptors tests", () => {
          query
       );
 
-      const expectedResult: PromptDescriptorsPage = {
+      const expectedDbResult: PromptDescriptorsPage = {
          content: prompts,
          numberOfElements: prompts.length,
          pageNumber: 3,
@@ -141,6 +144,7 @@ describe("pGetPromptDescriptors tests", () => {
          totalElements: 21,
          totalPages: 5,
       };
+      const expectedResult = toDPromptDescriptorsPage(expectedDbResult);
       const expectedWhereClause: PromptDescriptorWhereInput = {
          userId,
          OR: [
@@ -200,7 +204,7 @@ describe("pGetPromptDescriptors tests", () => {
          query
       );
 
-      const expectedResult: PromptDescriptorsPage = {
+      const expectedDbResult: PromptDescriptorsPage = {
          content: prompts,
          numberOfElements: prompts.length,
          pageNumber: 3,
@@ -208,6 +212,7 @@ describe("pGetPromptDescriptors tests", () => {
          totalElements: 21,
          totalPages: 5,
       };
+      const expectedResult = toDPromptDescriptorsPage(expectedDbResult);
       const expectedWhereClause: PromptDescriptorWhereInput = {
          userId,
          AND: [
@@ -265,7 +270,7 @@ describe("pGetPromptDescriptors tests", () => {
          query
       );
 
-      const expectedResult: PromptDescriptorsPage = {
+      const expectedDbResult: PromptDescriptorsPage = {
          content: prompts,
          numberOfElements: prompts.length,
          pageNumber: 3,
@@ -273,6 +278,7 @@ describe("pGetPromptDescriptors tests", () => {
          totalElements: 21,
          totalPages: 5,
       };
+      const expectedResult = toDPromptDescriptorsPage(expectedDbResult);
       const expectedWhereClause: PromptDescriptorWhereInput = {
          userId,
          OR: [

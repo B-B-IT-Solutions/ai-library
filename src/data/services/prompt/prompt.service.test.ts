@@ -5,10 +5,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import { PromptRepository } from "@/data/repositories/prompt";
-import {
-   toDPromptDescriptor,
-   toDPromptDescriptorsPage,
-} from "@/data/repositories/prompt/prompt.mapper";
+import { toDPromptDescriptor } from "@/data/repositories/prompt/prompt.mapper";
 import { DPromptDescriptorsPageQuery } from "@/data/types/domain/prompt";
 
 import { PromptService } from "./prompt.service";
@@ -25,13 +22,12 @@ describe("getPromptss tests", () => {
 
    it("getPrompts - query undefined - test", async () => {
       const userId = "user-id-1";
-      const page = ptestData.pPromptDescriptorsPage();
+      const page = dtestData.dPromptDescriptorsPage();
       promptRepoMock.pGetPromptDescriptors.mockResolvedValue(page);
 
       const result = await promptService.getPrompts(userId);
-      const expectedResult = toDPromptDescriptorsPage(page);
 
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual(page);
       expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledWith(
          userId,
@@ -41,14 +37,13 @@ describe("getPromptss tests", () => {
 
    it("getPrompts - query empty - test", async () => {
       const userId = "user-id-123";
-      const page = ptestData.pPromptDescriptorsPage();
+      const page = dtestData.dPromptDescriptorsPage();
       promptRepoMock.pGetPromptDescriptors.mockResolvedValue(page);
 
       const query: DPromptDescriptorsPageQuery = {};
       const result = await promptService.getPrompts(userId, query);
-      const expectedResult = toDPromptDescriptorsPage(page);
 
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual(page);
       expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledWith(
          userId,
@@ -58,14 +53,13 @@ describe("getPromptss tests", () => {
 
    it("getPrompts - query defined - test", async () => {
       const userId = "user-id-456";
-      const page = ptestData.pPromptDescriptorsPage();
+      const page = dtestData.dPromptDescriptorsPage();
       promptRepoMock.pGetPromptDescriptors.mockResolvedValue(page);
 
       const query = dtestData.dPromptsPageQuery();
       const result = await promptService.getPrompts(userId, query);
-      const expectedResult = toDPromptDescriptorsPage(page);
 
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual(page);
       expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledWith(
          userId,

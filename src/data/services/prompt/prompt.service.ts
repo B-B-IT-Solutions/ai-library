@@ -2,10 +2,7 @@ import { isEqual } from "es-toolkit/compat";
 import { validate as isValidUuid } from "uuid";
 
 import { PromptRepository } from "@/data/repositories/prompt";
-import {
-   toDPromptDescriptor,
-   toDPromptDescriptorsPage,
-} from "@/data/repositories/prompt/prompt.mapper";
+import { toDPromptDescriptor } from "@/data/repositories/prompt/prompt.mapper";
 import {
    DPromptCategory,
    DPromptDescriptor,
@@ -26,11 +23,7 @@ export class PromptService {
       userId: string,
       query?: DPromptDescriptorsPageQuery
    ): Promise<DPromptDescriptorsPage> {
-      const data = await this.promptRepository.pGetPromptDescriptors(
-         userId,
-         query
-      );
-      return toDPromptDescriptorsPage(data);
+      return await this.promptRepository.pGetPromptDescriptors(userId, query);
    }
 
    async getPrompt(promptId: string): Promise<DPromptDescriptor | undefined> {

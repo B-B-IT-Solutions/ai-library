@@ -6,6 +6,7 @@ import {
    PromptDescriptorWithRelations,
 } from "@/data/types/db/prompt";
 import {
+   DPromptDescriptorsPage,
    DPromptDescriptorsPageQuery,
    DPromptFollowUpUpdate,
    DPromptUpdate,
@@ -22,6 +23,8 @@ import {
 } from "@/generated/prisma/models";
 import { DEFAULT_PAGINATION } from "../utils";
 
+import { toDPromptDescriptorsPage } from "./prompt.mapper";
+
 export class PromptRepository {
    private prisma: DbClient;
 
@@ -32,7 +35,7 @@ export class PromptRepository {
    async pGetPromptDescriptors(
       userId: string,
       query?: DPromptDescriptorsPageQuery
-   ): Promise<PromptDescriptorsPage> {
+   ): Promise<DPromptDescriptorsPage> {
       const { pagination } = query || {};
       const { pageNumber, pageSize } = pagination || DEFAULT_PAGINATION;
 
@@ -56,7 +59,7 @@ export class PromptRepository {
          }),
       ]);
 
-      return {
+      const dbResult: PromptDescriptorsPage = {
          content: data as PromptDescriptorWithRelations[],
          numberOfElements: data.length,
          pageNumber: pageNumber,
@@ -64,6 +67,7 @@ export class PromptRepository {
          totalElements: count,
          totalPages: Math.ceil(count / pageSize),
       };
+      return toDPromptDescriptorsPage(dbResult);
    }
 
    async pGetPromptDescriptor(
