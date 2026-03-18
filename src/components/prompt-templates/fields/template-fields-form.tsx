@@ -203,16 +203,21 @@ export const TemplateFieldForm: FC<Props> = ({
          <div className="flex items-center justify-end gap-2 border-t pt-3">
             <Button
                type="button"
-               variant="ghost"
-               size="icon"
+               variant="outline"
                onClick={copyToClipboard}
-               className="cursor-pointer"
+               className="cursor-pointer gap-1.5"
                data-testid="copy-btn"
             >
                {copied ? (
-                  <Check className="h-4 w-4 text-green-600" />
+                  <>
+                     <Check className="h-4 w-4 text-green-600" />
+                     <span className="text-green-600">Kopiert!</span>
+                  </>
                ) : (
-                  <Copy className="h-4 w-4" />
+                  <>
+                     <Copy className="h-4 w-4" />
+                     Kopieren
+                  </>
                )}
             </Button>
             <DropdownMenu>
