@@ -133,7 +133,7 @@ export class PromptRepository {
    async pUpdatePrompt(
       promptId: string,
       data: DPromptUpdate,
-      current: PromptDescriptorWithRelations,
+      current: DPromptDescriptor,
       versionIdx: number,
       updateVersions: boolean
    ) {
@@ -182,7 +182,7 @@ export class PromptRepository {
    }
 
    followUpPromptUpdates(
-      current: PromptDescriptorWithRelations,
+      current: DPromptDescriptor,
       promptUpdate: DPromptUpdate
    ): PromptFollowUpUpdateManyWithoutPromptNestedInput {
       const existingIds = new Set(map(current.followUpPrompts, (f) => f.id));
