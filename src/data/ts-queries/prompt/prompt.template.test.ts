@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/prompt");
+jest.mock("@/data/actions/prompt-template");
 
 import {
    QueryFunction,

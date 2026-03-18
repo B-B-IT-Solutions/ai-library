@@ -1,5 +1,5 @@
 jest.mock("@/data/actions/library");
-jest.mock("@/data/actions/prompt");
+jest.mock("@/data/actions/prompt-template");
 jest.mock("sonner");
 
 import { screen, waitFor } from "@testing-library/dom";
