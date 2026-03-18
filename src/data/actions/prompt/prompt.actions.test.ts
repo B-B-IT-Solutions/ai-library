@@ -211,6 +211,7 @@ describe("createPrompt tests", () => {
       expect(result).toEqual(expectedResult);
       expect(sCreatePromptMock).toHaveBeenCalledTimes(1);
       expect(sCreatePromptMock).toHaveBeenCalledWith(user.id, prompt);
+      expect(console.error).toHaveBeenCalledTimes(1);
    });
 
    it("createPrompt - prompt created  - test", async () => {
