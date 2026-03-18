@@ -32,9 +32,13 @@ export class PromptService {
    }
 
    async getPrompts(
+      userId: string,
       query?: DPromptDescriptorsPageQuery
    ): Promise<DPromptDescriptorsPage> {
-      const data = await this.promptRepository.pGetPromptDescriptors(query);
+      const data = await this.promptRepository.pGetPromptDescriptors(
+         userId,
+         query
+      );
       return toDPromptDescriptorsPage(data);
    }
 

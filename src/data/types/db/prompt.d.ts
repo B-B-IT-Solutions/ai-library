@@ -1,4 +1,4 @@
-import { Filter, Page, PageQuery } from "@/data/types/common";
+import { Page } from "@/data/types/common";
 import {
    PromptCategory,
    PromptDescriptor,
@@ -12,11 +12,4 @@ export type PromptDescriptorWithRelations = PromptDescriptor & {
    followUpPrompts: PromptFollowUp[];
 };
 
-export type PromptDescriptorsPageQuery = PageQuery<PromptDescriptorsFilter>;
 export type PromptDescriptorsPage = Page<PromptDescriptorWithRelations>;
-
-export declare interface PromptDescriptorsFilter extends Filter {
-   userId?: string;
-   categories?: string[];
-   isFavorite?: boolean;
-}

@@ -3,10 +3,8 @@ import { ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import {
-   PromptDescriptorsPage,
-   PromptDescriptorsPageQuery,
-} from "@/data/types/db/prompt";
+import { PromptDescriptorsPage } from "@/data/types/db/prompt";
+import { DPromptDescriptorsPageQuery } from "@/data/types/domain/prompt";
 import {
    PromptCategoryFindManyArgs,
    PromptDescriptorCountArgs,
@@ -70,12 +68,16 @@ describe("pGetPromptDescriptors tests", () => {
    });
 
    test("pGetPromptDescriptors - query empty - test", async () => {
+      const userId = "user-id-1";
       const prompts = ptestData.pPromptDescriptorsWithRelations();
       prismaMock.promptDescriptor.findMany.mockResolvedValue(prompts);
       prismaMock.promptDescriptor.count.mockResolvedValue(prompts.length);
 
-      const query: PromptDescriptorsPageQuery = {};
-      const result = await promptRepository.pGetPromptDescriptors(query);
+      const query: DPromptDescriptorsPageQuery = {};
+      const result = await promptRepository.pGetPromptDescriptors(
+         userId,
+         query
+      );
 
       const expectedResult: PromptDescriptorsPage = {
          content: prompts,
@@ -111,15 +113,19 @@ describe("pGetPromptDescriptors tests", () => {
    });
 
    test("pGetPromptDescriptors - query.globalFilter defined - test", async () => {
+      const userId = "user-id-123";
       const prompts = ptestData.pPromptDescriptorsWithRelations(21);
       prismaMock.promptDescriptor.findMany.mockResolvedValue(prompts);
       prismaMock.promptDescriptor.count.mockResolvedValue(prompts.length);
 
-      const query: PromptDescriptorsPageQuery = {
+      const query: DPromptDescriptorsPageQuery = {
          pagination: { pageNumber: 3, pageSize: 5 },
          globalFilter: "test 123",
       };
-      const result = await promptRepository.pGetPromptDescriptors(query);
+      const result = await promptRepository.pGetPromptDescriptors(
+         userId,
+         query
+      );
 
       const expectedResult: PromptDescriptorsPage = {
          content: prompts,
@@ -130,6 +136,7 @@ describe("pGetPromptDescriptors tests", () => {
          totalPages: 5,
       };
       const expectedWhereClause: PromptDescriptorWhereInput = {
+         userId,
          OR: [
             {
                title: {
@@ -170,18 +177,22 @@ describe("pGetPromptDescriptors tests", () => {
    });
 
    test("pGetPromptDescriptors - query.filter defined - test", async () => {
+      const userId = "user-id-123";
       const prompts = ptestData.pPromptDescriptorsWithRelations(21);
       prismaMock.promptDescriptor.findMany.mockResolvedValue(prompts);
       prismaMock.promptDescriptor.count.mockResolvedValue(prompts.length);
 
-      const query: PromptDescriptorsPageQuery = {
+      const query: DPromptDescriptorsPageQuery = {
          pagination: { pageNumber: 3, pageSize: 5 },
          filter: {
             categories: ["cat 123"],
             isFavorite: true,
          },
       };
-      const result = await promptRepository.pGetPromptDescriptors(query);
+      const result = await promptRepository.pGetPromptDescriptors(
+         userId,
+         query
+      );
 
       const expectedResult: PromptDescriptorsPage = {
          content: prompts,
@@ -192,6 +203,7 @@ describe("pGetPromptDescriptors tests", () => {
          totalPages: 5,
       };
       const expectedWhereClause: PromptDescriptorWhereInput = {
+         userId,
          AND: [
             {
                categories: {
@@ -230,18 +242,22 @@ describe("pGetPromptDescriptors tests", () => {
    });
 
    test("pGetPromptDescriptors - query defined - test", async () => {
+      const userId = "user-id-456";
       const prompts = ptestData.pPromptDescriptorsWithRelations(21);
       prismaMock.promptDescriptor.findMany.mockResolvedValue(prompts);
       prismaMock.promptDescriptor.count.mockResolvedValue(prompts.length);
 
-      const query: PromptDescriptorsPageQuery = {
+      const query: DPromptDescriptorsPageQuery = {
          pagination: { pageNumber: 3, pageSize: 5 },
          globalFilter: "test 1",
          filter: {
             categories: ["cat 1"],
          },
       };
-      const result = await promptRepository.pGetPromptDescriptors(query);
+      const result = await promptRepository.pGetPromptDescriptors(
+         userId,
+         query
+      );
 
       const expectedResult: PromptDescriptorsPage = {
          content: prompts,
@@ -252,6 +268,7 @@ describe("pGetPromptDescriptors tests", () => {
          totalPages: 5,
       };
       const expectedWhereClause: PromptDescriptorWhereInput = {
+         userId,
          OR: [
             {
                title: {

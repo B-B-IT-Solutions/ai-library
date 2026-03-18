@@ -47,7 +47,6 @@ export type DPromptDescriptorsPageQuery = PageQuery<DPromptDescriptorsFilter>;
 export type DPromptDescriptorsPage = Page<DPromptDescriptor>;
 
 export interface DPromptDescriptorsFilter extends Filter {
-   userId?: string;
    search?: string;
    categories?: string[];
    isFavorite?: boolean;
