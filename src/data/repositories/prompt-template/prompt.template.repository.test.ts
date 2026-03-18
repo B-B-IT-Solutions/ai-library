@@ -436,6 +436,11 @@ describe("pCreatePromptTemplateDescriptor tests", () => {
                },
             },
          },
+         user: {
+            connect: {
+               id: userId,
+            },
+         },
       };
 
       const expectedCreateArgs: PromptTemplateDescriptorCreateArgs = {

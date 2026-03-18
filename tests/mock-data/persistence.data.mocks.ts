@@ -496,6 +496,7 @@ export const pPromptTemplateDescriptor = (
 ): PromptTemplateDescriptor => {
    return {
       id: `334db648-f300-4284-8149-075ff465d75${index}`,
+      userId: `819855b3-1477-4255-b6cd-08fea96aaf1${index}`,
       title: `title ${index}`,
       description: `description ${index}`,
       recommendedModel: `model ${index}`,

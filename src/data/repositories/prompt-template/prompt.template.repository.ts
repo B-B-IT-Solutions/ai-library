@@ -149,6 +149,11 @@ export class PromptTemplateRepository {
                },
             },
          },
+         user: {
+            connect: {
+               id: userId,
+            },
+         },
       };
 
       const args: PromptTemplateDescriptorCreateArgs = {
