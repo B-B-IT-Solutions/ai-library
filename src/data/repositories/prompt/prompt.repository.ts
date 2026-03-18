@@ -117,11 +117,7 @@ export class PromptRepository {
       userId: string,
       query?: DPromptDescriptorsPageQuery
    ): PromptDescriptorWhereInput | undefined {
-      if (isEmpty(query)) {
-         return undefined;
-      }
-
-      const { globalFilter, filter } = query;
+      const { globalFilter, filter } = query || {};
       const { categories, isFavorite } = filter || {};
 
       const searchClause: PromptDescriptorWhereInput[] | undefined =

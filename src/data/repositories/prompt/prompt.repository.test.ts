@@ -28,11 +28,12 @@ describe("pGetPromptDescriptors tests", () => {
    });
 
    test("pGetPromptDescriptors - query undefined - test", async () => {
+      const userId = "user-id-1";
       const prompts = ptestData.pPromptDescriptorsWithRelations();
       prismaMock.promptDescriptor.findMany.mockResolvedValue(prompts);
       prismaMock.promptDescriptor.count.mockResolvedValue(prompts.length);
 
-      const result = await promptRepository.pGetPromptDescriptors();
+      const result = await promptRepository.pGetPromptDescriptors(userId);
 
       const expectedResult: PromptDescriptorsPage = {
          content: prompts,
@@ -42,7 +43,9 @@ describe("pGetPromptDescriptors tests", () => {
          totalElements: 3,
          totalPages: 1,
       };
-      const expectedWhereClause = undefined;
+      const expectedWhereClause: PromptDescriptorWhereInput = {
+         userId,
+      };
       const expectedFindManyArgs: PromptDescriptorFindManyArgs = {
          where: expectedWhereClause,
          skip: 0,
@@ -68,7 +71,7 @@ describe("pGetPromptDescriptors tests", () => {
    });
 
    test("pGetPromptDescriptors - query empty - test", async () => {
-      const userId = "user-id-1";
+      const userId = "user-id-111";
       const prompts = ptestData.pPromptDescriptorsWithRelations();
       prismaMock.promptDescriptor.findMany.mockResolvedValue(prompts);
       prismaMock.promptDescriptor.count.mockResolvedValue(prompts.length);
@@ -87,7 +90,9 @@ describe("pGetPromptDescriptors tests", () => {
          totalElements: 3,
          totalPages: 1,
       };
-      const expectedWhereClause = undefined;
+      const expectedWhereClause: PromptDescriptorWhereInput = {
+         userId,
+      };
       const expectedFindManyArgs: PromptDescriptorFindManyArgs = {
          where: expectedWhereClause,
          skip: 0,
