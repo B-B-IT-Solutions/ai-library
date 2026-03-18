@@ -12,7 +12,7 @@ export const codeReviewTemplateWithFields: PromptTemplateDescriptorCreateInput =
       title: "KI-gestützte Code-Review",
       description:
          "Lassen Sie Ihren Code von einer KI analysieren mit Fokus auf Best Practices, Performance und Sicherheit.",
-      recommendedModel: "Claude Sonnet 4.5",
+      recommendedModel: "Claude",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Entwicklung",
@@ -124,7 +124,7 @@ export const emailTemplateWithFields: PromptTemplateDescriptorCreateInput = {
    title: "Professionelle E-Mail-Vorlage",
    description:
       "Erstellen Sie professionelle E-Mails für verschiedene Anlässe und Tonalitäten.",
-   recommendedModel: "GPT-5",
+   recommendedModel: "ChatGPT",
    categories: {
       connectOrCreate: promptTemplateCategories([
          "Kommunikation",
@@ -235,7 +235,7 @@ export const socialMediaPostTemplate: PromptTemplateDescriptorCreateInput = {
    title: "Social Media Post Generator",
    description:
       "Erstellen Sie ansprechende Social Media Posts für verschiedene Plattformen mit der optimalen Tonalität und Länge.",
-   recommendedModel: "GPT-5",
+   recommendedModel: "ChatGPT",
    categories: {
       connectOrCreate: promptTemplateCategories([
          "Copywriting",
@@ -378,7 +378,7 @@ export const productDescriptionTemplate: PromptTemplateDescriptorCreateInput = {
    title: "Produkt-Beschreibung Generator",
    description:
       "Erstellen Sie überzeugende Produktbeschreibungen, die verkaufen und Ihre Zielgruppe ansprechen.",
-   recommendedModel: "GPT-5",
+   recommendedModel: "ChatGPT",
    categories: {
       connectOrCreate: promptTemplateCategories([
          "Copywriting",
@@ -509,7 +509,7 @@ export const blogOutlineTemplate: PromptTemplateDescriptorCreateInput = {
    title: "Blog-Artikel Struktur Generator",
    description:
       "Erstellen Sie durchdachte Blog-Strukturen mit Headlines, Subheadlines und Content-Gliederung.",
-   recommendedModel: "GPT-5",
+   recommendedModel: "ChatGPT",
    categories: {
       connectOrCreate: promptTemplateCategories([
          "Copywriting",
@@ -658,7 +658,7 @@ export const marketingEmailTemplate: PromptTemplateDescriptorCreateInput = {
    title: "Marketing-E-Mail Kampagne",
    description:
       "Erstellen Sie conversion-optimierte Marketing-E-Mails für Newsletter, Produktlaunches und Kampagnen.",
-   recommendedModel: "GPT-5",
+   recommendedModel: "ChatGPT",
    categories: {
       connectOrCreate: promptTemplateCategories([
          "Copywriting",
@@ -830,7 +830,7 @@ export const seoMetaDescriptionTemplate: PromptTemplateDescriptorCreateInput = {
    title: "SEO Meta-Description Generator",
    description:
       "Erstellen Sie klickstarke Meta-Descriptions und Title-Tags für bessere Rankings und höhere CTR.",
-   recommendedModel: "GPT-5",
+   recommendedModel: "ChatGPT",
    categories: {
       connectOrCreate: promptTemplateCategories([
          "Copywriting",
