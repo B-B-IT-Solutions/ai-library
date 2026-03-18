@@ -544,6 +544,7 @@ export const pPromptTemplateCategories = (
 export const pPromptTemplateCategory = (index = 1): PromptTemplateCategory => {
    return {
       id: Math.random(),
+      userId: `819855b3-1477-4255-b6cd-08fea96aaf1${index}`,
       name: `category ${index}`,
    };
 };

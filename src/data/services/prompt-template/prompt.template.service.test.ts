@@ -262,14 +262,17 @@ describe("createPromptTemplateDescriptor tests", () => {
    });
 
    it("createPromptTemplateDescriptor - descriptor created - test", async () => {
+      const userId = "user-id-1";
       const newData = dtestData.dPromptTemplateUpdate();
       const newDescriptor = dtestData.dPromptTemplateDescriptor();
       promptTemplateRepoMock.pCreatePromptTemplateDescriptor.mockResolvedValue(
          newDescriptor
       );
 
-      const result =
-         await promptTemplateService.createPromptTemplateDescriptor(newData);
+      const result = await promptTemplateService.createPromptTemplateDescriptor(
+         userId,
+         newData
+      );
 
       expect(result).toEqual(newDescriptor);
       expect(
@@ -277,7 +280,7 @@ describe("createPromptTemplateDescriptor tests", () => {
       ).toHaveBeenCalledTimes(1);
       expect(
          promptTemplateRepoMock.pCreatePromptTemplateDescriptor
-      ).toHaveBeenCalledWith(newData);
+      ).toHaveBeenCalledWith(userId, newData);
    });
 });
 
@@ -287,10 +290,12 @@ describe("updatePromptTemplateDescriptor tests", () => {
    });
 
    it("updatePromptTemplateDescriptor - descriptor updated - test", async () => {
+      const userId = "user-id-1";
       const update = dtestData.dPromptTemplateUpdate();
       const descriptor = dtestData.dPromptTemplateDescriptor();
 
       await promptTemplateService.updatePromptTemplateDescriptor(
+         userId,
          descriptor.id,
          update
       );
@@ -300,7 +305,7 @@ describe("updatePromptTemplateDescriptor tests", () => {
       ).toHaveBeenCalledTimes(1);
       expect(
          promptTemplateRepoMock.pUpdatePromptTemplateDescriptor
-      ).toHaveBeenCalledWith(descriptor.id, update);
+      ).toHaveBeenCalledWith(userId, descriptor.id, update);
    });
 });
 

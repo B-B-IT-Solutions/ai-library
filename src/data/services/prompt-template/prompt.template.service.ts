@@ -84,16 +84,25 @@ export class PromptTemplateService {
    }
 
    async createPromptTemplateDescriptor(
+      userId: string,
       data: DPromptTemplateUpdate
    ): Promise<DPromptTemplateDescriptor> {
-      return await this.repository.pCreatePromptTemplateDescriptor(data);
+      return await this.repository.pCreatePromptTemplateDescriptor(
+         userId,
+         data
+      );
    }
 
    async updatePromptTemplateDescriptor(
+      userId: string,
       descriptorId: string,
       data: DPromptTemplateUpdate
    ) {
-      await this.repository.pUpdatePromptTemplateDescriptor(descriptorId, data);
+      await this.repository.pUpdatePromptTemplateDescriptor(
+         userId,
+         descriptorId,
+         data
+      );
    }
 
    async composePromptFromTemplate(

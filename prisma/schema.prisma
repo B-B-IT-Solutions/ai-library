@@ -32,6 +32,7 @@ model User {
   globalTemplateFields      GlobalTemplateField[]
   promptDescriptors         PromptDescriptor[]
   promptCategories          PromptCategory[]
+  promptTemplateCategories  PromptTemplateCategory[]
 
   @@map("user")
 }
@@ -221,9 +222,13 @@ enum PromptTemplateFieldType {
 
 model PromptTemplateCategory {
   id        Int                        @id @default(autoincrement())
-  name      String                     @unique @db.VarChar(250)
+  userId    String                     @map("user_id") @db.Uuid
+  name      String                     @db.VarChar(250)
   templates PromptTemplateDescriptor[]
+  user      User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@unique([userId, name])
+  @@index([userId])
   @@map("prompt_template_category")
 }
 

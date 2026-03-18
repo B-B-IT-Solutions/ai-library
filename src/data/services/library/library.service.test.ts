@@ -98,7 +98,7 @@ describe("createLibraryEntry tests", () => {
       ).toHaveBeenCalledTimes(1);
       expect(
          promptTemplateServiceMock.createPromptTemplateDescriptor
-      ).toHaveBeenCalledWith(updateData);
+      ).toHaveBeenCalledWith(userId, updateData);
       expect(libraryRepoMock.pCreateLibraryEntry).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pCreateLibraryEntry).toHaveBeenCalledWith(
          userId,
@@ -207,7 +207,7 @@ describe("updateLibraryEntry tests", () => {
       ).toHaveBeenCalledTimes(1);
       expect(
          promptTemplateServiceMock.updatePromptTemplateDescriptor
-      ).toHaveBeenCalledWith(entry.templateDescriptorId, update);
+      ).toHaveBeenCalledWith(userId, entry.templateDescriptorId, update);
    });
 });
 

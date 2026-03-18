@@ -359,6 +359,7 @@ describe("pGetPromptTemplateCategories queries tests", () => {
       const result = await repository.pGetPromptTemplateCategories(userId);
 
       const expectedFindMayArgs: Prisma.PromptTemplateCategoryFindManyArgs = {
+         where: { userId },
          select: {
             name: true,
          },
@@ -380,13 +381,17 @@ describe("pCreatePromptTemplateDescriptor tests", () => {
    });
 
    test("pCreatePromptTemplateDescriptor - descriptor created - test", async () => {
+      const userId = "user-id-123";
       const data = dtestData.dPromptTemplateUpdate();
       const newDescriptor = ptestData.pPromptTemplateDescriptorWithCategories();
       prismaMock.promptTemplateDescriptor.create.mockResolvedValue(
          newDescriptor
       );
 
-      const result = await repository.pCreatePromptTemplateDescriptor(data);
+      const result = await repository.pCreatePromptTemplateDescriptor(
+         userId,
+         data
+      );
 
       const expectedResult = toDPromptTemplateDescriptor(newDescriptor);
 
@@ -395,12 +400,13 @@ describe("pCreatePromptTemplateDescriptor tests", () => {
          description: data.description,
          recommendedModel: data.recommendedModel,
          categories: {
-            connectOrCreate: map(data.categories, (categoryName: string) => ({
+            connectOrCreate: map(data.categories, (catName: string) => ({
                where: {
-                  name: categoryName,
+                  userId_name: { userId, name: catName },
                },
                create: {
-                  name: categoryName,
+                  name: catName,
+                  userId,
                },
             })),
          },
@@ -455,10 +461,15 @@ describe("pUpdatePromptTemplateDescriptor tests", () => {
    });
 
    test("pUpdatePromptTemplateDescriptor - descriptor updated - test", async () => {
+      const userId = "user-id-123";
       const data = dtestData.dPromptTemplateUpdate();
       const descriptor = ptestData.pPromptTemplateDescriptorWithCategories();
 
-      await repository.pUpdatePromptTemplateDescriptor(descriptor.id, data);
+      await repository.pUpdatePromptTemplateDescriptor(
+         userId,
+         descriptor.id,
+         data
+      );
 
       const expectedInput: PromptTemplateDescriptorUpdateInput = {
          title: data.title,
@@ -466,9 +477,9 @@ describe("pUpdatePromptTemplateDescriptor tests", () => {
          recommendedModel: data.recommendedModel,
          categories: {
             set: [],
-            connectOrCreate: map(data.categories, (categoryName) => ({
-               where: { name: categoryName },
-               create: { name: categoryName },
+            connectOrCreate: map(data.categories, (catName) => ({
+               where: { userId_name: { userId, name: catName } },
+               create: { name: catName, userId },
             })),
          },
          promptTemplate: {
