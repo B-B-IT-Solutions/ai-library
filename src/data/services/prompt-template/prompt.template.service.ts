@@ -68,16 +68,18 @@ export class PromptTemplateService {
    }
 
    async getPromptTemplateDescriptorWithTemplate(
-      id: string
+      descriptorId: string
    ): Promise<DPromptTemplateDescriptorWithTemplate | null> {
-      return await this.repository.pGetPromptTemplateDescriptorWithTemplate(id);
+      return await this.repository.pGetPromptTemplateDescriptorWithTemplate(
+         descriptorId
+      );
    }
 
    async getPromptTemplate(
       userId: string,
-      id: string
+      templateId: string
    ): Promise<DPromptTemplate | null> {
-      return await this.repository.pGetPromptTemplate(userId, id);
+      return await this.repository.pGetPromptTemplate(userId, templateId);
    }
 
    async getPromptTemplateCategories(userId: string): Promise<string[]> {
