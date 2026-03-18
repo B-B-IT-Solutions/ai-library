@@ -31,12 +31,16 @@ import { TextAreaField } from "./field/field-textarea";
 import { buildFieldsSchema } from "./fields.schema";
 import { TemplatePreview } from "./template-preview";
 
-const AI_SERVICES = [
-   { name: "ChatGPT", url: "https://chat.openai.com/" },
+const AI_SERVICES: {
+   name: string;
+   url: string;
+   queryParam?: string;
+}[] = [
+   { name: "ChatGPT", url: "https://chatgpt.com/", queryParam: "q" },
    { name: "Claude", url: "https://claude.ai/new" },
    { name: "Gemini", url: "https://gemini.google.com/app" },
-   { name: "Perplexity", url: "https://www.perplexity.ai/" },
-] as const;
+   { name: "Perplexity", url: "https://www.perplexity.ai/", queryParam: "q" },
+];
 
 type Props = {
    templateData: DPromptTemplateDataPromptGeneration;
@@ -113,9 +117,14 @@ export const TemplateFieldForm: FC<Props> = ({
    }, [resolvedContent]);
 
    const openInService = useCallback(
-      async (url: string) => {
-         await navigator.clipboard.writeText(resolvedContent);
-         window.open(url, "_blank", "noopener,noreferrer");
+      async (url: string, queryParam?: string) => {
+         let targetUrl = url;
+         if (queryParam) {
+            targetUrl = `${url}?${queryParam}=${encodeURIComponent(resolvedContent)}`;
+         } else {
+            await navigator.clipboard.writeText(resolvedContent);
+         }
+         window.open(targetUrl, "_blank", "noopener,noreferrer");
       },
       [resolvedContent]
    );
@@ -166,11 +175,18 @@ export const TemplateFieldForm: FC<Props> = ({
                         {AI_SERVICES.map((service) => (
                            <DropdownMenuItem
                               key={service.name}
-                              onClick={() => openInService(service.url)}
+                              onClick={() =>
+                                 openInService(service.url, service.queryParam)
+                              }
                               className="cursor-pointer gap-2"
                            >
                               <ExternalLink className="h-3.5 w-3.5 text-muted-foreground" />
-                              {service.name}
+                              <span className="flex-1">{service.name}</span>
+                              {!service.queryParam && (
+                                 <span className="text-[10px] text-muted-foreground">
+                                    Einfügen nötig
+                                 </span>
+                              )}
                            </DropdownMenuItem>
                         ))}
                      </DropdownMenuContent>
