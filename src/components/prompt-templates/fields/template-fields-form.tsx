@@ -228,10 +228,7 @@ export const TemplateFieldForm: FC<Props> = ({
                      className="cursor-pointer gap-1.5"
                      data-testid="open-in-ai-btn"
                   >
-                     <ExternalLink className="h-4 w-4" />
-                     {recommended
-                        ? `In ${recommended.name} öffnen`
-                        : "In KI-Tool öffnen"}
+                     Anwenden
                      <ChevronDown className="h-3.5 w-3.5 opacity-60" />
                   </Button>
                </DropdownMenuTrigger>
