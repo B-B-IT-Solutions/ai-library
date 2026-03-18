@@ -36,8 +36,8 @@ const AI_SERVICES: {
    url: string;
    queryParam?: string;
 }[] = [
-   { name: "ChatGPT", url: "https://chatgpt.com/", queryParam: "q" },
-   { name: "Claude", url: "https://claude.ai/new" },
+   { name: "ChatGPT", url: "https://chat.openai.com/", queryParam: "q" },
+   { name: "Claude", url: "https://claude.ai/new", queryParam: "q" },
    { name: "Gemini", url: "https://gemini.google.com/app" },
    { name: "Perplexity", url: "https://www.perplexity.ai/", queryParam: "q" },
 ];
@@ -132,68 +132,21 @@ export const TemplateFieldForm: FC<Props> = ({
    const preview = () => {
       return (
          <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between">
-               <span className="text-sm font-medium text-muted-foreground">
-                  Vorschau
-               </span>
-               <div className="flex items-center gap-1">
-                  <Button
-                     type="button"
-                     variant="ghost"
-                     size="sm"
-                     onClick={copyToClipboard}
-                     className="h-8 gap-1.5 px-2 text-xs"
-                     data-testid="copy-btn"
-                  >
-                     {copied ? (
-                        <>
-                           <Check className="h-3.5 w-3.5 text-green-600" />
-                           <span className="text-green-600">Kopiert!</span>
-                        </>
-                     ) : (
-                        <>
-                           <Clipboard className="h-3.5 w-3.5" />
-                           Kopieren
-                        </>
-                     )}
-                  </Button>
-                  <DropdownMenu>
-                     <DropdownMenuTrigger asChild>
-                        <Button
-                           type="button"
-                           variant="ghost"
-                           size="sm"
-                           className="h-8 gap-1.5 px-2 text-xs"
-                           data-testid="open-in-ai-btn"
-                        >
-                           <ExternalLink className="h-3.5 w-3.5" />
-                           Öffnen in
-                           <ChevronDown className="h-3 w-3 opacity-60" />
-                        </Button>
-                     </DropdownMenuTrigger>
-                     <DropdownMenuContent align="end">
-                        {AI_SERVICES.map((service) => (
-                           <DropdownMenuItem
-                              key={service.name}
-                              onClick={() =>
-                                 openInService(service.url, service.queryParam)
-                              }
-                              className="cursor-pointer gap-2"
-                           >
-                              <ExternalLink className="h-3.5 w-3.5 text-muted-foreground" />
-                              <span className="flex-1">{service.name}</span>
-                              {!service.queryParam && (
-                                 <span className="text-[10px] text-muted-foreground">
-                                    Einfügen nötig
-                                 </span>
-                              )}
-                           </DropdownMenuItem>
-                        ))}
-                     </DropdownMenuContent>
-                  </DropdownMenu>
-               </div>
-            </div>
-            <div className="max-h-[60vh] flex-1 overflow-y-auto rounded-md border bg-muted/30 p-4">
+            <div className="group relative max-h-[65vh] flex-1 overflow-y-auto rounded-md border bg-muted/30 p-4">
+               <Button
+                  type="button"
+                  variant="secondary"
+                  size="icon"
+                  onClick={copyToClipboard}
+                  className="absolute top-2 right-2 h-7 w-7 opacity-0 transition-opacity group-hover:opacity-100"
+                  data-testid="copy-btn"
+               >
+                  {copied ? (
+                     <Check className="h-3.5 w-3.5 text-green-600" />
+                  ) : (
+                     <Clipboard className="h-3.5 w-3.5" />
+                  )}
+               </Button>
                <TemplatePreview template={template} values={currentValues} />
             </div>
             <p className="text-xs text-muted-foreground">
@@ -223,6 +176,39 @@ export const TemplateFieldForm: FC<Props> = ({
             >
                Abbrechen
             </Button>
+            <DropdownMenu>
+               <DropdownMenuTrigger asChild>
+                  <Button
+                     type="button"
+                     variant="outline"
+                     className="cursor-pointer gap-1.5"
+                     data-testid="open-in-ai-btn"
+                  >
+                     <ExternalLink className="h-4 w-4" />
+                     Öffnen in
+                     <ChevronDown className="h-3.5 w-3.5 opacity-60" />
+                  </Button>
+               </DropdownMenuTrigger>
+               <DropdownMenuContent align="end">
+                  {AI_SERVICES.map((service) => (
+                     <DropdownMenuItem
+                        key={service.name}
+                        onClick={() =>
+                           openInService(service.url, service.queryParam)
+                        }
+                        className="cursor-pointer gap-2"
+                     >
+                        <ExternalLink className="h-3.5 w-3.5 text-muted-foreground" />
+                        <span className="flex-1">{service.name}</span>
+                        {!service.queryParam && (
+                           <span className="text-[10px] text-muted-foreground">
+                              Einfügen nötig
+                           </span>
+                        )}
+                     </DropdownMenuItem>
+                  ))}
+               </DropdownMenuContent>
+            </DropdownMenu>
             <Button
                type="submit"
                className="cursor-pointer"
