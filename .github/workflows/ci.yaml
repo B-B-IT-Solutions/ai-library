@@ -28,10 +28,11 @@ jobs:
            with:
               baseline-file: .github/data/.secrets.baseline
 
-         # - name: npm install, build
-         #   run: |
-         #      npm install
-         #      npm run build
+         - name: Install Dependencies
+           run: npm ci
+
+         # - name: npm build
+         #   run: npm run build
 
          # - name: run Lighthouse CI
          #   run: |
