@@ -147,17 +147,19 @@ export const TemplateFieldForm: FC<Props> = ({
       setTimeout(() => setCopied(false), 2000);
    }, [resolvedContent]);
 
+   const plainContent = TemplateEngine.stripMarkdown(resolvedContent);
+
    const openInService = useCallback(
       async (url: string, queryParam?: string) => {
          let targetUrl = url;
          if (queryParam) {
-            targetUrl = `${url}?${queryParam}=${encodeURIComponent(resolvedContent)}`;
+            targetUrl = `${url}?${queryParam}=${encodeURIComponent(plainContent)}`;
          } else {
-            await navigator.clipboard.writeText(resolvedContent);
+            await navigator.clipboard.writeText(plainContent);
          }
          window.open(targetUrl, "_blank", "noopener,noreferrer");
       },
-      [resolvedContent]
+      [plainContent]
    );
 
    const recommended = getRecommendedService(recommendedModel);
