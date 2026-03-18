@@ -303,7 +303,7 @@ describe("composePromptFromTemplate tests", () => {
       ).toHaveBeenCalledTimes(1);
       expect(
          promptTemplateServiceMock.composePromptFromTemplate
-      ).toHaveBeenCalledWith(entry.templateDescriptorId, fieldValues);
+      ).toHaveBeenCalledWith(userId, entry.templateDescriptorId, fieldValues);
    });
 });
 

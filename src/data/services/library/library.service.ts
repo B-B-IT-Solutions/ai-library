@@ -110,6 +110,7 @@ export class LibraryService {
       }
 
       return await this.promptTemplateService.composePromptFromTemplate(
+         userId,
          entry.templateDescriptorId,
          fieldValues
       );

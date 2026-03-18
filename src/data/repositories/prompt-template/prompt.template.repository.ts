@@ -59,11 +59,12 @@ export class PromptTemplateRepository {
    }
 
    async pGetPromptTemplateDescriptorWithTemplate(
+      userId: string,
       id: string
    ): Promise<DPromptTemplateDescriptorWithTemplate | null> {
       const template: PromptTemplateDescriptorWithTemplate | null =
          await this.prisma.promptTemplateDescriptor.findFirst({
-            where: { id },
+            where: { id, userId },
             include: {
                categories: true,
                promptTemplate: {

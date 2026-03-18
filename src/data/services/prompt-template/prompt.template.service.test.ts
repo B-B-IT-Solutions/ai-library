@@ -188,6 +188,7 @@ describe("getPromptTemplateDescriptorWithTemplate tests", () => {
    });
 
    it("getPromptTemplateDescriptorWithTemplate - descriptor retrieved - test", async () => {
+      const userId = "user-id-1";
       const template = dtestData.dPromptTemplateDescriptorWithTemplate();
       promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
          template
@@ -196,6 +197,7 @@ describe("getPromptTemplateDescriptorWithTemplate tests", () => {
       const { id } = template;
       const result =
          await promptTemplateService.getPromptTemplateDescriptorWithTemplate(
+            userId,
             id
          );
 
@@ -205,7 +207,7 @@ describe("getPromptTemplateDescriptorWithTemplate tests", () => {
       ).toHaveBeenCalledTimes(1);
       expect(
          promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
-      ).toHaveBeenCalledWith(id);
+      ).toHaveBeenCalledWith(userId, id);
    });
 });
 
@@ -323,11 +325,12 @@ describe("composePromptFromTemplate tests", () => {
          null
       );
 
+      const userId = "user-id-1";
       const id = "non-existent-id";
       const fieldValues: DPromptTemplateFieldValues = {};
 
       const fn = () =>
-         promptTemplateService.composePromptFromTemplate(id, fieldValues);
+         promptTemplateService.composePromptFromTemplate(userId, id, fieldValues);
 
       await expect(fn).rejects.toThrow(
          `PromptTemplateDescriptor with id ${id}not found `
@@ -338,7 +341,7 @@ describe("composePromptFromTemplate tests", () => {
       ).toHaveBeenCalledTimes(1);
       expect(
          promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
-      ).toHaveBeenCalledWith(id);
+      ).toHaveBeenCalledWith(userId, id);
       expect(sValidateMock).not.toHaveBeenCalled();
    });
 
@@ -356,13 +359,14 @@ describe("composePromptFromTemplate tests", () => {
       };
       sValidateMock.mockReturnValue(validationResult);
 
+      const userId = "user-id-1";
       const { id, promptTemplate } = promptDescriptor;
       const fieldValues: DPromptTemplateFieldValues = {
          email: "invalid-email",
       };
 
       const fn = () =>
-         promptTemplateService.composePromptFromTemplate(id, fieldValues);
+         promptTemplateService.composePromptFromTemplate(userId, id, fieldValues);
 
       await expect(fn).rejects.toThrow("Provided template fields are invalid:");
 
@@ -371,7 +375,7 @@ describe("composePromptFromTemplate tests", () => {
       ).toHaveBeenCalledTimes(1);
       expect(
          promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
-      ).toHaveBeenCalledWith(id);
+      ).toHaveBeenCalledWith(userId, id);
       expect(sValidateMock).toHaveBeenCalledTimes(1);
       expect(sValidateMock).toHaveBeenCalledWith(
          promptTemplate.fields,
@@ -393,12 +397,14 @@ describe("composePromptFromTemplate tests", () => {
       sValidateMock.mockReturnValue(validationResult);
       sReplaceMock.mockReturnValue(promptContent);
 
+      const userId = "user-id-1";
       const { id, promptTemplate } = promptDescriptor;
       const fieldValues: DPromptTemplateFieldValues = {
          email: "test1@email.com",
       };
 
       const result = await promptTemplateService.composePromptFromTemplate(
+         userId,
          id,
          fieldValues
       );
@@ -417,7 +423,7 @@ describe("composePromptFromTemplate tests", () => {
       ).toHaveBeenCalledTimes(1);
       expect(
          promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
-      ).toHaveBeenCalledWith(id);
+      ).toHaveBeenCalledWith(userId, id);
       expect(sValidateMock).toHaveBeenCalledTimes(1);
       expect(sValidateMock).toHaveBeenCalledWith(
          promptTemplate.fields,

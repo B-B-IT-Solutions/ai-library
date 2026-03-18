@@ -237,14 +237,13 @@ describe("pGetPromptTemplateDescriptorWithTemplate tests", () => {
    test("pGetPromptTemplateDescriptorWithTemplate - descriptor null - test", async () => {
       prismaMock.promptTemplateDescriptor.findFirst.mockResolvedValue(null);
 
+      const userId = "user-id-1";
       const id = "prompt-template-descriptor-id-1";
       const result =
-         await repository.pGetPromptTemplateDescriptorWithTemplate(id);
+         await repository.pGetPromptTemplateDescriptorWithTemplate(userId, id);
 
       const expectedWhere: PromptTemplateDescriptorFindFirstArgs = {
-         where: {
-            id,
-         },
+         where: { id, userId },
          include: {
             categories: true,
             promptTemplate: {
@@ -268,16 +267,15 @@ describe("pGetPromptTemplateDescriptorWithTemplate tests", () => {
       const template = ptestData.pPromptTemplateDescriptorWithTemplate();
       prismaMock.promptTemplateDescriptor.findFirst.mockResolvedValue(template);
 
+      const userId = "user-id-1";
       const id = "prompt-template-descriptor-id-1";
       const result =
-         await repository.pGetPromptTemplateDescriptorWithTemplate(id);
+         await repository.pGetPromptTemplateDescriptorWithTemplate(userId, id);
 
       const expectedResult = toDPromptTemplateDescriptorWithTemplate(template);
 
       const expectedWhere: PromptTemplateDescriptorFindFirstArgs = {
-         where: {
-            id,
-         },
+         where: { id, userId },
          include: {
             categories: true,
             promptTemplate: {
