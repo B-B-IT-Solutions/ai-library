@@ -138,10 +138,11 @@ describe("createPrompt tests", () => {
    });
 
    it("createPrompt - error - test", async () => {
+      const userId = "user-id-123";
       const prompt = dtestData.dPromptUpdate();
       promptRepoMock.pCreatePrompt.mockRejectedValue(new Error("db error"));
 
-      await expect(promptService.createPrompt(prompt)).rejects.toThrow(
+      await expect(promptService.createPrompt(userId, prompt)).rejects.toThrow(
          "db error"
       );
 
@@ -178,6 +179,11 @@ describe("createPrompt tests", () => {
                },
             ],
          },
+         user: {
+            connect: {
+               id: userId,
+            },
+         },
       };
 
       expect(promptRepoMock.pCreatePrompt).toHaveBeenCalledTimes(1);
@@ -185,9 +191,10 @@ describe("createPrompt tests", () => {
    });
 
    it("createPrompt - prompt created  - test", async () => {
+      const userId = "user-id-456";
       const prompt = dtestData.dPromptUpdate();
 
-      await promptService.createPrompt(prompt);
+      await promptService.createPrompt(userId, prompt);
 
       const promptToSave: PromptDescriptorCreateInput = {
          title: prompt.title,
@@ -221,6 +228,11 @@ describe("createPrompt tests", () => {
                   order: 2,
                },
             ],
+         },
+         user: {
+            connect: {
+               id: userId,
+            },
          },
       };
 

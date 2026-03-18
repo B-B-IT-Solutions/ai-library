@@ -56,13 +56,12 @@ export class PromptService {
       return await this.promptRepository.pGetPromptCategories();
    }
 
-   async createPrompt(data: DPromptUpdate, userId: string) {
+   async createPrompt(userId: string, data: DPromptUpdate) {
       const prompt = updatePromptSchema.parse(data);
       const categories = this.createOrConnectCategories(prompt.categories);
       const followUps = this.createFollowUpsInput(prompt.followUpPrompts);
 
       const toSave: PromptDescriptorCreateInput = {
-         userId,
          title: prompt.title,
          content: prompt.content,
          recommendedModel: prompt.recommendedModel,
@@ -72,6 +71,11 @@ export class PromptService {
          },
          followUpPrompts: {
             create: followUps,
+         },
+         user: {
+            connect: {
+               id: userId,
+            },
          },
       };
 

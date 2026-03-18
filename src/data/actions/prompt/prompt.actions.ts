@@ -45,15 +45,16 @@ export const createPrompt = async (data: DPromptUpdate) => {
    try {
       const user = await requireUser();
       const service = getSevice();
-      await service.createPrompt(data, user.id);
+      await service.createPrompt(user.id, data);
       return {
          success: true,
          message: "Prompt erfolgreich erstellt.",
       };
    } catch (error) {
+      console.error(formatError(error));
       return {
          success: false,
-         message: formatError(error),
+         message: "Prompt konnte nicht erstellt werden",
       };
    }
 };
