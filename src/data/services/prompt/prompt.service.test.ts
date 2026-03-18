@@ -26,43 +26,53 @@ describe("getPromptss tests", () => {
    });
 
    it("getPrompts - query undefined - test", async () => {
+      const userId = "user-id-1";
       const page = ptestData.pPromptDescriptorsPage();
       promptRepoMock.pGetPromptDescriptors.mockResolvedValue(page);
 
-      const result = await promptService.getPrompts();
+      const result = await promptService.getPrompts(userId);
       const expectedResult = toDPromptDescriptorsPage(page);
 
       expect(result).toEqual(expectedResult);
       expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledWith(
+         userId,
          undefined
       );
    });
 
    it("getPrompts - query empty - test", async () => {
+      const userId = "user-id-123";
       const page = ptestData.pPromptDescriptorsPage();
       promptRepoMock.pGetPromptDescriptors.mockResolvedValue(page);
 
       const query: DPromptDescriptorsPageQuery = {};
-      const result = await promptService.getPrompts(query);
+      const result = await promptService.getPrompts(userId, query);
       const expectedResult = toDPromptDescriptorsPage(page);
 
       expect(result).toEqual(expectedResult);
       expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledWith(query);
+      expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledWith(
+         userId,
+         query
+      );
    });
 
    it("getPrompts - query defined - test", async () => {
+      const userId = "user-id-456";
       const page = ptestData.pPromptDescriptorsPage();
       promptRepoMock.pGetPromptDescriptors.mockResolvedValue(page);
 
       const query = dtestData.dPromptsPageQuery();
-      const result = await promptService.getPrompts(query);
+      const result = await promptService.getPrompts(userId, query);
       const expectedResult = toDPromptDescriptorsPage(page);
 
       expect(result).toEqual(expectedResult);
       expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledWith(query);
+      expect(promptRepoMock.pGetPromptDescriptors).toHaveBeenCalledWith(
+         userId,
+         query
+      );
    });
 });
 
