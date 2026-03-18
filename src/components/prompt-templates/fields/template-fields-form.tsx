@@ -3,17 +3,11 @@
 import { FC, useCallback, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { map, reduce } from "es-toolkit/compat";
-import { Check, ChevronDown, Clipboard, ExternalLink } from "lucide-react";
+import { Check, Clipboard, ExternalLink } from "lucide-react";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/shadcn/button";
-import {
-   DropdownMenu,
-   DropdownMenuContent,
-   DropdownMenuItem,
-   DropdownMenuTrigger,
-} from "@/components/shadcn/dropdown-menu";
 import { Form } from "@/components/shadcn/form";
 import { TemplateEngine } from "@/data/services/prompt-template/template.engine";
 import { CallbackFn } from "@/data/types/common";
@@ -164,58 +158,58 @@ export const TemplateFieldForm: FC<Props> = ({
    };
 
    const fieldInputs = () => (
-      <div className="flex flex-col justify-between">
+      <div className="flex flex-col justify-between gap-4">
          <div className="space-y-4">{renderFields()}</div>
-         <div className="flex justify-end gap-2 pt-2">
-            <Button
-               type="button"
-               variant="outline"
-               onClick={onCancel}
-               className="cursor-pointer"
-               data-testid="cancel-btn"
-            >
-               Abbrechen
-            </Button>
-            <DropdownMenu>
-               <DropdownMenuTrigger asChild>
+         <div className="space-y-3 border-t pt-3">
+            <div className="flex flex-wrap items-center gap-x-1 gap-y-1.5">
+               <span className="text-xs text-muted-foreground">
+                  In KI-Tool öffnen:
+               </span>
+               {AI_SERVICES.map((service) => (
                   <Button
+                     key={service.name}
                      type="button"
-                     variant="outline"
-                     className="cursor-pointer gap-1.5"
-                     data-testid="open-in-ai-btn"
+                     variant="ghost"
+                     size="sm"
+                     onClick={() =>
+                        openInService(service.url, service.queryParam)
+                     }
+                     className="cursor-pointer gap-1 text-xs"
+                     data-testid={`open-in-${service.name.toLowerCase()}-btn`}
                   >
-                     <ExternalLink className="h-4 w-4" />
-                     Öffnen in
-                     <ChevronDown className="h-3.5 w-3.5 opacity-60" />
+                     {service.name}
+                     <ExternalLink className="h-3 w-3" />
                   </Button>
-               </DropdownMenuTrigger>
-               <DropdownMenuContent align="end">
-                  {AI_SERVICES.map((service) => (
-                     <DropdownMenuItem
-                        key={service.name}
-                        onClick={() =>
-                           openInService(service.url, service.queryParam)
-                        }
-                        className="cursor-pointer gap-2"
-                     >
-                        <ExternalLink className="h-3.5 w-3.5 text-muted-foreground" />
-                        <span className="flex-1">{service.name}</span>
-                        {!service.queryParam && (
-                           <span className="text-[10px] text-muted-foreground">
-                              Einfügen nötig
-                           </span>
-                        )}
-                     </DropdownMenuItem>
-                  ))}
-               </DropdownMenuContent>
-            </DropdownMenu>
-            <Button
-               type="submit"
-               className="cursor-pointer"
-               data-testid="submit-btn"
-            >
-               Prompt erstelen
-            </Button>
+               ))}
+            </div>
+            <div className="flex justify-end gap-2">
+               <Button
+                  type="button"
+                  variant="outline"
+                  onClick={copyToClipboard}
+                  className="cursor-pointer gap-1.5"
+                  data-testid="copy-btn"
+               >
+                  {copied ? (
+                     <>
+                        <Check className="h-3.5 w-3.5 text-green-600" />
+                        <span className="text-green-600">Kopiert!</span>
+                     </>
+                  ) : (
+                     <>
+                        <Clipboard className="h-3.5 w-3.5" />
+                        Kopieren
+                     </>
+                  )}
+               </Button>
+               <Button
+                  type="submit"
+                  className="cursor-pointer"
+                  data-testid="submit-btn"
+               >
+                  Prompt erstellen
+               </Button>
+            </div>
          </div>
       </div>
    );
