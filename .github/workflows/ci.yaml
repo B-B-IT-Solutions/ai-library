@@ -32,11 +32,10 @@ jobs:
            run: npm ci
 
          - name: Run Tests
-           run: npm run test
+           run: npm run test -- --coverage
 
          - name: Report Coverage
            if: always()
            uses: MishaKav/jest-coverage-comment@main
            with:
               coverage-summary-path: ./coverage/coverage-summary.json
-              coverage-path: ./coverage/coverage.txt

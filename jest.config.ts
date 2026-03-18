@@ -1,7 +1,12 @@
 module.exports = {
    roots: ["<rootDir>/src"],
-   coverageReporters: ["json-summary", "text", "html"],
-   coverageDirectory: "coverage",
+   coverageReporters: [
+      "clover",
+      "lcov",
+      "text-summary",
+      "json",
+      "json-summary",
+   ],
    collectCoverageFrom: ["src/**/*.{js,jsx,ts,tsx}", "!src/**/*.d.ts"],
    coveragePathIgnorePatterns: [
       "/node_modules/",
