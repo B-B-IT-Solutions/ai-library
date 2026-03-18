@@ -46,8 +46,6 @@ jobs:
 
          - name: Report Coverage
            if: always()
-           uses: ArtiomTr/jest-coverage-report-action@v2
+           uses: MishaKav/jest-coverage-comment@main
            with:
-              coverage-file: ./coverage/coverage-summary.json
-              base-coverage-file: ./coverage/coverage-summary.json
-              output: ${{ github.event_name == 'pull_request' && 'comment' || 'report-markdown' }}
+              coverage-summary-path: ./coverage/coverage-summary.json
