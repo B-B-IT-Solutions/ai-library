@@ -1,6 +1,5 @@
 "use server";
 import { map } from "es-toolkit/compat";
-import { revalidatePath } from "next/cache";
 import { validate as isValidUuid } from "uuid";
 
 import { requireUser } from "@/data/actions/auth-utils";
@@ -32,6 +31,10 @@ export const getPrompt = async (
    promptId: string
 ): Promise<DPromptDescriptor | null> => {
    try {
+      if (!isValidUuid(promptId)) {
+         throw new Error("Invalid Prompt ID.");
+      }
+
       const user = await requireUser();
       const service = getSevice();
       return await service.getPrompt(promptId);
@@ -83,9 +86,10 @@ export const updatePrompt = async (
          message: "Prompt erfolgreich aktualisiert.",
       };
    } catch (error) {
+      console.error(formatError(error));
       return {
          success: false,
-         message: formatError(error),
+         message: "Prompt konnte nicht aktualisiert werden",
       };
    }
 };
@@ -99,7 +103,7 @@ export const toggleFavorite = async (promptId: string, isFavorite: boolean) => {
       const user = await requireUser();
       const service = getSevice();
       await service.toggleFavorite(promptId, isFavorite);
-      revalidatePath(`/prompts/${promptId}`);
+
       return {
          success: true,
          message: isFavorite
@@ -107,9 +111,10 @@ export const toggleFavorite = async (promptId: string, isFavorite: boolean) => {
             : "Aus Favoriten entfernt",
       };
    } catch (error) {
+      console.error(formatError(error));
       return {
          success: false,
-         message: formatError(error),
+         message: "Prompt konnte nicht aktualisiert werden",
       };
    }
 };
@@ -128,9 +133,10 @@ export const deletePrompt = async (promptId: string) => {
          message: "Prompt erfolgreich gelöscht.",
       };
    } catch (error) {
+      console.error(formatError(error));
       return {
          success: false,
-         message: formatError(error),
+         message: "Prompt konnte nicht gelöscht werden",
       };
    }
 };
