@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { ptestData } from "@tests";
+import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
@@ -14,6 +14,7 @@ import {
    PromptDescriptorFindManyArgs,
    PromptDescriptorUpdateArgs,
    PromptDescriptorWhereInput,
+   PromptFollowUpUpdateManyWithoutPromptNestedInput,
 } from "@/generated/prisma/models";
 
 import { GetPromptQuery, PromptRepository } from "./prompt.repository";
@@ -418,15 +419,41 @@ describe("pCreatePrompt tests", () => {
    });
 
    test("pCreatePrompt - prompt created - test", async () => {
-      const input = ptestData.pPromptDescriptorCreateInput();
-      prismaMock.promptDescriptor.create.mockResolvedValue(input);
-      const result = await promptRepository.pCreatePrompt(input);
+      const userId = "user-id-123";
+      const data = dtestData.dPromptUpdate();
+      const created = ptestData.pPromptDescriptor();
+      prismaMock.promptDescriptor.create.mockResolvedValue(created);
+
+      const result = await promptRepository.pCreatePrompt(userId, data);
 
       const expectedCreateArgs: PromptDescriptorCreateArgs = {
-         data: input,
+         data: {
+            title: data.title,
+            content: data.content,
+            recommendedModel: data.recommendedModel,
+            currentVersion: 0,
+            categories: {
+               connectOrCreate: [
+                  {
+                     where: { name: "category 1" },
+                     create: { name: "category 1" },
+                  },
+               ],
+            },
+            followUpPrompts: {
+               create: [
+                  { content: "prompt follow up update 0", order: 0 },
+                  { content: "prompt follow up update 1", order: 1 },
+                  { content: "prompt follow up update 2", order: 2 },
+               ],
+            },
+            user: {
+               connect: { id: userId },
+            },
+         },
       };
 
-      expect(result).toEqual(input);
+      expect(result).toEqual(created);
       expect(prismaMock.promptDescriptor.create).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptDescriptor.create).toHaveBeenCalledWith(
          expectedCreateArgs
@@ -439,18 +466,99 @@ describe("pUpdatePrompt tests", () => {
       mockReset(prismaMock);
    });
 
-   test("pUpdatePrompt - prompt updated - test", async () => {
+   test("pUpdatePrompt - no version created - test", async () => {
       const promptId = "prompt-id-1";
-      const input = ptestData.pPromptDescriptorUpdateInput();
-      prismaMock.promptDescriptor.update.mockResolvedValue(input);
-      const result = await promptRepository.pUpdatePrompt(promptId, input);
+      const data = dtestData.dPromptUpdate();
+      const current = ptestData.pPromptDescriptorWithRelations();
+      current.currentVersion = 1;
+      const updated = ptestData.pPromptDescriptor();
+      prismaMock.promptDescriptor.update.mockResolvedValue(updated);
+
+      const result = await promptRepository.pUpdatePrompt(
+         promptId,
+         data,
+         current,
+         1,
+         false
+      );
+
+      const expectedFollowUpUpdates =
+         promptRepository.followUpPromptUpdates(current, data);
 
       const expectedUpdateArgs: PromptDescriptorUpdateArgs = {
          where: { id: promptId },
-         data: input,
+         data: {
+            title: data.title,
+            content: data.content,
+            recommendedModel: data.recommendedModel,
+            currentVersion: 1,
+            categories: {
+               set: [],
+               connectOrCreate: [
+                  {
+                     where: { name: "category 1" },
+                     create: { name: "category 1" },
+                  },
+               ],
+            },
+            followUpPrompts: expectedFollowUpUpdates,
+            versions: undefined,
+         },
       };
 
-      expect(result).toEqual(input);
+      expect(result).toEqual(updated);
+      expect(prismaMock.promptDescriptor.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptDescriptor.update).toHaveBeenCalledWith(
+         expectedUpdateArgs
+      );
+   });
+
+   test("pUpdatePrompt - version created - test", async () => {
+      const promptId = "prompt-id-1";
+      const data = dtestData.dPromptUpdate();
+      const current = ptestData.pPromptDescriptorWithRelations();
+      current.currentVersion = 1;
+      const updated = ptestData.pPromptDescriptor();
+      prismaMock.promptDescriptor.update.mockResolvedValue(updated);
+
+      const result = await promptRepository.pUpdatePrompt(
+         promptId,
+         data,
+         current,
+         2,
+         true
+      );
+
+      const expectedFollowUpUpdates =
+         promptRepository.followUpPromptUpdates(current, data);
+
+      const expectedUpdateArgs: PromptDescriptorUpdateArgs = {
+         where: { id: promptId },
+         data: {
+            title: data.title,
+            content: data.content,
+            recommendedModel: data.recommendedModel,
+            currentVersion: 2,
+            categories: {
+               set: [],
+               connectOrCreate: [
+                  {
+                     where: { name: "category 1" },
+                     create: { name: "category 1" },
+                  },
+               ],
+            },
+            followUpPrompts: expectedFollowUpUpdates,
+            versions: {
+               create: {
+                  version: 2,
+                  content: data.content,
+               },
+            },
+         },
+      };
+
+      expect(result).toEqual(updated);
       expect(prismaMock.promptDescriptor.update).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptDescriptor.update).toHaveBeenCalledWith(
          expectedUpdateArgs
@@ -514,5 +622,157 @@ describe("pDeletePrompt tests", () => {
       expect(prismaMock.promptDescriptor.delete).toHaveBeenCalledWith(
          expectedUpdateArgs
       );
+   });
+});
+
+describe("followUpPromptUpdates tests", () => {
+   const id0 = "f23c15c7-7d2d-40a2-a895-6a78516b9b30";
+   const id1 = "f23c15c7-7d2d-40a2-a895-6a78516b9b31";
+   const id2 = "f23c15c7-7d2d-40a2-a895-6a78516b9b32";
+
+   it("all new follow-ups (no ids) - existing deleted - test", () => {
+      const current = ptestData.pPromptDescriptorWithRelations();
+      const promptUpdate = dtestData.dPromptUpdate();
+
+      const result = promptRepository.followUpPromptUpdates(
+         current,
+         promptUpdate
+      );
+
+      const expectedResult: PromptFollowUpUpdateManyWithoutPromptNestedInput = {
+         update: undefined,
+         create: [
+            { content: "prompt follow up update 0", order: 0 },
+            { content: "prompt follow up update 1", order: 1 },
+            { content: "prompt follow up update 2", order: 2 },
+         ],
+         deleteMany: { id: { in: [id0, id1, id2] } },
+      };
+
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("all existing follow-ups updated (matching ids) - test", () => {
+      const current = ptestData.pPromptDescriptorWithRelations();
+      const promptUpdate = dtestData.dPromptUpdate();
+      promptUpdate.followUpPrompts = [
+         { id: id0, content: "updated 0", order: 0 },
+         { id: id1, content: "updated 1", order: 1 },
+         { id: id2, content: "updated 2", order: 2 },
+      ];
+
+      const result = promptRepository.followUpPromptUpdates(
+         current,
+         promptUpdate
+      );
+
+      const expectedResult: PromptFollowUpUpdateManyWithoutPromptNestedInput = {
+         update: [
+            { where: { id: id0 }, data: { content: "updated 0", order: 0 } },
+            { where: { id: id1 }, data: { content: "updated 1", order: 1 } },
+            { where: { id: id2 }, data: { content: "updated 2", order: 2 } },
+         ],
+         create: undefined,
+         deleteMany: undefined,
+      };
+
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("empty update list - all existing deleted - test", () => {
+      const current = ptestData.pPromptDescriptorWithRelations();
+      const promptUpdate = dtestData.dPromptUpdate();
+      promptUpdate.followUpPrompts = [];
+
+      const result = promptRepository.followUpPromptUpdates(
+         current,
+         promptUpdate
+      );
+
+      const expectedResult: PromptFollowUpUpdateManyWithoutPromptNestedInput = {
+         update: undefined,
+         create: undefined,
+         deleteMany: { id: { in: [id0, id1, id2] } },
+      };
+
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("mix: 2 updated + 1 new + 1 deleted - test", () => {
+      const current = ptestData.pPromptDescriptorWithRelations();
+      const promptUpdate = dtestData.dPromptUpdate();
+      promptUpdate.followUpPrompts = [
+         { id: id0, content: "updated 0", order: 0 },
+         { id: id1, content: "updated 1", order: 1 },
+         { content: "new follow up", order: 2 },
+      ];
+
+      const result = promptRepository.followUpPromptUpdates(
+         current,
+         promptUpdate
+      );
+
+      const expectedResult: PromptFollowUpUpdateManyWithoutPromptNestedInput = {
+         update: [
+            {
+               where: { id: id0 },
+               data: { content: "updated 0", order: 0 },
+            },
+            {
+               where: { id: id1 },
+               data: { content: "updated 1", order: 1 },
+            },
+         ],
+         create: [{ content: "new follow up", order: 2 }],
+         deleteMany: { id: { in: [id2] } },
+      };
+
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("no existing follow-ups, no updates - all undefined - test", () => {
+      const current = ptestData.pPromptDescriptorWithRelations();
+      current.followUpPrompts = [];
+      const promptUpdate = dtestData.dPromptUpdate();
+      promptUpdate.followUpPrompts = [];
+
+      const result = promptRepository.followUpPromptUpdates(
+         current,
+         promptUpdate
+      );
+
+      const expectedResult: PromptFollowUpUpdateManyWithoutPromptNestedInput = {
+         update: undefined,
+         create: undefined,
+         deleteMany: undefined,
+      };
+
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("no existing follow-ups, add new - test", () => {
+      const current = ptestData.pPromptDescriptorWithRelations();
+      current.followUpPrompts = [];
+      const promptUpdate = dtestData.dPromptUpdate();
+      promptUpdate.followUpPrompts = [
+         { content: "new 1", order: 0 },
+         { content: "new 2", order: 1 },
+      ];
+
+      const result = promptRepository.followUpPromptUpdates(
+         current,
+         promptUpdate
+      );
+
+      const expectedResult: PromptFollowUpUpdateManyWithoutPromptNestedInput = {
+         update: undefined,
+         create: [
+            { content: "new 1", order: 0 },
+            { content: "new 2", order: 1 },
+         ],
+         deleteMany: undefined,
+      };
+
+      expect(result).toEqual(expectedResult);
    });
 });

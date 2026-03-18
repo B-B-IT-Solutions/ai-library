@@ -1,28 +1,19 @@
-import { filter, isEmpty, isEqual, map } from "es-toolkit/compat";
+import { isEqual } from "es-toolkit/compat";
 import { validate as isValidUuid } from "uuid";
 
 import { PromptRepository } from "@/data/repositories/prompt";
-import { PromptDescriptorWithRelations } from "@/data/types/db/prompt";
+import {
+   toDPromptDescriptor,
+   toDPromptDescriptorsPage,
+} from "@/data/repositories/prompt/prompt.mapper";
 import {
    DPromptCategory,
    DPromptDescriptor,
    DPromptDescriptorsPage,
    DPromptDescriptorsPageQuery,
-   DPromptFollowUpUpdate,
    DPromptUpdate,
 } from "@/data/types/domain/prompt";
 import { updatePromptSchema } from "@/data/types/validators/prompt";
-import {
-   PromptCategoryCreateOrConnectWithoutPromptsInput,
-   PromptDescriptorCreateInput,
-   PromptDescriptorUpdateInput,
-   PromptFollowUpCreateWithoutPromptInput,
-   PromptFollowUpScalarWhereInput,
-   PromptFollowUpUpdateManyWithoutPromptNestedInput,
-   PromptFollowUpUpdateWithWhereUniqueWithoutPromptInput,
-} from "@/generated/prisma/models";
-
-import { toDPromptDescriptor, toDPromptDescriptorsPage } from "./prompt.mapper";
 
 export class PromptService {
    private promptRepository: PromptRepository;
@@ -58,28 +49,7 @@ export class PromptService {
 
    async createPrompt(userId: string, data: DPromptUpdate) {
       const prompt = updatePromptSchema.parse(data);
-      const categories = this.createOrConnectCategories(prompt.categories);
-      const followUps = this.createFollowUpsInput(prompt.followUpPrompts);
-
-      const toSave: PromptDescriptorCreateInput = {
-         title: prompt.title,
-         content: prompt.content,
-         recommendedModel: prompt.recommendedModel,
-         currentVersion: 0,
-         categories: {
-            connectOrCreate: categories,
-         },
-         followUpPrompts: {
-            create: followUps,
-         },
-         user: {
-            connect: {
-               id: userId,
-            },
-         },
-      };
-
-      await this.promptRepository.pCreatePrompt(toSave);
+      await this.promptRepository.pCreatePrompt(userId, prompt);
    }
 
    async updatePrompt(
@@ -94,39 +64,19 @@ export class PromptService {
       if (!current) {
          throw new Error("Prompt not found");
       }
+
       const update = updatePromptSchema.parse(data);
       const { content, currentVersion } = current;
       const updateVersions = createVersion && !isEqual(content, update.content);
-
       const versionIdx = updateVersions ? currentVersion + 1 : currentVersion;
 
-      let versions = undefined;
-      if (updateVersions) {
-         versions = {
-            create: {
-               version: versionIdx,
-               content: update.content,
-            },
-         };
-      }
-
-      const categories = this.createOrConnectCategories(update.categories);
-      const followUpPrompts = this.followUpPromptUpdates(current, update);
-
-      const toSave: PromptDescriptorUpdateInput = {
-         title: update.title,
-         content: update.content,
-         recommendedModel: update.recommendedModel,
-         currentVersion: versionIdx,
-         categories: {
-            set: [],
-            connectOrCreate: categories,
-         },
-         followUpPrompts,
-         versions,
-      };
-
-      await this.promptRepository.pUpdatePrompt(promptId, toSave);
+      await this.promptRepository.pUpdatePrompt(
+         promptId,
+         update,
+         current,
+         versionIdx,
+         updateVersions
+      );
    }
 
    async toggleFavorite(id: string, isFavorite: boolean) {
@@ -135,86 +85,5 @@ export class PromptService {
 
    async deletePrompt(id: string) {
       await this.promptRepository.pDeletePrompt(id);
-   }
-
-   followUpPromptUpdates(
-      current: PromptDescriptorWithRelations,
-      promptUpdate: DPromptUpdate
-   ): PromptFollowUpUpdateManyWithoutPromptNestedInput {
-      const existingIds = new Set(map(current.followUpPrompts, (f) => f.id));
-      const followUpsWithoutId = filter(
-         promptUpdate.followUpPrompts,
-         (f) => !f.id
-      );
-      const followUpsWithId = filter(
-         promptUpdate.followUpPrompts,
-         (f) => !!f.id
-      );
-      const updatedIds = new Set(map(followUpsWithId, (f) => f.id!));
-      const idsToDelete = filter([...existingIds], (id) => !updatedIds.has(id));
-
-      const update = isEmpty(followUpsWithId)
-         ? undefined
-         : this.updateFollowUpsInput(followUpsWithId);
-
-      const create = isEmpty(followUpsWithoutId)
-         ? undefined
-         : this.createFollowUpsInput(followUpsWithoutId);
-
-      const deleteMany = isEmpty(idsToDelete)
-         ? undefined
-         : this.deleteFollowUpsInput(idsToDelete);
-
-      const followUpPromptUpdates: PromptFollowUpUpdateManyWithoutPromptNestedInput =
-         {
-            update,
-            create,
-            deleteMany,
-         };
-
-      return followUpPromptUpdates;
-   }
-
-   private createOrConnectCategories(
-      categories: string[]
-   ): PromptCategoryCreateOrConnectWithoutPromptsInput[] {
-      return map(categories, (cat: string) => {
-         return {
-            where: {
-               name: cat,
-            },
-            create: {
-               name: cat,
-            },
-         };
-      });
-   }
-
-   private createFollowUpsInput(
-      followUpPrompts: DPromptFollowUpUpdate[]
-   ): PromptFollowUpCreateWithoutPromptInput[] {
-      return map(followUpPrompts, (f) => ({
-         content: f.content,
-         order: f.order,
-      }));
-   }
-
-   private updateFollowUpsInput(
-      followUpPrompts: DPromptFollowUpUpdate[]
-   ): PromptFollowUpUpdateWithWhereUniqueWithoutPromptInput[] {
-      return map(followUpPrompts, (f) => ({
-         where: { id: f.id! },
-         data: { content: f.content, order: f.order },
-      }));
-   }
-
-   private deleteFollowUpsInput(
-      followUpPromptIds: string[]
-   ): PromptFollowUpScalarWhereInput {
-      return {
-         id: {
-            in: followUpPromptIds,
-         },
-      };
    }
 }

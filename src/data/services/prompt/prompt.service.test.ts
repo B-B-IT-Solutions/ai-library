@@ -5,14 +5,12 @@ import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import { PromptRepository } from "@/data/repositories/prompt";
-import { DPromptDescriptorsPageQuery } from "@/data/types/domain/prompt";
 import {
-   PromptDescriptorCreateInput,
-   PromptDescriptorUpdateInput,
-   PromptFollowUpUpdateManyWithoutPromptNestedInput,
-} from "@/generated/prisma/models";
+   toDPromptDescriptor,
+   toDPromptDescriptorsPage,
+} from "@/data/repositories/prompt/prompt.mapper";
+import { DPromptDescriptorsPageQuery } from "@/data/types/domain/prompt";
 
-import { toDPromptDescriptor, toDPromptDescriptorsPage } from "./prompt.mapper";
 import { PromptService } from "./prompt.service";
 
 const promptRepo = new PromptRepository(prisma);
@@ -146,48 +144,8 @@ describe("createPrompt tests", () => {
          "db error"
       );
 
-      const promptToSave: PromptDescriptorCreateInput = {
-         title: prompt.title,
-         content: prompt.content,
-         recommendedModel: prompt.recommendedModel,
-         currentVersion: 0,
-         categories: {
-            connectOrCreate: [
-               {
-                  where: {
-                     name: "category 1",
-                  },
-                  create: {
-                     name: "category 1",
-                  },
-               },
-            ],
-         },
-         followUpPrompts: {
-            create: [
-               {
-                  content: "prompt follow up update 0",
-                  order: 0,
-               },
-               {
-                  content: "prompt follow up update 1",
-                  order: 1,
-               },
-               {
-                  content: "prompt follow up update 2",
-                  order: 2,
-               },
-            ],
-         },
-         user: {
-            connect: {
-               id: userId,
-            },
-         },
-      };
-
       expect(promptRepoMock.pCreatePrompt).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pCreatePrompt).toHaveBeenCalledWith(promptToSave);
+      expect(promptRepoMock.pCreatePrompt).toHaveBeenCalledWith(userId, prompt);
    });
 
    it("createPrompt - prompt created  - test", async () => {
@@ -196,48 +154,8 @@ describe("createPrompt tests", () => {
 
       await promptService.createPrompt(userId, prompt);
 
-      const promptToSave: PromptDescriptorCreateInput = {
-         title: prompt.title,
-         content: prompt.content,
-         recommendedModel: prompt.recommendedModel,
-         currentVersion: 0,
-         categories: {
-            connectOrCreate: [
-               {
-                  where: {
-                     name: "category 1",
-                  },
-                  create: {
-                     name: "category 1",
-                  },
-               },
-            ],
-         },
-         followUpPrompts: {
-            create: [
-               {
-                  content: "prompt follow up update 0",
-                  order: 0,
-               },
-               {
-                  content: "prompt follow up update 1",
-                  order: 1,
-               },
-               {
-                  content: "prompt follow up update 2",
-                  order: 2,
-               },
-            ],
-         },
-         user: {
-            connect: {
-               id: userId,
-            },
-         },
-      };
-
       expect(promptRepoMock.pCreatePrompt).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pCreatePrompt).toHaveBeenCalledWith(promptToSave);
+      expect(promptRepoMock.pCreatePrompt).toHaveBeenCalledWith(userId, prompt);
    });
 });
 
@@ -277,39 +195,14 @@ describe("updatePrompt tests", () => {
 
       await expect(fn).rejects.toThrow("db error");
 
-      const expectedFollowUpPromptUpdates = promptService.followUpPromptUpdates(
-         currentPrompt,
-         promptUpdate
-      );
-
-      const expectedData: PromptDescriptorUpdateInput = {
-         title: promptUpdate.title,
-         content: promptUpdate.content,
-         recommendedModel: promptUpdate.recommendedModel,
-         currentVersion: 2,
-         categories: {
-            set: [],
-            connectOrCreate: [
-               {
-                  where: { name: "category 1" },
-                  create: { name: "category 1" },
-               },
-            ],
-         },
-         followUpPrompts: expectedFollowUpPromptUpdates,
-         versions: {
-            create: {
-               version: 2,
-               content: promptUpdate.content,
-            },
-         },
-      };
-
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
          promptId,
-         expectedData
+         promptUpdate,
+         currentPrompt,
+         2,
+         true
       );
    });
 
@@ -323,34 +216,14 @@ describe("updatePrompt tests", () => {
 
       await promptService.updatePrompt(promptId, promptUpdate, false);
 
-      const expectedFollowUpPromptUpdates = promptService.followUpPromptUpdates(
-         currentPrompt,
-         promptUpdate
-      );
-
-      const expectedData: PromptDescriptorUpdateInput = {
-         title: promptUpdate.title,
-         content: promptUpdate.content,
-         recommendedModel: promptUpdate.recommendedModel,
-         currentVersion: 1,
-         categories: {
-            set: [],
-            connectOrCreate: [
-               {
-                  where: { name: "category 1" },
-                  create: { name: "category 1" },
-               },
-            ],
-         },
-         followUpPrompts: expectedFollowUpPromptUpdates,
-         versions: undefined,
-      };
-
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
          promptId,
-         expectedData
+         promptUpdate,
+         currentPrompt,
+         1,
+         false
       );
    });
 
@@ -364,34 +237,14 @@ describe("updatePrompt tests", () => {
 
       await promptService.updatePrompt(promptId, promptUpdate, true);
 
-      const expectedFollowUpPromptUpdates = promptService.followUpPromptUpdates(
-         currentPrompt,
-         promptUpdate
-      );
-
-      const expectedData: PromptDescriptorUpdateInput = {
-         title: promptUpdate.title,
-         content: promptUpdate.content,
-         recommendedModel: promptUpdate.recommendedModel,
-         currentVersion: 1,
-         categories: {
-            set: [],
-            connectOrCreate: [
-               {
-                  where: { name: "category 1" },
-                  create: { name: "category 1" },
-               },
-            ],
-         },
-         followUpPrompts: expectedFollowUpPromptUpdates,
-         versions: undefined,
-      };
-
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
          promptId,
-         expectedData
+         promptUpdate,
+         currentPrompt,
+         1,
+         false
       );
    });
 
@@ -404,34 +257,14 @@ describe("updatePrompt tests", () => {
 
       await promptService.updatePrompt(promptId, promptUpdate, false);
 
-      const expectedFollowUpPromptUpdates = promptService.followUpPromptUpdates(
-         currentPrompt,
-         promptUpdate
-      );
-
-      const expectedData: PromptDescriptorUpdateInput = {
-         title: promptUpdate.title,
-         content: promptUpdate.content,
-         recommendedModel: promptUpdate.recommendedModel,
-         currentVersion: 1,
-         categories: {
-            set: [],
-            connectOrCreate: [
-               {
-                  where: { name: "category 1" },
-                  create: { name: "category 1" },
-               },
-            ],
-         },
-         followUpPrompts: expectedFollowUpPromptUpdates,
-         versions: undefined,
-      };
-
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
          promptId,
-         expectedData
+         promptUpdate,
+         currentPrompt,
+         1,
+         false
       );
    });
 
@@ -444,39 +277,14 @@ describe("updatePrompt tests", () => {
 
       await promptService.updatePrompt(promptId, promptUpdate, true);
 
-      const expectedFollowUpPromptUpdates = promptService.followUpPromptUpdates(
-         currentPrompt,
-         promptUpdate
-      );
-
-      const expectedData: PromptDescriptorUpdateInput = {
-         title: promptUpdate.title,
-         content: promptUpdate.content,
-         recommendedModel: promptUpdate.recommendedModel,
-         currentVersion: 2,
-         categories: {
-            set: [],
-            connectOrCreate: [
-               {
-                  where: { name: "category 1" },
-                  create: { name: "category 1" },
-               },
-            ],
-         },
-         followUpPrompts: expectedFollowUpPromptUpdates,
-         versions: {
-            create: {
-               version: 2,
-               content: promptUpdate.content,
-            },
-         },
-      };
-
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
          promptId,
-         expectedData
+         promptUpdate,
+         currentPrompt,
+         2,
+         true
       );
    });
 });
@@ -542,141 +350,5 @@ describe("deletePrompt tests", () => {
 
       expect(promptRepoMock.pDeletePrompt).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pDeletePrompt).toHaveBeenCalledWith(id);
-   });
-});
-
-describe("followUpPromptUpdates tests", () => {
-   const id0 = "f23c15c7-7d2d-40a2-a895-6a78516b9b30";
-   const id1 = "f23c15c7-7d2d-40a2-a895-6a78516b9b31";
-   const id2 = "f23c15c7-7d2d-40a2-a895-6a78516b9b32";
-
-   it("all new follow-ups (no ids) - existing deleted - test", () => {
-      const current = ptestData.pPromptDescriptorWithRelations();
-      const promptUpdate = dtestData.dPromptUpdate();
-      // dPromptUpdate uses dPromptFollowUpUpdates() which has no ids
-
-      const result = promptService.followUpPromptUpdates(current, promptUpdate);
-
-      const expectedResult: PromptFollowUpUpdateManyWithoutPromptNestedInput = {
-         update: undefined,
-         create: [
-            { content: "prompt follow up update 0", order: 0 },
-            { content: "prompt follow up update 1", order: 1 },
-            { content: "prompt follow up update 2", order: 2 },
-         ],
-         deleteMany: { id: { in: [id0, id1, id2] } },
-      };
-
-      expect(result).toEqual(expectedResult);
-   });
-
-   it("all existing follow-ups updated (matching ids) - test", () => {
-      const current = ptestData.pPromptDescriptorWithRelations();
-      const promptUpdate = dtestData.dPromptUpdate();
-      promptUpdate.followUpPrompts = [
-         { id: id0, content: "updated 0", order: 0 },
-         { id: id1, content: "updated 1", order: 1 },
-         { id: id2, content: "updated 2", order: 2 },
-      ];
-
-      const result = promptService.followUpPromptUpdates(current, promptUpdate);
-
-      const expectedResult: PromptFollowUpUpdateManyWithoutPromptNestedInput = {
-         update: [
-            { where: { id: id0 }, data: { content: "updated 0", order: 0 } },
-            { where: { id: id1 }, data: { content: "updated 1", order: 1 } },
-            { where: { id: id2 }, data: { content: "updated 2", order: 2 } },
-         ],
-         create: undefined,
-         deleteMany: undefined,
-      };
-
-      expect(result).toEqual(expectedResult);
-   });
-
-   it("empty update list - all existing deleted - test", () => {
-      const current = ptestData.pPromptDescriptorWithRelations();
-      const promptUpdate = dtestData.dPromptUpdate();
-      promptUpdate.followUpPrompts = [];
-
-      const result = promptService.followUpPromptUpdates(current, promptUpdate);
-
-      const expectedResult: PromptFollowUpUpdateManyWithoutPromptNestedInput = {
-         update: undefined,
-         create: undefined,
-         deleteMany: { id: { in: [id0, id1, id2] } },
-      };
-
-      expect(result).toEqual(expectedResult);
-   });
-
-   it("mix: 2 updated + 1 new + 1 deleted - test", () => {
-      const current = ptestData.pPromptDescriptorWithRelations();
-      const promptUpdate = dtestData.dPromptUpdate();
-      promptUpdate.followUpPrompts = [
-         { id: id0, content: "updated 0", order: 0 },
-         { id: id1, content: "updated 1", order: 1 },
-         { content: "new follow up", order: 2 },
-      ];
-      // id2 is not present → should be deleted
-
-      const result = promptService.followUpPromptUpdates(current, promptUpdate);
-
-      const expectedResult: PromptFollowUpUpdateManyWithoutPromptNestedInput = {
-         update: [
-            {
-               where: { id: id0 },
-               data: { content: "updated 0", order: 0 },
-            },
-            {
-               where: { id: id1 },
-               data: { content: "updated 1", order: 1 },
-            },
-         ],
-         create: [{ content: "new follow up", order: 2 }],
-         deleteMany: { id: { in: [id2] } },
-      };
-
-      expect(result).toEqual(expectedResult);
-   });
-
-   it("no existing follow-ups, no updates - all undefined - test", () => {
-      const current = ptestData.pPromptDescriptorWithRelations();
-      current.followUpPrompts = [];
-      const promptUpdate = dtestData.dPromptUpdate();
-      promptUpdate.followUpPrompts = [];
-
-      const result = promptService.followUpPromptUpdates(current, promptUpdate);
-
-      const expectedResult: PromptFollowUpUpdateManyWithoutPromptNestedInput = {
-         update: undefined,
-         create: undefined,
-         deleteMany: undefined,
-      };
-
-      expect(result).toEqual(expectedResult);
-   });
-
-   it("no existing follow-ups, add new - test", () => {
-      const current = ptestData.pPromptDescriptorWithRelations();
-      current.followUpPrompts = [];
-      const promptUpdate = dtestData.dPromptUpdate();
-      promptUpdate.followUpPrompts = [
-         { content: "new 1", order: 0 },
-         { content: "new 2", order: 1 },
-      ];
-
-      const result = promptService.followUpPromptUpdates(current, promptUpdate);
-
-      const expectedResult: PromptFollowUpUpdateManyWithoutPromptNestedInput = {
-         update: undefined,
-         create: [
-            { content: "new 1", order: 0 },
-            { content: "new 2", order: 1 },
-         ],
-         deleteMany: undefined,
-      };
-
-      expect(result).toEqual(expectedResult);
    });
 });
