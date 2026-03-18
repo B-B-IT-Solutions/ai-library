@@ -76,7 +76,11 @@ export class TemplateEngine {
     * Strips markdown syntax to plain text for use in AI chat tools
     */
    static stripMarkdown(text: string): string {
-      return remark().use(stripMarkdown).processSync(text).toString().trim();
+      return remark()
+         .use(stripMarkdown, { keep: ["list", "listItem"] })
+         .processSync(text)
+         .toString()
+         .trim();
    }
 
    /**
