@@ -35,7 +35,7 @@ jobs:
            run: npm run test -- --coverage
 
          - name: Report Coverage
-           if: always()
+           if: always() && github.event_name == 'pull_request'
            uses: MishaKav/jest-coverage-comment@main
            with:
               coverage-summary-path: ./coverage/coverage-summary.json
