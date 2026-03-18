@@ -98,8 +98,8 @@ describe("getPrompt tests", () => {
    it("getPrompt  - id invalid - test", async () => {
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(null);
 
-      const id = "new";
-      const result = await promptService.getPrompt(id);
+      const promptId = "new";
+      const result = await promptService.getPrompt(promptId);
 
       expect(result).toBeUndefined();
       expect(promptRepoMock.pGetPromptDescriptor).not.toHaveBeenCalled();
@@ -108,25 +108,29 @@ describe("getPrompt tests", () => {
    it("getPrompt  - promt undefined - test", async () => {
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(null);
 
-      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const result = await promptService.getPrompt(id);
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const result = await promptService.getPrompt(promptId);
 
       expect(result).toBeUndefined();
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith({ id });
+      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith({
+         promptId,
+      });
    });
 
    it("getPrompt  - product defined - test", async () => {
       const prompt = ptestData.pPromptDescriptorWithRelations();
       promptRepoMock.pGetPromptDescriptor.mockResolvedValue(prompt);
 
-      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const result = await promptService.getPrompt(id);
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const result = await promptService.getPrompt(promptId);
       const expectedResult = toDPromptDescriptor(prompt);
 
       expect(result).toEqual(expectedResult);
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith({ id });
+      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith({
+         promptId,
+      });
    });
 });
 
@@ -176,7 +180,7 @@ describe("updatePrompt tests", () => {
 
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith({
-         id: promptId,
+         promptId,
       });
       expect(promptRepoMock.pUpdatePrompt).not.toHaveBeenCalled();
    });
@@ -196,6 +200,9 @@ describe("updatePrompt tests", () => {
       await expect(fn).rejects.toThrow("db error");
 
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith({
+         promptId,
+      });
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
          promptId,
@@ -217,6 +224,9 @@ describe("updatePrompt tests", () => {
       await promptService.updatePrompt(promptId, promptUpdate, false);
 
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith({
+         promptId,
+      });
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
          promptId,
@@ -258,6 +268,9 @@ describe("updatePrompt tests", () => {
       await promptService.updatePrompt(promptId, promptUpdate, false);
 
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith({
+         promptId,
+      });
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
          promptId,
@@ -278,6 +291,9 @@ describe("updatePrompt tests", () => {
       await promptService.updatePrompt(promptId, promptUpdate, true);
 
       expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledTimes(1);
+      expect(promptRepoMock.pGetPromptDescriptor).toHaveBeenCalledWith({
+         promptId,
+      });
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledTimes(1);
       expect(promptRepoMock.pUpdatePrompt).toHaveBeenCalledWith(
          promptId,
@@ -295,34 +311,43 @@ describe("toggleFavorite tests", () => {
    });
 
    it("toggleFavorite - error - test", async () => {
-      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const error = new Error("db error");
       promptRepoMock.pToggleFavorite.mockRejectedValue(error);
 
-      const fn = async () => promptService.toggleFavorite(id, true);
+      const fn = async () => promptService.toggleFavorite(promptId, true);
 
       await expect(fn).rejects.toThrow("db error");
 
       expect(promptRepoMock.pToggleFavorite).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pToggleFavorite).toHaveBeenCalledWith(id, true);
+      expect(promptRepoMock.pToggleFavorite).toHaveBeenCalledWith(
+         promptId,
+         true
+      );
    });
 
    it("toggleFavorite - add to favorites - test", async () => {
-      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
 
-      await promptService.toggleFavorite(id, true);
+      await promptService.toggleFavorite(promptId, true);
 
       expect(promptRepoMock.pToggleFavorite).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pToggleFavorite).toHaveBeenCalledWith(id, true);
+      expect(promptRepoMock.pToggleFavorite).toHaveBeenCalledWith(
+         promptId,
+         true
+      );
    });
 
    it("toggleFavorite - remove from favorites - test", async () => {
-      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
 
-      await promptService.toggleFavorite(id, false);
+      await promptService.toggleFavorite(promptId, false);
 
       expect(promptRepoMock.pToggleFavorite).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pToggleFavorite).toHaveBeenCalledWith(id, false);
+      expect(promptRepoMock.pToggleFavorite).toHaveBeenCalledWith(
+         promptId,
+         false
+      );
    });
 });
 
@@ -332,23 +357,23 @@ describe("deletePrompt tests", () => {
    });
 
    it("deletePrompt - error - test", async () => {
-      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
       const error = new Error("db error");
       promptRepoMock.pDeletePrompt.mockRejectedValue(error);
 
-      const fn = async () => promptService.deletePrompt(id);
+      const fn = async () => promptService.deletePrompt(promptId);
       await expect(fn).rejects.toThrow("db error");
 
       expect(promptRepoMock.pDeletePrompt).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pDeletePrompt).toHaveBeenCalledWith(id);
+      expect(promptRepoMock.pDeletePrompt).toHaveBeenCalledWith(promptId);
    });
 
    it("deletePrompt - prompt deleted - test", async () => {
-      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const promptId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
 
-      await promptService.deletePrompt(id);
+      await promptService.deletePrompt(promptId);
 
       expect(promptRepoMock.pDeletePrompt).toHaveBeenCalledTimes(1);
-      expect(promptRepoMock.pDeletePrompt).toHaveBeenCalledWith(id);
+      expect(promptRepoMock.pDeletePrompt).toHaveBeenCalledWith(promptId);
    });
 });

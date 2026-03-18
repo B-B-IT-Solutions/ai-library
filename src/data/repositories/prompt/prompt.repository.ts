@@ -23,7 +23,7 @@ import {
 import { DEFAULT_PAGINATION } from "../utils";
 
 export type GetPromptQuery = {
-   id: string;
+   promptId: string;
 };
 
 export class PromptRepository {
@@ -73,7 +73,7 @@ export class PromptRepository {
    async pGetPromptDescriptor(
       query: GetPromptQuery
    ): Promise<PromptDescriptorWithRelations | null> {
-      const { id } = query;
+      const { promptId: id } = query;
       return await this.prisma.promptDescriptor.findFirst({
          where: { id },
          include: {

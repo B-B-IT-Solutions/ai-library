@@ -335,12 +335,12 @@ describe("pGetPromptDescriptor tests", () => {
       const prompt = ptestData.pPromptDescriptorWithRelations();
       prismaMock.promptDescriptor.findFirst.mockResolvedValue(prompt);
 
-      const query: GetPromptQuery = { id: "1" };
+      const query: GetPromptQuery = { promptId: "1" };
       const result = await promptRepository.pGetPromptDescriptor(query);
 
       const expectedWhere: PromptDescriptorFindFirstArgs = {
          where: {
-            id: query.id,
+            id: query.promptId,
          },
          include: {
             categories: true,
@@ -362,12 +362,12 @@ describe("pGetPromptDescriptor tests", () => {
    test("pGetPromptDescriptor - id undefiend - slug defined - test", async () => {
       prismaMock.promptDescriptor.findFirst.mockResolvedValue(null);
 
-      const query: GetPromptQuery = { id: "1" };
+      const query: GetPromptQuery = { promptId: "1" };
       const result = await promptRepository.pGetPromptDescriptor(query);
 
       const expectedWhere: PromptDescriptorFindFirstArgs = {
          where: {
-            id: query.id,
+            id: query.promptId,
          },
          include: {
             categories: true,
@@ -482,8 +482,10 @@ describe("pUpdatePrompt tests", () => {
          false
       );
 
-      const expectedFollowUpUpdates =
-         promptRepository.followUpPromptUpdates(current, data);
+      const expectedFollowUpUpdates = promptRepository.followUpPromptUpdates(
+         current,
+         data
+      );
 
       const expectedUpdateArgs: PromptDescriptorUpdateArgs = {
          where: { id: promptId },
@@ -529,8 +531,10 @@ describe("pUpdatePrompt tests", () => {
          true
       );
 
-      const expectedFollowUpUpdates =
-         promptRepository.followUpPromptUpdates(current, data);
+      const expectedFollowUpUpdates = promptRepository.followUpPromptUpdates(
+         current,
+         data
+      );
 
       const expectedUpdateArgs: PromptDescriptorUpdateArgs = {
          where: { id: promptId },

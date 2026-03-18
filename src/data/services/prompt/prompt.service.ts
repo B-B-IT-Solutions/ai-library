@@ -33,9 +33,11 @@ export class PromptService {
       return toDPromptDescriptorsPage(data);
    }
 
-   async getPrompt(id: string): Promise<DPromptDescriptor | undefined> {
-      if (isValidUuid(id)) {
-         const data = await this.promptRepository.pGetPromptDescriptor({ id });
+   async getPrompt(promptId: string): Promise<DPromptDescriptor | undefined> {
+      if (isValidUuid(promptId)) {
+         const data = await this.promptRepository.pGetPromptDescriptor({
+            promptId,
+         });
          if (data) {
             return toDPromptDescriptor(data);
          }
@@ -58,7 +60,7 @@ export class PromptService {
       createVersion: boolean
    ) {
       const current = await this.promptRepository.pGetPromptDescriptor({
-         id: promptId,
+         promptId,
       });
 
       if (!current) {
@@ -79,11 +81,11 @@ export class PromptService {
       );
    }
 
-   async toggleFavorite(id: string, isFavorite: boolean) {
-      await this.promptRepository.pToggleFavorite(id, isFavorite);
+   async toggleFavorite(promptId: string, isFavorite: boolean) {
+      await this.promptRepository.pToggleFavorite(promptId, isFavorite);
    }
 
-   async deletePrompt(id: string) {
-      await this.promptRepository.pDeletePrompt(id);
+   async deletePrompt(promptId: string) {
+      await this.promptRepository.pDeletePrompt(promptId);
    }
 }
