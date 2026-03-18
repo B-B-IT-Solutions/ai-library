@@ -42,10 +42,10 @@ export const getPromptTemplates = async (
 };
 
 export const getPromptTemplate = async (
-   id: string
+   templateId: string
 ): Promise<DPromptTemplate | null> => {
    const service = getService();
-   return await service.getPromptTemplate(id);
+   return await service.getPromptTemplate(templateId);
 };
 
 export const getPromptTemplateCategories = async (): Promise<string[]> => {
