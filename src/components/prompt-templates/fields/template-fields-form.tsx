@@ -214,7 +214,7 @@ export const TemplateFieldForm: FC<Props> = ({
                className="cursor-pointer"
                data-testid="submit-btn"
             >
-               Vorschau generieren
+               Prompt erstelen
             </Button>
          </div>
       </div>
