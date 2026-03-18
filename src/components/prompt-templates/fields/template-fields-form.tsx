@@ -135,7 +135,7 @@ export const TemplateFieldForm: FC<Props> = ({
             onSubmit={form.handleSubmit(onSubmitInternal)}
             data-testid="template-fields-form"
          >
-            <div className="grid min-h-[40vh] grid-cols-1 gap-6 lg:grid-cols-2">
+            <div className="grid grid-cols-1 gap-6 lg:min-h-[40vh] lg:grid-cols-2">
                {preview()}
                {fieldInputs()}
             </div>
