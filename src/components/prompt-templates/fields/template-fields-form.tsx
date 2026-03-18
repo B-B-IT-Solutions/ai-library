@@ -1,13 +1,21 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useCallback, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { map, reduce } from "es-toolkit/compat";
+import { Check, ChevronDown, Clipboard, ExternalLink } from "lucide-react";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/shadcn/button";
+import {
+   DropdownMenu,
+   DropdownMenuContent,
+   DropdownMenuItem,
+   DropdownMenuTrigger,
+} from "@/components/shadcn/dropdown-menu";
 import { Form } from "@/components/shadcn/form";
+import { TemplateEngine } from "@/data/services/prompt-template/template.engine";
 import { CallbackFn } from "@/data/types/common";
 import {
    DPromptTemplateDataPromptGeneration,
@@ -23,6 +31,13 @@ import { TextAreaField } from "./field/field-textarea";
 import { buildFieldsSchema } from "./fields.schema";
 import { TemplatePreview } from "./template-preview";
 
+const AI_SERVICES = [
+   { name: "ChatGPT", url: "https://chat.openai.com/" },
+   { name: "Claude", url: "https://claude.ai/new" },
+   { name: "Gemini", url: "https://gemini.google.com/app" },
+   { name: "Perplexity", url: "https://www.perplexity.ai/" },
+] as const;
+
 type Props = {
    templateData: DPromptTemplateDataPromptGeneration;
    onSubmit: (values: DPromptTemplateFieldValues) => void;
@@ -35,6 +50,7 @@ export const TemplateFieldForm: FC<Props> = ({
    onCancel,
 }) => {
    const { template, allFields: fields } = templateData;
+   const [copied, setCopied] = useState(false);
 
    const fieldsSchema = buildFieldsSchema(fields);
 
@@ -85,10 +101,83 @@ export const TemplateFieldForm: FC<Props> = ({
       onSubmit(data as DPromptTemplateFieldValues);
    };
 
+   const resolvedContent = TemplateEngine.replace(
+      template.content,
+      currentValues
+   );
+
+   const copyToClipboard = useCallback(async () => {
+      await navigator.clipboard.writeText(resolvedContent);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+   }, [resolvedContent]);
+
+   const openInService = useCallback(
+      async (url: string) => {
+         await navigator.clipboard.writeText(resolvedContent);
+         window.open(url, "_blank", "noopener,noreferrer");
+      },
+      [resolvedContent]
+   );
+
    const preview = () => {
       return (
          <div className="flex flex-col gap-2">
-            <div className="max-h-[65vh] flex-1 overflow-y-auto rounded-md border bg-muted/30 p-4">
+            <div className="flex items-center justify-between">
+               <span className="text-sm font-medium text-muted-foreground">
+                  Vorschau
+               </span>
+               <div className="flex items-center gap-1">
+                  <Button
+                     type="button"
+                     variant="ghost"
+                     size="sm"
+                     onClick={copyToClipboard}
+                     className="h-8 gap-1.5 px-2 text-xs"
+                     data-testid="copy-btn"
+                  >
+                     {copied ? (
+                        <>
+                           <Check className="h-3.5 w-3.5 text-green-600" />
+                           <span className="text-green-600">Kopiert!</span>
+                        </>
+                     ) : (
+                        <>
+                           <Clipboard className="h-3.5 w-3.5" />
+                           Kopieren
+                        </>
+                     )}
+                  </Button>
+                  <DropdownMenu>
+                     <DropdownMenuTrigger asChild>
+                        <Button
+                           type="button"
+                           variant="ghost"
+                           size="sm"
+                           className="h-8 gap-1.5 px-2 text-xs"
+                           data-testid="open-in-ai-btn"
+                        >
+                           <ExternalLink className="h-3.5 w-3.5" />
+                           Öffnen in
+                           <ChevronDown className="h-3 w-3 opacity-60" />
+                        </Button>
+                     </DropdownMenuTrigger>
+                     <DropdownMenuContent align="end">
+                        {AI_SERVICES.map((service) => (
+                           <DropdownMenuItem
+                              key={service.name}
+                              onClick={() => openInService(service.url)}
+                              className="cursor-pointer gap-2"
+                           >
+                              <ExternalLink className="h-3.5 w-3.5 text-muted-foreground" />
+                              {service.name}
+                           </DropdownMenuItem>
+                        ))}
+                     </DropdownMenuContent>
+                  </DropdownMenu>
+               </div>
+            </div>
+            <div className="max-h-[60vh] flex-1 overflow-y-auto rounded-md border bg-muted/30 p-4">
                <TemplatePreview template={template} values={currentValues} />
             </div>
             <p className="text-xs text-muted-foreground">
