@@ -30,22 +30,6 @@ export const CreateTemplateFieldsFormDialog = ({
    descriptor,
    templateData,
 }: Props) => {
-   const content = () => {
-      return (
-         <div className="space-y-4">
-            <div className="text-sm text-muted-foreground">
-               <p className="font-semibold">{descriptor.title}</p>
-            </div>
-            <TemplateFieldForm
-               templateData={templateData}
-               onSubmit={onSubmit}
-               onCancel={onCancel}
-               recommendedModel={descriptor.recommendedModel}
-            />
-         </div>
-      );
-   };
-
    return (
       <Dialog
          open={true}
@@ -54,7 +38,7 @@ export const CreateTemplateFieldsFormDialog = ({
       >
          <DialogContent
             showCloseButton={false}
-            className="max-h-[90vh] overflow-y-auto sm:max-w-5xl"
+            className="flex max-h-[90vh] flex-col gap-0 overflow-hidden p-0 sm:max-w-5xl"
          >
             <DialogClose asChild={true}>
                <button
@@ -65,10 +49,20 @@ export const CreateTemplateFieldsFormDialog = ({
                   <span className="sr-only">Close</span>
                </button>
             </DialogClose>
-            <DialogHeader>
+            <DialogHeader className="flex-shrink-0 px-6 pt-6 pb-2">
                <DialogTitle>Vorlage Felder Ausfüllen</DialogTitle>
+               <p className="text-sm font-semibold text-muted-foreground">
+                  {descriptor.title}
+               </p>
             </DialogHeader>
-            {content()}
+            <div className="flex-1 overflow-y-auto px-6">
+               <TemplateFieldForm
+                  templateData={templateData}
+                  onSubmit={onSubmit}
+                  onCancel={onCancel}
+                  recommendedModel={descriptor.recommendedModel}
+               />
+            </div>
          </DialogContent>
       </Dialog>
    );

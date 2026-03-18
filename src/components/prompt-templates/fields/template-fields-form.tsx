@@ -197,80 +197,76 @@ export const TemplateFieldForm: FC<Props> = ({
       </div>
    );
 
-   const fieldInputs = () => (
-      <div className="flex flex-col justify-between gap-4">
-         <div className="space-y-4">{renderFields()}</div>
-         <div className="flex items-center justify-end gap-2 border-t pt-3">
-            <Button
-               type="button"
-               variant="outline"
-               onClick={copyToClipboard}
-               className="cursor-pointer gap-1.5"
-               data-testid="copy-btn"
-            >
-               {copied ? (
-                  <>
-                     <Check className="h-4 w-4 text-green-600" />
-                     <span className="text-green-600">Kopiert!</span>
-                  </>
-               ) : (
-                  <>
-                     <Copy className="h-4 w-4" />
-                     Kopieren
-                  </>
-               )}
-            </Button>
-            <DropdownMenu>
-               <DropdownMenuTrigger asChild>
-                  <Button
-                     type="button"
-                     variant="outline"
-                     className="cursor-pointer gap-1.5"
-                     data-testid="open-in-ai-btn"
+   const fieldInputs = () => <div className="space-y-4">{renderFields()}</div>;
+
+   const footer = () => (
+      <div className="sticky bottom-0 -mx-6 mt-6 flex items-center justify-end gap-2 border-t bg-background px-6 py-4">
+         <Button
+            type="button"
+            variant="outline"
+            onClick={copyToClipboard}
+            className="cursor-pointer gap-1.5"
+            data-testid="copy-btn"
+         >
+            {copied ? (
+               <>
+                  <Check className="h-4 w-4 text-green-600" />
+                  <span className="text-green-600">Kopiert!</span>
+               </>
+            ) : (
+               <>
+                  <Copy className="h-4 w-4" />
+                  Kopieren
+               </>
+            )}
+         </Button>
+         <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+               <Button
+                  type="button"
+                  variant="outline"
+                  className="cursor-pointer gap-1.5"
+                  data-testid="open-in-ai-btn"
+               >
+                  Anwenden
+                  <ChevronDown className="h-3.5 w-3.5 opacity-60" />
+               </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+               {recommended && (
+                  <DropdownMenuItem
+                     onClick={() =>
+                        openInService(recommended.url, recommended.queryParam)
+                     }
+                     className="cursor-pointer gap-2 font-medium"
+                     data-testid={`open-in-${recommended.name.toLowerCase()}-btn`}
                   >
-                     Anwenden
-                     <ChevronDown className="h-3.5 w-3.5 opacity-60" />
-                  </Button>
-               </DropdownMenuTrigger>
-               <DropdownMenuContent align="end">
-                  {recommended && (
-                     <DropdownMenuItem
-                        onClick={() =>
-                           openInService(
-                              recommended.url,
-                              recommended.queryParam
-                           )
-                        }
-                        className="cursor-pointer gap-2 font-medium"
-                        data-testid={`open-in-${recommended.name.toLowerCase()}-btn`}
-                     >
-                        <ExternalLink className="h-3.5 w-3.5" />
-                        {recommended.name}
-                     </DropdownMenuItem>
-                  )}
-                  {otherServices.map((service) => (
-                     <DropdownMenuItem
-                        key={service.name}
-                        onClick={() =>
-                           openInService(service.url, service.queryParam)
-                        }
-                        className="cursor-pointer gap-2 text-muted-foreground"
-                        data-testid={`open-in-${service.name.toLowerCase()}-btn`}
-                     >
-                        <ExternalLink className="h-3.5 w-3.5" />
-                        {service.name}
-                     </DropdownMenuItem>
-                  ))}
-               </DropdownMenuContent>
-            </DropdownMenu>
-            <Button
-               type="submit"
-               className="cursor-pointer"
-               data-testid="submit-btn"
-            >
-               Prompt erstellen
-            </Button>
-         </div>
+                     <ExternalLink className="h-3.5 w-3.5" />
+                     {recommended.name}
+                  </DropdownMenuItem>
+               )}
+               {otherServices.map((service) => (
+                  <DropdownMenuItem
+                     key={service.name}
+                     onClick={() =>
+                        openInService(service.url, service.queryParam)
+                     }
+                     className="cursor-pointer gap-2 text-muted-foreground"
+                     data-testid={`open-in-${service.name.toLowerCase()}-btn`}
+                  >
+                     <ExternalLink className="h-3.5 w-3.5" />
+                     {service.name}
+                  </DropdownMenuItem>
+               ))}
+            </DropdownMenuContent>
+         </DropdownMenu>
+         <Button
+            type="submit"
+            className="cursor-pointer"
+            data-testid="submit-btn"
+         >
+            Prompt erstellen
+         </Button>
       </div>
    );
 
@@ -284,6 +280,7 @@ export const TemplateFieldForm: FC<Props> = ({
                {preview()}
                {fieldInputs()}
             </div>
+            {footer()}
          </form>
       </Form>
    );
