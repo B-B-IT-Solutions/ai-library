@@ -698,6 +698,10 @@ export const dFollowUpPrompt = (index = 1): DPromptFollowUp => {
    };
 };
 
+export const dPromptCategoriesString = (count = 3): string[] => {
+   return map(dPromptCategories(count), (c) => c.name);
+};
+
 export const dPromptCategories = (count = 3): DPromptCategory[] => {
    return range(0, count).map((i) => dPromptTemplateCategory(i));
 };

@@ -1,8 +1,7 @@
-import { isEqual } from "es-toolkit/compat";
+import { isEqual, map } from "es-toolkit/compat";
 
 import { PromptRepository } from "@/data/repositories/prompt";
 import {
-   DPromptCategory,
    DPromptDescriptor,
    DPromptDescriptorsPage,
    DPromptDescriptorsPageQuery,
@@ -28,8 +27,9 @@ export class PromptService {
       return await this.promptRepository.pGetPromptDescriptor(promptId);
    }
 
-   async getPromptCategories(): Promise<DPromptCategory[]> {
-      return await this.promptRepository.pGetPromptCategories();
+   async getPromptCategories(): Promise<string[]> {
+      const categories = await this.promptRepository.pGetPromptCategories();
+      return map(categories, (c) => c.name);
    }
 
    async createPrompt(userId: string, data: DPromptUpdate) {

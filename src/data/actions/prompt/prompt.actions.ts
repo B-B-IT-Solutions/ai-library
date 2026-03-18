@@ -1,5 +1,4 @@
 "use server";
-import { map } from "es-toolkit/compat";
 import { validate as isValidUuid } from "uuid";
 
 import { requireUser } from "@/data/actions/auth-utils";
@@ -45,9 +44,14 @@ export const getPrompt = async (
 };
 
 export const getPromptCategories = async (): Promise<string[]> => {
-   const service = getSevice();
-   const categories = await service.getPromptCategories();
-   return map(categories, (c) => c.name);
+   try {
+      const user = await requireUser();
+      const service = getSevice();
+      return await service.getPromptCategories();
+   } catch (error) {
+      console.error(formatError(error));
+      return [];
+   }
 };
 
 export const createPrompt = async (data: DPromptUpdate) => {
