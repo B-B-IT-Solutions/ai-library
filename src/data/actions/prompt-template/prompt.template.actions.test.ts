@@ -153,8 +153,8 @@ describe("getPromptTemplate tests", () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
 
-      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const result = await getPromptTemplate(id);
+      const templateId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const result = await getPromptTemplate(templateId);
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
@@ -169,12 +169,12 @@ describe("getPromptTemplate tests", () => {
 
       sGetPromptTemplateMock.mockResolvedValue(null);
 
-      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const result = await getPromptTemplate(id);
+      const templateId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const result = await getPromptTemplate(templateId);
 
       expect(result).toBeNull();
       expect(sGetPromptTemplateMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptTemplateMock).toHaveBeenCalledWith(id);
+      expect(sGetPromptTemplateMock).toHaveBeenCalledWith(user.id, templateId);
    });
 
    it("getPromptTemplate - promptTemplate defined - test", async () => {
@@ -184,12 +184,12 @@ describe("getPromptTemplate tests", () => {
       const prompt = dtestData.dPromptTemplate();
       sGetPromptTemplateMock.mockResolvedValue(prompt);
 
-      const id = "6d3266e8-a69e-42aa-a04f-9953c211f509";
-      const result = await getPromptTemplate(id);
+      const templateId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const result = await getPromptTemplate(templateId);
 
       expect(result).toEqual(prompt);
       expect(sGetPromptTemplateMock).toHaveBeenCalledTimes(1);
-      expect(sGetPromptTemplateMock).toHaveBeenCalledWith(id);
+      expect(sGetPromptTemplateMock).toHaveBeenCalledWith(user.id, templateId);
    });
 });
 

@@ -38,7 +38,7 @@ export class PromptTemplateService {
       userId: string,
       teamplateId: string
    ): Promise<DPromptTemplateDataPromptGeneration | null> {
-      const template = await this.getPromptTemplate(teamplateId);
+      const template = await this.getPromptTemplate(userId, teamplateId);
 
       if (template) {
          const globalFields =
@@ -73,8 +73,11 @@ export class PromptTemplateService {
       return await this.repository.pGetPromptTemplateDescriptorWithTemplate(id);
    }
 
-   async getPromptTemplate(id: string): Promise<DPromptTemplate | null> {
-      return await this.repository.pGetPromptTemplate(id);
+   async getPromptTemplate(
+      userId: string,
+      id: string
+   ): Promise<DPromptTemplate | null> {
+      return await this.repository.pGetPromptTemplate(userId, id);
    }
 
    async getPromptTemplateCategories(userId: string): Promise<string[]> {

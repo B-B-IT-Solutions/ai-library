@@ -48,9 +48,9 @@ export const getPromptTemplate = async (
          throw new Error("Invalid Template ID.");
       }
 
-      await requireUser();
+      const user = await requireUser();
       const service = getService();
-      return await service.getPromptTemplate(templateId);
+      return await service.getPromptTemplate(user.id, templateId);
    } catch (error) {
       console.error(formatError(error));
       return null;

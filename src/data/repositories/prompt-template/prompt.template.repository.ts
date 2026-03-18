@@ -81,9 +81,15 @@ export class PromptTemplateRepository {
       return null;
    }
 
-   async pGetPromptTemplate(id: string): Promise<DPromptTemplate | null> {
+   async pGetPromptTemplate(
+      userId: string,
+      id: string
+   ): Promise<DPromptTemplate | null> {
       const template = await this.prisma.promptTemplate.findFirst({
-         where: { id },
+         where: {
+            id,
+            promptTemplateDescriptor: { userId },
+         },
          include: {
             fields: true,
             globalFields: true,

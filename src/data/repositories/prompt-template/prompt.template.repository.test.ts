@@ -306,11 +306,15 @@ describe("pGetPromptTemplate tests", () => {
    test("pGetPromptTemplate - template null - test", async () => {
       prismaMock.promptTemplate.findFirst.mockResolvedValue(null);
 
+      const userId = "user-id-1";
       const id = "prompt-template-id-1";
-      const result = await repository.pGetPromptTemplate(id);
+      const result = await repository.pGetPromptTemplate(userId, id);
 
       const expectedWhere: PromptTemplateFindFirstArgs = {
-         where: { id },
+         where: {
+            id,
+            promptTemplateDescriptor: { userId },
+         },
          include: {
             fields: true,
             globalFields: true,
@@ -327,12 +331,16 @@ describe("pGetPromptTemplate tests", () => {
       const prompt = ptestData.pPromptTemplate();
       prismaMock.promptTemplate.findFirst.mockResolvedValue(prompt);
 
+      const userId = "user-id-1";
       const id = "prompt-template-id-1";
-      const result = await repository.pGetPromptTemplate(id);
+      const result = await repository.pGetPromptTemplate(userId, id);
       const expectedResult = toDPromptTemplate(prompt);
 
       const expectedWhere: PromptTemplateFindFirstArgs = {
-         where: { id },
+         where: {
+            id,
+            promptTemplateDescriptor: { userId },
+         },
          include: {
             fields: true,
             globalFields: true,

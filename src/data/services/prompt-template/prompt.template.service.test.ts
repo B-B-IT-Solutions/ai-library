@@ -66,6 +66,7 @@ describe("getTemplateDataForPromptGeneration tests", () => {
          1
       );
       expect(promptTemplateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
+         userId,
          templateId
       );
       expect(
@@ -105,6 +106,7 @@ describe("getTemplateDataForPromptGeneration tests", () => {
          1
       );
       expect(promptTemplateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
+         userId,
          id
       );
       expect(
@@ -213,17 +215,19 @@ describe("getPromptTemplate tests", () => {
    });
 
    it("getPromptTemplate - template retrieved - test", async () => {
+      const userId = "user-id-1";
       const template = dtestData.dPromptTemplate();
       promptTemplateRepoMock.pGetPromptTemplate.mockResolvedValue(template);
 
       const { id } = template;
-      const result = await promptTemplateService.getPromptTemplate(id);
+      const result = await promptTemplateService.getPromptTemplate(userId, id);
 
       expect(result).toEqual(template);
       expect(promptTemplateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(
          1
       );
       expect(promptTemplateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
+         userId,
          id
       );
    });
