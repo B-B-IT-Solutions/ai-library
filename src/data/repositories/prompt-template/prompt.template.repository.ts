@@ -93,7 +93,9 @@ export class PromptTemplateRepository {
       return template ? toDPromptTemplate(template) : null;
    }
 
-   async pGetPromptTemplateCategories(): Promise<DPromptTemplateCategory[]> {
+   async pGetPromptTemplateCategories(
+      userId: string
+   ): Promise<DPromptTemplateCategory[]> {
       return await this.prisma.promptTemplateCategory.findMany({
          select: {
             name: true,

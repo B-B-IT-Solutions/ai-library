@@ -352,10 +352,11 @@ describe("pGetPromptTemplateCategories queries tests", () => {
    });
 
    test("pGetPromptTemplateCategories - categories retrieved - test", async () => {
+      const userId = "user-id-1";
       const categories = ptestData.pPromptTemplateCategories();
       prismaMock.promptTemplateCategory.findMany.mockResolvedValue(categories);
 
-      const result = await repository.pGetPromptTemplateCategories();
+      const result = await repository.pGetPromptTemplateCategories(userId);
 
       const expectedFindMayArgs: Prisma.PromptTemplateCategoryFindManyArgs = {
          select: {

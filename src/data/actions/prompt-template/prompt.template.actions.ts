@@ -1,7 +1,5 @@
 "use server";
 
-import { map } from "es-toolkit/compat";
-
 import { requireUser } from "@/data/actions/auth-utils";
 import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
@@ -49,9 +47,14 @@ export const getPromptTemplate = async (
 };
 
 export const getPromptTemplateCategories = async (): Promise<string[]> => {
-   const service = getService();
-   const categories = await service.getPromptTemplateCategories();
-   return map(categories, (c) => c.name);
+   try {
+      const user = await requireUser();
+      const service = getService();
+      return await service.getPromptTemplateCategories(user.id);
+   } catch (error) {
+      console.error(formatError(error));
+      return [];
+   }
 };
 
 const getService = (dbClient: DbClient = prisma) => {

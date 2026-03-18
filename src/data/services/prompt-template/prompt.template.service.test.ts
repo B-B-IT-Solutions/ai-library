@@ -3,6 +3,7 @@ jest.mock("@/data/services/settings");
 jest.mock("./template.engine");
 
 import { dtestData, ptestData } from "@tests";
+import { map } from "es-toolkit/compat";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
@@ -234,17 +235,24 @@ describe("getPromptTemplateCategories tests", () => {
    });
 
    it("getPromptTemplateCategories test", async () => {
+      const userId = "user-id-1";
       const categories = ptestData.pPromptTemplateCategories();
       promptTemplateRepoMock.pGetPromptTemplateCategories.mockResolvedValue(
          categories
       );
 
-      const result = await promptTemplateService.getPromptTemplateCategories();
+      const result =
+         await promptTemplateService.getPromptTemplateCategories(userId);
 
-      expect(result).toEqual(categories);
+      const expectedResult = map(categories, (c) => c.name);
+
+      expect(result).toEqual(expectedResult);
       expect(
          promptTemplateRepoMock.pGetPromptTemplateCategories
       ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateCategories
+      ).toHaveBeenCalledWith(userId);
    });
 });
 

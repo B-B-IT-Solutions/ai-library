@@ -158,17 +158,38 @@ describe("getPromptTemplate tests", () => {
 
 describe("getPromptTemplateCategories tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("getPromptTemplateCategories - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await getPromptTemplateCategories();
+
+      expect(result).toEqual([]);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptTemplateCategoriesMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
    });
 
    it("getPromptTemplateCategories test", async () => {
-      const categories = dtestData.dPromptTemplateCategories();
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const categories = dtestData.dPromptTemplateCategoriesString();
       sGetPromptTemplateCategoriesMock.mockResolvedValue(categories);
 
       const result = await getPromptTemplateCategories();
-      const expectedResult = map(categories, (c) => c.name);
 
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual(categories);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetPromptTemplateCategoriesMock).toHaveBeenCalledTimes(1);
+      expect(sGetPromptTemplateCategoriesMock).toHaveBeenCalledWith(user.id);
    });
 });
