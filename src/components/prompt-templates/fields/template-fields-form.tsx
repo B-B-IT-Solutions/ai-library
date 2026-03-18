@@ -3,7 +3,7 @@
 import { FC, useCallback, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { map, reduce } from "es-toolkit/compat";
-import { Check, ChevronDown, Clipboard, ExternalLink } from "lucide-react";
+import { Check, ChevronDown, Copy, ExternalLink } from "lucide-react";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 
@@ -161,7 +161,9 @@ export const TemplateFieldForm: FC<Props> = ({
    );
 
    const recommended = getRecommendedService(recommendedModel);
-   const otherServices = AI_SERVICES.filter((s) => s.name !== recommended?.name);
+   const otherServices = AI_SERVICES.filter(
+      (s) => s.name !== recommended?.name
+   );
 
    const preview = () => (
       <div className="flex flex-col gap-2">
@@ -177,7 +179,7 @@ export const TemplateFieldForm: FC<Props> = ({
                {copied ? (
                   <Check className="h-3.5 w-3.5 text-green-600" />
                ) : (
-                  <Clipboard className="h-3.5 w-3.5" />
+                  <Copy className="h-3.5 w-3.5" />
                )}
             </Button>
             <TemplatePreview template={template} values={currentValues} />
@@ -210,7 +212,7 @@ export const TemplateFieldForm: FC<Props> = ({
                {copied ? (
                   <Check className="h-4 w-4 text-green-600" />
                ) : (
-                  <Clipboard className="h-4 w-4" />
+                  <Copy className="h-4 w-4" />
                )}
             </Button>
             <DropdownMenu>
