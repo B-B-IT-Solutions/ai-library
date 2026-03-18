@@ -41,7 +41,7 @@ jobs:
          #      LHCI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
          - name: Run Tests
-           run: npm run test -- --coverage --coverageReporters=json-summary
+           run: npm run test
 
          - name: Report Coverage
            uses: ArtiomTr/jest-coverage-report-action@v2
