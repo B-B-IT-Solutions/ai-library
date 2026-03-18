@@ -9,7 +9,7 @@ import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import { toast } from "sonner";
 
 import { composePromptFromTemplate } from "@/data/actions/library";
-import { getPromptGenerationTemplateData } from "@/data/actions/prompt";
+import { getPromptGenerationTemplateData } from "@/data/actions/prompt-template";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
