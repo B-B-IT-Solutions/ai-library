@@ -30,7 +30,9 @@ describe("CopyButton rendering tests", () => {
          <CopyButton
             content={content}
             size="icon-sm"
+            variant="secondary"
             className="absolute top-2 right-2 opacity-0"
+            iconClassName="h-3.5 w-3.5"
          />
       );
 
