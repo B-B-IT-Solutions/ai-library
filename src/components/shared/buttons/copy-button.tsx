@@ -62,10 +62,11 @@ export const CopyButton = ({
    const label = () => {
       if (showLabel) {
          const l = copied ? "Kopiert" : "Kopieren";
+         const style = copied ? "text-green-600" : undefined;
          return (
             <>
                {icon()}
-               <span>{l}</span>
+               <span className={cn(style)}>{l}</span>
             </>
          );
       }

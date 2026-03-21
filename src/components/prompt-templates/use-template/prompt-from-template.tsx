@@ -1,9 +1,9 @@
 "use client";
 
-import { FC, useCallback, useState } from "react";
+import { FC, useCallback } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { reduce } from "es-toolkit/compat";
-import { Check, ChevronDown, Copy, ExternalLink } from "lucide-react";
+import { ChevronDown, ExternalLink } from "lucide-react";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 
@@ -44,7 +44,6 @@ export const PromptFromTemplate: FC<Props> = ({
    recommendedModel,
 }) => {
    const { template, allFields: fields } = templateData;
-   const [copied, setCopied] = useState(false);
 
    const fieldsSchema = buildFieldsSchema(fields);
 
@@ -72,12 +71,6 @@ export const PromptFromTemplate: FC<Props> = ({
       currentValues
    );
 
-   const copyToClipboard = useCallback(async () => {
-      await navigator.clipboard.writeText(resolvedContent);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-   }, [resolvedContent]);
-
    const plainContent = TemplateEngine.stripMarkdown(resolvedContent);
 
    const openInService = useCallback(
@@ -100,56 +93,20 @@ export const PromptFromTemplate: FC<Props> = ({
       onSubmit(data as DPromptTemplateFieldValues);
    };
 
-   const preview = () => (
-      <div className="flex flex-col gap-2">
-         <div className="group relative max-h-[65vh] flex-1 overflow-y-auto rounded-md border bg-muted/30 p-4">
-            <CopyButton
-               content={resolvedContent}
-               size="icon-sm"
-               className="absolute top-2 right-2 opacity-0 transition-opacity group-hover:opacity-100"
-               iconClassName="h-3.5 w-3.5"
-            />
-            <TemplatePreview template={template} values={currentValues} />
-         </div>
-         <p className="text-xs text-muted-foreground">
-            <span className="mr-1 inline-block rounded bg-orange-100 px-1 text-orange-700 italic">
-               {"{{platzhalter}}"}
-            </span>
-            noch nicht ausgefüllt ·{" "}
-            <span className="mr-1 inline-block rounded bg-green-100 px-1 font-medium text-green-800">
-               wert
-            </span>
-            ausgefüllt
-         </p>
-      </div>
-   );
-
    const footer = () => (
       <div className="sticky bottom-0 -mx-6 mt-6 flex items-center justify-end gap-2 border-t bg-background px-6 py-4">
-         <Button
-            type="button"
-            variant="outline"
-            onClick={copyToClipboard}
-            className="cursor-pointer gap-1.5"
+         <CopyButton
+            content={resolvedContent}
+            size="sm"
+            showLabel={true}
             data-testid="copy-btn"
-         >
-            {copied ? (
-               <>
-                  <Check className="h-4 w-4 text-green-600" />
-                  <span className="text-green-600">Kopiert!</span>
-               </>
-            ) : (
-               <>
-                  <Copy className="h-4 w-4" />
-                  Kopieren
-               </>
-            )}
-         </Button>
+         />
          <DropdownMenu>
             <DropdownMenuTrigger asChild>
                <Button
                   type="button"
                   variant="outline"
+                  size="sm"
                   className="cursor-pointer gap-1.5"
                   data-testid="open-in-ai-btn"
                >
@@ -188,6 +145,7 @@ export const PromptFromTemplate: FC<Props> = ({
          </DropdownMenu>
          <Button
             type="submit"
+            size="sm"
             className="cursor-pointer"
             data-testid="submit-btn"
          >
@@ -203,7 +161,11 @@ export const PromptFromTemplate: FC<Props> = ({
             data-testid="prompt-from-tempalte"
          >
             <div className="grid grid-cols-1 gap-6 lg:min-h-[40vh] lg:grid-cols-2">
-               {preview()}
+               <TemplatePreview
+                  template={template}
+                  values={currentValues}
+                  resolvedContent={resolvedContent}
+               />
                <TemplateFieldForm
                   templateData={templateData}
                   control={form.control}

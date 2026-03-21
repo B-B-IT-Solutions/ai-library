@@ -183,7 +183,11 @@ export const TemplateFieldForm: FC<Props> = ({
                   <Copy className="h-3.5 w-3.5" />
                )}
             </Button>
-            <TemplatePreview template={template} values={currentValues} />
+            <TemplatePreview
+               template={template}
+               values={currentValues}
+               resolvedContent=""
+            />
          </div>
          <p className="text-xs text-muted-foreground">
             <span className="mr-1 inline-block rounded bg-orange-100 px-1 text-orange-700 italic">
