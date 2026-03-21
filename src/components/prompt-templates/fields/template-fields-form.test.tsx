@@ -1,15 +1,52 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { assertInDocument, dtestData, typeIntoInput } from "@tests";
+import { assertInDocument, dtestData } from "@tests";
+import { forEach, reduce } from "es-toolkit/compat";
+import { FormProvider, useForm } from "react-hook-form";
+import z from "zod";
 
 import {
+   DPromptTemplateDataPromptGeneration,
    DPromptTemplateField,
    DPromptTemplateFieldType,
-   DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
 
-import { TemplateFieldForm } from "./template-fields-form__0";
+import { buildFieldsSchema } from "./fields.schema";
+import { TemplateFieldsForm } from "./template-fields-form";
+
+type Props = {
+   templateData: DPromptTemplateDataPromptGeneration;
+};
+
+const TestWrapper = ({ templateData }: Props) => {
+   const { allFields: fields } = templateData;
+   const fieldsSchema = buildFieldsSchema(fields);
+
+   type DFieldsType = z.infer<typeof fieldsSchema>;
+
+   const form = useForm<DFieldsType>({
+      resolver: zodResolver(fieldsSchema),
+      defaultValues: reduce(
+         fields,
+         (acc, field) => ({
+            ...acc,
+            [field.name]:
+               field.defaultValue ?? (field.type === "CHECKBOX" ? false : ""),
+         }),
+         {}
+      ),
+   });
+
+   return (
+      <FormProvider {...form}>
+         <TemplateFieldsForm
+            templateData={templateData}
+            control={form.control}
+         />
+      </FormProvider>
+   );
+};
 
 const createField = (
    type: DPromptTemplateFieldType,
@@ -32,14 +69,14 @@ const createField = (
 
 const assertRendered = () => {
    const form = screen.getByTestId("template-fields-form");
-   const preview = screen.getByTestId("template-preview");
-   const submitBtn = screen.getByTestId("submit-btn");
-   const cancelBtn = screen.getByTestId("cancel-btn");
-
    assertInDocument(form);
-   assertInDocument(preview);
-   assertInDocument(submitBtn);
-   assertInDocument(cancelBtn);
+};
+
+const assertFieldsRendered = (fields: DPromptTemplateField[]) => {
+   forEach(fields, (f) => {
+      const field = screen.getByTestId(f.name);
+      assertInDocument(field);
+   });
 };
 
 describe("TemplateFieldForm rendering tests", () => {
@@ -59,7 +96,7 @@ describe("TemplateFieldForm rendering tests", () => {
          options: ["CZ", "RU", "Germany"],
       };
 
-      const fields = [
+      const fields: DPromptTemplateField[] = [
          name,
          email,
          age,
@@ -73,94 +110,13 @@ describe("TemplateFieldForm rendering tests", () => {
       const templateData = dtestData.dPromptTemplateDataPromptGeneration();
       templateData.allFields = fields;
 
-      const onSubmit = jest.fn();
-      const onCancel = jest.fn();
-
-      const { container } = render(
-         <TemplateFieldForm
-            templateData={templateData}
-            onSubmit={onSubmit}
-            onCancel={onCancel}
-         />
-      );
+      const { container } = render(<TestWrapper templateData={templateData} />);
 
       await waitFor(() => {
          assertRendered();
+         assertFieldsRendered(fields);
       });
 
       expect(container).toMatchSnapshot();
-   });
-});
-
-describe("TemplateFieldForm functionality tests", () => {
-   it("TemplateFieldForm - submit btn clicked - test", async () => {
-      const field = createField("TEXT", "name", "Name", true);
-      const templateData = dtestData.dPromptTemplateDataPromptGeneration();
-      templateData.allFields.push(field);
-
-      const onSubmit = jest.fn();
-      const onCancel = jest.fn();
-
-      render(
-         <TemplateFieldForm
-            templateData={templateData}
-            onSubmit={onSubmit}
-            onCancel={onCancel}
-         />
-      );
-
-      await waitFor(() => {
-         assertRendered();
-         expect(onSubmit).not.toHaveBeenCalled();
-      });
-
-      const submitBtn = screen.getByTestId("submit-btn");
-      await userEvent.click(submitBtn);
-
-      await waitFor(() => {
-         expect(onSubmit).not.toHaveBeenCalled();
-      });
-
-      await typeIntoInput("name", "John Doe");
-
-      await userEvent.click(submitBtn);
-
-      const expectedPayload: DPromptTemplateFieldValues = {
-         name: "John Doe",
-         field_0: "option 1",
-         field_1: "option 1",
-         field_2: "option 1",
-      };
-
-      await waitFor(() => {
-         expect(onSubmit).toHaveBeenCalledTimes(1);
-         expect(onSubmit).toHaveBeenCalledWith(expectedPayload);
-      });
-   });
-
-   it("TemplateFieldForm - cancel btn click - test", async () => {
-      const templateData = dtestData.dPromptTemplateDataPromptGeneration();
-      const onSubmit = jest.fn();
-      const onCancel = jest.fn();
-
-      render(
-         <TemplateFieldForm
-            templateData={templateData}
-            onSubmit={onSubmit}
-            onCancel={onCancel}
-         />
-      );
-
-      await waitFor(() => {
-         assertRendered();
-      });
-
-      const cancelBtn = screen.getByTestId("cancel-btn");
-      await userEvent.click(cancelBtn);
-
-      await waitFor(() => {
-         expect(onCancel).toHaveBeenCalledTimes(1);
-         expect(onSubmit).not.toHaveBeenCalled();
-      });
    });
 });
