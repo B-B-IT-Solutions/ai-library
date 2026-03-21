@@ -26,6 +26,7 @@ import { TemplateFieldsForm } from "../fields/template-fields-form";
 import { TemplatePreview } from "../fields/template-preview";
 
 import {
+   AiService,
    getOtherAiService,
    getRecommendedAiService as getRecommendedAiService,
 } from "./ai-services";
@@ -72,13 +73,9 @@ export const PromptFromTemplate: FC<Props> = ({
    const plainContent = TemplateEngine.stripMarkdown(resolvedContent);
 
    const openInService = useCallback(
-      async (url: string, queryParam?: string) => {
-         let targetUrl = url;
-         if (queryParam) {
-            targetUrl = `${url}?${queryParam}=${encodeURIComponent(plainContent)}`;
-         } else {
-            await navigator.clipboard.writeText(plainContent);
-         }
+      async (ai: AiService) => {
+         const { url, queryParam } = ai;
+         const targetUrl = `${url}?${queryParam}=${encodeURIComponent(plainContent)}`;
          window.open(targetUrl, "_blank", "noopener,noreferrer");
       },
       [plainContent]
@@ -116,9 +113,7 @@ export const PromptFromTemplate: FC<Props> = ({
             <DropdownMenuContent align="end">
                {recommended && (
                   <DropdownMenuItem
-                     onClick={() =>
-                        openInService(recommended.url, recommended.queryParam)
-                     }
+                     onClick={() => openInService(recommended)}
                      className="cursor-pointer gap-2 font-medium"
                      data-testid={`open-in-${recommended.name.toLowerCase()}-btn`}
                   >
@@ -126,17 +121,15 @@ export const PromptFromTemplate: FC<Props> = ({
                      {recommended.name}
                   </DropdownMenuItem>
                )}
-               {otherServices.map((service) => (
+               {otherServices.map((aiService) => (
                   <DropdownMenuItem
-                     key={service.name}
-                     onClick={() =>
-                        openInService(service.url, service.queryParam)
-                     }
+                     key={aiService.name}
+                     onClick={() => openInService(aiService)}
                      className="cursor-pointer gap-2 text-muted-foreground"
-                     data-testid={`open-in-${service.name.toLowerCase()}-btn`}
+                     data-testid={`open-in-${aiService.name.toLowerCase()}-btn`}
                   >
                      <ExternalLink className="h-3.5 w-3.5" />
-                     {service.name}
+                     {aiService.name}
                   </DropdownMenuItem>
                ))}
             </DropdownMenuContent>

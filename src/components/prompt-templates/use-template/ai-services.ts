@@ -1,7 +1,7 @@
 export type AiService = {
    name: string;
    url: string;
-   queryParam?: string;
+   queryParam: string;
    keywords: string[];
 };
 
@@ -20,7 +20,8 @@ const AI_SERVICES: AiService[] = [
    },
    {
       name: "Gemini",
-      url: "https://gemini.google.com/app",
+      url: "https://google.com/search",
+      queryParam: "udm=50&q",
       keywords: ["gemini", "google"],
    },
    {
