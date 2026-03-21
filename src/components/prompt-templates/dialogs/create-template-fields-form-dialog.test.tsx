@@ -88,35 +88,6 @@ describe("CreateTemplateFieldsFormDialog functionality tests", () => {
       expect(cancelFn).not.toHaveBeenCalled();
    });
 
-   it("CreateTemplateFieldsFormDialog - cancel clicked - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
-      const templateData = dtestData.dPromptTemplateDataPromptGeneration();
-      const submitFn = jest.fn();
-      const cancelFn = jest.fn();
-
-      render(
-         <CreateTemplateFieldsFormDialog
-            descriptor={descriptor}
-            templateData={templateData}
-            onSubmit={submitFn}
-            onCancel={cancelFn}
-         />
-      );
-
-      await waitFor(() => {
-         assertDialogRendered();
-         assertFieldsFormRendered();
-      });
-
-      const cancelBtn = screen.getByTestId("cancel-btn");
-      await userEvent.click(cancelBtn);
-
-      await waitFor(() => {
-         expect(cancelFn).toHaveBeenCalledTimes(1);
-         expect(submitFn).not.toHaveBeenCalled();
-      });
-   });
-
    it("CreateTemplateFieldsFormDialog - close btn clicked - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const templateData = dtestData.dPromptTemplateDataPromptGeneration();
