@@ -24,7 +24,7 @@ type Props = {
    templateData: DPromptTemplateDataPromptGeneration;
 };
 
-export const CreateTemplateFieldsFormDialog = ({
+export const CreatePromptFromTemplateDialog = ({
    onSubmit,
    onCancel,
    descriptor,
