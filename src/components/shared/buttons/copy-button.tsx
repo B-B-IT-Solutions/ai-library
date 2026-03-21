@@ -66,7 +66,7 @@ export const CopyButton = ({
          return (
             <>
                {icon()}
-               <span className={cn(style)}>{l}</span>
+               <span className={style}>{l}</span>
             </>
          );
       }
