@@ -9,7 +9,7 @@ import { CreatePromptFromTemplateDialog } from "./create-prompt-from-template-di
 
 const assertDialogRendered = () => {
    const dialog = screen.getByTestId("create-prompt-dialog");
-   const promptFromTemplate = screen.getByTestId("prompt-from-tempalte");
+   const promptFromTemplate = screen.getByTestId("prompt-from-template");
 
    assertInDocument(dialog);
    assertInDocument(promptFromTemplate);

@@ -67,13 +67,14 @@ exports[`CreatePromptFromTemplateDialog rendering tests CreatePromptFromTemplate
         >
           <form
             class="px-6"
-            data-testid="prompt-from-tempalte"
+            data-testid="prompt-from-template"
           >
             <div
               class="grid grid-cols-1 gap-6 lg:min-h-[40vh] lg:grid-cols-2"
             >
               <div
                 class="flex flex-col gap-2"
+                data-testid="template-preview"
               >
                 <div
                   class="group relative max-h-[65vh] flex-1 overflow-y-auto rounded-md border bg-muted/30 p-4"
@@ -488,7 +489,7 @@ exports[`CreatePromptFromTemplateDialog rendering tests CreatePromptFromTemplate
                 class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
                 data-slot="tooltip-trigger"
                 data-state="closed"
-                data-testid="copy-btn"
+                data-testid="copy-prompt-btn"
                 type="button"
               >
                 <svg

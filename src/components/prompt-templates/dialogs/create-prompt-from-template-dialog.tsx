@@ -58,7 +58,6 @@ export const CreatePromptFromTemplateDialog = ({
                <PromptFromTemplate
                   templateData={templateData}
                   onSubmit={onSubmit}
-                  onCancel={onCancel}
                   recommendedModel={descriptor.recommendedModel}
                />
             </div>

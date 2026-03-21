@@ -17,13 +17,12 @@ import {
 import { Form } from "@/components/shadcn/form";
 import { CopyButton } from "@/components/shared/buttons";
 import { TemplateEngine } from "@/data/services/prompt-template/template.engine";
-import { CallbackFn } from "@/data/types/common";
 import {
    DPromptTemplateDataPromptGeneration,
    DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
 import { buildFieldsSchema } from "../fields/fields.schema";
-import { TemplateFieldForm } from "../fields/template-fields-form_0";
+import { TemplateFieldForm } from "../fields/template-fields-form";
 import { TemplatePreview } from "../fields/template-preview";
 
 import {
@@ -34,7 +33,6 @@ import {
 type Props = {
    templateData: DPromptTemplateDataPromptGeneration;
    onSubmit: (values: DPromptTemplateFieldValues) => void;
-   onCancel: CallbackFn;
    recommendedModel?: string;
 };
 
@@ -99,7 +97,7 @@ export const PromptFromTemplate: FC<Props> = ({
             content={resolvedContent}
             size="sm"
             showLabel={true}
-            data-testid="copy-btn"
+            data-testid="copy-prompt-btn"
          />
          <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -159,7 +157,7 @@ export const PromptFromTemplate: FC<Props> = ({
          <form
             onSubmit={form.handleSubmit(onSubmitInternal)}
             className="px-6"
-            data-testid="prompt-from-tempalte"
+            data-testid="prompt-from-template"
          >
             <div className="grid grid-cols-1 gap-6 lg:min-h-[40vh] lg:grid-cols-2">
                <TemplatePreview
