@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useCallback } from "react";
+import { useCallback } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { reduce } from "es-toolkit/compat";
 import { ChevronDown, ExternalLink } from "lucide-react";
@@ -37,11 +37,11 @@ type Props = {
    recommendedModel?: string;
 };
 
-export const PromptFromTemplate: FC<Props> = ({
+export const PromptFromTemplate = ({
    templateData,
    onSubmit,
    recommendedModel,
-}) => {
+}: Props) => {
    const { template, allFields: fields } = templateData;
 
    const fieldsSchema = buildFieldsSchema(fields);
