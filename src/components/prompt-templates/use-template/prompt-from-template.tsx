@@ -15,6 +15,7 @@ import {
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
 import { Form } from "@/components/shadcn/form";
+import { CopyButton } from "@/components/shared/buttons";
 import { TemplateEngine } from "@/data/services/prompt-template/template.engine";
 import { CallbackFn } from "@/data/types/common";
 import {
@@ -25,45 +26,10 @@ import { buildFieldsSchema } from "../fields/fields.schema";
 import { TemplateFieldForm } from "../fields/template-fields-form_0";
 import { TemplatePreview } from "../fields/template-preview";
 
-const AI_SERVICES: {
-   name: string;
-   url: string;
-   queryParam?: string;
-   keywords: string[];
-}[] = [
-   {
-      name: "ChatGPT",
-      url: "https://chatgpt.com/",
-      queryParam: "q",
-      keywords: ["chatgpt", "gpt", "openai"],
-   },
-   {
-      name: "Claude",
-      url: "https://claude.ai/new",
-      queryParam: "q",
-      keywords: ["claude", "anthropic"],
-   },
-   {
-      name: "Gemini",
-      url: "https://gemini.google.com/app",
-      keywords: ["gemini", "google"],
-   },
-   {
-      name: "Perplexity",
-      url: "https://www.perplexity.ai/",
-      queryParam: "q",
-      keywords: ["perplexity"],
-   },
-];
-
-const getRecommendedService = (recommendedModel?: string) => {
-   if (!recommendedModel) return null;
-   const lower = recommendedModel.toLowerCase();
-   return (
-      AI_SERVICES.find((s) => s.keywords.some((kw) => lower.includes(kw))) ??
-      null
-   );
-};
+import {
+   getOtherAiService,
+   getRecommendedAiService as getRecommendedAiService,
+} from "./ai-services";
 
 type Props = {
    templateData: DPromptTemplateDataPromptGeneration;
@@ -127,10 +93,8 @@ export const PromptFromTemplate: FC<Props> = ({
       [plainContent]
    );
 
-   const recommended = getRecommendedService(recommendedModel);
-   const otherServices = AI_SERVICES.filter(
-      (s) => s.name !== recommended?.name
-   );
+   const recommended = getRecommendedAiService(recommendedModel);
+   const otherServices = getOtherAiService(recommended);
 
    const onSubmitInternal: SubmitHandler<DFieldsType> = (data) => {
       onSubmit(data as DPromptTemplateFieldValues);
@@ -139,20 +103,12 @@ export const PromptFromTemplate: FC<Props> = ({
    const preview = () => (
       <div className="flex flex-col gap-2">
          <div className="group relative max-h-[65vh] flex-1 overflow-y-auto rounded-md border bg-muted/30 p-4">
-            <Button
-               type="button"
-               variant="secondary"
-               size="icon"
-               onClick={copyToClipboard}
-               className="absolute top-2 right-2 h-7 w-7 opacity-0 transition-opacity group-hover:opacity-100"
-               data-testid="copy-btn"
-            >
-               {copied ? (
-                  <Check className="h-3.5 w-3.5 text-green-600" />
-               ) : (
-                  <Copy className="h-3.5 w-3.5" />
-               )}
-            </Button>
+            <CopyButton
+               content={resolvedContent}
+               size="icon-sm"
+               className="absolute top-2 right-2 opacity-0 transition-opacity group-hover:opacity-100"
+               iconClassName="h-3.5 w-3.5"
+            />
             <TemplatePreview template={template} values={currentValues} />
          </div>
          <p className="text-xs text-muted-foreground">
