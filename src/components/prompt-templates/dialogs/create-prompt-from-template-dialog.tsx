@@ -16,6 +16,7 @@ import {
    DPromptTemplateDescriptor,
    DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
+import { PromptFromTemplate } from "../use-template/prompt-from-template";
 
 type Props = {
    onSubmit: (values: DPromptTemplateFieldValues) => void;
@@ -55,7 +56,7 @@ export const CreatePromptFromTemplateDialog = ({
                </p>
             </DialogHeader>
             <div className="flex-1 overflow-y-auto px-6">
-               <TemplateFieldForm
+               <PromptFromTemplate
                   templateData={templateData}
                   onSubmit={onSubmit}
                   onCancel={onCancel}
