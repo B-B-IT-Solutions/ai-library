@@ -1,11 +1,8 @@
-export type AiService = {
-   name: string;
-   url: string;
-   queryParam: string;
-   keywords: string[];
-};
+import { find } from "es-toolkit/compat";
 
-const AI_SERVICES: AiService[] = [
+import { AiTool } from "./type";
+
+const aiTools: AiTool[] = [
    {
       name: "ChatGPT",
       url: "https://chatgpt.com/",
@@ -32,15 +29,14 @@ const AI_SERVICES: AiService[] = [
    },
 ];
 
-export const getRecommendedAiService = (recommendedModel?: string) => {
-   if (!recommendedModel) return null;
-   const lower = recommendedModel.toLowerCase();
-   return (
-      AI_SERVICES.find((s) => s.keywords.some((kw) => lower.includes(kw))) ??
-      null
-   );
+export const getRecommendedAiTool = (model?: string) => {
+   if (model) {
+      const lower = model.toLowerCase();
+      return find(aiTools, (s) => s.keywords.some((kw) => lower.includes(kw)));
+   }
+   return undefined;
 };
 
-export const getOtherAiService = (recommended?: AiService | null) => {
-   return AI_SERVICES.filter((s) => s.name !== recommended?.name);
+export const getOtherAiTools = (tool?: AiTool) => {
+   return aiTools.filter((s) => s.name !== tool?.name);
 };

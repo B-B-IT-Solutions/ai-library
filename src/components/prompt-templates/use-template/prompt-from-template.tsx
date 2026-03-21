@@ -1,6 +1,5 @@
 "use client";
 
-import { useCallback } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { reduce } from "es-toolkit/compat";
 import { ChevronDown, ExternalLink } from "lucide-react";
@@ -27,10 +26,10 @@ import { TemplateFieldsForm } from "../fields/template-fields-form";
 import { TemplatePreview } from "../fields/template-preview";
 
 import {
-   AiService,
-   getOtherAiService,
-   getRecommendedAiService as getRecommendedAiService,
+   getOtherAiTools,
+   getRecommendedAiTool as getRecommendedAiTool,
 } from "./ai-services";
+import { AiTool } from "./type";
 
 type Props = {
    templateData: DPromptTemplateDataPromptGeneration;
@@ -73,17 +72,14 @@ export const PromptFromTemplate = ({
 
    const plainContent = TemplateEngine.stripMarkdown(resolvedContent);
 
-   const openInService = useCallback(
-      async (ai: AiService) => {
-         const { url, queryParam } = ai;
-         const targetUrl = `${url}?${queryParam}=${encodeURIComponent(plainContent)}`;
-         openExternalUrlInNewTab(targetUrl);
-      },
-      [plainContent]
-   );
+   const openInService = (ai: AiTool) => {
+      const { url, queryParam } = ai;
+      const targetUrl = `${url}?${queryParam}=${encodeURIComponent(plainContent)}`;
+      openExternalUrlInNewTab(targetUrl);
+   };
 
-   const recommended = getRecommendedAiService(recommendedModel);
-   const otherServices = getOtherAiService(recommended);
+   const recommended = getRecommendedAiTool(recommendedModel);
+   const otherServices = getOtherAiTools(recommended);
 
    const onSubmitInternal: SubmitHandler<DFieldsType> = (data) => {
       onSubmit(data as DPromptTemplateFieldValues);
