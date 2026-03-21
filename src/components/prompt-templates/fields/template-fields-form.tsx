@@ -19,7 +19,7 @@ type Props = {
    control: Control<FieldValues>;
 };
 
-export const TemplateFieldForm = ({ templateData, control }: Props) => {
+export const TemplateFieldsForm = ({ templateData, control }: Props) => {
    const { allFields: fields } = templateData;
 
    const renderField = (field: DPromptTemplateField) => {

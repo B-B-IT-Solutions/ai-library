@@ -22,7 +22,7 @@ import {
    DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
 import { buildFieldsSchema } from "../fields/fields.schema";
-import { TemplateFieldForm } from "../fields/template-fields-form";
+import { TemplateFieldsForm } from "../fields/template-fields-form";
 import { TemplatePreview } from "../fields/template-preview";
 
 import {
@@ -165,7 +165,7 @@ export const PromptFromTemplate: FC<Props> = ({
                   values={currentValues}
                   resolvedContent={resolvedContent}
                />
-               <TemplateFieldForm
+               <TemplateFieldsForm
                   templateData={templateData}
                   control={form.control}
                />
