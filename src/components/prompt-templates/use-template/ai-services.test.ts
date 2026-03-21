@@ -48,8 +48,17 @@ describe("aiTools tests", () => {
       );
       expect(result2).toEqual(expectedResult2);
 
-      const result3 = getRecommendedAiTool("dummy");
-      expect(result3).toBeUndefined();
+      const result3 = getRecommendedAiTool("Google Gemini");
+      const expectedResult3 = find(expectedAiTools, (t) =>
+         "gemini".includes(t.id)
+      );
+      expect(result3).toEqual(expectedResult3);
+
+      const result4 = getRecommendedAiTool("dummy");
+      expect(result4).toBeUndefined();
+
+      const result5 = getRecommendedAiTool();
+      expect(result5).toBeUndefined();
    });
 
    it("getOtherAiTools - test", async () => {
