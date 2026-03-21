@@ -97,7 +97,7 @@ export const PromptFromTemplate = ({
             data-testid="copy-prompt-btn"
          />
          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger asChild={true}>
                <Button
                   type="button"
                   variant="outline"
