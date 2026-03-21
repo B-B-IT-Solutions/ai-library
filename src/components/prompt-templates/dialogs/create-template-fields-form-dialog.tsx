@@ -43,7 +43,7 @@ export const CreateTemplateFieldsFormDialog = ({
             <DialogClose asChild={true}>
                <button
                   data-testid="close-btn"
-                  className="absolute top-4 right-4 rounded-sm opacity-70 hover:opacity-100"
+                  className="absolute top-4 right-4 cursor-pointer rounded-sm bg-background px-2 py-2 hover:bg-accent"
                >
                   <X className="h-4 w-4" />
                </button>
