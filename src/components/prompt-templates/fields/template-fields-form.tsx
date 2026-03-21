@@ -81,7 +81,6 @@ type Props = {
 export const TemplateFieldForm: FC<Props> = ({
    templateData,
    onSubmit,
-   onCancel,
    recommendedModel,
 }) => {
    const { template, allFields: fields } = templateData;

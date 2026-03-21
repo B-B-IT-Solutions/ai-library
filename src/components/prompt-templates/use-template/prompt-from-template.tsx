@@ -241,19 +241,20 @@ export const PromptFromTemplate: FC<Props> = ({
    );
 
    return (
-      <div data-testid="prompt-from-tempalte">
-         <div className="grid grid-cols-1 gap-6 lg:min-h-[40vh] lg:grid-cols-2">
-            {preview()}
-            <Form {...form}>
-               <form onSubmit={form.handleSubmit(onSubmitInternal)}>
-                  <TemplateFieldForm
-                     templateData={templateData}
-                     control={form.control}
-                  />
-               </form>
-            </Form>
-         </div>
-         {footer()}
-      </div>
+      <Form {...form}>
+         <form
+            onSubmit={form.handleSubmit(onSubmitInternal)}
+            data-testid="prompt-from-tempalte"
+         >
+            <div className="grid grid-cols-1 gap-6 lg:min-h-[40vh] lg:grid-cols-2">
+               {preview()}
+               <TemplateFieldForm
+                  templateData={templateData}
+                  control={form.control}
+               />
+            </div>
+            {footer()}
+         </form>
+      </Form>
    );
 };

@@ -9,12 +9,10 @@ import { CreatePromptFromTemplateDialog } from "./create-prompt-from-template-di
 
 const assertDialogRendered = () => {
    const dialog = screen.getByTestId("create-prompt-dialog");
-   assertInDocument(dialog);
-};
+   const promptFromTemplate = screen.getByTestId("prompt-from-tempalte");
 
-const assertFieldsFormRendered = () => {
-   const form = screen.getByTestId("template-fields-form");
-   assertInDocument(form);
+   assertInDocument(dialog);
+   assertInDocument(promptFromTemplate);
 };
 
 describe("CreatePromptFromTemplateDialog rendering tests", () => {
@@ -39,7 +37,6 @@ describe("CreatePromptFromTemplateDialog rendering tests", () => {
 
       await waitFor(() => {
          assertDialogRendered();
-         assertFieldsFormRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -71,7 +68,6 @@ describe("CreatePromptFromTemplateDialog functionality tests", () => {
 
       await waitFor(() => {
          assertDialogRendered();
-         assertFieldsFormRendered();
       });
 
       const submitBtn = screen.getByTestId("submit-btn");
@@ -105,7 +101,6 @@ describe("CreatePromptFromTemplateDialog functionality tests", () => {
 
       await waitFor(() => {
          assertDialogRendered();
-         assertFieldsFormRendered();
       });
 
       const closeBtn = screen.getByTestId("close-btn");
