@@ -21,6 +21,7 @@ import {
    DPromptTemplateDataPromptGeneration,
    DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
+import { openExternalUrlInNewTab } from "@/lib/utils";
 import { buildFieldsSchema } from "../fields/fields.schema";
 import { TemplateFieldsForm } from "../fields/template-fields-form";
 import { TemplatePreview } from "../fields/template-preview";
@@ -76,7 +77,7 @@ export const PromptFromTemplate = ({
       async (ai: AiService) => {
          const { url, queryParam } = ai;
          const targetUrl = `${url}?${queryParam}=${encodeURIComponent(plainContent)}`;
-         window.open(targetUrl, "_blank", "noopener,noreferrer");
+         openExternalUrlInNewTab(targetUrl);
       },
       [plainContent]
    );

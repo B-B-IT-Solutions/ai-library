@@ -4,6 +4,7 @@ import {
    cn,
    formatDateTime,
    navigateToExternalUrl,
+   openExternalUrlInNewTab,
    resolveIpAddresse,
    stringify,
    toTestId,
@@ -57,7 +58,7 @@ describe("utils tests", () => {
       const errorFn = jest.fn();
       console.error = errorFn;
 
-      const url = "https://test-url.com";
+      const url = "https://test-1-url.com";
       navigateToExternalUrl(url);
 
       const expectedCause = "Not implemented: navigation (except hash changes)";
@@ -66,6 +67,20 @@ describe("utils tests", () => {
       expect(error.message).toEqual(expectedCause);
 
       console.error = originalErrorLog;
+   });
+
+   test("openExternalUrlInNewTab test", () => {
+      const originalWindoOpen = window.open;
+      const openFn = jest.fn();
+      window.open = openFn;
+
+      const url = "https://test-123.url.com";
+      openExternalUrlInNewTab(url);
+
+      expect(openFn).toHaveBeenCalledTimes(1);
+      expect(openFn).toHaveBeenCalledWith(url, "_blank", "noopener,noreferrer");
+
+      window.open = originalWindoOpen;
    });
 
    it("formatDateTime test", async () => {
