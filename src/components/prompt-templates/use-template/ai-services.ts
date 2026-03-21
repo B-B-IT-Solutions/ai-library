@@ -2,7 +2,7 @@ import { find } from "es-toolkit/compat";
 
 import { AiTool } from "./type";
 
-const aiTools: AiTool[] = [
+export const aiTools: AiTool[] = [
    {
       id: "gpt",
       name: "ChatGPT",
