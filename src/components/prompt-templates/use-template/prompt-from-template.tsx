@@ -94,7 +94,7 @@ export const PromptFromTemplate: FC<Props> = ({
    };
 
    const footer = () => (
-      <div className="sticky bottom-0 -mx-6 mt-6 flex items-center justify-end gap-2 border-t bg-background px-6 py-4">
+      <div className="sticky bottom-0 flex items-center justify-end gap-2 bg-background py-4">
          <CopyButton
             content={resolvedContent}
             size="sm"
@@ -158,6 +158,7 @@ export const PromptFromTemplate: FC<Props> = ({
       <Form {...form}>
          <form
             onSubmit={form.handleSubmit(onSubmitInternal)}
+            className="px-6"
             data-testid="prompt-from-tempalte"
          >
             <div className="grid grid-cols-1 gap-6 lg:min-h-[40vh] lg:grid-cols-2">

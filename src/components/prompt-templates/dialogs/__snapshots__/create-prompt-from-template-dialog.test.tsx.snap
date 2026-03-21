@@ -63,9 +63,10 @@ exports[`CreatePromptFromTemplateDialog rendering tests CreatePromptFromTemplate
           </p>
         </div>
         <div
-          class="flex-1 overflow-y-auto px-6"
+          class="flex-1 overflow-y-auto"
         >
           <form
+            class="px-6"
             data-testid="prompt-from-tempalte"
           >
             <div
@@ -163,7 +164,7 @@ exports[`CreatePromptFromTemplateDialog rendering tests CreatePromptFromTemplate
                   </div>
                   <div
                     class="leading-relaxed text-slate-700"
-                    data-testid="template-preview"
+                    data-testid="preview"
                   >
                     <div
                       class="text-slate-700 leading-relaxed"
@@ -481,17 +482,19 @@ exports[`CreatePromptFromTemplateDialog rendering tests CreatePromptFromTemplate
               </div>
             </div>
             <div
-              class="sticky bottom-0 -mx-6 mt-6 flex items-center justify-end gap-2 border-t bg-background px-6 py-4"
+              class="sticky bottom-0 flex items-center justify-end gap-2 bg-background py-4"
             >
               <button
-                class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer gap-1.5"
-                data-slot="button"
+                class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
+                data-slot="tooltip-trigger"
+                data-state="closed"
                 data-testid="copy-btn"
                 type="button"
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-copy h-4 w-4"
+                  class="lucide lucide-copy size-4"
+                  data-testid="copy-icon"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -514,14 +517,66 @@ exports[`CreatePromptFromTemplateDialog rendering tests CreatePromptFromTemplate
                     d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
                   />
                 </svg>
-                Kopieren
+                <span>
+                  Kopieren
+                </span>
               </button>
+              <div
+                data-testid="mock-react-presence"
+              >
+                <div
+                  data-testid="mock-react-portal"
+                >
+                  <div
+                    data-testid="mock-react-presence"
+                  >
+                    <div
+                      data-radix-popper-content-wrapper=""
+                      style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px); min-width: max-content; --radix-popper-available-width: -16px; --radix-popper-available-height: 0px; --radix-popper-anchor-width: 0px; --radix-popper-anchor-height: 0px; --radix-popper-transform-origin: 0px 0px;"
+                    >
+                      <div
+                        class="bg-foreground text-background animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md px-3 py-1.5 text-xs text-balance"
+                        data-align="center"
+                        data-side="top"
+                        data-slot="tooltip-content"
+                        data-state="closed"
+                        style="--radix-tooltip-content-transform-origin: var(--radix-popper-transform-origin); --radix-tooltip-content-available-width: var(--radix-popper-available-width); --radix-tooltip-content-available-height: var(--radix-popper-available-height); --radix-tooltip-trigger-width: var(--radix-popper-anchor-width); --radix-tooltip-trigger-height: var(--radix-popper-anchor-height);"
+                      >
+                        In Zwischenablage kopieren
+                        <span
+                          style="position: absolute; bottom: 0px; transform: translateY(100%); left: 0px;"
+                        >
+                          <svg
+                            class="bg-foreground fill-foreground z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]"
+                            height="5"
+                            preserveAspectRatio="none"
+                            style="display: block;"
+                            viewBox="0 0 30 10"
+                            width="10"
+                          >
+                            <polygon
+                              points="0,0 30,0 15,10"
+                            />
+                          </svg>
+                        </span>
+                        <span
+                          id="radix-_r_7_"
+                          role="tooltip"
+                          style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
+                        >
+                          In Zwischenablage kopieren
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div
                 data-slot="dropdown-menu"
                 data-testid="mock-react-dropdown-menu-root"
               >
                 <button
-                  class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer gap-1.5"
+                  class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md px-3 has-[>svg]:px-2.5 cursor-pointer gap-1.5"
                   data-slot="button"
                   data-testid="open-in-ai-btn"
                   type="button"
@@ -573,7 +628,7 @@ exports[`CreatePromptFromTemplateDialog rendering tests CreatePromptFromTemplate
                 />
               </div>
               <button
-                class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+                class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
                 data-slot="button"
                 data-testid="submit-btn"
                 type="submit"
