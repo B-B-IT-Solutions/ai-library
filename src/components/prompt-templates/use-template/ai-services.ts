@@ -4,35 +4,35 @@ import { AiTool } from "./type";
 
 const aiTools: AiTool[] = [
    {
+      id: "gpt",
       name: "ChatGPT",
       url: "https://chatgpt.com/",
       queryParam: "q",
-      keywords: ["chatgpt", "gpt", "openai"],
    },
    {
+      id: "claude",
       name: "Claude",
       url: "https://claude.ai/new",
       queryParam: "q",
-      keywords: ["claude", "anthropic"],
    },
    {
+      id: "gemini",
       name: "Gemini",
       url: "https://google.com/search",
       queryParam: "udm=50&q",
-      keywords: ["gemini", "google"],
    },
    {
+      id: "perplexity",
       name: "Perplexity",
       url: "https://www.perplexity.ai/",
       queryParam: "q",
-      keywords: ["perplexity"],
    },
 ];
 
 export const getRecommendedAiTool = (model?: string) => {
    if (model) {
       const lower = model.toLowerCase();
-      return find(aiTools, (s) => s.keywords.some((kw) => lower.includes(kw)));
+      return find(aiTools, (t) => lower.includes(t.id));
    }
    return undefined;
 };

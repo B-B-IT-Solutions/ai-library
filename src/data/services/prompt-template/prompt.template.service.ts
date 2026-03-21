@@ -117,8 +117,10 @@ export class PromptTemplateService {
       descriptorId: string,
       fieldValues: DPromptTemplateFieldValues
    ): Promise<DPromptUpdate> {
-      const descriptor =
-         await this.getPromptTemplateDescriptorWithTemplate(userId, descriptorId);
+      const descriptor = await this.getPromptTemplateDescriptorWithTemplate(
+         userId,
+         descriptorId
+      );
 
       if (!descriptor) {
          throw new Error(

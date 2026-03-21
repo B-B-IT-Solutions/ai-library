@@ -5,8 +5,6 @@ import {
    updatePromptTemplateSchema,
 } from "@/data/types/validators/prompt";
 
-import { DGlobalTemplateField } from "./settings";
-
 export type DPromptTemplateFieldUpdate = z.infer<
    typeof promptTemplateFieldSchema
 >;

@@ -112,7 +112,7 @@ export const PromptFromTemplate = ({
                   <DropdownMenuItem
                      onClick={() => openInService(recommended)}
                      className="cursor-pointer gap-2 font-medium"
-                     data-testid={`open-in-${recommended.name.toLowerCase()}-btn`}
+                     data-testid={`open-in-${recommended.id}-btn`}
                   >
                      <ExternalLink className="h-3.5 w-3.5" />
                      {recommended.name}
@@ -123,7 +123,7 @@ export const PromptFromTemplate = ({
                      key={aiService.name}
                      onClick={() => openInService(aiService)}
                      className="cursor-pointer gap-2 text-muted-foreground"
-                     data-testid={`open-in-${aiService.name.toLowerCase()}-btn`}
+                     data-testid={`open-in-${aiService.id}-btn`}
                   >
                      <ExternalLink className="h-3.5 w-3.5" />
                      {aiService.name}

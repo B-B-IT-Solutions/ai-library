@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = `
+exports[`PromptFromTemplate rendering tests PromptFromTemplate renders test 1`] = `
 <div>
   <form
     class="px-6"
@@ -17,7 +17,6 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
           class="group relative max-h-[65vh] flex-1 overflow-y-auto rounded-md border bg-muted/30 p-4"
         >
           <button
-            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-8 cursor-pointer absolute top-2 right-2 opacity-0 transition-opacity group-hover:opacity-100"
             data-slot="tooltip-trigger"
             data-state="closed"
             data-testid="copy-preview-btn"
@@ -25,7 +24,7 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-copy h-3.5 w-3.5"
+              class="lucide lucide-copy"
               data-testid="copy-icon"
               fill="none"
               height="24"
@@ -64,7 +63,7 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
                   style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px); min-width: max-content; --radix-popper-available-width: -16px; --radix-popper-available-height: 0px; --radix-popper-anchor-width: 0px; --radix-popper-anchor-height: 0px; --radix-popper-transform-origin: 0px 0px;"
                 >
                   <div
-                    class="bg-foreground text-background animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md px-3 py-1.5 text-xs text-balance"
+                    class=""
                     data-align="center"
                     data-side="top"
                     data-slot="tooltip-content"
@@ -140,12 +139,10 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
       >
         <div>
           <div
-            class="grid gap-2"
             data-slot="form-item"
             data-testid="name"
           >
             <label
-              class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
               data-error="false"
               data-slot="form-label"
               for="_r_1_-form-item"
@@ -155,7 +152,6 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
             <input
               aria-describedby="_r_1_-form-item-description"
               aria-invalid="false"
-              class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
               data-slot="form-control"
               data-testid="input"
               id="_r_1_-form-item"
@@ -167,12 +163,10 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
         </div>
         <div>
           <div
-            class="grid gap-2"
             data-slot="form-item"
             data-testid="email"
           >
             <label
-              class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
               data-error="false"
               data-slot="form-label"
               for="_r_2_-form-item"
@@ -182,7 +176,6 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
             <input
               aria-describedby="_r_2_-form-item-description"
               aria-invalid="false"
-              class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
               data-slot="form-control"
               data-testid="input"
               id="_r_2_-form-item"
@@ -194,12 +187,10 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
         </div>
         <div>
           <div
-            class="grid gap-2"
             data-slot="form-item"
             data-testid="age"
           >
             <label
-              class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
               data-error="false"
               data-slot="form-label"
               for="_r_3_-form-item"
@@ -209,7 +200,6 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
             <input
               aria-describedby="_r_3_-form-item-description"
               aria-invalid="false"
-              class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
               data-slot="form-control"
               data-testid="input"
               id="_r_3_-form-item"
@@ -221,12 +211,10 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
         </div>
         <div>
           <div
-            class="grid gap-2"
             data-slot="form-item"
             data-testid="birthdate"
           >
             <label
-              class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
               data-error="false"
               data-slot="form-label"
               for="_r_4_-form-item"
@@ -236,7 +224,6 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
             <input
               aria-describedby="_r_4_-form-item-description"
               aria-invalid="false"
-              class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
               data-slot="form-control"
               data-testid="input"
               id="_r_4_-form-item"
@@ -248,12 +235,10 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
         </div>
         <div>
           <div
-            class="grid gap-2"
             data-slot="form-item"
             data-testid="bio"
           >
             <label
-              class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
               data-error="false"
               data-slot="form-label"
               for="_r_5_-form-item"
@@ -263,7 +248,6 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
             <textarea
               aria-describedby="_r_5_-form-item-description"
               aria-invalid="false"
-              class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
               data-slot="form-control"
               data-testid="textarea"
               id="_r_5_-form-item"
@@ -274,7 +258,6 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
         </div>
         <div>
           <div
-            class="grid gap-2"
             data-slot="form-item"
             data-testid="newsletter"
           >
@@ -285,7 +268,6 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
                 aria-checked="false"
                 aria-describedby="_r_6_-form-item-description"
                 aria-invalid="false"
-                class="peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
                 data-slot="form-control"
                 data-state="unchecked"
                 id="_r_6_-form-item"
@@ -330,7 +312,6 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
                 value="on"
               />
               <label
-                class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive cursor-pointer"
                 data-error="false"
                 data-slot="form-label"
                 for="_r_6_-form-item"
@@ -342,12 +323,10 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
         </div>
         <div>
           <div
-            class="grid gap-2"
             data-slot="form-item"
             data-testid="gender"
           >
             <label
-              class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
               data-error="false"
               data-slot="form-label"
               for="_r_7_-form-item"
@@ -358,7 +337,7 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
               aria-describedby="_r_7_-form-item-description"
               aria-invalid="false"
               aria-required="false"
-              class="gap-3 mt-1 flex flex-col space-y-1"
+              class=""
               data-slot="form-control"
               dir="ltr"
               id="_r_7_-form-item"
@@ -371,7 +350,7 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
               >
                 <button
                   aria-checked="false"
-                  class="aspect-square size-4 shrink-0 rounded-full border border-input text-primary shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:bg-input/30 dark:aria-invalid:ring-destructive/40"
+                  class=""
                   data-radix-collection-item=""
                   data-slot="radio-group-item"
                   data-state="unchecked"
@@ -419,7 +398,6 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
                   value="Male"
                 />
                 <label
-                  class="flex items-center gap-2 text-sm leading-none select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 cursor-pointer font-normal peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   data-slot="label"
                   for="gender-Male"
                 >
@@ -431,7 +409,7 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
               >
                 <button
                   aria-checked="false"
-                  class="aspect-square size-4 shrink-0 rounded-full border border-input text-primary shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:bg-input/30 dark:aria-invalid:ring-destructive/40"
+                  class=""
                   data-radix-collection-item=""
                   data-slot="radio-group-item"
                   data-state="unchecked"
@@ -479,7 +457,6 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
                   value="Female"
                 />
                 <label
-                  class="flex items-center gap-2 text-sm leading-none select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 cursor-pointer font-normal peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   data-slot="label"
                   for="gender-Female"
                 >
@@ -491,12 +468,10 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
         </div>
         <div>
           <div
-            class="grid gap-2"
             data-slot="form-item"
             data-testid="country"
           >
             <label
-              class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
               data-error="false"
               data-slot="form-label"
               for="_r_a_-form-item"
@@ -509,7 +484,7 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
               aria-describedby="_r_a_-form-item-description"
               aria-expanded="false"
               aria-invalid="false"
-              class="border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 w-full"
+              class=""
               data-placeholder=""
               data-size="default"
               data-slot="form-control"
@@ -575,7 +550,6 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
       class="sticky bottom-0 flex items-center justify-end gap-2 bg-background py-4"
     >
       <button
-        class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
         data-slot="tooltip-trigger"
         data-state="closed"
         data-testid="copy-prompt-btn"
@@ -583,7 +557,7 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
       >
         <svg
           aria-hidden="true"
-          class="lucide lucide-copy size-4"
+          class="lucide lucide-copy"
           data-testid="copy-icon"
           fill="none"
           height="24"
@@ -625,7 +599,7 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
               style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px); min-width: max-content; --radix-popper-available-width: -16px; --radix-popper-available-height: 0px; --radix-popper-anchor-width: 0px; --radix-popper-anchor-height: 0px; --radix-popper-transform-origin: 0px 0px;"
             >
               <div
-                class="bg-foreground text-background animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md px-3 py-1.5 text-xs text-balance"
+                class=""
                 data-align="center"
                 data-side="top"
                 data-slot="tooltip-content"
@@ -666,7 +640,6 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
         data-testid="mock-react-dropdown-menu-root"
       >
         <button
-          class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md px-3 has-[>svg]:px-2.5 cursor-pointer gap-1.5"
           data-slot="button"
           data-testid="open-in-ai-btn"
           type="button"
@@ -718,7 +691,6 @@ exports[`TemplateFieldForm rendering tests TemplateFieldForm renders test 1`] = 
         />
       </div>
       <button
-        class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer"
         data-slot="button"
         data-testid="submit-btn"
         type="submit"

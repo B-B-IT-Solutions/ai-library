@@ -1,3 +1,5 @@
+jest.mock("@/lib/utils");
+
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -8,8 +10,14 @@ import {
    DPromptTemplateFieldType,
    DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
+import { openExternalUrlInNewTab } from "@/lib/utils";
 
 import { PromptFromTemplate } from "./prompt-from-template";
+
+const openExternalUrlInNewTabMock =
+   openExternalUrlInNewTab as jest.MockedFunction<
+      typeof openExternalUrlInNewTab
+   >;
 
 const createField = (
    type: DPromptTemplateFieldType,
@@ -47,8 +55,8 @@ const assertRendered = () => {
    assertInDocument(submitBtn);
 };
 
-describe("TemplateFieldForm rendering tests", () => {
-   it("TemplateFieldForm renders test", async () => {
+describe("PromptFromTemplate rendering tests", () => {
+   it("PromptFromTemplate renders test", async () => {
       const name = createField("TEXT", "name", "Name");
       const email = createField("EMAIL", "email", "Email Address");
       const age = createField("NUMBER", "age", "Age");
@@ -92,8 +100,8 @@ describe("TemplateFieldForm rendering tests", () => {
    });
 });
 
-describe("TemplateFieldForm functionality tests", () => {
-   it("TemplateFieldForm - submit btn clicked - test", async () => {
+describe("PromptFromTemplate functionality tests", () => {
+   it("PromptFromTemplate - submit btn clicked - test", async () => {
       const field = createField("TEXT", "name", "Name", true);
       const templateData = dtestData.dPromptTemplateDataPromptGeneration();
       templateData.allFields.push(field);
@@ -130,6 +138,44 @@ describe("TemplateFieldForm functionality tests", () => {
       await waitFor(() => {
          expect(onSubmit).toHaveBeenCalledTimes(1);
          expect(onSubmit).toHaveBeenCalledWith(expectedPayload);
+      });
+   });
+
+   it("PromptFromTemplate - open-in-ai btn clicked - test", async () => {
+      const field = createField("TEXT", "name", "Name", true);
+      const templateData = dtestData.dPromptTemplateDataPromptGeneration();
+      templateData.template.content = "Hello {{name}}";
+      templateData.allFields.push(field);
+
+      render(
+         <PromptFromTemplate
+            templateData={templateData}
+            onSubmit={jest.fn()}
+            recommendedModel="chatgpt"
+         />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         expect(openExternalUrlInNewTabMock).not.toHaveBeenCalled();
+      });
+
+      await typeIntoInput("name", "John Doe");
+
+      const openInAiBtn = screen.getByTestId("open-in-ai-btn");
+      await userEvent.click(openInAiBtn);
+
+      await waitFor(() => {
+         expect(openExternalUrlInNewTabMock).not.toHaveBeenCalled();
+      });
+
+      const openInGptBtn = screen.getByTestId("open-in-gpt-btn");
+      await userEvent.click(openInGptBtn);
+
+      const expectedUrl = "https://chatgpt.com/?q=Hello%20John%20Doe";
+      await waitFor(() => {
+         expect(openExternalUrlInNewTabMock).toHaveBeenCalledTimes(1);
+         expect(openExternalUrlInNewTabMock).toHaveBeenCalledWith(expectedUrl);
       });
    });
 });
