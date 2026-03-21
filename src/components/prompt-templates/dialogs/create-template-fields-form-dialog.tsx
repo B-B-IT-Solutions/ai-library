@@ -46,10 +46,9 @@ export const CreateTemplateFieldsFormDialog = ({
                   className="absolute top-4 right-4 rounded-sm opacity-70 hover:opacity-100"
                >
                   <X className="h-4 w-4" />
-                  <span className="sr-only">Close</span>
                </button>
             </DialogClose>
-            <DialogHeader className="flex-shrink-0 px-6 pt-6 pb-2">
+            <DialogHeader className="shrink-0 px-6 pt-6 pb-2">
                <DialogTitle>Vorlage Felder Ausfüllen</DialogTitle>
                <p className="text-sm font-semibold text-muted-foreground">
                   {descriptor.title}
