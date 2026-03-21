@@ -26,6 +26,7 @@ export const TemplatePreview = ({
                size="icon-sm"
                className="absolute top-2 right-2 opacity-0 transition-opacity group-hover:opacity-100"
                iconClassName="h-3.5 w-3.5"
+               data-testid="copy-preview-btn"
             />
             <div
                className="leading-relaxed text-slate-700"
