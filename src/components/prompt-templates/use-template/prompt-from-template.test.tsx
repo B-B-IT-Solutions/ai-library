@@ -101,6 +101,10 @@ describe("PromptFromTemplate rendering tests", () => {
 });
 
 describe("PromptFromTemplate functionality tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
    it("PromptFromTemplate - submit btn clicked - test", async () => {
       const field = createField("TEXT", "name", "Name", true);
       const templateData = dtestData.dPromptTemplateDataPromptGeneration();
@@ -141,7 +145,7 @@ describe("PromptFromTemplate functionality tests", () => {
       });
    });
 
-   it("PromptFromTemplate - open-in-ai btn clicked - test", async () => {
+   it("PromptFromTemplate - open-in-ai btn clicked - aiModel gpt - test", async () => {
       const field = createField("TEXT", "name", "Name", true);
       const templateData = dtestData.dPromptTemplateDataPromptGeneration();
       templateData.template.content = "Hello {{name}}";
@@ -173,6 +177,44 @@ describe("PromptFromTemplate functionality tests", () => {
       await userEvent.click(openInGptBtn);
 
       const expectedUrl = "https://chatgpt.com/?q=Hello%20John%20Doe";
+      await waitFor(() => {
+         expect(openExternalUrlInNewTabMock).toHaveBeenCalledTimes(1);
+         expect(openExternalUrlInNewTabMock).toHaveBeenCalledWith(expectedUrl);
+      });
+   });
+
+   it("PromptFromTemplate - open-in-ai btn clicked - aiModel claude - test", async () => {
+      const field = createField("TEXT", "name", "Name", true);
+      const templateData = dtestData.dPromptTemplateDataPromptGeneration();
+      templateData.template.content = "Hello {{name}}";
+      templateData.allFields.push(field);
+
+      render(
+         <PromptFromTemplate
+            templateData={templateData}
+            onSubmit={jest.fn()}
+            recommendedModel="gpt"
+         />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         expect(openExternalUrlInNewTabMock).not.toHaveBeenCalled();
+      });
+
+      await typeIntoInput("name", "John Doe");
+
+      const openInAiBtn = screen.getByTestId("open-in-ai-btn");
+      await userEvent.click(openInAiBtn);
+
+      await waitFor(() => {
+         expect(openExternalUrlInNewTabMock).not.toHaveBeenCalled();
+      });
+
+      const openInClaudeBtn = screen.getByTestId("open-in-claude-btn");
+      await userEvent.click(openInClaudeBtn);
+
+      const expectedUrl = "https://claude.ai/new?q=Hello%20John%20Doe";
       await waitFor(() => {
          expect(openExternalUrlInNewTabMock).toHaveBeenCalledTimes(1);
          expect(openExternalUrlInNewTabMock).toHaveBeenCalledWith(expectedUrl);
