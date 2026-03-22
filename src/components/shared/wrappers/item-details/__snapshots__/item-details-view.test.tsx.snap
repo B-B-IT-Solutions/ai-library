@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`ItemDetailsView rendering tests ItemDetailsView - renders full composition - test 1`] = `
+<div>
+  <div
+    class="flex h-screen flex-col bg-slate-50"
+    data-testid="item-details-view"
+  >
+    <div
+      class="border-b border-slate-200 bg-white px-6 py-5"
+      data-testid="item-details-view-header"
+    >
+      <div
+        data-testid="test-header"
+      />
+    </div>
+    <div
+      class="flex-1 overflow-y-auto"
+      data-testid="item-details-view-content"
+    >
+      <div
+        class="px-6 pt-3 pb-3.5"
+        data-testid="item-details-view-breadcrumbs"
+      >
+        <div
+          data-testid="test-breadcrumbs"
+        />
+      </div>
+      <div
+        class="mx-auto max-w-5xl"
+        data-testid="item-details-view-body"
+      >
+        <div
+          data-testid="test-body"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ItemDetailsView rendering tests ItemDetailsView - renders with testid and children - test 1`] = `
+<div>
+  <div
+    class="flex h-screen flex-col bg-slate-50"
+    data-testid="item-details-view"
+  >
+    <div
+      data-testid="test-child"
+    />
+  </div>
+</div>
+`;
+
+exports[`ItemDetailsView rendering tests ItemDetailsViewBody - renders with testid and children - test 1`] = `
+<div>
+  <div
+    class="mx-auto max-w-5xl"
+    data-testid="item-details-view-body"
+  >
+    <div
+      data-testid="test-child"
+    />
+  </div>
+</div>
+`;
+
+exports[`ItemDetailsView rendering tests ItemDetailsViewBreadcrumbs - renders with testid and children - test 1`] = `
+<div>
+  <div
+    class="px-6 pt-3 pb-3.5"
+    data-testid="item-details-view-breadcrumbs"
+  >
+    <div
+      data-testid="test-child"
+    />
+  </div>
+</div>
+`;
+
+exports[`ItemDetailsView rendering tests ItemDetailsViewContent - renders with testid and children - test 1`] = `
+<div>
+  <div
+    class="flex-1 overflow-y-auto"
+    data-testid="item-details-view-content"
+  >
+    <div
+      data-testid="test-child"
+    />
+  </div>
+</div>
+`;
+
+exports[`ItemDetailsView rendering tests ItemDetailsViewHeader - renders with testid and children - test 1`] = `
+<div>
+  <div
+    class="border-b border-slate-200 bg-white px-6 py-5"
+    data-testid="item-details-view-header"
+  >
+    <div
+      data-testid="test-child"
+    />
+  </div>
+</div>
+`;

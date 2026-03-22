@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-import { AuthenticatedLayoutWrapper } from "@/components/shared/layout";
+import { AuthenticatedLayoutWrapper } from "@/components/shared/wrappers/layout";
 
 export type MainLayoutProps = {
    children: ReactNode;

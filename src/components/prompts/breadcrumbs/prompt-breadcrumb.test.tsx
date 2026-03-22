@@ -4,10 +4,10 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument } from "@tests";
 import mockRouter from "next-router-mock";
 
-import { LibraryEntryBreadcrumb } from "./library-entry-breadcrumb";
+import { PromptBreadcrumb } from "./prompt-breadcrumb";
 
 const assertRendered = () => {
-   const breadcrumbs = screen.getByTestId("libary-entry-breadcrumb");
+   const breadcrumbs = screen.getByTestId("prompt-breadcrumb");
    const rootLink = screen.getByTestId("root-link");
 
    assertInDocument(breadcrumbs);
@@ -24,9 +24,9 @@ const assertItemLinkNotRendered = () => {
    assertNotInDocument(itemLink);
 };
 
-describe("LibraryEntryBreadcrumb rendering test", () => {
+describe("PromptBreadcrumb rendering test", () => {
    it("variant - new - test", async () => {
-      const { container } = render(<LibraryEntryBreadcrumb variant="new" />);
+      const { container } = render(<PromptBreadcrumb variant="new" />);
 
       await waitFor(() => {
          assertRendered();
@@ -38,7 +38,7 @@ describe("LibraryEntryBreadcrumb rendering test", () => {
 
    it("variant - view - test", async () => {
       const { container } = render(
-         <LibraryEntryBreadcrumb variant="view" label="Template 1" />
+         <PromptBreadcrumb variant="view" label="Template 1" />
       );
 
       await waitFor(() => {
@@ -51,10 +51,10 @@ describe("LibraryEntryBreadcrumb rendering test", () => {
 
    it("variant - edit - test", async () => {
       const { container } = render(
-         <LibraryEntryBreadcrumb
+         <PromptBreadcrumb
             variant="edit"
             label="Template 2"
-            entryId="entry-id-1"
+            promptId="entry-id-1"
          />
       );
 
@@ -67,13 +67,13 @@ describe("LibraryEntryBreadcrumb rendering test", () => {
    });
 });
 
-describe("LibraryEntryBreadcrumb funtionality tests", () => {
+describe("PromptBreadcrumb funtionality tests", () => {
    beforeEach(() => {
       mockRouter.push("/");
    });
 
    it("variant - new - root link clicked - test", async () => {
-      render(<LibraryEntryBreadcrumb variant="new" />);
+      render(<PromptBreadcrumb variant="new" />);
 
       await waitFor(() => {
          assertRendered();
@@ -83,12 +83,12 @@ describe("LibraryEntryBreadcrumb funtionality tests", () => {
       await userEvent.click(rootLink);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual("/library");
+         expect(mockRouter.pathname).toEqual("/prompts");
       });
    });
 
    it("variant - view - root link clicked - test", async () => {
-      render(<LibraryEntryBreadcrumb variant="view" label="Template 1" />);
+      render(<PromptBreadcrumb variant="view" label="Prompt 1" />);
 
       await waitFor(() => {
          assertRendered();
@@ -98,16 +98,16 @@ describe("LibraryEntryBreadcrumb funtionality tests", () => {
       await userEvent.click(rootLink);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual("/library");
+         expect(mockRouter.pathname).toEqual("/prompts");
       });
    });
 
    it("variant - edit - item link clicked - test", async () => {
       render(
-         <LibraryEntryBreadcrumb
+         <PromptBreadcrumb
             variant="edit"
-            label="Template 123"
-            entryId="entry-id-123"
+            label="Prompt 123"
+            promptId="prompt-id-123"
          />
       );
 
@@ -119,7 +119,7 @@ describe("LibraryEntryBreadcrumb funtionality tests", () => {
       await userEvent.click(itemLink);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual("/library/entry-id-123");
+         expect(mockRouter.pathname).toEqual("/prompts/prompt-id-123");
       });
    });
 });

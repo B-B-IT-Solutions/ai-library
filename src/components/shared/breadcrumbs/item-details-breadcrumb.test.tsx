@@ -4,13 +4,13 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument } from "@tests";
 import mockRouter from "next-router-mock";
 
-import { LibraryEntryBreadcrumb } from "./library-entry-breadcrumb";
+import { ItemDetailsBreadcrumb } from "./item-details-breadcrumb";
 
 const assertRendered = () => {
-   const breadcrumbs = screen.getByTestId("libary-entry-breadcrumb");
+   const breadcrumb = screen.getByTestId("item-details-breadcrumb");
    const rootLink = screen.getByTestId("root-link");
 
-   assertInDocument(breadcrumbs);
+   assertInDocument(breadcrumb);
    assertInDocument(rootLink);
 };
 
@@ -24,9 +24,20 @@ const assertItemLinkNotRendered = () => {
    assertNotInDocument(itemLink);
 };
 
-describe("LibraryEntryBreadcrumb rendering test", () => {
+describe("ItemDetailsBreadcrumb rendering test", () => {
    it("variant - new - test", async () => {
-      const { container } = render(<LibraryEntryBreadcrumb variant="new" />);
+      const { container } = render(
+         <ItemDetailsBreadcrumb
+            root={{
+               label: "Vorlagen",
+               href: "/library",
+            }}
+            page={{
+               label: "Neue Vorlage",
+            }}
+            variant="new"
+         />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -38,7 +49,17 @@ describe("LibraryEntryBreadcrumb rendering test", () => {
 
    it("variant - view - test", async () => {
       const { container } = render(
-         <LibraryEntryBreadcrumb variant="view" label="Template 1" />
+         <ItemDetailsBreadcrumb
+            root={{
+               label: "Vorlagen",
+               href: "/library",
+            }}
+            variant="view"
+            page={{
+               label: "Template 1",
+               tooltip: "Tooltip 1",
+            }}
+         />
       );
 
       await waitFor(() => {
@@ -51,10 +72,17 @@ describe("LibraryEntryBreadcrumb rendering test", () => {
 
    it("variant - edit - test", async () => {
       const { container } = render(
-         <LibraryEntryBreadcrumb
+         <ItemDetailsBreadcrumb
+            root={{
+               label: "Vorlagen",
+               href: "/library",
+            }}
             variant="edit"
-            label="Template 2"
-            entryId="entry-id-1"
+            link={{
+               href: "/library/entry-id-1",
+               label: "Template 2",
+               tooltip: "Tooltip 2",
+            }}
          />
       );
 
@@ -67,13 +95,24 @@ describe("LibraryEntryBreadcrumb rendering test", () => {
    });
 });
 
-describe("LibraryEntryBreadcrumb funtionality tests", () => {
+describe("ItemDetailsBreadcrumb funtionality tests", () => {
    beforeEach(() => {
       mockRouter.push("/");
    });
 
    it("variant - new - root link clicked - test", async () => {
-      render(<LibraryEntryBreadcrumb variant="new" />);
+      render(
+         <ItemDetailsBreadcrumb
+            root={{
+               label: "Vorlagen",
+               href: "/library",
+            }}
+            variant="new"
+            page={{
+               label: "Neue Vorlage",
+            }}
+         />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -88,7 +127,19 @@ describe("LibraryEntryBreadcrumb funtionality tests", () => {
    });
 
    it("variant - view - root link clicked - test", async () => {
-      render(<LibraryEntryBreadcrumb variant="view" label="Template 1" />);
+      render(
+         <ItemDetailsBreadcrumb
+            root={{
+               label: "Vorlagen",
+               href: "/library",
+            }}
+            variant="view"
+            page={{
+               label: "Template 1",
+               tooltip: "Tooltip 1",
+            }}
+         />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -104,10 +155,17 @@ describe("LibraryEntryBreadcrumb funtionality tests", () => {
 
    it("variant - edit - item link clicked - test", async () => {
       render(
-         <LibraryEntryBreadcrumb
+         <ItemDetailsBreadcrumb
+            root={{
+               label: "Vorlagen",
+               href: "/library",
+            }}
             variant="edit"
-            label="Template 123"
-            entryId="entry-id-123"
+            link={{
+               href: "/library/entry-id-123",
+               label: "Template 2",
+               tooltip: "Tooltip 2",
+            }}
          />
       );
 

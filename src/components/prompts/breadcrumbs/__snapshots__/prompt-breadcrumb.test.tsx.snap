@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`LibraryEntryBreadcrumb rendering test variant - edit - test 1`] = `
+exports[`PromptBreadcrumb rendering test variant - edit - test 1`] = `
 <div>
   <nav
     aria-label="breadcrumb"
     data-slot="breadcrumb"
-    data-testid="libary-entry-breadcrumb"
+    data-testid="prompt-breadcrumb"
   >
     <ol
       class="flex flex-wrap items-center gap-1.5 text-sm break-words text-muted-foreground sm:gap-2.5"
@@ -19,9 +19,9 @@ exports[`LibraryEntryBreadcrumb rendering test variant - edit - test 1`] = `
           class="transition-colors hover:text-foreground"
           data-slot="breadcrumb-link"
           data-testid="root-link"
-          href="/library"
+          href="/prompts"
         >
-          Vorlagen
+          Prompts
         </a>
       </li>
       <li
@@ -56,7 +56,7 @@ exports[`LibraryEntryBreadcrumb rendering test variant - edit - test 1`] = `
           class="transition-colors hover:text-foreground max-w-40 truncate"
           data-slot="breadcrumb-link"
           data-testid="item-link"
-          href="/library/entry-id-1"
+          href="/prompts/entry-id-1"
           title="Template 2"
         >
           Template 2
@@ -67,12 +67,12 @@ exports[`LibraryEntryBreadcrumb rendering test variant - edit - test 1`] = `
 </div>
 `;
 
-exports[`LibraryEntryBreadcrumb rendering test variant - new - test 1`] = `
+exports[`PromptBreadcrumb rendering test variant - new - test 1`] = `
 <div>
   <nav
     aria-label="breadcrumb"
     data-slot="breadcrumb"
-    data-testid="libary-entry-breadcrumb"
+    data-testid="prompt-breadcrumb"
   >
     <ol
       class="flex flex-wrap items-center gap-1.5 text-sm break-words text-muted-foreground sm:gap-2.5"
@@ -86,9 +86,9 @@ exports[`LibraryEntryBreadcrumb rendering test variant - new - test 1`] = `
           class="transition-colors hover:text-foreground"
           data-slot="breadcrumb-link"
           data-testid="root-link"
-          href="/library"
+          href="/prompts"
         >
-          Vorlagen
+          Prompts
         </a>
       </li>
       <li
@@ -126,7 +126,7 @@ exports[`LibraryEntryBreadcrumb rendering test variant - new - test 1`] = `
           data-slot="breadcrumb-page"
           role="link"
         >
-          Neue Vorlage
+          Neuer Prompt
         </span>
       </li>
     </ol>
@@ -134,12 +134,12 @@ exports[`LibraryEntryBreadcrumb rendering test variant - new - test 1`] = `
 </div>
 `;
 
-exports[`LibraryEntryBreadcrumb rendering test variant - view - test 1`] = `
+exports[`PromptBreadcrumb rendering test variant - view - test 1`] = `
 <div>
   <nav
     aria-label="breadcrumb"
     data-slot="breadcrumb"
-    data-testid="libary-entry-breadcrumb"
+    data-testid="prompt-breadcrumb"
   >
     <ol
       class="flex flex-wrap items-center gap-1.5 text-sm break-words text-muted-foreground sm:gap-2.5"
@@ -153,9 +153,9 @@ exports[`LibraryEntryBreadcrumb rendering test variant - view - test 1`] = `
           class="transition-colors hover:text-foreground"
           data-slot="breadcrumb-link"
           data-testid="root-link"
-          href="/library"
+          href="/prompts"
         >
-          Vorlagen
+          Prompts
         </a>
       </li>
       <li
