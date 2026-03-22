@@ -76,7 +76,7 @@ export const main = async () => {
 
    console.log("\nCreating prompts...");
    const createdPrompts = [];
-   for (const pt of promptsData) {
+   for (const pt of promptsData(seedUser.id)) {
       const promptDescriptor = await prisma.promptDescriptor.create({
          data: pt,
       });
