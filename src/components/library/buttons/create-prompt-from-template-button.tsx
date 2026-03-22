@@ -25,7 +25,10 @@ type Props = {
 
 type Mode = "fields-form" | "review";
 
-export const CreatePromptButton: FC<Props> = ({ descriptor, className }) => {
+export const CreatePromptFromTemplateButton: FC<Props> = ({
+   descriptor,
+   className,
+}) => {
    const [isPending, startTransition] = useTransition();
    const [mode, setMode] = useState<Mode | null>(null);
    const [templateData, setTemplateData] =
@@ -118,7 +121,7 @@ export const CreatePromptButton: FC<Props> = ({ descriptor, className }) => {
                "cursor-pointer bg-blue-600 text-white hover:bg-blue-700",
                className
             )}
-            data-testid="create-prompt-btn"
+            data-testid="create-prompt-from-template-btn"
          >
             {label()}
          </Button>
