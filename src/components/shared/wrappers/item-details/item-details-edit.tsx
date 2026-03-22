@@ -1,16 +1,15 @@
-import { ReactNode } from "react";
+import { PropsWithChildren, ReactNode } from "react";
 
-type Props = {
+type Props = PropsWithChildren<{
    header: ReactNode;
    breadcrumbs: ReactNode;
-   children: ReactNode;
-};
+}>;
 
 export const ItemDetailsEdit = ({ header, breadcrumbs, children }: Props) => {
    return (
       <div
          className="flex h-screen flex-col bg-slate-50"
-         data-testid="item-detail-edit"
+         data-testid="item-details-edit"
       >
          <div className="border-b border-slate-200 bg-white px-6 py-4">
             {header}

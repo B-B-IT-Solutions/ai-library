@@ -10,7 +10,7 @@ export const ItemDetailsView = ({ header, breadcrumbs, children }: Props) => {
    return (
       <div
          className="flex h-screen flex-col bg-slate-50"
-         data-testid="library-entry-view"
+         data-testid="item-details-view"
       >
          <div className="border-b border-slate-200 bg-white px-6 py-5">
             {header}
