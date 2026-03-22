@@ -3,7 +3,7 @@
 exports[`LibraryEntryViewForm rendering tests categories empty - rendered test 1`] = `
 <div>
   <div
-    class="text-card-foreground flex flex-col gap-6 py-6 shadow-sm rounded-lg border border-slate-300 bg-white"
+    class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
     data-slot="card"
     data-testid="library-entry-view-form"
   >
@@ -250,7 +250,7 @@ exports[`LibraryEntryViewForm rendering tests categories empty - rendered test 1
 exports[`LibraryEntryViewForm rendering tests with categories - rendered test 1`] = `
 <div>
   <div
-    class="text-card-foreground flex flex-col gap-6 py-6 shadow-sm rounded-lg border border-slate-300 bg-white"
+    class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
     data-slot="card"
     data-testid="library-entry-view-form"
   >

@@ -43,10 +43,7 @@ export const LibraryEntryViewForm = ({ entry }: Props) => {
    };
 
    return (
-      <Card
-         className="rounded-lg border border-slate-300 bg-white"
-         data-testid="library-entry-view-form"
-      >
+      <Card data-testid="library-entry-view-form">
          <CardHeader className="border-b border-slate-200">
             <div className="flex items-start justify-between gap-4">
                <div className="flex-1">

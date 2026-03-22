@@ -80,7 +80,7 @@ exports[`LibraryEntryView rendering tests rendered test 1`] = `
         class="mx-auto max-w-5xl p-4"
       >
         <div
-          class="text-card-foreground flex flex-col gap-6 py-6 shadow-sm rounded-lg border border-slate-300 bg-white"
+          class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
           data-slot="card"
           data-testid="library-entry-view-form"
         >
