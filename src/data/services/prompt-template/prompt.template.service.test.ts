@@ -1,6 +1,6 @@
 jest.mock("@/data/repositories/prompt-template");
 jest.mock("@/data/services/settings");
-jest.mock("./template.engine");
+jest.mock("@/lib/template");
 
 import { dtestData, ptestData } from "@tests";
 import { map } from "es-toolkit/compat";

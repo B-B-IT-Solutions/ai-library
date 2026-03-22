@@ -88,7 +88,7 @@ describe("CreatePromptButton rendering tests", () => {
 
 describe("CreatePromptButton functionality - no fields - tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    it("CreatePromptButton - submit clicked - success - data null - test", async () => {
@@ -188,7 +188,7 @@ describe("CreatePromptButton functionality - no fields - tests", () => {
 
 describe("CreatePromptButton functionality - with fields - tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
    });
 
    it("CreatePromptButton - submit clicked - success - test", async () => {
