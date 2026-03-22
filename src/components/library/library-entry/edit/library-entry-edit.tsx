@@ -1,6 +1,6 @@
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
-import { ReturnToLibraryButton } from "../../buttons";
+import { ReturnToLibraryButton, ReturnToPromptButton } from "../../buttons";
 
 import { LibraryEntryEditForm } from "./library-entry-edit-form";
 
@@ -16,7 +16,11 @@ export const LibraryEntryEdit = ({ entry, globalFields }: Props) => {
          data-testid="library-entry-edit"
       >
          <div className="border-b border-slate-200 bg-white px-6 py-3">
-            <ReturnToLibraryButton />
+            {entry ? (
+               <ReturnToPromptButton entryId={entry.id} />
+            ) : (
+               <ReturnToLibraryButton />
+            )}
          </div>
          <div className="flex-1 overflow-y-auto">
             <div className="mx-auto max-w-5xl p-4">

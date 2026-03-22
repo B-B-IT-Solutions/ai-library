@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { Loader } from "lucide-react";
 import { Star } from "lucide-react";
 import { toast } from "sonner";
@@ -16,7 +16,7 @@ type Props = {
    entry: DLibraryEntry;
 };
 
-export const AddToFavoriteButton: FC<Props> = ({ entry }) => {
+export const AddToFavoriteButton = ({ entry }: Props) => {
    const [isFavorite, setFavorite] = useState<boolean>(entry.isFavorite);
    const [isPending, startTransition] = useTransition();
    const { mutate: toggleFavorite } = useToggleFavorite();
