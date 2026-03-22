@@ -4,7 +4,7 @@ import {
    ItemDetailsViewBreadcrumbs,
    ItemDetailsViewContent,
    ItemDetailsViewHeader,
-} from "@/components/shared/wrappers";
+} from "@/components/shared/wrappers/item-details";
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
 import { LibraryEntryBreadcrumb } from "../../breadcrumbs";
 

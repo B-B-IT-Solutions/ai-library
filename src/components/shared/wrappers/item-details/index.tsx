@@ -1,13 +1,10 @@
-export { PublicLayoutWrapper } from "./layout/layout-wrapper-pulbic";
-export { AuthenticatedLayoutWrapper } from "./layout/layout-wrapper-authenticated";
-
 export {
    ItemDetailsEdit,
    ItemDetailsEditHeader,
    ItemDetailsEditContent,
    ItemDetailsEditBreadcrumbs,
    ItemDetailsEditBody,
-} from "./item-details/item-details-edit";
+} from "./item-details-edit";
 
 export {
    ItemDetailsView,
@@ -15,4 +12,4 @@ export {
    ItemDetailsViewContent,
    ItemDetailsViewBreadcrumbs,
    ItemDetailsViewBody,
-} from "./item-details/item-details-view";
+} from "./item-details-view";

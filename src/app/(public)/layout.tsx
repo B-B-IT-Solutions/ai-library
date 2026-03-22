@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-import { PublicLayoutWrapper } from "@/components/shared/wrappers";
+import { PublicLayoutWrapper } from "@/components/shared/wrappers/layout";
 
 export type Props = {
    children: ReactNode;
