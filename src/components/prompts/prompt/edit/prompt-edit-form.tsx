@@ -7,12 +7,7 @@ import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
-import {
-   Card,
-   CardContent,
-   CardHeader,
-   CardTitle,
-} from "@/components/shadcn/card";
+import { Card, CardContent } from "@/components/shadcn/card";
 import {
    DropdownMenu,
    DropdownMenuContent,

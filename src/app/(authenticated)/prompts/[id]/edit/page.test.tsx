@@ -14,7 +14,7 @@ const getPromptMock = getPrompt as jest.MockedFunction<typeof getPrompt>;
 const notFoundMock = notFound as jest.MockedFunction<typeof notFound>;
 
 const expectedMetadata: Metadata = {
-   title: "Edit Prompt",
+   title: "Prompt Bearbeiten",
 };
 
 const assertRendered = () => {

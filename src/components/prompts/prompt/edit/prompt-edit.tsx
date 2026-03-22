@@ -1,24 +1,14 @@
 "use client";
 
-import { DPromptDescriptor, DPromptUpdate } from "@/data/types/domain/prompt";
+import { DPromptDescriptor } from "@/data/types/domain/prompt";
 
 import { PromptEditForm } from "./prompt-edit-form";
 
-type Props =
-   | {
-        prompt?: DPromptDescriptor;
-        mode: "create";
-     }
-   | {
-        prompt: DPromptDescriptor;
-        mode: "edit";
-     }
-   | {
-        prompt: DPromptUpdate;
-        mode: "review-template";
-     };
+type Props = {
+   prompt?: DPromptDescriptor;
+};
 
-export const PromptEdit = ({ prompt, mode }: Props) => {
+export const PromptEdit = ({ prompt }: Props) => {
    const header = () => {
       if (prompt) {
          return (
@@ -53,7 +43,10 @@ export const PromptEdit = ({ prompt, mode }: Props) => {
          </div>
          <div className="flex-1 overflow-y-auto bg-slate-50">
             <div className="mx-auto max-w-5xl p-4">
-               <PromptEditForm prompt={prompt} mode={mode} />
+               <PromptEditForm
+                  prompt={prompt}
+                  mode={prompt ? "edit" : "create"}
+               />
             </div>
          </div>
       </div>

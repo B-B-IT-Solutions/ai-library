@@ -4,7 +4,7 @@ import { PromptEdit } from "@/components/prompts";
 import { getPrompt } from "@/data/actions/prompt";
 
 export const metadata = {
-   title: "Edit Prompt",
+   title: "Prompt Bearbeiten",
 };
 
 type PageParams = { id: string };
@@ -24,7 +24,7 @@ const EditPromptPage = async (props: PageProps) => {
 
    return (
       <div className="h-screen bg-slate-50" data-testid="prompt-edit-page">
-         <PromptEdit prompt={prompt} mode="edit" />
+         <PromptEdit prompt={prompt} />
       </div>
    );
 };

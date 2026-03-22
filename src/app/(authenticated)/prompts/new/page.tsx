@@ -10,7 +10,7 @@ export const NewPromptPage = async () => {
          className="flex h-screen flex-col bg-slate-50"
          data-testid="prompt-new-page"
       >
-         <PromptEdit mode="create" />
+         <PromptEdit />
       </div>
    );
 };
