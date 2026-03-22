@@ -1,21 +1,15 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
-import { Button } from "@/components/shadcn/button";
-
 export const ReturnToLibraryButton = () => {
    return (
-      <Button
-         asChild={true}
-         variant="ghost"
-         size="sm"
-         className="cursor-pointer"
+      <Link
+         href="/library"
+         className="inline-flex items-center gap-1.5 text-sm text-slate-400 transition-colors hover:text-slate-700"
          data-testid="return-to-library-btn"
       >
-         <Link href="/library">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Zurück zur Bibliothek
-         </Link>
-      </Button>
+         <ArrowLeft className="h-4 w-4" />
+         Zurück zur Bibliothek
+      </Link>
    );
 };
