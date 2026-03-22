@@ -1,5 +1,7 @@
-import { ItemDetailsBreadcrumb } from "@/components/shared/breadcrumbs";
-import { BreadcrumbLinkProps } from "@/components/shared/breadcrumbs/item-details-breadcrumb";
+import {
+   BreadcrumbLinkProps,
+   ItemDetailsBreadcrumb,
+} from "@/components/shared/breadcrumbs";
 
 type Props =
    | { variant: "view"; title: string }
