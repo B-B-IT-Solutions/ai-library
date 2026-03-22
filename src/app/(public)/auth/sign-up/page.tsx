@@ -62,13 +62,13 @@ const SignUpPage = async (props: SignUpPageProps) => {
                         className="text-center text-3xl font-bold tracking-tight"
                         data-testid="card-title"
                      >
-                        Create Account
+                        Konto erstellen
                      </CardTitle>
                      <CardDescription
                         className="text-center text-base"
                         data-testid="card-description"
                      >
-                        Get started with your free account today
+                        Erstelle dein Konto und leg direkt los
                      </CardDescription>
                   </div>
                </CardHeader>
