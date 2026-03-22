@@ -59,7 +59,7 @@ export const main = async () => {
    }
 
    console.log("\nCreating prompt templates with fields...");
-   for (const pt of templatesWithFields) {
+   for (const pt of templatesWithFields(seedUser.id)) {
       const templateDescriptor = await prisma.promptTemplateDescriptor.create({
          data: pt,
          include: {
