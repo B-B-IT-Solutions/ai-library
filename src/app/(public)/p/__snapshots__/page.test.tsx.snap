@@ -27,7 +27,7 @@ exports[`PublicPage rendering tests PublicPage rendered test 1`] = `
             <p
               class="mx-auto max-w-3xl text-xl text-muted-foreground md:text-2xl"
             >
-              KI Bibliothek
+              Deine persönliche Bibliothek für KI-Prompts. Erstelle, organisiere und entdecke Prompts für alle gängigen KI-Tools – und hole endlich mehr aus deinen KI-Anwendungen heraus.
             </p>
           </div>
           <div

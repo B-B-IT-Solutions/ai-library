@@ -7,7 +7,7 @@ exports[`SignUpPage rendering tests SignUpPage - user already signed in - callba
 exports[`SignUpPage rendering tests SignUpPage - user not signed in - rendered test 1`] = `
 <div>
   <div
-    class="min-h-screen w-full flex items-center justify-center p-4 bg-gradient-to-br from-background via-background to-primary/5"
+    class="flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4"
     data-testid="sign-up-page"
   >
     <div
@@ -63,7 +63,7 @@ exports[`SignUpPage rendering tests SignUpPage - user not signed in - rendered t
           </div>
         </div>
         <div
-          class="pb-8 px-6"
+          class="px-6 pb-8"
           data-slot="card-content"
         >
           <div

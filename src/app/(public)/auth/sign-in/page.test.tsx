@@ -20,7 +20,7 @@ const authMock = auth as unknown as AuthMockedFunction;
 const redirectMock = redirect as jest.MockedFunction<typeof redirect>;
 
 const expectedMetadata: Metadata = {
-   title: "Sign In",
+   title: "Anmelden",
 };
 
 const assertRendered = () => {

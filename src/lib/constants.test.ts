@@ -13,7 +13,9 @@ describe("constants - static values - tests", () => {
    });
 
    it("constants - APP_DESCRIPTION resolves from env - test", () => {
-      expect(APP_DESCRIPTION).toEqual("Modernene KI-Bibliothek");
+      expect(APP_DESCRIPTION).toEqual(
+         "Deine persönliche Bibliothek für KI-Prompts. Erstelle, organisiere und entdecke Prompts für alle gängigen KI-Tools – und hole endlich mehr aus deinen KI-Anwendungen heraus."
+      );
    });
 
    it("constants - STRIPE_WEBHOOK_SECRET resolves from env - test", () => {

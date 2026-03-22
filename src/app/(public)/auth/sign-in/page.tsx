@@ -15,7 +15,7 @@ import { CredentialsSignInForm } from "@/components/shared/auth";
 import { APP_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
-   title: "Sign In",
+   title: "Anmelden",
 };
 
 export type SignInPageSearchParams = {
@@ -37,7 +37,7 @@ const SignInPage = async (props: SignInPageProps) => {
 
    return (
       <div
-         className="min-h-screen w-full flex items-center justify-center p-4 bg-gradient-to-br from-background via-background to-primary/5"
+         className="flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4"
          data-testid="sign-in-page"
       >
          <div className="w-full max-w-md">
@@ -72,22 +72,22 @@ const SignInPage = async (props: SignInPageProps) => {
                      </CardDescription>
                   </div>
                </CardHeader>
-               <CardContent className="pb-8 px-6">
+               <CardContent className="px-6 pb-8">
                   <CredentialsSignInForm />
                </CardContent>
             </Card>
-            <p className="text-center text-xs text-muted-foreground mt-6">
+            <p className="mt-6 text-center text-xs text-muted-foreground">
                By signing in, you agree to our{" "}
                <Link
                   href="/terms"
-                  className="underline underline-offset-2 hover:text-foreground transition-colors"
+                  className="underline underline-offset-2 transition-colors hover:text-foreground"
                >
                   Terms of Service
                </Link>{" "}
                and{" "}
                <Link
                   href="/privacy"
-                  className="underline underline-offset-2 hover:text-foreground transition-colors"
+                  className="underline underline-offset-2 transition-colors hover:text-foreground"
                >
                   Privacy Policy
                </Link>

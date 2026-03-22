@@ -7,7 +7,7 @@ exports[`SignInPage rendering tests SignInPage - user already signed in - callba
 exports[`SignInPage rendering tests SignInPage - user not signed in - rendered test 1`] = `
 <div>
   <div
-    class="min-h-screen w-full flex items-center justify-center p-4 bg-gradient-to-br from-background via-background to-primary/5"
+    class="flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4"
     data-testid="sign-in-page"
   >
     <div
@@ -63,7 +63,7 @@ exports[`SignInPage rendering tests SignInPage - user not signed in - rendered t
           </div>
         </div>
         <div
-          class="pb-8 px-6"
+          class="px-6 pb-8"
           data-slot="card-content"
         >
           <div
@@ -72,12 +72,12 @@ exports[`SignInPage rendering tests SignInPage - user not signed in - rendered t
         </div>
       </div>
       <p
-        class="text-center text-xs text-muted-foreground mt-6"
+        class="mt-6 text-center text-xs text-muted-foreground"
       >
         By signing in, you agree to our
          
         <a
-          class="underline underline-offset-2 hover:text-foreground transition-colors"
+          class="underline underline-offset-2 transition-colors hover:text-foreground"
           data-testid="mock-link"
           href="/terms"
         >
@@ -87,7 +87,7 @@ exports[`SignInPage rendering tests SignInPage - user not signed in - rendered t
         and
          
         <a
-          class="underline underline-offset-2 hover:text-foreground transition-colors"
+          class="underline underline-offset-2 transition-colors hover:text-foreground"
           data-testid="mock-link"
           href="/privacy"
         >
