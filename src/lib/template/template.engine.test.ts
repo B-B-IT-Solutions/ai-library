@@ -1,3 +1,7 @@
+jest.mock("strip-markdown", () => ({
+   ...jest.requireActual("strip-markdown"),
+}));
+
 import {
    DPromptTemplateField,
    DPromptTemplateFieldValues,
@@ -395,6 +399,24 @@ describe("TemplateEngine.validate - tests", () => {
       const result = TemplateEngine.validate(fields, values);
       expect(result.valid).toBe(true);
       expect(result.errors).toEqual({});
+   });
+});
+
+describe("TemplateEngine.stripMarkdown", () => {
+   it("returns plain text unchanged", () => {
+      expect(TemplateEngine.stripMarkdown("Hello World")).toBe("Hello World");
+   });
+
+   it("trims leading and trailing whitespace", () => {
+      expect(TemplateEngine.stripMarkdown("  #Hello  ")).toBe("Hello");
+   });
+
+   it("returns empty string for empty input", () => {
+      expect(TemplateEngine.stripMarkdown("")).toBe("");
+   });
+
+   it("trims newlines around text", () => {
+      expect(TemplateEngine.stripMarkdown("\nHello\n")).toBe("Hello");
    });
 });
 
