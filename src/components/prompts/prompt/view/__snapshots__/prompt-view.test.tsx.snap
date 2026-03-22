@@ -337,6 +337,7 @@ exports[`PromptView rendering tests PromptView - followUpPrompts empty - rendere
               data-slot="tooltip-trigger"
               data-state="closed"
               data-testid="copy-prompt-btn"
+              type="button"
             >
               <svg
                 aria-hidden="true"
@@ -514,6 +515,7 @@ exports[`PromptView rendering tests PromptView - followUpPrompts empty - rendere
               data-slot="tooltip-trigger"
               data-state="closed"
               data-testid="copy-prompt-btn"
+              type="button"
             >
               <svg
                 aria-hidden="true"
@@ -1040,6 +1042,7 @@ exports[`PromptView rendering tests PromptView - versions empty - rendered test 
               data-slot="tooltip-trigger"
               data-state="closed"
               data-testid="copy-prompt-btn"
+              type="button"
             >
               <svg
                 aria-hidden="true"
@@ -1217,6 +1220,7 @@ exports[`PromptView rendering tests PromptView - versions empty - rendered test 
               data-slot="tooltip-trigger"
               data-state="closed"
               data-testid="copy-prompt-btn"
+              type="button"
             >
               <svg
                 aria-hidden="true"
@@ -1743,6 +1747,7 @@ exports[`PromptView rendering tests PromptView rendered test 1`] = `
               data-slot="tooltip-trigger"
               data-state="closed"
               data-testid="copy-prompt-btn"
+              type="button"
             >
               <svg
                 aria-hidden="true"
@@ -1920,6 +1925,7 @@ exports[`PromptView rendering tests PromptView rendered test 1`] = `
               data-slot="tooltip-trigger"
               data-state="closed"
               data-testid="copy-prompt-btn"
+              type="button"
             >
               <svg
                 aria-hidden="true"

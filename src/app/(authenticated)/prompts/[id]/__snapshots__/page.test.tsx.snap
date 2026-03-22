@@ -363,6 +363,7 @@ exports[`PromptPage rendering tests PromptPage - prompt found - rendered test 1`
                 data-slot="tooltip-trigger"
                 data-state="closed"
                 data-testid="copy-prompt-btn"
+                type="button"
               >
                 <svg
                   aria-hidden="true"
@@ -540,6 +541,7 @@ exports[`PromptPage rendering tests PromptPage - prompt found - rendered test 1`
                 data-slot="tooltip-trigger"
                 data-state="closed"
                 data-testid="copy-prompt-btn"
+                type="button"
               >
                 <svg
                   aria-hidden="true"

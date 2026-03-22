@@ -17,6 +17,7 @@ exports[`PromptFollowUp rendering tests PromptFollowUp rendered test 1`] = `
       data-slot="tooltip-trigger"
       data-state="closed"
       data-testid="copy-prompt-follow-up-btn"
+      type="button"
     >
       <svg
         aria-hidden="true"

@@ -73,7 +73,7 @@ export class TemplateEngine {
    }
 
    /**
-    * Strips markdown syntax to plain text for use in AI chat tools
+    * Strips markdown syntax to plain text
     */
    static stripMarkdown(text: string): string {
       return remark()

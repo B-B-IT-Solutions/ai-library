@@ -15,11 +15,11 @@ import {
 } from "@/components/shadcn/dropdown-menu";
 import { Form } from "@/components/shadcn/form";
 import { CopyButton } from "@/components/shared/buttons";
-import { TemplateEngine } from "@/data/services/prompt-template/template.engine";
 import {
    DPromptTemplateDataPromptGeneration,
    DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
+import { TemplateEngine } from "@/lib/template";
 import { openExternalUrlInNewTab } from "@/lib/utils";
 import { buildFieldsSchema } from "../fields/fields.schema";
 import { TemplateFieldsForm } from "../fields/template-fields-form";

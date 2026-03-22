@@ -19,7 +19,10 @@ import { ServiceFactory } from "../service.factory";
 import { SettingsService } from "../settings";
 
 import { PromptTemplateService } from "./prompt.template.service";
-import { FieldsValidationResult, TemplateEngine } from "./template.engine";
+import {
+   FieldsValidationResult,
+   TemplateEngine,
+} from "../../../lib/template/template.engine";
 
 const serviceFactory = new ServiceFactory(prisma);
 const settingsService = serviceFactory.getSettingsService();
@@ -330,7 +333,11 @@ describe("composePromptFromTemplate tests", () => {
       const fieldValues: DPromptTemplateFieldValues = {};
 
       const fn = () =>
-         promptTemplateService.composePromptFromTemplate(userId, id, fieldValues);
+         promptTemplateService.composePromptFromTemplate(
+            userId,
+            id,
+            fieldValues
+         );
 
       await expect(fn).rejects.toThrow(
          `PromptTemplateDescriptor with id ${id}not found `
@@ -366,7 +373,11 @@ describe("composePromptFromTemplate tests", () => {
       };
 
       const fn = () =>
-         promptTemplateService.composePromptFromTemplate(userId, id, fieldValues);
+         promptTemplateService.composePromptFromTemplate(
+            userId,
+            id,
+            fieldValues
+         );
 
       await expect(fn).rejects.toThrow("Provided template fields are invalid:");
 
