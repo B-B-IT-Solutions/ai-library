@@ -44,7 +44,7 @@ export const LibraryEntryView = ({ entry }: Props) => {
                <BreadcrumbList>
                   <BreadcrumbItem>
                      <BreadcrumbLink asChild={true}>
-                        <Link href="/library">Bibliothek</Link>
+                        <Link href="/library">Vorlagen</Link>
                      </BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />

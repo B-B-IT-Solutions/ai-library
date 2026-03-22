@@ -29,7 +29,7 @@ export const LibraryEntryEdit = ({ entry, globalFields }: Props) => {
                <BreadcrumbList>
                   <BreadcrumbItem>
                      <BreadcrumbLink asChild={true}>
-                        <Link href="/library">Bibliothek</Link>
+                        <Link href="/library">Vorlagen</Link>
                      </BreadcrumbLink>
                   </BreadcrumbItem>
                   {entry ? (
