@@ -16,7 +16,7 @@ const PublicPage = async () => {
                <div className="mb-20 space-y-8 text-center">
                   <div className="space-y-4">
                      <h2 className="text-5xl font-bold tracking-tight md:text-6xl">
-                        Welcome to {APP_NAME}
+                        Willkommen bei {APP_NAME}
                      </h2>
                      <p className="mx-auto max-w-3xl text-xl text-muted-foreground md:text-2xl">
                         {APP_DESCRIPTION}
@@ -24,10 +24,10 @@ const PublicPage = async () => {
                   </div>
                   <div className="flex flex-wrap justify-center gap-4">
                      <Button size="lg" asChild>
-                        <Link href="/auth/sign-up">Start Free Trial</Link>
+                        <Link href="/auth/sign-up">Kostenlos starten</Link>
                      </Button>
                      <Button size="lg" variant="outline" asChild>
-                        <Link href="/p/marketplace">Browse Marketplace</Link>
+                        <Link href="/p/marketplace">Prompts entdecken</Link>
                      </Button>
                   </div>
                </div>
