@@ -190,15 +190,10 @@ export const LibraryEntryEditForm = ({ entry, globalFields }: Props) => {
 
    return (
       <Card data-testid="library-entry-edit-form">
-         <CardHeader className="border-b pb-6">
+         <CardHeader className="border-b">
             <CardTitle className="text-2xl font-bold text-slate-900">
                {isEdit ? "Vorlage bearbeiten" : "Neue Vorlage erstellen"}
             </CardTitle>
-            {isEdit && (
-               <p className="mt-0.5 text-sm text-slate-600">
-                  {entry.templateDescriptor.title}
-               </p>
-            )}
          </CardHeader>
          <CardContent>
             <Form {...form}>
@@ -206,9 +201,7 @@ export const LibraryEntryEditForm = ({ entry, globalFields }: Props) => {
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="space-y-6"
                >
-                  <BasicInfo
-                     control={form.control}
-                  />
+                  <BasicInfo control={form.control} />
                   <Separator />
                   <PromptTemplateContent control={form.control} />
                   <Separator />
