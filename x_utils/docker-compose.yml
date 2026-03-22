@@ -29,7 +29,7 @@ services:
    #       ENCRYPTION_KEY: ${ENCRYPTION_KEY:-SxhULoMRflRMqDrr4FAsQ+RCEY4vMiC0lCXkth87eIU=}
 
    #       # App
-   #       NEXT_PUBLIC_APP_NAME: ${NEXT_PUBLIC_APP_NAME:-KI Bibliothek}
+   #       NEXT_PUBLIC_APP_NAME: ${NEXT_PUBLIC_APP_NAME:-Vision Notes}
    #       NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL:-http://localhost:3000}
    #       NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
 

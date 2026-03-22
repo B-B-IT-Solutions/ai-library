@@ -1,7 +1,6 @@
 import {
    APP_DESCRIPTION,
    APP_NAME,
-   APP_URL,
    INIT_PAGE_NUMBER,
    PAGE_SIZE,
    STRIPE_SECRET_KEY,
@@ -10,7 +9,7 @@ import {
 
 describe("constants - static values - tests", () => {
    it("constants - APP_NAME resolves from env - test", () => {
-      expect(APP_NAME).toEqual("KI Bibliothek");
+      expect(APP_NAME).toEqual("Vision Notes");
    });
 
    it("constants - APP_DESCRIPTION resolves from env - test", () => {

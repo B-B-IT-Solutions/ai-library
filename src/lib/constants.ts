@@ -1,7 +1,7 @@
 export const APP_NAME: string =
-   process.env.NEXT_PUBLIC_APP_NAME || "KI Bibliothek";
+   process.env.NEXT_PUBLIC_APP_NAME || "Vision Notes";
 export const APP_DESCRIPTION: string =
-   process.env.NEXT_PUBLIC_APP_DESCRIPTION || "Modernene KI-Bibliothek";
+   process.env.NEXT_PUBLIC_APP_DESCRIPTION || "KI Bibliothek";
 export const APP_URL: string =
    process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
