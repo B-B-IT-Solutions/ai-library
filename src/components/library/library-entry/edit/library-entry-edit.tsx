@@ -15,7 +15,7 @@ export const LibraryEntryEdit = ({ entry, globalFields }: Props) => {
          className="flex h-screen flex-col bg-slate-50"
          data-testid="library-entry-edit"
       >
-         <div className="border-b border-slate-200 bg-white px-6 py-3">
+         <div className="border-b border-slate-200 bg-white px-6 py-4">
             {entry ? (
                <LibraryEntryBreadcrumb
                   variant="edit"
@@ -25,6 +25,9 @@ export const LibraryEntryEdit = ({ entry, globalFields }: Props) => {
             ) : (
                <LibraryEntryBreadcrumb variant="new" />
             )}
+            <h1 className="mt-1.5 text-xl font-semibold text-slate-900">
+               {entry ? "Vorlage Bearbeiten" : "Neue Vorlage Erstellen"}
+            </h1>
          </div>
          <div className="flex-1 overflow-y-auto">
             <div className="mx-auto max-w-5xl p-4">
