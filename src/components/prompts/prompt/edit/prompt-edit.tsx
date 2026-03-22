@@ -42,6 +42,13 @@ export const PromptEdit = ({ prompt }: Props) => {
       return <PromptBreadcrumb variant="new" />;
    };
 
+   const form = () => {
+      if (prompt) {
+         return <PromptEditForm prompt={prompt} mode="edit" />;
+      }
+      return <PromptEditForm mode="create" />;
+   };
+
    return (
       <ItemDetailsEdit data-testid="prompt-edit">
          <ItemDetailsEditHeader>{header()}</ItemDetailsEditHeader>
@@ -49,12 +56,7 @@ export const PromptEdit = ({ prompt }: Props) => {
             <ItemDetailsEditBreadcrumbs>
                {breadcrumbs()}
             </ItemDetailsEditBreadcrumbs>
-            <ItemDetailsEditBody>
-               <PromptEditForm
-                  prompt={prompt}
-                  mode={prompt ? "edit" : "create"}
-               />
-            </ItemDetailsEditBody>
+            <ItemDetailsEditBody>{form()}</ItemDetailsEditBody>
          </ItemDetailsEditContent>
       </ItemDetailsEdit>
    );
