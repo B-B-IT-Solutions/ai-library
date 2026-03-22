@@ -15,14 +15,11 @@ import {
    DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
+import { FieldsValidationResult, TemplateEngine } from "@/lib/template";
 import { ServiceFactory } from "../service.factory";
 import { SettingsService } from "../settings";
 
 import { PromptTemplateService } from "./prompt.template.service";
-import {
-   FieldsValidationResult,
-   TemplateEngine,
-} from "../../../lib/template/template.engine";
 
 const serviceFactory = new ServiceFactory(prisma);
 const settingsService = serviceFactory.getSettingsService();

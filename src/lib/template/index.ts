@@ -1,1 +1,1 @@
-export { TemplateEngine } from "./template.engine";
+export { TemplateEngine, type FieldsValidationResult } from "./template.engine";
