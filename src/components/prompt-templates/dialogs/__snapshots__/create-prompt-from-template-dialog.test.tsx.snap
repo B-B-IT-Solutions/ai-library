@@ -4,7 +4,7 @@ exports[`CreatePromptFromTemplateDialog rendering tests CreatePromptFromTemplate
 <div>
   <div
     data-slot="dialog"
-    data-testid="create-prompt-dialog"
+    data-testid="create-prompt-from-template-dialog"
   >
     <div
       data-slot="dialog-portal"

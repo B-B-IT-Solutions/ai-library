@@ -215,7 +215,9 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
       await userEvent.click(createPromptBtn);
 
       await waitFor(() => {
-         const dialog = screen.getByTestId("template-fields-form");
+         const dialog = screen.getByTestId(
+            "create-prompt-from-template-dialog"
+         );
          assertInDocument(dialog);
          expect(composePromptFromTemplateMock).not.toHaveBeenCalled();
       });
@@ -263,7 +265,9 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
       await userEvent.click(createPromptBtn);
 
       await waitFor(() => {
-         const dialog = screen.getByTestId("template-fields-form");
+         const dialog = screen.getByTestId(
+            "create-prompt-from-template-dialog"
+         );
          assertInDocument(dialog);
          expect(composePromptFromTemplateMock).not.toHaveBeenCalled();
       });
@@ -288,7 +292,7 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
       });
    });
 
-   it("CreatePromptButton - cancel clicked- test", async () => {
+   it("CreatePromptButton - close clicked- test", async () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
       getPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
@@ -304,15 +308,19 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
       await userEvent.click(createPromptBtn);
 
       await waitFor(() => {
-         const dialog = screen.getByTestId("template-fields-form");
+         const dialog = screen.getByTestId(
+            "create-prompt-from-template-dialog"
+         );
          assertInDocument(dialog);
       });
 
-      const cancelBtn = screen.getByTestId("cancel-btn");
-      await userEvent.click(cancelBtn);
+      const closeBtn = screen.getByTestId("close-btn");
+      await userEvent.click(closeBtn);
 
       await waitFor(() => {
-         const dialog = screen.queryByTestId("template-fields-form");
+         const dialog = screen.queryByTestId(
+            "create-prompt-from-template-dialog"
+         );
          assertNotInDocument(dialog);
       });
    });

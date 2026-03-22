@@ -34,7 +34,7 @@ export const CreatePromptFromTemplateDialog = ({
       <Dialog
          open={true}
          onOpenChange={() => onCancel()}
-         data-testid="create-prompt-dialog"
+         data-testid="create-prompt-from-template-dialog"
       >
          <DialogContent
             showCloseButton={false}

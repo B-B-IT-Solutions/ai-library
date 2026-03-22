@@ -8,7 +8,7 @@ import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template"
 import { CreatePromptFromTemplateDialog } from "./create-prompt-from-template-dialog";
 
 const assertDialogRendered = () => {
-   const dialog = screen.getByTestId("create-prompt-dialog");
+   const dialog = screen.getByTestId("create-prompt-from-template-dialog");
    const promptFromTemplate = screen.getByTestId("prompt-from-template");
 
    assertInDocument(dialog);
