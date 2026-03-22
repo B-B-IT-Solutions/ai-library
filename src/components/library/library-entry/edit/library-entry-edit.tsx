@@ -10,6 +10,20 @@ type Props = {
 };
 
 export const LibraryEntryEdit = ({ entry, globalFields }: Props) => {
+   const header = () => {
+      const title = entry ? "Vorlage Bearbeiten" : "Neue Vorlage Erstellen";
+      const text = entry
+         ? "Bearbeiten Sie die Vorlage"
+         : "Erstellen Sie eine neue Vorlage";
+
+      return (
+         <>
+            <h1 className="text-2xl font-bold text-slate-900">{title}</h1>
+            <p className="mt-0.5 text-sm text-slate-600">{text}</p>
+         </>
+      );
+   };
+
    const breadcrumbs = () => {
       if (entry) {
          return (
@@ -28,14 +42,12 @@ export const LibraryEntryEdit = ({ entry, globalFields }: Props) => {
          className="flex h-screen flex-col bg-slate-50"
          data-testid="library-entry-edit"
       >
-         <div className="border-b border-slate-200 bg-white px-6 py-3">
-            <h1 className="text-2xl font-bold text-slate-900">
-               {entry ? "Vorlage Bearbeiten" : "Neue Vorlage Erstellen"}
-            </h1>
+         <div className="border border-slate-200 bg-white px-6 py-4">
+            {header()}
          </div>
-         <div> {breadcrumbs()}</div>
          <div className="flex-1 overflow-y-auto">
-            <div className="mx-auto max-w-5xl p-4">
+            <div className="px-6 pt-3 pb-3.5">{breadcrumbs()}</div>
+            <div className="mx-auto max-w-5xl">
                <LibraryEntryEditForm
                   entry={entry}
                   globalFields={globalFields}
