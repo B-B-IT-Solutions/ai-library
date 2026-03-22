@@ -1,23 +1,57 @@
-import { PropsWithChildren, ReactNode } from "react";
+import { PropsWithChildren } from "react";
 
-type Props = PropsWithChildren<{
-   header: ReactNode;
-   breadcrumbs: ReactNode;
-}>;
+type Props = PropsWithChildren<{ "data-testid"?: string }>;
 
-export const ItemDetailsEdit = ({ header, breadcrumbs, children }: Props) => {
+const ItemDetailsEdit = ({ children, "data-testid": testId }: Props) => {
    return (
-      <div
-         className="flex h-screen flex-col bg-slate-50"
-         data-testid="item-details-edit"
-      >
-         <div className="border-b border-slate-200 bg-white px-6 py-4">
-            {header}
-         </div>
-         <div className="flex-1 overflow-y-auto">
-            <div className="px-6 pt-3 pb-3.5">{breadcrumbs}</div>
-            <div className="mx-auto max-w-5xl">{children}</div>
-         </div>
+      <div className="flex h-screen flex-col bg-slate-50" data-testid={testId}>
+         {children}
       </div>
    );
+};
+
+const ItemDetailsEditHeader = ({ children, "data-testid": testId }: Props) => {
+   return (
+      <div
+         className="border-b border-slate-200 bg-white px-6 py-4"
+         data-testid={testId}
+      >
+         {children}
+      </div>
+   );
+};
+
+const ItemDetailsEditContent = ({ children, "data-testid": testId }: Props) => {
+   return (
+      <div className="flex-1 overflow-y-auto" data-testid={testId}>
+         {children}
+      </div>
+   );
+};
+
+const ItemDetailsEditBreadcrumbs = ({
+   children,
+   "data-testid": testId,
+}: Props) => {
+   return (
+      <div className="px-6 pt-3 pb-3.5" data-testid={testId}>
+         {children}
+      </div>
+   );
+};
+
+const ItemDetailsEditBody = ({ children, "data-testid": testId }: Props) => {
+   return (
+      <div className="mx-auto max-w-5xl" data-testid={testId}>
+         {children}
+      </div>
+   );
+};
+
+export {
+   ItemDetailsEdit,
+   ItemDetailsEditHeader,
+   ItemDetailsEditContent,
+   ItemDetailsEditBreadcrumbs,
+   ItemDetailsEditBody,
 };
