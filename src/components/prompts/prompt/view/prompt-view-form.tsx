@@ -8,7 +8,6 @@ import {
    CardAction,
    CardContent,
    CardHeader,
-   CardTitle,
 } from "@/components/shadcn/card";
 import {
    DropdownMenu,
@@ -75,9 +74,6 @@ export const PromptViewForm = ({ prompt }: Props) => {
          <CardHeader className="border-b pb-6">
             <div className="space-y-4">
                <div className="flex items-start gap-3">
-                  <CardTitle className="text-3xl font-bold text-slate-900">
-                     {prompt.title}
-                  </CardTitle>
                   <ToggleFavoriteButton prompt={prompt} />
                </div>
                {categories()}

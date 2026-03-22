@@ -1,3 +1,10 @@
+import {
+   ItemDetailsView,
+   ItemDetailsViewBody,
+   ItemDetailsViewBreadcrumbs,
+   ItemDetailsViewContent,
+   ItemDetailsViewHeader,
+} from "@/components/shared/wrappers/item-details";
 import { DPromptDescriptor } from "@/data/types/domain/prompt";
 
 import { PromptViewForm } from "./prompt-view-form";
@@ -8,10 +15,18 @@ type Props = {
 
 export const PromptView = ({ prompt }: Props) => {
    return (
-      <div className="container mx-auto px-4 py-8" data-testid="prompt-view">
-         <div className="mx-auto max-w-5xl p-4">
-            <PromptViewForm prompt={prompt} />
-         </div>
-      </div>
+      <ItemDetailsView data-testid="prompt-view">
+         <ItemDetailsViewHeader>
+            <h1 className="text-2xl font-bold text-slate-900">
+               {prompt.title}
+            </h1>
+         </ItemDetailsViewHeader>
+         <ItemDetailsViewContent>
+            <ItemDetailsViewBreadcrumbs>Breadcrumb</ItemDetailsViewBreadcrumbs>
+            <ItemDetailsViewBody>
+               <PromptViewForm prompt={prompt} />
+            </ItemDetailsViewBody>
+         </ItemDetailsViewContent>
+      </ItemDetailsView>
    );
 };
