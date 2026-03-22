@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { isEmpty } from "es-toolkit/compat";
 import { Loader, Plus } from "lucide-react";
 import { toast } from "sonner";
@@ -25,10 +25,10 @@ type Props = {
 
 type Mode = "fields-form" | "review";
 
-export const CreatePromptFromTemplateButton: FC<Props> = ({
+export const CreatePromptFromTemplateButton = ({
    descriptor,
    className,
-}) => {
+}: Props) => {
    const [isPending, startTransition] = useTransition();
    const [mode, setMode] = useState<Mode | null>(null);
    const [templateData, setTemplateData] =

@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useTransition } from "react";
+import { useTransition } from "react";
 import { saveAs } from "file-saver";
 import { Download, Loader } from "lucide-react";
 import { toast } from "sonner";
@@ -10,15 +10,12 @@ import { DropdownMenuItem } from "@/components/shadcn/dropdown-menu";
 import { downloadTemplate } from "@/data/actions/library";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
-type DownloadTemplateButtonProps = {
+type Props = {
    descriptor: DPromptTemplateDescriptor;
    asMenuItem?: boolean;
 };
 
-export const DownloadTemplateButton: FC<DownloadTemplateButtonProps> = ({
-   descriptor,
-   asMenuItem,
-}) => {
+export const DownloadTemplateButton = ({ descriptor, asMenuItem }: Props) => {
    const [isPending, startTransition] = useTransition();
 
    const handleDownload = () => {
@@ -41,7 +38,7 @@ export const DownloadTemplateButton: FC<DownloadTemplateButtonProps> = ({
       if (isPending) {
          return (
             <>
-               <Loader className="w-4 h-4 mr-1.5 animate-spin" />
+               <Loader className="mr-1.5 h-4 w-4 animate-spin" />
                <span>Herunterladen...</span>
             </>
          );
@@ -49,7 +46,7 @@ export const DownloadTemplateButton: FC<DownloadTemplateButtonProps> = ({
 
       return (
          <>
-            <Download className="w-4 h-4 mr-2" />
+            <Download className="mr-2 h-4 w-4" />
             <span>Herunterladen</span>
          </>
       );

@@ -8,17 +8,6 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
     data-testid="library-entry-edit-form"
   >
     <div
-      class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 border-b pb-6"
-      data-slot="card-header"
-    >
-      <div
-        class="text-2xl font-bold text-slate-900"
-        data-slot="card-title"
-      >
-        Vorlage bearbeiten
-      </div>
-    </div>
-    <div
       class="px-6"
       data-slot="card-content"
     >
@@ -2504,17 +2493,6 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
     data-slot="card"
     data-testid="library-entry-edit-form"
   >
-    <div
-      class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 border-b pb-6"
-      data-slot="card-header"
-    >
-      <div
-        class="text-2xl font-bold text-slate-900"
-        data-slot="card-title"
-      >
-        Vorlage bearbeiten
-      </div>
-    </div>
     <div
       class="px-6"
       data-slot="card-content"
@@ -5292,17 +5270,6 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - new entry -
     data-testid="library-entry-edit-form"
   >
     <div
-      class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 border-b pb-6"
-      data-slot="card-header"
-    >
-      <div
-        class="text-2xl font-bold text-slate-900"
-        data-slot="card-title"
-      >
-        Neue Vorlage erstellen
-      </div>
-    </div>
-    <div
       class="px-6"
       data-slot="card-content"
     >
@@ -5756,17 +5723,6 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - new entry -
     data-slot="card"
     data-testid="library-entry-edit-form"
   >
-    <div
-      class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 border-b pb-6"
-      data-slot="card-header"
-    >
-      <div
-        class="text-2xl font-bold text-slate-900"
-        data-slot="card-title"
-      >
-        Neue Vorlage erstellen
-      </div>
-    </div>
     <div
       class="px-6"
       data-slot="card-content"

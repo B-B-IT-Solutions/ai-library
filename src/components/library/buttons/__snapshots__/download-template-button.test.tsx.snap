@@ -10,7 +10,7 @@ exports[`DownloadTemplateButton rendering tests DownloadTemplateButton - asMenuI
   >
     <svg
       aria-hidden="true"
-      class="lucide lucide-download w-4 h-4 mr-2"
+      class="lucide lucide-download mr-2 h-4 w-4"
       fill="none"
       height="24"
       stroke="currentColor"
@@ -47,7 +47,7 @@ exports[`DownloadTemplateButton rendering tests DownloadTemplateButton - asMenuI
   >
     <svg
       aria-hidden="true"
-      class="lucide lucide-download w-4 h-4 mr-2"
+      class="lucide lucide-download mr-2 h-4 w-4"
       fill="none"
       height="24"
       stroke="currentColor"

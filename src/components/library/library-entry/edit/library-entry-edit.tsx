@@ -1,6 +1,6 @@
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
-import { ReturnToLibraryButton } from "../../buttons";
+import { LibraryEntryBreadcrumb } from "../../breadcrumbs";
 
 import { LibraryEntryEditForm } from "./library-entry-edit-form";
 
@@ -11,30 +11,30 @@ type Props = {
 
 export const LibraryEntryEdit = ({ entry, globalFields }: Props) => {
    const header = () => {
-      if (entry) {
-         return (
-            <div>
-               <h1 className="text-2xl font-bold text-slate-900">
-                  Vorlage bearbeiten
-               </h1>
-               <p className="mt-0.5 text-sm text-slate-600">
-                  {entry.templateDescriptor.title}
-               </p>
-            </div>
-         );
-      }
+      const title = entry ? "Vorlage Bearbeiten" : "Neue Vorlage Erstellen";
+      const text = entry
+         ? "Bearbeiten Sie die Vorlage"
+         : "Erstellen Sie eine neue Vorlage";
 
       return (
-         <div>
-            <h1 className="text-2xl font-bold text-slate-900">
-               Neue Vorlage erstellen
-            </h1>
-            <p className="mt-0.5 text-sm text-slate-600">
-               Erstellen Sie eine eigene Prompt-Vorlage mit benutzerdefinierten
-               Feldern
-            </p>
-         </div>
+         <>
+            <h1 className="text-2xl font-bold text-slate-900">{title}</h1>
+            <p className="mt-0.5 text-sm text-slate-600">{text}</p>
+         </>
       );
+   };
+
+   const breadcrumbs = () => {
+      if (entry) {
+         return (
+            <LibraryEntryBreadcrumb
+               variant="edit"
+               title={entry.templateDescriptor.title}
+               entryId={entry.id}
+            />
+         );
+      }
+      return <LibraryEntryBreadcrumb variant="new" />;
    };
 
    return (
@@ -43,13 +43,11 @@ export const LibraryEntryEdit = ({ entry, globalFields }: Props) => {
          data-testid="library-entry-edit"
       >
          <div className="border-b border-slate-200 bg-white px-6 py-4">
-            <div className="flex items-center justify-between">{header()}</div>
+            {header()}
          </div>
-         <div className="flex-1 overflow-y-auto bg-slate-50">
-            <div className="mx-auto max-w-5xl p-4">
-               <div className="mb-4">
-                  <ReturnToLibraryButton />
-               </div>
+         <div className="flex-1 overflow-y-auto">
+            <div className="px-6 pt-3 pb-3.5">{breadcrumbs()}</div>
+            <div className="mx-auto max-w-5xl">
                <LibraryEntryEditForm
                   entry={entry}
                   globalFields={globalFields}

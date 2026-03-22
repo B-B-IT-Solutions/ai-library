@@ -10,12 +10,7 @@ import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
-import {
-   Card,
-   CardContent,
-   CardHeader,
-   CardTitle,
-} from "@/components/shadcn/card";
+import { Card, CardContent } from "@/components/shadcn/card";
 import { Form } from "@/components/shadcn/form";
 import { Separator } from "@/components/shadcn/separator";
 import { newTemplateFieldInitValues } from "@/components/shared/template-fields";
@@ -190,20 +185,13 @@ export const LibraryEntryEditForm = ({ entry, globalFields }: Props) => {
 
    return (
       <Card data-testid="library-entry-edit-form">
-         <CardHeader className="border-b pb-6">
-            <CardTitle className="text-2xl font-bold text-slate-900">
-               {isEdit ? "Vorlage bearbeiten" : "Neue Vorlage erstellen"}
-            </CardTitle>
-         </CardHeader>
          <CardContent>
             <Form {...form}>
                <form
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="space-y-6"
                >
-                  <BasicInfo
-                     control={form.control}
-                  />
+                  <BasicInfo control={form.control} />
                   <Separator />
                   <PromptTemplateContent control={form.control} />
                   <Separator />

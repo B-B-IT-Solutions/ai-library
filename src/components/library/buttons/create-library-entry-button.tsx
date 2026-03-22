@@ -1,10 +1,9 @@
-import { FC } from "react";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
 
-export const CreateLibraryEntryButton: FC = () => {
+export const CreateLibraryEntryButton = () => {
    return (
       <Button
          asChild={true}
