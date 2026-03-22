@@ -71,7 +71,7 @@ export const LibraryEntryBreadcrumb = (props: Props) => {
    };
 
    return (
-      <Breadcrumb>
+      <Breadcrumb data-testid="libary-entry-breadcrumbs">
          <BreadcrumbList>
             {rootItem()}
             <BreadcrumbSeparator />
