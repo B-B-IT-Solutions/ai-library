@@ -8,3 +8,11 @@ export {
    ItemDetailsEditBreadcrumbs,
    ItemDetailsEditBody,
 } from "./item-details/item-details-edit";
+
+export {
+   ItemDetailsView,
+   ItemDetailsViewHeader,
+   ItemDetailsViewContent,
+   ItemDetailsViewBreadcrumbs,
+   ItemDetailsViewBody,
+} from "./item-details/item-details-view";
