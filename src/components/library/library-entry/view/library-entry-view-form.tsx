@@ -47,9 +47,6 @@ export const LibraryEntryViewForm = ({ entry }: Props) => {
          <CardHeader className="border-b border-slate-200">
             <div className="flex items-start justify-between gap-4">
                <div className="flex-1">
-                  <h1 className="mb-2 text-2xl font-bold text-slate-900">
-                     {descriptor.title}
-                  </h1>
                   <span className="inline-block rounded-md border border-blue-200 bg-blue-100 px-3 py-1 text-sm text-blue-700">
                      {descriptor.recommendedModel}
                   </span>
@@ -80,14 +77,13 @@ export const LibraryEntryViewForm = ({ entry }: Props) => {
             {categories()}
          </CardHeader>
 
-         <CardContent className="p-6">
+         <CardContent className="space-y-6 px-6">
             <div data-testid="short-description">
-               <h2 className="mb-3 text-xl font-semibold text-slate-900">
+               <h2 className="text-xl font-semibold text-slate-900">
                   Beschreibung
                </h2>
                <MDRenderer>{descriptor.description}</MDRenderer>
             </div>
-
             <PromptTextDisplay template={descriptor.promptTemplate} />
          </CardContent>
       </Card>
