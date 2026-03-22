@@ -6,7 +6,7 @@ import { LibraryEntryEdit } from "./library-entry-edit";
 
 const assertRendered = () => {
    const editEntry = screen.getByTestId("library-entry-edit");
-   const breadcrumbs = screen.getByTestId("libary-entry-breadcrumbs");
+   const breadcrumbs = screen.getByTestId("libary-entry-breadcrumb");
    const form = screen.getByTestId("library-entry-edit-form");
 
    assertInDocument(editEntry);
