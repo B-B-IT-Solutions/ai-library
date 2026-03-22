@@ -7,7 +7,7 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
     data-testid="library-entry-edit"
   >
     <div
-      class="border border-slate-200 bg-white px-6 py-4"
+      class="border-b border-slate-200 bg-white px-6 py-4"
     >
       <h1
         class="text-2xl font-bold text-slate-900"
@@ -42,7 +42,7 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
               <a
                 class="transition-colors hover:text-foreground"
                 data-slot="breadcrumb-link"
-                data-testid="mock-link"
+                data-testid="root-link"
                 href="/library"
               >
                 Vorlagen
@@ -79,7 +79,7 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - edit existing entry
               <a
                 class="transition-colors hover:text-foreground max-w-40 truncate"
                 data-slot="breadcrumb-link"
-                data-testid="mock-link"
+                data-testid="item-link"
                 href="/library/457bf695-6f74-44aa-9b3a-e179ea9e8171"
                 title="title 1"
               >
@@ -3134,7 +3134,7 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - new entry - test 1`
     data-testid="library-entry-edit"
   >
     <div
-      class="border border-slate-200 bg-white px-6 py-4"
+      class="border-b border-slate-200 bg-white px-6 py-4"
     >
       <h1
         class="text-2xl font-bold text-slate-900"
@@ -3169,7 +3169,7 @@ exports[`LibraryEntryEdit rendering tests LibraryEntryEdit - new entry - test 1`
               <a
                 class="transition-colors hover:text-foreground"
                 data-slot="breadcrumb-link"
-                data-testid="mock-link"
+                data-testid="root-link"
                 href="/library"
               >
                 Vorlagen

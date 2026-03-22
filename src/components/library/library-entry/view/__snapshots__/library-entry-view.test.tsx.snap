@@ -25,7 +25,7 @@ exports[`LibraryEntryView rendering tests LibraryEntryView - categories empty - 
             <a
               class="transition-colors hover:text-foreground"
               data-slot="breadcrumb-link"
-              data-testid="mock-link"
+              data-testid="root-link"
               href="/library"
             >
               Vorlagen
@@ -351,7 +351,7 @@ exports[`LibraryEntryView rendering tests LibraryEntryView - with categories - r
             <a
               class="transition-colors hover:text-foreground"
               data-slot="breadcrumb-link"
-              data-testid="mock-link"
+              data-testid="root-link"
               href="/library"
             >
               Vorlagen
