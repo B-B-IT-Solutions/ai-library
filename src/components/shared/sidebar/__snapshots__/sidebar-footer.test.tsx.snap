@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`SidebarFooter rendering tests SidebarFooter - sidebar open - rendered test 1`] = `
+exports[`SidebarFooter rendering tests sidebar open - rendered test 1`] = `
 <div>
   <div
     class="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full"
@@ -89,7 +89,7 @@ exports[`SidebarFooter rendering tests SidebarFooter - sidebar open - rendered t
 </div>
 `;
 
-exports[`SidebarFooter rendering tests SidebarFooter - sidebar open - rendered test 2`] = `
+exports[`SidebarFooter rendering tests sidebar open - rendered test 2`] = `
 <div>
   <div
     class="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full"
@@ -183,24 +183,20 @@ exports[`SidebarFooter rendering tests SidebarFooter - sidebar open - rendered t
                   data-testid="mock-react-dropdown-menu-group"
                 >
                   <div
-                    class="focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive [&_svg:not([class*='text-'])]:text-muted-foreground relative flex items-center gap-2 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 cursor-pointer rounded-lg px-2 py-1.5"
+                    class="focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
                     data-slot="dropdown-menu-item"
-                    data-testid="account"
+                    data-testid="mock-react-dropdown-menu-item"
                     data-variant="default"
                   >
-                    <span>
-                      Konto
-                    </span>
-                  </div>
-                  <div
-                    class="focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive [&_svg:not([class*='text-'])]:text-muted-foreground relative flex items-center gap-2 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 cursor-pointer rounded-lg px-2 py-1.5"
-                    data-slot="dropdown-menu-item"
-                    data-testid="billing"
-                    data-variant="default"
-                  >
-                    <span>
-                      Abrechnung
-                    </span>
+                    <a
+                      class="cursor-pointer rounded-lg px-2 py-1.5"
+                      data-testid="account"
+                      href="/settings/general"
+                    >
+                      <span>
+                        Konto
+                      </span>
+                    </a>
                   </div>
                 </div>
                 <div
