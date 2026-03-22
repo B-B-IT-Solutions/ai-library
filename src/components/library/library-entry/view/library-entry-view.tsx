@@ -12,7 +12,7 @@ import {
 import { MDRenderer } from "@/components/shared/md";
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
 import {
-   CreatePromptButton,
+   CreatePromptFromTemplateButton,
    DownloadTemplateButton,
    EditLibraryEntryButton,
 } from "../../buttons";
@@ -71,7 +71,9 @@ export const LibraryEntryView = ({ entry }: Props) => {
                         </span>
                      </div>
                      <div className="flex shrink-0 items-center gap-2">
-                        <CreatePromptButton descriptor={descriptor} />
+                        <CreatePromptFromTemplateButton
+                           descriptor={descriptor}
+                        />
                         <EditLibraryEntryButton entry={entry} />
                         <DropdownMenu>
                            <DropdownMenuTrigger asChild={true}>

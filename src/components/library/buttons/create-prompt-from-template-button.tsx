@@ -6,7 +6,7 @@ import { Loader, Plus } from "lucide-react";
 import { toast } from "sonner";
 
 import { CreatePromptFromTemplateDialog } from "@/components/prompt-templates";
-import { CreatePromptPreviewDialog } from "@/components/prompts";
+import { CreatePromptDialog } from "@/components/prompts";
 import { Button } from "@/components/shadcn/button";
 import { composePromptFromTemplate } from "@/data/actions/library";
 import { getPromptGenerationTemplateData } from "@/data/actions/prompt-template";
@@ -25,7 +25,10 @@ type Props = {
 
 type Mode = "fields-form" | "review";
 
-export const CreatePromptButton: FC<Props> = ({ descriptor, className }) => {
+export const CreatePromptFromTemplateButton: FC<Props> = ({
+   descriptor,
+   className,
+}) => {
    const [isPending, startTransition] = useTransition();
    const [mode, setMode] = useState<Mode | null>(null);
    const [templateData, setTemplateData] =
@@ -71,7 +74,7 @@ export const CreatePromptButton: FC<Props> = ({ descriptor, className }) => {
    const dialog = () => {
       if (mode === "review" && generatedPrompt) {
          return (
-            <CreatePromptPreviewDialog
+            <CreatePromptDialog
                onCancel={handleCancel}
                promptUpdate={generatedPrompt}
             />
@@ -118,7 +121,7 @@ export const CreatePromptButton: FC<Props> = ({ descriptor, className }) => {
                "cursor-pointer bg-blue-600 text-white hover:bg-blue-700",
                className
             )}
-            data-testid="create-prompt-btn"
+            data-testid="create-prompt-from-template-btn"
          >
             {label()}
          </Button>

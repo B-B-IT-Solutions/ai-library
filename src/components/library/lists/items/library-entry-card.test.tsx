@@ -22,7 +22,9 @@ const assertRendered = () => {
    const entryCard = screen.getByTestId("library-entry-card");
    const viewDetailsTitle = screen.getByTestId("view-details-link-title");
    const categories = screen.getByTestId("categories");
-   const createPromptBtn = screen.getByTestId("create-prompt-btn");
+   const createPromptBtn = screen.getByTestId(
+      "create-prompt-from-template-btn"
+   );
    const dropdownMenuBtn = screen.getByTestId("dropdown-menu-btn");
 
    assertInDocument(entryCard);

@@ -71,42 +71,48 @@ export const PromptView = ({ prompt }: Props) => {
    };
 
    return (
-      <div data-testid="prompt-view">
-         <Card>
-            <CardHeader className="border-b pb-6">
-               <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                     <CardTitle className="text-3xl font-bold text-slate-900">
-                        {prompt.title}
-                     </CardTitle>
-                     <ToggleFavoriteButton prompt={prompt} />
+      <div className="container mx-auto px-4 py-8" data-testid="prompt-view">
+         <div className="mx-auto max-w-5xl p-4">
+            <Card>
+               <CardHeader className="border-b pb-6">
+                  <div className="space-y-4">
+                     <div className="flex items-start gap-3">
+                        <CardTitle className="text-3xl font-bold text-slate-900">
+                           {prompt.title}
+                        </CardTitle>
+                        <ToggleFavoriteButton prompt={prompt} />
+                     </div>
+                     {categories()}
+                     <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-slate-600">
+                        <div className="flex items-center gap-2">
+                           <Cpu className="size-4 text-indigo-600" />
+                           <Badge variant="outline">
+                              {prompt.recommendedModel}
+                           </Badge>
+                        </div>
+                        <div className="flex items-center gap-2">
+                           <Calendar className="size-4" />
+                           <span>
+                              {formatDateTime(prompt.createdAt).dateTime}
+                           </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                           <Clock className="size-4" />
+                           <span>
+                              {formatDateTime(prompt.updatedAt).dateTime}
+                           </span>
+                        </div>
+                     </div>
                   </div>
-                  {categories()}
-                  <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-slate-600">
-                     <div className="flex items-center gap-2">
-                        <Cpu className="size-4 text-indigo-600" />
-                        <Badge variant="outline">
-                           {prompt.recommendedModel}
-                        </Badge>
-                     </div>
-                     <div className="flex items-center gap-2">
-                        <Calendar className="size-4" />
-                        <span>{formatDateTime(prompt.createdAt).dateTime}</span>
-                     </div>
-                     <div className="flex items-center gap-2">
-                        <Clock className="size-4" />
-                        <span>{formatDateTime(prompt.updatedAt).dateTime}</span>
-                     </div>
-                  </div>
-               </div>
-               <CardAction>{actions()}</CardAction>
-            </CardHeader>
-            <CardContent className="space-y-6">
-               <PromptContent prompt={prompt} />
-               <PromptFollowUps prompt={prompt} />
-               <PromptVersions prompt={prompt} />
-            </CardContent>
-         </Card>
+                  <CardAction>{actions()}</CardAction>
+               </CardHeader>
+               <CardContent className="space-y-6">
+                  <PromptContent prompt={prompt} />
+                  <PromptFollowUps prompt={prompt} />
+                  <PromptVersions prompt={prompt} />
+               </CardContent>
+            </Card>
+         </div>
       </div>
    );
 };

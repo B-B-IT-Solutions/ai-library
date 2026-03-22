@@ -17,7 +17,7 @@ import {
 import { DLibraryCollection, DLibraryEntry } from "@/data/types/domain/library";
 import {
    AddToFavoriteButton,
-   CreatePromptButton,
+   CreatePromptFromTemplateButton,
    DownloadTemplateButton,
 } from "../../buttons";
 import { AddToLibraryCollectionDialog } from "../../collections";
@@ -120,7 +120,10 @@ export const LibraryEntryCard: FC<Props> = ({ entry, collections }) => {
             </p>
 
             <div className="flex gap-2 pt-2">
-               <CreatePromptButton descriptor={template} className="flex-1" />
+               <CreatePromptFromTemplateButton
+                  descriptor={template}
+                  className="flex-1"
+               />
                {dropdownMenu()}
             </div>
          </CardContent>

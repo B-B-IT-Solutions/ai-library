@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useState } from "react";
-import { BookType, Check, ChevronsUpDown, Plus, X } from "lucide-react";
+import { Check, ChevronsUpDown, Plus } from "lucide-react";
 import { Control } from "react-hook-form";
 
 import { Button } from "@/components/shadcn/button";
@@ -155,11 +155,6 @@ export const BasicInfoEdit: FC<Props> = ({ control }) => {
 
    return (
       <section className="space-y-4" data-testid="basic-info-edit">
-         <h3 className="flex items-center gap-2 text-lg font-semibold text-slate-900">
-            <BookType className="h-5 w-5 text-indigo-600" />
-            Allgemeine Informationen
-         </h3>
-
          {title()}
          {recommendedModel()}
          {renderCategories()}

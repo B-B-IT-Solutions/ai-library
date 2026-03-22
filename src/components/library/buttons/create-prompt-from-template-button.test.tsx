@@ -14,7 +14,7 @@ import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 
-import { CreatePromptButton } from "./create-prompt-button";
+import { CreatePromptFromTemplateButton } from "./create-prompt-from-template-button";
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
@@ -29,18 +29,18 @@ const getPromptGenerationTemplateDataMock =
    >;
 
 const assertRendered = () => {
-   const createPromptBtn = screen.getByTestId("create-prompt-btn");
-   assertInDocument(createPromptBtn);
+   const btn = screen.getByTestId("create-prompt-from-template-btn");
+   assertInDocument(btn);
 };
 
-describe("CreatePromptButton rendering tests", () => {
-   it("CreatePromptButton - with fields - rendered test", async () => {
+describe("CreatePromptFromTemplateButton rendering tests", () => {
+   it("CreatePromptFromTemplateButton - with fields - rendered test", async () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
       getPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const { container } = render(
-         <CreatePromptButton descriptor={descriptor} />
+         <CreatePromptFromTemplateButton descriptor={descriptor} />
       );
 
       await waitFor(() => {
@@ -50,14 +50,14 @@ describe("CreatePromptButton rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("CreatePromptButton - without fields - rendered test", async () => {
+   it("CreatePromptFromTemplateButton - without fields - rendered test", async () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
       data.allFields = [];
       getPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const { container } = render(
-         <CreatePromptButton descriptor={descriptor} />
+         <CreatePromptFromTemplateButton descriptor={descriptor} />
       );
 
       await waitFor(() => {
@@ -67,31 +67,34 @@ describe("CreatePromptButton rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("CreatePromptButton - with className - rendered test", async () => {
+   it("CreatePromptFromTemplateButton - with className - rendered test", async () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
       getPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const { container } = render(
-         <CreatePromptButton descriptor={descriptor} className="custom-class" />
+         <CreatePromptFromTemplateButton
+            descriptor={descriptor}
+            className="custom-class"
+         />
       );
 
       await waitFor(() => {
          assertRendered();
       });
 
-      const button = screen.getByTestId("create-prompt-btn");
-      expect(button).toHaveClass("custom-class");
+      const btn = screen.getByTestId("create-prompt-from-template-btn");
+      expect(btn).toHaveClass("custom-class");
       expect(container).toMatchSnapshot();
    });
 });
 
-describe("CreatePromptButton functionality - no fields - tests", () => {
+describe("CreatePromptFromTemplateButton functionality - no fields - tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("CreatePromptButton - submit clicked - success - data null - test", async () => {
+   it("CreatePromptFromTemplateButton - submit clicked - success - data null - test", async () => {
       getPromptGenerationTemplateDataMock.mockResolvedValue(null);
 
       const promptUpdate = dtestData.dPromptUpdate();
@@ -104,14 +107,16 @@ describe("CreatePromptButton functionality - no fields - tests", () => {
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
-      render(<CreatePromptButton descriptor={descriptor} />);
+      render(<CreatePromptFromTemplateButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRendered();
          expect(composePromptFromTemplateMock).not.toHaveBeenCalled();
       });
 
-      const createPromptBtn = screen.getByTestId("create-prompt-btn");
+      const createPromptBtn = screen.getByTestId(
+         "create-prompt-from-template-btn"
+      );
       await userEvent.click(createPromptBtn);
 
       expect(composePromptFromTemplateMock).toHaveBeenCalledTimes(1);
@@ -121,7 +126,7 @@ describe("CreatePromptButton functionality - no fields - tests", () => {
       );
    });
 
-   it("CreatePromptButton - submit clicked - success - test", async () => {
+   it("CreatePromptFromTemplateButton - submit clicked - success - test", async () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
       data.allFields = [];
       getPromptGenerationTemplateDataMock.mockResolvedValue(data);
@@ -136,14 +141,16 @@ describe("CreatePromptButton functionality - no fields - tests", () => {
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
-      render(<CreatePromptButton descriptor={descriptor} />);
+      render(<CreatePromptFromTemplateButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRendered();
          expect(composePromptFromTemplateMock).not.toHaveBeenCalled();
       });
 
-      const createPromptBtn = screen.getByTestId("create-prompt-btn");
+      const createPromptBtn = screen.getByTestId(
+         "create-prompt-from-template-btn"
+      );
       await userEvent.click(createPromptBtn);
 
       expect(composePromptFromTemplateMock).toHaveBeenCalledTimes(1);
@@ -153,7 +160,7 @@ describe("CreatePromptButton functionality - no fields - tests", () => {
       );
    });
 
-   it("CreatePromptButton - submit clicked - error - test", async () => {
+   it("CreatePromptFromTemplateButton - submit clicked - error - test", async () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
       data.allFields = [];
       getPromptGenerationTemplateDataMock.mockResolvedValue(data);
@@ -166,14 +173,16 @@ describe("CreatePromptButton functionality - no fields - tests", () => {
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
-      render(<CreatePromptButton descriptor={descriptor} />);
+      render(<CreatePromptFromTemplateButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRendered();
          expect(composePromptFromTemplateMock).not.toHaveBeenCalled();
       });
 
-      const createPromptBtn = screen.getByTestId("create-prompt-btn");
+      const createPromptBtn = screen.getByTestId(
+         "create-prompt-from-template-btn"
+      );
       await userEvent.click(createPromptBtn);
 
       expect(composePromptFromTemplateMock).toHaveBeenCalledTimes(1);
@@ -186,12 +195,12 @@ describe("CreatePromptButton functionality - no fields - tests", () => {
    });
 });
 
-describe("CreatePromptButton functionality - with fields - tests", () => {
+describe("CreatePromptFromTemplateButton functionality - with fields - tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("CreatePromptButton - submit clicked - success - test", async () => {
+   it("CreatePromptFromTemplateButton - submit clicked - success - test", async () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
       getPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
@@ -205,13 +214,15 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
-      render(<CreatePromptButton descriptor={descriptor} />);
+      render(<CreatePromptFromTemplateButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRendered();
       });
 
-      const createPromptBtn = screen.getByTestId("create-prompt-btn");
+      const createPromptBtn = screen.getByTestId(
+         "create-prompt-from-template-btn"
+      );
       await userEvent.click(createPromptBtn);
 
       await waitFor(() => {
@@ -238,12 +249,12 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
       );
 
       await waitFor(() => {
-         const reviewDialog = screen.getByTestId("prompt-edit");
-         assertInDocument(reviewDialog);
+         const dialog = screen.getByTestId("prompt-edit-form");
+         assertInDocument(dialog);
       });
    });
 
-   it("CreatePromptButton - submit clicked - error - test", async () => {
+   it("CreatePromptFromTemplateButton - submit clicked - error - test", async () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
       getPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
@@ -255,13 +266,15 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
-      render(<CreatePromptButton descriptor={descriptor} />);
+      render(<CreatePromptFromTemplateButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRendered();
       });
 
-      const createPromptBtn = screen.getByTestId("create-prompt-btn");
+      const createPromptBtn = screen.getByTestId(
+         "create-prompt-from-template-btn"
+      );
       await userEvent.click(createPromptBtn);
 
       await waitFor(() => {
@@ -292,19 +305,21 @@ describe("CreatePromptButton functionality - with fields - tests", () => {
       });
    });
 
-   it("CreatePromptButton - close clicked- test", async () => {
+   it("CreatePromptFromTemplateButton - close clicked- test", async () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
       getPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
-      render(<CreatePromptButton descriptor={descriptor} />);
+      render(<CreatePromptFromTemplateButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRendered();
       });
 
-      const createPromptBtn = screen.getByTestId("create-prompt-btn");
+      const createPromptBtn = screen.getByTestId(
+         "create-prompt-from-template-btn"
+      );
       await userEvent.click(createPromptBtn);
 
       await waitFor(() => {

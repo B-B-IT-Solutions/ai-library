@@ -14,7 +14,7 @@ const getPromptMock = getPrompt as jest.MockedFunction<typeof getPrompt>;
 const notFoundMock = notFound as jest.MockedFunction<typeof notFound>;
 
 const expectedMetadata: Metadata = {
-   title: "Edit Prompt",
+   title: "Prompt Bearbeiten",
 };
 
 const assertRendered = () => {
@@ -31,7 +31,7 @@ describe("EditPromptPage rendering tests", () => {
    });
 
    it("EditPromptPage - prompt not found - rendered test", async () => {
-      getPromptMock.mockResolvedValue(undefined);
+      getPromptMock.mockResolvedValue(null);
 
       const params = { id: "prompt-1" };
       const props: PageProps = {

@@ -11,19 +11,16 @@ import {
 } from "@/components/shadcn/dialog";
 import { CallbackFn } from "@/data/types/common";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
-import { PromptEdit } from "../prompt";
+import { PromptEditForm } from "../prompt";
 
 type Props = {
    onCancel: CallbackFn;
    promptUpdate: DPromptUpdate;
 };
 
-export const CreatePromptPreviewDialog = ({
-   onCancel,
-   promptUpdate,
-}: Props) => {
+export const CreatePromptDialog = ({ onCancel, promptUpdate }: Props) => {
    const content = () => {
-      return <PromptEdit prompt={promptUpdate} mode="review-template" />;
+      return <PromptEditForm prompt={promptUpdate} mode="review-template" />;
    };
 
    return (
