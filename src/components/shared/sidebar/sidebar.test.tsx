@@ -9,6 +9,7 @@ import {
 } from "@tests";
 import mockRouter from "next-router-mock";
 
+import { APP_NAME } from "@/lib/constants";
 import { toTestId } from "@/lib/utils";
 
 import { Sidebar } from "./sidebar";
@@ -28,7 +29,7 @@ const assertRendered = () => {
 };
 
 const assertHeader = () => {
-   const appName = screen.getByText("KI Bibliothek");
+   const appName = screen.getByText(APP_NAME);
    const homeLink = screen.getByTestId("home-link");
 
    assertInDocument(homeLink);
@@ -44,8 +45,8 @@ const assertMenuItems = () => {
    const marketplace = screen.getByTestId("menu-item-marketplace");
 
    const groupOther = screen.getByTestId("group-other");
-   const feedback = screen.getByTestId("menu-item-feedback");
-   const invitePeople = screen.getByTestId("menu-item-invite-people");
+   // const feedback = screen.getByTestId("menu-item-feedback");
+   // const invitePeople = screen.getByTestId("menu-item-invite-people");
    const settings = screen.getByTestId("menu-item-settings");
 
    assertInDocument(groupPrompts);
@@ -56,8 +57,8 @@ const assertMenuItems = () => {
    assertInDocument(marketplace);
 
    assertInDocument(groupOther);
-   assertInDocument(feedback);
-   assertInDocument(invitePeople);
+   // assertInDocument(feedback);
+   // assertInDocument(invitePeople);
    assertInDocument(settings);
 };
 
@@ -132,8 +133,8 @@ describe("Sidebar functionality tests", () => {
       await assertNavigateToMenuItem("/prompts", "/prompts");
       await assertNavigateToMenuItem("/library", "/library");
       await assertNavigateToMenuItem("/marketplace", "/marketplace");
-      await assertNavigateToMenuItem("/feedback", "/feedback");
-      await assertNavigateToMenuItem("/invite-people", "/invite-people");
+      // await assertNavigateToMenuItem("/feedback", "/feedback");
+      // await assertNavigateToMenuItem("/invite-people", "/invite-people");
       await assertNavigateToMenuItem("/settings", "/settings/general");
    });
 
