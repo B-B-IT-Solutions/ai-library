@@ -3,13 +3,13 @@ import { BreadcrumbLinkProps } from "@/components/shared/breadcrumbs/item-detail
 
 type Props =
    | { variant: "view"; title: string }
-   | { variant: "edit"; title: string; entryId: string }
+   | { variant: "edit"; title: string; promptId: string }
    | { variant: "new" };
 
-export const LibraryEntryBreadcrumb = (props: Props) => {
+export const PromptBreadcrumb = (props: Props) => {
    const rootLink: BreadcrumbLinkProps = {
-      label: "Vorlagen",
-      href: "/library",
+      label: "Prompts",
+      href: "/prompts",
    };
 
    if (props.variant === "new") {
@@ -18,9 +18,9 @@ export const LibraryEntryBreadcrumb = (props: Props) => {
             root={rootLink}
             variant={props.variant}
             page={{
-               label: "Neue Vorlage",
+               label: "Neuer Prompt",
             }}
-            data-testid="libary-entry-breadcrumb"
+            data-testid="prompt-breadcrumb"
          />
       );
    }
@@ -31,11 +31,11 @@ export const LibraryEntryBreadcrumb = (props: Props) => {
             root={rootLink}
             variant={props.variant}
             link={{
-               href: `${rootLink.href}/${props.entryId}`,
+               href: `${rootLink.href}/${props.promptId}`,
                label: props.title,
                tooltip: props.title,
             }}
-            data-testid="libary-entry-breadcrumb"
+            data-testid="prompt-breadcrumb"
          />
       );
    }
@@ -48,7 +48,7 @@ export const LibraryEntryBreadcrumb = (props: Props) => {
             label: props.title,
             tooltip: props.title,
          }}
-         data-testid="libary-entry-breadcrumb"
+         data-testid="prompt-breadcrumb"
       />
    );
 };

@@ -6,6 +6,7 @@ import {
    ItemDetailsEditHeader,
 } from "@/components/shared/wrappers/item-details";
 import { DPromptDescriptor } from "@/data/types/domain/prompt";
+import { PromptBreadcrumb } from "../../breadcrumbs";
 
 import { PromptEditForm } from "./prompt-edit-form";
 
@@ -28,11 +29,26 @@ export const PromptEdit = ({ prompt }: Props) => {
       );
    };
 
+   const breadcrumbs = () => {
+      if (prompt) {
+         return (
+            <PromptBreadcrumb
+               variant="edit"
+               title={prompt.title}
+               promptId={prompt.id}
+            />
+         );
+      }
+      return <PromptBreadcrumb variant="new" />;
+   };
+
    return (
       <ItemDetailsEdit data-testid="prompt-edit">
          <ItemDetailsEditHeader>{header()}</ItemDetailsEditHeader>
          <ItemDetailsEditContent>
-            <ItemDetailsEditBreadcrumbs>Breadcrumbs</ItemDetailsEditBreadcrumbs>
+            <ItemDetailsEditBreadcrumbs>
+               {breadcrumbs()}
+            </ItemDetailsEditBreadcrumbs>
             <ItemDetailsEditBody>
                <PromptEditForm
                   prompt={prompt}

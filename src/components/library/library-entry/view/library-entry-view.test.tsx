@@ -6,11 +6,11 @@ import { LibraryEntryView } from "./library-entry-view";
 
 const assertRendered = () => {
    const libraryEntry = screen.getByTestId("library-entry-view");
-   const breadcrumbs = screen.getByTestId("libary-entry-breadcrumbs");
+   const breadcrumb = screen.getByTestId("libary-entry-breadcrumb");
    const form = screen.getByTestId("library-entry-view-form");
 
    assertInDocument(libraryEntry);
-   assertInDocument(breadcrumbs);
+   assertInDocument(breadcrumb);
    assertInDocument(form);
 };
 

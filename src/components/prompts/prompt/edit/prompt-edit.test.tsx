@@ -6,9 +6,11 @@ import { PromptEdit } from "./prompt-edit";
 
 const assertRendered = () => {
    const editEntry = screen.getByTestId("prompt-edit");
+   const breadcrumb = screen.getByTestId("prompt-breadcrumb");
    const form = screen.getByTestId("prompt-edit-form");
 
    assertInDocument(editEntry);
+   assertInDocument(breadcrumb);
    assertInDocument(form);
 };
 

@@ -6,6 +6,7 @@ import {
    ItemDetailsViewHeader,
 } from "@/components/shared/wrappers/item-details";
 import { DPromptDescriptor } from "@/data/types/domain/prompt";
+import { PromptBreadcrumb } from "../../breadcrumbs";
 
 import { PromptViewForm } from "./prompt-view-form";
 
@@ -22,7 +23,9 @@ export const PromptView = ({ prompt }: Props) => {
             </h1>
          </ItemDetailsViewHeader>
          <ItemDetailsViewContent>
-            <ItemDetailsViewBreadcrumbs>Breadcrumb</ItemDetailsViewBreadcrumbs>
+            <ItemDetailsViewBreadcrumbs>
+               <PromptBreadcrumb variant="view" title={prompt.title} />
+            </ItemDetailsViewBreadcrumbs>
             <ItemDetailsViewBody>
                <PromptViewForm prompt={prompt} />
             </ItemDetailsViewBody>

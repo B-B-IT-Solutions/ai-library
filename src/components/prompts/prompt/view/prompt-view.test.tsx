@@ -5,9 +5,11 @@ import { PromptView } from "./prompt-view";
 
 const assertRendered = () => {
    const view = screen.getByTestId("prompt-view");
+   const breadcrumb = screen.getByTestId("prompt-breadcrumb");
    const form = screen.getByTestId("prompt-view-form");
 
    assertInDocument(view);
+   assertInDocument(breadcrumb);
    assertInDocument(form);
 };
 
