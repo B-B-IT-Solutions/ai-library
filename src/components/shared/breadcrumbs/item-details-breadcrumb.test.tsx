@@ -57,7 +57,7 @@ describe("ItemDetailsBreadcrumb rendering test", () => {
             variant="view"
             page={{
                label: "Template 1",
-               title: "Tooltip 1",
+               tooltip: "Tooltip 1",
             }}
          />
       );
@@ -81,7 +81,7 @@ describe("ItemDetailsBreadcrumb rendering test", () => {
             link={{
                href: "/library/entry-id-1",
                label: "Template 2",
-               title: "Tooltip 2",
+               tooltip: "Tooltip 2",
             }}
          />
       );
@@ -136,7 +136,7 @@ describe("ItemDetailsBreadcrumb funtionality tests", () => {
             variant="view"
             page={{
                label: "Template 1",
-               title: "Tooltip 1",
+               tooltip: "Tooltip 1",
             }}
          />
       );
@@ -164,7 +164,7 @@ describe("ItemDetailsBreadcrumb funtionality tests", () => {
             link={{
                href: "/library/entry-id-123",
                label: "Template 2",
-               title: "Tooltip 2",
+               tooltip: "Tooltip 2",
             }}
          />
       );

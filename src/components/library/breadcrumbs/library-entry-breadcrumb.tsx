@@ -33,7 +33,7 @@ export const LibraryEntryBreadcrumb = (props: Props) => {
             link={{
                href: `/library/${props.entryId}`,
                label: props.title,
-               title: props.title,
+               tooltip: props.title,
             }}
             data-testid="libary-entry-breadcrumb"
          />
@@ -46,7 +46,7 @@ export const LibraryEntryBreadcrumb = (props: Props) => {
          variant={props.variant}
          page={{
             label: props.title,
-            title: props.title,
+            tooltip: props.title,
          }}
          data-testid="libary-entry-breadcrumb"
       />

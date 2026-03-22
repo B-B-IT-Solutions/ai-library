@@ -12,18 +12,18 @@ import {
 export type BreadcrumbLinkProps = {
    href: string;
    label: string;
-   title?: string;
+   tooltip?: string;
 };
 
-export type BreadcrumbPageProps = { label: string; title?: string };
+export type BreadcrumbPageProps = { label: string; tooltip?: string };
 
 type Props = {
    root: BreadcrumbLinkProps;
    "data-testid"?: string;
 } & (
+   | { variant: "new"; page: BreadcrumbPageProps }
    | { variant: "view"; page: BreadcrumbPageProps }
    | { variant: "edit"; link: BreadcrumbLinkProps }
-   | { variant: "new"; page: BreadcrumbPageProps }
 );
 
 export const ItemDetailsBreadcrumb = (props: Props) => {
@@ -57,7 +57,7 @@ export const ItemDetailsBreadcrumb = (props: Props) => {
                   <BreadcrumbLink
                      asChild={true}
                      className="max-w-40 truncate"
-                     title={props.link.title}
+                     title={props.link.tooltip}
                   >
                      <Link href={props.link.href} data-testid="item-link">
                         {props.link.label}
@@ -72,7 +72,7 @@ export const ItemDetailsBreadcrumb = (props: Props) => {
          <BreadcrumbItem>
             <BreadcrumbPage
                className="max-w-40 truncate"
-               title={props.page.title}
+               title={props.page.tooltip}
             >
                {props.page.label}
             </BreadcrumbPage>
