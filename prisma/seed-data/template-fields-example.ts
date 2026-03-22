@@ -1,28 +1,30 @@
 import { PromptTemplateDescriptorCreateInput } from "@/generated/prisma/models";
 
-const promptTemplateCategories = (categories: string[]) => {
+const promptTemplateCategories = (userId: string, categories: string[]) => {
    return categories.map((cat: string) => ({
-      where: { name: cat },
-      create: { name: cat },
+      where: { userId_name: { userId, name: cat } },
+      create: { name: cat, userId },
    }));
 };
 
-export const codeReviewTemplateWithFields: PromptTemplateDescriptorCreateInput =
-   {
-      title: "KI-gestützte Code-Review",
-      description:
-         "Lassen Sie Ihren Code von einer KI analysieren mit Fokus auf Best Practices, Performance und Sicherheit.",
-      recommendedModel: "Claude",
-      categories: {
-         connectOrCreate: promptTemplateCategories([
-            "Entwicklung",
-            "Code-Qualität",
-            "Best Practices",
-         ]),
-      },
-      promptTemplate: {
-         create: {
-            content: `Bitte führe eine professionelle Code-Review für den folgenden {{programming_language}}-Code durch:
+export const codeReviewTemplateWithFields = (
+   userId: string
+): PromptTemplateDescriptorCreateInput => ({
+   user: { connect: { id: userId } },
+   title: "KI-gestützte Code-Review",
+   description:
+      "Lassen Sie Ihren Code von einer KI analysieren mit Fokus auf Best Practices, Performance und Sicherheit.",
+   recommendedModel: "Claude",
+   categories: {
+      connectOrCreate: promptTemplateCategories(userId, [
+         "Entwicklung",
+         "Code-Qualität",
+         "Best Practices",
+      ]),
+   },
+   promptTemplate: {
+      create: {
+         content: `Bitte führe eine professionelle Code-Review für den folgenden {{programming_language}}-Code durch:
 
 \`\`\`{{programming_language}}
 {{code_snippet}}
@@ -61,72 +63,75 @@ Analysiere den Code detailliert und gib strukturiertes Feedback zu folgenden Pun
    - Werden moderne Sprachfeatures optimal genutzt?
 
 Gib für jeden kritischen Punkt ein konkretes Code-Beispiel, wie es verbessert werden kann.`,
-            fields: {
-               create: [
-                  {
-                     name: "code_snippet",
-                     label: "Code-Snippet",
-                     description:
-                        "Fügen Sie den Code ein, der überprüft werden soll",
-                     type: "TEXTAREA",
-                     required: true,
-                     order: 0,
-                  },
-                  {
-                     name: "programming_language",
-                     label: "Programmiersprache",
-                     type: "SELECT",
-                     required: true,
-                     order: 1,
-                     options: [
-                        "JavaScript",
-                        "TypeScript",
-                        "Python",
-                        "Java",
-                        "C#",
-                        "Go",
-                        "Rust",
-                        "PHP",
-                        "Ruby",
-                        "C++",
-                     ],
-                  },
-                  {
-                     name: "focus_area",
-                     label: "Fokusbereich",
-                     description: "Worauf soll die Review fokussiert sein?",
-                     type: "RADIO",
-                     required: true,
-                     order: 2,
-                     options: [
-                        "Best Practices",
-                        "Performance",
-                        "Sicherheit",
-                        "Alles",
-                     ],
-                     defaultValue: "Best Practices",
-                  },
-                  {
-                     name: "include_refactoring",
-                     label: "Refactoring-Vorschläge einbeziehen",
-                     type: "CHECKBOX",
-                     required: false,
-                     order: 3,
-                     defaultValue: "true",
-                  },
-               ],
-            },
+         fields: {
+            create: [
+               {
+                  name: "code_snippet",
+                  label: "Code-Snippet",
+                  description:
+                     "Fügen Sie den Code ein, der überprüft werden soll",
+                  type: "TEXTAREA",
+                  required: true,
+                  order: 0,
+               },
+               {
+                  name: "programming_language",
+                  label: "Programmiersprache",
+                  type: "SELECT",
+                  required: true,
+                  order: 1,
+                  options: [
+                     "JavaScript",
+                     "TypeScript",
+                     "Python",
+                     "Java",
+                     "C#",
+                     "Go",
+                     "Rust",
+                     "PHP",
+                     "Ruby",
+                     "C++",
+                  ],
+               },
+               {
+                  name: "focus_area",
+                  label: "Fokusbereich",
+                  description: "Worauf soll die Review fokussiert sein?",
+                  type: "RADIO",
+                  required: true,
+                  order: 2,
+                  options: [
+                     "Best Practices",
+                     "Performance",
+                     "Sicherheit",
+                     "Alles",
+                  ],
+                  defaultValue: "Best Practices",
+               },
+               {
+                  name: "include_refactoring",
+                  label: "Refactoring-Vorschläge einbeziehen",
+                  type: "CHECKBOX",
+                  required: false,
+                  order: 3,
+                  defaultValue: "true",
+               },
+            ],
          },
       },
-   };
+   },
+});
 
-export const emailTemplateWithFields: PromptTemplateDescriptorCreateInput = {
+export const emailTemplateWithFields = (
+   userId: string
+): PromptTemplateDescriptorCreateInput => ({
+   user: { connect: { id: userId } },
    title: "Professionelle E-Mail-Vorlage",
    description:
       "Erstellen Sie professionelle E-Mails für verschiedene Anlässe und Tonalitäten.",
    recommendedModel: "ChatGPT",
    categories: {
-      connectOrCreate: promptTemplateCategories([
+      connectOrCreate: promptTemplateCategories(userId, [
          "Kommunikation",
          "Business",
          "E-Mail",
@@ -229,15 +234,18 @@ Achte darauf, dass die E-Mail professionell, aber nicht zu förmlich wirkt.`,
          },
       },
    },
-};
+});
 
-export const socialMediaPostTemplate: PromptTemplateDescriptorCreateInput = {
+export const socialMediaPostTemplate = (
+   userId: string
+): PromptTemplateDescriptorCreateInput => ({
+   user: { connect: { id: userId } },
    title: "Social Media Post Generator",
    description:
       "Erstellen Sie ansprechende Social Media Posts für verschiedene Plattformen mit der optimalen Tonalität und Länge.",
    recommendedModel: "ChatGPT",
    categories: {
-      connectOrCreate: promptTemplateCategories([
+      connectOrCreate: promptTemplateCategories(userId, [
          "Copywriting",
          "Social Media",
          "Marketing",
@@ -372,15 +380,18 @@ Achte auf die plattformspezifischen Best Practices und aktuellen Trends.`,
          },
       },
    },
-};
+});
 
-export const productDescriptionTemplate: PromptTemplateDescriptorCreateInput = {
+export const productDescriptionTemplate = (
+   userId: string
+): PromptTemplateDescriptorCreateInput => ({
+   user: { connect: { id: userId } },
    title: "Produkt-Beschreibung Generator",
    description:
       "Erstellen Sie überzeugende Produktbeschreibungen, die verkaufen und Ihre Zielgruppe ansprechen.",
    recommendedModel: "ChatGPT",
    categories: {
-      connectOrCreate: promptTemplateCategories([
+      connectOrCreate: promptTemplateCategories(userId, [
          "Copywriting",
          "E-Commerce",
          "Marketing",
@@ -503,15 +514,18 @@ Verwende aktive Sprache, konkrete Beschreibungen und fokussiere auf den Kundennu
          },
       },
    },
-};
+});
 
-export const blogOutlineTemplate: PromptTemplateDescriptorCreateInput = {
+export const blogOutlineTemplate = (
+   userId: string
+): PromptTemplateDescriptorCreateInput => ({
+   user: { connect: { id: userId } },
    title: "Blog-Artikel Struktur Generator",
    description:
       "Erstellen Sie durchdachte Blog-Strukturen mit Headlines, Subheadlines und Content-Gliederung.",
    recommendedModel: "ChatGPT",
    categories: {
-      connectOrCreate: promptTemplateCategories([
+      connectOrCreate: promptTemplateCategories(userId, [
          "Copywriting",
          "Content-Marketing",
          "Blogging",
@@ -652,15 +666,18 @@ Die Struktur soll:
          },
       },
    },
-};
+});
 
-export const marketingEmailTemplate: PromptTemplateDescriptorCreateInput = {
+export const marketingEmailTemplate = (
+   userId: string
+): PromptTemplateDescriptorCreateInput => ({
+   user: { connect: { id: userId } },
    title: "Marketing-E-Mail Kampagne",
    description:
       "Erstellen Sie conversion-optimierte Marketing-E-Mails für Newsletter, Produktlaunches und Kampagnen.",
    recommendedModel: "ChatGPT",
    categories: {
-      connectOrCreate: promptTemplateCategories([
+      connectOrCreate: promptTemplateCategories(userId, [
          "Copywriting",
          "E-Mail-Marketing",
          "Marketing",
@@ -824,15 +841,18 @@ Die E-Mail soll:
          },
       },
    },
-};
+});
 
-export const seoMetaDescriptionTemplate: PromptTemplateDescriptorCreateInput = {
+export const seoMetaDescriptionTemplate = (
+   userId: string
+): PromptTemplateDescriptorCreateInput => ({
+   user: { connect: { id: userId } },
    title: "SEO Meta-Description Generator",
    description:
       "Erstellen Sie klickstarke Meta-Descriptions und Title-Tags für bessere Rankings und höhere CTR.",
    recommendedModel: "ChatGPT",
    categories: {
-      connectOrCreate: promptTemplateCategories([
+      connectOrCreate: promptTemplateCategories(userId, [
          "Copywriting",
          "SEO",
          "Content-Marketing",
@@ -969,14 +989,14 @@ Die Meta-Tags sollen:
          },
       },
    },
-};
+});
 
-export const templatesWithFields = [
-   codeReviewTemplateWithFields,
-   emailTemplateWithFields,
-   socialMediaPostTemplate,
-   productDescriptionTemplate,
-   blogOutlineTemplate,
-   marketingEmailTemplate,
-   seoMetaDescriptionTemplate,
+export const templatesWithFields = (userId: string) => [
+   codeReviewTemplateWithFields(userId),
+   emailTemplateWithFields(userId),
+   socialMediaPostTemplate(userId),
+   productDescriptionTemplate(userId),
+   blogOutlineTemplate(userId),
+   marketingEmailTemplate(userId),
+   seoMetaDescriptionTemplate(userId),
 ];

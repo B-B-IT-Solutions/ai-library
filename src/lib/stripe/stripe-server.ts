@@ -5,7 +5,7 @@ import { STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET } from "@/lib/constants";
 let _stripe: Stripe | null = null;
 
 export const stripeConfig: Stripe.StripeConfig = {
-   apiVersion: "2025-12-15.clover",
+   apiVersion: "2026-02-25.clover",
    typescript: true,
 };
 

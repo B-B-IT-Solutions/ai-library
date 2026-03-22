@@ -3,7 +3,7 @@ import Stripe from "stripe";
 import { stripeConfig } from "./stripe-server";
 
 const expectedStripeConfig: Stripe.StripeConfig = {
-   apiVersion: "2025-12-15.clover",
+   apiVersion: "2026-02-25.clover",
    typescript: true,
 };
 
