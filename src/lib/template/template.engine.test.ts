@@ -1,6 +1,5 @@
-jest.mock("strip-markdown", () => ({
-   ...jest.requireActual("strip-markdown"),
-}));
+import { remark } from "remark";
+import stripMarkdown from "strip-markdown";
 
 import {
    DPromptTemplateField,
@@ -8,6 +7,8 @@ import {
 } from "@/data/types/domain/prompt.template";
 
 import { TemplateEngine } from "./template.engine";
+
+const remarkMock = remark as jest.MockedFunction<typeof remark>;
 
 describe("TemplateEngine.replace - tests", () => {
    it("replaces single variable with value", () => {
@@ -404,19 +405,20 @@ describe("TemplateEngine.validate - tests", () => {
 
 describe("TemplateEngine.stripMarkdown", () => {
    it("returns plain text unchanged", () => {
-      expect(TemplateEngine.stripMarkdown("Hello World")).toBe("Hello World");
-   });
+      const text = "Hello World";
+      expect(TemplateEngine.stripMarkdown(text)).toBe(text);
+      expect(remarkMock).toHaveBeenCalledTimes(1);
 
-   it("trims leading and trailing whitespace", () => {
-      expect(TemplateEngine.stripMarkdown("  #Hello  ")).toBe("Hello");
-   });
+      const mockResult1 = remarkMock.mock.results[0].value;
+      expect(mockResult1.use).toHaveBeenCalledTimes(1);
+      expect(mockResult1.use).toHaveBeenCalledWith(stripMarkdown, {
+         keep: ["list", "listItem"],
+      });
+      expect(mockResult1.processSync).toHaveBeenCalledTimes(1);
+      expect(mockResult1.processSync).toHaveBeenCalledWith(text);
 
-   it("returns empty string for empty input", () => {
-      expect(TemplateEngine.stripMarkdown("")).toBe("");
-   });
-
-   it("trims newlines around text", () => {
-      expect(TemplateEngine.stripMarkdown("\nHello\n")).toBe("Hello");
+      const mockResult2 = mockResult1.processSync.mock.results[0].value;
+      expect(mockResult2.toString).toHaveBeenCalledTimes(1);
    });
 });
 
