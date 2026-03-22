@@ -1,13 +1,5 @@
-import Link from "next/link";
-
-import {
-   Breadcrumb,
-   BreadcrumbItem,
-   BreadcrumbLink,
-   BreadcrumbList,
-   BreadcrumbPage,
-   BreadcrumbSeparator,
-} from "@/components/shadcn/breadcrumb";
+import { ItemDetailsBreadcrumb } from "@/components/shared/breadcrumbs";
+import { BreadcrumbLinkProps } from "@/components/shared/breadcrumbs/item-details-breadcrumb";
 
 type Props =
    | { variant: "view"; title: string }
@@ -15,64 +7,48 @@ type Props =
    | { variant: "new" };
 
 export const LibraryEntryBreadcrumb = (props: Props) => {
-   const rootItem = () => {
-      return (
-         <BreadcrumbItem>
-            <BreadcrumbLink asChild={true}>
-               <Link href="/library" data-testid="root-link">
-                  Vorlagen
-               </Link>
-            </BreadcrumbLink>
-         </BreadcrumbItem>
-      );
+   const rootLink: BreadcrumbLinkProps = {
+      label: "Vorlagen",
+      href: "/library",
    };
 
-   const listItem = () => {
-      if (props.variant == "new") {
-         return (
-            <BreadcrumbItem>
-               <BreadcrumbPage>Neue Vorlage</BreadcrumbPage>
-            </BreadcrumbItem>
-         );
-      }
-
-      if (props.variant == "edit") {
-         return (
-            <>
-               <BreadcrumbItem>
-                  <BreadcrumbLink
-                     asChild={true}
-                     className="max-w-40 truncate"
-                     title={props.title}
-                  >
-                     <Link
-                        href={`/library/${props.entryId}`}
-                        data-testid="item-link"
-                     >
-                        {props.title}
-                     </Link>
-                  </BreadcrumbLink>
-               </BreadcrumbItem>
-            </>
-         );
-      }
-
+   if (props.variant === "new") {
       return (
-         <BreadcrumbItem>
-            <BreadcrumbPage className="max-w-40 truncate" title={props.title}>
-               {props.title}
-            </BreadcrumbPage>
-         </BreadcrumbItem>
+         <ItemDetailsBreadcrumb
+            root={rootLink}
+            variant={props.variant}
+            page={{
+               label: "Neue Vorlage",
+            }}
+            data-testid="libary-entry-breadcrumb"
+         />
       );
-   };
+   }
+
+   if (props.variant === "edit") {
+      return (
+         <ItemDetailsBreadcrumb
+            root={rootLink}
+            variant={props.variant}
+            link={{
+               href: `/library/${props.entryId}`,
+               label: props.title,
+               title: props.title,
+            }}
+            data-testid="libary-entry-breadcrumb"
+         />
+      );
+   }
 
    return (
-      <Breadcrumb data-testid="libary-entry-breadcrumbs">
-         <BreadcrumbList>
-            {rootItem()}
-            <BreadcrumbSeparator />
-            {listItem()}
-         </BreadcrumbList>
-      </Breadcrumb>
+      <ItemDetailsBreadcrumb
+         root={rootLink}
+         variant={props.variant}
+         page={{
+            label: props.title,
+            title: props.title,
+         }}
+         data-testid="libary-entry-breadcrumb"
+      />
    );
 };

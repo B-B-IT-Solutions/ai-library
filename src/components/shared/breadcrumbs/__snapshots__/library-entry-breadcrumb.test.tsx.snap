@@ -5,7 +5,7 @@ exports[`LibraryEntryBreadcrumb rendering test variant - edit - test 1`] = `
   <nav
     aria-label="breadcrumb"
     data-slot="breadcrumb"
-    data-testid="libary-entry-breadcrumb"
+    data-testid="libary-entry-breadcrumbs"
   >
     <ol
       class="flex flex-wrap items-center gap-1.5 text-sm break-words text-muted-foreground sm:gap-2.5"
@@ -72,7 +72,7 @@ exports[`LibraryEntryBreadcrumb rendering test variant - new - test 1`] = `
   <nav
     aria-label="breadcrumb"
     data-slot="breadcrumb"
-    data-testid="libary-entry-breadcrumb"
+    data-testid="libary-entry-breadcrumbs"
   >
     <ol
       class="flex flex-wrap items-center gap-1.5 text-sm break-words text-muted-foreground sm:gap-2.5"
@@ -139,7 +139,7 @@ exports[`LibraryEntryBreadcrumb rendering test variant - view - test 1`] = `
   <nav
     aria-label="breadcrumb"
     data-slot="breadcrumb"
-    data-testid="libary-entry-breadcrumb"
+    data-testid="libary-entry-breadcrumbs"
   >
     <ol
       class="flex flex-wrap items-center gap-1.5 text-sm break-words text-muted-foreground sm:gap-2.5"
