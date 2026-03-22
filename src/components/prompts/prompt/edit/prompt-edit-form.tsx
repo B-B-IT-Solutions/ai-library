@@ -231,11 +231,6 @@ export const PromptEditForm = ({ prompt, mode }: Props) => {
 
    return (
       <Card data-testid="prompt-edit-form">
-         <CardHeader className="border-b pb-6">
-            <CardTitle className="text-2xl font-bold text-slate-900">
-               {isEdit ? "Prompt bearbeiten" : "Neuen Prompt erstellen"}
-            </CardTitle>
-         </CardHeader>
          <CardContent>
             <Form {...form}>
                <form

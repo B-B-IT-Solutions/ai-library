@@ -42,17 +42,6 @@ exports[`EditPromptPage rendering tests EditPromptPage - prompt found - rendered
             data-testid="prompt-edit-form"
           >
             <div
-              class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 border-b pb-6"
-              data-slot="card-header"
-            >
-              <div
-                class="text-2xl font-bold text-slate-900"
-                data-slot="card-title"
-              >
-                Prompt bearbeiten
-              </div>
-            </div>
-            <div
               class="px-6"
               data-slot="card-content"
             >
@@ -63,37 +52,6 @@ exports[`EditPromptPage rendering tests EditPromptPage - prompt found - rendered
                   class="space-y-4"
                   data-testid="basic-info-edit"
                 >
-                  <h3
-                    class="flex items-center gap-2 text-lg font-semibold text-slate-900"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="lucide lucide-book-type h-5 w-5 text-indigo-600"
-                      fill="none"
-                      height="24"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M10 13h4"
-                      />
-                      <path
-                        d="M12 6v7"
-                      />
-                      <path
-                        d="M16 8V6H8v2"
-                      />
-                      <path
-                        d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"
-                      />
-                    </svg>
-                    Allgemeine Informationen
-                  </h3>
                   <div
                     class="grid gap-2"
                     data-slot="form-item"

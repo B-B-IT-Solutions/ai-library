@@ -249,8 +249,8 @@ describe("CreatePromptFromTemplateButton functionality - with fields - tests", (
       );
 
       await waitFor(() => {
-         const reviewDialog = screen.getByTestId("prompt-edit");
-         assertInDocument(reviewDialog);
+         const dialog = screen.getByTestId("prompt-edit-form");
+         assertInDocument(dialog);
       });
    });
 

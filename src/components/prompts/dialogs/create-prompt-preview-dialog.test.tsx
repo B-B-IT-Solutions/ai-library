@@ -7,10 +7,10 @@ import { CreatePromptPreviewDialog } from "./create-prompt-preview-dialog";
 
 const assertDialogRendered = () => {
    const dialog = screen.getByTestId("create-prompt-dialog");
-   const promptEdit = screen.getByTestId("prompt-edit");
+   const promptEditForm = screen.getByTestId("prompt-edit-form");
 
    assertInDocument(dialog);
-   assertInDocument(promptEdit);
+   assertInDocument(promptEditForm);
 };
 
 describe("CreatePromptPreviewDialog rendering tests", () => {
