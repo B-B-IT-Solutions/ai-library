@@ -1,6 +1,6 @@
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
-import { LibraryEntryBreadcrumb } from "../library-entry-breadcrumb";
+import { LibraryEntryBreadcrumb } from "../../breadcrumbs";
 
 import { LibraryEntryEditForm } from "./library-entry-edit-form";
 

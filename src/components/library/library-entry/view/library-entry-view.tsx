@@ -10,12 +10,12 @@ import {
 } from "@/components/shadcn/dropdown-menu";
 import { MDRenderer } from "@/components/shared/md";
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
+import { LibraryEntryBreadcrumb } from "../../breadcrumbs";
 import {
    CreatePromptFromTemplateButton,
    DownloadTemplateButton,
    EditLibraryEntryButton,
 } from "../../buttons";
-import { LibraryEntryBreadcrumb } from "../library-entry-breadcrumb";
 
 import { PromptTextDisplay } from "./prompt-text-display";
 
