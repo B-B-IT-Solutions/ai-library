@@ -1,37 +1,10 @@
 "use client";
 
-import { FC } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ChevronDown, History, Loader, Save } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
-import { toast } from "sonner";
-
-import { Button } from "@/components/shadcn/button";
-import {
-   Card,
-   CardContent,
-   CardHeader,
-   CardTitle,
-} from "@/components/shadcn/card";
-import {
-   DropdownMenu,
-   DropdownMenuContent,
-   DropdownMenuItem,
-   DropdownMenuTrigger,
-} from "@/components/shadcn/dropdown-menu";
-import { Form } from "@/components/shadcn/form";
-import { Separator } from "@/components/shadcn/separator";
-import { createPrompt, updatePrompt } from "@/data/actions/prompt";
 import { DPromptDescriptor, DPromptUpdate } from "@/data/types/domain/prompt";
-import { updatePromptSchema } from "@/data/types/validators/prompt";
 
-import { PromptContentEdit } from "./content/prompt-content-edit";
-import { PromptFollowUpsEdit } from "./follow-ups/prompt-follow-ups-edit";
-import { BasicInfoEdit } from "./header/basic-info-edit";
-import { removeEmpty } from "./utils";
+import { PromptEditForm } from "./prompt-edit-form";
 
-type PromptEditProps =
+type Props =
    | {
         prompt?: DPromptDescriptor;
         mode: "create";
@@ -45,221 +18,44 @@ type PromptEditProps =
         mode: "review-template";
      };
 
-export const PromptEdit: FC<PromptEditProps> = ({ prompt, mode }) => {
-   const router = useRouter();
-   const isEdit = mode === "edit";
-   const isReview = mode === "review-template";
-
-   const initValues = () => {
-      if (isEdit) {
-         return {
-            title: prompt.title,
-            content: prompt.content,
-            categories: prompt.categories.map((c) => c.name),
-            recommendedModel: prompt.recommendedModel,
-            followUpPrompts: prompt.followUpPrompts,
-         };
-      }
-      if (isReview) {
-         return {
-            title: prompt.title,
-            content: prompt.content,
-            categories: prompt.categories,
-            recommendedModel: prompt.recommendedModel,
-            followUpPrompts: prompt.followUpPrompts,
-         };
-      }
-      return {
-         title: "",
-         content: "",
-         categories: [],
-         recommendedModel: "",
-         followUpPrompts: [],
-      };
-   };
-
-   const form = useForm<DPromptUpdate>({
-      resolver: zodResolver(updatePromptSchema),
-      defaultValues: initValues(),
-   });
-
-   const {
-      fields: followUpPrompts,
-      append: addFollowUpPrompt,
-      remove: removeFollowUpPrompt,
-   } = useFieldArray({
-      control: form.control,
-      name: "followUpPrompts",
-      keyName: "_key",
-   });
-
-   const handleSave = async (data: DPromptUpdate, createVersion: boolean) => {
-      const filteredCategories = removeEmpty(data.categories);
-      const filteredFollowUpPrompts = data.followUpPrompts
-         .filter((f) => f.content.trim() !== "")
-         .map((f, idx) => ({ ...f, order: idx }));
-
-      const payload: DPromptUpdate = {
-         ...data,
-         categories: filteredCategories,
-         followUpPrompts: filteredFollowUpPrompts,
-      };
-
-      const result = isEdit
-         ? await updatePrompt(prompt.id, payload, createVersion)
-         : await createPrompt(payload);
-
-      if (result.success) {
-         toast.success(result.message);
-         if (isEdit) {
-            router.push(`/prompts/${prompt.id}`);
-         } else {
-            router.push("/prompts");
-         }
-      } else {
-         toast.error(result.message);
-      }
-   };
-
-   const onSubmit = (newVersion: boolean): SubmitHandler<DPromptUpdate> => {
-      return async (data) => await handleSave(data, newVersion);
-   };
-
-   const cancelBtn = () => {
-      return (
-         <Button
-            type="button"
-            variant="outline"
-            onClick={() => router.back()}
-            disabled={form.formState.isSubmitting}
-            data-testid="cancel-btn"
-         >
-            Abbrechen
-         </Button>
-      );
-   };
-
-   const saveBtnLabel = () => {
-      if (form.formState.isSubmitting) {
+export const PromptEdit = ({ prompt, mode }: Props) => {
+   const header = () => {
+      if (prompt) {
          return (
-            <>
-               <Loader className="h-4 w-4 animate-spin" />
-               Wird gespeichert...
-            </>
-         );
-      }
-      return (
-         <>
-            <Save className="h-4 w-4" />
-            Speichern
-         </>
-      );
-   };
-
-   const createBtnLabel = () => {
-      if (form.formState.isSubmitting) {
-         return (
-            <>
-               <Loader className="h-4 w-4 animate-spin" />
-               Wird erstellt...
-            </>
-         );
-      }
-      return (
-         <>
-            <Save className="h-4 w-4" />
-            Prompt erstellen
-         </>
-      );
-   };
-
-   const saveBtns = () => {
-      if (isEdit) {
-         return (
-            <div className="flex">
-               <Button
-                  type="submit"
-                  disabled={form.formState.isSubmitting}
-                  className="rounded-r-none"
-                  data-testid="save-btn"
-               >
-                  {saveBtnLabel()}
-               </Button>
-               <DropdownMenu>
-                  <DropdownMenuTrigger asChild={true}>
-                     <Button
-                        type="button"
-                        disabled={form.formState.isSubmitting}
-                        className="rounded-l-none border-l border-primary-foreground/20 px-2"
-                        data-testid="dropdown-trigger-btn"
-                     >
-                        <ChevronDown className="h-4 w-4" />
-                     </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                     <DropdownMenuItem
-                        onClick={form.handleSubmit(onSubmit(true))}
-                        disabled={form.formState.isSubmitting}
-                        data-testid="save-with-version-btn"
-                     >
-                        <History className="h-4 w-4" />
-                        Als neue Version speichern
-                     </DropdownMenuItem>
-                  </DropdownMenuContent>
-               </DropdownMenu>
+            <div>
+               <h1 className="text-2xl font-bold text-slate-900">
+                  Prompt bearbeiten
+               </h1>
+               <p className="mt-0.5 text-sm text-slate-600">{prompt.title}</p>
             </div>
          );
       }
-      return (
-         <Button
-            type="submit"
-            disabled={form.formState.isSubmitting}
-            data-testid="create-btn"
-         >
-            {createBtnLabel()}
-         </Button>
-      );
-   };
 
-   const actionBtns = () => {
       return (
-         <div className="flex items-center justify-end gap-3 pt-2">
-            {cancelBtn()}
-            {saveBtns()}
+         <div>
+            <h1 className="text-2xl font-bold text-slate-900">
+               Neuer Prompt erstellen
+            </h1>
+            <p className="mt-0.5 text-sm text-slate-600">
+               Erstellen Sie einen neuen Prompt
+            </p>
          </div>
       );
    };
 
    return (
-      <Card data-testid="prompt-edit">
-         <CardHeader className="border-b pb-6">
-            <CardTitle className="text-2xl font-bold text-slate-900">
-               {isEdit ? "Prompt bearbeiten" : "Neuen Prompt erstellen"}
-            </CardTitle>
-         </CardHeader>
-         <CardContent>
-            <Form {...form}>
-               <form
-                  onSubmit={form.handleSubmit(onSubmit(false))}
-                  className="space-y-6"
-                  data-testid="edit-form"
-               >
-                  <BasicInfoEdit control={form.control} />
-
-                  <Separator />
-                  <PromptContentEdit control={form.control} isEdit={isEdit} />
-                  <Separator />
-                  <PromptFollowUpsEdit
-                     control={form.control}
-                     followUpPrompts={followUpPrompts}
-                     addFollowUpPrompt={addFollowUpPrompt}
-                     removeFollowUpPrompt={removeFollowUpPrompt}
-                  />
-                  <Separator />
-                  {actionBtns()}
-               </form>
-            </Form>
-         </CardContent>
-      </Card>
+      <div
+         className="flex h-screen flex-col bg-slate-50"
+         data-testid="prompt-edit"
+      >
+         <div className="border-b border-slate-200 bg-white px-6 py-4">
+            <div className="flex items-center justify-between">{header()}</div>
+         </div>
+         <div className="flex-1 overflow-y-auto bg-slate-50">
+            <div className="mx-auto max-w-5xl p-4">
+               <PromptEditForm prompt={prompt} mode={mode} />
+            </div>
+         </div>
+      </div>
    );
 };

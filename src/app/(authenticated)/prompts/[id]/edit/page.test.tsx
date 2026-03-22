@@ -31,7 +31,7 @@ describe("EditPromptPage rendering tests", () => {
    });
 
    it("EditPromptPage - prompt not found - rendered test", async () => {
-      getPromptMock.mockResolvedValue(undefined);
+      getPromptMock.mockResolvedValue(null);
 
       const params = { id: "prompt-1" };
       const props: PageProps = {
