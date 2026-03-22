@@ -1,6 +1,15 @@
 import { isEmpty, map } from "es-toolkit/compat";
 import { MoreVertical } from "lucide-react";
+import Link from "next/link";
 
+import {
+   Breadcrumb,
+   BreadcrumbItem,
+   BreadcrumbLink,
+   BreadcrumbList,
+   BreadcrumbPage,
+   BreadcrumbSeparator,
+} from "@/components/shadcn/breadcrumb";
 import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import {
@@ -14,7 +23,6 @@ import {
    CreatePromptFromTemplateButton,
    DownloadTemplateButton,
    EditLibraryEntryButton,
-   ReturnToLibraryButton,
 } from "../../buttons";
 
 import { PromptTextDisplay } from "./prompt-text-display";
@@ -32,7 +40,19 @@ export const LibraryEntryView = ({ entry }: Props) => {
          data-testid="library-entry-view"
       >
          <div className="border-b border-slate-200 bg-white px-6 py-3">
-            <ReturnToLibraryButton />
+            <Breadcrumb>
+               <BreadcrumbList>
+                  <BreadcrumbItem>
+                     <BreadcrumbLink asChild={true}>
+                        <Link href="/library">Bibliothek</Link>
+                     </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                     <BreadcrumbPage>{descriptor.title}</BreadcrumbPage>
+                  </BreadcrumbItem>
+               </BreadcrumbList>
+            </Breadcrumb>
          </div>
 
          <div className="flex-1 overflow-y-auto">
