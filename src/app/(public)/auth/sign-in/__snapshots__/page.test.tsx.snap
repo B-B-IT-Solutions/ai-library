@@ -51,14 +51,14 @@ exports[`SignInPage rendering tests SignInPage - user not signed in - rendered t
               data-slot="card-title"
               data-testid="card-title"
             >
-              Welcome Back
+              Willkommen zurück
             </div>
             <div
               class="text-muted-foreground text-center text-base"
               data-slot="card-description"
               data-testid="card-description"
             >
-              Sign in to continue to your account
+              Melde dich an, um zu deinem Konto zu gelangen
             </div>
           </div>
         </div>
@@ -74,25 +74,27 @@ exports[`SignInPage rendering tests SignInPage - user not signed in - rendered t
       <p
         class="mt-6 text-center text-xs text-muted-foreground"
       >
-        By signing in, you agree to our
+        Mit der Anmeldung stimmst du unseren
          
         <a
           class="underline underline-offset-2 transition-colors hover:text-foreground"
           data-testid="mock-link"
           href="/terms"
         >
-          Terms of Service
+          Nutzungsbedingungen
         </a>
          
-        and
+        und unserer
          
         <a
           class="underline underline-offset-2 transition-colors hover:text-foreground"
           data-testid="mock-link"
           href="/privacy"
         >
-          Privacy Policy
+          Datenschutzerklärung
         </a>
+         
+        zu
       </p>
     </div>
   </div>

@@ -62,13 +62,13 @@ const SignInPage = async (props: SignInPageProps) => {
                         className="text-center text-3xl font-bold tracking-tight"
                         data-testid="card-title"
                      >
-                        Welcome Back
+                        Willkommen zurück
                      </CardTitle>
                      <CardDescription
                         className="text-center text-base"
                         data-testid="card-description"
                      >
-                        Sign in to continue to your account
+                        Melde dich an, um zu deinem Konto zu gelangen
                      </CardDescription>
                   </div>
                </CardHeader>
@@ -77,20 +77,21 @@ const SignInPage = async (props: SignInPageProps) => {
                </CardContent>
             </Card>
             <p className="mt-6 text-center text-xs text-muted-foreground">
-               By signing in, you agree to our{" "}
+               Mit der Anmeldung stimmst du unseren{" "}
                <Link
                   href="/terms"
                   className="underline underline-offset-2 transition-colors hover:text-foreground"
                >
-                  Terms of Service
+                  Nutzungsbedingungen
                </Link>{" "}
-               and{" "}
+               und unserer{" "}
                <Link
                   href="/privacy"
                   className="underline underline-offset-2 transition-colors hover:text-foreground"
                >
-                  Privacy Policy
-               </Link>
+                  Datenschutzerklärung
+               </Link>{" "}
+               zu
             </p>
          </div>
       </div>
