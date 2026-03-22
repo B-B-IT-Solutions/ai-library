@@ -2,8 +2,6 @@ import { map } from "es-toolkit/compat";
 
 import { PromptDescriptorCreateInput } from "@/generated/prisma/models";
 
-import { SEED_USER_EMAIL } from "./prompt-templates";
-
 const promptCategories = (userId: string, categories: string[]) => {
    return map(categories, (cat: string) => {
       return {
