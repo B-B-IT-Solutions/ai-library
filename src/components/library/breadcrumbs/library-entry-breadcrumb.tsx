@@ -53,10 +53,6 @@ export const LibraryEntryBreadcrumb = (props: Props) => {
                      </Link>
                   </BreadcrumbLink>
                </BreadcrumbItem>
-               <BreadcrumbSeparator />
-               <BreadcrumbItem>
-                  <BreadcrumbPage>Bearbeiten</BreadcrumbPage>
-               </BreadcrumbItem>
             </>
          );
       }
