@@ -2,7 +2,10 @@ import { PrismaClient } from "@/generated/prisma/client";
 
 import { bundlesData } from "./seed-data/bundles";
 import { templateProductMetadata } from "./seed-data/product-metadata";
-import { promptTemplatesData } from "./seed-data/prompt-templates";
+import {
+   promptTemplatesData,
+   SEED_USER_EMAIL,
+} from "./seed-data/prompt-templates";
 import { promptsData } from "./seed-data/prompts";
 import { subscriptionPlansData } from "./seed-data/subscription-plans";
 import { templatesWithFields } from "./seed-data/template-fields-example";
@@ -34,10 +37,17 @@ export const main = async () => {
       });
    }
 
+   console.log("\nCreating seed user...");
+   const seedUser = await prisma.user.upsert({
+      where: { email: SEED_USER_EMAIL },
+      update: {},
+      create: { email: SEED_USER_EMAIL, name: "test 1" },
+   });
+
    console.log("\nCreating prompt templates...");
 
    const createdTemplateDesciptors = [];
-   for (const pt of promptTemplatesData) {
+   for (const pt of promptTemplatesData(seedUser.id)) {
       const templateDescriptor = await prisma.promptTemplateDescriptor.create({
          data: pt,
          include: {
