@@ -18,10 +18,7 @@ type Props = {
    promptUpdate: DPromptUpdate;
 };
 
-export const CreatePromptPreviewDialog = ({
-   onCancel,
-   promptUpdate,
-}: Props) => {
+export const CreatePromptDialog = ({ onCancel, promptUpdate }: Props) => {
    const content = () => {
       return <PromptEditForm prompt={promptUpdate} mode="review-template" />;
    };

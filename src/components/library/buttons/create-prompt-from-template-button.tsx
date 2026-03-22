@@ -6,7 +6,7 @@ import { Loader, Plus } from "lucide-react";
 import { toast } from "sonner";
 
 import { CreatePromptFromTemplateDialog } from "@/components/prompt-templates";
-import { CreatePromptPreviewDialog } from "@/components/prompts";
+import { CreatePromptDialog } from "@/components/prompts";
 import { Button } from "@/components/shadcn/button";
 import { composePromptFromTemplate } from "@/data/actions/library";
 import { getPromptGenerationTemplateData } from "@/data/actions/prompt-template";
@@ -74,7 +74,7 @@ export const CreatePromptFromTemplateButton: FC<Props> = ({
    const dialog = () => {
       if (mode === "review" && generatedPrompt) {
          return (
-            <CreatePromptPreviewDialog
+            <CreatePromptDialog
                onCancel={handleCancel}
                promptUpdate={generatedPrompt}
             />

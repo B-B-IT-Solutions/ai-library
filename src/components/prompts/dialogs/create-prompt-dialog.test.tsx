@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { assertInDocument, dtestData } from "@tests";
 
-import { CreatePromptPreviewDialog } from "./create-prompt-preview-dialog";
+import { CreatePromptDialog } from "./create-prompt-dialog";
 
 const assertDialogRendered = () => {
    const dialog = screen.getByTestId("create-prompt-dialog");
@@ -13,16 +13,13 @@ const assertDialogRendered = () => {
    assertInDocument(promptEditForm);
 };
 
-describe("CreatePromptPreviewDialog rendering tests", () => {
-   it("CreatePromptPreviewDialog render test", async () => {
+describe("CreatePromptDialog rendering tests", () => {
+   it("CreatePromptDialog render test", async () => {
       const promptUpdate = dtestData.dPromptUpdate();
       const cancelFn = jest.fn();
 
       const { container } = render(
-         <CreatePromptPreviewDialog
-            promptUpdate={promptUpdate}
-            onCancel={cancelFn}
-         />
+         <CreatePromptDialog promptUpdate={promptUpdate} onCancel={cancelFn} />
       );
 
       await waitFor(() => {
@@ -33,19 +30,17 @@ describe("CreatePromptPreviewDialog rendering tests", () => {
    });
 });
 
-describe("CreatePromptPreviewDialog functionality tests", () => {
+describe("CreatePromptDialog functionality tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
    });
 
-   it("CreatePromptPreviewDialog - close bnt clicked - test", async () => {
+   it("CreatePromptDialog - close bnt clicked - test", async () => {
       const data = dtestData.dPromptUpdate();
       const submitFn = jest.fn();
       const cancelFn = jest.fn();
 
-      render(
-         <CreatePromptPreviewDialog promptUpdate={data} onCancel={cancelFn} />
-      );
+      render(<CreatePromptDialog promptUpdate={data} onCancel={cancelFn} />);
 
       await waitFor(() => {
          assertDialogRendered();
