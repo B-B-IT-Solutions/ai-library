@@ -19,22 +19,19 @@ export const LibraryEntryBreadcrumb = (props: Props) => {
       return (
          <BreadcrumbItem>
             <BreadcrumbLink asChild={true}>
-               <Link href="/library">Vorlagen</Link>
+               <Link href="/library" data-testid="root-link">
+                  Vorlagen
+               </Link>
             </BreadcrumbLink>
          </BreadcrumbItem>
       );
    };
 
    const listItem = () => {
-      if (props.variant == "view") {
+      if (props.variant == "new") {
          return (
             <BreadcrumbItem>
-               <BreadcrumbPage
-                  className="max-w-40 truncate"
-                  title={props.title}
-               >
-                  {props.title}
-               </BreadcrumbPage>
+               <BreadcrumbPage>Neue Vorlage</BreadcrumbPage>
             </BreadcrumbItem>
          );
       }
@@ -48,7 +45,10 @@ export const LibraryEntryBreadcrumb = (props: Props) => {
                      className="max-w-40 truncate"
                      title={props.title}
                   >
-                     <Link href={`/library/${props.entryId}`}>
+                     <Link
+                        href={`/library/${props.entryId}`}
+                        data-testid="item-link"
+                     >
                         {props.title}
                      </Link>
                   </BreadcrumbLink>
@@ -61,13 +61,13 @@ export const LibraryEntryBreadcrumb = (props: Props) => {
          );
       }
 
-      if (props.variant == "new") {
-         return (
-            <BreadcrumbItem>
-               <BreadcrumbPage>Neue Vorlage</BreadcrumbPage>
-            </BreadcrumbItem>
-         );
-      }
+      return (
+         <BreadcrumbItem>
+            <BreadcrumbPage className="max-w-40 truncate" title={props.title}>
+               {props.title}
+            </BreadcrumbPage>
+         </BreadcrumbItem>
+      );
    };
 
    return (
