@@ -38,7 +38,7 @@ describe("LibraryEntryBreadcrumb rendering test", () => {
 
    it("variant - view - test", async () => {
       const { container } = render(
-         <LibraryEntryBreadcrumb variant="view" title="Template 1" />
+         <LibraryEntryBreadcrumb variant="view" label="Template 1" />
       );
 
       await waitFor(() => {
@@ -53,7 +53,7 @@ describe("LibraryEntryBreadcrumb rendering test", () => {
       const { container } = render(
          <LibraryEntryBreadcrumb
             variant="edit"
-            title="Template 2"
+            label="Template 2"
             entryId="entry-id-1"
          />
       );
@@ -88,7 +88,7 @@ describe("LibraryEntryBreadcrumb funtionality tests", () => {
    });
 
    it("variant - view - root link clicked - test", async () => {
-      render(<LibraryEntryBreadcrumb variant="view" title="Template 1" />);
+      render(<LibraryEntryBreadcrumb variant="view" label="Template 1" />);
 
       await waitFor(() => {
          assertRendered();
@@ -106,7 +106,7 @@ describe("LibraryEntryBreadcrumb funtionality tests", () => {
       render(
          <LibraryEntryBreadcrumb
             variant="edit"
-            title="Template 123"
+            label="Template 123"
             entryId="entry-id-123"
          />
       );

@@ -34,7 +34,7 @@ export const PromptEdit = ({ prompt }: Props) => {
          return (
             <PromptBreadcrumb
                variant="edit"
-               title={prompt.title}
+               label={prompt.title}
                promptId={prompt.id}
             />
          );

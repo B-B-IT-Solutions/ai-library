@@ -24,7 +24,7 @@ export const PromptView = ({ prompt }: Props) => {
          </ItemDetailsViewHeader>
          <ItemDetailsViewContent>
             <ItemDetailsViewBreadcrumbs>
-               <PromptBreadcrumb variant="view" title={prompt.title} />
+               <PromptBreadcrumb variant="view" label={prompt.title} />
             </ItemDetailsViewBreadcrumbs>
             <ItemDetailsViewBody>
                <PromptViewForm prompt={prompt} />

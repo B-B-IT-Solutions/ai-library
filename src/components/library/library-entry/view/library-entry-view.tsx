@@ -28,7 +28,7 @@ export const LibraryEntryView = ({ entry }: Props) => {
             <ItemDetailsViewBreadcrumbs>
                <LibraryEntryBreadcrumb
                   variant="view"
-                  title={descriptor.title}
+                  label={descriptor.title}
                />
             </ItemDetailsViewBreadcrumbs>
             <ItemDetailsViewBody>

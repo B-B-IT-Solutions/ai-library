@@ -4,8 +4,8 @@ import {
 } from "@/components/shared/breadcrumbs";
 
 type Props =
-   | { variant: "view"; title: string }
-   | { variant: "edit"; title: string; entryId: string }
+   | { variant: "view"; label: string }
+   | { variant: "edit"; label: string; entryId: string }
    | { variant: "new" };
 
 export const LibraryEntryBreadcrumb = (props: Props) => {
@@ -34,8 +34,8 @@ export const LibraryEntryBreadcrumb = (props: Props) => {
             variant={props.variant}
             link={{
                href: `${rootLink.href}/${props.entryId}`,
-               label: props.title,
-               tooltip: props.title,
+               label: props.label,
+               tooltip: props.label,
             }}
             data-testid="libary-entry-breadcrumb"
          />
@@ -47,8 +47,8 @@ export const LibraryEntryBreadcrumb = (props: Props) => {
          root={rootLink}
          variant={props.variant}
          page={{
-            label: props.title,
-            tooltip: props.title,
+            label: props.label,
+            tooltip: props.label,
          }}
          data-testid="libary-entry-breadcrumb"
       />

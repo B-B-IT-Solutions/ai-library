@@ -36,7 +36,7 @@ export const LibraryEntryEdit = ({ entry, globalFields }: Props) => {
          return (
             <LibraryEntryBreadcrumb
                variant="edit"
-               title={entry.templateDescriptor.title}
+               label={entry.templateDescriptor.title}
                entryId={entry.id}
             />
          );

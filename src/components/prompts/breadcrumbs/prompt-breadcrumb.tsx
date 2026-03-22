@@ -4,8 +4,8 @@ import {
 } from "@/components/shared/breadcrumbs";
 
 type Props =
-   | { variant: "view"; title: string }
-   | { variant: "edit"; title: string; promptId: string }
+   | { variant: "view"; label: string }
+   | { variant: "edit"; label: string; promptId: string }
    | { variant: "new" };
 
 export const PromptBreadcrumb = (props: Props) => {
@@ -34,8 +34,8 @@ export const PromptBreadcrumb = (props: Props) => {
             variant={props.variant}
             link={{
                href: `${rootLink.href}/${props.promptId}`,
-               label: props.title,
-               tooltip: props.title,
+               label: props.label,
+               tooltip: props.label,
             }}
             data-testid="prompt-breadcrumb"
          />
@@ -47,8 +47,8 @@ export const PromptBreadcrumb = (props: Props) => {
          root={rootLink}
          variant={props.variant}
          page={{
-            label: props.title,
-            tooltip: props.title,
+            label: props.label,
+            tooltip: props.label,
          }}
          data-testid="prompt-breadcrumb"
       />

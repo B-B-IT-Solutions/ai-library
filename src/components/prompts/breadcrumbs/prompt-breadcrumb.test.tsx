@@ -38,7 +38,7 @@ describe("PromptBreadcrumb rendering test", () => {
 
    it("variant - view - test", async () => {
       const { container } = render(
-         <PromptBreadcrumb variant="view" title="Template 1" />
+         <PromptBreadcrumb variant="view" label="Template 1" />
       );
 
       await waitFor(() => {
@@ -53,7 +53,7 @@ describe("PromptBreadcrumb rendering test", () => {
       const { container } = render(
          <PromptBreadcrumb
             variant="edit"
-            title="Template 2"
+            label="Template 2"
             promptId="entry-id-1"
          />
       );
@@ -88,7 +88,7 @@ describe("PromptBreadcrumb funtionality tests", () => {
    });
 
    it("variant - view - root link clicked - test", async () => {
-      render(<PromptBreadcrumb variant="view" title="Prompt 1" />);
+      render(<PromptBreadcrumb variant="view" label="Prompt 1" />);
 
       await waitFor(() => {
          assertRendered();
@@ -106,7 +106,7 @@ describe("PromptBreadcrumb funtionality tests", () => {
       render(
          <PromptBreadcrumb
             variant="edit"
-            title="Prompt 123"
+            label="Prompt 123"
             promptId="prompt-id-123"
          />
       );
