@@ -7,7 +7,7 @@ exports[`NotFoundPage rendering tests NotFoundPage rendered 1`] = `
     data-testid="not-found-page"
   >
     <img
-      alt="KI Bibliothek logo"
+      alt="Vision Notes logo"
       data-nimg="1"
       decoding="async"
       height="48"

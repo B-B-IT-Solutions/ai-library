@@ -21,11 +21,15 @@ export const AuthenticatedLayoutWrapper = async (props: Props) => {
    const user = await requireUser();
    const cookieStore = await cookies();
 
-   const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
+   const sidebarCookie = cookieStore.get("sidebar_state");
+   const defaultOpen = !sidebarCookie || sidebarCookie.value === "true";
 
    return (
       <div data-testid="authenticated-layout-wrapper">
-         <SidebarProvider defaultOpen={defaultOpen}>
+         <SidebarProvider
+            defaultOpen={defaultOpen}
+            data-testid="sidebar-wrapper"
+         >
             <Sidebar user={user} />
             <main className="flex-1">{children}</main>
          </SidebarProvider>

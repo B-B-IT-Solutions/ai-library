@@ -15,7 +15,7 @@ import { SignUpForm } from "@/components/shared/auth";
 import { APP_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
-   title: "Sign Up",
+   title: "Registrieren",
 };
 
 export type SignInPageSearchParams = {
@@ -37,7 +37,7 @@ const SignUpPage = async (props: SignUpPageProps) => {
 
    return (
       <div
-         className="min-h-screen w-full flex items-center justify-center p-4 bg-gradient-to-br from-background via-background to-primary/5"
+         className="flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4"
          data-testid="sign-up-page"
       >
          <div className="w-full max-w-md">
@@ -62,17 +62,17 @@ const SignUpPage = async (props: SignUpPageProps) => {
                         className="text-center text-3xl font-bold tracking-tight"
                         data-testid="card-title"
                      >
-                        Create Account
+                        Konto erstellen
                      </CardTitle>
                      <CardDescription
                         className="text-center text-base"
                         data-testid="card-description"
                      >
-                        Get started with your free account today
+                        Erstelle dein Konto und leg direkt los
                      </CardDescription>
                   </div>
                </CardHeader>
-               <CardContent className="pb-8 px-6">
+               <CardContent className="px-6 pb-8">
                   <SignUpForm />
                </CardContent>
             </Card>

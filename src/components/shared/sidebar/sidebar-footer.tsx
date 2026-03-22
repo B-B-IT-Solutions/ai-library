@@ -2,6 +2,7 @@
 
 import { FC } from "react";
 import { ChevronUp, LogOut, User2 } from "lucide-react";
+import Link from "next/link";
 
 import {
    DropdownMenu,
@@ -42,17 +43,14 @@ export const SidebarFooter: FC<SidebarFooterProps> = ({ user }) => {
                className="w-(--radix-popper-anchor-width) border-indigo-300"
             >
                <DropdownMenuGroup>
-                  <DropdownMenuItem
-                     className="cursor-pointer rounded-lg px-2 py-1.5"
-                     data-testid="account"
-                  >
-                     <span>Konto</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                     className="cursor-pointer rounded-lg px-2 py-1.5"
-                     data-testid="billing"
-                  >
-                     <span>Abrechnung</span>
+                  <DropdownMenuItem asChild={true}>
+                     <Link
+                        href="/settings/general"
+                        className="cursor-pointer rounded-lg px-2 py-1.5"
+                        data-testid="account"
+                     >
+                        <span>Konto</span>
+                     </Link>
                   </DropdownMenuItem>
                </DropdownMenuGroup>
                <DropdownMenuSeparator className="mx-2 my-1.5" />

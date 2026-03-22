@@ -15,7 +15,7 @@ import { CredentialsSignInForm } from "@/components/shared/auth";
 import { APP_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
-   title: "Sign In",
+   title: "Anmelden",
 };
 
 export type SignInPageSearchParams = {
@@ -37,7 +37,7 @@ const SignInPage = async (props: SignInPageProps) => {
 
    return (
       <div
-         className="min-h-screen w-full flex items-center justify-center p-4 bg-gradient-to-br from-background via-background to-primary/5"
+         className="flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4"
          data-testid="sign-in-page"
       >
          <div className="w-full max-w-md">
@@ -62,35 +62,40 @@ const SignInPage = async (props: SignInPageProps) => {
                         className="text-center text-3xl font-bold tracking-tight"
                         data-testid="card-title"
                      >
-                        Welcome Back
+                        Willkommen zurück
                      </CardTitle>
                      <CardDescription
                         className="text-center text-base"
                         data-testid="card-description"
                      >
-                        Sign in to continue to your account
+                        Melde dich an, um zu deinem Konto zu gelangen
                      </CardDescription>
                   </div>
                </CardHeader>
-               <CardContent className="pb-8 px-6">
+               <CardContent className="px-6 pb-8">
                   <CredentialsSignInForm />
                </CardContent>
             </Card>
-            <p className="text-center text-xs text-muted-foreground mt-6">
-               By signing in, you agree to our{" "}
+            <p className="mt-6 text-center text-xs text-muted-foreground">
+               Mit der Anmeldung stimmst du unseren{" "}
                <Link
-                  href="/terms"
-                  className="underline underline-offset-2 hover:text-foreground transition-colors"
+                  href="https://www.iubenda.com/terms-and-conditions/97062585"
+                  target="_blank"
+                  className="underline underline-offset-2 transition-colors hover:text-foreground"
+                  data-testid="terms_conditions_link"
                >
-                  Terms of Service
+                  Nutzungsbedingungen
                </Link>{" "}
-               and{" "}
+               und unserer{" "}
                <Link
-                  href="/privacy"
-                  className="underline underline-offset-2 hover:text-foreground transition-colors"
+                  href="https://www.iubenda.com/privacy-policy/97062585/full-legal"
+                  target="_blank"
+                  className="underline underline-offset-2 transition-colors hover:text-foreground"
+                  data-testid="privacy_policy_link"
                >
-                  Privacy Policy
-               </Link>
+                  Datenschutzerklärung
+               </Link>{" "}
+               zu
             </p>
          </div>
       </div>

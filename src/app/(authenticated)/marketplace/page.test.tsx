@@ -20,7 +20,7 @@ const getCartMock = getCart as jest.MockedFunction<typeof getCart>;
 const getProductsMock = getProducts as jest.MockedFunction<typeof getProducts>;
 
 const expectedMetadata: Metadata = {
-   title: "Marktplatz",
+   title: "Bibliothek",
 };
 
 const assertRendered = () => {

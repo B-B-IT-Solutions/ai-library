@@ -8,7 +8,7 @@ import { getProducts } from "@/data/actions/product";
 import { DListViewMode } from "@/data/types/domain/common";
 
 export const metadata: Metadata = {
-   title: "Marketplace",
+   title: "Bibliothek",
 };
 
 export type PageSearchParams = {
@@ -37,10 +37,10 @@ export const MarketplacePage = async (props: MarketplacePageProps) => {
       >
          <div className="mb-8">
             <h1 className="mb-2 text-3xl font-bold text-slate-900">
-               Marketplace
+               Bibliothek
             </h1>
             <p className="text-slate-600">
-               Browse and purchase prompt templates and bundles
+               Durchsuchen Sie vorgefertigte Prompt-Vorlagen und Bundles
             </p>
          </div>
          <Marketplace products={products} cart={cart} viewMode={viewMode} />

@@ -1,37 +1,20 @@
-import { screen, waitFor } from "@testing-library/dom";
-import { assertInDocument, renderAsyncRSC } from "@tests";
-import { Metadata } from "next";
+import { waitFor } from "@testing-library/dom";
+import { renderAsyncRSC } from "@tests";
+import { redirect } from "next/navigation";
 
-import MainPage, { metadata } from "./page";
+import MainPage from "./page";
 
-const expectedMetadata: Metadata = {
-   title: "Startseite",
-};
-
-const assertRendered = () => {
-   const page = screen.getByTestId("main-page");
-
-   assertInDocument(page);
-};
+const redirectMock = redirect as jest.MockedFunction<typeof redirect>;
 
 describe("MainPage rendering tests", () => {
-   beforeEach(() => {
-      jest.resetAllMocks();
-   });
-
    it("MainPage rendered test", async () => {
       const { container } = await renderAsyncRSC(MainPage, {});
 
       await waitFor(() => {
-         assertRendered();
+         expect(redirectMock).toHaveBeenCalledTimes(1);
+         expect(redirectMock).toHaveBeenCalledWith("/library");
       });
 
       expect(container).toMatchSnapshot();
-   });
-});
-
-describe("MainPage functionality tests", () => {
-   it("MainPage - metadata - test", async () => {
-      expect(metadata).toEqual(expectedMetadata);
    });
 });

@@ -2,6 +2,7 @@ jest.mock("@/data/actions/auth-utils");
 
 import { screen, waitFor } from "@testing-library/dom";
 import {
+   assertHasAttributeWithValue,
    assertInDocument,
    assertNotInDocument,
    ctestData,
@@ -29,22 +30,38 @@ const redirectMock = redirect as jest.MockedFunction<typeof redirect>;
 
 const assertRendered = () => {
    const wrapper = screen.getByTestId("authenticated-layout-wrapper");
+   const sidebarWrapper = screen.getByTestId("sidebar-wrapper");
    const sidebar = screen.getByTestId("sidebar");
    const test1 = screen.getByTestId("test-1");
 
    assertInDocument(wrapper);
+   assertInDocument(sidebarWrapper);
    assertInDocument(sidebar);
    assertInDocument(test1);
 };
 
 const assertNotRendered = () => {
    const wrapper = screen.queryByTestId("authenticated-layout-wrapper");
+   const sidebarWrapper = screen.queryByTestId("sidebar-wrapper");
    const sidebar = screen.queryByTestId("sidebar");
    const test1 = screen.queryByTestId("test-1");
 
    assertNotInDocument(wrapper);
+   assertNotInDocument(sidebarWrapper);
    assertNotInDocument(sidebar);
    assertNotInDocument(test1);
+};
+
+const assertSidebarExpanded = () => {
+   const sidebarWrapper = screen.getByTestId("sidebar-wrapper");
+   const firstChild = sidebarWrapper.firstChild as HTMLElement;
+   assertHasAttributeWithValue(firstChild, "data-state", "expanded");
+};
+
+const assertSidebarCollapsed = () => {
+   const sidebarWrapper = screen.getByTestId("sidebar-wrapper");
+   const firstChild = sidebarWrapper.firstChild as HTMLElement;
+   assertHasAttributeWithValue(firstChild, "data-state", "collapsed");
 };
 
 describe("AuthenticatedLayoutWrapper rendering tests", () => {
@@ -53,7 +70,7 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
       window.matchMedia = ctestData.createMatchMedia(false);
    });
 
-   it("AuthenticatedLayoutWrapper - isAuthenticated false - test", async () => {
+   it("isAuthenticated false - test", async () => {
       isAuthenticatedMock.mockResolvedValue(false);
 
       const props: Props = {
@@ -75,10 +92,11 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("AuthenticatedLayoutWrapper - isAuthenticated true - test", async () => {
+   it("isAuthenticated true - sidebarCookie undefined - test", async () => {
       isAuthenticatedMock.mockResolvedValue(true);
       const reqCookies = ntestData.cookies({});
       const user = dtestData.dLoginUser();
+
       cookiesMock.mockResolvedValue(reqCookies);
       requireUserMock.mockResolvedValue(user);
 
@@ -92,10 +110,66 @@ describe("AuthenticatedLayoutWrapper rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertSidebarExpanded();
          expect(redirectMock).not.toHaveBeenCalled();
          expect(cookiesMock).toHaveBeenCalledTimes(1);
          expect(requireUserMock).toHaveBeenCalledTimes(1);
       });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("isAuthenticated true - sidebarCookie true - test", async () => {
+      isAuthenticatedMock.mockResolvedValue(true);
+      const reqCookies = ntestData.cookies({ sidebar_state: "true" });
+      const user = dtestData.dLoginUser();
+
+      cookiesMock.mockResolvedValue(reqCookies);
+      requireUserMock.mockResolvedValue(user);
+
+      const props: Props = {
+         children: <div data-testid="test-1"></div>,
+      };
+      const { container } = await renderAsyncRSC(
+         AuthenticatedLayoutWrapper,
+         props
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertSidebarExpanded();
+         expect(redirectMock).not.toHaveBeenCalled();
+         expect(cookiesMock).toHaveBeenCalledTimes(1);
+         expect(requireUserMock).toHaveBeenCalledTimes(1);
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("isAuthenticated true - sidebarCookie false - test", async () => {
+      isAuthenticatedMock.mockResolvedValue(true);
+      const reqCookies = ntestData.cookies({ sidebar_state: "false" });
+      const user = dtestData.dLoginUser();
+
+      cookiesMock.mockResolvedValue(reqCookies);
+      requireUserMock.mockResolvedValue(user);
+
+      const props: Props = {
+         children: <div data-testid="test-1"></div>,
+      };
+      const { container } = await renderAsyncRSC(
+         AuthenticatedLayoutWrapper,
+         props
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertSidebarCollapsed();
+         expect(redirectMock).not.toHaveBeenCalled();
+         expect(cookiesMock).toHaveBeenCalledTimes(1);
+         expect(requireUserMock).toHaveBeenCalledTimes(1);
+      });
+
       expect(container).toMatchSnapshot();
    });
 });

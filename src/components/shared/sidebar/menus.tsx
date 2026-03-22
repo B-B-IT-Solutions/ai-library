@@ -32,27 +32,27 @@ export const navigationMenu2: DMenuItem[] = [
       icon: ShoppingBag,
       url: "/marketplace",
    },
-   {
-      id: "/orders",
-      title: "Bestellungen",
-      icon: Package,
-      url: "/orders",
-   },
+   // {
+   //    id: "/orders",
+   //    title: "Bestellungen",
+   //    icon: Package,
+   //    url: "/orders",
+   // },
 ];
 
 export const navigationMenu3: DMenuItem[] = [
-   {
-      id: "/feedback",
-      title: "Feedback",
-      icon: Send,
-      url: "/feedback",
-   },
-   {
-      id: "/invite-people",
-      title: "Personen einladen",
-      icon: Users,
-      url: "/invite-people",
-   },
+   // {
+   //    id: "/feedback",
+   //    title: "Feedback",
+   //    icon: Send,
+   //    url: "/feedback",
+   // },
+   // {
+   //    id: "/invite-people",
+   //    title: "Personen einladen",
+   //    icon: Users,
+   //    url: "/invite-people",
+   // },
    {
       id: "/settings",
       title: "Einstellungen",

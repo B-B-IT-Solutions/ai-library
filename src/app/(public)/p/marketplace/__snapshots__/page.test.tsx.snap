@@ -12,12 +12,12 @@ exports[`MarketplacePage rendering tests MarketplacePage - session null - props 
       <h1
         class="mb-2 text-3xl font-bold text-slate-900"
       >
-        Marketplace
+        Bibliothek
       </h1>
       <p
         class="text-slate-600"
       >
-        Browse and purchase prompt templates and bundles
+        Durchsuchen Sie vorgefertigte Prompt-Vorlagen und Bundles
       </p>
     </div>
     <div
@@ -596,12 +596,12 @@ exports[`MarketplacePage rendering tests MarketplacePage - session.user undefine
       <h1
         class="mb-2 text-3xl font-bold text-slate-900"
       >
-        Marketplace
+        Bibliothek
       </h1>
       <p
         class="text-slate-600"
       >
-        Browse and purchase prompt templates and bundles
+        Durchsuchen Sie vorgefertigte Prompt-Vorlagen und Bundles
       </p>
     </div>
     <div
@@ -1215,12 +1215,12 @@ exports[`MarketplacePage rendering tests MarketplacePage - session.user.id undef
       <h1
         class="mb-2 text-3xl font-bold text-slate-900"
       >
-        Marketplace
+        Bibliothek
       </h1>
       <p
         class="text-slate-600"
       >
-        Browse and purchase prompt templates and bundles
+        Durchsuchen Sie vorgefertigte Prompt-Vorlagen und Bundles
       </p>
     </div>
     <div
@@ -1233,7 +1233,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - session.user.id undef
         <p
           class="text-slate-600"
         >
-          No products available at the moment.
+          Im Moment sind keine Produkte verfügbar.
         </p>
       </div>
     </div>

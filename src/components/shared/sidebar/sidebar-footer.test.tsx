@@ -9,6 +9,7 @@ import {
    dtestData,
    renderWithSidebar,
 } from "@tests";
+import mockRouter from "next-router-mock";
 
 import { signOutUser } from "@/data/actions/user";
 import { LoginUser } from "@/data/types/next-auth";
@@ -27,21 +28,17 @@ const assertRendered = () => {
 
 const assertMenuItemsRendered = () => {
    const account = screen.getByTestId("account");
-   const billing = screen.getByTestId("billing");
    const signOut = screen.getByTestId("sign-out");
 
    assertInDocument(account);
-   assertInDocument(billing);
    assertInDocument(signOut);
 };
 
 const assertMenuItemsNotRendered = () => {
    const account = screen.queryByTestId("account");
-   const billing = screen.queryByTestId("billing");
    const signOut = screen.queryByTestId("sign-out");
 
    assertNotInDocument(account);
-   assertNotInDocument(billing);
    assertNotInDocument(signOut);
 };
 
@@ -50,7 +47,7 @@ describe("SidebarFooter rendering tests", () => {
       window.matchMedia = ctestData.createMatchMedia(false);
    });
 
-   it("SidebarFooter - sidebar open - rendered test", async () => {
+   it("sidebar open - rendered test", async () => {
       const user = dtestData.dLoginUser();
       const { container } = renderWithSidebar(<SidebarFooter user={user} />);
 
@@ -75,9 +72,39 @@ describe("SidebarFooter rendering tests", () => {
 describe("Sidebar functionality tests", () => {
    beforeEach(() => {
       window.matchMedia = ctestData.createMatchMedia(false);
+      mockRouter.push("/");
    });
 
-   it("Sidebar - sign out clicked - test", async () => {
+   it("account btn clicked - test", async () => {
+      const user: LoginUser = {
+         id: "user-id-1",
+         name: undefined,
+         email: "test1@gmail.com",
+      };
+      renderWithSidebar(<SidebarFooter user={user} />);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(mockRouter.pathname).toEqual("/");
+      });
+
+      const menuBtn = screen.getByTestId("sidebar-menu-btn");
+      userEvent.click(menuBtn);
+
+      await waitFor(() => {
+         assertMenuItemsRendered();
+         expect(mockRouter.pathname).toEqual("/");
+      });
+
+      const account = screen.getByTestId("account");
+      userEvent.click(account);
+
+      await waitFor(() => {
+         expect(mockRouter.pathname).toEqual("/settings/general");
+      });
+   });
+
+   it("sign out clicked - test", async () => {
       const user: LoginUser = {
          id: "user-id-1",
          name: undefined,
@@ -98,8 +125,8 @@ describe("Sidebar functionality tests", () => {
          expect(signOutUserMock).not.toHaveBeenCalled();
       });
 
-      const singOutItem = screen.getByTestId("sign-out");
-      userEvent.click(singOutItem);
+      const singOut = screen.getByTestId("sign-out");
+      userEvent.click(singOut);
 
       await waitFor(() => {
          assertMenuItemsRendered();

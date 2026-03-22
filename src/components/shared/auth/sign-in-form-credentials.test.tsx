@@ -97,7 +97,7 @@ describe("CredentialsSignInForm rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertFieldsRendered();
-         assertCallbackUrl("/");
+         assertCallbackUrl("/library");
       });
 
       expect(container).toMatchSnapshot();

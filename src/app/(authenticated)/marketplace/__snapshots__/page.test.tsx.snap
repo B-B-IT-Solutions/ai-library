@@ -12,12 +12,12 @@ exports[`MarketplacePage rendering tests MarketplacePage - props empty - rendere
       <h1
         class="mb-2 text-3xl font-bold text-slate-900"
       >
-        Marktplatz
+        Bibliothek
       </h1>
       <p
         class="text-slate-600"
       >
-        Durchsuchen und kaufen Sie Prompt-Vorlagen und Bundles
+        Durchsuchen Sie vorgefertigte Prompt-Vorlagen und Bundles
       </p>
     </div>
     <div
@@ -596,12 +596,12 @@ exports[`MarketplacePage rendering tests MarketplacePage - searchParams.view lis
       <h1
         class="mb-2 text-3xl font-bold text-slate-900"
       >
-        Marktplatz
+        Bibliothek
       </h1>
       <p
         class="text-slate-600"
       >
-        Durchsuchen und kaufen Sie Prompt-Vorlagen und Bundles
+        Durchsuchen Sie vorgefertigte Prompt-Vorlagen und Bundles
       </p>
     </div>
     <div
