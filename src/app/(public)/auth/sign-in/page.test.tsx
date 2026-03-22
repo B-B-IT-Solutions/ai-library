@@ -1,5 +1,6 @@
 import { screen, waitFor } from "@testing-library/dom";
 import {
+   assertHasAttributeWithValue,
    assertInDocument,
    AuthMockedFunction,
    ntestData,
@@ -37,12 +38,30 @@ const assertRendered = () => {
    assertInDocument(credentialsForm);
 };
 
+const assertLegalNoticesLinksRendered = () => {
+   const termsLink = screen.getByTestId("terms_conditions_link");
+   const privacyPolicyLink = screen.getByTestId("privacy_policy_link");
+
+   assertInDocument(termsLink);
+   assertHasAttributeWithValue(
+      termsLink,
+      "href",
+      "https://www.iubenda.com/terms-and-conditions/97062585"
+   );
+   assertInDocument(privacyPolicyLink);
+   assertHasAttributeWithValue(
+      privacyPolicyLink,
+      "href",
+      "https://www.iubenda.com/privacy-policy/97062585/full-legal"
+   );
+};
+
 describe("SignInPage rendering tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
    });
 
-   it("SignInPage - user already signed in - callbackUrl defined - rendered test", async () => {
+   it("user already signed in - callbackUrl defined - rendered test", async () => {
       const session = ntestData.session();
       authMock.mockResolvedValue(session);
 
@@ -62,7 +81,7 @@ describe("SignInPage rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("SignInPage - user already signed in - callbackUrl undefined - rendered test", async () => {
+   it("user already signed in - callbackUrl undefined - rendered test", async () => {
       const session = ntestData.session();
       authMock.mockResolvedValue(session);
 
@@ -80,7 +99,7 @@ describe("SignInPage rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("SignInPage - user not signed in - rendered test", async () => {
+   it("user not signed in - rendered test", async () => {
       authMock.mockResolvedValue(null);
       const searchParams: SignInPageSearchParams = {
          callbackUrl: "/callback/test-1",
@@ -92,6 +111,7 @@ describe("SignInPage rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         assertLegalNoticesLinksRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -99,7 +119,7 @@ describe("SignInPage rendering tests", () => {
 });
 
 describe("SignInPage functionality tests", () => {
-   it("SignInPage - metadata - test", async () => {
+   it("metadata - test", async () => {
       expect(metadata).toEqual(expectedMetadata);
    });
 });

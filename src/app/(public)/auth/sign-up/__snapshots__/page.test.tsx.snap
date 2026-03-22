@@ -51,14 +51,14 @@ exports[`SignUpPage rendering tests SignUpPage - user not signed in - rendered t
               data-slot="card-title"
               data-testid="card-title"
             >
-              Create Account
+              Konto erstellen
             </div>
             <div
               class="text-muted-foreground text-center text-base"
               data-slot="card-description"
               data-testid="card-description"
             >
-              Get started with your free account today
+              Erstelle dein Konto und leg direkt los
             </div>
           </div>
         </div>

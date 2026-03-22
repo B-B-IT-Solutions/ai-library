@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`SignInPage rendering tests SignInPage - user already signed in - callbackUrl defined - rendered test 1`] = `<div />`;
+exports[`SignInPage rendering tests user already signed in - callbackUrl defined - rendered test 1`] = `<div />`;
 
-exports[`SignInPage rendering tests SignInPage - user already signed in - callbackUrl undefined - rendered test 1`] = `<div />`;
+exports[`SignInPage rendering tests user already signed in - callbackUrl undefined - rendered test 1`] = `<div />`;
 
-exports[`SignInPage rendering tests SignInPage - user not signed in - rendered test 1`] = `
+exports[`SignInPage rendering tests user not signed in - rendered test 1`] = `
 <div>
   <div
     class="flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4"
@@ -78,8 +78,9 @@ exports[`SignInPage rendering tests SignInPage - user not signed in - rendered t
          
         <a
           class="underline underline-offset-2 transition-colors hover:text-foreground"
-          data-testid="mock-link"
-          href="/terms"
+          data-testid="terms_conditions_link"
+          href="https://www.iubenda.com/terms-and-conditions/97062585"
+          target="_blank"
         >
           Nutzungsbedingungen
         </a>
@@ -88,8 +89,9 @@ exports[`SignInPage rendering tests SignInPage - user not signed in - rendered t
          
         <a
           class="underline underline-offset-2 transition-colors hover:text-foreground"
-          data-testid="mock-link"
-          href="/privacy"
+          data-testid="privacy_policy_link"
+          href="https://www.iubenda.com/privacy-policy/97062585/full-legal"
+          target="_blank"
         >
           Datenschutzerklärung
         </a>

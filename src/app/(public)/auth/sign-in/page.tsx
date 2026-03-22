@@ -79,15 +79,19 @@ const SignInPage = async (props: SignInPageProps) => {
             <p className="mt-6 text-center text-xs text-muted-foreground">
                Mit der Anmeldung stimmst du unseren{" "}
                <Link
-                  href="/terms"
+                  href="https://www.iubenda.com/terms-and-conditions/97062585"
+                  target="_blank"
                   className="underline underline-offset-2 transition-colors hover:text-foreground"
+                  data-testid="terms_conditions_link"
                >
                   Nutzungsbedingungen
                </Link>{" "}
                und unserer{" "}
                <Link
-                  href="/privacy"
+                  href="https://www.iubenda.com/privacy-policy/97062585/full-legal"
+                  target="_blank"
                   className="underline underline-offset-2 transition-colors hover:text-foreground"
+                  data-testid="privacy_policy_link"
                >
                   Datenschutzerklärung
                </Link>{" "}
