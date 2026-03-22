@@ -33,12 +33,12 @@ const PublicLayout = async (props: Readonly<PublicLayoutProps>) => {
                   <div className="flex gap-3">
                      <Button variant="outline" asChild>
                         <Link href="/auth/sign-in" data-testid="sign-in-link">
-                           Sign In
+                           Anmelden
                         </Link>
                      </Button>
                      <Button asChild>
                         <Link href="/auth/sign-up" data-testid="sign-up-link">
-                           Get Started
+                           Registrieren
                         </Link>
                      </Button>
                   </div>
