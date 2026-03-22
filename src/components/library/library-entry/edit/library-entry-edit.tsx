@@ -1,15 +1,6 @@
-import Link from "next/link";
-
-import {
-   Breadcrumb,
-   BreadcrumbItem,
-   BreadcrumbLink,
-   BreadcrumbList,
-   BreadcrumbPage,
-   BreadcrumbSeparator,
-} from "@/components/shadcn/breadcrumb";
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
+import { LibraryEntryBreadcrumb } from "../library-entry-breadcrumb";
 
 import { LibraryEntryEditForm } from "./library-entry-edit-form";
 
@@ -25,38 +16,15 @@ export const LibraryEntryEdit = ({ entry, globalFields }: Props) => {
          data-testid="library-entry-edit"
       >
          <div className="border-b border-slate-200 bg-white px-6 py-3">
-            <Breadcrumb>
-               <BreadcrumbList>
-                  <BreadcrumbItem>
-                     <BreadcrumbLink asChild={true}>
-                        <Link href="/library">Vorlagen</Link>
-                     </BreadcrumbLink>
-                  </BreadcrumbItem>
-                  {entry ? (
-                     <>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                           <BreadcrumbLink asChild={true}>
-                              <Link href={`/library/${entry.id}`}>
-                                 {entry.templateDescriptor.title}
-                              </Link>
-                           </BreadcrumbLink>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                           <BreadcrumbPage>Bearbeiten</BreadcrumbPage>
-                        </BreadcrumbItem>
-                     </>
-                  ) : (
-                     <>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                           <BreadcrumbPage>Neue Vorlage</BreadcrumbPage>
-                        </BreadcrumbItem>
-                     </>
-                  )}
-               </BreadcrumbList>
-            </Breadcrumb>
+            {entry ? (
+               <LibraryEntryBreadcrumb
+                  variant="edit"
+                  title={entry.templateDescriptor.title}
+                  entryId={entry.id}
+               />
+            ) : (
+               <LibraryEntryBreadcrumb variant="new" />
+            )}
          </div>
          <div className="flex-1 overflow-y-auto">
             <div className="mx-auto max-w-5xl p-4">
