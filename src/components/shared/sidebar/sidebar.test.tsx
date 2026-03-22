@@ -72,7 +72,7 @@ describe("Sidebar rendering tests", () => {
       window.matchMedia = ctestData.createMatchMedia(false);
    });
 
-   it("Sidebar - sidebar open - rendered test", async () => {
+   it("sidebar open - rendered test", async () => {
       const user = dtestData.dLoginUser();
       const url = "/prompts";
       const { container } = renderWithSidebar(<Sidebar user={user} />, url);
@@ -86,7 +86,7 @@ describe("Sidebar rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("Sidebar - sidebar collapsed - rendered test", async () => {
+   it("sidebar collapsed - rendered test", async () => {
       const user = dtestData.dLoginUser();
       const url = "/prompts";
       const { container } = renderWithSidebar(
@@ -120,7 +120,7 @@ describe("Sidebar functionality tests", () => {
       });
    };
 
-   it("Sidebar - navigation - test", async () => {
+   it("navigation - test", async () => {
       const user = dtestData.dLoginUser();
       const url = "/settings";
       renderWithSidebar(<Sidebar user={user} />, url);
@@ -138,7 +138,7 @@ describe("Sidebar functionality tests", () => {
       await assertNavigateToMenuItem("/settings", "/settings/general");
    });
 
-   it("Sidebar - active menu item highlighted - test", async () => {
+   it("active menu item highlighted - test", async () => {
       const user = dtestData.dLoginUser();
       const url = "/settings";
       renderWithSidebar(<Sidebar user={user} />, url);
@@ -151,7 +151,7 @@ describe("Sidebar functionality tests", () => {
       });
    });
 
-   it("Sidebar - home link clicked - test", async () => {
+   it("home link clicked - test", async () => {
       const user = dtestData.dLoginUser();
       const url = "/settings";
       renderWithSidebar(<Sidebar user={user} />, url);
