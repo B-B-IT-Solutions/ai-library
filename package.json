@@ -117,6 +117,7 @@
       "whatwg-fetch": "^3.6.20"
    },
    "overrides": {
-      "effect": ">=3.20.0"
+      "effect": ">=3.20.0",
+      "glob": "^13.0.0"
    }
 }
