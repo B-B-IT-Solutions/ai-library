@@ -5,7 +5,7 @@ import { isEmpty } from "es-toolkit/compat";
 import { Loader, Plus } from "lucide-react";
 import { toast } from "sonner";
 
-import { CreateTemplateFieldsFormDialog } from "@/components/prompt-templates";
+import { CreatePromptFromTemplateDialog } from "@/components/prompt-templates";
 import { CreatePromptPreviewDialog } from "@/components/prompts";
 import { Button } from "@/components/shadcn/button";
 import { composePromptFromTemplate } from "@/data/actions/library";
@@ -79,7 +79,7 @@ export const CreatePromptButton: FC<Props> = ({ descriptor, className }) => {
       }
       if (mode === "fields-form" && templateData) {
          return (
-            <CreateTemplateFieldsFormDialog
+            <CreatePromptFromTemplateDialog
                onSubmit={composePrompt}
                onCancel={handleCancel}
                descriptor={descriptor}

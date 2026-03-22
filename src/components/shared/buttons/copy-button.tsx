@@ -1,9 +1,10 @@
 "use client";
 
-import { FC, useState } from "react";
+import { ButtonHTMLAttributes, useState } from "react";
+import { VariantProps } from "class-variance-authority";
 import { Check, Copy } from "lucide-react";
 
-import { Button } from "@/components/shadcn/button";
+import { Button, buttonVariants } from "@/components/shadcn/button";
 import {
    Tooltip,
    TooltipContent,
@@ -11,21 +12,29 @@ import {
 } from "@/components/shadcn/tooltip";
 import { cn } from "@/lib/utils";
 
-type CopyButtonProps = {
+type ButtonVariants = VariantProps<typeof buttonVariants>;
+
+type Props = {
    content: string;
-   size: "sm" | "icon-sm";
+   variant?: ButtonVariants["variant"];
+   size: ButtonVariants["size"];
    showLabel?: boolean;
+   type?: ButtonHTMLAttributes<HTMLButtonElement>["type"];
    className?: string;
+   iconClassName?: string;
    "data-testid"?: string;
 };
 
-export const CopyButton: FC<CopyButtonProps> = ({
+export const CopyButton = ({
    content,
+   variant = "outline",
    size,
    showLabel,
+   type = "button",
    className,
+   iconClassName = "size-4",
    "data-testid": dataTestId = "copy-btn",
-}) => {
+}: Props) => {
    const [copied, setCopied] = useState(false);
 
    const copyToClipboard = async () => {
@@ -41,19 +50,23 @@ export const CopyButton: FC<CopyButtonProps> = ({
    const icon = () => {
       if (copied) {
          return (
-            <Check className="size-4 text-green-600" data-testid="check-icon" />
+            <Check
+               className={cn(iconClassName, "text-green-600")}
+               data-testid="check-icon"
+            />
          );
       }
-      return <Copy className="size-4" data-testid="copy-icon" />;
+      return <Copy className={cn(iconClassName)} data-testid="copy-icon" />;
    };
 
    const label = () => {
       if (showLabel) {
          const l = copied ? "Kopiert" : "Kopieren";
+         const style = copied ? "text-green-600" : undefined;
          return (
             <>
                {icon()}
-               <span>{l}</span>
+               <span className={style}>{l}</span>
             </>
          );
       }
@@ -64,8 +77,9 @@ export const CopyButton: FC<CopyButtonProps> = ({
       <Tooltip>
          <TooltipTrigger asChild={true}>
             <Button
-               variant="outline"
+               variant={variant}
                size={size}
+               type={type}
                onClick={copyToClipboard}
                className={cn("cursor-pointer", className)}
                data-testid={dataTestId}

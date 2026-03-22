@@ -4,7 +4,6 @@ import { PromptTemplateRepository } from "@/data/repositories/prompt-template";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
    DPromptTemplate,
-   DPromptTemplateCategory,
    DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
    DPromptTemplateDescriptorWithTemplate,
@@ -13,9 +12,8 @@ import {
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
+import { TemplateEngine } from "@/lib/template";
 import { SettingsService } from "../settings";
-
-import { TemplateEngine } from "./template.engine";
 
 type DGetPromptTemplatesDescriptorsParams = {
    search?: string;
@@ -117,8 +115,10 @@ export class PromptTemplateService {
       descriptorId: string,
       fieldValues: DPromptTemplateFieldValues
    ): Promise<DPromptUpdate> {
-      const descriptor =
-         await this.getPromptTemplateDescriptorWithTemplate(userId, descriptorId);
+      const descriptor = await this.getPromptTemplateDescriptorWithTemplate(
+         userId,
+         descriptorId
+      );
 
       if (!descriptor) {
          throw new Error(

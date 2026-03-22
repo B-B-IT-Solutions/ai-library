@@ -1,4 +1,6 @@
 import { forEach, keys, uniq } from "es-toolkit/compat";
+import { remark } from "remark";
+import stripMarkdown from "strip-markdown";
 
 import {
    DPromptTemplateField,
@@ -68,6 +70,17 @@ export class TemplateEngine {
          valid,
          errors,
       };
+   }
+
+   /**
+    * Strips markdown syntax to plain text
+    */
+   static stripMarkdown(text: string): string {
+      return remark()
+         .use(stripMarkdown, { keep: ["list", "listItem"] })
+         .processSync(text)
+         .toString()
+         .trim();
    }
 
    /**

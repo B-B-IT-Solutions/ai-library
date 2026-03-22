@@ -1,9 +1,14 @@
+import { remark } from "remark";
+import stripMarkdown from "strip-markdown";
+
 import {
    DPromptTemplateField,
    DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
 
 import { TemplateEngine } from "./template.engine";
+
+const remarkMock = remark as jest.MockedFunction<typeof remark>;
 
 describe("TemplateEngine.replace - tests", () => {
    it("replaces single variable with value", () => {
@@ -101,6 +106,8 @@ describe("TemplateEngine.validate - tests", () => {
             name: "email",
             label: "Email",
             type: "EMAIL",
+            description: "description1",
+            defaultValue: "test1@email.com",
             required: true,
             order: 1,
          },
@@ -110,6 +117,8 @@ describe("TemplateEngine.validate - tests", () => {
             name: "age",
             label: "Age",
             type: "NUMBER",
+            description: "description1",
+            defaultValue: "1",
             required: true,
             order: 2,
          },
@@ -131,6 +140,8 @@ describe("TemplateEngine.validate - tests", () => {
             name: "name",
             label: "Name",
             type: "TEXT",
+            description: "description1",
+            defaultValue: "name1",
             required: true,
             order: 1,
          },
@@ -153,6 +164,8 @@ describe("TemplateEngine.validate - tests", () => {
             name: "name",
             label: "Name",
             type: "TEXT",
+            description: "description1",
+            defaultValue: "name1",
             required: true,
             order: 1,
          },
@@ -175,6 +188,8 @@ describe("TemplateEngine.validate - tests", () => {
             name: "email",
             label: "Email",
             type: "EMAIL",
+            description: "description1",
+            defaultValue: "test1@email.com",
             required: false,
             order: 1,
          },
@@ -197,6 +212,8 @@ describe("TemplateEngine.validate - tests", () => {
             name: "email",
             label: "Email",
             type: "EMAIL",
+            description: "description1",
+            defaultValue: "test1@email.com",
             required: false,
             order: 1,
          },
@@ -215,6 +232,8 @@ describe("TemplateEngine.validate - tests", () => {
             name: "age",
             label: "Age",
             type: "NUMBER",
+            description: "description1",
+            defaultValue: "test1@email.com",
             required: false,
             order: 1,
          },
@@ -237,6 +256,8 @@ describe("TemplateEngine.validate - tests", () => {
             name: "age",
             label: "Age",
             type: "NUMBER",
+            description: "description1",
+            defaultValue: "1",
             required: false,
             order: 1,
          },
@@ -255,6 +276,8 @@ describe("TemplateEngine.validate - tests", () => {
             name: "age",
             label: "Age",
             type: "NUMBER",
+            description: "description1",
+            defaultValue: "1",
             required: false,
             order: 1,
          },
@@ -273,6 +296,8 @@ describe("TemplateEngine.validate - tests", () => {
             name: "optional",
             label: "Optional Field",
             type: "TEXT",
+            description: "description1",
+            defaultValue: "value1",
             required: false,
             order: 1,
          },
@@ -291,6 +316,8 @@ describe("TemplateEngine.validate - tests", () => {
             name: "name",
             label: "Name",
             type: "TEXT",
+            description: "description1",
+            defaultValue: "name1",
             required: true,
             order: 1,
          },
@@ -300,6 +327,8 @@ describe("TemplateEngine.validate - tests", () => {
             name: "email",
             label: "Email",
             type: "EMAIL",
+            description: "description1",
+            defaultValue: "test1@email.com",
             required: true,
             order: 2,
          },
@@ -309,6 +338,8 @@ describe("TemplateEngine.validate - tests", () => {
             name: "age",
             label: "Age",
             type: "NUMBER",
+            description: "description1",
+            defaultValue: "1",
             required: false,
             order: 3,
          },
@@ -337,6 +368,8 @@ describe("TemplateEngine.validate - tests", () => {
             name: "textarea",
             label: "Textarea",
             type: "TEXTAREA",
+            description: "description1",
+            defaultValue: "value1",
             required: false,
             order: 1,
          },
@@ -346,6 +379,8 @@ describe("TemplateEngine.validate - tests", () => {
             name: "select",
             label: "Select",
             type: "SELECT",
+            description: "description1",
+            defaultValue: "option1",
             required: false,
             order: 2,
          },
@@ -365,6 +400,25 @@ describe("TemplateEngine.validate - tests", () => {
       const result = TemplateEngine.validate(fields, values);
       expect(result.valid).toBe(true);
       expect(result.errors).toEqual({});
+   });
+});
+
+describe("TemplateEngine.stripMarkdown", () => {
+   it("returns plain text unchanged", () => {
+      const text = "Hello World";
+      expect(TemplateEngine.stripMarkdown(text)).toBe(text);
+      expect(remarkMock).toHaveBeenCalledTimes(1);
+
+      const mockResult1 = remarkMock.mock.results[0].value;
+      expect(mockResult1.use).toHaveBeenCalledTimes(1);
+      expect(mockResult1.use).toHaveBeenCalledWith(stripMarkdown, {
+         keep: ["list", "listItem"],
+      });
+      expect(mockResult1.processSync).toHaveBeenCalledTimes(1);
+      expect(mockResult1.processSync).toHaveBeenCalledWith(text);
+
+      const mockResult2 = mockResult1.processSync.mock.results[0].value;
+      expect(mockResult2.toString).toHaveBeenCalledTimes(1);
    });
 });
 

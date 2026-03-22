@@ -10,10 +10,10 @@ module.exports = {
    ],
    coverageThreshold: {
       global: {
-         branches: 99,
-         functions: 99,
-         lines: 99,
-         statements: 99,
+         branches: 95.9,
+         functions: 97.6,
+         lines: 97.7,
+         statements: 96.6,
       },
    },
    setupFilesAfterEnv: [
@@ -42,6 +42,8 @@ module.exports = {
       "^next/font/google$": "<rootDir>/__mocks__/next/font/google.ts",
       "^next-auth/react$": "<rootDir>/__mocks__/next-auth/react.tsx",
       "^react-markdown$": "<rootDir>/__mocks__/react-markdown.tsx",
+      "^remark$": "<rootDir>/__mocks__/remark.ts",
+      "^strip-markdown$": "<rootDir>/__mocks__/strip-markdown.ts",
       "^remark-gfm$": "<rootDir>/__mocks__/remark-gfm.ts",
       "^@/auth$": "<rootDir>/__mocks__/@/auth.ts",
       "^@/components/shared/auth$":

@@ -23,6 +23,10 @@ export const navigateToExternalUrl = (url: string) => {
    window.location.href = url;
 };
 
+export const openExternalUrlInNewTab = (url: string) => {
+   window.open(url, "_blank", "noopener,noreferrer");
+};
+
 export const resolveIpAddresse = (headers: Headers): string | undefined => {
    const ip =
       headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??

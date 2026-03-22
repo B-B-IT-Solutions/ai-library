@@ -19,7 +19,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "Content-Struktur basierend auf Keyword-Daten",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -38,7 +38,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "Keyword-Recherche für transaktionalen Content",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -56,7 +56,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "Wettbewerbsorientierte Keyword-Recherche",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -74,7 +74,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "SEO-Keywords für bestehenden Blogartikel optimieren",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -92,7 +92,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "Keyword-Recherche mit Zielgruppe & Funnel-Stufe",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -110,7 +110,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "Keywords nach SEO-Priorität clustern",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -128,7 +128,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "Keyword-Gaps & Content-Chancen finden",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -146,7 +146,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "Fragen & W-Keywords generieren",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -164,7 +164,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "Suchintention verstehen",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -182,7 +182,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "Haupt- & Nebenkeywords identifizieren",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -200,7 +200,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "AI-SaaS Landingpage mit „Why Us“- & Differenzierungs-Fokus",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -218,7 +218,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "AI-SaaS Landingpage für B2B-Entscheider mit ROI-Fokus",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -236,7 +236,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "AI-SaaS Landingpage mit Fokus auf Vertrauen & Sicherheit",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -254,7 +254,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "AI-SaaS Landingpage für erklärungsbedürftige KI-Produkte",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -272,7 +272,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "AI-SaaS Landingpage mit klarem Value Proposition-Fokus",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -290,7 +290,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "SaaS-Landingpage mit Social Proof & Trust Signals",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -308,7 +308,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "SaaS-Landingpage mit Feature-zu-Benefit-Mapping",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -326,7 +326,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "SaaS-Landingpage für B2B-Entscheider",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -344,7 +344,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "SaaS-Landingpage mit Problem–Lösungs-Ansatz",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -362,7 +362,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "SaaS-Landingpage für Free-Trial-Conversion",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -380,7 +380,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "Conversion-orientierte Landingpage mit Fokus auf Vertrauen",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -397,7 +397,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "SEO-optimierte Landingpage",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -414,7 +414,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "Landingpage nach AIDA-Modell",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -431,7 +431,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "Verkaufsstarke Landingpage-Texte",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -448,7 +448,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "Landingpage-Grundstruktur",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -465,7 +465,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "Psychological Trigger Landing Page",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -484,7 +484,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "Short-Form High-Conversion Landing Page",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -503,7 +503,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "Objection-Killer Landing Page",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -522,7 +522,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "Pain-Driven Conversion Landing Page",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -541,7 +541,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "High-Conversion Landing Page (CRO-Framework)",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -560,7 +560,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "SEO-optimierte Landing Page",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -578,7 +578,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "Minimalistische High-End Landing Page",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -596,7 +596,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "SaaS / Tech Landing Page",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -614,7 +614,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "Storytelling Landing Page",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -631,7 +631,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "Conversion-fokussierte Landing Page",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -648,7 +648,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
    {
       title: "Universeller Prompt zur Erstellung einer Landing Page",
       description: "",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -666,7 +666,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
       title: "Schreibe eine verkaufende Landingpage",
       description:
          "Dieser Prompt erm\u00F6glicht es, **vollst\u00E4ndige, verkaufspsychologisch optimierte Landingpages** zu generieren \u2013 von der Hero-Section bis zum Call-to-Action. Er zwingt die KI dazu, strukturiert nach Direct-Response-Prinzipien zu arbeiten und alle entscheidenden Conversion-Elemente zu ber\u00FCcksichtigen: Schmerzpunkte, Nutzenargumente, Einwandbehandlung und Social Proof. Ideal f\u00FCr Marketer, Copywriter und Gr\u00FCnder, die schnell hochwertige Landingpages erstellen wollen, ohne jedes Mal bei null zu beginnen.",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -684,7 +684,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
       title: "Diese Seite konvertiert schlecht – analysieren & reparieren",
       description:
          "Dieser Prompt hilft dir, bestehende Landingpages systematisch auf Conversion-Hürden zu analysieren und gezielt zu verbessern. Er identifiziert unklare Aussagen, fehlende Motivation, psychologische Brüche, nicht behandelte Einwände und schwache Call-to-Actions. Statt allgemeiner Kritik liefert der Prompt **konkrete Textvorschläge**, die direkt umsetzbar sind. Ideal für Marketer, Copywriter und Gründer, die mehr Leads oder Verkäufe aus bestehendem Traffic herausholen wollen.",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -703,7 +703,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
       title: "Ads, die Aufmerksamkeit stoppen",
       description:
          "Dieser Prompt erzeugt **scroll-stoppende Werbetexte für Paid Ads**, die gezielt auf Plattform, Zielgruppe und Bewusstseinslevel abgestimmt sind. Er liefert sofort einsetzbare Hooks, vollständige Ad-Copies und klare Call-to-Actions mit Fokus auf Neugier, Relevanz und Emotion. Ideal für Marketer, Performance-Creator und Gründer, die schnell hochwertige Anzeigenvarianten testen und ihre Kampagnen effizient skalieren wollen.",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories(["Copywriting", "Paid Ads"]),
       },
@@ -718,7 +718,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
       title: "Schreibe eine E-Mail, die verkauft",
       description:
          "Dieser Prompt hilft dir, **komplette Verkaufs-E-Mails** zu erstellen, die Aufmerksamkeit erzeugen, Einwände auflösen und gezielt zum Klick führen. Er kombiniert Copywriting-Struktur, Verkaufspsychologie und Zielgruppenverständnis in einem klaren Workflow. Zusätzlich generiert der Prompt Hooks, Ad-Copies und CTA-Varianten, sodass du nicht nur eine E-Mail, sondern mehrere einsetzbare Marketing-Assets erhältst. Ideal für Launches, Kampagnen und Performance-Marketing.",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories(["Copywriting", "E-Mail"]),
       },
@@ -733,7 +733,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
       title: "Positionierung & Brand Voice entwickeln",
       description:
          "Dieser Prompt hilft dir, das strategische Fundament einer Marke zu entwickeln: klare Kernbotschaft, ein differenzierender Unique Mechanism, eine stimmige Tonalität und ein zentrales Narrativ. Er ist ideal, wenn eine Marke unscharf wirkt, sich nicht klar vom Markt abgrenzt oder ihre Kommunikation inkonsistent ist. Der Mehrwert liegt darin, dass nicht nur Texte entstehen, sondern eine klare Markenlogik, auf der alle weiteren Marketing- und Copywriting-Maßnahmen aufbauen können.",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -751,7 +751,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
       title: "Conversion-fokussierte Produktbeschreibung",
       description:
          "Dieser Prompt hilft dir, Produktbeschreibungen zu erstellen, die **nachweislich verkaufen**. Statt Features aufzuzählen, führt er die KI dazu, gezielt auf die Probleme, Wünsche und Kaufmotive der Zielgruppe einzugehen. Ideal für Verkaufsseiten, Landing Pages und Produktdetailseiten, bei denen Conversion im Vordergrund steht. Der Mehrwert liegt in der klaren Struktur und der psychologisch wirksamen Nutzenargumentation.",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -769,7 +769,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
       title: "Feature-zu-Benefit-Transformation",
       description:
          "Dieser Prompt wandelt trockene Produktfeatures in **kundenrelevante Nutzenargumente** um. Er hilft dabei, den Mehrwert eines Produkts verständlich und überzeugend zu kommunizieren – ideal für technische oder erklärungsbedürftige Produkte. Perfekt für alle, die zwar wissen, was ihr Produkt kann, aber nicht, wie sie es verkaufsstark formulieren sollen.",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -787,7 +787,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
       title: "Storytelling-Produktbeschreibung",
       description:
          "Mit diesem Prompt entstehen Produktbeschreibungen, die emotional binden statt nur zu informieren. Durch Storytelling wird das Produkt in eine nachvollziehbare Situation eingebettet, wodurch sich potenzielle Kunden leichter identifizieren können. Ideal für Markenaufbau, Social Proof und Produkte mit emotionalem Mehrwert.",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -805,7 +805,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
       title: "Premium-Produktbeschreibung (High-End)",
       description:
          "Dieser Prompt erzeugt **hochwertige, elegante Produktbeschreibungen** für Premium- und Luxusprodukte. Statt aggressiver Verkaufssprache liegt der Fokus auf Qualität, Exklusivität und Detailtiefe. Ideal für Marken, die Vertrauen, Stil und Wertigkeit vermitteln wollen.",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -823,7 +823,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
       title: "Kurze Produktbeschreibung für Online-Shop",
       description:
          "Dieser Prompt erstellt **kompakte, sofort verständliche Produktbeschreibungen**, die für Online-Shops optimiert sind. Perfekt für Nutzer, die klare, scannbare Texte mit hohem Informationswert benötigen – ohne lange Fließtexte.",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -841,7 +841,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
       title: "SEO-optimierte Produktbeschreibung",
       description:
          "Dieser Prompt kombiniert **verkaufsstarkes Copywriting mit SEO-Best Practices**. Er hilft dabei, Produktbeschreibungen zu erstellen, die sowohl für Menschen als auch für Suchmaschinen optimiert sind – ohne unnatürliche Keyword-Dichte.",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -859,7 +859,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
       title: "Vergleichsbasierte Produktbeschreibung",
       description:
          "Dieser Prompt hilft dabei, Kaufentscheidungen zu erleichtern, indem das Produkt **implizit besser positioniert wird als Alternativen**. Ideal für Märkte mit vielen ähnlichen Angeboten, ohne direkte Wettbewerber zu nennen.",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -877,7 +877,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
       title: "Problemlösungs-fokussierte Produktbeschreibung",
       description:
          "Dieser Prompt stellt das **Problem der Zielgruppe in den Mittelpunkt** und positioniert das Produkt als klare Lösung. Ideal für Direct-Response-Marketing und Produkte mit starkem Problemlösungsversprechen.",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",
@@ -895,7 +895,7 @@ export const promptTemplatesData: PromptTemplateDescriptorCreateInput[] = [
       title: "Technisches Produkt – verständlich erklärt",
       description:
          "Dieser Prompt macht komplexe oder technische Produkte **verständlich für Nicht-Experten**. Er reduziert Fachsprache und übersetzt Funktionen in praktische Vorteile.",
-      recommendedModel: "GPT-5",
+      recommendedModel: "ChatGPT",
       categories: {
          connectOrCreate: promptTemplateCategories([
             "Copywriting",

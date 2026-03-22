@@ -1,6 +1,6 @@
 jest.mock("@/data/repositories/prompt-template");
 jest.mock("@/data/services/settings");
-jest.mock("./template.engine");
+jest.mock("@/lib/template");
 
 import { dtestData, ptestData } from "@tests";
 import { map } from "es-toolkit/compat";
@@ -15,11 +15,11 @@ import {
    DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
+import { FieldsValidationResult, TemplateEngine } from "@/lib/template";
 import { ServiceFactory } from "../service.factory";
 import { SettingsService } from "../settings";
 
 import { PromptTemplateService } from "./prompt.template.service";
-import { FieldsValidationResult, TemplateEngine } from "./template.engine";
 
 const serviceFactory = new ServiceFactory(prisma);
 const settingsService = serviceFactory.getSettingsService();
@@ -330,7 +330,11 @@ describe("composePromptFromTemplate tests", () => {
       const fieldValues: DPromptTemplateFieldValues = {};
 
       const fn = () =>
-         promptTemplateService.composePromptFromTemplate(userId, id, fieldValues);
+         promptTemplateService.composePromptFromTemplate(
+            userId,
+            id,
+            fieldValues
+         );
 
       await expect(fn).rejects.toThrow(
          `PromptTemplateDescriptor with id ${id}not found `
@@ -366,7 +370,11 @@ describe("composePromptFromTemplate tests", () => {
       };
 
       const fn = () =>
-         promptTemplateService.composePromptFromTemplate(userId, id, fieldValues);
+         promptTemplateService.composePromptFromTemplate(
+            userId,
+            id,
+            fieldValues
+         );
 
       await expect(fn).rejects.toThrow("Provided template fields are invalid:");
 

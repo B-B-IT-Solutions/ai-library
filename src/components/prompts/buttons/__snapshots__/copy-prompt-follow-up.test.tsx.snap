@@ -7,6 +7,7 @@ exports[`CopyPromptFollowUpButton rendering tests CopyPromptFollowUpButton rende
     data-slot="tooltip-trigger"
     data-state="closed"
     data-testid="copy-prompt-follow-up-btn"
+    type="button"
   >
     <svg
       aria-hidden="true"
