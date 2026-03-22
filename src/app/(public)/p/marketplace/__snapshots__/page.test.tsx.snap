@@ -1233,7 +1233,7 @@ exports[`MarketplacePage rendering tests MarketplacePage - session.user.id undef
         <p
           class="text-slate-600"
         >
-          No products available at the moment.
+          Im Moment sind keine Produkte verfügbar.
         </p>
       </div>
     </div>

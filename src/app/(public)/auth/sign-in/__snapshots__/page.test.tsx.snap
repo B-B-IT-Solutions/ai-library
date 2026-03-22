@@ -28,7 +28,7 @@ exports[`SignInPage rendering tests SignInPage - user not signed in - rendered t
             href="/"
           >
             <img
-              alt="KI Bibliothek logo"
+              alt="Vision Notes logo"
               class="drop-shadow-lg"
               data-nimg="1"
               decoding="async"
@@ -40,7 +40,7 @@ exports[`SignInPage rendering tests SignInPage - user not signed in - rendered t
             <h1
               class="text-2xl font-bold"
             >
-              KI Bibliothek
+              Vision Notes
             </h1>
           </a>
           <div

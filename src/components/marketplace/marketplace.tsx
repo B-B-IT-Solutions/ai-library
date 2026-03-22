@@ -18,7 +18,7 @@ export const Marketplace = ({ products, cart, viewMode }: MarketplaceProps) => {
          return (
             <div className="py-12 text-center" data-testid="products-empty">
                <p className="text-slate-600">
-                  No products available at the moment.
+                  Im Moment sind keine Produkte verfügbar.
                </p>
             </div>
          );

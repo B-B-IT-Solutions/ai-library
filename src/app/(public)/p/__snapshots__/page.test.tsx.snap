@@ -22,12 +22,12 @@ exports[`PublicPage rendering tests PublicPage rendered test 1`] = `
               class="text-5xl font-bold tracking-tight md:text-6xl"
             >
               Welcome to 
-              KI Bibliothek
+              Vision Notes
             </h2>
             <p
               class="mx-auto max-w-3xl text-xl text-muted-foreground md:text-2xl"
             >
-              Modernene KI-Bibliothek
+              KI Bibliothek
             </p>
           </div>
           <div
