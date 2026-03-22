@@ -58,7 +58,6 @@ exports[`EditPromptPage rendering tests EditPromptPage - prompt found - rendered
             >
               <form
                 class="space-y-6"
-                data-testid="edit-form"
               >
                 <section
                   class="space-y-4"

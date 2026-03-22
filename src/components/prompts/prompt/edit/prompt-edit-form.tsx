@@ -241,7 +241,6 @@ export const PromptEditForm = ({ prompt, mode }: Props) => {
                <form
                   onSubmit={form.handleSubmit(onSubmit(false))}
                   className="space-y-6"
-                  data-testid="edit-form"
                >
                   <BasicInfoEdit control={form.control} />
 

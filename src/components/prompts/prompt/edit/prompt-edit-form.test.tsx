@@ -22,13 +22,11 @@ const mockUpdatePrompt = updatePrompt as jest.MockedFunction<
 >;
 
 const assertRendered = () => {
-   const component = screen.getByTestId("prompt-edit");
-   const form = screen.getByTestId("edit-form");
+   const form = screen.getByTestId("prompt-edit-form");
    const basicInfo = screen.getByTestId("basic-info-edit");
    const contentEdit = screen.getByTestId("prompt-content-edit");
    const followUps = screen.getByTestId("follow-up-prompts-edit");
 
-   assertInDocument(component);
    assertInDocument(form);
    assertInDocument(basicInfo);
    assertInDocument(contentEdit);
