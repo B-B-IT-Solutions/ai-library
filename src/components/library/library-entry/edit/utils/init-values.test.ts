@@ -36,7 +36,7 @@ const expectedInitPromptTempalteNew: DPromptTemplateUpdate = {
    description: "",
    content: "",
 
-   recommendedModel: "Claude 3.5 Sonnet",
+   recommendedModel: "Claude",
    categories: [],
    fields: [],
    globalFieldIds: [],

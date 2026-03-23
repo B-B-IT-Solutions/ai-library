@@ -223,29 +223,29 @@ exports[`EditLibraryEntryPage rendering tests EditLibraryEntryPage - library ent
                       tabindex="-1"
                     >
                       <option
-                        value="Claude 3.5 Sonnet"
+                        value="Claude"
                       >
-                        Claude 3.5 Sonnet
+                        Claude
                       </option>
                       <option
-                        value="Claude 3 Opus"
+                        value="ChatGPT"
                       >
-                        Claude 3 Opus
+                        ChatGPT
                       </option>
                       <option
-                        value="GPT-4"
+                        value="Gemini"
                       >
-                        GPT-4
+                        Gemini
                       </option>
                       <option
-                        value="GPT-4 Turbo"
+                        value="Perplexity"
                       >
-                        GPT-4 Turbo
+                        Perplexity
                       </option>
                       <option
-                        value="GPT-3.5 Turbo"
+                        value="Midjourney"
                       >
-                        GPT-3.5 Turbo
+                        Midjourney
                       </option>
                     </select>
                   </div>

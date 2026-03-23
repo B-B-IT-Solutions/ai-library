@@ -88,7 +88,7 @@ exports[`BasicInfo rendering tests BasicInfo rendered test 1`] = `
           data-slot="select-value"
           style="pointer-events: none;"
         >
-          Claude 3.5 Sonnet
+          Claude
         </span>
         <svg
           aria-hidden="true"

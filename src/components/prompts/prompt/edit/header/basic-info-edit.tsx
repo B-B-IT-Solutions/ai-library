@@ -28,17 +28,7 @@ import {
 import { FormDynamicValues, FormInput } from "@/components/shared/widgets";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 
-const AI_MODELS = [
-   "Claude Sonnet 4.5",
-   "Claude Opus 4",
-   "GPT-4",
-   "GPT-4 Turbo",
-   "GPT-3.5",
-   "Gemini Pro",
-   "Gemini Ultra",
-   "Llama 3",
-   "Mistral Large",
-];
+const AI_MODELS = ["Claude", "ChatGPT", "Gemini", "Perplexity", "Midjourney"];
 
 type Props = {
    control: Control<DPromptUpdate>;

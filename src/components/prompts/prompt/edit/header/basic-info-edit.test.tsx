@@ -28,9 +28,7 @@ const TestWrapper = ({
 
    return (
       <FormProvider {...methods}>
-         <BasicInfoEdit
-            control={methods.control}
-         />
+         <BasicInfoEdit control={methods.control} />
       </FormProvider>
    );
 };
@@ -68,7 +66,7 @@ describe("BasicInfoEdit rendering tests", () => {
       const { container } = render(
          <TestWrapper
             title="Test Title"
-            recommendedModel="Claude Sonnet 4.5"
+            recommendedModel="Claude"
             categories={["Category 1", "Category 2"]}
          />
       );
@@ -97,15 +95,15 @@ describe("BasicInfoEdit functionality tests", () => {
       await userEvent.click(triggerBtn);
 
       await waitFor(() => {
-         const gpt4 = screen.getByText("GPT-4");
+         const gpt4 = screen.getByText("ChatGPT");
          assertInDocument(gpt4);
       });
 
-      const gpt4 = screen.getByText("GPT-4");
-      await userEvent.click(gpt4);
+      const gpt = screen.getByText("ChatGPT");
+      await userEvent.click(gpt);
 
       await waitFor(() => {
-         expect(triggerBtn).toHaveTextContent("GPT-4");
+         expect(triggerBtn).toHaveTextContent("ChatGPT");
       });
    });
 
@@ -125,7 +123,7 @@ describe("BasicInfoEdit functionality tests", () => {
       });
 
       const input = screen.getByTestId("model-input");
-      await userEvent.type(input, "GPT-4-123");
+      await userEvent.type(input, "ChatGPT-123");
 
       await waitFor(() => {
          const addModel = screen.getByTestId("add-new-model");
@@ -136,7 +134,7 @@ describe("BasicInfoEdit functionality tests", () => {
       await userEvent.click(addModel);
 
       await waitFor(() => {
-         expect(triggerBtn).toHaveTextContent("GPT-4-123");
+         expect(triggerBtn).toHaveTextContent("ChatGPT-123");
       });
    });
 });
