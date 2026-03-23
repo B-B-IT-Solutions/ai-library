@@ -1,5 +1,6 @@
 import { flatMap, isEmpty, map, uniq } from "es-toolkit/compat";
 
+import { Sort } from "@/data/types/common";
 import { DbClient } from "@/data/types/db/common";
 import { LibraryEntryWithPromptTemplateDescriptor } from "@/data/types/db/library";
 import {
@@ -16,6 +17,7 @@ import {
    LibraryEntryCreateInput,
    LibraryEntryCreateManyArgs,
    LibraryEntryCreateManyInput,
+   LibraryEntryOrderByWithRelationInput,
    LibraryEntryWhereInput,
    LibraryEntryWhereUniqueInput,
    PromptTemplateDescriptorWhereInput,
@@ -53,6 +55,7 @@ export class LibraryRepository {
       const skip = pageNumber * pageSize;
 
       const where = this.resolveWhereInput(userId, query?.filter);
+      const orderBy = this.resolveOrderBy(query?.sort);
 
       const [entries, totalEntries] = await Promise.all([
          this.prisma.libraryEntry.findMany({
@@ -64,7 +67,7 @@ export class LibraryRepository {
                   },
                },
             },
-            orderBy: this.resolveSortOrder(query?.sort),
+            orderBy,
             skip,
             take: pageSize,
          }) as Promise<LibraryEntryWithPromptTemplateDescriptor[]>,
@@ -392,14 +395,20 @@ export class LibraryRepository {
       return where;
    }
 
-   private resolveSortOrder(sort?: DLibraryEntriesPageQuery["sort"]) {
+   private resolveOrderBy(sort?: Sort): LibraryEntryOrderByWithRelationInput {
       if (!sort) {
          return { createdAt: "desc" as const };
       }
       if (sort.field === "title") {
-         return { templateDescriptor: { title: sort.order } };
+         return {
+            templateDescriptor: {
+               title: sort.order,
+            },
+         };
       }
-      return { createdAt: sort.order };
+      return {
+         [sort.field]: sort.order,
+      };
    }
 
    private getLibraryEntryParamsToWhereFindUniqueInput = (

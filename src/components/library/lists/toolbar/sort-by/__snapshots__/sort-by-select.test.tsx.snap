@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`SortBySelect rendering tests SortBySelect - sortBy asc(date) - test 1`] = `
+exports[`SortBySelect rendering tests SortBySelect - sortBy asc(createdAt) - test 1`] = `
 <div>
   <button
     aria-autocomplete="none"
@@ -45,7 +45,7 @@ exports[`SortBySelect rendering tests SortBySelect - sortBy asc(date) - test 1`]
 </div>
 `;
 
-exports[`SortBySelect rendering tests SortBySelect - sortBy asc(name) - test 1`] = `
+exports[`SortBySelect rendering tests SortBySelect - sortBy asc(title) - test 1`] = `
 <div>
   <button
     aria-autocomplete="none"
@@ -64,7 +64,7 @@ exports[`SortBySelect rendering tests SortBySelect - sortBy asc(name) - test 1`]
       data-slot="select-value"
       style="pointer-events: none;"
     >
-      Name A-Z
+      Title A-Z
     </span>
     <svg
       aria-hidden="true"
@@ -90,7 +90,7 @@ exports[`SortBySelect rendering tests SortBySelect - sortBy asc(name) - test 1`]
 </div>
 `;
 
-exports[`SortBySelect rendering tests SortBySelect - sortBy desc(date) - test 1`] = `
+exports[`SortBySelect rendering tests SortBySelect - sortBy desc(createdAt) - test 1`] = `
 <div>
   <button
     aria-autocomplete="none"

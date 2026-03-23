@@ -76,7 +76,7 @@ describe("LibraryDashboard rendering tests", () => {
             pageSize: 10,
          },
          filter: filters,
-         sort: { field: "date", order: "desc" },
+         sort: { field: "createdAt", order: "desc" },
       };
 
       await waitFor(() => {
@@ -105,7 +105,7 @@ describe("LibraryDashboard rendering tests", () => {
             pageSize: 10,
          },
          filter: filters,
-         sort: { field: "date", order: "asc" },
+         sort: { field: "createdAt", order: "asc" },
       };
 
       await waitFor(() => {
@@ -132,7 +132,7 @@ describe("LibraryDashboard rendering tests", () => {
             pageSize: 10,
          },
          filter: {},
-         sort: { field: "name", order: "asc" },
+         sort: { field: "title", order: "asc" },
       };
 
       await waitFor(() => {

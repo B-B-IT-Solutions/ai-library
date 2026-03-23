@@ -34,14 +34,17 @@ export const SortBySelect: FC = () => {
             <SelectItem value={DListSortByMode.DATE_ASC} data-testid="asc-date">
                Älteste zuerst
             </SelectItem>
-            <SelectItem value={DListSortByMode.NAME_ASC} data-testid="asc-name">
-               Name A-Z
+            <SelectItem
+               value={DListSortByMode.NAME_ASC}
+               data-testid="asc-title"
+            >
+               Title A-Z
             </SelectItem>
             <SelectItem
                value={DListSortByMode.NAME_DESC}
-               data-testid="desc-name"
+               data-testid="desc-title"
             >
-               Name Z-A
+               Title Z-A
             </SelectItem>
          </SelectContent>
       </Select>
