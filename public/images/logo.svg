@@ -2,7 +2,7 @@
   <rect width="200" height="200" rx="40" fill="#1d4ed8"/>
 
   <!-- N (sekundär, halbtransparent) -->
-  <path d="M50 160 L50 40 L150 160 L150 40"
+  <path d="M50 148 L50 52 L150 148 L150 52"
         stroke="#FFFFFF" stroke-width="16" fill="none" opacity="0.35"/>
 
   <!-- V (Hauptbuchstabe, voll sichtbar, dicker) -->
