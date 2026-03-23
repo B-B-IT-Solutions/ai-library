@@ -8,6 +8,7 @@ import {
    pageQuery,
    pageQueryKey,
    paramQueryKey,
+   resolveSort,
 } from "./utils";
 
 describe("getNextPageParam", () => {
@@ -104,7 +105,7 @@ describe("pageQuery tests", () => {
    test("pageQuery  - with filter + sort -  test", async () => {
       const globalFilter = "test 1";
       const promptsFilter = dtestData.dPromptDescriptorsFilter();
-      const sort1 = dtestData.sort("field1", true);
+      const sort1 = dtestData.sort("field1", "desc");
       expect(pageQuery(5, 10, globalFilter, promptsFilter, sort1)).toEqual(
          expectedQuery(5, 10, globalFilter, promptsFilter, sort1)
       );
@@ -123,13 +124,13 @@ describe("filterQueryKey tests", () => {
    test("filterQueryKey  test", async () => {
       expect(filterQueryKey()).toEqual({});
 
-      const filter = dtestData.dPromptDescriptorsFilter();
-      expect(filterQueryKey(filter)).toEqual({ filter });
+      const filters = dtestData.dPromptDescriptorsFilter();
+      expect(filterQueryKey(filters)).toEqual({ filters });
 
       const sort = dtestData.sort();
       expect(filterQueryKey(undefined, sort)).toEqual({ sort });
 
-      expect(filterQueryKey(filter, sort)).toEqual({ filter, sort });
+      expect(filterQueryKey(filters, sort)).toEqual({ filters, sort });
    });
 });
 
@@ -140,5 +141,58 @@ describe("paramQueryKey tests", () => {
       expect(paramQueryKey({ search: "test 1" })).toEqual({
          params: { search: "test 1" },
       });
+   });
+});
+
+describe("resolveSort tests", () => {
+   test("resolveSort - undefined - test", () => {
+      expect(resolveSort(undefined)).toBeUndefined();
+   });
+
+   test("resolveSort - empty string - test", () => {
+      expect(resolveSort("")).toBeUndefined();
+   });
+
+   test("resolveSort - no match - test", () => {
+      expect(resolveSort("createdAt")).toBeUndefined();
+      expect(resolveSort("desc-createdAt")).toBeUndefined();
+      expect(resolveSort("asc createdAt")).toBeUndefined();
+      expect(resolveSort("(createdAt)")).toBeUndefined();
+   });
+
+   test("resolveSort - asc(field) - test", () => {
+      const result = resolveSort("asc(createdAt)");
+      const expectedResult: Sort = {
+         field: "createdAt",
+         order: "asc",
+      };
+      expect(result).toEqual(expectedResult);
+   });
+
+   test("resolveSort - desc(field) - test", () => {
+      const result = resolveSort("desc(createdAt)");
+      const expectedResult: Sort = {
+         field: "createdAt",
+         order: "desc",
+      };
+      expect(result).toEqual(expectedResult);
+   });
+
+   test("resolveSort - asc(title) - test", () => {
+      const result = resolveSort("asc(title)");
+      const expectedResult: Sort = {
+         field: "title",
+         order: "asc",
+      };
+      expect(result).toEqual(expectedResult);
+   });
+
+   test("resolveSort - desc(title) - test", () => {
+      const result = resolveSort("desc(title)");
+      const expectedResult: Sort = {
+         field: "title",
+         order: "desc",
+      };
+      expect(result).toEqual(expectedResult);
    });
 });

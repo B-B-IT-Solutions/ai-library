@@ -10,10 +10,10 @@ module.exports = {
    ],
    coverageThreshold: {
       global: {
-         lines: 97.7,
-         statements: 97.6,
-         branches: 95.9,
-         functions: 97.6,
+         lines: 98,
+         statements: 98.3,
+         branches: 97.5,
+         functions: 97.9,
       },
    },
    setupFilesAfterEnv: [

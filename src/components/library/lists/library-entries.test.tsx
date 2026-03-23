@@ -12,6 +12,7 @@ import {
    DListSortByMode,
    DListViewMode,
 } from "@/data/types/domain/common";
+import { DLibraryEntriesPageQuery } from "@/data/types/domain/library";
 
 import { LibraryEntries } from "./library-entries";
 
@@ -38,6 +39,13 @@ const assertGroupsendered = () => {
    assertInDocument(entries);
 };
 
+const assertGetLibraryEntriesPageCalled = (
+   expectedPayload: DLibraryEntriesPageQuery
+) => {
+   expect(getLibraryEntriesPageMock).toHaveBeenCalledTimes(1);
+   expect(getLibraryEntriesPageMock).toHaveBeenCalledWith(expectedPayload);
+};
+
 describe("LibraryDashboard rendering tests", () => {
    beforeAll(() => {
       const page = dtestData.dLibraryEntriesPage();
@@ -51,34 +59,58 @@ describe("LibraryDashboard rendering tests", () => {
    });
 
    it("LibraryEntries - view grid - test", async () => {
+      const filters = dtestData.dLibraryEntriesFilter();
+
       const { container } = renderWithRouter(
          <LibraryEntries
             viewMode={DListViewMode.GRID}
             groupBy={DListGroupByMode.NONE}
             sortBy={DListSortByMode.DATE_DESC}
-            filters={{}}
+            filters={filters}
          />
       );
 
+      const expectedPayload: DLibraryEntriesPageQuery = {
+         pagination: {
+            pageNumber: 0,
+            pageSize: 10,
+         },
+         filter: filters,
+         sort: { field: "createdAt", order: "desc" },
+      };
+
       await waitFor(() => {
          assertGridRendered();
+         assertGetLibraryEntriesPageCalled(expectedPayload);
       });
 
       expect(container).toMatchSnapshot();
    });
 
    it("LibraryEntries - view list - test", async () => {
+      const filters = dtestData.dLibraryEntriesFilter();
+
       const { container } = renderWithRouter(
          <LibraryEntries
             viewMode={DListViewMode.LIST}
             groupBy={DListGroupByMode.NONE}
-            sortBy={DListSortByMode.DATE_DESC}
-            filters={{}}
+            sortBy={DListSortByMode.DATE_ASC}
+            filters={filters}
          />
       );
 
+      const expectedPayload: DLibraryEntriesPageQuery = {
+         pagination: {
+            pageNumber: 0,
+            pageSize: 10,
+         },
+         filter: filters,
+         sort: { field: "createdAt", order: "asc" },
+      };
+
       await waitFor(() => {
          assertListRendered();
+         assertGetLibraryEntriesPageCalled(expectedPayload);
       });
 
       expect(container).toMatchSnapshot();
@@ -89,13 +121,23 @@ describe("LibraryDashboard rendering tests", () => {
          <LibraryEntries
             viewMode={DListViewMode.LIST}
             groupBy={DListGroupByMode.MODEL}
-            sortBy={DListSortByMode.DATE_DESC}
+            sortBy={DListSortByMode.TITLE_ASC}
             filters={{}}
          />
       );
 
+      const expectedPayload: DLibraryEntriesPageQuery = {
+         pagination: {
+            pageNumber: 0,
+            pageSize: 10,
+         },
+         filter: {},
+         sort: { field: "title", order: "asc" },
+      };
+
       await waitFor(() => {
          assertGroupsendered();
+         assertGetLibraryEntriesPageCalled(expectedPayload);
       });
 
       expect(container).toMatchSnapshot();

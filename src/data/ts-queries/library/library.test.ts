@@ -114,7 +114,8 @@ describe("prefetch options tests", () => {
       getLibraryEntriesPageMock.mockResolvedValue(page);
 
       const filters = dtestData.dLibraryEntriesFilter();
-      const params: LoadLibraryEntriesParams = { filters };
+      const sort = dtestData.sort();
+      const params: LoadLibraryEntriesParams = { filters, sort };
 
       const options = preloadLibraryEntriesOptions(params);
       const queryFn = options.queryFn as QueryFunction<DLibraryEntriesPage>;
@@ -126,7 +127,7 @@ describe("prefetch options tests", () => {
          Error,
          DLibraryEntriesPage
       > = {
-         queryKey: ["library", "entries", filters],
+         queryKey: ["library", "entries", { filters, sort }],
          queryFn: jest.fn(),
       };
 
@@ -136,6 +137,7 @@ describe("prefetch options tests", () => {
             pageSize: 10,
          },
          filter: params.filters,
+         sort: params.sort,
       };
 
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
@@ -175,7 +177,8 @@ describe("loadLibraryEntries hooks tests", () => {
 
    test("infiniteLoadLibraryEntriesOptions - test", async () => {
       const filters = dtestData.dLibraryEntriesFilter();
-      const params: LoadLibraryEntriesParams = { filters };
+      const sort = dtestData.sort();
+      const params: LoadLibraryEntriesParams = { filters, sort };
 
       const expectedOptions: UndefinedInitialDataInfiniteOptions<
          DLibraryEntriesPage,
@@ -184,7 +187,7 @@ describe("loadLibraryEntries hooks tests", () => {
          QueryKey,
          number
       > = {
-         queryKey: ["library", "entries", filters],
+         queryKey: ["library", "entries", { filters, sort }],
          queryFn: jest.fn(),
          initialPageParam: 0,
          getNextPageParam: jest.fn(),
@@ -200,7 +203,8 @@ describe("loadLibraryEntries hooks tests", () => {
       getLibraryEntriesPageMock.mockResolvedValue(page);
 
       const filters = dtestData.dLibraryEntriesFilter();
-      const params: LoadLibraryEntriesParams = { filters };
+      const sort = dtestData.sort();
+      const params: LoadLibraryEntriesParams = { filters, sort };
 
       const { result } = renderHookWithReactQuery(() =>
          useInfiniteLoadLibraryEntries(params)
@@ -212,6 +216,7 @@ describe("loadLibraryEntries hooks tests", () => {
             pageSize: 10,
          },
          filter: params.filters,
+         sort: params.sort,
       };
 
       await waitFor(() => {

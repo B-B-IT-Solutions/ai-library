@@ -49,16 +49,17 @@ import { libraryKeys } from "./utils";
 export const preloadLibraryEntriesOptions = (
    params: LoadLibraryEntriesParams
 ): FetchQueryOptions<DLibraryEntriesPage, Error, DLibraryEntriesPage> => {
-   const { filters } = params;
+   const { filters, sort } = params;
 
    return {
-      queryKey: libraryKeys.entries(filters),
+      queryKey: libraryKeys.entries(params),
       queryFn: async () => {
          const query: DLibraryEntriesPageQuery = pageQuery(
             INIT_PAGE_NUMBER,
             PAGE_SIZE,
             undefined,
-            filters
+            filters,
+            sort
          );
          return await getLibraryEntriesPage(query);
       },
@@ -85,15 +86,16 @@ export const infiniteLoadLibraryEntriesOptions = (
    QueryKey,
    number
 > => {
-   const { filters } = params;
+   const { filters, sort } = params;
    return {
-      queryKey: libraryKeys.entries(filters),
+      queryKey: libraryKeys.entries(params),
       queryFn: async ({ pageParam }) => {
          const query: DLibraryEntriesPageQuery = pageQuery(
             pageParam,
             PAGE_SIZE,
             undefined,
-            filters
+            filters,
+            sort
          );
          return await getLibraryEntriesPage(query);
       },

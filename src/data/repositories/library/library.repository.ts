@@ -1,5 +1,6 @@
 import { flatMap, isEmpty, map, uniq } from "es-toolkit/compat";
 
+import { Sort } from "@/data/types/common";
 import { DbClient } from "@/data/types/db/common";
 import { LibraryEntryWithPromptTemplateDescriptor } from "@/data/types/db/library";
 import {
@@ -12,10 +13,13 @@ import {
 } from "@/data/types/domain/library";
 import {
    LibraryCollectionCreateInput,
+   LibraryEntryCountArgs,
    LibraryEntryCreateArgs,
    LibraryEntryCreateInput,
    LibraryEntryCreateManyArgs,
    LibraryEntryCreateManyInput,
+   LibraryEntryFindManyArgs,
+   LibraryEntryOrderByWithRelationInput,
    LibraryEntryWhereInput,
    LibraryEntryWhereUniqueInput,
    PromptTemplateDescriptorWhereInput,
@@ -25,7 +29,6 @@ import {
    toDLibraryCollection,
    toDLibraryCollections,
    toDLibraryEntries,
-   toDLibraryEntry,
    toDLibraryEntryWithPromptTemplate,
 } from "./library.mapper";
 
@@ -48,31 +51,40 @@ export class LibraryRepository {
       query?: DLibraryEntriesPageQuery
    ): Promise<DLibraryEntriesPage> {
       const pagination = query?.pagination;
-      const pageNumber = pagination?.pageNumber ?? 1;
+      const pageNumber = pagination?.pageNumber ?? 0;
       const pageSize = pagination?.pageSize ?? 20;
       const skip = pageNumber * pageSize;
 
       const where = this.resolveWhereInput(userId, query?.filter);
+      const orderBy = this.resolveOrderBy(query?.sort);
 
-      const [entries, totalEntries] = await Promise.all([
-         this.prisma.libraryEntry.findMany({
-            where,
-            include: {
-               templateDescriptor: {
-                  include: {
-                     categories: true,
-                  },
+      const args: LibraryEntryFindManyArgs = {
+         where,
+         include: {
+            templateDescriptor: {
+               include: {
+                  categories: true,
                },
             },
-            orderBy: this.resolveSortOrder(query?.filter),
-            skip,
-            take: pageSize,
-         }) as Promise<LibraryEntryWithPromptTemplateDescriptor[]>,
-         this.prisma.libraryEntry.count({ where }),
+         },
+         orderBy,
+         skip,
+         take: pageSize,
+      };
+
+      const countArgs: LibraryEntryCountArgs = {
+         where,
+      };
+
+      const [entries, totalEntries] = await Promise.all([
+         this.prisma.libraryEntry.findMany(args) as Promise<
+            LibraryEntryWithPromptTemplateDescriptor[]
+         >,
+         this.prisma.libraryEntry.count(countArgs),
       ]);
 
       return {
-         content: map(entries, toDLibraryEntry),
+         content: toDLibraryEntries(entries),
          pageNumber,
          pageSize,
          numberOfElements: entries.length,
@@ -331,8 +343,6 @@ export class LibraryRepository {
       });
    }
 
-   // ==================== Private Helpers ====================
-
    private resolveWhereInput(
       userId: string,
       filter?: DLibraryEntriesPageQuery["filter"]
@@ -392,9 +402,22 @@ export class LibraryRepository {
       return where;
    }
 
-   private resolveSortOrder(filter?: DLibraryEntriesPageQuery["filter"]) {
-      // Default sort by createdAt desc
-      return { createdAt: "desc" as const };
+   private resolveOrderBy(sort?: Sort): LibraryEntryOrderByWithRelationInput {
+      if (sort) {
+         if (sort.field === "title") {
+            return {
+               templateDescriptor: {
+                  title: sort.order,
+               },
+            };
+         }
+         return {
+            [sort.field]: sort.order,
+         };
+      }
+      return {
+         createdAt: "desc" as const,
+      };
    }
 
    private getLibraryEntryParamsToWhereFindUniqueInput = (
