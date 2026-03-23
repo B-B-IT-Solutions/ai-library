@@ -13,10 +13,12 @@ import {
 } from "@/data/types/domain/library";
 import {
    LibraryCollectionCreateInput,
+   LibraryEntryCountArgs,
    LibraryEntryCreateArgs,
    LibraryEntryCreateInput,
    LibraryEntryCreateManyArgs,
    LibraryEntryCreateManyInput,
+   LibraryEntryFindManyArgs,
    LibraryEntryOrderByWithRelationInput,
    LibraryEntryWhereInput,
    LibraryEntryWhereUniqueInput,
@@ -27,7 +29,6 @@ import {
    toDLibraryCollection,
    toDLibraryCollections,
    toDLibraryEntries,
-   toDLibraryEntry,
    toDLibraryEntryWithPromptTemplate,
 } from "./library.mapper";
 
@@ -57,25 +58,33 @@ export class LibraryRepository {
       const where = this.resolveWhereInput(userId, query?.filter);
       const orderBy = this.resolveOrderBy(query?.sort);
 
-      const [entries, totalEntries] = await Promise.all([
-         this.prisma.libraryEntry.findMany({
-            where,
-            include: {
-               templateDescriptor: {
-                  include: {
-                     categories: true,
-                  },
+      const args: LibraryEntryFindManyArgs = {
+         where,
+         include: {
+            templateDescriptor: {
+               include: {
+                  categories: true,
                },
             },
-            orderBy,
-            skip,
-            take: pageSize,
-         }) as Promise<LibraryEntryWithPromptTemplateDescriptor[]>,
-         this.prisma.libraryEntry.count({ where }),
+         },
+         orderBy,
+         skip,
+         take: pageSize,
+      };
+
+      const countArgs: LibraryEntryCountArgs = {
+         where,
+      };
+
+      const [entries, totalEntries] = await Promise.all([
+         this.prisma.libraryEntry.findMany(args) as Promise<
+            LibraryEntryWithPromptTemplateDescriptor[]
+         >,
+         this.prisma.libraryEntry.count(countArgs),
       ]);
 
       return {
-         content: map(entries, toDLibraryEntry),
+         content: toDLibraryEntries(entries),
          pageNumber,
          pageSize,
          numberOfElements: entries.length,
