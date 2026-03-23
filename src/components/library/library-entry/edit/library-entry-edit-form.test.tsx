@@ -351,7 +351,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
          categories: [],
          fields: [],
          globalFieldIds: [],
-         recommendedModel: "Claude 3.5 Sonnet",
+         recommendedModel: "Claude",
       };
 
       await waitFor(() => {
@@ -442,7 +442,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
          categories: [],
          fields: [],
          globalFieldIds: [],
-         recommendedModel: "Claude 3.5 Sonnet",
+         recommendedModel: "Claude",
       };
 
       await waitFor(() => {

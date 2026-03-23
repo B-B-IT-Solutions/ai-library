@@ -72,12 +72,7 @@ export const LibraryEntries = ({
             next={fetchNextPage}
             threshold={0.7}
          >
-            <div className="p-6">
-               <LibraryEntriesList
-                  entries={entries}
-                  collections={collections}
-               />
-            </div>
+            <LibraryEntriesList entries={entries} collections={collections} />
          </InfiniteScroll>
       );
    }
@@ -89,9 +84,7 @@ export const LibraryEntries = ({
          next={fetchNextPage}
          threshold={0.7}
       >
-         <div className="p-6">
-            <LibraryEntriesGrid entries={entries} collections={collections} />
-         </div>
+         <LibraryEntriesGrid entries={entries} collections={collections} />
       </InfiniteScroll>
    );
 };

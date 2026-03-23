@@ -12,11 +12,11 @@ import {
 import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
 
 const RECOMMENDED_MODELS = [
-   "Claude 3.5 Sonnet",
-   "Claude 3 Opus",
-   "GPT-4",
-   "GPT-4 Turbo",
-   "GPT-3.5 Turbo",
+   "Claude",
+   "ChatGPT",
+   "Gemini",
+   "Perplexity",
+   "Midjourney",
 ];
 
 type Props = {

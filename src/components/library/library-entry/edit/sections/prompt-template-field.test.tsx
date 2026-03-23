@@ -22,7 +22,7 @@ const TestWrapper: FC<Props> = ({ index, isUsed, hasName, onRemove }) => {
          title: "",
          description: "",
          content: "",
-         recommendedModel: "Claude 3.5 Sonnet",
+         recommendedModel: "Claude",
          categories: [],
          fields: [],
       },

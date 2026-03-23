@@ -173,7 +173,7 @@ describe("PromptFromTemplate functionality tests", () => {
          expect(openExternalUrlInNewTabMock).not.toHaveBeenCalled();
       });
 
-      const openInGptBtn = screen.getByTestId("open-in-gpt-btn");
+      const openInGptBtn = screen.getByTestId("open-in-chatgpt-btn");
       await userEvent.click(openInGptBtn);
 
       const expectedUrl = "https://chatgpt.com/?q=Hello%20John%20Doe";

@@ -4,7 +4,7 @@ import { AiTool } from "./type";
 
 export const aiTools: AiTool[] = [
    {
-      id: "gpt",
+      id: "chatgpt",
       name: "ChatGPT",
       url: "https://chatgpt.com/",
       queryParam: "q",

@@ -10,7 +10,7 @@ const TestWrapper = () => {
          title: "",
          description: "",
          content: "",
-         recommendedModel: "Claude 3.5 Sonnet",
+         recommendedModel: "Claude",
          categories: [],
          fields: [],
          globalFieldIds: [],
@@ -19,9 +19,7 @@ const TestWrapper = () => {
 
    return (
       <FormProvider {...form}>
-         <BasicInfo
-            control={form.control}
-         />
+         <BasicInfo control={form.control} />
       </FormProvider>
    );
 };
