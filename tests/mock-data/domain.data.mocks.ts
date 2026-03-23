@@ -2,7 +2,7 @@ import { range } from "es-toolkit";
 import { map } from "es-toolkit/compat";
 import { Check } from "lucide-react";
 
-import { Sort } from "@/data/types/common";
+import { Sort, SortOrder } from "@/data/types/common";
 import { DCart, DCartItem } from "@/data/types/domain/cart";
 import {
    DLibraryCollection,
@@ -760,8 +760,8 @@ export const dPromptDescriptorsFilter = (): DPromptDescriptorsFilter => {
    };
 };
 
-export const sort = (field = "field1", desc = false): Sort => {
-   return { field, desc };
+export const sort = (field = "field1", order: SortOrder = "desc"): Sort => {
+   return { field, order };
 };
 
 export const dGlobalTemplateFieldIds = (count = 1): string[] => {

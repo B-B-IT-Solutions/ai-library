@@ -41,14 +41,14 @@ export const pageQueryKey = (
 };
 
 export const filterQueryKey = (
-   filter?: Filter,
+   filters?: Filter,
    sort?: Sort
 ): TanstackFilterQueryKey<Filter> => {
-   if (filter && sort) {
-      return { filter, sort };
+   if (filters && sort) {
+      return { filters, sort };
    }
-   if (filter) {
-      return { filter };
+   if (filters) {
+      return { filters };
    }
    if (sort) {
       return { sort };

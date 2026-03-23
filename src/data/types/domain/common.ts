@@ -1,17 +1,17 @@
 import { Sort } from "@/data/types/common";
 
-export interface TanstackParamQueryKey<T> {
+export type TanstackParamQueryKey<T> = {
    params?: T;
-}
+};
 
-export interface TanstackPageQueryKey<T> {
+export type TanstackPageQueryKey<T> = {
    query?: T;
-}
+};
 
-export interface TanstackFilterQueryKey<T> {
-   filter?: T;
+export type TanstackFilterQueryKey<T> = {
+   filters?: T;
    sort?: Sort;
-}
+};
 
 export enum DListViewMode {
    GRID = "grid",

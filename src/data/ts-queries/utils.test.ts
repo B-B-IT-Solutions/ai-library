@@ -105,7 +105,7 @@ describe("pageQuery tests", () => {
    test("pageQuery  - with filter + sort -  test", async () => {
       const globalFilter = "test 1";
       const promptsFilter = dtestData.dPromptDescriptorsFilter();
-      const sort1 = dtestData.sort("field1", true);
+      const sort1 = dtestData.sort("field1", "desc");
       expect(pageQuery(5, 10, globalFilter, promptsFilter, sort1)).toEqual(
          expectedQuery(5, 10, globalFilter, promptsFilter, sort1)
       );
@@ -124,13 +124,13 @@ describe("filterQueryKey tests", () => {
    test("filterQueryKey  test", async () => {
       expect(filterQueryKey()).toEqual({});
 
-      const filter = dtestData.dPromptDescriptorsFilter();
-      expect(filterQueryKey(filter)).toEqual({ filter });
+      const filters = dtestData.dPromptDescriptorsFilter();
+      expect(filterQueryKey(filters)).toEqual({ filters });
 
       const sort = dtestData.sort();
       expect(filterQueryKey(undefined, sort)).toEqual({ sort });
 
-      expect(filterQueryKey(filter, sort)).toEqual({ filter, sort });
+      expect(filterQueryKey(filters, sort)).toEqual({ filters, sort });
    });
 });
 
