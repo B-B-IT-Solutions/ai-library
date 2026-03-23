@@ -64,7 +64,7 @@ export class LibraryRepository {
                   },
                },
             },
-            orderBy: this.resolveSortOrder(query?.filter),
+            orderBy: this.resolveSortOrder(query?.sort),
             skip,
             take: pageSize,
          }) as Promise<LibraryEntryWithPromptTemplateDescriptor[]>,
@@ -392,9 +392,14 @@ export class LibraryRepository {
       return where;
    }
 
-   private resolveSortOrder(filter?: DLibraryEntriesPageQuery["filter"]) {
-      // Default sort by createdAt desc
-      return { createdAt: "desc" as const };
+   private resolveSortOrder(sort?: DLibraryEntriesPageQuery["sort"]) {
+      if (!sort) {
+         return { createdAt: "desc" as const };
+      }
+      if (sort.field === "title") {
+         return { templateDescriptor: { title: sort.order } };
+      }
+      return { createdAt: sort.order };
    }
 
    private getLibraryEntryParamsToWhereFindUniqueInput = (

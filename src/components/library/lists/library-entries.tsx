@@ -36,6 +36,7 @@ export const LibraryEntries = ({
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
       useInfiniteLoadLibraryEntries({
          filters,
+         sortBy,
       });
 
    const entries = useMemo(

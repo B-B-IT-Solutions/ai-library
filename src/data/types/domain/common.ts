@@ -27,8 +27,8 @@ export enum DListGroupByMode {
 }
 
 export enum DListSortByMode {
-   DATE_DESC = "date-desc",
-   DATE_ASC = "date-asc",
-   NAME_ASC = "name-asc",
-   NAME_DESC = "name-desc",
+   DATE_DESC = "desc(date)",
+   DATE_ASC = "asc(date)",
+   NAME_DESC = "desc(name)",
+   NAME_ASC = "asc(name)",
 }

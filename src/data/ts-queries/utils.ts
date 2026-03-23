@@ -1,9 +1,11 @@
-import { Filter, Page, PageQuery, Sort } from "@/data/types/common";
+import { Filter, Page, PageQuery, Sort, SortOrder } from "@/data/types/common";
 import {
    TanstackFilterQueryKey,
    TanstackPageQueryKey,
    TanstackParamQueryKey,
 } from "@/data/types/domain/common";
+
+const SORT_REGEX = /^(asc|desc)\((.+)\)$/;
 
 export const getNextPageParam = <T>(lastPage: Page<T>) => {
    const { pageNumber, totalPages } = lastPage;
@@ -59,4 +61,20 @@ export const paramQueryKey = <T>(params?: T): TanstackParamQueryKey<T> => {
       return { params };
    }
    return {};
+};
+
+export const resolveSort = (sortBy?: string): Sort | undefined => {
+   if (sortBy) {
+      const match = sortBy.match(SORT_REGEX);
+      if (match) {
+         const [, order, field] = match;
+
+         const sort: Sort = {
+            order: order as SortOrder,
+            field,
+         };
+         return sort;
+      }
+   }
+   return undefined;
 };

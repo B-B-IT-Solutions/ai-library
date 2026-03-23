@@ -1,3 +1,4 @@
+import { DListSortByMode } from "@/data/types/domain/common";
 import {
    DLibraryCollectionUpdate,
    DLibraryEntriesFilter,
@@ -5,6 +6,7 @@ import {
 
 export type LoadLibraryEntriesParams = {
    filters?: DLibraryEntriesFilter;
+   sortBy?: DListSortByMode;
 };
 
 export type UpdateIsFavoriteParams = {

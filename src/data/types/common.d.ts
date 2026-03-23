@@ -21,9 +21,11 @@ export interface PageQuery<T extends Filter> {
    globalFilter?: string;
 }
 
-export interface Sort {
+export type SortOrder = "asc" | "desc";
+
+export type Sort = {
    field: string;
-   desc: boolean;
-}
+   order: SortOrder;
+};
 
 export type CallbackFn = () => void;
