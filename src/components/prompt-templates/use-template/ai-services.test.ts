@@ -5,7 +5,7 @@ import { AiTool } from "./type";
 
 const expectedAiTools: AiTool[] = [
    {
-      id: "gpt",
+      id: "chatgpt",
       name: "ChatGPT",
       url: "https://chatgpt.com/",
       queryParam: "q",
@@ -36,9 +36,9 @@ describe("aiTools tests", () => {
    });
 
    it("getRecommendedAiTool - test", async () => {
-      const result1 = getRecommendedAiTool("GPT-4");
+      const result1 = getRecommendedAiTool("chatgpt");
       const expectedResult1 = find(expectedAiTools, (t) =>
-         "gpt".includes(t.id)
+         "chatgpt".includes(t.id)
       );
       expect(result1).toEqual(expectedResult1);
 
