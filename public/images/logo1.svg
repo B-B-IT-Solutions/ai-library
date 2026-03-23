@@ -2,9 +2,9 @@
   <rect width="220" height="220" rx="40" fill="#1d4ed8"/>
 
   <!-- V (Hintergrundelement, subtil) -->
-  <path d="M45 55 L110 165 L175 55"
+  <path d="M30 45 L110 175 L190 55"
         stroke="#ffffff"
-        stroke-width="14"
+        stroke-width="22"
         opacity="0.15"
         fill="none"
         stroke-linecap="round"
