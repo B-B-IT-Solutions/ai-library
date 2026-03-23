@@ -121,7 +121,7 @@ describe("LibraryDashboard rendering tests", () => {
          <LibraryEntries
             viewMode={DListViewMode.LIST}
             groupBy={DListGroupByMode.MODEL}
-            sortBy={DListSortByMode.NAME_ASC}
+            sortBy={DListSortByMode.TITLE_ASC}
             filters={{}}
          />
       );

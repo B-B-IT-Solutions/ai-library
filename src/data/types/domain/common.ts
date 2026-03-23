@@ -29,6 +29,6 @@ export enum DListGroupByMode {
 export enum DListSortByMode {
    DATE_DESC = "desc(createdAt)",
    DATE_ASC = "asc(createdAt)",
-   NAME_DESC = "desc(title)",
-   NAME_ASC = "asc(title)",
+   TITLE_DESC = "desc(title)",
+   TITLE_ASC = "asc(title)",
 }
