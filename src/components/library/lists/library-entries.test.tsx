@@ -1,4 +1,7 @@
 jest.mock("@/data/actions/library");
+jest.mock("@/data/ts-queries/library", () => ({
+   ...jest.requireActual("@/data/ts-queries/library"),
+}));
 
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderWithRouter } from "@tests";
@@ -7,6 +10,7 @@ import {
    getLibraryCollections,
    getLibraryEntriesPage,
 } from "@/data/actions/library";
+import * as libraryTsQueries from "@/data/ts-queries/library";
 import {
    DListGroupByMode,
    DListSortByMode,
@@ -51,6 +55,11 @@ describe("LibraryDashboard rendering tests", () => {
    });
 
    it("LibraryEntries - view grid - test", async () => {
+      const useInfiniteLoadLibraryEntriesFn = jest.spyOn(
+         libraryTsQueries,
+         "useInfiniteLoadLibraryEntries"
+      );
+
       const { container } = renderWithRouter(
          <LibraryEntries
             viewMode={DListViewMode.GRID}
@@ -62,6 +71,7 @@ describe("LibraryDashboard rendering tests", () => {
 
       await waitFor(() => {
          assertGridRendered();
+         expect(useInfiniteLoadLibraryEntriesFn).toHaveBeenCalledTimes(1);
       });
 
       expect(container).toMatchSnapshot();

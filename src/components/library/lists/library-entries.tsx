@@ -8,6 +8,7 @@ import {
    useInfiniteLoadLibraryEntries,
    useLoadLibraryCollections,
 } from "@/data/ts-queries/library";
+import { resolveSort } from "@/data/ts-queries/utils";
 import {
    DListGroupByMode,
    DListSortByMode,
@@ -36,7 +37,7 @@ export const LibraryEntries = ({
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
       useInfiniteLoadLibraryEntries({
          filters,
-         sortBy,
+         sort: resolveSort(sortBy),
       });
 
    const entries = useMemo(

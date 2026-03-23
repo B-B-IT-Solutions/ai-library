@@ -35,7 +35,7 @@ import {
 } from "@/data/types/domain/library";
 import { ActionResult } from "@/data/types/utils";
 import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
-import { getNextPageParam, pageQuery, resolveSort } from "../utils";
+import { getNextPageParam, pageQuery } from "../utils";
 
 import {
    LoadCollectionIdsParams,
@@ -85,10 +85,9 @@ export const infiniteLoadLibraryEntriesOptions = (
    QueryKey,
    number
 > => {
-   const { filters, sortBy } = params;
-   const sort = resolveSort(sortBy);
+   const { filters, sort } = params;
    return {
-      queryKey: libraryKeys.entries(filters, sortBy),
+      queryKey: libraryKeys.entries(params),
       queryFn: async ({ pageParam }) => {
          const query: DLibraryEntriesPageQuery = pageQuery(
             pageParam,
