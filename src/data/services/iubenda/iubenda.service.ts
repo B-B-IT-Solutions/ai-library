@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from "axios";
 import axiosRetry from "axios-retry";
 
 import { getIubendaApiKey, getIubendaConsentUrl } from "@/lib/constants";
@@ -46,9 +46,17 @@ export class IubendaService {
 
          return true;
       } catch (error) {
+         let data = error;
+         if (error instanceof AxiosError) {
+            data = {
+               message: error.message,
+               status: error.response?.status,
+               data: error.response?.data,
+            };
+         }
          console.error(
             `[IubendaService] All attempts to save legal notices failed for user ${params.user.id}:`,
-            error
+            data
          );
          return false;
       }
