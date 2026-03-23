@@ -27,13 +27,32 @@ export const openExternalUrlInNewTab = (url: string) => {
    window.open(url, "_blank", "noopener,noreferrer");
 };
 
+export const removePort = (ip: string): string => {
+   // IPv6 with port: [::1]:5678
+   if (ip.startsWith("[")) {
+      return ip.slice(1, ip.indexOf("]"));
+   }
+   // IPv4 with port: 1.2.3.4:5678 (plain IPv6 has multiple colons before the last one)
+   const lastColon = ip.lastIndexOf(":");
+   if (lastColon !== -1 && !ip.slice(0, lastColon).includes(":")) {
+      return ip.slice(0, lastColon);
+   }
+   return ip;
+};
+
 export const resolveIpAddresse = (headers: Headers): string | undefined => {
-   const ip =
+   const rawIp =
       headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
       headers.get("x-real-ip") ??
       undefined;
 
-   if (!ip || includes(LOOPBACK_ADDRESSES, ip)) {
+   if (!rawIp) {
+      return undefined;
+   }
+
+   const ip = removePort(rawIp);
+
+   if (includes(LOOPBACK_ADDRESSES, ip)) {
       return undefined;
    }
 
