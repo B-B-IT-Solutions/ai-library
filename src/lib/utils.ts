@@ -1,9 +1,8 @@
 import { type ClassValue, clsx } from "clsx";
 import { trim } from "es-toolkit";
-import { includes, replace, toLower } from "es-toolkit/compat";
+import { replace, toLower } from "es-toolkit/compat";
+import ipaddr from "ipaddr.js";
 import { twMerge } from "tailwind-merge";
-
-const LOOPBACK_ADDRESSES = ["::1", "127.0.0.1"];
 
 export const toTestId = (text: string) => {
    const trimmed = trim(text);
@@ -41,22 +40,22 @@ export const removePort = (ip: string): string => {
 };
 
 export const resolveIpAddresse = (headers: Headers): string | undefined => {
-   const rawIp =
+   const raw =
       headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
       headers.get("x-real-ip") ??
       undefined;
 
-   if (!rawIp) {
-      return undefined;
+   if (raw) {
+      try {
+         const addr = ipaddr.parse(removePort(raw));
+         if (addr.range() !== "loopback") {
+            return addr.toString();
+         }
+      } catch {
+         return undefined;
+      }
    }
-
-   const ip = removePort(rawIp);
-
-   if (includes(LOOPBACK_ADDRESSES, ip)) {
-      return undefined;
-   }
-
-   return ip;
+   return undefined;
 };
 
 export const formatDateTime = (dateString: string) => {
