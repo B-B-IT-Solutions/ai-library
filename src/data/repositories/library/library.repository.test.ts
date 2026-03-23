@@ -5,6 +5,11 @@ import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
 import {
+   DLibraryEntriesPage,
+   DLibraryEntriesPageQuery,
+} from "@/data/types/domain/library";
+import {
+   LibraryEntryCountArgs,
    LibraryEntryCreateArgs,
    LibraryEntryCreateInput,
    LibraryEntryCreateManyArgs,
@@ -22,6 +27,153 @@ import { GetLibraryEntryParams, LibraryRepository } from "./library.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const libraryRepository = new LibraryRepository(prismaMock);
+
+describe("pGetLibraryEntriesPage tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   const include = {
+      templateDescriptor: {
+         include: {
+            categories: true,
+         },
+      },
+   };
+
+   test("pGetLibraryEntriesPage - no query - test", async () => {
+      const userId = "user-id-1";
+      const libraryEntries = ptestData.pLibraryEntriesWithTemplateDescriptor();
+      const totalEntries = 15;
+      prismaMock.libraryEntry.findMany.mockResolvedValue(libraryEntries);
+      prismaMock.libraryEntry.count.mockResolvedValue(totalEntries);
+
+      const result = await libraryRepository.pGetLibraryEntriesPage(userId);
+
+      const expectedResult: DLibraryEntriesPage = {
+         content: toDLibraryEntries(libraryEntries),
+         pageNumber: 1,
+         pageSize: 20,
+         numberOfElements: libraryEntries.length,
+         totalPages: Math.ceil(totalEntries / 20),
+         totalElements: totalEntries,
+      };
+
+      const expectedFindManyArgs: LibraryEntryFindManyArgs = {
+         where: { userId },
+         include,
+         orderBy: { createdAt: "desc" },
+         skip: 20,
+         take: 20,
+      };
+
+      const expectedCountArgs: LibraryEntryCountArgs = {
+         where: { userId },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.libraryEntry.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryEntry.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.libraryEntry.count).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryEntry.count).toHaveBeenCalledWith(
+         expectedCountArgs
+      );
+   });
+
+   test("pGetLibraryEntriesPage - sort createdAt asc - test", async () => {
+      const userId = "user-id-1";
+      const libraryEntries = ptestData.pLibraryEntriesWithTemplateDescriptor();
+      const totalEntries = 25;
+      prismaMock.libraryEntry.findMany.mockResolvedValue(libraryEntries);
+      prismaMock.libraryEntry.count.mockResolvedValue(totalEntries);
+
+      const query: DLibraryEntriesPageQuery = {
+         pagination: { pageNumber: 2, pageSize: 10 },
+         sort: { field: "createdAt", order: "asc" },
+      };
+
+      const result = await libraryRepository.pGetLibraryEntriesPage(
+         userId,
+         query
+      );
+
+      const expectedResult: DLibraryEntriesPage = {
+         content: toDLibraryEntries(libraryEntries),
+         pageNumber: 2,
+         pageSize: 10,
+         numberOfElements: libraryEntries.length,
+         totalPages: Math.ceil(totalEntries / 10),
+         totalElements: totalEntries,
+      };
+
+      const expectedFindManyArgs: LibraryEntryFindManyArgs = {
+         where: { userId },
+         include,
+         orderBy: { createdAt: "asc" },
+         skip: 20,
+         take: 10,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.libraryEntry.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+   });
+
+   test("pGetLibraryEntriesPage - sort title asc - test", async () => {
+      const userId = "user-id-1";
+      const libraryEntries = ptestData.pLibraryEntriesWithTemplateDescriptor();
+      prismaMock.libraryEntry.findMany.mockResolvedValue(libraryEntries);
+      prismaMock.libraryEntry.count.mockResolvedValue(0);
+
+      const query: DLibraryEntriesPageQuery = {
+         pagination: { pageNumber: 0, pageSize: 10 },
+         sort: { field: "title", order: "asc" },
+      };
+
+      await libraryRepository.pGetLibraryEntriesPage(userId, query);
+
+      const expectedFindManyArgs: LibraryEntryFindManyArgs = {
+         where: { userId },
+         include,
+         orderBy: { templateDescriptor: { title: "asc" } },
+         skip: 0,
+         take: 10,
+      };
+
+      expect(prismaMock.libraryEntry.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+   });
+
+   test("pGetLibraryEntriesPage - sort title desc - test", async () => {
+      const userId = "user-id-1";
+      const libraryEntries = ptestData.pLibraryEntriesWithTemplateDescriptor();
+      prismaMock.libraryEntry.findMany.mockResolvedValue(libraryEntries);
+      prismaMock.libraryEntry.count.mockResolvedValue(0);
+
+      const query: DLibraryEntriesPageQuery = {
+         pagination: { pageNumber: 0, pageSize: 10 },
+         sort: { field: "title", order: "desc" },
+      };
+
+      await libraryRepository.pGetLibraryEntriesPage(userId, query);
+
+      const expectedFindManyArgs: LibraryEntryFindManyArgs = {
+         where: { userId },
+         include,
+         orderBy: { templateDescriptor: { title: "desc" } },
+         skip: 0,
+         take: 10,
+      };
+
+      expect(prismaMock.libraryEntry.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+   });
+});
 
 describe("pGetLibraryEntries tests", () => {
    beforeEach(() => {
