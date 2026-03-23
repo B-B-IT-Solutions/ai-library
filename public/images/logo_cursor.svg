@@ -1,0 +1,26 @@
+<svg width="220" height="220" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+  <rect width="220" height="220" rx="40" fill="#1d4ed8"/>
+
+  <!-- V (Hintergrundelement, subtil) -->
+  <path d="M45 45 L110 175 L175 45"
+        stroke="#ffffff"
+        stroke-width="22"
+        opacity="0.40"
+        fill="none"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+
+  <!-- Prompt-Zeichen > -->
+  <path d="M68 82 L125 110 L68 138"
+        stroke="#ffffff"
+        stroke-width="13"
+        fill="none"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+
+  <!-- Cursor _ -->
+  <line x1="133" y1="140" x2="178" y2="140"
+        stroke="#ffffff"
+        stroke-width="13"
+        stroke-linecap="round"/>
+</svg>
