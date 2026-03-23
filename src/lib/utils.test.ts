@@ -191,4 +191,11 @@ describe("resolveIpAddresse tests", () => {
       });
       expect(resolveIpAddresse(headers)).toBeUndefined();
    });
+
+   it("resolveIpAddresse - x-forwarded-for invalid IP - returns undefined - test", () => {
+      const headers = ntestData.headers({
+         "x-forwarded-for": "127.0.0.invalid",
+      });
+      expect(resolveIpAddresse(headers)).toBeUndefined();
+   });
 });
