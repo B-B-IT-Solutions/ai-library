@@ -5,6 +5,7 @@ import {
    formatDateTime,
    navigateToExternalUrl,
    openExternalUrlInNewTab,
+   removePort,
    resolveIpAddresse,
    stringify,
    toTestId,
@@ -96,6 +97,28 @@ describe("utils tests", () => {
    });
 });
 
+describe("removePort tests", () => {
+   it("removePort - IPv4 without port - returns ip unchanged - test", () => {
+      expect(removePort("192.168.1.1")).toBe("192.168.1.1");
+   });
+
+   it("removePort - IPv4 with port - removes port - test", () => {
+      expect(removePort("192.168.1.1:5678")).toBe("192.168.1.1");
+   });
+
+   it("removePort - plain IPv6 without port - returns ip unchanged - test", () => {
+      expect(removePort("2001:db8::1")).toBe("2001:db8::1");
+   });
+
+   it("removePort - bracketed IPv6 with port - removes brackets and port - test", () => {
+      expect(removePort("[2001:db8::1]:5678")).toBe("2001:db8::1");
+   });
+
+   it("removePort - bracketed IPv6 loopback with port - removes brackets and port - test", () => {
+      expect(removePort("[::1]:5678")).toBe("::1");
+   });
+});
+
 describe("resolveIpAddresse tests", () => {
    it("resolveIpAddresse - x-forwarded-for set - returns ip - test", () => {
       const headers = ntestData.headers({ "x-forwarded-for": "192.168.1.1" });
@@ -133,6 +156,46 @@ describe("resolveIpAddresse tests", () => {
 
    it("resolveIpAddresse - ipv4 loopback 127.0.0.1 - returns undefined - test", () => {
       const headers = ntestData.headers({ "x-forwarded-for": "127.0.0.1" });
+      expect(resolveIpAddresse(headers)).toBeUndefined();
+   });
+
+   it("resolveIpAddresse - x-forwarded-for ipv4 with port - removes port - test", () => {
+      const headers = ntestData.headers({
+         "x-forwarded-for": "192.168.1.1:5678",
+      });
+      expect(resolveIpAddresse(headers)).toBe("192.168.1.1");
+   });
+
+   it("resolveIpAddresse - x-real-ip ipv4 with port - removes port - test", () => {
+      const headers = ntestData.headers({ "x-real-ip": "10.0.0.1:9000" });
+      expect(resolveIpAddresse(headers)).toBe("10.0.0.1");
+   });
+
+   it("resolveIpAddresse - x-forwarded-for bracketed ipv6 with port - removes brackets and port - test", () => {
+      const headers = ntestData.headers({
+         "x-forwarded-for": "[2001:db8::1]:5678",
+      });
+      expect(resolveIpAddresse(headers)).toBe("2001:db8::1");
+   });
+
+   it("resolveIpAddresse - x-forwarded-for ipv6 loopback with port - returns undefined - test", () => {
+      const headers = ntestData.headers({
+         "x-forwarded-for": "[::1]:5678",
+      });
+      expect(resolveIpAddresse(headers)).toBeUndefined();
+   });
+
+   it("resolveIpAddresse - x-forwarded-for ipv4 loopback with port - returns undefined - test", () => {
+      const headers = ntestData.headers({
+         "x-forwarded-for": "127.0.0.1:1234",
+      });
+      expect(resolveIpAddresse(headers)).toBeUndefined();
+   });
+
+   it("resolveIpAddresse - x-forwarded-for invalid IP - returns undefined - test", () => {
+      const headers = ntestData.headers({
+         "x-forwarded-for": "127.0.0.invalid",
+      });
       expect(resolveIpAddresse(headers)).toBeUndefined();
    });
 });

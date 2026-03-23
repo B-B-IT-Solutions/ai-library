@@ -119,8 +119,60 @@ describe("saveLegalNoticesAccepted - tests", () => {
       expect(config.headers.ApiKey).toBe(TEST_API_KEY);
    });
 
-   it("saveLegalNoticesAccepted - success false - test", async () => {
-      mockPost.mockRejectedValue(new Error("Network error"));
+   it("saveLegalNoticesAccepted - success false - axios error- test", async () => {
+      const error = new AxiosError("Bad Request");
+      mockPost.mockRejectedValue(error);
+      const consoleError = jest.spyOn(console, "error").mockImplementation();
+      const params = buildParams(123);
+
+      const service = new IubendaService();
+      const result = await service.saveLegalNoticesAccepted(params);
+
+      const expectedPayload: IubendaConsentPayload = {
+         subject: {
+            id: params.user.id,
+            email: params.user.email,
+            full_name: params.user.name,
+         },
+         legal_notices: [
+            { identifier: "privacy_policy" },
+            { identifier: "terms_and_conditions" },
+         ],
+         proofs: [
+            {
+               content: JSON.stringify({
+                  action: "registration",
+                  source: "signup_form",
+                  accepted_at: params.acceptedAt.toISOString(),
+               }),
+               form: "Registrierungsformular – Checkbox: AGB und Datenschutzerklärung",
+            },
+         ],
+         ip_address: params.ipAddress,
+         timestamp: params.acceptedAt.toISOString(),
+      };
+
+      const expectedErrorLog = {
+         message: error.message,
+         status: error.response?.status,
+         data: error.response?.data,
+      };
+
+      expect(result).toBe(false);
+      expect(mockPost).toHaveBeenCalledTimes(1);
+      const [url, payload, config] = mockPost.mock.calls[0];
+      expect(url).toEqual("/consent");
+      expect(payload).toEqual(expectedPayload);
+      expect(config.headers.ApiKey).toBe(TEST_API_KEY);
+      expect(consoleError).toHaveBeenCalledWith(
+         expect.stringContaining(params.user.id),
+         expectedErrorLog
+      );
+   });
+
+   it("saveLegalNoticesAccepted - success false - newwort error - test", async () => {
+      const error = new Error("Network error");
+      mockPost.mockRejectedValue(error);
       const consoleError = jest.spyOn(console, "error").mockImplementation();
       const params = buildParams(123);
 
@@ -159,7 +211,7 @@ describe("saveLegalNoticesAccepted - tests", () => {
       expect(config.headers.ApiKey).toBe(TEST_API_KEY);
       expect(consoleError).toHaveBeenCalledWith(
          expect.stringContaining(params.user.id),
-         expect.any(Error)
+         error
       );
    });
 });

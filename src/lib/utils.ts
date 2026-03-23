@@ -1,9 +1,8 @@
 import { type ClassValue, clsx } from "clsx";
 import { trim } from "es-toolkit";
-import { includes, replace, toLower } from "es-toolkit/compat";
+import { replace, toLower } from "es-toolkit/compat";
+import ipaddr from "ipaddr.js";
 import { twMerge } from "tailwind-merge";
-
-const LOOPBACK_ADDRESSES = ["::1", "127.0.0.1"];
 
 export const toTestId = (text: string) => {
    const trimmed = trim(text);
@@ -27,17 +26,36 @@ export const openExternalUrlInNewTab = (url: string) => {
    window.open(url, "_blank", "noopener,noreferrer");
 };
 
+export const removePort = (ip: string): string => {
+   // IPv6 with port: [::1]:5678
+   if (ip.startsWith("[")) {
+      return ip.slice(1, ip.indexOf("]"));
+   }
+   // IPv4 with port: 1.2.3.4:5678 (plain IPv6 has multiple colons before the last one)
+   const lastColon = ip.lastIndexOf(":");
+   if (lastColon !== -1 && !ip.slice(0, lastColon).includes(":")) {
+      return ip.slice(0, lastColon);
+   }
+   return ip;
+};
+
 export const resolveIpAddresse = (headers: Headers): string | undefined => {
-   const ip =
+   const raw =
       headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
       headers.get("x-real-ip") ??
       undefined;
 
-   if (!ip || includes(LOOPBACK_ADDRESSES, ip)) {
-      return undefined;
+   if (raw) {
+      try {
+         const addr = ipaddr.parse(removePort(raw));
+         if (addr.range() !== "loopback") {
+            return addr.toString();
+         }
+      } catch {
+         return undefined;
+      }
    }
-
-   return ip;
+   return undefined;
 };
 
 export const formatDateTime = (dateString: string) => {
