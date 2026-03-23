@@ -403,18 +403,20 @@ export class LibraryRepository {
    }
 
    private resolveOrderBy(sort?: Sort): LibraryEntryOrderByWithRelationInput {
-      if (!sort) {
-         return { createdAt: "desc" as const };
-      }
-      if (sort.field === "title") {
+      if (sort) {
+         if (sort.field === "title") {
+            return {
+               templateDescriptor: {
+                  title: sort.order,
+               },
+            };
+         }
          return {
-            templateDescriptor: {
-               title: sort.order,
-            },
+            [sort.field]: sort.order,
          };
       }
       return {
-         [sort.field]: sort.order,
+         createdAt: "desc" as const,
       };
    }
 
