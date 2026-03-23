@@ -51,7 +51,7 @@ export class LibraryRepository {
       query?: DLibraryEntriesPageQuery
    ): Promise<DLibraryEntriesPage> {
       const pagination = query?.pagination;
-      const pageNumber = pagination?.pageNumber ?? 1;
+      const pageNumber = pagination?.pageNumber ?? 0;
       const pageSize = pagination?.pageSize ?? 20;
       const skip = pageNumber * pageSize;
 
@@ -342,8 +342,6 @@ export class LibraryRepository {
          })),
       });
    }
-
-   // ==================== Private Helpers ====================
 
    private resolveWhereInput(
       userId: string,
