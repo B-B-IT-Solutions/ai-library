@@ -1,11 +1,7 @@
 import { screen, waitFor } from "@testing-library/dom";
+import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import {
-   assertInDocument,
-   assertNotInDocument,
-   dtestData,
-   renderWithTooltip,
-} from "@tests";
+import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 
 import { MoreOptionsButton } from "./more-options-button";
 
@@ -17,26 +13,30 @@ const assertRendered = () => {
    assertInDocument(triggerBtn);
 };
 
-const assertContextRendered = () => {
-   const deleteBtn = screen.getByTestId("delete-prompt-btn");
+const assertContextMenuRendered = () => {
+   const downloadBtn = screen.getByTestId("download-template-menu-item");
+   const deleteBtn = screen.getByTestId("delete-entry-menu-item");
+
+   assertInDocument(downloadBtn);
    assertInDocument(deleteBtn);
 };
 
-const assertContextNotRendered = () => {
-   const deleteBtn = screen.queryByTestId("delete-prompt-btn");
+const assertContextMenuNotRendered = () => {
+   const downloadBtn = screen.queryByTestId("download-template-menu-item");
+   const deleteBtn = screen.queryByTestId("delete-entry-menu-item");
+
+   assertNotInDocument(downloadBtn);
    assertNotInDocument(deleteBtn);
 };
 
 describe("MoreOptionsButton rendering tests", () => {
    it("rendered test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
-      const { container } = renderWithTooltip(
-         <MoreOptionsButton prompt={prompt} />
-      );
+      const entry = dtestData.dLibraryEntry();
+      const { container } = render(<MoreOptionsButton entry={entry} />);
 
       await waitFor(() => {
          assertRendered();
-         assertContextNotRendered();
+         assertContextMenuNotRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -49,19 +49,19 @@ describe("MoreOptionsButton functionality tests", () => {
    });
 
    it("trigger clicked - test", async () => {
-      const prompt = dtestData.dPromptDescriptor();
-      renderWithTooltip(<MoreOptionsButton prompt={prompt} />);
+      const entry = dtestData.dLibraryEntry();
+      render(<MoreOptionsButton entry={entry} />);
 
       await waitFor(() => {
          assertRendered();
-         assertContextNotRendered();
+         assertContextMenuNotRendered();
       });
 
       const triggerBtn = screen.getByTestId("more-options-trigger-btn");
       await userEvent.click(triggerBtn);
 
       await waitFor(() => {
-         assertContextRendered();
+         assertContextMenuRendered();
       });
    });
 });

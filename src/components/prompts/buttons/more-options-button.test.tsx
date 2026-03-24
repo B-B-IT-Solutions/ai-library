@@ -17,12 +17,12 @@ const assertRendered = () => {
    assertInDocument(triggerBtn);
 };
 
-const assertContextRendered = () => {
+const assertContextMenuRendered = () => {
    const deleteBtn = screen.getByTestId("delete-prompt-btn");
    assertInDocument(deleteBtn);
 };
 
-const assertContextNotRendered = () => {
+const assertContextMenuNotRendered = () => {
    const deleteBtn = screen.queryByTestId("delete-prompt-btn");
    assertNotInDocument(deleteBtn);
 };
@@ -36,7 +36,7 @@ describe("MoreOptionsButton rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertContextNotRendered();
+         assertContextMenuNotRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -54,14 +54,14 @@ describe("MoreOptionsButton functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         assertContextNotRendered();
+         assertContextMenuNotRendered();
       });
 
       const triggerBtn = screen.getByTestId("more-options-trigger-btn");
       await userEvent.click(triggerBtn);
 
       await waitFor(() => {
-         assertContextRendered();
+         assertContextMenuRendered();
       });
    });
 });
