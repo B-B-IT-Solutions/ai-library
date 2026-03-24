@@ -645,13 +645,13 @@ describe("pDeletePrompt tests", () => {
 
       await promptRepository.pDeletePrompt(userId, promptId);
 
-      const expectedUpdateArgs: PromptDescriptorDeleteArgs = {
+      const expectedArgs: PromptDescriptorDeleteArgs = {
          where: { id: promptId, userId },
       };
 
       expect(prismaMock.promptDescriptor.delete).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptDescriptor.delete).toHaveBeenCalledWith(
-         expectedUpdateArgs
+         expectedArgs
       );
    });
 });

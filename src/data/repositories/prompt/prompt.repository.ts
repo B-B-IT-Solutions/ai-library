@@ -16,6 +16,7 @@ import {
 import {
    PromptCategoryCreateOrConnectWithoutPromptsInput,
    PromptDescriptorCreateInput,
+   PromptDescriptorDeleteArgs,
    PromptDescriptorUpdateInput,
    PromptDescriptorWhereInput,
    PromptFollowUpCreateWithoutPromptInput,
@@ -189,9 +190,10 @@ export class PromptRepository {
    }
 
    async pDeletePrompt(userId: string, promptId: string) {
-      await this.prisma.promptDescriptor.delete({
+      const args: PromptDescriptorDeleteArgs = {
          where: { id: promptId, userId },
-      });
+      };
+      await this.prisma.promptDescriptor.delete(args);
    }
 
    followUpPromptUpdates(
