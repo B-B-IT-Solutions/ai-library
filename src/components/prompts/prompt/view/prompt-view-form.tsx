@@ -1,25 +1,19 @@
 import { isEmpty, map } from "es-toolkit/compat";
-import { Calendar, Clock, Cpu, MoreVertical } from "lucide-react";
+import { Calendar, Clock, Cpu } from "lucide-react";
 
 import { Badge } from "@/components/shadcn/badge";
-import { Button } from "@/components/shadcn/button";
 import {
    Card,
    CardAction,
    CardContent,
    CardHeader,
 } from "@/components/shadcn/card";
-import {
-   DropdownMenu,
-   DropdownMenuContent,
-   DropdownMenuTrigger,
-} from "@/components/shadcn/dropdown-menu";
 import { DPromptDescriptor } from "@/data/types/domain/prompt";
 import { formatDateTime } from "@/lib/utils";
 import {
    CopyPromptButton,
-   DeletePromptButton,
    EditPromptButton,
+   MoreOptionsButton,
    ToggleFavoriteButton,
 } from "../../buttons";
 
@@ -37,20 +31,7 @@ export const PromptViewForm = ({ prompt }: Props) => {
          <div className="flex items-center gap-2">
             <EditPromptButton prompt={prompt} />
             <CopyPromptButton prompt={prompt} size="sm" showLabel={true} />
-            <DropdownMenu data-testid="actions-context-menu">
-               <DropdownMenuTrigger asChild={true}>
-                  <Button
-                     variant="outline"
-                     size="icon-sm"
-                     className="cursor-pointer"
-                  >
-                     <MoreVertical className="size-4" />
-                  </Button>
-               </DropdownMenuTrigger>
-               <DropdownMenuContent align="end">
-                  <DeletePromptButton prompt={prompt} />
-               </DropdownMenuContent>
-            </DropdownMenu>
+            <MoreOptionsButton prompt={prompt} />
          </div>
       );
    };
