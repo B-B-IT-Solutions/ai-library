@@ -44,9 +44,10 @@ export const DeleteLibraryEntryButton = ({ entry }: Props) => {
       <AlertDialog>
          <AlertDialogTrigger asChild={true}>
             <DropdownMenuItem
+               variant="destructive"
                onSelect={(e) => e.preventDefault()}
                disabled={isPending}
-               className="cursor-pointer text-red-600 focus:text-red-600"
+               className="cursor-pointer"
                data-testid="delete-entry-menu-item"
             >
                {isPending ? (
