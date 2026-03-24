@@ -110,6 +110,10 @@ export class PromptTemplateService {
       );
    }
 
+   async deletePromptTemplateDescriptor(userId: string, descriptorId: string) {
+      await this.repository.pDeletePromptTemplateDescriptor(userId, descriptorId);
+   }
+
    async composePromptFromTemplate(
       userId: string,
       descriptorId: string,

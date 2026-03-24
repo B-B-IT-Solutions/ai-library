@@ -95,7 +95,11 @@ export class LibraryService {
       if (!entry) {
          throw new Error("Library entry not found");
       }
-      await this.libraryRepository.pDeleteLibraryEntry(entryId, userId);
+      await this.libraryRepository.pDeleteLibraryEntry(userId, entryId);
+      await this.promptTemplateService.deletePromptTemplateDescriptor(
+         userId,
+         entry.templateDescriptorId
+      );
    }
 
    async deleteLibraryEntries(userId: string) {

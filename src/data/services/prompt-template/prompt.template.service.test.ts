@@ -315,6 +315,29 @@ describe("updatePromptTemplateDescriptor tests", () => {
    });
 });
 
+describe("deletePromptTemplateDescriptor tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("deletePromptTemplateDescriptor - descriptor deleted - test", async () => {
+      const userId = "user-id-1";
+      const descriptor = dtestData.dPromptTemplateDescriptor();
+
+      await promptTemplateService.deletePromptTemplateDescriptor(
+         userId,
+         descriptor.id
+      );
+
+      expect(
+         promptTemplateRepoMock.pDeletePromptTemplateDescriptor
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pDeletePromptTemplateDescriptor
+      ).toHaveBeenCalledWith(userId, descriptor.id);
+   });
+});
+
 describe("composePromptFromTemplate tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
