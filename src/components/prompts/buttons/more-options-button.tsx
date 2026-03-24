@@ -21,7 +21,12 @@ export const MoreOptionsButton: FC<Props> = ({ prompt }) => {
    return (
       <DropdownMenu data-testid="more-options-btn">
          <DropdownMenuTrigger asChild={true}>
-            <Button variant="outline" size="icon-sm" className="cursor-pointer">
+            <Button
+               variant="outline"
+               size="icon-sm"
+               className="cursor-pointer"
+               data-testid="more-options-trigger-btn"
+            >
                <MoreVertical className="size-4" />
             </Button>
          </DropdownMenuTrigger>
