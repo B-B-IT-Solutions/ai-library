@@ -1,20 +1,12 @@
 import { isEmpty, map } from "es-toolkit/compat";
-import { MoreVertical } from "lucide-react";
 
-import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
-import {
-   DropdownMenu,
-   DropdownMenuContent,
-   DropdownMenuTrigger,
-} from "@/components/shadcn/dropdown-menu";
 import { MDRenderer } from "@/components/shared/md";
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
 import {
    CreatePromptFromTemplateButton,
-   DeleteLibraryEntryButton,
-   DownloadTemplateButton,
    EditLibraryEntryButton,
+   MoreOptionsButton,
 } from "../../buttons";
 
 import { PromptTextDisplay } from "./prompt-text-display";
@@ -55,25 +47,7 @@ export const LibraryEntryViewForm = ({ entry }: Props) => {
                <div className="flex shrink-0 items-center gap-2">
                   <CreatePromptFromTemplateButton descriptor={descriptor} />
                   <EditLibraryEntryButton entry={entry} />
-                  <DropdownMenu>
-                     <DropdownMenuTrigger asChild={true}>
-                        <Button
-                           variant="outline"
-                           size="icon-sm"
-                           className="cursor-pointer"
-                           data-testid="more-options-btn"
-                        >
-                           <MoreVertical className="h-4 w-4" />
-                        </Button>
-                     </DropdownMenuTrigger>
-                     <DropdownMenuContent align="end">
-                        <DownloadTemplateButton
-                           descriptor={descriptor}
-                           asMenuItem={true}
-                        />
-                        <DeleteLibraryEntryButton entry={entry} />
-                     </DropdownMenuContent>
-                  </DropdownMenu>
+                  <MoreOptionsButton entry={entry} />
                </div>
             </div>
             {categories()}

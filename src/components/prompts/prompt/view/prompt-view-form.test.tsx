@@ -11,11 +11,11 @@ const assertRendered = () => {
 const assertActionsRendered = () => {
    const toggleBtn = screen.getByTestId("toggle-favorite-btn");
    const editBtn = screen.getByTestId("edit-prompt-btn");
-   const actionsContextMenu = screen.getByTestId("actions-context-menu");
+   const moreOptionsBtn = screen.getByTestId("more-options-btn");
 
    assertInDocument(toggleBtn);
    assertInDocument(editBtn);
-   assertInDocument(actionsContextMenu);
+   assertInDocument(moreOptionsBtn);
 };
 
 const assertVersionsRendered = () => {
