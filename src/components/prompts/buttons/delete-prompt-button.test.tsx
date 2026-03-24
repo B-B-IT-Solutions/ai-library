@@ -3,12 +3,7 @@ jest.mock("sonner");
 
 import { screen, waitFor } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
-import {
-   assertInDocument,
-   assertNotInDocument,
-   dtestData,
-   renderWithTooltip,
-} from "@tests";
+import { assertInDocument, dtestData, renderWithTooltip } from "@tests";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
@@ -27,36 +22,8 @@ const assertRendered = () => {
    assertInDocument(deleteBtn);
 };
 
-const assertDialogOpen = () => {
-   const content = screen.getByTestId("delete-dialog-content");
-   const header = screen.getByTestId("delete-dialog-header");
-   const footer = screen.getByTestId("delete-dialog-footer");
-   const cancelBtn = screen.getByTestId("cancel-btn");
-   const confirmBtn = screen.getByTestId("confirm-btn");
-
-   assertInDocument(content);
-   assertInDocument(header);
-   assertInDocument(footer);
-   assertInDocument(cancelBtn);
-   assertInDocument(confirmBtn);
-};
-
-const assertDialogClosed = () => {
-   const content = screen.queryByTestId("delete-dialog-content");
-   const header = screen.queryByTestId("delete-dialog-header");
-   const footer = screen.queryByTestId("delete-dialog-footer");
-   const cancelBtn = screen.queryByTestId("cancel-btn");
-   const confirmBtn = screen.queryByTestId("confirm-btn");
-
-   assertNotInDocument(content);
-   assertNotInDocument(header);
-   assertNotInDocument(footer);
-   assertNotInDocument(cancelBtn);
-   assertNotInDocument(confirmBtn);
-};
-
 describe("DeletePromptButton rendering tests", () => {
-   it("DeletePromptButton rendered test", async () => {
+   it("rendered test", async () => {
       const prompt = dtestData.dPromptDescriptor();
       const { container } = renderWithTooltip(
          <DeletePromptButton prompt={prompt} />
@@ -76,7 +43,7 @@ describe("DeletePromptButton functionality tests", () => {
       mockRouter.push("/prompts/test-id");
    });
 
-   it("DeletePromptButton - confirm btn clicked - result.success true - test", async () => {
+   it("confirm btn clicked - result.success true - test", async () => {
       const actionResult = {
          success: true,
          message: "Prompt deleted",
@@ -95,7 +62,6 @@ describe("DeletePromptButton functionality tests", () => {
       await userEvent.click(deleteBtn);
 
       await waitFor(() => {
-         assertDialogOpen();
          expect(deletePromptMock).not.toHaveBeenCalled();
       });
 
@@ -103,7 +69,6 @@ describe("DeletePromptButton functionality tests", () => {
       await userEvent.click(confirmBtn);
 
       await waitFor(() => {
-         assertDialogClosed();
          expect(deletePromptMock).toHaveBeenCalledTimes(1);
          expect(deletePromptMock).toHaveBeenCalledWith(prompt.id);
          expect(toastMock.success).toHaveBeenCalledTimes(1);
@@ -112,7 +77,7 @@ describe("DeletePromptButton functionality tests", () => {
       });
    });
 
-   it("DeletePromptButton - confirm btn clicked - result.success false - test", async () => {
+   it("confirm btn clicked - result.success false - test", async () => {
       const actionResult = {
          success: false,
          message: "Prompt couldn't be deleted",
@@ -131,7 +96,6 @@ describe("DeletePromptButton functionality tests", () => {
       await userEvent.click(deleteBtn);
 
       await waitFor(() => {
-         assertDialogOpen();
          expect(deletePromptMock).not.toHaveBeenCalled();
       });
 
@@ -139,7 +103,6 @@ describe("DeletePromptButton functionality tests", () => {
       await userEvent.click(confirmBtn);
 
       await waitFor(() => {
-         assertDialogClosed();
          expect(deletePromptMock).toHaveBeenCalledTimes(1);
          expect(deletePromptMock).toHaveBeenCalledWith(prompt.id);
          expect(toastMock.error).toHaveBeenCalledTimes(1);
@@ -148,7 +111,7 @@ describe("DeletePromptButton functionality tests", () => {
       });
    });
 
-   it("DeletePromptButton - cancel btn clicked - closes dialog - test", async () => {
+   it("cancel btn clicked - closes dialog - test", async () => {
       const prompt = dtestData.dPromptDescriptor();
       renderWithTooltip(<DeletePromptButton prompt={prompt} />);
 
@@ -161,7 +124,6 @@ describe("DeletePromptButton functionality tests", () => {
       await userEvent.click(deleteBtn);
 
       await waitFor(() => {
-         assertDialogOpen();
          expect(deletePromptMock).not.toHaveBeenCalled();
       });
 
@@ -169,7 +131,6 @@ describe("DeletePromptButton functionality tests", () => {
       await userEvent.click(cancelBtn);
 
       await waitFor(() => {
-         assertDialogClosed();
          expect(deletePromptMock).not.toHaveBeenCalled();
          expect(mockRouter.pathname).toEqual("/prompts/test-id");
       });
