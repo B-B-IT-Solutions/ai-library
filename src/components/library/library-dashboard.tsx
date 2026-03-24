@@ -9,6 +9,7 @@ import {
    infiniteLoadLibraryEntriesOptions,
    preloadLibraryCollectionsOptions,
 } from "@/data/ts-queries/library";
+import { resolveSort } from "@/data/ts-queries/utils";
 import { DLibraryEntriesFilter } from "@/data/types/domain/library";
 
 import { CreateLibraryEntryButton } from "./buttons";
@@ -30,7 +31,10 @@ export const LibraryDashboard = async () => {
 
    await Promise.all([
       queryClient.prefetchInfiniteQuery(
-         infiniteLoadLibraryEntriesOptions({ filters })
+         infiniteLoadLibraryEntriesOptions({
+            filters,
+            sort: resolveSort(sortBy),
+         })
       ),
       queryClient.prefetchQuery(preloadLibraryCollectionsOptions()),
    ]);

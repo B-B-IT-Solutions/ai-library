@@ -16,6 +16,7 @@ import {
    DListSortByMode,
    DListViewMode,
 } from "@/data/types/domain/common";
+import { DLibraryEntriesPageQuery } from "@/data/types/domain/library";
 
 import { LibraryDashboard } from "./library-dashboard";
 import { librarySearchParamsCache } from "./search-params";
@@ -76,6 +77,13 @@ const assertRendered = () => {
    assertInDocument(entries);
 };
 
+const assertGetLibraryEntriesPageCalled = (
+   expectedPayload: DLibraryEntriesPageQuery
+) => {
+   expect(getLibraryEntriesPageMock).toHaveBeenCalledTimes(1);
+   expect(getLibraryEntriesPageMock).toHaveBeenCalledWith(expectedPayload);
+};
+
 describe("LibraryDashboard rendering tests", () => {
    beforeAll(() => {
       const page = dtestData.dLibraryEntriesPage();
@@ -98,10 +106,27 @@ describe("LibraryDashboard rendering tests", () => {
 
       const { container } = await renderAsyncRSC(LibraryDashboard, {});
 
+      const expectedPayload: DLibraryEntriesPageQuery = {
+         pagination: {
+            pageNumber: 0,
+            pageSize: 10,
+         },
+         filter: {
+            categories: mockSearchParams("f_categories"),
+            models: mockSearchParams("f_models"),
+            search: mockSearchParams("f_search"),
+         },
+         sort: {
+            field: "createdAt",
+            order: "desc",
+         },
+      };
+
       await waitFor(() => {
          assertRendered();
          expect(getLibraryCategoriesMock).toHaveBeenCalledTimes(1);
          expect(getLibraryModelsMock).toHaveBeenCalledTimes(1);
+         assertGetLibraryEntriesPageCalled(expectedPayload);
       });
 
       expect(container).toMatchSnapshot();
