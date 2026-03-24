@@ -35,12 +35,18 @@ const assertCategoriesNotRendered = () => {
 
 const assertContextMenuRendered = () => {
    const downloadBtn = screen.getByTestId("download-template-menu-item");
+   const deleteBtn = screen.getByTestId("delete-entry-menu-item");
+
    assertInDocument(downloadBtn);
+   assertInDocument(deleteBtn);
 };
 
 const assertContextMenuNotRendered = () => {
    const downloadBtn = screen.queryByTestId("download-template-menu-item");
+   const deleteBtn = screen.queryByTestId("delete-entry-menu-item");
+
    assertNotInDocument(downloadBtn);
+   assertNotInDocument(deleteBtn);
 };
 
 describe("LibraryEntryViewForm rendering tests", () => {

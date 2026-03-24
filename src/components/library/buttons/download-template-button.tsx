@@ -57,7 +57,7 @@ export const DownloadTemplateButton = ({ descriptor, asMenuItem }: Props) => {
          <DropdownMenuItem
             onClick={handleDownload}
             disabled={isPending}
-            className="cursor-pointer"
+            className="cursor-pointer hover:bg-accent"
             data-testid="download-template-menu-item"
          >
             {label()}

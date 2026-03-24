@@ -18,6 +18,7 @@ import { Prisma } from "@/generated/prisma/client";
 import {
    PromptTemplateDescriptorCreateArgs,
    PromptTemplateDescriptorCreateInput,
+   PromptTemplateDescriptorDeleteArgs,
    PromptTemplateDescriptorUpdateArgs,
    PromptTemplateDescriptorUpdateInput,
    PromptTemplateDescriptorWhereInput,
@@ -227,6 +228,13 @@ export class PromptTemplateRepository {
       };
 
       await this.prisma.promptTemplateDescriptor.update(args);
+   }
+
+   async pDeletePromptTemplateDescriptor(userId: string, descriptorId: string) {
+      const args: PromptTemplateDescriptorDeleteArgs = {
+         where: { id: descriptorId, userId },
+      };
+      await this.prisma.promptTemplateDescriptor.delete(args);
    }
 
    private resolveGetPromptTemplateDescriptorsWhereInput(

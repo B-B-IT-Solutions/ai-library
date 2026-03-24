@@ -93,6 +93,31 @@ export const updateLibraryEntry = async (
    }
 };
 
+export const deleteLibraryEntry = async (
+   entryId: string
+): Promise<ActionResult> => {
+   try {
+      if (!isValidUuid(entryId)) {
+         throw new Error("Invalid Entry ID.");
+      }
+
+      const user = await requireUser();
+      const service = getSevice();
+      await service.deleteLibraryEntry(user.id, entryId);
+
+      return {
+         success: true,
+         message: "Vorlage erfolgreich gelöscht",
+      };
+   } catch (error) {
+      console.error(formatError(error));
+      return {
+         success: false,
+         message: "Vorlage konnte nicht gelöscht werden",
+      };
+   }
+};
+
 export const composePromptFromTemplate = async (
    descriptorId: string,
    fieldValues: DPromptTemplateFieldValues

@@ -18,6 +18,7 @@ import {
    LibraryEntryCreateInput,
    LibraryEntryCreateManyArgs,
    LibraryEntryCreateManyInput,
+   LibraryEntryDeleteArgs,
    LibraryEntryFindManyArgs,
    LibraryEntryOrderByWithRelationInput,
    LibraryEntryWhereInput,
@@ -176,6 +177,13 @@ export class LibraryRepository {
       };
 
       await this.prisma.libraryEntry.createMany(args);
+   }
+
+   async pDeleteLibraryEntry(userId: string, entryId: string) {
+      const args: LibraryEntryDeleteArgs = {
+         where: { id: entryId, userId },
+      };
+      return await this.prisma.libraryEntry.delete(args);
    }
 
    async pDeleteLibraryEntries(userId: string) {

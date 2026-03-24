@@ -12,6 +12,7 @@ import { Prisma } from "@/generated/prisma/client";
 import {
    PromptTemplateDescriptorCreateArgs,
    PromptTemplateDescriptorCreateInput,
+   PromptTemplateDescriptorDeleteArgs,
    PromptTemplateDescriptorFindFirstArgs,
    PromptTemplateDescriptorFindManyArgs,
    PromptTemplateDescriptorUpdateArgs,
@@ -239,8 +240,10 @@ describe("pGetPromptTemplateDescriptorWithTemplate tests", () => {
 
       const userId = "user-id-1";
       const id = "prompt-template-descriptor-id-1";
-      const result =
-         await repository.pGetPromptTemplateDescriptorWithTemplate(userId, id);
+      const result = await repository.pGetPromptTemplateDescriptorWithTemplate(
+         userId,
+         id
+      );
 
       const expectedWhere: PromptTemplateDescriptorFindFirstArgs = {
          where: { id, userId },
@@ -269,8 +272,10 @@ describe("pGetPromptTemplateDescriptorWithTemplate tests", () => {
 
       const userId = "user-id-1";
       const id = "prompt-template-descriptor-id-1";
-      const result =
-         await repository.pGetPromptTemplateDescriptorWithTemplate(userId, id);
+      const result = await repository.pGetPromptTemplateDescriptorWithTemplate(
+         userId,
+         id
+      );
 
       const expectedResult = toDPromptTemplateDescriptorWithTemplate(template);
 
@@ -533,6 +538,30 @@ describe("pUpdatePromptTemplateDescriptor tests", () => {
       );
       expect(prismaMock.promptTemplateDescriptor.update).toHaveBeenCalledWith(
          expectedUpdateArgs
+      );
+   });
+});
+
+describe("pDeletePromptTemplateDescriptor tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pDeletePromptTemplateDescriptor - descriptor deleted - test", async () => {
+      const userId = "user-id-1";
+      const descriptorId = "descriptor-id-1";
+
+      await repository.pDeletePromptTemplateDescriptor(userId, descriptorId);
+
+      const expectedArgs: PromptTemplateDescriptorDeleteArgs = {
+         where: { id: descriptorId, userId },
+      };
+
+      expect(prismaMock.promptTemplateDescriptor.delete).toHaveBeenCalledTimes(
+         1
+      );
+      expect(prismaMock.promptTemplateDescriptor.delete).toHaveBeenCalledWith(
+         expectedArgs
       );
    });
 });
