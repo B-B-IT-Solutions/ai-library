@@ -29,3 +29,5 @@ export type Sort = {
 };
 
 export type CallbackFn = () => void;
+
+export type AsyncCallbackFn = () => Promise<void>;
