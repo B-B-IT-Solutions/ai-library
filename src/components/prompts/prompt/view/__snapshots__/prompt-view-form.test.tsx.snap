@@ -422,7 +422,7 @@ exports[`PromptViewForm rendering tests followUpPrompts empty - rendered test 1`
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-ellipsis-vertical size-4"
+                class="lucide lucide-ellipsis-vertical h-4 w-4"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -1119,7 +1119,7 @@ exports[`PromptViewForm rendering tests rendered - test 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-ellipsis-vertical size-4"
+                class="lucide lucide-ellipsis-vertical h-4 w-4"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -1887,7 +1887,7 @@ exports[`PromptViewForm rendering tests versions empty - rendered test 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-ellipsis-vertical size-4"
+                class="lucide lucide-ellipsis-vertical h-4 w-4"
                 fill="none"
                 height="24"
                 stroke="currentColor"
