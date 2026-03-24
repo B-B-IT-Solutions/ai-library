@@ -178,6 +178,12 @@ export class LibraryRepository {
       await this.prisma.libraryEntry.createMany(args);
    }
 
+   async pDeleteLibraryEntry(entryId: string, userId: string) {
+      return await this.prisma.libraryEntry.delete({
+         where: { id: entryId, userId },
+      });
+   }
+
    async pDeleteLibraryEntries(userId: string) {
       return await this.prisma.libraryEntry.deleteMany({
          where: { userId },

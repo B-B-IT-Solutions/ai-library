@@ -90,6 +90,14 @@ export class LibraryService {
       );
    }
 
+   async deleteLibraryEntry(userId: string, entryId: string) {
+      const entry = await this.getLibraryEntry(entryId, userId);
+      if (!entry) {
+         throw new Error("Library entry not found");
+      }
+      await this.libraryRepository.pDeleteLibraryEntry(entryId, userId);
+   }
+
    async deleteLibraryEntries(userId: string) {
       await this.libraryRepository.pDeleteLibraryEntries(userId);
    }

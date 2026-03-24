@@ -12,6 +12,7 @@ import { MDRenderer } from "@/components/shared/md";
 import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
 import {
    CreatePromptFromTemplateButton,
+   DeleteLibraryEntryButton,
    DownloadTemplateButton,
    EditLibraryEntryButton,
 } from "../../buttons";
@@ -70,6 +71,7 @@ export const LibraryEntryViewForm = ({ entry }: Props) => {
                            descriptor={descriptor}
                            asMenuItem={true}
                         />
+                        <DeleteLibraryEntryButton entry={entry} />
                      </DropdownMenuContent>
                   </DropdownMenu>
                </div>
