@@ -546,6 +546,108 @@ describe("updatePromptTemplateSchema - tests", () => {
       });
    });
 
+   describe("Description validation", () => {
+      it("updatePromptTemplateSchema - empty description valid - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            description: "",
+         };
+
+         const validatedValues = updatePromptTemplateSchema.parse(templateData);
+         expect(validatedValues).toEqual(templateData);
+      });
+
+      it("updatePromptTemplateSchema - missing description invalid - test", () => {
+         const templateData = {
+            title: "Test",
+            content: "Content",
+            recommendedModel: "gpt-4",
+            categories: [],
+            fields: [],
+         };
+
+         const fn = () => updatePromptTemplateSchema.parse(templateData);
+         expect(fn).toThrow(ZodError);
+      });
+   });
+
+   describe("Content validation", () => {
+      it("updatePromptTemplateSchema - empty content valid - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            content: "",
+         };
+
+         const validatedValues = updatePromptTemplateSchema.parse(templateData);
+         expect(validatedValues).toEqual(templateData);
+      });
+
+      it("updatePromptTemplateSchema - missing content invalid - test", () => {
+         const templateData = {
+            title: "Test",
+            description: "Description",
+            recommendedModel: "gpt-4",
+            categories: [],
+            fields: [],
+         };
+
+         const fn = () => updatePromptTemplateSchema.parse(templateData);
+         expect(fn).toThrow(ZodError);
+      });
+
+      it("updatePromptTemplateSchema - content with variables valid - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            content: "Hello {{name}}, your email is {{email}}!",
+         };
+
+         const validatedValues = updatePromptTemplateSchema.parse(templateData);
+         expect(validatedValues.content).toBe(
+            "Hello {{name}}, your email is {{email}}!"
+         );
+      });
+   });
+
+   describe("Recommended model validation", () => {
+      it("updatePromptTemplateSchema - empty recommendedModel valid - test", () => {
+         const templateData = {
+            ...validTemplateData,
+            recommendedModel: "",
+         };
+
+         const validatedValues = updatePromptTemplateSchema.parse(templateData);
+         expect(validatedValues).toEqual(templateData);
+      });
+
+      it("updatePromptTemplateSchema - missing recommendedModel invalid - test", () => {
+         const templateData = {
+            title: "Test",
+            description: "Description",
+            content: "Content",
+            categories: [],
+            fields: [],
+         };
+
+         const fn = () => updatePromptTemplateSchema.parse(templateData);
+         expect(fn).toThrow(ZodError);
+      });
+
+      it("updatePromptTemplateSchema - different model names valid - test", () => {
+         const models = ["gpt-4", "gpt-3.5-turbo", "claude-3", "custom-model"];
+
+         models.forEach((model) => {
+            const templateData = {
+               ...validTemplateData,
+               recommendedModel: model,
+            };
+
+            const validatedValues =
+               updatePromptTemplateSchema.parse(templateData);
+            expect(validatedValues.recommendedModel).toBe(model);
+         });
+      });
+   });
+
    describe("Categories validation", () => {
       it("updatePromptTemplateSchema - missing categories invalid - test", () => {
          const templateData = {
