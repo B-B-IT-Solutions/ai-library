@@ -10,9 +10,13 @@ import { CreatePromptFromTemplateDialog } from "./create-prompt-from-template-di
 const assertDialogRendered = () => {
    const dialog = screen.getByTestId("create-prompt-from-template-dialog");
    const promptFromTemplate = screen.getByTestId("prompt-from-template");
+   const expandBtn = screen.getByTestId("expand-btn");
+   const closeBtn = screen.getByTestId("close-btn");
 
    assertInDocument(dialog);
    assertInDocument(promptFromTemplate);
+   assertInDocument(expandBtn);
+   assertInDocument(closeBtn);
 };
 
 describe("CreatePromptFromTemplateDialog rendering tests", () => {
@@ -121,6 +125,13 @@ describe("CreatePromptFromTemplateDialog functionality tests", () => {
             onCancel={cancelFn}
          />
       );
+
+      await waitFor(() => {
+         assertDialogRendered();
+      });
+
+      const expandBtn = screen.getByTestId("expand-btn");
+      await userEvent.click(expandBtn);
 
       await waitFor(() => {
          assertDialogRendered();

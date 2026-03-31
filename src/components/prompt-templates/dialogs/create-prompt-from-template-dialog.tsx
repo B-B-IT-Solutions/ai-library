@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { isEmpty } from "es-toolkit/compat";
-import { X } from "lucide-react";
+import { Maximize2, Minimize2, X } from "lucide-react";
 
 import {
    Dialog,
@@ -31,6 +32,7 @@ export const CreatePromptFromTemplateDialog = ({
    descriptor,
    templateData,
 }: Props) => {
+   const [isExpanded, setIsExpanded] = useState(false);
    const hasFields = !isEmpty(templateData.allFields);
 
    const dialogTitle = () => {
@@ -38,6 +40,22 @@ export const CreatePromptFromTemplateDialog = ({
          return "Vorlage Felder Ausfüllen";
       }
       return "Vorlage Anwenden";
+   };
+
+   const expandBtn = () => {
+      return (
+         <button
+            onClick={() => setIsExpanded((v) => !v)}
+            className="absolute top-4 right-12 cursor-pointer rounded-sm bg-background px-2 py-2 hover:bg-accent"
+            data-testid="expand-btn"
+         >
+            {isExpanded ? (
+               <Minimize2 className="h-4 w-4" />
+            ) : (
+               <Maximize2 className="h-4 w-4" />
+            )}
+         </button>
+      );
    };
 
    return (
@@ -48,12 +66,17 @@ export const CreatePromptFromTemplateDialog = ({
       >
          <DialogContent
             showCloseButton={false}
-            className="flex max-h-[90vh] flex-col gap-0 overflow-hidden p-0 sm:max-w-5xl"
+            className={`flex flex-col gap-0 overflow-hidden p-0 transition-all duration-200 ${
+               isExpanded
+                  ? "h-screen max-h-screen w-screen sm:max-w-none"
+                  : "max-h-[90vh] sm:max-w-5xl"
+            }`}
          >
+            {expandBtn()}
             <DialogClose asChild={true}>
                <button
-                  data-testid="close-btn"
                   className="absolute top-4 right-4 cursor-pointer rounded-sm bg-background px-2 py-2 hover:bg-accent"
+                  data-testid="close-btn"
                >
                   <X className="h-4 w-4" />
                </button>
@@ -64,7 +87,7 @@ export const CreatePromptFromTemplateDialog = ({
                   {descriptor.title}
                </p>
             </DialogHeader>
-            <div className="flex-1 overflow-y-auto">
+            <div className="flex flex-1 flex-col overflow-y-auto">
                <PromptFromTemplate
                   templateData={templateData}
                   onSubmit={onSubmit}

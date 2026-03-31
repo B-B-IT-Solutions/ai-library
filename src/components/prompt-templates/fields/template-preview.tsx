@@ -19,8 +19,8 @@ export const TemplatePreview = ({
    resolvedContent,
 }: Props) => {
    return (
-      <div className="flex flex-col gap-2" data-testid="template-preview">
-         <div className="group relative max-h-[65vh] flex-1 overflow-y-auto rounded-md border bg-muted/30 p-4">
+      <div className="flex min-h-0 flex-1 flex-col gap-2" data-testid="template-preview">
+         <div className="group relative flex-1 overflow-y-auto rounded-md border bg-muted/30 p-4">
             <CopyButton
                content={resolvedContent}
                size="icon-sm"

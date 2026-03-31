@@ -146,10 +146,10 @@ export const PromptFromTemplate = ({
       <Form {...form}>
          <form
             onSubmit={form.handleSubmit(onSubmitInternal)}
-            className="px-6"
+            className="flex flex-1 flex-col px-6"
             data-testid="prompt-from-template"
          >
-            <div className="grid grid-cols-1 gap-6 lg:min-h-[40vh] lg:grid-cols-2">
+            <div className="grid flex-1 grid-cols-1 gap-6 lg:min-h-[40vh] lg:grid-cols-2">
                <TemplatePreview
                   template={template}
                   values={currentValues}
