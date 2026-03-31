@@ -1,5 +1,6 @@
 "use client";
 
+import { isEmpty } from "es-toolkit/compat";
 import { X } from "lucide-react";
 
 import {
@@ -30,6 +31,15 @@ export const CreatePromptFromTemplateDialog = ({
    descriptor,
    templateData,
 }: Props) => {
+   const hasFields = !isEmpty(templateData.allFields);
+
+   const dialogTitle = () => {
+      if (hasFields) {
+         return "Vorlage Felder Ausfüllen";
+      }
+      return "Vorlage Anwenden";
+   };
+
    return (
       <Dialog
          open={true}
@@ -49,7 +59,7 @@ export const CreatePromptFromTemplateDialog = ({
                </button>
             </DialogClose>
             <DialogHeader className="shrink-0 px-6 pt-6 pb-2">
-               <DialogTitle>Vorlage Felder Ausfüllen</DialogTitle>
+               <DialogTitle>{dialogTitle()}</DialogTitle>
                <p className="text-sm font-semibold text-muted-foreground">
                   {descriptor.title}
                </p>

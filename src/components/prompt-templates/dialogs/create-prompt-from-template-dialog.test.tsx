@@ -20,9 +20,32 @@ describe("CreatePromptFromTemplateDialog rendering tests", () => {
       jest.clearAllMocks();
    });
 
-   it("CreatePromptFromTemplateDialog - mode fields-form - test", async () => {
+   it("mode fields-form - hasFeilds true - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const templateData = dtestData.dPromptTemplateDataPromptGeneration();
+      const submitFn = jest.fn();
+      const cancelFn = jest.fn();
+
+      const { container } = render(
+         <CreatePromptFromTemplateDialog
+            descriptor={descriptor}
+            templateData={templateData}
+            onSubmit={submitFn}
+            onCancel={cancelFn}
+         />
+      );
+
+      await waitFor(() => {
+         assertDialogRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("mode fields-form - hasFeilds false - test", async () => {
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const templateData = dtestData.dPromptTemplateDataPromptGeneration();
+      templateData.allFields = [];
       const submitFn = jest.fn();
       const cancelFn = jest.fn();
 
@@ -48,7 +71,7 @@ describe("CreatePromptFromTemplateDialog functionality tests", () => {
       jest.clearAllMocks();
    });
 
-   it("CreatePromptFromTemplateDialog - submit clicked - test", async () => {
+   it("submit clicked - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const templateData = dtestData.dPromptTemplateDataPromptGeneration();
       const submitFn = jest.fn();
@@ -84,7 +107,7 @@ describe("CreatePromptFromTemplateDialog functionality tests", () => {
       expect(cancelFn).not.toHaveBeenCalled();
    });
 
-   it("CreatePromptFromTemplateDialog - close btn clicked - test", async () => {
+   it("close btn clicked - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const templateData = dtestData.dPromptTemplateDataPromptGeneration();
       const submitFn = jest.fn();
