@@ -11,18 +11,16 @@ type Props = {
    template: DPromptTemplate;
    values: DPromptTemplateFieldValues;
    resolvedContent: string;
-   expanded?: boolean;
 };
 
 export const TemplatePreview = ({
    template,
    values,
    resolvedContent,
-   expanded = false,
 }: Props) => {
    return (
-      <div className={`flex flex-col gap-2 ${expanded ? "min-h-0 flex-1" : ""}`} data-testid="template-preview">
-         <div className={`group relative flex-1 overflow-y-auto rounded-md border bg-muted/30 p-4 ${expanded ? "" : "max-h-[65vh]"}`}>
+      <div className="flex min-h-0 flex-1 flex-col gap-2" data-testid="template-preview">
+         <div className="group relative flex-1 overflow-y-auto rounded-md border bg-muted/30 p-4">
             <CopyButton
                content={resolvedContent}
                size="icon-sm"

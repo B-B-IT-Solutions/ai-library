@@ -87,12 +87,11 @@ export const CreatePromptFromTemplateDialog = ({
                   {descriptor.title}
                </p>
             </DialogHeader>
-            <div className={`overflow-y-auto ${isExpanded ? "flex flex-1 flex-col" : "flex-1"}`}>
+            <div className="flex flex-1 flex-col overflow-y-auto">
                <PromptFromTemplate
                   templateData={templateData}
                   onSubmit={onSubmit}
                   recommendedModel={descriptor.recommendedModel}
-                  expanded={isExpanded}
                />
             </div>
          </DialogContent>

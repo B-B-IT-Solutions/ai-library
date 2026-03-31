@@ -35,14 +35,12 @@ type Props = {
    templateData: DPromptTemplateDataPromptGeneration;
    onSubmit: (values: DPromptTemplateFieldValues) => void;
    recommendedModel?: string;
-   expanded?: boolean;
 };
 
 export const PromptFromTemplate = ({
    templateData,
    onSubmit,
    recommendedModel,
-   expanded = false,
 }: Props) => {
    const { template, allFields: fields } = templateData;
 
@@ -148,15 +146,14 @@ export const PromptFromTemplate = ({
       <Form {...form}>
          <form
             onSubmit={form.handleSubmit(onSubmitInternal)}
-            className={`px-6 ${expanded ? "flex h-full flex-col" : ""}`}
+            className="flex flex-1 flex-col px-6"
             data-testid="prompt-from-template"
          >
-            <div className={`grid grid-cols-1 gap-6 lg:grid-cols-2 ${expanded ? "flex-1" : "lg:min-h-[40vh]"}`}>
+            <div className="grid flex-1 grid-cols-1 gap-6 lg:min-h-[40vh] lg:grid-cols-2">
                <TemplatePreview
                   template={template}
                   values={currentValues}
                   resolvedContent={resolvedContent}
-                  expanded={expanded}
                />
                <TemplateFieldsForm
                   templateData={templateData}
