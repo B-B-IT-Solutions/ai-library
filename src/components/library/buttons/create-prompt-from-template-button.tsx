@@ -42,14 +42,11 @@ export const CreatePromptFromTemplateButton = ({
          const data = await getPromptGenerationTemplateData(
             descriptor.promptTemplateId
          );
-
-         const hasFields = !isEmpty(data?.allFields);
-
-         if (hasFields) {
+         if (data) {
             setTemplateData(data);
             setMode("fields-form");
          } else {
-            await composePrompt({});
+            toast.error("Prompt konnte nicht generiert werden");
          }
       });
    };

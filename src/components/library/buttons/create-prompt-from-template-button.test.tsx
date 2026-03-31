@@ -89,12 +89,12 @@ describe("CreatePromptFromTemplateButton rendering tests", () => {
    });
 });
 
-describe("CreatePromptFromTemplateButton functionality - no fields - tests", () => {
+describe("CreatePromptFromTemplateButton functionality - tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("CreatePromptFromTemplateButton - submit clicked - success - data null - test", async () => {
+   it("submit clicked - success - data null - test", async () => {
       getPromptGenerationTemplateDataMock.mockResolvedValue(null);
 
       const promptUpdate = dtestData.dPromptUpdate();
@@ -119,88 +119,18 @@ describe("CreatePromptFromTemplateButton functionality - no fields - tests", () 
       );
       await userEvent.click(createPromptBtn);
 
-      expect(composePromptFromTemplateMock).toHaveBeenCalledTimes(1);
-      expect(composePromptFromTemplateMock).toHaveBeenCalledWith(
-         descriptor.id,
-         {}
+      expect(getPromptGenerationTemplateDataMock).toHaveBeenCalledTimes(1);
+      expect(getPromptGenerationTemplateDataMock).toHaveBeenCalledWith(
+         descriptor.promptTemplateId
       );
-   });
-
-   it("CreatePromptFromTemplateButton - submit clicked - success - test", async () => {
-      const data = dtestData.dPromptTemplateDataPromptGeneration();
-      data.allFields = [];
-      getPromptGenerationTemplateDataMock.mockResolvedValue(data);
-
-      const promptUpdate = dtestData.dPromptUpdate();
-      const result: ActionResult<DPromptUpdate> = {
-         success: true,
-         message: "Prompt erfolgreich generiert",
-         data: promptUpdate,
-      };
-      composePromptFromTemplateMock.mockResolvedValue(result);
-
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
-
-      render(<CreatePromptFromTemplateButton descriptor={descriptor} />);
-
-      await waitFor(() => {
-         assertRendered();
-         expect(composePromptFromTemplateMock).not.toHaveBeenCalled();
-      });
-
-      const createPromptBtn = screen.getByTestId(
-         "create-prompt-from-template-btn"
-      );
-      await userEvent.click(createPromptBtn);
-
-      expect(composePromptFromTemplateMock).toHaveBeenCalledTimes(1);
-      expect(composePromptFromTemplateMock).toHaveBeenCalledWith(
-         descriptor.id,
-         {}
-      );
-   });
-
-   it("CreatePromptFromTemplateButton - submit clicked - error - test", async () => {
-      const data = dtestData.dPromptTemplateDataPromptGeneration();
-      data.allFields = [];
-      getPromptGenerationTemplateDataMock.mockResolvedValue(data);
-
-      const result: ActionResult<DPromptUpdate> = {
-         success: false,
-         message: "Template not found",
-      };
-      composePromptFromTemplateMock.mockResolvedValue(result);
-
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
-
-      render(<CreatePromptFromTemplateButton descriptor={descriptor} />);
-
-      await waitFor(() => {
-         assertRendered();
-         expect(composePromptFromTemplateMock).not.toHaveBeenCalled();
-      });
-
-      const createPromptBtn = screen.getByTestId(
-         "create-prompt-from-template-btn"
-      );
-      await userEvent.click(createPromptBtn);
-
-      expect(composePromptFromTemplateMock).toHaveBeenCalledTimes(1);
-      expect(composePromptFromTemplateMock).toHaveBeenCalledWith(
-         descriptor.id,
-         {}
-      );
+      expect(composePromptFromTemplateMock).not.toHaveBeenCalled();
       expect(toastMock.error).toHaveBeenCalledTimes(1);
-      expect(toastMock.error).toHaveBeenCalledWith(result.message);
-   });
-});
-
-describe("CreatePromptFromTemplateButton functionality - with fields - tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
+      expect(toastMock.error).toHaveBeenCalledWith(
+         "Prompt konnte nicht generiert werden"
+      );
    });
 
-   it("CreatePromptFromTemplateButton - submit clicked - success - test", async () => {
+   it("submit clicked - success - test", async () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
       getPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
@@ -254,7 +184,7 @@ describe("CreatePromptFromTemplateButton functionality - with fields - tests", (
       });
    });
 
-   it("CreatePromptFromTemplateButton - submit clicked - error - test", async () => {
+   it("submit clicked - error - test", async () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
       getPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
@@ -305,7 +235,7 @@ describe("CreatePromptFromTemplateButton functionality - with fields - tests", (
       });
    });
 
-   it("CreatePromptFromTemplateButton - close clicked- test", async () => {
+   it("close clicked- test", async () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
       getPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
