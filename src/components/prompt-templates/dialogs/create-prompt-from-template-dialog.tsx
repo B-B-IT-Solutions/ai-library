@@ -42,6 +42,22 @@ export const CreatePromptFromTemplateDialog = ({
       return "Vorlage Anwenden";
    };
 
+   const expandBtn = () => {
+      return (
+         <button
+            data-testid="expand-btn"
+            onClick={() => setIsExpanded((v) => !v)}
+            className="absolute top-4 right-12 cursor-pointer rounded-sm bg-background px-2 py-2 hover:bg-accent"
+         >
+            {isExpanded ? (
+               <Minimize2 className="h-4 w-4" />
+            ) : (
+               <Maximize2 className="h-4 w-4" />
+            )}
+         </button>
+      );
+   };
+
    return (
       <Dialog
          open={true}
@@ -56,17 +72,7 @@ export const CreatePromptFromTemplateDialog = ({
                   : "max-h-[90vh] sm:max-w-5xl"
             }`}
          >
-            <button
-               data-testid="expand-btn"
-               onClick={() => setIsExpanded((v) => !v)}
-               className="absolute top-4 right-12 cursor-pointer rounded-sm bg-background px-2 py-2 hover:bg-accent"
-            >
-               {isExpanded ? (
-                  <Minimize2 className="h-4 w-4" />
-               ) : (
-                  <Maximize2 className="h-4 w-4" />
-               )}
-            </button>
+            {expandBtn()}
             <DialogClose asChild={true}>
                <button
                   data-testid="close-btn"
@@ -81,11 +87,12 @@ export const CreatePromptFromTemplateDialog = ({
                   {descriptor.title}
                </p>
             </DialogHeader>
-            <div className="flex-1 overflow-y-auto">
+            <div className={`overflow-y-auto ${isExpanded ? "flex flex-1 flex-col" : "flex-1"}`}>
                <PromptFromTemplate
                   templateData={templateData}
                   onSubmit={onSubmit}
                   recommendedModel={descriptor.recommendedModel}
+                  expanded={isExpanded}
                />
             </div>
          </DialogContent>
