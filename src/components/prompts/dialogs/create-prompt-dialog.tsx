@@ -1,6 +1,8 @@
 "use client";
 
-import { X } from "lucide-react";
+import { useState } from "react";
+import { Maximize2, Minimize2, X } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 import {
    Dialog,
@@ -19,8 +21,11 @@ type Props = {
 };
 
 export const CreatePromptDialog = ({ onCancel, promptUpdate }: Props) => {
-   const content = () => {
-      return <PromptEditForm prompt={promptUpdate} mode="review-template" />;
+   const router = useRouter();
+   const [isExpanded, setIsExpanded] = useState(false);
+
+   const handleSuccess = () => {
+      router.push("/prompts");
    };
 
    return (
@@ -31,21 +36,42 @@ export const CreatePromptDialog = ({ onCancel, promptUpdate }: Props) => {
       >
          <DialogContent
             showCloseButton={false}
-            className="max-h-[90vh] overflow-y-auto sm:max-w-5xl"
+            className={`flex flex-col gap-0 overflow-hidden p-0 transition-all duration-200 ${
+               isExpanded
+                  ? "h-screen max-h-screen w-screen sm:max-w-none"
+                  : "max-h-[90vh] sm:max-w-5xl"
+            }`}
          >
+            <button
+               onClick={() => setIsExpanded((v) => !v)}
+               className="absolute top-4 right-12 cursor-pointer rounded-sm bg-background px-2 py-2 hover:bg-accent"
+               data-testid="expand-btn"
+            >
+               {isExpanded ? (
+                  <Minimize2 className="h-4 w-4" />
+               ) : (
+                  <Maximize2 className="h-4 w-4" />
+               )}
+            </button>
             <DialogClose asChild={true}>
                <button
+                  className="absolute top-4 right-4 cursor-pointer rounded-sm bg-background px-2 py-2 hover:bg-accent"
                   data-testid="close-btn"
-                  className="absolute top-4 right-4 rounded-sm opacity-70 hover:opacity-100"
                >
                   <X className="h-4 w-4" />
-                  <span className="sr-only">Close</span>
                </button>
             </DialogClose>
-            <DialogHeader>
+            <DialogHeader className="shrink-0 px-6 pt-6 pb-2">
                <DialogTitle>Prompt-Vorschau</DialogTitle>
             </DialogHeader>
-            {content()}
+            <div className="flex-1 overflow-y-auto px-6 pb-6">
+               <PromptEditForm
+                  prompt={promptUpdate}
+                  mode="review-template"
+                  onCancel={onCancel}
+                  onSuccess={handleSuccess}
+               />
+            </div>
          </DialogContent>
       </Dialog>
    );
