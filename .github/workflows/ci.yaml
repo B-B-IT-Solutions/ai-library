@@ -47,4 +47,4 @@ jobs:
            uses: MishaKav/jest-coverage-comment@main
            with:
               coverage-summary-path: ./coverage/coverage-summary.json
-              title: Test Coverage
+              title: Test Coverage Report

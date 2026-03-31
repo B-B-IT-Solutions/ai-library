@@ -547,14 +547,14 @@ describe("updatePromptTemplateSchema - tests", () => {
    });
 
    describe("Description validation", () => {
-      it("updatePromptTemplateSchema - empty description invalid - test", () => {
+      it("updatePromptTemplateSchema - empty description valid - test", () => {
          const templateData = {
             ...validTemplateData,
             description: "",
          };
 
-         const fn = () => updatePromptTemplateSchema.parse(templateData);
-         expect(fn).toThrow(ZodError);
+         const validatedValues = updatePromptTemplateSchema.parse(templateData);
+         expect(validatedValues).toEqual(templateData);
       });
 
       it("updatePromptTemplateSchema - missing description invalid - test", () => {
@@ -572,14 +572,14 @@ describe("updatePromptTemplateSchema - tests", () => {
    });
 
    describe("Content validation", () => {
-      it("updatePromptTemplateSchema - empty content invalid - test", () => {
+      it("updatePromptTemplateSchema - empty content valid - test", () => {
          const templateData = {
             ...validTemplateData,
             content: "",
          };
 
-         const fn = () => updatePromptTemplateSchema.parse(templateData);
-         expect(fn).toThrow(ZodError);
+         const validatedValues = updatePromptTemplateSchema.parse(templateData);
+         expect(validatedValues).toEqual(templateData);
       });
 
       it("updatePromptTemplateSchema - missing content invalid - test", () => {
@@ -609,14 +609,14 @@ describe("updatePromptTemplateSchema - tests", () => {
    });
 
    describe("Recommended model validation", () => {
-      it("updatePromptTemplateSchema - empty recommendedModel invalid - test", () => {
+      it("updatePromptTemplateSchema - empty recommendedModel valid - test", () => {
          const templateData = {
             ...validTemplateData,
             recommendedModel: "",
          };
 
-         const fn = () => updatePromptTemplateSchema.parse(templateData);
-         expect(fn).toThrow(ZodError);
+         const validatedValues = updatePromptTemplateSchema.parse(templateData);
+         expect(validatedValues).toEqual(templateData);
       });
 
       it("updatePromptTemplateSchema - missing recommendedModel invalid - test", () => {

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { promptTemplateFieldTypeSchema } from "@/data/types/validators/prompt";
+import { promptTemplateFieldTypeSchema } from "@/data/types/validators/prompt-template";
 
 export const globalTemplateFieldSchema = z.object({
    name: z.string().min(1, "Name ist erforderlich").max(50).regex(/^\S+$/, {
