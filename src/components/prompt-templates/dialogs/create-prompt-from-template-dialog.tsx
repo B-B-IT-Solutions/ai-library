@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { isEmpty } from "es-toolkit/compat";
-import { X } from "lucide-react";
+import { Maximize2, Minimize2, X } from "lucide-react";
 
 import {
    Dialog,
@@ -31,6 +32,7 @@ export const CreatePromptFromTemplateDialog = ({
    descriptor,
    templateData,
 }: Props) => {
+   const [isExpanded, setIsExpanded] = useState(false);
    const hasFields = !isEmpty(templateData.allFields);
 
    const dialogTitle = () => {
@@ -48,8 +50,23 @@ export const CreatePromptFromTemplateDialog = ({
       >
          <DialogContent
             showCloseButton={false}
-            className="flex max-h-[90vh] flex-col gap-0 overflow-hidden p-0 sm:max-w-5xl"
+            className={`flex flex-col gap-0 overflow-hidden p-0 transition-all duration-200 ${
+               isExpanded
+                  ? "h-screen max-h-screen w-screen sm:max-w-none"
+                  : "max-h-[90vh] sm:max-w-5xl"
+            }`}
          >
+            <button
+               data-testid="expand-btn"
+               onClick={() => setIsExpanded((v) => !v)}
+               className="absolute top-4 right-12 cursor-pointer rounded-sm bg-background px-2 py-2 hover:bg-accent"
+            >
+               {isExpanded ? (
+                  <Minimize2 className="h-4 w-4" />
+               ) : (
+                  <Maximize2 className="h-4 w-4" />
+               )}
+            </button>
             <DialogClose asChild={true}>
                <button
                   data-testid="close-btn"
