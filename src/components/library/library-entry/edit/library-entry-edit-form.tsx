@@ -21,7 +21,7 @@ import {
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
-import { updatePromptTemplateSchema } from "@/data/types/validators/prompt";
+import { updatePromptTemplateSchema } from "@/data/types/validators/prompt-template";
 
 import {
    BasicInfo,

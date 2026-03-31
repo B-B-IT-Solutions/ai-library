@@ -3,7 +3,7 @@ import z from "zod";
 import {
    promptTemplateFieldSchema,
    updatePromptTemplateSchema,
-} from "@/data/types/validators/prompt";
+} from "@/data/types/validators/prompt-template";
 
 export type DPromptTemplateFieldUpdate = z.infer<
    typeof promptTemplateFieldSchema
