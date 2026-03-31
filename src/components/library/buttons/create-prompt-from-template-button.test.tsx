@@ -126,7 +126,7 @@ describe("CreatePromptFromTemplateButton functionality - tests", () => {
       expect(composePromptFromTemplateMock).not.toHaveBeenCalled();
       expect(toastMock.error).toHaveBeenCalledTimes(1);
       expect(toastMock.error).toHaveBeenCalledWith(
-         "Prompt konnte nicht generiert werden"
+         "Vorlage konnte nicht geladen werden"
       );
    });
 

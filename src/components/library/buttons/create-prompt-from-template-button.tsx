@@ -46,7 +46,7 @@ export const CreatePromptFromTemplateButton = ({
             setTemplateData(data);
             setMode("fields-form");
          } else {
-            toast.error("Prompt konnte nicht generiert werden");
+            toast.error("Vorlage konnte nicht geladen werden");
          }
       });
    };
