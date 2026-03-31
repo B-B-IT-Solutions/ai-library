@@ -45,9 +45,9 @@ export const CreatePromptFromTemplateDialog = ({
    const expandBtn = () => {
       return (
          <button
-            data-testid="expand-btn"
             onClick={() => setIsExpanded((v) => !v)}
             className="absolute top-4 right-12 cursor-pointer rounded-sm bg-background px-2 py-2 hover:bg-accent"
+            data-testid="expand-btn"
          >
             {isExpanded ? (
                <Minimize2 className="h-4 w-4" />
@@ -75,8 +75,8 @@ export const CreatePromptFromTemplateDialog = ({
             {expandBtn()}
             <DialogClose asChild={true}>
                <button
-                  data-testid="close-btn"
                   className="absolute top-4 right-4 cursor-pointer rounded-sm bg-background px-2 py-2 hover:bg-accent"
+                  data-testid="close-btn"
                >
                   <X className="h-4 w-4" />
                </button>
