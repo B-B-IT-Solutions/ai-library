@@ -11,7 +11,6 @@ import {
    DLibraryEntriesPage,
    DLibraryEntriesPageQuery,
    DLibraryEntry,
-   DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
 import {
    DOrder,
@@ -218,17 +217,6 @@ export const dUserCreate = (index = 1): DUserCreate => {
 export const dUserUpdate = (index = 1): DUserUpdate => {
    return {
       name: `User ${index}`,
-   };
-};
-
-export const dLibraryEntryWithPromptTemplate = (
-   index = 1
-): DLibraryEntryWithPromptTemplate => {
-   const entry = dLibraryEntry(index);
-   const templateDescriptor = dPromptTemplateDescriptorWithTemplate(index);
-   return {
-      ...entry,
-      templateDescriptor,
    };
 };
 

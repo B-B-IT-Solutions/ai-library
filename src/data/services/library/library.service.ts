@@ -12,6 +12,7 @@ import {
 } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
+   DPromptTemplateDescriptor,
    DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateFieldValues,
    DPromptTemplateUpdate,
@@ -51,14 +52,14 @@ export class LibraryService {
       );
    }
 
-   async createLibraryEntry(data: DPromptTemplateUpdate, userId: string) {
-      const ptd =
-         await this.promptTemplateService.createPromptTemplateDescriptor(
-            userId,
-            data
-         );
-
-      await this.libraryRepository.pCreateLibraryEntry(userId, ptd.id);
+   async createLibraryEntry(
+      data: DPromptTemplateUpdate,
+      userId: string
+   ): Promise<DPromptTemplateDescriptor> {
+      return await this.promptTemplateService.createPromptTemplateDescriptor(
+         userId,
+         data
+      );
    }
 
    async createLibraryEntries(order: OrderProducts): Promise<void> {
@@ -97,7 +98,6 @@ export class LibraryService {
       if (!descriptor) {
          throw new Error("Library entry not found");
       }
-      await this.libraryRepository.pDeleteLibraryEntry(userId, descriptorId);
       await this.promptTemplateService.deletePromptTemplateDescriptor(
          userId,
          descriptor.id

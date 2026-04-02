@@ -88,27 +88,26 @@ describe("createLibraryEntry tests", () => {
       jest.clearAllMocks();
    });
 
-   it("createLibraryEntry - entry created - test", async () => {
+   it("createLibraryEntry - descriptor created - test", async () => {
       const userId = "user-id-1";
-      const updateData = dtestData.dPromptTemplateUpdate();
+      const createData = dtestData.dPromptTemplateUpdate();
       const templateDescriptor = dtestData.dPromptTemplateDescriptor();
       promptTemplateServiceMock.createPromptTemplateDescriptor.mockResolvedValue(
          templateDescriptor
       );
 
-      await libraryService.createLibraryEntry(updateData, userId);
+      const result = await libraryService.createLibraryEntry(
+         createData,
+         userId
+      );
 
+      expect(result).toEqual(templateDescriptor);
       expect(
          promptTemplateServiceMock.createPromptTemplateDescriptor
       ).toHaveBeenCalledTimes(1);
       expect(
          promptTemplateServiceMock.createPromptTemplateDescriptor
-      ).toHaveBeenCalledWith(userId, updateData);
-      expect(libraryRepoMock.pCreateLibraryEntry).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pCreateLibraryEntry).toHaveBeenCalledWith(
-         userId,
-         templateDescriptor.id
-      );
+      ).toHaveBeenCalledWith(userId, createData);
    });
 });
 
@@ -237,7 +236,6 @@ describe("deleteLibraryEntry tests", () => {
       expect(
          promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
       ).toHaveBeenCalledWith(userId, descriptorId);
-      expect(libraryRepoMock.pDeleteLibraryEntry).not.toHaveBeenCalled();
       expect(
          promptTemplateServiceMock.deletePromptTemplateDescriptor
       ).not.toHaveBeenCalled();
@@ -259,11 +257,6 @@ describe("deleteLibraryEntry tests", () => {
       expect(
          promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
       ).toHaveBeenCalledWith(userId, descriptor.id);
-      expect(libraryRepoMock.pDeleteLibraryEntry).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pDeleteLibraryEntry).toHaveBeenCalledWith(
-         userId,
-         descriptor.id
-      );
       expect(
          promptTemplateServiceMock.deletePromptTemplateDescriptor
       ).toHaveBeenCalledTimes(1);

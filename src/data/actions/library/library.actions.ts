@@ -10,7 +10,6 @@ import { DbClient } from "@/data/types/db/common";
 import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
-   DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
