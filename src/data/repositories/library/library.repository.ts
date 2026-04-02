@@ -1,4 +1,4 @@
-import { flatMap, isEmpty, map, uniq } from "es-toolkit/compat";
+import { isEmpty, map } from "es-toolkit/compat";
 
 import { Sort } from "@/data/types/common";
 import { DbClient } from "@/data/types/db/common";
@@ -154,8 +154,6 @@ export class LibraryRepository {
          where: { userId },
       });
    }
-
-   // ==================== Collections CRUD ====================
 
    async pGetCollections(userId: string): Promise<DLibraryCollection[]> {
       const collections = await this.prisma.libraryCollection.findMany({
