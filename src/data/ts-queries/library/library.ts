@@ -22,11 +22,11 @@ import {
    deleteLibraryCollection,
    getEntryCollectionIds,
    getLibraryCollections,
-   getLibraryEntriesPage,
    toggleLibraryEntryFavorite,
    updateEntryCollections,
    updateLibraryCollection,
 } from "@/data/actions/library";
+import { getTemplateDescriptorsPage } from "@/data/actions/prompt-template";
 import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
@@ -67,7 +67,7 @@ export const preloadLibraryEntriesOptions = (
             filters,
             sort
          );
-         return await getLibraryEntriesPage(query);
+         return await getTemplateDescriptorsPage(query);
       },
    };
 };
@@ -103,7 +103,7 @@ export const infiniteLoadLibraryEntriesOptions = (
             filters,
             sort
          );
-         return await getLibraryEntriesPage(query);
+         return await getTemplateDescriptorsPage(query);
       },
       initialPageParam: INIT_PAGE_NUMBER,
       getNextPageParam: getNextPageParam,

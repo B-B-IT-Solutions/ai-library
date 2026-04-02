@@ -519,7 +519,7 @@ describe("pGetTemplateDescriptorsPage - resolveWhereInput tests", () => {
    });
 
    test("resolveWhereInput - full filter - test", async () => {
-      const filter = dtestData.dLibraryEntriesFilter();
+      const filter = dtestData.dTemplateDescriptorsFilter();
       const query: DTemplateDescriptorsPageQuery = {
          filter,
       };

@@ -1,4 +1,5 @@
 jest.mock("@/data/actions/library");
+jest.mock("@/data/actions/prompt-template");
 jest.mock("./search-params");
 
 import { screen, waitFor } from "@testing-library/dom";
@@ -8,9 +9,9 @@ import { DeepMockProxy } from "jest-mock-extended";
 import {
    getLibraryCategories,
    getLibraryCollections,
-   getLibraryEntriesPage,
    getLibraryModels,
 } from "@/data/actions/library";
+import { getTemplateDescriptorsPage } from "@/data/actions/prompt-template";
 import {
    DListGroupByMode,
    DListSortByMode,
@@ -36,9 +37,10 @@ const getLibraryCollectionsMock = getLibraryCollections as jest.MockedFunction<
    typeof getLibraryCollections
 >;
 
-const getLibraryEntriesPageMock = getLibraryEntriesPage as jest.MockedFunction<
-   typeof getLibraryEntriesPage
->;
+const getTemplateDescriptorsPageMock =
+   getTemplateDescriptorsPage as jest.MockedFunction<
+      typeof getTemplateDescriptorsPage
+   >;
 
 const librarySearchParamsCacheMock = librarySearchParamsCache as DeepMockProxy<
    typeof librarySearchParamsCache
@@ -80,8 +82,8 @@ const assertRendered = () => {
 const assertGetLibraryEntriesPageCalled = (
    expectedPayload: DTemplateDescriptorsPageQuery
 ) => {
-   expect(getLibraryEntriesPageMock).toHaveBeenCalledTimes(1);
-   expect(getLibraryEntriesPageMock).toHaveBeenCalledWith(expectedPayload);
+   expect(getTemplateDescriptorsPageMock).toHaveBeenCalledTimes(1);
+   expect(getTemplateDescriptorsPageMock).toHaveBeenCalledWith(expectedPayload);
 };
 
 describe("LibraryDashboard rendering tests", () => {
@@ -89,7 +91,7 @@ describe("LibraryDashboard rendering tests", () => {
       const page = dtestData.dTemplateDescriptorsPage();
 
       getLibraryCollectionsMock.mockResolvedValue([]);
-      getLibraryEntriesPageMock.mockResolvedValue(page);
+      getTemplateDescriptorsPageMock.mockResolvedValue(page);
    });
 
    beforeEach(() => {

@@ -11,7 +11,6 @@ export {
    updateEntryCollections,
    getLibraryCategories,
    getLibraryCollections,
-   getLibraryEntriesPage,
    getLibraryModels,
    toggleLibraryEntryFavorite,
    updateLibraryCollection,
