@@ -36,7 +36,7 @@ describe("getLibraryEntry tests", () => {
    it("getLibraryEntry - descriptor retrieved - test", async () => {
       const userId = "user-id-1";
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
-      promptTemplateServiceMock.getPromptTemplateDescriptor.mockResolvedValue(
+      promptTemplateServiceMock.getTemplateDescriptor.mockResolvedValue(
          descriptor
       );
 
@@ -47,10 +47,10 @@ describe("getLibraryEntry tests", () => {
 
       expect(result).toEqual(descriptor);
       expect(
-         promptTemplateServiceMock.getPromptTemplateDescriptor
+         promptTemplateServiceMock.getTemplateDescriptor
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateServiceMock.getPromptTemplateDescriptor
+         promptTemplateServiceMock.getTemplateDescriptor
       ).toHaveBeenCalledWith(userId, descriptor.id);
    });
 });
@@ -118,19 +118,17 @@ describe("updateLibraryEntry tests", () => {
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const update = dtestData.dPromptTemplateUpdate();
 
-      promptTemplateServiceMock.getPromptTemplateDescriptor.mockResolvedValue(
-         null
-      );
+      promptTemplateServiceMock.getTemplateDescriptor.mockResolvedValue(null);
 
       const fn = async () =>
          await libraryService.updateLibraryEntry(userId, descriptorId, update);
 
       await expect(fn).rejects.toThrow("Library entry not found");
       expect(
-         promptTemplateServiceMock.getPromptTemplateDescriptor
+         promptTemplateServiceMock.getTemplateDescriptor
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateServiceMock.getPromptTemplateDescriptor
+         promptTemplateServiceMock.getTemplateDescriptor
       ).toHaveBeenCalledWith(userId, descriptorId);
       expect(
          promptTemplateServiceMock.updatePromptTemplateDescriptor
@@ -143,7 +141,7 @@ describe("updateLibraryEntry tests", () => {
 
       const update = dtestData.dPromptTemplateUpdate();
 
-      promptTemplateServiceMock.getPromptTemplateDescriptor.mockResolvedValue(
+      promptTemplateServiceMock.getTemplateDescriptor.mockResolvedValue(
          descriptor
       );
       promptTemplateServiceMock.updatePromptTemplateDescriptor.mockResolvedValue();
@@ -151,10 +149,10 @@ describe("updateLibraryEntry tests", () => {
       await libraryService.updateLibraryEntry(userId, descriptor.id, update);
 
       expect(
-         promptTemplateServiceMock.getPromptTemplateDescriptor
+         promptTemplateServiceMock.getTemplateDescriptor
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateServiceMock.getPromptTemplateDescriptor
+         promptTemplateServiceMock.getTemplateDescriptor
       ).toHaveBeenCalledWith(userId, descriptor.id);
       expect(
          promptTemplateServiceMock.updatePromptTemplateDescriptor
@@ -174,19 +172,17 @@ describe("deleteLibraryEntry tests", () => {
       const userId = "user-id-1";
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
 
-      promptTemplateServiceMock.getPromptTemplateDescriptor.mockResolvedValue(
-         null
-      );
+      promptTemplateServiceMock.getTemplateDescriptor.mockResolvedValue(null);
 
       const fn = async () =>
          await libraryService.deleteLibraryEntry(userId, descriptorId);
 
       await expect(fn).rejects.toThrow("Library entry not found");
       expect(
-         promptTemplateServiceMock.getPromptTemplateDescriptor
+         promptTemplateServiceMock.getTemplateDescriptor
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateServiceMock.getPromptTemplateDescriptor
+         promptTemplateServiceMock.getTemplateDescriptor
       ).toHaveBeenCalledWith(userId, descriptorId);
       expect(
          promptTemplateServiceMock.deletePromptTemplateDescriptor
@@ -197,17 +193,17 @@ describe("deleteLibraryEntry tests", () => {
       const userId = "user-id-1";
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
-      promptTemplateServiceMock.getPromptTemplateDescriptor.mockResolvedValue(
+      promptTemplateServiceMock.getTemplateDescriptor.mockResolvedValue(
          descriptor
       );
 
       await libraryService.deleteLibraryEntry(userId, descriptor.id);
 
       expect(
-         promptTemplateServiceMock.getPromptTemplateDescriptor
+         promptTemplateServiceMock.getTemplateDescriptor
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateServiceMock.getPromptTemplateDescriptor
+         promptTemplateServiceMock.getTemplateDescriptor
       ).toHaveBeenCalledWith(userId, descriptor.id);
       expect(
          promptTemplateServiceMock.deletePromptTemplateDescriptor
@@ -227,9 +223,7 @@ describe("composePromptFromTemplate tests", () => {
       const userId = "user-id-1";
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const fieldValues: DPromptTemplateFieldValues = { field1: "value1" };
-      promptTemplateServiceMock.getPromptTemplateDescriptor.mockResolvedValue(
-         null
-      );
+      promptTemplateServiceMock.getTemplateDescriptor.mockResolvedValue(null);
 
       const fn = async () =>
          await libraryService.composePromptFromTemplate(
@@ -240,10 +234,10 @@ describe("composePromptFromTemplate tests", () => {
 
       await expect(fn).rejects.toThrow("Template not found");
       expect(
-         promptTemplateServiceMock.getPromptTemplateDescriptor
+         promptTemplateServiceMock.getTemplateDescriptor
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateServiceMock.getPromptTemplateDescriptor
+         promptTemplateServiceMock.getTemplateDescriptor
       ).toHaveBeenCalledWith(userId, descriptorId);
       expect(
          promptTemplateServiceMock.composePromptFromTemplate
@@ -265,7 +259,7 @@ describe("composePromptFromTemplate tests", () => {
          followUpPrompts: [],
       };
 
-      promptTemplateServiceMock.getPromptTemplateDescriptor.mockResolvedValue(
+      promptTemplateServiceMock.getTemplateDescriptor.mockResolvedValue(
          descriptor
       );
       promptTemplateServiceMock.composePromptFromTemplate.mockResolvedValue(
@@ -280,10 +274,10 @@ describe("composePromptFromTemplate tests", () => {
 
       expect(result).toEqual(expectedPromptUpdate);
       expect(
-         promptTemplateServiceMock.getPromptTemplateDescriptor
+         promptTemplateServiceMock.getTemplateDescriptor
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateServiceMock.getPromptTemplateDescriptor
+         promptTemplateServiceMock.getTemplateDescriptor
       ).toHaveBeenCalledWith(userId, descriptor.id);
       expect(
          promptTemplateServiceMock.composePromptFromTemplate
@@ -302,26 +296,24 @@ describe("downloadPromptTemplate tests", () => {
    it("downloadPromptTemplate - template not found - test", async () => {
       const userId = "user-id-1";
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-      promptTemplateServiceMock.getPromptTemplateDescriptor.mockResolvedValue(
-         null
-      );
+      promptTemplateServiceMock.getTemplateDescriptor.mockResolvedValue(null);
 
       const fn = async () =>
          await libraryService.downloadPromptTemplate(userId, descriptorId);
 
       await expect(fn).rejects.toThrow("Template not found");
       expect(
-         promptTemplateServiceMock.getPromptTemplateDescriptor
+         promptTemplateServiceMock.getTemplateDescriptor
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateServiceMock.getPromptTemplateDescriptor
+         promptTemplateServiceMock.getTemplateDescriptor
       ).toHaveBeenCalledWith(userId, descriptorId);
    });
 
    it("downloadPromptTemplate - template downloaded - test", async () => {
       const userId = "user-id-1";
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
-      promptTemplateServiceMock.getPromptTemplateDescriptor.mockResolvedValue(
+      promptTemplateServiceMock.getTemplateDescriptor.mockResolvedValue(
          descriptor
       );
 
@@ -343,10 +335,10 @@ describe("downloadPromptTemplate tests", () => {
 
       expect(result).toEqual(expectedDownloadData);
       expect(
-         promptTemplateServiceMock.getPromptTemplateDescriptor
+         promptTemplateServiceMock.getTemplateDescriptor
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateServiceMock.getPromptTemplateDescriptor
+         promptTemplateServiceMock.getTemplateDescriptor
       ).toHaveBeenCalledWith(userId, descriptor.id);
    });
 });

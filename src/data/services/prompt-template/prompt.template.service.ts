@@ -41,6 +41,16 @@ export class PromptTemplateService {
       return await this.repository.pGetTemplateDescriptorsPage(userId, query);
    }
 
+   async getTemplateDescriptor(
+      userId: string,
+      descriptorId: string
+   ): Promise<DPromptTemplateDescriptorWithTemplate | null> {
+      return await this.repository.pGetPromptTemplateDescriptorWithTemplate(
+         userId,
+         descriptorId
+      );
+   }
+
    async getTemplateDataForPromptGeneration(
       userId: string,
       teamplateId: string
@@ -72,16 +82,6 @@ export class PromptTemplateService {
       params?: DGetPromptTemplatesDescriptorsParams
    ): Promise<DPromptTemplateDescriptor[]> {
       return await this.repository.pGetPromptTemplateDescriptors(params);
-   }
-
-   async getPromptTemplateDescriptor(
-      userId: string,
-      descriptorId: string
-   ): Promise<DPromptTemplateDescriptorWithTemplate | null> {
-      return await this.repository.pGetPromptTemplateDescriptorWithTemplate(
-         userId,
-         descriptorId
-      );
    }
 
    async getPromptTemplate(
@@ -147,10 +147,7 @@ export class PromptTemplateService {
       descriptorId: string,
       fieldValues: DPromptTemplateFieldValues
    ): Promise<DPromptUpdate> {
-      const descriptor = await this.getPromptTemplateDescriptor(
-         userId,
-         descriptorId
-      );
+      const descriptor = await this.getTemplateDescriptor(userId, descriptorId);
 
       if (!descriptor) {
          throw new Error(

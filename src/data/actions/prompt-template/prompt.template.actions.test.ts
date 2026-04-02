@@ -12,6 +12,7 @@ import {
    getPromptTemplate,
    getPromptTemplateCategories,
    getPromptTemplates,
+   getTemplateDescriptor,
    getTemplateDescriptorsPage,
 } from "./prompt.template.actions";
 
@@ -19,6 +20,8 @@ const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
 const sGetTemplateDescriptorsPage =
    PromptTemplateService.prototype.getTemplateDescriptorsPage;
+const sGetTemplateDescriptor =
+   PromptTemplateService.prototype.getTemplateDescriptor;
 const sGetTemplateDataForPromptGeneration =
    PromptTemplateService.prototype.getTemplateDataForPromptGeneration;
 const sGetPromptTemplateDescriptors =
@@ -31,6 +34,8 @@ const sGetTemplateDescriptorsPageMock =
    sGetTemplateDescriptorsPage as jest.MockedFunction<
       typeof sGetTemplateDescriptorsPage
    >;
+const sGetTemplateDescriptorMock =
+   sGetTemplateDescriptor as jest.MockedFunction<typeof sGetTemplateDescriptor>;
 const sGetTemplateDataForPromptGenerationMock =
    sGetTemplateDataForPromptGeneration as jest.MockedFunction<
       typeof sGetTemplateDataForPromptGeneration
@@ -87,6 +92,88 @@ describe("getTemplateDescriptorsPage tests", () => {
       expect(sGetTemplateDescriptorsPageMock).toHaveBeenCalledWith(
          user.id,
          query
+      );
+   });
+});
+
+describe("getTemplateDescriptor tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("getTemplateDescriptor - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+      const descriptorId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
+
+      const result = await getTemplateDescriptor(descriptorId);
+
+      expect(result).toBeNull();
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetTemplateDescriptorMock).not.toHaveBeenCalled();
+   });
+
+   it("getTemplateDescriptor - error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const errorMessage = "db error";
+      const error = new Error(errorMessage);
+      sGetTemplateDescriptorMock.mockRejectedValue(error);
+      const descriptorId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
+
+      const result = await getTemplateDescriptor(descriptorId);
+
+      expect(result).toBeNull();
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+      expect(sGetTemplateDescriptorMock).toHaveBeenCalledWith(
+         user.id,
+         descriptorId
+      );
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(errorMessage);
+   });
+
+   it("getTemplateDescriptor - descriptor null - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      sGetTemplateDescriptorMock.mockResolvedValue(null);
+      const descriptorId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
+
+      const result = await getTemplateDescriptor(descriptorId);
+
+      expect(result).toBeNull();
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+      expect(sGetTemplateDescriptorMock).toHaveBeenCalledWith(
+         user.id,
+         descriptorId
+      );
+   });
+
+   it("getTemplateDescriptor - descriptor retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      sGetTemplateDescriptorMock.mockResolvedValue(descriptor);
+      const descriptorId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
+
+      const result = await getTemplateDescriptor(descriptorId);
+
+      expect(result).toEqual(descriptor);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+      expect(sGetTemplateDescriptorMock).toHaveBeenCalledWith(
+         user.id,
+         descriptorId
       );
    });
 });

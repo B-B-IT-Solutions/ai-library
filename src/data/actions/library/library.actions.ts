@@ -3,7 +3,7 @@
 import { validate as isValidUuid } from "uuid";
 
 import { requireUser } from "@/data/actions/auth-utils";
-import { EMPTY_PAGE, formatError } from "@/data/actions/utils";
+import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
@@ -13,24 +13,10 @@ import {
 } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
-   DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateFieldValues,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
-
-export const getLibraryEntry = async (
-   descriptorId: string
-): Promise<DPromptTemplateDescriptorWithTemplate | null> => {
-   try {
-      const user = await requireUser();
-      const service = getSevice();
-      return await service.getLibraryEntry(user.id, descriptorId);
-   } catch (error) {
-      console.error(formatError(error));
-      return null;
-   }
-};
 
 export const createLibraryEntry = async (
    data: DPromptTemplateUpdate

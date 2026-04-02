@@ -73,6 +73,34 @@ describe("getTemplateDescriptorsPage tests", () => {
    });
 });
 
+describe("getTemplateDescriptor tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("getTemplateDescriptor - descriptor retrieved - test", async () => {
+      const userId = "user-id-1";
+      const template = dtestData.dPromptTemplateDescriptorWithTemplate();
+      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         template
+      );
+
+      const { id } = template;
+      const result = await promptTemplateService.getTemplateDescriptor(
+         userId,
+         id
+      );
+
+      expect(result).toEqual(template);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, id);
+   });
+});
+
 describe("getTemplateDataForPromptGeneration tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -207,34 +235,6 @@ describe("getPromptTemplateDescriptors tests", () => {
       expect(
          promptTemplateRepoMock.pGetPromptTemplateDescriptors
       ).toHaveBeenCalledWith(params);
-   });
-});
-
-describe("getPromptTemplateDescriptor tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("getPromptTemplateDescriptor - descriptor retrieved - test", async () => {
-      const userId = "user-id-1";
-      const template = dtestData.dPromptTemplateDescriptorWithTemplate();
-      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
-         template
-      );
-
-      const { id } = template;
-      const result = await promptTemplateService.getPromptTemplateDescriptor(
-         userId,
-         id
-      );
-
-      expect(result).toEqual(template);
-      expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
-      ).toHaveBeenCalledWith(userId, id);
    });
 });
 

@@ -10,6 +10,7 @@ import {
    DPromptTemplate,
    DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
+   DPromptTemplateDescriptorWithTemplate,
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
@@ -29,6 +30,19 @@ export const getTemplateDescriptorsPage = async (
    } catch (error) {
       console.error(formatError(error));
       return EMPTY_PAGE;
+   }
+};
+
+export const getTemplateDescriptor = async (
+   descriptorId: string
+): Promise<DPromptTemplateDescriptorWithTemplate | null> => {
+   try {
+      const user = await requireUser();
+      const service = getService();
+      return await service.getTemplateDescriptor(user.id, descriptorId);
+   } catch (error) {
+      console.error(formatError(error));
+      return null;
    }
 };
 
