@@ -23,7 +23,7 @@ export const AddToFavoriteButton = ({ descriptor }: Props) => {
 
    const handleToggleFavorite = () => {
       const params: UpdateIsFavoriteParams = {
-         entryId: descriptor.id,
+         descriptorId: descriptor.id,
          isFavorite: !isFavorite,
       };
       startTransition(async () => {

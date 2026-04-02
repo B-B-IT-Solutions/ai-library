@@ -287,6 +287,24 @@ export class PromptTemplateRepository {
       await this.prisma.promptTemplateDescriptor.delete(args);
    }
 
+   async pToggleFavorite(
+      userId: string,
+      descriptorId: string,
+      isFavorite: boolean
+   ): Promise<void> {
+      const input: PromptTemplateDescriptorUpdateInput = { isFavorite };
+
+      const args: PromptTemplateDescriptorUpdateArgs = {
+         where: {
+            id: descriptorId,
+            userId,
+         },
+         data: input,
+      };
+
+      await this.prisma.promptTemplateDescriptor.update(args);
+   }
+
    private resolveGetPromptTemplateDescriptorsWhereInput(
       params?: PGetPromptTemplateDescriptorsParams
    ): PromptTemplateDescriptorWhereInput | undefined {

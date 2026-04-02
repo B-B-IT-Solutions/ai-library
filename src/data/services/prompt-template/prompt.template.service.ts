@@ -126,6 +126,14 @@ export class PromptTemplateService {
       );
    }
 
+   async toggleFavorite(
+      userId: string,
+      descriptorId: string,
+      isFavorite: boolean
+   ) {
+      await this.repository.pToggleFavorite(userId, descriptorId, isFavorite);
+   }
+
    async composePromptFromTemplate(
       userId: string,
       descriptorId: string,

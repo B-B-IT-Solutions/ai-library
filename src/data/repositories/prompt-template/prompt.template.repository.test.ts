@@ -1106,3 +1106,47 @@ describe("pDeletePromptTemplateDescriptor tests", () => {
       );
    });
 });
+
+describe("pToggleFavorite tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pToggleFavorite - isFavorite true - test", async () => {
+      const descriptorId = "descriptor-id-1";
+      const userId = "user-id-1";
+
+      await repository.pToggleFavorite(userId, descriptorId, true);
+
+      const expectedUpdateArgs: PromptTemplateDescriptorUpdateArgs = {
+         where: { id: descriptorId, userId },
+         data: { isFavorite: true },
+      };
+
+      expect(prismaMock.promptTemplateDescriptor.update).toHaveBeenCalledTimes(
+         1
+      );
+      expect(prismaMock.promptTemplateDescriptor.update).toHaveBeenCalledWith(
+         expectedUpdateArgs
+      );
+   });
+
+   test("pToggleFavorite - isFavorite false - test", async () => {
+      const descriptorId = "descriptor-id-1";
+      const userId = "user-id-1";
+
+      await repository.pToggleFavorite(userId, descriptorId, false);
+
+      const expectedUpdateArgs: PromptTemplateDescriptorUpdateArgs = {
+         where: { id: descriptorId, userId },
+         data: { isFavorite: false },
+      };
+
+      expect(prismaMock.promptTemplateDescriptor.update).toHaveBeenCalledTimes(
+         1
+      );
+      expect(prismaMock.promptTemplateDescriptor.update).toHaveBeenCalledWith(
+         expectedUpdateArgs
+      );
+   });
+});

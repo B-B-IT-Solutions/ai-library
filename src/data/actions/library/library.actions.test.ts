@@ -765,10 +765,10 @@ describe("toggleLibraryEntryFavorite tests", () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
 
-      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const isFavorite = true;
 
-      const result = await toggleLibraryEntryFavorite(entryId, isFavorite);
+      const result = await toggleLibraryEntryFavorite(descriptorId, isFavorite);
       const expectedResult: ActionResult = {
          success: false,
          message: "Die Anfrage konnte nicht bearbeitet werden",
@@ -783,12 +783,12 @@ describe("toggleLibraryEntryFavorite tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const isFavorite = true;
 
       sToggleFavoriteMock.mockResolvedValue();
 
-      const result = await toggleLibraryEntryFavorite(entryId, isFavorite);
+      const result = await toggleLibraryEntryFavorite(descriptorId, isFavorite);
       const expectedResult: ActionResult<DPromptUpdate> = {
          success: true,
          message: "Zu Favoriten hinzugefügt",
@@ -797,7 +797,7 @@ describe("toggleLibraryEntryFavorite tests", () => {
       expect(result).toEqual(expectedResult);
       expect(sToggleFavoriteMock).toHaveBeenCalledTimes(1);
       expect(sToggleFavoriteMock).toHaveBeenCalledWith(
-         entryId,
+         descriptorId,
          user.id,
          isFavorite
       );
@@ -807,12 +807,12 @@ describe("toggleLibraryEntryFavorite tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const isFavorite = false;
 
       sToggleFavoriteMock.mockResolvedValue();
 
-      const result = await toggleLibraryEntryFavorite(entryId, isFavorite);
+      const result = await toggleLibraryEntryFavorite(descriptorId, isFavorite);
       const expectedResult: ActionResult<DPromptUpdate> = {
          success: true,
          message: "Aus Favoriten entfernt",
@@ -821,7 +821,7 @@ describe("toggleLibraryEntryFavorite tests", () => {
       expect(result).toEqual(expectedResult);
       expect(sToggleFavoriteMock).toHaveBeenCalledTimes(1);
       expect(sToggleFavoriteMock).toHaveBeenCalledWith(
-         entryId,
+         descriptorId,
          user.id,
          isFavorite
       );
@@ -835,10 +835,10 @@ describe("toggleLibraryEntryFavorite tests", () => {
       const error = new Error(errorMessage);
       sToggleFavoriteMock.mockRejectedValue(error);
 
-      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const isFavorite = false;
 
-      const result = await toggleLibraryEntryFavorite(entryId, isFavorite);
+      const result = await toggleLibraryEntryFavorite(descriptorId, isFavorite);
       const expectedResult: ActionResult = {
          success: false,
          message: "Die Anfrage konnte nicht bearbeitet werden",
@@ -847,7 +847,7 @@ describe("toggleLibraryEntryFavorite tests", () => {
       expect(result).toEqual(expectedResult);
       expect(sToggleFavoriteMock).toHaveBeenCalledTimes(1);
       expect(sToggleFavoriteMock).toHaveBeenCalledWith(
-         entryId,
+         descriptorId,
          user.id,
          isFavorite
       );

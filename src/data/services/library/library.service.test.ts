@@ -478,15 +478,15 @@ describe("toggleFavorite tests", () => {
 
    it("toggleFavorite - value toggled - test", async () => {
       const userId = "user-id-1";
-      const entryId = "entry-id-1";
+      const descriptorId = "descriptor-id-1";
       const isFavorite = true;
 
-      await libraryService.toggleFavorite(entryId, userId, isFavorite);
+      await libraryService.toggleFavorite(descriptorId, userId, isFavorite);
 
-      expect(libraryRepoMock.pToggleFavorite).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pToggleFavorite).toHaveBeenCalledWith(
-         entryId,
+      expect(promptTemplateServiceMock.toggleFavorite).toHaveBeenCalledTimes(1);
+      expect(promptTemplateServiceMock.toggleFavorite).toHaveBeenCalledWith(
          userId,
+         descriptorId,
          isFavorite
       );
    });

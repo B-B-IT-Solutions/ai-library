@@ -125,8 +125,8 @@ export const toggleFavoriteOptions = (): UseMutationOptions<
 > => {
    return {
       mutationFn: async (params: UpdateIsFavoriteParams) => {
-         const { entryId, isFavorite } = params;
-         return await toggleLibraryEntryFavorite(entryId, isFavorite);
+         const { descriptorId, isFavorite } = params;
+         return await toggleLibraryEntryFavorite(descriptorId, isFavorite);
       },
    };
 };

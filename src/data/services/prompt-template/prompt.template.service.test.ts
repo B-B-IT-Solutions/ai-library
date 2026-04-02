@@ -366,6 +366,31 @@ describe("deletePromptTemplateDescriptor tests", () => {
    });
 });
 
+describe("toggleFavorite tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("toggleFavorite - value toggled - test", async () => {
+      const userId = "user-id-1";
+      const descriptorId = "descriptor-id-1";
+      const isFavorite = true;
+
+      await promptTemplateService.toggleFavorite(
+         userId,
+         descriptorId,
+         isFavorite
+      );
+
+      expect(promptTemplateRepoMock.pToggleFavorite).toHaveBeenCalledTimes(1);
+      expect(promptTemplateRepoMock.pToggleFavorite).toHaveBeenCalledWith(
+         userId,
+         descriptorId,
+         isFavorite
+      );
+   });
+});
+
 describe("composePromptFromTemplate tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();

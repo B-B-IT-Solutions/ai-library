@@ -251,7 +251,7 @@ describe("toggleFavorite hooks tests", () => {
       const { result } = renderHookWithReactQuery(() => useToggleFavorite());
 
       const params: UpdateIsFavoriteParams = {
-         entryId: "1",
+         descriptorId: "1",
          isFavorite: true,
       };
 
@@ -260,7 +260,7 @@ describe("toggleFavorite hooks tests", () => {
          expect(result.current.isSuccess).toBe(true);
          expect(toggleLibraryEntryFavoriteMock).toHaveBeenCalledTimes(1);
          expect(toggleLibraryEntryFavoriteMock).toHaveBeenCalledWith(
-            params.entryId,
+            params.descriptorId,
             params.isFavorite
          );
       });

@@ -232,24 +232,6 @@ export class LibraryRepository {
       return uniq(models).sort();
    }
 
-   // ==================== Favorites ====================
-
-   async pToggleFavorite(
-      entryId: string,
-      userId: string,
-      isFavorite: boolean
-   ): Promise<void> {
-      await this.prisma.libraryEntry.update({
-         where: {
-            id: entryId,
-            userId,
-         },
-         data: {
-            isFavorite,
-         },
-      });
-   }
-
    // ==================== Collections CRUD ====================
 
    async pGetCollections(userId: string): Promise<DLibraryCollection[]> {

@@ -108,7 +108,7 @@ describe("AddToFavoriteButton functionality tests", () => {
       await userEvent.click(toggleBtn);
 
       const expectedParams: UpdateIsFavoriteParams = {
-         entryId: descriptor.id,
+         descriptorId: descriptor.id,
          isFavorite: true,
       };
 
@@ -155,7 +155,7 @@ describe("AddToFavoriteButton functionality tests", () => {
       await userEvent.click(toggleBtn);
 
       const expectedParams: UpdateIsFavoriteParams = {
-         entryId: descriptor.id,
+         descriptorId: descriptor.id,
          isFavorite: false,
       };
 
@@ -201,7 +201,7 @@ describe("AddToFavoriteButton functionality tests", () => {
       await userEvent.click(toggleBtn);
 
       const expectedParams: UpdateIsFavoriteParams = {
-         entryId: descriptor.id,
+         descriptorId: descriptor.id,
          isFavorite: true,
       };
 
@@ -243,7 +243,7 @@ describe("AddToFavoriteButton functionality tests", () => {
       await userEvent.click(toggleBtn);
 
       const expectedParams: UpdateIsFavoriteParams = {
-         entryId: descriptor.id,
+         descriptorId: descriptor.id,
          isFavorite: true,
       };
 

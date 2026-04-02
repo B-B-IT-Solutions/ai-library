@@ -201,17 +201,17 @@ export const getLibraryModels = async (): Promise<string[]> => {
 };
 
 export const toggleLibraryEntryFavorite = async (
-   entryId: string,
+   descriptorId: string,
    isFavorite: boolean
 ): Promise<ActionResult> => {
    try {
-      if (!isValidUuid(entryId)) {
+      if (!isValidUuid(descriptorId)) {
          throw new Error("Invalid Entry ID.");
       }
 
       const user = await requireUser();
       const service = getSevice();
-      await service.toggleFavorite(entryId, user.id, isFavorite);
+      await service.toggleFavorite(descriptorId, user.id, isFavorite);
 
       return {
          success: true,
