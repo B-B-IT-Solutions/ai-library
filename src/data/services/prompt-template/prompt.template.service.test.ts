@@ -391,6 +391,54 @@ describe("toggleFavorite tests", () => {
    });
 });
 
+describe("getTemplateCategories tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("getTemplateCategories - test", async () => {
+      const userId = "user-id-1";
+
+      const categories = dtestData.dTemplateCategories();
+      promptTemplateRepoMock.pGetTemplateCategories.mockResolvedValue(
+         categories
+      );
+
+      const result = await promptTemplateService.getTemplateCategories(userId);
+
+      expect(result).toEqual(categories);
+      expect(
+         promptTemplateRepoMock.pGetTemplateCategories
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pGetTemplateCategories
+      ).toHaveBeenCalledWith(userId);
+   });
+});
+
+describe("getTemplateModles tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("getTemplateModles - test", async () => {
+      const userId = "user-id-1";
+
+      const models = dtestData.dTemplateModels();
+      promptTemplateRepoMock.pGetTemplateModels.mockResolvedValue(models);
+
+      const result = await promptTemplateService.getTemplateModles(userId);
+
+      expect(result).toEqual(models);
+      expect(promptTemplateRepoMock.pGetTemplateModels).toHaveBeenCalledTimes(
+         1
+      );
+      expect(promptTemplateRepoMock.pGetTemplateModels).toHaveBeenCalledWith(
+         userId
+      );
+   });
+});
+
 describe("composePromptFromTemplate tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();

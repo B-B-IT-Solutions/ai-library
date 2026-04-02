@@ -1,9 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 import { dtestData, ptestData } from "@tests";
-import { map } from "es-toolkit/compat";
+import { flatMap, map, uniq } from "es-toolkit/compat";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
+import { PromptTemplateDescriptorWithCategories } from "@/data/types/db/prompt.template";
 import {
    DPromptTemplateFieldType,
    DPromptTemplateFieldUpdate,
@@ -1147,6 +1148,76 @@ describe("pToggleFavorite tests", () => {
       );
       expect(prismaMock.promptTemplateDescriptor.update).toHaveBeenCalledWith(
          expectedUpdateArgs
+      );
+   });
+});
+
+describe("pGetTemplateCategories tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pGetTemplateCategories - categories retrieved - test", async () => {
+      const userId = "user-id-1";
+      const descriptors = ptestData.pPromptTemplateDescriptorsWithCategories();
+      prismaMock.promptTemplateDescriptor.findMany.mockResolvedValue(
+         descriptors
+      );
+
+      const result = await repository.pGetTemplateCategories(userId);
+
+      const expecteCategories = flatMap(descriptors, (d) =>
+         map(d.categories, (cat) => cat.name)
+      );
+      const expectedResult = uniq(expecteCategories).sort();
+
+      const expectedFindManyArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: { userId },
+         include: {
+            categories: true,
+         },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(
+         prismaMock.promptTemplateDescriptor.findMany
+      ).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptTemplateDescriptor.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+   });
+});
+
+describe("pGetTemplateModels tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   test("pGetTemplateModels - models retrieved - test", async () => {
+      const userId = "user-id-1";
+      const descriptors = ptestData.pPromptTemplateDescriptorsWithCategories();
+      prismaMock.promptTemplateDescriptor.findMany.mockResolvedValue(
+         descriptors
+      );
+
+      const result = await repository.pGetTemplateModels(userId);
+
+      const expecteModels = map(descriptors, (d) => d.recommendedModel);
+      const expectedResult = uniq(expecteModels).sort();
+
+      const expectedFindManyArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: { userId },
+         select: {
+            recommendedModel: true,
+         },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(
+         prismaMock.promptTemplateDescriptor.findMany
+      ).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptTemplateDescriptor.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
       );
    });
 });

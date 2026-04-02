@@ -1,4 +1,4 @@
-import { isEmpty, map } from "es-toolkit/compat";
+import { flatMap, isEmpty, map, uniq } from "es-toolkit/compat";
 
 import { Sort } from "@/data/types/common";
 import { DbClient } from "@/data/types/db/common";
@@ -303,6 +303,32 @@ export class PromptTemplateRepository {
       };
 
       await this.prisma.promptTemplateDescriptor.update(args);
+   }
+
+   async pGetTemplateCategories(userId: string): Promise<string[]> {
+      const descriptors = await this.prisma.promptTemplateDescriptor.findMany({
+         where: { userId },
+         include: {
+            categories: true,
+         },
+      });
+
+      const categories = flatMap(descriptors, (d) =>
+         map(d.categories, (cat) => cat.name)
+      );
+      return uniq(categories).sort();
+   }
+
+   async pGetTemplateModels(userId: string): Promise<string[]> {
+      const descriptors = await this.prisma.promptTemplateDescriptor.findMany({
+         where: { userId },
+         select: {
+            recommendedModel: true,
+         },
+      });
+
+      const models = map(descriptors, (d) => d.recommendedModel);
+      return uniq(models).sort();
    }
 
    private resolveGetPromptTemplateDescriptorsWhereInput(

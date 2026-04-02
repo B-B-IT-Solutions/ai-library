@@ -421,15 +421,19 @@ describe("getLibraryCategories tests", () => {
    it("getLibraryCategories - categories retrieved - test", async () => {
       const userId = "user-id-1";
       const categories = dtestData.dTemplateCategories();
-      libraryRepoMock.pGetLibraryCategories.mockResolvedValue(categories);
+      promptTemplateServiceMock.getTemplateCategories.mockResolvedValue(
+         categories
+      );
 
       const result = await libraryService.getLibraryCategories(userId);
 
       expect(result).toEqual(categories);
-      expect(libraryRepoMock.pGetLibraryCategories).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryCategories).toHaveBeenCalledWith(
-         userId
-      );
+      expect(
+         promptTemplateServiceMock.getTemplateCategories
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateServiceMock.getTemplateCategories
+      ).toHaveBeenCalledWith(userId);
    });
 });
 
@@ -441,13 +445,17 @@ describe("getLibraryModels tests", () => {
    it("getLibraryModels - models retrieved - test", async () => {
       const userId = "user-id-1";
       const models = dtestData.dTemplateModels();
-      libraryRepoMock.pGetLibraryModels.mockResolvedValue(models);
+      promptTemplateServiceMock.getTemplateModles.mockResolvedValue(models);
 
       const result = await libraryService.getLibraryModels(userId);
 
       expect(result).toEqual(models);
-      expect(libraryRepoMock.pGetLibraryModels).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryModels).toHaveBeenCalledWith(userId);
+      expect(promptTemplateServiceMock.getTemplateModles).toHaveBeenCalledTimes(
+         1
+      );
+      expect(promptTemplateServiceMock.getTemplateModles).toHaveBeenCalledWith(
+         userId
+      );
    });
 });
 

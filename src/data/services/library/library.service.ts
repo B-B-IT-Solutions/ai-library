@@ -148,11 +148,11 @@ export class LibraryService {
    }
 
    async getLibraryCategories(userId: string): Promise<string[]> {
-      return await this.libraryRepository.pGetLibraryCategories(userId);
+      return await this.promptTemplateService.getTemplateCategories(userId);
    }
 
    async getLibraryModels(userId: string): Promise<string[]> {
-      return await this.libraryRepository.pGetLibraryModels(userId);
+      return await this.promptTemplateService.getTemplateModles(userId);
    }
 
    async toggleFavorite(

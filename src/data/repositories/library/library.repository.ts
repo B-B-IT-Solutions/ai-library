@@ -155,46 +155,6 @@ export class LibraryRepository {
       });
    }
 
-   // ==================== Filtering & Pagination ====================
-
-   async pGetLibraryCategories(userId: string): Promise<string[]> {
-      const entries = await this.prisma.libraryEntry.findMany({
-         where: { userId },
-         include: {
-            templateDescriptor: {
-               include: {
-                  categories: true,
-               },
-            },
-         },
-      });
-
-      const categories = flatMap(entries, (entry) =>
-         map(entry.templateDescriptor.categories, (cat) => cat.name)
-      );
-
-      return uniq(categories).sort();
-   }
-
-   async pGetLibraryModels(userId: string): Promise<string[]> {
-      const entries = await this.prisma.libraryEntry.findMany({
-         where: { userId },
-         include: {
-            templateDescriptor: {
-               select: {
-                  recommendedModel: true,
-               },
-            },
-         },
-      });
-
-      const models = map(
-         entries,
-         (entry) => entry.templateDescriptor.recommendedModel
-      );
-      return uniq(models).sort();
-   }
-
    // ==================== Collections CRUD ====================
 
    async pGetCollections(userId: string): Promise<DLibraryCollection[]> {
