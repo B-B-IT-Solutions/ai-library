@@ -30,9 +30,11 @@ import {
 import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
-   DLibraryEntriesPage,
-   DLibraryEntriesPageQuery,
 } from "@/data/types/domain/library";
+import {
+   DTemplateDescriptorsPage,
+   DTemplateDescriptorsPageQuery,
+} from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
 import { getNextPageParam, pageQuery } from "../utils";
@@ -48,13 +50,17 @@ import { libraryKeys } from "./utils";
 
 export const preloadLibraryEntriesOptions = (
    params: LoadLibraryEntriesParams
-): FetchQueryOptions<DLibraryEntriesPage, Error, DLibraryEntriesPage> => {
+): FetchQueryOptions<
+   DTemplateDescriptorsPage,
+   Error,
+   DTemplateDescriptorsPage
+> => {
    const { filters, sort } = params;
 
    return {
       queryKey: libraryKeys.entries(params),
       queryFn: async () => {
-         const query: DLibraryEntriesPageQuery = pageQuery(
+         const query: DTemplateDescriptorsPageQuery = pageQuery(
             INIT_PAGE_NUMBER,
             PAGE_SIZE,
             undefined,
@@ -80,9 +86,9 @@ export const preloadLibraryCollectionsOptions = (): FetchQueryOptions<
 export const infiniteLoadLibraryEntriesOptions = (
    params: LoadLibraryEntriesParams
 ): UndefinedInitialDataInfiniteOptions<
-   DLibraryEntriesPage,
+   DTemplateDescriptorsPage,
    Error,
-   InfiniteData<DLibraryEntriesPage>,
+   InfiniteData<DTemplateDescriptorsPage>,
    QueryKey,
    number
 > => {
@@ -90,7 +96,7 @@ export const infiniteLoadLibraryEntriesOptions = (
    return {
       queryKey: libraryKeys.entries(params),
       queryFn: async ({ pageParam }) => {
-         const query: DLibraryEntriesPageQuery = pageQuery(
+         const query: DTemplateDescriptorsPageQuery = pageQuery(
             pageParam,
             PAGE_SIZE,
             undefined,
@@ -107,7 +113,7 @@ export const infiniteLoadLibraryEntriesOptions = (
 
 export const useInfiniteLoadLibraryEntries = (
    props: LoadLibraryEntriesParams
-): UseInfiniteQueryResult<InfiniteData<DLibraryEntriesPage>, Error> => {
+): UseInfiniteQueryResult<InfiniteData<DTemplateDescriptorsPage>, Error> => {
    const options = infiniteLoadLibraryEntriesOptions(props);
    return useInfiniteQuery(options);
 };
