@@ -4,7 +4,6 @@ jest.mock("@/data/actions/auth-utils");
 import { dtestData } from "@tests";
 
 import { requireUser } from "@/data/actions/auth-utils";
-import { EMPTY_PAGE } from "@/data/actions/utils";
 import { LibraryService } from "@/data/services/library";
 import { DLibraryCollection } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
@@ -21,7 +20,6 @@ import {
    getEntryCollectionIds,
    getLibraryCategories,
    getLibraryCollections,
-   getLibraryEntriesPage,
    getLibraryEntry,
    getLibraryModels,
    toggleLibraryEntryFavorite,
@@ -32,7 +30,6 @@ import {
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
-const sGetLibraryEntriesPage = LibraryService.prototype.getLibraryEntriesPage;
 const sGetLibraryEntry = LibraryService.prototype.getLibraryEntry;
 const sCreateLibraryEntry = LibraryService.prototype.createLibraryEntry;
 const sUpdateLibraryEntry = LibraryService.prototype.updateLibraryEntry;
@@ -50,8 +47,6 @@ const sDeleteCollection = LibraryService.prototype.deleteCollection;
 const sGetEntryCollectionIds = LibraryService.prototype.getEntryCollectionIds;
 const sUpdateEntryCollections = LibraryService.prototype.updateEntryCollections;
 
-const sGetLibraryEntriesPageMock =
-   sGetLibraryEntriesPage as jest.MockedFunction<typeof sGetLibraryEntriesPage>;
 const sGetLibraryEntryMock = sGetLibraryEntry as jest.MockedFunction<
    typeof sGetLibraryEntry
 >;
@@ -98,47 +93,6 @@ const sUpdateEntryCollectionsMock =
    >;
 const sGetEntryCollectionIdsMock =
    sGetEntryCollectionIds as jest.MockedFunction<typeof sGetEntryCollectionIds>;
-
-describe("getLibraryEntriesPage tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("getLibraryEntriesPage - user undefined - test", async () => {
-      const error = new Error("Unknow user");
-      requireUserMock.mockRejectedValue(error);
-
-      const result = await getLibraryEntriesPage();
-
-      expect(result).toEqual(EMPTY_PAGE);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryEntriesPageMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-      expect(console.error).toHaveBeenCalledWith(error.message);
-   });
-
-   it("getLibraryEntriesPage - entries retrieved - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const page = dtestData.dTemplateDescriptorsPage();
-      sGetLibraryEntriesPageMock.mockResolvedValue(page);
-
-      const query = dtestData.dTemplateDescriptorsPageQuery();
-
-      const result = await getLibraryEntriesPage(query);
-
-      expect(result).toEqual(page);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryEntriesPageMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryEntriesPageMock).toHaveBeenCalledWith(user.id, query);
-   });
-});
 
 describe("getLibraryEntry tests", () => {
    beforeEach(() => {

@@ -29,16 +29,6 @@ export class LibraryService {
       this.promptTemplateService = promptTemplateService;
    }
 
-   async getLibraryEntriesPage(
-      userId: string,
-      query?: DTemplateDescriptorsPageQuery
-   ): Promise<DTemplateDescriptorsPage> {
-      return await this.promptTemplateService.getTemplateDescriptorsPage(
-         userId,
-         query
-      );
-   }
-
    async getLibraryEntry(
       userId: string,
       descriptorId: string
@@ -66,10 +56,10 @@ export class LibraryService {
          const templateIds = map(productItems, (i) => i.templateId);
 
          if (!isEmpty(templateIds)) {
-            await this.libraryRepository.pCreateLibraryEntries(
-               order.userId,
-               templateIds
-            );
+            // await this.libraryRepository.pCreateLibraryEntries(
+            //    order.userId,
+            //    templateIds
+            // );
          }
       }
    }

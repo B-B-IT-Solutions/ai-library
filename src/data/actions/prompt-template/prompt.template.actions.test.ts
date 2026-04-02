@@ -4,6 +4,7 @@ jest.mock("@/data/actions/auth-utils");
 import { dtestData } from "@tests";
 
 import { requireUser } from "@/data/actions/auth-utils";
+import { EMPTY_PAGE } from "@/data/actions/utils";
 import { PromptTemplateService } from "@/data/services/prompt-template";
 
 import {
@@ -11,10 +12,13 @@ import {
    getPromptTemplate,
    getPromptTemplateCategories,
    getPromptTemplates,
+   getTemplateDescriptorsPage,
 } from "./prompt.template.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
+const sGetTemplateDescriptorsPage =
+   PromptTemplateService.prototype.getTemplateDescriptorsPage;
 const sGetTemplateDataForPromptGeneration =
    PromptTemplateService.prototype.getTemplateDataForPromptGeneration;
 const sGetPromptTemplateDescriptors =
@@ -23,6 +27,10 @@ const sGetPromptTemplate = PromptTemplateService.prototype.getPromptTemplate;
 const sGetPromptTemplateCategories =
    PromptTemplateService.prototype.getPromptTemplateCategories;
 
+const sGetTemplateDescriptorsPageMock =
+   sGetTemplateDescriptorsPage as jest.MockedFunction<
+      typeof sGetTemplateDescriptorsPage
+   >;
 const sGetTemplateDataForPromptGenerationMock =
    sGetTemplateDataForPromptGeneration as jest.MockedFunction<
       typeof sGetTemplateDataForPromptGeneration
@@ -38,6 +46,50 @@ const sGetPromptTemplateCategoriesMock =
    sGetPromptTemplateCategories as jest.MockedFunction<
       typeof sGetPromptTemplateCategories
    >;
+
+describe("getTemplateDescriptorsPage tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("getTemplateDescriptorsPage - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await getTemplateDescriptorsPage();
+
+      expect(result).toEqual(EMPTY_PAGE);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetTemplateDescriptorsPageMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("getTemplateDescriptorsPage - descriptors retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const page = dtestData.dTemplateDescriptorsPage();
+      sGetTemplateDescriptorsPageMock.mockResolvedValue(page);
+
+      const query = dtestData.dTemplateDescriptorsPageQuery();
+
+      const result = await getTemplateDescriptorsPage(query);
+
+      expect(result).toEqual(page);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetTemplateDescriptorsPageMock).toHaveBeenCalledTimes(1);
+      expect(sGetTemplateDescriptorsPageMock).toHaveBeenCalledWith(
+         user.id,
+         query
+      );
+   });
+});
 
 describe("getPromptGenerationTemplateData tests", () => {
    beforeEach(() => {

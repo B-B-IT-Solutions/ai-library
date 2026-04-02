@@ -2,7 +2,7 @@
 import { validate as isValidUuid } from "uuid";
 
 import { requireUser } from "@/data/actions/auth-utils";
-import { formatError } from "@/data/actions/utils";
+import { EMPTY_PAGE, formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
@@ -10,11 +10,26 @@ import {
    DPromptTemplate,
    DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
+   DTemplateDescriptorsPage,
+   DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
 
 type DGetPromptTemplatesParams = {
    search?: string;
    categories?: string[];
+};
+
+export const getTemplateDescriptorsPage = async (
+   query?: DTemplateDescriptorsPageQuery
+): Promise<DTemplateDescriptorsPage> => {
+   try {
+      const user = await requireUser();
+      const service = getService();
+      return await service.getTemplateDescriptorsPage(user.id, query);
+   } catch (error) {
+      console.error(formatError(error));
+      return EMPTY_PAGE;
+   }
 };
 
 export const getPromptGenerationTemplateData = async (

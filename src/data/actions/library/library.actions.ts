@@ -16,23 +16,8 @@ import {
    DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateFieldValues,
    DPromptTemplateUpdate,
-   DTemplateDescriptorsPage,
-   DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
-
-export const getLibraryEntriesPage = async (
-   query?: DTemplateDescriptorsPageQuery
-): Promise<DTemplateDescriptorsPage> => {
-   try {
-      const user = await requireUser();
-      const service = getSevice();
-      return await service.getLibraryEntriesPage(user.id, query);
-   } catch (error) {
-      console.error(formatError(error));
-      return EMPTY_PAGE;
-   }
-};
 
 export const getLibraryEntry = async (
    descriptorId: string
