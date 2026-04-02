@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`CreatePromptDialog rendering tests CreatePromptDialog render test 1`] = `
+exports[`CreatePromptDialog rendering tests rendered test 1`] = `
 <div>
   <div
     data-slot="dialog"

@@ -28,6 +28,22 @@ export const CreatePromptDialog = ({ onCancel, promptUpdate }: Props) => {
       router.push("/prompts");
    };
 
+   const expandBtn = () => {
+      return (
+         <button
+            onClick={() => setIsExpanded((v) => !v)}
+            className="absolute top-4 right-12 cursor-pointer rounded-sm bg-background px-2 py-2 hover:bg-accent"
+            data-testid="expand-btn"
+         >
+            {isExpanded ? (
+               <Minimize2 className="h-4 w-4" />
+            ) : (
+               <Maximize2 className="h-4 w-4" />
+            )}
+         </button>
+      );
+   };
+
    return (
       <Dialog
          open={true}
@@ -42,17 +58,7 @@ export const CreatePromptDialog = ({ onCancel, promptUpdate }: Props) => {
                   : "max-h-[90vh] sm:max-w-5xl"
             }`}
          >
-            <button
-               onClick={() => setIsExpanded((v) => !v)}
-               className="absolute top-4 right-12 cursor-pointer rounded-sm bg-background px-2 py-2 hover:bg-accent"
-               data-testid="expand-btn"
-            >
-               {isExpanded ? (
-                  <Minimize2 className="h-4 w-4" />
-               ) : (
-                  <Maximize2 className="h-4 w-4" />
-               )}
-            </button>
+            {expandBtn()}
             <DialogClose asChild={true}>
                <button
                   className="absolute top-4 right-4 cursor-pointer rounded-sm bg-background px-2 py-2 hover:bg-accent"
