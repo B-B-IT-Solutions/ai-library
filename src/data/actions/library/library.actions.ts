@@ -14,6 +14,7 @@ import {
 } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
+   DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateFieldValues,
    DPromptTemplateUpdate,
    DTemplateDescriptorsPage,
@@ -35,12 +36,12 @@ export const getLibraryEntriesPage = async (
 };
 
 export const getLibraryEntry = async (
-   entryId: string
-): Promise<DLibraryEntryWithPromptTemplate | null> => {
+   descriptorId: string
+): Promise<DPromptTemplateDescriptorWithTemplate | null> => {
    try {
       const user = await requireUser();
       const service = getSevice();
-      return await service.getLibraryEntry(entryId, user.id);
+      return await service.getLibraryEntry(user.id, descriptorId);
    } catch (error) {
       console.error(formatError(error));
       return null;

@@ -61,23 +61,25 @@ describe("getLibraryEntry tests", () => {
       jest.clearAllMocks();
    });
 
-   it("getLibraryEntry - entry retrieved - test", async () => {
+   it("getLibraryEntry - descriptor retrieved - test", async () => {
       const userId = "user-id-1";
-      const entry = dtestData.dLibraryEntryWithPromptTemplate();
-      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(entry);
-
-      const result = await libraryService.getLibraryEntry(entry.id, userId);
-
-      const expectedGetEntryPayload: GetLibraryEntryParams = {
-         entryId: entry.id,
-         userId,
-      };
-
-      expect(result).toEqual(entry);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
-         expectedGetEntryPayload
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         descriptor
       );
+
+      const result = await libraryService.getLibraryEntry(
+         userId,
+         descriptor.id
+      );
+
+      expect(result).toEqual(descriptor);
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptor.id);
    });
 });
 
@@ -160,57 +162,55 @@ describe("updateLibraryEntry tests", () => {
       jest.clearAllMocks();
    });
 
-   it("updateLibraryEntry - entry not found - test", async () => {
+   it("updateLibraryEntry - descriptor not found - test", async () => {
       const userId = "user-id-1";
-      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const update = dtestData.dPromptTemplateUpdate();
 
-      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(null);
+      promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         null
+      );
 
       const fn = async () =>
-         await libraryService.updateLibraryEntry(userId, entryId, update);
-
-      const expectedPayload: GetLibraryEntryParams = {
-         entryId,
-         userId,
-      };
+         await libraryService.updateLibraryEntry(userId, descriptorId, update);
 
       await expect(fn).rejects.toThrow("Library entry not found");
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
-         expectedPayload
-      );
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptorId);
       expect(
          promptTemplateServiceMock.updatePromptTemplateDescriptor
       ).not.toHaveBeenCalled();
    });
 
-   it("updateLibraryEntry - entry updated - test", async () => {
+   it("updateLibraryEntry - descriptor updated - test", async () => {
       const userId = "user-id-1";
-      const entry = dtestData.dLibraryEntryWithPromptTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
       const update = dtestData.dPromptTemplateUpdate();
 
-      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(entry);
+      promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         descriptor
+      );
       promptTemplateServiceMock.updatePromptTemplateDescriptor.mockResolvedValue();
 
-      await libraryService.updateLibraryEntry(userId, entry.id, update);
+      await libraryService.updateLibraryEntry(userId, descriptor.id, update);
 
-      const expectedGetEntryPayload: GetLibraryEntryParams = {
-         entryId: entry.id,
-         userId,
-      };
-
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
-         expectedGetEntryPayload
-      );
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptor.id);
       expect(
          promptTemplateServiceMock.updatePromptTemplateDescriptor
       ).toHaveBeenCalledTimes(1);
       expect(
          promptTemplateServiceMock.updatePromptTemplateDescriptor
-      ).toHaveBeenCalledWith(userId, entry.templateDescriptorId, update);
+      ).toHaveBeenCalledWith(userId, descriptor.id, update);
    });
 });
 
@@ -219,59 +219,57 @@ describe("deleteLibraryEntry tests", () => {
       jest.clearAllMocks();
    });
 
-   it("deleteLibraryEntry - entry not found - test", async () => {
+   it("deleteLibraryEntry - descriptor not found - test", async () => {
       const userId = "user-id-1";
-      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
 
-      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(null);
+      promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         null
+      );
 
       const fn = async () =>
-         await libraryService.deleteLibraryEntry(userId, entryId);
-
-      const expectedGetEntryPayload: GetLibraryEntryParams = {
-         entryId,
-         userId,
-      };
+         await libraryService.deleteLibraryEntry(userId, descriptorId);
 
       await expect(fn).rejects.toThrow("Library entry not found");
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
-         expectedGetEntryPayload
-      );
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptorId);
       expect(libraryRepoMock.pDeleteLibraryEntry).not.toHaveBeenCalled();
       expect(
          promptTemplateServiceMock.deletePromptTemplateDescriptor
       ).not.toHaveBeenCalled();
    });
 
-   it("deleteLibraryEntry - entry and template deleted - test", async () => {
+   it("deleteLibraryEntry - descriptor deleted - test", async () => {
       const userId = "user-id-1";
-      const entry = dtestData.dLibraryEntryWithPromptTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
-      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(entry);
-
-      await libraryService.deleteLibraryEntry(userId, entry.id);
-
-      const expectedGetEntryPayload: GetLibraryEntryParams = {
-         entryId: entry.id,
-         userId,
-      };
-
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
-         expectedGetEntryPayload
+      promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         descriptor
       );
+
+      await libraryService.deleteLibraryEntry(userId, descriptor.id);
+
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptor.id);
       expect(libraryRepoMock.pDeleteLibraryEntry).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pDeleteLibraryEntry).toHaveBeenCalledWith(
          userId,
-         entry.id
+         descriptor.id
       );
       expect(
          promptTemplateServiceMock.deletePromptTemplateDescriptor
       ).toHaveBeenCalledTimes(1);
       expect(
          promptTemplateServiceMock.deletePromptTemplateDescriptor
-      ).toHaveBeenCalledWith(userId, entry.templateDescriptorId);
+      ).toHaveBeenCalledWith(userId, descriptor.id);
    });
 });
 

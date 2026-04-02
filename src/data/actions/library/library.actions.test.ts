@@ -153,9 +153,9 @@ describe("getLibraryEntry tests", () => {
    it("getLibraryEntry - user undefined - test", async () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
-      const entryId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
+      const descriptorId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
 
-      const result = await getLibraryEntry(entryId);
+      const result = await getLibraryEntry(descriptorId);
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
@@ -169,14 +169,14 @@ describe("getLibraryEntry tests", () => {
       const errorMessage = "db error";
       const error = new Error(errorMessage);
       sGetLibraryEntryMock.mockRejectedValue(error);
-      const entryId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
+      const descriptorId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
 
-      const result = await getLibraryEntry(entryId);
+      const result = await getLibraryEntry(descriptorId);
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryEntryMock).toHaveBeenCalledWith(entryId, user.id);
+      expect(sGetLibraryEntryMock).toHaveBeenCalledWith(user.id, descriptorId);
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(errorMessage);
    });
@@ -186,14 +186,14 @@ describe("getLibraryEntry tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       sGetLibraryEntryMock.mockResolvedValue(null);
-      const entryId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
+      const descriptorId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
 
-      const result = await getLibraryEntry(entryId);
+      const result = await getLibraryEntry(descriptorId);
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryEntryMock).toHaveBeenCalledWith(entryId, user.id);
+      expect(sGetLibraryEntryMock).toHaveBeenCalledWith(user.id, descriptorId);
    });
 
    it("getLibraryEntry - entry retrieved - test", async () => {
@@ -202,14 +202,14 @@ describe("getLibraryEntry tests", () => {
 
       const entry = dtestData.dLibraryEntryWithPromptTemplate();
       sGetLibraryEntryMock.mockResolvedValue(entry);
-      const entryId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
+      const descriptorId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
 
-      const result = await getLibraryEntry(entryId);
+      const result = await getLibraryEntry(descriptorId);
 
       expect(result).toEqual(entry);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryEntryMock).toHaveBeenCalledWith(entryId, user.id);
+      expect(sGetLibraryEntryMock).toHaveBeenCalledWith(user.id, descriptorId);
    });
 });
 

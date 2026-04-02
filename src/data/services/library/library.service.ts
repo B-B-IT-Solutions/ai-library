@@ -9,10 +9,10 @@ import { OrderProducts } from "@/data/types/db/order";
 import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
-   DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
+   DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateFieldValues,
    DPromptTemplateUpdate,
    DTemplateDescriptorsPage,
@@ -42,14 +42,13 @@ export class LibraryService {
    }
 
    async getLibraryEntry(
-      entryId: string,
-      userId: string
-   ): Promise<DLibraryEntryWithPromptTemplate | null> {
-      const params: GetLibraryEntryParams = {
-         entryId,
+      userId: string,
+      descriptorId: string
+   ): Promise<DPromptTemplateDescriptorWithTemplate | null> {
+      return await this.promptTemplateService.getPromptTemplateDescriptorWithTemplate(
          userId,
-      };
-      return await this.libraryRepository.pGetLibraryEntry(params);
+         descriptorId
+      );
    }
 
    async createLibraryEntry(data: DPromptTemplateUpdate, userId: string) {
@@ -79,29 +78,29 @@ export class LibraryService {
 
    async updateLibraryEntry(
       userId: string,
-      entryId: string,
+      descriptorId: string,
       data: DPromptTemplateUpdate
    ) {
-      const entry = await this.getLibraryEntry(entryId, userId);
-      if (!entry) {
+      const descriptor = await this.getLibraryEntry(userId, descriptorId);
+      if (!descriptor) {
          throw new Error("Library entry not found");
       }
       await this.promptTemplateService.updatePromptTemplateDescriptor(
          userId,
-         entry.templateDescriptorId,
+         descriptor.id,
          data
       );
    }
 
-   async deleteLibraryEntry(userId: string, entryId: string) {
-      const entry = await this.getLibraryEntry(entryId, userId);
-      if (!entry) {
+   async deleteLibraryEntry(userId: string, descriptorId: string) {
+      const descriptor = await this.getLibraryEntry(userId, descriptorId);
+      if (!descriptor) {
          throw new Error("Library entry not found");
       }
-      await this.libraryRepository.pDeleteLibraryEntry(userId, entryId);
+      await this.libraryRepository.pDeleteLibraryEntry(userId, descriptorId);
       await this.promptTemplateService.deletePromptTemplateDescriptor(
          userId,
-         entry.templateDescriptorId
+         descriptor.id
       );
    }
 

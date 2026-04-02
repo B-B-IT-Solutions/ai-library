@@ -17,8 +17,8 @@ export type PageProps = {
 };
 
 export const LibraryEntryPage = async ({ params }: PageProps) => {
-   const { id: entryId } = await params;
-   const entry = await getLibraryEntry(entryId);
+   const { id: descriptorId } = await params;
+   const entry = await getLibraryEntry(descriptorId);
 
    if (!entry) {
       return notFound();
