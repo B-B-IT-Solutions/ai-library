@@ -14,8 +14,6 @@ import {
    LibraryEntryCreateInput,
    LibraryEntryCreateManyArgs,
    LibraryEntryCreateManyInput,
-   LibraryEntryDeleteArgs,
-   LibraryEntryDeleteManyArgs,
    LibraryEntryFindManyArgs,
    LibraryEntryWhereInput,
 } from "@/generated/prisma/models";
@@ -718,46 +716,6 @@ describe("pCreateLibraryEntries tests", () => {
       expect(prismaMock.libraryEntry.createMany).toHaveBeenCalledTimes(1);
       expect(prismaMock.libraryEntry.createMany).toHaveBeenCalledWith(
          expectedCreateManyArgs
-      );
-   });
-});
-
-describe("pDeleteLibraryEntry tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   test("pDeleteLibraryEntry - entry deleted - test", async () => {
-      const userId = "user-id-1";
-      const entryId = "entry-id-1";
-
-      await libraryRepository.pDeleteLibraryEntry(userId, entryId);
-
-      const expectedArgs: LibraryEntryDeleteArgs = {
-         where: { id: entryId, userId },
-      };
-
-      expect(prismaMock.libraryEntry.delete).toHaveBeenCalledTimes(1);
-      expect(prismaMock.libraryEntry.delete).toHaveBeenCalledWith(expectedArgs);
-   });
-});
-
-describe("pDeleteLibraryEntries tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("pDeleteLibraryEntries test", async () => {
-      const userId = "user-id-1";
-      await libraryRepository.pDeleteLibraryEntries(userId);
-
-      const expectedDeleteManyArgs: LibraryEntryDeleteManyArgs = {
-         where: { userId },
-      };
-
-      expect(prismaMock.libraryEntry.deleteMany).toHaveBeenCalledTimes(1);
-      expect(prismaMock.libraryEntry.deleteMany).toHaveBeenCalledWith(
-         expectedDeleteManyArgs
       );
    });
 });

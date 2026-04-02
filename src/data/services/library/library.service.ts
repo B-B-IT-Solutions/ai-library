@@ -101,10 +101,6 @@ export class LibraryService {
       );
    }
 
-   async deleteLibraryEntries(userId: string) {
-      await this.libraryRepository.pDeleteLibraryEntries(userId);
-   }
-
    async composePromptFromTemplate(
       descriptorId: string,
       fieldValues: DPromptTemplateFieldValues,
