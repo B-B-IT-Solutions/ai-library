@@ -101,6 +101,128 @@ describe("getTemplateDescriptor tests", () => {
    });
 });
 
+describe("updateTemplateDescriptor tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("updateTemplateDescriptor - descriptor not found - test", async () => {
+      const userId = "user-id-1";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
+      const update = dtestData.dPromptTemplateUpdate();
+
+      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         null
+      );
+
+      const fn = async () =>
+         await promptTemplateService.updateTemplateDescriptor(
+            userId,
+            descriptorId,
+            update
+         );
+
+      await expect(fn).rejects.toThrow("TemplateDescriptor not found");
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptorId);
+      expect(
+         promptTemplateRepoMock.pUpdatePromptTemplateDescriptor
+      ).not.toHaveBeenCalled();
+   });
+
+   it("updateTemplateDescriptor - descriptor updated - test", async () => {
+      const userId = "user-id-1";
+      const update = dtestData.dPromptTemplateUpdate();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+
+      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         descriptor
+      );
+
+      await promptTemplateService.updateTemplateDescriptor(
+         userId,
+         descriptor.id,
+         update
+      );
+
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptor.id);
+      expect(
+         promptTemplateRepoMock.pUpdatePromptTemplateDescriptor
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pUpdatePromptTemplateDescriptor
+      ).toHaveBeenCalledWith(userId, descriptor.id, update);
+   });
+});
+
+describe("deleteTemplateDescriptor tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("deleteTemplateDescriptor - descriptor not found - test", async () => {
+      const userId = "user-id-1";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
+
+      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         null
+      );
+
+      const fn = async () =>
+         await promptTemplateService.deleteTemplateDescriptor(
+            userId,
+            descriptorId
+         );
+
+      await expect(fn).rejects.toThrow("TemplateDescriptor not found");
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptorId);
+      expect(
+         promptTemplateRepoMock.pUpdatePromptTemplateDescriptor
+      ).not.toHaveBeenCalled();
+   });
+
+   it("deleteTemplateDescriptor - descriptor deleted - test", async () => {
+      const userId = "user-id-1";
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+
+      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         descriptor
+      );
+
+      await promptTemplateService.deleteTemplateDescriptor(
+         userId,
+         descriptor.id
+      );
+
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptor.id);
+      expect(
+         promptTemplateRepoMock.pDeletePromptTemplateDescriptor
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pDeletePromptTemplateDescriptor
+      ).toHaveBeenCalledWith(userId, descriptor.id);
+   });
+});
+
 describe("getTemplateDataForPromptGeneration tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -314,128 +436,6 @@ describe("createPromptTemplateDescriptor tests", () => {
       expect(
          promptTemplateRepoMock.pCreatePromptTemplateDescriptor
       ).toHaveBeenCalledWith(userId, newData);
-   });
-});
-
-describe("updatePromptTemplateDescriptor tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("updatePromptTemplateDescriptor - descriptor not found - test", async () => {
-      const userId = "user-id-1";
-      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-      const update = dtestData.dPromptTemplateUpdate();
-
-      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
-         null
-      );
-
-      const fn = async () =>
-         await promptTemplateService.updatePromptTemplateDescriptor(
-            userId,
-            descriptorId,
-            update
-         );
-
-      await expect(fn).rejects.toThrow("TemplateDescriptor not found");
-      expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
-      ).toHaveBeenCalledWith(userId, descriptorId);
-      expect(
-         promptTemplateRepoMock.pUpdatePromptTemplateDescriptor
-      ).not.toHaveBeenCalled();
-   });
-
-   it("updatePromptTemplateDescriptor - descriptor updated - test", async () => {
-      const userId = "user-id-1";
-      const update = dtestData.dPromptTemplateUpdate();
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
-
-      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
-         descriptor
-      );
-
-      await promptTemplateService.updatePromptTemplateDescriptor(
-         userId,
-         descriptor.id,
-         update
-      );
-
-      expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
-      ).toHaveBeenCalledWith(userId, descriptor.id);
-      expect(
-         promptTemplateRepoMock.pUpdatePromptTemplateDescriptor
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateRepoMock.pUpdatePromptTemplateDescriptor
-      ).toHaveBeenCalledWith(userId, descriptor.id, update);
-   });
-});
-
-describe("deletePromptTemplateDescriptor tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("deletePromptTemplateDescriptor - descriptor not found - test", async () => {
-      const userId = "user-id-1";
-      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-
-      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
-         null
-      );
-
-      const fn = async () =>
-         await promptTemplateService.deletePromptTemplateDescriptor(
-            userId,
-            descriptorId
-         );
-
-      await expect(fn).rejects.toThrow("TemplateDescriptor not found");
-      expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
-      ).toHaveBeenCalledWith(userId, descriptorId);
-      expect(
-         promptTemplateRepoMock.pUpdatePromptTemplateDescriptor
-      ).not.toHaveBeenCalled();
-   });
-
-   it("deletePromptTemplateDescriptor - descriptor deleted - test", async () => {
-      const userId = "user-id-1";
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
-
-      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
-         descriptor
-      );
-
-      await promptTemplateService.deletePromptTemplateDescriptor(
-         userId,
-         descriptor.id
-      );
-
-      expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
-      ).toHaveBeenCalledWith(userId, descriptor.id);
-      expect(
-         promptTemplateRepoMock.pDeletePromptTemplateDescriptor
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateRepoMock.pDeletePromptTemplateDescriptor
-      ).toHaveBeenCalledWith(userId, descriptor.id);
    });
 });
 

@@ -15,7 +15,6 @@ import {
    createLibraryCollection,
    createLibraryEntry,
    deleteLibraryCollection,
-   deleteLibraryEntry,
    downloadTemplate,
    getEntryCollectionIds,
    getLibraryCategories,
@@ -29,7 +28,6 @@ import {
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
 const sCreateLibraryEntry = LibraryService.prototype.createLibraryEntry;
-const sDeleteLibraryEntry = LibraryService.prototype.deleteLibraryEntry;
 const sComposePromptFromTemplate =
    LibraryService.prototype.composePromptFromTemplate;
 const sDownloadTemplate = LibraryService.prototype.downloadPromptTemplate;
@@ -47,9 +45,6 @@ const sCreateLibraryEntryMock = sCreateLibraryEntry as jest.MockedFunction<
    typeof sCreateLibraryEntry
 >;
 
-const sDeleteLibraryEntryMock = sDeleteLibraryEntry as jest.MockedFunction<
-   typeof sDeleteLibraryEntry
->;
 const sComposePromptFromTemplateMock =
    sComposePromptFromTemplate as jest.MockedFunction<
       typeof sComposePromptFromTemplate
@@ -153,100 +148,6 @@ describe("createLibraryEntry tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sCreateLibraryEntryMock).toHaveBeenCalledTimes(1);
       expect(sCreateLibraryEntryMock).toHaveBeenCalledWith(updateData, user.id);
-   });
-});
-
-describe("deleteLibraryEntry tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("deleteLibraryEntry - invalid UUID - test", async () => {
-      const invalidId = "invalid-uuid-1";
-
-      const result = await deleteLibraryEntry(invalidId);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Vorlage konnte nicht gelöscht werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sDeleteLibraryEntryMock).not.toHaveBeenCalled();
-   });
-
-   it("deleteLibraryEntry - user undefined - test", async () => {
-      const error = new Error("Unknow user");
-      requireUserMock.mockRejectedValue(error);
-
-      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-
-      const result = await deleteLibraryEntry(descriptorId);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Vorlage konnte nicht gelöscht werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteLibraryEntryMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("deleteLibraryEntry - error - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const error = new Error("db error");
-      sDeleteLibraryEntryMock.mockRejectedValue(error);
-
-      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-
-      const result = await deleteLibraryEntry(descriptorId);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Vorlage konnte nicht gelöscht werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteLibraryEntryMock).toHaveBeenCalledWith(
-         user.id,
-         descriptorId
-      );
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("deleteLibraryEntry - entry deleted - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      sDeleteLibraryEntryMock.mockResolvedValue();
-
-      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-
-      const result = await deleteLibraryEntry(descriptorId);
-
-      const expectedResult: ActionResult = {
-         success: true,
-         message: "Vorlage erfolgreich gelöscht",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteLibraryEntryMock).toHaveBeenCalledWith(
-         user.id,
-         descriptorId
-      );
    });
 });
 

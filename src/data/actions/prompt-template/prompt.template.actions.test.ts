@@ -9,6 +9,7 @@ import { PromptTemplateService } from "@/data/services/prompt-template";
 import { ActionResult } from "@/data/types/utils";
 
 import {
+   deleteTemplateDescriptor,
    getPromptGenerationTemplateData,
    getPromptTemplate,
    getPromptTemplateCategories,
@@ -24,8 +25,10 @@ const sGetTemplateDescriptorsPage =
    PromptTemplateService.prototype.getTemplateDescriptorsPage;
 const sGetTemplateDescriptor =
    PromptTemplateService.prototype.getTemplateDescriptor;
-const sUpdatePromptTemplateDescriptor =
-   PromptTemplateService.prototype.updatePromptTemplateDescriptor;
+const sUpdateTemplateDescriptor =
+   PromptTemplateService.prototype.updateTemplateDescriptor;
+const sDeleteTemplateDescriptor =
+   PromptTemplateService.prototype.deleteTemplateDescriptor;
 const sGetTemplateDataForPromptGeneration =
    PromptTemplateService.prototype.getTemplateDataForPromptGeneration;
 const sGetPromptTemplateDescriptors =
@@ -40,9 +43,13 @@ const sGetTemplateDescriptorsPageMock =
    >;
 const sGetTemplateDescriptorMock =
    sGetTemplateDescriptor as jest.MockedFunction<typeof sGetTemplateDescriptor>;
-const sUpdatePromptTemplateDescriptorMock =
-   sUpdatePromptTemplateDescriptor as jest.MockedFunction<
-      typeof sUpdatePromptTemplateDescriptor
+const sUpdateTemplateDescriptorMock =
+   sUpdateTemplateDescriptor as jest.MockedFunction<
+      typeof sUpdateTemplateDescriptor
+   >;
+const sDeleteTemplateDescriptorMock =
+   sDeleteTemplateDescriptor as jest.MockedFunction<
+      typeof sDeleteTemplateDescriptor
    >;
 const sGetTemplateDataForPromptGenerationMock =
    sGetTemplateDataForPromptGeneration as jest.MockedFunction<
@@ -209,7 +216,7 @@ describe("updateTemplateDescriptor tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sUpdatePromptTemplateDescriptorMock).not.toHaveBeenCalled();
+      expect(sUpdateTemplateDescriptorMock).not.toHaveBeenCalled();
    });
 
    it("updateTemplateDescriptor - user undefined - test", async () => {
@@ -228,7 +235,7 @@ describe("updateTemplateDescriptor tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sUpdatePromptTemplateDescriptorMock).not.toHaveBeenCalled();
+      expect(sUpdateTemplateDescriptorMock).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
@@ -237,7 +244,7 @@ describe("updateTemplateDescriptor tests", () => {
       requireUserMock.mockResolvedValue(user);
 
       const error = new Error("db error");
-      sUpdatePromptTemplateDescriptorMock.mockRejectedValue(error);
+      sUpdateTemplateDescriptorMock.mockRejectedValue(error);
 
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const updateData = dtestData.dPromptTemplateUpdate();
@@ -251,8 +258,8 @@ describe("updateTemplateDescriptor tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sUpdatePromptTemplateDescriptorMock).toHaveBeenCalledTimes(1);
-      expect(sUpdatePromptTemplateDescriptorMock).toHaveBeenCalledWith(
+      expect(sUpdateTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateTemplateDescriptorMock).toHaveBeenCalledWith(
          user.id,
          descriptorId,
          updateData
@@ -263,7 +270,7 @@ describe("updateTemplateDescriptor tests", () => {
    it("updateTemplateDescriptor - descriptor updated - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
-      sUpdatePromptTemplateDescriptorMock.mockResolvedValue();
+      sUpdateTemplateDescriptorMock.mockResolvedValue();
 
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const updateData = dtestData.dPromptTemplateUpdate();
@@ -277,11 +284,105 @@ describe("updateTemplateDescriptor tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sUpdatePromptTemplateDescriptorMock).toHaveBeenCalledTimes(1);
-      expect(sUpdatePromptTemplateDescriptorMock).toHaveBeenCalledWith(
+      expect(sUpdateTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateTemplateDescriptorMock).toHaveBeenCalledWith(
          user.id,
          descriptorId,
          updateData
+      );
+   });
+});
+
+describe("deleteTemplateDescriptor tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("deleteTemplateDescriptor - invalid UUID - test", async () => {
+      const invalidId = "invalid-uuid-1";
+
+      const result = await deleteTemplateDescriptor(invalidId);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Vorlage konnte nicht gelöscht werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sDeleteTemplateDescriptorMock).not.toHaveBeenCalled();
+   });
+
+   it("deleteTemplateDescriptor - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
+
+      const result = await deleteTemplateDescriptor(descriptorId);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Vorlage konnte nicht gelöscht werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sDeleteTemplateDescriptorMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("deleteTemplateDescriptor - error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const error = new Error("db error");
+      sDeleteTemplateDescriptorMock.mockRejectedValue(error);
+
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
+
+      const result = await deleteTemplateDescriptor(descriptorId);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Vorlage konnte nicht gelöscht werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sDeleteTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+      expect(sDeleteTemplateDescriptorMock).toHaveBeenCalledWith(
+         user.id,
+         descriptorId
+      );
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("deleteTemplateDescriptor - entry deleted - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sDeleteTemplateDescriptorMock.mockResolvedValue();
+
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
+
+      const result = await deleteTemplateDescriptor(descriptorId);
+
+      const expectedResult: ActionResult = {
+         success: true,
+         message: "Vorlage erfolgreich gelöscht",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sDeleteTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+      expect(sDeleteTemplateDescriptorMock).toHaveBeenCalledWith(
+         user.id,
+         descriptorId
       );
    });
 });

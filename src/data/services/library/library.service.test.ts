@@ -81,57 +81,6 @@ describe("createLibraryEntries tests", () => {
    });
 });
 
-describe("deleteLibraryEntry tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("deleteLibraryEntry - descriptor not found - test", async () => {
-      const userId = "user-id-1";
-      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-
-      promptTemplateServiceMock.getTemplateDescriptor.mockResolvedValue(null);
-
-      const fn = async () =>
-         await libraryService.deleteLibraryEntry(userId, descriptorId);
-
-      await expect(fn).rejects.toThrow("Library entry not found");
-      expect(
-         promptTemplateServiceMock.getTemplateDescriptor
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateServiceMock.getTemplateDescriptor
-      ).toHaveBeenCalledWith(userId, descriptorId);
-      expect(
-         promptTemplateServiceMock.deletePromptTemplateDescriptor
-      ).not.toHaveBeenCalled();
-   });
-
-   it("deleteLibraryEntry - descriptor deleted - test", async () => {
-      const userId = "user-id-1";
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
-
-      promptTemplateServiceMock.getTemplateDescriptor.mockResolvedValue(
-         descriptor
-      );
-
-      await libraryService.deleteLibraryEntry(userId, descriptor.id);
-
-      expect(
-         promptTemplateServiceMock.getTemplateDescriptor
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateServiceMock.getTemplateDescriptor
-      ).toHaveBeenCalledWith(userId, descriptor.id);
-      expect(
-         promptTemplateServiceMock.deletePromptTemplateDescriptor
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateServiceMock.deletePromptTemplateDescriptor
-      ).toHaveBeenCalledWith(userId, descriptor.id);
-   });
-});
-
 describe("composePromptFromTemplate tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();

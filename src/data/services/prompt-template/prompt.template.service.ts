@@ -51,6 +51,35 @@ export class PromptTemplateService {
       );
    }
 
+   async updateTemplateDescriptor(
+      userId: string,
+      descriptorId: string,
+      data: DPromptTemplateUpdate
+   ) {
+      const descriptor = await this.getTemplateDescriptor(userId, descriptorId);
+      if (!descriptor) {
+         throw new Error("TemplateDescriptor not found");
+      }
+
+      await this.repository.pUpdatePromptTemplateDescriptor(
+         userId,
+         descriptorId,
+         data
+      );
+   }
+
+   async deleteTemplateDescriptor(userId: string, descriptorId: string) {
+      const descriptor = await this.getTemplateDescriptor(userId, descriptorId);
+      if (!descriptor) {
+         throw new Error("TemplateDescriptor not found");
+      }
+
+      await this.repository.pDeletePromptTemplateDescriptor(
+         userId,
+         descriptorId
+      );
+   }
+
    async getTemplateDataForPromptGeneration(
       userId: string,
       teamplateId: string
@@ -104,35 +133,6 @@ export class PromptTemplateService {
       return await this.repository.pCreatePromptTemplateDescriptor(
          userId,
          data
-      );
-   }
-
-   async updatePromptTemplateDescriptor(
-      userId: string,
-      descriptorId: string,
-      data: DPromptTemplateUpdate
-   ) {
-      const descriptor = await this.getTemplateDescriptor(userId, descriptorId);
-      if (!descriptor) {
-         throw new Error("TemplateDescriptor not found");
-      }
-
-      await this.repository.pUpdatePromptTemplateDescriptor(
-         userId,
-         descriptorId,
-         data
-      );
-   }
-
-   async deletePromptTemplateDescriptor(userId: string, descriptorId: string) {
-      const descriptor = await this.getTemplateDescriptor(userId, descriptorId);
-      if (!descriptor) {
-         throw new Error("TemplateDescriptor not found");
-      }
-
-      await this.repository.pDeletePromptTemplateDescriptor(
-         userId,
-         descriptorId
       );
    }
 

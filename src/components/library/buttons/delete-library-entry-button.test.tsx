@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/library");
+jest.mock("@/data/actions/prompt-template");
 jest.mock("sonner");
 
 import { screen, waitFor } from "@testing-library/dom";
@@ -8,15 +8,16 @@ import { assertInDocument, dtestData } from "@tests";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
-import { deleteLibraryEntry } from "@/data/actions/library";
+import { deleteTemplateDescriptor } from "@/data/actions/prompt-template";
 
 import { DeleteLibraryEntryButton } from "./delete-library-entry-button";
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
-const deleteLibraryEntryMock = deleteLibraryEntry as jest.MockedFunction<
-   typeof deleteLibraryEntry
->;
+const deleteTemplateDescriptorMock =
+   deleteTemplateDescriptor as jest.MockedFunction<
+      typeof deleteTemplateDescriptor
+   >;
 
 const assertRendered = () => {
    const deleteBtn = screen.getByTestId("delete-entry-menu-item");
@@ -49,29 +50,31 @@ describe("DeleteLibraryEntryButton functionality tests", () => {
          success: true,
          message: "Prompt deleted",
       };
-      deleteLibraryEntryMock.mockResolvedValue(actionResult);
+      deleteTemplateDescriptorMock.mockResolvedValue(actionResult);
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       render(<DeleteLibraryEntryButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRendered();
-         expect(deleteLibraryEntryMock).not.toHaveBeenCalled();
+         expect(deleteTemplateDescriptorMock).not.toHaveBeenCalled();
       });
 
       const deleteBtn = screen.getByTestId("delete-entry-menu-item");
       await userEvent.click(deleteBtn);
 
       await waitFor(() => {
-         expect(deleteLibraryEntryMock).not.toHaveBeenCalled();
+         expect(deleteTemplateDescriptorMock).not.toHaveBeenCalled();
       });
 
       const confirmBtn = screen.getByTestId("confirm-btn");
       await userEvent.click(confirmBtn);
 
       await waitFor(() => {
-         expect(deleteLibraryEntryMock).toHaveBeenCalledTimes(1);
-         expect(deleteLibraryEntryMock).toHaveBeenCalledWith(descriptor.id);
+         expect(deleteTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+         expect(deleteTemplateDescriptorMock).toHaveBeenCalledWith(
+            descriptor.id
+         );
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(actionResult.message);
          expect(mockRouter.pathname).toEqual("/library");
@@ -83,29 +86,31 @@ describe("DeleteLibraryEntryButton functionality tests", () => {
          success: false,
          message: "Prompt couldn't be deleted",
       };
-      deleteLibraryEntryMock.mockResolvedValue(actionResult);
+      deleteTemplateDescriptorMock.mockResolvedValue(actionResult);
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       render(<DeleteLibraryEntryButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRendered();
-         expect(deleteLibraryEntryMock).not.toHaveBeenCalled();
+         expect(deleteTemplateDescriptorMock).not.toHaveBeenCalled();
       });
 
       const deleteBtn = screen.getByTestId("delete-entry-menu-item");
       await userEvent.click(deleteBtn);
 
       await waitFor(() => {
-         expect(deleteLibraryEntryMock).not.toHaveBeenCalled();
+         expect(deleteTemplateDescriptorMock).not.toHaveBeenCalled();
       });
 
       const confirmBtn = screen.getByTestId("confirm-btn");
       await userEvent.click(confirmBtn);
 
       await waitFor(() => {
-         expect(deleteLibraryEntryMock).toHaveBeenCalledTimes(1);
-         expect(deleteLibraryEntryMock).toHaveBeenCalledWith(descriptor.id);
+         expect(deleteTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+         expect(deleteTemplateDescriptorMock).toHaveBeenCalledWith(
+            descriptor.id
+         );
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(actionResult.message);
          expect(mockRouter.pathname).toEqual("/library/test-id");
@@ -118,21 +123,21 @@ describe("DeleteLibraryEntryButton functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         expect(deleteLibraryEntryMock).not.toHaveBeenCalled();
+         expect(deleteTemplateDescriptorMock).not.toHaveBeenCalled();
       });
 
       const deleteBtn = screen.getByTestId("delete-entry-menu-item");
       await userEvent.click(deleteBtn);
 
       await waitFor(() => {
-         expect(deleteLibraryEntryMock).not.toHaveBeenCalled();
+         expect(deleteTemplateDescriptorMock).not.toHaveBeenCalled();
       });
 
       const cancelBtn = screen.getByTestId("cancel-btn");
       await userEvent.click(cancelBtn);
 
       await waitFor(() => {
-         expect(deleteLibraryEntryMock).not.toHaveBeenCalled();
+         expect(deleteTemplateDescriptorMock).not.toHaveBeenCalled();
          expect(mockRouter.pathname).toEqual("/library/test-id");
       });
    });

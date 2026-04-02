@@ -38,31 +38,6 @@ export const createLibraryEntry = async (
    }
 };
 
-export const deleteLibraryEntry = async (
-   descriptorId: string
-): Promise<ActionResult> => {
-   try {
-      if (!isValidUuid(descriptorId)) {
-         throw new Error("Invalid Entry ID.");
-      }
-
-      const user = await requireUser();
-      const service = getSevice();
-      await service.deleteLibraryEntry(user.id, descriptorId);
-
-      return {
-         success: true,
-         message: "Vorlage erfolgreich gelöscht",
-      };
-   } catch (error) {
-      console.error(formatError(error));
-      return {
-         success: false,
-         message: "Vorlage konnte nicht gelöscht werden",
-      };
-   }
-};
-
 export const composePromptFromTemplate = async (
    descriptorId: string,
    fieldValues: DPromptTemplateFieldValues
