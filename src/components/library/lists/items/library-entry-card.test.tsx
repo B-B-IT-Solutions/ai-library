@@ -147,11 +147,11 @@ describe("LibraryEntryCard functionality tests", () => {
       const collectionIds = dtestData.dLibraryCollectionIds();
       getEntryCollectionIdsMock.mockResolvedValue(collectionIds);
 
-      const entry = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPromptTemplateDescriptor();
       const collections = dtestData.dLibraryCollections();
 
       renderWithReactQuery(
-         <LibraryEntryCard descriptor={entry} collections={collections} />
+         <LibraryEntryCard descriptor={descriptor} collections={collections} />
       );
 
       await waitFor(() => {
