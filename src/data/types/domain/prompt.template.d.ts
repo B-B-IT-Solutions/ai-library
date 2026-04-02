@@ -4,6 +4,19 @@ import {
    promptTemplateFieldSchema,
    updatePromptTemplateSchema,
 } from "@/data/types/validators/prompt-template";
+import { Page, PageQuery } from "../common";
+
+export type DTemplateDescriptorsPageQuery =
+   PageQuery<DTemplateDescriptorsFilter>;
+export type DTemplateDescriptorsPage = Page<DPromptTemplateDescriptor>;
+
+export type DTemplateDescriptorsFilter = {
+   search?: string;
+   categories?: string[];
+   models?: string[];
+   isFavorite?: boolean;
+   collectionIds?: string[];
+};
 
 export type DPromptTemplateFieldUpdate = z.infer<
    typeof promptTemplateFieldSchema
@@ -36,6 +49,7 @@ export type DPromptTemplateDescriptor = {
    recommendedModel: string;
    categories: DPromptTemplateCategory[];
    promptTemplateId: string;
+   isFavorite: boolean;
    updatedAt: string;
    createdAt: string;
 };

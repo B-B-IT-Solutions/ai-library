@@ -7,9 +7,12 @@ import prisma from "@/data/repositories/prisma";
 import {
    DPromptTemplateFieldType,
    DPromptTemplateFieldUpdate,
+   DTemplateDescriptorsPage,
+   DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
 import { Prisma } from "@/generated/prisma/client";
 import {
+   PromptTemplateDescriptorCountArgs,
    PromptTemplateDescriptorCreateArgs,
    PromptTemplateDescriptorCreateInput,
    PromptTemplateDescriptorDeleteArgs,
@@ -17,6 +20,7 @@ import {
    PromptTemplateDescriptorFindManyArgs,
    PromptTemplateDescriptorUpdateArgs,
    PromptTemplateDescriptorUpdateInput,
+   PromptTemplateDescriptorWhereInput,
    PromptTemplateFindFirstArgs,
 } from "@/generated/prisma/models";
 
@@ -31,6 +35,543 @@ import { PromptTemplateRepository } from "./prompt.template.repository";
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
 const repository = new PromptTemplateRepository(prismaMock);
+
+describe("pGetTemplateDescriptorsPage tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("pGetTemplateDescriptorsPage - no query - test", async () => {
+      const userId = "user-id-1";
+      const descriptors = ptestData.pPromptTemplateDescriptorsWithCategories();
+      const totalEntries = 15;
+      prismaMock.promptTemplateDescriptor.findMany.mockResolvedValue(
+         descriptors
+      );
+      prismaMock.promptTemplateDescriptor.count.mockResolvedValue(totalEntries);
+
+      const result = await repository.pGetTemplateDescriptorsPage(userId);
+
+      const expectedResult: DTemplateDescriptorsPage = {
+         content: toDPromptTemplateDescriptors(descriptors),
+         pageNumber: 0,
+         pageSize: 20,
+         numberOfElements: descriptors.length,
+         totalPages: Math.ceil(totalEntries / 20),
+         totalElements: totalEntries,
+      };
+
+      const expectedFindManyArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: { userId },
+         include: {
+            categories: true,
+         },
+         orderBy: { createdAt: "desc" },
+         skip: 0,
+         take: 20,
+      };
+
+      const expectedCountArgs: PromptTemplateDescriptorCountArgs = {
+         where: { userId },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(
+         prismaMock.promptTemplateDescriptor.findMany
+      ).toHaveBeenCalledTimes(1);
+      expect(prismaMock.promptTemplateDescriptor.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.promptTemplateDescriptor.count).toHaveBeenCalledTimes(
+         1
+      );
+      expect(prismaMock.promptTemplateDescriptor.count).toHaveBeenCalledWith(
+         expectedCountArgs
+      );
+   });
+
+   test("pGetTemplateDescriptorsPage - sort createdAt asc - test", async () => {
+      const userId = "user-id-1";
+      const descriptors = ptestData.pPromptTemplateDescriptorsWithCategories();
+      const totalEntries = 25;
+      prismaMock.promptTemplateDescriptor.findMany.mockResolvedValue(
+         descriptors
+      );
+      prismaMock.promptTemplateDescriptor.count.mockResolvedValue(totalEntries);
+
+      const query: DTemplateDescriptorsPageQuery = {
+         pagination: { pageNumber: 2, pageSize: 10 },
+         sort: { field: "createdAt", order: "asc" },
+      };
+
+      const result = await repository.pGetTemplateDescriptorsPage(
+         userId,
+         query
+      );
+
+      const expectedResult: DTemplateDescriptorsPage = {
+         content: toDPromptTemplateDescriptors(descriptors),
+         pageNumber: 2,
+         pageSize: 10,
+         numberOfElements: descriptors.length,
+         totalPages: Math.ceil(totalEntries / 10),
+         totalElements: totalEntries,
+      };
+
+      const expectedFindManyArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: { userId },
+         include: {
+            categories: true,
+         },
+         orderBy: { createdAt: "asc" },
+         skip: 20,
+         take: 10,
+      };
+
+      const expectedCountArgs: PromptTemplateDescriptorCountArgs = {
+         where: { userId },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.promptTemplateDescriptor.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.promptTemplateDescriptor.count).toHaveBeenCalledWith(
+         expectedCountArgs
+      );
+   });
+
+   test("pGetTemplateDescriptorsPage - sort title asc - test", async () => {
+      const userId = "user-id-1";
+      const descriptors = ptestData.pPromptTemplateDescriptorsWithCategories();
+      prismaMock.promptTemplateDescriptor.findMany.mockResolvedValue(
+         descriptors
+      );
+      prismaMock.promptTemplateDescriptor.count.mockResolvedValue(0);
+
+      const query: DTemplateDescriptorsPageQuery = {
+         pagination: { pageNumber: 0, pageSize: 10 },
+         sort: { field: "title", order: "asc" },
+      };
+
+      await repository.pGetTemplateDescriptorsPage(userId, query);
+
+      const expectedFindManyArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: { userId },
+         include: {
+            categories: true,
+         },
+         orderBy: { title: "asc" },
+         skip: 0,
+         take: 10,
+      };
+
+      const expectedCountArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: { userId },
+      };
+
+      expect(prismaMock.promptTemplateDescriptor.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.promptTemplateDescriptor.count).toHaveBeenCalledWith(
+         expectedCountArgs
+      );
+   });
+
+   test("pGetTemplateDescriptorsPage - sort title desc - test", async () => {
+      const userId = "user-id-1";
+      const descriptors = ptestData.pPromptTemplateDescriptorsWithCategories();
+      prismaMock.promptTemplateDescriptor.findMany.mockResolvedValue(
+         descriptors
+      );
+      prismaMock.promptTemplateDescriptor.count.mockResolvedValue(0);
+
+      const query: DTemplateDescriptorsPageQuery = {
+         pagination: { pageNumber: 0, pageSize: 10 },
+         sort: { field: "title", order: "desc" },
+      };
+
+      await repository.pGetTemplateDescriptorsPage(userId, query);
+
+      const expectedFindManyArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: { userId },
+         include: {
+            categories: true,
+         },
+         orderBy: { title: "desc" },
+         skip: 0,
+         take: 10,
+      };
+
+      const expectedCountArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: { userId },
+      };
+
+      expect(prismaMock.promptTemplateDescriptor.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.promptTemplateDescriptor.count).toHaveBeenCalledWith(
+         expectedCountArgs
+      );
+   });
+});
+
+describe("pGetTemplateDescriptorsPage - resolveWhereInput tests", () => {
+   const userId = "user-id-1";
+
+   beforeEach(() => {
+      jest.clearAllMocks();
+
+      const descriptors = ptestData.pPromptTemplateDescriptorsWithCategories();
+      prismaMock.promptTemplateDescriptor.findMany.mockResolvedValue(
+         descriptors
+      );
+      prismaMock.promptTemplateDescriptor.count.mockResolvedValue(0);
+   });
+
+   test("resolveWhereInput - no filter - test", async () => {
+      await repository.pGetTemplateDescriptorsPage(userId);
+
+      const expectedWhere: PromptTemplateDescriptorWhereInput = { userId };
+
+      const expectedFindManyArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: expectedWhere,
+         include: {
+            categories: true,
+         },
+         orderBy: { createdAt: "desc" },
+         skip: 0,
+         take: 20,
+      };
+
+      const expectedCountArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: expectedWhere,
+      };
+
+      expect(prismaMock.promptTemplateDescriptor.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.promptTemplateDescriptor.count).toHaveBeenCalledWith(
+         expectedCountArgs
+      );
+   });
+
+   test("resolveWhereInput - search - test", async () => {
+      const query: DTemplateDescriptorsPageQuery = {
+         filter: {
+            search: "test search",
+         },
+      };
+      await repository.pGetTemplateDescriptorsPage(userId, query);
+
+      const expectedWhere: PromptTemplateDescriptorWhereInput = {
+         userId,
+         OR: [
+            {
+               title: {
+                  contains: "test search",
+                  mode: "insensitive",
+               },
+            },
+            {
+               description: {
+                  contains: "test search",
+                  mode: "insensitive",
+               },
+            },
+         ],
+      };
+
+      const expectedFindManyArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: expectedWhere,
+         include: {
+            categories: true,
+         },
+         orderBy: { createdAt: "desc" },
+         skip: 0,
+         take: 20,
+      };
+
+      const expectedCountArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: expectedWhere,
+      };
+
+      expect(prismaMock.promptTemplateDescriptor.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.promptTemplateDescriptor.count).toHaveBeenCalledWith(
+         expectedCountArgs
+      );
+   });
+
+   test("resolveWhereInput - categories - test", async () => {
+      const query: DTemplateDescriptorsPageQuery = {
+         filter: {
+            categories: ["cat1", "cat2"],
+         },
+      };
+      await repository.pGetTemplateDescriptorsPage(userId, query);
+
+      const expectedWhere: PromptTemplateDescriptorWhereInput = {
+         userId,
+         categories: { some: { name: { in: ["cat1", "cat2"] } } },
+      };
+
+      const expectedFindManyArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: expectedWhere,
+         include: {
+            categories: true,
+         },
+         orderBy: { createdAt: "desc" },
+         skip: 0,
+         take: 20,
+      };
+
+      const expectedCountArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: expectedWhere,
+      };
+
+      expect(prismaMock.promptTemplateDescriptor.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.promptTemplateDescriptor.count).toHaveBeenCalledWith(
+         expectedCountArgs
+      );
+   });
+
+   test("resolveWhereInput - models - test", async () => {
+      const query: DTemplateDescriptorsPageQuery = {
+         filter: {
+            models: ["gpt-4", "claude"],
+         },
+      };
+      await repository.pGetTemplateDescriptorsPage(userId, query);
+
+      const expectedWhere: PromptTemplateDescriptorWhereInput = {
+         userId,
+         recommendedModel: { in: ["gpt-4", "claude"] },
+      };
+
+      const expectedFindManyArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: expectedWhere,
+         include: {
+            categories: true,
+         },
+         orderBy: { createdAt: "desc" },
+         skip: 0,
+         take: 20,
+      };
+
+      const expectedCountArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: expectedWhere,
+      };
+
+      expect(prismaMock.promptTemplateDescriptor.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.promptTemplateDescriptor.count).toHaveBeenCalledWith(
+         expectedCountArgs
+      );
+   });
+
+   test("resolveWhereInput - isFavorite true - test", async () => {
+      const query: DTemplateDescriptorsPageQuery = {
+         filter: {
+            isFavorite: true,
+         },
+      };
+      await repository.pGetTemplateDescriptorsPage(userId, query);
+
+      const expectedWhere: PromptTemplateDescriptorWhereInput = {
+         userId,
+         isFavorite: true,
+      };
+
+      const expectedFindManyArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: expectedWhere,
+         include: {
+            categories: true,
+         },
+         orderBy: { createdAt: "desc" },
+         skip: 0,
+         take: 20,
+      };
+
+      const expectedCountArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: expectedWhere,
+      };
+
+      expect(prismaMock.promptTemplateDescriptor.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.promptTemplateDescriptor.count).toHaveBeenCalledWith(
+         expectedCountArgs
+      );
+   });
+
+   test("resolveWhereInput - isFavorite false - test", async () => {
+      const query: DTemplateDescriptorsPageQuery = {
+         filter: {
+            isFavorite: false,
+         },
+      };
+      await repository.pGetTemplateDescriptorsPage(userId, query);
+
+      const expectedWhere: PromptTemplateDescriptorWhereInput = {
+         userId,
+         isFavorite: false,
+      };
+
+      const expectedFindManyArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: expectedWhere,
+         include: {
+            categories: true,
+         },
+         orderBy: { createdAt: "desc" },
+         skip: 0,
+         take: 20,
+      };
+
+      const expectedCountArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: expectedWhere,
+      };
+
+      expect(prismaMock.promptTemplateDescriptor.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.promptTemplateDescriptor.count).toHaveBeenCalledWith(
+         expectedCountArgs
+      );
+   });
+
+   test("resolveWhereInput - collectionIds - test", async () => {
+      const query: DTemplateDescriptorsPageQuery = {
+         filter: {
+            collectionIds: ["col-1", "col-2"],
+         },
+      };
+      await repository.pGetTemplateDescriptorsPage(userId, query);
+
+      const expectedWhere: PromptTemplateDescriptorWhereInput = {
+         userId,
+         collectionEntries: {
+            some: { collectionId: { in: ["col-1", "col-2"] } },
+         },
+      };
+
+      const expectedFindManyArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: expectedWhere,
+         include: {
+            categories: true,
+         },
+         orderBy: { createdAt: "desc" },
+         skip: 0,
+         take: 20,
+      };
+
+      const expectedCountArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: expectedWhere,
+      };
+
+      expect(prismaMock.promptTemplateDescriptor.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.promptTemplateDescriptor.count).toHaveBeenCalledWith(
+         expectedCountArgs
+      );
+   });
+
+   test("resolveWhereInput - empty arrays - test", async () => {
+      const query: DTemplateDescriptorsPageQuery = {
+         filter: {
+            categories: [],
+            models: [],
+            collectionIds: [],
+         },
+      };
+      await repository.pGetTemplateDescriptorsPage(userId, query);
+
+      const expectedWhere: PromptTemplateDescriptorWhereInput = {
+         userId,
+      };
+
+      const expectedFindManyArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: expectedWhere,
+         include: {
+            categories: true,
+         },
+         orderBy: { createdAt: "desc" },
+         skip: 0,
+         take: 20,
+      };
+
+      const expectedCountArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: expectedWhere,
+      };
+
+      expect(prismaMock.promptTemplateDescriptor.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.promptTemplateDescriptor.count).toHaveBeenCalledWith(
+         expectedCountArgs
+      );
+   });
+
+   test("resolveWhereInput - full filter - test", async () => {
+      const filter = dtestData.dLibraryEntriesFilter();
+      const query: DTemplateDescriptorsPageQuery = {
+         filter,
+      };
+      await repository.pGetTemplateDescriptorsPage(userId, query);
+
+      const expectedWhere: PromptTemplateDescriptorWhereInput = {
+         userId,
+         OR: [
+            {
+               title: {
+                  contains: filter.search,
+                  mode: "insensitive",
+               },
+            },
+            {
+               description: {
+                  contains: filter.search,
+                  mode: "insensitive",
+               },
+            },
+         ],
+         categories: {
+            some: { name: { in: filter.categories } },
+         },
+         recommendedModel: { in: filter.models },
+         isFavorite: filter.isFavorite,
+         collectionEntries: {
+            some: { collectionId: { in: filter.collectionIds } },
+         },
+      };
+
+      const expectedFindManyArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: expectedWhere,
+         include: {
+            categories: true,
+         },
+         orderBy: { createdAt: "desc" },
+         skip: 0,
+         take: 20,
+      };
+
+      const expectedCountArgs: PromptTemplateDescriptorFindManyArgs = {
+         where: expectedWhere,
+      };
+
+      expect(prismaMock.promptTemplateDescriptor.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+      expect(prismaMock.promptTemplateDescriptor.count).toHaveBeenCalledWith(
+         expectedCountArgs
+      );
+   });
+});
 
 describe("pGetPromptTemplateDescriptors tests", () => {
    beforeEach(() => {

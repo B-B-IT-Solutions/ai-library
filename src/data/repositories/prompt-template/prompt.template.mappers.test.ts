@@ -48,6 +48,7 @@ const toDPromptTemplateDescriptorInternal = (
       categories: prompt.categories,
       recommendedModel: prompt.recommendedModel,
       promptTemplateId: prompt.promptTemplateId,
+      isFavorite: prompt.isFavorite,
       updatedAt: prompt.updatedAt.toISOString(),
       createdAt: prompt.createdAt.toISOString(),
    };
