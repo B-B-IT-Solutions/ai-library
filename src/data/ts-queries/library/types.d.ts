@@ -10,7 +10,7 @@ export type LoadLibraryEntriesParams = {
 };
 
 export type UpdateIsFavoriteParams = {
-   entryId: string;
+   descriptorId: string;
    isFavorite: boolean;
 };
 

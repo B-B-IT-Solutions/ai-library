@@ -5,17 +5,17 @@ import { toast } from "sonner";
 
 import { DeleteDropdownMenuItem } from "@/components/shared/dropdowns";
 import { deleteLibraryEntry } from "@/data/actions/library";
-import { DLibraryEntry } from "@/data/types/domain/library";
+import { DPromptTemplateDescriptorWithTemplate } from "@/data/types/domain/prompt.template";
 
 type Props = {
-   entry: DLibraryEntry;
+   descriptor: DPromptTemplateDescriptorWithTemplate;
 };
 
-export const DeleteLibraryEntryButton = ({ entry }: Props) => {
+export const DeleteLibraryEntryButton = ({ descriptor }: Props) => {
    const router = useRouter();
 
    const handleDelete = async () => {
-      const result = await deleteLibraryEntry(entry.id);
+      const result = await deleteLibraryEntry(descriptor.id);
       if (result.success) {
          toast.success(result.message);
          router.push("/library");

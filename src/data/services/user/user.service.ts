@@ -157,7 +157,6 @@ export class UserService {
 
       // Hard delete user and all related data
       await this.cartService.deleteCarts(userId);
-      await this.libraryService.deleteLibraryEntries(userId);
       await this.orderService.deleteOrders(userId);
       await this.userRepository.pDeleteUser(userId);
    }

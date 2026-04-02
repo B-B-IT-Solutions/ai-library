@@ -9,16 +9,16 @@ import {
    DropdownMenuContent,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import { DLibraryEntry } from "@/data/types/domain/library";
+import { DPromptTemplateDescriptorWithTemplate } from "@/data/types/domain/prompt.template";
 
 import { DeleteLibraryEntryButton } from "./delete-library-entry-button";
 import { DownloadTemplateButton } from "./download-template-button";
 
 type Props = {
-   entry: DLibraryEntry;
+   descriptor: DPromptTemplateDescriptorWithTemplate;
 };
 
-export const MoreOptionsButton: FC<Props> = ({ entry }) => {
+export const MoreOptionsButton: FC<Props> = ({ descriptor }) => {
    return (
       <DropdownMenu data-testid="more-options-btn">
          <DropdownMenuTrigger asChild={true}>
@@ -32,11 +32,8 @@ export const MoreOptionsButton: FC<Props> = ({ entry }) => {
             </Button>
          </DropdownMenuTrigger>
          <DropdownMenuContent align="end">
-            <DownloadTemplateButton
-               descriptor={entry.templateDescriptor}
-               asMenuItem={true}
-            />
-            <DeleteLibraryEntryButton entry={entry} />
+            <DownloadTemplateButton descriptor={descriptor} asMenuItem={true} />
+            <DeleteLibraryEntryButton descriptor={descriptor} />
          </DropdownMenuContent>
       </DropdownMenu>
    );

@@ -2,7 +2,7 @@ import { FC } from "react";
 
 import { ListViewToggle } from "@/components/shared/buttons";
 import { DListViewMode } from "@/data/types/domain/common";
-import { DLibraryEntriesFilter } from "@/data/types/domain/library";
+import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
 
 import { LibraryFilters } from "./filters";
 import { GroupBySelect } from "./group-by";
@@ -10,7 +10,7 @@ import { SortBySelect } from "./sort-by";
 
 type Props = {
    viewMode: DListViewMode;
-   filters: DLibraryEntriesFilter;
+   filters: DTemplateDescriptorsFilter;
    categories: string[];
    models: string[];
 };

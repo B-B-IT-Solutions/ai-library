@@ -18,7 +18,7 @@ describe("LibraryEntriesList rendering tests", () => {
       const collections = dtestData.dLibraryCollections();
 
       const { container } = renderWithReactQuery(
-         <LibraryEntriesList entries={[]} collections={collections} />
+         <LibraryEntriesList descriptors={[]} collections={collections} />
       );
 
       await waitFor(() => {
@@ -30,10 +30,13 @@ describe("LibraryEntriesList rendering tests", () => {
 
    it("LibraryEntriesList - with entries - test", async () => {
       const collections = dtestData.dLibraryCollections();
-      const entries = dtestData.dLibraryEntries();
+      const descriptors = dtestData.dPromptTemplateDescriptors();
 
       const { container } = renderWithReactQuery(
-         <LibraryEntriesList entries={entries} collections={collections} />
+         <LibraryEntriesList
+            descriptors={descriptors}
+            collections={collections}
+         />
       );
 
       await waitFor(() => {

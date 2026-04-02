@@ -2,13 +2,13 @@ import { Edit2 } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
-import { DLibraryEntry } from "@/data/types/domain/library";
+import { DPromptTemplateDescriptorWithTemplate } from "@/data/types/domain/prompt.template";
 
 type Props = {
-   entry: DLibraryEntry;
+   descriptor: DPromptTemplateDescriptorWithTemplate;
 };
 
-export const EditLibraryEntryButton = ({ entry }: Props) => {
+export const EditLibraryEntryButton = ({ descriptor }: Props) => {
    return (
       <Button
          asChild={true}
@@ -16,7 +16,7 @@ export const EditLibraryEntryButton = ({ entry }: Props) => {
          size="sm"
          data-testid="edit-entry-btn"
       >
-         <Link href={`/library/${entry.id}/edit`}>
+         <Link href={`/library/${descriptor.id}/edit`}>
             <Edit2 className="h-4 w-4" />
             Bearbeiten
          </Link>

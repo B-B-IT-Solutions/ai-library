@@ -59,7 +59,7 @@ describe("EditLibraryEntryPage rendering tests", () => {
    });
 
    it("EditLibraryEntryPage - library entry defined - test", async () => {
-      const libraryEntry = dtestData.dLibraryEntryWithPromptTemplate();
+      const libraryEntry = dtestData.dPromptTemplateDescriptorWithTemplate();
       getLibraryEntryMock.mockResolvedValue(libraryEntry);
 
       const templateFields = dtestData.dGlobalTemplateFields();

@@ -31,8 +31,10 @@ const assertContextMenuNotRendered = () => {
 
 describe("MoreOptionsButton rendering tests", () => {
    it("rendered test", async () => {
-      const entry = dtestData.dLibraryEntry();
-      const { container } = render(<MoreOptionsButton entry={entry} />);
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const { container } = render(
+         <MoreOptionsButton descriptor={descriptor} />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -49,8 +51,8 @@ describe("MoreOptionsButton functionality tests", () => {
    });
 
    it("trigger clicked - test", async () => {
-      const entry = dtestData.dLibraryEntry();
-      render(<MoreOptionsButton entry={entry} />);
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      render(<MoreOptionsButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRendered();

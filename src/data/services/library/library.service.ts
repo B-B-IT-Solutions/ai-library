@@ -1,22 +1,20 @@
 import { isEmpty, map } from "es-toolkit/compat";
 
-import {
-   GetLibraryEntryParams,
-   LibraryRepository,
-} from "@/data/repositories/library";
+import { LibraryRepository } from "@/data/repositories/library";
 import { PromptTemplateService } from "@/data/services/prompt-template";
 import { OrderProducts } from "@/data/types/db/order";
 import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
-   DLibraryEntriesPage,
-   DLibraryEntriesPageQuery,
-   DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
+   DPromptTemplateDescriptor,
+   DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateFieldValues,
    DPromptTemplateUpdate,
+   DTemplateDescriptorsPage,
+   DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
 
 export class LibraryService {
@@ -33,30 +31,32 @@ export class LibraryService {
 
    async getLibraryEntriesPage(
       userId: string,
-      query?: DLibraryEntriesPageQuery
-   ): Promise<DLibraryEntriesPage> {
-      return await this.libraryRepository.pGetLibraryEntriesPage(userId, query);
+      query?: DTemplateDescriptorsPageQuery
+   ): Promise<DTemplateDescriptorsPage> {
+      return await this.promptTemplateService.getTemplateDescriptorsPage(
+         userId,
+         query
+      );
    }
 
    async getLibraryEntry(
-      entryId: string,
-      userId: string
-   ): Promise<DLibraryEntryWithPromptTemplate | null> {
-      const params: GetLibraryEntryParams = {
-         entryId,
+      userId: string,
+      descriptorId: string
+   ): Promise<DPromptTemplateDescriptorWithTemplate | null> {
+      return await this.promptTemplateService.getPromptTemplateDescriptorWithTemplate(
          userId,
-      };
-      return await this.libraryRepository.pGetLibraryEntry(params);
+         descriptorId
+      );
    }
 
-   async createLibraryEntry(data: DPromptTemplateUpdate, userId: string) {
-      const ptd =
-         await this.promptTemplateService.createPromptTemplateDescriptor(
-            userId,
-            data
-         );
-
-      await this.libraryRepository.pCreateLibraryEntry(userId, ptd.id);
+   async createLibraryEntry(
+      data: DPromptTemplateUpdate,
+      userId: string
+   ): Promise<DPromptTemplateDescriptor> {
+      return await this.promptTemplateService.createPromptTemplateDescriptor(
+         userId,
+         data
+      );
    }
 
    async createLibraryEntries(order: OrderProducts): Promise<void> {
@@ -76,73 +76,59 @@ export class LibraryService {
 
    async updateLibraryEntry(
       userId: string,
-      entryId: string,
+      descriptorId: string,
       data: DPromptTemplateUpdate
    ) {
-      const entry = await this.getLibraryEntry(entryId, userId);
-      if (!entry) {
+      const descriptor = await this.getLibraryEntry(userId, descriptorId);
+      if (!descriptor) {
          throw new Error("Library entry not found");
       }
       await this.promptTemplateService.updatePromptTemplateDescriptor(
          userId,
-         entry.templateDescriptorId,
+         descriptor.id,
          data
       );
    }
 
-   async deleteLibraryEntry(userId: string, entryId: string) {
-      const entry = await this.getLibraryEntry(entryId, userId);
-      if (!entry) {
+   async deleteLibraryEntry(userId: string, descriptorId: string) {
+      const descriptor = await this.getLibraryEntry(userId, descriptorId);
+      if (!descriptor) {
          throw new Error("Library entry not found");
       }
-      await this.libraryRepository.pDeleteLibraryEntry(userId, entryId);
       await this.promptTemplateService.deletePromptTemplateDescriptor(
          userId,
-         entry.templateDescriptorId
+         descriptor.id
       );
    }
 
-   async deleteLibraryEntries(userId: string) {
-      await this.libraryRepository.pDeleteLibraryEntries(userId);
-   }
-
    async composePromptFromTemplate(
-      templateDescriptorId: string,
+      descriptorId: string,
       fieldValues: DPromptTemplateFieldValues,
       userId: string
    ): Promise<DPromptUpdate> {
-      const params: GetLibraryEntryParams = {
-         templateDescriptorId,
-         userId,
-      };
-      const entry = await this.libraryRepository.pGetLibraryEntry(params);
+      const descriptor = await this.getLibraryEntry(userId, descriptorId);
 
-      if (!entry) {
+      if (!descriptor) {
          throw new Error("Template not found");
       }
 
       return await this.promptTemplateService.composePromptFromTemplate(
          userId,
-         entry.templateDescriptorId,
+         descriptor.id,
          fieldValues
       );
    }
 
    async downloadPromptTemplate(
-      templateDescriptorId: string,
-      userId: string
+      userId: string,
+      descriptorId: string
    ): Promise<string> {
-      const params: GetLibraryEntryParams = {
-         templateDescriptorId,
-         userId,
-      };
-      const entry = await this.libraryRepository.pGetLibraryEntry(params);
+      const descriptor = await this.getLibraryEntry(userId, descriptorId);
 
-      if (!entry) {
+      if (!descriptor) {
          throw new Error("Template not found");
       }
 
-      const { templateDescriptor: descriptor } = entry;
       const downloadData = JSON.stringify(
          {
             title: descriptor.title,
@@ -158,15 +144,23 @@ export class LibraryService {
    }
 
    async getLibraryCategories(userId: string): Promise<string[]> {
-      return await this.libraryRepository.pGetLibraryCategories(userId);
+      return await this.promptTemplateService.getTemplateCategories(userId);
    }
 
    async getLibraryModels(userId: string): Promise<string[]> {
-      return await this.libraryRepository.pGetLibraryModels(userId);
+      return await this.promptTemplateService.getTemplateModles(userId);
    }
 
-   async toggleFavorite(entryId: string, userId: string, isFavorite: boolean) {
-      await this.libraryRepository.pToggleFavorite(entryId, userId, isFavorite);
+   async toggleFavorite(
+      descriptorId: string,
+      userId: string,
+      isFavorite: boolean
+   ) {
+      await this.promptTemplateService.toggleFavorite(
+         userId,
+         descriptorId,
+         isFavorite
+      );
    }
 
    async getCollections(userId: string): Promise<DLibraryCollection[]> {

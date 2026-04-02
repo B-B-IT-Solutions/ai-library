@@ -5,10 +5,7 @@ import { dtestData, ptestData } from "@tests";
 import { forEach, map } from "es-toolkit/compat";
 import { DeepMockProxy } from "jest-mock-extended";
 
-import {
-   GetLibraryEntryParams,
-   LibraryRepository,
-} from "@/data/repositories/library";
+import { LibraryRepository } from "@/data/repositories/library";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { PromptTemplateService } from "@/data/services/prompt-template";
@@ -38,18 +35,21 @@ describe("getLibraryEntriesPage tests", () => {
 
    it("getLibraryEntriesPage - entries retrieved - test", async () => {
       const userId = "user-id-1";
-      const page = dtestData.dLibraryEntriesPage();
-      const query = dtestData.dLibraryEntriesPageQuery();
-      libraryRepoMock.pGetLibraryEntriesPage.mockResolvedValue(page);
+      const page = dtestData.dTemplateDescriptorsPage();
+      const query = dtestData.dTemplateDescriptorsPageQuery();
+      promptTemplateServiceMock.getTemplateDescriptorsPage.mockResolvedValue(
+         page
+      );
 
       const result = await libraryService.getLibraryEntriesPage(userId, query);
 
       expect(result).toEqual(page);
-      expect(libraryRepoMock.pGetLibraryEntriesPage).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntriesPage).toHaveBeenCalledWith(
-         userId,
-         query
-      );
+      expect(
+         promptTemplateServiceMock.getTemplateDescriptorsPage
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateServiceMock.getTemplateDescriptorsPage
+      ).toHaveBeenCalledWith(userId, query);
    });
 });
 
@@ -58,23 +58,25 @@ describe("getLibraryEntry tests", () => {
       jest.clearAllMocks();
    });
 
-   it("getLibraryEntry - entry retrieved - test", async () => {
+   it("getLibraryEntry - descriptor retrieved - test", async () => {
       const userId = "user-id-1";
-      const entry = dtestData.dLibraryEntryWithPromptTemplate();
-      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(entry);
-
-      const result = await libraryService.getLibraryEntry(entry.id, userId);
-
-      const expectedGetEntryPayload: GetLibraryEntryParams = {
-         entryId: entry.id,
-         userId,
-      };
-
-      expect(result).toEqual(entry);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
-         expectedGetEntryPayload
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         descriptor
       );
+
+      const result = await libraryService.getLibraryEntry(
+         userId,
+         descriptor.id
+      );
+
+      expect(result).toEqual(descriptor);
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptor.id);
    });
 });
 
@@ -83,27 +85,26 @@ describe("createLibraryEntry tests", () => {
       jest.clearAllMocks();
    });
 
-   it("createLibraryEntry - entry created - test", async () => {
+   it("createLibraryEntry - descriptor created - test", async () => {
       const userId = "user-id-1";
-      const updateData = dtestData.dPromptTemplateUpdate();
+      const createData = dtestData.dPromptTemplateUpdate();
       const templateDescriptor = dtestData.dPromptTemplateDescriptor();
       promptTemplateServiceMock.createPromptTemplateDescriptor.mockResolvedValue(
          templateDescriptor
       );
 
-      await libraryService.createLibraryEntry(updateData, userId);
+      const result = await libraryService.createLibraryEntry(
+         createData,
+         userId
+      );
 
+      expect(result).toEqual(templateDescriptor);
       expect(
          promptTemplateServiceMock.createPromptTemplateDescriptor
       ).toHaveBeenCalledTimes(1);
       expect(
          promptTemplateServiceMock.createPromptTemplateDescriptor
-      ).toHaveBeenCalledWith(userId, updateData);
-      expect(libraryRepoMock.pCreateLibraryEntry).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pCreateLibraryEntry).toHaveBeenCalledWith(
-         userId,
-         templateDescriptor.id
-      );
+      ).toHaveBeenCalledWith(userId, createData);
    });
 });
 
@@ -157,57 +158,55 @@ describe("updateLibraryEntry tests", () => {
       jest.clearAllMocks();
    });
 
-   it("updateLibraryEntry - entry not found - test", async () => {
+   it("updateLibraryEntry - descriptor not found - test", async () => {
       const userId = "user-id-1";
-      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const update = dtestData.dPromptTemplateUpdate();
 
-      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(null);
+      promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         null
+      );
 
       const fn = async () =>
-         await libraryService.updateLibraryEntry(userId, entryId, update);
-
-      const expectedPayload: GetLibraryEntryParams = {
-         entryId,
-         userId,
-      };
+         await libraryService.updateLibraryEntry(userId, descriptorId, update);
 
       await expect(fn).rejects.toThrow("Library entry not found");
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
-         expectedPayload
-      );
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptorId);
       expect(
          promptTemplateServiceMock.updatePromptTemplateDescriptor
       ).not.toHaveBeenCalled();
    });
 
-   it("updateLibraryEntry - entry updated - test", async () => {
+   it("updateLibraryEntry - descriptor updated - test", async () => {
       const userId = "user-id-1";
-      const entry = dtestData.dLibraryEntryWithPromptTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
       const update = dtestData.dPromptTemplateUpdate();
 
-      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(entry);
+      promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         descriptor
+      );
       promptTemplateServiceMock.updatePromptTemplateDescriptor.mockResolvedValue();
 
-      await libraryService.updateLibraryEntry(userId, entry.id, update);
+      await libraryService.updateLibraryEntry(userId, descriptor.id, update);
 
-      const expectedGetEntryPayload: GetLibraryEntryParams = {
-         entryId: entry.id,
-         userId,
-      };
-
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
-         expectedGetEntryPayload
-      );
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptor.id);
       expect(
          promptTemplateServiceMock.updatePromptTemplateDescriptor
       ).toHaveBeenCalledTimes(1);
       expect(
          promptTemplateServiceMock.updatePromptTemplateDescriptor
-      ).toHaveBeenCalledWith(userId, entry.templateDescriptorId, update);
+      ).toHaveBeenCalledWith(userId, descriptor.id, update);
    });
 });
 
@@ -216,76 +215,51 @@ describe("deleteLibraryEntry tests", () => {
       jest.clearAllMocks();
    });
 
-   it("deleteLibraryEntry - entry not found - test", async () => {
+   it("deleteLibraryEntry - descriptor not found - test", async () => {
       const userId = "user-id-1";
-      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
 
-      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(null);
+      promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         null
+      );
 
       const fn = async () =>
-         await libraryService.deleteLibraryEntry(userId, entryId);
-
-      const expectedGetEntryPayload: GetLibraryEntryParams = {
-         entryId,
-         userId,
-      };
+         await libraryService.deleteLibraryEntry(userId, descriptorId);
 
       await expect(fn).rejects.toThrow("Library entry not found");
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
-         expectedGetEntryPayload
-      );
-      expect(libraryRepoMock.pDeleteLibraryEntry).not.toHaveBeenCalled();
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptorId);
       expect(
          promptTemplateServiceMock.deletePromptTemplateDescriptor
       ).not.toHaveBeenCalled();
    });
 
-   it("deleteLibraryEntry - entry and template deleted - test", async () => {
+   it("deleteLibraryEntry - descriptor deleted - test", async () => {
       const userId = "user-id-1";
-      const entry = dtestData.dLibraryEntryWithPromptTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
-      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(entry);
-
-      await libraryService.deleteLibraryEntry(userId, entry.id);
-
-      const expectedGetEntryPayload: GetLibraryEntryParams = {
-         entryId: entry.id,
-         userId,
-      };
-
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
-         expectedGetEntryPayload
+      promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         descriptor
       );
-      expect(libraryRepoMock.pDeleteLibraryEntry).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pDeleteLibraryEntry).toHaveBeenCalledWith(
-         userId,
-         entry.id
-      );
+
+      await libraryService.deleteLibraryEntry(userId, descriptor.id);
+
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptor.id);
       expect(
          promptTemplateServiceMock.deletePromptTemplateDescriptor
       ).toHaveBeenCalledTimes(1);
       expect(
          promptTemplateServiceMock.deletePromptTemplateDescriptor
-      ).toHaveBeenCalledWith(userId, entry.templateDescriptorId);
-   });
-});
-
-describe("deleteLibraryEntries tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("deleteLibraryEntries - entriey deleted - test", async () => {
-      const userId = "user-id-1";
-
-      await libraryService.deleteLibraryEntries(userId);
-
-      expect(libraryRepoMock.pDeleteLibraryEntries).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pDeleteLibraryEntries).toHaveBeenCalledWith(
-         userId
-      );
+      ).toHaveBeenCalledWith(userId, descriptor.id);
    });
 });
 
@@ -296,27 +270,26 @@ describe("composePromptFromTemplate tests", () => {
 
    it("composePromptFromTemplate - template not found - test", async () => {
       const userId = "user-id-1";
-      const templateDescriptorId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const fieldValues: DPromptTemplateFieldValues = { field1: "value1" };
-      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(null);
+      promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         null
+      );
 
       const fn = async () =>
          await libraryService.composePromptFromTemplate(
-            templateDescriptorId,
+            descriptorId,
             fieldValues,
             userId
          );
 
-      const expectedGetEntryPayload: GetLibraryEntryParams = {
-         templateDescriptorId,
-         userId,
-      };
-
       await expect(fn).rejects.toThrow("Template not found");
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
-         expectedGetEntryPayload
-      );
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptorId);
       expect(
          promptTemplateServiceMock.composePromptFromTemplate
       ).not.toHaveBeenCalled();
@@ -324,8 +297,7 @@ describe("composePromptFromTemplate tests", () => {
 
    it("composePromptFromTemplate - prompt composed - test", async () => {
       const userId = "user-id-1";
-      const entry = ptestData.pLibraryEntryWithPromptTemplate();
-      const templateDescriptorId = entry.templateDescriptorId;
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const fieldValues: DPromptTemplateFieldValues = {
          name: "User-1 Name",
          email: "test1@email.com",
@@ -338,33 +310,32 @@ describe("composePromptFromTemplate tests", () => {
          followUpPrompts: [],
       };
 
-      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(entry);
+      promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         descriptor
+      );
       promptTemplateServiceMock.composePromptFromTemplate.mockResolvedValue(
          expectedPromptUpdate
       );
 
       const result = await libraryService.composePromptFromTemplate(
-         templateDescriptorId,
+         descriptor.id,
          fieldValues,
          userId
       );
 
-      const expectedGetEntryPayload: GetLibraryEntryParams = {
-         templateDescriptorId,
-         userId,
-      };
-
       expect(result).toEqual(expectedPromptUpdate);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
-         expectedGetEntryPayload
-      );
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptor.id);
       expect(
          promptTemplateServiceMock.composePromptFromTemplate
       ).toHaveBeenCalledTimes(1);
       expect(
          promptTemplateServiceMock.composePromptFromTemplate
-      ).toHaveBeenCalledWith(userId, entry.templateDescriptorId, fieldValues);
+      ).toHaveBeenCalledWith(userId, descriptor.id, fieldValues);
    });
 });
 
@@ -375,58 +346,53 @@ describe("downloadPromptTemplate tests", () => {
 
    it("downloadPromptTemplate - template not found - test", async () => {
       const userId = "user-id-1";
-      const templateDescriptorId = "123e4567-e89b-12d3-a456-426614174000";
-      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(null);
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
+      promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         null
+      );
 
       const fn = async () =>
-         await libraryService.downloadPromptTemplate(
-            templateDescriptorId,
-            userId
-         );
-
-      const expectedGetEntryPayload: GetLibraryEntryParams = {
-         templateDescriptorId,
-         userId,
-      };
+         await libraryService.downloadPromptTemplate(userId, descriptorId);
 
       await expect(fn).rejects.toThrow("Template not found");
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
-         expectedGetEntryPayload
-      );
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptorId);
    });
 
    it("downloadPromptTemplate - template downloaded - test", async () => {
       const userId = "user-id-1";
-      const entry = ptestData.pLibraryEntryWithPromptTemplate();
-      const templateDescriptorId = entry.templateDescriptorId;
-      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(entry);
-
-      const result = await libraryService.downloadPromptTemplate(
-         templateDescriptorId,
-         userId
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         descriptor
       );
 
-      const expectedGetEntryPayload: GetLibraryEntryParams = {
-         templateDescriptorId,
+      const result = await libraryService.downloadPromptTemplate(
          userId,
-      };
+         descriptor.id
+      );
+
       const expectedDownloadData = JSON.stringify(
          {
-            title: entry.templateDescriptor.title,
-            content: entry.templateDescriptor.promptTemplate.content,
-            categories: entry.templateDescriptor.categories.map((c) => c.name),
-            recommendedModel: entry.templateDescriptor.recommendedModel,
+            title: descriptor.title,
+            content: descriptor.promptTemplate.content,
+            categories: descriptor.categories.map((c) => c.name),
+            recommendedModel: descriptor.recommendedModel,
          },
          null,
          2
       );
 
       expect(result).toEqual(expectedDownloadData);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
-         expectedGetEntryPayload
-      );
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptor.id);
    });
 });
 
@@ -437,16 +403,20 @@ describe("getLibraryCategories tests", () => {
 
    it("getLibraryCategories - categories retrieved - test", async () => {
       const userId = "user-id-1";
-      const categories = dtestData.dLibraryEntryCategories();
-      libraryRepoMock.pGetLibraryCategories.mockResolvedValue(categories);
+      const categories = dtestData.dTemplateCategories();
+      promptTemplateServiceMock.getTemplateCategories.mockResolvedValue(
+         categories
+      );
 
       const result = await libraryService.getLibraryCategories(userId);
 
       expect(result).toEqual(categories);
-      expect(libraryRepoMock.pGetLibraryCategories).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryCategories).toHaveBeenCalledWith(
-         userId
-      );
+      expect(
+         promptTemplateServiceMock.getTemplateCategories
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateServiceMock.getTemplateCategories
+      ).toHaveBeenCalledWith(userId);
    });
 });
 
@@ -457,14 +427,18 @@ describe("getLibraryModels tests", () => {
 
    it("getLibraryModels - models retrieved - test", async () => {
       const userId = "user-id-1";
-      const models = dtestData.dLibraryEntryModels();
-      libraryRepoMock.pGetLibraryModels.mockResolvedValue(models);
+      const models = dtestData.dTemplateModels();
+      promptTemplateServiceMock.getTemplateModles.mockResolvedValue(models);
 
       const result = await libraryService.getLibraryModels(userId);
 
       expect(result).toEqual(models);
-      expect(libraryRepoMock.pGetLibraryModels).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryModels).toHaveBeenCalledWith(userId);
+      expect(promptTemplateServiceMock.getTemplateModles).toHaveBeenCalledTimes(
+         1
+      );
+      expect(promptTemplateServiceMock.getTemplateModles).toHaveBeenCalledWith(
+         userId
+      );
    });
 });
 
@@ -475,15 +449,15 @@ describe("toggleFavorite tests", () => {
 
    it("toggleFavorite - value toggled - test", async () => {
       const userId = "user-id-1";
-      const entryId = "entry-id-1";
+      const descriptorId = "descriptor-id-1";
       const isFavorite = true;
 
-      await libraryService.toggleFavorite(entryId, userId, isFavorite);
+      await libraryService.toggleFavorite(descriptorId, userId, isFavorite);
 
-      expect(libraryRepoMock.pToggleFavorite).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pToggleFavorite).toHaveBeenCalledWith(
-         entryId,
+      expect(promptTemplateServiceMock.toggleFavorite).toHaveBeenCalledTimes(1);
+      expect(promptTemplateServiceMock.toggleFavorite).toHaveBeenCalledWith(
          userId,
+         descriptorId,
          isFavorite
       );
    });

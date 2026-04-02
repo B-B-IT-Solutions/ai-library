@@ -18,7 +18,7 @@ describe("LibraryEntriesGrid rendering tests", () => {
       const collections = dtestData.dLibraryCollections();
 
       const { container } = renderWithReactQuery(
-         <LibraryEntriesGrid entries={[]} collections={collections} />
+         <LibraryEntriesGrid descriptors={[]} collections={collections} />
       );
 
       await waitFor(() => {
@@ -30,10 +30,13 @@ describe("LibraryEntriesGrid rendering tests", () => {
 
    it("LibraryEntriesGrid - with entries - test", async () => {
       const collections = dtestData.dLibraryCollections();
-      const entries = dtestData.dLibraryEntries();
+      const descriptors = dtestData.dPromptTemplateDescriptors();
 
       const { container } = renderWithReactQuery(
-         <LibraryEntriesGrid entries={entries} collections={collections} />
+         <LibraryEntriesGrid
+            descriptors={descriptors}
+            collections={collections}
+         />
       );
 
       await waitFor(() => {

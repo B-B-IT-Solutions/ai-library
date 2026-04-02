@@ -13,6 +13,7 @@ import {
    DListViewMode,
 } from "@/data/types/domain/common";
 import { DLibraryEntriesPageQuery } from "@/data/types/domain/library";
+import { DTemplateDescriptorsPageQuery } from "@/data/types/domain/prompt.template";
 
 import { LibraryEntries } from "./library-entries";
 
@@ -40,7 +41,7 @@ const assertGroupsendered = () => {
 };
 
 const assertGetLibraryEntriesPageCalled = (
-   expectedPayload: DLibraryEntriesPageQuery
+   expectedPayload: DTemplateDescriptorsPageQuery
 ) => {
    expect(getLibraryEntriesPageMock).toHaveBeenCalledTimes(1);
    expect(getLibraryEntriesPageMock).toHaveBeenCalledWith(expectedPayload);
@@ -48,7 +49,7 @@ const assertGetLibraryEntriesPageCalled = (
 
 describe("LibraryDashboard rendering tests", () => {
    beforeAll(() => {
-      const page = dtestData.dLibraryEntriesPage();
+      const page = dtestData.dTemplateDescriptorsPage();
 
       getLibraryCollectionsMock.mockResolvedValue([]);
       getLibraryEntriesPageMock.mockResolvedValue(page);

@@ -10,6 +10,8 @@ import {
    DPromptTemplateField,
    DPromptTemplateFieldValues,
    DPromptTemplateUpdate,
+   DTemplateDescriptorsPage,
+   DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
 import { TemplateEngine } from "@/lib/template";
@@ -30,6 +32,13 @@ export class PromptTemplateService {
    ) {
       this.repository = repository;
       this.settingService = settingsService;
+   }
+
+   async getTemplateDescriptorsPage(
+      userId: string,
+      query?: DTemplateDescriptorsPageQuery
+   ): Promise<DTemplateDescriptorsPage> {
+      return await this.repository.pGetTemplateDescriptorsPage(userId, query);
    }
 
    async getTemplateDataForPromptGeneration(
@@ -111,7 +120,26 @@ export class PromptTemplateService {
    }
 
    async deletePromptTemplateDescriptor(userId: string, descriptorId: string) {
-      await this.repository.pDeletePromptTemplateDescriptor(userId, descriptorId);
+      await this.repository.pDeletePromptTemplateDescriptor(
+         userId,
+         descriptorId
+      );
+   }
+
+   async toggleFavorite(
+      userId: string,
+      descriptorId: string,
+      isFavorite: boolean
+   ) {
+      await this.repository.pToggleFavorite(userId, descriptorId, isFavorite);
+   }
+
+   async getTemplateCategories(userId: string): Promise<string[]> {
+      return await this.repository.pGetTemplateCategories(userId);
+   }
+
+   async getTemplateModles(userId: string): Promise<string[]> {
+      return await this.repository.pGetTemplateModels(userId);
    }
 
    async composePromptFromTemplate(

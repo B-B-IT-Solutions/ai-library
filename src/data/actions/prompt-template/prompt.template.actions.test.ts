@@ -2,7 +2,6 @@ jest.mock("@/data/services/prompt-template");
 jest.mock("@/data/actions/auth-utils");
 
 import { dtestData } from "@tests";
-import { map } from "es-toolkit/compat";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { PromptTemplateService } from "@/data/services/prompt-template";

@@ -16,9 +16,11 @@ const assertRendered = () => {
 
 describe("LibraryEntryView rendering tests", () => {
    it("rendered test", async () => {
-      const entry = dtestData.dLibraryEntryWithPromptTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
-      const { container } = render(<LibraryEntryView entry={entry} />);
+      const { container } = render(
+         <LibraryEntryView descriptor={descriptor} />
+      );
 
       await waitFor(() => {
          assertRendered();

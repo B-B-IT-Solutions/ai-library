@@ -126,10 +126,10 @@ describe("getLibraryEntriesPage tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const page = dtestData.dLibraryEntriesPage();
+      const page = dtestData.dTemplateDescriptorsPage();
       sGetLibraryEntriesPageMock.mockResolvedValue(page);
 
-      const query = dtestData.dLibraryEntriesPageQuery();
+      const query = dtestData.dTemplateDescriptorsPageQuery();
 
       const result = await getLibraryEntriesPage(query);
 
@@ -153,9 +153,9 @@ describe("getLibraryEntry tests", () => {
    it("getLibraryEntry - user undefined - test", async () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
-      const entryId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
+      const descriptorId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
 
-      const result = await getLibraryEntry(entryId);
+      const result = await getLibraryEntry(descriptorId);
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
@@ -169,47 +169,47 @@ describe("getLibraryEntry tests", () => {
       const errorMessage = "db error";
       const error = new Error(errorMessage);
       sGetLibraryEntryMock.mockRejectedValue(error);
-      const entryId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
+      const descriptorId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
 
-      const result = await getLibraryEntry(entryId);
+      const result = await getLibraryEntry(descriptorId);
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryEntryMock).toHaveBeenCalledWith(entryId, user.id);
+      expect(sGetLibraryEntryMock).toHaveBeenCalledWith(user.id, descriptorId);
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(errorMessage);
    });
 
-   it("getLibraryEntry - entry null - test", async () => {
+   it("getLibraryEntry - descriptor null - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
       sGetLibraryEntryMock.mockResolvedValue(null);
-      const entryId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
+      const descriptorId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
 
-      const result = await getLibraryEntry(entryId);
+      const result = await getLibraryEntry(descriptorId);
 
       expect(result).toBeNull();
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryEntryMock).toHaveBeenCalledWith(entryId, user.id);
+      expect(sGetLibraryEntryMock).toHaveBeenCalledWith(user.id, descriptorId);
    });
 
-   it("getLibraryEntry - entry retrieved - test", async () => {
+   it("getLibraryEntry - descriptor retrieved - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const entry = dtestData.dLibraryEntryWithPromptTemplate();
-      sGetLibraryEntryMock.mockResolvedValue(entry);
-      const entryId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      sGetLibraryEntryMock.mockResolvedValue(descriptor);
+      const descriptorId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
 
-      const result = await getLibraryEntry(entryId);
+      const result = await getLibraryEntry(descriptorId);
 
-      expect(result).toEqual(entry);
+      expect(result).toEqual(descriptor);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryEntryMock).toHaveBeenCalledWith(entryId, user.id);
+      expect(sGetLibraryEntryMock).toHaveBeenCalledWith(user.id, descriptorId);
    });
 });
 
@@ -314,10 +314,10 @@ describe("updateLibraryEntry tests", () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
 
-      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const updateData = dtestData.dPromptTemplateUpdate();
 
-      const result = await updateLibraryEntry(entryId, updateData);
+      const result = await updateLibraryEntry(descriptorId, updateData);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -330,17 +330,17 @@ describe("updateLibraryEntry tests", () => {
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("createLibraryEntry - error - test", async () => {
+   it("updateLibraryEntry - error - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
       const error = new Error("db error");
       sUpdateLibraryEntryMock.mockRejectedValue(error);
 
-      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const updateData = dtestData.dPromptTemplateUpdate();
 
-      const result = await updateLibraryEntry(entryId, updateData);
+      const result = await updateLibraryEntry(descriptorId, updateData);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -352,21 +352,21 @@ describe("updateLibraryEntry tests", () => {
       expect(sUpdateLibraryEntryMock).toHaveBeenCalledTimes(1);
       expect(sUpdateLibraryEntryMock).toHaveBeenCalledWith(
          user.id,
-         entryId,
+         descriptorId,
          updateData
       );
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("createLibraryEntry - entry created - test", async () => {
+   it("updateLibraryEntry - entry updated - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
       sUpdateLibraryEntryMock.mockResolvedValue();
 
-      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const updateData = dtestData.dPromptTemplateUpdate();
 
-      const result = await updateLibraryEntry(entryId, updateData);
+      const result = await updateLibraryEntry(descriptorId, updateData);
 
       const expectedResult: ActionResult = {
          success: true,
@@ -378,7 +378,7 @@ describe("updateLibraryEntry tests", () => {
       expect(sUpdateLibraryEntryMock).toHaveBeenCalledTimes(1);
       expect(sUpdateLibraryEntryMock).toHaveBeenCalledWith(
          user.id,
-         entryId,
+         descriptorId,
          updateData
       );
    });
@@ -413,9 +413,9 @@ describe("deleteLibraryEntry tests", () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
 
-      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
 
-      const result = await deleteLibraryEntry(entryId);
+      const result = await deleteLibraryEntry(descriptorId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -435,9 +435,9 @@ describe("deleteLibraryEntry tests", () => {
       const error = new Error("db error");
       sDeleteLibraryEntryMock.mockRejectedValue(error);
 
-      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
 
-      const result = await deleteLibraryEntry(entryId);
+      const result = await deleteLibraryEntry(descriptorId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -447,7 +447,10 @@ describe("deleteLibraryEntry tests", () => {
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sDeleteLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteLibraryEntryMock).toHaveBeenCalledWith(user.id, entryId);
+      expect(sDeleteLibraryEntryMock).toHaveBeenCalledWith(
+         user.id,
+         descriptorId
+      );
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
@@ -456,9 +459,9 @@ describe("deleteLibraryEntry tests", () => {
       requireUserMock.mockResolvedValue(user);
       sDeleteLibraryEntryMock.mockResolvedValue();
 
-      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
 
-      const result = await deleteLibraryEntry(entryId);
+      const result = await deleteLibraryEntry(descriptorId);
 
       const expectedResult: ActionResult = {
          success: true,
@@ -468,7 +471,10 @@ describe("deleteLibraryEntry tests", () => {
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sDeleteLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteLibraryEntryMock).toHaveBeenCalledWith(user.id, entryId);
+      expect(sDeleteLibraryEntryMock).toHaveBeenCalledWith(
+         user.id,
+         descriptorId
+      );
    });
 });
 
@@ -630,7 +636,7 @@ describe("downloadTemplate tests", () => {
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sDownloadTemplateMock).toHaveBeenCalledTimes(1);
-      expect(sDownloadTemplateMock).toHaveBeenCalledWith(descriptorId, user.id);
+      expect(sDownloadTemplateMock).toHaveBeenCalledWith(user.id, descriptorId);
    });
 
    it("downloadTemplate - error - test", async () => {
@@ -651,7 +657,7 @@ describe("downloadTemplate tests", () => {
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sDownloadTemplateMock).toHaveBeenCalledTimes(1);
-      expect(sDownloadTemplateMock).toHaveBeenCalledWith(descriptorId, user.id);
+      expect(sDownloadTemplateMock).toHaveBeenCalledWith(user.id, descriptorId);
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(errorMessage);
    });
@@ -684,7 +690,7 @@ describe("getLibraryCategories tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const categories = dtestData.dLibraryEntryCategories();
+      const categories = dtestData.dTemplateCategories();
       sGetLibraryCategoriesMock.mockResolvedValue(categories);
 
       const result = await getLibraryCategories();
@@ -723,7 +729,7 @@ describe("getLibraryModels tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const models = dtestData.dLibraryEntryModels();
+      const models = dtestData.dTemplateModels();
       sGetLibraryModelsMock.mockResolvedValue(models);
 
       const result = await getLibraryModels();
@@ -765,10 +771,10 @@ describe("toggleLibraryEntryFavorite tests", () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
 
-      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const isFavorite = true;
 
-      const result = await toggleLibraryEntryFavorite(entryId, isFavorite);
+      const result = await toggleLibraryEntryFavorite(descriptorId, isFavorite);
       const expectedResult: ActionResult = {
          success: false,
          message: "Die Anfrage konnte nicht bearbeitet werden",
@@ -783,12 +789,12 @@ describe("toggleLibraryEntryFavorite tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const isFavorite = true;
 
       sToggleFavoriteMock.mockResolvedValue();
 
-      const result = await toggleLibraryEntryFavorite(entryId, isFavorite);
+      const result = await toggleLibraryEntryFavorite(descriptorId, isFavorite);
       const expectedResult: ActionResult<DPromptUpdate> = {
          success: true,
          message: "Zu Favoriten hinzugefügt",
@@ -797,7 +803,7 @@ describe("toggleLibraryEntryFavorite tests", () => {
       expect(result).toEqual(expectedResult);
       expect(sToggleFavoriteMock).toHaveBeenCalledTimes(1);
       expect(sToggleFavoriteMock).toHaveBeenCalledWith(
-         entryId,
+         descriptorId,
          user.id,
          isFavorite
       );
@@ -807,12 +813,12 @@ describe("toggleLibraryEntryFavorite tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const isFavorite = false;
 
       sToggleFavoriteMock.mockResolvedValue();
 
-      const result = await toggleLibraryEntryFavorite(entryId, isFavorite);
+      const result = await toggleLibraryEntryFavorite(descriptorId, isFavorite);
       const expectedResult: ActionResult<DPromptUpdate> = {
          success: true,
          message: "Aus Favoriten entfernt",
@@ -821,7 +827,7 @@ describe("toggleLibraryEntryFavorite tests", () => {
       expect(result).toEqual(expectedResult);
       expect(sToggleFavoriteMock).toHaveBeenCalledTimes(1);
       expect(sToggleFavoriteMock).toHaveBeenCalledWith(
-         entryId,
+         descriptorId,
          user.id,
          isFavorite
       );
@@ -835,10 +841,10 @@ describe("toggleLibraryEntryFavorite tests", () => {
       const error = new Error(errorMessage);
       sToggleFavoriteMock.mockRejectedValue(error);
 
-      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const isFavorite = false;
 
-      const result = await toggleLibraryEntryFavorite(entryId, isFavorite);
+      const result = await toggleLibraryEntryFavorite(descriptorId, isFavorite);
       const expectedResult: ActionResult = {
          success: false,
          message: "Die Anfrage konnte nicht bearbeitet werden",
@@ -847,7 +853,7 @@ describe("toggleLibraryEntryFavorite tests", () => {
       expect(result).toEqual(expectedResult);
       expect(sToggleFavoriteMock).toHaveBeenCalledTimes(1);
       expect(sToggleFavoriteMock).toHaveBeenCalledWith(
-         entryId,
+         descriptorId,
          user.id,
          isFavorite
       );

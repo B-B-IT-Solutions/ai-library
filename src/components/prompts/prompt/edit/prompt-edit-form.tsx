@@ -29,14 +29,20 @@ type Props =
    | {
         prompt?: DPromptDescriptor;
         mode: "create";
+        onCancel?: () => void;
+        onSuccess?: () => void;
      }
    | {
         prompt: DPromptDescriptor;
         mode: "edit";
+        onCancel?: () => void;
+        onSuccess?: () => void;
      }
    | {
         prompt: DPromptUpdate;
         mode: "review-template";
+        onCancel?: () => void;
+        onSuccess?: () => void;
      };
 
 export const PromptEditForm = ({ prompt, mode }: Props) => {
@@ -105,6 +111,10 @@ export const PromptEditForm = ({ prompt, mode }: Props) => {
 
       if (result.success) {
          toast.success(result.message);
+         // if (onSuccess) {
+         // onSuccess();
+         // } else
+
          if (isEdit) {
             router.push(`/prompts/${prompt.id}`);
          } else {
@@ -124,6 +134,7 @@ export const PromptEditForm = ({ prompt, mode }: Props) => {
          <Button
             type="button"
             variant="outline"
+            // onClick={() => (onCancel ? onCancel() : router.back())}
             onClick={() => router.back()}
             disabled={form.formState.isSubmitting}
             data-testid="cancel-btn"

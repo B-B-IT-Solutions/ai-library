@@ -29,9 +29,11 @@ import {
 import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
-   DLibraryEntriesPage,
-   DLibraryEntriesPageQuery,
 } from "@/data/types/domain/library";
+import {
+   DTemplateDescriptorsPage,
+   DTemplateDescriptorsPageQuery,
+} from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 
 import {
@@ -110,28 +112,29 @@ describe("prefetch options tests", () => {
    });
 
    test("preloadLibraryEntriesOptions  - test", async () => {
-      const page = dtestData.dLibraryEntriesPage();
+      const page = dtestData.dTemplateDescriptorsPage();
       getLibraryEntriesPageMock.mockResolvedValue(page);
 
-      const filters = dtestData.dLibraryEntriesFilter();
+      const filters = dtestData.dTemplateDescriptorsFilter();
       const sort = dtestData.sort();
       const params: LoadLibraryEntriesParams = { filters, sort };
 
       const options = preloadLibraryEntriesOptions(params);
-      const queryFn = options.queryFn as QueryFunction<DLibraryEntriesPage>;
+      const queryFn =
+         options.queryFn as QueryFunction<DTemplateDescriptorsPage>;
       const context = {} as QueryFunctionContext;
       const fnResult = await queryFn(context);
 
       const expectedOptions: UndefinedInitialDataOptions<
-         DLibraryEntriesPage,
+         DTemplateDescriptorsPage,
          Error,
-         DLibraryEntriesPage
+         DTemplateDescriptorsPage
       > = {
          queryKey: ["library", "entries", { filters, sort }],
          queryFn: jest.fn(),
       };
 
-      const expectedQuery: DLibraryEntriesPageQuery = {
+      const expectedQuery: DTemplateDescriptorsPageQuery = {
          pagination: {
             pageNumber: 0,
             pageSize: 10,
@@ -181,9 +184,9 @@ describe("loadLibraryEntries hooks tests", () => {
       const params: LoadLibraryEntriesParams = { filters, sort };
 
       const expectedOptions: UndefinedInitialDataInfiniteOptions<
-         DLibraryEntriesPage,
+         DTemplateDescriptorsPage,
          Error,
-         InfiniteData<DLibraryEntriesPage, unknown>,
+         InfiniteData<DTemplateDescriptorsPage, unknown>,
          QueryKey,
          number
       > = {
@@ -199,7 +202,7 @@ describe("loadLibraryEntries hooks tests", () => {
    });
 
    test("useInfiniteLoadLibraryEntries test", async () => {
-      const page = dtestData.dLibraryEntriesPage();
+      const page = dtestData.dTemplateDescriptorsPage();
       getLibraryEntriesPageMock.mockResolvedValue(page);
 
       const filters = dtestData.dLibraryEntriesFilter();
@@ -210,7 +213,7 @@ describe("loadLibraryEntries hooks tests", () => {
          useInfiniteLoadLibraryEntries(params)
       );
 
-      const expectedQuery: DLibraryEntriesPageQuery = {
+      const expectedQuery: DTemplateDescriptorsPageQuery = {
          pagination: {
             pageNumber: 0,
             pageSize: 10,
@@ -248,7 +251,7 @@ describe("toggleFavorite hooks tests", () => {
       const { result } = renderHookWithReactQuery(() => useToggleFavorite());
 
       const params: UpdateIsFavoriteParams = {
-         entryId: "1",
+         descriptorId: "1",
          isFavorite: true,
       };
 
@@ -257,7 +260,7 @@ describe("toggleFavorite hooks tests", () => {
          expect(result.current.isSuccess).toBe(true);
          expect(toggleLibraryEntryFavoriteMock).toHaveBeenCalledTimes(1);
          expect(toggleLibraryEntryFavoriteMock).toHaveBeenCalledWith(
-            params.entryId,
+            params.descriptorId,
             params.isFavorite
          );
       });

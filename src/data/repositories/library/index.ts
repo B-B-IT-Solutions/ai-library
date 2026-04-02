@@ -1,4 +1,1 @@
-export {
-   LibraryRepository,
-   type GetLibraryEntryParams,
-} from "./library.repository";
+export { LibraryRepository } from "./library.repository";

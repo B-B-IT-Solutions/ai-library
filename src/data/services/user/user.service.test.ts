@@ -528,7 +528,6 @@ describe("deleteUser tests", () => {
       expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(user.id);
       expect(compareMock).not.toHaveBeenCalled();
       expect(cartServiceMock.deleteCarts).not.toHaveBeenCalled();
-      expect(libraryServiceMock.deleteLibraryEntries).not.toHaveBeenCalled();
       expect(orderServiceMock.deleteOrders).not.toHaveBeenCalled();
       expect(userRepoMock.pDeleteUser).not.toHaveBeenCalled();
    });
@@ -549,7 +548,6 @@ describe("deleteUser tests", () => {
       expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(user.id);
       expect(compareMock).not.toHaveBeenCalled();
       expect(cartServiceMock.deleteCarts).not.toHaveBeenCalled();
-      expect(libraryServiceMock.deleteLibraryEntries).not.toHaveBeenCalled();
       expect(orderServiceMock.deleteOrders).not.toHaveBeenCalled();
       expect(userRepoMock.pDeleteUser).not.toHaveBeenCalled();
    });
@@ -569,7 +567,6 @@ describe("deleteUser tests", () => {
       expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
       expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(user.id);
       expect(cartServiceMock.deleteCarts).not.toHaveBeenCalled();
-      expect(libraryServiceMock.deleteLibraryEntries).not.toHaveBeenCalled();
       expect(orderServiceMock.deleteOrders).not.toHaveBeenCalled();
       expect(userRepoMock.pDeleteUser).not.toHaveBeenCalled();
    });
@@ -589,10 +586,6 @@ describe("deleteUser tests", () => {
       expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(user.id);
       expect(cartServiceMock.deleteCarts).toHaveBeenCalledTimes(1);
       expect(cartServiceMock.deleteCarts).toHaveBeenCalledWith(user.id);
-      expect(libraryServiceMock.deleteLibraryEntries).toHaveBeenCalledTimes(1);
-      expect(libraryServiceMock.deleteLibraryEntries).toHaveBeenCalledWith(
-         user.id
-      );
       expect(orderServiceMock.deleteOrders).toHaveBeenCalledTimes(1);
       expect(orderServiceMock.deleteOrders).toHaveBeenCalledWith(user.id);
       expect(userRepoMock.pDeleteUser).toHaveBeenCalledTimes(1);

@@ -15,8 +15,8 @@ import { Form } from "@/components/shadcn/form";
 import { Separator } from "@/components/shadcn/separator";
 import { newTemplateFieldInitValues } from "@/components/shared/template-fields";
 import { createLibraryEntry, updateLibraryEntry } from "@/data/actions/library";
-import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
 import {
+   DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateField,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
@@ -36,17 +36,17 @@ import {
 } from "./utils";
 
 type Props = {
-   entry?: DLibraryEntryWithPromptTemplate;
+   descriptor?: DPromptTemplateDescriptorWithTemplate;
    globalFields: DGlobalTemplateField[];
 };
 
-export const LibraryEntryEditForm = ({ entry, globalFields }: Props) => {
+export const LibraryEntryEditForm = ({ descriptor, globalFields }: Props) => {
    const router = useRouter();
-   const isEdit = !!entry;
+   const isEdit = !!descriptor;
 
    const form = useForm<DPromptTemplateUpdate>({
       resolver: zodResolver(updatePromptTemplateSchema),
-      defaultValues: initPromptTempalte(entry),
+      defaultValues: initPromptTempalte(descriptor),
    });
 
    const {
@@ -117,10 +117,10 @@ export const LibraryEntryEditForm = ({ entry, globalFields }: Props) => {
 
    const onSubmit: SubmitHandler<DPromptTemplateUpdate> = async (data) => {
       if (isEdit) {
-         const result = await updateLibraryEntry(entry.id, data);
+         const result = await updateLibraryEntry(descriptor.id, data);
          if (result.success) {
             toast.success(result.message);
-            router.push(`/library/${entry.id}`);
+            router.push(`/library/${descriptor.id}`);
          } else {
             toast.error(result.message);
          }
@@ -137,7 +137,7 @@ export const LibraryEntryEditForm = ({ entry, globalFields }: Props) => {
 
    const cancelBtn = () => {
       return (
-         <Link href={isEdit ? `/library/${entry.id}` : "/library"}>
+         <Link href={isEdit ? `/library/${descriptor.id}` : "/library"}>
             <Button
                type="button"
                variant="outline"

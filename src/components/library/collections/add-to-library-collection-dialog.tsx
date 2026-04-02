@@ -21,19 +21,20 @@ import {
    useUpdateEntryCollections,
 } from "@/data/ts-queries/library";
 import { UpdateCollectionIdsParams } from "@/data/ts-queries/library/types";
-import { DLibraryCollection, DLibraryEntry } from "@/data/types/domain/library";
+import { DLibraryCollection } from "@/data/types/domain/library";
+import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 import { LibraryCollectionCreateDialog } from "./create-library-collection-dialog";
 
 type Props = {
-   entry: DLibraryEntry;
+   descriptor: DPromptTemplateDescriptor;
    collections: DLibraryCollection[];
    open: boolean;
    onOpenChange: (open: boolean) => void;
 };
 
 export const AddToLibraryCollectionDialog: FC<Props> = ({
-   entry,
+   descriptor,
    collections,
    open,
    onOpenChange,
@@ -46,7 +47,7 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
    const [selectedColIds, setSelectedColdIds] = useState<string[]>([]);
 
    const { data: entryCollectionIds, isLoading } = useLoadEntryCollectionIds({
-      entryId: entry.id,
+      entryId: descriptor.id,
       enabled: open,
    });
 
@@ -68,7 +69,7 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
 
    const handleConfirm = async () => {
       const params: UpdateCollectionIdsParams = {
-         entryId: entry.id,
+         entryId: descriptor.id,
          collectionIds: selectedColIds,
       };
 

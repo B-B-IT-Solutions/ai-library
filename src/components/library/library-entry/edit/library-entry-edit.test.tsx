@@ -26,11 +26,11 @@ describe("LibraryEntryEdit rendering tests", () => {
    });
 
    it("LibraryEntryEdit - edit existing entry - test", async () => {
-      const entry = dtestData.dLibraryEntryWithPromptTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const fields = dtestData.dGlobalTemplateFields();
 
       const { container } = render(
-         <LibraryEntryEdit entry={entry} globalFields={fields} />
+         <LibraryEntryEdit descriptor={descriptor} globalFields={fields} />
       );
 
       await waitFor(() => {

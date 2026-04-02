@@ -1,4 +1,4 @@
-import { flatMap, isEmpty, map, uniq } from "es-toolkit/compat";
+import { isEmpty, map } from "es-toolkit/compat";
 
 import { Sort } from "@/data/types/common";
 import { DbClient } from "@/data/types/db/common";
@@ -9,7 +9,6 @@ import {
    DLibraryEntriesPage,
    DLibraryEntriesPageQuery,
    DLibraryEntry,
-   DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
 import {
    LibraryCollectionCreateInput,
@@ -22,7 +21,6 @@ import {
    LibraryEntryFindManyArgs,
    LibraryEntryOrderByWithRelationInput,
    LibraryEntryWhereInput,
-   LibraryEntryWhereUniqueInput,
    PromptTemplateDescriptorWhereInput,
 } from "@/generated/prisma/models";
 
@@ -30,15 +28,7 @@ import {
    toDLibraryCollection,
    toDLibraryCollections,
    toDLibraryEntries,
-   toDLibraryEntryWithPromptTemplate,
 } from "./library.mapper";
-
-export type GetLibraryEntryParams = {
-   userId: string;
-} & (
-   | { entryId: string; templateDescriptorId?: never }
-   | { templateDescriptorId: string; entryId?: never }
-);
 
 export class LibraryRepository {
    private prisma: DbClient;
@@ -112,33 +102,6 @@ export class LibraryRepository {
       return toDLibraryEntries(entries);
    }
 
-   async pGetLibraryEntry(
-      params: GetLibraryEntryParams
-   ): Promise<DLibraryEntryWithPromptTemplate | null> {
-      const where = this.getLibraryEntryParamsToWhereFindUniqueInput(params);
-      const entry = await this.prisma.libraryEntry.findUnique({
-         where: where,
-         include: {
-            templateDescriptor: {
-               include: {
-                  categories: true,
-                  promptTemplate: {
-                     include: {
-                        fields: true,
-                        globalFields: true,
-                     },
-                  },
-               },
-            },
-         },
-      });
-
-      if (entry) {
-         return toDLibraryEntryWithPromptTemplate(entry);
-      }
-      return null;
-   }
-
    async pCreateLibraryEntry(userId: string, templateDescriptorId: string) {
       const input: LibraryEntryCreateInput = {
          templateDescriptor: {
@@ -178,79 +141,6 @@ export class LibraryRepository {
 
       await this.prisma.libraryEntry.createMany(args);
    }
-
-   async pDeleteLibraryEntry(userId: string, entryId: string) {
-      const args: LibraryEntryDeleteArgs = {
-         where: { id: entryId, userId },
-      };
-      return await this.prisma.libraryEntry.delete(args);
-   }
-
-   async pDeleteLibraryEntries(userId: string) {
-      return await this.prisma.libraryEntry.deleteMany({
-         where: { userId },
-      });
-   }
-
-   // ==================== Filtering & Pagination ====================
-
-   async pGetLibraryCategories(userId: string): Promise<string[]> {
-      const entries = await this.prisma.libraryEntry.findMany({
-         where: { userId },
-         include: {
-            templateDescriptor: {
-               include: {
-                  categories: true,
-               },
-            },
-         },
-      });
-
-      const categories = flatMap(entries, (entry) =>
-         map(entry.templateDescriptor.categories, (cat) => cat.name)
-      );
-
-      return uniq(categories).sort();
-   }
-
-   async pGetLibraryModels(userId: string): Promise<string[]> {
-      const entries = await this.prisma.libraryEntry.findMany({
-         where: { userId },
-         include: {
-            templateDescriptor: {
-               select: {
-                  recommendedModel: true,
-               },
-            },
-         },
-      });
-
-      const models = map(
-         entries,
-         (entry) => entry.templateDescriptor.recommendedModel
-      );
-      return uniq(models).sort();
-   }
-
-   // ==================== Favorites ====================
-
-   async pToggleFavorite(
-      entryId: string,
-      userId: string,
-      isFavorite: boolean
-   ): Promise<void> {
-      await this.prisma.libraryEntry.update({
-         where: {
-            id: entryId,
-            userId,
-         },
-         data: {
-            isFavorite,
-         },
-      });
-   }
-
-   // ==================== Collections CRUD ====================
 
    async pGetCollections(userId: string): Promise<DLibraryCollection[]> {
       const collections = await this.prisma.libraryCollection.findMany({
@@ -427,24 +317,4 @@ export class LibraryRepository {
          createdAt: "desc" as const,
       };
    }
-
-   private getLibraryEntryParamsToWhereFindUniqueInput = (
-      params: GetLibraryEntryParams
-   ): LibraryEntryWhereUniqueInput => {
-      const { userId, entryId, templateDescriptorId } = params;
-
-      if (entryId) {
-         return {
-            id: entryId,
-            userId,
-         };
-      }
-
-      return {
-         userId_templateDescriptorId: {
-            userId,
-            templateDescriptorId: templateDescriptorId as string,
-         },
-      };
-   };
 }

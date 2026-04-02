@@ -10,20 +10,20 @@ import { DbClient } from "@/data/types/db/common";
 import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
-   DLibraryEntriesPage,
-   DLibraryEntriesPageQuery,
-   DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
+   DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateFieldValues,
    DPromptTemplateUpdate,
+   DTemplateDescriptorsPage,
+   DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 
 export const getLibraryEntriesPage = async (
-   query?: DLibraryEntriesPageQuery
-): Promise<DLibraryEntriesPage> => {
+   query?: DTemplateDescriptorsPageQuery
+): Promise<DTemplateDescriptorsPage> => {
    try {
       const user = await requireUser();
       const service = getSevice();
@@ -35,12 +35,12 @@ export const getLibraryEntriesPage = async (
 };
 
 export const getLibraryEntry = async (
-   entryId: string
-): Promise<DLibraryEntryWithPromptTemplate | null> => {
+   descriptorId: string
+): Promise<DPromptTemplateDescriptorWithTemplate | null> => {
    try {
       const user = await requireUser();
       const service = getSevice();
-      return await service.getLibraryEntry(entryId, user.id);
+      return await service.getLibraryEntry(user.id, descriptorId);
    } catch (error) {
       console.error(formatError(error));
       return null;
@@ -68,17 +68,17 @@ export const createLibraryEntry = async (
 };
 
 export const updateLibraryEntry = async (
-   entryId: string,
+   descriptorId: string,
    data: DPromptTemplateUpdate
 ): Promise<ActionResult> => {
    try {
-      if (!isValidUuid(entryId)) {
+      if (!isValidUuid(descriptorId)) {
          throw new Error("Invalid Entry ID.");
       }
 
       const user = await requireUser();
       const service = getSevice();
-      await service.updateLibraryEntry(user.id, entryId, data);
+      await service.updateLibraryEntry(user.id, descriptorId, data);
 
       return {
          success: true,
@@ -94,16 +94,16 @@ export const updateLibraryEntry = async (
 };
 
 export const deleteLibraryEntry = async (
-   entryId: string
+   descriptorId: string
 ): Promise<ActionResult> => {
    try {
-      if (!isValidUuid(entryId)) {
+      if (!isValidUuid(descriptorId)) {
          throw new Error("Invalid Entry ID.");
       }
 
       const user = await requireUser();
       const service = getSevice();
-      await service.deleteLibraryEntry(user.id, entryId);
+      await service.deleteLibraryEntry(user.id, descriptorId);
 
       return {
          success: true,
@@ -160,8 +160,8 @@ export const downloadTemplate = async (
 
       const service = getSevice();
       const downloadData = await service.downloadPromptTemplate(
-         descriptorId,
-         user.id
+         user.id,
+         descriptorId
       );
 
       return {
@@ -201,17 +201,17 @@ export const getLibraryModels = async (): Promise<string[]> => {
 };
 
 export const toggleLibraryEntryFavorite = async (
-   entryId: string,
+   descriptorId: string,
    isFavorite: boolean
 ): Promise<ActionResult> => {
    try {
-      if (!isValidUuid(entryId)) {
+      if (!isValidUuid(descriptorId)) {
          throw new Error("Invalid Entry ID.");
       }
 
       const user = await requireUser();
       const service = getSevice();
-      await service.toggleFavorite(entryId, user.id, isFavorite);
+      await service.toggleFavorite(descriptorId, user.id, isFavorite);
 
       return {
          success: true,
