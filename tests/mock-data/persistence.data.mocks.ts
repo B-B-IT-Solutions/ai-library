@@ -4,10 +4,6 @@ import { map } from "es-toolkit/compat";
 
 import { CartWithItems } from "@/data/types/db/cart";
 import {
-   LibraryEntryWithPromptTemplate,
-   LibraryEntryWithPromptTemplateDescriptor,
-} from "@/data/types/db/library";
-import {
    OrderItemProduct,
    OrderProducts,
    OrderWithItems,
@@ -363,34 +359,6 @@ export const pOrderItem = (index = 1): OrderItem => {
       quantity: 1,
       price: new Decimal(29.99),
       createdAt: new Date("2025-09-27"),
-   };
-};
-
-export const pLibraryEntryWithPromptTemplate = (
-   index = 1
-): LibraryEntryWithPromptTemplate => {
-   const libraryEntry = pLibraryEntry(index);
-   const templateDescriptor = pPromptTemplateDescriptorWithTemplate(index);
-   return {
-      ...libraryEntry,
-      templateDescriptor,
-   };
-};
-
-export const pLibraryEntriesWithTemplateDescriptor = (
-   count = 3
-): LibraryEntryWithPromptTemplateDescriptor[] => {
-   return range(0, count).map((i) => pLibraryEntryWithTemplateDescriptor(i));
-};
-
-export const pLibraryEntryWithTemplateDescriptor = (
-   index = 1
-): LibraryEntryWithPromptTemplateDescriptor => {
-   const libraryEntry = pLibraryEntry(index);
-   const templateDescriptor = pPromptTemplateDescriptorWithCategories(index);
-   return {
-      ...libraryEntry,
-      templateDescriptor,
    };
 };
 

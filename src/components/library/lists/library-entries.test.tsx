@@ -12,7 +12,6 @@ import {
    DListSortByMode,
    DListViewMode,
 } from "@/data/types/domain/common";
-import { DLibraryEntriesPageQuery } from "@/data/types/domain/library";
 import { DTemplateDescriptorsPageQuery } from "@/data/types/domain/prompt.template";
 
 import { LibraryEntries } from "./library-entries";
@@ -60,7 +59,7 @@ describe("LibraryDashboard rendering tests", () => {
    });
 
    it("LibraryEntries - view grid - test", async () => {
-      const filters = dtestData.dLibraryEntriesFilter();
+      const filters = dtestData.dTemplateDescriptorsFilter();
 
       const { container } = renderWithRouter(
          <LibraryEntries
@@ -71,7 +70,7 @@ describe("LibraryDashboard rendering tests", () => {
          />
       );
 
-      const expectedPayload: DLibraryEntriesPageQuery = {
+      const expectedPayload: DTemplateDescriptorsPageQuery = {
          pagination: {
             pageNumber: 0,
             pageSize: 10,
@@ -89,7 +88,7 @@ describe("LibraryDashboard rendering tests", () => {
    });
 
    it("LibraryEntries - view list - test", async () => {
-      const filters = dtestData.dLibraryEntriesFilter();
+      const filters = dtestData.dTemplateDescriptorsFilter();
 
       const { container } = renderWithRouter(
          <LibraryEntries
@@ -100,7 +99,7 @@ describe("LibraryDashboard rendering tests", () => {
          />
       );
 
-      const expectedPayload: DLibraryEntriesPageQuery = {
+      const expectedPayload: DTemplateDescriptorsPageQuery = {
          pagination: {
             pageNumber: 0,
             pageSize: 10,
@@ -127,7 +126,7 @@ describe("LibraryDashboard rendering tests", () => {
          />
       );
 
-      const expectedPayload: DLibraryEntriesPageQuery = {
+      const expectedPayload: DTemplateDescriptorsPageQuery = {
          pagination: {
             pageNumber: 0,
             pageSize: 10,

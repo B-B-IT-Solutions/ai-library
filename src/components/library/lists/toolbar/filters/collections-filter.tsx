@@ -15,13 +15,13 @@ import {
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
 import { useLoadLibraryCollections } from "@/data/ts-queries/library";
-import { DLibraryEntriesFilter } from "@/data/types/domain/library";
+import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
 import { cn } from "@/lib/utils";
 import { LibraryCollectionCreateDialog } from "../../../collections";
 import { librarySearchParams } from "../../../search-params";
 
 type Props = {
-   filters: DLibraryEntriesFilter;
+   filters: DTemplateDescriptorsFilter;
 };
 
 export const CollectionsFilter: FC<Props> = () => {

@@ -25,7 +25,6 @@ model User {
   sessions                  Session[]
   carts                     Cart[]
   orders                    Order[]
-  libraries                 LibraryEntry[]
   libraryCollections        LibraryCollection[]
   subscription              Subscription?
   subscriptionHistory       SubscriptionHistory[]
@@ -161,7 +160,6 @@ model PromptTemplateDescriptor {
   user              User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
   promptTemplate    PromptTemplate           @relation(fields: [promptTemplateId], references: [id], onDelete: Cascade)
   productItems      ProductItem[]
-  libraries         LibraryEntry[]
   collectionEntries LibraryCollectionEntry[]
 
   @@index([userId])
@@ -259,23 +257,6 @@ model GlobalTemplateField {
   @@map("global_field")
 }
 
-model LibraryEntry {
-  id                   String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId               String   @map("user_id") @db.Uuid
-  templateDescriptorId String   @map("template_descriptor_id") @db.Uuid
-  isFavorite           Boolean  @default(false) @map("is_favorite")
-  createdAt            DateTime @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt            DateTime @default(now()) @updatedAt @map("updated_at")
-
-  user               User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  templateDescriptor PromptTemplateDescriptor @relation(fields: [templateDescriptorId], references: [id], onDelete: Cascade)
-  collectionEntries  LibraryCollectionEntry[]
-
-  @@unique([userId, templateDescriptorId])
-  @@index([userId, isFavorite])
-  @@map("library_entry")
-}
-
 model LibraryCollection {
   id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   userId      String   @map("user_id") @db.Uuid
@@ -297,17 +278,15 @@ model LibraryCollection {
 model LibraryCollectionEntry {
   id                         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   collectionId               String   @map("collection_id") @db.Uuid
-  entryId                    String   @map("entry_id") @db.Uuid
-  promptTemplateDescriptorId String?  @map("prompt_template_descriptor_id") @db.Uuid
+  promptTemplateDescriptorId String   @map("prompt_template_descriptor_id") @db.Uuid
   addedAt                    DateTime @default(now()) @map("added_at") @db.Timestamp(6)
 
-  collection               LibraryCollection         @relation(fields: [collectionId], references: [id], onDelete: Cascade)
-  entry                    LibraryEntry              @relation(fields: [entryId], references: [id], onDelete: Cascade)
-  promptTemplateDescriptor PromptTemplateDescriptor? @relation(fields: [promptTemplateDescriptorId], references: [id])
+  collection               LibraryCollection        @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  promptTemplateDescriptor PromptTemplateDescriptor @relation(fields: [promptTemplateDescriptorId], references: [id], onDelete: Cascade)
 
-  @@unique([collectionId, entryId])
+  @@unique([collectionId, promptTemplateDescriptorId])
   @@index([collectionId])
-  @@index([entryId])
+  @@index([promptTemplateDescriptorId])
   @@map("library_collection_entry")
 }
 
