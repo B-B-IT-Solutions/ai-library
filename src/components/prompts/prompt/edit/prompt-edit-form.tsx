@@ -45,12 +45,7 @@ type Props =
         onSuccess?: () => void;
      };
 
-export const PromptEditForm = ({
-   prompt,
-   mode,
-   onCancel,
-   onSuccess,
-}: Props) => {
+export const PromptEditForm = ({ prompt, mode }: Props) => {
    const router = useRouter();
    const isEdit = mode === "edit";
    const isReview = mode === "review-template";
@@ -116,9 +111,11 @@ export const PromptEditForm = ({
 
       if (result.success) {
          toast.success(result.message);
-         if (onSuccess) {
-            onSuccess();
-         } else if (isEdit) {
+         // if (onSuccess) {
+         // onSuccess();
+         // } else
+
+         if (isEdit) {
             router.push(`/prompts/${prompt.id}`);
          } else {
             router.push("/prompts");
@@ -137,7 +134,8 @@ export const PromptEditForm = ({
          <Button
             type="button"
             variant="outline"
-            onClick={() => (onCancel ? onCancel() : router.back())}
+            // onClick={() => (onCancel ? onCancel() : router.back())}
+            onClick={() => router.back()}
             disabled={form.formState.isSubmitting}
             data-testid="cancel-btn"
          >
