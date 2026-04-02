@@ -10,11 +10,8 @@ import {
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
    DPromptTemplateDescriptor,
-   DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateFieldValues,
    DPromptTemplateUpdate,
-   DTemplateDescriptorsPage,
-   DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
 
 export class LibraryService {
@@ -27,16 +24,6 @@ export class LibraryService {
    ) {
       this.libraryRepository = libraryRepository;
       this.promptTemplateService = promptTemplateService;
-   }
-
-   async getLibraryEntry(
-      userId: string,
-      descriptorId: string
-   ): Promise<DPromptTemplateDescriptorWithTemplate | null> {
-      return await this.promptTemplateService.getTemplateDescriptor(
-         userId,
-         descriptorId
-      );
    }
 
    async createLibraryEntry(

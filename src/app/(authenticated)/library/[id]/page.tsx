@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { LibraryEntryView } from "@/components/library";
-import { getLibraryEntry } from "@/data/actions/library";
+import { getTemplateDescriptor } from "@/data/actions/prompt-template";
 
 export const metadata: Metadata = {
    title: "Vorlage",
@@ -18,7 +18,7 @@ export type PageProps = {
 
 export const LibraryEntryPage = async ({ params }: PageProps) => {
    const { id: descriptorId } = await params;
-   const descriptor = await getLibraryEntry(descriptorId);
+   const descriptor = await getTemplateDescriptor(descriptorId);
 
    if (!descriptor) {
       return notFound();

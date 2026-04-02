@@ -1,5 +1,4 @@
 export {
-   getLibraryEntry,
    createLibraryEntry,
    deleteLibraryEntry,
    updateLibraryEntry,

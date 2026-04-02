@@ -1,5 +1,6 @@
 export {
    getTemplateDescriptorsPage,
+   getTemplateDescriptor,
    getPromptTemplateCategories,
    getPromptTemplates,
    getPromptTemplate,

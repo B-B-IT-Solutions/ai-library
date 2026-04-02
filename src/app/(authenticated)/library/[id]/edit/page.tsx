@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { LibraryEntryEdit } from "@/components/library";
-import { getLibraryEntry } from "@/data/actions/library";
+import { getTemplateDescriptor } from "@/data/actions/prompt-template";
 import { getGlobalTemplateFields } from "@/data/actions/settings";
 
 export const metadata: Metadata = {
@@ -21,7 +21,7 @@ export const EditLibraryEntryPage = async ({ params }: PageProps) => {
    const { id: descriptorId } = await params;
 
    const [entry, globalFields] = await Promise.all([
-      getLibraryEntry(descriptorId),
+      getTemplateDescriptor(descriptorId),
       getGlobalTemplateFields(),
    ]);
 
