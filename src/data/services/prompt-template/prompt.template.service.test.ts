@@ -338,7 +338,7 @@ describe("updatePromptTemplateDescriptor tests", () => {
             update
          );
 
-      await expect(fn).rejects.toThrow("Templatedescriptor not found");
+      await expect(fn).rejects.toThrow("TemplateDescriptor not found");
       expect(
          promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
       ).toHaveBeenCalledTimes(1);
@@ -385,15 +385,51 @@ describe("deletePromptTemplateDescriptor tests", () => {
       jest.clearAllMocks();
    });
 
+   it("deletePromptTemplateDescriptor - descriptor not found - test", async () => {
+      const userId = "user-id-1";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
+
+      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         null
+      );
+
+      const fn = async () =>
+         await promptTemplateService.deletePromptTemplateDescriptor(
+            userId,
+            descriptorId
+         );
+
+      await expect(fn).rejects.toThrow("TemplateDescriptor not found");
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptorId);
+      expect(
+         promptTemplateRepoMock.pUpdatePromptTemplateDescriptor
+      ).not.toHaveBeenCalled();
+   });
+
    it("deletePromptTemplateDescriptor - descriptor deleted - test", async () => {
       const userId = "user-id-1";
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+
+      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         descriptor
+      );
 
       await promptTemplateService.deletePromptTemplateDescriptor(
          userId,
          descriptor.id
       );
 
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptor.id);
       expect(
          promptTemplateRepoMock.pDeletePromptTemplateDescriptor
       ).toHaveBeenCalledTimes(1);

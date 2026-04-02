@@ -114,7 +114,7 @@ export class PromptTemplateService {
    ) {
       const descriptor = await this.getTemplateDescriptor(userId, descriptorId);
       if (!descriptor) {
-         throw new Error("Templatedescriptor not found");
+         throw new Error("TemplateDescriptor not found");
       }
 
       await this.repository.pUpdatePromptTemplateDescriptor(
@@ -125,6 +125,11 @@ export class PromptTemplateService {
    }
 
    async deletePromptTemplateDescriptor(userId: string, descriptorId: string) {
+      const descriptor = await this.getTemplateDescriptor(userId, descriptorId);
+      if (!descriptor) {
+         throw new Error("TemplateDescriptor not found");
+      }
+
       await this.repository.pDeletePromptTemplateDescriptor(
          userId,
          descriptorId
