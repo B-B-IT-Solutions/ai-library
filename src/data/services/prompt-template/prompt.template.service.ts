@@ -74,7 +74,7 @@ export class PromptTemplateService {
       return await this.repository.pGetPromptTemplateDescriptors(params);
    }
 
-   async getPromptTemplateDescriptorWithTemplate(
+   async getPromptTemplateDescriptor(
       userId: string,
       descriptorId: string
    ): Promise<DPromptTemplateDescriptorWithTemplate | null> {
@@ -147,7 +147,7 @@ export class PromptTemplateService {
       descriptorId: string,
       fieldValues: DPromptTemplateFieldValues
    ): Promise<DPromptUpdate> {
-      const descriptor = await this.getPromptTemplateDescriptorWithTemplate(
+      const descriptor = await this.getPromptTemplateDescriptor(
          userId,
          descriptorId
       );

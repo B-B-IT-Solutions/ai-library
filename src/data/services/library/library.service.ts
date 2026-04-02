@@ -33,7 +33,7 @@ export class LibraryService {
       userId: string,
       descriptorId: string
    ): Promise<DPromptTemplateDescriptorWithTemplate | null> {
-      return await this.promptTemplateService.getPromptTemplateDescriptorWithTemplate(
+      return await this.promptTemplateService.getPromptTemplateDescriptor(
          userId,
          descriptorId
       );

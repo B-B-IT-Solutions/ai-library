@@ -210,12 +210,12 @@ describe("getPromptTemplateDescriptors tests", () => {
    });
 });
 
-describe("getPromptTemplateDescriptorWithTemplate tests", () => {
+describe("getPromptTemplateDescriptor tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("getPromptTemplateDescriptorWithTemplate - descriptor retrieved - test", async () => {
+   it("getPromptTemplateDescriptor - descriptor retrieved - test", async () => {
       const userId = "user-id-1";
       const template = dtestData.dPromptTemplateDescriptorWithTemplate();
       promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
@@ -223,11 +223,10 @@ describe("getPromptTemplateDescriptorWithTemplate tests", () => {
       );
 
       const { id } = template;
-      const result =
-         await promptTemplateService.getPromptTemplateDescriptorWithTemplate(
-            userId,
-            id
-         );
+      const result = await promptTemplateService.getPromptTemplateDescriptor(
+         userId,
+         id
+      );
 
       expect(result).toEqual(template);
       expect(
