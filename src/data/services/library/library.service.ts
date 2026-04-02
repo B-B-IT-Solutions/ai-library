@@ -1,9 +1,6 @@
 import { isEmpty, map } from "es-toolkit/compat";
 
-import {
-   GetLibraryEntryParams,
-   LibraryRepository,
-} from "@/data/repositories/library";
+import { LibraryRepository } from "@/data/repositories/library";
 import { PromptTemplateService } from "@/data/services/prompt-template";
 import { OrderProducts } from "@/data/types/db/order";
 import {
@@ -127,20 +124,15 @@ export class LibraryService {
    }
 
    async downloadPromptTemplate(
-      templateDescriptorId: string,
-      userId: string
+      userId: string,
+      descriptorId: string
    ): Promise<string> {
-      const params: GetLibraryEntryParams = {
-         templateDescriptorId,
-         userId,
-      };
-      const entry = await this.libraryRepository.pGetLibraryEntry(params);
+      const descriptor = await this.getLibraryEntry(userId, descriptorId);
 
-      if (!entry) {
+      if (!descriptor) {
          throw new Error("Template not found");
       }
 
-      const { templateDescriptor: descriptor } = entry;
       const downloadData = JSON.stringify(
          {
             title: descriptor.title,

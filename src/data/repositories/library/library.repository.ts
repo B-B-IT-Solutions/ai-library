@@ -9,7 +9,6 @@ import {
    DLibraryEntriesPage,
    DLibraryEntriesPageQuery,
    DLibraryEntry,
-   DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
 import {
    LibraryCollectionCreateInput,
@@ -22,7 +21,6 @@ import {
    LibraryEntryFindManyArgs,
    LibraryEntryOrderByWithRelationInput,
    LibraryEntryWhereInput,
-   LibraryEntryWhereUniqueInput,
    PromptTemplateDescriptorWhereInput,
 } from "@/generated/prisma/models";
 
@@ -30,15 +28,7 @@ import {
    toDLibraryCollection,
    toDLibraryCollections,
    toDLibraryEntries,
-   toDLibraryEntryWithPromptTemplate,
 } from "./library.mapper";
-
-export type GetLibraryEntryParams = {
-   userId: string;
-} & (
-   | { entryId: string; templateDescriptorId?: never }
-   | { templateDescriptorId: string; entryId?: never }
-);
 
 export class LibraryRepository {
    private prisma: DbClient;
@@ -110,33 +100,6 @@ export class LibraryRepository {
             },
          });
       return toDLibraryEntries(entries);
-   }
-
-   async pGetLibraryEntry(
-      params: GetLibraryEntryParams
-   ): Promise<DLibraryEntryWithPromptTemplate | null> {
-      const where = this.getLibraryEntryParamsToWhereFindUniqueInput(params);
-      const entry = await this.prisma.libraryEntry.findUnique({
-         where: where,
-         include: {
-            templateDescriptor: {
-               include: {
-                  categories: true,
-                  promptTemplate: {
-                     include: {
-                        fields: true,
-                        globalFields: true,
-                     },
-                  },
-               },
-            },
-         },
-      });
-
-      if (entry) {
-         return toDLibraryEntryWithPromptTemplate(entry);
-      }
-      return null;
    }
 
    async pCreateLibraryEntry(userId: string, templateDescriptorId: string) {
@@ -409,24 +372,4 @@ export class LibraryRepository {
          createdAt: "desc" as const,
       };
    }
-
-   private getLibraryEntryParamsToWhereFindUniqueInput = (
-      params: GetLibraryEntryParams
-   ): LibraryEntryWhereUniqueInput => {
-      const { userId, entryId, templateDescriptorId } = params;
-
-      if (entryId) {
-         return {
-            id: entryId,
-            userId,
-         };
-      }
-
-      return {
-         userId_templateDescriptorId: {
-            userId,
-            templateDescriptorId: templateDescriptorId as string,
-         },
-      };
-   };
 }

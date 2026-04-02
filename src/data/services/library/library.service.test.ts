@@ -5,10 +5,7 @@ import { dtestData, ptestData } from "@tests";
 import { forEach, map } from "es-toolkit/compat";
 import { DeepMockProxy } from "jest-mock-extended";
 
-import {
-   GetLibraryEntryParams,
-   LibraryRepository,
-} from "@/data/repositories/library";
+import { LibraryRepository } from "@/data/repositories/library";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { PromptTemplateService } from "@/data/services/prompt-template";
@@ -366,58 +363,53 @@ describe("downloadPromptTemplate tests", () => {
 
    it("downloadPromptTemplate - template not found - test", async () => {
       const userId = "user-id-1";
-      const templateDescriptorId = "123e4567-e89b-12d3-a456-426614174000";
-      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(null);
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
+      promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         null
+      );
 
       const fn = async () =>
-         await libraryService.downloadPromptTemplate(
-            templateDescriptorId,
-            userId
-         );
-
-      const expectedGetEntryPayload: GetLibraryEntryParams = {
-         templateDescriptorId,
-         userId,
-      };
+         await libraryService.downloadPromptTemplate(userId, descriptorId);
 
       await expect(fn).rejects.toThrow("Template not found");
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
-         expectedGetEntryPayload
-      );
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptorId);
    });
 
    it("downloadPromptTemplate - template downloaded - test", async () => {
       const userId = "user-id-1";
-      const entry = ptestData.pLibraryEntryWithPromptTemplate();
-      const templateDescriptorId = entry.templateDescriptorId;
-      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(entry);
-
-      const result = await libraryService.downloadPromptTemplate(
-         templateDescriptorId,
-         userId
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         descriptor
       );
 
-      const expectedGetEntryPayload: GetLibraryEntryParams = {
-         templateDescriptorId,
+      const result = await libraryService.downloadPromptTemplate(
          userId,
-      };
+         descriptor.id
+      );
+
       const expectedDownloadData = JSON.stringify(
          {
-            title: entry.templateDescriptor.title,
-            content: entry.templateDescriptor.promptTemplate.content,
-            categories: entry.templateDescriptor.categories.map((c) => c.name),
-            recommendedModel: entry.templateDescriptor.recommendedModel,
+            title: descriptor.title,
+            content: descriptor.promptTemplate.content,
+            categories: descriptor.categories.map((c) => c.name),
+            recommendedModel: descriptor.recommendedModel,
          },
          null,
          2
       );
 
       expect(result).toEqual(expectedDownloadData);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
-         expectedGetEntryPayload
-      );
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptor.id);
    });
 });
 

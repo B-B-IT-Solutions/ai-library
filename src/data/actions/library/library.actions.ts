@@ -160,8 +160,8 @@ export const downloadTemplate = async (
 
       const service = getSevice();
       const downloadData = await service.downloadPromptTemplate(
-         descriptorId,
-         user.id
+         user.id,
+         descriptorId
       );
 
       return {

@@ -17,15 +17,11 @@ import {
    LibraryEntryDeleteArgs,
    LibraryEntryDeleteManyArgs,
    LibraryEntryFindManyArgs,
-   LibraryEntryFindUniqueArgs,
    LibraryEntryWhereInput,
 } from "@/generated/prisma/models";
 
-import {
-   toDLibraryEntries,
-   toDLibraryEntryWithPromptTemplate,
-} from "./library.mapper";
-import { GetLibraryEntryParams, LibraryRepository } from "./library.repository";
+import { toDLibraryEntries } from "./library.mapper";
+import { LibraryRepository } from "./library.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const libraryRepository = new LibraryRepository(prismaMock);
@@ -645,125 +641,6 @@ describe("pGetLibraryEntries tests", () => {
       expect(prismaMock.libraryEntry.findMany).toHaveBeenCalledTimes(1);
       expect(prismaMock.libraryEntry.findMany).toHaveBeenCalledWith(
          expectedFindManyArgs
-      );
-   });
-});
-
-describe("pGetLibraryEntry tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("pGetLibraryEntry - entry null - test", async () => {
-      const userId = "user-id-1";
-      const entryId = "entry-id-1";
-      prismaMock.libraryEntry.findUnique.mockResolvedValue(null);
-
-      const params: GetLibraryEntryParams = { entryId, userId };
-      const result = await libraryRepository.pGetLibraryEntry(params);
-
-      const expectedFindUniqueArgs: LibraryEntryFindUniqueArgs = {
-         where: {
-            id: entryId,
-            userId,
-         },
-         include: {
-            templateDescriptor: {
-               include: {
-                  categories: true,
-                  promptTemplate: {
-                     include: {
-                        fields: true,
-                        globalFields: true,
-                     },
-                  },
-               },
-            },
-         },
-      };
-
-      expect(result).toBeNull();
-      expect(prismaMock.libraryEntry.findUnique).toHaveBeenCalledTimes(1);
-      expect(prismaMock.libraryEntry.findUnique).toHaveBeenCalledWith(
-         expectedFindUniqueArgs
-      );
-   });
-
-   test("pGetLibraryEntry - entryId defined -  test", async () => {
-      const libraryEntry = ptestData.pLibraryEntryWithPromptTemplate();
-      prismaMock.libraryEntry.findUnique.mockResolvedValue(libraryEntry);
-
-      const { id: entryId, userId } = libraryEntry;
-
-      const params: GetLibraryEntryParams = { entryId, userId };
-      const result = await libraryRepository.pGetLibraryEntry(params);
-
-      const expectedResult = toDLibraryEntryWithPromptTemplate(libraryEntry);
-
-      const expectedFindUniqueArgs: LibraryEntryFindUniqueArgs = {
-         where: {
-            id: entryId,
-            userId,
-         },
-         include: {
-            templateDescriptor: {
-               include: {
-                  categories: true,
-                  promptTemplate: {
-                     include: {
-                        fields: true,
-                        globalFields: true,
-                     },
-                  },
-               },
-            },
-         },
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(prismaMock.libraryEntry.findUnique).toHaveBeenCalledTimes(1);
-      expect(prismaMock.libraryEntry.findUnique).toHaveBeenCalledWith(
-         expectedFindUniqueArgs
-      );
-   });
-
-   test("pGetLibraryEntry - templateDescriptorId defined -  test", async () => {
-      const libraryEntry = ptestData.pLibraryEntryWithPromptTemplate();
-      prismaMock.libraryEntry.findUnique.mockResolvedValue(libraryEntry);
-
-      const { templateDescriptorId, userId } = libraryEntry;
-
-      const params: GetLibraryEntryParams = { templateDescriptorId, userId };
-      const result = await libraryRepository.pGetLibraryEntry(params);
-
-      const expectedResult = toDLibraryEntryWithPromptTemplate(libraryEntry);
-
-      const expectedFindUniqueArgs: LibraryEntryFindUniqueArgs = {
-         where: {
-            userId_templateDescriptorId: {
-               userId,
-               templateDescriptorId,
-            },
-         },
-         include: {
-            templateDescriptor: {
-               include: {
-                  categories: true,
-                  promptTemplate: {
-                     include: {
-                        fields: true,
-                        globalFields: true,
-                     },
-                  },
-               },
-            },
-         },
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(prismaMock.libraryEntry.findUnique).toHaveBeenCalledTimes(1);
-      expect(prismaMock.libraryEntry.findUnique).toHaveBeenCalledWith(
-         expectedFindUniqueArgs
       );
    });
 });

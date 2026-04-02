@@ -636,7 +636,7 @@ describe("downloadTemplate tests", () => {
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sDownloadTemplateMock).toHaveBeenCalledTimes(1);
-      expect(sDownloadTemplateMock).toHaveBeenCalledWith(descriptorId, user.id);
+      expect(sDownloadTemplateMock).toHaveBeenCalledWith(user.id, descriptorId);
    });
 
    it("downloadTemplate - error - test", async () => {
@@ -657,7 +657,7 @@ describe("downloadTemplate tests", () => {
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sDownloadTemplateMock).toHaveBeenCalledTimes(1);
-      expect(sDownloadTemplateMock).toHaveBeenCalledWith(descriptorId, user.id);
+      expect(sDownloadTemplateMock).toHaveBeenCalledWith(user.id, descriptorId);
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(errorMessage);
    });
