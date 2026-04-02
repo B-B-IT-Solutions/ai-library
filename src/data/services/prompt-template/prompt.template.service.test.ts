@@ -322,10 +322,42 @@ describe("updatePromptTemplateDescriptor tests", () => {
       jest.clearAllMocks();
    });
 
+   it("updatePromptTemplateDescriptor - descriptor not found - test", async () => {
+      const userId = "user-id-1";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
+      const update = dtestData.dPromptTemplateUpdate();
+
+      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         null
+      );
+
+      const fn = async () =>
+         await promptTemplateService.updatePromptTemplateDescriptor(
+            userId,
+            descriptorId,
+            update
+         );
+
+      await expect(fn).rejects.toThrow("Templatedescriptor not found");
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptorId);
+      expect(
+         promptTemplateRepoMock.pUpdatePromptTemplateDescriptor
+      ).not.toHaveBeenCalled();
+   });
+
    it("updatePromptTemplateDescriptor - descriptor updated - test", async () => {
       const userId = "user-id-1";
       const update = dtestData.dPromptTemplateUpdate();
-      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+
+      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         descriptor
+      );
 
       await promptTemplateService.updatePromptTemplateDescriptor(
          userId,
@@ -333,6 +365,12 @@ describe("updatePromptTemplateDescriptor tests", () => {
          update
       );
 
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptor.id);
       expect(
          promptTemplateRepoMock.pUpdatePromptTemplateDescriptor
       ).toHaveBeenCalledTimes(1);

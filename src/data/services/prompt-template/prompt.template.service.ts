@@ -112,6 +112,11 @@ export class PromptTemplateService {
       descriptorId: string,
       data: DPromptTemplateUpdate
    ) {
+      const descriptor = await this.getTemplateDescriptor(userId, descriptorId);
+      if (!descriptor) {
+         throw new Error("Templatedescriptor not found");
+      }
+
       await this.repository.pUpdatePromptTemplateDescriptor(
          userId,
          descriptorId,

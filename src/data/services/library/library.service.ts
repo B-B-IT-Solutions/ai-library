@@ -51,22 +51,6 @@ export class LibraryService {
       }
    }
 
-   async updateLibraryEntry(
-      userId: string,
-      descriptorId: string,
-      data: DPromptTemplateUpdate
-   ) {
-      const descriptor = await this.getLibraryEntry(userId, descriptorId);
-      if (!descriptor) {
-         throw new Error("Library entry not found");
-      }
-      await this.promptTemplateService.updatePromptTemplateDescriptor(
-         userId,
-         descriptor.id,
-         data
-      );
-   }
-
    async deleteLibraryEntry(userId: string, descriptorId: string) {
       const descriptor = await this.getLibraryEntry(userId, descriptorId);
       if (!descriptor) {

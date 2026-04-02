@@ -1,4 +1,5 @@
 jest.mock("@/data/actions/library");
+jest.mock("@/data/actions/prompt-template");
 jest.mock("sonner");
 
 jest.mock("@/components/shared/md", () => {
@@ -33,7 +34,8 @@ import {
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
-import { createLibraryEntry, updateLibraryEntry } from "@/data/actions/library";
+import { createLibraryEntry } from "@/data/actions/library";
+import { updateTemplateDescriptor } from "@/data/actions/prompt-template";
 import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 
@@ -45,9 +47,10 @@ jest.setTimeout(10000);
 const createLibraryEntryMock = createLibraryEntry as jest.MockedFunction<
    typeof createLibraryEntry
 >;
-const updateLibraryEntryMock = updateLibraryEntry as jest.MockedFunction<
-   typeof updateLibraryEntry
->;
+const updateTemplateDescriptorMock =
+   updateTemplateDescriptor as jest.MockedFunction<
+      typeof updateTemplateDescriptor
+   >;
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
 const assertRendered = () => {
@@ -370,7 +373,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
          success: true,
          message: "Vorlage erfolgreich erstellt",
       };
-      updateLibraryEntryMock.mockResolvedValue(result);
+      updateTemplateDescriptorMock.mockResolvedValue(result);
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const fields = dtestData.dGlobalTemplateFields();
@@ -403,8 +406,8 @@ describe("LibraryEntryEditForm functionality tests", () => {
       };
 
       await waitFor(() => {
-         expect(updateLibraryEntryMock).toHaveBeenCalledTimes(1);
-         expect(updateLibraryEntryMock).toHaveBeenCalledWith(
+         expect(updateTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+         expect(updateTemplateDescriptorMock).toHaveBeenCalledWith(
             descriptor.id,
             expectedPayload
          );
@@ -463,7 +466,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
          success: false,
          message: "Vorlage erfolgreich erstellt",
       };
-      updateLibraryEntryMock.mockResolvedValue(result);
+      updateTemplateDescriptorMock.mockResolvedValue(result);
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const fields = dtestData.dGlobalTemplateFields();
@@ -495,8 +498,8 @@ describe("LibraryEntryEditForm functionality tests", () => {
       };
 
       await waitFor(() => {
-         expect(updateLibraryEntryMock).toHaveBeenCalledTimes(1);
-         expect(updateLibraryEntryMock).toHaveBeenCalledWith(
+         expect(updateTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+         expect(updateTemplateDescriptorMock).toHaveBeenCalledWith(
             descriptor.id,
             expectedPayload
          );

@@ -6,6 +6,7 @@ import { dtestData } from "@tests";
 import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
 import { PromptTemplateService } from "@/data/services/prompt-template";
+import { ActionResult } from "@/data/types/utils";
 
 import {
    getPromptGenerationTemplateData,
@@ -14,6 +15,7 @@ import {
    getPromptTemplates,
    getTemplateDescriptor,
    getTemplateDescriptorsPage,
+   updateTemplateDescriptor,
 } from "./prompt.template.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
@@ -22,6 +24,8 @@ const sGetTemplateDescriptorsPage =
    PromptTemplateService.prototype.getTemplateDescriptorsPage;
 const sGetTemplateDescriptor =
    PromptTemplateService.prototype.getTemplateDescriptor;
+const sUpdatePromptTemplateDescriptor =
+   PromptTemplateService.prototype.updatePromptTemplateDescriptor;
 const sGetTemplateDataForPromptGeneration =
    PromptTemplateService.prototype.getTemplateDataForPromptGeneration;
 const sGetPromptTemplateDescriptors =
@@ -36,6 +40,10 @@ const sGetTemplateDescriptorsPageMock =
    >;
 const sGetTemplateDescriptorMock =
    sGetTemplateDescriptor as jest.MockedFunction<typeof sGetTemplateDescriptor>;
+const sUpdatePromptTemplateDescriptorMock =
+   sUpdatePromptTemplateDescriptor as jest.MockedFunction<
+      typeof sUpdatePromptTemplateDescriptor
+   >;
 const sGetTemplateDataForPromptGenerationMock =
    sGetTemplateDataForPromptGeneration as jest.MockedFunction<
       typeof sGetTemplateDataForPromptGeneration
@@ -174,6 +182,106 @@ describe("getTemplateDescriptor tests", () => {
       expect(sGetTemplateDescriptorMock).toHaveBeenCalledWith(
          user.id,
          descriptorId
+      );
+   });
+});
+
+describe("updateTemplateDescriptor tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("updateTemplateDescriptor - invalid UUID - test", async () => {
+      const invalidId = "invalid-uuid-1";
+      const updateData = dtestData.dPromptTemplateUpdate();
+
+      const result = await updateTemplateDescriptor(invalidId, updateData);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Vorlage konnte nicht aktualisiert werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sUpdatePromptTemplateDescriptorMock).not.toHaveBeenCalled();
+   });
+
+   it("updateTemplateDescriptor - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
+      const updateData = dtestData.dPromptTemplateUpdate();
+
+      const result = await updateTemplateDescriptor(descriptorId, updateData);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Vorlage konnte nicht aktualisiert werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePromptTemplateDescriptorMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("updateTemplateDescriptor - error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const error = new Error("db error");
+      sUpdatePromptTemplateDescriptorMock.mockRejectedValue(error);
+
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
+      const updateData = dtestData.dPromptTemplateUpdate();
+
+      const result = await updateTemplateDescriptor(descriptorId, updateData);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Vorlage konnte nicht aktualisiert werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePromptTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePromptTemplateDescriptorMock).toHaveBeenCalledWith(
+         user.id,
+         descriptorId,
+         updateData
+      );
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("updateTemplateDescriptor - descriptor updated - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+      sUpdatePromptTemplateDescriptorMock.mockResolvedValue();
+
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
+      const updateData = dtestData.dPromptTemplateUpdate();
+
+      const result = await updateTemplateDescriptor(descriptorId, updateData);
+
+      const expectedResult: ActionResult = {
+         success: true,
+         message: "Vorlage erfolgreich aktualisiert",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePromptTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+      expect(sUpdatePromptTemplateDescriptorMock).toHaveBeenCalledWith(
+         user.id,
+         descriptorId,
+         updateData
       );
    });
 });

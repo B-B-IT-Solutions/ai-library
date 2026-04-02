@@ -81,61 +81,6 @@ describe("createLibraryEntries tests", () => {
    });
 });
 
-describe("updateLibraryEntry tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("updateLibraryEntry - descriptor not found - test", async () => {
-      const userId = "user-id-1";
-      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-      const update = dtestData.dPromptTemplateUpdate();
-
-      promptTemplateServiceMock.getTemplateDescriptor.mockResolvedValue(null);
-
-      const fn = async () =>
-         await libraryService.updateLibraryEntry(userId, descriptorId, update);
-
-      await expect(fn).rejects.toThrow("Library entry not found");
-      expect(
-         promptTemplateServiceMock.getTemplateDescriptor
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateServiceMock.getTemplateDescriptor
-      ).toHaveBeenCalledWith(userId, descriptorId);
-      expect(
-         promptTemplateServiceMock.updatePromptTemplateDescriptor
-      ).not.toHaveBeenCalled();
-   });
-
-   it("updateLibraryEntry - descriptor updated - test", async () => {
-      const userId = "user-id-1";
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
-
-      const update = dtestData.dPromptTemplateUpdate();
-
-      promptTemplateServiceMock.getTemplateDescriptor.mockResolvedValue(
-         descriptor
-      );
-      promptTemplateServiceMock.updatePromptTemplateDescriptor.mockResolvedValue();
-
-      await libraryService.updateLibraryEntry(userId, descriptor.id, update);
-
-      expect(
-         promptTemplateServiceMock.getTemplateDescriptor
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateServiceMock.getTemplateDescriptor
-      ).toHaveBeenCalledWith(userId, descriptor.id);
-      expect(
-         promptTemplateServiceMock.updatePromptTemplateDescriptor
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateServiceMock.updatePromptTemplateDescriptor
-      ).toHaveBeenCalledWith(userId, descriptor.id, update);
-   });
-});
-
 describe("deleteLibraryEntry tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();

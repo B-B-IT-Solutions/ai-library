@@ -38,32 +38,6 @@ export const createLibraryEntry = async (
    }
 };
 
-export const updateLibraryEntry = async (
-   descriptorId: string,
-   data: DPromptTemplateUpdate
-): Promise<ActionResult> => {
-   try {
-      if (!isValidUuid(descriptorId)) {
-         throw new Error("Invalid Entry ID.");
-      }
-
-      const user = await requireUser();
-      const service = getSevice();
-      await service.updateLibraryEntry(user.id, descriptorId, data);
-
-      return {
-         success: true,
-         message: "Vorlage erfolgreich aktualisiert",
-      };
-   } catch (error) {
-      console.error(formatError(error));
-      return {
-         success: false,
-         message: "Vorlage konnte nicht aktualisiert werden",
-      };
-   }
-};
-
 export const deleteLibraryEntry = async (
    descriptorId: string
 ): Promise<ActionResult> => {

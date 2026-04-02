@@ -11,9 +11,11 @@ import {
    DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
    DPromptTemplateDescriptorWithTemplate,
+   DPromptTemplateUpdate,
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
+import { ActionResult } from "@/data/types/utils";
 
 type DGetPromptTemplatesParams = {
    search?: string;
@@ -43,6 +45,32 @@ export const getTemplateDescriptor = async (
    } catch (error) {
       console.error(formatError(error));
       return null;
+   }
+};
+
+export const updateTemplateDescriptor = async (
+   descriptorId: string,
+   data: DPromptTemplateUpdate
+): Promise<ActionResult> => {
+   try {
+      if (!isValidUuid(descriptorId)) {
+         throw new Error("Invalid Descriptor ID.");
+      }
+
+      const user = await requireUser();
+      const service = getService();
+      await service.updatePromptTemplateDescriptor(user.id, descriptorId, data);
+
+      return {
+         success: true,
+         message: "Vorlage erfolgreich aktualisiert",
+      };
+   } catch (error) {
+      console.error(formatError(error));
+      return {
+         success: false,
+         message: "Vorlage konnte nicht aktualisiert werden",
+      };
    }
 };
 
