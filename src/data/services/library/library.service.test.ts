@@ -290,27 +290,26 @@ describe("composePromptFromTemplate tests", () => {
 
    it("composePromptFromTemplate - template not found - test", async () => {
       const userId = "user-id-1";
-      const templateDescriptorId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const fieldValues: DPromptTemplateFieldValues = { field1: "value1" };
-      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(null);
+      promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         null
+      );
 
       const fn = async () =>
          await libraryService.composePromptFromTemplate(
-            templateDescriptorId,
+            descriptorId,
             fieldValues,
             userId
          );
 
-      const expectedGetEntryPayload: GetLibraryEntryParams = {
-         templateDescriptorId,
-         userId,
-      };
-
       await expect(fn).rejects.toThrow("Template not found");
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
-         expectedGetEntryPayload
-      );
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptorId);
       expect(
          promptTemplateServiceMock.composePromptFromTemplate
       ).not.toHaveBeenCalled();
@@ -318,8 +317,7 @@ describe("composePromptFromTemplate tests", () => {
 
    it("composePromptFromTemplate - prompt composed - test", async () => {
       const userId = "user-id-1";
-      const entry = ptestData.pLibraryEntryWithPromptTemplate();
-      const templateDescriptorId = entry.templateDescriptorId;
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const fieldValues: DPromptTemplateFieldValues = {
          name: "User-1 Name",
          email: "test1@email.com",
@@ -332,33 +330,32 @@ describe("composePromptFromTemplate tests", () => {
          followUpPrompts: [],
       };
 
-      libraryRepoMock.pGetLibraryEntry.mockResolvedValue(entry);
+      promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         descriptor
+      );
       promptTemplateServiceMock.composePromptFromTemplate.mockResolvedValue(
          expectedPromptUpdate
       );
 
       const result = await libraryService.composePromptFromTemplate(
-         templateDescriptorId,
+         descriptor.id,
          fieldValues,
          userId
       );
 
-      const expectedGetEntryPayload: GetLibraryEntryParams = {
-         templateDescriptorId,
-         userId,
-      };
-
       expect(result).toEqual(expectedPromptUpdate);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntry).toHaveBeenCalledWith(
-         expectedGetEntryPayload
-      );
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateServiceMock.getPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptor.id);
       expect(
          promptTemplateServiceMock.composePromptFromTemplate
       ).toHaveBeenCalledTimes(1);
       expect(
          promptTemplateServiceMock.composePromptFromTemplate
-      ).toHaveBeenCalledWith(userId, entry.templateDescriptorId, fieldValues);
+      ).toHaveBeenCalledWith(userId, descriptor.id, fieldValues);
    });
 });
 

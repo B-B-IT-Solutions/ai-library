@@ -109,23 +109,19 @@ export class LibraryService {
    }
 
    async composePromptFromTemplate(
-      templateDescriptorId: string,
+      descriptorId: string,
       fieldValues: DPromptTemplateFieldValues,
       userId: string
    ): Promise<DPromptUpdate> {
-      const params: GetLibraryEntryParams = {
-         templateDescriptorId,
-         userId,
-      };
-      const entry = await this.libraryRepository.pGetLibraryEntry(params);
+      const descriptor = await this.getLibraryEntry(userId, descriptorId);
 
-      if (!entry) {
+      if (!descriptor) {
          throw new Error("Template not found");
       }
 
       return await this.promptTemplateService.composePromptFromTemplate(
          userId,
-         entry.templateDescriptorId,
+         descriptor.id,
          fieldValues
       );
    }
