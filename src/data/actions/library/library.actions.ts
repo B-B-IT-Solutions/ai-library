@@ -10,20 +10,20 @@ import { DbClient } from "@/data/types/db/common";
 import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
-   DLibraryEntriesPage,
-   DLibraryEntriesPageQuery,
    DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
    DPromptTemplateFieldValues,
    DPromptTemplateUpdate,
+   DTemplateDescriptorsPage,
+   DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 
 export const getLibraryEntriesPage = async (
-   query?: DLibraryEntriesPageQuery
-): Promise<DLibraryEntriesPage> => {
+   query?: DTemplateDescriptorsPageQuery
+): Promise<DTemplateDescriptorsPage> => {
    try {
       const user = await requireUser();
       const service = getSevice();

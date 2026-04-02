@@ -126,10 +126,10 @@ describe("getLibraryEntriesPage tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const page = dtestData.dLibraryEntriesPage();
+      const page = dtestData.dTemplateDescriptorsPage();
       sGetLibraryEntriesPageMock.mockResolvedValue(page);
 
-      const query = dtestData.dLibraryEntriesPageQuery();
+      const query = dtestData.dTemplateDescriptorsPageQuery();
 
       const result = await getLibraryEntriesPage(query);
 
