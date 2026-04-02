@@ -49,6 +49,9 @@ import {
    DPromptTemplateFieldUpdate,
    DPromptTemplateFieldValues,
    DPromptTemplateUpdate,
+   DTemplateDescriptorsFilter,
+   DTemplateDescriptorsPage,
+   DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
 import {
    DGlobalTemplateField,
@@ -527,6 +530,18 @@ export const dPromptTemplateDescriptorWithTemplate = (
    };
 };
 
+export const dTemplateDescriptorsPage = (): DTemplateDescriptorsPage => {
+   const descriptors = dPromptTemplateDescriptors();
+   return {
+      content: descriptors,
+      numberOfElements: descriptors.length,
+      pageNumber: 1,
+      pageSize: 3,
+      totalElements: 15,
+      totalPages: 5,
+   };
+};
+
 export const dPromptTemplateDescriptors = (
    count = 3
 ): DPromptTemplateDescriptor[] => {
@@ -543,6 +558,7 @@ export const dPromptTemplateDescriptor = (
       categories: dPromptTemplateCategories(),
       recommendedModel: `model ${index}`,
       promptTemplateId: `a8367fc3-b556-4838-b3af-f971af96b40${index}`,
+      isFavorite: false,
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
    };
@@ -634,6 +650,30 @@ export const dPromptTemplateCategories = (
 export const dPromptTemplateCategory = (index = 1): DPromptTemplateCategory => {
    return {
       name: `category ${index}`,
+   };
+};
+
+export const dTemplateDescriptorsPageQuery = (
+   index = 1
+): DTemplateDescriptorsPageQuery => {
+   return {
+      pagination: {
+         pageSize: 10,
+         pageNumber: 1,
+      },
+      filter: dTemplateDescriptorsFilter(index),
+   };
+};
+
+export const dTemplateDescriptorsFilter = (
+   index = 1
+): DTemplateDescriptorsFilter => {
+   return {
+      search: `search ${index}`,
+      categories: ["cat 1", "cat 2", "cat 3"],
+      models: ["mod 1", "mod 2", "mod 3"],
+      collectionIds: ["col-id-1", "col-id-2", "col-id-3"],
+      isFavorite: false,
    };
 };
 

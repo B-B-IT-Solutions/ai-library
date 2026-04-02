@@ -38,18 +38,21 @@ describe("getLibraryEntriesPage tests", () => {
 
    it("getLibraryEntriesPage - entries retrieved - test", async () => {
       const userId = "user-id-1";
-      const page = dtestData.dLibraryEntriesPage();
-      const query = dtestData.dLibraryEntriesPageQuery();
-      libraryRepoMock.pGetLibraryEntriesPage.mockResolvedValue(page);
+      const page = dtestData.dTemplateDescriptorsPage();
+      const query = dtestData.dTemplateDescriptorsPageQuery();
+      promptTemplateServiceMock.getTemplateDescriptorsPage.mockResolvedValue(
+         page
+      );
 
       const result = await libraryService.getLibraryEntriesPage(userId, query);
 
       expect(result).toEqual(page);
-      expect(libraryRepoMock.pGetLibraryEntriesPage).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetLibraryEntriesPage).toHaveBeenCalledWith(
-         userId,
-         query
-      );
+      expect(
+         promptTemplateServiceMock.getTemplateDescriptorsPage
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateServiceMock.getTemplateDescriptorsPage
+      ).toHaveBeenCalledWith(userId, query);
    });
 });
 

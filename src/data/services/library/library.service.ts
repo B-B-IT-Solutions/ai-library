@@ -9,14 +9,14 @@ import { OrderProducts } from "@/data/types/db/order";
 import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
-   DLibraryEntriesPage,
-   DLibraryEntriesPageQuery,
    DLibraryEntryWithPromptTemplate,
 } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
    DPromptTemplateFieldValues,
    DPromptTemplateUpdate,
+   DTemplateDescriptorsPage,
+   DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
 
 export class LibraryService {
@@ -33,9 +33,12 @@ export class LibraryService {
 
    async getLibraryEntriesPage(
       userId: string,
-      query?: DLibraryEntriesPageQuery
-   ): Promise<DLibraryEntriesPage> {
-      return await this.libraryRepository.pGetLibraryEntriesPage(userId, query);
+      query?: DTemplateDescriptorsPageQuery
+   ): Promise<DTemplateDescriptorsPage> {
+      return await this.promptTemplateService.getTemplateDescriptorsPage(
+         userId,
+         query
+      );
    }
 
    async getLibraryEntry(

@@ -45,6 +45,34 @@ const sExtractVariablesMock = sExtractVariables as jest.MockedFunction<
    typeof sExtractVariables
 >;
 
+describe("getTemplateDescriptorsPage tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("getTemplateDescriptorsPage - descriptors retrieved - test", async () => {
+      const userId = "user-id-1";
+      const page = dtestData.dTemplateDescriptorsPage();
+      const query = dtestData.dTemplateDescriptorsPageQuery();
+      promptTemplateRepoMock.pGetTemplateDescriptorsPage.mockResolvedValue(
+         page
+      );
+
+      const result = await promptTemplateService.getTemplateDescriptorsPage(
+         userId,
+         query
+      );
+
+      expect(result).toEqual(page);
+      expect(
+         promptTemplateRepoMock.pGetTemplateDescriptorsPage
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pGetTemplateDescriptorsPage
+      ).toHaveBeenCalledWith(userId, query);
+   });
+});
+
 describe("getTemplateDataForPromptGeneration tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
