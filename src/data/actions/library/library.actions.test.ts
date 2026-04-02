@@ -314,10 +314,10 @@ describe("updateLibraryEntry tests", () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
 
-      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const updateData = dtestData.dPromptTemplateUpdate();
 
-      const result = await updateLibraryEntry(entryId, updateData);
+      const result = await updateLibraryEntry(descriptorId, updateData);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -330,17 +330,17 @@ describe("updateLibraryEntry tests", () => {
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("createLibraryEntry - error - test", async () => {
+   it("updateLibraryEntry - error - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
       const error = new Error("db error");
       sUpdateLibraryEntryMock.mockRejectedValue(error);
 
-      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const updateData = dtestData.dPromptTemplateUpdate();
 
-      const result = await updateLibraryEntry(entryId, updateData);
+      const result = await updateLibraryEntry(descriptorId, updateData);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -352,21 +352,21 @@ describe("updateLibraryEntry tests", () => {
       expect(sUpdateLibraryEntryMock).toHaveBeenCalledTimes(1);
       expect(sUpdateLibraryEntryMock).toHaveBeenCalledWith(
          user.id,
-         entryId,
+         descriptorId,
          updateData
       );
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
-   it("createLibraryEntry - entry created - test", async () => {
+   it("updateLibraryEntry - entry updated - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
       sUpdateLibraryEntryMock.mockResolvedValue();
 
-      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const updateData = dtestData.dPromptTemplateUpdate();
 
-      const result = await updateLibraryEntry(entryId, updateData);
+      const result = await updateLibraryEntry(descriptorId, updateData);
 
       const expectedResult: ActionResult = {
          success: true,
@@ -378,7 +378,7 @@ describe("updateLibraryEntry tests", () => {
       expect(sUpdateLibraryEntryMock).toHaveBeenCalledTimes(1);
       expect(sUpdateLibraryEntryMock).toHaveBeenCalledWith(
          user.id,
-         entryId,
+         descriptorId,
          updateData
       );
    });
@@ -413,9 +413,9 @@ describe("deleteLibraryEntry tests", () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
 
-      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
 
-      const result = await deleteLibraryEntry(entryId);
+      const result = await deleteLibraryEntry(descriptorId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -435,9 +435,9 @@ describe("deleteLibraryEntry tests", () => {
       const error = new Error("db error");
       sDeleteLibraryEntryMock.mockRejectedValue(error);
 
-      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
 
-      const result = await deleteLibraryEntry(entryId);
+      const result = await deleteLibraryEntry(descriptorId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -447,7 +447,10 @@ describe("deleteLibraryEntry tests", () => {
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sDeleteLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteLibraryEntryMock).toHaveBeenCalledWith(user.id, entryId);
+      expect(sDeleteLibraryEntryMock).toHaveBeenCalledWith(
+         user.id,
+         descriptorId
+      );
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 
@@ -456,9 +459,9 @@ describe("deleteLibraryEntry tests", () => {
       requireUserMock.mockResolvedValue(user);
       sDeleteLibraryEntryMock.mockResolvedValue();
 
-      const entryId = "123e4567-e89b-12d3-a456-426614174000";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
 
-      const result = await deleteLibraryEntry(entryId);
+      const result = await deleteLibraryEntry(descriptorId);
 
       const expectedResult: ActionResult = {
          success: true,
@@ -468,7 +471,10 @@ describe("deleteLibraryEntry tests", () => {
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sDeleteLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteLibraryEntryMock).toHaveBeenCalledWith(user.id, entryId);
+      expect(sDeleteLibraryEntryMock).toHaveBeenCalledWith(
+         user.id,
+         descriptorId
+      );
    });
 });
 

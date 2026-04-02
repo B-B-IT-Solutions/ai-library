@@ -51,7 +51,7 @@ describe("LibraryEntryPage rendering tests", () => {
    });
 
    it("LibraryEntryPage - library entry defined - test", async () => {
-      const libraryEntry = dtestData.dLibraryEntryWithPromptTemplate();
+      const libraryEntry = dtestData.dPromptTemplateDescriptorWithTemplate();
       getLibraryEntryMock.mockResolvedValue(libraryEntry);
 
       const params: PageParams = { id: "entry-id-1" };

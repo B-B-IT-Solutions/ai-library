@@ -1,15 +1,16 @@
 import { dtestData } from "@tests";
 import { map } from "es-toolkit/compat";
 
-import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
-import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
+import {
+   DPromptTemplateDescriptorWithTemplate,
+   DPromptTemplateUpdate,
+} from "@/data/types/domain/prompt.template";
 
 import { initPromptTempalte } from "./init-values";
 
 const expectedInitPromptTempalteExisting = (
-   entry: DLibraryEntryWithPromptTemplate
+   descriptor: DPromptTemplateDescriptorWithTemplate
 ): DPromptTemplateUpdate => {
-   const { templateDescriptor: descriptor } = entry;
    const { promptTemplate } = descriptor;
    return {
       title: descriptor.title,
@@ -49,13 +50,13 @@ describe("initPromptTempalte tests", () => {
    });
 
    it("initPromptTempalte - existing entry test", () => {
-      const entry = dtestData.dLibraryEntryWithPromptTemplate();
-      const field = entry.templateDescriptor.promptTemplate.fields[0];
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const field = descriptor.promptTemplate.fields[0];
       field.description = null;
       field.defaultValue = null;
       field.options = undefined;
-      const initValues = initPromptTempalte(entry);
-      const expectedValues = expectedInitPromptTempalteExisting(entry);
+      const initValues = initPromptTempalte(descriptor);
+      const expectedValues = expectedInitPromptTempalteExisting(descriptor);
       expect(initValues).toEqual(expectedValues);
    });
 });

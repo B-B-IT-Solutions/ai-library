@@ -69,17 +69,17 @@ export const createLibraryEntry = async (
 };
 
 export const updateLibraryEntry = async (
-   entryId: string,
+   descriptorId: string,
    data: DPromptTemplateUpdate
 ): Promise<ActionResult> => {
    try {
-      if (!isValidUuid(entryId)) {
+      if (!isValidUuid(descriptorId)) {
          throw new Error("Invalid Entry ID.");
       }
 
       const user = await requireUser();
       const service = getSevice();
-      await service.updateLibraryEntry(user.id, entryId, data);
+      await service.updateLibraryEntry(user.id, descriptorId, data);
 
       return {
          success: true,
@@ -95,16 +95,16 @@ export const updateLibraryEntry = async (
 };
 
 export const deleteLibraryEntry = async (
-   entryId: string
+   descriptorId: string
 ): Promise<ActionResult> => {
    try {
-      if (!isValidUuid(entryId)) {
+      if (!isValidUuid(descriptorId)) {
          throw new Error("Invalid Entry ID.");
       }
 
       const user = await requireUser();
       const service = getSevice();
-      await service.deleteLibraryEntry(user.id, entryId);
+      await service.deleteLibraryEntry(user.id, descriptorId);
 
       return {
          success: true,

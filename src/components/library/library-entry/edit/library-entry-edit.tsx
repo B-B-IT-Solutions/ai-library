@@ -5,21 +5,23 @@ import {
    ItemDetailsEditContent,
    ItemDetailsEditHeader,
 } from "@/components/shared/wrappers/item-details";
-import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
+import { DPromptTemplateDescriptorWithTemplate } from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
 import { LibraryEntryBreadcrumb } from "../../breadcrumbs";
 
 import { LibraryEntryEditForm } from "./library-entry-edit-form";
 
 type Props = {
-   entry?: DLibraryEntryWithPromptTemplate;
+   descriptor?: DPromptTemplateDescriptorWithTemplate;
    globalFields: DGlobalTemplateField[];
 };
 
-export const LibraryEntryEdit = ({ entry, globalFields }: Props) => {
+export const LibraryEntryEdit = ({ descriptor, globalFields }: Props) => {
    const header = () => {
-      const title = entry ? "Vorlage Bearbeiten" : "Neue Vorlage Erstellen";
-      const text = entry
+      const title = descriptor
+         ? "Vorlage Bearbeiten"
+         : "Neue Vorlage Erstellen";
+      const text = descriptor
          ? "Bearbeiten Sie die Vorlage"
          : "Erstellen Sie eine neue Vorlage";
 
@@ -32,12 +34,12 @@ export const LibraryEntryEdit = ({ entry, globalFields }: Props) => {
    };
 
    const breadcrumbs = () => {
-      if (entry) {
+      if (descriptor) {
          return (
             <LibraryEntryBreadcrumb
                variant="edit"
-               label={entry.templateDescriptor.title}
-               entryId={entry.id}
+               label={descriptor.title}
+               entryId={descriptor.id}
             />
          );
       }
@@ -53,7 +55,7 @@ export const LibraryEntryEdit = ({ entry, globalFields }: Props) => {
             </ItemDetailsEditBreadcrumbs>
             <ItemDetailsEditBody>
                <LibraryEntryEditForm
-                  entry={entry}
+                  descriptor={descriptor}
                   globalFields={globalFields}
                />
             </ItemDetailsEditBody>

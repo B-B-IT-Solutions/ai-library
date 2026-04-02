@@ -134,11 +134,11 @@ describe("LibraryEntryEditForm rendering tests", () => {
    });
 
    it("LibraryEntryEditForm - existing entry - rendered - test", () => {
-      const entry = dtestData.dLibraryEntryWithPromptTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const fields = dtestData.dGlobalTemplateFields();
 
       const { container } = render(
-         <LibraryEntryEditForm entry={entry} globalFields={fields} />
+         <LibraryEntryEditForm descriptor={descriptor} globalFields={fields} />
       );
 
       assertRendered();
@@ -149,12 +149,12 @@ describe("LibraryEntryEditForm rendering tests", () => {
 
    it("LibraryEntryEditForm - existing entry - variables detected in content - test", async () => {
       const fields = dtestData.dGlobalTemplateFields();
-      const entry = dtestData.dLibraryEntryWithPromptTemplate();
-      entry.templateDescriptor.promptTemplate.content =
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      descriptor.promptTemplate.content =
          "Hello {{{{name}}, your role is {{{{role}}";
 
       const { container } = render(
-         <LibraryEntryEditForm entry={entry} globalFields={fields} />
+         <LibraryEntryEditForm descriptor={descriptor} globalFields={fields} />
       );
 
       assertRendered();
@@ -198,10 +198,12 @@ describe("LibraryEntryEditForm functionality tests", () => {
    });
 
    it("LibraryEntryEditForm - remove global field btn clicked - test", async () => {
-      const entry = dtestData.dLibraryEntryWithPromptTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const fields = dtestData.dGlobalTemplateFields();
 
-      render(<LibraryEntryEditForm entry={entry} globalFields={fields} />);
+      render(
+         <LibraryEntryEditForm descriptor={descriptor} globalFields={fields} />
+      );
 
       assertRendered();
       assertGlobalFieldsRendered();
@@ -370,10 +372,12 @@ describe("LibraryEntryEditForm functionality tests", () => {
       };
       updateLibraryEntryMock.mockResolvedValue(result);
 
-      const entry = dtestData.dLibraryEntryWithPromptTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const fields = dtestData.dGlobalTemplateFields();
 
-      render(<LibraryEntryEditForm entry={entry} globalFields={fields} />);
+      render(
+         <LibraryEntryEditForm descriptor={descriptor} globalFields={fields} />
+      );
 
       assertRendered();
 
@@ -387,7 +391,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
 
       await userEvent.click(saveBtn);
 
-      const initValue = initPromptTempalte(entry);
+      const initValue = initPromptTempalte(descriptor);
       const expectedPayload: DPromptTemplateUpdate = {
          title: initValue.title + "Test Template",
          description: initValue.description + "Test Description",
@@ -401,12 +405,12 @@ describe("LibraryEntryEditForm functionality tests", () => {
       await waitFor(() => {
          expect(updateLibraryEntryMock).toHaveBeenCalledTimes(1);
          expect(updateLibraryEntryMock).toHaveBeenCalledWith(
-            entry.id,
+            descriptor.id,
             expectedPayload
          );
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
-         expect(mockRouter.pathname).toEqual(`/library/${entry.id}`);
+         expect(mockRouter.pathname).toEqual(`/library/${descriptor.id}`);
       });
    });
 
@@ -461,10 +465,12 @@ describe("LibraryEntryEditForm functionality tests", () => {
       };
       updateLibraryEntryMock.mockResolvedValue(result);
 
-      const entry = dtestData.dLibraryEntryWithPromptTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const fields = dtestData.dGlobalTemplateFields();
 
-      render(<LibraryEntryEditForm entry={entry} globalFields={fields} />);
+      render(
+         <LibraryEntryEditForm descriptor={descriptor} globalFields={fields} />
+      );
 
       assertRendered();
 
@@ -477,7 +483,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
       const saveBtn = screen.getByTestId("save-btn");
       await userEvent.click(saveBtn);
 
-      const initValue = initPromptTempalte(entry);
+      const initValue = initPromptTempalte(descriptor);
       const expectedPayload: DPromptTemplateUpdate = {
          title: initValue.title + "Test Template",
          description: initValue.description + "Test Description",
@@ -491,7 +497,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
       await waitFor(() => {
          expect(updateLibraryEntryMock).toHaveBeenCalledTimes(1);
          expect(updateLibraryEntryMock).toHaveBeenCalledWith(
-            entry.id,
+            descriptor.id,
             expectedPayload
          );
          expect(toastMock.error).toHaveBeenCalledTimes(1);
