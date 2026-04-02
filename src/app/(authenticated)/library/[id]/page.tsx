@@ -18,9 +18,9 @@ export type PageProps = {
 
 export const LibraryEntryPage = async ({ params }: PageProps) => {
    const { id: descriptorId } = await params;
-   const entry = await getLibraryEntry(descriptorId);
+   const descriptor = await getLibraryEntry(descriptorId);
 
-   if (!entry) {
+   if (!descriptor) {
       return notFound();
    }
 
@@ -29,7 +29,7 @@ export const LibraryEntryPage = async ({ params }: PageProps) => {
          className="h-screen bg-slate-50"
          data-testid="library-entry-view-page"
       >
-         <LibraryEntryView entry={entry} />
+         <LibraryEntryView descriptor={descriptor} />
       </div>
    );
 };

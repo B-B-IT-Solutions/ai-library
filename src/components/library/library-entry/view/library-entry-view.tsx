@@ -5,18 +5,16 @@ import {
    ItemDetailsViewContent,
    ItemDetailsViewHeader,
 } from "@/components/shared/wrappers/item-details";
-import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
+import { DPromptTemplateDescriptorWithTemplate } from "@/data/types/domain/prompt.template";
 import { LibraryEntryBreadcrumb } from "../../breadcrumbs";
 
 import { LibraryEntryViewForm } from "./library-entry-view-form";
 
 type Props = {
-   entry: DLibraryEntryWithPromptTemplate;
+   descriptor: DPromptTemplateDescriptorWithTemplate;
 };
 
-export const LibraryEntryView = ({ entry }: Props) => {
-   const { templateDescriptor: descriptor } = entry;
-
+export const LibraryEntryView = ({ descriptor }: Props) => {
    return (
       <ItemDetailsView data-testid="library-entry-view">
          <ItemDetailsViewHeader>
@@ -32,7 +30,7 @@ export const LibraryEntryView = ({ entry }: Props) => {
                />
             </ItemDetailsViewBreadcrumbs>
             <ItemDetailsViewBody>
-               <LibraryEntryViewForm entry={entry} />
+               <LibraryEntryViewForm descriptor={descriptor} />
             </ItemDetailsViewBody>
          </ItemDetailsViewContent>
       </ItemDetailsView>

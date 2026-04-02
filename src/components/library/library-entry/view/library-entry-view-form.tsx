@@ -2,7 +2,7 @@ import { isEmpty, map } from "es-toolkit/compat";
 
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import { MDRenderer } from "@/components/shared/md";
-import { DLibraryEntryWithPromptTemplate } from "@/data/types/domain/library";
+import { DPromptTemplateDescriptorWithTemplate } from "@/data/types/domain/prompt.template";
 import {
    CreatePromptFromTemplateButton,
    EditLibraryEntryButton,
@@ -12,12 +12,10 @@ import {
 import { PromptTextDisplay } from "./prompt-text-display";
 
 type Props = {
-   entry: DLibraryEntryWithPromptTemplate;
+   descriptor: DPromptTemplateDescriptorWithTemplate;
 };
 
-export const LibraryEntryViewForm = ({ entry }: Props) => {
-   const { templateDescriptor: descriptor } = entry;
-
+export const LibraryEntryViewForm = ({ descriptor }: Props) => {
    const categories = () => {
       if (!isEmpty(descriptor.categories)) {
          return (
@@ -46,8 +44,8 @@ export const LibraryEntryViewForm = ({ entry }: Props) => {
                </div>
                <div className="flex shrink-0 items-center gap-2">
                   <CreatePromptFromTemplateButton descriptor={descriptor} />
-                  <EditLibraryEntryButton entry={entry} />
-                  <MoreOptionsButton entry={entry} />
+                  <EditLibraryEntryButton descriptor={descriptor} />
+                  <MoreOptionsButton descriptor={descriptor} />
                </div>
             </div>
             {categories()}

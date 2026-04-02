@@ -12,10 +12,10 @@ const assertRendered = () => {
 
 describe("EditLibraryEntryButton rendering tests", () => {
    it("EditLibraryEntryButton rendered test", async () => {
-      const entry = dtestData.dLibraryEntryWithPromptTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
       const { container } = renderWithRouter(
-         <EditLibraryEntryButton entry={entry} />
+         <EditLibraryEntryButton descriptor={descriptor} />
       );
 
       await waitFor(() => {
@@ -33,8 +33,8 @@ describe("EditLibraryEntryButton functionality tests", () => {
    });
 
    it("EditLibraryEntryButton - edit btn clicked - test", async () => {
-      const entry = dtestData.dLibraryEntryWithPromptTemplate();
-      renderWithRouter(<EditLibraryEntryButton entry={entry} />);
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      renderWithRouter(<EditLibraryEntryButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRendered();
@@ -45,7 +45,7 @@ describe("EditLibraryEntryButton functionality tests", () => {
       await userEvent.click(editBtn);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual(`/library/${entry.id}/edit`);
+         expect(mockRouter.pathname).toEqual(`/library/${descriptor.id}/edit`);
       });
    });
 });
