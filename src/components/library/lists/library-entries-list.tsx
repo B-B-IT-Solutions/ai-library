@@ -1,20 +1,21 @@
 import { FC } from "react";
 import { isEmpty, map } from "es-toolkit/compat";
 
-import { DLibraryCollection, DLibraryEntry } from "@/data/types/domain/library";
+import { DLibraryCollection } from "@/data/types/domain/library";
+import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 import { LibraryEntryCard } from "./items";
 
 type LibraryEntriesListProps = {
-   entries: DLibraryEntry[];
+   descriptors: DPromptTemplateDescriptor[];
    collections: DLibraryCollection[];
 };
 
 export const LibraryEntriesList: FC<LibraryEntriesListProps> = ({
-   entries,
+   descriptors,
    collections,
 }) => {
-   if (isEmpty(entries)) {
+   if (isEmpty(descriptors)) {
       return (
          <div
             className="flex flex-col items-center justify-center py-16 text-center"
@@ -32,10 +33,10 @@ export const LibraryEntriesList: FC<LibraryEntriesListProps> = ({
 
    return (
       <div className="space-y-4" data-testid="library-entries-list">
-         {map(entries, (entry) => (
+         {map(descriptors, (descriptor) => (
             <LibraryEntryCard
-               key={entry.id}
-               entry={entry}
+               key={descriptor.id}
+               descriptor={descriptor}
                collections={collections}
             />
          ))}

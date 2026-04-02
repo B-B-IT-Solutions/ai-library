@@ -14,7 +14,7 @@ import {
    DListSortByMode,
    DListViewMode,
 } from "@/data/types/domain/common";
-import { DLibraryEntriesFilter } from "@/data/types/domain/library";
+import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
 
 import { LibraryEntriesGrid } from "./library-entries-grid";
 import { LibraryEntriesGrouped } from "./library-entries-grouped";
@@ -24,7 +24,7 @@ type Props = {
    viewMode: DListViewMode;
    groupBy: DListGroupByMode;
    sortBy: DListSortByMode;
-   filters: DLibraryEntriesFilter;
+   filters: DTemplateDescriptorsFilter;
 };
 
 export const LibraryEntries = ({
@@ -59,7 +59,7 @@ export const LibraryEntries = ({
    if (groupBy !== DListGroupByMode.NONE) {
       return (
          <LibraryEntriesGrouped
-            entries={entries}
+            descriptors={entries}
             groupBy={groupBy}
             collections={collections}
          />
@@ -74,7 +74,10 @@ export const LibraryEntries = ({
             next={fetchNextPage}
             threshold={0.7}
          >
-            <LibraryEntriesList entries={entries} collections={collections} />
+            <LibraryEntriesList
+               descriptors={entries}
+               collections={collections}
+            />
          </InfiniteScroll>
       );
    }
@@ -86,7 +89,7 @@ export const LibraryEntries = ({
          next={fetchNextPage}
          threshold={0.7}
       >
-         <LibraryEntriesGrid entries={entries} collections={collections} />
+         <LibraryEntriesGrid descriptors={entries} collections={collections} />
       </InfiniteScroll>
    );
 };

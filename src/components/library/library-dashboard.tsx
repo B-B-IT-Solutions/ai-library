@@ -10,7 +10,7 @@ import {
    preloadLibraryCollectionsOptions,
 } from "@/data/ts-queries/library";
 import { resolveSort } from "@/data/ts-queries/utils";
-import { DLibraryEntriesFilter } from "@/data/types/domain/library";
+import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
 
 import { CreateLibraryEntryButton } from "./buttons";
 import { CollectionsFilter, LibraryEntries, LibraryToolbar } from "./lists";
@@ -23,7 +23,7 @@ export const LibraryDashboard = async () => {
    const groupBy = librarySearchParamsCache.get("group");
    const sortBy = librarySearchParamsCache.get("sort");
 
-   const filters: DLibraryEntriesFilter = {
+   const filters: DTemplateDescriptorsFilter = {
       search: librarySearchParamsCache.get("f_search"),
       categories: librarySearchParamsCache.get("f_categories"),
       models: librarySearchParamsCache.get("f_models"),

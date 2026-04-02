@@ -86,7 +86,7 @@ const assertGetLibraryEntriesPageCalled = (
 
 describe("LibraryDashboard rendering tests", () => {
    beforeAll(() => {
-      const page = dtestData.dLibraryEntriesPage();
+      const page = dtestData.dTemplateDescriptorsPage();
 
       getLibraryCollectionsMock.mockResolvedValue([]);
       getLibraryEntriesPageMock.mockResolvedValue(page);
@@ -99,8 +99,8 @@ describe("LibraryDashboard rendering tests", () => {
    it("LibraryDashboard rendered test", async () => {
       librarySearchParamsCacheMock.get.mockImplementation(mockSearchParams);
 
-      const categories = dtestData.dLibraryEntryCategories();
-      const models = dtestData.dLibraryEntryModels();
+      const categories = dtestData.dTemplateCategories();
+      const models = dtestData.dTemplateModels();
       getLibraryCategoriesMock.mockResolvedValue(categories);
       getLibraryModelsMock.mockResolvedValue(models);
 

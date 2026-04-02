@@ -81,8 +81,8 @@ describe("LibraryFilters rendering tests", () => {
    });
 
    it("LibraryFilters - filters defined - test", async () => {
-      const categories = dtestData.dLibraryEntryCategories();
-      const models = dtestData.dLibraryEntryModels();
+      const categories = dtestData.dTemplateCategories();
+      const models = dtestData.dTemplateModels();
 
       const url = "/library";
       const searchParams = "f_search=test-1";
@@ -114,8 +114,8 @@ describe("LibraryFilters functinality tests", () => {
    });
 
    it("LibraryFilters - search filter input - test", async () => {
-      const categories = dtestData.dLibraryEntryCategories();
-      const models = dtestData.dLibraryEntryModels();
+      const categories = dtestData.dTemplateCategories();
+      const models = dtestData.dTemplateModels();
 
       const url = "/library";
       const searchParams = "";
@@ -164,8 +164,8 @@ describe("LibraryFilters functinality tests", () => {
    });
 
    it("LibraryFilters - category filters - test", async () => {
-      const categories = dtestData.dLibraryEntryCategories();
-      const models = dtestData.dLibraryEntryModels();
+      const categories = dtestData.dTemplateCategories();
+      const models = dtestData.dTemplateModels();
 
       const url = "/library";
       const searchParams = "f_categories=cat-1";
@@ -212,8 +212,8 @@ describe("LibraryFilters functinality tests", () => {
    });
 
    it("LibraryFilters - model filters - test", async () => {
-      const categories = dtestData.dLibraryEntryCategories();
-      const models = dtestData.dLibraryEntryModels();
+      const categories = dtestData.dTemplateCategories();
+      const models = dtestData.dTemplateModels();
 
       const url = "/library";
       const searchParams = "f_models=mod-1";

@@ -62,7 +62,7 @@ describe("CategoriesFilter rendering tests", () => {
    });
 
    it("CategoriesFilter - f_categories cat-1 - test", async () => {
-      const categories = dtestData.dLibraryEntryCategories();
+      const categories = dtestData.dTemplateCategories();
       const getCategoriesFn = mockGetCategories(["cat-1"]);
 
       const { container } = renderWithRouter(
@@ -84,7 +84,7 @@ describe("CategoriesFilter functinality tests", () => {
    });
 
    it("CategoriesFilter - category selected - test", async () => {
-      const categories = dtestData.dLibraryEntryCategories();
+      const categories = dtestData.dTemplateCategories();
 
       const getCategoriesFn = mockGetCategories([]);
       const setCategoriesFn = mockSetCategories();
@@ -107,7 +107,7 @@ describe("CategoriesFilter functinality tests", () => {
    });
 
    it("CategoriesFilter - category unselected - test", async () => {
-      const categories = dtestData.dLibraryEntryCategories();
+      const categories = dtestData.dTemplateCategories();
 
       const getCategoriesFn = mockGetCategories(["cat-1"]);
       const setCategoriesFn = mockSetCategories();

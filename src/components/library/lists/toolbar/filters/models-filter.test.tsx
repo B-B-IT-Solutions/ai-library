@@ -58,7 +58,7 @@ describe("ModelsFilter rendering tests", () => {
    });
 
    it("ModelsFilter - f_models mod-1 - test", async () => {
-      const models = dtestData.dLibraryEntryModels();
+      const models = dtestData.dTemplateModels();
       const getModelsFn = mockGetModels(["mod-1"]);
 
       const { container } = renderWithRouter(<TestWrapper models={models} />);
@@ -78,7 +78,7 @@ describe("ModelsFilter functinality tests", () => {
    });
 
    it("ModelsFilter - model selected - test", async () => {
-      const models = dtestData.dLibraryEntryModels();
+      const models = dtestData.dTemplateModels();
       const getModelsFn = mockGetModels([]);
       const setModelsFn = mockSetModels();
 
@@ -100,7 +100,7 @@ describe("ModelsFilter functinality tests", () => {
    });
 
    it("ModelsFilter - model unselected - test", async () => {
-      const models = dtestData.dLibraryEntryModels();
+      const models = dtestData.dTemplateModels();
       const getModelsFn = mockGetModels(["mod-1"]);
       const setModelsFn = mockSetModels();
 

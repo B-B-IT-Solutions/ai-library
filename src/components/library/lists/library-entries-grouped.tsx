@@ -4,42 +4,43 @@ import { FC, useMemo } from "react";
 import { groupBy as lodashGroupBy, map } from "es-toolkit/compat";
 
 import { DListGroupByMode } from "@/data/types/domain/common";
-import { DLibraryCollection, DLibraryEntry } from "@/data/types/domain/library";
+import { DLibraryCollection } from "@/data/types/domain/library";
+import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 import { LibraryEntryCard } from "./items/library-entry-card";
 
-type GroupedEntries = {
+type GroupedTemplates = {
    key: string;
    label: string;
    count: number;
-   entries: DLibraryEntry[];
+   entries: DPromptTemplateDescriptor[];
 };
 
 type LibraryEntriesGroupedProps = {
-   entries: DLibraryEntry[];
+   descriptors: DPromptTemplateDescriptor[];
    collections: DLibraryCollection[];
    groupBy: DListGroupByMode;
 };
 
 export const LibraryEntriesGrouped: FC<LibraryEntriesGroupedProps> = ({
-   entries,
+   descriptors,
    collections,
    groupBy,
 }) => {
    const grouped = useMemo(() => {
       switch (groupBy) {
          case "category":
-            return groupByCategories(entries);
+            return groupByCategories(descriptors);
          case "model":
-            return groupByModels(entries);
+            return groupByModels(descriptors);
          case "date":
-            return groupByDate(entries);
+            return groupByDate(descriptors);
          default:
             return [];
       }
-   }, [entries, groupBy]);
+   }, [descriptors, groupBy]);
 
-   if (entries.length === 0) {
+   if (descriptors.length === 0) {
       return (
          <div className="flex flex-col items-center justify-center py-16 text-center">
             <p className="text-lg font-medium text-slate-600">
@@ -63,7 +64,7 @@ export const LibraryEntriesGrouped: FC<LibraryEntriesGroupedProps> = ({
                   {map(group.entries, (entry) => (
                      <LibraryEntryCard
                         key={entry.id}
-                        entry={entry}
+                        descriptor={entry}
                         collections={collections}
                      />
                   ))}
@@ -76,9 +77,11 @@ export const LibraryEntriesGrouped: FC<LibraryEntriesGroupedProps> = ({
 
 // Helper functions
 
-function groupByCategories(entries: DLibraryEntry[]): GroupedEntries[] {
-   const grouped = lodashGroupBy(entries, (entry) => {
-      const firstCategory = entry.templateDescriptor.categories[0];
+function groupByCategories(
+   descriptors: DPromptTemplateDescriptor[]
+): GroupedTemplates[] {
+   const grouped = lodashGroupBy(descriptors, (descriptor) => {
+      const firstCategory = descriptor.categories[0];
       return firstCategory?.name || "Uncategorized";
    });
 
@@ -90,10 +93,12 @@ function groupByCategories(entries: DLibraryEntry[]): GroupedEntries[] {
    }));
 }
 
-function groupByModels(entries: DLibraryEntry[]): GroupedEntries[] {
+function groupByModels(
+   descriptors: DPromptTemplateDescriptor[]
+): GroupedTemplates[] {
    const grouped = lodashGroupBy(
-      entries,
-      (entry) => entry.templateDescriptor.recommendedModel
+      descriptors,
+      (descriptor) => descriptor.recommendedModel
    );
 
    return map(Object.entries(grouped), ([key, items]) => ({
@@ -104,14 +109,14 @@ function groupByModels(entries: DLibraryEntry[]): GroupedEntries[] {
    }));
 }
 
-function groupByDate(entries: DLibraryEntry[]): GroupedEntries[] {
+function groupByDate(entries: DPromptTemplateDescriptor[]): GroupedTemplates[] {
    const now = new Date();
    const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
    const oneMonthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
 
-   const thisWeek: DLibraryEntry[] = [];
-   const thisMonth: DLibraryEntry[] = [];
-   const older: Record<string, DLibraryEntry[]> = {};
+   const thisWeek: DPromptTemplateDescriptor[] = [];
+   const thisMonth: DPromptTemplateDescriptor[] = [];
+   const older: Record<string, DPromptTemplateDescriptor[]> = {};
 
    entries.forEach((entry) => {
       const createdAt = new Date(entry.createdAt);
@@ -132,7 +137,7 @@ function groupByDate(entries: DLibraryEntry[]): GroupedEntries[] {
       }
    });
 
-   const result: GroupedEntries[] = [];
+   const result: GroupedTemplates[] = [];
 
    if (thisWeek.length > 0) {
       result.push({

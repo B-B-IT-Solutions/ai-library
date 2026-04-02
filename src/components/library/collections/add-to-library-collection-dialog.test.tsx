@@ -141,7 +141,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
 
       const { container } = renderWithReactQuery(
          <AddToLibraryCollectionDialog
-            entry={entry}
+            descriptor={entry}
             collections={allCollections}
             open={true}
             onOpenChange={jest.fn()}
@@ -169,7 +169,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
 
       const { container } = renderWithReactQuery(
          <AddToLibraryCollectionDialog
-            entry={entry}
+            descriptor={entry}
             collections={allCollections}
             open={true}
             onOpenChange={jest.fn()}
@@ -196,7 +196,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
 
       const { container } = renderWithReactQuery(
          <AddToLibraryCollectionDialog
-            entry={entry}
+            descriptor={entry}
             collections={[]}
             open={true}
             onOpenChange={jest.fn()}
@@ -224,7 +224,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
 
       const { container } = renderWithReactQuery(
          <AddToLibraryCollectionDialog
-            entry={entry}
+            descriptor={entry}
             collections={allCollections}
             open={true}
             onOpenChange={jest.fn()}
@@ -251,7 +251,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
 
       const { container } = renderWithReactQuery(
          <AddToLibraryCollectionDialog
-            entry={entry}
+            descriptor={entry}
             collections={allCollections}
             open={false}
             onOpenChange={jest.fn()}
@@ -302,7 +302,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
 
       renderWithReactQuery(
          <AddToLibraryCollectionDialog
-            entry={entry}
+            descriptor={entry}
             collections={allCollections}
             open={true}
             onOpenChange={onOpenChange}
@@ -373,7 +373,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
 
       renderWithReactQuery(
          <AddToLibraryCollectionDialog
-            entry={entry}
+            descriptor={entry}
             collections={allCollections}
             open={true}
             onOpenChange={onOpenChange}
@@ -436,7 +436,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
 
       renderWithReactQuery(
          <AddToLibraryCollectionDialog
-            entry={entry}
+            descriptor={entry}
             collections={allCollections}
             open={true}
             onOpenChange={onOpenChange}
@@ -485,7 +485,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
 
       renderWithReactQuery(
          <AddToLibraryCollectionDialog
-            entry={entry}
+            descriptor={entry}
             collections={[]}
             open={true}
             onOpenChange={jest.fn()}
@@ -518,7 +518,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
 
       renderWithReactQuery(
          <AddToLibraryCollectionDialog
-            entry={entry}
+            descriptor={entry}
             collections={allCollections}
             open={true}
             onOpenChange={jest.fn()}

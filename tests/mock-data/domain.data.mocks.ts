@@ -232,11 +232,11 @@ export const dLibraryEntryWithPromptTemplate = (
    };
 };
 
-export const dLibraryEntryCategories = (count = 3): string[] => {
+export const dTemplateCategories = (count = 3): string[] => {
    return range(0, count).map((i) => `cat-${i + 1}`);
 };
 
-export const dLibraryEntryModels = (count = 3): string[] => {
+export const dTemplateModels = (count = 3): string[] => {
    return range(0, count).map((i) => `mod-${i + 1}`);
 };
 
@@ -558,7 +558,7 @@ export const dPromptTemplateDescriptor = (
       categories: dPromptTemplateCategories(),
       recommendedModel: `model ${index}`,
       promptTemplateId: `a8367fc3-b556-4838-b3af-f971af96b40${index}`,
-      isFavorite: false,
+      isFavorite: index % 2 == 0,
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
    };

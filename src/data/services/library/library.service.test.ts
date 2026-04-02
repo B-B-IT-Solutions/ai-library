@@ -440,7 +440,7 @@ describe("getLibraryCategories tests", () => {
 
    it("getLibraryCategories - categories retrieved - test", async () => {
       const userId = "user-id-1";
-      const categories = dtestData.dLibraryEntryCategories();
+      const categories = dtestData.dTemplateCategories();
       libraryRepoMock.pGetLibraryCategories.mockResolvedValue(categories);
 
       const result = await libraryService.getLibraryCategories(userId);
@@ -460,7 +460,7 @@ describe("getLibraryModels tests", () => {
 
    it("getLibraryModels - models retrieved - test", async () => {
       const userId = "user-id-1";
-      const models = dtestData.dLibraryEntryModels();
+      const models = dtestData.dTemplateModels();
       libraryRepoMock.pGetLibraryModels.mockResolvedValue(models);
 
       const result = await libraryService.getLibraryModels(userId);

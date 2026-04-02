@@ -684,7 +684,7 @@ describe("getLibraryCategories tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const categories = dtestData.dLibraryEntryCategories();
+      const categories = dtestData.dTemplateCategories();
       sGetLibraryCategoriesMock.mockResolvedValue(categories);
 
       const result = await getLibraryCategories();
@@ -723,7 +723,7 @@ describe("getLibraryModels tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const models = dtestData.dLibraryEntryModels();
+      const models = dtestData.dTemplateModels();
       sGetLibraryModelsMock.mockResolvedValue(models);
 
       const result = await getLibraryModels();

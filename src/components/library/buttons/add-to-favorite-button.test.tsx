@@ -44,11 +44,11 @@ describe("AddToFavoriteButton rendering tests", () => {
       const result = mutationResultMock();
       useToggleFavoriteMock.mockReturnValue(result);
 
-      const entry = dtestData.dLibraryEntry();
-      entry.isFavorite = true;
+      const descriptor = dtestData.dPromptTemplateDescriptor();
+      descriptor.isFavorite = true;
 
       const { container } = renderWithReactQuery(
-         <AddToFavoriteButton entry={entry} />
+         <AddToFavoriteButton descriptor={descriptor} />
       );
 
       await waitFor(() => {
@@ -62,11 +62,11 @@ describe("AddToFavoriteButton rendering tests", () => {
       const result = mutationResultMock();
       useToggleFavoriteMock.mockReturnValue(result);
 
-      const entry = dtestData.dLibraryEntry();
-      entry.isFavorite = false;
+      const descriptor = dtestData.dPromptTemplateDescriptor();
+      descriptor.isFavorite = false;
 
       const { container } = renderWithReactQuery(
-         <AddToFavoriteButton entry={entry} />
+         <AddToFavoriteButton descriptor={descriptor} />
       );
 
       await waitFor(() => {
@@ -94,10 +94,10 @@ describe("AddToFavoriteButton functionality tests", () => {
       const result = mutationResultMock(mutateFn);
       useToggleFavoriteMock.mockReturnValue(result);
 
-      const entry = dtestData.dLibraryEntry();
-      entry.isFavorite = false;
+      const descriptor = dtestData.dPromptTemplateDescriptor();
+      descriptor.isFavorite = false;
 
-      renderWithReactQuery(<AddToFavoriteButton entry={entry} />);
+      renderWithReactQuery(<AddToFavoriteButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRendered();
@@ -108,7 +108,7 @@ describe("AddToFavoriteButton functionality tests", () => {
       await userEvent.click(toggleBtn);
 
       const expectedParams: UpdateIsFavoriteParams = {
-         entryId: entry.id,
+         entryId: descriptor.id,
          isFavorite: true,
       };
 
@@ -141,10 +141,10 @@ describe("AddToFavoriteButton functionality tests", () => {
       const result = mutationResultMock(mutateFn);
       useToggleFavoriteMock.mockReturnValue(result);
 
-      const entry = dtestData.dLibraryEntry();
-      entry.isFavorite = true;
+      const descriptor = dtestData.dPromptTemplateDescriptor();
+      descriptor.isFavorite = true;
 
-      renderWithReactQuery(<AddToFavoriteButton entry={entry} />);
+      renderWithReactQuery(<AddToFavoriteButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRendered();
@@ -155,7 +155,7 @@ describe("AddToFavoriteButton functionality tests", () => {
       await userEvent.click(toggleBtn);
 
       const expectedParams: UpdateIsFavoriteParams = {
-         entryId: entry.id,
+         entryId: descriptor.id,
          isFavorite: false,
       };
 
@@ -187,10 +187,10 @@ describe("AddToFavoriteButton functionality tests", () => {
       const result = mutationResultMock(mutateFn);
       useToggleFavoriteMock.mockReturnValue(result);
 
-      const entry = dtestData.dLibraryEntry();
-      entry.isFavorite = false;
+      const descriptor = dtestData.dPromptTemplateDescriptor();
+      descriptor.isFavorite = false;
 
-      renderWithReactQuery(<AddToFavoriteButton entry={entry} />);
+      renderWithReactQuery(<AddToFavoriteButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRendered();
@@ -201,7 +201,7 @@ describe("AddToFavoriteButton functionality tests", () => {
       await userEvent.click(toggleBtn);
 
       const expectedParams: UpdateIsFavoriteParams = {
-         entryId: entry.id,
+         entryId: descriptor.id,
          isFavorite: true,
       };
 
@@ -229,10 +229,10 @@ describe("AddToFavoriteButton functionality tests", () => {
       const result = mutationResultMock(mutateFn);
       useToggleFavoriteMock.mockReturnValue(result);
 
-      const entry = dtestData.dLibraryEntry();
-      entry.isFavorite = false;
+      const descriptor = dtestData.dPromptTemplateDescriptor();
+      descriptor.isFavorite = false;
 
-      renderWithReactQuery(<AddToFavoriteButton entry={entry} />);
+      renderWithReactQuery(<AddToFavoriteButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRendered();
@@ -243,7 +243,7 @@ describe("AddToFavoriteButton functionality tests", () => {
       await userEvent.click(toggleBtn);
 
       const expectedParams: UpdateIsFavoriteParams = {
-         entryId: entry.id,
+         entryId: descriptor.id,
          isFavorite: true,
       };
 

@@ -9,21 +9,21 @@ import {
    UpdateIsFavoriteParams,
    useToggleFavorite,
 } from "@/data/ts-queries/library";
-import { DLibraryEntry } from "@/data/types/domain/library";
+import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 import { cn } from "@/lib/utils";
 
 type Props = {
-   entry: DLibraryEntry;
+   descriptor: DPromptTemplateDescriptor;
 };
 
-export const AddToFavoriteButton = ({ entry }: Props) => {
-   const [isFavorite, setFavorite] = useState<boolean>(entry.isFavorite);
+export const AddToFavoriteButton = ({ descriptor }: Props) => {
+   const [isFavorite, setFavorite] = useState<boolean>(descriptor.isFavorite);
    const [isPending, startTransition] = useTransition();
    const { mutate: toggleFavorite } = useToggleFavorite();
 
    const handleToggleFavorite = () => {
       const params: UpdateIsFavoriteParams = {
-         entryId: entry.id,
+         entryId: descriptor.id,
          isFavorite: !isFavorite,
       };
       startTransition(async () => {
@@ -67,7 +67,7 @@ export const AddToFavoriteButton = ({ entry }: Props) => {
          aria-label={
             isFavorite ? "Aus Favoriten entfernen" : "Zu Favoriten hinzufügen"
          }
-         aria-pressed={entry.isFavorite}
+         aria-pressed={descriptor.isFavorite}
          data-testid="toggle-favorite-btn"
       >
          {icon()}

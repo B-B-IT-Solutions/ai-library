@@ -21,9 +21,9 @@ const assertRendered = () => {
 
 describe("LibraryToolbar rendering tests", () => {
    it("LibraryToolbar - totalEntries 1 - test", async () => {
-      const categories = dtestData.dLibraryEntryCategories();
-      const models = dtestData.dLibraryEntryModels();
-      const filters = dtestData.dLibraryEntriesFilter();
+      const categories = dtestData.dTemplateCategories();
+      const models = dtestData.dTemplateModels();
+      const filters = dtestData.dTemplateDescriptorsFilter();
 
       const { container } = renderWithRouter(
          <LibraryToolbar
@@ -42,8 +42,8 @@ describe("LibraryToolbar rendering tests", () => {
    });
 
    it("LibraryToolbar - totalEntries 5 - test", async () => {
-      const categories = dtestData.dLibraryEntryCategories();
-      const models = dtestData.dLibraryEntryModels();
+      const categories = dtestData.dTemplateCategories();
+      const models = dtestData.dTemplateModels();
       const filters = dtestData.dLibraryEntriesFilter();
 
       const { container } = renderWithRouter(
