@@ -83,8 +83,6 @@ export class LibraryRepository {
       });
    }
 
-   // ==================== Collection Entries ====================
-
    async pGetEntryCollectionIds(
       userId: string,
       descriptorId: string
