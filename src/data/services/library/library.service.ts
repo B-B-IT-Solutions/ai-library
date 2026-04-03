@@ -35,18 +35,6 @@ export class LibraryService {
       }
    }
 
-   async toggleFavorite(
-      descriptorId: string,
-      userId: string,
-      isFavorite: boolean
-   ) {
-      await this.promptTemplateService.toggleFavorite(
-         userId,
-         descriptorId,
-         isFavorite
-      );
-   }
-
    async getCollections(userId: string): Promise<DLibraryCollection[]> {
       return await this.libraryRepository.pGetCollections(userId);
    }

@@ -199,6 +199,38 @@ export const downloadTemplate = async (
    }
 };
 
+export const toggleTemplateDescriptorFavorite = async (
+   descriptorId: string,
+   isFavorite: boolean
+): Promise<ActionResult> => {
+   try {
+      if (!isValidUuid(descriptorId)) {
+         throw new Error("Invalid Descriptor ID.");
+      }
+
+      const user = await requireUser();
+      const service = getService();
+      await service.toggleTemplateDescriptorFavorite(
+         user.id,
+         descriptorId,
+         isFavorite
+      );
+
+      return {
+         success: true,
+         message: isFavorite
+            ? "Zu Favoriten hinzugefügt"
+            : "Aus Favoriten entfernt",
+      };
+   } catch (error) {
+      console.error(formatError(error));
+      return {
+         success: false,
+         message: "Die Anfrage konnte nicht bearbeitet werden",
+      };
+   }
+};
+
 export const getTemplateDescriptorCategories = async (): Promise<string[]> => {
    try {
       const user = await requireUser();

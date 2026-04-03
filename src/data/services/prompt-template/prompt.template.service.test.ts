@@ -513,6 +513,31 @@ describe("downloadTemplate tests", () => {
    });
 });
 
+describe("toggleTemplateDescriptorFavorite tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("favorite - toggled - test", async () => {
+      const userId = "user-id-1";
+      const descriptorId = "descriptor-id-1";
+      const isFavorite = true;
+
+      await promptTemplateService.toggleTemplateDescriptorFavorite(
+         userId,
+         descriptorId,
+         isFavorite
+      );
+
+      expect(promptTemplateRepoMock.pToggleFavorite).toHaveBeenCalledTimes(1);
+      expect(promptTemplateRepoMock.pToggleFavorite).toHaveBeenCalledWith(
+         userId,
+         descriptorId,
+         isFavorite
+      );
+   });
+});
+
 describe("getPromptTemplateDescriptors tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -625,31 +650,6 @@ describe("getPromptTemplateCategories tests", () => {
       expect(
          promptTemplateRepoMock.pGetPromptTemplateCategories
       ).toHaveBeenCalledWith(userId);
-   });
-});
-
-describe("toggleFavorite tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("toggleFavorite - value toggled - test", async () => {
-      const userId = "user-id-1";
-      const descriptorId = "descriptor-id-1";
-      const isFavorite = true;
-
-      await promptTemplateService.toggleFavorite(
-         userId,
-         descriptorId,
-         isFavorite
-      );
-
-      expect(promptTemplateRepoMock.pToggleFavorite).toHaveBeenCalledTimes(1);
-      expect(promptTemplateRepoMock.pToggleFavorite).toHaveBeenCalledWith(
-         userId,
-         descriptorId,
-         isFavorite
-      );
    });
 });
 

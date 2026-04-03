@@ -183,6 +183,14 @@ export class PromptTemplateService {
       return downloadData;
    }
 
+   async toggleTemplateDescriptorFavorite(
+      userId: string,
+      descriptorId: string,
+      isFavorite: boolean
+   ) {
+      await this.repository.pToggleFavorite(userId, descriptorId, isFavorite);
+   }
+
    async getPromptTemplateDescriptors(
       params?: DGetPromptTemplatesDescriptorsParams
    ): Promise<DPromptTemplateDescriptor[]> {
@@ -200,14 +208,6 @@ export class PromptTemplateService {
       const categories =
          await this.repository.pGetPromptTemplateCategories(userId);
       return map(categories, (c) => c.name);
-   }
-
-   async toggleFavorite(
-      userId: string,
-      descriptorId: string,
-      isFavorite: boolean
-   ) {
-      await this.repository.pToggleFavorite(userId, descriptorId, isFavorite);
    }
 
    async getTemplateDescriptorCategories(userId: string): Promise<string[]> {

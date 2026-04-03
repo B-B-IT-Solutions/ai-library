@@ -13,40 +13,12 @@ import {
 } from "@/data/types/domain/library";
 import { ActionResult } from "@/data/types/utils";
 
-export const toggleLibraryEntryFavorite = async (
-   descriptorId: string,
-   isFavorite: boolean
-): Promise<ActionResult> => {
-   try {
-      if (!isValidUuid(descriptorId)) {
-         throw new Error("Invalid Entry ID.");
-      }
-
-      const user = await requireUser();
-      const service = getSevice();
-      await service.toggleFavorite(descriptorId, user.id, isFavorite);
-
-      return {
-         success: true,
-         message: isFavorite
-            ? "Zu Favoriten hinzugefügt"
-            : "Aus Favoriten entfernt",
-      };
-   } catch (error) {
-      console.error(formatError(error));
-      return {
-         success: false,
-         message: "Die Anfrage konnte nicht bearbeitet werden",
-      };
-   }
-};
-
 export const getLibraryCollections = async (): Promise<
    DLibraryCollection[]
 > => {
    try {
       const user = await requireUser();
-      const service = getSevice();
+      const service = getService();
       return await service.getCollections(user.id);
    } catch (error) {
       console.error(formatError(error));
@@ -59,7 +31,7 @@ export const createLibraryCollection = async (
 ): Promise<ActionResult<DLibraryCollection>> => {
    try {
       const user = await requireUser();
-      const service = getSevice();
+      const service = getService();
       const collection = await service.createCollection(user.id, data);
 
       return {
@@ -86,7 +58,7 @@ export const updateLibraryCollection = async (
       }
 
       const user = await requireUser();
-      const service = getSevice();
+      const service = getService();
       await service.updateCollection(collectionId, user.id, data);
 
       return {
@@ -111,7 +83,7 @@ export const deleteLibraryCollection = async (
       }
 
       const user = await requireUser();
-      const service = getSevice();
+      const service = getService();
       await service.deleteCollection(collectionId, user.id);
 
       return {
@@ -136,7 +108,7 @@ export const getEntryCollectionIds = async (
       }
 
       const user = await requireUser();
-      const service = getSevice();
+      const service = getService();
       return await service.getEntryCollectionIds(user.id, entryId);
    } catch (error) {
       console.error(formatError(error));
@@ -154,7 +126,7 @@ export const updateEntryCollections = async (
       }
 
       const user = await requireUser();
-      const service = getSevice();
+      const service = getService();
       await service.updateEntryCollections(user.id, entryId, collectionIds);
 
       return {
@@ -170,7 +142,7 @@ export const updateEntryCollections = async (
    }
 };
 
-const getSevice = (dbClient: DbClient = prisma) => {
+const getService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
    return factory.getLibraryService();
 };

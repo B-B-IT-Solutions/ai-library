@@ -51,27 +51,6 @@ describe("createLibraryEntries tests", () => {
    });
 });
 
-describe("toggleFavorite tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("toggleFavorite - value toggled - test", async () => {
-      const userId = "user-id-1";
-      const descriptorId = "descriptor-id-1";
-      const isFavorite = true;
-
-      await libraryService.toggleFavorite(descriptorId, userId, isFavorite);
-
-      expect(promptTemplateServiceMock.toggleFavorite).toHaveBeenCalledTimes(1);
-      expect(promptTemplateServiceMock.toggleFavorite).toHaveBeenCalledWith(
-         userId,
-         descriptorId,
-         isFavorite
-      );
-   });
-});
-
 describe("getCollections tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
