@@ -1,10 +1,11 @@
-import { notFound } from "next/navigation";
 import {
    dehydrate,
    HydrationBoundary,
    QueryClient,
 } from "@tanstack/react-query";
+import { notFound } from "next/navigation";
 
+import { getLibraryCollectionById } from "@/data/actions/library";
 import {
    getTemplateDescriptorCategories,
    getTemplateDescriptorModels,
@@ -16,7 +17,6 @@ import {
 import { libraryKeys } from "@/data/ts-queries/library/utils";
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
-import { getLibraryCollectionById } from "@/data/actions/library";
 
 import { CollectionHeader } from "./collections/collection-header";
 import { TemplateItems, TemplatesToolbar } from "./lists";
