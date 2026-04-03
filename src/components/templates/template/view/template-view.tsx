@@ -6,7 +6,7 @@ import {
    ItemDetailsViewHeader,
 } from "@/components/shared/wrappers/item-details";
 import { DPromptTemplateDescriptorWithTemplate } from "@/data/types/domain/prompt.template";
-import { LibraryEntryBreadcrumb } from "../../breadcrumbs";
+import { TemplateBreadcrumb } from "../../breadcrumbs";
 
 import { TemplateViewForm } from "./template-view-form";
 
@@ -24,10 +24,7 @@ export const TemplateView = ({ descriptor }: Props) => {
          </ItemDetailsViewHeader>
          <ItemDetailsViewContent>
             <ItemDetailsViewBreadcrumbs>
-               <LibraryEntryBreadcrumb
-                  variant="view"
-                  label={descriptor.title}
-               />
+               <TemplateBreadcrumb variant="view" label={descriptor.title} />
             </ItemDetailsViewBreadcrumbs>
             <ItemDetailsViewBody>
                <TemplateViewForm descriptor={descriptor} />

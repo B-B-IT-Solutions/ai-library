@@ -7,7 +7,7 @@ import {
 } from "@/components/shared/wrappers/item-details";
 import { DPromptTemplateDescriptorWithTemplate } from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
-import { LibraryEntryBreadcrumb } from "../../breadcrumbs";
+import { TemplateBreadcrumb } from "../../breadcrumbs";
 
 import { TemplateEditForm } from "./template-edit-form";
 
@@ -36,14 +36,14 @@ export const TemplateEdit = ({ descriptor, globalFields }: Props) => {
    const breadcrumbs = () => {
       if (descriptor) {
          return (
-            <LibraryEntryBreadcrumb
+            <TemplateBreadcrumb
                variant="edit"
                label={descriptor.title}
                entryId={descriptor.id}
             />
          );
       }
-      return <LibraryEntryBreadcrumb variant="new" />;
+      return <TemplateBreadcrumb variant="new" />;
    };
 
    return (

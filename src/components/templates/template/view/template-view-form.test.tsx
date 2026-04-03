@@ -11,7 +11,7 @@ const assertRendered = () => {
    const createPromptBtn = screen.getByTestId(
       "create-prompt-from-template-btn"
    );
-   const editEntryBtn = screen.getByTestId("edit-entry-btn");
+   const editEntryBtn = screen.getByTestId("edit-template-btn");
    const moreOptionsBtn = screen.getByTestId("more-options-btn");
 
    assertInDocument(form);

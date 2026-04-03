@@ -6,7 +6,7 @@ import { TemplateEdit } from "./template-edit";
 
 const assertRendered = () => {
    const editEntry = screen.getByTestId("template-edit");
-   const breadcrumbs = screen.getByTestId("libary-entry-breadcrumb");
+   const breadcrumbs = screen.getByTestId("template-breadcrumb");
    const form = screen.getByTestId("template-edit-form");
 
    assertInDocument(editEntry);

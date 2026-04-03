@@ -15,7 +15,7 @@ import {
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
 
-import { CreateLibraryEntryButton } from "./buttons";
+import { CreateTemplateButton } from "./buttons";
 import { CollectionsFilter, TemplateItems, TemplatesToolbar } from "./lists";
 import { templatesSearchParamsCache } from "./search-params";
 
@@ -62,7 +62,7 @@ export const TemplatesDashboard = async () => {
                      </p>
                   </div>
                   <div className="flex items-center gap-3">
-                     <CreateLibraryEntryButton />
+                     <CreateTemplateButton />
                   </div>
                </div>
 

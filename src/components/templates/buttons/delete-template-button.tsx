@@ -11,7 +11,7 @@ type Props = {
    descriptor: DPromptTemplateDescriptorWithTemplate;
 };
 
-export const DeleteLibraryEntryButton = ({ descriptor }: Props) => {
+export const DeleteTemplateButton = ({ descriptor }: Props) => {
    const router = useRouter();
 
    const handleDelete = async () => {
@@ -33,7 +33,7 @@ export const DeleteLibraryEntryButton = ({ descriptor }: Props) => {
             description:
                "Diese Aktion kann nicht rückgängig gemacht werden. Die Vorlage wird dauerhaft gelöscht.",
          }}
-         data-testid="delete-entry-menu-item"
+         data-testid="delete-template-menu-item"
       />
    );
 };

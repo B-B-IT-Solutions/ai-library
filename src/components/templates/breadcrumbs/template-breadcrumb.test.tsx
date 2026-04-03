@@ -4,10 +4,10 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument } from "@tests";
 import mockRouter from "next-router-mock";
 
-import { LibraryEntryBreadcrumb } from "./library-entry-breadcrumb";
+import { TemplateBreadcrumb } from "./template-breadcrumb";
 
 const assertRendered = () => {
-   const breadcrumbs = screen.getByTestId("libary-entry-breadcrumb");
+   const breadcrumbs = screen.getByTestId("template-breadcrumb");
    const rootLink = screen.getByTestId("root-link");
 
    assertInDocument(breadcrumbs);
@@ -26,7 +26,7 @@ const assertItemLinkNotRendered = () => {
 
 describe("LibraryEntryBreadcrumb rendering test", () => {
    it("variant - new - test", async () => {
-      const { container } = render(<LibraryEntryBreadcrumb variant="new" />);
+      const { container } = render(<TemplateBreadcrumb variant="new" />);
 
       await waitFor(() => {
          assertRendered();
@@ -38,7 +38,7 @@ describe("LibraryEntryBreadcrumb rendering test", () => {
 
    it("variant - view - test", async () => {
       const { container } = render(
-         <LibraryEntryBreadcrumb variant="view" label="Template 1" />
+         <TemplateBreadcrumb variant="view" label="Template 1" />
       );
 
       await waitFor(() => {
@@ -51,7 +51,7 @@ describe("LibraryEntryBreadcrumb rendering test", () => {
 
    it("variant - edit - test", async () => {
       const { container } = render(
-         <LibraryEntryBreadcrumb
+         <TemplateBreadcrumb
             variant="edit"
             label="Template 2"
             entryId="entry-id-1"
@@ -73,7 +73,7 @@ describe("LibraryEntryBreadcrumb funtionality tests", () => {
    });
 
    it("variant - new - root link clicked - test", async () => {
-      render(<LibraryEntryBreadcrumb variant="new" />);
+      render(<TemplateBreadcrumb variant="new" />);
 
       await waitFor(() => {
          assertRendered();
@@ -88,7 +88,7 @@ describe("LibraryEntryBreadcrumb funtionality tests", () => {
    });
 
    it("variant - view - root link clicked - test", async () => {
-      render(<LibraryEntryBreadcrumb variant="view" label="Template 1" />);
+      render(<TemplateBreadcrumb variant="view" label="Template 1" />);
 
       await waitFor(() => {
          assertRendered();
@@ -104,7 +104,7 @@ describe("LibraryEntryBreadcrumb funtionality tests", () => {
 
    it("variant - edit - item link clicked - test", async () => {
       render(
-         <LibraryEntryBreadcrumb
+         <TemplateBreadcrumb
             variant="edit"
             label="Template 123"
             entryId="entry-id-123"

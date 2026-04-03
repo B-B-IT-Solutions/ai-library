@@ -1,7 +1,7 @@
 export { AddToFavoriteButton } from "./add-to-favorite-button";
 export { CreatePromptFromTemplateButton } from "./create-prompt-from-template-button";
-export { CreateLibraryEntryButton } from "./create-library-entry-button";
-export { DeleteLibraryEntryButton } from "./delete-library-entry-button";
+export { CreateTemplateButton } from "./create-template-button";
+export { DeleteTemplateButton } from "./delete-template-button";
 export { DownloadTemplateButton } from "./download-template-button";
-export { EditLibraryEntryButton } from "./edit-library-entry-button";
+export { EditTemplateButton } from "./edit-template-button";
 export { MoreOptionsButton } from "./more-options-button";

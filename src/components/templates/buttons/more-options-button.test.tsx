@@ -15,7 +15,7 @@ const assertRendered = () => {
 
 const assertContextMenuRendered = () => {
    const downloadBtn = screen.getByTestId("download-template-menu-item");
-   const deleteBtn = screen.getByTestId("delete-entry-menu-item");
+   const deleteBtn = screen.getByTestId("delete-template-menu-item");
 
    assertInDocument(downloadBtn);
    assertInDocument(deleteBtn);
@@ -23,7 +23,7 @@ const assertContextMenuRendered = () => {
 
 const assertContextMenuNotRendered = () => {
    const downloadBtn = screen.queryByTestId("download-template-menu-item");
-   const deleteBtn = screen.queryByTestId("delete-entry-menu-item");
+   const deleteBtn = screen.queryByTestId("delete-template-menu-item");
 
    assertNotInDocument(downloadBtn);
    assertNotInDocument(deleteBtn);
