@@ -161,7 +161,7 @@ export class PromptTemplateService {
 
       if (!descriptor) {
          throw new Error(
-            `PromptTemplateDescriptor with id ${descriptorId}not found `
+            `TemplateDescriptor with ID ${descriptorId} not found`
          );
       }
 

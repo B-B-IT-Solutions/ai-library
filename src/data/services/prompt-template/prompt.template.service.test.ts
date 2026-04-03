@@ -534,7 +534,7 @@ describe("composePromptFromTemplate tests", () => {
          );
 
       await expect(fn).rejects.toThrow(
-         `PromptTemplateDescriptor with id ${id}not found `
+         `TemplateDescriptor with ID ${id} not found `
       );
 
       expect(

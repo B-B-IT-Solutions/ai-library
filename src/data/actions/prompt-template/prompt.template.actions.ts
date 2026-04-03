@@ -7,11 +7,13 @@ import { EMPTY_PAGE, formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
+import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
    DPromptTemplate,
    DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
    DPromptTemplateDescriptorWithTemplate,
+   DPromptTemplateFieldValues,
    DPromptTemplateUpdate,
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,
@@ -133,6 +135,37 @@ export const getPromptGenerationTemplateData = async (
    } catch (error) {
       console.error(formatError(error));
       return null;
+   }
+};
+
+export const composePromptFromTemplate = async (
+   descriptorId: string,
+   fieldValues: DPromptTemplateFieldValues
+): Promise<ActionResult<DPromptUpdate>> => {
+   try {
+      if (!isValidUuid(descriptorId)) {
+         throw new Error("Invalid Descriptor ID.");
+      }
+
+      const user = await requireUser();
+
+      const service = getService();
+      const promptData = await service.composePromptFromTemplate(
+         user.id,
+         descriptorId,
+         fieldValues
+      );
+      return {
+         success: true,
+         message: "Prompt erfolgreich generiert",
+         data: promptData,
+      };
+   } catch (error) {
+      console.error(formatError(error));
+      return {
+         success: false,
+         message: "Prompt konnte nicht generiert werden",
+      };
    }
 };
 

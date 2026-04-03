@@ -11,39 +11,7 @@ import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
 } from "@/data/types/domain/library";
-import { DPromptUpdate } from "@/data/types/domain/prompt";
-import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
-
-export const composePromptFromTemplate = async (
-   descriptorId: string,
-   fieldValues: DPromptTemplateFieldValues
-): Promise<ActionResult<DPromptUpdate>> => {
-   try {
-      if (!isValidUuid(descriptorId)) {
-         throw new Error("Invalid template ID.");
-      }
-
-      const user = await requireUser();
-
-      const service = getSevice();
-      const promptData = await service.composePromptFromTemplate(
-         descriptorId,
-         fieldValues,
-         user.id
-      );
-      return {
-         success: true,
-         message: "Prompt erfolgreich generiert",
-         data: promptData,
-      };
-   } catch (error) {
-      return {
-         success: false,
-         message: formatError(error),
-      };
-   }
-};
 
 export const downloadTemplate = async (
    descriptorId: string

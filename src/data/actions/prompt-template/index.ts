@@ -8,4 +8,5 @@ export {
    getPromptTemplates,
    getPromptTemplate,
    getPromptGenerationTemplateData,
+   composePromptFromTemplate,
 } from "./prompt.template.actions";

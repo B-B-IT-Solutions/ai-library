@@ -7,12 +7,6 @@ import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
 } from "@/data/types/domain/library";
-import { DPromptUpdate } from "@/data/types/domain/prompt";
-import {
-   DPromptTemplateDescriptor,
-   DPromptTemplateFieldValues,
-   DPromptTemplateUpdate,
-} from "@/data/types/domain/prompt.template";
 
 export class LibraryService {
    private libraryRepository: LibraryRepository;
@@ -39,24 +33,6 @@ export class LibraryService {
             // );
          }
       }
-   }
-
-   async composePromptFromTemplate(
-      descriptorId: string,
-      fieldValues: DPromptTemplateFieldValues,
-      userId: string
-   ): Promise<DPromptUpdate> {
-      const descriptor = await this.getLibraryEntry(userId, descriptorId);
-
-      if (!descriptor) {
-         throw new Error("Template not found");
-      }
-
-      return await this.promptTemplateService.composePromptFromTemplate(
-         userId,
-         descriptor.id,
-         fieldValues
-      );
    }
 
    async downloadPromptTemplate(

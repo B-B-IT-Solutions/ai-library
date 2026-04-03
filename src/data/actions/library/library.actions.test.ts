@@ -7,11 +7,9 @@ import { requireUser } from "@/data/actions/auth-utils";
 import { LibraryService } from "@/data/services/library";
 import { DLibraryCollection } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
-import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 
 import {
-   composePromptFromTemplate,
    createLibraryCollection,
    deleteLibraryCollection,
    downloadTemplate,
@@ -26,8 +24,6 @@ import {
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
-const sComposePromptFromTemplate =
-   LibraryService.prototype.composePromptFromTemplate;
 const sDownloadTemplate = LibraryService.prototype.downloadPromptTemplate;
 const sGetLibraryCategories = LibraryService.prototype.getLibraryCategories;
 const sGetLibraryModels = LibraryService.prototype.getLibraryModels;
@@ -39,10 +35,6 @@ const sDeleteCollection = LibraryService.prototype.deleteCollection;
 const sGetEntryCollectionIds = LibraryService.prototype.getEntryCollectionIds;
 const sUpdateEntryCollections = LibraryService.prototype.updateEntryCollections;
 
-const sComposePromptFromTemplateMock =
-   sComposePromptFromTemplate as jest.MockedFunction<
-      typeof sComposePromptFromTemplate
-   >;
 const sDownloadTemplateMock = sDownloadTemplate as jest.MockedFunction<
    typeof sDownloadTemplate
 >;
@@ -73,102 +65,6 @@ const sUpdateEntryCollectionsMock =
    >;
 const sGetEntryCollectionIdsMock =
    sGetEntryCollectionIds as jest.MockedFunction<typeof sGetEntryCollectionIds>;
-
-describe("composePromptFromTemplate tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("composePromptFromTemplate - invalid UUID - test", async () => {
-      const invalidId = "invalid-uuid-1";
-      const fieldValues: DPromptTemplateFieldValues = { field1: "value1" };
-
-      const result = await composePromptFromTemplate(invalidId, fieldValues);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Invalid template ID.",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sComposePromptFromTemplateMock).not.toHaveBeenCalled();
-   });
-
-   it("composePromptFromTemplate - user undefined - test", async () => {
-      const error = new Error("Unknow user");
-      const templateId = "123e4567-e89b-12d3-a456-426614174000";
-      const fieldValues: DPromptTemplateFieldValues = { field1: "value1" };
-      requireUserMock.mockRejectedValue(error);
-
-      const result = await composePromptFromTemplate(templateId, fieldValues);
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Unknow user",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sComposePromptFromTemplateMock).not.toHaveBeenCalled();
-   });
-
-   it("composePromptFromTemplate - success - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const templateId = "123e4567-e89b-12d3-a456-426614174000";
-      const fieldValues: DPromptTemplateFieldValues = {
-         name: "User-1 Name",
-         email: "test1@email.com",
-         age: 30,
-      };
-      const promptData = dtestData.dPromptUpdate();
-      sComposePromptFromTemplateMock.mockResolvedValue(promptData);
-
-      const result = await composePromptFromTemplate(templateId, fieldValues);
-      const expectedResult: ActionResult<DPromptUpdate> = {
-         success: true,
-         message: "Prompt erfolgreich generiert",
-         data: promptData,
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sComposePromptFromTemplateMock).toHaveBeenCalledTimes(1);
-      expect(sComposePromptFromTemplateMock).toHaveBeenCalledWith(
-         templateId,
-         fieldValues,
-         user.id
-      );
-   });
-
-   it("composePromptFromTemplate - error - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const templateId = "123e4567-e89b-12d3-a456-426614174000";
-      const fieldValues: DPromptTemplateFieldValues = {
-         name: "User-1 Name",
-         email: "invalid-email",
-      };
-      const errorMessage = "Provided template fields are invalid";
-      const error = new Error(errorMessage);
-      sComposePromptFromTemplateMock.mockRejectedValue(error);
-
-      const result = await composePromptFromTemplate(templateId, fieldValues);
-      const expectedResult: ActionResult = {
-         success: false,
-         message: errorMessage,
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sComposePromptFromTemplateMock).toHaveBeenCalledTimes(1);
-      expect(sComposePromptFromTemplateMock).toHaveBeenCalledWith(
-         templateId,
-         fieldValues,
-         user.id
-      );
-   });
-});
 
 describe("downloadTemplate tests", () => {
    beforeEach(() => {

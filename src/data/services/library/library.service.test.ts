@@ -9,8 +9,6 @@ import { LibraryRepository } from "@/data/repositories/library";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { PromptTemplateService } from "@/data/services/prompt-template";
-import { DPromptUpdate } from "@/data/types/domain/prompt";
-import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 
 import { LibraryService } from "./library.service";
 
@@ -50,80 +48,6 @@ describe("createLibraryEntries tests", () => {
       await libraryService.createLibraryEntries(order);
 
       // expect(libraryRepoMock.pCreateLibraryEntries).not.toHaveBeenCalled();
-   });
-});
-
-describe("composePromptFromTemplate tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("composePromptFromTemplate - template not found - test", async () => {
-      const userId = "user-id-1";
-      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-      const fieldValues: DPromptTemplateFieldValues = { field1: "value1" };
-      promptTemplateServiceMock.getTemplateDescriptor.mockResolvedValue(null);
-
-      const fn = async () =>
-         await libraryService.composePromptFromTemplate(
-            descriptorId,
-            fieldValues,
-            userId
-         );
-
-      await expect(fn).rejects.toThrow("Template not found");
-      expect(
-         promptTemplateServiceMock.getTemplateDescriptor
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateServiceMock.getTemplateDescriptor
-      ).toHaveBeenCalledWith(userId, descriptorId);
-      expect(
-         promptTemplateServiceMock.composePromptFromTemplate
-      ).not.toHaveBeenCalled();
-   });
-
-   it("composePromptFromTemplate - prompt composed - test", async () => {
-      const userId = "user-id-1";
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
-      const fieldValues: DPromptTemplateFieldValues = {
-         name: "User-1 Name",
-         email: "test1@email.com",
-      };
-      const expectedPromptUpdate: DPromptUpdate = {
-         content: "Hello User-1 Name, your email is test1@email.com",
-         title: "Test Prompt",
-         recommendedModel: "gpt-4",
-         categories: ["test"],
-         followUpPrompts: [],
-      };
-
-      promptTemplateServiceMock.getTemplateDescriptor.mockResolvedValue(
-         descriptor
-      );
-      promptTemplateServiceMock.composePromptFromTemplate.mockResolvedValue(
-         expectedPromptUpdate
-      );
-
-      const result = await libraryService.composePromptFromTemplate(
-         descriptor.id,
-         fieldValues,
-         userId
-      );
-
-      expect(result).toEqual(expectedPromptUpdate);
-      expect(
-         promptTemplateServiceMock.getTemplateDescriptor
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateServiceMock.getTemplateDescriptor
-      ).toHaveBeenCalledWith(userId, descriptor.id);
-      expect(
-         promptTemplateServiceMock.composePromptFromTemplate
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateServiceMock.composePromptFromTemplate
-      ).toHaveBeenCalledWith(userId, descriptor.id, fieldValues);
    });
 });
 
