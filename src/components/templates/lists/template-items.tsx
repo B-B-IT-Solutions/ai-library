@@ -17,7 +17,7 @@ import {
 import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
 
 import { TemplateItemsGrid } from "./template-items-grid";
-import { LibraryEntriesGrouped } from "./library-entries-grouped";
+import { TemplateItemsGrouped } from "./template-items-grouped";
 import { TemplateItemsList } from "./template-items-list";
 
 type Props = {
@@ -58,7 +58,7 @@ export const TemplateItems = ({
 
    if (groupBy !== DListGroupByMode.NONE) {
       return (
-         <LibraryEntriesGrouped
+         <TemplateItemsGrouped
             descriptors={entries}
             groupBy={groupBy}
             collections={collections}

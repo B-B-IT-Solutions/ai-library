@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useMemo } from "react";
+import { useMemo } from "react";
 import { groupBy as lodashGroupBy, map } from "es-toolkit/compat";
 
 import { DListGroupByMode } from "@/data/types/domain/common";
@@ -16,17 +16,17 @@ type GroupedTemplates = {
    entries: DPromptTemplateDescriptor[];
 };
 
-type LibraryEntriesGroupedProps = {
+type Props = {
    descriptors: DPromptTemplateDescriptor[];
    collections: DLibraryCollection[];
    groupBy: DListGroupByMode;
 };
 
-export const LibraryEntriesGrouped: FC<LibraryEntriesGroupedProps> = ({
+export const TemplateItemsGrouped = ({
    descriptors,
    collections,
    groupBy,
-}) => {
+}: Props) => {
    const grouped = useMemo(() => {
       switch (groupBy) {
          case "category":
