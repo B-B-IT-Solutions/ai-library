@@ -1,6 +1,6 @@
-jest.mock("@/components/library", () => ({
-   LibraryDashboard: () => {
-      return <div data-testid="library-dashboard" />;
+jest.mock("@/components/templates", () => ({
+   TemplatesDashboard: () => {
+      return <div data-testid="templates-dashboard" />;
    },
    librarySearchParamsCache: {
       parse: jest.fn(),
@@ -13,7 +13,7 @@ import { Metadata } from "next";
 
 import { librarySearchParamsCache } from "@/components/templates";
 
-import { LibraryPage, metadata, PageProps } from "./page";
+import { metadata, PageProps, TemplatesPage } from "./page";
 
 const librarySearchParamsCacheParseMock =
    librarySearchParamsCache.parse as jest.MockedFunction<
@@ -25,26 +25,26 @@ const expectedMetadata: Metadata = {
 };
 
 const assertRendered = () => {
-   const page = screen.getByTestId("library-page");
-   const dashboard = screen.getByTestId("library-dashboard");
+   const page = screen.getByTestId("templates-page");
+   const dashboard = screen.getByTestId("templates-dashboard");
 
    assertInDocument(page);
    assertInDocument(dashboard);
 };
 
-describe("LibraryPage rendering tests", () => {
+describe("TemplatesPage rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("LibraryPage - library page rendered - test", async () => {
+   it("page rendered - test", async () => {
       const params = { view: "grid" };
 
       const props: PageProps = {
          searchParams: Promise.resolve(params),
       };
 
-      const { container } = await renderAsyncRSC(LibraryPage, props);
+      const { container } = await renderAsyncRSC(TemplatesPage, props);
 
       await waitFor(() => {
          assertRendered();
@@ -58,8 +58,8 @@ describe("LibraryPage rendering tests", () => {
    });
 });
 
-describe("LibraryPage functionality tests", () => {
-   it("LibraryPage - metadata - test", async () => {
+describe("TemplatesPage functionality tests", () => {
+   it("metadata - test", async () => {
       expect(metadata).toEqual(expectedMetadata);
    });
 });

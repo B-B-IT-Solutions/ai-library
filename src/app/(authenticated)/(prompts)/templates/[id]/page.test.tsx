@@ -7,7 +7,7 @@ import { notFound } from "next/navigation";
 
 import { getTemplateDescriptor } from "@/data/actions/prompt-template";
 
-import { LibraryEntryPage, metadata, PageParams, PageProps } from "./page";
+import { metadata, PageParams, PageProps, TemplatePage } from "./page";
 
 const getTemplateDescriptorMock = getTemplateDescriptor as jest.MockedFunction<
    typeof getTemplateDescriptor
@@ -20,27 +20,27 @@ const expectedMetadata: Metadata = {
 };
 
 const assertRendered = () => {
-   const page = screen.getByTestId("library-entry-view-page");
+   const page = screen.getByTestId("template-view-page");
    const viewEntry = screen.getByTestId("library-entry-view");
 
    assertInDocument(page);
    assertInDocument(viewEntry);
 };
 
-describe("LibraryEntryPage rendering tests", () => {
+describe("TemplatePage rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("LibraryEntryPage - library entry null - test", async () => {
+   it("templateDescriptor null - test", async () => {
       getTemplateDescriptorMock.mockResolvedValue(null);
 
-      const params: PageParams = { id: "entry-id-1" };
+      const params: PageParams = { id: "descriptor-id-1" };
       const props: PageProps = {
          params: Promise.resolve(params),
       };
 
-      const { container } = await renderAsyncRSC(LibraryEntryPage, props);
+      const { container } = await renderAsyncRSC(TemplatePage, props);
 
       await waitFor(() => {
          expect(getTemplateDescriptorMock).toHaveBeenCalledTimes(1);
@@ -50,16 +50,16 @@ describe("LibraryEntryPage rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("LibraryEntryPage - library entry defined - test", async () => {
+   it("templateDescriptor defined - test", async () => {
       const libraryEntry = dtestData.dPromptTemplateDescriptorWithTemplate();
       getTemplateDescriptorMock.mockResolvedValue(libraryEntry);
 
-      const params: PageParams = { id: "entry-id-1" };
+      const params: PageParams = { id: "descriptor-id-1" };
       const props: PageProps = {
          params: Promise.resolve(params),
       };
 
-      const { container } = await renderAsyncRSC(LibraryEntryPage, props);
+      const { container } = await renderAsyncRSC(TemplatePage, props);
 
       await waitFor(() => {
          assertRendered();
@@ -70,8 +70,8 @@ describe("LibraryEntryPage rendering tests", () => {
    });
 });
 
-describe("LibraryEntryPage functionality tests", () => {
-   it("LibraryEntryPage - metadata - test", async () => {
+describe("TemplatePage functionality tests", () => {
+   it("metadata - test", async () => {
       expect(metadata).toEqual(expectedMetadata);
    });
 });

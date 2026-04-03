@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`LibraryDashboard rendering tests LibraryDashboard rendered test 1`] = `
+exports[`TemplatesDashboard rendering tests rendered test 1`] = `
 <div>
   <div
     class="flex h-full flex-col bg-slate-50"
-    data-testid="library-dashboard"
+    data-testid="templates-dashboard"
   >
     <div
       class="space-y-4 border-b bg-white px-6 py-4"

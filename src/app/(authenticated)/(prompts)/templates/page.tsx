@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 
 import {
-   LibraryDashboard,
    librarySearchParamsCache,
+   TemplatesDashboard,
 } from "@/components/templates";
 
 export const metadata: Metadata = {
@@ -14,14 +14,14 @@ export type PageProps = {
    searchParams: Promise<SearchParams>;
 };
 
-export const LibraryPage = async (props: PageProps) => {
+export const TemplatesPage = async (props: PageProps) => {
    await librarySearchParamsCache.parse(props.searchParams);
 
    return (
-      <div data-testid="library-page" className="h-full">
-         <LibraryDashboard />
+      <div data-testid="templates-page" className="h-full">
+         <TemplatesDashboard />
       </div>
    );
 };
 
-export default LibraryPage;
+export default TemplatesPage;

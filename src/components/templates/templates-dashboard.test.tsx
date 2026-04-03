@@ -19,8 +19,8 @@ import {
 } from "@/data/types/domain/common";
 import { DTemplateDescriptorsPageQuery } from "@/data/types/domain/prompt.template";
 
-import { LibraryDashboard } from "./library-dashboard";
 import { librarySearchParamsCache } from "./search-params";
+import { TemplatesDashboard } from "./templates-dashboard";
 
 type CacheKey = Parameters<typeof librarySearchParamsCache.get>[0];
 type CacheValue = ReturnType<typeof librarySearchParamsCache.get>;
@@ -70,7 +70,7 @@ const mockSearchParams = (key: CacheKey): CacheValue => {
 };
 
 const assertRendered = () => {
-   const dashboard = screen.getByTestId("library-dashboard");
+   const dashboard = screen.getByTestId("templates-dashboard");
    const createEntryBtn = screen.getByTestId("create-library-entry-btn");
    const toolbar = screen.getByTestId("library-toolbar");
    const entries = screen.getByTestId("library-entries-grid");
@@ -88,7 +88,7 @@ const assertGetLibraryEntriesPageCalled = (
    expect(getTemplateDescriptorsPageMock).toHaveBeenCalledWith(expectedPayload);
 };
 
-describe("LibraryDashboard rendering tests", () => {
+describe("TemplatesDashboard rendering tests", () => {
    beforeAll(() => {
       const page = dtestData.dTemplateDescriptorsPage();
 
@@ -100,7 +100,7 @@ describe("LibraryDashboard rendering tests", () => {
       jest.clearAllMocks();
    });
 
-   it("LibraryDashboard rendered test", async () => {
+   it("rendered test", async () => {
       librarySearchParamsCacheMock.get.mockImplementation(mockSearchParams);
 
       const categories = dtestData.dTemplateCategories();
@@ -108,7 +108,7 @@ describe("LibraryDashboard rendering tests", () => {
       getTemplateDescriptorCategoriesMock.mockResolvedValue(categories);
       getTemplateDescriptorModelsMock.mockResolvedValue(models);
 
-      const { container } = await renderAsyncRSC(LibraryDashboard, {});
+      const { container } = await renderAsyncRSC(TemplatesDashboard, {});
 
       const expectedPayload: DTemplateDescriptorsPageQuery = {
          pagination: {

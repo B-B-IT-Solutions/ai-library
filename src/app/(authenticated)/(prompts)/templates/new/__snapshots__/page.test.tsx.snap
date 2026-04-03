@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`NewLibraryEntryPage rendering tests NewLibraryEntryPage rendered test 1`] = `
+exports[`NewTemplatePage rendering tests rendered test 1`] = `
 <div>
   <div
     class="flex h-screen flex-col bg-slate-50"
-    data-testid="new-library-entry-page"
+    data-testid="new-template-page"
   >
     <div
       class="flex h-screen flex-col bg-slate-50"

@@ -7,17 +7,17 @@ export const metadata: Metadata = {
    title: "Neue Vorlage",
 };
 
-export const NewLibraryEntryPage = async () => {
+export const NewTemplatePage = async () => {
    const globalFields = await getGlobalTemplateFields();
 
    return (
       <div
          className="flex h-screen flex-col bg-slate-50"
-         data-testid="new-library-entry-page"
+         data-testid="new-template-page"
       >
          <LibraryEntryEdit globalFields={globalFields} />
       </div>
    );
 };
 
-export default NewLibraryEntryPage;
+export default NewTemplatePage;

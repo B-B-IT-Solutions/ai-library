@@ -17,7 +17,7 @@ export type PageProps = {
    params: Promise<PageParams>;
 };
 
-export const EditLibraryEntryPage = async ({ params }: PageProps) => {
+export const EditTemplatePage = async ({ params }: PageProps) => {
    const { id: descriptorId } = await params;
 
    const [entry, globalFields] = await Promise.all([
@@ -30,13 +30,10 @@ export const EditLibraryEntryPage = async ({ params }: PageProps) => {
    }
 
    return (
-      <div
-         className="h-screen bg-slate-50"
-         data-testid="library-entry-edit-page"
-      >
+      <div className="h-screen bg-slate-50" data-testid="template-edit-page">
          <LibraryEntryEdit descriptor={entry} globalFields={globalFields} />
       </div>
    );
 };
 
-export default EditLibraryEntryPage;
+export default EditTemplatePage;

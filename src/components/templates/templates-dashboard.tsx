@@ -19,7 +19,7 @@ import { CreateLibraryEntryButton } from "./buttons";
 import { CollectionsFilter, LibraryEntries, LibraryToolbar } from "./lists";
 import { librarySearchParamsCache } from "./search-params";
 
-export const LibraryDashboard = async () => {
+export const TemplatesDashboard = async () => {
    const queryClient = new QueryClient();
 
    const viewMode = librarySearchParamsCache.get("view");
@@ -49,7 +49,7 @@ export const LibraryDashboard = async () => {
       <HydrationBoundary state={dehydrate(queryClient)}>
          <div
             className="flex h-full flex-col bg-slate-50"
-            data-testid="library-dashboard"
+            data-testid="templates-dashboard"
          >
             <div className="space-y-4 border-b bg-white px-6 py-4">
                <div className="flex items-center justify-between">

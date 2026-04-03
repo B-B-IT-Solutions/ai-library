@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`EditLibraryEntryPage rendering tests EditLibraryEntryPage - library entry defined - test 1`] = `
+exports[`EditTemplatePage rendering tests templateDescriptor defined - test 1`] = `
 <div>
   <div
     class="h-screen bg-slate-50"
-    data-testid="library-entry-edit-page"
+    data-testid="template-edit-page"
   >
     <div
       class="flex h-screen flex-col bg-slate-50"
@@ -3094,4 +3094,4 @@ exports[`EditLibraryEntryPage rendering tests EditLibraryEntryPage - library ent
 </div>
 `;
 
-exports[`EditLibraryEntryPage rendering tests EditLibraryEntryPage - library entry null - test 1`] = `<div />`;
+exports[`EditTemplatePage rendering tests templateDescriptor null - test 1`] = `<div />`;
