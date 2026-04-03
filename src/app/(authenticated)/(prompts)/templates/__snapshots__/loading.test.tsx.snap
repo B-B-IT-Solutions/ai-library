@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`OrdersLoading rendering tests OrdersLoading rendered test 1`] = `
+exports[`TemplatesLoading rendering tests rendered test 1`] = `
 <div>
   <div
     class="container mx-auto px-4 py-8"
-    data-testid="library-loading"
+    data-testid="templates-loading"
   >
     <div
       class="mb-8"
@@ -17,7 +17,7 @@ exports[`OrdersLoading rendering tests OrdersLoading rendered test 1`] = `
       />
     </div>
     <div
-      class="bg-slate-100 border border-slate-200 rounded-lg p-4 mb-6 animate-pulse"
+      class="mb-6 animate-pulse rounded-lg border border-slate-200 bg-slate-100 p-4"
     >
       <div
         class="flex items-center justify-between"
@@ -26,19 +26,19 @@ exports[`OrdersLoading rendering tests OrdersLoading rendered test 1`] = `
           class="space-y-2"
         >
           <div
-            class="h-5 bg-slate-200 rounded w-40"
+            class="h-5 w-40 rounded bg-slate-200"
           />
           <div
-            class="h-4 bg-slate-200 rounded w-64"
+            class="h-4 w-64 rounded bg-slate-200"
           />
         </div>
         <div
-          class="h-6 bg-slate-200 rounded w-16"
+          class="h-6 w-16 rounded bg-slate-200"
         />
       </div>
     </div>
     <div
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+      class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
     >
       <div
         class="text-card-foreground flex flex-col shadow-sm gap-0 rounded-lg border border-slate-300 bg-white p-4"

@@ -9,7 +9,7 @@ import { notFound } from "next/navigation";
 import { getTemplateDescriptor } from "@/data/actions/prompt-template";
 import { getGlobalTemplateFields } from "@/data/actions/settings";
 
-import { EditLibraryEntryPage, metadata, PageParams, PageProps } from "./page";
+import { EditTemplatePage, metadata, PageParams, PageProps } from "./page";
 
 const getTemplateDescriptorMock = getTemplateDescriptor as jest.MockedFunction<
    typeof getTemplateDescriptor
@@ -27,28 +27,28 @@ const expectedMetadata: Metadata = {
 };
 
 const assertRendered = () => {
-   const page = screen.getByTestId("library-entry-edit-page");
-   const editEntry = screen.getByTestId("library-entry-edit");
+   const page = screen.getByTestId("template-edit-page");
+   const editEntry = screen.getByTestId("template-edit");
 
    assertInDocument(page);
    assertInDocument(editEntry);
 };
 
-describe("EditLibraryEntryPage rendering tests", () => {
+describe("EditTemplatePage rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("EditLibraryEntryPage - library entry null - test", async () => {
+   it("templateDescriptor null - test", async () => {
       getTemplateDescriptorMock.mockResolvedValue(null);
       getGlobalTemplateFieldsMock.mockResolvedValue([]);
 
-      const params: PageParams = { id: "entry-id-1" };
+      const params: PageParams = { id: "descriptor-id-1" };
       const props: PageProps = {
          params: Promise.resolve(params),
       };
 
-      const { container } = await renderAsyncRSC(EditLibraryEntryPage, props);
+      const { container } = await renderAsyncRSC(EditTemplatePage, props);
 
       await waitFor(() => {
          expect(getTemplateDescriptorMock).toHaveBeenCalledTimes(1);
@@ -58,19 +58,19 @@ describe("EditLibraryEntryPage rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("EditLibraryEntryPage - library entry defined - test", async () => {
+   it("templateDescriptor defined - test", async () => {
       const libraryEntry = dtestData.dPromptTemplateDescriptorWithTemplate();
       getTemplateDescriptorMock.mockResolvedValue(libraryEntry);
 
       const templateFields = dtestData.dGlobalTemplateFields();
       getGlobalTemplateFieldsMock.mockResolvedValue(templateFields);
 
-      const params: PageParams = { id: "entry-id-1" };
+      const params: PageParams = { id: "descriptor-id-1" };
       const props: PageProps = {
          params: Promise.resolve(params),
       };
 
-      const { container } = await renderAsyncRSC(EditLibraryEntryPage, props);
+      const { container } = await renderAsyncRSC(EditTemplatePage, props);
 
       await waitFor(() => {
          assertRendered();
@@ -82,7 +82,7 @@ describe("EditLibraryEntryPage rendering tests", () => {
 });
 
 describe("EditLibraryEntryPage functionality tests", () => {
-   it("EditLibraryEntryPage - metadata - test", async () => {
+   it("metadata - test", async () => {
       expect(metadata).toEqual(expectedMetadata);
    });
 });

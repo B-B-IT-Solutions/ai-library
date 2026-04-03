@@ -6,7 +6,7 @@ import { Metadata } from "next";
 
 import { getGlobalTemplateFields } from "@/data/actions/settings";
 
-import { metadata, NewLibraryEntryPage } from "./page";
+import { metadata, NewTemplatePage } from "./page";
 
 const getGlobalTemplateFieldsMock =
    getGlobalTemplateFields as jest.MockedFunction<
@@ -18,19 +18,19 @@ const expectedMetadata: Metadata = {
 };
 
 const assertRendered = () => {
-   const page = screen.getByTestId("new-library-entry-page");
-   const entryEdit = screen.getByTestId("library-entry-edit");
+   const page = screen.getByTestId("new-template-page");
+   const entryEdit = screen.getByTestId("template-edit");
 
    assertInDocument(page);
    assertInDocument(entryEdit);
 };
 
-describe("NewLibraryEntryPage rendering tests", () => {
-   it("NewLibraryEntryPage rendered test", async () => {
+describe("NewTemplatePage rendering tests", () => {
+   it("rendered test", async () => {
       const templateFields = dtestData.dGlobalTemplateFields();
       getGlobalTemplateFieldsMock.mockResolvedValue(templateFields);
 
-      const { container } = await renderAsyncRSC(NewLibraryEntryPage, {});
+      const { container } = await renderAsyncRSC(NewTemplatePage, {});
 
       await waitFor(() => {
          assertRendered();
@@ -41,7 +41,7 @@ describe("NewLibraryEntryPage rendering tests", () => {
 });
 
 describe("NewLibraryEntryPage functionality tests", () => {
-   it("NewLibraryEntryPage - metadata - test", async () => {
+   it("metadata - test", async () => {
       expect(metadata).toEqual(expectedMetadata);
    });
 });

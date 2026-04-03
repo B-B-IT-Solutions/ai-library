@@ -2,16 +2,16 @@ import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import { assertInDocument } from "@tests";
 
-import { LibraryLoading } from "./loading";
+import { TemplatesLoading } from "./loading";
 
 const assertRendered = () => {
-   const loading = screen.getByTestId("library-loading");
+   const loading = screen.getByTestId("templates-loading");
    assertInDocument(loading);
 };
 
-describe("OrdersLoading rendering tests", () => {
-   it("OrdersLoading rendered test", async () => {
-      const { container } = render(<LibraryLoading />);
+describe("TemplatesLoading rendering tests", () => {
+   it("rendered test", async () => {
+      const { container } = render(<TemplatesLoading />);
 
       await waitFor(() => {
          assertRendered();

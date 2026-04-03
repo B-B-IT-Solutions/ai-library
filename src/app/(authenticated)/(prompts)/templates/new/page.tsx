@@ -1,23 +1,23 @@
 import { Metadata } from "next";
 
-import { LibraryEntryEdit } from "@/components/library";
+import { TemplateEdit } from "@/components/templates";
 import { getGlobalTemplateFields } from "@/data/actions/settings";
 
 export const metadata: Metadata = {
    title: "Neue Vorlage",
 };
 
-export const NewLibraryEntryPage = async () => {
+export const NewTemplatePage = async () => {
    const globalFields = await getGlobalTemplateFields();
 
    return (
       <div
          className="flex h-screen flex-col bg-slate-50"
-         data-testid="new-library-entry-page"
+         data-testid="new-template-page"
       >
-         <LibraryEntryEdit globalFields={globalFields} />
+         <TemplateEdit globalFields={globalFields} />
       </div>
    );
 };
 
-export default NewLibraryEntryPage;
+export default NewTemplatePage;
