@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/library");
+jest.mock("@/data/actions/prompt-template");
 jest.mock("@/data/actions/settings");
 
 import { screen, waitFor } from "@testing-library/dom";
@@ -6,13 +6,13 @@ import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getLibraryEntry } from "@/data/actions/library";
+import { getTemplateDescriptor } from "@/data/actions/prompt-template";
 import { getGlobalTemplateFields } from "@/data/actions/settings";
 
 import { EditLibraryEntryPage, metadata, PageParams, PageProps } from "./page";
 
-const getLibraryEntryMock = getLibraryEntry as jest.MockedFunction<
-   typeof getLibraryEntry
+const getTemplateDescriptorMock = getTemplateDescriptor as jest.MockedFunction<
+   typeof getTemplateDescriptor
 >;
 
 const getGlobalTemplateFieldsMock =
@@ -40,7 +40,7 @@ describe("EditLibraryEntryPage rendering tests", () => {
    });
 
    it("EditLibraryEntryPage - library entry null - test", async () => {
-      getLibraryEntryMock.mockResolvedValue(null);
+      getTemplateDescriptorMock.mockResolvedValue(null);
       getGlobalTemplateFieldsMock.mockResolvedValue([]);
 
       const params: PageParams = { id: "entry-id-1" };
@@ -51,7 +51,7 @@ describe("EditLibraryEntryPage rendering tests", () => {
       const { container } = await renderAsyncRSC(EditLibraryEntryPage, props);
 
       await waitFor(() => {
-         expect(getLibraryEntryMock).toHaveBeenCalledTimes(1);
+         expect(getTemplateDescriptorMock).toHaveBeenCalledTimes(1);
          expect(notFoundMock).toHaveBeenCalledTimes(1);
       });
 
@@ -60,7 +60,7 @@ describe("EditLibraryEntryPage rendering tests", () => {
 
    it("EditLibraryEntryPage - library entry defined - test", async () => {
       const libraryEntry = dtestData.dPromptTemplateDescriptorWithTemplate();
-      getLibraryEntryMock.mockResolvedValue(libraryEntry);
+      getTemplateDescriptorMock.mockResolvedValue(libraryEntry);
 
       const templateFields = dtestData.dGlobalTemplateFields();
       getGlobalTemplateFieldsMock.mockResolvedValue(templateFields);
@@ -74,7 +74,7 @@ describe("EditLibraryEntryPage rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         expect(getLibraryEntryMock).toHaveBeenCalledTimes(1);
+         expect(getTemplateDescriptorMock).toHaveBeenCalledTimes(1);
       });
 
       expect(container).toMatchSnapshot();

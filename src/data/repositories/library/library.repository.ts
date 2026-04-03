@@ -1,145 +1,25 @@
-import { isEmpty, map } from "es-toolkit/compat";
+import { map } from "es-toolkit/compat";
 
-import { Sort } from "@/data/types/common";
 import { DbClient } from "@/data/types/db/common";
-import { LibraryEntryWithPromptTemplateDescriptor } from "@/data/types/db/library";
 import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
-   DLibraryEntriesPage,
-   DLibraryEntriesPageQuery,
-   DLibraryEntry,
 } from "@/data/types/domain/library";
 import {
+   LibraryCollectionCreateArgs,
    LibraryCollectionCreateInput,
-   LibraryEntryCountArgs,
-   LibraryEntryCreateArgs,
-   LibraryEntryCreateInput,
-   LibraryEntryCreateManyArgs,
-   LibraryEntryCreateManyInput,
-   LibraryEntryDeleteArgs,
-   LibraryEntryFindManyArgs,
-   LibraryEntryOrderByWithRelationInput,
-   LibraryEntryWhereInput,
-   PromptTemplateDescriptorWhereInput,
+   LibraryCollectionDeleteArgs,
+   LibraryCollectionUpdateArgs,
+   LibraryCollectionUpdateInput,
 } from "@/generated/prisma/models";
 
-import {
-   toDLibraryCollection,
-   toDLibraryCollections,
-   toDLibraryEntries,
-} from "./library.mapper";
+import { toDLibraryCollection, toDLibraryCollections } from "./library.mapper";
 
 export class LibraryRepository {
    private prisma: DbClient;
 
    constructor(prisma: DbClient) {
       this.prisma = prisma;
-   }
-
-   async pGetLibraryEntriesPage(
-      userId: string,
-      query?: DLibraryEntriesPageQuery
-   ): Promise<DLibraryEntriesPage> {
-      const pagination = query?.pagination;
-      const pageNumber = pagination?.pageNumber ?? 0;
-      const pageSize = pagination?.pageSize ?? 20;
-      const skip = pageNumber * pageSize;
-
-      const where = this.resolveWhereInput(userId, query?.filter);
-      const orderBy = this.resolveOrderBy(query?.sort);
-
-      const args: LibraryEntryFindManyArgs = {
-         where,
-         include: {
-            templateDescriptor: {
-               include: {
-                  categories: true,
-               },
-            },
-         },
-         orderBy,
-         skip,
-         take: pageSize,
-      };
-
-      const countArgs: LibraryEntryCountArgs = {
-         where,
-      };
-
-      const [entries, totalEntries] = await Promise.all([
-         this.prisma.libraryEntry.findMany(args) as Promise<
-            LibraryEntryWithPromptTemplateDescriptor[]
-         >,
-         this.prisma.libraryEntry.count(countArgs),
-      ]);
-
-      return {
-         content: toDLibraryEntries(entries),
-         pageNumber,
-         pageSize,
-         numberOfElements: entries.length,
-         totalPages: Math.ceil(totalEntries / pageSize),
-         totalElements: totalEntries,
-      };
-   }
-
-   async pGetLibraryEntries(userId: string): Promise<DLibraryEntry[]> {
-      const entries: LibraryEntryWithPromptTemplateDescriptor[] =
-         await this.prisma.libraryEntry.findMany({
-            where: { userId },
-            include: {
-               templateDescriptor: {
-                  include: {
-                     categories: true,
-                  },
-               },
-            },
-            orderBy: {
-               createdAt: "desc",
-            },
-         });
-      return toDLibraryEntries(entries);
-   }
-
-   async pCreateLibraryEntry(userId: string, templateDescriptorId: string) {
-      const input: LibraryEntryCreateInput = {
-         templateDescriptor: {
-            connect: {
-               id: templateDescriptorId,
-            },
-         },
-         user: {
-            connect: {
-               id: userId,
-            },
-         },
-      };
-      const args: LibraryEntryCreateArgs = {
-         data: input,
-      };
-
-      return await this.prisma.libraryEntry.create(args);
-   }
-
-   async pCreateLibraryEntries(
-      userId: string,
-      templateDescriptorIds: string[]
-   ) {
-      const entries = map(templateDescriptorIds, (templateDescriptorId) => {
-         const entry: LibraryEntryCreateManyInput = {
-            userId,
-            templateDescriptorId,
-         };
-         return entry;
-      });
-
-      const args: LibraryEntryCreateManyArgs = {
-         data: entries,
-         skipDuplicates: true,
-      };
-
-      await this.prisma.libraryEntry.createMany(args);
    }
 
    async pGetCollections(userId: string): Promise<DLibraryCollection[]> {
@@ -169,55 +49,57 @@ export class LibraryRepository {
          order: data.order ?? 0,
       };
 
-      const collection = await this.prisma.libraryCollection.create({
+      const args: LibraryCollectionCreateArgs = {
          data: input,
-         include: {
-            _count: {
-               select: { entries: true },
-            },
-         },
-      });
+      };
+
+      const collection = await this.prisma.libraryCollection.create(args);
 
       return toDLibraryCollection(collection);
    }
 
    async pUpdateCollection(
-      collectionId: string,
       userId: string,
+      collectionId: string,
       data: DLibraryCollectionUpdate
-   ) {
-      await this.prisma.libraryCollection.update({
+   ): Promise<DLibraryCollection> {
+      const input: LibraryCollectionUpdateInput = {
+         name: data.name,
+         description: data.description,
+         color: data.color,
+         order: data.order,
+      };
+
+      const args: LibraryCollectionUpdateArgs = {
          where: {
             id: collectionId,
             userId,
          },
-         data: {
-            name: data.name,
-            description: data.description,
-            color: data.color,
-            order: data.order,
-         },
-      });
+         data: input,
+      };
+
+      const collection = await this.prisma.libraryCollection.update(args);
+      return toDLibraryCollection(collection);
    }
 
-   async pDeleteCollection(collectionId: string, userId: string) {
-      await this.prisma.libraryCollection.delete({
+   async pDeleteCollection(userId: string, collectionId: string) {
+      const args: LibraryCollectionDeleteArgs = {
          where: {
             id: collectionId,
             userId,
          },
-      });
-   }
+      };
 
-   // ==================== Collection Entries ====================
+      await this.prisma.libraryCollection.delete(args);
+   }
 
    async pGetEntryCollectionIds(
       userId: string,
-      entryId: string
+      descriptorId: string
    ): Promise<string[]> {
       const collectionEntries =
          await this.prisma.libraryCollectionEntry.findMany({
-            where: { entryId },
+            where: { templateDescriptorId: descriptorId },
             select: { collectionId: true },
          });
 
@@ -226,95 +108,18 @@ export class LibraryRepository {
 
    async pUpdateEntryCollections(
       userId: string,
-      entryId: string,
+      descriptorId: string,
       collectionIds: string[]
    ): Promise<void> {
       await this.prisma.libraryCollectionEntry.deleteMany({
-         where: { entryId },
+         where: { templateDescriptorId: descriptorId },
       });
 
       await this.prisma.libraryCollectionEntry.createMany({
          data: map(collectionIds, (collectionId) => ({
-            entryId,
+            templateDescriptorId: descriptorId,
             collectionId,
          })),
       });
-   }
-
-   private resolveWhereInput(
-      userId: string,
-      filter?: DLibraryEntriesPageQuery["filter"]
-   ): LibraryEntryWhereInput {
-      const where: LibraryEntryWhereInput = { userId };
-
-      if (!filter) return where;
-
-      const templateDescriptorWhere: PromptTemplateDescriptorWhereInput = {};
-
-      // Search
-      if (filter.search) {
-         templateDescriptorWhere.OR = [
-            { title: { contains: filter.search, mode: "insensitive" } },
-            { description: { contains: filter.search, mode: "insensitive" } },
-         ];
-      }
-
-      // Categories
-      if (!isEmpty(filter.categories)) {
-         templateDescriptorWhere.categories = {
-            some: {
-               name: {
-                  in: filter.categories,
-               },
-            },
-         };
-      }
-
-      // Models
-      if (!isEmpty(filter.models)) {
-         templateDescriptorWhere.recommendedModel = {
-            in: filter.models,
-         };
-      }
-
-      if (Object.keys(templateDescriptorWhere).length > 0) {
-         where.templateDescriptor = templateDescriptorWhere;
-      }
-
-      // Favorites
-      if (filter.isFavorite !== undefined) {
-         where.isFavorite = filter.isFavorite;
-      }
-
-      // Collections
-      if (filter.collectionIds && filter.collectionIds.length > 0) {
-         where.collectionEntries = {
-            some: {
-               collectionId: {
-                  in: filter.collectionIds,
-               },
-            },
-         };
-      }
-
-      return where;
-   }
-
-   private resolveOrderBy(sort?: Sort): LibraryEntryOrderByWithRelationInput {
-      if (sort) {
-         if (sort.field === "title") {
-            return {
-               templateDescriptor: {
-                  title: sort.order,
-               },
-            };
-         }
-         return {
-            [sort.field]: sort.order,
-         };
-      }
-      return {
-         createdAt: "desc" as const,
-      };
    }
 }

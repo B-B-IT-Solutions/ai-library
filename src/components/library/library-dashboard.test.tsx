@@ -1,22 +1,23 @@
 jest.mock("@/data/actions/library");
+jest.mock("@/data/actions/prompt-template");
 jest.mock("./search-params");
 
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
+import { getLibraryCollections } from "@/data/actions/library";
 import {
-   getLibraryCategories,
-   getLibraryCollections,
-   getLibraryEntriesPage,
-   getLibraryModels,
-} from "@/data/actions/library";
+   getTemplateDescriptorCategories,
+   getTemplateDescriptorModels,
+   getTemplateDescriptorsPage,
+} from "@/data/actions/prompt-template";
 import {
    DListGroupByMode,
    DListSortByMode,
    DListViewMode,
 } from "@/data/types/domain/common";
-import { DLibraryEntriesPageQuery } from "@/data/types/domain/library";
+import { DTemplateDescriptorsPageQuery } from "@/data/types/domain/prompt.template";
 
 import { LibraryDashboard } from "./library-dashboard";
 import { librarySearchParamsCache } from "./search-params";
@@ -24,21 +25,24 @@ import { librarySearchParamsCache } from "./search-params";
 type CacheKey = Parameters<typeof librarySearchParamsCache.get>[0];
 type CacheValue = ReturnType<typeof librarySearchParamsCache.get>;
 
-const getLibraryCategoriesMock = getLibraryCategories as jest.MockedFunction<
-   typeof getLibraryCategories
->;
+const getTemplateDescriptorCategoriesMock =
+   getTemplateDescriptorCategories as jest.MockedFunction<
+      typeof getTemplateDescriptorCategories
+   >;
 
-const getLibraryModelsMock = getLibraryModels as jest.MockedFunction<
-   typeof getLibraryModels
->;
+const getTemplateDescriptorModelsMock =
+   getTemplateDescriptorModels as jest.MockedFunction<
+      typeof getTemplateDescriptorModels
+   >;
 
 const getLibraryCollectionsMock = getLibraryCollections as jest.MockedFunction<
    typeof getLibraryCollections
 >;
 
-const getLibraryEntriesPageMock = getLibraryEntriesPage as jest.MockedFunction<
-   typeof getLibraryEntriesPage
->;
+const getTemplateDescriptorsPageMock =
+   getTemplateDescriptorsPage as jest.MockedFunction<
+      typeof getTemplateDescriptorsPage
+   >;
 
 const librarySearchParamsCacheMock = librarySearchParamsCache as DeepMockProxy<
    typeof librarySearchParamsCache
@@ -78,10 +82,10 @@ const assertRendered = () => {
 };
 
 const assertGetLibraryEntriesPageCalled = (
-   expectedPayload: DLibraryEntriesPageQuery
+   expectedPayload: DTemplateDescriptorsPageQuery
 ) => {
-   expect(getLibraryEntriesPageMock).toHaveBeenCalledTimes(1);
-   expect(getLibraryEntriesPageMock).toHaveBeenCalledWith(expectedPayload);
+   expect(getTemplateDescriptorsPageMock).toHaveBeenCalledTimes(1);
+   expect(getTemplateDescriptorsPageMock).toHaveBeenCalledWith(expectedPayload);
 };
 
 describe("LibraryDashboard rendering tests", () => {
@@ -89,7 +93,7 @@ describe("LibraryDashboard rendering tests", () => {
       const page = dtestData.dTemplateDescriptorsPage();
 
       getLibraryCollectionsMock.mockResolvedValue([]);
-      getLibraryEntriesPageMock.mockResolvedValue(page);
+      getTemplateDescriptorsPageMock.mockResolvedValue(page);
    });
 
    beforeEach(() => {
@@ -101,12 +105,12 @@ describe("LibraryDashboard rendering tests", () => {
 
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
-      getLibraryCategoriesMock.mockResolvedValue(categories);
-      getLibraryModelsMock.mockResolvedValue(models);
+      getTemplateDescriptorCategoriesMock.mockResolvedValue(categories);
+      getTemplateDescriptorModelsMock.mockResolvedValue(models);
 
       const { container } = await renderAsyncRSC(LibraryDashboard, {});
 
-      const expectedPayload: DLibraryEntriesPageQuery = {
+      const expectedPayload: DTemplateDescriptorsPageQuery = {
          pagination: {
             pageNumber: 0,
             pageSize: 10,
@@ -124,8 +128,8 @@ describe("LibraryDashboard rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         expect(getLibraryCategoriesMock).toHaveBeenCalledTimes(1);
-         expect(getLibraryModelsMock).toHaveBeenCalledTimes(1);
+         expect(getTemplateDescriptorCategoriesMock).toHaveBeenCalledTimes(1);
+         expect(getTemplateDescriptorModelsMock).toHaveBeenCalledTimes(1);
          assertGetLibraryEntriesPageCalled(expectedPayload);
       });
 

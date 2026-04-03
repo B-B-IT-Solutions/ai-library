@@ -1,16 +1,16 @@
-jest.mock("@/data/actions/library");
+jest.mock("@/data/actions/prompt-template");
 
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getLibraryEntry } from "@/data/actions/library";
+import { getTemplateDescriptor } from "@/data/actions/prompt-template";
 
 import { LibraryEntryPage, metadata, PageParams, PageProps } from "./page";
 
-const getLibraryEntryMock = getLibraryEntry as jest.MockedFunction<
-   typeof getLibraryEntry
+const getTemplateDescriptorMock = getTemplateDescriptor as jest.MockedFunction<
+   typeof getTemplateDescriptor
 >;
 
 const notFoundMock = notFound as jest.MockedFunction<typeof notFound>;
@@ -33,7 +33,7 @@ describe("LibraryEntryPage rendering tests", () => {
    });
 
    it("LibraryEntryPage - library entry null - test", async () => {
-      getLibraryEntryMock.mockResolvedValue(null);
+      getTemplateDescriptorMock.mockResolvedValue(null);
 
       const params: PageParams = { id: "entry-id-1" };
       const props: PageProps = {
@@ -43,7 +43,7 @@ describe("LibraryEntryPage rendering tests", () => {
       const { container } = await renderAsyncRSC(LibraryEntryPage, props);
 
       await waitFor(() => {
-         expect(getLibraryEntryMock).toHaveBeenCalledTimes(1);
+         expect(getTemplateDescriptorMock).toHaveBeenCalledTimes(1);
          expect(notFoundMock).toHaveBeenCalledTimes(1);
       });
 
@@ -52,7 +52,7 @@ describe("LibraryEntryPage rendering tests", () => {
 
    it("LibraryEntryPage - library entry defined - test", async () => {
       const libraryEntry = dtestData.dPromptTemplateDescriptorWithTemplate();
-      getLibraryEntryMock.mockResolvedValue(libraryEntry);
+      getTemplateDescriptorMock.mockResolvedValue(libraryEntry);
 
       const params: PageParams = { id: "entry-id-1" };
       const props: PageProps = {
@@ -63,7 +63,7 @@ describe("LibraryEntryPage rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         expect(getLibraryEntryMock).toHaveBeenCalledTimes(1);
+         expect(getTemplateDescriptorMock).toHaveBeenCalledTimes(1);
       });
 
       expect(container).toMatchSnapshot();

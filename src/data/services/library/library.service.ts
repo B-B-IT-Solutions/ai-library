@@ -7,15 +7,6 @@ import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
 } from "@/data/types/domain/library";
-import { DPromptUpdate } from "@/data/types/domain/prompt";
-import {
-   DPromptTemplateDescriptor,
-   DPromptTemplateDescriptorWithTemplate,
-   DPromptTemplateFieldValues,
-   DPromptTemplateUpdate,
-   DTemplateDescriptorsPage,
-   DTemplateDescriptorsPageQuery,
-} from "@/data/types/domain/prompt.template";
 
 export class LibraryService {
    private libraryRepository: LibraryRepository;
@@ -29,36 +20,6 @@ export class LibraryService {
       this.promptTemplateService = promptTemplateService;
    }
 
-   async getLibraryEntriesPage(
-      userId: string,
-      query?: DTemplateDescriptorsPageQuery
-   ): Promise<DTemplateDescriptorsPage> {
-      return await this.promptTemplateService.getTemplateDescriptorsPage(
-         userId,
-         query
-      );
-   }
-
-   async getLibraryEntry(
-      userId: string,
-      descriptorId: string
-   ): Promise<DPromptTemplateDescriptorWithTemplate | null> {
-      return await this.promptTemplateService.getPromptTemplateDescriptorWithTemplate(
-         userId,
-         descriptorId
-      );
-   }
-
-   async createLibraryEntry(
-      data: DPromptTemplateUpdate,
-      userId: string
-   ): Promise<DPromptTemplateDescriptor> {
-      return await this.promptTemplateService.createPromptTemplateDescriptor(
-         userId,
-         data
-      );
-   }
-
    async createLibraryEntries(order: OrderProducts): Promise<void> {
       for (const item of order.items) {
          const { product } = item;
@@ -66,101 +27,12 @@ export class LibraryService {
          const templateIds = map(productItems, (i) => i.templateId);
 
          if (!isEmpty(templateIds)) {
-            await this.libraryRepository.pCreateLibraryEntries(
-               order.userId,
-               templateIds
-            );
+            // await this.libraryRepository.pCreateLibraryEntries(
+            //    order.userId,
+            //    templateIds
+            // );
          }
       }
-   }
-
-   async updateLibraryEntry(
-      userId: string,
-      descriptorId: string,
-      data: DPromptTemplateUpdate
-   ) {
-      const descriptor = await this.getLibraryEntry(userId, descriptorId);
-      if (!descriptor) {
-         throw new Error("Library entry not found");
-      }
-      await this.promptTemplateService.updatePromptTemplateDescriptor(
-         userId,
-         descriptor.id,
-         data
-      );
-   }
-
-   async deleteLibraryEntry(userId: string, descriptorId: string) {
-      const descriptor = await this.getLibraryEntry(userId, descriptorId);
-      if (!descriptor) {
-         throw new Error("Library entry not found");
-      }
-      await this.promptTemplateService.deletePromptTemplateDescriptor(
-         userId,
-         descriptor.id
-      );
-   }
-
-   async composePromptFromTemplate(
-      descriptorId: string,
-      fieldValues: DPromptTemplateFieldValues,
-      userId: string
-   ): Promise<DPromptUpdate> {
-      const descriptor = await this.getLibraryEntry(userId, descriptorId);
-
-      if (!descriptor) {
-         throw new Error("Template not found");
-      }
-
-      return await this.promptTemplateService.composePromptFromTemplate(
-         userId,
-         descriptor.id,
-         fieldValues
-      );
-   }
-
-   async downloadPromptTemplate(
-      userId: string,
-      descriptorId: string
-   ): Promise<string> {
-      const descriptor = await this.getLibraryEntry(userId, descriptorId);
-
-      if (!descriptor) {
-         throw new Error("Template not found");
-      }
-
-      const downloadData = JSON.stringify(
-         {
-            title: descriptor.title,
-            content: descriptor.promptTemplate.content,
-            categories: descriptor.categories.map((c) => c.name),
-            recommendedModel: descriptor.recommendedModel,
-         },
-         null,
-         2
-      );
-
-      return downloadData;
-   }
-
-   async getLibraryCategories(userId: string): Promise<string[]> {
-      return await this.promptTemplateService.getTemplateCategories(userId);
-   }
-
-   async getLibraryModels(userId: string): Promise<string[]> {
-      return await this.promptTemplateService.getTemplateModles(userId);
-   }
-
-   async toggleFavorite(
-      descriptorId: string,
-      userId: string,
-      isFavorite: boolean
-   ) {
-      await this.promptTemplateService.toggleFavorite(
-         userId,
-         descriptorId,
-         isFavorite
-      );
    }
 
    async getCollections(userId: string): Promise<DLibraryCollection[]> {
@@ -180,14 +52,14 @@ export class LibraryService {
       data: DLibraryCollectionUpdate
    ) {
       await this.libraryRepository.pUpdateCollection(
-         collectionId,
          userId,
+         collectionId,
          data
       );
    }
 
    async deleteCollection(collectionId: string, userId: string): Promise<void> {
-      await this.libraryRepository.pDeleteCollection(collectionId, userId);
+      await this.libraryRepository.pDeleteCollection(userId, collectionId);
    }
 
    async getEntryCollectionIds(

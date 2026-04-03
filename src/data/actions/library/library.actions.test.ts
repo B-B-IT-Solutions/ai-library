@@ -4,45 +4,22 @@ jest.mock("@/data/actions/auth-utils");
 import { dtestData } from "@tests";
 
 import { requireUser } from "@/data/actions/auth-utils";
-import { EMPTY_PAGE } from "@/data/actions/utils";
 import { LibraryService } from "@/data/services/library";
 import { DLibraryCollection } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
-import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 
 import {
-   composePromptFromTemplate,
    createLibraryCollection,
-   createLibraryEntry,
    deleteLibraryCollection,
-   deleteLibraryEntry,
-   downloadTemplate,
    getEntryCollectionIds,
-   getLibraryCategories,
    getLibraryCollections,
-   getLibraryEntriesPage,
-   getLibraryEntry,
-   getLibraryModels,
-   toggleLibraryEntryFavorite,
    updateEntryCollections,
    updateLibraryCollection,
-   updateLibraryEntry,
 } from "./library.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
-const sGetLibraryEntriesPage = LibraryService.prototype.getLibraryEntriesPage;
-const sGetLibraryEntry = LibraryService.prototype.getLibraryEntry;
-const sCreateLibraryEntry = LibraryService.prototype.createLibraryEntry;
-const sUpdateLibraryEntry = LibraryService.prototype.updateLibraryEntry;
-const sDeleteLibraryEntry = LibraryService.prototype.deleteLibraryEntry;
-const sComposePromptFromTemplate =
-   LibraryService.prototype.composePromptFromTemplate;
-const sDownloadTemplate = LibraryService.prototype.downloadPromptTemplate;
-const sGetLibraryCategories = LibraryService.prototype.getLibraryCategories;
-const sGetLibraryModels = LibraryService.prototype.getLibraryModels;
-const sToggleFavorite = LibraryService.prototype.toggleFavorite;
 const sGetCollections = LibraryService.prototype.getCollections;
 const sCreateCollection = LibraryService.prototype.createCollection;
 const sUpdateCollection = LibraryService.prototype.updateCollection;
@@ -50,36 +27,6 @@ const sDeleteCollection = LibraryService.prototype.deleteCollection;
 const sGetEntryCollectionIds = LibraryService.prototype.getEntryCollectionIds;
 const sUpdateEntryCollections = LibraryService.prototype.updateEntryCollections;
 
-const sGetLibraryEntriesPageMock =
-   sGetLibraryEntriesPage as jest.MockedFunction<typeof sGetLibraryEntriesPage>;
-const sGetLibraryEntryMock = sGetLibraryEntry as jest.MockedFunction<
-   typeof sGetLibraryEntry
->;
-const sCreateLibraryEntryMock = sCreateLibraryEntry as jest.MockedFunction<
-   typeof sCreateLibraryEntry
->;
-const sUpdateLibraryEntryMock = sUpdateLibraryEntry as jest.MockedFunction<
-   typeof sUpdateLibraryEntry
->;
-const sDeleteLibraryEntryMock = sDeleteLibraryEntry as jest.MockedFunction<
-   typeof sDeleteLibraryEntry
->;
-const sComposePromptFromTemplateMock =
-   sComposePromptFromTemplate as jest.MockedFunction<
-      typeof sComposePromptFromTemplate
-   >;
-const sDownloadTemplateMock = sDownloadTemplate as jest.MockedFunction<
-   typeof sDownloadTemplate
->;
-const sGetLibraryCategoriesMock = sGetLibraryCategories as jest.MockedFunction<
-   typeof sGetLibraryCategories
->;
-const sGetLibraryModelsMock = sGetLibraryModels as jest.MockedFunction<
-   typeof sGetLibraryModels
->;
-const sToggleFavoriteMock = sToggleFavorite as jest.MockedFunction<
-   typeof sToggleFavorite
->;
 const sGetCollectionsMock = sGetCollections as jest.MockedFunction<
    typeof sGetCollections
 >;
@@ -98,767 +45,6 @@ const sUpdateEntryCollectionsMock =
    >;
 const sGetEntryCollectionIdsMock =
    sGetEntryCollectionIds as jest.MockedFunction<typeof sGetEntryCollectionIds>;
-
-describe("getLibraryEntriesPage tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("getLibraryEntriesPage - user undefined - test", async () => {
-      const error = new Error("Unknow user");
-      requireUserMock.mockRejectedValue(error);
-
-      const result = await getLibraryEntriesPage();
-
-      expect(result).toEqual(EMPTY_PAGE);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryEntriesPageMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-      expect(console.error).toHaveBeenCalledWith(error.message);
-   });
-
-   it("getLibraryEntriesPage - entries retrieved - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const page = dtestData.dTemplateDescriptorsPage();
-      sGetLibraryEntriesPageMock.mockResolvedValue(page);
-
-      const query = dtestData.dTemplateDescriptorsPageQuery();
-
-      const result = await getLibraryEntriesPage(query);
-
-      expect(result).toEqual(page);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryEntriesPageMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryEntriesPageMock).toHaveBeenCalledWith(user.id, query);
-   });
-});
-
-describe("getLibraryEntry tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("getLibraryEntry - user undefined - test", async () => {
-      const error = new Error("Unknow user");
-      requireUserMock.mockRejectedValue(error);
-      const descriptorId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
-
-      const result = await getLibraryEntry(descriptorId);
-
-      expect(result).toBeNull();
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryEntryMock).not.toHaveBeenCalled();
-   });
-
-   it("getLibraryEntry - error - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const errorMessage = "db error";
-      const error = new Error(errorMessage);
-      sGetLibraryEntryMock.mockRejectedValue(error);
-      const descriptorId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
-
-      const result = await getLibraryEntry(descriptorId);
-
-      expect(result).toBeNull();
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryEntryMock).toHaveBeenCalledWith(user.id, descriptorId);
-      expect(console.error).toHaveBeenCalledTimes(1);
-      expect(console.error).toHaveBeenCalledWith(errorMessage);
-   });
-
-   it("getLibraryEntry - descriptor null - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      sGetLibraryEntryMock.mockResolvedValue(null);
-      const descriptorId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
-
-      const result = await getLibraryEntry(descriptorId);
-
-      expect(result).toBeNull();
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryEntryMock).toHaveBeenCalledWith(user.id, descriptorId);
-   });
-
-   it("getLibraryEntry - descriptor retrieved - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
-      sGetLibraryEntryMock.mockResolvedValue(descriptor);
-      const descriptorId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
-
-      const result = await getLibraryEntry(descriptorId);
-
-      expect(result).toEqual(descriptor);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryEntryMock).toHaveBeenCalledWith(user.id, descriptorId);
-   });
-});
-
-describe("createLibraryEntry tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("createLibraryEntry - user undefined - test", async () => {
-      const error = new Error("Unknow user");
-      requireUserMock.mockRejectedValue(error);
-      const updateData = dtestData.dPromptTemplateUpdate();
-
-      const result = await createLibraryEntry(updateData);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Vorlage konnte nicht erstellt werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCreateLibraryEntryMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("createLibraryEntry - error - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const error = new Error("db error");
-      sCreateLibraryEntryMock.mockRejectedValue(error);
-      const updateData = dtestData.dPromptTemplateUpdate();
-
-      const result = await createLibraryEntry(updateData);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Vorlage konnte nicht erstellt werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCreateLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sCreateLibraryEntryMock).toHaveBeenCalledWith(updateData, user.id);
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("createLibraryEntry - entry created - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      sCreateLibraryEntryMock.mockResolvedValue();
-
-      const updateData = dtestData.dPromptTemplateUpdate();
-
-      const result = await createLibraryEntry(updateData);
-
-      const expectedResult: ActionResult = {
-         success: true,
-         message: "Vorlage erfolgreich erstellt",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCreateLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sCreateLibraryEntryMock).toHaveBeenCalledWith(updateData, user.id);
-   });
-});
-
-describe("updateLibraryEntry tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("updateLibraryEntry - invalid UUID - test", async () => {
-      const invalidId = "invalid-uuid-1";
-      const updateData = dtestData.dPromptTemplateUpdate();
-
-      const result = await updateLibraryEntry(invalidId, updateData);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Vorlage konnte nicht aktualisiert werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sUpdateLibraryEntryMock).not.toHaveBeenCalled();
-   });
-
-   it("updateLibraryEntry - user undefined - test", async () => {
-      const error = new Error("Unknow user");
-      requireUserMock.mockRejectedValue(error);
-
-      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-      const updateData = dtestData.dPromptTemplateUpdate();
-
-      const result = await updateLibraryEntry(descriptorId, updateData);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Vorlage konnte nicht aktualisiert werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateLibraryEntryMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("updateLibraryEntry - error - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const error = new Error("db error");
-      sUpdateLibraryEntryMock.mockRejectedValue(error);
-
-      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-      const updateData = dtestData.dPromptTemplateUpdate();
-
-      const result = await updateLibraryEntry(descriptorId, updateData);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Vorlage konnte nicht aktualisiert werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateLibraryEntryMock).toHaveBeenCalledWith(
-         user.id,
-         descriptorId,
-         updateData
-      );
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("updateLibraryEntry - entry updated - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      sUpdateLibraryEntryMock.mockResolvedValue();
-
-      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-      const updateData = dtestData.dPromptTemplateUpdate();
-
-      const result = await updateLibraryEntry(descriptorId, updateData);
-
-      const expectedResult: ActionResult = {
-         success: true,
-         message: "Vorlage erfolgreich aktualisiert",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateLibraryEntryMock).toHaveBeenCalledWith(
-         user.id,
-         descriptorId,
-         updateData
-      );
-   });
-});
-
-describe("deleteLibraryEntry tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("deleteLibraryEntry - invalid UUID - test", async () => {
-      const invalidId = "invalid-uuid-1";
-
-      const result = await deleteLibraryEntry(invalidId);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Vorlage konnte nicht gelöscht werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sDeleteLibraryEntryMock).not.toHaveBeenCalled();
-   });
-
-   it("deleteLibraryEntry - user undefined - test", async () => {
-      const error = new Error("Unknow user");
-      requireUserMock.mockRejectedValue(error);
-
-      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-
-      const result = await deleteLibraryEntry(descriptorId);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Vorlage konnte nicht gelöscht werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteLibraryEntryMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("deleteLibraryEntry - error - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const error = new Error("db error");
-      sDeleteLibraryEntryMock.mockRejectedValue(error);
-
-      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-
-      const result = await deleteLibraryEntry(descriptorId);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Vorlage konnte nicht gelöscht werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteLibraryEntryMock).toHaveBeenCalledWith(
-         user.id,
-         descriptorId
-      );
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("deleteLibraryEntry - entry deleted - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      sDeleteLibraryEntryMock.mockResolvedValue();
-
-      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-
-      const result = await deleteLibraryEntry(descriptorId);
-
-      const expectedResult: ActionResult = {
-         success: true,
-         message: "Vorlage erfolgreich gelöscht",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteLibraryEntryMock).toHaveBeenCalledWith(
-         user.id,
-         descriptorId
-      );
-   });
-});
-
-describe("composePromptFromTemplate tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("composePromptFromTemplate - invalid UUID - test", async () => {
-      const invalidId = "invalid-uuid-1";
-      const fieldValues: DPromptTemplateFieldValues = { field1: "value1" };
-
-      const result = await composePromptFromTemplate(invalidId, fieldValues);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Invalid template ID.",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sComposePromptFromTemplateMock).not.toHaveBeenCalled();
-   });
-
-   it("composePromptFromTemplate - user undefined - test", async () => {
-      const error = new Error("Unknow user");
-      const templateId = "123e4567-e89b-12d3-a456-426614174000";
-      const fieldValues: DPromptTemplateFieldValues = { field1: "value1" };
-      requireUserMock.mockRejectedValue(error);
-
-      const result = await composePromptFromTemplate(templateId, fieldValues);
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Unknow user",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sComposePromptFromTemplateMock).not.toHaveBeenCalled();
-   });
-
-   it("composePromptFromTemplate - success - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const templateId = "123e4567-e89b-12d3-a456-426614174000";
-      const fieldValues: DPromptTemplateFieldValues = {
-         name: "User-1 Name",
-         email: "test1@email.com",
-         age: 30,
-      };
-      const promptData = dtestData.dPromptUpdate();
-      sComposePromptFromTemplateMock.mockResolvedValue(promptData);
-
-      const result = await composePromptFromTemplate(templateId, fieldValues);
-      const expectedResult: ActionResult<DPromptUpdate> = {
-         success: true,
-         message: "Prompt erfolgreich generiert",
-         data: promptData,
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sComposePromptFromTemplateMock).toHaveBeenCalledTimes(1);
-      expect(sComposePromptFromTemplateMock).toHaveBeenCalledWith(
-         templateId,
-         fieldValues,
-         user.id
-      );
-   });
-
-   it("composePromptFromTemplate - error - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const templateId = "123e4567-e89b-12d3-a456-426614174000";
-      const fieldValues: DPromptTemplateFieldValues = {
-         name: "User-1 Name",
-         email: "invalid-email",
-      };
-      const errorMessage = "Provided template fields are invalid";
-      const error = new Error(errorMessage);
-      sComposePromptFromTemplateMock.mockRejectedValue(error);
-
-      const result = await composePromptFromTemplate(templateId, fieldValues);
-      const expectedResult: ActionResult = {
-         success: false,
-         message: errorMessage,
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sComposePromptFromTemplateMock).toHaveBeenCalledTimes(1);
-      expect(sComposePromptFromTemplateMock).toHaveBeenCalledWith(
-         templateId,
-         fieldValues,
-         user.id
-      );
-   });
-});
-
-describe("downloadTemplate tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("downloadTemplate - invalid UUID - test", async () => {
-      const invalidId = "invalid-uuid-1";
-      const errorMessage = "Invalid template ID.";
-
-      const result = await downloadTemplate(invalidId);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: errorMessage,
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sDownloadTemplateMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-      expect(console.error).toHaveBeenCalledWith(errorMessage);
-   });
-
-   it("downloadTemplate - user undefined - test", async () => {
-      const error = new Error("Unknow user");
-      const templateId = "123e4567-e89b-12d3-a456-426614174000";
-      requireUserMock.mockRejectedValue(error);
-
-      const result = await downloadTemplate(templateId);
-      const expectedResult = {
-         success: false,
-         message: "Unknow user",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDownloadTemplateMock).not.toHaveBeenCalled();
-   });
-
-   it("downloadTemplate - success - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-      const downloadData = "template content data";
-      sDownloadTemplateMock.mockResolvedValue(downloadData);
-
-      const result = await downloadTemplate(descriptorId);
-      const expectedResult = {
-         success: true,
-         message: "Template ready for download.",
-         data: downloadData,
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDownloadTemplateMock).toHaveBeenCalledTimes(1);
-      expect(sDownloadTemplateMock).toHaveBeenCalledWith(user.id, descriptorId);
-   });
-
-   it("downloadTemplate - error - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-      const errorMessage = "Template not found";
-      const error = new Error(errorMessage);
-      sDownloadTemplateMock.mockRejectedValue(error);
-
-      const result = await downloadTemplate(descriptorId);
-      const expectedResult = {
-         success: false,
-         message: errorMessage,
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sDownloadTemplateMock).toHaveBeenCalledTimes(1);
-      expect(sDownloadTemplateMock).toHaveBeenCalledWith(user.id, descriptorId);
-      expect(console.error).toHaveBeenCalledTimes(1);
-      expect(console.error).toHaveBeenCalledWith(errorMessage);
-   });
-});
-
-describe("getLibraryCategories tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("getLibraryCategories - user undefined - test", async () => {
-      const error = new Error("Unknow user");
-      requireUserMock.mockRejectedValue(error);
-
-      const result = await getLibraryCategories();
-
-      expect(result).toEqual([]);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryCategoriesMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-      expect(console.error).toHaveBeenCalledWith(error.message);
-   });
-
-   it("getLibraryCategories - categories retrieved - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const categories = dtestData.dTemplateCategories();
-      sGetLibraryCategoriesMock.mockResolvedValue(categories);
-
-      const result = await getLibraryCategories();
-
-      expect(result).toEqual(categories);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryCategoriesMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryCategoriesMock).toHaveBeenCalledWith(user.id);
-   });
-});
-
-describe("getLibraryModels tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("getLibraryModels - user undefined - test", async () => {
-      const error = new Error("Unknow user");
-      requireUserMock.mockRejectedValue(error);
-
-      const result = await getLibraryModels();
-
-      expect(result).toEqual([]);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryModelsMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-      expect(console.error).toHaveBeenCalledWith(error.message);
-   });
-
-   it("getLibraryModels - models retrieved - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const models = dtestData.dTemplateModels();
-      sGetLibraryModelsMock.mockResolvedValue(models);
-
-      const result = await getLibraryModels();
-
-      expect(result).toEqual(models);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryModelsMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryModelsMock).toHaveBeenCalledWith(user.id);
-   });
-});
-
-describe("toggleLibraryEntryFavorite tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("toggleLibraryEntryFavorite - invalid UUID - test", async () => {
-      const invalidId = "invalid-uuid-1";
-      const isFavorite = true;
-
-      const result = await toggleLibraryEntryFavorite(invalidId, isFavorite);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Die Anfrage konnte nicht bearbeitet werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sToggleFavoriteMock).not.toHaveBeenCalled();
-   });
-
-   it("toggleLibraryEntryFavorite - user undefined - test", async () => {
-      const error = new Error("Unknow user");
-      requireUserMock.mockRejectedValue(error);
-
-      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-      const isFavorite = true;
-
-      const result = await toggleLibraryEntryFavorite(descriptorId, isFavorite);
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Die Anfrage konnte nicht bearbeitet werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sToggleFavoriteMock).not.toHaveBeenCalled();
-   });
-
-   it("toggleLibraryEntryFavorite - success - isFavoriete true - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-      const isFavorite = true;
-
-      sToggleFavoriteMock.mockResolvedValue();
-
-      const result = await toggleLibraryEntryFavorite(descriptorId, isFavorite);
-      const expectedResult: ActionResult<DPromptUpdate> = {
-         success: true,
-         message: "Zu Favoriten hinzugefügt",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sToggleFavoriteMock).toHaveBeenCalledTimes(1);
-      expect(sToggleFavoriteMock).toHaveBeenCalledWith(
-         descriptorId,
-         user.id,
-         isFavorite
-      );
-   });
-
-   it("toggleLibraryEntryFavorite - success - isFavoriete false - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-      const isFavorite = false;
-
-      sToggleFavoriteMock.mockResolvedValue();
-
-      const result = await toggleLibraryEntryFavorite(descriptorId, isFavorite);
-      const expectedResult: ActionResult<DPromptUpdate> = {
-         success: true,
-         message: "Aus Favoriten entfernt",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sToggleFavoriteMock).toHaveBeenCalledTimes(1);
-      expect(sToggleFavoriteMock).toHaveBeenCalledWith(
-         descriptorId,
-         user.id,
-         isFavorite
-      );
-   });
-
-   it("toggleLibraryEntryFavorite - error - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const errorMessage = "Provided entryId couldn't be found";
-      const error = new Error(errorMessage);
-      sToggleFavoriteMock.mockRejectedValue(error);
-
-      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-      const isFavorite = false;
-
-      const result = await toggleLibraryEntryFavorite(descriptorId, isFavorite);
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Die Anfrage konnte nicht bearbeitet werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sToggleFavoriteMock).toHaveBeenCalledTimes(1);
-      expect(sToggleFavoriteMock).toHaveBeenCalledWith(
-         descriptorId,
-         user.id,
-         isFavorite
-      );
-   });
-});
 
 describe("getLibraryCollections tests", () => {
    beforeEach(() => {
@@ -1000,7 +186,7 @@ describe("updateLibraryCollection tests", () => {
       expect(sUpdateCollectionMock).not.toHaveBeenCalled();
    });
 
-   it("updateLibraryCollection - user undefined - test", async () => {
+   it("user undefined - test", async () => {
       const error = new Error("Unknow user");
       const collectionId = "123e4567-e89b-12d3-a456-426614174000";
       requireUserMock.mockRejectedValue(error);
@@ -1017,32 +203,7 @@ describe("updateLibraryCollection tests", () => {
       expect(sUpdateCollectionMock).not.toHaveBeenCalled();
    });
 
-   it("updateLibraryCollection - success - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
-
-      sUpdateCollectionMock.mockResolvedValue();
-
-      const data = dtestData.dLibraryCollectionUpdate();
-      const result = await updateLibraryCollection(collectionId, data);
-
-      const expectedResult: ActionResult<DPromptUpdate> = {
-         success: true,
-         message: "Sammlung erfolgreich aktualisiert",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sUpdateCollectionMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateCollectionMock).toHaveBeenCalledWith(
-         collectionId,
-         user.id,
-         data
-      );
-   });
-
-   it("updateLibraryCollection - error - test", async () => {
+   it("error - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -1062,8 +223,33 @@ describe("updateLibraryCollection tests", () => {
       expect(result).toEqual(expectedResult);
       expect(sUpdateCollectionMock).toHaveBeenCalledTimes(1);
       expect(sUpdateCollectionMock).toHaveBeenCalledWith(
-         collectionId,
          user.id,
+         collectionId,
+         data
+      );
+   });
+
+   it("collection - updated - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
+
+      sUpdateCollectionMock.mockResolvedValue();
+
+      const data = dtestData.dLibraryCollectionUpdate();
+      const result = await updateLibraryCollection(collectionId, data);
+
+      const expectedResult: ActionResult<DPromptUpdate> = {
+         success: true,
+         message: "Sammlung erfolgreich aktualisiert",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sUpdateCollectionMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateCollectionMock).toHaveBeenCalledWith(
+         user.id,
+         collectionId,
          data
       );
    });
@@ -1079,7 +265,7 @@ describe("deleteLibraryCollection tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("deleteLibraryCollection - invalid UUID - test", async () => {
+   it("invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
 
       const result = await deleteLibraryCollection(invalidId);
@@ -1094,7 +280,7 @@ describe("deleteLibraryCollection tests", () => {
       expect(sDeleteCollectionMock).not.toHaveBeenCalled();
    });
 
-   it("deleteLibraryCollection - user undefined - test", async () => {
+   it("user undefined - test", async () => {
       const error = new Error("Unknow user");
       const collectionId = "123e4567-e89b-12d3-a456-426614174000";
       requireUserMock.mockRejectedValue(error);
@@ -1110,27 +296,7 @@ describe("deleteLibraryCollection tests", () => {
       expect(sDeleteCollectionMock).not.toHaveBeenCalled();
    });
 
-   it("deleteLibraryCollection - success - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
-
-      sDeleteCollectionMock.mockResolvedValue();
-
-      const result = await deleteLibraryCollection(collectionId);
-
-      const expectedResult: ActionResult<DPromptUpdate> = {
-         success: true,
-         message: "Sammlung erfolgreich gelöscht",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sDeleteCollectionMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteCollectionMock).toHaveBeenCalledWith(collectionId, user.id);
-   });
-
-   it("deleteLibraryCollection - error - test", async () => {
+   it("error - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -1148,7 +314,27 @@ describe("deleteLibraryCollection tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(sDeleteCollectionMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteCollectionMock).toHaveBeenCalledWith(collectionId, user.id);
+      expect(sDeleteCollectionMock).toHaveBeenCalledWith(user.id, collectionId);
+   });
+
+   it("colection - deleted - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
+
+      sDeleteCollectionMock.mockResolvedValue();
+
+      const result = await deleteLibraryCollection(collectionId);
+
+      const expectedResult: ActionResult<DPromptUpdate> = {
+         success: true,
+         message: "Sammlung erfolgreich gelöscht",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sDeleteCollectionMock).toHaveBeenCalledTimes(1);
+      expect(sDeleteCollectionMock).toHaveBeenCalledWith(user.id, collectionId);
    });
 });
 

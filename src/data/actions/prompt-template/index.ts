@@ -1,6 +1,16 @@
 export {
+   getTemplateDescriptorsPage,
+   getTemplateDescriptor,
+   createTemplateDescriptor,
+   updateTemplateDescriptor,
+   deleteTemplateDescriptor,
+   getPromptGenerationTemplateData,
+   composePromptFromTemplate,
+   downloadTemplate,
+   toggleTemplateDescriptorFavorite,
+   getTemplateDescriptorCategories,
+   getTemplateDescriptorModels,
    getPromptTemplateCategories,
    getPromptTemplates,
    getPromptTemplate,
-   getPromptGenerationTemplateData,
 } from "./prompt.template.actions";

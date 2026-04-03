@@ -7,10 +7,6 @@ import { DCart, DCartItem } from "@/data/types/domain/cart";
 import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
-   DLibraryEntriesFilter,
-   DLibraryEntriesPage,
-   DLibraryEntriesPageQuery,
-   DLibraryEntry,
 } from "@/data/types/domain/library";
 import {
    DOrder,
@@ -258,57 +254,6 @@ export const dLibraryCollectionUpdate = (
       description: `description ${index}`,
       color: `color ${index}`,
       order: index,
-   };
-};
-
-export const dLibraryEntriesPage = (): DLibraryEntriesPage => {
-   const entries = dLibraryEntries();
-   return {
-      content: entries,
-      numberOfElements: entries.length,
-      pageNumber: 1,
-      pageSize: 3,
-      totalElements: 15,
-      totalPages: 5,
-   };
-};
-
-export const dLibraryEntries = (count = 3): DLibraryEntry[] => {
-   return range(0, count).map((i) => dLibraryEntry(i));
-};
-
-export const dLibraryEntry = (index = 1): DLibraryEntry => {
-   const templateDescriptor = dPromptTemplateDescriptor(index);
-   return {
-      id: `457bf695-6f74-44aa-9b3a-e179ea9e817${index}`,
-      userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
-      templateDescriptorId: `52e59bcf-7651-45f8-91bf-63b8a4e06d8${index}`,
-      templateDescriptor,
-      isFavorite: index % 2 == 0,
-      updatedAt: new Date("2025-09-27").toISOString(),
-      createdAt: new Date("2025-09-27").toISOString(),
-   };
-};
-
-export const dLibraryEntriesPageQuery = (
-   index = 1
-): DLibraryEntriesPageQuery => {
-   return {
-      pagination: {
-         pageSize: 10,
-         pageNumber: 1,
-      },
-      filter: dLibraryEntriesFilter(index),
-   };
-};
-
-export const dLibraryEntriesFilter = (index = 1): DLibraryEntriesFilter => {
-   return {
-      search: `search ${index}`,
-      categories: ["cat 1", "cat 2", "cat 3"],
-      models: ["mod 1", "mod 2", "mod 3"],
-      collectionIds: ["col-id-1", "col-id-2", "col-id-3"],
-      isFavorite: false,
    };
 };
 

@@ -4,7 +4,10 @@ import {
    QueryClient,
 } from "@tanstack/react-query";
 
-import { getLibraryCategories, getLibraryModels } from "@/data/actions/library";
+import {
+   getTemplateDescriptorCategories,
+   getTemplateDescriptorModels,
+} from "@/data/actions/prompt-template";
 import {
    infiniteLoadLibraryEntriesOptions,
    preloadLibraryCollectionsOptions,
@@ -39,8 +42,8 @@ export const LibraryDashboard = async () => {
       queryClient.prefetchQuery(preloadLibraryCollectionsOptions()),
    ]);
 
-   const categories = await getLibraryCategories();
-   const models = await getLibraryModels();
+   const categories = await getTemplateDescriptorCategories();
+   const models = await getTemplateDescriptorModels();
 
    return (
       <HydrationBoundary state={dehydrate(queryClient)}>

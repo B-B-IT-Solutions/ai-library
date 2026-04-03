@@ -1,4 +1,5 @@
 jest.mock("@/data/actions/library");
+jest.mock("@/data/actions/prompt-template");
 
 import {
    InfiniteData,
@@ -21,11 +22,13 @@ import {
    deleteLibraryCollection,
    getEntryCollectionIds,
    getLibraryCollections,
-   getLibraryEntriesPage,
-   toggleLibraryEntryFavorite,
    updateEntryCollections,
    updateLibraryCollection,
 } from "@/data/actions/library";
+import {
+   getTemplateDescriptorsPage,
+   toggleTemplateDescriptorFavorite,
+} from "@/data/actions/prompt-template";
 import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
@@ -71,17 +74,18 @@ const mutationContextMock: MutationFunctionContext = {
    meta: {},
 };
 
-const getLibraryEntriesPageMock = getLibraryEntriesPage as jest.MockedFunction<
-   typeof getLibraryEntriesPage
->;
+const getTemplateDescriptorsPageMock =
+   getTemplateDescriptorsPage as jest.MockedFunction<
+      typeof getTemplateDescriptorsPage
+   >;
 
 const getLibraryCollectionsMock = getLibraryCollections as jest.MockedFunction<
    typeof getLibraryCollections
 >;
 
-const toggleLibraryEntryFavoriteMock =
-   toggleLibraryEntryFavorite as jest.MockedFunction<
-      typeof toggleLibraryEntryFavorite
+const toggleTemplateDescriptorFavoriteMock =
+   toggleTemplateDescriptorFavorite as jest.MockedFunction<
+      typeof toggleTemplateDescriptorFavorite
    >;
 
 const createLibraryCollectionMock =
@@ -113,7 +117,7 @@ describe("prefetch options tests", () => {
 
    test("preloadLibraryEntriesOptions  - test", async () => {
       const page = dtestData.dTemplateDescriptorsPage();
-      getLibraryEntriesPageMock.mockResolvedValue(page);
+      getTemplateDescriptorsPageMock.mockResolvedValue(page);
 
       const filters = dtestData.dTemplateDescriptorsFilter();
       const sort = dtestData.sort();
@@ -144,8 +148,10 @@ describe("prefetch options tests", () => {
       };
 
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
-      expect(getLibraryEntriesPageMock).toHaveBeenCalledTimes(1);
-      expect(getLibraryEntriesPageMock).toHaveBeenCalledWith(expectedQuery);
+      expect(getTemplateDescriptorsPageMock).toHaveBeenCalledTimes(1);
+      expect(getTemplateDescriptorsPageMock).toHaveBeenCalledWith(
+         expectedQuery
+      );
       expect(fnResult).toEqual(page);
    });
 
@@ -179,7 +185,7 @@ describe("loadLibraryEntries hooks tests", () => {
    });
 
    test("infiniteLoadLibraryEntriesOptions - test", async () => {
-      const filters = dtestData.dLibraryEntriesFilter();
+      const filters = dtestData.dTemplateDescriptorsFilter();
       const sort = dtestData.sort();
       const params: LoadLibraryEntriesParams = { filters, sort };
 
@@ -203,9 +209,9 @@ describe("loadLibraryEntries hooks tests", () => {
 
    test("useInfiniteLoadLibraryEntries test", async () => {
       const page = dtestData.dTemplateDescriptorsPage();
-      getLibraryEntriesPageMock.mockResolvedValue(page);
+      getTemplateDescriptorsPageMock.mockResolvedValue(page);
 
-      const filters = dtestData.dLibraryEntriesFilter();
+      const filters = dtestData.dTemplateDescriptorsFilter();
       const sort = dtestData.sort();
       const params: LoadLibraryEntriesParams = { filters, sort };
 
@@ -226,8 +232,10 @@ describe("loadLibraryEntries hooks tests", () => {
          expect(result.current.data?.pageParams).toEqual([0]);
          expect(result.current.data?.pages).toHaveLength(1);
          expect(result.current.data?.pages[0]).toEqual(page);
-         expect(getLibraryEntriesPageMock).toHaveBeenCalledTimes(1);
-         expect(getLibraryEntriesPageMock).toHaveBeenCalledWith(expectedQuery);
+         expect(getTemplateDescriptorsPageMock).toHaveBeenCalledTimes(1);
+         expect(getTemplateDescriptorsPageMock).toHaveBeenCalledWith(
+            expectedQuery
+         );
       });
    });
 });
@@ -258,8 +266,8 @@ describe("toggleFavorite hooks tests", () => {
       await waitFor(() => {
          result.current.mutate(params);
          expect(result.current.isSuccess).toBe(true);
-         expect(toggleLibraryEntryFavoriteMock).toHaveBeenCalledTimes(1);
-         expect(toggleLibraryEntryFavoriteMock).toHaveBeenCalledWith(
+         expect(toggleTemplateDescriptorFavoriteMock).toHaveBeenCalledTimes(1);
+         expect(toggleTemplateDescriptorFavoriteMock).toHaveBeenCalledWith(
             params.descriptorId,
             params.isFavorite
          );

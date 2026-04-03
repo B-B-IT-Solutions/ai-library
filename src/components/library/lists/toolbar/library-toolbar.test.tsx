@@ -44,7 +44,7 @@ describe("LibraryToolbar rendering tests", () => {
    it("LibraryToolbar - totalEntries 5 - test", async () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
-      const filters = dtestData.dLibraryEntriesFilter();
+      const filters = dtestData.dTemplateDescriptorsFilter();
 
       const { container } = renderWithRouter(
          <LibraryToolbar

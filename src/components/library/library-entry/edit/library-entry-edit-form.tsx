@@ -14,7 +14,10 @@ import { Card, CardContent } from "@/components/shadcn/card";
 import { Form } from "@/components/shadcn/form";
 import { Separator } from "@/components/shadcn/separator";
 import { newTemplateFieldInitValues } from "@/components/shared/template-fields";
-import { createLibraryEntry, updateLibraryEntry } from "@/data/actions/library";
+import {
+   createTemplateDescriptor,
+   updateTemplateDescriptor,
+} from "@/data/actions/prompt-template";
 import {
    DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateField,
@@ -117,7 +120,7 @@ export const LibraryEntryEditForm = ({ descriptor, globalFields }: Props) => {
 
    const onSubmit: SubmitHandler<DPromptTemplateUpdate> = async (data) => {
       if (isEdit) {
-         const result = await updateLibraryEntry(descriptor.id, data);
+         const result = await updateTemplateDescriptor(descriptor.id, data);
          if (result.success) {
             toast.success(result.message);
             router.push(`/library/${descriptor.id}`);
@@ -125,7 +128,7 @@ export const LibraryEntryEditForm = ({ descriptor, globalFields }: Props) => {
             toast.error(result.message);
          }
       } else {
-         const result = await createLibraryEntry(data);
+         const result = await createTemplateDescriptor(data);
          if (result.success) {
             toast.success(result.message);
             router.push("/library");

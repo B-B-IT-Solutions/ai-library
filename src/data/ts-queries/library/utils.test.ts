@@ -4,7 +4,7 @@ import { libraryKeys } from "./utils";
 
 describe("libraryKeys tests", () => {
    test("libraryKeys - test", async () => {
-      const filters = dtestData.dLibraryEntriesFilter();
+      const filters = dtestData.dTemplateDescriptorsFilter();
       const sort = dtestData.sort("name", "asc");
       const entryId = "a9dec5e2-485b-467a-8c21-85c054b96745";
 

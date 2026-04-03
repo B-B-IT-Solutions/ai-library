@@ -41,6 +41,55 @@ export class PromptTemplateService {
       return await this.repository.pGetTemplateDescriptorsPage(userId, query);
    }
 
+   async getTemplateDescriptor(
+      userId: string,
+      descriptorId: string
+   ): Promise<DPromptTemplateDescriptorWithTemplate | null> {
+      return await this.repository.pGetPromptTemplateDescriptorWithTemplate(
+         userId,
+         descriptorId
+      );
+   }
+
+   async createTemplateDescriptor(
+      userId: string,
+      data: DPromptTemplateUpdate
+   ): Promise<DPromptTemplateDescriptor> {
+      return await this.repository.pCreatePromptTemplateDescriptor(
+         userId,
+         data
+      );
+   }
+
+   async updateTemplateDescriptor(
+      userId: string,
+      descriptorId: string,
+      data: DPromptTemplateUpdate
+   ) {
+      const descriptor = await this.getTemplateDescriptor(userId, descriptorId);
+      if (!descriptor) {
+         throw new Error("TemplateDescriptor not found");
+      }
+
+      await this.repository.pUpdatePromptTemplateDescriptor(
+         userId,
+         descriptorId,
+         data
+      );
+   }
+
+   async deleteTemplateDescriptor(userId: string, descriptorId: string) {
+      const descriptor = await this.getTemplateDescriptor(userId, descriptorId);
+      if (!descriptor) {
+         throw new Error("TemplateDescriptor not found");
+      }
+
+      await this.repository.pDeletePromptTemplateDescriptor(
+         userId,
+         descriptorId
+      );
+   }
+
    async getTemplateDataForPromptGeneration(
       userId: string,
       teamplateId: string
@@ -68,93 +117,16 @@ export class PromptTemplateService {
       return null;
    }
 
-   async getPromptTemplateDescriptors(
-      params?: DGetPromptTemplatesDescriptorsParams
-   ): Promise<DPromptTemplateDescriptor[]> {
-      return await this.repository.pGetPromptTemplateDescriptors(params);
-   }
-
-   async getPromptTemplateDescriptorWithTemplate(
-      userId: string,
-      descriptorId: string
-   ): Promise<DPromptTemplateDescriptorWithTemplate | null> {
-      return await this.repository.pGetPromptTemplateDescriptorWithTemplate(
-         userId,
-         descriptorId
-      );
-   }
-
-   async getPromptTemplate(
-      userId: string,
-      templateId: string
-   ): Promise<DPromptTemplate | null> {
-      return await this.repository.pGetPromptTemplate(userId, templateId);
-   }
-
-   async getPromptTemplateCategories(userId: string): Promise<string[]> {
-      const categories =
-         await this.repository.pGetPromptTemplateCategories(userId);
-      return map(categories, (c) => c.name);
-   }
-
-   async createPromptTemplateDescriptor(
-      userId: string,
-      data: DPromptTemplateUpdate
-   ): Promise<DPromptTemplateDescriptor> {
-      return await this.repository.pCreatePromptTemplateDescriptor(
-         userId,
-         data
-      );
-   }
-
-   async updatePromptTemplateDescriptor(
-      userId: string,
-      descriptorId: string,
-      data: DPromptTemplateUpdate
-   ) {
-      await this.repository.pUpdatePromptTemplateDescriptor(
-         userId,
-         descriptorId,
-         data
-      );
-   }
-
-   async deletePromptTemplateDescriptor(userId: string, descriptorId: string) {
-      await this.repository.pDeletePromptTemplateDescriptor(
-         userId,
-         descriptorId
-      );
-   }
-
-   async toggleFavorite(
-      userId: string,
-      descriptorId: string,
-      isFavorite: boolean
-   ) {
-      await this.repository.pToggleFavorite(userId, descriptorId, isFavorite);
-   }
-
-   async getTemplateCategories(userId: string): Promise<string[]> {
-      return await this.repository.pGetTemplateCategories(userId);
-   }
-
-   async getTemplateModles(userId: string): Promise<string[]> {
-      return await this.repository.pGetTemplateModels(userId);
-   }
-
    async composePromptFromTemplate(
       userId: string,
       descriptorId: string,
       fieldValues: DPromptTemplateFieldValues
    ): Promise<DPromptUpdate> {
-      const descriptor = await this.getPromptTemplateDescriptorWithTemplate(
-         userId,
-         descriptorId
-      );
+      const descriptor = await this.getTemplateDescriptor(userId, descriptorId);
 
       if (!descriptor) {
          throw new Error(
-            `PromptTemplateDescriptor with id ${descriptorId}not found `
+            `TemplateDescriptor with ID ${descriptorId} not found`
          );
       }
 
@@ -183,6 +155,67 @@ export class PromptTemplateService {
          categories: descriptor.categories.map((cat) => cat.name),
          followUpPrompts: [],
       };
+   }
+
+   async downloadTemplate(
+      userId: string,
+      descriptorId: string
+   ): Promise<string> {
+      const descriptor = await this.getTemplateDescriptor(userId, descriptorId);
+
+      if (!descriptor) {
+         throw new Error(
+            `TemplateDescriptor with ID ${descriptorId} not found`
+         );
+      }
+
+      const downloadData = JSON.stringify(
+         {
+            title: descriptor.title,
+            content: descriptor.promptTemplate.content,
+            categories: descriptor.categories.map((c) => c.name),
+            recommendedModel: descriptor.recommendedModel,
+         },
+         null,
+         2
+      );
+
+      return downloadData;
+   }
+
+   async toggleTemplateDescriptorFavorite(
+      userId: string,
+      descriptorId: string,
+      isFavorite: boolean
+   ) {
+      await this.repository.pToggleFavorite(userId, descriptorId, isFavorite);
+   }
+
+   async getPromptTemplateDescriptors(
+      params?: DGetPromptTemplatesDescriptorsParams
+   ): Promise<DPromptTemplateDescriptor[]> {
+      return await this.repository.pGetPromptTemplateDescriptors(params);
+   }
+
+   async getPromptTemplate(
+      userId: string,
+      templateId: string
+   ): Promise<DPromptTemplate | null> {
+      return await this.repository.pGetPromptTemplate(userId, templateId);
+   }
+
+   async getPromptTemplateCategories(userId: string): Promise<string[]> {
+      const categories =
+         await this.repository.pGetPromptTemplateCategories(userId);
+      return map(categories, (c) => c.name);
+   }
+
+   async getTemplateDescriptorCategories(userId: string): Promise<string[]> {
+      return await this.repository.pGetTemplateCategories(userId);
+   }
+
+   async getTemplateDescriptorModels(userId: string): Promise<string[]> {
+      return await this.repository.pGetTemplateModels(userId);
    }
 
    resolveAllTemplateFields(
