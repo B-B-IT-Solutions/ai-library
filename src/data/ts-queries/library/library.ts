@@ -22,11 +22,13 @@ import {
    deleteLibraryCollection,
    getEntryCollectionIds,
    getLibraryCollections,
-   toggleLibraryEntryFavorite,
    updateEntryCollections,
    updateLibraryCollection,
 } from "@/data/actions/library";
-import { getTemplateDescriptorsPage } from "@/data/actions/prompt-template";
+import {
+   getTemplateDescriptorsPage,
+   toggleTemplateDescriptorFavorite,
+} from "@/data/actions/prompt-template";
 import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
@@ -126,7 +128,10 @@ export const toggleFavoriteOptions = (): UseMutationOptions<
    return {
       mutationFn: async (params: UpdateIsFavoriteParams) => {
          const { descriptorId, isFavorite } = params;
-         return await toggleLibraryEntryFavorite(descriptorId, isFavorite);
+         return await toggleTemplateDescriptorFavorite(
+            descriptorId,
+            isFavorite
+         );
       },
    };
 };

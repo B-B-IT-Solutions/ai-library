@@ -22,11 +22,13 @@ import {
    deleteLibraryCollection,
    getEntryCollectionIds,
    getLibraryCollections,
-   toggleLibraryEntryFavorite,
    updateEntryCollections,
    updateLibraryCollection,
 } from "@/data/actions/library";
-import { getTemplateDescriptorsPage } from "@/data/actions/prompt-template";
+import {
+   getTemplateDescriptorsPage,
+   toggleTemplateDescriptorFavorite,
+} from "@/data/actions/prompt-template";
 import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
@@ -81,9 +83,9 @@ const getLibraryCollectionsMock = getLibraryCollections as jest.MockedFunction<
    typeof getLibraryCollections
 >;
 
-const toggleLibraryEntryFavoriteMock =
-   toggleLibraryEntryFavorite as jest.MockedFunction<
-      typeof toggleLibraryEntryFavorite
+const toggleTemplateDescriptorFavoriteMock =
+   toggleTemplateDescriptorFavorite as jest.MockedFunction<
+      typeof toggleTemplateDescriptorFavorite
    >;
 
 const createLibraryCollectionMock =
@@ -264,8 +266,8 @@ describe("toggleFavorite hooks tests", () => {
       await waitFor(() => {
          result.current.mutate(params);
          expect(result.current.isSuccess).toBe(true);
-         expect(toggleLibraryEntryFavoriteMock).toHaveBeenCalledTimes(1);
-         expect(toggleLibraryEntryFavoriteMock).toHaveBeenCalledWith(
+         expect(toggleTemplateDescriptorFavoriteMock).toHaveBeenCalledTimes(1);
+         expect(toggleTemplateDescriptorFavoriteMock).toHaveBeenCalledWith(
             params.descriptorId,
             params.isFavorite
          );
