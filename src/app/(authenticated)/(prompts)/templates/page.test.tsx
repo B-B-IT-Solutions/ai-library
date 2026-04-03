@@ -2,7 +2,7 @@ jest.mock("@/components/templates", () => ({
    TemplatesDashboard: () => {
       return <div data-testid="templates-dashboard" />;
    },
-   librarySearchParamsCache: {
+   templatesSearchParamsCache: {
       parse: jest.fn(),
    },
 }));
