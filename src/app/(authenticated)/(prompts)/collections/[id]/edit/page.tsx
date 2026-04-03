@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import { CollectionEditDashboard } from "@/components/templates/collection-edit-dashboard";
+import { CollectionEditDashboard } from "@/components/collections/collection-edit-dashboard";
 
 export const metadata: Metadata = {
    title: "Sammlung bearbeiten",

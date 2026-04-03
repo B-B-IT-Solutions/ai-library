@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-query";
 import { Metadata } from "next";
 
-import { CollectionsDashboard } from "@/components/templates/collections-dashboard";
+import { CollectionsDashboard } from "@/components/collections/collections-dashboard";
 import { preloadLibraryCollectionsOptions } from "@/data/ts-queries/library";
 
 export const metadata: Metadata = {

@@ -18,9 +18,9 @@ import { libraryKeys } from "@/data/ts-queries/library/utils";
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
 
-import { CollectionHeader } from "./collections/collection-header";
-import { TemplateItems, TemplatesToolbar } from "./lists";
-import { templatesSearchParamsCache } from "./search-params";
+import { CollectionHeader } from "@/components/collections/collection-header";
+import { TemplateItems, TemplatesToolbar } from "@/components/templates/lists";
+import { templatesSearchParamsCache } from "@/components/templates/search-params";
 
 type Props = {
    collectionId: string;

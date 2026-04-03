@@ -5,6 +5,7 @@ import { map } from "es-toolkit/compat";
 import { Eye, FolderPlus, MoreVertical } from "lucide-react";
 import Link from "next/link";
 
+import { AddToLibraryCollectionDialog } from "@/components/collections";
 import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import {
@@ -21,7 +22,6 @@ import {
    CreatePromptFromTemplateButton,
    DownloadTemplateButton,
 } from "../../buttons";
-import { AddToLibraryCollectionDialog } from "../../collections";
 
 type Props = {
    descriptor: DPromptTemplateDescriptor;

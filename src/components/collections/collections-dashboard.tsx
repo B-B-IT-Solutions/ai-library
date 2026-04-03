@@ -6,7 +6,7 @@ import { Folder, Plus } from "lucide-react";
 import { Button } from "@/components/shadcn/button";
 import { useLoadLibraryCollections } from "@/data/ts-queries/library";
 
-import { CollectionCard } from "./collections/collection-card";
+import { CollectionCard } from "@/components/collections/collection-card";
 
 export const CollectionsDashboard = () => {
    const { data: collections = [], isLoading } = useLoadLibraryCollections();

@@ -1,10 +1,8 @@
 import { Metadata } from "next";
 import { SearchParams } from "nuqs/server";
 
-import {
-   CollectionDashboard,
-   templatesSearchParamsCache,
-} from "@/components/templates";
+import { CollectionDashboard } from "@/components/collections/collection-dashboard";
+import { templatesSearchParamsCache } from "@/components/templates/search-params";
 
 export const metadata: Metadata = {
    title: "Sammlung",
