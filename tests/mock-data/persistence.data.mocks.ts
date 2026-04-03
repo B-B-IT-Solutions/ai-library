@@ -30,7 +30,6 @@ import {
    CartItem,
    GlobalTemplateField,
    LibraryCollection,
-   LibraryEntry,
    OrderItem,
    Product,
    ProductExample,
@@ -362,21 +361,6 @@ export const pOrderItem = (index = 1): OrderItem => {
    };
 };
 
-export const pLibraryEntries = (count = 3): LibraryEntry[] => {
-   return range(0, count).map((i) => pLibraryEntry(i));
-};
-
-export const pLibraryEntry = (index = 1): LibraryEntry => {
-   return {
-      id: `library-entry-${index}`,
-      userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
-      templateDescriptorId: `52e59bcf-7651-45f8-91bf-63b8a4e06d8${index}`,
-      updatedAt: new Date("2025-09-27"),
-      isFavorite: index % 2 === 0,
-      createdAt: new Date("2025-09-27"),
-   };
-};
-
 export const pLibraryCollections = (count = 3): LibraryCollection[] => {
    return range(0, count).map((i) => pLibraryCollection(i));
 };
@@ -468,6 +452,7 @@ export const pPromptTemplateDescriptor = (
       title: `title ${index}`,
       description: `description ${index}`,
       recommendedModel: `model ${index}`,
+      isFavorite: index % 2 == 0,
       promptTemplateId: `18821adc-b6c7-4239-a32e-c824c51c19d${index}`,
       updatedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),

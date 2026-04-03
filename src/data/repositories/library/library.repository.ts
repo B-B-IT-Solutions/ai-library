@@ -5,7 +5,10 @@ import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
 } from "@/data/types/domain/library";
-import { LibraryCollectionCreateInput } from "@/generated/prisma/models";
+import {
+   LibraryCollectionCreateArgs,
+   LibraryCollectionCreateInput,
+} from "@/generated/prisma/models";
 
 import { toDLibraryCollection, toDLibraryCollections } from "./library.mapper";
 
@@ -43,14 +46,11 @@ export class LibraryRepository {
          order: data.order ?? 0,
       };
 
-      const collection = await this.prisma.libraryCollection.create({
+      const args: LibraryCollectionCreateArgs = {
          data: input,
-         include: {
-            _count: {
-               select: { entries: true },
-            },
-         },
-      });
+      };
+
+      const collection = await this.prisma.libraryCollection.create(args);
 
       return toDLibraryCollection(collection);
    }
@@ -89,7 +89,7 @@ export class LibraryRepository {
    ): Promise<string[]> {
       const collectionEntries =
          await this.prisma.libraryCollectionEntry.findMany({
-            where: { promptTemplateDescriptorId: descriptorId },
+            where: { templateDescriptorId: descriptorId },
             select: { collectionId: true },
          });
 
@@ -102,12 +102,12 @@ export class LibraryRepository {
       collectionIds: string[]
    ): Promise<void> {
       await this.prisma.libraryCollectionEntry.deleteMany({
-         where: { promptTemplateDescriptorId: descriptorId },
+         where: { templateDescriptorId: descriptorId },
       });
 
       await this.prisma.libraryCollectionEntry.createMany({
          data: map(collectionIds, (collectionId) => ({
-            promptTemplateDescriptorId: descriptorId,
+            templateDescriptorId: descriptorId,
             collectionId,
          })),
       });
