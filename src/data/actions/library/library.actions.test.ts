@@ -12,7 +12,6 @@ import { ActionResult } from "@/data/types/utils";
 import {
    createLibraryCollection,
    deleteLibraryCollection,
-   downloadTemplate,
    getEntryCollectionIds,
    getLibraryCategories,
    getLibraryCollections,

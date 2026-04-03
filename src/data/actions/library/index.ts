@@ -1,5 +1,4 @@
 export {
-   downloadTemplate,
    createLibraryCollection,
    deleteLibraryCollection,
    getEntryCollectionIds,
