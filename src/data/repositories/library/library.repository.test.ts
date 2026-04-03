@@ -7,6 +7,8 @@ import { DLibraryCollectionUpdate } from "@/data/types/domain/library";
 import {
    LibraryCollectionCreateArgs,
    LibraryCollectionCreateInput,
+   LibraryCollectionUpdateArgs,
+   LibraryCollectionUpdateInput,
 } from "@/generated/prisma/models";
 
 import { toDLibraryCollection } from "./library.mapper";
@@ -87,6 +89,85 @@ describe("pCreateCollection tests", () => {
       expect(prismaMock.libraryCollection.create).toHaveBeenCalledTimes(1);
       expect(prismaMock.libraryCollection.create).toHaveBeenCalledWith(
          expectedCreateArgs
+      );
+   });
+});
+
+describe("pUpdateCollection tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("all fields defined - test", async () => {
+      const userId = "user-id-1";
+      const collection = ptestData.pLibraryCollection();
+      prismaMock.libraryCollection.update.mockResolvedValue(collection);
+
+      const data = dtestData.dLibraryCollectionUpdate();
+
+      const result = await libraryRepository.pUpdateCollection(
+         userId,
+         collection.id,
+         data
+      );
+
+      const expectedResult = toDLibraryCollection(collection);
+
+      const expectedUpdateInput: LibraryCollectionUpdateInput = {
+         name: data.name,
+         description: data.description,
+         color: data.color,
+         order: data.order,
+      };
+
+      const expectedUpdateArgs: LibraryCollectionUpdateArgs = {
+         where: {
+            id: collection.id,
+            userId,
+         },
+         data: expectedUpdateInput,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.libraryCollection.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryCollection.update).toHaveBeenCalledWith(
+         expectedUpdateArgs
+      );
+   });
+
+   it("optional fields undefined - test", async () => {
+      const userId = "user-id-123";
+      const collection = ptestData.pLibraryCollection();
+      prismaMock.libraryCollection.update.mockResolvedValue(collection);
+
+      const data: DLibraryCollectionUpdate = {
+         name: "My Collection",
+      };
+
+      const result = await libraryRepository.pUpdateCollection(
+         userId,
+         collection.id,
+         data
+      );
+
+      const expectedResult = toDLibraryCollection(collection);
+
+      const expectedUpdateInput: LibraryCollectionUpdateInput = {
+         name: data.name,
+      };
+
+      const expectedUpdateArgs: LibraryCollectionUpdateArgs = {
+         where: {
+            id: collection.id,
+            userId,
+         },
+         data: expectedUpdateInput,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.libraryCollection.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryCollection.update).toHaveBeenCalledWith(
+         expectedUpdateArgs
       );
    });
 });

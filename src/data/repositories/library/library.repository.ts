@@ -62,7 +62,7 @@ export class LibraryRepository {
       userId: string,
       collectionId: string,
       data: DLibraryCollectionUpdate
-   ) {
+   ): Promise<DLibraryCollection> {
       const input: LibraryCollectionUpdateInput = {
          name: data.name,
          description: data.description,
@@ -78,7 +78,8 @@ export class LibraryRepository {
          data: input,
       };
 
-      await this.prisma.libraryCollection.update(args);
+      const collection = await this.prisma.libraryCollection.update(args);
+      return toDLibraryCollection(collection);
    }
 
    async pDeleteCollection(userId: string, collectionId: string) {
