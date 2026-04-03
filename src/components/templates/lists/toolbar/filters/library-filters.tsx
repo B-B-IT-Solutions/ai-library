@@ -12,7 +12,7 @@ import {
    PopoverTrigger,
 } from "@/components/shadcn/popover";
 import { Separator } from "@/components/shadcn/separator";
-import { librarySearchParams } from "../../../search-params";
+import { templatesSearchParams } from "../../../search-params";
 
 import { CategoriesFilter } from "./categories-filter";
 import {
@@ -31,9 +31,9 @@ export const LibraryFilters: FC<Props> = ({ categories, models }) => {
    const [showFilters, setShowFilters] = useState(false);
 
    const [filters, setFilters] = useQueryStates({
-      f_search: librarySearchParams["f_search"],
-      f_categories: librarySearchParams["f_categories"],
-      f_models: librarySearchParams["f_models"],
+      f_search: templatesSearchParams["f_search"],
+      f_categories: templatesSearchParams["f_categories"],
+      f_models: templatesSearchParams["f_models"],
    });
 
    const [filtersContext] = useState<LibraryEntryFiltersHelper>(

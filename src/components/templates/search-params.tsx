@@ -37,7 +37,7 @@ export const f_collectionIdsParam = parseAsArrayOf(parseAsString).withDefault(
 
 export const f_isFavoriteParam = parseAsBoolean.withDefault(false);
 
-export const librarySearchParams = {
+export const templatesSearchParams = {
    view: viewParam,
    group: groupByParam,
    sort: sortByParam,
@@ -48,14 +48,15 @@ export const librarySearchParams = {
    f_isFavorite: f_isFavoriteParam,
 };
 
-export type DLibrarySearchParamsType = Partial<
-   inferParserType<typeof librarySearchParams>
+export type DTemplatesSearchParamsType = Partial<
+   inferParserType<typeof templatesSearchParams>
 >;
 
-export type DLibrarySearchParamsFiltersType = Omit<
-   DLibrarySearchParamsType,
+export type DTemplatesSearchParamsFiltersType = Omit<
+   DTemplatesSearchParamsType,
    "view" | "group" | "sort"
 >;
 
-export const librarySearchParamsCache =
-   createSearchParamsCache(librarySearchParams);
+export const templatesSearchParamsCache = createSearchParamsCache(
+   templatesSearchParams
+);

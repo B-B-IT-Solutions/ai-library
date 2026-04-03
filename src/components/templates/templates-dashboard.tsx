@@ -17,19 +17,19 @@ import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template"
 
 import { CreateLibraryEntryButton } from "./buttons";
 import { CollectionsFilter, LibraryEntries, LibraryToolbar } from "./lists";
-import { librarySearchParamsCache } from "./search-params";
+import { templatesSearchParamsCache } from "./search-params";
 
 export const TemplatesDashboard = async () => {
    const queryClient = new QueryClient();
 
-   const viewMode = librarySearchParamsCache.get("view");
-   const groupBy = librarySearchParamsCache.get("group");
-   const sortBy = librarySearchParamsCache.get("sort");
+   const viewMode = templatesSearchParamsCache.get("view");
+   const groupBy = templatesSearchParamsCache.get("group");
+   const sortBy = templatesSearchParamsCache.get("sort");
 
    const filters: DTemplateDescriptorsFilter = {
-      search: librarySearchParamsCache.get("f_search"),
-      categories: librarySearchParamsCache.get("f_categories"),
-      models: librarySearchParamsCache.get("f_models"),
+      search: templatesSearchParamsCache.get("f_search"),
+      categories: templatesSearchParamsCache.get("f_categories"),
+      models: templatesSearchParamsCache.get("f_models"),
    };
 
    await Promise.all([

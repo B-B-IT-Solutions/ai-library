@@ -11,10 +11,13 @@ import {
    SelectValue,
 } from "@/components/shadcn/select";
 import { DListSortByMode } from "@/data/types/domain/common";
-import { librarySearchParams } from "../../../search-params";
+import { templatesSearchParams } from "../../../search-params";
 
 export const SortBySelect: FC = () => {
-   const [group, setGroup] = useQueryState("sort", librarySearchParams["sort"]);
+   const [group, setGroup] = useQueryState(
+      "sort",
+      templatesSearchParams["sort"]
+   );
 
    return (
       <Select

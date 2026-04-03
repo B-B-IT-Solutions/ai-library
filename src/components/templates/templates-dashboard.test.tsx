@@ -19,11 +19,11 @@ import {
 } from "@/data/types/domain/common";
 import { DTemplateDescriptorsPageQuery } from "@/data/types/domain/prompt.template";
 
-import { librarySearchParamsCache } from "./search-params";
+import { templatesSearchParamsCache } from "./search-params";
 import { TemplatesDashboard } from "./templates-dashboard";
 
-type CacheKey = Parameters<typeof librarySearchParamsCache.get>[0];
-type CacheValue = ReturnType<typeof librarySearchParamsCache.get>;
+type CacheKey = Parameters<typeof templatesSearchParamsCache.get>[0];
+type CacheValue = ReturnType<typeof templatesSearchParamsCache.get>;
 
 const getTemplateDescriptorCategoriesMock =
    getTemplateDescriptorCategories as jest.MockedFunction<
@@ -44,9 +44,10 @@ const getTemplateDescriptorsPageMock =
       typeof getTemplateDescriptorsPage
    >;
 
-const librarySearchParamsCacheMock = librarySearchParamsCache as DeepMockProxy<
-   typeof librarySearchParamsCache
->;
+const librarySearchParamsCacheMock =
+   templatesSearchParamsCache as DeepMockProxy<
+      typeof templatesSearchParamsCache
+   >;
 
 const mockSearchParams = (key: CacheKey): CacheValue => {
    switch (key) {

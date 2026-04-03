@@ -11,12 +11,12 @@ import {
    SelectValue,
 } from "@/components/shadcn/select";
 import { DListGroupByMode } from "@/data/types/domain/common";
-import { librarySearchParams } from "../../../search-params";
+import { templatesSearchParams } from "../../../search-params";
 
 export const GroupBySelect: FC = () => {
    const [group, setGroup] = useQueryState(
       "group",
-      librarySearchParams["group"]
+      templatesSearchParams["group"]
    );
 
    return (

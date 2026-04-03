@@ -18,7 +18,7 @@ import { useLoadLibraryCollections } from "@/data/ts-queries/library";
 import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
 import { cn } from "@/lib/utils";
 import { LibraryCollectionCreateDialog } from "../../../collections";
-import { librarySearchParams } from "../../../search-params";
+import { templatesSearchParams } from "../../../search-params";
 
 type Props = {
    filters: DTemplateDescriptorsFilter;
@@ -27,7 +27,7 @@ type Props = {
 export const CollectionsFilter: FC<Props> = () => {
    const [f_collectionIds, setCollectionIds] = useQueryState(
       "f_collectionIds",
-      librarySearchParams["f_collectionIds"]
+      templatesSearchParams["f_collectionIds"]
    );
 
    const { data: collections = [] } = useLoadLibraryCollections();

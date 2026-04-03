@@ -11,13 +11,13 @@ import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 
-import { librarySearchParamsCache } from "@/components/templates";
+import { templatesSearchParamsCache } from "@/components/templates";
 
 import { metadata, PageProps, TemplatesPage } from "./page";
 
-const librarySearchParamsCacheParseMock =
-   librarySearchParamsCache.parse as jest.MockedFunction<
-      typeof librarySearchParamsCache.parse
+const templatesSearchParamsCacheParseMock =
+   templatesSearchParamsCache.parse as jest.MockedFunction<
+      typeof templatesSearchParamsCache.parse
    >;
 
 const expectedMetadata: Metadata = {
@@ -48,8 +48,8 @@ describe("TemplatesPage rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         expect(librarySearchParamsCacheParseMock).toHaveBeenCalledTimes(1);
-         expect(librarySearchParamsCacheParseMock).toHaveBeenCalledWith(
+         expect(templatesSearchParamsCacheParseMock).toHaveBeenCalledTimes(1);
+         expect(templatesSearchParamsCacheParseMock).toHaveBeenCalledWith(
             props.searchParams
          );
       });

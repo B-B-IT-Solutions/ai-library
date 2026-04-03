@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 
 import {
-   librarySearchParamsCache,
+   templatesSearchParamsCache,
    TemplatesDashboard,
 } from "@/components/templates";
 
@@ -15,7 +15,7 @@ export type PageProps = {
 };
 
 export const TemplatesPage = async (props: PageProps) => {
-   await librarySearchParamsCache.parse(props.searchParams);
+   await templatesSearchParamsCache.parse(props.searchParams);
 
    return (
       <div data-testid="templates-page" className="h-full">
