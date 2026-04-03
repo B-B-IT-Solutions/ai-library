@@ -3,7 +3,7 @@ import { isEmpty, map } from "es-toolkit/compat";
 import { DLibraryCollection } from "@/data/types/domain/library";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
-import { LibraryEntryCard } from "./items";
+import { TemplateItemCard } from "./items";
 
 type Props = {
    descriptors: DPromptTemplateDescriptor[];
@@ -33,7 +33,7 @@ export const TemplateItemsGrid = ({ descriptors, collections }: Props) => {
          data-testid="template-items-grid"
       >
          {map(descriptors, (entry) => (
-            <LibraryEntryCard
+            <TemplateItemCard
                key={entry.id}
                descriptor={entry}
                collections={collections}

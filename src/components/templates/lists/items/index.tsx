@@ -1,1 +1,1 @@
-export { LibraryEntryCard } from "./library-entry-card";
+export { TemplateItemCard } from "./template-item-card";

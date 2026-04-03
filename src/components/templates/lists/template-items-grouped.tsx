@@ -7,7 +7,7 @@ import { DListGroupByMode } from "@/data/types/domain/common";
 import { DLibraryCollection } from "@/data/types/domain/library";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
-import { LibraryEntryCard } from "./items/library-entry-card";
+import { TemplateItemCard } from "./items/template-item-card";
 
 type GroupedTemplates = {
    key: string;
@@ -62,7 +62,7 @@ export const TemplateItemsGrouped = ({
                </h3>
                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                   {map(group.entries, (entry) => (
-                     <LibraryEntryCard
+                     <TemplateItemCard
                         key={entry.id}
                         descriptor={entry}
                         collections={collections}

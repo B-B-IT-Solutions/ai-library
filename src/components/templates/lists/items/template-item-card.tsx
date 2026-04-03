@@ -28,7 +28,7 @@ type Props = {
    collections: DLibraryCollection[];
 };
 
-export const LibraryEntryCard: FC<Props> = ({ descriptor, collections }) => {
+export const TemplateItemCard = ({ descriptor, collections }: Props) => {
    const [showAddToCollectionDialog, setShowAddToCollectionDialog] =
       useState(false);
 
@@ -92,7 +92,7 @@ export const LibraryEntryCard: FC<Props> = ({ descriptor, collections }) => {
    return (
       <Card
          className="group relative gap-0 rounded-lg border border-slate-300 bg-white p-0 transition-all duration-200 hover:border-slate-400 hover:shadow-md"
-         data-testid="library-entry-card"
+         data-testid="template-item-card"
       >
          <AddToFavoriteButton descriptor={descriptor} />
          <CardHeader className="gap-3 border-b border-slate-200 p-5 pb-3">

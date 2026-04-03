@@ -12,14 +12,14 @@ import mockRouter from "next-router-mock";
 
 import { getEntryCollectionIds } from "@/data/actions/library";
 
-import { LibraryEntryCard } from "./library-entry-card";
+import { TemplateItemCard } from "./template-item-card";
 
 const getEntryCollectionIdsMock = getEntryCollectionIds as jest.MockedFunction<
    typeof getEntryCollectionIds
 >;
 
 const assertRendered = () => {
-   const entryCard = screen.getByTestId("library-entry-card");
+   const entryCard = screen.getByTestId("template-item-card");
    const viewDetailsTitle = screen.getByTestId("view-details-link-title");
    const categories = screen.getByTestId("categories");
    const createPromptBtn = screen.getByTestId(
@@ -68,13 +68,13 @@ const assertAddToCollectionDialogNotRendered = () => {
    assertNotInDocument(dialog);
 };
 
-describe("LibraryEntryCard rendering tests", () => {
-   it("LibraryEntryCard - viewMode grid - rendered test", async () => {
+describe("TemplateItemCard rendering tests", () => {
+   it("viewMode grid - rendered test", async () => {
       const collections = dtestData.dLibraryCollections();
       const descriptor = dtestData.dPromptTemplateDescriptor();
 
       const { container } = renderWithReactQuery(
-         <LibraryEntryCard descriptor={descriptor} collections={collections} />
+         <TemplateItemCard descriptor={descriptor} collections={collections} />
       );
 
       await waitFor(() => {
@@ -85,18 +85,18 @@ describe("LibraryEntryCard rendering tests", () => {
    });
 });
 
-describe("LibraryEntryCard functionality tests", () => {
+describe("TemplateItemCard functionality tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
       mockRouter.push("/");
    });
 
-   it("LibraryEntryCard - title - view detail link clicked - test", async () => {
+   it("title - view detail link clicked - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptor();
       const collections = dtestData.dLibraryCollections();
 
       renderWithReactQuery(
-         <LibraryEntryCard descriptor={descriptor} collections={collections} />
+         <TemplateItemCard descriptor={descriptor} collections={collections} />
       );
 
       await waitFor(() => {
@@ -113,12 +113,12 @@ describe("LibraryEntryCard functionality tests", () => {
       });
    });
 
-   it("LibraryEntryCard - dropdown - view detail link clicked - test", async () => {
+   it("dropdown - view detail link clicked - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptor();
       const collections = dtestData.dLibraryCollections();
 
       renderWithReactQuery(
-         <LibraryEntryCard descriptor={descriptor} collections={collections} />
+         <TemplateItemCard descriptor={descriptor} collections={collections} />
       );
 
       await waitFor(() => {
@@ -143,7 +143,7 @@ describe("LibraryEntryCard functionality tests", () => {
       });
    });
 
-   it("LibraryEntryCard - dropdown - show add to collection dialog - test", async () => {
+   it("dropdown - show add to collection dialog - test", async () => {
       const collectionIds = dtestData.dLibraryCollectionIds();
       getEntryCollectionIdsMock.mockResolvedValue(collectionIds);
 
@@ -151,7 +151,7 @@ describe("LibraryEntryCard functionality tests", () => {
       const collections = dtestData.dLibraryCollections();
 
       renderWithReactQuery(
-         <LibraryEntryCard descriptor={descriptor} collections={collections} />
+         <TemplateItemCard descriptor={descriptor} collections={collections} />
       );
 
       await waitFor(() => {
