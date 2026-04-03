@@ -1,1 +1,1 @@
-export { LibraryEntryBreadcrumb } from "./library-entry-breadcrumb";
+export { TemplateBreadcrumb } from "./template-breadcrumb";

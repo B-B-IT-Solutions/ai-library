@@ -8,13 +8,13 @@ type Props = {
    descriptor: DPromptTemplateDescriptorWithTemplate;
 };
 
-export const EditLibraryEntryButton = ({ descriptor }: Props) => {
+export const EditTemplateButton = ({ descriptor }: Props) => {
    return (
       <Button
          asChild={true}
          variant="outline"
          size="sm"
-         data-testid="edit-entry-btn"
+         data-testid="edit-template-btn"
       >
          <Link href={`/templates/${descriptor.id}/edit`}>
             <Edit2 className="h-4 w-4" />

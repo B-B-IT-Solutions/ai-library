@@ -8,7 +8,7 @@ type Props =
    | { variant: "edit"; label: string; entryId: string }
    | { variant: "new" };
 
-export const LibraryEntryBreadcrumb = (props: Props) => {
+export const TemplateBreadcrumb = (props: Props) => {
    const rootLink: BreadcrumbLinkProps = {
       label: "Vorlagen",
       href: "/templates",
@@ -22,7 +22,7 @@ export const LibraryEntryBreadcrumb = (props: Props) => {
             page={{
                label: "Neue Vorlage",
             }}
-            data-testid="libary-entry-breadcrumb"
+            data-testid="template-breadcrumb"
          />
       );
    }
@@ -37,7 +37,7 @@ export const LibraryEntryBreadcrumb = (props: Props) => {
                label: props.label,
                tooltip: props.label,
             }}
-            data-testid="libary-entry-breadcrumb"
+            data-testid="template-breadcrumb"
          />
       );
    }
@@ -50,7 +50,7 @@ export const LibraryEntryBreadcrumb = (props: Props) => {
             label: props.label,
             tooltip: props.label,
          }}
-         data-testid="libary-entry-breadcrumb"
+         data-testid="template-breadcrumb"
       />
    );
 };

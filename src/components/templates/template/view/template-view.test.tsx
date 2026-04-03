@@ -6,7 +6,7 @@ import { TemplateView } from "./template-view";
 
 const assertRendered = () => {
    const libraryEntry = screen.getByTestId("template-view");
-   const breadcrumb = screen.getByTestId("libary-entry-breadcrumb");
+   const breadcrumb = screen.getByTestId("template-breadcrumb");
    const form = screen.getByTestId("template-view-form");
 
    assertInDocument(libraryEntry);

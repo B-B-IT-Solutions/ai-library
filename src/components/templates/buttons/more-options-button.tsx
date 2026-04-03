@@ -11,7 +11,7 @@ import {
 } from "@/components/shadcn/dropdown-menu";
 import { DPromptTemplateDescriptorWithTemplate } from "@/data/types/domain/prompt.template";
 
-import { DeleteLibraryEntryButton } from "./delete-library-entry-button";
+import { DeleteTemplateButton } from "./delete-template-button";
 import { DownloadTemplateButton } from "./download-template-button";
 
 type Props = {
@@ -33,7 +33,7 @@ export const MoreOptionsButton: FC<Props> = ({ descriptor }) => {
          </DropdownMenuTrigger>
          <DropdownMenuContent align="end">
             <DownloadTemplateButton descriptor={descriptor} asMenuItem={true} />
-            <DeleteLibraryEntryButton descriptor={descriptor} />
+            <DeleteTemplateButton descriptor={descriptor} />
          </DropdownMenuContent>
       </DropdownMenu>
    );

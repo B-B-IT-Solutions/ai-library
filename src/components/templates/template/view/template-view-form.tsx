@@ -5,7 +5,7 @@ import { MDRenderer } from "@/components/shared/md";
 import { DPromptTemplateDescriptorWithTemplate } from "@/data/types/domain/prompt.template";
 import {
    CreatePromptFromTemplateButton,
-   EditLibraryEntryButton,
+   EditTemplateButton,
    MoreOptionsButton,
 } from "../../buttons";
 
@@ -44,7 +44,7 @@ export const TemplateViewForm = ({ descriptor }: Props) => {
                </div>
                <div className="flex shrink-0 items-center gap-2">
                   <CreatePromptFromTemplateButton descriptor={descriptor} />
-                  <EditLibraryEntryButton descriptor={descriptor} />
+                  <EditTemplateButton descriptor={descriptor} />
                   <MoreOptionsButton descriptor={descriptor} />
                </div>
             </div>

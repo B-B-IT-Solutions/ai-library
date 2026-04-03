@@ -10,7 +10,7 @@ import { toast } from "sonner";
 
 import { deleteTemplateDescriptor } from "@/data/actions/prompt-template";
 
-import { DeleteLibraryEntryButton } from "./delete-library-entry-button";
+import { DeleteTemplateButton } from "./delete-template-button";
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
@@ -20,15 +20,15 @@ const deleteTemplateDescriptorMock =
    >;
 
 const assertRendered = () => {
-   const deleteBtn = screen.getByTestId("delete-entry-menu-item");
+   const deleteBtn = screen.getByTestId("delete-template-menu-item");
    assertInDocument(deleteBtn);
 };
 
-describe("DeleteLibraryEntryButton rendering tests", () => {
+describe("DeleteTemplateButton rendering tests", () => {
    it("rendered test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const { container } = render(
-         <DeleteLibraryEntryButton descriptor={descriptor} />
+         <DeleteTemplateButton descriptor={descriptor} />
       );
 
       await waitFor(() => {
@@ -39,7 +39,7 @@ describe("DeleteLibraryEntryButton rendering tests", () => {
    });
 });
 
-describe("DeleteLibraryEntryButton functionality tests", () => {
+describe("DeleteTemplateButton functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       mockRouter.push("/templates/test-id");
@@ -53,14 +53,14 @@ describe("DeleteLibraryEntryButton functionality tests", () => {
       deleteTemplateDescriptorMock.mockResolvedValue(actionResult);
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
-      render(<DeleteLibraryEntryButton descriptor={descriptor} />);
+      render(<DeleteTemplateButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRendered();
          expect(deleteTemplateDescriptorMock).not.toHaveBeenCalled();
       });
 
-      const deleteBtn = screen.getByTestId("delete-entry-menu-item");
+      const deleteBtn = screen.getByTestId("delete-template-menu-item");
       await userEvent.click(deleteBtn);
 
       await waitFor(() => {
@@ -89,14 +89,14 @@ describe("DeleteLibraryEntryButton functionality tests", () => {
       deleteTemplateDescriptorMock.mockResolvedValue(actionResult);
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
-      render(<DeleteLibraryEntryButton descriptor={descriptor} />);
+      render(<DeleteTemplateButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRendered();
          expect(deleteTemplateDescriptorMock).not.toHaveBeenCalled();
       });
 
-      const deleteBtn = screen.getByTestId("delete-entry-menu-item");
+      const deleteBtn = screen.getByTestId("delete-template-menu-item");
       await userEvent.click(deleteBtn);
 
       await waitFor(() => {
@@ -119,14 +119,14 @@ describe("DeleteLibraryEntryButton functionality tests", () => {
 
    it("cancel btn clicked - delete not called - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
-      render(<DeleteLibraryEntryButton descriptor={descriptor} />);
+      render(<DeleteTemplateButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRendered();
          expect(deleteTemplateDescriptorMock).not.toHaveBeenCalled();
       });
 
-      const deleteBtn = screen.getByTestId("delete-entry-menu-item");
+      const deleteBtn = screen.getByTestId("delete-template-menu-item");
       await userEvent.click(deleteBtn);
 
       await waitFor(() => {

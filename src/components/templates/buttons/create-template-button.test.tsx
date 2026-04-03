@@ -4,16 +4,16 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument } from "@tests";
 import mockRouter from "next-router-mock";
 
-import { CreateLibraryEntryButton } from "./create-library-entry-button";
+import { CreateTemplateButton } from "./create-template-button";
 
 const assertRendered = () => {
-   const btn = screen.getByTestId("create-library-entry-btn");
+   const btn = screen.getByTestId("create-template-btn");
    assertInDocument(btn);
 };
 
-describe("CreateLibraryEntryButton rendering tests", () => {
-   it("CreateLibraryEntryButton rendered test", async () => {
-      const { container } = render(<CreateLibraryEntryButton />);
+describe("CreateTemplateButton rendering tests", () => {
+   it("rendered test", async () => {
+      const { container } = render(<CreateTemplateButton />);
 
       await waitFor(() => {
          assertRendered();
@@ -23,21 +23,21 @@ describe("CreateLibraryEntryButton rendering tests", () => {
    });
 });
 
-describe("CreateLibraryEntryButton functionality tests", () => {
+describe("CreateTemplateButton functionality tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
       mockRouter.push("/");
    });
 
-   it("CreateLibraryEntryButton - create btn clicked - test", async () => {
-      render(<CreateLibraryEntryButton />);
+   it("create btn clicked - test", async () => {
+      render(<CreateTemplateButton />);
 
       await waitFor(() => {
          assertRendered();
          expect(mockRouter.pathname).toEqual("/");
       });
 
-      const btn = screen.getByTestId("create-library-entry-btn");
+      const btn = screen.getByTestId("create-template-btn");
       await userEvent.click(btn);
 
       await waitFor(() => {
