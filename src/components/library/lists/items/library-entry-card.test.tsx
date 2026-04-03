@@ -109,7 +109,7 @@ describe("LibraryEntryCard functionality tests", () => {
       userEvent.click(viewDetailsTitle);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual(`/library/${descriptor.id}`);
+         expect(mockRouter.pathname).toEqual(`/templates/${descriptor.id}`);
       });
    });
 
@@ -139,7 +139,7 @@ describe("LibraryEntryCard functionality tests", () => {
       userEvent.click(viewDetailsLink);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual(`/library/${descriptor.id}`);
+         expect(mockRouter.pathname).toEqual(`/templates/${descriptor.id}`);
       });
    });
 

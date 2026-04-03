@@ -16,7 +16,7 @@ export const EditLibraryEntryButton = ({ descriptor }: Props) => {
          size="sm"
          data-testid="edit-entry-btn"
       >
-         <Link href={`/library/${descriptor.id}/edit`}>
+         <Link href={`/templates/${descriptor.id}/edit`}>
             <Edit2 className="h-4 w-4" />
             Bearbeiten
          </Link>
