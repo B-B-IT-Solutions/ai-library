@@ -7,6 +7,7 @@ import { DLibraryCollectionUpdate } from "@/data/types/domain/library";
 import {
    LibraryCollectionCreateArgs,
    LibraryCollectionCreateInput,
+   LibraryCollectionDeleteArgs,
    LibraryCollectionUpdateArgs,
    LibraryCollectionUpdateInput,
 } from "@/generated/prisma/models";
@@ -168,6 +169,32 @@ describe("pUpdateCollection tests", () => {
       expect(prismaMock.libraryCollection.update).toHaveBeenCalledTimes(1);
       expect(prismaMock.libraryCollection.update).toHaveBeenCalledWith(
          expectedUpdateArgs
+      );
+   });
+});
+
+describe("pDeleteCollection tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("collection - deleted - test", async () => {
+      const userId = "user-id-1";
+      const collection = ptestData.pLibraryCollection();
+      prismaMock.libraryCollection.delete.mockResolvedValue(collection);
+
+      await libraryRepository.pDeleteCollection(userId, collection.id);
+
+      const expectedDeleteArgs: LibraryCollectionDeleteArgs = {
+         where: {
+            id: collection.id,
+            userId,
+         },
+      };
+
+      expect(prismaMock.libraryCollection.delete).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryCollection.delete).toHaveBeenCalledWith(
+         expectedDeleteArgs
       );
    });
 });
