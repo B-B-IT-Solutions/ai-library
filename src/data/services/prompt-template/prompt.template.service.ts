@@ -51,6 +51,16 @@ export class PromptTemplateService {
       );
    }
 
+   async createTemplateDescriptor(
+      userId: string,
+      data: DPromptTemplateUpdate
+   ): Promise<DPromptTemplateDescriptor> {
+      return await this.repository.pCreatePromptTemplateDescriptor(
+         userId,
+         data
+      );
+   }
+
    async updateTemplateDescriptor(
       userId: string,
       descriptorId: string,
@@ -124,16 +134,6 @@ export class PromptTemplateService {
       const categories =
          await this.repository.pGetPromptTemplateCategories(userId);
       return map(categories, (c) => c.name);
-   }
-
-   async createPromptTemplateDescriptor(
-      userId: string,
-      data: DPromptTemplateUpdate
-   ): Promise<DPromptTemplateDescriptor> {
-      return await this.repository.pCreatePromptTemplateDescriptor(
-         userId,
-         data
-      );
    }
 
    async toggleFavorite(

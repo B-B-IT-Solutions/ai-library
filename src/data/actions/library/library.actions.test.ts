@@ -13,7 +13,6 @@ import { ActionResult } from "@/data/types/utils";
 import {
    composePromptFromTemplate,
    createLibraryCollection,
-   createLibraryEntry,
    deleteLibraryCollection,
    downloadTemplate,
    getEntryCollectionIds,
@@ -27,7 +26,6 @@ import {
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
-const sCreateLibraryEntry = LibraryService.prototype.createLibraryEntry;
 const sComposePromptFromTemplate =
    LibraryService.prototype.composePromptFromTemplate;
 const sDownloadTemplate = LibraryService.prototype.downloadPromptTemplate;
@@ -40,10 +38,6 @@ const sUpdateCollection = LibraryService.prototype.updateCollection;
 const sDeleteCollection = LibraryService.prototype.deleteCollection;
 const sGetEntryCollectionIds = LibraryService.prototype.getEntryCollectionIds;
 const sUpdateEntryCollections = LibraryService.prototype.updateEntryCollections;
-
-const sCreateLibraryEntryMock = sCreateLibraryEntry as jest.MockedFunction<
-   typeof sCreateLibraryEntry
->;
 
 const sComposePromptFromTemplateMock =
    sComposePromptFromTemplate as jest.MockedFunction<
@@ -79,77 +73,6 @@ const sUpdateEntryCollectionsMock =
    >;
 const sGetEntryCollectionIdsMock =
    sGetEntryCollectionIds as jest.MockedFunction<typeof sGetEntryCollectionIds>;
-
-describe("createLibraryEntry tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("createLibraryEntry - user undefined - test", async () => {
-      const error = new Error("Unknow user");
-      requireUserMock.mockRejectedValue(error);
-      const updateData = dtestData.dPromptTemplateUpdate();
-
-      const result = await createLibraryEntry(updateData);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Vorlage konnte nicht erstellt werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCreateLibraryEntryMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("createLibraryEntry - error - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const error = new Error("db error");
-      sCreateLibraryEntryMock.mockRejectedValue(error);
-      const updateData = dtestData.dPromptTemplateUpdate();
-
-      const result = await createLibraryEntry(updateData);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Vorlage konnte nicht erstellt werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCreateLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sCreateLibraryEntryMock).toHaveBeenCalledWith(updateData, user.id);
-      expect(console.error).toHaveBeenCalledTimes(1);
-   });
-
-   it("createLibraryEntry - entry created - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-      sCreateLibraryEntryMock.mockResolvedValue();
-
-      const updateData = dtestData.dPromptTemplateUpdate();
-
-      const result = await createLibraryEntry(updateData);
-
-      const expectedResult: ActionResult = {
-         success: true,
-         message: "Vorlage erfolgreich erstellt",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sCreateLibraryEntryMock).toHaveBeenCalledTimes(1);
-      expect(sCreateLibraryEntryMock).toHaveBeenCalledWith(updateData, user.id);
-   });
-});
 
 describe("composePromptFromTemplate tests", () => {
    beforeEach(() => {

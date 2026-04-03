@@ -9,6 +9,7 @@ import { PromptTemplateService } from "@/data/services/prompt-template";
 import { ActionResult } from "@/data/types/utils";
 
 import {
+   createTemplateDescriptor,
    deleteTemplateDescriptor,
    getPromptGenerationTemplateData,
    getPromptTemplate,
@@ -25,6 +26,8 @@ const sGetTemplateDescriptorsPage =
    PromptTemplateService.prototype.getTemplateDescriptorsPage;
 const sGetTemplateDescriptor =
    PromptTemplateService.prototype.getTemplateDescriptor;
+const sCreateTemplateDescriptor =
+   PromptTemplateService.prototype.createTemplateDescriptor;
 const sUpdateTemplateDescriptor =
    PromptTemplateService.prototype.updateTemplateDescriptor;
 const sDeleteTemplateDescriptor =
@@ -43,6 +46,10 @@ const sGetTemplateDescriptorsPageMock =
    >;
 const sGetTemplateDescriptorMock =
    sGetTemplateDescriptor as jest.MockedFunction<typeof sGetTemplateDescriptor>;
+const sCreateTemplateDescriptorMock =
+   sCreateTemplateDescriptor as jest.MockedFunction<
+      typeof sCreateTemplateDescriptor
+   >;
 const sUpdateTemplateDescriptorMock =
    sUpdateTemplateDescriptor as jest.MockedFunction<
       typeof sUpdateTemplateDescriptor
@@ -189,6 +196,85 @@ describe("getTemplateDescriptor tests", () => {
       expect(sGetTemplateDescriptorMock).toHaveBeenCalledWith(
          user.id,
          descriptorId
+      );
+   });
+});
+
+describe("createTemplateDescriptor tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("createTemplateDescriptor - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+      const updateData = dtestData.dPromptTemplateUpdate();
+
+      const result = await createTemplateDescriptor(updateData);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Vorlage konnte nicht erstellt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sCreateTemplateDescriptorMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("createTemplateDescriptor - error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const error = new Error("db error");
+      sCreateTemplateDescriptorMock.mockRejectedValue(error);
+      const updateData = dtestData.dPromptTemplateUpdate();
+
+      const result = await createTemplateDescriptor(updateData);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Vorlage konnte nicht erstellt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sCreateTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+      expect(sCreateTemplateDescriptorMock).toHaveBeenCalledWith(
+         user.id,
+         updateData
+      );
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("createTemplateDescriptor - descriptor created - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const newDescriptor = dtestData.dPromptTemplateDescriptor();
+      sCreateTemplateDescriptorMock.mockResolvedValue(newDescriptor);
+
+      const updateData = dtestData.dPromptTemplateUpdate();
+
+      const result = await createTemplateDescriptor(updateData);
+
+      const expectedResult: ActionResult = {
+         success: true,
+         message: "Vorlage erfolgreich erstellt",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sCreateTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+      expect(sCreateTemplateDescriptorMock).toHaveBeenCalledWith(
+         user.id,
+         updateData
       );
    });
 });

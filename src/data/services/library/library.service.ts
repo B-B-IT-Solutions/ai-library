@@ -26,16 +26,6 @@ export class LibraryService {
       this.promptTemplateService = promptTemplateService;
    }
 
-   async createLibraryEntry(
-      data: DPromptTemplateUpdate,
-      userId: string
-   ): Promise<DPromptTemplateDescriptor> {
-      return await this.promptTemplateService.createPromptTemplateDescriptor(
-         userId,
-         data
-      );
-   }
-
    async createLibraryEntries(order: OrderProducts): Promise<void> {
       for (const item of order.items) {
          const { product } = item;

@@ -28,34 +28,6 @@ const libraryService = new LibraryService(
    promptTemplateServiceMock
 );
 
-describe("createLibraryEntry tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("createLibraryEntry - descriptor created - test", async () => {
-      const userId = "user-id-1";
-      const createData = dtestData.dPromptTemplateUpdate();
-      const templateDescriptor = dtestData.dPromptTemplateDescriptor();
-      promptTemplateServiceMock.createPromptTemplateDescriptor.mockResolvedValue(
-         templateDescriptor
-      );
-
-      const result = await libraryService.createLibraryEntry(
-         createData,
-         userId
-      );
-
-      expect(result).toEqual(templateDescriptor);
-      expect(
-         promptTemplateServiceMock.createPromptTemplateDescriptor
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateServiceMock.createPromptTemplateDescriptor
-      ).toHaveBeenCalledWith(userId, createData);
-   });
-});
-
 describe("createLibraryEntries tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();

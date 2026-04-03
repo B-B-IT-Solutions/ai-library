@@ -1,4 +1,5 @@
 "use server";
+
 import { validate as isValidUuid } from "uuid";
 
 import { requireUser } from "@/data/actions/auth-utils";
@@ -45,6 +46,26 @@ export const getTemplateDescriptor = async (
    } catch (error) {
       console.error(formatError(error));
       return null;
+   }
+};
+
+export const createTemplateDescriptor = async (
+   data: DPromptTemplateUpdate
+): Promise<ActionResult> => {
+   try {
+      const user = await requireUser();
+      const service = getService();
+      await service.createTemplateDescriptor(user.id, data);
+      return {
+         success: true,
+         message: "Vorlage erfolgreich erstellt",
+      };
+   } catch (error) {
+      console.error(formatError(error));
+      return {
+         success: false,
+         message: "Vorlage konnte nicht erstellt werden",
+      };
    }
 };
 

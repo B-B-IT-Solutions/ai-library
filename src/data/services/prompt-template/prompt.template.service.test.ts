@@ -101,6 +101,34 @@ describe("getTemplateDescriptor tests", () => {
    });
 });
 
+describe("createTemplateDescriptor tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("createTemplateDescriptor - descriptor created - test", async () => {
+      const userId = "user-id-1";
+      const newData = dtestData.dPromptTemplateUpdate();
+      const newDescriptor = dtestData.dPromptTemplateDescriptor();
+      promptTemplateRepoMock.pCreatePromptTemplateDescriptor.mockResolvedValue(
+         newDescriptor
+      );
+
+      const result = await promptTemplateService.createTemplateDescriptor(
+         userId,
+         newData
+      );
+
+      expect(result).toEqual(newDescriptor);
+      expect(
+         promptTemplateRepoMock.pCreatePromptTemplateDescriptor
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pCreatePromptTemplateDescriptor
+      ).toHaveBeenCalledWith(userId, newData);
+   });
+});
+
 describe("updateTemplateDescriptor tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -408,34 +436,6 @@ describe("getPromptTemplateCategories tests", () => {
       expect(
          promptTemplateRepoMock.pGetPromptTemplateCategories
       ).toHaveBeenCalledWith(userId);
-   });
-});
-
-describe("createPromptTemplateDescriptor tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("createPromptTemplateDescriptor - descriptor created - test", async () => {
-      const userId = "user-id-1";
-      const newData = dtestData.dPromptTemplateUpdate();
-      const newDescriptor = dtestData.dPromptTemplateDescriptor();
-      promptTemplateRepoMock.pCreatePromptTemplateDescriptor.mockResolvedValue(
-         newDescriptor
-      );
-
-      const result = await promptTemplateService.createPromptTemplateDescriptor(
-         userId,
-         newData
-      );
-
-      expect(result).toEqual(newDescriptor);
-      expect(
-         promptTemplateRepoMock.pCreatePromptTemplateDescriptor
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateRepoMock.pCreatePromptTemplateDescriptor
-      ).toHaveBeenCalledWith(userId, newData);
    });
 });
 
