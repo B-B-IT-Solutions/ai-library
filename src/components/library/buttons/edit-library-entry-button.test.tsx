@@ -45,7 +45,9 @@ describe("EditLibraryEntryButton functionality tests", () => {
       await userEvent.click(editBtn);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual(`/library/${descriptor.id}/edit`);
+         expect(mockRouter.pathname).toEqual(
+            `/templates/${descriptor.id}/edit`
+         );
       });
    });
 });

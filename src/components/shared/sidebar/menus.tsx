@@ -12,10 +12,10 @@ import { DMenuItem } from "./types";
 
 export const navigationMenu1: DMenuItem[] = [
    {
-      id: "/library",
+      id: "/templates",
       title: "Vorlagen",
       icon: Braces,
-      url: "/library",
+      url: "/templates",
    },
    {
       id: "/prompts",

@@ -11,7 +11,7 @@ const assertRendered = () => {
 
 describe("GroupBySelect rendering tests", () => {
    it("GroupBySelect - groupBy none - test", async () => {
-      const url = "/library";
+      const url = "/templates";
       const searchParams = "group=none";
       const { container } = renderWithRouter(
          <GroupBySelect />,
@@ -27,7 +27,7 @@ describe("GroupBySelect rendering tests", () => {
    });
 
    it("GroupBySelect - groupBy date - test", async () => {
-      const url = "/library";
+      const url = "/templates";
       const searchParams = "group=date";
       const { container } = renderWithRouter(
          <GroupBySelect />,
@@ -43,7 +43,7 @@ describe("GroupBySelect rendering tests", () => {
    });
 
    it("GroupBySelect - groupBy model - test", async () => {
-      const url = "/library";
+      const url = "/templates";
       const searchParams = "group=model";
       const { container } = renderWithRouter(
          <GroupBySelect />,
@@ -65,7 +65,7 @@ describe("GroupBySelect functinality tests", () => {
    });
 
    it("GroupBySelect - option category selected - test", async () => {
-      const url = "/library";
+      const url = "/templates";
       const searchParams = "group=none";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(<GroupBySelect />, url, searchParams, onUrlUpdateFn);
@@ -102,7 +102,7 @@ describe("GroupBySelect functinality tests", () => {
    });
 
    it("GroupBySelect - option model selected - test", async () => {
-      const url = "/library";
+      const url = "/templates";
       const searchParams = "group=none";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(<GroupBySelect />, url, searchParams, onUrlUpdateFn);

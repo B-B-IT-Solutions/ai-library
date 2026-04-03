@@ -63,7 +63,7 @@ export const LibraryEntryCard: FC<Props> = ({ descriptor, collections }) => {
             <DropdownMenuContent align="end">
                <DropdownMenuItem asChild={true}>
                   <Link
-                     href={`/library/${descriptor.id}`}
+                     href={`/templates/${descriptor.id}`}
                      className="cursor-pointer"
                      data-testid="view-details-link"
                   >
@@ -97,7 +97,7 @@ export const LibraryEntryCard: FC<Props> = ({ descriptor, collections }) => {
          <AddToFavoriteButton descriptor={descriptor} />
          <CardHeader className="gap-3 border-b border-slate-200 p-5 pb-3">
             <Link
-               href={`/library/${descriptor.id}`}
+               href={`/templates/${descriptor.id}`}
                className="group/title"
                data-testid="view-details-link-title"
             >

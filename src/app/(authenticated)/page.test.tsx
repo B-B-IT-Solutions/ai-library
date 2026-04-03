@@ -12,7 +12,7 @@ describe("MainPage rendering tests", () => {
 
       await waitFor(() => {
          expect(redirectMock).toHaveBeenCalledTimes(1);
-         expect(redirectMock).toHaveBeenCalledWith("/library");
+         expect(redirectMock).toHaveBeenCalledWith("/templates");
       });
 
       expect(container).toMatchSnapshot();

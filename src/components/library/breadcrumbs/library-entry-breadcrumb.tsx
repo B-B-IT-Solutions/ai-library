@@ -11,7 +11,7 @@ type Props =
 export const LibraryEntryBreadcrumb = (props: Props) => {
    const rootLink: BreadcrumbLinkProps = {
       label: "Vorlagen",
-      href: "/library",
+      href: "/templates",
    };
 
    if (props.variant === "new") {
