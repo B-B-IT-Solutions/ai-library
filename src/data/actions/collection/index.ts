@@ -12,4 +12,4 @@ export {
    getCollectionTemplateIds,
    addTemplateToCollection,
    removeTemplateFromCollection,
-} from "./library.actions";
+} from "./collection.actions";

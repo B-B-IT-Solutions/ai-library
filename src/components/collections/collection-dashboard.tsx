@@ -8,7 +8,7 @@ import { notFound } from "next/navigation";
 import { CollectionHeader } from "@/components/collections/collection-header";
 import { TemplateItems, TemplatesToolbar } from "@/components/templates/lists";
 import { templatesSearchParamsCache } from "@/components/templates/search-params";
-import { getLibraryCollectionById } from "@/data/actions/collections";
+import { getLibraryCollectionById } from "@/data/actions/collection";
 import {
    getTemplateDescriptorCategories,
    getTemplateDescriptorModels,

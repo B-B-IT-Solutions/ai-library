@@ -16,7 +16,7 @@ import {
    getLibraryCollections,
    updateEntryCollections,
    updateLibraryCollection,
-} from "./library.actions";
+} from "./collection.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 

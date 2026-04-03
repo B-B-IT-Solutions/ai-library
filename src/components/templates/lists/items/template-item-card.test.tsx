@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/collections");
+jest.mock("@/data/actions/collection");
 
 import { screen, waitFor } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
@@ -10,7 +10,7 @@ import {
 } from "@tests";
 import mockRouter from "next-router-mock";
 
-import { getEntryCollectionIds } from "@/data/actions/collections";
+import { getEntryCollectionIds } from "@/data/actions/collection";
 
 import { TemplateItemCard } from "./template-item-card";
 

@@ -9,7 +9,7 @@ import { notFound } from "next/navigation";
 
 import { CollectionTemplateManager } from "@/components/collections/collection-template-manager";
 import { EditCollectionForm } from "@/components/collections/edit-collection-form";
-import { getLibraryCollectionById } from "@/data/actions/collections";
+import { getLibraryCollectionById } from "@/data/actions/collection";
 import { preloadLibraryCollectionsOptions } from "@/data/ts-queries/library";
 import { libraryKeys } from "@/data/ts-queries/library/utils";
 

@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
-import { getPublicCollectionByToken } from "@/data/actions/collections";
+import { getPublicCollectionByToken } from "@/data/actions/collection";
 import { APP_NAME } from "@/lib/constants";
 
 type PageProps = {

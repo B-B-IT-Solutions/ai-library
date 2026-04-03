@@ -29,7 +29,7 @@ import {
    setLibraryCollectionSharing,
    updateEntryCollections,
    updateLibraryCollection,
-} from "@/data/actions/collections";
+} from "@/data/actions/collection";
 import {
    getTemplateDescriptorsPage,
    toggleTemplateDescriptorFavorite,
