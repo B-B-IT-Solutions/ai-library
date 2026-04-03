@@ -8,15 +8,45 @@ import {
    LibraryCollectionCreateArgs,
    LibraryCollectionCreateInput,
    LibraryCollectionDeleteArgs,
+   LibraryCollectionFindManyArgs,
    LibraryCollectionUpdateArgs,
    LibraryCollectionUpdateInput,
 } from "@/generated/prisma/models";
 
-import { toDLibraryCollection } from "./library.mapper";
+import { toDLibraryCollection, toDLibraryCollections } from "./library.mapper";
 import { LibraryRepository } from "./library.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const libraryRepository = new LibraryRepository(prismaMock);
+
+describe("pGetCollections tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("colelctions retrieved test", async () => {
+      const userId = "user-id-1";
+      const collections = ptestData.pLibraryCollections();
+      prismaMock.libraryCollection.findMany.mockResolvedValue(collections);
+
+      const result = await libraryRepository.pGetCollections(userId);
+
+      const expectedResult = toDLibraryCollections(collections);
+
+      const expectedFindManyArgs: LibraryCollectionFindManyArgs = {
+         where: { userId },
+         orderBy: {
+            order: "asc",
+         },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.libraryCollection.findMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryCollection.findMany).toHaveBeenCalledWith(
+         expectedFindManyArgs
+      );
+   });
+});
 
 describe("pCreateCollection tests", () => {
    beforeEach(() => {

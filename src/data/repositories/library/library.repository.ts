@@ -9,6 +9,7 @@ import {
    LibraryCollectionCreateArgs,
    LibraryCollectionCreateInput,
    LibraryCollectionDeleteArgs,
+   LibraryCollectionFindManyArgs,
    LibraryCollectionUpdateArgs,
    LibraryCollectionUpdateInput,
 } from "@/generated/prisma/models";
@@ -23,13 +24,14 @@ export class LibraryRepository {
    }
 
    async pGetCollections(userId: string): Promise<DLibraryCollection[]> {
-      const collections = await this.prisma.libraryCollection.findMany({
+      const args: LibraryCollectionFindManyArgs = {
          where: { userId },
          orderBy: {
             order: "asc",
          },
-      });
+      };
 
+      const collections = await this.prisma.libraryCollection.findMany(args);
       return toDLibraryCollections(collections);
    }
 
@@ -54,7 +56,6 @@ export class LibraryRepository {
       };
 
       const collection = await this.prisma.libraryCollection.create(args);
-
       return toDLibraryCollection(collection);
    }
 
