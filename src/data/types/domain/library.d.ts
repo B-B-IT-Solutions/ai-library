@@ -13,6 +13,9 @@ export type DLibraryCollection = {
    description: string | null;
    color: string | null;
    order: number;
+   isPublic: boolean;
+   shareToken: string | null;
+   templateCount: number;
    createdAt: string;
    updatedAt: string;
 };

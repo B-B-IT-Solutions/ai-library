@@ -26,13 +26,49 @@ export class LibraryRepository {
    async pGetCollections(userId: string): Promise<DLibraryCollection[]> {
       const args: LibraryCollectionFindManyArgs = {
          where: { userId },
-         orderBy: {
-            order: "asc",
-         },
+         orderBy: { order: "asc" },
+         include: { _count: { select: { entries: true } } },
       };
 
       const collections = await this.prisma.libraryCollection.findMany(args);
-      return toDLibraryCollections(collections);
+      return toDLibraryCollections(collections as Parameters<typeof toDLibraryCollections>[0]);
+   }
+
+   async pGetCollectionById(
+      userId: string,
+      collectionId: string
+   ): Promise<DLibraryCollection | null> {
+      const collection = await this.prisma.libraryCollection.findUnique({
+         where: { id: collectionId, userId },
+         include: { _count: { select: { entries: true } } },
+      });
+      if (!collection) return null;
+      return toDLibraryCollection(collection as Parameters<typeof toDLibraryCollection>[0]);
+   }
+
+   async pGetCollectionByShareToken(
+      shareToken: string
+   ): Promise<DLibraryCollection | null> {
+      const collection = await this.prisma.libraryCollection.findUnique({
+         where: { shareToken, isPublic: true },
+         include: { _count: { select: { entries: true } } },
+      });
+      if (!collection) return null;
+      return toDLibraryCollection(collection as Parameters<typeof toDLibraryCollection>[0]);
+   }
+
+   async pSetShareToken(
+      userId: string,
+      collectionId: string,
+      shareToken: string | null,
+      isPublic: boolean
+   ): Promise<DLibraryCollection> {
+      const collection = await this.prisma.libraryCollection.update({
+         where: { id: collectionId, userId },
+         data: { shareToken, isPublic },
+         include: { _count: { select: { entries: true } } },
+      });
+      return toDLibraryCollection(collection as Parameters<typeof toDLibraryCollection>[0]);
    }
 
    async pCreateCollection(
@@ -92,6 +128,22 @@ export class LibraryRepository {
       };
 
       await this.prisma.libraryCollection.delete(args);
+   }
+
+   async pGetPublicCollectionTemplates(
+      collectionId: string
+   ): Promise<{ id: string; title: string; description: string; recommendedModel: string; categories: { name: string }[]; createdAt: Date; updatedAt: Date; }[]> {
+      const entries = await this.prisma.libraryCollectionEntry.findMany({
+         where: { collectionId },
+         include: {
+            templateDescriptor: {
+               include: { categories: true },
+            },
+         },
+         orderBy: { addedAt: "asc" },
+      });
+
+      return entries.map((e) => e.templateDescriptor);
    }
 
    async pGetEntryCollectionIds(

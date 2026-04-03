@@ -264,6 +264,8 @@ model LibraryCollection {
   description String?  @db.VarChar(750)
   color       String?  @db.VarChar(50)
   order       Int      @default(0)
+  isPublic    Boolean  @default(false) @map("is_public")
+  shareToken  String?  @unique @map("share_token") @db.VarChar(100)
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt   DateTime @updatedAt @map("updated_at")
 

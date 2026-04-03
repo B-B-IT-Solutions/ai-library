@@ -1,5 +1,6 @@
 "use server";
 
+import { v4 as uuidv4 } from "uuid";
 import { validate as isValidUuid } from "uuid";
 
 import { requireUser } from "@/data/actions/auth-utils";
@@ -95,6 +96,100 @@ export const deleteLibraryCollection = async (
       return {
          success: false,
          message: "Sammlung konnte nicht gelöscht werden",
+      };
+   }
+};
+
+export const getLibraryCollectionById = async (
+   collectionId: string
+): Promise<DLibraryCollection | null> => {
+   try {
+      if (!isValidUuid(collectionId)) {
+         throw new Error("Invalid collection ID.");
+      }
+      const user = await requireUser();
+      const service = getService();
+      return await service.getCollectionById(user.id, collectionId);
+   } catch (error) {
+      console.error(formatError(error));
+      return null;
+   }
+};
+
+export const getLibraryCollectionByShareToken = async (
+   shareToken: string
+): Promise<DLibraryCollection | null> => {
+   try {
+      const service = getService();
+      return await service.getCollectionByShareToken(shareToken);
+   } catch (error) {
+      console.error(formatError(error));
+      return null;
+   }
+};
+
+export const getPublicCollectionByToken = async (
+   shareToken: string
+): Promise<{
+   collection: DLibraryCollection;
+   templates: {
+      id: string;
+      title: string;
+      description: string;
+      recommendedModel: string;
+      categories: { name: string }[];
+   }[];
+} | null> => {
+   try {
+      const service = getService();
+      const collection = await service.getCollectionByShareToken(shareToken);
+      if (!collection) return null;
+
+      const templates = await service.getPublicCollectionTemplates(
+         collection.id
+      );
+      return { collection, templates };
+   } catch (error) {
+      console.error(formatError(error));
+      return null;
+   }
+};
+
+export const setLibraryCollectionSharing = async (
+   collectionId: string,
+   isPublic: boolean
+): Promise<ActionResult<DLibraryCollection>> => {
+   try {
+      if (!isValidUuid(collectionId)) {
+         throw new Error("Invalid collection ID.");
+      }
+      const user = await requireUser();
+      const service = getService();
+
+      let shareToken: string | null = null;
+      if (isPublic) {
+         shareToken = uuidv4();
+      }
+
+      const collection = await service.setCollectionSharing(
+         user.id,
+         collectionId,
+         isPublic,
+         shareToken
+      );
+
+      return {
+         success: true,
+         message: isPublic
+            ? "Sammlung ist jetzt öffentlich zugänglich"
+            : "Sammlung ist jetzt privat",
+         data: collection,
+      };
+   } catch (error) {
+      console.error(formatError(error));
+      return {
+         success: false,
+         message: "Freigabe konnte nicht geändert werden",
       };
    }
 };

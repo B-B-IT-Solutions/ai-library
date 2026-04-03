@@ -62,6 +62,37 @@ export class LibraryService {
       await this.libraryRepository.pDeleteCollection(userId, collectionId);
    }
 
+   async getCollectionById(
+      userId: string,
+      collectionId: string
+   ): Promise<DLibraryCollection | null> {
+      return await this.libraryRepository.pGetCollectionById(userId, collectionId);
+   }
+
+   async getCollectionByShareToken(
+      shareToken: string
+   ): Promise<DLibraryCollection | null> {
+      return await this.libraryRepository.pGetCollectionByShareToken(shareToken);
+   }
+
+   async getPublicCollectionTemplates(collectionId: string) {
+      return await this.libraryRepository.pGetPublicCollectionTemplates(collectionId);
+   }
+
+   async setCollectionSharing(
+      userId: string,
+      collectionId: string,
+      isPublic: boolean,
+      shareToken: string | null
+   ): Promise<DLibraryCollection> {
+      return await this.libraryRepository.pSetShareToken(
+         userId,
+         collectionId,
+         shareToken,
+         isPublic
+      );
+   }
+
    async getEntryCollectionIds(
       userId: string,
       entryId: string

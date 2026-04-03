@@ -21,7 +21,9 @@ import {
    createLibraryCollection,
    deleteLibraryCollection,
    getEntryCollectionIds,
+   getLibraryCollectionById,
    getLibraryCollections,
+   setLibraryCollectionSharing,
    updateEntryCollections,
    updateLibraryCollection,
 } from "@/data/actions/library";
@@ -300,4 +302,38 @@ export const useUpdateEntryCollections = (): UseMutationResult<
 > => {
    const queryClient = useQueryClient();
    return useMutation(updateEntryCollectionsOptions(queryClient));
+};
+
+export const useLoadCollectionById = (
+   collectionId: string | null
+): UseQueryResult<DLibraryCollection | null> => {
+   return useQuery({
+      queryKey: libraryKeys.collection(collectionId ?? ""),
+      queryFn: () => getLibraryCollectionById(collectionId!),
+      enabled: !!collectionId,
+      staleTime: 5 * 60 * 1000,
+   });
+};
+
+export const useSetCollectionSharing = (): UseMutationResult<
+   ActionResult<DLibraryCollection>,
+   Error,
+   { collectionId: string; isPublic: boolean }
+> => {
+   const queryClient = useQueryClient();
+   return useMutation({
+      mutationFn: ({ collectionId, isPublic }) =>
+         setLibraryCollectionSharing(collectionId, isPublic),
+      onSuccess: (result, { collectionId }) => {
+         if (result.data) {
+            queryClient.setQueryData(
+               libraryKeys.collection(collectionId),
+               result.data
+            );
+            const updater = (cols: DLibraryCollection[]) =>
+               cols.map((c) => (c.id === collectionId ? result.data! : c));
+            queryClient.setQueryData(libraryKeys.collections(), updater);
+         }
+      },
+   });
 };
