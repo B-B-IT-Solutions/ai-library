@@ -1,29 +1,19 @@
 "use client";
 
 import { FC, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
    Folder,
    Globe,
-   MoreVertical,
    Pencil,
-   Share2,
    Trash2,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/shadcn/button";
-import {
-   DropdownMenu,
-   DropdownMenuContent,
-   DropdownMenuItem,
-   DropdownMenuSeparator,
-   DropdownMenuTrigger,
-} from "@/components/shadcn/dropdown-menu";
 import { DLibraryCollection } from "@/data/types/domain/library";
 
 import { DeleteCollectionDialog } from "./delete-collection-dialog";
-import { EditCollectionDialog } from "./edit-collection-dialog";
-import { ShareCollectionDialog } from "./share-collection-dialog";
 
 type Props = {
    collection: DLibraryCollection;
@@ -31,9 +21,7 @@ type Props = {
 
 export const CollectionHeader: FC<Props> = ({ collection }) => {
    const router = useRouter();
-   const [showEdit, setShowEdit] = useState(false);
    const [showDelete, setShowDelete] = useState(false);
-   const [showShare, setShowShare] = useState(false);
 
    const iconColor = collection.color ?? "#64748b";
 
@@ -69,54 +57,28 @@ export const CollectionHeader: FC<Props> = ({ collection }) => {
             </div>
 
             <div className="flex shrink-0 items-center gap-2">
-               <Button
-                  variant="outline"
-                  size="sm"
-                  className="gap-2"
-                  onClick={() => setShowShare(true)}
-               >
-                  <Share2 className="h-4 w-4" />
-                  Teilen
+               <Button asChild variant="outline" size="sm" className="gap-2">
+                  <Link href={`/templates/collections/${collection.id}/edit`}>
+                     <Pencil className="h-4 w-4" />
+                     Bearbeiten
+                  </Link>
                </Button>
-               <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                     <Button variant="ghost" size="sm">
-                        <MoreVertical className="h-4 w-4" />
-                     </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                     <DropdownMenuItem onClick={() => setShowEdit(true)}>
-                        <Pencil className="mr-2 h-4 w-4" />
-                        Bearbeiten
-                     </DropdownMenuItem>
-                     <DropdownMenuSeparator />
-                     <DropdownMenuItem
-                        onClick={() => setShowDelete(true)}
-                        className="text-destructive focus:text-destructive"
-                     >
-                        <Trash2 className="mr-2 h-4 w-4" />
-                        Löschen
-                     </DropdownMenuItem>
-                  </DropdownMenuContent>
-               </DropdownMenu>
+               <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-destructive hover:text-destructive"
+                  onClick={() => setShowDelete(true)}
+               >
+                  <Trash2 className="h-4 w-4" />
+               </Button>
             </div>
          </div>
 
-         <EditCollectionDialog
-            collection={collection}
-            open={showEdit}
-            onOpenChange={setShowEdit}
-         />
          <DeleteCollectionDialog
             collection={collection}
             open={showDelete}
             onOpenChange={setShowDelete}
-            onDeleted={() => router.push("/templates")}
-         />
-         <ShareCollectionDialog
-            collection={collection}
-            open={showShare}
-            onOpenChange={setShowShare}
+            onDeleted={() => router.push("/templates/collections")}
          />
       </>
    );

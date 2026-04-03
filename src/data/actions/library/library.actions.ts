@@ -128,6 +128,61 @@ export const getLibraryCollectionByShareToken = async (
    }
 };
 
+export const getCollectionTemplateIds = async (
+   collectionId: string
+): Promise<string[]> => {
+   try {
+      if (!isValidUuid(collectionId)) throw new Error("Invalid collection ID.");
+      const user = await requireUser();
+      const service = getService();
+      return await service.getCollectionTemplateIds(user.id, collectionId);
+   } catch (error) {
+      console.error(formatError(error));
+      return [];
+   }
+};
+
+export const addTemplateToCollection = async (
+   collectionId: string,
+   templateDescriptorId: string
+): Promise<ActionResult> => {
+   try {
+      if (!isValidUuid(collectionId)) throw new Error("Invalid collection ID.");
+      if (!isValidUuid(templateDescriptorId))
+         throw new Error("Invalid template ID.");
+      const user = await requireUser();
+      const service = getService();
+      // Verify collection belongs to user
+      const collection = await service.getCollectionById(user.id, collectionId);
+      if (!collection) throw new Error("Collection not found.");
+      await service.addTemplateToCollection(collectionId, templateDescriptorId);
+      return { success: true, message: "Vorlage hinzugefügt" };
+   } catch (error) {
+      console.error(formatError(error));
+      return { success: false, message: "Vorlage konnte nicht hinzugefügt werden" };
+   }
+};
+
+export const removeTemplateFromCollection = async (
+   collectionId: string,
+   templateDescriptorId: string
+): Promise<ActionResult> => {
+   try {
+      if (!isValidUuid(collectionId)) throw new Error("Invalid collection ID.");
+      if (!isValidUuid(templateDescriptorId))
+         throw new Error("Invalid template ID.");
+      const user = await requireUser();
+      const service = getService();
+      const collection = await service.getCollectionById(user.id, collectionId);
+      if (!collection) throw new Error("Collection not found.");
+      await service.removeTemplateFromCollection(collectionId, templateDescriptorId);
+      return { success: true, message: "Vorlage entfernt" };
+   } catch (error) {
+      console.error(formatError(error));
+      return { success: false, message: "Vorlage konnte nicht entfernt werden" };
+   }
+};
+
 export const getPublicCollectionByToken = async (
    shareToken: string
 ): Promise<{

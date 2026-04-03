@@ -18,11 +18,14 @@ import {
 import { filter, map } from "es-toolkit/compat";
 
 import {
+   addTemplateToCollection,
    createLibraryCollection,
    deleteLibraryCollection,
+   getCollectionTemplateIds,
    getEntryCollectionIds,
    getLibraryCollectionById,
    getLibraryCollections,
+   removeTemplateFromCollection,
    setLibraryCollectionSharing,
    updateEntryCollections,
    updateLibraryCollection,
@@ -312,6 +315,56 @@ export const useLoadCollectionById = (
       queryFn: () => getLibraryCollectionById(collectionId!),
       enabled: !!collectionId,
       staleTime: 5 * 60 * 1000,
+   });
+};
+
+export const useCollectionTemplateIds = (
+   collectionId: string
+): UseQueryResult<string[]> => {
+   return useQuery({
+      queryKey: libraryKeys.collectionTemplates(collectionId),
+      queryFn: () => getCollectionTemplateIds(collectionId),
+      staleTime: 2 * 60 * 1000,
+   });
+};
+
+export const useAddTemplateToCollection = (): UseMutationResult<
+   ActionResult,
+   Error,
+   { collectionId: string; templateDescriptorId: string }
+> => {
+   const queryClient = useQueryClient();
+   return useMutation({
+      mutationFn: ({ collectionId, templateDescriptorId }) =>
+         addTemplateToCollection(collectionId, templateDescriptorId),
+      onSuccess: (_, { collectionId, templateDescriptorId }) => {
+         queryClient.setQueryData<string[]>(
+            libraryKeys.collectionTemplates(collectionId),
+            (prev) => (prev ? [...prev, templateDescriptorId] : [templateDescriptorId])
+         );
+         queryClient.invalidateQueries({ queryKey: libraryKeys.collections() });
+         queryClient.invalidateQueries({ queryKey: libraryKeys.entries({}) });
+      },
+   });
+};
+
+export const useRemoveTemplateFromCollection = (): UseMutationResult<
+   ActionResult,
+   Error,
+   { collectionId: string; templateDescriptorId: string }
+> => {
+   const queryClient = useQueryClient();
+   return useMutation({
+      mutationFn: ({ collectionId, templateDescriptorId }) =>
+         removeTemplateFromCollection(collectionId, templateDescriptorId),
+      onSuccess: (_, { collectionId, templateDescriptorId }) => {
+         queryClient.setQueryData<string[]>(
+            libraryKeys.collectionTemplates(collectionId),
+            (prev) => prev?.filter((id) => id !== templateDescriptorId)
+         );
+         queryClient.invalidateQueries({ queryKey: libraryKeys.collections() });
+         queryClient.invalidateQueries({ queryKey: libraryKeys.entries({}) });
+      },
    });
 };
 

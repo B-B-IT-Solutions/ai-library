@@ -79,6 +79,27 @@ export class LibraryService {
       return await this.libraryRepository.pGetPublicCollectionTemplates(collectionId);
    }
 
+   async getCollectionTemplateIds(
+      userId: string,
+      collectionId: string
+   ): Promise<string[]> {
+      return await this.libraryRepository.pGetCollectionTemplateIds(userId, collectionId);
+   }
+
+   async addTemplateToCollection(
+      collectionId: string,
+      templateDescriptorId: string
+   ): Promise<void> {
+      await this.libraryRepository.pAddTemplateToCollection(collectionId, templateDescriptorId);
+   }
+
+   async removeTemplateFromCollection(
+      collectionId: string,
+      templateDescriptorId: string
+   ): Promise<void> {
+      await this.libraryRepository.pRemoveTemplateFromCollection(collectionId, templateDescriptorId);
+   }
+
    async setCollectionSharing(
       userId: string,
       collectionId: string,

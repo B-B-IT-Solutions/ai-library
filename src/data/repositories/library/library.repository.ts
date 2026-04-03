@@ -146,6 +146,45 @@ export class LibraryRepository {
       return entries.map((e) => e.templateDescriptor);
    }
 
+   async pGetCollectionTemplateIds(
+      userId: string,
+      collectionId: string
+   ): Promise<string[]> {
+      const entries = await this.prisma.libraryCollectionEntry.findMany({
+         where: {
+            collectionId,
+            collection: { userId },
+         },
+         select: { templateDescriptorId: true },
+      });
+      return entries.map((e) => e.templateDescriptorId);
+   }
+
+   async pAddTemplateToCollection(
+      collectionId: string,
+      templateDescriptorId: string
+   ): Promise<void> {
+      await this.prisma.libraryCollectionEntry.upsert({
+         where: {
+            collectionId_templateDescriptorId: {
+               collectionId,
+               templateDescriptorId,
+            },
+         },
+         create: { collectionId, templateDescriptorId },
+         update: {},
+      });
+   }
+
+   async pRemoveTemplateFromCollection(
+      collectionId: string,
+      templateDescriptorId: string
+   ): Promise<void> {
+      await this.prisma.libraryCollectionEntry.deleteMany({
+         where: { collectionId, templateDescriptorId },
+      });
+   }
+
    async pGetEntryCollectionIds(
       userId: string,
       descriptorId: string

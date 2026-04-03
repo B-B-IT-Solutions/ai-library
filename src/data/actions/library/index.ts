@@ -9,4 +9,7 @@ export {
    getPublicCollectionByToken,
    setLibraryCollectionSharing,
    updateLibraryCollection,
+   getCollectionTemplateIds,
+   addTemplateToCollection,
+   removeTemplateFromCollection,
 } from "./library.actions";

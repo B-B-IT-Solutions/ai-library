@@ -1,16 +1,16 @@
 "use client";
 
 import { FC, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
    Folder,
    Globe,
    Lock,
    MoreHorizontal,
    Pencil,
-   Share2,
    Trash2,
 } from "lucide-react";
-import Link from "next/link";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
@@ -22,11 +22,8 @@ import {
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
 import { DLibraryCollection } from "@/data/types/domain/library";
-import { cn } from "@/lib/utils";
 
 import { DeleteCollectionDialog } from "./delete-collection-dialog";
-import { EditCollectionDialog } from "./edit-collection-dialog";
-import { ShareCollectionDialog } from "./share-collection-dialog";
 
 type Props = {
    collection: DLibraryCollection;
@@ -34,9 +31,8 @@ type Props = {
 };
 
 export const CollectionCard: FC<Props> = ({ collection, onDeleted }) => {
-   const [showEdit, setShowEdit] = useState(false);
+   const router = useRouter();
    const [showDelete, setShowDelete] = useState(false);
-   const [showShare, setShowShare] = useState(false);
 
    const iconColor = collection.color ?? "#64748b";
 
@@ -47,7 +43,7 @@ export const CollectionCard: FC<Props> = ({ collection, onDeleted }) => {
             data-testid={`collection-card-${collection.id}`}
          >
             {/* Actions Menu – only on hover */}
-            <div className="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100">
+            <div className="absolute right-3 top-3 opacity-0 transition-opacity group-hover:opacity-100">
                <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                      <Button
@@ -63,20 +59,13 @@ export const CollectionCard: FC<Props> = ({ collection, onDeleted }) => {
                      <DropdownMenuItem
                         onClick={(e) => {
                            e.preventDefault();
-                           setShowEdit(true);
+                           router.push(
+                              `/templates/collections/${collection.id}/edit`
+                           );
                         }}
                      >
                         <Pencil className="mr-2 h-4 w-4" />
                         Bearbeiten
-                     </DropdownMenuItem>
-                     <DropdownMenuItem
-                        onClick={(e) => {
-                           e.preventDefault();
-                           setShowShare(true);
-                        }}
-                     >
-                        <Share2 className="mr-2 h-4 w-4" />
-                        Teilen
                      </DropdownMenuItem>
                      <DropdownMenuSeparator />
                      <DropdownMenuItem
@@ -126,7 +115,7 @@ export const CollectionCard: FC<Props> = ({ collection, onDeleted }) => {
                      {collection.description}
                   </p>
                ) : (
-                  <p className="text-sm text-slate-300 italic">
+                  <p className="text-sm italic text-slate-300">
                      Keine Beschreibung
                   </p>
                )}
@@ -141,21 +130,11 @@ export const CollectionCard: FC<Props> = ({ collection, onDeleted }) => {
             </Link>
          </div>
 
-         <EditCollectionDialog
-            collection={collection}
-            open={showEdit}
-            onOpenChange={setShowEdit}
-         />
          <DeleteCollectionDialog
             collection={collection}
             open={showDelete}
             onOpenChange={setShowDelete}
             onDeleted={onDeleted}
-         />
-         <ShareCollectionDialog
-            collection={collection}
-            open={showShare}
-            onOpenChange={setShowShare}
          />
       </>
    );
