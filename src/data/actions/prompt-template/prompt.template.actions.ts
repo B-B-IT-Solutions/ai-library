@@ -169,6 +169,36 @@ export const composePromptFromTemplate = async (
    }
 };
 
+export const downloadTemplate = async (
+   descriptorId: string
+): Promise<ActionResult<string>> => {
+   try {
+      if (!isValidUuid(descriptorId)) {
+         throw new Error("Invalid Descriptor ID.");
+      }
+
+      const user = await requireUser();
+
+      const service = getService();
+      const downloadData = await service.downloadTemplate(
+         user.id,
+         descriptorId
+      );
+
+      return {
+         success: true,
+         message: "Vorlage erfolgreich heruntergeladen.",
+         data: downloadData,
+      };
+   } catch (error) {
+      console.error(formatError(error));
+      return {
+         success: false,
+         message: "Vorlage konnte nicht heruntergeladen werden",
+      };
+   }
+};
+
 export const getPromptTemplates = async (
    params?: DGetPromptTemplatesParams
 ): Promise<DPromptTemplateDescriptor[]> => {

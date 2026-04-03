@@ -13,36 +13,6 @@ import {
 } from "@/data/types/domain/library";
 import { ActionResult } from "@/data/types/utils";
 
-export const downloadTemplate = async (
-   descriptorId: string
-): Promise<ActionResult<string>> => {
-   try {
-      if (!isValidUuid(descriptorId)) {
-         throw new Error("Invalid template ID.");
-      }
-
-      const user = await requireUser();
-
-      const service = getSevice();
-      const downloadData = await service.downloadPromptTemplate(
-         user.id,
-         descriptorId
-      );
-
-      return {
-         success: true,
-         message: "Template ready for download.",
-         data: downloadData,
-      };
-   } catch (error) {
-      console.error(formatError(error));
-      return {
-         success: false,
-         message: formatError(error),
-      };
-   }
-};
-
 export const getLibraryCategories = async (): Promise<string[]> => {
    try {
       const user = await requireUser();

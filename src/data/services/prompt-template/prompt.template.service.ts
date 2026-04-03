@@ -157,7 +157,7 @@ export class PromptTemplateService {
       };
    }
 
-   async downloadPromptTemplate(
+   async downloadTemplate(
       userId: string,
       descriptorId: string
    ): Promise<string> {

@@ -9,11 +9,12 @@ import { PromptTemplateService } from "@/data/services/prompt-template";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
-import { composePromptFromTemplate } from "../library";
 
 import {
+   composePromptFromTemplate,
    createTemplateDescriptor,
    deleteTemplateDescriptor,
+   downloadTemplate,
    getPromptGenerationTemplateData,
    getPromptTemplate,
    getPromptTemplateCategories,
@@ -39,6 +40,7 @@ const sGetTemplateDataForPromptGeneration =
    PromptTemplateService.prototype.getTemplateDataForPromptGeneration;
 const sComposePromptFromTemplate =
    PromptTemplateService.prototype.composePromptFromTemplate;
+const sDownloadTemplate = PromptTemplateService.prototype.downloadTemplate;
 const sGetPromptTemplateDescriptors =
    PromptTemplateService.prototype.getPromptTemplateDescriptors;
 const sGetPromptTemplate = PromptTemplateService.prototype.getPromptTemplate;
@@ -71,6 +73,9 @@ const sComposePromptFromTemplateMock =
    sComposePromptFromTemplate as jest.MockedFunction<
       typeof sComposePromptFromTemplate
    >;
+const sDownloadTemplateMock = sDownloadTemplate as jest.MockedFunction<
+   typeof sDownloadTemplate
+>;
 const sGetPromptTemplateDescriptorsMock =
    sGetPromptTemplateDescriptors as jest.MockedFunction<
       typeof sGetPromptTemplateDescriptors
@@ -529,6 +534,11 @@ describe("getPromptGenerationTemplateData tests", () => {
 describe("composePromptFromTemplate tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
    });
 
    it("composePromptFromTemplate - invalid UUID - test", async () => {
@@ -539,12 +549,14 @@ describe("composePromptFromTemplate tests", () => {
 
       const expectedResult: ActionResult = {
          success: false,
-         message: "Invalid template ID.",
+         message: "Prompt konnte nicht generiert werden",
       };
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).not.toHaveBeenCalled();
       expect(sComposePromptFromTemplateMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith("Invalid Descriptor ID.");
    });
 
    it("composePromptFromTemplate - user undefined - test", async () => {
@@ -556,12 +568,14 @@ describe("composePromptFromTemplate tests", () => {
       const result = await composePromptFromTemplate(templateId, fieldValues);
       const expectedResult: ActionResult = {
          success: false,
-         message: "Unknow user",
+         message: "Prompt konnte nicht generiert werden",
       };
 
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sComposePromptFromTemplateMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
    it("composePromptFromTemplate - error - test", async () => {
@@ -580,7 +594,7 @@ describe("composePromptFromTemplate tests", () => {
       const result = await composePromptFromTemplate(templateId, fieldValues);
       const expectedResult: ActionResult = {
          success: false,
-         message: errorMessage,
+         message: "Prompt konnte nicht generiert werden",
       };
 
       expect(result).toEqual(expectedResult);
@@ -590,6 +604,8 @@ describe("composePromptFromTemplate tests", () => {
          templateId,
          fieldValues
       );
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
    it("composePromptFromTemplate - success - test", async () => {
@@ -619,6 +635,95 @@ describe("composePromptFromTemplate tests", () => {
          templateId,
          fieldValues
       );
+   });
+});
+
+describe("downloadTemplate tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("downloadTemplate - invalid UUID - test", async () => {
+      const invalidId = "invalid-uuid-1";
+      const errorMessage = "Invalid Descriptor ID.";
+
+      const result = await downloadTemplate(invalidId);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Vorlage konnte nicht heruntergeladen werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sDownloadTemplateMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(errorMessage);
+   });
+
+   it("downloadTemplate - user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      const templateId = "123e4567-e89b-12d3-a456-426614174000";
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await downloadTemplate(templateId);
+      const expectedResult = {
+         success: false,
+         message: "Vorlage konnte nicht heruntergeladen werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sDownloadTemplateMock).not.toHaveBeenCalled();
+   });
+
+   it("downloadTemplate - error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
+      const errorMessage = "Template not found";
+      const error = new Error(errorMessage);
+      sDownloadTemplateMock.mockRejectedValue(error);
+
+      const result = await downloadTemplate(descriptorId);
+      const expectedResult = {
+         success: false,
+         message: "Vorlage konnte nicht heruntergeladen werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sDownloadTemplateMock).toHaveBeenCalledTimes(1);
+      expect(sDownloadTemplateMock).toHaveBeenCalledWith(user.id, descriptorId);
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(errorMessage);
+   });
+
+   it("downloadTemplate - success - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
+      const downloadData = "template content data";
+      sDownloadTemplateMock.mockResolvedValue(downloadData);
+
+      const result = await downloadTemplate(descriptorId);
+      const expectedResult = {
+         success: true,
+         message: "Vorlage erfolgreich heruntergeladen.",
+         data: downloadData,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sDownloadTemplateMock).toHaveBeenCalledTimes(1);
+      expect(sDownloadTemplateMock).toHaveBeenCalledWith(user.id, descriptorId);
    });
 });
 

@@ -454,12 +454,12 @@ describe("composePromptFromTemplate tests", () => {
    });
 });
 
-describe("downloadPromptTemplate tests", () => {
+describe("downloadTemplate tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("downloadPromptTemplate - template not found - test", async () => {
+   it("downloadTemplate - template not found - test", async () => {
       const userId = "user-id-1";
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
@@ -467,10 +467,7 @@ describe("downloadPromptTemplate tests", () => {
       );
 
       const fn = async () =>
-         await promptTemplateService.downloadPromptTemplate(
-            userId,
-            descriptorId
-         );
+         await promptTemplateService.downloadTemplate(userId, descriptorId);
 
       await expect(fn).rejects.toThrow(
          `TemplateDescriptor with ID ${descriptorId} not found`
@@ -483,14 +480,14 @@ describe("downloadPromptTemplate tests", () => {
       ).toHaveBeenCalledWith(userId, descriptorId);
    });
 
-   it("downloadPromptTemplate - template downloaded - test", async () => {
+   it("downloadTemplate - template downloaded - test", async () => {
       const userId = "user-id-1";
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
          descriptor
       );
 
-      const result = await promptTemplateService.downloadPromptTemplate(
+      const result = await promptTemplateService.downloadTemplate(
          userId,
          descriptor.id
       );

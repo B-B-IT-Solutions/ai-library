@@ -4,9 +4,10 @@ export {
    createTemplateDescriptor,
    updateTemplateDescriptor,
    deleteTemplateDescriptor,
+   getPromptGenerationTemplateData,
+   composePromptFromTemplate,
+   downloadTemplate,
    getPromptTemplateCategories,
    getPromptTemplates,
    getPromptTemplate,
-   getPromptGenerationTemplateData,
-   composePromptFromTemplate,
 } from "./prompt.template.actions";
