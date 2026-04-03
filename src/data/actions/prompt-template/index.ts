@@ -1,6 +1,7 @@
 export {
    getTemplateDescriptorsPage,
    getTemplateDescriptor,
+   createTemplateDescriptor,
    updateTemplateDescriptor,
    deleteTemplateDescriptor,
    getPromptTemplateCategories,

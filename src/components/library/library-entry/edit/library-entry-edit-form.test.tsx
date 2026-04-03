@@ -1,4 +1,3 @@
-jest.mock("@/data/actions/library");
 jest.mock("@/data/actions/prompt-template");
 jest.mock("sonner");
 
@@ -34,8 +33,10 @@ import {
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
-import { createLibraryEntry } from "@/data/actions/library";
-import { updateTemplateDescriptor } from "@/data/actions/prompt-template";
+import {
+   createTemplateDescriptor,
+   updateTemplateDescriptor,
+} from "@/data/actions/prompt-template";
 import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 
@@ -44,9 +45,10 @@ import { initPromptTempalte } from "./utils";
 
 jest.setTimeout(10000);
 
-const createLibraryEntryMock = createLibraryEntry as jest.MockedFunction<
-   typeof createLibraryEntry
->;
+const createTemplateDescriptorMock =
+   createTemplateDescriptor as jest.MockedFunction<
+      typeof createTemplateDescriptor
+   >;
 const updateTemplateDescriptorMock =
    updateTemplateDescriptor as jest.MockedFunction<
       typeof updateTemplateDescriptor
@@ -330,7 +332,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
          success: true,
          message: "Vorlage erfolgreich erstellt",
       };
-      createLibraryEntryMock.mockResolvedValue(result);
+      createTemplateDescriptorMock.mockResolvedValue(result);
 
       const fields = dtestData.dGlobalTemplateFields();
       render(<LibraryEntryEditForm globalFields={fields} />);
@@ -340,7 +342,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
       const saveBtn = screen.getByTestId("save-btn");
       await userEvent.click(saveBtn);
 
-      expect(createLibraryEntryMock).not.toHaveBeenCalled();
+      expect(createTemplateDescriptorMock).not.toHaveBeenCalled();
 
       // Fill in required fields
       await typeIntoInput("title", "Test Template");
@@ -360,8 +362,10 @@ describe("LibraryEntryEditForm functionality tests", () => {
       };
 
       await waitFor(() => {
-         expect(createLibraryEntryMock).toHaveBeenCalledTimes(1);
-         expect(createLibraryEntryMock).toHaveBeenCalledWith(expectedPayload);
+         expect(createTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+         expect(createTemplateDescriptorMock).toHaveBeenCalledWith(
+            expectedPayload
+         );
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
          expect(mockRouter.pathname).toEqual("/library");
@@ -422,7 +426,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
          success: false,
          message: "Vorlage erfolgreich erstellt",
       };
-      createLibraryEntryMock.mockResolvedValue(result);
+      createTemplateDescriptorMock.mockResolvedValue(result);
 
       const fields = dtestData.dGlobalTemplateFields();
       render(<LibraryEntryEditForm globalFields={fields} />);
@@ -432,7 +436,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
       const saveBtn = screen.getByTestId("save-btn");
       await userEvent.click(saveBtn);
 
-      expect(createLibraryEntryMock).not.toHaveBeenCalled();
+      expect(createTemplateDescriptorMock).not.toHaveBeenCalled();
 
       // Fill in required fields
       await typeIntoInput("title", "Test Template");
@@ -453,8 +457,10 @@ describe("LibraryEntryEditForm functionality tests", () => {
       };
 
       await waitFor(() => {
-         expect(createLibraryEntryMock).toHaveBeenCalledTimes(1);
-         expect(createLibraryEntryMock).toHaveBeenCalledWith(expectedPayload);
+         expect(createTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+         expect(createTemplateDescriptorMock).toHaveBeenCalledWith(
+            expectedPayload
+         );
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(result.message);
          expect(mockRouter.pathname).toEqual("/");

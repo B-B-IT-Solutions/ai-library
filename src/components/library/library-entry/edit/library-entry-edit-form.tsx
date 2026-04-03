@@ -14,8 +14,10 @@ import { Card, CardContent } from "@/components/shadcn/card";
 import { Form } from "@/components/shadcn/form";
 import { Separator } from "@/components/shadcn/separator";
 import { newTemplateFieldInitValues } from "@/components/shared/template-fields";
-import { createLibraryEntry } from "@/data/actions/library";
-import { updateTemplateDescriptor } from "@/data/actions/prompt-template";
+import {
+   createTemplateDescriptor,
+   updateTemplateDescriptor,
+} from "@/data/actions/prompt-template";
 import {
    DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateField,
@@ -126,7 +128,7 @@ export const LibraryEntryEditForm = ({ descriptor, globalFields }: Props) => {
             toast.error(result.message);
          }
       } else {
-         const result = await createLibraryEntry(data);
+         const result = await createTemplateDescriptor(data);
          if (result.success) {
             toast.success(result.message);
             router.push("/library");
