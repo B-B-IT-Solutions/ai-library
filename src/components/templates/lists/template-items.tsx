@@ -18,7 +18,7 @@ import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template"
 
 import { LibraryEntriesGrid } from "./library-entries-grid";
 import { LibraryEntriesGrouped } from "./library-entries-grouped";
-import { LibraryEntriesList } from "./library-entries-list";
+import { TemplateItemsList } from "./template-items-list";
 
 type Props = {
    viewMode: DListViewMode;
@@ -27,7 +27,7 @@ type Props = {
    filters: DTemplateDescriptorsFilter;
 };
 
-export const LibraryEntries = ({
+export const TemplateItems = ({
    viewMode,
    groupBy,
    sortBy,
@@ -74,7 +74,7 @@ export const LibraryEntries = ({
             next={fetchNextPage}
             threshold={0.7}
          >
-            <LibraryEntriesList
+            <TemplateItemsList
                descriptors={entries}
                collections={collections}
             />

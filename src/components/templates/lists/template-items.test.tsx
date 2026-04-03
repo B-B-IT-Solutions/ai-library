@@ -13,7 +13,7 @@ import {
 } from "@/data/types/domain/common";
 import { DTemplateDescriptorsPageQuery } from "@/data/types/domain/prompt.template";
 
-import { LibraryEntries } from "./library-entries";
+import { TemplateItems } from "./template-items";
 
 const getLibraryCollectionsMock = getLibraryCollections as jest.MockedFunction<
    typeof getLibraryCollections
@@ -30,7 +30,7 @@ const assertGridRendered = () => {
 };
 
 const assertListRendered = () => {
-   const entries = screen.getByTestId("library-entries-list");
+   const entries = screen.getByTestId("template-items-list");
    assertInDocument(entries);
 };
 
@@ -62,7 +62,7 @@ describe("LibraryDashboard rendering tests", () => {
       const filters = dtestData.dTemplateDescriptorsFilter();
 
       const { container } = renderWithRouter(
-         <LibraryEntries
+         <TemplateItems
             viewMode={DListViewMode.GRID}
             groupBy={DListGroupByMode.NONE}
             sortBy={DListSortByMode.DATE_DESC}
@@ -91,7 +91,7 @@ describe("LibraryDashboard rendering tests", () => {
       const filters = dtestData.dTemplateDescriptorsFilter();
 
       const { container } = renderWithRouter(
-         <LibraryEntries
+         <TemplateItems
             viewMode={DListViewMode.LIST}
             groupBy={DListGroupByMode.NONE}
             sortBy={DListSortByMode.DATE_ASC}
@@ -118,7 +118,7 @@ describe("LibraryDashboard rendering tests", () => {
 
    it("LibraryEntries - groups - test", async () => {
       const { container } = renderWithRouter(
-         <LibraryEntries
+         <TemplateItems
             viewMode={DListViewMode.LIST}
             groupBy={DListGroupByMode.MODEL}
             sortBy={DListSortByMode.TITLE_ASC}

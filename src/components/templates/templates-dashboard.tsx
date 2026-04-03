@@ -16,7 +16,7 @@ import { resolveSort } from "@/data/ts-queries/utils";
 import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
 
 import { CreateLibraryEntryButton } from "./buttons";
-import { CollectionsFilter, LibraryEntries, LibraryToolbar } from "./lists";
+import { CollectionsFilter, LibraryToolbar, TemplateItems } from "./lists";
 import { templatesSearchParamsCache } from "./search-params";
 
 export const TemplatesDashboard = async () => {
@@ -77,7 +77,7 @@ export const TemplatesDashboard = async () => {
             />
 
             <div className="flex-1 overflow-y-auto p-6">
-               <LibraryEntries
+               <TemplateItems
                   viewMode={viewMode}
                   groupBy={groupBy}
                   sortBy={sortBy}

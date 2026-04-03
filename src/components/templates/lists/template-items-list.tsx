@@ -1,4 +1,3 @@
-import { FC } from "react";
 import { isEmpty, map } from "es-toolkit/compat";
 
 import { DLibraryCollection } from "@/data/types/domain/library";
@@ -6,15 +5,12 @@ import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 import { LibraryEntryCard } from "./items";
 
-type LibraryEntriesListProps = {
+type Props = {
    descriptors: DPromptTemplateDescriptor[];
    collections: DLibraryCollection[];
 };
 
-export const LibraryEntriesList: FC<LibraryEntriesListProps> = ({
-   descriptors,
-   collections,
-}) => {
+export const TemplateItemsList = ({ descriptors, collections }: Props) => {
    if (isEmpty(descriptors)) {
       return (
          <div
@@ -32,7 +28,7 @@ export const LibraryEntriesList: FC<LibraryEntriesListProps> = ({
    }
 
    return (
-      <div className="space-y-4" data-testid="library-entries-list">
+      <div className="space-y-4" data-testid="template-items-list">
          {map(descriptors, (descriptor) => (
             <LibraryEntryCard
                key={descriptor.id}
