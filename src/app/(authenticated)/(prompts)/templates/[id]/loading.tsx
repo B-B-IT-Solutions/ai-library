@@ -1,8 +1,8 @@
-export const LibraryDetailLoading = () => {
+export const TemplateDetailLoading = () => {
    return (
       <div
          className="container mx-auto px-4 py-8"
-         data-testid="library-item-loading"
+         data-testid="template-loading"
       >
          {/* Back Button Skeleton */}
          <div className="mb-6">
@@ -87,4 +87,4 @@ export const LibraryDetailLoading = () => {
    );
 };
 
-export default LibraryDetailLoading;
+export default TemplateDetailLoading;

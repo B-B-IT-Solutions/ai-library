@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`LibraryDetailLoading rendering tests LibraryDetailLoading rendered test 1`] = `
+exports[`TemplateDetailLoading rendering tests rendered test 1`] = `
 <div>
   <div
     class="container mx-auto px-4 py-8"
-    data-testid="library-item-loading"
+    data-testid="template-loading"
   >
     <div
       class="mb-6"
