@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { LibraryEntryView } from "@/components/library";
+import { LibraryEntryView } from "@/components/templates";
 import { getTemplateDescriptor } from "@/data/actions/prompt-template";
 
 export const metadata: Metadata = {

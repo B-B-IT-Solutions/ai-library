@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import { LibraryEntryEdit } from "@/components/library";
+import { LibraryEntryEdit } from "@/components/templates";
 import { getGlobalTemplateFields } from "@/data/actions/settings";
 
 export const metadata: Metadata = {

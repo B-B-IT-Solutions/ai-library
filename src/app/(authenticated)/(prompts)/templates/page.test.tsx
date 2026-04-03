@@ -11,7 +11,7 @@ import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 
-import { librarySearchParamsCache } from "@/components/library";
+import { librarySearchParamsCache } from "@/components/templates";
 
 import { LibraryPage, metadata, PageProps } from "./page";
 

@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { LibraryEntryEdit } from "@/components/library";
+import { LibraryEntryEdit } from "@/components/templates";
 import { getTemplateDescriptor } from "@/data/actions/prompt-template";
 import { getGlobalTemplateFields } from "@/data/actions/settings";
 
