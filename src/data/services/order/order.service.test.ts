@@ -1,6 +1,6 @@
 jest.mock("@/data/repositories/order");
 jest.mock("@/data/services/cart");
-jest.mock("@/data/services/library");
+jest.mock("@/data/services/collection");
 
 import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
@@ -9,7 +9,7 @@ import { OrderRepository } from "@/data/repositories/order";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { CartService } from "@/data/services/cart";
-import { LibraryService } from "@/data/services/library";
+import { LibraryService } from "@/data/services/collection";
 import { DOrderUpdate } from "@/data/types/domain/order";
 
 import { OrderService } from "./order.service";

@@ -1,7 +1,7 @@
 import { RepositoryFactory } from "@/data/repositories";
 import { CartService } from "@/data/services/cart";
+import { LibraryService } from "@/data/services/collection";
 import { IubendaService } from "@/data/services/iubenda";
-import { LibraryService } from "@/data/services/library";
 import { OrderService } from "@/data/services/order";
 import { PromptService } from "@/data/services/prompt";
 import { PromptTemplateService } from "@/data/services/prompt-template";
@@ -51,8 +51,7 @@ export class ServiceFactory {
    getLibraryService(): LibraryService {
       if (!this.libraryService) {
          this.libraryService = new LibraryService(
-            this.repositories.libraryRepository(),
-            this.getPromptTemplateService()
+            this.repositories.libraryRepository()
          );
       }
       return this.libraryService;

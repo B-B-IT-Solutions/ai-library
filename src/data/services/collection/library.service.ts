@@ -1,7 +1,6 @@
 import { isEmpty, map } from "es-toolkit/compat";
 
 import { LibraryRepository } from "@/data/repositories/library";
-import { PromptTemplateService } from "@/data/services/prompt-template";
 import { OrderProducts } from "@/data/types/db/order";
 import {
    DLibraryCollection,
@@ -10,14 +9,9 @@ import {
 
 export class LibraryService {
    private libraryRepository: LibraryRepository;
-   private promptTemplateService: PromptTemplateService;
 
-   constructor(
-      libraryRepository: LibraryRepository,
-      promptTemplateService: PromptTemplateService
-   ) {
+   constructor(libraryRepository: LibraryRepository) {
       this.libraryRepository = libraryRepository;
-      this.promptTemplateService = promptTemplateService;
    }
 
    async createLibraryEntries(order: OrderProducts): Promise<void> {
@@ -66,38 +60,54 @@ export class LibraryService {
       userId: string,
       collectionId: string
    ): Promise<DLibraryCollection | null> {
-      return await this.libraryRepository.pGetCollectionById(userId, collectionId);
+      return await this.libraryRepository.pGetCollectionById(
+         userId,
+         collectionId
+      );
    }
 
    async getCollectionByShareToken(
       shareToken: string
    ): Promise<DLibraryCollection | null> {
-      return await this.libraryRepository.pGetCollectionByShareToken(shareToken);
+      return await this.libraryRepository.pGetCollectionByShareToken(
+         shareToken
+      );
    }
 
    async getPublicCollectionTemplates(collectionId: string) {
-      return await this.libraryRepository.pGetPublicCollectionTemplates(collectionId);
+      return await this.libraryRepository.pGetPublicCollectionTemplates(
+         collectionId
+      );
    }
 
    async getCollectionTemplateIds(
       userId: string,
       collectionId: string
    ): Promise<string[]> {
-      return await this.libraryRepository.pGetCollectionTemplateIds(userId, collectionId);
+      return await this.libraryRepository.pGetCollectionTemplateIds(
+         userId,
+         collectionId
+      );
    }
 
    async addTemplateToCollection(
       collectionId: string,
       templateDescriptorId: string
    ): Promise<void> {
-      await this.libraryRepository.pAddTemplateToCollection(collectionId, templateDescriptorId);
+      await this.libraryRepository.pAddTemplateToCollection(
+         collectionId,
+         templateDescriptorId
+      );
    }
 
    async removeTemplateFromCollection(
       collectionId: string,
       templateDescriptorId: string
    ): Promise<void> {
-      await this.libraryRepository.pRemoveTemplateFromCollection(collectionId, templateDescriptorId);
+      await this.libraryRepository.pRemoveTemplateFromCollection(
+         collectionId,
+         templateDescriptorId
+      );
    }
 
    async setCollectionSharing(

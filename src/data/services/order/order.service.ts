@@ -1,6 +1,6 @@
 import { OrderRepository } from "@/data/repositories/order";
 import { CartService } from "@/data/services/cart";
-import { LibraryService } from "@/data/services/library";
+import { LibraryService } from "@/data/services/collection";
 import { DOrder, DOrderCreate, DOrderUpdate } from "@/data/types/domain/order";
 
 export class OrderService {

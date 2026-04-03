@@ -2,8 +2,8 @@ import { headers } from "next/headers";
 
 import { UserRepository } from "@/data/repositories/user";
 import { CartService } from "@/data/services//cart";
-import { LibraryService } from "@/data/services//library";
 import { OrderService } from "@/data/services//order";
+import { LibraryService } from "@/data/services/collection";
 import {
    IubendaService,
    LegalNoticesAcceptedParams,

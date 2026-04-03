@@ -1,6 +1,6 @@
 jest.mock("@/data/repositories/user");
 jest.mock("@/data/services/cart");
-jest.mock("@/data/services/library");
+jest.mock("@/data/services/collection");
 jest.mock("@/data/services/order");
 jest.mock("@/data/services/iubenda");
 jest.mock("@/lib/encrypt");
@@ -15,11 +15,11 @@ import prisma from "@/data/repositories/prisma";
 import { UserRepository } from "@/data/repositories/user";
 import { ServiceFactory } from "@/data/services//service.factory";
 import { CartService } from "@/data/services/cart";
+import { LibraryService } from "@/data/services/collection";
 import {
    IubendaService,
    LegalNoticesAcceptedParams,
 } from "@/data/services/iubenda";
-import { LibraryService } from "@/data/services/library";
 import { OrderService } from "@/data/services/order";
 import { UserUpdateData } from "@/data/types/db/user";
 import {

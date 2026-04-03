@@ -1,10 +1,10 @@
-jest.mock("@/data/services/library");
+jest.mock("@/data/services/collection");
 jest.mock("@/data/actions/auth-utils");
 
 import { dtestData } from "@tests";
 
 import { requireUser } from "@/data/actions/auth-utils";
-import { LibraryService } from "@/data/services/library";
+import { LibraryService } from "@/data/services/collection";
 import { DLibraryCollection } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";

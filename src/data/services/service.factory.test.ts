@@ -1,8 +1,8 @@
 import prisma from "@/data/repositories/prisma";
 
 import { CartService } from "./cart";
+import { LibraryService } from "./collection";
 import { IubendaService } from "./iubenda";
-import { LibraryService } from "./library";
 import { OrderService } from "./order";
 import { PromptService } from "./prompt";
 import { PromptTemplateService } from "./prompt-template";
