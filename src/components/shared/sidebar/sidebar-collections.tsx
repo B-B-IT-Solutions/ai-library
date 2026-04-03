@@ -14,7 +14,7 @@ import {
    SidebarMenuItem,
    useSidebar,
 } from "@/components/shadcn/sidebar";
-import { LibraryCollectionCreateDialog } from "@/components/templates/collections";
+import { LibraryCollectionCreateDialog } from "@/components/collections";
 import { useLoadLibraryCollections } from "@/data/ts-queries/library";
 import { cn } from "@/lib/utils";
 
@@ -26,7 +26,7 @@ export const SidebarCollections: FC = () => {
 
    const { data: collections = [] } = useLoadLibraryCollections();
 
-   const isActive = (id: string) => pathname === `/templates/collections/${id}`;
+   const isActive = (id: string) => pathname === `/collections/${id}`;
 
    if (!open) {
       return null;
@@ -82,7 +82,7 @@ export const SidebarCollections: FC = () => {
                                     data-testid={`collection-nav-${collection.id}`}
                                  >
                                     <Link
-                                       href={`/templates/collections/${collection.id}`}
+                                       href={`/collections/${collection.id}`}
                                        className="flex items-center gap-2"
                                     >
                                        <Folder

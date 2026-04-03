@@ -28,7 +28,7 @@ export const CollectionsDashboard = () => {
                   </p>
                </div>
                <Button asChild className="gap-2">
-                  <Link href="/templates/collections/new">
+                  <Link href="/collections/new">
                      <Plus className="h-4 w-4" />
                      Neue Sammlung
                   </Link>
@@ -60,7 +60,7 @@ export const CollectionsDashboard = () => {
                      gruppieren und besser zu organisieren.
                   </p>
                   <Button asChild className="gap-2">
-                     <Link href="/templates/collections/new">
+                     <Link href="/collections/new">
                         <Plus className="h-4 w-4" />
                         Erste Sammlung erstellen
                      </Link>

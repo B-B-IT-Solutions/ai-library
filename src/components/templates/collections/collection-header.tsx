@@ -58,7 +58,7 @@ export const CollectionHeader: FC<Props> = ({ collection }) => {
 
             <div className="flex shrink-0 items-center gap-2">
                <Button asChild variant="outline" size="sm" className="gap-2">
-                  <Link href={`/templates/collections/${collection.id}/edit`}>
+                  <Link href={`/collections/${collection.id}/edit`}>
                      <Pencil className="h-4 w-4" />
                      Bearbeiten
                   </Link>
@@ -78,7 +78,7 @@ export const CollectionHeader: FC<Props> = ({ collection }) => {
             collection={collection}
             open={showDelete}
             onOpenChange={setShowDelete}
-            onDeleted={() => router.push("/templates/collections")}
+            onDeleted={() => router.push("/collections")}
          />
       </>
    );

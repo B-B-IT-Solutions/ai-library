@@ -37,13 +37,6 @@ export const Sidebar: FC<SidebarProps> = ({ user }) => {
    const pathName = usePathname();
 
    const isActive = (path: string) => {
-      if (path === "/templates") {
-         return (
-            pathName === "/templates" ||
-            (startsWith(pathName, "/templates") &&
-               !startsWith(pathName, "/templates/collections"))
-         );
-      }
       return startsWith(pathName, path);
    };
 

@@ -29,7 +29,7 @@ export const CreateCollectionForm = () => {
          onSuccess: (result) => {
             if (result.success && result.data) {
                toast.success(result.message);
-               router.push(`/templates/collections/${result.data.id}/edit`);
+               router.push(`/collections/${result.data.id}/edit`);
             } else {
                toast.error(result.message);
             }
@@ -67,7 +67,7 @@ export const CreateCollectionForm = () => {
                <Button
                   type="button"
                   variant="outline"
-                  onClick={() => router.push("/templates/collections")}
+                  onClick={() => router.push("/collections")}
                >
                   Abbrechen
                </Button>

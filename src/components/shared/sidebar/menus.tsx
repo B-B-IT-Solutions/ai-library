@@ -19,10 +19,10 @@ export const navigationMenu1: DMenuItem[] = [
       url: "/templates",
    },
    {
-      id: "/templates/collections",
+      id: "/collections",
       title: "Sammlungen",
       icon: Folder,
-      url: "/templates/collections",
+      url: "/collections",
    },
    {
       id: "/prompts",

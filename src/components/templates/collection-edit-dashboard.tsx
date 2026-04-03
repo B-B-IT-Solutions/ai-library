@@ -38,7 +38,7 @@ export const CollectionEditDashboard = async ({ collectionId }: Props) => {
             <div className="border-b bg-white px-6 py-4">
                <div className="flex items-center gap-4">
                   <Link
-                     href={`/templates/collections/${collectionId}`}
+                     href={`/collections/${collectionId}`}
                      className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-900"
                   >
                      <ArrowLeft className="h-4 w-4" />

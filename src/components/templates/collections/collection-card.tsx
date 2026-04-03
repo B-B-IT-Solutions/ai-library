@@ -60,7 +60,7 @@ export const CollectionCard: FC<Props> = ({ collection, onDeleted }) => {
                         onClick={(e) => {
                            e.preventDefault();
                            router.push(
-                              `/templates/collections/${collection.id}/edit`
+                              `/collections/${collection.id}/edit`
                            );
                         }}
                      >
@@ -84,7 +84,7 @@ export const CollectionCard: FC<Props> = ({ collection, onDeleted }) => {
 
             {/* Clickable area → collection detail */}
             <Link
-               href={`/templates/collections/${collection.id}`}
+               href={`/collections/${collection.id}`}
                className="flex flex-1 flex-col gap-3"
             >
                {/* Icon + Name */}
