@@ -51,61 +51,6 @@ describe("createLibraryEntries tests", () => {
    });
 });
 
-describe("downloadPromptTemplate tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("downloadPromptTemplate - template not found - test", async () => {
-      const userId = "user-id-1";
-      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-      promptTemplateServiceMock.getTemplateDescriptor.mockResolvedValue(null);
-
-      const fn = async () =>
-         await libraryService.downloadPromptTemplate(userId, descriptorId);
-
-      await expect(fn).rejects.toThrow("Template not found");
-      expect(
-         promptTemplateServiceMock.getTemplateDescriptor
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateServiceMock.getTemplateDescriptor
-      ).toHaveBeenCalledWith(userId, descriptorId);
-   });
-
-   it("downloadPromptTemplate - template downloaded - test", async () => {
-      const userId = "user-id-1";
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
-      promptTemplateServiceMock.getTemplateDescriptor.mockResolvedValue(
-         descriptor
-      );
-
-      const result = await libraryService.downloadPromptTemplate(
-         userId,
-         descriptor.id
-      );
-
-      const expectedDownloadData = JSON.stringify(
-         {
-            title: descriptor.title,
-            content: descriptor.promptTemplate.content,
-            categories: descriptor.categories.map((c) => c.name),
-            recommendedModel: descriptor.recommendedModel,
-         },
-         null,
-         2
-      );
-
-      expect(result).toEqual(expectedDownloadData);
-      expect(
-         promptTemplateServiceMock.getTemplateDescriptor
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateServiceMock.getTemplateDescriptor
-      ).toHaveBeenCalledWith(userId, descriptor.id);
-   });
-});
-
 describe("getLibraryCategories tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();

@@ -35,30 +35,6 @@ export class LibraryService {
       }
    }
 
-   async downloadPromptTemplate(
-      userId: string,
-      descriptorId: string
-   ): Promise<string> {
-      const descriptor = await this.getLibraryEntry(userId, descriptorId);
-
-      if (!descriptor) {
-         throw new Error("Template not found");
-      }
-
-      const downloadData = JSON.stringify(
-         {
-            title: descriptor.title,
-            content: descriptor.promptTemplate.content,
-            categories: descriptor.categories.map((c) => c.name),
-            recommendedModel: descriptor.recommendedModel,
-         },
-         null,
-         2
-      );
-
-      return downloadData;
-   }
-
    async getLibraryCategories(userId: string): Promise<string[]> {
       return await this.promptTemplateService.getTemplateCategories(userId);
    }

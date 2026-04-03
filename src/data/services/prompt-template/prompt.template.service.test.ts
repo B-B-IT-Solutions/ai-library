@@ -324,6 +324,198 @@ describe("getTemplateDataForPromptGeneration tests", () => {
    });
 });
 
+describe("composePromptFromTemplate tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("composePromptFromTemplate - descriptor not found - test", async () => {
+      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         null
+      );
+
+      const userId = "user-id-1";
+      const id = "non-existent-id";
+      const fieldValues: DPromptTemplateFieldValues = {};
+
+      const fn = () =>
+         promptTemplateService.composePromptFromTemplate(
+            userId,
+            id,
+            fieldValues
+         );
+
+      await expect(fn).rejects.toThrow(
+         `TemplateDescriptor with ID ${id} not found`
+      );
+
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, id);
+      expect(sValidateMock).not.toHaveBeenCalled();
+   });
+
+   it("composePromptFromTemplate - fieldValues invalid - test", async () => {
+      const promptDescriptor =
+         dtestData.dPromptTemplateDescriptorWithTemplate();
+      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         promptDescriptor
+      );
+      const validationResult: FieldsValidationResult = {
+         valid: false,
+         errors: {
+            email: "invalid email",
+         },
+      };
+      sValidateMock.mockReturnValue(validationResult);
+
+      const userId = "user-id-1";
+      const { id, promptTemplate } = promptDescriptor;
+      const fieldValues: DPromptTemplateFieldValues = {
+         email: "invalid-email",
+      };
+
+      const fn = () =>
+         promptTemplateService.composePromptFromTemplate(
+            userId,
+            id,
+            fieldValues
+         );
+
+      await expect(fn).rejects.toThrow("Provided template fields are invalid:");
+
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, id);
+      expect(sValidateMock).toHaveBeenCalledTimes(1);
+      expect(sValidateMock).toHaveBeenCalledWith(
+         promptTemplate.fields,
+         fieldValues
+      );
+   });
+
+   it("composePromptFromTemplate - fieldValues valid - test", async () => {
+      const promptDescriptor =
+         dtestData.dPromptTemplateDescriptorWithTemplate();
+      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         promptDescriptor
+      );
+      const validationResult: FieldsValidationResult = {
+         valid: true,
+         errors: {},
+      };
+      const promptContent = "Hello, your email is test1@email.com.";
+      sValidateMock.mockReturnValue(validationResult);
+      sReplaceMock.mockReturnValue(promptContent);
+
+      const userId = "user-id-1";
+      const { id, promptTemplate } = promptDescriptor;
+      const fieldValues: DPromptTemplateFieldValues = {
+         email: "test1@email.com",
+      };
+
+      const result = await promptTemplateService.composePromptFromTemplate(
+         userId,
+         id,
+         fieldValues
+      );
+
+      const expectedResult: DPromptUpdate = {
+         content: promptContent,
+         title: promptDescriptor.title,
+         recommendedModel: promptDescriptor.recommendedModel,
+         categories: promptDescriptor.categories.map((cat) => cat.name),
+         followUpPrompts: [],
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, id);
+      expect(sValidateMock).toHaveBeenCalledTimes(1);
+      expect(sValidateMock).toHaveBeenCalledWith(
+         promptTemplate.fields,
+         fieldValues
+      );
+      expect(sReplaceMock).toHaveBeenCalledTimes(1);
+      expect(sReplaceMock).toHaveBeenCalledWith(
+         promptTemplate.content,
+         fieldValues
+      );
+   });
+});
+
+describe("downloadPromptTemplate tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("downloadPromptTemplate - template not found - test", async () => {
+      const userId = "user-id-1";
+      const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
+      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         null
+      );
+
+      const fn = async () =>
+         await promptTemplateService.downloadPromptTemplate(
+            userId,
+            descriptorId
+         );
+
+      await expect(fn).rejects.toThrow(
+         `TemplateDescriptor with ID ${descriptorId} not found`
+      );
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptorId);
+   });
+
+   it("downloadPromptTemplate - template downloaded - test", async () => {
+      const userId = "user-id-1";
+      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+         descriptor
+      );
+
+      const result = await promptTemplateService.downloadPromptTemplate(
+         userId,
+         descriptor.id
+      );
+
+      const expectedDownloadData = JSON.stringify(
+         {
+            title: descriptor.title,
+            content: descriptor.promptTemplate.content,
+            categories: descriptor.categories.map((c) => c.name),
+            recommendedModel: descriptor.recommendedModel,
+         },
+         null,
+         2
+      );
+
+      expect(result).toEqual(expectedDownloadData);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+      ).toHaveBeenCalledWith(userId, descriptor.id);
+   });
+});
+
 describe("getPromptTemplateDescriptors tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -508,136 +700,6 @@ describe("getTemplateModles tests", () => {
       );
       expect(promptTemplateRepoMock.pGetTemplateModels).toHaveBeenCalledWith(
          userId
-      );
-   });
-});
-
-describe("composePromptFromTemplate tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("composePromptFromTemplate - descriptor not found - test", async () => {
-      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
-         null
-      );
-
-      const userId = "user-id-1";
-      const id = "non-existent-id";
-      const fieldValues: DPromptTemplateFieldValues = {};
-
-      const fn = () =>
-         promptTemplateService.composePromptFromTemplate(
-            userId,
-            id,
-            fieldValues
-         );
-
-      await expect(fn).rejects.toThrow(
-         `TemplateDescriptor with ID ${id} not found `
-      );
-
-      expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
-      ).toHaveBeenCalledWith(userId, id);
-      expect(sValidateMock).not.toHaveBeenCalled();
-   });
-
-   it("composePromptFromTemplate - fieldValues invalid - test", async () => {
-      const promptDescriptor =
-         dtestData.dPromptTemplateDescriptorWithTemplate();
-      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
-         promptDescriptor
-      );
-      const validationResult: FieldsValidationResult = {
-         valid: false,
-         errors: {
-            email: "invalid email",
-         },
-      };
-      sValidateMock.mockReturnValue(validationResult);
-
-      const userId = "user-id-1";
-      const { id, promptTemplate } = promptDescriptor;
-      const fieldValues: DPromptTemplateFieldValues = {
-         email: "invalid-email",
-      };
-
-      const fn = () =>
-         promptTemplateService.composePromptFromTemplate(
-            userId,
-            id,
-            fieldValues
-         );
-
-      await expect(fn).rejects.toThrow("Provided template fields are invalid:");
-
-      expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
-      ).toHaveBeenCalledWith(userId, id);
-      expect(sValidateMock).toHaveBeenCalledTimes(1);
-      expect(sValidateMock).toHaveBeenCalledWith(
-         promptTemplate.fields,
-         fieldValues
-      );
-   });
-
-   it("composePromptFromTemplate - fieldValues valid - test", async () => {
-      const promptDescriptor =
-         dtestData.dPromptTemplateDescriptorWithTemplate();
-      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
-         promptDescriptor
-      );
-      const validationResult: FieldsValidationResult = {
-         valid: true,
-         errors: {},
-      };
-      const promptContent = "Hello, your email is test1@email.com.";
-      sValidateMock.mockReturnValue(validationResult);
-      sReplaceMock.mockReturnValue(promptContent);
-
-      const userId = "user-id-1";
-      const { id, promptTemplate } = promptDescriptor;
-      const fieldValues: DPromptTemplateFieldValues = {
-         email: "test1@email.com",
-      };
-
-      const result = await promptTemplateService.composePromptFromTemplate(
-         userId,
-         id,
-         fieldValues
-      );
-
-      const expectedResult: DPromptUpdate = {
-         content: promptContent,
-         title: promptDescriptor.title,
-         recommendedModel: promptDescriptor.recommendedModel,
-         categories: promptDescriptor.categories.map((cat) => cat.name),
-         followUpPrompts: [],
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
-      ).toHaveBeenCalledWith(userId, id);
-      expect(sValidateMock).toHaveBeenCalledTimes(1);
-      expect(sValidateMock).toHaveBeenCalledWith(
-         promptTemplate.fields,
-         fieldValues
-      );
-      expect(sReplaceMock).toHaveBeenCalledTimes(1);
-      expect(sReplaceMock).toHaveBeenCalledWith(
-         promptTemplate.content,
-         fieldValues
       );
    });
 });
