@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 
 import {
-   templatesSearchParamsCache,
    TemplatesDashboard,
+   templatesSearchParamsCache,
 } from "@/components/templates";
 
 export const metadata: Metadata = {
