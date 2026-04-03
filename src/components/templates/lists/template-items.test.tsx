@@ -25,7 +25,7 @@ const getTemplateDescriptorsPageMock =
    >;
 
 const assertGridRendered = () => {
-   const entries = screen.getByTestId("library-entries-grid");
+   const entries = screen.getByTestId("template-items-grid");
    assertInDocument(entries);
 };
 

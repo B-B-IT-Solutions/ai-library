@@ -16,7 +16,7 @@ import {
 } from "@/data/types/domain/common";
 import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
 
-import { LibraryEntriesGrid } from "./library-entries-grid";
+import { TemplateItemsGrid } from "./template-items-grid";
 import { LibraryEntriesGrouped } from "./library-entries-grouped";
 import { TemplateItemsList } from "./template-items-list";
 
@@ -89,7 +89,7 @@ export const TemplateItems = ({
          next={fetchNextPage}
          threshold={0.7}
       >
-         <LibraryEntriesGrid descriptors={entries} collections={collections} />
+         <TemplateItemsGrid descriptors={entries} collections={collections} />
       </InfiniteScroll>
    );
 };

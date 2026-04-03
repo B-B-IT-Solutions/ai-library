@@ -4,7 +4,7 @@ exports[`TemplateItemsList rendering tests templateDescriptors empty - test 1`] 
 <div>
   <div
     class="flex flex-col items-center justify-center py-16 text-center"
-    data-testid="library-entries-empty"
+    data-testid="template-items-empty"
   >
     <p
       class="text-lg font-medium text-slate-600"

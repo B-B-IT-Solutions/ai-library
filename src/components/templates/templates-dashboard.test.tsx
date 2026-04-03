@@ -74,7 +74,7 @@ const assertRendered = () => {
    const dashboard = screen.getByTestId("templates-dashboard");
    const createEntryBtn = screen.getByTestId("create-library-entry-btn");
    const toolbar = screen.getByTestId("library-toolbar");
-   const entries = screen.getByTestId("library-entries-grid");
+   const entries = screen.getByTestId("template-items-grid");
 
    assertInDocument(dashboard);
    assertInDocument(createEntryBtn);

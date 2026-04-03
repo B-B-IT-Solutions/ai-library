@@ -15,7 +15,7 @@ export const TemplateItemsList = ({ descriptors, collections }: Props) => {
       return (
          <div
             className="flex flex-col items-center justify-center py-16 text-center"
-            data-testid="library-entries-empty"
+            data-testid="template-items-empty"
          >
             <p className="text-lg font-medium text-slate-600">
                Keine Vorlagen gefunden

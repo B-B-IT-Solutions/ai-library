@@ -4,7 +4,7 @@ import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
 import { TemplateItemsList } from "./template-items-list";
 
 const assertEmptyRendered = () => {
-   const empty = screen.getByTestId("library-entries-empty");
+   const empty = screen.getByTestId("template-items-empty");
    assertInDocument(empty);
 };
 

@@ -1,24 +1,24 @@
 import { screen, waitFor } from "@testing-library/react";
 import { assertInDocument, dtestData, renderWithReactQuery } from "@tests";
 
-import { LibraryEntriesGrid } from "./library-entries-grid";
+import { TemplateItemsGrid } from "./template-items-grid";
 
 const assertEmptyRendered = () => {
-   const empty = screen.getByTestId("library-entries-empty");
+   const empty = screen.getByTestId("template-items-empty");
    assertInDocument(empty);
 };
 
 const assertRendered = () => {
-   const entries = screen.getByTestId("library-entries-grid");
+   const entries = screen.getByTestId("template-items-grid");
    assertInDocument(entries);
 };
 
-describe("LibraryEntriesGrid rendering tests", () => {
-   it("LibraryEntriesGrid - empty - test", async () => {
+describe("TemplateItemsGrid rendering tests", () => {
+   it("descriptors - empty - test", async () => {
       const collections = dtestData.dLibraryCollections();
 
       const { container } = renderWithReactQuery(
-         <LibraryEntriesGrid descriptors={[]} collections={collections} />
+         <TemplateItemsGrid descriptors={[]} collections={collections} />
       );
 
       await waitFor(() => {
@@ -28,12 +28,12 @@ describe("LibraryEntriesGrid rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("LibraryEntriesGrid - with entries - test", async () => {
+   it("descriptors - with items - test", async () => {
       const collections = dtestData.dLibraryCollections();
       const descriptors = dtestData.dPromptTemplateDescriptors();
 
       const { container } = renderWithReactQuery(
-         <LibraryEntriesGrid
+         <TemplateItemsGrid
             descriptors={descriptors}
             collections={collections}
          />

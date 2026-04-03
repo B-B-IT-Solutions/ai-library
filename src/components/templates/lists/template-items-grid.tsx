@@ -1,4 +1,3 @@
-import { FC } from "react";
 import { isEmpty, map } from "es-toolkit/compat";
 
 import { DLibraryCollection } from "@/data/types/domain/library";
@@ -6,20 +5,17 @@ import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 import { LibraryEntryCard } from "./items";
 
-type LibraryEntriesGridProps = {
+type Props = {
    descriptors: DPromptTemplateDescriptor[];
    collections: DLibraryCollection[];
 };
 
-export const LibraryEntriesGrid: FC<LibraryEntriesGridProps> = ({
-   descriptors,
-   collections,
-}) => {
+export const TemplateItemsGrid = ({ descriptors, collections }: Props) => {
    if (isEmpty(descriptors)) {
       return (
          <div
             className="flex flex-col items-center justify-center py-16 text-center"
-            data-testid="library-entries-empty"
+            data-testid="template-items-empty"
          >
             <p className="text-lg font-medium text-slate-600">
                Keine Vorlagen gefunden
@@ -34,7 +30,7 @@ export const LibraryEntriesGrid: FC<LibraryEntriesGridProps> = ({
    return (
       <div
          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-         data-testid="library-entries-grid"
+         data-testid="template-items-grid"
       >
          {map(descriptors, (entry) => (
             <LibraryEntryCard
