@@ -2,10 +2,10 @@ import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 
-import { LibraryEntryViewForm } from "./library-entry-view-form";
+import { TemplateViewForm } from "./template-view-form";
 
 const assertRendered = () => {
-   const form = screen.getByTestId("library-entry-view-form");
+   const form = screen.getByTestId("template-view-form");
    const shortDescription = screen.getByTestId("short-description");
    const content = screen.getByTestId("prompt-text");
    const createPromptBtn = screen.getByTestId(
@@ -38,7 +38,7 @@ describe("LibraryEntryViewForm rendering tests", () => {
       descriptor.categories = [];
 
       const { container } = render(
-         <LibraryEntryViewForm descriptor={descriptor} />
+         <TemplateViewForm descriptor={descriptor} />
       );
 
       await waitFor(() => {
@@ -53,7 +53,7 @@ describe("LibraryEntryViewForm rendering tests", () => {
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
       const { container } = render(
-         <LibraryEntryViewForm descriptor={descriptor} />
+         <TemplateViewForm descriptor={descriptor} />
       );
 
       await waitFor(() => {

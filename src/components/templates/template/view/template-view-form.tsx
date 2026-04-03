@@ -15,7 +15,7 @@ type Props = {
    descriptor: DPromptTemplateDescriptorWithTemplate;
 };
 
-export const LibraryEntryViewForm = ({ descriptor }: Props) => {
+export const TemplateViewForm = ({ descriptor }: Props) => {
    const categories = () => {
       if (!isEmpty(descriptor.categories)) {
          return (
@@ -34,7 +34,7 @@ export const LibraryEntryViewForm = ({ descriptor }: Props) => {
    };
 
    return (
-      <Card data-testid="library-entry-view-form">
+      <Card data-testid="template-view-form">
          <CardHeader className="border-b border-slate-200">
             <div className="flex items-start justify-between gap-4">
                <div className="flex-1">

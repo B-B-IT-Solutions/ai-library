@@ -8,13 +8,13 @@ import {
 import { DPromptTemplateDescriptorWithTemplate } from "@/data/types/domain/prompt.template";
 import { LibraryEntryBreadcrumb } from "../../breadcrumbs";
 
-import { LibraryEntryViewForm } from "./library-entry-view-form";
+import { TemplateViewForm } from "./template-view-form";
 
 type Props = {
    descriptor: DPromptTemplateDescriptorWithTemplate;
 };
 
-export const LibraryEntryView = ({ descriptor }: Props) => {
+export const TemplateView = ({ descriptor }: Props) => {
    return (
       <ItemDetailsView data-testid="library-entry-view">
          <ItemDetailsViewHeader>
@@ -30,7 +30,7 @@ export const LibraryEntryView = ({ descriptor }: Props) => {
                />
             </ItemDetailsViewBreadcrumbs>
             <ItemDetailsViewBody>
-               <LibraryEntryViewForm descriptor={descriptor} />
+               <TemplateViewForm descriptor={descriptor} />
             </ItemDetailsViewBody>
          </ItemDetailsViewContent>
       </ItemDetailsView>
