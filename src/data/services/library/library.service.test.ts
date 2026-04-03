@@ -51,52 +51,6 @@ describe("createLibraryEntries tests", () => {
    });
 });
 
-describe("getLibraryCategories tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("getLibraryCategories - categories retrieved - test", async () => {
-      const userId = "user-id-1";
-      const categories = dtestData.dTemplateCategories();
-      promptTemplateServiceMock.getTemplateCategories.mockResolvedValue(
-         categories
-      );
-
-      const result = await libraryService.getLibraryCategories(userId);
-
-      expect(result).toEqual(categories);
-      expect(
-         promptTemplateServiceMock.getTemplateCategories
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateServiceMock.getTemplateCategories
-      ).toHaveBeenCalledWith(userId);
-   });
-});
-
-describe("getLibraryModels tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("getLibraryModels - models retrieved - test", async () => {
-      const userId = "user-id-1";
-      const models = dtestData.dTemplateModels();
-      promptTemplateServiceMock.getTemplateModles.mockResolvedValue(models);
-
-      const result = await libraryService.getLibraryModels(userId);
-
-      expect(result).toEqual(models);
-      expect(promptTemplateServiceMock.getTemplateModles).toHaveBeenCalledTimes(
-         1
-      );
-      expect(promptTemplateServiceMock.getTemplateModles).toHaveBeenCalledWith(
-         userId
-      );
-   });
-});
-
 describe("toggleFavorite tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();

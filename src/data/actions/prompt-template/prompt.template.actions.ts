@@ -199,6 +199,28 @@ export const downloadTemplate = async (
    }
 };
 
+export const getTemplateDescriptorCategories = async (): Promise<string[]> => {
+   try {
+      const user = await requireUser();
+      const service = getService();
+      return await service.getTemplateDescriptorCategories(user.id);
+   } catch (error) {
+      console.error(formatError(error));
+      return [];
+   }
+};
+
+export const getTemplateDescriptorModels = async (): Promise<string[]> => {
+   try {
+      const user = await requireUser();
+      const service = getService();
+      return await service.getTemplateDescriptorModels(user.id);
+   } catch (error) {
+      console.error(formatError(error));
+      return [];
+   }
+};
+
 export const getPromptTemplates = async (
    params?: DGetPromptTemplatesParams
 ): Promise<DPromptTemplateDescriptor[]> => {

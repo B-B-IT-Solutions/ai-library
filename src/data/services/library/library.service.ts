@@ -35,14 +35,6 @@ export class LibraryService {
       }
    }
 
-   async getLibraryCategories(userId: string): Promise<string[]> {
-      return await this.promptTemplateService.getTemplateCategories(userId);
-   }
-
-   async getLibraryModels(userId: string): Promise<string[]> {
-      return await this.promptTemplateService.getTemplateModles(userId);
-   }
-
    async toggleFavorite(
       descriptorId: string,
       userId: string,

@@ -13,28 +13,6 @@ import {
 } from "@/data/types/domain/library";
 import { ActionResult } from "@/data/types/utils";
 
-export const getLibraryCategories = async (): Promise<string[]> => {
-   try {
-      const user = await requireUser();
-      const service = getSevice();
-      return await service.getLibraryCategories(user.id);
-   } catch (error) {
-      console.error(formatError(error));
-      return [];
-   }
-};
-
-export const getLibraryModels = async (): Promise<string[]> => {
-   try {
-      const user = await requireUser();
-      const service = getSevice();
-      return await service.getLibraryModels(user.id);
-   } catch (error) {
-      console.error(formatError(error));
-      return [];
-   }
-};
-
 export const toggleLibraryEntryFavorite = async (
    descriptorId: string,
    isFavorite: boolean

@@ -6,12 +6,12 @@ import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
+import { getLibraryCollections } from "@/data/actions/library";
 import {
-   getLibraryCategories,
-   getLibraryCollections,
-   getLibraryModels,
-} from "@/data/actions/library";
-import { getTemplateDescriptorsPage } from "@/data/actions/prompt-template";
+   getTemplateDescriptorCategories,
+   getTemplateDescriptorModels,
+   getTemplateDescriptorsPage,
+} from "@/data/actions/prompt-template";
 import {
    DListGroupByMode,
    DListSortByMode,
@@ -25,13 +25,15 @@ import { librarySearchParamsCache } from "./search-params";
 type CacheKey = Parameters<typeof librarySearchParamsCache.get>[0];
 type CacheValue = ReturnType<typeof librarySearchParamsCache.get>;
 
-const getLibraryCategoriesMock = getLibraryCategories as jest.MockedFunction<
-   typeof getLibraryCategories
->;
+const getTemplateDescriptorCategoriesMock =
+   getTemplateDescriptorCategories as jest.MockedFunction<
+      typeof getTemplateDescriptorCategories
+   >;
 
-const getLibraryModelsMock = getLibraryModels as jest.MockedFunction<
-   typeof getLibraryModels
->;
+const getTemplateDescriptorModelsMock =
+   getTemplateDescriptorModels as jest.MockedFunction<
+      typeof getTemplateDescriptorModels
+   >;
 
 const getLibraryCollectionsMock = getLibraryCollections as jest.MockedFunction<
    typeof getLibraryCollections
@@ -103,8 +105,8 @@ describe("LibraryDashboard rendering tests", () => {
 
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
-      getLibraryCategoriesMock.mockResolvedValue(categories);
-      getLibraryModelsMock.mockResolvedValue(models);
+      getTemplateDescriptorCategoriesMock.mockResolvedValue(categories);
+      getTemplateDescriptorModelsMock.mockResolvedValue(models);
 
       const { container } = await renderAsyncRSC(LibraryDashboard, {});
 
@@ -126,8 +128,8 @@ describe("LibraryDashboard rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         expect(getLibraryCategoriesMock).toHaveBeenCalledTimes(1);
-         expect(getLibraryModelsMock).toHaveBeenCalledTimes(1);
+         expect(getTemplateDescriptorCategoriesMock).toHaveBeenCalledTimes(1);
+         expect(getTemplateDescriptorModelsMock).toHaveBeenCalledTimes(1);
          assertGetLibraryEntriesPageCalled(expectedPayload);
       });
 

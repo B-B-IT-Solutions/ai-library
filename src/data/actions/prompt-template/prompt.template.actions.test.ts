@@ -20,6 +20,8 @@ import {
    getPromptTemplateCategories,
    getPromptTemplates,
    getTemplateDescriptor,
+   getTemplateDescriptorCategories,
+   getTemplateDescriptorModels,
    getTemplateDescriptorsPage,
    updateTemplateDescriptor,
 } from "./prompt.template.actions";
@@ -41,6 +43,10 @@ const sGetTemplateDataForPromptGeneration =
 const sComposePromptFromTemplate =
    PromptTemplateService.prototype.composePromptFromTemplate;
 const sDownloadTemplate = PromptTemplateService.prototype.downloadTemplate;
+const sGetTemplateDescriptorCategories =
+   PromptTemplateService.prototype.getTemplateDescriptorCategories;
+const sGetTemplateDescriptorModels =
+   PromptTemplateService.prototype.getTemplateDescriptorModels;
 const sGetPromptTemplateDescriptors =
    PromptTemplateService.prototype.getPromptTemplateDescriptors;
 const sGetPromptTemplate = PromptTemplateService.prototype.getPromptTemplate;
@@ -76,6 +82,14 @@ const sComposePromptFromTemplateMock =
 const sDownloadTemplateMock = sDownloadTemplate as jest.MockedFunction<
    typeof sDownloadTemplate
 >;
+const sGetTemplateDescriptorCategoriesMock =
+   sGetTemplateDescriptorCategories as jest.MockedFunction<
+      typeof sGetTemplateDescriptorCategories
+   >;
+const sGetTemplateDescriptorModelsMock =
+   sGetTemplateDescriptorModels as jest.MockedFunction<
+      typeof sGetTemplateDescriptorModels
+   >;
 const sGetPromptTemplateDescriptorsMock =
    sGetPromptTemplateDescriptors as jest.MockedFunction<
       typeof sGetPromptTemplateDescriptors
@@ -497,7 +511,7 @@ describe("getPromptGenerationTemplateData tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("getPromptGenerationTemplateData - user undefined - test", async () => {
+   it("user undefined - test", async () => {
       const error = new Error("Unknown user");
       requireUserMock.mockRejectedValue(error);
 
@@ -511,7 +525,7 @@ describe("getPromptGenerationTemplateData tests", () => {
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
-   it("getPromptGenerationTemplateData - data retrieved - test", async () => {
+   it("data retrieved - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -541,7 +555,7 @@ describe("composePromptFromTemplate tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("composePromptFromTemplate - invalid UUID - test", async () => {
+   it("invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
       const fieldValues: DPromptTemplateFieldValues = { field1: "value1" };
 
@@ -559,7 +573,7 @@ describe("composePromptFromTemplate tests", () => {
       expect(console.error).toHaveBeenCalledWith("Invalid Descriptor ID.");
    });
 
-   it("composePromptFromTemplate - user undefined - test", async () => {
+   it("user undefined - test", async () => {
       const error = new Error("Unknow user");
       const templateId = "123e4567-e89b-12d3-a456-426614174000";
       const fieldValues: DPromptTemplateFieldValues = { field1: "value1" };
@@ -578,7 +592,7 @@ describe("composePromptFromTemplate tests", () => {
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
-   it("composePromptFromTemplate - error - test", async () => {
+   it("error - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -608,7 +622,7 @@ describe("composePromptFromTemplate tests", () => {
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
-   it("composePromptFromTemplate - success - test", async () => {
+   it("success - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -724,6 +738,86 @@ describe("downloadTemplate tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sDownloadTemplateMock).toHaveBeenCalledTimes(1);
       expect(sDownloadTemplateMock).toHaveBeenCalledWith(user.id, descriptorId);
+   });
+});
+
+describe("getTemplateDescriptorCategories tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await getTemplateDescriptorCategories();
+
+      expect(result).toEqual([]);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetTemplateDescriptorCategoriesMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("categories retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const categories = dtestData.dTemplateCategories();
+      sGetTemplateDescriptorCategoriesMock.mockResolvedValue(categories);
+
+      const result = await getTemplateDescriptorCategories();
+
+      expect(result).toEqual(categories);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetTemplateDescriptorCategoriesMock).toHaveBeenCalledTimes(1);
+      expect(sGetTemplateDescriptorCategoriesMock).toHaveBeenCalledWith(
+         user.id
+      );
+   });
+});
+
+describe("getTemplateDescriptorModels tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const result = await getTemplateDescriptorModels();
+
+      expect(result).toEqual([]);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetTemplateDescriptorModelsMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("models retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const models = dtestData.dTemplateModels();
+      sGetTemplateDescriptorModelsMock.mockResolvedValue(models);
+
+      const result = await getTemplateDescriptorModels();
+
+      expect(result).toEqual(models);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetTemplateDescriptorModelsMock).toHaveBeenCalledTimes(1);
+      expect(sGetTemplateDescriptorModelsMock).toHaveBeenCalledWith(user.id);
    });
 });
 

@@ -13,9 +13,7 @@ import {
    createLibraryCollection,
    deleteLibraryCollection,
    getEntryCollectionIds,
-   getLibraryCategories,
    getLibraryCollections,
-   getLibraryModels,
    toggleLibraryEntryFavorite,
    updateEntryCollections,
    updateLibraryCollection,
@@ -23,9 +21,6 @@ import {
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
-const sDownloadTemplate = LibraryService.prototype.downloadPromptTemplate;
-const sGetLibraryCategories = LibraryService.prototype.getLibraryCategories;
-const sGetLibraryModels = LibraryService.prototype.getLibraryModels;
 const sToggleFavorite = LibraryService.prototype.toggleFavorite;
 const sGetCollections = LibraryService.prototype.getCollections;
 const sCreateCollection = LibraryService.prototype.createCollection;
@@ -34,15 +29,6 @@ const sDeleteCollection = LibraryService.prototype.deleteCollection;
 const sGetEntryCollectionIds = LibraryService.prototype.getEntryCollectionIds;
 const sUpdateEntryCollections = LibraryService.prototype.updateEntryCollections;
 
-const sDownloadTemplateMock = sDownloadTemplate as jest.MockedFunction<
-   typeof sDownloadTemplate
->;
-const sGetLibraryCategoriesMock = sGetLibraryCategories as jest.MockedFunction<
-   typeof sGetLibraryCategories
->;
-const sGetLibraryModelsMock = sGetLibraryModels as jest.MockedFunction<
-   typeof sGetLibraryModels
->;
 const sToggleFavoriteMock = sToggleFavorite as jest.MockedFunction<
    typeof sToggleFavorite
 >;
@@ -64,84 +50,6 @@ const sUpdateEntryCollectionsMock =
    >;
 const sGetEntryCollectionIdsMock =
    sGetEntryCollectionIds as jest.MockedFunction<typeof sGetEntryCollectionIds>;
-
-describe("getLibraryCategories tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("getLibraryCategories - user undefined - test", async () => {
-      const error = new Error("Unknow user");
-      requireUserMock.mockRejectedValue(error);
-
-      const result = await getLibraryCategories();
-
-      expect(result).toEqual([]);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryCategoriesMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-      expect(console.error).toHaveBeenCalledWith(error.message);
-   });
-
-   it("getLibraryCategories - categories retrieved - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const categories = dtestData.dTemplateCategories();
-      sGetLibraryCategoriesMock.mockResolvedValue(categories);
-
-      const result = await getLibraryCategories();
-
-      expect(result).toEqual(categories);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryCategoriesMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryCategoriesMock).toHaveBeenCalledWith(user.id);
-   });
-});
-
-describe("getLibraryModels tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("getLibraryModels - user undefined - test", async () => {
-      const error = new Error("Unknow user");
-      requireUserMock.mockRejectedValue(error);
-
-      const result = await getLibraryModels();
-
-      expect(result).toEqual([]);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryModelsMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-      expect(console.error).toHaveBeenCalledWith(error.message);
-   });
-
-   it("getLibraryModels - models retrieved - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const models = dtestData.dTemplateModels();
-      sGetLibraryModelsMock.mockResolvedValue(models);
-
-      const result = await getLibraryModels();
-
-      expect(result).toEqual(models);
-      expect(requireUserMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryModelsMock).toHaveBeenCalledTimes(1);
-      expect(sGetLibraryModelsMock).toHaveBeenCalledWith(user.id);
-   });
-});
 
 describe("toggleLibraryEntryFavorite tests", () => {
    beforeEach(() => {

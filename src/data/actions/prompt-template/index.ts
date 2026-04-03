@@ -7,6 +7,8 @@ export {
    getPromptGenerationTemplateData,
    composePromptFromTemplate,
    downloadTemplate,
+   getTemplateDescriptorCategories,
+   getTemplateDescriptorModels,
    getPromptTemplateCategories,
    getPromptTemplates,
    getPromptTemplate,

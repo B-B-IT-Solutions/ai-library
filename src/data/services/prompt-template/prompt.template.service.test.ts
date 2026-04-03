@@ -653,12 +653,12 @@ describe("toggleFavorite tests", () => {
    });
 });
 
-describe("getTemplateCategories tests", () => {
+describe("getTemplateDescriptorCategories tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("getTemplateCategories - test", async () => {
+   it("categories - retrieved - test", async () => {
       const userId = "user-id-1";
 
       const categories = dtestData.dTemplateCategories();
@@ -666,7 +666,8 @@ describe("getTemplateCategories tests", () => {
          categories
       );
 
-      const result = await promptTemplateService.getTemplateCategories(userId);
+      const result =
+         await promptTemplateService.getTemplateDescriptorCategories(userId);
 
       expect(result).toEqual(categories);
       expect(
@@ -678,18 +679,19 @@ describe("getTemplateCategories tests", () => {
    });
 });
 
-describe("getTemplateModles tests", () => {
+describe("getTemplateDescriptorModels tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("getTemplateModles - test", async () => {
+   it("model retrieved - test", async () => {
       const userId = "user-id-1";
 
       const models = dtestData.dTemplateModels();
       promptTemplateRepoMock.pGetTemplateModels.mockResolvedValue(models);
 
-      const result = await promptTemplateService.getTemplateModles(userId);
+      const result =
+         await promptTemplateService.getTemplateDescriptorModels(userId);
 
       expect(result).toEqual(models);
       expect(promptTemplateRepoMock.pGetTemplateModels).toHaveBeenCalledTimes(

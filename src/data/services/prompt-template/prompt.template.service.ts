@@ -210,11 +210,11 @@ export class PromptTemplateService {
       await this.repository.pToggleFavorite(userId, descriptorId, isFavorite);
    }
 
-   async getTemplateCategories(userId: string): Promise<string[]> {
+   async getTemplateDescriptorCategories(userId: string): Promise<string[]> {
       return await this.repository.pGetTemplateCategories(userId);
    }
 
-   async getTemplateModles(userId: string): Promise<string[]> {
+   async getTemplateDescriptorModels(userId: string): Promise<string[]> {
       return await this.repository.pGetTemplateModels(userId);
    }
 
