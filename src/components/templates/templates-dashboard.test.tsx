@@ -73,7 +73,7 @@ const mockSearchParams = (key: CacheKey): CacheValue => {
 const assertRendered = () => {
    const dashboard = screen.getByTestId("templates-dashboard");
    const createEntryBtn = screen.getByTestId("create-library-entry-btn");
-   const toolbar = screen.getByTestId("library-toolbar");
+   const toolbar = screen.getByTestId("templates-toolbar");
    const entries = screen.getByTestId("template-items-grid");
 
    assertInDocument(dashboard);

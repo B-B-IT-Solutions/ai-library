@@ -3,10 +3,10 @@ import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 
 import { DListViewMode } from "@/data/types/domain/common";
 
-import { LibraryToolbar } from "./library-toolbar";
+import { TemplatesToolbar } from "./templates-toolbar";
 
 const assertRendered = () => {
-   const toolbar = screen.getByTestId("library-toolbar");
+   const toolbar = screen.getByTestId("templates-toolbar");
    const filters = screen.getByTestId("library-entry-filters-trigger");
    const viewToggle = screen.getByTestId("view-toggle");
    const groupBy = screen.getByTestId("group-by-select");
@@ -26,7 +26,7 @@ describe("LibraryToolbar rendering tests", () => {
       const filters = dtestData.dTemplateDescriptorsFilter();
 
       const { container } = renderWithRouter(
-         <LibraryToolbar
+         <TemplatesToolbar
             viewMode={DListViewMode.GRID}
             filters={filters}
             categories={categories}
@@ -47,7 +47,7 @@ describe("LibraryToolbar rendering tests", () => {
       const filters = dtestData.dTemplateDescriptorsFilter();
 
       const { container } = renderWithRouter(
-         <LibraryToolbar
+         <TemplatesToolbar
             viewMode={DListViewMode.GRID}
             filters={filters}
             categories={categories}

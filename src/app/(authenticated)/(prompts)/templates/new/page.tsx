@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import { LibraryEntryEdit } from "@/components/templates";
+import { TemplateEdit } from "@/components/templates";
 import { getGlobalTemplateFields } from "@/data/actions/settings";
 
 export const metadata: Metadata = {
@@ -15,7 +15,7 @@ export const NewTemplatePage = async () => {
          className="flex h-screen flex-col bg-slate-50"
          data-testid="new-template-page"
       >
-         <LibraryEntryEdit globalFields={globalFields} />
+         <TemplateEdit globalFields={globalFields} />
       </div>
    );
 };

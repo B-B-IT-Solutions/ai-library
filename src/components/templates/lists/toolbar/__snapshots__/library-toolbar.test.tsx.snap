@@ -4,7 +4,7 @@ exports[`LibraryToolbar rendering tests LibraryToolbar - totalEntries 1 - test 1
 <div>
   <div
     class="flex items-center justify-between border-b bg-white px-6 py-3"
-    data-testid="library-toolbar"
+    data-testid="templates-toolbar"
   >
     <div
       class="flex items-center gap-4"
@@ -236,7 +236,7 @@ exports[`LibraryToolbar rendering tests LibraryToolbar - totalEntries 5 - test 1
 <div>
   <div
     class="flex items-center justify-between border-b bg-white px-6 py-3"
-    data-testid="library-toolbar"
+    data-testid="templates-toolbar"
   >
     <div
       class="flex items-center gap-4"

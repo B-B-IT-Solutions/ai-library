@@ -2,21 +2,21 @@ import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import { assertInDocument, dtestData } from "@tests";
 
-import { LibraryEntryEdit } from "./library-entry-edit";
+import { TemplateEdit } from "./template-edit";
 
 const assertRendered = () => {
-   const editEntry = screen.getByTestId("library-entry-edit");
+   const editEntry = screen.getByTestId("template-edit");
    const breadcrumbs = screen.getByTestId("libary-entry-breadcrumb");
-   const form = screen.getByTestId("library-entry-edit-form");
+   const form = screen.getByTestId("template-edit-form");
 
    assertInDocument(editEntry);
    assertInDocument(breadcrumbs);
    assertInDocument(form);
 };
 
-describe("LibraryEntryEdit rendering tests", () => {
-   it("LibraryEntryEdit - new entry - test", async () => {
-      const { container } = render(<LibraryEntryEdit globalFields={[]} />);
+describe("TemplateEdit rendering tests", () => {
+   it("new entry - test", async () => {
+      const { container } = render(<TemplateEdit globalFields={[]} />);
 
       await waitFor(() => {
          assertRendered();
@@ -25,12 +25,12 @@ describe("LibraryEntryEdit rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("LibraryEntryEdit - edit existing entry - test", async () => {
+   it("edit existing entry - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const fields = dtestData.dGlobalTemplateFields();
 
       const { container } = render(
-         <LibraryEntryEdit descriptor={descriptor} globalFields={fields} />
+         <TemplateEdit descriptor={descriptor} globalFields={fields} />
       );
 
       await waitFor(() => {

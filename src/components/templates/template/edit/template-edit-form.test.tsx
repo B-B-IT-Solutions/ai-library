@@ -40,7 +40,7 @@ import {
 import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 
-import { LibraryEntryEditForm } from "./library-entry-edit-form";
+import { TemplateEditForm } from "./template-edit-form";
 import { initPromptTempalte } from "./utils";
 
 jest.setTimeout(10000);
@@ -56,7 +56,7 @@ const updateTemplateDescriptorMock =
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
 const assertRendered = () => {
-   const form = screen.getByTestId("library-entry-edit-form");
+   const form = screen.getByTestId("template-edit-form");
    const basicInfo = screen.getByTestId("basic-info");
    const templateContent = screen.getByTestId("prompt-template-content");
    const fields = screen.getByTestId("prompt-template-fields");
@@ -106,9 +106,9 @@ const assertGlobalFieldsNotRendered = () => {
    assertNotInDocument(globalFields);
 };
 
-describe("LibraryEntryEditForm rendering tests", () => {
-   it("LibraryEntryEditForm - new entry - rendered - test", () => {
-      const { container } = render(<LibraryEntryEditForm globalFields={[]} />);
+describe("TemplateEditForm rendering tests", () => {
+   it("new entry - rendered - test", () => {
+      const { container } = render(<TemplateEditForm globalFields={[]} />);
 
       assertRendered();
       assertDetectedVariablesNotRendered();
@@ -116,8 +116,8 @@ describe("LibraryEntryEditForm rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("LibraryEntryEditForm - new entry - variables detected in content - test", async () => {
-      const { container } = render(<LibraryEntryEditForm globalFields={[]} />);
+   it("new entry - variables detected in content - test", async () => {
+      const { container } = render(<TemplateEditForm globalFields={[]} />);
 
       assertRendered();
       assertDetectedVariablesNotRendered();
@@ -138,12 +138,12 @@ describe("LibraryEntryEditForm rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("LibraryEntryEditForm - existing entry - rendered - test", () => {
+   it("existing entry - rendered - test", () => {
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const fields = dtestData.dGlobalTemplateFields();
 
       const { container } = render(
-         <LibraryEntryEditForm descriptor={descriptor} globalFields={fields} />
+         <TemplateEditForm descriptor={descriptor} globalFields={fields} />
       );
 
       assertRendered();
@@ -152,14 +152,14 @@ describe("LibraryEntryEditForm rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("LibraryEntryEditForm - existing entry - variables detected in content - test", async () => {
+   it("existing entry - variables detected in content - test", async () => {
       const fields = dtestData.dGlobalTemplateFields();
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       descriptor.promptTemplate.content =
          "Hello {{{{name}}, your role is {{{{role}}";
 
       const { container } = render(
-         <LibraryEntryEditForm descriptor={descriptor} globalFields={fields} />
+         <TemplateEditForm descriptor={descriptor} globalFields={fields} />
       );
 
       assertRendered();
@@ -169,15 +169,15 @@ describe("LibraryEntryEditForm rendering tests", () => {
    });
 });
 
-describe("LibraryEntryEditForm functionality tests", () => {
+describe("TemplateEditForm functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       mockRouter.push("/");
    });
 
-   it("LibraryEntryEditForm - add global field btn clicked - test", async () => {
+   it("add global field btn clicked - test", async () => {
       const fields = dtestData.dGlobalTemplateFields();
-      render(<LibraryEntryEditForm globalFields={fields} />);
+      render(<TemplateEditForm globalFields={fields} />);
 
       assertRendered();
       assertGlobalFieldsNotRendered();
@@ -202,12 +202,12 @@ describe("LibraryEntryEditForm functionality tests", () => {
       );
    });
 
-   it("LibraryEntryEditForm - remove global field btn clicked - test", async () => {
+   it("remove global field btn clicked - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const fields = dtestData.dGlobalTemplateFields();
 
       render(
-         <LibraryEntryEditForm descriptor={descriptor} globalFields={fields} />
+         <TemplateEditForm descriptor={descriptor} globalFields={fields} />
       );
 
       assertRendered();
@@ -221,9 +221,9 @@ describe("LibraryEntryEditForm functionality tests", () => {
       assertGlobalFieldsNotRendered();
    });
 
-   it("LibraryEntryEditForm - add new template field btn clicked - test", async () => {
+   it("add new template field btn clicked - test", async () => {
       const fields = dtestData.dGlobalTemplateFields();
-      render(<LibraryEntryEditForm globalFields={fields} />);
+      render(<TemplateEditForm globalFields={fields} />);
 
       assertRendered();
       assertTemplateFieldsEmptyRendered();
@@ -238,9 +238,9 @@ describe("LibraryEntryEditForm functionality tests", () => {
       });
    });
 
-   it("LibraryEntryEditForm - remove template field btn clicked - test", async () => {
+   it("remove template field btn clicked - test", async () => {
       const fields = dtestData.dGlobalTemplateFields();
-      render(<LibraryEntryEditForm globalFields={fields} />);
+      render(<TemplateEditForm globalFields={fields} />);
 
       assertRendered();
       assertTemplateFieldsEmptyRendered();
@@ -260,9 +260,9 @@ describe("LibraryEntryEditForm functionality tests", () => {
       });
    });
 
-   it("LibraryEntryEditForm - add variable as field - test", async () => {
+   it("add variable as field - test", async () => {
       const fields = dtestData.dGlobalTemplateFields();
-      render(<LibraryEntryEditForm globalFields={fields} />);
+      render(<TemplateEditForm globalFields={fields} />);
 
       assertRendered();
       assertDetectedVariablesNotRendered();
@@ -294,9 +294,9 @@ describe("LibraryEntryEditForm functionality tests", () => {
       });
    });
 
-   it("LibraryEntryEditForm - sync all variables - test", async () => {
+   it("sync all variables - test", async () => {
       const fields = dtestData.dGlobalTemplateFields();
-      render(<LibraryEntryEditForm globalFields={fields} />);
+      render(<TemplateEditForm globalFields={fields} />);
 
       assertRendered();
       assertDetectedVariablesNotRendered();
@@ -327,7 +327,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
       });
    });
 
-   it("LibraryEntryEditForm - new entry - save btn clicked  - success - test", async () => {
+   it("new entry - save btn clicked  - success - test", async () => {
       const result: ActionResult = {
          success: true,
          message: "Vorlage erfolgreich erstellt",
@@ -335,7 +335,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
       createTemplateDescriptorMock.mockResolvedValue(result);
 
       const fields = dtestData.dGlobalTemplateFields();
-      render(<LibraryEntryEditForm globalFields={fields} />);
+      render(<TemplateEditForm globalFields={fields} />);
 
       assertRendered();
 
@@ -372,7 +372,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
       });
    });
 
-   it("LibraryEntryEditForm - existing entry - save btn clicked  - success - test", async () => {
+   it("existing entry - save btn clicked  - success - test", async () => {
       const result: ActionResult = {
          success: true,
          message: "Vorlage erfolgreich erstellt",
@@ -383,7 +383,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
       const fields = dtestData.dGlobalTemplateFields();
 
       render(
-         <LibraryEntryEditForm descriptor={descriptor} globalFields={fields} />
+         <TemplateEditForm descriptor={descriptor} globalFields={fields} />
       );
 
       assertRendered();
@@ -421,7 +421,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
       });
    });
 
-   it("LibraryEntryEditForm - new entry - save btn clicked  - failed - test", async () => {
+   it("new entry - save btn clicked  - failed - test", async () => {
       const result: ActionResult = {
          success: false,
          message: "Vorlage erfolgreich erstellt",
@@ -429,7 +429,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
       createTemplateDescriptorMock.mockResolvedValue(result);
 
       const fields = dtestData.dGlobalTemplateFields();
-      render(<LibraryEntryEditForm globalFields={fields} />);
+      render(<TemplateEditForm globalFields={fields} />);
 
       assertRendered();
 
@@ -467,7 +467,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
       });
    });
 
-   it("LibraryEntryEditForm - existing entry - save btn clicked  - failed - test", async () => {
+   it("existing entry - save btn clicked  - failed - test", async () => {
       const result: ActionResult = {
          success: false,
          message: "Vorlage erfolgreich erstellt",
@@ -478,7 +478,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
       const fields = dtestData.dGlobalTemplateFields();
 
       render(
-         <LibraryEntryEditForm descriptor={descriptor} globalFields={fields} />
+         <TemplateEditForm descriptor={descriptor} globalFields={fields} />
       );
 
       assertRendered();

@@ -9,14 +9,14 @@ import { DPromptTemplateDescriptorWithTemplate } from "@/data/types/domain/promp
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
 import { LibraryEntryBreadcrumb } from "../../breadcrumbs";
 
-import { LibraryEntryEditForm } from "./library-entry-edit-form";
+import { TemplateEditForm } from "./template-edit-form";
 
 type Props = {
    descriptor?: DPromptTemplateDescriptorWithTemplate;
    globalFields: DGlobalTemplateField[];
 };
 
-export const LibraryEntryEdit = ({ descriptor, globalFields }: Props) => {
+export const TemplateEdit = ({ descriptor, globalFields }: Props) => {
    const header = () => {
       const title = descriptor
          ? "Vorlage Bearbeiten"
@@ -47,14 +47,14 @@ export const LibraryEntryEdit = ({ descriptor, globalFields }: Props) => {
    };
 
    return (
-      <ItemDetailsEdit data-testid="library-entry-edit">
+      <ItemDetailsEdit data-testid="template-edit">
          <ItemDetailsEditHeader>{header()}</ItemDetailsEditHeader>
          <ItemDetailsEditContent>
             <ItemDetailsEditBreadcrumbs>
                {breadcrumbs()}
             </ItemDetailsEditBreadcrumbs>
             <ItemDetailsEditBody>
-               <LibraryEntryEditForm
+               <TemplateEditForm
                   descriptor={descriptor}
                   globalFields={globalFields}
                />

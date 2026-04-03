@@ -15,7 +15,7 @@ type Props = {
    models: string[];
 };
 
-export const LibraryToolbar: FC<Props> = ({
+export const TemplatesToolbar: FC<Props> = ({
    viewMode,
    filters,
    categories,
@@ -36,7 +36,7 @@ export const LibraryToolbar: FC<Props> = ({
    return (
       <div
          className="flex items-center justify-between border-b bg-white px-6 py-3"
-         data-testid="library-toolbar"
+         data-testid="templates-toolbar"
       >
          <div className="flex items-center gap-4">
             <ListViewToggle currentView={viewMode} />

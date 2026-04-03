@@ -16,7 +16,7 @@ import { resolveSort } from "@/data/ts-queries/utils";
 import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
 
 import { CreateLibraryEntryButton } from "./buttons";
-import { CollectionsFilter, LibraryToolbar, TemplateItems } from "./lists";
+import { CollectionsFilter, TemplateItems, TemplatesToolbar } from "./lists";
 import { templatesSearchParamsCache } from "./search-params";
 
 export const TemplatesDashboard = async () => {
@@ -69,7 +69,7 @@ export const TemplatesDashboard = async () => {
                <CollectionsFilter filters={filters} />
             </div>
 
-            <LibraryToolbar
+            <TemplatesToolbar
                viewMode={viewMode}
                filters={filters}
                categories={categories}

@@ -43,7 +43,7 @@ type Props = {
    globalFields: DGlobalTemplateField[];
 };
 
-export const LibraryEntryEditForm = ({ descriptor, globalFields }: Props) => {
+export const TemplateEditForm = ({ descriptor, globalFields }: Props) => {
    const router = useRouter();
    const isEdit = !!descriptor;
 
@@ -187,7 +187,7 @@ export const LibraryEntryEditForm = ({ descriptor, globalFields }: Props) => {
    };
 
    return (
-      <Card data-testid="library-entry-edit-form">
+      <Card data-testid="template-edit-form">
          <CardContent>
             <Form {...form}>
                <form

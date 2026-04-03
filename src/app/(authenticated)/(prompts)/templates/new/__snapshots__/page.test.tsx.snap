@@ -8,7 +8,7 @@ exports[`NewTemplatePage rendering tests rendered test 1`] = `
   >
     <div
       class="flex h-screen flex-col bg-slate-50"
-      data-testid="library-entry-edit"
+      data-testid="template-edit"
     >
       <div
         class="border-b border-slate-200 bg-white px-6 py-4"
@@ -99,7 +99,7 @@ exports[`NewTemplatePage rendering tests rendered test 1`] = `
           <div
             class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
             data-slot="card"
-            data-testid="library-entry-edit-form"
+            data-testid="template-edit-form"
           >
             <div
               class="px-6"

@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing entry - rendered - test 1`] = `
+exports[`TemplateEditForm rendering tests existing entry - rendered - test 1`] = `
 <div>
   <div
     class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
     data-slot="card"
-    data-testid="library-entry-edit-form"
+    data-testid="template-edit-form"
   >
     <div
       class="px-6"
@@ -2486,12 +2486,12 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
 </div>
 `;
 
-exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing entry - variables detected in content - test 1`] = `
+exports[`TemplateEditForm rendering tests existing entry - variables detected in content - test 1`] = `
 <div>
   <div
     class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
     data-slot="card"
-    data-testid="library-entry-edit-form"
+    data-testid="template-edit-form"
   >
     <div
       class="px-6"
@@ -5262,12 +5262,12 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - existing en
 </div>
 `;
 
-exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - new entry - rendered - test 1`] = `
+exports[`TemplateEditForm rendering tests new entry - rendered - test 1`] = `
 <div>
   <div
     class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
     data-slot="card"
-    data-testid="library-entry-edit-form"
+    data-testid="template-edit-form"
   >
     <div
       class="px-6"
@@ -5716,12 +5716,12 @@ exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - new entry -
 </div>
 `;
 
-exports[`LibraryEntryEditForm rendering tests LibraryEntryEditForm - new entry - variables detected in content - test 1`] = `
+exports[`TemplateEditForm rendering tests new entry - variables detected in content - test 1`] = `
 <div>
   <div
     class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
     data-slot="card"
-    data-testid="library-entry-edit-form"
+    data-testid="template-edit-form"
   >
     <div
       class="px-6"
