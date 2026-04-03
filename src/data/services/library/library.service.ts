@@ -64,14 +64,14 @@ export class LibraryService {
       data: DLibraryCollectionUpdate
    ) {
       await this.libraryRepository.pUpdateCollection(
-         collectionId,
          userId,
+         collectionId,
          data
       );
    }
 
    async deleteCollection(collectionId: string, userId: string): Promise<void> {
-      await this.libraryRepository.pDeleteCollection(collectionId, userId);
+      await this.libraryRepository.pDeleteCollection(userId, collectionId);
    }
 
    async getEntryCollectionIds(

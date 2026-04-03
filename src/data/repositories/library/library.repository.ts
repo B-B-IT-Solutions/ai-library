@@ -8,6 +8,9 @@ import {
 import {
    LibraryCollectionCreateArgs,
    LibraryCollectionCreateInput,
+   LibraryCollectionDeleteArgs,
+   LibraryCollectionUpdateArgs,
+   LibraryCollectionUpdateInput,
 } from "@/generated/prisma/models";
 
 import { toDLibraryCollection, toDLibraryCollections } from "./library.mapper";
@@ -56,31 +59,37 @@ export class LibraryRepository {
    }
 
    async pUpdateCollection(
-      collectionId: string,
       userId: string,
+      collectionId: string,
       data: DLibraryCollectionUpdate
    ) {
-      await this.prisma.libraryCollection.update({
+      const input: LibraryCollectionUpdateInput = {
+         name: data.name,
+         description: data.description,
+         color: data.color,
+         order: data.order,
+      };
+
+      const args: LibraryCollectionUpdateArgs = {
          where: {
             id: collectionId,
             userId,
          },
-         data: {
-            name: data.name,
-            description: data.description,
-            color: data.color,
-            order: data.order,
-         },
-      });
+         data: input,
+      };
+
+      await this.prisma.libraryCollection.update(args);
    }
 
-   async pDeleteCollection(collectionId: string, userId: string) {
-      await this.prisma.libraryCollection.delete({
+   async pDeleteCollection(userId: string, collectionId: string) {
+      const args: LibraryCollectionDeleteArgs = {
          where: {
             id: collectionId,
             userId,
          },
-      });
+      };
+
+      await this.prisma.libraryCollection.delete(args);
    }
 
    async pGetEntryCollectionIds(
