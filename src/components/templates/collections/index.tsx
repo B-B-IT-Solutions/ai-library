@@ -4,3 +4,4 @@ export { EditCollectionDialog } from "./edit-collection-dialog";
 export { DeleteCollectionDialog } from "./delete-collection-dialog";
 export { ShareCollectionDialog } from "./share-collection-dialog";
 export { CollectionHeader } from "./collection-header";
+export { CollectionCard } from "./collection-card";

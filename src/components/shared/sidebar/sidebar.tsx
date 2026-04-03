@@ -24,7 +24,6 @@ import { APP_NAME } from "@/lib/constants";
 import { toTestId } from "@/lib/utils";
 
 import { navigationMenu1, navigationMenu2, navigationMenu3 } from "./menus";
-import { SidebarCollections } from "./sidebar-collections";
 import { SidebarFooter } from "./sidebar-footer";
 import { DMenuItem } from "./types";
 
@@ -38,6 +37,13 @@ export const Sidebar: FC<SidebarProps> = ({ user }) => {
    const pathName = usePathname();
 
    const isActive = (path: string) => {
+      if (path === "/templates") {
+         return (
+            pathName === "/templates" ||
+            (startsWith(pathName, "/templates") &&
+               !startsWith(pathName, "/templates/collections"))
+         );
+      }
       return startsWith(pathName, path);
    };
 
@@ -104,7 +110,6 @@ export const Sidebar: FC<SidebarProps> = ({ user }) => {
                   <SidebarMenu>{renderMenu(navigationMenu1)}</SidebarMenu>
                </SidebarGroupContent>
             </SidebarGroup>
-            <SidebarCollections />
             <SidebarGroup data-testid="group-library">
                <SidebarGroupLabel>Bibliothek</SidebarGroupLabel>
                <SidebarGroupContent>
