@@ -29,7 +29,7 @@ import {
    setLibraryCollectionSharing,
    updateEntryCollections,
    updateLibraryCollection,
-} from "@/data/actions/library";
+} from "@/data/actions/collections";
 import {
    getTemplateDescriptorsPage,
    toggleTemplateDescriptorFavorite,
@@ -340,7 +340,8 @@ export const useAddTemplateToCollection = (): UseMutationResult<
       onSuccess: (_, { collectionId, templateDescriptorId }) => {
          queryClient.setQueryData<string[]>(
             libraryKeys.collectionTemplates(collectionId),
-            (prev) => (prev ? [...prev, templateDescriptorId] : [templateDescriptorId])
+            (prev) =>
+               prev ? [...prev, templateDescriptorId] : [templateDescriptorId]
          );
          queryClient.invalidateQueries({ queryKey: libraryKeys.collections() });
          queryClient.invalidateQueries({ queryKey: libraryKeys.entries({}) });

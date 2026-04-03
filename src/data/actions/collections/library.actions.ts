@@ -159,7 +159,10 @@ export const addTemplateToCollection = async (
       return { success: true, message: "Vorlage hinzugefügt" };
    } catch (error) {
       console.error(formatError(error));
-      return { success: false, message: "Vorlage konnte nicht hinzugefügt werden" };
+      return {
+         success: false,
+         message: "Vorlage konnte nicht hinzugefügt werden",
+      };
    }
 };
 
@@ -175,11 +178,17 @@ export const removeTemplateFromCollection = async (
       const service = getService();
       const collection = await service.getCollectionById(user.id, collectionId);
       if (!collection) throw new Error("Collection not found.");
-      await service.removeTemplateFromCollection(collectionId, templateDescriptorId);
+      await service.removeTemplateFromCollection(
+         collectionId,
+         templateDescriptorId
+      );
       return { success: true, message: "Vorlage entfernt" };
    } catch (error) {
       console.error(formatError(error));
-      return { success: false, message: "Vorlage konnte nicht entfernt werden" };
+      return {
+         success: false,
+         message: "Vorlage konnte nicht entfernt werden",
+      };
    }
 };
 

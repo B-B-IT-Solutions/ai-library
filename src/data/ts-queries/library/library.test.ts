@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/library");
+jest.mock("@/data/actions/collections");
 jest.mock("@/data/actions/prompt-template");
 
 import {
@@ -24,7 +24,7 @@ import {
    getLibraryCollections,
    updateEntryCollections,
    updateLibraryCollection,
-} from "@/data/actions/library";
+} from "@/data/actions/collections";
 import {
    getTemplateDescriptorsPage,
    toggleTemplateDescriptorFavorite,

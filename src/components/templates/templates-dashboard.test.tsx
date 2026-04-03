@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/library");
+jest.mock("@/data/actions/collections");
 jest.mock("@/data/actions/prompt-template");
 jest.mock("./search-params");
 
@@ -6,7 +6,7 @@ import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
-import { getLibraryCollections } from "@/data/actions/library";
+import { getLibraryCollections } from "@/data/actions/collections";
 import {
    getTemplateDescriptorCategories,
    getTemplateDescriptorModels,
