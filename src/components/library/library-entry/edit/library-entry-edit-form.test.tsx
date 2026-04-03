@@ -368,7 +368,7 @@ describe("LibraryEntryEditForm functionality tests", () => {
          );
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(result.message);
-         expect(mockRouter.pathname).toEqual("/library");
+         expect(mockRouter.pathname).toEqual("/templates");
       });
    });
 

@@ -18,7 +18,7 @@ export const DeleteLibraryEntryButton = ({ descriptor }: Props) => {
       const result = await deleteTemplateDescriptor(descriptor.id);
       if (result.success) {
          toast.success(result.message);
-         router.push("/library");
+         router.push("/templates");
       } else {
          toast.error(result.message);
       }

@@ -123,7 +123,7 @@ exports[`AuthenticatedLayoutWrapper rendering tests isAuthenticated true - sideb
                         data-size="default"
                         data-slot="sidebar-menu-button"
                         data-testid="menu-item-library"
-                        href="/library"
+                        href="/templates"
                       >
                         <svg
                           aria-hidden="true"
@@ -573,7 +573,7 @@ exports[`AuthenticatedLayoutWrapper rendering tests isAuthenticated true - sideb
                         data-size="default"
                         data-slot="sidebar-menu-button"
                         data-testid="menu-item-library"
-                        href="/library"
+                        href="/templates"
                       >
                         <svg
                           aria-hidden="true"
@@ -1023,7 +1023,7 @@ exports[`AuthenticatedLayoutWrapper rendering tests isAuthenticated true - sideb
                         data-size="default"
                         data-slot="sidebar-menu-button"
                         data-testid="menu-item-library"
-                        href="/library"
+                        href="/templates"
                       >
                         <svg
                           aria-hidden="true"

@@ -117,7 +117,7 @@ exports[`Sidebar rendering tests sidebar collapsed - rendered test 1`] = `
                       data-size="default"
                       data-slot="sidebar-menu-button"
                       data-testid="menu-item-library"
-                      href="/library"
+                      href="/templates"
                     >
                       <svg
                         aria-hidden="true"
@@ -555,7 +555,7 @@ exports[`Sidebar rendering tests sidebar open - rendered test 1`] = `
                       data-size="default"
                       data-slot="sidebar-menu-button"
                       data-testid="menu-item-library"
-                      href="/library"
+                      href="/templates"
                     >
                       <svg
                         aria-hidden="true"

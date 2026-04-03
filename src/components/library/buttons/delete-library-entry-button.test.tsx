@@ -42,7 +42,7 @@ describe("DeleteLibraryEntryButton rendering tests", () => {
 describe("DeleteLibraryEntryButton functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      mockRouter.push("/library/test-id");
+      mockRouter.push("/templates/test-id");
    });
 
    it("confirm btn clicked - result.success true - test", async () => {
@@ -77,7 +77,7 @@ describe("DeleteLibraryEntryButton functionality tests", () => {
          );
          expect(toastMock.success).toHaveBeenCalledTimes(1);
          expect(toastMock.success).toHaveBeenCalledWith(actionResult.message);
-         expect(mockRouter.pathname).toEqual("/library");
+         expect(mockRouter.pathname).toEqual("/templates");
       });
    });
 
@@ -113,7 +113,7 @@ describe("DeleteLibraryEntryButton functionality tests", () => {
          );
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(actionResult.message);
-         expect(mockRouter.pathname).toEqual("/library/test-id");
+         expect(mockRouter.pathname).toEqual("/templates/test-id");
       });
    });
 
@@ -138,7 +138,7 @@ describe("DeleteLibraryEntryButton functionality tests", () => {
 
       await waitFor(() => {
          expect(deleteTemplateDescriptorMock).not.toHaveBeenCalled();
-         expect(mockRouter.pathname).toEqual("/library/test-id");
+         expect(mockRouter.pathname).toEqual("/templates/test-id");
       });
    });
 });

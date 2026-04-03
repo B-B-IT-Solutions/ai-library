@@ -31,7 +31,7 @@ exports[`LibraryDashboard rendering tests LibraryDashboard rendered test 1`] = `
             class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md px-3 has-[>svg]:px-2.5 cursor-pointer gap-2"
             data-slot="button"
             data-testid="create-library-entry-btn"
-            href="/library/new"
+            href="/templates/new"
           >
             <svg
               aria-hidden="true"
@@ -378,7 +378,7 @@ exports[`LibraryDashboard rendering tests LibraryDashboard rendered test 1`] = `
             <a
               class="group/title"
               data-testid="view-details-link-title"
-              href="/library/334db648-f300-4284-8149-075ff465d750"
+              href="/templates/334db648-f300-4284-8149-075ff465d750"
             >
               <h4
                 class="cursor-pointer text-lg leading-tight font-semibold text-slate-900 transition-colors hover:text-blue-700"
@@ -567,7 +567,7 @@ exports[`LibraryDashboard rendering tests LibraryDashboard rendered test 1`] = `
             <a
               class="group/title"
               data-testid="view-details-link-title"
-              href="/library/334db648-f300-4284-8149-075ff465d751"
+              href="/templates/334db648-f300-4284-8149-075ff465d751"
             >
               <h4
                 class="cursor-pointer text-lg leading-tight font-semibold text-slate-900 transition-colors hover:text-blue-700"
@@ -756,7 +756,7 @@ exports[`LibraryDashboard rendering tests LibraryDashboard rendered test 1`] = `
             <a
               class="group/title"
               data-testid="view-details-link-title"
-              href="/library/334db648-f300-4284-8149-075ff465d752"
+              href="/templates/334db648-f300-4284-8149-075ff465d752"
             >
               <h4
                 class="cursor-pointer text-lg leading-tight font-semibold text-slate-900 transition-colors hover:text-blue-700"

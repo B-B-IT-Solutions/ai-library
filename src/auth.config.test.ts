@@ -145,7 +145,7 @@ describe("auth.config - callback.authorized - tests", () => {
       "/prompts",
       "/marketplace",
       "/products/123",
-      "/library",
+      "/templates",
       "/checkout",
       "/settings",
       "/profile",

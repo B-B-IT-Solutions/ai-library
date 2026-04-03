@@ -41,7 +41,7 @@ describe("CreateLibraryEntryButton functionality tests", () => {
       await userEvent.click(btn);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual("/library/new");
+         expect(mockRouter.pathname).toEqual("/templates/new");
       });
    });
 });

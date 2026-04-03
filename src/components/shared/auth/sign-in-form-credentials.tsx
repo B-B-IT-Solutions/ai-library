@@ -36,7 +36,7 @@ export const CredentialsSignInForm = () => {
    });
 
    const searchParams = useSearchParams();
-   const callbackUrl = searchParams.get("callbackUrl") || "/library";
+   const callbackUrl = searchParams.get("callbackUrl") || "/templates";
 
    const onSubmit: SubmitHandler<DUserSignIn> = async (data) => {
       const result = await signInWithCredentials(data);

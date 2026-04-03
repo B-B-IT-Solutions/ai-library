@@ -30,7 +30,7 @@ describe("ItemDetailsBreadcrumb rendering test", () => {
          <ItemDetailsBreadcrumb
             root={{
                label: "Vorlagen",
-               href: "/library",
+               href: "/templates",
             }}
             page={{
                label: "Neue Vorlage",
@@ -52,7 +52,7 @@ describe("ItemDetailsBreadcrumb rendering test", () => {
          <ItemDetailsBreadcrumb
             root={{
                label: "Vorlagen",
-               href: "/library",
+               href: "/templates",
             }}
             variant="view"
             page={{
@@ -75,11 +75,11 @@ describe("ItemDetailsBreadcrumb rendering test", () => {
          <ItemDetailsBreadcrumb
             root={{
                label: "Vorlagen",
-               href: "/library",
+               href: "/templates",
             }}
             variant="edit"
             link={{
-               href: "/library/entry-id-1",
+               href: "/templates/entry-id-1",
                label: "Template 2",
                tooltip: "Tooltip 2",
             }}
@@ -105,7 +105,7 @@ describe("ItemDetailsBreadcrumb funtionality tests", () => {
          <ItemDetailsBreadcrumb
             root={{
                label: "Vorlagen",
-               href: "/library",
+               href: "/templates",
             }}
             variant="new"
             page={{
@@ -122,7 +122,7 @@ describe("ItemDetailsBreadcrumb funtionality tests", () => {
       await userEvent.click(rootLink);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual("/library");
+         expect(mockRouter.pathname).toEqual("/templates");
       });
    });
 
@@ -131,7 +131,7 @@ describe("ItemDetailsBreadcrumb funtionality tests", () => {
          <ItemDetailsBreadcrumb
             root={{
                label: "Vorlagen",
-               href: "/library",
+               href: "/templates",
             }}
             variant="view"
             page={{
@@ -149,7 +149,7 @@ describe("ItemDetailsBreadcrumb funtionality tests", () => {
       await userEvent.click(rootLink);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual("/library");
+         expect(mockRouter.pathname).toEqual("/templates");
       });
    });
 
@@ -158,11 +158,11 @@ describe("ItemDetailsBreadcrumb funtionality tests", () => {
          <ItemDetailsBreadcrumb
             root={{
                label: "Vorlagen",
-               href: "/library",
+               href: "/templates",
             }}
             variant="edit"
             link={{
-               href: "/library/entry-id-123",
+               href: "/templates/entry-id-123",
                label: "Template 2",
                tooltip: "Tooltip 2",
             }}
@@ -177,7 +177,7 @@ describe("ItemDetailsBreadcrumb funtionality tests", () => {
       await userEvent.click(itemLink);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual("/library/entry-id-123");
+         expect(mockRouter.pathname).toEqual("/templates/entry-id-123");
       });
    });
 });

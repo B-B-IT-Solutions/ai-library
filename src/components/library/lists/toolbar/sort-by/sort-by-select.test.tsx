@@ -11,7 +11,7 @@ const assertRendered = () => {
 
 describe("SortBySelect rendering tests", () => {
    it("SortBySelect - sortBy asc(createdAt) - test", async () => {
-      const url = "/library";
+      const url = "/templates";
       const searchParams = "sort=asc(createdAt)";
 
       const { container } = renderWithRouter(
@@ -28,7 +28,7 @@ describe("SortBySelect rendering tests", () => {
    });
 
    it("SortBySelect - sortBy desc(createdAt) - test", async () => {
-      const url = "/library";
+      const url = "/templates";
       const searchParams = "sort=desc(createdAt)";
 
       const { container } = renderWithRouter(
@@ -45,7 +45,7 @@ describe("SortBySelect rendering tests", () => {
    });
 
    it("SortBySelect - sortBy asc(title) - test", async () => {
-      const url = "/library";
+      const url = "/templates";
       const searchParams = "sort=asc(title)";
 
       const { container } = renderWithRouter(
@@ -68,7 +68,7 @@ describe("SortBySelect functinality tests", () => {
    });
 
    it("SortBySelect - option asc(date) selected - test", async () => {
-      const url = "/library";
+      const url = "/templates";
       const searchParams = "sort=asc(title)";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(<SortBySelect />, url, searchParams, onUrlUpdateFn);
@@ -105,7 +105,7 @@ describe("SortBySelect functinality tests", () => {
    });
 
    it("SortBySelect - option asc(title) selected - test", async () => {
-      const url = "/library";
+      const url = "/templates";
       const searchParams = "sort=desc(createdAt)";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(<SortBySelect />, url, searchParams, onUrlUpdateFn);

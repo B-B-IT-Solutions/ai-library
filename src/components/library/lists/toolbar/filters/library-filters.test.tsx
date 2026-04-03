@@ -57,7 +57,7 @@ describe("LibraryFilters rendering tests", () => {
    });
 
    it("LibraryFilters - filters empty - test", async () => {
-      const url = "/library";
+      const url = "/templates";
       const searchParams = "";
       const { container } = renderWithRouter(
          <LibraryFilters categories={[]} models={[]} />,
@@ -84,7 +84,7 @@ describe("LibraryFilters rendering tests", () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
 
-      const url = "/library";
+      const url = "/templates";
       const searchParams = "f_search=test-1";
       const { container } = renderWithRouter(
          <LibraryFilters categories={categories} models={models} />,
@@ -117,7 +117,7 @@ describe("LibraryFilters functinality tests", () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
 
-      const url = "/library";
+      const url = "/templates";
       const searchParams = "";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(
@@ -167,7 +167,7 @@ describe("LibraryFilters functinality tests", () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
 
-      const url = "/library";
+      const url = "/templates";
       const searchParams = "f_categories=cat-1";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(
@@ -215,7 +215,7 @@ describe("LibraryFilters functinality tests", () => {
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
 
-      const url = "/library";
+      const url = "/templates";
       const searchParams = "f_models=mod-1";
       const onUrlUpdateFn = jest.fn();
       renderWithRouter(

@@ -11,7 +11,7 @@ export const CreateLibraryEntryButton = () => {
          className="cursor-pointer gap-2"
          data-testid="create-library-entry-btn"
       >
-         <Link href="/library/new">
+         <Link href="/templates/new">
             <Plus className="h-4 w-4" />
             Neue Vorlage
          </Link>

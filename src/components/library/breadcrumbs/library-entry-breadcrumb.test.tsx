@@ -83,7 +83,7 @@ describe("LibraryEntryBreadcrumb funtionality tests", () => {
       await userEvent.click(rootLink);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual("/library");
+         expect(mockRouter.pathname).toEqual("/templates");
       });
    });
 
@@ -98,7 +98,7 @@ describe("LibraryEntryBreadcrumb funtionality tests", () => {
       await userEvent.click(rootLink);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual("/library");
+         expect(mockRouter.pathname).toEqual("/templates");
       });
    });
 
@@ -119,7 +119,7 @@ describe("LibraryEntryBreadcrumb funtionality tests", () => {
       await userEvent.click(itemLink);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual("/library/entry-id-123");
+         expect(mockRouter.pathname).toEqual("/templates/entry-id-123");
       });
    });
 });

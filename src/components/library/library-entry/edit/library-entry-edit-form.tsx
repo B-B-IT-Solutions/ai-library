@@ -131,7 +131,7 @@ export const LibraryEntryEditForm = ({ descriptor, globalFields }: Props) => {
          const result = await createTemplateDescriptor(data);
          if (result.success) {
             toast.success(result.message);
-            router.push("/library");
+            router.push("/templates");
          } else {
             toast.error(result.message);
          }
@@ -140,7 +140,7 @@ export const LibraryEntryEditForm = ({ descriptor, globalFields }: Props) => {
 
    const cancelBtn = () => {
       return (
-         <Link href={isEdit ? `/library/${descriptor.id}` : "/library"}>
+         <Link href={isEdit ? `/library/${descriptor.id}` : "/templates"}>
             <Button
                type="button"
                variant="outline"

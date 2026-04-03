@@ -131,7 +131,7 @@ describe("Sidebar functionality tests", () => {
       });
 
       await assertNavigateToMenuItem("/prompts", "/prompts");
-      await assertNavigateToMenuItem("/library", "/library");
+      await assertNavigateToMenuItem("/templates", "/templates");
       await assertNavigateToMenuItem("/marketplace", "/marketplace");
       // await assertNavigateToMenuItem("/feedback", "/feedback");
       // await assertNavigateToMenuItem("/invite-people", "/invite-people");
@@ -147,7 +147,7 @@ describe("Sidebar functionality tests", () => {
          assertRendered();
          assertMenuItemActive("/settings", true);
          assertMenuItemActive("/prompts", false);
-         assertMenuItemActive("/library", false);
+         assertMenuItemActive("/templates", false);
       });
    });
 
