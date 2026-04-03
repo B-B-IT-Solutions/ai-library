@@ -99,8 +99,8 @@ describe("updateCollection tests", () => {
 
       expect(libraryRepoMock.pUpdateCollection).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pUpdateCollection).toHaveBeenCalledWith(
-         collectionId,
          userId,
+         collectionId,
          data
       );
    });
@@ -119,8 +119,8 @@ describe("deleteCollection tests", () => {
 
       expect(libraryRepoMock.pDeleteCollection).toHaveBeenCalledTimes(1);
       expect(libraryRepoMock.pDeleteCollection).toHaveBeenCalledWith(
-         collectionId,
-         userId
+         userId,
+         collectionId
       );
    });
 });

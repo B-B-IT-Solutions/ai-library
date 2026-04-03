@@ -14,14 +14,12 @@ import {
    deleteLibraryCollection,
    getEntryCollectionIds,
    getLibraryCollections,
-   toggleLibraryEntryFavorite,
    updateEntryCollections,
    updateLibraryCollection,
 } from "./library.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
-const sToggleFavorite = LibraryService.prototype.toggleFavorite;
 const sGetCollections = LibraryService.prototype.getCollections;
 const sCreateCollection = LibraryService.prototype.createCollection;
 const sUpdateCollection = LibraryService.prototype.updateCollection;
@@ -29,9 +27,6 @@ const sDeleteCollection = LibraryService.prototype.deleteCollection;
 const sGetEntryCollectionIds = LibraryService.prototype.getEntryCollectionIds;
 const sUpdateEntryCollections = LibraryService.prototype.updateEntryCollections;
 
-const sToggleFavoriteMock = sToggleFavorite as jest.MockedFunction<
-   typeof sToggleFavorite
->;
 const sGetCollectionsMock = sGetCollections as jest.MockedFunction<
    typeof sGetCollections
 >;
@@ -191,7 +186,7 @@ describe("updateLibraryCollection tests", () => {
       expect(sUpdateCollectionMock).not.toHaveBeenCalled();
    });
 
-   it("updateLibraryCollection - user undefined - test", async () => {
+   it("user undefined - test", async () => {
       const error = new Error("Unknow user");
       const collectionId = "123e4567-e89b-12d3-a456-426614174000";
       requireUserMock.mockRejectedValue(error);
@@ -208,32 +203,7 @@ describe("updateLibraryCollection tests", () => {
       expect(sUpdateCollectionMock).not.toHaveBeenCalled();
    });
 
-   it("updateLibraryCollection - success - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
-
-      sUpdateCollectionMock.mockResolvedValue();
-
-      const data = dtestData.dLibraryCollectionUpdate();
-      const result = await updateLibraryCollection(collectionId, data);
-
-      const expectedResult: ActionResult<DPromptUpdate> = {
-         success: true,
-         message: "Sammlung erfolgreich aktualisiert",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sUpdateCollectionMock).toHaveBeenCalledTimes(1);
-      expect(sUpdateCollectionMock).toHaveBeenCalledWith(
-         collectionId,
-         user.id,
-         data
-      );
-   });
-
-   it("updateLibraryCollection - error - test", async () => {
+   it("error - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -253,8 +223,33 @@ describe("updateLibraryCollection tests", () => {
       expect(result).toEqual(expectedResult);
       expect(sUpdateCollectionMock).toHaveBeenCalledTimes(1);
       expect(sUpdateCollectionMock).toHaveBeenCalledWith(
-         collectionId,
          user.id,
+         collectionId,
+         data
+      );
+   });
+
+   it("collection - updated - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
+
+      sUpdateCollectionMock.mockResolvedValue();
+
+      const data = dtestData.dLibraryCollectionUpdate();
+      const result = await updateLibraryCollection(collectionId, data);
+
+      const expectedResult: ActionResult<DPromptUpdate> = {
+         success: true,
+         message: "Sammlung erfolgreich aktualisiert",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sUpdateCollectionMock).toHaveBeenCalledTimes(1);
+      expect(sUpdateCollectionMock).toHaveBeenCalledWith(
+         user.id,
+         collectionId,
          data
       );
    });
@@ -270,7 +265,7 @@ describe("deleteLibraryCollection tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("deleteLibraryCollection - invalid UUID - test", async () => {
+   it("invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
 
       const result = await deleteLibraryCollection(invalidId);
@@ -285,7 +280,7 @@ describe("deleteLibraryCollection tests", () => {
       expect(sDeleteCollectionMock).not.toHaveBeenCalled();
    });
 
-   it("deleteLibraryCollection - user undefined - test", async () => {
+   it("user undefined - test", async () => {
       const error = new Error("Unknow user");
       const collectionId = "123e4567-e89b-12d3-a456-426614174000";
       requireUserMock.mockRejectedValue(error);
@@ -301,27 +296,7 @@ describe("deleteLibraryCollection tests", () => {
       expect(sDeleteCollectionMock).not.toHaveBeenCalled();
    });
 
-   it("deleteLibraryCollection - success - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
-
-      sDeleteCollectionMock.mockResolvedValue();
-
-      const result = await deleteLibraryCollection(collectionId);
-
-      const expectedResult: ActionResult<DPromptUpdate> = {
-         success: true,
-         message: "Sammlung erfolgreich gelöscht",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sDeleteCollectionMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteCollectionMock).toHaveBeenCalledWith(collectionId, user.id);
-   });
-
-   it("deleteLibraryCollection - error - test", async () => {
+   it("error - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -339,7 +314,27 @@ describe("deleteLibraryCollection tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(sDeleteCollectionMock).toHaveBeenCalledTimes(1);
-      expect(sDeleteCollectionMock).toHaveBeenCalledWith(collectionId, user.id);
+      expect(sDeleteCollectionMock).toHaveBeenCalledWith(user.id, collectionId);
+   });
+
+   it("colection - deleted - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
+
+      sDeleteCollectionMock.mockResolvedValue();
+
+      const result = await deleteLibraryCollection(collectionId);
+
+      const expectedResult: ActionResult<DPromptUpdate> = {
+         success: true,
+         message: "Sammlung erfolgreich gelöscht",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sDeleteCollectionMock).toHaveBeenCalledTimes(1);
+      expect(sDeleteCollectionMock).toHaveBeenCalledWith(user.id, collectionId);
    });
 });
 

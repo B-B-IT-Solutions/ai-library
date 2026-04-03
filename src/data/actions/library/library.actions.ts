@@ -59,7 +59,7 @@ export const updateLibraryCollection = async (
 
       const user = await requireUser();
       const service = getService();
-      await service.updateCollection(collectionId, user.id, data);
+      await service.updateCollection(user.id, collectionId, data);
 
       return {
          success: true,
@@ -84,7 +84,7 @@ export const deleteLibraryCollection = async (
 
       const user = await requireUser();
       const service = getService();
-      await service.deleteCollection(collectionId, user.id);
+      await service.deleteCollection(user.id, collectionId);
 
       return {
          success: true,
