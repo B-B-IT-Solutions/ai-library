@@ -21,7 +21,7 @@ const expectedMetadata: Metadata = {
 
 const assertRendered = () => {
    const page = screen.getByTestId("template-view-page");
-   const viewEntry = screen.getByTestId("library-entry-view");
+   const viewEntry = screen.getByTestId("template-view");
 
    assertInDocument(page);
    assertInDocument(viewEntry);

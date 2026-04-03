@@ -16,7 +16,7 @@ type Props = {
 
 export const TemplateView = ({ descriptor }: Props) => {
    return (
-      <ItemDetailsView data-testid="library-entry-view">
+      <ItemDetailsView data-testid="template-view">
          <ItemDetailsViewHeader>
             <h1 className="text-2xl font-bold text-slate-900">
                {descriptor.title}

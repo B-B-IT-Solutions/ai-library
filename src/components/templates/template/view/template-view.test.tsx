@@ -5,7 +5,7 @@ import { assertInDocument, dtestData } from "@tests";
 import { TemplateView } from "./template-view";
 
 const assertRendered = () => {
-   const libraryEntry = screen.getByTestId("library-entry-view");
+   const libraryEntry = screen.getByTestId("template-view");
    const breadcrumb = screen.getByTestId("libary-entry-breadcrumb");
    const form = screen.getByTestId("template-view-form");
 

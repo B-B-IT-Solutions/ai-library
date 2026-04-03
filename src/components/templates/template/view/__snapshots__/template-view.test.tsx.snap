@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`LibraryEntryView rendering tests rendered test 1`] = `
+exports[`TemplateView rendering tests rendered test 1`] = `
 <div>
   <div
     class="flex h-screen flex-col bg-slate-50"

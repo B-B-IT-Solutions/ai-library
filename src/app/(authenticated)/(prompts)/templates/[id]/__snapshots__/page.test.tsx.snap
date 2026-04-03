@@ -8,7 +8,7 @@ exports[`TemplatePage rendering tests templateDescriptor defined - test 1`] = `
   >
     <div
       class="flex h-screen flex-col bg-slate-50"
-      data-testid="library-entry-view"
+      data-testid="template-view"
     >
       <div
         class="border-b border-slate-200 bg-white px-6 py-5"

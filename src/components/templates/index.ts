@@ -1,3 +1,3 @@
 export { TemplatesDashboard } from "./templates-dashboard";
-export { LibraryEntryView, LibraryEntryEdit } from "./library-entry";
+export { TemplateView, LibraryEntryEdit } from "./template";
 export { templatesSearchParamsCache } from "./search-params";

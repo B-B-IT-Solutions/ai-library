@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { LibraryEntryView } from "@/components/templates";
+import { TemplateView } from "@/components/templates";
 import { getTemplateDescriptor } from "@/data/actions/prompt-template";
 
 export const metadata: Metadata = {
@@ -26,7 +26,7 @@ export const TemplatePage = async ({ params }: PageProps) => {
 
    return (
       <div className="h-screen bg-slate-50" data-testid="template-view-page">
-         <LibraryEntryView descriptor={descriptor} />
+         <TemplateView descriptor={descriptor} />
       </div>
    );
 };
