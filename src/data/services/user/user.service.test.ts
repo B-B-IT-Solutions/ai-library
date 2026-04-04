@@ -1,6 +1,5 @@
 jest.mock("@/data/repositories/user");
 jest.mock("@/data/services/cart");
-jest.mock("@/data/services/collection");
 jest.mock("@/data/services/order");
 jest.mock("@/data/services/iubenda");
 jest.mock("@/lib/encrypt");
