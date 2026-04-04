@@ -15,7 +15,6 @@ import prisma from "@/data/repositories/prisma";
 import { UserRepository } from "@/data/repositories/user";
 import { ServiceFactory } from "@/data/services//service.factory";
 import { CartService } from "@/data/services/cart";
-import { CollectionService } from "@/data/services/collection";
 import {
    IubendaService,
    LegalNoticesAcceptedParams,
@@ -46,12 +45,10 @@ const resolveIpAddresseMock = resolveIpAddresse as jest.MockedFunction<
 
 const serviceFactory = new ServiceFactory(prisma);
 const cartService = serviceFactory.getCartService();
-const libraryService = serviceFactory.getLibraryService();
 const orderService = serviceFactory.getOrderService();
 const iubendaService = serviceFactory.getIubendaService();
 
 const cartServiceMock = cartService as DeepMockProxy<CartService>;
-const libraryServiceMock = libraryService as DeepMockProxy<CollectionService>;
 const orderServiceMock = orderService as DeepMockProxy<OrderService>;
 const iubendaServiceMock = iubendaService as DeepMockProxy<IubendaService>;
 
@@ -61,7 +58,6 @@ const userRepoMock = userRepo as DeepMockProxy<UserRepository>;
 const userService = new UserService(
    userRepoMock,
    cartServiceMock,
-   libraryServiceMock,
    orderServiceMock,
    iubendaServiceMock
 );

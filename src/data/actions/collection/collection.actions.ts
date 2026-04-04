@@ -303,5 +303,5 @@ export const updateEntryCollections = async (
 
 const getService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
-   return factory.getLibraryService();
+   return factory.getCollectionService();
 };

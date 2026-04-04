@@ -40,15 +40,15 @@ describe("getCartService tests", () => {
    });
 });
 
-describe("getLibraryService tests", () => {
-   it("getLibraryService - new instance - test", () => {
-      const service = serviceFactory.getLibraryService();
+describe("getCollectionService tests", () => {
+   it("getCollectionService - new instance - test", () => {
+      const service = serviceFactory.getCollectionService();
       expect(service).toBeInstanceOf(CollectionService);
    });
 
-   it("getLibraryService - existing instance - test", () => {
-      const service1 = serviceFactory.getLibraryService();
-      const service2 = serviceFactory.getLibraryService();
+   it("getCollectionService - existing instance - test", () => {
+      const service1 = serviceFactory.getCollectionService();
+      const service2 = serviceFactory.getCollectionService();
       expect(service1).toBe(service2);
    });
 });

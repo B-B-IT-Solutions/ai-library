@@ -15,7 +15,7 @@ export class ServiceFactory {
    private repositories: RepositoryFactory;
    private userService?: UserService;
    private cartService?: CartService;
-   private libraryService?: CollectionService;
+   private collectionService?: CollectionService;
    private orderService?: OrderService;
    private stripeService?: StripeService;
    private subscriptionService?: SubscriptionService;
@@ -33,7 +33,6 @@ export class ServiceFactory {
          this.userService = new UserService(
             this.repositories.userRepository(),
             this.getCartService(),
-            this.getLibraryService(),
             this.getOrderService(),
             this.getIubendaService()
          );
@@ -48,13 +47,13 @@ export class ServiceFactory {
       return this.cartService;
    }
 
-   getLibraryService(): CollectionService {
-      if (!this.libraryService) {
-         this.libraryService = new CollectionService(
+   getCollectionService(): CollectionService {
+      if (!this.collectionService) {
+         this.collectionService = new CollectionService(
             this.repositories.collectionRepository()
          );
       }
-      return this.libraryService;
+      return this.collectionService;
    }
 
    getOrderService(): OrderService {
@@ -62,7 +61,7 @@ export class ServiceFactory {
          this.orderService = new OrderService(
             this.repositories.orderRepository(),
             this.getCartService(),
-            this.getLibraryService()
+            this.getCollectionService()
          );
       }
       return this.orderService;

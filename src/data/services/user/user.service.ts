@@ -3,7 +3,6 @@ import { headers } from "next/headers";
 import { UserRepository } from "@/data/repositories/user";
 import { CartService } from "@/data/services//cart";
 import { OrderService } from "@/data/services//order";
-import { CollectionService } from "@/data/services/collection";
 import {
    IubendaService,
    LegalNoticesAcceptedParams,
@@ -26,20 +25,17 @@ import { toDUser } from "./user.mapper";
 export class UserService {
    private userRepository: UserRepository;
    private cartService: CartService;
-   private libraryService: CollectionService;
    private orderService: OrderService;
    private iubendaService: IubendaService;
 
    constructor(
       userRepository: UserRepository,
       cartService: CartService,
-      libraryService: CollectionService,
       orderService: OrderService,
       iubendaService: IubendaService
    ) {
       this.userRepository = userRepository;
       this.cartService = cartService;
-      this.libraryService = libraryService;
       this.orderService = orderService;
       this.iubendaService = iubendaService;
    }
