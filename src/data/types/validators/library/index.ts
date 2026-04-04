@@ -1,1 +1,1 @@
-export { updateCollectionSchema } from "./library.schema";
+export { updateCollectionSchema } from "./collection.schema";

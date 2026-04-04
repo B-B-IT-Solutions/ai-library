@@ -2,7 +2,7 @@ import { ZodError } from "zod";
 
 import { DCollectionUpdate } from "@/data/types/domain/collection";
 
-import { updateCollectionSchema } from "./library.schema";
+import { updateCollectionSchema } from "./collection.schema";
 
 describe("updateCollectionSchema tests", () => {
    it("data valid - all fields - test", () => {
