@@ -49,23 +49,21 @@ export class CollectionService {
       );
    }
 
-   async deleteCollection(collectionId: string, userId: string): Promise<void> {
+   async deleteCollection(userId: string, collectionId: string): Promise<void> {
       await this.libraryRepository.pDeleteCollection(userId, collectionId);
    }
 
-   async getPublicCollectionTemplates(collectionId: string) {
-      return await this.libraryRepository.pGetPublicCollectionTemplates(
-         collectionId
-      );
-   }
-
-   async getCollectionTemplateIds(
+   async setCollectionSharing(
       userId: string,
-      collectionId: string
-   ): Promise<string[]> {
-      return await this.libraryRepository.pGetCollectionTemplateIds(
+      collectionId: string,
+      isPublic: boolean,
+      shareToken: string | null
+   ): Promise<DCollection> {
+      return await this.libraryRepository.pSetShareToken(
          userId,
-         collectionId
+         collectionId,
+         shareToken,
+         isPublic
       );
    }
 
@@ -93,17 +91,19 @@ export class CollectionService {
       );
    }
 
-   async setCollectionSharing(
+   async getPublicCollectionTemplates(collectionId: string) {
+      return await this.libraryRepository.pGetPublicCollectionTemplates(
+         collectionId
+      );
+   }
+
+   async getCollectionTemplateIds(
       userId: string,
-      collectionId: string,
-      isPublic: boolean,
-      shareToken: string | null
-   ): Promise<DCollection> {
-      return await this.libraryRepository.pSetShareToken(
+      collectionId: string
+   ): Promise<string[]> {
+      return await this.libraryRepository.pGetCollectionTemplateIds(
          userId,
-         collectionId,
-         shareToken,
-         isPublic
+         collectionId
       );
    }
 

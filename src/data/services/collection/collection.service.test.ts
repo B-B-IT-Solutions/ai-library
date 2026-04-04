@@ -140,13 +140,65 @@ describe("deleteCollection tests", () => {
       const userId = "user-id-1";
       const collectionId = "collection-id-1";
 
-      await collectionService.deleteCollection(collectionId, userId);
+      await collectionService.deleteCollection(userId, collectionId);
 
       expect(collectionRepoMock.pDeleteCollection).toHaveBeenCalledTimes(1);
       expect(collectionRepoMock.pDeleteCollection).toHaveBeenCalledWith(
          userId,
          collectionId
       );
+   });
+});
+
+describe("addTemplateToCollection tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("addTemplateToCollection - template added - test", async () => {
+      const userId = "user-id-1";
+      const collectionId = "collection-id-1";
+      const descriptorId = "descriptor-id-1";
+
+      await collectionService.addTemplateToCollection(
+         userId,
+         collectionId,
+         descriptorId
+      );
+
+      expect(collectionRepoMock.pAddTemplateToCollection).toHaveBeenCalledTimes(
+         1
+      );
+      expect(collectionRepoMock.pAddTemplateToCollection).toHaveBeenCalledWith(
+         userId,
+         collectionId,
+         descriptorId
+      );
+   });
+});
+
+describe("removeTemplateFromCollection tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("removeTemplateFromCollection - template removed - test", async () => {
+      const userId = "user-id-1";
+      const collectionId = "collection-id-1";
+      const descriptorId = "descriptor-id-1";
+
+      await collectionService.removeTemplateFromCollection(
+         userId,
+         collectionId,
+         descriptorId
+      );
+
+      expect(
+         collectionRepoMock.pRemoveTemplateFromCollection
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         collectionRepoMock.pRemoveTemplateFromCollection
+      ).toHaveBeenCalledWith(userId, collectionId, descriptorId);
    });
 });
 
