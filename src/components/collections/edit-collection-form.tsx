@@ -17,7 +17,7 @@ import {
 import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
-} from "@/data/types/domain/library";
+} from "@/data/types/domain/collection";
 import { updateLibraryCollectionSchema } from "@/data/types/validators/library";
 
 type Props = {

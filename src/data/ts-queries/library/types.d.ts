@@ -1,5 +1,5 @@
 import { Sort } from "@/data/types/common";
-import { DLibraryCollectionUpdate } from "@/data/types/domain/library";
+import { DLibraryCollectionUpdate } from "@/data/types/domain/collection";
 import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
 
 export type LoadLibraryEntriesParams = {

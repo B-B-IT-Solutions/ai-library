@@ -3,7 +3,7 @@ import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { DLibraryCollectionUpdate } from "@/data/types/domain/library";
+import { DLibraryCollectionUpdate } from "@/data/types/domain/collection";
 import {
    LibraryCollectionCreateArgs,
    LibraryCollectionCreateInput,
@@ -37,6 +37,13 @@ describe("pGetCollections tests", () => {
          where: { userId },
          orderBy: {
             order: "asc",
+         },
+         include: {
+            _count: {
+               select: {
+                  entries: true,
+               },
+            },
          },
       };
 

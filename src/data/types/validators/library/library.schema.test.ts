@@ -1,6 +1,6 @@
 import { ZodError } from "zod";
 
-import { DLibraryCollectionUpdate } from "@/data/types/domain/library";
+import { DLibraryCollectionUpdate } from "@/data/types/domain/collection";
 
 import { updateLibraryCollectionSchema } from "./library.schema";
 

@@ -21,7 +21,7 @@ import {
    useUpdateEntryCollections,
 } from "@/data/ts-queries/library";
 import { UpdateCollectionIdsParams } from "@/data/ts-queries/library/types";
-import { DLibraryCollection } from "@/data/types/domain/library";
+import { DLibraryCollection } from "@/data/types/domain/collection";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 import { LibraryCollectionCreateDialog } from "./create-library-collection-dialog";

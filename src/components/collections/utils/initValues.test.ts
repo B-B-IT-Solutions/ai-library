@@ -1,4 +1,4 @@
-import { DLibraryCollectionUpdate } from "@/data/types/domain/library";
+import { DLibraryCollectionUpdate } from "@/data/types/domain/collection";
 
 import { initLibraryCollection } from "./initValues";
 

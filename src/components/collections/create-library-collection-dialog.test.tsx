@@ -17,7 +17,7 @@ import { useCreateCollection } from "@/data/ts-queries/library";
 import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
-} from "@/data/types/domain/library";
+} from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 
 import { LibraryCollectionCreateDialog } from "./create-library-collection-dialog";

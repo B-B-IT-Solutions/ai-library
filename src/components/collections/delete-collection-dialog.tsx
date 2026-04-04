@@ -15,7 +15,7 @@ import {
    AlertDialogTitle,
 } from "@/components/shadcn/alert-dialog";
 import { useDeleteCollection } from "@/data/ts-queries/library";
-import { DLibraryCollection } from "@/data/types/domain/library";
+import { DLibraryCollection } from "@/data/types/domain/collection";
 
 type Props = {
    collection: DLibraryCollection;

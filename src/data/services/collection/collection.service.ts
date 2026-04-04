@@ -5,7 +5,7 @@ import { OrderProducts } from "@/data/types/db/order";
 import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
-} from "@/data/types/domain/library";
+} from "@/data/types/domain/collection";
 
 export class CollectionService {
    private libraryRepository: CollectionRepository;

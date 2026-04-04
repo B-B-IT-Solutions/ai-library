@@ -21,7 +21,7 @@ import {
    DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import { DLibraryCollection } from "@/data/types/domain/library";
+import { DLibraryCollection } from "@/data/types/domain/collection";
 
 import { DeleteCollectionDialog } from "./delete-collection-dialog";
 
@@ -43,7 +43,7 @@ export const CollectionCard: FC<Props> = ({ collection, onDeleted }) => {
             data-testid={`collection-card-${collection.id}`}
          >
             {/* Actions Menu – only on hover */}
-            <div className="absolute right-3 top-3 opacity-0 transition-opacity group-hover:opacity-100">
+            <div className="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100">
                <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                      <Button
@@ -59,9 +59,7 @@ export const CollectionCard: FC<Props> = ({ collection, onDeleted }) => {
                      <DropdownMenuItem
                         onClick={(e) => {
                            e.preventDefault();
-                           router.push(
-                              `/collections/${collection.id}/edit`
-                           );
+                           router.push(`/collections/${collection.id}/edit`);
                         }}
                      >
                         <Pencil className="mr-2 h-4 w-4" />
@@ -115,7 +113,7 @@ export const CollectionCard: FC<Props> = ({ collection, onDeleted }) => {
                      {collection.description}
                   </p>
                ) : (
-                  <p className="text-sm italic text-slate-300">
+                  <p className="text-sm text-slate-300 italic">
                      Keine Beschreibung
                   </p>
                )}

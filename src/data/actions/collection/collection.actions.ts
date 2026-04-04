@@ -11,7 +11,7 @@ import { DbClient } from "@/data/types/db/common";
 import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
-} from "@/data/types/domain/library";
+} from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 
 export const getLibraryCollections = async (): Promise<

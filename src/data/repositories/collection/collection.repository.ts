@@ -4,7 +4,7 @@ import { DbClient } from "@/data/types/db/common";
 import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
-} from "@/data/types/domain/library";
+} from "@/data/types/domain/collection";
 import {
    LibraryCollectionCreateArgs,
    LibraryCollectionCreateInput,
@@ -24,7 +24,7 @@ export class CollectionRepository {
    }
 
    async pGetCollections(userId: string): Promise<DLibraryCollection[]> {
-      const args: LibraryCollectionFindManyArgs = {
+      const args = {
          where: {
             userId,
          },
@@ -38,12 +38,10 @@ export class CollectionRepository {
                },
             },
          },
-      };
+      } satisfies LibraryCollectionFindManyArgs;
 
       const collections = await this.prisma.libraryCollection.findMany(args);
-      return toDCollections(
-         collections as Parameters<typeof toDCollections>[0]
-      );
+      return toDCollections(collections);
    }
 
    async pGetCollectionById(

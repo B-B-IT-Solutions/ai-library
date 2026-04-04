@@ -3,15 +3,10 @@
 import { FC, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {
-   Folder,
-   Globe,
-   Pencil,
-   Trash2,
-} from "lucide-react";
+import { Folder, Globe, Pencil, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
-import { DLibraryCollection } from "@/data/types/domain/library";
+import { DLibraryCollection } from "@/data/types/domain/collection";
 
 import { DeleteCollectionDialog } from "./delete-collection-dialog";
 

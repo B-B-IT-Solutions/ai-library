@@ -1,32 +1,26 @@
 import { map } from "es-toolkit/compat";
 
-import { DLibraryCollection } from "@/data/types/domain/library";
-import { LibraryCollection } from "@/generated/prisma/client";
-
-type LibraryCollectionWithCount = LibraryCollection & {
-   _count?: { entries: number };
-};
+import { PLibraryCollection } from "@/data/types/db/collection";
+import { DLibraryCollection } from "@/data/types/domain/collection";
 
 export const toDCollections = (
-   collections: LibraryCollectionWithCount[]
+   collections: PLibraryCollection[]
 ): DLibraryCollection[] => {
    return map(collections, (c) => toDCollection(c));
 };
 
-export const toDCollection = (
-   collection: LibraryCollectionWithCount
-): DLibraryCollection => {
+export const toDCollection = (c: PLibraryCollection): DLibraryCollection => {
    return {
-      id: collection.id,
-      userId: collection.userId,
-      name: collection.name,
-      description: collection.description,
-      color: collection.color,
-      order: collection.order,
-      isPublic: collection.isPublic ?? false,
-      shareToken: collection.shareToken,
-      templateCount: collection._count?.entries ?? 0,
-      createdAt: collection.createdAt.toISOString(),
-      updatedAt: collection.updatedAt.toISOString(),
+      id: c.id,
+      userId: c.userId,
+      name: c.name,
+      description: c.description,
+      color: c.color,
+      order: c.order,
+      isPublic: c.isPublic,
+      shareToken: c.shareToken,
+      templateCount: c._count.entries,
+      createdAt: c.createdAt.toISOString(),
+      updatedAt: c.updatedAt.toISOString(),
    };
 };

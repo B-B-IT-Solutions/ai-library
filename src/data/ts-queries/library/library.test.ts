@@ -32,7 +32,7 @@ import {
 import {
    DLibraryCollection,
    DLibraryCollectionUpdate,
-} from "@/data/types/domain/library";
+} from "@/data/types/domain/collection";
 import {
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,
