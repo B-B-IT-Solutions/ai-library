@@ -1,12 +1,22 @@
 import { Metadata } from "next";
+import type { SearchParams } from "nuqs/server";
 
-import { CollectionsDashboard } from "@/components/collections";
+import {
+   CollectionsDashboard,
+   collectionsSearchParamsCache,
+} from "@/components/collections";
 
 export const metadata: Metadata = {
    title: "Sammlungen",
 };
 
-export const CollectionsPage = async () => {
+export type PageProps = {
+   searchParams: Promise<SearchParams>;
+};
+
+export const CollectionsPage = async (props: PageProps) => {
+   await collectionsSearchParamsCache.parse(props.searchParams);
+
    return (
       <div data-testid="collections-page" className="h-full">
          <CollectionsDashboard />

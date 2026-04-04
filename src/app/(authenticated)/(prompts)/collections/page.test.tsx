@@ -2,13 +2,23 @@ jest.mock("@/components/collections", () => ({
    CollectionsDashboard: () => {
       return <div data-testid="collections-dashboard" />;
    },
+   collectionsSearchParamsCache: {
+      parse: jest.fn(),
+   },
 }));
 
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 
-import { CollectionsPage, metadata } from "./page";
+import { collectionsSearchParamsCache } from "@/components/collections";
+
+import { CollectionsPage, metadata, PageProps } from "./page";
+
+const collectionsSearchParamsCacheMock =
+   collectionsSearchParamsCache.parse as jest.MockedFunction<
+      typeof collectionsSearchParamsCache.parse
+   >;
 
 const expectedMetadata: Metadata = {
    title: "Sammlungen",
@@ -28,10 +38,20 @@ describe("CollectionsPage rendering tests", () => {
    });
 
    it("page rendered - test", async () => {
-      const { container } = await renderAsyncRSC(CollectionsPage, {});
+      const params = { view: "grid" };
+
+      const props: PageProps = {
+         searchParams: Promise.resolve(params),
+      };
+
+      const { container } = await renderAsyncRSC(CollectionsPage, props);
 
       await waitFor(() => {
          assertRendered();
+         expect(collectionsSearchParamsCacheMock).toHaveBeenCalledTimes(1);
+         expect(collectionsSearchParamsCacheMock).toHaveBeenCalledWith(
+            props.searchParams
+         );
       });
 
       expect(container).toMatchSnapshot();
