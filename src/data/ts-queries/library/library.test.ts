@@ -42,7 +42,7 @@ import {
    infiniteLoadLibraryEntriesOptions,
    loadEntryCollectionIdsOptions,
    loadLibraryCollectionsOptions,
-   preloadLibraryCollectionsOptions,
+   preloadCollectionsOptions,
    preloadLibraryEntriesOptions,
    toggleFavoriteOptions,
    updateCollectionOptions,
@@ -153,7 +153,7 @@ describe("prefetch options tests", () => {
       const collections = dtestData.dCollections();
       getCollectionsMock.mockResolvedValue(collections);
 
-      const options = preloadLibraryCollectionsOptions();
+      const options = preloadCollectionsOptions();
       const queryFn = options.queryFn as QueryFunction<DCollection[]>;
       const context = {} as QueryFunctionContext;
       const fnResult = await queryFn(context);

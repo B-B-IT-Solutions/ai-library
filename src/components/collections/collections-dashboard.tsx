@@ -3,17 +3,15 @@ import {
    HydrationBoundary,
    QueryClient,
 } from "@tanstack/react-query";
-import { Plus } from "lucide-react";
-import Link from "next/link";
 
-import { Button } from "@/components/shadcn/button";
-import { preloadLibraryCollectionsOptions } from "@/data/ts-queries/library";
+import { preloadCollectionsOptions } from "@/data/ts-queries/library";
 
+import { CreateCollectionButton } from "./buttons";
 import { CollectionItems } from "./lists";
 
 export const CollectionsDashboard = async () => {
    const queryClient = new QueryClient();
-   await queryClient.prefetchQuery(preloadLibraryCollectionsOptions());
+   await queryClient.prefetchQuery(preloadCollectionsOptions());
 
    return (
       <HydrationBoundary state={dehydrate(queryClient)}>
@@ -32,12 +30,7 @@ export const CollectionsDashboard = async () => {
                      </p>
                   </div>
                   <div className="flex items-center gap-3">
-                     <Button asChild className="gap-2">
-                        <Link href="/collections/new">
-                           <Plus className="h-4 w-4" />
-                           Neue Sammlung
-                        </Link>
-                     </Button>
+                     <CreateCollectionButton />
                   </div>
                </div>
             </div>

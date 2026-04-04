@@ -10,7 +10,7 @@ import {
 } from "@/data/actions/prompt-template";
 import {
    infiniteLoadLibraryEntriesOptions,
-   preloadLibraryCollectionsOptions,
+   preloadCollectionsOptions,
 } from "@/data/ts-queries/library";
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
@@ -39,7 +39,7 @@ export const TemplatesDashboard = async () => {
             sort: resolveSort(sortBy),
          })
       ),
-      queryClient.prefetchQuery(preloadLibraryCollectionsOptions()),
+      queryClient.prefetchQuery(preloadCollectionsOptions()),
    ]);
 
    const categories = await getTemplateDescriptorCategories();

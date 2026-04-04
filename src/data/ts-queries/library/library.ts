@@ -21,10 +21,10 @@ import {
    addTemplateToCollection,
    createCollection,
    deleteCollection,
+   getCollectionById,
    getCollections,
    getCollectionTemplateIds,
    getEntryCollectionIds,
-   getCollectionById,
    removeTemplateFromCollection,
    setLibraryCollectionSharing,
    updateCollection,
@@ -76,7 +76,7 @@ export const preloadLibraryEntriesOptions = (
    };
 };
 
-export const preloadLibraryCollectionsOptions = (): FetchQueryOptions<
+export const preloadCollectionsOptions = (): FetchQueryOptions<
    DCollection[],
    Error,
    DCollection[]

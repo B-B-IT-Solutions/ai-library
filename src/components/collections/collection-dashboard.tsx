@@ -14,7 +14,7 @@ import {
 } from "@/data/actions/prompt-template";
 import {
    infiniteLoadLibraryEntriesOptions,
-   preloadLibraryCollectionsOptions,
+   preloadCollectionsOptions,
 } from "@/data/ts-queries/library";
 import { libraryKeys } from "@/data/ts-queries/library/utils";
 import { resolveSort } from "@/data/ts-queries/utils";
@@ -51,7 +51,7 @@ export const CollectionDashboard = async ({ collectionId }: Props) => {
             sort: resolveSort(sortBy),
          })
       ),
-      queryClient.prefetchQuery(preloadLibraryCollectionsOptions()),
+      queryClient.prefetchQuery(preloadCollectionsOptions()),
    ]);
 
    queryClient.setQueryData(libraryKeys.collection(collectionId), collection);

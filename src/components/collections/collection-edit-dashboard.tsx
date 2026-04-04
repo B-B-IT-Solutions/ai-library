@@ -8,7 +8,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { getCollectionById } from "@/data/actions/collection";
-import { preloadLibraryCollectionsOptions } from "@/data/ts-queries/library";
+import { preloadCollectionsOptions } from "@/data/ts-queries/library";
 import { libraryKeys } from "@/data/ts-queries/library/utils";
 
 import { EditCollectionForm } from "./collection/edit-collection-form";
@@ -23,7 +23,7 @@ export const CollectionEditDashboard = async ({ collectionId }: Props) => {
    if (!collection) notFound();
 
    const queryClient = new QueryClient();
-   await queryClient.prefetchQuery(preloadLibraryCollectionsOptions());
+   await queryClient.prefetchQuery(preloadCollectionsOptions());
    queryClient.setQueryData(libraryKeys.collection(collectionId), collection);
 
    const iconColor = collection.color ?? "#64748b";

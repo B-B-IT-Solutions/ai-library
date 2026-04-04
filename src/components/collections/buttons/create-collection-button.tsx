@@ -7,7 +7,6 @@ export const CreateCollectionButton = () => {
    return (
       <Button
          asChild={true}
-         size="sm"
          className="cursor-pointer gap-2"
          data-testid="create-collection-btn"
       >
