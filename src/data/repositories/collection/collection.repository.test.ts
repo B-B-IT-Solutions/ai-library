@@ -18,7 +18,7 @@ import { toDCollection, toDCollections } from "./collection.mapper";
 import { CollectionRepository } from "./collection.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
-const libraryRepository = new CollectionRepository(prismaMock);
+const collectionRepository = new CollectionRepository(prismaMock);
 
 describe("pGetCollections tests", () => {
    beforeEach(() => {
@@ -30,7 +30,7 @@ describe("pGetCollections tests", () => {
       const collections = ptestData.pLibraryCollections();
       prismaMock.libraryCollection.findMany.mockResolvedValue(collections);
 
-      const result = await libraryRepository.pGetCollections(userId);
+      const result = await collectionRepository.pGetCollections(userId);
 
       const expectedResult = toDCollections(collections);
 
@@ -66,7 +66,7 @@ describe("pGetCollectionById tests", () => {
       const collectionId = "non-existent-id";
       prismaMock.libraryCollection.findUnique.mockResolvedValue(null);
 
-      const result = await libraryRepository.pGetCollectionById(
+      const result = await collectionRepository.pGetCollectionById(
          userId,
          collectionId
       );
@@ -98,7 +98,7 @@ describe("pGetCollectionById tests", () => {
       const collection = ptestData.pLibraryCollection();
       prismaMock.libraryCollection.findUnique.mockResolvedValue(collection);
 
-      const result = await libraryRepository.pGetCollectionById(
+      const result = await collectionRepository.pGetCollectionById(
          userId,
          collection.id
       );
@@ -136,7 +136,8 @@ describe("pGetCollectionByShareToken tests", () => {
       const token = "non-existent-token";
       prismaMock.libraryCollection.findUnique.mockResolvedValue(null);
 
-      const result = await libraryRepository.pGetCollectionByShareToken(token);
+      const result =
+         await collectionRepository.pGetCollectionByShareToken(token);
 
       const expectedArgs: LibraryCollectionFindUniqueArgs = {
          where: {
@@ -164,7 +165,8 @@ describe("pGetCollectionByShareToken tests", () => {
       const collection = ptestData.pLibraryCollection();
       prismaMock.libraryCollection.findUnique.mockResolvedValue(collection);
 
-      const result = await libraryRepository.pGetCollectionByShareToken(token);
+      const result =
+         await collectionRepository.pGetCollectionByShareToken(token);
 
       const expectedResult = toDCollection(collection);
 
@@ -202,7 +204,7 @@ describe("pCreateCollection tests", () => {
       const userId = collection.userId;
       const data = dtestData.dLibraryCollectionUpdate();
 
-      const result = await libraryRepository.pCreateCollection(userId, data);
+      const result = await collectionRepository.pCreateCollection(userId, data);
 
       const expectedResult = toDCollection(collection);
 
@@ -245,7 +247,7 @@ describe("pCreateCollection tests", () => {
          name: "My Collection",
       };
 
-      const result = await libraryRepository.pCreateCollection(userId, data);
+      const result = await collectionRepository.pCreateCollection(userId, data);
 
       const expectedResult = toDCollection(collection);
 
@@ -292,7 +294,7 @@ describe("pUpdateCollection tests", () => {
 
       const data = dtestData.dLibraryCollectionUpdate();
 
-      const result = await libraryRepository.pUpdateCollection(
+      const result = await collectionRepository.pUpdateCollection(
          userId,
          collection.id,
          data
@@ -338,7 +340,7 @@ describe("pUpdateCollection tests", () => {
          name: "My Collection",
       };
 
-      const result = await libraryRepository.pUpdateCollection(
+      const result = await collectionRepository.pUpdateCollection(
          userId,
          collection.id,
          data
@@ -383,7 +385,7 @@ describe("pDeleteCollection tests", () => {
       const collection = ptestData.pLibraryCollection();
       prismaMock.libraryCollection.delete.mockResolvedValue(collection);
 
-      await libraryRepository.pDeleteCollection(userId, collection.id);
+      await collectionRepository.pDeleteCollection(userId, collection.id);
 
       const expectedDeleteArgs: LibraryCollectionDeleteArgs = {
          where: {
@@ -395,6 +397,55 @@ describe("pDeleteCollection tests", () => {
       expect(prismaMock.libraryCollection.delete).toHaveBeenCalledTimes(1);
       expect(prismaMock.libraryCollection.delete).toHaveBeenCalledWith(
          expectedDeleteArgs
+      );
+   });
+});
+
+describe("pSetShareToken tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("token set - test", async () => {
+      const userId = "user-id-1";
+      const token = "token-1";
+      const isPublic = true;
+      const collection = ptestData.pLibraryCollection();
+      prismaMock.libraryCollection.update.mockResolvedValue(collection);
+
+      const result = await collectionRepository.pSetShareToken(
+         userId,
+         collection.id,
+         token,
+         isPublic
+      );
+
+      const expectedResult = toDCollection(collection);
+
+      const expectedUpdateInput: LibraryCollectionUpdateInput = {
+         shareToken: token,
+         isPublic,
+      };
+
+      const expectedUpdateArgs: LibraryCollectionUpdateArgs = {
+         where: {
+            id: collection.id,
+            userId,
+         },
+         data: expectedUpdateInput,
+         include: {
+            _count: {
+               select: {
+                  entries: true,
+               },
+            },
+         },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.libraryCollection.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryCollection.update).toHaveBeenCalledWith(
+         expectedUpdateArgs
       );
    });
 });

@@ -192,7 +192,7 @@ export class CollectionRepository {
 
       const collection = await this.prisma.libraryCollection.update(args);
 
-      return toDCollection(collection as Parameters<typeof toDCollection>[0]);
+      return toDCollection(collection);
    }
 
    async pGetPublicCollectionTemplates(collectionId: string): Promise<
