@@ -221,16 +221,16 @@ export const dTemplateModels = (count = 3): string[] => {
    return range(0, count).map((i) => `mod-${i + 1}`);
 };
 
-export const dLibraryCollectionIds = (count = 3): string[] => {
-   const collections = dLibraryCollections(count);
+export const dCollectionIds = (count = 3): string[] => {
+   const collections = dCollections(count);
    return map(collections, "id");
 };
 
-export const dLibraryCollections = (count = 3): DCollection[] => {
-   return range(0, count).map((i) => dLibraryCollection(i));
+export const dCollections = (count = 3): DCollection[] => {
+   return range(0, count).map((i) => dCollection(i));
 };
 
-export const dLibraryCollection = (index = 1): DCollection => {
+export const dCollection = (index = 1): DCollection => {
    return {
       id: `457bf695-6f74-44aa-9b3a-e179ea9e817${index}`,
       userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
@@ -238,12 +238,15 @@ export const dLibraryCollection = (index = 1): DCollection => {
       description: `description ${index}`,
       color: `color ${index}`,
       order: index,
+      isPublic: index % 2 == 0,
+      shareToken: `token-${index}`,
+      templateCount: index * 10,
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),
    };
 };
 
-export const dLibraryCollectionUpdate = (index = 1): DCollectionUpdate => {
+export const dCollectionUpdate = (index = 1): DCollectionUpdate => {
    return {
       name: `name ${index}`,
       description: `description ${index}`,

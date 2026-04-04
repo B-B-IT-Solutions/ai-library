@@ -56,7 +56,7 @@ export class OrderService {
             paymentMethod: "STRIPE",
          };
          await this.orderRepository.pUpdateOrder(orderId, payload);
-         await this.collectionService.createLibraryEntries(order);
+         // await this.collectionService.createLibraryEntries(order);
          await this.cartService.clearCart(order.userId);
       }
    }

@@ -136,7 +136,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       useLoadEntryCollectionIdsMock.mockReturnValue(queryResult);
 
       const descriptor = dtestData.dPromptTemplateDescriptor();
-      const allCollections = dtestData.dLibraryCollections(6);
+      const allCollections = dtestData.dCollections(6);
       allCollections[0].color = null;
 
       const { container } = renderWithReactQuery(
@@ -157,7 +157,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
    });
 
    it("AddToLibraryCollectionDialog - open true - isLoading true - test", async () => {
-      const entryCollectionIds = dtestData.dLibraryCollectionIds(3);
+      const entryCollectionIds = dtestData.dCollectionIds(3);
       const mutationResult = updateMutationResultMock();
       const queryResult = queryResultMock(entryCollectionIds, true);
 
@@ -165,7 +165,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       useLoadEntryCollectionIdsMock.mockReturnValue(queryResult);
 
       const descriptor = dtestData.dPromptTemplateDescriptor();
-      const allCollections = dtestData.dLibraryCollections(6);
+      const allCollections = dtestData.dCollections(6);
 
       const { container } = renderWithReactQuery(
          <AddToLibraryCollectionDialog
@@ -220,7 +220,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       useLoadEntryCollectionIdsMock.mockReturnValue(queryResult);
 
       const descriptor = dtestData.dPromptTemplateDescriptor();
-      const allCollections = dtestData.dLibraryCollections(6);
+      const allCollections = dtestData.dCollections(6);
 
       const { container } = renderWithReactQuery(
          <AddToLibraryCollectionDialog
@@ -247,7 +247,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       useLoadEntryCollectionIdsMock.mockReturnValue(queryResult);
 
       const descriptor = dtestData.dPromptTemplateDescriptor();
-      const allCollections = dtestData.dLibraryCollections(6);
+      const allCollections = dtestData.dCollections(6);
 
       const { container } = renderWithReactQuery(
          <AddToLibraryCollectionDialog
@@ -281,7 +281,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
          message: "Sammlungen aktualisiert",
       };
 
-      const allCollections = dtestData.dLibraryCollections(3);
+      const allCollections = dtestData.dCollections(3);
       const collection1 = allCollections[0];
       const collection2 = allCollections[1];
       const collection3 = allCollections[2];
@@ -352,7 +352,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
          message: "Fehler beim Speichern",
       };
 
-      const allCollections = dtestData.dLibraryCollections(3);
+      const allCollections = dtestData.dCollections(3);
       const collection1 = allCollections[0];
       const collection2 = allCollections[1];
       const collection3 = allCollections[2];
@@ -417,7 +417,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
    });
 
    it("AddToLibraryCollectionDialog - save btn clicked - onError - test", async () => {
-      const allCollections = dtestData.dLibraryCollections(3);
+      const allCollections = dtestData.dCollections(3);
       const collection1 = allCollections[0];
       const selectedIds = [collection1.id];
 
@@ -513,7 +513,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       useLoadEntryCollectionIdsMock.mockReturnValue(queryResult);
 
       const descriptor = dtestData.dPromptTemplateDescriptor();
-      const allCollections = dtestData.dLibraryCollections(3);
+      const allCollections = dtestData.dCollections(3);
       allCollections[0].color = null;
 
       renderWithReactQuery(

@@ -1,7 +1,4 @@
-import { isEmpty, map } from "es-toolkit/compat";
-
 import { CollectionRepository } from "@/data/repositories/collection";
-import { OrderProducts } from "@/data/types/db/order";
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 
 export class CollectionService {
@@ -11,46 +8,8 @@ export class CollectionService {
       this.libraryRepository = libraryRepository;
    }
 
-   async createLibraryEntries(order: OrderProducts): Promise<void> {
-      for (const item of order.items) {
-         const { product } = item;
-         const { productItems } = product;
-         const templateIds = map(productItems, (i) => i.templateId);
-
-         if (!isEmpty(templateIds)) {
-            // await this.libraryRepository.pCreateLibraryEntries(
-            //    order.userId,
-            //    templateIds
-            // );
-         }
-      }
-   }
-
    async getCollections(userId: string): Promise<DCollection[]> {
       return await this.libraryRepository.pGetCollections(userId);
-   }
-
-   async createCollection(
-      userId: string,
-      data: DCollectionUpdate
-   ): Promise<DCollection> {
-      return await this.libraryRepository.pCreateCollection(userId, data);
-   }
-
-   async updateCollection(
-      collectionId: string,
-      userId: string,
-      data: DCollectionUpdate
-   ) {
-      await this.libraryRepository.pUpdateCollection(
-         userId,
-         collectionId,
-         data
-      );
-   }
-
-   async deleteCollection(collectionId: string, userId: string): Promise<void> {
-      await this.libraryRepository.pDeleteCollection(userId, collectionId);
    }
 
    async getCollectionById(
@@ -69,6 +28,29 @@ export class CollectionService {
       return await this.libraryRepository.pGetCollectionByShareToken(
          shareToken
       );
+   }
+
+   async createCollection(
+      userId: string,
+      data: DCollectionUpdate
+   ): Promise<DCollection> {
+      return await this.libraryRepository.pCreateCollection(userId, data);
+   }
+
+   async updateCollection(
+      userId: string,
+      collectionId: string,
+      data: DCollectionUpdate
+   ) {
+      return await this.libraryRepository.pUpdateCollection(
+         userId,
+         collectionId,
+         data
+      );
+   }
+
+   async deleteCollection(collectionId: string, userId: string): Promise<void> {
+      await this.libraryRepository.pDeleteCollection(userId, collectionId);
    }
 
    async getPublicCollectionTemplates(collectionId: string) {

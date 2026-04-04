@@ -124,7 +124,7 @@ describe("LibraryCollectionCreateDialog functionality tests", () => {
       const actionResult: ActionResult<DCollection> = {
          success: true,
          message: "Collection Created",
-         data: dtestData.dLibraryCollection(),
+         data: dtestData.dCollection(),
       };
 
       const onOpenChange = jest.fn();

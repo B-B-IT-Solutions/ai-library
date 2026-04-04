@@ -1,8 +1,6 @@
 jest.mock("@/data/repositories/collection");
-jest.mock("@/data/services/prompt-template");
 
-import { dtestData, ptestData } from "@tests";
-import { forEach } from "es-toolkit/compat";
+import { dtestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import { CollectionRepository } from "@/data/repositories/collection";
@@ -16,31 +14,6 @@ const collectionRepoMock =
 
 const collectionService = new CollectionService(collectionRepoMock);
 
-describe("createLibraryEntries tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("createLibraryEntries - order.items empty - test", async () => {
-      const order = ptestData.pOrderProducts(1, 0);
-
-      await collectionService.createLibraryEntries(order);
-
-      // expect(libraryRepoMock.pCreateLibraryEntries).not.toHaveBeenCalled();
-   });
-
-   it("createLibraryEntries - templateIds empty - test", async () => {
-      const order = ptestData.pOrderProducts(1, 3);
-      forEach(order.items, (item) => {
-         item.product.productItems = [];
-      });
-
-      await collectionService.createLibraryEntries(order);
-
-      // expect(libraryRepoMock.pCreateLibraryEntries).not.toHaveBeenCalled();
-   });
-});
-
 describe("getCollections tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -48,11 +21,62 @@ describe("getCollections tests", () => {
 
    it("getCollections - collections retrieved - test", async () => {
       const userId = "user-id-1";
+      const collections = dtestData.dCollections();
+      collectionRepoMock.pGetCollections.mockResolvedValue(collections);
 
-      await collectionService.getCollections(userId);
+      const result = await collectionService.getCollections(userId);
 
+      expect(result).toEqual(collections);
       expect(collectionRepoMock.pGetCollections).toHaveBeenCalledTimes(1);
       expect(collectionRepoMock.pGetCollections).toHaveBeenCalledWith(userId);
+   });
+});
+
+describe("getCollectionById tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("getCollectionById - collection retrieved - test", async () => {
+      const userId = "user-id-1";
+      const collection = dtestData.dCollection();
+      collectionRepoMock.pGetCollectionById.mockResolvedValue(collection);
+
+      const result = await collectionService.getCollectionById(
+         userId,
+         collection.id
+      );
+
+      expect(result).toEqual(collection);
+      expect(collectionRepoMock.pGetCollectionById).toHaveBeenCalledTimes(1);
+      expect(collectionRepoMock.pGetCollectionById).toHaveBeenCalledWith(
+         userId,
+         collection.id
+      );
+   });
+});
+
+describe("getCollectionByShareToken tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("getCollectionByShareToken - collection retrieved - test", async () => {
+      const token = "token-1";
+      const collection = dtestData.dCollection();
+      collectionRepoMock.pGetCollectionByShareToken.mockResolvedValue(
+         collection
+      );
+
+      const result = await collectionService.getCollectionByShareToken(token);
+
+      expect(result).toEqual(collection);
+      expect(
+         collectionRepoMock.pGetCollectionByShareToken
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         collectionRepoMock.pGetCollectionByShareToken
+      ).toHaveBeenCalledWith(token);
    });
 });
 
@@ -63,10 +87,14 @@ describe("createCollection tests", () => {
 
    it("createCollection - collection created - test", async () => {
       const userId = "user-id-1";
-      const data = dtestData.dLibraryCollectionUpdate();
+      const collection = dtestData.dCollection();
+      collectionRepoMock.pCreateCollection.mockResolvedValue(collection);
 
-      await collectionService.createCollection(userId, data);
+      const data = dtestData.dCollectionUpdate();
 
+      const result = await collectionService.createCollection(userId, data);
+
+      expect(result).toEqual(collection);
       expect(collectionRepoMock.pCreateCollection).toHaveBeenCalledTimes(1);
       expect(collectionRepoMock.pCreateCollection).toHaveBeenCalledWith(
          userId,
@@ -82,15 +110,22 @@ describe("updateCollection tests", () => {
 
    it("updateCollection - collection updated - test", async () => {
       const userId = "user-id-1";
-      const collectionId = "collection-id-1";
-      const data = dtestData.dLibraryCollectionUpdate();
+      const collection = dtestData.dCollection();
+      collectionRepoMock.pUpdateCollection.mockResolvedValue(collection);
 
-      await collectionService.updateCollection(collectionId, userId, data);
+      const data = dtestData.dCollectionUpdate();
 
+      const result = await collectionService.updateCollection(
+         userId,
+         collection.id,
+         data
+      );
+
+      expect(result).toEqual(collection);
       expect(collectionRepoMock.pUpdateCollection).toHaveBeenCalledTimes(1);
       expect(collectionRepoMock.pUpdateCollection).toHaveBeenCalledWith(
          userId,
-         collectionId,
+         collection.id,
          data
       );
    });
@@ -123,7 +158,7 @@ describe("getEntryCollectionIds tests", () => {
    it("getEntryCollectionIds - collectionId retrieved - test", async () => {
       const userId = "user-id-1";
       const entryId = "entry-id-1";
-      const collectionIds = dtestData.dLibraryCollectionIds();
+      const collectionIds = dtestData.dCollectionIds();
 
       collectionRepoMock.pGetEntryCollectionIds.mockResolvedValue(
          collectionIds
@@ -153,7 +188,7 @@ describe("updateEntryCollections tests", () => {
    it("updateEntryCollections - collection deleted - test", async () => {
       const userId = "user-id-1";
       const entryId = "entry-id-1";
-      const collectionIds = dtestData.dLibraryCollectionIds();
+      const collectionIds = dtestData.dCollectionIds();
 
       await collectionService.updateEntryCollections(
          userId,

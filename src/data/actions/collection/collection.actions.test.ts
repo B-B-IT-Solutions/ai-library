@@ -75,7 +75,7 @@ describe("getLibraryCollections tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const collections = dtestData.dLibraryCollections();
+      const collections = dtestData.dCollections();
       sGetCollectionsMock.mockResolvedValue(collections);
 
       const result = await getLibraryCollections();
@@ -101,7 +101,7 @@ describe("createLibraryCollection tests", () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
 
-      const newCollection = dtestData.dLibraryCollectionUpdate();
+      const newCollection = dtestData.dCollectionUpdate();
       const result = await createLibraryCollection(newCollection);
       const expectedResult: ActionResult = {
          success: false,
@@ -117,10 +117,10 @@ describe("createLibraryCollection tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const createdCollection = dtestData.dLibraryCollection();
+      const createdCollection = dtestData.dCollection();
       sCreateCollectionMock.mockResolvedValue(createdCollection);
 
-      const newCollection = dtestData.dLibraryCollectionUpdate();
+      const newCollection = dtestData.dCollectionUpdate();
       const result = await createLibraryCollection(newCollection);
 
       const expectedResult: ActionResult<DCollection> = {
@@ -145,7 +145,7 @@ describe("createLibraryCollection tests", () => {
       const error = new Error(errorMessage);
       sCreateCollectionMock.mockRejectedValue(error);
 
-      const newCollection = dtestData.dLibraryCollectionUpdate();
+      const newCollection = dtestData.dCollectionUpdate();
       const result = await createLibraryCollection(newCollection);
 
       const expectedResult: ActionResult = {
@@ -175,7 +175,7 @@ describe("updateLibraryCollection tests", () => {
    it("updateLibraryCollection - invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
 
-      const data = dtestData.dLibraryCollectionUpdate();
+      const data = dtestData.dCollectionUpdate();
       const result = await updateLibraryCollection(invalidId, data);
 
       const expectedResult: ActionResult = {
@@ -193,7 +193,7 @@ describe("updateLibraryCollection tests", () => {
       const collectionId = "123e4567-e89b-12d3-a456-426614174000";
       requireUserMock.mockRejectedValue(error);
 
-      const data = dtestData.dLibraryCollectionUpdate();
+      const data = dtestData.dCollectionUpdate();
       const result = await updateLibraryCollection(collectionId, data);
       const expectedResult: ActionResult = {
          success: false,
@@ -214,7 +214,7 @@ describe("updateLibraryCollection tests", () => {
       const error = new Error(errorMessage);
       sUpdateCollectionMock.mockRejectedValue(error);
 
-      const data = dtestData.dLibraryCollectionUpdate();
+      const data = dtestData.dCollectionUpdate();
       const result = await updateLibraryCollection(collectionId, data);
 
       const expectedResult: ActionResult = {
@@ -239,7 +239,7 @@ describe("updateLibraryCollection tests", () => {
 
       sUpdateCollectionMock.mockResolvedValue();
 
-      const data = dtestData.dLibraryCollectionUpdate();
+      const data = dtestData.dCollectionUpdate();
       const result = await updateLibraryCollection(collectionId, data);
 
       const expectedResult: ActionResult<DPromptUpdate> = {
@@ -379,7 +379,7 @@ describe("getEntryCollectionIds tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const collectionIds = dtestData.dLibraryCollectionIds();
+      const collectionIds = dtestData.dCollectionIds();
       sGetEntryCollectionIdsMock.mockResolvedValue(collectionIds);
 
       const entryId = "123e4567-e89b-12d3-a456-426614174000";
@@ -406,7 +406,7 @@ describe("updateEntryCollections tests", () => {
    it("updateEntryCollections - invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
 
-      const collectionsId = dtestData.dLibraryCollectionIds();
+      const collectionsId = dtestData.dCollectionIds();
       const result = await updateEntryCollections(invalidId, collectionsId);
 
       const expectedResult: ActionResult = {
@@ -424,7 +424,7 @@ describe("updateEntryCollections tests", () => {
       requireUserMock.mockRejectedValue(error);
 
       const entryId = "123e4567-e89b-12d3-a456-426614174000";
-      const collectionsId = dtestData.dLibraryCollectionIds();
+      const collectionsId = dtestData.dCollectionIds();
 
       const result = await updateEntryCollections(entryId, collectionsId);
 
@@ -445,7 +445,7 @@ describe("updateEntryCollections tests", () => {
       sUpdateEntryCollectionsMock.mockResolvedValue();
 
       const entryId = "123e4567-e89b-12d3-a456-426614174000";
-      const collectionsId = dtestData.dLibraryCollectionIds();
+      const collectionsId = dtestData.dCollectionIds();
 
       const result = await updateEntryCollections(entryId, collectionsId);
 
@@ -472,7 +472,7 @@ describe("updateEntryCollections tests", () => {
       sUpdateEntryCollectionsMock.mockRejectedValue(error);
 
       const entryId = "123e4567-e89b-12d3-a456-426614174000";
-      const collectionsId = dtestData.dLibraryCollectionIds();
+      const collectionsId = dtestData.dCollectionIds();
 
       const result = await updateEntryCollections(entryId, collectionsId);
 

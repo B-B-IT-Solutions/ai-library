@@ -204,7 +204,7 @@ describe("pCreateCollection tests", () => {
       prismaMock.libraryCollection.create.mockResolvedValue(collection);
 
       const userId = collection.userId;
-      const data = dtestData.dLibraryCollectionUpdate();
+      const data = dtestData.dCollectionUpdate();
 
       const result = await collectionRepository.pCreateCollection(userId, data);
 
@@ -294,7 +294,7 @@ describe("pUpdateCollection tests", () => {
       const collection = ptestData.pLibraryCollection();
       prismaMock.libraryCollection.update.mockResolvedValue(collection);
 
-      const data = dtestData.dLibraryCollectionUpdate();
+      const data = dtestData.dCollectionUpdate();
 
       const result = await collectionRepository.pUpdateCollection(
          userId,

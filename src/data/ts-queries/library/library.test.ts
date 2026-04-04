@@ -153,7 +153,7 @@ describe("prefetch options tests", () => {
    });
 
    test("preloadLibraryCollectionsOptions  - test", async () => {
-      const collections = dtestData.dLibraryCollections();
+      const collections = dtestData.dCollections();
       getLibraryCollectionsMock.mockResolvedValue(collections);
 
       const options = preloadLibraryCollectionsOptions();
@@ -294,7 +294,7 @@ describe("loadLibraryCollections hooks tests", () => {
    });
 
    test("useLoadLibraryCollections test", async () => {
-      const collections = dtestData.dLibraryCollections();
+      const collections = dtestData.dCollections();
       getLibraryCollectionsMock.mockResolvedValue(collections);
 
       const { result } = renderHookWithReactQuery(() =>
@@ -314,7 +314,7 @@ describe("createCollection hooks tests", () => {
    });
 
    test("createCollectionOptions test", async () => {
-      const update = dtestData.dLibraryCollectionUpdate();
+      const update = dtestData.dCollectionUpdate();
 
       const expectedOptions: UseMutationOptions<
          ActionResult<DCollection>,
@@ -348,7 +348,7 @@ describe("createCollection hooks tests", () => {
       const result2: ActionResult<DCollection> = {
          success: true,
          message: "Collection created",
-         data: dtestData.dLibraryCollection(),
+         data: dtestData.dCollection(),
       };
 
       options.onSuccess!(result2, update, undefined, mutationContextMock);
@@ -370,13 +370,13 @@ describe("createCollection hooks tests", () => {
       const actionResult: ActionResult<DCollection> = {
          success: true,
          message: "Collection created",
-         data: dtestData.dLibraryCollection(),
+         data: dtestData.dCollection(),
       };
       createLibraryCollectionMock.mockResolvedValue(actionResult);
 
       const { result } = renderHookWithReactQuery(() => useCreateCollection());
 
-      const newCollection = dtestData.dLibraryCollectionUpdate();
+      const newCollection = dtestData.dCollectionUpdate();
 
       await waitFor(() => {
          result.current.mutate(newCollection);
@@ -414,9 +414,9 @@ describe("updateCollection hooks tests", () => {
          data: undefined,
       };
 
-      const update = dtestData.dLibraryCollectionUpdate(789);
-      const collection1 = dtestData.dLibraryCollection(1);
-      const collection2 = dtestData.dLibraryCollection(2);
+      const update = dtestData.dCollectionUpdate(789);
+      const collection1 = dtestData.dCollection(1);
+      const collection2 = dtestData.dCollection(2);
 
       const params: UpdateCollectionParams = {
          collectionId: collection1.id,
@@ -453,8 +453,8 @@ describe("updateCollection hooks tests", () => {
 
       const { result } = renderHookWithReactQuery(() => useUpdateCollection());
 
-      const update = dtestData.dLibraryCollectionUpdate(789);
-      const collection = dtestData.dLibraryCollection(1);
+      const update = dtestData.dCollectionUpdate(789);
+      const collection = dtestData.dCollection(1);
 
       const params: UpdateCollectionParams = {
          collectionId: collection.id,
@@ -493,8 +493,8 @@ describe("deleteCollection hooks tests", () => {
          message: "Collection deleted",
       };
 
-      const collection1 = dtestData.dLibraryCollection(1);
-      const collection2 = dtestData.dLibraryCollection(2);
+      const collection1 = dtestData.dCollection(1);
+      const collection2 = dtestData.dCollection(2);
 
       options.onSuccess!(
          result,
@@ -529,7 +529,7 @@ describe("deleteCollection hooks tests", () => {
 
       const { result } = renderHookWithReactQuery(() => useDeleteCollection());
 
-      const collection = dtestData.dLibraryCollection(1);
+      const collection = dtestData.dCollection(1);
 
       await waitFor(() => {
          result.current.mutate(collection.id);
@@ -576,7 +576,7 @@ describe("loadEntityCollectionIds hooks tests", () => {
       const entryId = "entry-id-1";
       const enabled = true;
 
-      const collectionIds = dtestData.dLibraryCollectionIds();
+      const collectionIds = dtestData.dCollectionIds();
       getEntryCollectionIdsMock.mockResolvedValue(collectionIds);
 
       const params: LoadCollectionIdsParams = {
@@ -620,7 +620,7 @@ describe("updateEntryCollections hooks tests", () => {
       };
 
       const entryId = "entry-id-1";
-      const collectionIds = dtestData.dLibraryCollectionIds();
+      const collectionIds = dtestData.dCollectionIds();
 
       const params: UpdateCollectionIdsParams = {
          entryId,
@@ -654,7 +654,7 @@ describe("updateEntryCollections hooks tests", () => {
       );
 
       const entryId = "entry-id-1";
-      const collectionIds = dtestData.dLibraryCollectionIds();
+      const collectionIds = dtestData.dCollectionIds();
 
       const params: UpdateCollectionIdsParams = {
          entryId,
