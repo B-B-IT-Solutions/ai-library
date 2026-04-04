@@ -1,9 +1,8 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Check, Copy, Globe, Loader, Lock } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -17,12 +16,15 @@ import {
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import { updateCollectionSchema } from "@/data/types/validators/collection";
 
+import { initCollection } from "./utils";
+
 type Props = {
-   collection: DCollection;
+   collection?: DCollection;
 };
 
-export const EditCollectionForm: FC<Props> = ({ collection }) => {
-   const router = useRouter();
+export const CollectionEditForm = ({ collection }: Props) => {
+   const isEdit = !!collection;
+
    const { mutate: updateCollection, isPending: isSaving } =
       useUpdateCollection();
    const { mutate: setSharing, isPending: isTogglingShare } =
@@ -31,57 +33,49 @@ export const EditCollectionForm: FC<Props> = ({ collection }) => {
 
    const form = useForm<DCollectionUpdate>({
       resolver: zodResolver(updateCollectionSchema),
-      defaultValues: {
-         name: collection.name,
-         description: collection.description ?? "",
-         color: collection.color ?? "#3b82f6",
-         order: collection.order,
-      },
+      defaultValues: initCollection(collection),
    });
 
-   useEffect(() => {
-      form.reset({
-         name: collection.name,
-         description: collection.description ?? "",
-         color: collection.color ?? "#3b82f6",
-         order: collection.order,
-      });
-   }, [collection.id, form]);
-
    const shareUrl =
-      typeof window !== "undefined" && collection.shareToken
+      typeof window !== "undefined" && collection?.shareToken
          ? `${window.location.origin}/p/collections/${collection.shareToken}`
          : null;
 
    const onSubmit = (data: DCollectionUpdate) => {
-      updateCollection(
-         { collectionId: collection.id, data },
-         {
-            onSuccess: (result) => {
-               if (result.success) {
-                  toast.success(result.message);
-               } else {
-                  toast.error(result.message);
-               }
-            },
-            onError: () => toast.error("Fehler beim Speichern"),
-         }
-      );
+      if (isEdit) {
+         updateCollection(
+            { collectionId: collection.id, data },
+            {
+               onSuccess: (result) => {
+                  if (result.success) {
+                     toast.success(result.message);
+                  } else {
+                     toast.error(result.message);
+                  }
+               },
+               onError: () => toast.error("Fehler beim Speichern"),
+            }
+         );
+      }
    };
 
    const handleToggleShare = () => {
-      setSharing(
-         { collectionId: collection.id, isPublic: !collection.isPublic },
-         {
-            onSuccess: (result) => {
-               if (!result.success) toast.error(result.message);
-            },
-         }
-      );
+      if (isEdit) {
+         setSharing(
+            { collectionId: collection.id, isPublic: !collection.isPublic },
+            {
+               onSuccess: (result) => {
+                  if (!result.success) toast.error(result.message);
+               },
+            }
+         );
+      }
    };
 
    const handleCopy = async () => {
-      if (!shareUrl) return;
+      if (!shareUrl) {
+         return;
+      }
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -127,17 +121,17 @@ export const EditCollectionForm: FC<Props> = ({ collection }) => {
             <p className="text-sm font-semibold text-slate-700">Freigabe</p>
             <div className="flex items-center justify-between rounded-lg border p-3">
                <div className="flex items-center gap-2.5">
-                  {collection.isPublic ? (
+                  {collection?.isPublic ? (
                      <Globe className="h-4 w-4 text-green-600" />
                   ) : (
                      <Lock className="h-4 w-4 text-slate-400" />
                   )}
                   <div>
                      <p className="text-sm font-medium">
-                        {collection.isPublic ? "Öffentlich" : "Privat"}
+                        {collection?.isPublic ? "Öffentlich" : "Privat"}
                      </p>
                      <p className="text-xs text-slate-500">
-                        {collection.isPublic
+                        {collection?.isPublic
                            ? "Jeder mit Link kann ansehen"
                            : "Nur für Sie sichtbar"}
                      </p>
@@ -145,14 +139,14 @@ export const EditCollectionForm: FC<Props> = ({ collection }) => {
                </div>
                <Button
                   type="button"
-                  variant={collection.isPublic ? "destructive" : "outline"}
+                  variant={collection?.isPublic ? "destructive" : "outline"}
                   size="sm"
                   onClick={handleToggleShare}
                   disabled={isTogglingShare}
                >
                   {isTogglingShare ? (
                      <Loader className="h-4 w-4 animate-spin" />
-                  ) : collection.isPublic ? (
+                  ) : collection?.isPublic ? (
                      "Deaktivieren"
                   ) : (
                      "Aktivieren"
@@ -160,7 +154,7 @@ export const EditCollectionForm: FC<Props> = ({ collection }) => {
                </Button>
             </div>
 
-            {collection.isPublic && shareUrl && (
+            {collection?.isPublic && shareUrl && (
                <div className="flex gap-2">
                   <div className="flex-1 truncate rounded-md border bg-slate-50 px-3 py-2 text-xs text-slate-600">
                      {shareUrl}

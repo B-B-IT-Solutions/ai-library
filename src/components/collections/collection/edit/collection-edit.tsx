@@ -15,8 +15,9 @@ import {
 } from "@/components/shared/wrappers/item-details";
 import { DCollection } from "@/data/types/domain/collection";
 import { CollectionBreadcrumb } from "../../breadcrumbs";
-import { CollectionTemplateManager } from "../../collection-template-manager";
 import { CreateCollectionForm } from "..";
+
+import { CollectionTemplateManager } from "./collection-template-manager";
 
 type Props = {
    collection?: DCollection;
@@ -29,7 +30,7 @@ export const CollectionEdit = ({ collection }: Props) => {
    const header = () => {
       const title = collection
          ? "Sammlung Bearbeiten"
-         : "  Neue Sammlung Erstellen";
+         : "Neue Sammlung Erstellen";
       const text = collection
          ? "Bearbeiten Sie die Sammlung"
          : "Erstellen Sie eine neue Sammlung";

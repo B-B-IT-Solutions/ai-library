@@ -1,9 +1,10 @@
-import { DCollectionUpdate } from "@/data/types/domain/collection";
+import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 
-export const initCollection = (): DCollectionUpdate => {
+export const initCollection = (collection?: DCollection): DCollectionUpdate => {
    return {
-      name: "",
-      description: "",
-      color: "#3b82f6",
+      name: collection?.name ?? "",
+      description: collection?.description ?? "",
+      color: collection?.color ?? "#3b82f6",
+      order: collection?.order ?? 0,
    };
 };
