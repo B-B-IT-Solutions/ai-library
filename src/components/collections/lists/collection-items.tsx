@@ -3,9 +3,10 @@
 import { Folder, Plus } from "lucide-react";
 import Link from "next/link";
 
-import { CollectionCard } from "@/components/collections/collection-card";
 import { Button } from "@/components/shadcn/button";
 import { useLoadLibraryCollections } from "@/data/ts-queries/library";
+
+import { CollectionCard } from "./items";
 
 export const CollectionItems = () => {
    const { data: collections = [], isLoading } = useLoadLibraryCollections();

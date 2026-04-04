@@ -1,8 +1,6 @@
 "use client";
 
 import { FC, useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import {
    Folder,
    Globe,
@@ -11,6 +9,8 @@ import {
    Pencil,
    Trash2,
 } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
@@ -22,8 +22,7 @@ import {
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
 import { DCollection } from "@/data/types/domain/collection";
-
-import { DeleteCollectionDialog } from "./delete-collection-dialog";
+import { DeleteCollectionDialog } from "../../dialogs";
 
 type Props = {
    collection: DCollection;

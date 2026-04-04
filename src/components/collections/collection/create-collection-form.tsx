@@ -12,8 +12,7 @@ import { FormInput, FormTextArea } from "@/components/shared/widgets";
 import { useCreateCollection } from "@/data/ts-queries/library";
 import { DCollectionUpdate } from "@/data/types/domain/collection";
 import { updateCollectionSchema } from "@/data/types/validators/collection";
-
-import { initCollection } from "./utils";
+import { initCollection } from "../utils";
 
 export const CreateCollectionForm = () => {
    const router = useRouter();

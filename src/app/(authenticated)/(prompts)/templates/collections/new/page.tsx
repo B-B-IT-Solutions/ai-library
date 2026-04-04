@@ -2,7 +2,7 @@ import { ArrowLeft, Folder } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 
-import { CreateCollectionForm } from "@/components/collections/create-collection-form";
+import { CreateCollectionForm } from "@/components/collections/collection/create-collection-form";
 
 export const metadata: Metadata = {
    title: "Neue Sammlung",

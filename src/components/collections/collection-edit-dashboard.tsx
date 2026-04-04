@@ -7,11 +7,12 @@ import { ArrowLeft, Folder } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { CollectionTemplateManager } from "@/components/collections/collection-template-manager";
-import { EditCollectionForm } from "@/components/collections/edit-collection-form";
 import { getCollectionById } from "@/data/actions/collection";
 import { preloadLibraryCollectionsOptions } from "@/data/ts-queries/library";
 import { libraryKeys } from "@/data/ts-queries/library/utils";
+import { EditCollectionForm } from "../collection/edit-collection-form";
+
+import { CollectionTemplateManager } from "./collection-template-manager";
 
 type Props = {
    collectionId: string;

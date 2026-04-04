@@ -1,13 +1,7 @@
-export { LibraryCollectionCreateDialog } from "./create-library-collection-dialog";
-export { AddToLibraryCollectionDialog } from "./add-to-library-collection-dialog";
-export { CreateCollectionForm } from "./create-collection-form";
-export { EditCollectionDialog } from "./edit-collection-dialog";
-export { EditCollectionForm } from "./edit-collection-form";
-export { DeleteCollectionDialog } from "./delete-collection-dialog";
-export { ShareCollectionDialog } from "./share-collection-dialog";
-export { CollectionHeader } from "./collection-header";
-export { CollectionCard } from "./collection-card";
-export { CollectionTemplateManager } from "./collection-template-manager";
+export {
+   LibraryCollectionCreateDialog,
+   AddToLibraryCollectionDialog,
+} from "./dialogs";
 export { CollectionDashboard } from "./collection-dashboard";
 export { CollectionsDashboard } from "./collections-dashboard";
 export { CollectionEditDashboard } from "./collection-edit-dashboard";
