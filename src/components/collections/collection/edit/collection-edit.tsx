@@ -13,28 +13,38 @@ import {
    ItemDetailsEditContent,
    ItemDetailsEditHeader,
 } from "@/components/shared/wrappers/item-details";
+import { DCollection } from "@/data/types/domain/collection";
 import { CollectionBreadcrumb } from "../../breadcrumbs";
 import { CollectionTemplateManager } from "../../collection-template-manager";
 import { CreateCollectionForm } from "..";
 
 type Props = {
-   rootHref?: string;
+   collection?: DCollection;
 };
 
-export const CollectionEdit = ({ rootHref }: Props) => {
+export const CollectionEdit = ({ collection }: Props) => {
    const router = useRouter();
    const [createdId, setCreatedId] = useState<string | null>(null);
 
+   const header = () => {
+      const title = collection
+         ? "Sammlung Bearbeiten"
+         : "  Neue Sammlung Erstellen";
+      const text = collection
+         ? "Bearbeiten Sie die Sammlung"
+         : "Erstellen Sie eine neue Sammlung";
+
+      return (
+         <>
+            <h1 className="text-2xl font-bold text-slate-900">{title}</h1>
+            <p className="mt-0.5 text-sm text-slate-600">{text}</p>
+         </>
+      );
+   };
+
    return (
       <ItemDetailsEdit data-testid="collection-edit">
-         <ItemDetailsEditHeader>
-            <h1 className="text-2xl font-bold text-slate-900">
-               Neue Sammlung Erstellen
-            </h1>
-            <p className="mt-0.5 text-sm text-slate-600">
-               Erstellen Sie eine neue Sammlung
-            </p>
-         </ItemDetailsEditHeader>
+         <ItemDetailsEditHeader>{header()}</ItemDetailsEditHeader>
          <ItemDetailsEditContent>
             <ItemDetailsEditBreadcrumbs>
                <CollectionBreadcrumb variant="new" />
