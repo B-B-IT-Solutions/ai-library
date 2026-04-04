@@ -1,9 +1,9 @@
 "use client";
 
 import { FC, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Check, Copy, Globe, Loader, Lock } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -15,7 +15,7 @@ import {
    useUpdateCollection,
 } from "@/data/ts-queries/library";
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
-import { updateLibraryCollectionSchema } from "@/data/types/validators/library";
+import { updateCollectionSchema } from "@/data/types/validators/library";
 
 type Props = {
    collection: DCollection;
@@ -30,7 +30,7 @@ export const EditCollectionForm: FC<Props> = ({ collection }) => {
    const [copied, setCopied] = useState(false);
 
    const form = useForm<DCollectionUpdate>({
-      resolver: zodResolver(updateLibraryCollectionSchema),
+      resolver: zodResolver(updateCollectionSchema),
       defaultValues: {
          name: collection.name,
          description: collection.description ?? "",

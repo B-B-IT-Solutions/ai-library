@@ -19,7 +19,7 @@ import { Form } from "@/components/shadcn/form";
 import { FormInput, FormTextArea } from "@/components/shared/widgets";
 import { useCreateCollection } from "@/data/ts-queries/library";
 import { DCollectionUpdate } from "@/data/types/domain/collection";
-import { updateLibraryCollectionSchema } from "@/data/types/validators/library";
+import { updateCollectionSchema } from "@/data/types/validators/library";
 
 import { initCollection } from "./utils";
 
@@ -35,7 +35,7 @@ export const LibraryCollectionCreateDialog: FC<Props> = ({
    const { mutate: createCollection, isPending } = useCreateCollection();
 
    const form = useForm<DCollectionUpdate>({
-      resolver: zodResolver(updateLibraryCollectionSchema),
+      resolver: zodResolver(updateCollectionSchema),
       defaultValues: initCollection(),
    });
 
