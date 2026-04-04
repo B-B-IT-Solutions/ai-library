@@ -1,0 +1,467 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`CollectionItemsGrid rendering tests rendered - test 1`] = `
+<div>
+  <div
+    class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+    data-testid="collection-items-grid"
+  >
+    <div
+      class="group relative flex flex-col rounded-xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
+      data-testid="collection-item-card"
+    >
+      <div
+        class="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100"
+      >
+        <div
+          data-slot="dropdown-menu"
+          data-testid="mock-react-dropdown-menu-root"
+        >
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-7 w-7 p-0"
+            data-slot="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-ellipsis h-4 w-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="1"
+              />
+              <circle
+                cx="19"
+                cy="12"
+                r="1"
+              />
+              <circle
+                cx="5"
+                cy="12"
+                r="1"
+              />
+            </svg>
+          </button>
+          <div
+            data-testid="mock-react-dropdown-menu-portal"
+          />
+        </div>
+      </div>
+      <a
+        class="flex flex-1 flex-col gap-3"
+        data-testid="mock-link"
+        href="/collections/457bf695-6f74-44aa-9b3a-e179ea9e8170"
+      >
+        <div
+          class="flex items-center gap-3"
+        >
+          <div
+            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-folder h-5 w-5"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+              />
+            </svg>
+          </div>
+          <div
+            class="min-w-0"
+          >
+            <div
+              class="flex items-center gap-1.5"
+            >
+              <span
+                class="truncate font-semibold text-slate-900"
+              >
+                name 0
+              </span>
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-globe h-3.5 w-3.5 shrink-0 text-green-600"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="10"
+                />
+                <path
+                  d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"
+                />
+                <path
+                  d="M2 12h20"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <p
+          class="line-clamp-2 text-sm text-slate-500"
+        >
+          description 0
+        </p>
+        <div
+          class="mt-auto pt-2"
+        >
+          <span
+            class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 text-xs font-normal"
+            data-slot="badge"
+          >
+            0
+             
+            Vorlagen
+          </span>
+        </div>
+      </a>
+    </div>
+    <div
+      data-slot="alert-dialog"
+      data-testid="mock-react-alert-dialog-root"
+    >
+      <div
+        data-slot="alert-dialog-portal"
+        data-testid="mock-react-alert-dialog-portal"
+      >
+        <div
+          class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+          data-slot="alert-dialog-overlay"
+          data-testid="mock-react-alert-dialog-overlay"
+        />
+      </div>
+    </div>
+    <div
+      class="group relative flex flex-col rounded-xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
+      data-testid="collection-item-card"
+    >
+      <div
+        class="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100"
+      >
+        <div
+          data-slot="dropdown-menu"
+          data-testid="mock-react-dropdown-menu-root"
+        >
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-7 w-7 p-0"
+            data-slot="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-ellipsis h-4 w-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="1"
+              />
+              <circle
+                cx="19"
+                cy="12"
+                r="1"
+              />
+              <circle
+                cx="5"
+                cy="12"
+                r="1"
+              />
+            </svg>
+          </button>
+          <div
+            data-testid="mock-react-dropdown-menu-portal"
+          />
+        </div>
+      </div>
+      <a
+        class="flex flex-1 flex-col gap-3"
+        data-testid="mock-link"
+        href="/collections/457bf695-6f74-44aa-9b3a-e179ea9e8171"
+      >
+        <div
+          class="flex items-center gap-3"
+        >
+          <div
+            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-folder h-5 w-5"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+              />
+            </svg>
+          </div>
+          <div
+            class="min-w-0"
+          >
+            <div
+              class="flex items-center gap-1.5"
+            >
+              <span
+                class="truncate font-semibold text-slate-900"
+              >
+                name 1
+              </span>
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-lock h-3.5 w-3.5 shrink-0 text-slate-300"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  height="11"
+                  rx="2"
+                  ry="2"
+                  width="18"
+                  x="3"
+                  y="11"
+                />
+                <path
+                  d="M7 11V7a5 5 0 0 1 10 0v4"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <p
+          class="line-clamp-2 text-sm text-slate-500"
+        >
+          description 1
+        </p>
+        <div
+          class="mt-auto pt-2"
+        >
+          <span
+            class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 text-xs font-normal"
+            data-slot="badge"
+          >
+            10
+             
+            Vorlagen
+          </span>
+        </div>
+      </a>
+    </div>
+    <div
+      data-slot="alert-dialog"
+      data-testid="mock-react-alert-dialog-root"
+    >
+      <div
+        data-slot="alert-dialog-portal"
+        data-testid="mock-react-alert-dialog-portal"
+      >
+        <div
+          class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+          data-slot="alert-dialog-overlay"
+          data-testid="mock-react-alert-dialog-overlay"
+        />
+      </div>
+    </div>
+    <div
+      class="group relative flex flex-col rounded-xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
+      data-testid="collection-item-card"
+    >
+      <div
+        class="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100"
+      >
+        <div
+          data-slot="dropdown-menu"
+          data-testid="mock-react-dropdown-menu-root"
+        >
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-7 w-7 p-0"
+            data-slot="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-ellipsis h-4 w-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="1"
+              />
+              <circle
+                cx="19"
+                cy="12"
+                r="1"
+              />
+              <circle
+                cx="5"
+                cy="12"
+                r="1"
+              />
+            </svg>
+          </button>
+          <div
+            data-testid="mock-react-dropdown-menu-portal"
+          />
+        </div>
+      </div>
+      <a
+        class="flex flex-1 flex-col gap-3"
+        data-testid="mock-link"
+        href="/collections/457bf695-6f74-44aa-9b3a-e179ea9e8172"
+      >
+        <div
+          class="flex items-center gap-3"
+        >
+          <div
+            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-folder h-5 w-5"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+              />
+            </svg>
+          </div>
+          <div
+            class="min-w-0"
+          >
+            <div
+              class="flex items-center gap-1.5"
+            >
+              <span
+                class="truncate font-semibold text-slate-900"
+              >
+                name 2
+              </span>
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-globe h-3.5 w-3.5 shrink-0 text-green-600"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="10"
+                />
+                <path
+                  d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"
+                />
+                <path
+                  d="M2 12h20"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <p
+          class="line-clamp-2 text-sm text-slate-500"
+        >
+          description 2
+        </p>
+        <div
+          class="mt-auto pt-2"
+        >
+          <span
+            class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 text-xs font-normal"
+            data-slot="badge"
+          >
+            20
+             
+            Vorlagen
+          </span>
+        </div>
+      </a>
+    </div>
+    <div
+      data-slot="alert-dialog"
+      data-testid="mock-react-alert-dialog-root"
+    >
+      <div
+        data-slot="alert-dialog-portal"
+        data-testid="mock-react-alert-dialog-portal"
+      >
+        <div
+          class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+          data-slot="alert-dialog-overlay"
+          data-testid="mock-react-alert-dialog-overlay"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

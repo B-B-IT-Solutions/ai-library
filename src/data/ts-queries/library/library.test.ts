@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/library");
+jest.mock("@/data/actions/collection");
 jest.mock("@/data/actions/prompt-template");
 
 import {
@@ -18,21 +18,18 @@ import { dtestData, renderHookWithReactQuery } from "@tests";
 import { mockDeep } from "jest-mock-extended";
 
 import {
-   createLibraryCollection,
-   deleteLibraryCollection,
+   createCollection,
+   deleteCollection,
+   getCollections,
    getEntryCollectionIds,
-   getLibraryCollections,
+   updateCollection,
    updateEntryCollections,
-   updateLibraryCollection,
-} from "@/data/actions/library";
+} from "@/data/actions/collection";
 import {
    getTemplateDescriptorsPage,
    toggleTemplateDescriptorFavorite,
 } from "@/data/actions/prompt-template";
-import {
-   DLibraryCollection,
-   DLibraryCollectionUpdate,
-} from "@/data/types/domain/library";
+import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import {
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,
@@ -45,7 +42,7 @@ import {
    infiniteLoadLibraryEntriesOptions,
    loadEntryCollectionIdsOptions,
    loadLibraryCollectionsOptions,
-   preloadLibraryCollectionsOptions,
+   preloadCollectionsOptions,
    preloadLibraryEntriesOptions,
    toggleFavoriteOptions,
    updateCollectionOptions,
@@ -79,8 +76,8 @@ const getTemplateDescriptorsPageMock =
       typeof getTemplateDescriptorsPage
    >;
 
-const getLibraryCollectionsMock = getLibraryCollections as jest.MockedFunction<
-   typeof getLibraryCollections
+const getCollectionsMock = getCollections as jest.MockedFunction<
+   typeof getCollections
 >;
 
 const toggleTemplateDescriptorFavoriteMock =
@@ -88,20 +85,17 @@ const toggleTemplateDescriptorFavoriteMock =
       typeof toggleTemplateDescriptorFavorite
    >;
 
-const createLibraryCollectionMock =
-   createLibraryCollection as jest.MockedFunction<
-      typeof createLibraryCollection
-   >;
+const createCollectionMock = createCollection as jest.MockedFunction<
+   typeof createCollection
+>;
 
-const updateLibraryCollectionMock =
-   updateLibraryCollection as jest.MockedFunction<
-      typeof updateLibraryCollection
-   >;
+const updateCollectionMock = updateCollection as jest.MockedFunction<
+   typeof updateCollection
+>;
 
-const deleteLibraryCollectionMock =
-   deleteLibraryCollection as jest.MockedFunction<
-      typeof deleteLibraryCollection
-   >;
+const deleteCollectionMock = deleteCollection as jest.MockedFunction<
+   typeof deleteCollection
+>;
 
 const updateEntryCollectionsMock =
    updateEntryCollections as jest.MockedFunction<typeof updateEntryCollections>;
@@ -156,25 +150,25 @@ describe("prefetch options tests", () => {
    });
 
    test("preloadLibraryCollectionsOptions  - test", async () => {
-      const collections = dtestData.dLibraryCollections();
-      getLibraryCollectionsMock.mockResolvedValue(collections);
+      const collections = dtestData.dCollections();
+      getCollectionsMock.mockResolvedValue(collections);
 
-      const options = preloadLibraryCollectionsOptions();
-      const queryFn = options.queryFn as QueryFunction<DLibraryCollection[]>;
+      const options = preloadCollectionsOptions();
+      const queryFn = options.queryFn as QueryFunction<DCollection[]>;
       const context = {} as QueryFunctionContext;
       const fnResult = await queryFn(context);
 
       const expectedOptions: UndefinedInitialDataOptions<
-         DLibraryCollection[],
+         DCollection[],
          Error,
-         DLibraryCollection[]
+         DCollection[]
       > = {
          queryKey: ["library", "collections"],
          queryFn: jest.fn(),
       };
 
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
-      expect(getLibraryCollectionsMock).toHaveBeenCalledTimes(1);
+      expect(getCollectionsMock).toHaveBeenCalledTimes(1);
       expect(fnResult).toEqual(collections);
    });
 });
@@ -282,9 +276,9 @@ describe("loadLibraryCollections hooks tests", () => {
 
    test("loadLibraryCollectionsOptions - test", async () => {
       const expectedOptions: UndefinedInitialDataOptions<
-         DLibraryCollection[],
+         DCollection[],
          Error,
-         DLibraryCollection[]
+         DCollection[]
       > = {
          queryKey: ["library", "collections"],
          queryFn: jest.fn(),
@@ -297,8 +291,8 @@ describe("loadLibraryCollections hooks tests", () => {
    });
 
    test("useLoadLibraryCollections test", async () => {
-      const collections = dtestData.dLibraryCollections();
-      getLibraryCollectionsMock.mockResolvedValue(collections);
+      const collections = dtestData.dCollections();
+      getCollectionsMock.mockResolvedValue(collections);
 
       const { result } = renderHookWithReactQuery(() =>
          useLoadLibraryCollections()
@@ -306,7 +300,7 @@ describe("loadLibraryCollections hooks tests", () => {
 
       await waitFor(() => {
          expect(result.current.data).toEqual(collections);
-         expect(getLibraryCollectionsMock).toHaveBeenCalledTimes(1);
+         expect(getCollectionsMock).toHaveBeenCalledTimes(1);
       });
    });
 });
@@ -317,12 +311,12 @@ describe("createCollection hooks tests", () => {
    });
 
    test("createCollectionOptions test", async () => {
-      const update = dtestData.dLibraryCollectionUpdate();
+      const update = dtestData.dCollectionUpdate();
 
       const expectedOptions: UseMutationOptions<
-         ActionResult<DLibraryCollection>,
+         ActionResult<DCollection>,
          Error,
-         DLibraryCollectionUpdate
+         DCollectionUpdate
       > = {
          mutationFn: jest.fn(),
          onSuccess: jest.fn(),
@@ -333,7 +327,7 @@ describe("createCollection hooks tests", () => {
       expect(queryClientMock.getQueryData).not.toHaveBeenCalled();
       expect(queryClientMock.setQueryData).not.toHaveBeenCalled();
 
-      const result1: ActionResult<DLibraryCollection> = {
+      const result1: ActionResult<DCollection> = {
          success: true,
          message: "Collection created",
          data: undefined,
@@ -348,10 +342,10 @@ describe("createCollection hooks tests", () => {
       );
       expect(queryClientMock.setQueryData).not.toHaveBeenCalled();
 
-      const result2: ActionResult<DLibraryCollection> = {
+      const result2: ActionResult<DCollection> = {
          success: true,
          message: "Collection created",
-         data: dtestData.dLibraryCollection(),
+         data: dtestData.dCollection(),
       };
 
       options.onSuccess!(result2, update, undefined, mutationContextMock);
@@ -370,24 +364,22 @@ describe("createCollection hooks tests", () => {
    });
 
    test("useCreateCollection test", async () => {
-      const actionResult: ActionResult<DLibraryCollection> = {
+      const actionResult: ActionResult<DCollection> = {
          success: true,
          message: "Collection created",
-         data: dtestData.dLibraryCollection(),
+         data: dtestData.dCollection(),
       };
-      createLibraryCollectionMock.mockResolvedValue(actionResult);
+      createCollectionMock.mockResolvedValue(actionResult);
 
       const { result } = renderHookWithReactQuery(() => useCreateCollection());
 
-      const newCollection = dtestData.dLibraryCollectionUpdate();
+      const newCollection = dtestData.dCollectionUpdate();
 
       await waitFor(() => {
          result.current.mutate(newCollection);
          expect(result.current.isSuccess).toBe(true);
-         expect(createLibraryCollectionMock).toHaveBeenCalledTimes(1);
-         expect(createLibraryCollectionMock).toHaveBeenCalledWith(
-            newCollection
-         );
+         expect(createCollectionMock).toHaveBeenCalledTimes(1);
+         expect(createCollectionMock).toHaveBeenCalledWith(newCollection);
       });
    });
 });
@@ -401,7 +393,7 @@ describe("updateCollection hooks tests", () => {
       const expectedOptions: UseMutationOptions<
          ActionResult,
          Error,
-         DLibraryCollection
+         DCollection
       > = {
          mutationFn: jest.fn(),
          onSuccess: jest.fn(),
@@ -417,9 +409,9 @@ describe("updateCollection hooks tests", () => {
          data: undefined,
       };
 
-      const update = dtestData.dLibraryCollectionUpdate(789);
-      const collection1 = dtestData.dLibraryCollection(1);
-      const collection2 = dtestData.dLibraryCollection(2);
+      const update = dtestData.dCollectionUpdate(789);
+      const collection1 = dtestData.dCollection(1);
+      const collection2 = dtestData.dCollection(2);
 
       const params: UpdateCollectionParams = {
          collectionId: collection1.id,
@@ -436,8 +428,8 @@ describe("updateCollection hooks tests", () => {
       );
 
       const updaterFn = queryClientMock.setQueryData.mock.calls[0][1] as (
-         cols: DLibraryCollection[]
-      ) => DLibraryCollection[];
+         cols: DCollection[]
+      ) => DCollection[];
 
       const updatedCollection1 = { ...collection1, ...update };
       const expectedUpdaterResult = [updatedCollection1, collection2];
@@ -452,12 +444,12 @@ describe("updateCollection hooks tests", () => {
          success: true,
          message: "Collection updated",
       };
-      updateLibraryCollectionMock.mockResolvedValue(actionResult);
+      updateCollectionMock.mockResolvedValue(actionResult);
 
       const { result } = renderHookWithReactQuery(() => useUpdateCollection());
 
-      const update = dtestData.dLibraryCollectionUpdate(789);
-      const collection = dtestData.dLibraryCollection(1);
+      const update = dtestData.dCollectionUpdate(789);
+      const collection = dtestData.dCollection(1);
 
       const params: UpdateCollectionParams = {
          collectionId: collection.id,
@@ -467,8 +459,8 @@ describe("updateCollection hooks tests", () => {
       await waitFor(() => {
          result.current.mutate(params);
          expect(result.current.isSuccess).toBe(true);
-         expect(updateLibraryCollectionMock).toHaveBeenCalledTimes(1);
-         expect(updateLibraryCollectionMock).toHaveBeenCalledWith(
+         expect(updateCollectionMock).toHaveBeenCalledTimes(1);
+         expect(updateCollectionMock).toHaveBeenCalledWith(
             params.collectionId,
             params.data
          );
@@ -496,8 +488,8 @@ describe("deleteCollection hooks tests", () => {
          message: "Collection deleted",
       };
 
-      const collection1 = dtestData.dLibraryCollection(1);
-      const collection2 = dtestData.dLibraryCollection(2);
+      const collection1 = dtestData.dCollection(1);
+      const collection2 = dtestData.dCollection(2);
 
       options.onSuccess!(
          result,
@@ -514,8 +506,8 @@ describe("deleteCollection hooks tests", () => {
       );
 
       const updaterFn = queryClientMock.setQueryData.mock.calls[0][1] as (
-         cols: DLibraryCollection[]
-      ) => DLibraryCollection[];
+         cols: DCollection[]
+      ) => DCollection[];
 
       const updaterParams = [collection1, collection2];
       const updaterResult = updaterFn(updaterParams);
@@ -528,19 +520,17 @@ describe("deleteCollection hooks tests", () => {
          success: true,
          message: "Collection deleted",
       };
-      deleteLibraryCollectionMock.mockResolvedValue(actionResult);
+      deleteCollectionMock.mockResolvedValue(actionResult);
 
       const { result } = renderHookWithReactQuery(() => useDeleteCollection());
 
-      const collection = dtestData.dLibraryCollection(1);
+      const collection = dtestData.dCollection(1);
 
       await waitFor(() => {
          result.current.mutate(collection.id);
          expect(result.current.isSuccess).toBe(true);
-         expect(deleteLibraryCollectionMock).toHaveBeenCalledTimes(1);
-         expect(deleteLibraryCollectionMock).toHaveBeenCalledWith(
-            collection.id
-         );
+         expect(deleteCollectionMock).toHaveBeenCalledTimes(1);
+         expect(deleteCollectionMock).toHaveBeenCalledWith(collection.id);
       });
    });
 });
@@ -579,7 +569,7 @@ describe("loadEntityCollectionIds hooks tests", () => {
       const entryId = "entry-id-1";
       const enabled = true;
 
-      const collectionIds = dtestData.dLibraryCollectionIds();
+      const collectionIds = dtestData.dCollectionIds();
       getEntryCollectionIdsMock.mockResolvedValue(collectionIds);
 
       const params: LoadCollectionIdsParams = {
@@ -607,7 +597,7 @@ describe("updateEntryCollections hooks tests", () => {
       const expectedOptions: UseMutationOptions<
          ActionResult,
          Error,
-         DLibraryCollection
+         DCollection
       > = {
          mutationFn: jest.fn(),
          onSuccess: jest.fn(),
@@ -623,7 +613,7 @@ describe("updateEntryCollections hooks tests", () => {
       };
 
       const entryId = "entry-id-1";
-      const collectionIds = dtestData.dLibraryCollectionIds();
+      const collectionIds = dtestData.dCollectionIds();
 
       const params: UpdateCollectionIdsParams = {
          entryId,
@@ -657,7 +647,7 @@ describe("updateEntryCollections hooks tests", () => {
       );
 
       const entryId = "entry-id-1";
-      const collectionIds = dtestData.dLibraryCollectionIds();
+      const collectionIds = dtestData.dCollectionIds();
 
       const params: UpdateCollectionIdsParams = {
          entryId,

@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/library");
+jest.mock("@/data/actions/collection");
 jest.mock("@/data/actions/prompt-template");
 jest.mock("./search-params");
 
@@ -6,7 +6,7 @@ import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
 
-import { getLibraryCollections } from "@/data/actions/library";
+import { getCollections } from "@/data/actions/collection";
 import {
    getTemplateDescriptorCategories,
    getTemplateDescriptorModels,
@@ -35,8 +35,8 @@ const getTemplateDescriptorModelsMock =
       typeof getTemplateDescriptorModels
    >;
 
-const getLibraryCollectionsMock = getLibraryCollections as jest.MockedFunction<
-   typeof getLibraryCollections
+const getCollectionsMock = getCollections as jest.MockedFunction<
+   typeof getCollections
 >;
 
 const getTemplateDescriptorsPageMock =
@@ -44,7 +44,7 @@ const getTemplateDescriptorsPageMock =
       typeof getTemplateDescriptorsPage
    >;
 
-const librarySearchParamsCacheMock =
+const templatesSearchParamsCacheMock =
    templatesSearchParamsCache as DeepMockProxy<
       typeof templatesSearchParamsCache
    >;
@@ -93,7 +93,7 @@ describe("TemplatesDashboard rendering tests", () => {
    beforeAll(() => {
       const page = dtestData.dTemplateDescriptorsPage();
 
-      getLibraryCollectionsMock.mockResolvedValue([]);
+      getCollectionsMock.mockResolvedValue([]);
       getTemplateDescriptorsPageMock.mockResolvedValue(page);
    });
 
@@ -102,7 +102,7 @@ describe("TemplatesDashboard rendering tests", () => {
    });
 
    it("rendered test", async () => {
-      librarySearchParamsCacheMock.get.mockImplementation(mockSearchParams);
+      templatesSearchParamsCacheMock.get.mockImplementation(mockSearchParams);
 
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();

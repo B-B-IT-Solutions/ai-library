@@ -1,7 +1,7 @@
 import { DbClient } from "@/data/types/db/common";
 
 import { CartRepository } from "./cart";
-import { LibraryRepository } from "./library";
+import { CollectionRepository } from "./collection";
 import { OrderRepository } from "./order";
 import { ProductRepository } from "./product";
 import { PromptRepository } from "./prompt";
@@ -14,7 +14,7 @@ export class RepositoryFactory {
    private prisma: DbClient;
    private userRepo?: UserRepository;
    private cartRepo?: CartRepository;
-   private libraryRepo?: LibraryRepository;
+   private collectionRepo?: CollectionRepository;
    private orderRepo?: OrderRepository;
    private productRepo?: ProductRepository;
    private promptRepo?: PromptRepository;
@@ -40,11 +40,11 @@ export class RepositoryFactory {
       return this.cartRepo;
    }
 
-   libraryRepository(): LibraryRepository {
-      if (!this.libraryRepo) {
-         this.libraryRepo = new LibraryRepository(this.prisma);
+   collectionRepository(): CollectionRepository {
+      if (!this.collectionRepo) {
+         this.collectionRepo = new CollectionRepository(this.prisma);
       }
-      return this.libraryRepo;
+      return this.collectionRepo;
    }
 
    orderRepository(): OrderRepository {

@@ -1,10 +1,11 @@
 "use client";
 
-import { FC, useState } from "react";
+import { useState } from "react";
 import { map } from "es-toolkit/compat";
 import { Eye, FolderPlus, MoreVertical } from "lucide-react";
 import Link from "next/link";
 
+import { AddToLibraryCollectionDialog } from "@/components/collections";
 import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import {
@@ -14,18 +15,17 @@ import {
    DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import { DLibraryCollection } from "@/data/types/domain/library";
+import { DCollection } from "@/data/types/domain/collection";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 import {
    AddToFavoriteButton,
    CreatePromptFromTemplateButton,
    DownloadTemplateButton,
 } from "../../buttons";
-import { AddToLibraryCollectionDialog } from "../../collections";
 
 type Props = {
    descriptor: DPromptTemplateDescriptor;
-   collections: DLibraryCollection[];
+   collections: DCollection[];
 };
 
 export const TemplateItemCard = ({ descriptor, collections }: Props) => {

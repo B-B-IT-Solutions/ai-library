@@ -1,6 +1,5 @@
 jest.mock("@/data/repositories/user");
 jest.mock("@/data/services/cart");
-jest.mock("@/data/services/library");
 jest.mock("@/data/services/order");
 jest.mock("@/data/services/iubenda");
 jest.mock("@/lib/encrypt");
@@ -19,7 +18,6 @@ import {
    IubendaService,
    LegalNoticesAcceptedParams,
 } from "@/data/services/iubenda";
-import { LibraryService } from "@/data/services/library";
 import { OrderService } from "@/data/services/order";
 import { UserUpdateData } from "@/data/types/db/user";
 import {
@@ -46,12 +44,10 @@ const resolveIpAddresseMock = resolveIpAddresse as jest.MockedFunction<
 
 const serviceFactory = new ServiceFactory(prisma);
 const cartService = serviceFactory.getCartService();
-const libraryService = serviceFactory.getLibraryService();
 const orderService = serviceFactory.getOrderService();
 const iubendaService = serviceFactory.getIubendaService();
 
 const cartServiceMock = cartService as DeepMockProxy<CartService>;
-const libraryServiceMock = libraryService as DeepMockProxy<LibraryService>;
 const orderServiceMock = orderService as DeepMockProxy<OrderService>;
 const iubendaServiceMock = iubendaService as DeepMockProxy<IubendaService>;
 
@@ -61,7 +57,6 @@ const userRepoMock = userRepo as DeepMockProxy<UserRepository>;
 const userService = new UserService(
    userRepoMock,
    cartServiceMock,
-   libraryServiceMock,
    orderServiceMock,
    iubendaServiceMock
 );

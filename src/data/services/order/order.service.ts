@@ -1,21 +1,21 @@
 import { OrderRepository } from "@/data/repositories/order";
 import { CartService } from "@/data/services/cart";
-import { LibraryService } from "@/data/services/library";
+import { CollectionService } from "@/data/services/collection";
 import { DOrder, DOrderCreate, DOrderUpdate } from "@/data/types/domain/order";
 
 export class OrderService {
    private orderRepository: OrderRepository;
    private cartService: CartService;
-   private libraryService: LibraryService;
+   private collectionService: CollectionService;
 
    constructor(
       orderRepository: OrderRepository,
       cartService: CartService,
-      libraryService: LibraryService
+      collectionService: CollectionService
    ) {
       this.orderRepository = orderRepository;
       this.cartService = cartService;
-      this.libraryService = libraryService;
+      this.collectionService = collectionService;
    }
 
    async getOrders(userId: string): Promise<DOrder[]> {
@@ -56,7 +56,7 @@ export class OrderService {
             paymentMethod: "STRIPE",
          };
          await this.orderRepository.pUpdateOrder(orderId, payload);
-         await this.libraryService.createLibraryEntries(order);
+         // await this.collectionService.createLibraryEntries(order);
          await this.cartService.clearCart(order.userId);
       }
    }

@@ -15,7 +15,7 @@ const assertRendered = () => {
 
 describe("TemplateItemsList rendering tests", () => {
    it("templateDescriptors empty - test", async () => {
-      const collections = dtestData.dLibraryCollections();
+      const collections = dtestData.dCollections();
 
       const { container } = renderWithReactQuery(
          <TemplateItemsList descriptors={[]} collections={collections} />
@@ -29,7 +29,7 @@ describe("TemplateItemsList rendering tests", () => {
    });
 
    it("templateDescriptors with items - test", async () => {
-      const collections = dtestData.dLibraryCollections();
+      const collections = dtestData.dCollections();
       const descriptors = dtestData.dPromptTemplateDescriptors();
 
       const { container } = renderWithReactQuery(

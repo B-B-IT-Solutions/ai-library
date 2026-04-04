@@ -1,7 +1,7 @@
 import { RepositoryFactory } from "@/data/repositories";
 import { CartService } from "@/data/services/cart";
+import { CollectionService } from "@/data/services/collection";
 import { IubendaService } from "@/data/services/iubenda";
-import { LibraryService } from "@/data/services/library";
 import { OrderService } from "@/data/services/order";
 import { PromptService } from "@/data/services/prompt";
 import { PromptTemplateService } from "@/data/services/prompt-template";
@@ -15,7 +15,7 @@ export class ServiceFactory {
    private repositories: RepositoryFactory;
    private userService?: UserService;
    private cartService?: CartService;
-   private libraryService?: LibraryService;
+   private collectionService?: CollectionService;
    private orderService?: OrderService;
    private stripeService?: StripeService;
    private subscriptionService?: SubscriptionService;
@@ -33,7 +33,6 @@ export class ServiceFactory {
          this.userService = new UserService(
             this.repositories.userRepository(),
             this.getCartService(),
-            this.getLibraryService(),
             this.getOrderService(),
             this.getIubendaService()
          );
@@ -48,14 +47,13 @@ export class ServiceFactory {
       return this.cartService;
    }
 
-   getLibraryService(): LibraryService {
-      if (!this.libraryService) {
-         this.libraryService = new LibraryService(
-            this.repositories.libraryRepository(),
-            this.getPromptTemplateService()
+   getCollectionService(): CollectionService {
+      if (!this.collectionService) {
+         this.collectionService = new CollectionService(
+            this.repositories.collectionRepository()
          );
       }
-      return this.libraryService;
+      return this.collectionService;
    }
 
    getOrderService(): OrderService {
@@ -63,7 +61,7 @@ export class ServiceFactory {
          this.orderService = new OrderService(
             this.repositories.orderRepository(),
             this.getCartService(),
-            this.getLibraryService()
+            this.getCollectionService()
          );
       }
       return this.orderService;

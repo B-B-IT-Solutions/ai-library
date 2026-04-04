@@ -3,6 +3,7 @@ import { range } from "es-toolkit";
 import { map } from "es-toolkit/compat";
 
 import { CartWithItems } from "@/data/types/db/cart";
+import { PLibraryCollection } from "@/data/types/db/collection";
 import {
    OrderItemProduct,
    OrderProducts,
@@ -29,7 +30,6 @@ import {
    Cart,
    CartItem,
    GlobalTemplateField,
-   LibraryCollection,
    OrderItem,
    Product,
    ProductExample,
@@ -361,11 +361,11 @@ export const pOrderItem = (index = 1): OrderItem => {
    };
 };
 
-export const pLibraryCollections = (count = 3): LibraryCollection[] => {
+export const pLibraryCollections = (count = 3): PLibraryCollection[] => {
    return range(0, count).map((i) => pLibraryCollection(i));
 };
 
-export const pLibraryCollection = (index = 1): LibraryCollection => {
+export const pLibraryCollection = (index = 1): PLibraryCollection => {
    return {
       id: `457bf695-6f74-44aa-9b3a-e179ea9e817${index}`,
       userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
@@ -373,8 +373,13 @@ export const pLibraryCollection = (index = 1): LibraryCollection => {
       description: `description ${index}`,
       color: `color ${index}`,
       order: index,
+      isPublic: index % 2 == 0,
+      shareToken: `token-${index}`,
       updatedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),
+      _count: {
+         entries: index * 10,
+      },
    };
 };
 

@@ -9,4 +9,7 @@ export const libraryKeys = {
    entryCollections: (entryId: string) =>
       [...libraryKeys.all, "entry", entryId, "collections"] as const,
    collections: () => [...libraryKeys.all, "collections"] as const,
+   collection: (id: string) => [...libraryKeys.all, "collection", id] as const,
+   collectionTemplates: (id: string) =>
+      [...libraryKeys.all, "collection", id, "templates"] as const,
 };

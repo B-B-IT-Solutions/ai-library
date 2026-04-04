@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/library");
+jest.mock("@/data/actions/collection");
 
 import { screen, waitFor } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
@@ -10,7 +10,7 @@ import {
 } from "@tests";
 import mockRouter from "next-router-mock";
 
-import { getEntryCollectionIds } from "@/data/actions/library";
+import { getEntryCollectionIds } from "@/data/actions/collection";
 
 import { TemplateItemCard } from "./template-item-card";
 
@@ -70,7 +70,7 @@ const assertAddToCollectionDialogNotRendered = () => {
 
 describe("TemplateItemCard rendering tests", () => {
    it("viewMode grid - rendered test", async () => {
-      const collections = dtestData.dLibraryCollections();
+      const collections = dtestData.dCollections();
       const descriptor = dtestData.dPromptTemplateDescriptor();
 
       const { container } = renderWithReactQuery(
@@ -93,7 +93,7 @@ describe("TemplateItemCard functionality tests", () => {
 
    it("title - view detail link clicked - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptor();
-      const collections = dtestData.dLibraryCollections();
+      const collections = dtestData.dCollections();
 
       renderWithReactQuery(
          <TemplateItemCard descriptor={descriptor} collections={collections} />
@@ -115,7 +115,7 @@ describe("TemplateItemCard functionality tests", () => {
 
    it("dropdown - view detail link clicked - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptor();
-      const collections = dtestData.dLibraryCollections();
+      const collections = dtestData.dCollections();
 
       renderWithReactQuery(
          <TemplateItemCard descriptor={descriptor} collections={collections} />
@@ -144,11 +144,11 @@ describe("TemplateItemCard functionality tests", () => {
    });
 
    it("dropdown - show add to collection dialog - test", async () => {
-      const collectionIds = dtestData.dLibraryCollectionIds();
+      const collectionIds = dtestData.dCollectionIds();
       getEntryCollectionIdsMock.mockResolvedValue(collectionIds);
 
       const descriptor = dtestData.dPromptTemplateDescriptor();
-      const collections = dtestData.dLibraryCollections();
+      const collections = dtestData.dCollections();
 
       renderWithReactQuery(
          <TemplateItemCard descriptor={descriptor} collections={collections} />

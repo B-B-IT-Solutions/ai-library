@@ -18,21 +18,23 @@ import {
 import { filter, map } from "es-toolkit/compat";
 
 import {
-   createLibraryCollection,
-   deleteLibraryCollection,
+   addTemplateToCollection,
+   createCollection,
+   deleteCollection,
+   getCollectionById,
+   getCollections,
+   getCollectionTemplateIds,
    getEntryCollectionIds,
-   getLibraryCollections,
+   removeTemplateFromCollection,
+   setLibraryCollectionSharing,
+   updateCollection,
    updateEntryCollections,
-   updateLibraryCollection,
-} from "@/data/actions/library";
+} from "@/data/actions/collection";
 import {
    getTemplateDescriptorsPage,
    toggleTemplateDescriptorFavorite,
 } from "@/data/actions/prompt-template";
-import {
-   DLibraryCollection,
-   DLibraryCollectionUpdate,
-} from "@/data/types/domain/library";
+import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import {
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,
@@ -74,14 +76,14 @@ export const preloadLibraryEntriesOptions = (
    };
 };
 
-export const preloadLibraryCollectionsOptions = (): FetchQueryOptions<
-   DLibraryCollection[],
+export const preloadCollectionsOptions = (): FetchQueryOptions<
+   DCollection[],
    Error,
-   DLibraryCollection[]
+   DCollection[]
 > => {
    return {
       queryKey: libraryKeys.collections(),
-      queryFn: getLibraryCollections,
+      queryFn: getCollections,
    };
 };
 
@@ -146,39 +148,33 @@ export const useToggleFavorite = (): UseMutationResult<
 };
 
 export const loadLibraryCollectionsOptions = (): UndefinedInitialDataOptions<
-   DLibraryCollection[],
+   DCollection[],
    Error,
-   DLibraryCollection[]
+   DCollection[]
 > => {
    return {
       queryKey: libraryKeys.collections(),
-      queryFn: getLibraryCollections,
+      queryFn: getCollections,
       placeholderData: keepPreviousData,
       staleTime: 5 * 60 * 1000,
    };
 };
 
-export const useLoadLibraryCollections = (): UseQueryResult<
-   DLibraryCollection[]
-> => {
+export const useLoadLibraryCollections = (): UseQueryResult<DCollection[]> => {
    const options = loadLibraryCollectionsOptions();
-   return useQuery<DLibraryCollection[]>(options);
+   return useQuery<DCollection[]>(options);
 };
 
 export const createCollectionOptions = (
    queryClient: QueryClient
-): UseMutationOptions<
-   ActionResult<DLibraryCollection>,
-   Error,
-   DLibraryCollectionUpdate
-> => {
+): UseMutationOptions<ActionResult<DCollection>, Error, DCollectionUpdate> => {
    return {
-      mutationFn: async (data: DLibraryCollectionUpdate) => {
-         return await createLibraryCollection(data);
+      mutationFn: async (data: DCollectionUpdate) => {
+         return await createCollection(data);
       },
       onSuccess: (result) => {
          const currentData =
-            queryClient.getQueryData<DLibraryCollection[]>(
+            queryClient.getQueryData<DCollection[]>(
                libraryKeys.collections()
             ) || [];
 
@@ -191,9 +187,9 @@ export const createCollectionOptions = (
 };
 
 export const useCreateCollection = (): UseMutationResult<
-   ActionResult<DLibraryCollection>,
+   ActionResult<DCollection>,
    Error,
-   DLibraryCollectionUpdate
+   DCollectionUpdate
 > => {
    const queryClient = useQueryClient();
    return useMutation(createCollectionOptions(queryClient));
@@ -205,10 +201,10 @@ export const updateCollectionOptions = (
    return {
       mutationFn: async (params: UpdateCollectionParams) => {
          const { collectionId, data } = params;
-         return await updateLibraryCollection(collectionId, data);
+         return await updateCollection(collectionId, data);
       },
       onSuccess: (_, params) => {
-         const updater = (cols: DLibraryCollection[]) => {
+         const updater = (cols: DCollection[]) => {
             return map(cols, (col) => {
                if (col.id === params.collectionId) {
                   return { ...col, ...params.data };
@@ -236,10 +232,10 @@ export const deleteCollectionOptions = (
 ): UseMutationOptions<ActionResult, Error, string> => {
    return {
       mutationFn: async (collectionId: string) => {
-         return await deleteLibraryCollection(collectionId);
+         return await deleteCollection(collectionId);
       },
       onSuccess: (_, collectionId) => {
-         const updater = (cols: DLibraryCollection[]) => {
+         const updater = (cols: DCollection[]) => {
             return filter(cols, (col) => col.id !== collectionId);
          };
          queryClient.setQueryData(libraryKeys.collections(), updater);
@@ -300,4 +296,89 @@ export const useUpdateEntryCollections = (): UseMutationResult<
 > => {
    const queryClient = useQueryClient();
    return useMutation(updateEntryCollectionsOptions(queryClient));
+};
+
+export const useLoadCollectionById = (
+   collectionId: string | null
+): UseQueryResult<DCollection | null> => {
+   return useQuery({
+      queryKey: libraryKeys.collection(collectionId ?? ""),
+      queryFn: () => getCollectionById(collectionId!),
+      enabled: !!collectionId,
+      staleTime: 5 * 60 * 1000,
+   });
+};
+
+export const useCollectionTemplateIds = (
+   collectionId: string
+): UseQueryResult<string[]> => {
+   return useQuery({
+      queryKey: libraryKeys.collectionTemplates(collectionId),
+      queryFn: () => getCollectionTemplateIds(collectionId),
+      staleTime: 2 * 60 * 1000,
+   });
+};
+
+export const useAddTemplateToCollection = (): UseMutationResult<
+   ActionResult,
+   Error,
+   { collectionId: string; templateDescriptorId: string }
+> => {
+   const queryClient = useQueryClient();
+   return useMutation({
+      mutationFn: ({ collectionId, templateDescriptorId }) =>
+         addTemplateToCollection(collectionId, templateDescriptorId),
+      onSuccess: (_, { collectionId, templateDescriptorId }) => {
+         queryClient.setQueryData<string[]>(
+            libraryKeys.collectionTemplates(collectionId),
+            (prev) =>
+               prev ? [...prev, templateDescriptorId] : [templateDescriptorId]
+         );
+         queryClient.invalidateQueries({ queryKey: libraryKeys.collections() });
+         queryClient.invalidateQueries({ queryKey: libraryKeys.entries({}) });
+      },
+   });
+};
+
+export const useRemoveTemplateFromCollection = (): UseMutationResult<
+   ActionResult,
+   Error,
+   { collectionId: string; templateDescriptorId: string }
+> => {
+   const queryClient = useQueryClient();
+   return useMutation({
+      mutationFn: ({ collectionId, templateDescriptorId }) =>
+         removeTemplateFromCollection(collectionId, templateDescriptorId),
+      onSuccess: (_, { collectionId, templateDescriptorId }) => {
+         queryClient.setQueryData<string[]>(
+            libraryKeys.collectionTemplates(collectionId),
+            (prev) => prev?.filter((id) => id !== templateDescriptorId)
+         );
+         queryClient.invalidateQueries({ queryKey: libraryKeys.collections() });
+         queryClient.invalidateQueries({ queryKey: libraryKeys.entries({}) });
+      },
+   });
+};
+
+export const useSetCollectionSharing = (): UseMutationResult<
+   ActionResult<DCollection>,
+   Error,
+   { collectionId: string; isPublic: boolean }
+> => {
+   const queryClient = useQueryClient();
+   return useMutation({
+      mutationFn: ({ collectionId, isPublic }) =>
+         setLibraryCollectionSharing(collectionId, isPublic),
+      onSuccess: (result, { collectionId }) => {
+         if (result.data) {
+            queryClient.setQueryData(
+               libraryKeys.collection(collectionId),
+               result.data
+            );
+            const updater = (cols: DCollection[]) =>
+               cols.map((c) => (c.id === collectionId ? result.data! : c));
+            queryClient.setQueryData(libraryKeys.collections(), updater);
+         }
+      },
+   });
 };

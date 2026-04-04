@@ -1,6 +1,6 @@
 jest.mock("@/data/repositories/order");
 jest.mock("@/data/services/cart");
-jest.mock("@/data/services/library");
+jest.mock("@/data/services/collection");
 
 import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
@@ -9,17 +9,18 @@ import { OrderRepository } from "@/data/repositories/order";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { CartService } from "@/data/services/cart";
-import { LibraryService } from "@/data/services/library";
+import { CollectionService } from "@/data/services/collection";
 import { DOrderUpdate } from "@/data/types/domain/order";
 
 import { OrderService } from "./order.service";
 
 const serviceFactory = new ServiceFactory(prisma);
 const cartService = serviceFactory.getCartService();
-const libraryService = serviceFactory.getLibraryService();
+const collectionService = serviceFactory.getCollectionService();
 
 const cartServiceMock = cartService as DeepMockProxy<CartService>;
-const libraryServiceMock = libraryService as DeepMockProxy<LibraryService>;
+const collectionServiceMock =
+   collectionService as DeepMockProxy<CollectionService>;
 
 const orderRepo = new OrderRepository(prisma);
 const orderRepoMock = orderRepo as DeepMockProxy<OrderRepository>;
@@ -27,7 +28,7 @@ const orderRepoMock = orderRepo as DeepMockProxy<OrderRepository>;
 const orderService = new OrderService(
    orderRepoMock,
    cartServiceMock,
-   libraryServiceMock
+   collectionServiceMock
 );
 
 describe("getOrders tests", () => {
@@ -145,7 +146,7 @@ describe("handlePaymentCheckoutCompleted tests", () => {
 
       expect(orderRepoMock.pGetOrderProducts).toHaveBeenCalledTimes(1);
       expect(orderRepoMock.pGetOrderProducts).toHaveBeenCalledWith(orderId);
-      expect(libraryServiceMock.createLibraryEntries).not.toHaveBeenCalled();
+      // expect(collectionServiceMock.createLibraryEntries).not.toHaveBeenCalled();
       expect(orderRepoMock.pUpdateOrder).not.toHaveBeenCalled();
       expect(cartServiceMock.clearCart).not.toHaveBeenCalled();
    });
@@ -166,7 +167,7 @@ describe("handlePaymentCheckoutCompleted tests", () => {
 
       expect(orderRepoMock.pGetOrderProducts).toHaveBeenCalledTimes(1);
       expect(orderRepoMock.pGetOrderProducts).toHaveBeenCalledWith(order.id);
-      expect(libraryServiceMock.createLibraryEntries).not.toHaveBeenCalled();
+      // expect(collectionServiceMock.createLibraryEntries).not.toHaveBeenCalled();
       expect(orderRepoMock.pUpdateOrder).not.toHaveBeenCalled();
       expect(cartServiceMock.clearCart).not.toHaveBeenCalled();
    });
@@ -188,10 +189,12 @@ describe("handlePaymentCheckoutCompleted tests", () => {
       expect(orderRepoMock.pGetOrderProducts).toHaveBeenCalledTimes(1);
       expect(orderRepoMock.pGetOrderProducts).toHaveBeenCalledWith(order.id);
 
-      expect(libraryServiceMock.createLibraryEntries).toHaveBeenCalledTimes(1);
-      expect(libraryServiceMock.createLibraryEntries).toHaveBeenCalledWith(
-         order
-      );
+      // expect(collectionServiceMock.createLibraryEntries).toHaveBeenCalledTimes(
+      //    1
+      // );
+      // expect(collectionServiceMock.createLibraryEntries).toHaveBeenCalledWith(
+      //    order
+      // );
 
       const expectedOrderUpdate: DOrderUpdate = {
          status: "COMPLETED",

@@ -5,6 +5,7 @@ import { filter, includes, isEmpty } from "es-toolkit/compat";
 import { Folder, Plus } from "lucide-react";
 import { debounce, useQueryState } from "nuqs";
 
+import { LibraryCollectionCreateDialog } from "@/components/collections";
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
 import {
@@ -17,7 +18,6 @@ import {
 import { useLoadLibraryCollections } from "@/data/ts-queries/library";
 import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
 import { cn } from "@/lib/utils";
-import { LibraryCollectionCreateDialog } from "../../../collections";
 import { templatesSearchParams } from "../../../search-params";
 
 type Props = {

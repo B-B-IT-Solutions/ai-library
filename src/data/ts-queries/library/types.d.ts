@@ -1,5 +1,5 @@
 import { Sort } from "@/data/types/common";
-import { DLibraryCollectionUpdate } from "@/data/types/domain/library";
+import { DCollectionUpdate } from "@/data/types/domain/collection";
 import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
 
 export type LoadLibraryEntriesParams = {
@@ -14,7 +14,7 @@ export type UpdateIsFavoriteParams = {
 
 export type UpdateCollectionParams = {
    collectionId: string;
-   data: DLibraryCollectionUpdate;
+   data: DCollectionUpdate;
 };
 
 export type LoadCollectionIdsParams = {
