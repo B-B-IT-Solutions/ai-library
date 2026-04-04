@@ -15,7 +15,11 @@ import { updateCollectionSchema } from "@/data/types/validators/collection";
 
 import { initCollection } from "./utils";
 
-export const CreateCollectionForm = () => {
+type Props = {
+   onCreated?: (collectionId: string) => void;
+};
+
+export const CreateCollectionForm = ({ onCreated }: Props = {}) => {
    const router = useRouter();
    const { mutate: createCollection, isPending } = useCreateCollection();
 
@@ -29,7 +33,11 @@ export const CreateCollectionForm = () => {
          onSuccess: (result) => {
             if (result.success && result.data) {
                toast.success(result.message);
-               router.push(`/collections/${result.data.id}/edit`);
+               if (onCreated) {
+                  onCreated(result.data.id);
+               } else {
+                  router.push(`/collections/${result.data.id}/edit`);
+               }
             } else {
                toast.error(result.message);
             }
