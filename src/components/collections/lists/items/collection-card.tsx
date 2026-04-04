@@ -39,7 +39,7 @@ export const CollectionCard: FC<Props> = ({ collection, onDeleted }) => {
       <>
          <div
             className="group relative flex flex-col rounded-xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
-            data-testid={`collection-card-${collection.id}`}
+            data-testid="collection-item-card"
          >
             {/* Actions Menu – only on hover */}
             <div className="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100">

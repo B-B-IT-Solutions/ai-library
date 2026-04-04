@@ -163,11 +163,12 @@ exports[`CollectionsDashboard rendering tests rendered test 1`] = `
         data-testid="collection-items"
       >
         <div
-          class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          data-testid="collection-items-grid"
         >
           <div
             class="group relative flex flex-col rounded-xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
-            data-testid="collection-card-457bf695-6f74-44aa-9b3a-e179ea9e8170"
+            data-testid="collection-item-card"
           >
             <div
               class="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100"
@@ -319,7 +320,7 @@ exports[`CollectionsDashboard rendering tests rendered test 1`] = `
           </div>
           <div
             class="group relative flex flex-col rounded-xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
-            data-testid="collection-card-457bf695-6f74-44aa-9b3a-e179ea9e8171"
+            data-testid="collection-item-card"
           >
             <div
               class="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100"
@@ -471,7 +472,7 @@ exports[`CollectionsDashboard rendering tests rendered test 1`] = `
           </div>
           <div
             class="group relative flex flex-col rounded-xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
-            data-testid="collection-card-457bf695-6f74-44aa-9b3a-e179ea9e8172"
+            data-testid="collection-item-card"
           >
             <div
               class="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100"
