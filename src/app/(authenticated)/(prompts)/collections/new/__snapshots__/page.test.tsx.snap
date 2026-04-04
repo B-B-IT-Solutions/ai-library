@@ -97,168 +97,113 @@ exports[`NewCollectionPage rendering tests rendered test 1`] = `
           class="mx-auto max-w-5xl"
         >
           <div
-            class="grid grid-cols-1 gap-6 pb-8 lg:grid-cols-[340px_1fr]"
+            class="px-6 pb-8"
           >
-            <div>
-              <div
-                class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
-                data-slot="card"
-              >
-                <div
-                  class="px-6"
-                  data-slot="card-content"
-                >
-                  <h2
-                    class="mb-4 font-semibold text-slate-800"
-                  >
-                    Sammlung
-                  </h2>
-                  <form
-                    class="space-y-6"
-                  >
-                    <div
-                      class="grid gap-2"
-                      data-slot="form-item"
-                      data-testid="name"
-                    >
-                      <label
-                        class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
-                        data-error="false"
-                        data-slot="form-label"
-                        for="_r_0_-form-item"
-                      >
-                        Name
-                        <span
-                          class="text-destructive"
-                        >
-                          *
-                        </span>
-                      </label>
-                      <input
-                        aria-describedby="_r_0_-form-item-description"
-                        aria-invalid="false"
-                        class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
-                        data-slot="form-control"
-                        data-testid="input"
-                        id="_r_0_-form-item"
-                        name="name"
-                        placeholder="z.B. Marketing-Vorlagen"
-                        value=""
-                      />
-                    </div>
-                    <div
-                      class="grid gap-2"
-                      data-slot="form-item"
-                      data-testid="description"
-                    >
-                      <label
-                        class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
-                        data-error="false"
-                        data-slot="form-label"
-                        for="_r_1_-form-item"
-                      >
-                        Beschreibung
-                      </label>
-                      <textarea
-                        aria-describedby="_r_1_-form-item-description"
-                        aria-invalid="false"
-                        class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                        data-slot="form-control"
-                        data-testid="textarea"
-                        id="_r_1_-form-item"
-                        name="description"
-                        placeholder="Wofür wird diese Sammlung verwendet?"
-                        rows="3"
-                      />
-                    </div>
-                    <div
-                      class="grid gap-2"
-                      data-slot="form-item"
-                      data-testid="color"
-                    >
-                      <label
-                        class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
-                        data-error="false"
-                        data-slot="form-label"
-                        for="_r_2_-form-item"
-                      >
-                        Farbe
-                      </label>
-                      <input
-                        aria-describedby="_r_2_-form-item-description"
-                        aria-invalid="false"
-                        class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
-                        data-slot="form-control"
-                        data-testid="input"
-                        id="_r_2_-form-item"
-                        name="color"
-                        type="color"
-                        value="#3b82f6"
-                      />
-                    </div>
-                    <div
-                      class="flex gap-3 pt-2"
-                    >
-                      <button
-                        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3"
-                        data-slot="button"
-                        type="button"
-                      >
-                        Abbrechen
-                      </button>
-                      <button
-                        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3"
-                        data-slot="button"
-                        type="submit"
-                      >
-                        Sammlung erstellen
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
             <div
-              class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
-              data-slot="card"
+              class="mx-auto max-w-md"
             >
-              <div
-                class="px-6"
-                data-slot="card-content"
+              <form
+                class="space-y-6"
               >
-                <h2
-                  class="mb-4 font-semibold text-slate-800"
-                >
-                  Vorlagen
-                </h2>
                 <div
-                  class="flex flex-col items-center justify-center py-16 text-center text-sm text-slate-400"
+                  class="grid gap-2"
+                  data-slot="form-item"
+                  data-testid="name"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="lucide lucide-folder mb-3 h-8 w-8 text-slate-300"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
+                  <label
+                    class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
+                    data-error="false"
+                    data-slot="form-label"
+                    for="_r_0_-form-item"
                   >
-                    <path
-                      d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
-                    />
-                  </svg>
-                  <p>
-                    Erstellen Sie zuerst die Sammlung,
-                  </p>
-                  <p>
-                    um Vorlagen hinzuzufügen.
-                  </p>
+                    Name
+                    <span
+                      class="text-destructive"
+                    >
+                      *
+                    </span>
+                  </label>
+                  <input
+                    aria-describedby="_r_0_-form-item-description"
+                    aria-invalid="false"
+                    class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                    data-slot="form-control"
+                    data-testid="input"
+                    id="_r_0_-form-item"
+                    name="name"
+                    placeholder="z.B. Marketing-Vorlagen"
+                    value=""
+                  />
                 </div>
-              </div>
+                <div
+                  class="grid gap-2"
+                  data-slot="form-item"
+                  data-testid="description"
+                >
+                  <label
+                    class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+                    data-error="false"
+                    data-slot="form-label"
+                    for="_r_1_-form-item"
+                  >
+                    Beschreibung
+                  </label>
+                  <textarea
+                    aria-describedby="_r_1_-form-item-description"
+                    aria-invalid="false"
+                    class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+                    data-slot="form-control"
+                    data-testid="textarea"
+                    id="_r_1_-form-item"
+                    name="description"
+                    placeholder="Wofür wird diese Sammlung verwendet?"
+                    rows="3"
+                  />
+                </div>
+                <div
+                  class="grid gap-2"
+                  data-slot="form-item"
+                  data-testid="color"
+                >
+                  <label
+                    class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+                    data-error="false"
+                    data-slot="form-label"
+                    for="_r_2_-form-item"
+                  >
+                    Farbe
+                  </label>
+                  <input
+                    aria-describedby="_r_2_-form-item-description"
+                    aria-invalid="false"
+                    class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                    data-slot="form-control"
+                    data-testid="input"
+                    id="_r_2_-form-item"
+                    name="color"
+                    type="color"
+                    value="#3b82f6"
+                  />
+                </div>
+                <div
+                  class="flex gap-3 pt-2"
+                >
+                  <button
+                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3"
+                    data-slot="button"
+                    type="button"
+                  >
+                    Abbrechen
+                  </button>
+                  <button
+                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3"
+                    data-slot="button"
+                    type="submit"
+                  >
+                    Sammlung erstellen
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>

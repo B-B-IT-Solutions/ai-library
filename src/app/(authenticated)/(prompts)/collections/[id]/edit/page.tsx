@@ -5,14 +5,18 @@ import { CollectionEdit } from "@/components/collections";
 import { getCollectionById } from "@/data/actions/collection";
 
 export const metadata: Metadata = {
-   title: "Sammlung bearbeiten",
+   title: "Sammlung Bearbeiten",
 };
 
-type PageProps = {
-   params: Promise<{ id: string }>;
+export type PageParams = {
+   id: string;
 };
 
-const CollectionEditPage = async ({ params }: PageProps) => {
+export type PageProps = {
+   params: Promise<PageParams>;
+};
+
+export const CollectionEditPage = async ({ params }: PageProps) => {
    const { id: collectionId } = await params;
 
    const collection = await getCollectionById(collectionId);

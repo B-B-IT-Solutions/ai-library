@@ -20,39 +20,42 @@ type Props = {
 export const CollectionEdit = ({ collection }: Props) => {
    const isEdit = !!collection;
 
-   const header = () => {
-      const title = isEdit ? "Sammlung Bearbeiten" : "Neue Sammlung Erstellen";
-      const text = isEdit
-         ? "Bearbeiten Sie die Sammlung"
-         : "Erstellen Sie eine neue Sammlung";
-
-      return (
-         <>
-            <h1 className="text-2xl font-bold text-slate-900">{title}</h1>
-            <p className="mt-0.5 text-sm text-slate-600">{text}</p>
-         </>
-      );
-   };
-
-   const form = () => {
-      if (isEdit) {
-         return <CollectionEditForm collection={collection} />;
-      }
-      return <CreateCollectionForm />;
-   };
+   const title = isEdit ? "Sammlung Bearbeiten" : "Neue Sammlung Erstellen";
+   const subtitle = isEdit
+      ? "Bearbeiten Sie die Details und Vorlagen der Sammlung"
+      : "Erstellen Sie eine neue Sammlung";
 
    return (
       <ItemDetailsEdit data-testid="collection-edit">
-         <ItemDetailsEditHeader>{header()}</ItemDetailsEditHeader>
+         <ItemDetailsEditHeader>
+            <h1 className="text-2xl font-bold text-slate-900">{title}</h1>
+            <p className="mt-0.5 text-sm text-slate-600">{subtitle}</p>
+         </ItemDetailsEditHeader>
          <ItemDetailsEditContent>
             <ItemDetailsEditBreadcrumbs>
-               <CollectionBreadcrumb variant="new" />
+               {isEdit ? (
+                  <CollectionBreadcrumb
+                     variant="edit"
+                     label={collection.name}
+                     collectionId={collection.id}
+                  />
+               ) : (
+                  <CollectionBreadcrumb variant="new" />
+               )}
             </ItemDetailsEditBreadcrumbs>
             <ItemDetailsEditBody>
-               <div className="grid grid-cols-1 gap-6 pb-8 lg:grid-cols-[340px_1fr]">
-                  {form()}
-                  <CollectionTemplateManager collectionId={collection.id} />
-               </div>
+               {isEdit ? (
+                  <div className="grid grid-cols-1 gap-6 px-6 pb-8 lg:grid-cols-[340px_1fr]">
+                     <CollectionEditForm collection={collection} />
+                     {/* <CollectionTemplateManager collectionId={collection.id} /> */}
+                  </div>
+               ) : (
+                  <div className="px-6 pb-8">
+                     <div className="mx-auto max-w-md">
+                        <CreateCollectionForm />
+                     </div>
+                  </div>
+               )}
             </ItemDetailsEditBody>
          </ItemDetailsEditContent>
       </ItemDetailsEdit>
