@@ -14,7 +14,7 @@ type Props = {
    collection: DCollection;
 };
 
-export const CollectionHeader: FC<Props> = ({ collection }) => {
+export const CollectionHeader = ({ collection }: Props) => {
    const router = useRouter();
    const [showDelete, setShowDelete] = useState(false);
 

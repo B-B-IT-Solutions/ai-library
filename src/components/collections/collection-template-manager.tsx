@@ -68,9 +68,7 @@ export const CollectionTemplateManager: FC<Props> = ({ collectionId }) => {
       }
    };
 
-   const inCollection = allTemplates.filter((t) =>
-      includes(templateIds, t.id)
-   );
+   const inCollection = allTemplates.filter((t) => includes(templateIds, t.id));
    const notInCollection = allTemplates.filter(
       (t) => !includes(templateIds, t.id)
    );
@@ -123,7 +121,7 @@ export const CollectionTemplateManager: FC<Props> = ({ collectionId }) => {
       <div className="flex flex-col gap-4">
          {/* Search */}
          <div className="relative">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+            <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <Input
                placeholder="Vorlagen durchsuchen..."
                value={search}
@@ -141,7 +139,7 @@ export const CollectionTemplateManager: FC<Props> = ({ collectionId }) => {
                {/* Templates in collection */}
                {inCollection.length > 0 && (
                   <div>
-                     <div className="sticky top-0 border-b bg-slate-50 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                     <div className="sticky top-0 border-b bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase">
                         In dieser Sammlung ({inCollection.length})
                      </div>
                      {inCollection.map((t) => renderRow(t, true))}
@@ -151,7 +149,7 @@ export const CollectionTemplateManager: FC<Props> = ({ collectionId }) => {
                {/* Templates not in collection */}
                {notInCollection.length > 0 && (
                   <div>
-                     <div className="sticky top-0 border-b bg-slate-50 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                     <div className="sticky top-0 border-b bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase">
                         Weitere Vorlagen
                      </div>
                      {notInCollection.map((t) => renderRow(t, false))}
