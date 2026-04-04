@@ -13,21 +13,20 @@ import {
    ItemDetailsEditContent,
    ItemDetailsEditHeader,
 } from "@/components/shared/wrappers/item-details";
-
-import { CollectionBreadcrumb } from "./breadcrumbs";
-import { CreateCollectionForm } from "./collection";
-import { CollectionTemplateManager } from "./collection-template-manager";
+import { CollectionBreadcrumb } from "../../breadcrumbs";
+import { CollectionTemplateManager } from "../../collection-template-manager";
+import { CreateCollectionForm } from "..";
 
 type Props = {
    rootHref?: string;
 };
 
-export const CollectionNew = ({ rootHref }: Props) => {
+export const CollectionEdit = ({ rootHref }: Props) => {
    const router = useRouter();
    const [createdId, setCreatedId] = useState<string | null>(null);
 
    return (
-      <ItemDetailsEdit data-testid="collection-new">
+      <ItemDetailsEdit data-testid="collection-edit">
          <ItemDetailsEditHeader>
             <h1 className="text-2xl font-bold text-slate-900">
                Neue Sammlung Erstellen
@@ -38,7 +37,7 @@ export const CollectionNew = ({ rootHref }: Props) => {
          </ItemDetailsEditHeader>
          <ItemDetailsEditContent>
             <ItemDetailsEditBreadcrumbs>
-               <CollectionBreadcrumb variant="new" rootHref={rootHref} />
+               <CollectionBreadcrumb variant="new" />
             </ItemDetailsEditBreadcrumbs>
             <ItemDetailsEditBody>
                <div className="grid grid-cols-1 gap-6 pb-8 lg:grid-cols-[340px_1fr]">

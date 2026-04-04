@@ -1,18 +1,18 @@
 import { Metadata } from "next";
 
-import { CollectionNew } from "@/components/collections/collection-new";
+import { CollectionEdit } from "@/components/collections";
 
 export const metadata: Metadata = {
    title: "Neue Sammlung",
 };
 
-const NewCollectionPage = () => {
+export const NewCollectionPage = async () => {
    return (
       <div
          className="flex h-screen flex-col bg-slate-50"
          data-testid="new-collection-page"
       >
-         <CollectionNew />
+         <CollectionEdit />
       </div>
    );
 };
