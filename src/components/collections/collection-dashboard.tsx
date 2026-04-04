@@ -8,7 +8,7 @@ import { notFound } from "next/navigation";
 import { CollectionHeader } from "@/components/collections/collection-header";
 import { TemplateItems, TemplatesToolbar } from "@/components/templates/lists";
 import { templatesSearchParamsCache } from "@/components/templates/search-params";
-import { getLibraryCollectionById } from "@/data/actions/collection";
+import { getCollectionById } from "@/data/actions/collection";
 import {
    getTemplateDescriptorCategories,
    getTemplateDescriptorModels,
@@ -26,7 +26,7 @@ type Props = {
 };
 
 export const CollectionDashboard = async ({ collectionId }: Props) => {
-   const collection = await getLibraryCollectionById(collectionId);
+   const collection = await getCollectionById(collectionId);
    if (!collection) {
       notFound();
    }

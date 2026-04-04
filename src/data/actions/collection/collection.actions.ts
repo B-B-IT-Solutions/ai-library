@@ -1,5 +1,6 @@
 "use server";
 
+import { isEmpty } from "es-toolkit/compat";
 import { v4 as uuidv4 } from "uuid";
 import { validate as isValidUuid } from "uuid";
 
@@ -19,6 +20,37 @@ export const getCollections = async (): Promise<DCollection[]> => {
    } catch (error) {
       console.error(formatError(error));
       return [];
+   }
+};
+
+export const getCollectionById = async (
+   collectionId: string
+): Promise<DCollection | null> => {
+   try {
+      if (!isValidUuid(collectionId)) {
+         throw new Error("Invalid collection ID.");
+      }
+      const user = await requireUser();
+      const service = getService();
+      return await service.getCollectionById(user.id, collectionId);
+   } catch (error) {
+      console.error(formatError(error));
+      return null;
+   }
+};
+
+export const getCollectionByShareToken = async (
+   token: string
+): Promise<DCollection | null> => {
+   try {
+      if (isEmpty(token)) {
+         throw new Error("Invalid token.");
+      }
+      const service = getService();
+      return await service.getCollectionByShareToken(token);
+   } catch (error) {
+      console.error(formatError(error));
+      return null;
    }
 };
 
@@ -95,48 +127,6 @@ export const deleteCollection = async (
    }
 };
 
-export const getLibraryCollectionById = async (
-   collectionId: string
-): Promise<DCollection | null> => {
-   try {
-      if (!isValidUuid(collectionId)) {
-         throw new Error("Invalid collection ID.");
-      }
-      const user = await requireUser();
-      const service = getService();
-      return await service.getCollectionById(user.id, collectionId);
-   } catch (error) {
-      console.error(formatError(error));
-      return null;
-   }
-};
-
-export const getLibraryCollectionByShareToken = async (
-   shareToken: string
-): Promise<DCollection | null> => {
-   try {
-      const service = getService();
-      return await service.getCollectionByShareToken(shareToken);
-   } catch (error) {
-      console.error(formatError(error));
-      return null;
-   }
-};
-
-export const getCollectionTemplateIds = async (
-   collectionId: string
-): Promise<string[]> => {
-   try {
-      if (!isValidUuid(collectionId)) throw new Error("Invalid collection ID.");
-      const user = await requireUser();
-      const service = getService();
-      return await service.getCollectionTemplateIds(user.id, collectionId);
-   } catch (error) {
-      console.error(formatError(error));
-      return [];
-   }
-};
-
 export const addTemplateToCollection = async (
    collectionId: string,
    templateDescriptorId: string
@@ -148,18 +138,16 @@ export const addTemplateToCollection = async (
 
       const user = await requireUser();
       const service = getService();
-      // Verify collection belongs to user
-      const collection = await service.getCollectionById(user.id, collectionId);
-      if (!collection) {
-         throw new Error("Collection not found.");
-      }
-
       await service.addTemplateToCollection(
          user.id,
          collectionId,
          templateDescriptorId
       );
-      return { success: true, message: "Vorlage hinzugefügt" };
+
+      return {
+         success: true,
+         message: "Vorlage hinzugefügt",
+      };
    } catch (error) {
       console.error(formatError(error));
       return {
@@ -179,23 +167,36 @@ export const removeTemplateFromCollection = async (
       }
       const user = await requireUser();
       const service = getService();
-      const collection = await service.getCollectionById(user.id, collectionId);
-      if (!collection) {
-         throw new Error("Collection not found.");
-      }
-
       await service.removeTemplateFromCollection(
          user.id,
          collectionId,
          templateDescriptorId
       );
-      return { success: true, message: "Vorlage entfernt" };
+
+      return {
+         success: true,
+         message: "Vorlage entfernt",
+      };
    } catch (error) {
       console.error(formatError(error));
       return {
          success: false,
          message: "Vorlage konnte nicht entfernt werden",
       };
+   }
+};
+
+export const getCollectionTemplateIds = async (
+   collectionId: string
+): Promise<string[]> => {
+   try {
+      if (!isValidUuid(collectionId)) throw new Error("Invalid collection ID.");
+      const user = await requireUser();
+      const service = getService();
+      return await service.getCollectionTemplateIds(user.id, collectionId);
+   } catch (error) {
+      console.error(formatError(error));
+      return [];
    }
 };
 

@@ -24,7 +24,7 @@ import {
    getCollections,
    getCollectionTemplateIds,
    getEntryCollectionIds,
-   getLibraryCollectionById,
+   getCollectionById,
    removeTemplateFromCollection,
    setLibraryCollectionSharing,
    updateCollection,
@@ -303,7 +303,7 @@ export const useLoadCollectionById = (
 ): UseQueryResult<DCollection | null> => {
    return useQuery({
       queryKey: libraryKeys.collection(collectionId ?? ""),
-      queryFn: () => getLibraryCollectionById(collectionId!),
+      queryFn: () => getCollectionById(collectionId!),
       enabled: !!collectionId,
       staleTime: 5 * 60 * 1000,
    });

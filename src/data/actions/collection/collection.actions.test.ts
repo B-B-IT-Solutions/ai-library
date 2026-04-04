@@ -12,6 +12,8 @@ import { ActionResult } from "@/data/types/utils";
 import {
    createCollection,
    deleteCollection,
+   getCollectionById,
+   getCollectionByShareToken,
    getCollections,
    getEntryCollectionIds,
    updateCollection,
@@ -21,6 +23,9 @@ import {
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
 const sGetCollections = CollectionService.prototype.getCollections;
+const sGetCollectionById = CollectionService.prototype.getCollectionById;
+const sGetCollectionByShareToken =
+   CollectionService.prototype.getCollectionByShareToken;
 const sCreateCollection = CollectionService.prototype.createCollection;
 const sUpdateCollection = CollectionService.prototype.updateCollection;
 const sDeleteCollection = CollectionService.prototype.deleteCollection;
@@ -32,6 +37,13 @@ const sUpdateEntryCollections =
 const sGetCollectionsMock = sGetCollections as jest.MockedFunction<
    typeof sGetCollections
 >;
+const sGetCollectionByIdMock = sGetCollectionById as jest.MockedFunction<
+   typeof sGetCollectionById
+>;
+const sGetCollectionByShareTokenMock =
+   sGetCollectionByShareToken as jest.MockedFunction<
+      typeof sGetCollectionByShareToken
+   >;
 const sCreateCollectionMock = sCreateCollection as jest.MockedFunction<
    typeof sCreateCollection
 >;
@@ -84,6 +96,96 @@ describe("getCollections tests", () => {
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sGetCollectionsMock).toHaveBeenCalledTimes(1);
       expect(sGetCollectionsMock).toHaveBeenCalledWith(user.id);
+   });
+});
+
+describe("getCollectionById tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("invalid UUID - test", async () => {
+      const invalidId = "invalid-uuid-1";
+
+      const result = await getCollectionById(invalidId);
+
+      expect(result).toBeNull();
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sGetCollectionByIdMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith("Invalid collection ID.");
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
+
+      const result = await getCollectionById(collectionId);
+
+      expect(result).toBeNull();
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetCollectionByIdMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("collection retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const collection = dtestData.dCollection();
+      sGetCollectionByIdMock.mockResolvedValue(collection);
+
+      const result = await getCollectionById(collection.id);
+
+      expect(result).toEqual(collection);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetCollectionByIdMock).toHaveBeenCalledTimes(1);
+      expect(sGetCollectionByIdMock).toHaveBeenCalledWith(
+         user.id,
+         collection.id
+      );
+   });
+});
+
+describe("getCollectionByShareToken tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("invalid token - test", async () => {
+      const result = await getCollectionByShareToken("");
+
+      expect(result).toBeNull();
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sGetCollectionByShareTokenMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith("Invalid token.");
+   });
+
+   it("collection retrieved - test", async () => {
+      const collection = dtestData.dCollection();
+      sGetCollectionByShareTokenMock.mockResolvedValue(collection);
+
+      const token = "token-1";
+
+      const result = await getCollectionByShareToken(token);
+
+      expect(result).toEqual(collection);
+      expect(sGetCollectionByShareTokenMock).toHaveBeenCalledTimes(1);
+      expect(sGetCollectionByShareTokenMock).toHaveBeenCalledWith(token);
    });
 });
 

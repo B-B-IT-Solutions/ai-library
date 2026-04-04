@@ -72,6 +72,11 @@ export class CollectionService {
       collectionId: string,
       templateDescriptorId: string
    ): Promise<void> {
+      const collection = await this.getCollectionById(userId, collectionId);
+      if (!collection) {
+         throw new Error("Collection not found.");
+      }
+
       await this.libraryRepository.pAddTemplateToCollection(
          userId,
          collectionId,
@@ -84,6 +89,11 @@ export class CollectionService {
       collectionId: string,
       templateDescriptorId: string
    ): Promise<void> {
+      const collection = await this.getCollectionById(userId, collectionId);
+      if (!collection) {
+         throw new Error("Collection not found.");
+      }
+
       await this.libraryRepository.pRemoveTemplateFromCollection(
          userId,
          collectionId,

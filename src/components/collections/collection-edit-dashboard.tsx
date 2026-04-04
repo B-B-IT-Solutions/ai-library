@@ -9,7 +9,7 @@ import { notFound } from "next/navigation";
 
 import { CollectionTemplateManager } from "@/components/collections/collection-template-manager";
 import { EditCollectionForm } from "@/components/collections/edit-collection-form";
-import { getLibraryCollectionById } from "@/data/actions/collection";
+import { getCollectionById } from "@/data/actions/collection";
 import { preloadLibraryCollectionsOptions } from "@/data/ts-queries/library";
 import { libraryKeys } from "@/data/ts-queries/library/utils";
 
@@ -18,7 +18,7 @@ type Props = {
 };
 
 export const CollectionEditDashboard = async ({ collectionId }: Props) => {
-   const collection = await getLibraryCollectionById(collectionId);
+   const collection = await getCollectionById(collectionId);
    if (!collection) notFound();
 
    const queryClient = new QueryClient();
