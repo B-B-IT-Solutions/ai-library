@@ -5,16 +5,16 @@ import {
 } from "@tanstack/react-query";
 
 import { preloadCollectionsOptions } from "@/data/ts-queries/library";
-import { templatesSearchParamsCache } from "../templates";
 
 import { CreateCollectionButton } from "./buttons";
+import { collectionsSearchParamsCache } from "./collections-search-params";
 import { CollectionItems, CollectionsToolbar } from "./lists";
 
 export const CollectionsDashboard = async () => {
    const queryClient = new QueryClient();
    await queryClient.prefetchQuery(preloadCollectionsOptions());
 
-   const viewMode = templatesSearchParamsCache.get("view");
+   const viewMode = collectionsSearchParamsCache.get("view");
 
    return (
       <HydrationBoundary state={dehydrate(queryClient)}>

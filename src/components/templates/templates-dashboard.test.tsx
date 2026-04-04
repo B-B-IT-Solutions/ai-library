@@ -44,7 +44,7 @@ const getTemplateDescriptorsPageMock =
       typeof getTemplateDescriptorsPage
    >;
 
-const librarySearchParamsCacheMock =
+const templatesSearchParamsCacheMock =
    templatesSearchParamsCache as DeepMockProxy<
       typeof templatesSearchParamsCache
    >;
@@ -102,7 +102,7 @@ describe("TemplatesDashboard rendering tests", () => {
    });
 
    it("rendered test", async () => {
-      librarySearchParamsCacheMock.get.mockImplementation(mockSearchParams);
+      templatesSearchParamsCacheMock.get.mockImplementation(mockSearchParams);
 
       const categories = dtestData.dTemplateCategories();
       const models = dtestData.dTemplateModels();
