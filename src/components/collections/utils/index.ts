@@ -1,1 +1,1 @@
-export { initLibraryCollection } from "./initValues";
+export { initCollection } from "./initValues";

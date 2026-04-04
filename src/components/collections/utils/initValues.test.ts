@@ -1,16 +1,16 @@
 import { DCollectionUpdate } from "@/data/types/domain/collection";
 
-import { initLibraryCollection } from "./initValues";
+import { initCollection } from "./initValues";
 
-export const expectedInitLibraryCollection: DCollectionUpdate = {
+export const expectedInitCollection: DCollectionUpdate = {
    name: "",
    description: "",
    color: "#3b82f6",
 };
 
-describe("initLibraryCollection tests", () => {
-   it("initLibraryCollection test", () => {
-      const initValue = initLibraryCollection();
-      expect(initValue).toEqual(expectedInitLibraryCollection);
+describe("initCollection tests", () => {
+   it("values test", () => {
+      const initValue = initCollection();
+      expect(initValue).toEqual(expectedInitCollection);
    });
 });

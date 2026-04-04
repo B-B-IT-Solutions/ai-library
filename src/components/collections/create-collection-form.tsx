@@ -13,7 +13,7 @@ import { useCreateCollection } from "@/data/ts-queries/library";
 import { DCollectionUpdate } from "@/data/types/domain/collection";
 import { updateLibraryCollectionSchema } from "@/data/types/validators/library";
 
-import { initLibraryCollection } from "./utils";
+import { initCollection } from "./utils";
 
 export const CreateCollectionForm = () => {
    const router = useRouter();
@@ -21,7 +21,7 @@ export const CreateCollectionForm = () => {
 
    const form = useForm<DCollectionUpdate>({
       resolver: zodResolver(updateLibraryCollectionSchema),
-      defaultValues: initLibraryCollection(),
+      defaultValues: initCollection(),
    });
 
    const onSubmit = (data: DCollectionUpdate) => {
