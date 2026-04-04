@@ -4,7 +4,7 @@ jest.mock("@/data/actions/prompt-template");
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 
-import { getLibraryCollections } from "@/data/actions/collection";
+import { getCollections } from "@/data/actions/collection";
 import { getTemplateDescriptorsPage } from "@/data/actions/prompt-template";
 import {
    DListGroupByMode,
@@ -15,8 +15,8 @@ import { DTemplateDescriptorsPageQuery } from "@/data/types/domain/prompt.templa
 
 import { TemplateItems } from "./template-items";
 
-const getLibraryCollectionsMock = getLibraryCollections as jest.MockedFunction<
-   typeof getLibraryCollections
+const getCollectionsMock = getCollections as jest.MockedFunction<
+   typeof getCollections
 >;
 
 const getTemplateDescriptorsPageMock =
@@ -50,7 +50,7 @@ describe("LibraryDashboard rendering tests", () => {
    beforeAll(() => {
       const page = dtestData.dTemplateDescriptorsPage();
 
-      getLibraryCollectionsMock.mockResolvedValue([]);
+      getCollectionsMock.mockResolvedValue([]);
       getTemplateDescriptorsPageMock.mockResolvedValue(page);
    });
 

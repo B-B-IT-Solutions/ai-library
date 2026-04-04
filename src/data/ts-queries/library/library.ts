@@ -19,16 +19,16 @@ import { filter, map } from "es-toolkit/compat";
 
 import {
    addTemplateToCollection,
-   createLibraryCollection,
-   deleteLibraryCollection,
+   createCollection,
+   deleteCollection,
+   getCollections,
    getCollectionTemplateIds,
    getEntryCollectionIds,
    getLibraryCollectionById,
-   getLibraryCollections,
    removeTemplateFromCollection,
    setLibraryCollectionSharing,
+   updateCollection,
    updateEntryCollections,
-   updateLibraryCollection,
 } from "@/data/actions/collection";
 import {
    getTemplateDescriptorsPage,
@@ -83,7 +83,7 @@ export const preloadLibraryCollectionsOptions = (): FetchQueryOptions<
 > => {
    return {
       queryKey: libraryKeys.collections(),
-      queryFn: getLibraryCollections,
+      queryFn: getCollections,
    };
 };
 
@@ -154,7 +154,7 @@ export const loadLibraryCollectionsOptions = (): UndefinedInitialDataOptions<
 > => {
    return {
       queryKey: libraryKeys.collections(),
-      queryFn: getLibraryCollections,
+      queryFn: getCollections,
       placeholderData: keepPreviousData,
       staleTime: 5 * 60 * 1000,
    };
@@ -170,7 +170,7 @@ export const createCollectionOptions = (
 ): UseMutationOptions<ActionResult<DCollection>, Error, DCollectionUpdate> => {
    return {
       mutationFn: async (data: DCollectionUpdate) => {
-         return await createLibraryCollection(data);
+         return await createCollection(data);
       },
       onSuccess: (result) => {
          const currentData =
@@ -201,7 +201,7 @@ export const updateCollectionOptions = (
    return {
       mutationFn: async (params: UpdateCollectionParams) => {
          const { collectionId, data } = params;
-         return await updateLibraryCollection(collectionId, data);
+         return await updateCollection(collectionId, data);
       },
       onSuccess: (_, params) => {
          const updater = (cols: DCollection[]) => {
@@ -232,7 +232,7 @@ export const deleteCollectionOptions = (
 ): UseMutationOptions<ActionResult, Error, string> => {
    return {
       mutationFn: async (collectionId: string) => {
-         return await deleteLibraryCollection(collectionId);
+         return await deleteCollection(collectionId);
       },
       onSuccess: (_, collectionId) => {
          const updater = (cols: DCollection[]) => {

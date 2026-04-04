@@ -11,7 +11,7 @@ import { DbClient } from "@/data/types/db/common";
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 
-export const getLibraryCollections = async (): Promise<DCollection[]> => {
+export const getCollections = async (): Promise<DCollection[]> => {
    try {
       const user = await requireUser();
       const service = getService();
@@ -22,7 +22,7 @@ export const getLibraryCollections = async (): Promise<DCollection[]> => {
    }
 };
 
-export const createLibraryCollection = async (
+export const createCollection = async (
    data: DCollectionUpdate
 ): Promise<ActionResult<DCollection>> => {
    try {
@@ -44,7 +44,7 @@ export const createLibraryCollection = async (
    }
 };
 
-export const updateLibraryCollection = async (
+export const updateCollection = async (
    collectionId: string,
    data: DCollectionUpdate
 ): Promise<ActionResult> => {
@@ -70,7 +70,7 @@ export const updateLibraryCollection = async (
    }
 };
 
-export const deleteLibraryCollection = async (
+export const deleteCollection = async (
    collectionId: string
 ): Promise<ActionResult> => {
    try {

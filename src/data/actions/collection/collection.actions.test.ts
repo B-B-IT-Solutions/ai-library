@@ -10,12 +10,12 @@ import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 
 import {
-   createLibraryCollection,
-   deleteLibraryCollection,
+   createCollection,
+   deleteCollection,
+   getCollections,
    getEntryCollectionIds,
-   getLibraryCollections,
+   updateCollection,
    updateEntryCollections,
-   updateLibraryCollection,
 } from "./collection.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
@@ -48,7 +48,7 @@ const sUpdateEntryCollectionsMock =
 const sGetEntryCollectionIdsMock =
    sGetEntryCollectionIds as jest.MockedFunction<typeof sGetEntryCollectionIds>;
 
-describe("getLibraryCollections tests", () => {
+describe("getCollections tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -58,11 +58,11 @@ describe("getLibraryCollections tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("getLibraryCollections - user undefined - test", async () => {
+   it("user undefined - test", async () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
 
-      const result = await getLibraryCollections();
+      const result = await getCollections();
 
       expect(result).toEqual([]);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
@@ -71,14 +71,14 @@ describe("getLibraryCollections tests", () => {
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
-   it("getLibraryCollections - entries retrieved - test", async () => {
+   it("entries retrieved - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
       const collections = dtestData.dCollections();
       sGetCollectionsMock.mockResolvedValue(collections);
 
-      const result = await getLibraryCollections();
+      const result = await getCollections();
 
       expect(result).toEqual(collections);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
@@ -87,7 +87,7 @@ describe("getLibraryCollections tests", () => {
    });
 });
 
-describe("createLibraryCollection tests", () => {
+describe("createCollection tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -97,12 +97,12 @@ describe("createLibraryCollection tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("createLibraryCollection - user undefined - test", async () => {
+   it("user undefined - test", async () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
 
       const newCollection = dtestData.dCollectionUpdate();
-      const result = await createLibraryCollection(newCollection);
+      const result = await createCollection(newCollection);
       const expectedResult: ActionResult = {
          success: false,
          message: "Sammlung konnte nicht erstellt werden",
@@ -113,7 +113,31 @@ describe("createLibraryCollection tests", () => {
       expect(sCreateCollectionMock).not.toHaveBeenCalled();
    });
 
-   it("createLibraryCollection - success - test", async () => {
+   it("error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const errorMessage = "Db error";
+      const error = new Error(errorMessage);
+      sCreateCollectionMock.mockRejectedValue(error);
+
+      const newCollection = dtestData.dCollectionUpdate();
+      const result = await createCollection(newCollection);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Sammlung konnte nicht erstellt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sCreateCollectionMock).toHaveBeenCalledTimes(1);
+      expect(sCreateCollectionMock).toHaveBeenCalledWith(
+         user.id,
+         newCollection
+      );
+   });
+
+   it("collection - created - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -121,7 +145,7 @@ describe("createLibraryCollection tests", () => {
       sCreateCollectionMock.mockResolvedValue(createdCollection);
 
       const newCollection = dtestData.dCollectionUpdate();
-      const result = await createLibraryCollection(newCollection);
+      const result = await createCollection(newCollection);
 
       const expectedResult: ActionResult<DCollection> = {
          success: true,
@@ -136,33 +160,9 @@ describe("createLibraryCollection tests", () => {
          newCollection
       );
    });
-
-   it("createLibraryCollection - error - test", async () => {
-      const user = dtestData.dLoginUser();
-      requireUserMock.mockResolvedValue(user);
-
-      const errorMessage = "Db error";
-      const error = new Error(errorMessage);
-      sCreateCollectionMock.mockRejectedValue(error);
-
-      const newCollection = dtestData.dCollectionUpdate();
-      const result = await createLibraryCollection(newCollection);
-
-      const expectedResult: ActionResult = {
-         success: false,
-         message: "Sammlung konnte nicht erstellt werden",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sCreateCollectionMock).toHaveBeenCalledTimes(1);
-      expect(sCreateCollectionMock).toHaveBeenCalledWith(
-         user.id,
-         newCollection
-      );
-   });
 });
 
-describe("updateLibraryCollection tests", () => {
+describe("updateCollection tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -172,11 +172,11 @@ describe("updateLibraryCollection tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("updateLibraryCollection - invalid UUID - test", async () => {
+   it("invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
 
       const data = dtestData.dCollectionUpdate();
-      const result = await updateLibraryCollection(invalidId, data);
+      const result = await updateCollection(invalidId, data);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -194,7 +194,7 @@ describe("updateLibraryCollection tests", () => {
       requireUserMock.mockRejectedValue(error);
 
       const data = dtestData.dCollectionUpdate();
-      const result = await updateLibraryCollection(collectionId, data);
+      const result = await updateCollection(collectionId, data);
       const expectedResult: ActionResult = {
          success: false,
          message: "Sammlung konnte nicht aktualisiert werden",
@@ -215,7 +215,7 @@ describe("updateLibraryCollection tests", () => {
       sUpdateCollectionMock.mockRejectedValue(error);
 
       const data = dtestData.dCollectionUpdate();
-      const result = await updateLibraryCollection(collectionId, data);
+      const result = await updateCollection(collectionId, data);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -240,7 +240,7 @@ describe("updateLibraryCollection tests", () => {
       sUpdateCollectionMock.mockResolvedValue();
 
       const data = dtestData.dCollectionUpdate();
-      const result = await updateLibraryCollection(collectionId, data);
+      const result = await updateCollection(collectionId, data);
 
       const expectedResult: ActionResult<DPromptUpdate> = {
          success: true,
@@ -257,7 +257,7 @@ describe("updateLibraryCollection tests", () => {
    });
 });
 
-describe("deleteLibraryCollection tests", () => {
+describe("deleteCollection tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -270,7 +270,7 @@ describe("deleteLibraryCollection tests", () => {
    it("invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
 
-      const result = await deleteLibraryCollection(invalidId);
+      const result = await deleteCollection(invalidId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -287,7 +287,7 @@ describe("deleteLibraryCollection tests", () => {
       const collectionId = "123e4567-e89b-12d3-a456-426614174000";
       requireUserMock.mockRejectedValue(error);
 
-      const result = await deleteLibraryCollection(collectionId);
+      const result = await deleteCollection(collectionId);
       const expectedResult: ActionResult = {
          success: false,
          message: "Sammlung konnte nicht gelöscht werden",
@@ -307,7 +307,7 @@ describe("deleteLibraryCollection tests", () => {
       const error = new Error(errorMessage);
       sDeleteCollectionMock.mockRejectedValue(error);
 
-      const result = await deleteLibraryCollection(collectionId);
+      const result = await deleteCollection(collectionId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -327,7 +327,7 @@ describe("deleteLibraryCollection tests", () => {
 
       sDeleteCollectionMock.mockResolvedValue();
 
-      const result = await deleteLibraryCollection(collectionId);
+      const result = await deleteCollection(collectionId);
 
       const expectedResult: ActionResult<DPromptUpdate> = {
          success: true,
