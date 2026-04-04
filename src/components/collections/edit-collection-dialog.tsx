@@ -19,7 +19,7 @@ import { Form } from "@/components/shadcn/form";
 import { FormInput, FormTextArea } from "@/components/shared/widgets";
 import { useUpdateCollection } from "@/data/ts-queries/library";
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
-import { updateCollectionSchema } from "@/data/types/validators/library";
+import { updateCollectionSchema } from "@/data/types/validators/collection";
 
 type Props = {
    collection: DCollection;

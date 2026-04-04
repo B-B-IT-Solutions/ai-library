@@ -1,6 +1,6 @@
 import z from "zod";
 
-import { updateCollectionSchema } from "@/data/types/validators/library";
+import { updateCollectionSchema } from "@/data/types/validators/collection";
 
 export type DCollectionUpdate = z.infer<typeof updateCollectionSchema>;
 
