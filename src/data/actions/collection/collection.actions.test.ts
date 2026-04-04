@@ -17,6 +17,7 @@ import {
    getCollectionByShareToken,
    getCollections,
    getEntryCollectionIds,
+   removeTemplateFromCollection,
    updateCollection,
    updateEntryCollections,
 } from "./collection.actions";
@@ -30,6 +31,10 @@ const sGetCollectionByShareToken =
 const sCreateCollection = CollectionService.prototype.createCollection;
 const sUpdateCollection = CollectionService.prototype.updateCollection;
 const sDeleteCollection = CollectionService.prototype.deleteCollection;
+const sAddTemplateToCollection =
+   CollectionService.prototype.addTemplateToCollection;
+const sRemoveTemplateFromCollection =
+   CollectionService.prototype.removeTemplateFromCollection;
 const sGetEntryCollectionIds =
    CollectionService.prototype.getEntryCollectionIds;
 const sUpdateEntryCollections =
@@ -54,19 +59,20 @@ const sUpdateCollectionMock = sUpdateCollection as jest.MockedFunction<
 const sDeleteCollectionMock = sDeleteCollection as jest.MockedFunction<
    typeof sDeleteCollection
 >;
+const sAddTemplateToCollectionMock =
+   sAddTemplateToCollection as jest.MockedFunction<
+      typeof sAddTemplateToCollection
+   >;
+const sRemoveTemplateFromCollectionMock =
+   sRemoveTemplateFromCollection as jest.MockedFunction<
+      typeof sRemoveTemplateFromCollection
+   >;
 const sUpdateEntryCollectionsMock =
    sUpdateEntryCollections as jest.MockedFunction<
       typeof sUpdateEntryCollections
    >;
 const sGetEntryCollectionIdsMock =
    sGetEntryCollectionIds as jest.MockedFunction<typeof sGetEntryCollectionIds>;
-
-const sAddTemplateToCollection =
-   CollectionService.prototype.addTemplateToCollection;
-const sAddTemplateToCollectionMock =
-   sAddTemplateToCollection as jest.MockedFunction<
-      typeof sAddTemplateToCollection
-   >;
 
 describe("getCollections tests", () => {
    beforeEach(() => {
@@ -389,6 +395,7 @@ describe("deleteCollection tests", () => {
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).not.toHaveBeenCalled();
       expect(sDeleteCollectionMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
    });
 
    it("user undefined - test", async () => {
@@ -405,6 +412,7 @@ describe("deleteCollection tests", () => {
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
       expect(sDeleteCollectionMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
    });
 
    it("error - test", async () => {
@@ -426,6 +434,7 @@ describe("deleteCollection tests", () => {
       expect(result).toEqual(expectedResult);
       expect(sDeleteCollectionMock).toHaveBeenCalledTimes(1);
       expect(sDeleteCollectionMock).toHaveBeenCalledWith(user.id, collectionId);
+      expect(console.error).toHaveBeenCalledTimes(1);
    });
 
    it("colection - deleted - test", async () => {
@@ -476,6 +485,7 @@ describe("addTemplateToCollection tests", () => {
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).not.toHaveBeenCalled();
       expect(sAddTemplateToCollectionMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
    });
 
    it("invalid templateDescriptorId UUID - test", async () => {
@@ -495,6 +505,7 @@ describe("addTemplateToCollection tests", () => {
       expect(result).toEqual(expectedResult);
       expect(requireUserMock).not.toHaveBeenCalled();
       expect(sAddTemplateToCollectionMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
    });
 
    it("user undefined - test", async () => {
@@ -563,6 +574,138 @@ describe("addTemplateToCollection tests", () => {
       expect(result).toEqual(expectedResult);
       expect(sAddTemplateToCollectionMock).toHaveBeenCalledTimes(1);
       expect(sAddTemplateToCollectionMock).toHaveBeenCalledWith(
+         user.id,
+         collectionId,
+         templateId
+      );
+   });
+});
+
+describe("removeTemplateFromCollection tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("invalid collectionId UUID - test", async () => {
+      const invalidCollectionId = "invalid-uuid-1";
+      const templateId = "123e4567-e89b-12d3-a456-426614174000";
+
+      const result = await removeTemplateFromCollection(
+         invalidCollectionId,
+         templateId
+      );
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Vorlage konnte nicht entfernt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sRemoveTemplateFromCollectionMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("invalid templateDescriptorId UUID - test", async () => {
+      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
+      const invalidTemplateId = "invalid-uuid-1";
+
+      const result = await removeTemplateFromCollection(
+         collectionId,
+         invalidTemplateId
+      );
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Vorlage konnte nicht entfernt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sRemoveTemplateFromCollectionMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
+      const templateId = "223e4567-e89b-12d3-a456-426614174000";
+
+      const result = await removeTemplateFromCollection(
+         collectionId,
+         templateId
+      );
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Vorlage konnte nicht entfernt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sRemoveTemplateFromCollectionMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const error = new Error("DB Error");
+      sRemoveTemplateFromCollectionMock.mockRejectedValue(error);
+
+      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
+      const templateId = "223e4567-e89b-12d3-a456-426614174000";
+
+      const result = await removeTemplateFromCollection(
+         collectionId,
+         templateId
+      );
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Vorlage konnte nicht entfernt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sRemoveTemplateFromCollectionMock).toHaveBeenCalledTimes(1);
+      expect(sRemoveTemplateFromCollectionMock).toHaveBeenCalledWith(
+         user.id,
+         collectionId,
+         templateId
+      );
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("template - removed - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      sRemoveTemplateFromCollectionMock.mockResolvedValue();
+
+      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
+      const templateId = "223e4567-e89b-12d3-a456-426614174000";
+
+      const result = await removeTemplateFromCollection(
+         collectionId,
+         templateId
+      );
+
+      const expectedResult: ActionResult = {
+         success: true,
+         message: "Vorlage entfernt",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sRemoveTemplateFromCollectionMock).toHaveBeenCalledTimes(1);
+      expect(sRemoveTemplateFromCollectionMock).toHaveBeenCalledWith(
          user.id,
          collectionId,
          templateId
