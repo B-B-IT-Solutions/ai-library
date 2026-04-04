@@ -1,6 +1,6 @@
 import { isEmpty, map } from "es-toolkit/compat";
 
-import { LibraryRepository } from "@/data/repositories/library";
+import { CollectionRepository } from "@/data/repositories/collection";
 import { OrderProducts } from "@/data/types/db/order";
 import {
    DLibraryCollection,
@@ -8,9 +8,9 @@ import {
 } from "@/data/types/domain/library";
 
 export class CollectionService {
-   private libraryRepository: LibraryRepository;
+   private libraryRepository: CollectionRepository;
 
-   constructor(libraryRepository: LibraryRepository) {
+   constructor(libraryRepository: CollectionRepository) {
       this.libraryRepository = libraryRepository;
    }
 

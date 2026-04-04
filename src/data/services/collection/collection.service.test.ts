@@ -1,30 +1,20 @@
-jest.mock("@/data/repositories/library");
+jest.mock("@/data/repositories/collection");
 jest.mock("@/data/services/prompt-template");
 
 import { dtestData, ptestData } from "@tests";
 import { forEach } from "es-toolkit/compat";
 import { DeepMockProxy } from "jest-mock-extended";
 
-import { LibraryRepository } from "@/data/repositories/library";
+import { CollectionRepository } from "@/data/repositories/collection";
 import prisma from "@/data/repositories/prisma";
-import { ServiceFactory } from "@/data/services";
-import { PromptTemplateService } from "@/data/services/prompt-template";
 
 import { CollectionService } from "./collection.service";
 
-const serviceFactory = new ServiceFactory(prisma);
-const promptTemplateService = serviceFactory.getPromptTemplateService();
+const collectionRepo = new CollectionRepository(prisma);
+const collectionRepoMock =
+   collectionRepo as DeepMockProxy<CollectionRepository>;
 
-const promptTemplateServiceMock =
-   promptTemplateService as DeepMockProxy<PromptTemplateService>;
-
-const libraryRepo = new LibraryRepository(prisma);
-const libraryRepoMock = libraryRepo as DeepMockProxy<LibraryRepository>;
-
-const libraryService = new CollectionService(
-   libraryRepoMock,
-   promptTemplateServiceMock
-);
+const collectionService = new CollectionService(collectionRepoMock);
 
 describe("createLibraryEntries tests", () => {
    beforeEach(() => {
@@ -34,7 +24,7 @@ describe("createLibraryEntries tests", () => {
    it("createLibraryEntries - order.items empty - test", async () => {
       const order = ptestData.pOrderProducts(1, 0);
 
-      await libraryService.createLibraryEntries(order);
+      await collectionService.createLibraryEntries(order);
 
       // expect(libraryRepoMock.pCreateLibraryEntries).not.toHaveBeenCalled();
    });
@@ -45,7 +35,7 @@ describe("createLibraryEntries tests", () => {
          item.product.productItems = [];
       });
 
-      await libraryService.createLibraryEntries(order);
+      await collectionService.createLibraryEntries(order);
 
       // expect(libraryRepoMock.pCreateLibraryEntries).not.toHaveBeenCalled();
    });
@@ -59,10 +49,10 @@ describe("getCollections tests", () => {
    it("getCollections - collections retrieved - test", async () => {
       const userId = "user-id-1";
 
-      await libraryService.getCollections(userId);
+      await collectionService.getCollections(userId);
 
-      expect(libraryRepoMock.pGetCollections).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetCollections).toHaveBeenCalledWith(userId);
+      expect(collectionRepoMock.pGetCollections).toHaveBeenCalledTimes(1);
+      expect(collectionRepoMock.pGetCollections).toHaveBeenCalledWith(userId);
    });
 });
 
@@ -75,10 +65,10 @@ describe("createCollection tests", () => {
       const userId = "user-id-1";
       const data = dtestData.dLibraryCollectionUpdate();
 
-      await libraryService.createCollection(userId, data);
+      await collectionService.createCollection(userId, data);
 
-      expect(libraryRepoMock.pCreateCollection).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pCreateCollection).toHaveBeenCalledWith(
+      expect(collectionRepoMock.pCreateCollection).toHaveBeenCalledTimes(1);
+      expect(collectionRepoMock.pCreateCollection).toHaveBeenCalledWith(
          userId,
          data
       );
@@ -95,10 +85,10 @@ describe("updateCollection tests", () => {
       const collectionId = "collection-id-1";
       const data = dtestData.dLibraryCollectionUpdate();
 
-      await libraryService.updateCollection(collectionId, userId, data);
+      await collectionService.updateCollection(collectionId, userId, data);
 
-      expect(libraryRepoMock.pUpdateCollection).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pUpdateCollection).toHaveBeenCalledWith(
+      expect(collectionRepoMock.pUpdateCollection).toHaveBeenCalledTimes(1);
+      expect(collectionRepoMock.pUpdateCollection).toHaveBeenCalledWith(
          userId,
          collectionId,
          data
@@ -115,10 +105,10 @@ describe("deleteCollection tests", () => {
       const userId = "user-id-1";
       const collectionId = "collection-id-1";
 
-      await libraryService.deleteCollection(collectionId, userId);
+      await collectionService.deleteCollection(collectionId, userId);
 
-      expect(libraryRepoMock.pDeleteCollection).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pDeleteCollection).toHaveBeenCalledWith(
+      expect(collectionRepoMock.pDeleteCollection).toHaveBeenCalledTimes(1);
+      expect(collectionRepoMock.pDeleteCollection).toHaveBeenCalledWith(
          userId,
          collectionId
       );
@@ -135,16 +125,20 @@ describe("getEntryCollectionIds tests", () => {
       const entryId = "entry-id-1";
       const collectionIds = dtestData.dLibraryCollectionIds();
 
-      libraryRepoMock.pGetEntryCollectionIds.mockResolvedValue(collectionIds);
+      collectionRepoMock.pGetEntryCollectionIds.mockResolvedValue(
+         collectionIds
+      );
 
-      const result = await libraryService.getEntryCollectionIds(
+      const result = await collectionService.getEntryCollectionIds(
          userId,
          entryId
       );
 
       expect(result).toEqual(collectionIds);
-      expect(libraryRepoMock.pGetEntryCollectionIds).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pGetEntryCollectionIds).toHaveBeenCalledWith(
+      expect(collectionRepoMock.pGetEntryCollectionIds).toHaveBeenCalledTimes(
+         1
+      );
+      expect(collectionRepoMock.pGetEntryCollectionIds).toHaveBeenCalledWith(
          userId,
          entryId
       );
@@ -161,14 +155,16 @@ describe("updateEntryCollections tests", () => {
       const entryId = "entry-id-1";
       const collectionIds = dtestData.dLibraryCollectionIds();
 
-      await libraryService.updateEntryCollections(
+      await collectionService.updateEntryCollections(
          userId,
          entryId,
          collectionIds
       );
 
-      expect(libraryRepoMock.pUpdateEntryCollections).toHaveBeenCalledTimes(1);
-      expect(libraryRepoMock.pUpdateEntryCollections).toHaveBeenCalledWith(
+      expect(collectionRepoMock.pUpdateEntryCollections).toHaveBeenCalledTimes(
+         1
+      );
+      expect(collectionRepoMock.pUpdateEntryCollections).toHaveBeenCalledWith(
          userId,
          entryId,
          collectionIds

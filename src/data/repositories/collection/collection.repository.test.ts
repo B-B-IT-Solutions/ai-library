@@ -13,11 +13,14 @@ import {
    LibraryCollectionUpdateInput,
 } from "@/generated/prisma/models";
 
-import { toDLibraryCollection, toDLibraryCollections } from "./library.mapper";
-import { LibraryRepository } from "./library.repository";
+import {
+   toDLibraryCollection,
+   toDLibraryCollections,
+} from "./collection.mapper";
+import { CollectionRepository } from "./collection.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
-const libraryRepository = new LibraryRepository(prismaMock);
+const libraryRepository = new CollectionRepository(prismaMock);
 
 describe("pGetCollections tests", () => {
    beforeEach(() => {

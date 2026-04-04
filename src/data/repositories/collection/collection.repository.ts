@@ -14,9 +14,12 @@ import {
    LibraryCollectionUpdateInput,
 } from "@/generated/prisma/models";
 
-import { toDLibraryCollection, toDLibraryCollections } from "./library.mapper";
+import {
+   toDLibraryCollection,
+   toDLibraryCollections,
+} from "./collection.mapper";
 
-export class LibraryRepository {
+export class CollectionRepository {
    private prisma: DbClient;
 
    constructor(prisma: DbClient) {
@@ -31,7 +34,9 @@ export class LibraryRepository {
       };
 
       const collections = await this.prisma.libraryCollection.findMany(args);
-      return toDLibraryCollections(collections as Parameters<typeof toDLibraryCollections>[0]);
+      return toDLibraryCollections(
+         collections as Parameters<typeof toDLibraryCollections>[0]
+      );
    }
 
    async pGetCollectionById(
@@ -43,7 +48,9 @@ export class LibraryRepository {
          include: { _count: { select: { entries: true } } },
       });
       if (!collection) return null;
-      return toDLibraryCollection(collection as Parameters<typeof toDLibraryCollection>[0]);
+      return toDLibraryCollection(
+         collection as Parameters<typeof toDLibraryCollection>[0]
+      );
    }
 
    async pGetCollectionByShareToken(
@@ -54,7 +61,9 @@ export class LibraryRepository {
          include: { _count: { select: { entries: true } } },
       });
       if (!collection) return null;
-      return toDLibraryCollection(collection as Parameters<typeof toDLibraryCollection>[0]);
+      return toDLibraryCollection(
+         collection as Parameters<typeof toDLibraryCollection>[0]
+      );
    }
 
    async pSetShareToken(
@@ -68,7 +77,9 @@ export class LibraryRepository {
          data: { shareToken, isPublic },
          include: { _count: { select: { entries: true } } },
       });
-      return toDLibraryCollection(collection as Parameters<typeof toDLibraryCollection>[0]);
+      return toDLibraryCollection(
+         collection as Parameters<typeof toDLibraryCollection>[0]
+      );
    }
 
    async pCreateCollection(
@@ -130,9 +141,17 @@ export class LibraryRepository {
       await this.prisma.libraryCollection.delete(args);
    }
 
-   async pGetPublicCollectionTemplates(
-      collectionId: string
-   ): Promise<{ id: string; title: string; description: string; recommendedModel: string; categories: { name: string }[]; createdAt: Date; updatedAt: Date; }[]> {
+   async pGetPublicCollectionTemplates(collectionId: string): Promise<
+      {
+         id: string;
+         title: string;
+         description: string;
+         recommendedModel: string;
+         categories: { name: string }[];
+         createdAt: Date;
+         updatedAt: Date;
+      }[]
+   > {
       const entries = await this.prisma.libraryCollectionEntry.findMany({
          where: { collectionId },
          include: {

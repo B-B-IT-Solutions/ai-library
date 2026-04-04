@@ -51,7 +51,7 @@ export class ServiceFactory {
    getLibraryService(): CollectionService {
       if (!this.libraryService) {
          this.libraryService = new CollectionService(
-            this.repositories.libraryRepository()
+            this.repositories.collectionRepository()
          );
       }
       return this.libraryService;
