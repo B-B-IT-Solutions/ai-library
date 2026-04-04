@@ -14,10 +14,7 @@ import {
    LibraryCollectionUpdateInput,
 } from "@/generated/prisma/models";
 
-import {
-   toDLibraryCollection,
-   toDLibraryCollections,
-} from "./collection.mapper";
+import { toDCollection, toDCollections } from "./collection.mapper";
 
 export class CollectionRepository {
    private prisma: DbClient;
@@ -28,14 +25,24 @@ export class CollectionRepository {
 
    async pGetCollections(userId: string): Promise<DLibraryCollection[]> {
       const args: LibraryCollectionFindManyArgs = {
-         where: { userId },
-         orderBy: { order: "asc" },
-         include: { _count: { select: { entries: true } } },
+         where: {
+            userId,
+         },
+         orderBy: {
+            order: "asc",
+         },
+         include: {
+            _count: {
+               select: {
+                  entries: true,
+               },
+            },
+         },
       };
 
       const collections = await this.prisma.libraryCollection.findMany(args);
-      return toDLibraryCollections(
-         collections as Parameters<typeof toDLibraryCollections>[0]
+      return toDCollections(
+         collections as Parameters<typeof toDCollections>[0]
       );
    }
 
@@ -48,9 +55,7 @@ export class CollectionRepository {
          include: { _count: { select: { entries: true } } },
       });
       if (!collection) return null;
-      return toDLibraryCollection(
-         collection as Parameters<typeof toDLibraryCollection>[0]
-      );
+      return toDCollection(collection as Parameters<typeof toDCollection>[0]);
    }
 
    async pGetCollectionByShareToken(
@@ -61,9 +66,7 @@ export class CollectionRepository {
          include: { _count: { select: { entries: true } } },
       });
       if (!collection) return null;
-      return toDLibraryCollection(
-         collection as Parameters<typeof toDLibraryCollection>[0]
-      );
+      return toDCollection(collection as Parameters<typeof toDCollection>[0]);
    }
 
    async pSetShareToken(
@@ -77,9 +80,7 @@ export class CollectionRepository {
          data: { shareToken, isPublic },
          include: { _count: { select: { entries: true } } },
       });
-      return toDLibraryCollection(
-         collection as Parameters<typeof toDLibraryCollection>[0]
-      );
+      return toDCollection(collection as Parameters<typeof toDCollection>[0]);
    }
 
    async pCreateCollection(
@@ -103,7 +104,7 @@ export class CollectionRepository {
       };
 
       const collection = await this.prisma.libraryCollection.create(args);
-      return toDLibraryCollection(collection);
+      return toDCollection(collection);
    }
 
    async pUpdateCollection(
@@ -127,7 +128,7 @@ export class CollectionRepository {
       };
 
       const collection = await this.prisma.libraryCollection.update(args);
-      return toDLibraryCollection(collection);
+      return toDCollection(collection);
    }
 
    async pDeleteCollection(userId: string, collectionId: string) {

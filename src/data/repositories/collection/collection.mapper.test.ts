@@ -4,45 +4,46 @@ import { map } from "es-toolkit/compat";
 import { DLibraryCollection } from "@/data/types/domain/library";
 import { LibraryCollection } from "@/generated/prisma/client";
 
-import { toDLibraryCollection, toDLibraryCollections } from "./library.mapper";
+import { toDCollection, toDCollections } from "./collection.mapper";
 
-const toDLibraryCollectionsInternal = (
+const toDCollectionsInternal = (
    collections: LibraryCollection[]
 ): DLibraryCollection[] => {
-   return map(collections, (c) => toDLibraryCollectionInternal(c));
+   return map(collections, (c) => toDCollectionInternal(c));
 };
 
-const toDLibraryCollectionInternal = (
-   collection: LibraryCollection
-): DLibraryCollection => {
+const toDCollectionInternal = (c: LibraryCollection): DLibraryCollection => {
    return {
-      id: collection.id,
-      userId: collection.userId,
-      name: collection.name,
-      description: collection.description,
-      color: collection.color,
-      order: collection.order,
-      createdAt: collection.createdAt.toISOString(),
-      updatedAt: collection.updatedAt.toISOString(),
+      id: c.id,
+      userId: c.userId,
+      name: c.name,
+      description: c.description,
+      color: c.color,
+      order: c.order,
+      isPublic: c.isPublic ?? false,
+      shareToken: c.shareToken,
+      templateCount: c._count?.entries ?? 0,
+      createdAt: c.createdAt.toISOString(),
+      updatedAt: c.updatedAt.toISOString(),
    };
 };
 
-describe("toDLibraryCollections tests", () => {
+describe("toDCollections tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("toDLibraryCollections test", async () => {
+   it("toDCollections test", async () => {
       const collections = ptestData.pLibraryCollections();
-      const result = toDLibraryCollections(collections);
-      const expectedResult = toDLibraryCollectionsInternal(collections);
+      const result = toDCollections(collections);
+      const expectedResult = toDCollectionsInternal(collections);
       expect(result).toEqual(expectedResult);
    });
 
-   it("toDLibraryCollection test", async () => {
+   it("toDCollection test", async () => {
       const collection = ptestData.pLibraryCollection();
-      const result = toDLibraryCollection(collection);
-      const expectedResult = toDLibraryCollectionInternal(collection);
+      const result = toDCollection(collection);
+      const expectedResult = toDCollectionInternal(collection);
       expect(result).toEqual(expectedResult);
    });
 });

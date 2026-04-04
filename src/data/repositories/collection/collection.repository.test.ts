@@ -13,10 +13,7 @@ import {
    LibraryCollectionUpdateInput,
 } from "@/generated/prisma/models";
 
-import {
-   toDLibraryCollection,
-   toDLibraryCollections,
-} from "./collection.mapper";
+import { toDCollection, toDCollections } from "./collection.mapper";
 import { CollectionRepository } from "./collection.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
@@ -34,7 +31,7 @@ describe("pGetCollections tests", () => {
 
       const result = await libraryRepository.pGetCollections(userId);
 
-      const expectedResult = toDLibraryCollections(collections);
+      const expectedResult = toDCollections(collections);
 
       const expectedFindManyArgs: LibraryCollectionFindManyArgs = {
          where: { userId },
@@ -65,7 +62,7 @@ describe("pCreateCollection tests", () => {
 
       const result = await libraryRepository.pCreateCollection(userId, data);
 
-      const expectedResult = toDLibraryCollection(collection);
+      const expectedResult = toDCollection(collection);
 
       const expectedCreateInput: LibraryCollectionCreateInput = {
          user: {
@@ -101,7 +98,7 @@ describe("pCreateCollection tests", () => {
 
       const result = await libraryRepository.pCreateCollection(userId, data);
 
-      const expectedResult = toDLibraryCollection(collection);
+      const expectedResult = toDCollection(collection);
 
       const expectedCreateInput: LibraryCollectionCreateInput = {
          user: {
@@ -145,7 +142,7 @@ describe("pUpdateCollection tests", () => {
          data
       );
 
-      const expectedResult = toDLibraryCollection(collection);
+      const expectedResult = toDCollection(collection);
 
       const expectedUpdateInput: LibraryCollectionUpdateInput = {
          name: data.name,
@@ -184,7 +181,7 @@ describe("pUpdateCollection tests", () => {
          data
       );
 
-      const expectedResult = toDLibraryCollection(collection);
+      const expectedResult = toDCollection(collection);
 
       const expectedUpdateInput: LibraryCollectionUpdateInput = {
          name: data.name,

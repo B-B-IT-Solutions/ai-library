@@ -7,13 +7,13 @@ type LibraryCollectionWithCount = LibraryCollection & {
    _count?: { entries: number };
 };
 
-export const toDLibraryCollections = (
+export const toDCollections = (
    collections: LibraryCollectionWithCount[]
 ): DLibraryCollection[] => {
-   return map(collections, (c) => toDLibraryCollection(c));
+   return map(collections, (c) => toDCollection(c));
 };
 
-export const toDLibraryCollection = (
+export const toDCollection = (
    collection: LibraryCollectionWithCount
 ): DLibraryCollection => {
    return {
