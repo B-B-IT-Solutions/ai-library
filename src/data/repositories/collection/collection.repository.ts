@@ -94,20 +94,6 @@ export class CollectionRepository {
       return toDCollection(collection);
    }
 
-   async pSetShareToken(
-      userId: string,
-      collectionId: string,
-      shareToken: string | null,
-      isPublic: boolean
-   ): Promise<DLibraryCollection> {
-      const collection = await this.prisma.libraryCollection.update({
-         where: { id: collectionId, userId },
-         data: { shareToken, isPublic },
-         include: { _count: { select: { entries: true } } },
-      });
-      return toDCollection(collection as Parameters<typeof toDCollection>[0]);
-   }
-
    async pCreateCollection(
       userId: string,
       data: DLibraryCollectionUpdate
@@ -165,6 +151,20 @@ export class CollectionRepository {
       };
 
       await this.prisma.libraryCollection.delete(args);
+   }
+
+   async pSetShareToken(
+      userId: string,
+      collectionId: string,
+      shareToken: string | null,
+      isPublic: boolean
+   ): Promise<DLibraryCollection> {
+      const collection = await this.prisma.libraryCollection.update({
+         where: { id: collectionId, userId },
+         data: { shareToken, isPublic },
+         include: { _count: { select: { entries: true } } },
+      });
+      return toDCollection(collection as Parameters<typeof toDCollection>[0]);
    }
 
    async pGetPublicCollectionTemplates(collectionId: string): Promise<
