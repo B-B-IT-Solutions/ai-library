@@ -81,7 +81,9 @@ export class CollectionRepository {
          },
          include: {
             _count: {
-               select: { entries: true },
+               select: {
+                  entries: true,
+               },
             },
          },
       });
