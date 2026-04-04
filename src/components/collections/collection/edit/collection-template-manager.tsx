@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { flatMap, includes } from "es-toolkit/compat";
 import { Check, Loader, Plus, Search, X } from "lucide-react";
 import { toast } from "sonner";
@@ -20,7 +20,7 @@ type Props = {
    collectionId: string;
 };
 
-export const CollectionTemplateManager: FC<Props> = ({ collectionId }) => {
+export const CollectionTemplateManager = ({ collectionId }: Props) => {
    const [search, setSearch] = useState("");
 
    const { data: templateIds = [], isLoading: idsLoading } =
