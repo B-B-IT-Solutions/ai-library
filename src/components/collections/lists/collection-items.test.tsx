@@ -14,7 +14,10 @@ const getCollectionsMock = getCollections as jest.MockedFunction<
 
 const assertItemsEmptyRendered = () => {
    const empty = screen.getByTestId("collection-items-empty");
+   const createBtn = screen.getByTestId("create-collection-btn");
+
    assertInDocument(empty);
+   assertInDocument(createBtn);
 };
 
 const assertGridRendered = () => {
