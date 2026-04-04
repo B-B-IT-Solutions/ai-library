@@ -9,7 +9,7 @@ import { OrderRepository } from "@/data/repositories/order";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { CartService } from "@/data/services/cart";
-import { LibraryService } from "@/data/services/collection";
+import { CollectionService } from "@/data/services/collection";
 import { DOrderUpdate } from "@/data/types/domain/order";
 
 import { OrderService } from "./order.service";
@@ -19,7 +19,7 @@ const cartService = serviceFactory.getCartService();
 const libraryService = serviceFactory.getLibraryService();
 
 const cartServiceMock = cartService as DeepMockProxy<CartService>;
-const libraryServiceMock = libraryService as DeepMockProxy<LibraryService>;
+const libraryServiceMock = libraryService as DeepMockProxy<CollectionService>;
 
 const orderRepo = new OrderRepository(prisma);
 const orderRepoMock = orderRepo as DeepMockProxy<OrderRepository>;

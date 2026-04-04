@@ -7,7 +7,7 @@ import {
    DLibraryCollectionUpdate,
 } from "@/data/types/domain/library";
 
-export class LibraryService {
+export class CollectionService {
    private libraryRepository: LibraryRepository;
 
    constructor(libraryRepository: LibraryRepository) {

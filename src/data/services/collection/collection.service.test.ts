@@ -10,7 +10,7 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { PromptTemplateService } from "@/data/services/prompt-template";
 
-import { LibraryService } from "./library.service";
+import { CollectionService } from "./collection.service";
 
 const serviceFactory = new ServiceFactory(prisma);
 const promptTemplateService = serviceFactory.getPromptTemplateService();
@@ -21,7 +21,7 @@ const promptTemplateServiceMock =
 const libraryRepo = new LibraryRepository(prisma);
 const libraryRepoMock = libraryRepo as DeepMockProxy<LibraryRepository>;
 
-const libraryService = new LibraryService(
+const libraryService = new CollectionService(
    libraryRepoMock,
    promptTemplateServiceMock
 );

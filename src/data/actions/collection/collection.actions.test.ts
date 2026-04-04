@@ -4,7 +4,7 @@ jest.mock("@/data/actions/auth-utils");
 import { dtestData } from "@tests";
 
 import { requireUser } from "@/data/actions/auth-utils";
-import { LibraryService } from "@/data/services/collection";
+import { CollectionService } from "@/data/services/collection";
 import { DLibraryCollection } from "@/data/types/domain/library";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
@@ -20,12 +20,14 @@ import {
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
-const sGetCollections = LibraryService.prototype.getCollections;
-const sCreateCollection = LibraryService.prototype.createCollection;
-const sUpdateCollection = LibraryService.prototype.updateCollection;
-const sDeleteCollection = LibraryService.prototype.deleteCollection;
-const sGetEntryCollectionIds = LibraryService.prototype.getEntryCollectionIds;
-const sUpdateEntryCollections = LibraryService.prototype.updateEntryCollections;
+const sGetCollections = CollectionService.prototype.getCollections;
+const sCreateCollection = CollectionService.prototype.createCollection;
+const sUpdateCollection = CollectionService.prototype.updateCollection;
+const sDeleteCollection = CollectionService.prototype.deleteCollection;
+const sGetEntryCollectionIds =
+   CollectionService.prototype.getEntryCollectionIds;
+const sUpdateEntryCollections =
+   CollectionService.prototype.updateEntryCollections;
 
 const sGetCollectionsMock = sGetCollections as jest.MockedFunction<
    typeof sGetCollections

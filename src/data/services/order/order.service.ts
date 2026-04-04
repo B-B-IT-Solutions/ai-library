@@ -1,17 +1,17 @@
 import { OrderRepository } from "@/data/repositories/order";
 import { CartService } from "@/data/services/cart";
-import { LibraryService } from "@/data/services/collection";
+import { CollectionService } from "@/data/services/collection";
 import { DOrder, DOrderCreate, DOrderUpdate } from "@/data/types/domain/order";
 
 export class OrderService {
    private orderRepository: OrderRepository;
    private cartService: CartService;
-   private libraryService: LibraryService;
+   private libraryService: CollectionService;
 
    constructor(
       orderRepository: OrderRepository,
       cartService: CartService,
-      libraryService: LibraryService
+      libraryService: CollectionService
    ) {
       this.orderRepository = orderRepository;
       this.cartService = cartService;

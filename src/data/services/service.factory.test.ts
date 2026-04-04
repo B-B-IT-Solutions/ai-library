@@ -1,7 +1,7 @@
 import prisma from "@/data/repositories/prisma";
 
 import { CartService } from "./cart";
-import { LibraryService } from "./collection";
+import { CollectionService } from "./collection";
 import { IubendaService } from "./iubenda";
 import { OrderService } from "./order";
 import { PromptService } from "./prompt";
@@ -43,7 +43,7 @@ describe("getCartService tests", () => {
 describe("getLibraryService tests", () => {
    it("getLibraryService - new instance - test", () => {
       const service = serviceFactory.getLibraryService();
-      expect(service).toBeInstanceOf(LibraryService);
+      expect(service).toBeInstanceOf(CollectionService);
    });
 
    it("getLibraryService - existing instance - test", () => {

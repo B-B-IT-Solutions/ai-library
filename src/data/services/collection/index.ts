@@ -1,1 +1,1 @@
-export { LibraryService } from "./library.service";
+export { CollectionService } from "./collection.service";
