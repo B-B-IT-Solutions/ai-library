@@ -44,7 +44,10 @@ export const CollectionItems = ({ viewMode }: Props) => {
 
    if (isEmpty(collections)) {
       return (
-         <div className="flex flex-col items-center justify-center py-24 text-center">
+         <div
+            className="flex flex-col items-center justify-center py-24 text-center"
+            data-testid="collection-items-empty"
+         >
             <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-100">
                <Folder className="h-8 w-8 text-slate-400" />
             </div>

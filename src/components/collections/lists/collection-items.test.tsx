@@ -12,6 +12,11 @@ const getCollectionsMock = getCollections as jest.MockedFunction<
    typeof getCollections
 >;
 
+const assertItemsEmptyRendered = () => {
+   const empty = screen.getByTestId("collection-items-empty");
+   assertInDocument(empty);
+};
+
 const assertGridRendered = () => {
    const items = screen.getByTestId("collection-items-grid");
    assertInDocument(items);
@@ -25,6 +30,21 @@ const assertListRendered = () => {
 describe("CollectionItems rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+   });
+
+   it("collection empty - test", async () => {
+      getCollectionsMock.mockResolvedValue([]);
+
+      const { container } = renderWithRouter(
+         <CollectionItems viewMode={DListViewMode.GRID} />
+      );
+
+      await waitFor(() => {
+         assertItemsEmptyRendered();
+         expect(getCollectionsMock).toHaveBeenCalledTimes(1);
+      });
+
+      expect(container).toMatchSnapshot();
    });
 
    it("view grid - test", async () => {
