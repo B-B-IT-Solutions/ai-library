@@ -142,15 +142,23 @@ export const addTemplateToCollection = async (
    templateDescriptorId: string
 ): Promise<ActionResult> => {
    try {
-      if (!isValidUuid(collectionId)) throw new Error("Invalid collection ID.");
-      if (!isValidUuid(templateDescriptorId))
-         throw new Error("Invalid template ID.");
+      if (!isValidUuid(collectionId) || !isValidUuid(templateDescriptorId)) {
+         throw new Error("Invalid collection or template ID.");
+      }
+
       const user = await requireUser();
       const service = getService();
       // Verify collection belongs to user
       const collection = await service.getCollectionById(user.id, collectionId);
-      if (!collection) throw new Error("Collection not found.");
-      await service.addTemplateToCollection(collectionId, templateDescriptorId);
+      if (!collection) {
+         throw new Error("Collection not found.");
+      }
+
+      await service.addTemplateToCollection(
+         user.id,
+         collectionId,
+         templateDescriptorId
+      );
       return { success: true, message: "Vorlage hinzugefügt" };
    } catch (error) {
       console.error(formatError(error));
@@ -166,14 +174,18 @@ export const removeTemplateFromCollection = async (
    templateDescriptorId: string
 ): Promise<ActionResult> => {
    try {
-      if (!isValidUuid(collectionId)) throw new Error("Invalid collection ID.");
-      if (!isValidUuid(templateDescriptorId))
-         throw new Error("Invalid template ID.");
+      if (!isValidUuid(collectionId) || !isValidUuid(templateDescriptorId)) {
+         throw new Error("Invalid collection or template ID.");
+      }
       const user = await requireUser();
       const service = getService();
       const collection = await service.getCollectionById(user.id, collectionId);
-      if (!collection) throw new Error("Collection not found.");
+      if (!collection) {
+         throw new Error("Collection not found.");
+      }
+
       await service.removeTemplateFromCollection(
+         user.id,
          collectionId,
          templateDescriptorId
       );
@@ -202,7 +214,9 @@ export const getPublicCollectionByToken = async (
    try {
       const service = getService();
       const collection = await service.getCollectionByShareToken(shareToken);
-      if (!collection) return null;
+      if (!collection) {
+         return null;
+      }
 
       const templates = await service.getPublicCollectionTemplates(
          collection.id

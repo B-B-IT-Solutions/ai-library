@@ -8,6 +8,8 @@ import {
    LibraryCollectionCreateArgs,
    LibraryCollectionCreateInput,
    LibraryCollectionDeleteArgs,
+   LibraryCollectionEntryDeleteManyArgs,
+   LibraryCollectionEntryUpsertArgs,
    LibraryCollectionFindManyArgs,
    LibraryCollectionFindUniqueArgs,
    LibraryCollectionUpdateArgs,
@@ -446,6 +448,81 @@ describe("pSetShareToken tests", () => {
       expect(prismaMock.libraryCollection.update).toHaveBeenCalledTimes(1);
       expect(prismaMock.libraryCollection.update).toHaveBeenCalledWith(
          expectedUpdateArgs
+      );
+   });
+});
+
+describe("pAddTemplateToCollection tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("template added to collection - test", async () => {
+      const userId = "user-id-1";
+      const templateDescriptorId = "descriptor-id";
+      const collectionId = "collection-id";
+
+      await collectionRepository.pAddTemplateToCollection(
+         userId,
+         collectionId,
+         templateDescriptorId
+      );
+
+      const expectedArgs: LibraryCollectionEntryUpsertArgs = {
+         where: {
+            collection: {
+               userId,
+            },
+            collectionId_templateDescriptorId: {
+               collectionId,
+               templateDescriptorId,
+            },
+         },
+         create: {
+            collectionId,
+            templateDescriptorId,
+         },
+         update: {},
+      };
+
+      expect(prismaMock.libraryCollectionEntry.upsert).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryCollectionEntry.upsert).toHaveBeenCalledWith(
+         expectedArgs
+      );
+   });
+});
+
+describe("pRemoveTemplateFromCollection tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("template removed from collection - test", async () => {
+      const userId = "user-id-1";
+      const templateDescriptorId = "descriptor-id";
+      const collectionId = "collection-id";
+
+      await collectionRepository.pRemoveTemplateFromCollection(
+         userId,
+         collectionId,
+         templateDescriptorId
+      );
+
+      const expectedArgs: LibraryCollectionEntryDeleteManyArgs = {
+         where: {
+            collection: {
+               userId,
+            },
+            collectionId,
+            templateDescriptorId,
+         },
+      };
+
+      expect(
+         prismaMock.libraryCollectionEntry.deleteMany
+      ).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryCollectionEntry.deleteMany).toHaveBeenCalledWith(
+         expectedArgs
       );
    });
 });

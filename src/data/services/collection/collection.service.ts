@@ -88,20 +88,24 @@ export class CollectionService {
    }
 
    async addTemplateToCollection(
+      userId: string,
       collectionId: string,
       templateDescriptorId: string
    ): Promise<void> {
       await this.libraryRepository.pAddTemplateToCollection(
+         userId,
          collectionId,
          templateDescriptorId
       );
    }
 
    async removeTemplateFromCollection(
+      userId: string,
       collectionId: string,
       templateDescriptorId: string
    ): Promise<void> {
       await this.libraryRepository.pRemoveTemplateFromCollection(
+         userId,
          collectionId,
          templateDescriptorId
       );

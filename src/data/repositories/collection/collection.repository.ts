@@ -6,6 +6,8 @@ import {
    LibraryCollectionCreateArgs,
    LibraryCollectionCreateInput,
    LibraryCollectionDeleteArgs,
+   LibraryCollectionEntryDeleteManyArgs,
+   LibraryCollectionEntryUpsertArgs,
    LibraryCollectionFindManyArgs,
    LibraryCollectionFindUniqueArgs,
    LibraryCollectionUpdateArgs,
@@ -195,6 +197,49 @@ export class CollectionRepository {
       return toDCollection(collection);
    }
 
+   async pAddTemplateToCollection(
+      userId: string,
+      collectionId: string,
+      templateDescriptorId: string
+   ): Promise<void> {
+      const args = {
+         where: {
+            collection: {
+               userId,
+            },
+            collectionId_templateDescriptorId: {
+               collectionId,
+               templateDescriptorId,
+            },
+         },
+         create: {
+            collectionId,
+            templateDescriptorId,
+         },
+         update: {},
+      } satisfies LibraryCollectionEntryUpsertArgs;
+
+      await this.prisma.libraryCollectionEntry.upsert(args);
+   }
+
+   async pRemoveTemplateFromCollection(
+      userId: string,
+      collectionId: string,
+      templateDescriptorId: string
+   ): Promise<void> {
+      const args = {
+         where: {
+            collection: {
+               userId,
+            },
+            collectionId,
+            templateDescriptorId,
+         },
+      } satisfies LibraryCollectionEntryDeleteManyArgs;
+
+      await this.prisma.libraryCollectionEntry.deleteMany(args);
+   }
+
    async pGetPublicCollectionTemplates(collectionId: string): Promise<
       {
          id: string;
@@ -231,31 +276,6 @@ export class CollectionRepository {
          select: { templateDescriptorId: true },
       });
       return entries.map((e) => e.templateDescriptorId);
-   }
-
-   async pAddTemplateToCollection(
-      collectionId: string,
-      templateDescriptorId: string
-   ): Promise<void> {
-      await this.prisma.libraryCollectionEntry.upsert({
-         where: {
-            collectionId_templateDescriptorId: {
-               collectionId,
-               templateDescriptorId,
-            },
-         },
-         create: { collectionId, templateDescriptorId },
-         update: {},
-      });
-   }
-
-   async pRemoveTemplateFromCollection(
-      collectionId: string,
-      templateDescriptorId: string
-   ): Promise<void> {
-      await this.prisma.libraryCollectionEntry.deleteMany({
-         where: { collectionId, templateDescriptorId },
-      });
    }
 
    async pGetEntryCollectionIds(
