@@ -10,8 +10,8 @@ import { notFound } from "next/navigation";
 import { getCollectionById } from "@/data/actions/collection";
 import { preloadLibraryCollectionsOptions } from "@/data/ts-queries/library";
 import { libraryKeys } from "@/data/ts-queries/library/utils";
-import { EditCollectionForm } from "../collection/edit-collection-form";
 
+import { EditCollectionForm } from "./collection/edit-collection-form";
 import { CollectionTemplateManager } from "./collection-template-manager";
 
 type Props = {
