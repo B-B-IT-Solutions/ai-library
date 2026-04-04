@@ -1,6 +1,7 @@
 import {
    Braces,
    FileText,
+   Folder,
    Package,
    Send,
    Settings,
@@ -17,6 +18,12 @@ const expectedNavigationMenu1: DMenuItem[] = [
       title: "Vorlagen",
       icon: Braces,
       url: "/templates",
+   },
+   {
+      id: "/collections",
+      title: "Sammlungen",
+      icon: Folder,
+      url: "/collections",
    },
    {
       id: "/prompts",

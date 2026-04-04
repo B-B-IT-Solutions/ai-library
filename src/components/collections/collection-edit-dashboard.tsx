@@ -11,7 +11,7 @@ import { getCollectionById } from "@/data/actions/collection";
 import { preloadCollectionsOptions } from "@/data/ts-queries/library";
 import { libraryKeys } from "@/data/ts-queries/library/utils";
 
-import { EditCollectionForm } from "./collection/edit-collection-form";
+import { EditCollectionForm } from "./collection/";
 import { CollectionTemplateManager } from "./collection-template-manager";
 
 type Props = {
