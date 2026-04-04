@@ -21,12 +21,12 @@ import {
    DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import { DLibraryCollection } from "@/data/types/domain/collection";
+import { DCollection } from "@/data/types/domain/collection";
 
 import { DeleteCollectionDialog } from "./delete-collection-dialog";
 
 type Props = {
-   collection: DLibraryCollection;
+   collection: DCollection;
    onDeleted?: () => void;
 };
 

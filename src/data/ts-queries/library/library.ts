@@ -34,10 +34,7 @@ import {
    getTemplateDescriptorsPage,
    toggleTemplateDescriptorFavorite,
 } from "@/data/actions/prompt-template";
-import {
-   DLibraryCollection,
-   DLibraryCollectionUpdate,
-} from "@/data/types/domain/collection";
+import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import {
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,
@@ -80,9 +77,9 @@ export const preloadLibraryEntriesOptions = (
 };
 
 export const preloadLibraryCollectionsOptions = (): FetchQueryOptions<
-   DLibraryCollection[],
+   DCollection[],
    Error,
-   DLibraryCollection[]
+   DCollection[]
 > => {
    return {
       queryKey: libraryKeys.collections(),
@@ -151,9 +148,9 @@ export const useToggleFavorite = (): UseMutationResult<
 };
 
 export const loadLibraryCollectionsOptions = (): UndefinedInitialDataOptions<
-   DLibraryCollection[],
+   DCollection[],
    Error,
-   DLibraryCollection[]
+   DCollection[]
 > => {
    return {
       queryKey: libraryKeys.collections(),
@@ -163,27 +160,21 @@ export const loadLibraryCollectionsOptions = (): UndefinedInitialDataOptions<
    };
 };
 
-export const useLoadLibraryCollections = (): UseQueryResult<
-   DLibraryCollection[]
-> => {
+export const useLoadLibraryCollections = (): UseQueryResult<DCollection[]> => {
    const options = loadLibraryCollectionsOptions();
-   return useQuery<DLibraryCollection[]>(options);
+   return useQuery<DCollection[]>(options);
 };
 
 export const createCollectionOptions = (
    queryClient: QueryClient
-): UseMutationOptions<
-   ActionResult<DLibraryCollection>,
-   Error,
-   DLibraryCollectionUpdate
-> => {
+): UseMutationOptions<ActionResult<DCollection>, Error, DCollectionUpdate> => {
    return {
-      mutationFn: async (data: DLibraryCollectionUpdate) => {
+      mutationFn: async (data: DCollectionUpdate) => {
          return await createLibraryCollection(data);
       },
       onSuccess: (result) => {
          const currentData =
-            queryClient.getQueryData<DLibraryCollection[]>(
+            queryClient.getQueryData<DCollection[]>(
                libraryKeys.collections()
             ) || [];
 
@@ -196,9 +187,9 @@ export const createCollectionOptions = (
 };
 
 export const useCreateCollection = (): UseMutationResult<
-   ActionResult<DLibraryCollection>,
+   ActionResult<DCollection>,
    Error,
-   DLibraryCollectionUpdate
+   DCollectionUpdate
 > => {
    const queryClient = useQueryClient();
    return useMutation(createCollectionOptions(queryClient));
@@ -213,7 +204,7 @@ export const updateCollectionOptions = (
          return await updateLibraryCollection(collectionId, data);
       },
       onSuccess: (_, params) => {
-         const updater = (cols: DLibraryCollection[]) => {
+         const updater = (cols: DCollection[]) => {
             return map(cols, (col) => {
                if (col.id === params.collectionId) {
                   return { ...col, ...params.data };
@@ -244,7 +235,7 @@ export const deleteCollectionOptions = (
          return await deleteLibraryCollection(collectionId);
       },
       onSuccess: (_, collectionId) => {
-         const updater = (cols: DLibraryCollection[]) => {
+         const updater = (cols: DCollection[]) => {
             return filter(cols, (col) => col.id !== collectionId);
          };
          queryClient.setQueryData(libraryKeys.collections(), updater);
@@ -309,7 +300,7 @@ export const useUpdateEntryCollections = (): UseMutationResult<
 
 export const useLoadCollectionById = (
    collectionId: string | null
-): UseQueryResult<DLibraryCollection | null> => {
+): UseQueryResult<DCollection | null> => {
    return useQuery({
       queryKey: libraryKeys.collection(collectionId ?? ""),
       queryFn: () => getLibraryCollectionById(collectionId!),
@@ -370,7 +361,7 @@ export const useRemoveTemplateFromCollection = (): UseMutationResult<
 };
 
 export const useSetCollectionSharing = (): UseMutationResult<
-   ActionResult<DLibraryCollection>,
+   ActionResult<DCollection>,
    Error,
    { collectionId: string; isPublic: boolean }
 > => {
@@ -384,7 +375,7 @@ export const useSetCollectionSharing = (): UseMutationResult<
                libraryKeys.collection(collectionId),
                result.data
             );
-            const updater = (cols: DLibraryCollection[]) =>
+            const updater = (cols: DCollection[]) =>
                cols.map((c) => (c.id === collectionId ? result.data! : c));
             queryClient.setQueryData(libraryKeys.collections(), updater);
          }

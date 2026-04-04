@@ -1,15 +1,15 @@
 import { map } from "es-toolkit/compat";
 
 import { PLibraryCollection } from "@/data/types/db/collection";
-import { DLibraryCollection } from "@/data/types/domain/collection";
+import { DCollection } from "@/data/types/domain/collection";
 
 export const toDCollections = (
    collections: PLibraryCollection[]
-): DLibraryCollection[] => {
+): DCollection[] => {
    return map(collections, (c) => toDCollection(c));
 };
 
-export const toDCollection = (c: PLibraryCollection): DLibraryCollection => {
+export const toDCollection = (c: PLibraryCollection): DCollection => {
    return {
       id: c.id,
       userId: c.userId,

@@ -18,7 +18,7 @@ import {
 import { Form } from "@/components/shadcn/form";
 import { FormInput, FormTextArea } from "@/components/shared/widgets";
 import { useCreateCollection } from "@/data/ts-queries/library";
-import { DLibraryCollectionUpdate } from "@/data/types/domain/collection";
+import { DCollectionUpdate } from "@/data/types/domain/collection";
 import { updateLibraryCollectionSchema } from "@/data/types/validators/library";
 
 import { initLibraryCollection } from "./utils";
@@ -34,12 +34,12 @@ export const LibraryCollectionCreateDialog: FC<Props> = ({
 }) => {
    const { mutate: createCollection, isPending } = useCreateCollection();
 
-   const form = useForm<DLibraryCollectionUpdate>({
+   const form = useForm<DCollectionUpdate>({
       resolver: zodResolver(updateLibraryCollectionSchema),
       defaultValues: initLibraryCollection(),
    });
 
-   const onSubmit = (data: DLibraryCollectionUpdate) => {
+   const onSubmit = (data: DCollectionUpdate) => {
       createCollection(data, {
          onSuccess: (result) => {
             if (result.success) {
@@ -83,20 +83,20 @@ export const LibraryCollectionCreateDialog: FC<Props> = ({
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="space-y-4"
                >
-                  <FormInput<DLibraryCollectionUpdate>
+                  <FormInput<DCollectionUpdate>
                      name="name"
                      label="Name"
                      required={true}
                      placeholder="Meine Sammlung"
                      control={form.control}
                   />
-                  <FormTextArea<DLibraryCollectionUpdate>
+                  <FormTextArea<DCollectionUpdate>
                      name="description"
                      label="Beschreibung"
                      placeholder="Beschreiben Sie diese Sammlung..."
                      control={form.control}
                   />
-                  <FormInput<DLibraryCollectionUpdate>
+                  <FormInput<DCollectionUpdate>
                      name="color"
                      label="Farbe"
                      type="color"

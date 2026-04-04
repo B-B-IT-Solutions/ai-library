@@ -15,10 +15,10 @@ import {
    AlertDialogTitle,
 } from "@/components/shadcn/alert-dialog";
 import { useDeleteCollection } from "@/data/ts-queries/library";
-import { DLibraryCollection } from "@/data/types/domain/collection";
+import { DCollection } from "@/data/types/domain/collection";
 
 type Props = {
-   collection: DLibraryCollection;
+   collection: DCollection;
    open: boolean;
    onOpenChange: (open: boolean) => void;
    onDeleted?: () => void;

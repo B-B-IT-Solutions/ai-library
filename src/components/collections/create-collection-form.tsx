@@ -10,7 +10,7 @@ import { Button } from "@/components/shadcn/button";
 import { Form } from "@/components/shadcn/form";
 import { FormInput, FormTextArea } from "@/components/shared/widgets";
 import { useCreateCollection } from "@/data/ts-queries/library";
-import { DLibraryCollectionUpdate } from "@/data/types/domain/collection";
+import { DCollectionUpdate } from "@/data/types/domain/collection";
 import { updateLibraryCollectionSchema } from "@/data/types/validators/library";
 
 import { initLibraryCollection } from "./utils";
@@ -19,12 +19,12 @@ export const CreateCollectionForm = () => {
    const router = useRouter();
    const { mutate: createCollection, isPending } = useCreateCollection();
 
-   const form = useForm<DLibraryCollectionUpdate>({
+   const form = useForm<DCollectionUpdate>({
       resolver: zodResolver(updateLibraryCollectionSchema),
       defaultValues: initLibraryCollection(),
    });
 
-   const onSubmit = (data: DLibraryCollectionUpdate) => {
+   const onSubmit = (data: DCollectionUpdate) => {
       createCollection(data, {
          onSuccess: (result) => {
             if (result.success && result.data) {
@@ -43,20 +43,20 @@ export const CreateCollectionForm = () => {
    return (
       <Form {...form}>
          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormInput<DLibraryCollectionUpdate>
+            <FormInput<DCollectionUpdate>
                name="name"
                label="Name"
                required={true}
                placeholder="z.B. Marketing-Vorlagen"
                control={form.control}
             />
-            <FormTextArea<DLibraryCollectionUpdate>
+            <FormTextArea<DCollectionUpdate>
                name="description"
                label="Beschreibung"
                placeholder="Wofür wird diese Sammlung verwendet?"
                control={form.control}
             />
-            <FormInput<DLibraryCollectionUpdate>
+            <FormInput<DCollectionUpdate>
                name="color"
                label="Farbe"
                type="color"

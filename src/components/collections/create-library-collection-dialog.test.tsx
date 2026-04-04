@@ -14,10 +14,7 @@ import {
 import { toast } from "sonner";
 
 import { useCreateCollection } from "@/data/ts-queries/library";
-import {
-   DLibraryCollection,
-   DLibraryCollectionUpdate,
-} from "@/data/types/domain/collection";
+import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 
 import { LibraryCollectionCreateDialog } from "./create-library-collection-dialog";
@@ -124,7 +121,7 @@ describe("LibraryCollectionCreateDialog functionality tests", () => {
    });
 
    it("LibraryCollectionCreateDialog - submit btn clicked - success true - test", async () => {
-      const actionResult: ActionResult<DLibraryCollection> = {
+      const actionResult: ActionResult<DCollection> = {
          success: true,
          message: "Collection Created",
          data: dtestData.dLibraryCollection(),
@@ -164,7 +161,7 @@ describe("LibraryCollectionCreateDialog functionality tests", () => {
 
       await userEvent.click(submitBtn);
 
-      const expectedPayload: DLibraryCollectionUpdate = {
+      const expectedPayload: DCollectionUpdate = {
          name: nameValue,
          description: "",
          color: "#3b82f6",
@@ -228,7 +225,7 @@ describe("LibraryCollectionCreateDialog functionality tests", () => {
 
       await userEvent.click(submitBtn);
 
-      const expectedPayload: DLibraryCollectionUpdate = {
+      const expectedPayload: DCollectionUpdate = {
          name: nameValue,
          description: "",
          color: "#3b82f6",

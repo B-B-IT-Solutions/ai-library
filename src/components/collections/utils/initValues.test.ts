@@ -1,8 +1,8 @@
-import { DLibraryCollectionUpdate } from "@/data/types/domain/collection";
+import { DCollectionUpdate } from "@/data/types/domain/collection";
 
 import { initLibraryCollection } from "./initValues";
 
-export const expectedInitLibraryCollection: DLibraryCollectionUpdate = {
+export const expectedInitLibraryCollection: DCollectionUpdate = {
    name: "",
    description: "",
    color: "#3b82f6",

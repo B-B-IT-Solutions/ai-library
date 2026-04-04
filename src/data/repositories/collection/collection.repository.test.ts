@@ -3,7 +3,7 @@ import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { DLibraryCollectionUpdate } from "@/data/types/domain/collection";
+import { DCollectionUpdate } from "@/data/types/domain/collection";
 import {
    LibraryCollectionCreateArgs,
    LibraryCollectionCreateInput,
@@ -241,7 +241,7 @@ describe("pCreateCollection tests", () => {
       prismaMock.libraryCollection.create.mockResolvedValue(collection);
 
       const userId = "user-id-1";
-      const data: DLibraryCollectionUpdate = {
+      const data: DCollectionUpdate = {
          name: "My Collection",
       };
 
@@ -334,7 +334,7 @@ describe("pUpdateCollection tests", () => {
       const collection = ptestData.pLibraryCollection();
       prismaMock.libraryCollection.update.mockResolvedValue(collection);
 
-      const data: DLibraryCollectionUpdate = {
+      const data: DCollectionUpdate = {
          name: "My Collection",
       };
 

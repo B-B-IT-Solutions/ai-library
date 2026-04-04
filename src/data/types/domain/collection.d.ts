@@ -2,11 +2,9 @@ import z from "zod";
 
 import { updateLibraryCollectionSchema } from "@/data/types/validators/library";
 
-export type DLibraryCollectionUpdate = z.infer<
-   typeof updateLibraryCollectionSchema
->;
+export type DCollectionUpdate = z.infer<typeof updateLibraryCollectionSchema>;
 
-export type DLibraryCollection = {
+export type DCollection = {
    id: string;
    userId: string;
    name: string;

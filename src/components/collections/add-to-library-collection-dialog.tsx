@@ -21,14 +21,14 @@ import {
    useUpdateEntryCollections,
 } from "@/data/ts-queries/library";
 import { UpdateCollectionIdsParams } from "@/data/ts-queries/library/types";
-import { DLibraryCollection } from "@/data/types/domain/collection";
+import { DCollection } from "@/data/types/domain/collection";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 import { LibraryCollectionCreateDialog } from "./create-library-collection-dialog";
 
 type Props = {
    descriptor: DPromptTemplateDescriptor;
-   collections: DLibraryCollection[];
+   collections: DCollection[];
    open: boolean;
    onOpenChange: (open: boolean) => void;
 };
@@ -88,10 +88,7 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
       });
    };
 
-   const renderCollectin = (
-      collection: DLibraryCollection,
-      isSelected: boolean
-   ) => {
+   const renderCollectin = (collection: DCollection, isSelected: boolean) => {
       return (
          <div
             key={collection.id}

@@ -1,6 +1,6 @@
-import { DLibraryCollectionUpdate } from "@/data/types/domain/collection";
+import { DCollectionUpdate } from "@/data/types/domain/collection";
 
-export const initLibraryCollection = (): DLibraryCollectionUpdate => {
+export const initLibraryCollection = (): DCollectionUpdate => {
    return {
       name: "",
       description: "",

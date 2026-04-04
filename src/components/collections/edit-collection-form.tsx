@@ -14,14 +14,11 @@ import {
    useSetCollectionSharing,
    useUpdateCollection,
 } from "@/data/ts-queries/library";
-import {
-   DLibraryCollection,
-   DLibraryCollectionUpdate,
-} from "@/data/types/domain/collection";
+import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import { updateLibraryCollectionSchema } from "@/data/types/validators/library";
 
 type Props = {
-   collection: DLibraryCollection;
+   collection: DCollection;
 };
 
 export const EditCollectionForm: FC<Props> = ({ collection }) => {
@@ -32,7 +29,7 @@ export const EditCollectionForm: FC<Props> = ({ collection }) => {
       useSetCollectionSharing();
    const [copied, setCopied] = useState(false);
 
-   const form = useForm<DLibraryCollectionUpdate>({
+   const form = useForm<DCollectionUpdate>({
       resolver: zodResolver(updateLibraryCollectionSchema),
       defaultValues: {
          name: collection.name,
@@ -56,7 +53,7 @@ export const EditCollectionForm: FC<Props> = ({ collection }) => {
          ? `${window.location.origin}/p/collections/${collection.shareToken}`
          : null;
 
-   const onSubmit = (data: DLibraryCollectionUpdate) => {
+   const onSubmit = (data: DCollectionUpdate) => {
       updateCollection(
          { collectionId: collection.id, data },
          {
@@ -94,19 +91,19 @@ export const EditCollectionForm: FC<Props> = ({ collection }) => {
    return (
       <Form {...form}>
          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-            <FormInput<DLibraryCollectionUpdate>
+            <FormInput<DCollectionUpdate>
                name="name"
                label="Name"
                required={true}
                control={form.control}
             />
-            <FormTextArea<DLibraryCollectionUpdate>
+            <FormTextArea<DCollectionUpdate>
                name="description"
                label="Beschreibung"
                placeholder="Wofür wird diese Sammlung verwendet?"
                control={form.control}
             />
-            <FormInput<DLibraryCollectionUpdate>
+            <FormInput<DCollectionUpdate>
                name="color"
                label="Farbe"
                type="color"

@@ -1,12 +1,12 @@
 import { ZodError } from "zod";
 
-import { DLibraryCollectionUpdate } from "@/data/types/domain/collection";
+import { DCollectionUpdate } from "@/data/types/domain/collection";
 
 import { updateLibraryCollectionSchema } from "./library.schema";
 
 describe("updateLibraryCollectionSchema tests", () => {
    it("updateLibraryCollectionSchema - data valid - all fields - test", () => {
-      const formData: DLibraryCollectionUpdate = {
+      const formData: DCollectionUpdate = {
          name: "My Collection",
          description: "A description",
          color: "#ff0000",
@@ -18,7 +18,7 @@ describe("updateLibraryCollectionSchema tests", () => {
    });
 
    it("updateLibraryCollectionSchema - data valid - only required fields - test", () => {
-      const formData: DLibraryCollectionUpdate = {
+      const formData: DCollectionUpdate = {
          name: "My Collection",
       };
 

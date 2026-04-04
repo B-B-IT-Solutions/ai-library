@@ -1,10 +1,7 @@
 import { map } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
-import {
-   DLibraryCollection,
-   DLibraryCollectionUpdate,
-} from "@/data/types/domain/collection";
+import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import {
    LibraryCollectionCreateArgs,
    LibraryCollectionCreateInput,
@@ -24,7 +21,7 @@ export class CollectionRepository {
       this.prisma = prisma;
    }
 
-   async pGetCollections(userId: string): Promise<DLibraryCollection[]> {
+   async pGetCollections(userId: string): Promise<DCollection[]> {
       const args = {
          where: {
             userId,
@@ -48,7 +45,7 @@ export class CollectionRepository {
    async pGetCollectionById(
       userId: string,
       collectionId: string
-   ): Promise<DLibraryCollection | null> {
+   ): Promise<DCollection | null> {
       const args = {
          where: {
             id: collectionId,
@@ -73,7 +70,7 @@ export class CollectionRepository {
 
    async pGetCollectionByShareToken(
       shareToken: string
-   ): Promise<DLibraryCollection | null> {
+   ): Promise<DCollection | null> {
       const collection = await this.prisma.libraryCollection.findUnique({
          where: {
             shareToken,
@@ -96,8 +93,8 @@ export class CollectionRepository {
 
    async pCreateCollection(
       userId: string,
-      data: DLibraryCollectionUpdate
-   ): Promise<DLibraryCollection> {
+      data: DCollectionUpdate
+   ): Promise<DCollection> {
       const input: LibraryCollectionCreateInput = {
          user: {
             connect: {
@@ -128,8 +125,8 @@ export class CollectionRepository {
    async pUpdateCollection(
       userId: string,
       collectionId: string,
-      data: DLibraryCollectionUpdate
-   ): Promise<DLibraryCollection> {
+      data: DCollectionUpdate
+   ): Promise<DCollection> {
       const input: LibraryCollectionUpdateInput = {
          name: data.name,
          description: data.description,
@@ -172,12 +169,29 @@ export class CollectionRepository {
       collectionId: string,
       shareToken: string | null,
       isPublic: boolean
-   ): Promise<DLibraryCollection> {
-      const collection = await this.prisma.libraryCollection.update({
-         where: { id: collectionId, userId },
-         data: { shareToken, isPublic },
-         include: { _count: { select: { entries: true } } },
-      });
+   ): Promise<DCollection> {
+      const input: LibraryCollectionUpdateInput = {
+         shareToken,
+         isPublic,
+      };
+
+      const args = {
+         where: {
+            id: collectionId,
+            userId,
+         },
+         data: input,
+         include: {
+            _count: {
+               select: {
+                  entries: true,
+               },
+            },
+         },
+      } satisfies LibraryCollectionUpdateArgs;
+
+      const collection = await this.prisma.libraryCollection.update(args);
+
       return toDCollection(collection as Parameters<typeof toDCollection>[0]);
    }
 

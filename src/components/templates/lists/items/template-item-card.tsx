@@ -15,7 +15,7 @@ import {
    DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import { DLibraryCollection } from "@/data/types/domain/collection";
+import { DCollection } from "@/data/types/domain/collection";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 import {
    AddToFavoriteButton,
@@ -25,7 +25,7 @@ import {
 
 type Props = {
    descriptor: DPromptTemplateDescriptor;
-   collections: DLibraryCollection[];
+   collections: DCollection[];
 };
 
 export const TemplateItemCard = ({ descriptor, collections }: Props) => {

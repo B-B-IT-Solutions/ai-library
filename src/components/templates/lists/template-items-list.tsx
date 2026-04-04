@@ -1,13 +1,13 @@
 import { isEmpty, map } from "es-toolkit/compat";
 
-import { DLibraryCollection } from "@/data/types/domain/collection";
+import { DCollection } from "@/data/types/domain/collection";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 import { TemplateItemCard } from "./items";
 
 type Props = {
    descriptors: DPromptTemplateDescriptor[];
-   collections: DLibraryCollection[];
+   collections: DCollection[];
 };
 
 export const TemplateItemsList = ({ descriptors, collections }: Props) => {

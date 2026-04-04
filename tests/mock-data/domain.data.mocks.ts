@@ -4,10 +4,7 @@ import { Check } from "lucide-react";
 
 import { Sort, SortOrder } from "@/data/types/common";
 import { DCart, DCartItem } from "@/data/types/domain/cart";
-import {
-   DLibraryCollection,
-   DLibraryCollectionUpdate,
-} from "@/data/types/domain/collection";
+import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import {
    DOrder,
    DOrderCreate,
@@ -229,11 +226,11 @@ export const dLibraryCollectionIds = (count = 3): string[] => {
    return map(collections, "id");
 };
 
-export const dLibraryCollections = (count = 3): DLibraryCollection[] => {
+export const dLibraryCollections = (count = 3): DCollection[] => {
    return range(0, count).map((i) => dLibraryCollection(i));
 };
 
-export const dLibraryCollection = (index = 1): DLibraryCollection => {
+export const dLibraryCollection = (index = 1): DCollection => {
    return {
       id: `457bf695-6f74-44aa-9b3a-e179ea9e817${index}`,
       userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
@@ -246,9 +243,7 @@ export const dLibraryCollection = (index = 1): DLibraryCollection => {
    };
 };
 
-export const dLibraryCollectionUpdate = (
-   index = 1
-): DLibraryCollectionUpdate => {
+export const dLibraryCollectionUpdate = (index = 1): DCollectionUpdate => {
    return {
       name: `name ${index}`,
       description: `description ${index}`,

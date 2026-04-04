@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { groupBy as lodashGroupBy, map } from "es-toolkit/compat";
 
 import { DListGroupByMode } from "@/data/types/domain/common";
-import { DLibraryCollection } from "@/data/types/domain/collection";
+import { DCollection } from "@/data/types/domain/collection";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 import { TemplateItemCard } from "./items/template-item-card";
@@ -18,7 +18,7 @@ type GroupedTemplates = {
 
 type Props = {
    descriptors: DPromptTemplateDescriptor[];
-   collections: DLibraryCollection[];
+   collections: DCollection[];
    groupBy: DListGroupByMode;
 };
 

@@ -8,15 +8,10 @@ import { formatError } from "@/data/actions/utils";
 import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
-import {
-   DLibraryCollection,
-   DLibraryCollectionUpdate,
-} from "@/data/types/domain/collection";
+import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 
-export const getLibraryCollections = async (): Promise<
-   DLibraryCollection[]
-> => {
+export const getLibraryCollections = async (): Promise<DCollection[]> => {
    try {
       const user = await requireUser();
       const service = getService();
@@ -28,8 +23,8 @@ export const getLibraryCollections = async (): Promise<
 };
 
 export const createLibraryCollection = async (
-   data: DLibraryCollectionUpdate
-): Promise<ActionResult<DLibraryCollection>> => {
+   data: DCollectionUpdate
+): Promise<ActionResult<DCollection>> => {
    try {
       const user = await requireUser();
       const service = getService();
@@ -51,7 +46,7 @@ export const createLibraryCollection = async (
 
 export const updateLibraryCollection = async (
    collectionId: string,
-   data: DLibraryCollectionUpdate
+   data: DCollectionUpdate
 ): Promise<ActionResult> => {
    try {
       if (!isValidUuid(collectionId)) {
@@ -102,7 +97,7 @@ export const deleteLibraryCollection = async (
 
 export const getLibraryCollectionById = async (
    collectionId: string
-): Promise<DLibraryCollection | null> => {
+): Promise<DCollection | null> => {
    try {
       if (!isValidUuid(collectionId)) {
          throw new Error("Invalid collection ID.");
@@ -118,7 +113,7 @@ export const getLibraryCollectionById = async (
 
 export const getLibraryCollectionByShareToken = async (
    shareToken: string
-): Promise<DLibraryCollection | null> => {
+): Promise<DCollection | null> => {
    try {
       const service = getService();
       return await service.getCollectionByShareToken(shareToken);
@@ -195,7 +190,7 @@ export const removeTemplateFromCollection = async (
 export const getPublicCollectionByToken = async (
    shareToken: string
 ): Promise<{
-   collection: DLibraryCollection;
+   collection: DCollection;
    templates: {
       id: string;
       title: string;
@@ -222,7 +217,7 @@ export const getPublicCollectionByToken = async (
 export const setLibraryCollectionSharing = async (
    collectionId: string,
    isPublic: boolean
-): Promise<ActionResult<DLibraryCollection>> => {
+): Promise<ActionResult<DCollection>> => {
    try {
       if (!isValidUuid(collectionId)) {
          throw new Error("Invalid collection ID.");

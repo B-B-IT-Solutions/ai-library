@@ -6,12 +6,12 @@ import { useRouter } from "next/navigation";
 import { Folder, Globe, Pencil, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
-import { DLibraryCollection } from "@/data/types/domain/collection";
+import { DCollection } from "@/data/types/domain/collection";
 
 import { DeleteCollectionDialog } from "./delete-collection-dialog";
 
 type Props = {
-   collection: DLibraryCollection;
+   collection: DCollection;
 };
 
 export const CollectionHeader: FC<Props> = ({ collection }) => {

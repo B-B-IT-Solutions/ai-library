@@ -18,14 +18,11 @@ import {
 import { Form } from "@/components/shadcn/form";
 import { FormInput, FormTextArea } from "@/components/shared/widgets";
 import { useUpdateCollection } from "@/data/ts-queries/library";
-import {
-   DLibraryCollection,
-   DLibraryCollectionUpdate,
-} from "@/data/types/domain/collection";
+import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import { updateLibraryCollectionSchema } from "@/data/types/validators/library";
 
 type Props = {
-   collection: DLibraryCollection;
+   collection: DCollection;
    open: boolean;
    onOpenChange: (open: boolean) => void;
 };
@@ -37,7 +34,7 @@ export const EditCollectionDialog: FC<Props> = ({
 }) => {
    const { mutate: updateCollection, isPending } = useUpdateCollection();
 
-   const form = useForm<DLibraryCollectionUpdate>({
+   const form = useForm<DCollectionUpdate>({
       resolver: zodResolver(updateLibraryCollectionSchema),
       defaultValues: {
          name: collection.name,
@@ -58,7 +55,7 @@ export const EditCollectionDialog: FC<Props> = ({
       }
    }, [open, collection, form]);
 
-   const onSubmit = (data: DLibraryCollectionUpdate) => {
+   const onSubmit = (data: DCollectionUpdate) => {
       updateCollection(
          { collectionId: collection.id, data },
          {
@@ -91,20 +88,20 @@ export const EditCollectionDialog: FC<Props> = ({
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="space-y-4"
                >
-                  <FormInput<DLibraryCollectionUpdate>
+                  <FormInput<DCollectionUpdate>
                      name="name"
                      label="Name"
                      required={true}
                      placeholder="Meine Sammlung"
                      control={form.control}
                   />
-                  <FormTextArea<DLibraryCollectionUpdate>
+                  <FormTextArea<DCollectionUpdate>
                      name="description"
                      label="Beschreibung"
                      placeholder="Beschreiben Sie diese Sammlung..."
                      control={form.control}
                   />
-                  <FormInput<DLibraryCollectionUpdate>
+                  <FormInput<DCollectionUpdate>
                      name="color"
                      label="Farbe"
                      type="color"

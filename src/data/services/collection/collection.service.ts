@@ -2,10 +2,7 @@ import { isEmpty, map } from "es-toolkit/compat";
 
 import { CollectionRepository } from "@/data/repositories/collection";
 import { OrderProducts } from "@/data/types/db/order";
-import {
-   DLibraryCollection,
-   DLibraryCollectionUpdate,
-} from "@/data/types/domain/collection";
+import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 
 export class CollectionService {
    private libraryRepository: CollectionRepository;
@@ -29,21 +26,21 @@ export class CollectionService {
       }
    }
 
-   async getCollections(userId: string): Promise<DLibraryCollection[]> {
+   async getCollections(userId: string): Promise<DCollection[]> {
       return await this.libraryRepository.pGetCollections(userId);
    }
 
    async createCollection(
       userId: string,
-      data: DLibraryCollectionUpdate
-   ): Promise<DLibraryCollection> {
+      data: DCollectionUpdate
+   ): Promise<DCollection> {
       return await this.libraryRepository.pCreateCollection(userId, data);
    }
 
    async updateCollection(
       collectionId: string,
       userId: string,
-      data: DLibraryCollectionUpdate
+      data: DCollectionUpdate
    ) {
       await this.libraryRepository.pUpdateCollection(
          userId,
@@ -59,7 +56,7 @@ export class CollectionService {
    async getCollectionById(
       userId: string,
       collectionId: string
-   ): Promise<DLibraryCollection | null> {
+   ): Promise<DCollection | null> {
       return await this.libraryRepository.pGetCollectionById(
          userId,
          collectionId
@@ -68,7 +65,7 @@ export class CollectionService {
 
    async getCollectionByShareToken(
       shareToken: string
-   ): Promise<DLibraryCollection | null> {
+   ): Promise<DCollection | null> {
       return await this.libraryRepository.pGetCollectionByShareToken(
          shareToken
       );
@@ -115,7 +112,7 @@ export class CollectionService {
       collectionId: string,
       isPublic: boolean,
       shareToken: string | null
-   ): Promise<DLibraryCollection> {
+   ): Promise<DCollection> {
       return await this.libraryRepository.pSetShareToken(
          userId,
          collectionId,

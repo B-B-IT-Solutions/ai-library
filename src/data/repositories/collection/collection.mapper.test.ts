@@ -2,17 +2,17 @@ import { ptestData } from "@tests";
 import { map } from "es-toolkit/compat";
 
 import { PLibraryCollection } from "@/data/types/db/collection";
-import { DLibraryCollection } from "@/data/types/domain/collection";
+import { DCollection } from "@/data/types/domain/collection";
 
 import { toDCollection, toDCollections } from "./collection.mapper";
 
 const toDCollectionsInternal = (
    collections: PLibraryCollection[]
-): DLibraryCollection[] => {
+): DCollection[] => {
    return map(collections, (c) => toDCollectionInternal(c));
 };
 
-const toDCollectionInternal = (c: PLibraryCollection): DLibraryCollection => {
+const toDCollectionInternal = (c: PLibraryCollection): DCollection => {
    return {
       id: c.id,
       userId: c.userId,

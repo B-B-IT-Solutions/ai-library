@@ -5,7 +5,7 @@ import { dtestData } from "@tests";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { CollectionService } from "@/data/services/collection";
-import { DLibraryCollection } from "@/data/types/domain/collection";
+import { DCollection } from "@/data/types/domain/collection";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 
@@ -123,7 +123,7 @@ describe("createLibraryCollection tests", () => {
       const newCollection = dtestData.dLibraryCollectionUpdate();
       const result = await createLibraryCollection(newCollection);
 
-      const expectedResult: ActionResult<DLibraryCollection> = {
+      const expectedResult: ActionResult<DCollection> = {
          success: true,
          message: "Sammlung erfolgreich erstellt",
          data: createdCollection,

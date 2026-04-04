@@ -29,10 +29,7 @@ import {
    getTemplateDescriptorsPage,
    toggleTemplateDescriptorFavorite,
 } from "@/data/actions/prompt-template";
-import {
-   DLibraryCollection,
-   DLibraryCollectionUpdate,
-} from "@/data/types/domain/collection";
+import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import {
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,
@@ -160,14 +157,14 @@ describe("prefetch options tests", () => {
       getLibraryCollectionsMock.mockResolvedValue(collections);
 
       const options = preloadLibraryCollectionsOptions();
-      const queryFn = options.queryFn as QueryFunction<DLibraryCollection[]>;
+      const queryFn = options.queryFn as QueryFunction<DCollection[]>;
       const context = {} as QueryFunctionContext;
       const fnResult = await queryFn(context);
 
       const expectedOptions: UndefinedInitialDataOptions<
-         DLibraryCollection[],
+         DCollection[],
          Error,
-         DLibraryCollection[]
+         DCollection[]
       > = {
          queryKey: ["library", "collections"],
          queryFn: jest.fn(),
@@ -282,9 +279,9 @@ describe("loadLibraryCollections hooks tests", () => {
 
    test("loadLibraryCollectionsOptions - test", async () => {
       const expectedOptions: UndefinedInitialDataOptions<
-         DLibraryCollection[],
+         DCollection[],
          Error,
-         DLibraryCollection[]
+         DCollection[]
       > = {
          queryKey: ["library", "collections"],
          queryFn: jest.fn(),
@@ -320,9 +317,9 @@ describe("createCollection hooks tests", () => {
       const update = dtestData.dLibraryCollectionUpdate();
 
       const expectedOptions: UseMutationOptions<
-         ActionResult<DLibraryCollection>,
+         ActionResult<DCollection>,
          Error,
-         DLibraryCollectionUpdate
+         DCollectionUpdate
       > = {
          mutationFn: jest.fn(),
          onSuccess: jest.fn(),
@@ -333,7 +330,7 @@ describe("createCollection hooks tests", () => {
       expect(queryClientMock.getQueryData).not.toHaveBeenCalled();
       expect(queryClientMock.setQueryData).not.toHaveBeenCalled();
 
-      const result1: ActionResult<DLibraryCollection> = {
+      const result1: ActionResult<DCollection> = {
          success: true,
          message: "Collection created",
          data: undefined,
@@ -348,7 +345,7 @@ describe("createCollection hooks tests", () => {
       );
       expect(queryClientMock.setQueryData).not.toHaveBeenCalled();
 
-      const result2: ActionResult<DLibraryCollection> = {
+      const result2: ActionResult<DCollection> = {
          success: true,
          message: "Collection created",
          data: dtestData.dLibraryCollection(),
@@ -370,7 +367,7 @@ describe("createCollection hooks tests", () => {
    });
 
    test("useCreateCollection test", async () => {
-      const actionResult: ActionResult<DLibraryCollection> = {
+      const actionResult: ActionResult<DCollection> = {
          success: true,
          message: "Collection created",
          data: dtestData.dLibraryCollection(),
@@ -401,7 +398,7 @@ describe("updateCollection hooks tests", () => {
       const expectedOptions: UseMutationOptions<
          ActionResult,
          Error,
-         DLibraryCollection
+         DCollection
       > = {
          mutationFn: jest.fn(),
          onSuccess: jest.fn(),
@@ -436,8 +433,8 @@ describe("updateCollection hooks tests", () => {
       );
 
       const updaterFn = queryClientMock.setQueryData.mock.calls[0][1] as (
-         cols: DLibraryCollection[]
-      ) => DLibraryCollection[];
+         cols: DCollection[]
+      ) => DCollection[];
 
       const updatedCollection1 = { ...collection1, ...update };
       const expectedUpdaterResult = [updatedCollection1, collection2];
@@ -514,8 +511,8 @@ describe("deleteCollection hooks tests", () => {
       );
 
       const updaterFn = queryClientMock.setQueryData.mock.calls[0][1] as (
-         cols: DLibraryCollection[]
-      ) => DLibraryCollection[];
+         cols: DCollection[]
+      ) => DCollection[];
 
       const updaterParams = [collection1, collection2];
       const updaterResult = updaterFn(updaterParams);
@@ -607,7 +604,7 @@ describe("updateEntryCollections hooks tests", () => {
       const expectedOptions: UseMutationOptions<
          ActionResult,
          Error,
-         DLibraryCollection
+         DCollection
       > = {
          mutationFn: jest.fn(),
          onSuccess: jest.fn(),
