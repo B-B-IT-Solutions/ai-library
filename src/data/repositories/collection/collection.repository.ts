@@ -10,6 +10,7 @@ import {
    LibraryCollectionCreateInput,
    LibraryCollectionDeleteArgs,
    LibraryCollectionFindManyArgs,
+   LibraryCollectionFindUniqueArgs,
    LibraryCollectionUpdateArgs,
    LibraryCollectionUpdateInput,
 } from "@/generated/prisma/models";
@@ -48,23 +49,47 @@ export class CollectionRepository {
       userId: string,
       collectionId: string
    ): Promise<DLibraryCollection | null> {
-      const collection = await this.prisma.libraryCollection.findUnique({
-         where: { id: collectionId, userId },
-         include: { _count: { select: { entries: true } } },
-      });
-      if (!collection) return null;
-      return toDCollection(collection as Parameters<typeof toDCollection>[0]);
+      const args = {
+         where: {
+            id: collectionId,
+            userId,
+         },
+         include: {
+            _count: {
+               select: {
+                  entries: true,
+               },
+            },
+         },
+      } satisfies LibraryCollectionFindUniqueArgs;
+
+      const collection = await this.prisma.libraryCollection.findUnique(args);
+
+      if (!collection) {
+         return null;
+      }
+      return toDCollection(collection);
    }
 
    async pGetCollectionByShareToken(
       shareToken: string
    ): Promise<DLibraryCollection | null> {
       const collection = await this.prisma.libraryCollection.findUnique({
-         where: { shareToken, isPublic: true },
-         include: { _count: { select: { entries: true } } },
+         where: {
+            shareToken,
+            isPublic: true,
+         },
+         include: {
+            _count: {
+               select: { entries: true },
+            },
+         },
       });
-      if (!collection) return null;
-      return toDCollection(collection as Parameters<typeof toDCollection>[0]);
+
+      if (!collection) {
+         return null;
+      }
+      return toDCollection(collection);
    }
 
    async pSetShareToken(
