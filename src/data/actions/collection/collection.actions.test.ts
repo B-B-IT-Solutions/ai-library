@@ -10,6 +10,7 @@ import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 
 import {
+   addTemplateToCollection,
    createCollection,
    deleteCollection,
    getCollectionById,
@@ -59,6 +60,13 @@ const sUpdateEntryCollectionsMock =
    >;
 const sGetEntryCollectionIdsMock =
    sGetEntryCollectionIds as jest.MockedFunction<typeof sGetEntryCollectionIds>;
+
+const sAddTemplateToCollection =
+   CollectionService.prototype.addTemplateToCollection;
+const sAddTemplateToCollectionMock =
+   sAddTemplateToCollection as jest.MockedFunction<
+      typeof sAddTemplateToCollection
+   >;
 
 describe("getCollections tests", () => {
    beforeEach(() => {
@@ -337,12 +345,11 @@ describe("updateCollection tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
-
-      sUpdateCollectionMock.mockResolvedValue();
+      const collection = dtestData.dCollection();
+      sUpdateCollectionMock.mockResolvedValue(collection);
 
       const data = dtestData.dCollectionUpdate();
-      const result = await updateCollection(collectionId, data);
+      const result = await updateCollection(collection.id, data);
 
       const expectedResult: ActionResult<DPromptUpdate> = {
          success: true,
@@ -353,7 +360,7 @@ describe("updateCollection tests", () => {
       expect(sUpdateCollectionMock).toHaveBeenCalledTimes(1);
       expect(sUpdateCollectionMock).toHaveBeenCalledWith(
          user.id,
-         collectionId,
+         collection.id,
          data
       );
    });
@@ -439,6 +446,127 @@ describe("deleteCollection tests", () => {
       expect(result).toEqual(expectedResult);
       expect(sDeleteCollectionMock).toHaveBeenCalledTimes(1);
       expect(sDeleteCollectionMock).toHaveBeenCalledWith(user.id, collectionId);
+   });
+});
+
+describe("addTemplateToCollection tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("invalid collectionId UUID - test", async () => {
+      const invalidCollectionId = "invalid-uuid-1";
+      const templateId = "123e4567-e89b-12d3-a456-426614174000";
+
+      const result = await addTemplateToCollection(
+         invalidCollectionId,
+         templateId
+      );
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Vorlage konnte nicht hinzugefügt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sAddTemplateToCollectionMock).not.toHaveBeenCalled();
+   });
+
+   it("invalid templateDescriptorId UUID - test", async () => {
+      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
+      const invalidTemplateId = "invalid-uuid-1";
+
+      const result = await addTemplateToCollection(
+         collectionId,
+         invalidTemplateId
+      );
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Vorlage konnte nicht hinzugefügt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sAddTemplateToCollectionMock).not.toHaveBeenCalled();
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
+      const templateId = "223e4567-e89b-12d3-a456-426614174000";
+
+      const result = await addTemplateToCollection(collectionId, templateId);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Vorlage konnte nicht hinzugefügt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sAddTemplateToCollectionMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const error = new Error("DB Error");
+      sAddTemplateToCollectionMock.mockRejectedValue(error);
+
+      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
+      const templateId = "223e4567-e89b-12d3-a456-426614174000";
+
+      const result = await addTemplateToCollection(collectionId, templateId);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Vorlage konnte nicht hinzugefügt werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sAddTemplateToCollectionMock).toHaveBeenCalledTimes(1);
+      expect(sAddTemplateToCollectionMock).toHaveBeenCalledWith(
+         user.id,
+         collectionId,
+         templateId
+      );
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("template - added - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      sAddTemplateToCollectionMock.mockResolvedValue();
+
+      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
+      const templateId = "223e4567-e89b-12d3-a456-426614174000";
+
+      const result = await addTemplateToCollection(collectionId, templateId);
+
+      const expectedResult: ActionResult = {
+         success: true,
+         message: "Vorlage hinzugefügt",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sAddTemplateToCollectionMock).toHaveBeenCalledTimes(1);
+      expect(sAddTemplateToCollectionMock).toHaveBeenCalledWith(
+         user.id,
+         collectionId,
+         templateId
+      );
    });
 });
 
