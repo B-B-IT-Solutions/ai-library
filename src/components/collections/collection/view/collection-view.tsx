@@ -26,7 +26,7 @@ type Props = {
    collectionId: string;
 };
 
-export const CollectionDashboard = async ({ collectionId }: Props) => {
+export const CollectionView = async ({ collectionId }: Props) => {
    const collection = await getCollectionById(collectionId);
    if (!collection) {
       notFound();

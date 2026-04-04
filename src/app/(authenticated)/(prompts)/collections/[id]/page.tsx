@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { SearchParams } from "nuqs/server";
 
-import { CollectionDashboard } from "@/components/collections/collection-dashboard";
+import { CollectionView } from "@/components/collections/collection/view/collection-view";
 import { templatesSearchParamsCache } from "@/components/templates/search-params";
 
 export const metadata: Metadata = {
@@ -19,7 +19,7 @@ const CollectionPage = async ({ params, searchParams }: PageProps) => {
 
    return (
       <div data-testid="collection-page" className="h-full">
-         <CollectionDashboard collectionId={id} />
+         <CollectionView collectionId={id} />
       </div>
    );
 };

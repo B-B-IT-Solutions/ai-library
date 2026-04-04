@@ -7,8 +7,7 @@ import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/shadcn/button";
 import { DCollection } from "@/data/types/domain/collection";
-
-import { DeleteCollectionDialog } from "./dialogs";
+import { DeleteCollectionDialog } from "../../dialogs";
 
 type Props = {
    collection: DCollection;
