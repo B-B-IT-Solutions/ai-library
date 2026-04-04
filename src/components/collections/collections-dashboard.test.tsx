@@ -69,7 +69,6 @@ describe("CollectionsDashboard rendering tests", () => {
       collectionsSearchParamsCacheMock.get.mockImplementation(mockSearchParams);
 
       const collections = dtestData.dCollections();
-
       getCollectionsMock.mockResolvedValue(collections);
 
       const { container } = await renderAsyncRSC(CollectionsDashboard, {});
