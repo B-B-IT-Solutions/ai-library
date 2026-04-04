@@ -220,6 +220,13 @@ describe("pCreateCollection tests", () => {
 
       const expectedCreateArgs: LibraryCollectionCreateArgs = {
          data: expectedCreateInput,
+         include: {
+            _count: {
+               select: {
+                  entries: true,
+               },
+            },
+         },
       };
 
       expect(result).toEqual(expectedResult);
@@ -256,6 +263,13 @@ describe("pCreateCollection tests", () => {
 
       const expectedCreateArgs: LibraryCollectionCreateArgs = {
          data: expectedCreateInput,
+         include: {
+            _count: {
+               select: {
+                  entries: true,
+               },
+            },
+         },
       };
 
       expect(result).toEqual(expectedResult);
@@ -299,6 +313,13 @@ describe("pUpdateCollection tests", () => {
             userId,
          },
          data: expectedUpdateInput,
+         include: {
+            _count: {
+               select: {
+                  entries: true,
+               },
+            },
+         },
       };
 
       expect(result).toEqual(expectedResult);
@@ -335,6 +356,13 @@ describe("pUpdateCollection tests", () => {
             userId,
          },
          data: expectedUpdateInput,
+         include: {
+            _count: {
+               select: {
+                  entries: true,
+               },
+            },
+         },
       };
 
       expect(result).toEqual(expectedResult);

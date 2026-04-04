@@ -110,9 +110,16 @@ export class CollectionRepository {
          order: data.order ?? 0,
       };
 
-      const args: LibraryCollectionCreateArgs = {
+      const args = {
          data: input,
-      };
+         include: {
+            _count: {
+               select: {
+                  entries: true,
+               },
+            },
+         },
+      } satisfies LibraryCollectionCreateArgs;
 
       const collection = await this.prisma.libraryCollection.create(args);
       return toDCollection(collection);
@@ -130,13 +137,20 @@ export class CollectionRepository {
          order: data.order,
       };
 
-      const args: LibraryCollectionUpdateArgs = {
+      const args = {
          where: {
             id: collectionId,
             userId,
          },
          data: input,
-      };
+         include: {
+            _count: {
+               select: {
+                  entries: true,
+               },
+            },
+         },
+      } satisfies LibraryCollectionUpdateArgs;
 
       const collection = await this.prisma.libraryCollection.update(args);
       return toDCollection(collection);
