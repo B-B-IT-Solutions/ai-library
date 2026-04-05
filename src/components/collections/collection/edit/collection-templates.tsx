@@ -166,7 +166,10 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
             : "Keine weiteren Vorlagen gefunden";
 
          return (
-            <div className="py-6 text-center text-sm text-slate-400">
+            <div
+               className="py-6 text-center text-sm text-slate-400"
+               data-testid="not-in-collection-empty"
+            >
                {text}
             </div>
          );

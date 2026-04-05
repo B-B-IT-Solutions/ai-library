@@ -486,8 +486,10 @@ export const dPromptTemplateDescriptorWithTemplate = (
    };
 };
 
-export const dTemplateDescriptorsPage = (): DTemplateDescriptorsPage => {
-   const descriptors = dPromptTemplateDescriptors();
+export const dTemplateDescriptorsPage = (
+   count = 3
+): DTemplateDescriptorsPage => {
+   const descriptors = dPromptTemplateDescriptors(count);
    return {
       content: descriptors,
       numberOfElements: descriptors.length,

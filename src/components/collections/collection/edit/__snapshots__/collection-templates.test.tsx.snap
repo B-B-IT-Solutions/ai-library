@@ -86,7 +86,7 @@ exports[`CollectionTemplates rendering tests idsLoading true - test 1`] = `
 </div>
 `;
 
-exports[`CollectionTemplates rendering tests in collection empty - test 1`] = `
+exports[`CollectionTemplates rendering tests in collection/not in collection - empty - test 1`] = `
 <div>
   <div
     class="flex flex-col gap-4"
@@ -151,6 +151,69 @@ exports[`CollectionTemplates rendering tests in collection empty - test 1`] = `
           Weitere Vorlagen
         </div>
         <div
+          class="py-6 text-center text-sm text-slate-400"
+          data-testid="not-in-collection-empty"
+        >
+          Keine Vorlagen gefunden
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CollectionTemplates rendering tests in collection/not in collection - with items - test 1`] = `
+<div>
+  <div
+    class="flex flex-col gap-4"
+    data-testid="collection-templates"
+  >
+    <div
+      class="relative"
+      data-testid="templates-search"
+    >
+      <svg
+        aria-hidden="true"
+        class="lucide lucide-search absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400"
+        fill="none"
+        height="24"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="m21 21-4.34-4.34"
+        />
+        <circle
+          cx="11"
+          cy="11"
+          r="8"
+        />
+      </svg>
+      <input
+        class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive pl-9"
+        data-slot="input"
+        placeholder="Vorlagen durchsuchen..."
+        value=""
+      />
+    </div>
+    <div
+      class="max-h-130 overflow-y-auto rounded-lg border bg-white"
+      data-testid="templates-list"
+    >
+      <div>
+        <div
+          class="sticky top-0 border-b bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase"
+        >
+          In dieser Sammlung (
+          3
+          )
+        </div>
+        <div
           class="group flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
         >
           <div
@@ -169,12 +232,12 @@ exports[`CollectionTemplates rendering tests in collection empty - test 1`] = `
             model 0
           </span>
           <button
-            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 rounded-md has-[>svg]:px-2.5 h-7 shrink-0 cursor-pointer gap-1.5 px-2"
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md has-[>svg]:px-2.5 h-7 shrink-0 cursor-pointer gap-1.5 px-2"
             data-slot="button"
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-plus h-3.5 w-3.5"
+              class="lucide lucide-check h-3.5 w-3.5 text-green-600 group-hover:hidden"
               fill="none"
               height="24"
               stroke="currentColor"
@@ -186,10 +249,27 @@ exports[`CollectionTemplates rendering tests in collection empty - test 1`] = `
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M5 12h14"
+                d="M20 6 9 17l-5-5"
+              />
+            </svg>
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-x hidden h-3.5 w-3.5 text-slate-400 group-hover:inline"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18 6 6 18"
               />
               <path
-                d="M12 5v14"
+                d="m6 6 12 12"
               />
             </svg>
           </button>
@@ -213,12 +293,12 @@ exports[`CollectionTemplates rendering tests in collection empty - test 1`] = `
             model 1
           </span>
           <button
-            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 rounded-md has-[>svg]:px-2.5 h-7 shrink-0 cursor-pointer gap-1.5 px-2"
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md has-[>svg]:px-2.5 h-7 shrink-0 cursor-pointer gap-1.5 px-2"
             data-slot="button"
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-plus h-3.5 w-3.5"
+              class="lucide lucide-check h-3.5 w-3.5 text-green-600 group-hover:hidden"
               fill="none"
               height="24"
               stroke="currentColor"
@@ -230,10 +310,27 @@ exports[`CollectionTemplates rendering tests in collection empty - test 1`] = `
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M5 12h14"
+                d="M20 6 9 17l-5-5"
+              />
+            </svg>
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-x hidden h-3.5 w-3.5 text-slate-400 group-hover:inline"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18 6 6 18"
               />
               <path
-                d="M12 5v14"
+                d="m6 6 12 12"
               />
             </svg>
           </button>
@@ -257,12 +354,12 @@ exports[`CollectionTemplates rendering tests in collection empty - test 1`] = `
             model 2
           </span>
           <button
-            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 rounded-md has-[>svg]:px-2.5 h-7 shrink-0 cursor-pointer gap-1.5 px-2"
+            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md has-[>svg]:px-2.5 h-7 shrink-0 cursor-pointer gap-1.5 px-2"
             data-slot="button"
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-plus h-3.5 w-3.5"
+              class="lucide lucide-check h-3.5 w-3.5 text-green-600 group-hover:hidden"
               fill="none"
               height="24"
               stroke="currentColor"
@@ -274,13 +371,43 @@ exports[`CollectionTemplates rendering tests in collection empty - test 1`] = `
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M5 12h14"
+                d="M20 6 9 17l-5-5"
+              />
+            </svg>
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-x hidden h-3.5 w-3.5 text-slate-400 group-hover:inline"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18 6 6 18"
               />
               <path
-                d="M12 5v14"
+                d="m6 6 12 12"
               />
             </svg>
           </button>
+        </div>
+      </div>
+      <div>
+        <div
+          class="sticky top-0 border-b bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase"
+        >
+          Weitere Vorlagen
+        </div>
+        <div
+          class="py-6 text-center text-sm text-slate-400"
+          data-testid="not-in-collection-empty"
+        >
+          Keine weiteren Vorlagen gefunden
         </div>
       </div>
     </div>
@@ -555,333 +682,6 @@ exports[`CollectionTemplates rendering tests renders templates split between in-
               />
             </svg>
           </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`CollectionTemplates rendering tests shows 'Keine Vorlagen gefunden' when no templates exist at all 1`] = `
-<div>
-  <div
-    class="flex flex-col gap-4"
-    data-testid="collection-templates"
-  >
-    <div
-      class="relative"
-      data-testid="templates-search"
-    >
-      <svg
-        aria-hidden="true"
-        class="lucide lucide-search absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400"
-        fill="none"
-        height="24"
-        stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        viewBox="0 0 24 24"
-        width="24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="m21 21-4.34-4.34"
-        />
-        <circle
-          cx="11"
-          cy="11"
-          r="8"
-        />
-      </svg>
-      <input
-        class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive pl-9"
-        data-slot="input"
-        placeholder="Vorlagen durchsuchen..."
-        value=""
-      />
-    </div>
-    <div
-      class="max-h-130 overflow-y-auto rounded-lg border bg-white"
-      data-testid="templates-list"
-    >
-      <div>
-        <div
-          class="sticky top-0 border-b bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase"
-        >
-          In dieser Sammlung (
-          0
-          )
-        </div>
-        <div
-          class="py-6 text-center text-sm text-slate-400"
-          data-testid="in-collection-empty"
-        >
-          Noch keine Vorlagen hinzugefügt
-        </div>
-      </div>
-      <div>
-        <div
-          class="sticky top-0 border-b bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase"
-        >
-          Weitere Vorlagen
-        </div>
-        <div
-          class="py-6 text-center text-sm text-slate-400"
-        >
-          Keine Vorlagen gefunden
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`CollectionTemplates rendering tests shows 'Keine weiteren Vorlagen gefunden' when all templates are in collection 1`] = `
-<div>
-  <div
-    class="flex flex-col gap-4"
-    data-testid="collection-templates"
-  >
-    <div
-      class="relative"
-      data-testid="templates-search"
-    >
-      <svg
-        aria-hidden="true"
-        class="lucide lucide-search absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400"
-        fill="none"
-        height="24"
-        stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        viewBox="0 0 24 24"
-        width="24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="m21 21-4.34-4.34"
-        />
-        <circle
-          cx="11"
-          cy="11"
-          r="8"
-        />
-      </svg>
-      <input
-        class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive pl-9"
-        data-slot="input"
-        placeholder="Vorlagen durchsuchen..."
-        value=""
-      />
-    </div>
-    <div
-      class="max-h-130 overflow-y-auto rounded-lg border bg-white"
-      data-testid="templates-list"
-    >
-      <div>
-        <div
-          class="sticky top-0 border-b bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase"
-        >
-          In dieser Sammlung (
-          3
-          )
-        </div>
-        <div
-          class="group flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
-        >
-          <div
-            class="flex-1"
-          >
-            <p
-              class="truncate text-sm font-medium text-slate-900"
-            >
-              title 0
-            </p>
-          </div>
-          <span
-            class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 shrink-0 text-xs"
-            data-slot="badge"
-          >
-            model 0
-          </span>
-          <button
-            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md has-[>svg]:px-2.5 h-7 shrink-0 cursor-pointer gap-1.5 px-2"
-            data-slot="button"
-          >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-check h-3.5 w-3.5 text-green-600 group-hover:hidden"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M20 6 9 17l-5-5"
-              />
-            </svg>
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-x hidden h-3.5 w-3.5 text-slate-400 group-hover:inline"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M18 6 6 18"
-              />
-              <path
-                d="m6 6 12 12"
-              />
-            </svg>
-          </button>
-        </div>
-        <div
-          class="group flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
-        >
-          <div
-            class="flex-1"
-          >
-            <p
-              class="truncate text-sm font-medium text-slate-900"
-            >
-              title 1
-            </p>
-          </div>
-          <span
-            class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 shrink-0 text-xs"
-            data-slot="badge"
-          >
-            model 1
-          </span>
-          <button
-            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md has-[>svg]:px-2.5 h-7 shrink-0 cursor-pointer gap-1.5 px-2"
-            data-slot="button"
-          >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-check h-3.5 w-3.5 text-green-600 group-hover:hidden"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M20 6 9 17l-5-5"
-              />
-            </svg>
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-x hidden h-3.5 w-3.5 text-slate-400 group-hover:inline"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M18 6 6 18"
-              />
-              <path
-                d="m6 6 12 12"
-              />
-            </svg>
-          </button>
-        </div>
-        <div
-          class="group flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
-        >
-          <div
-            class="flex-1"
-          >
-            <p
-              class="truncate text-sm font-medium text-slate-900"
-            >
-              title 2
-            </p>
-          </div>
-          <span
-            class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 font-medium w-fit whitespace-nowrap [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 shrink-0 text-xs"
-            data-slot="badge"
-          >
-            model 2
-          </span>
-          <button
-            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md has-[>svg]:px-2.5 h-7 shrink-0 cursor-pointer gap-1.5 px-2"
-            data-slot="button"
-          >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-check h-3.5 w-3.5 text-green-600 group-hover:hidden"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M20 6 9 17l-5-5"
-              />
-            </svg>
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-x hidden h-3.5 w-3.5 text-slate-400 group-hover:inline"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M18 6 6 18"
-              />
-              <path
-                d="m6 6 12 12"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div>
-        <div
-          class="sticky top-0 border-b bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase"
-        >
-          Weitere Vorlagen
-        </div>
-        <div
-          class="py-6 text-center text-sm text-slate-400"
-        >
-          Keine weiteren Vorlagen gefunden
         </div>
       </div>
     </div>
