@@ -198,6 +198,26 @@ export class CollectionRepository {
       return toDCollection(collection);
    }
 
+   async pGetCollectionTemplateIds(
+      userId: string,
+      collectionId: string
+   ): Promise<string[]> {
+      const args = {
+         where: {
+            collectionId,
+            collection: {
+               userId,
+            },
+         },
+         select: {
+            templateDescriptorId: true,
+         },
+      } satisfies LibraryCollectionEntryFindManyArgs;
+
+      const entries = await this.prisma.libraryCollectionEntry.findMany(args);
+      return map(entries, (e) => e.templateDescriptorId);
+   }
+
    async pAddTemplateToCollection(
       userId: string,
       collectionId: string,
@@ -239,26 +259,6 @@ export class CollectionRepository {
       } satisfies LibraryCollectionEntryDeleteManyArgs;
 
       await this.prisma.libraryCollectionEntry.deleteMany(args);
-   }
-
-   async pGetCollectionTemplateIds(
-      userId: string,
-      collectionId: string
-   ): Promise<string[]> {
-      const args = {
-         where: {
-            collectionId,
-            collection: {
-               userId,
-            },
-         },
-         select: {
-            templateDescriptorId: true,
-         },
-      } satisfies LibraryCollectionEntryFindManyArgs;
-
-      const entries = await this.prisma.libraryCollectionEntry.findMany(args);
-      return map(entries, (e) => e.templateDescriptorId);
    }
 
    async pGetPublicCollectionTemplates(collectionId: string): Promise<
