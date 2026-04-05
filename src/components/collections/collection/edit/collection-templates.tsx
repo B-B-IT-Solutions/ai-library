@@ -11,9 +11,9 @@ import { Input } from "@/components/shadcn/input";
 import {
    useAddTemplateToCollection,
    useCollectionTemplateIds,
-   useInfiniteLoadTemplateDescriptors,
    useRemoveTemplateFromCollection,
-} from "@/data/ts-queries/library";
+} from "@/data/ts-queries/collection";
+import { useInfiniteLoadTemplateDescriptors } from "@/data/ts-queries/library";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 type Props = {
@@ -53,6 +53,7 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
    const handleToggle = (descriptor: DPromptTemplateDescriptor) => {
       const isIn = includes(templateIds, descriptor.id);
       setPendingId(descriptor.id);
+
       if (isIn) {
          removeTemplate(
             { collectionId, templateDescriptorId: descriptor.id },
