@@ -35,18 +35,19 @@ type UseInfiniteTemplatesResult = ReturnType<
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
-const useAddTemplateMock = useAddTemplateToCollection as jest.MockedFunction<
-   typeof useAddTemplateToCollection
->;
-const useRemoveTemplateMock =
+const useAddTemplateToCollectionMock =
+   useAddTemplateToCollection as jest.MockedFunction<
+      typeof useAddTemplateToCollection
+   >;
+const useRemoveTemplateFromCollectionMock =
    useRemoveTemplateFromCollection as jest.MockedFunction<
       typeof useRemoveTemplateFromCollection
    >;
-const useLoadTemplateIdsMock =
+const useLoadCollectionTemplateIdsMock =
    useLoadCollectionTemplateIds as jest.MockedFunction<
       typeof useLoadCollectionTemplateIds
    >;
-const useInfiniteTemplatesMock =
+const useInfiniteLoadTemplateDescriptorsMock =
    useInfiniteLoadTemplateDescriptors as jest.MockedFunction<
       typeof useInfiniteLoadTemplateDescriptors
    >;
@@ -62,7 +63,7 @@ const removeMutationResultMock = (
 };
 
 const templateIdsQueryResultMock = (
-   data: string[] = [],
+   data: string[] | undefined,
    isLoading = false
 ): UseLoadTemplateIdsResult => {
    return { data, isLoading } as UseLoadTemplateIdsResult;
@@ -84,10 +85,40 @@ const infiniteQueryResultMock = (
 const collectionId = "collection-1";
 
 const setupDefaultMocks = () => {
-   useAddTemplateMock.mockReturnValue(addMutationResultMock());
-   useRemoveTemplateMock.mockReturnValue(removeMutationResultMock());
-   useLoadTemplateIdsMock.mockReturnValue(templateIdsQueryResultMock());
-   useInfiniteTemplatesMock.mockReturnValue(infiniteQueryResultMock());
+   useAddTemplateToCollectionMock.mockReturnValue(addMutationResultMock());
+   useRemoveTemplateFromCollectionMock.mockReturnValue(
+      removeMutationResultMock()
+   );
+   useLoadCollectionTemplateIdsMock.mockReturnValue(
+      templateIdsQueryResultMock([])
+   );
+   useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
+      infiniteQueryResultMock()
+   );
+};
+
+const assertRendered = () => {
+   const collectionTemplates = screen.getByTestId("collection-templates");
+   const search = screen.getByTestId("templates-search");
+
+   assertInDocument(collectionTemplates);
+   assertInDocument(search);
+};
+
+const assertTemplatesLoadingRendered = () => {
+   const loading = screen.getByTestId("templates-loading");
+   const list = screen.queryByTestId("templates-list");
+
+   assertInDocument(loading);
+   assertNotInDocument(list);
+};
+
+const assertTemplatesListRendered = () => {
+   const list = screen.getByTestId("templates-list");
+   const loading = screen.queryByTestId("templates-loading");
+
+   assertInDocument(list);
+   assertNotInDocument(loading);
 };
 
 describe("CollectionTemplates rendering tests", () => {
@@ -96,33 +127,20 @@ describe("CollectionTemplates rendering tests", () => {
       setupDefaultMocks();
    });
 
-   it("renders search input", async () => {
-      const { container } = renderWithReactQuery(
-         <CollectionTemplates collectionId={collectionId} />
+   it("idsLoading true - test", async () => {
+      const templateIdsQueryResult = templateIdsQueryResultMock(
+         undefined,
+         true
       );
-
-      await waitFor(() => {
-         const component = screen.getByTestId("collection-templates");
-         assertInDocument(component);
-         const input = screen.getByPlaceholderText("Vorlagen durchsuchen...");
-         assertInDocument(input);
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("shows loading spinner when idsLoading is true", async () => {
-      useLoadTemplateIdsMock.mockReturnValue(
-         templateIdsQueryResultMock([], true)
-      );
+      useLoadCollectionTemplateIdsMock.mockReturnValue(templateIdsQueryResult);
 
       const { container } = renderWithReactQuery(
          <CollectionTemplates collectionId={collectionId} />
       );
 
       await waitFor(() => {
-         const component = screen.getByTestId("collection-templates");
-         assertInDocument(component);
+         assertRendered();
+         assertTemplatesLoadingRendered();
       });
 
       expect(container).toMatchSnapshot();
@@ -139,8 +157,12 @@ describe("CollectionTemplates rendering tests", () => {
          totalPages: 1,
       };
 
-      useLoadTemplateIdsMock.mockReturnValue(templateIdsQueryResultMock([]));
-      useInfiniteTemplatesMock.mockReturnValue(infiniteQueryResultMock([page]));
+      useLoadCollectionTemplateIdsMock.mockReturnValue(
+         templateIdsQueryResultMock([])
+      );
+      useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
+         infiniteQueryResultMock([page])
+      );
 
       const { container } = renderWithReactQuery(
          <CollectionTemplates collectionId={collectionId} />
@@ -164,8 +186,12 @@ describe("CollectionTemplates rendering tests", () => {
          totalPages: 0,
       };
 
-      useLoadTemplateIdsMock.mockReturnValue(templateIdsQueryResultMock([]));
-      useInfiniteTemplatesMock.mockReturnValue(infiniteQueryResultMock([page]));
+      useLoadCollectionTemplateIdsMock.mockReturnValue(
+         templateIdsQueryResultMock([])
+      );
+      useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
+         infiniteQueryResultMock([page])
+      );
 
       const { container } = renderWithReactQuery(
          <CollectionTemplates collectionId={collectionId} />
@@ -191,10 +217,12 @@ describe("CollectionTemplates rendering tests", () => {
          totalPages: 1,
       };
 
-      useLoadTemplateIdsMock.mockReturnValue(
+      useLoadCollectionTemplateIdsMock.mockReturnValue(
          templateIdsQueryResultMock(templateIds)
       );
-      useInfiniteTemplatesMock.mockReturnValue(infiniteQueryResultMock([page]));
+      useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
+         infiniteQueryResultMock([page])
+      );
 
       const { container } = renderWithReactQuery(
          <CollectionTemplates collectionId={collectionId} />
@@ -220,10 +248,12 @@ describe("CollectionTemplates rendering tests", () => {
          totalPages: 1,
       };
 
-      useLoadTemplateIdsMock.mockReturnValue(
+      useLoadCollectionTemplateIdsMock.mockReturnValue(
          templateIdsQueryResultMock(inCollectionIds)
       );
-      useInfiniteTemplatesMock.mockReturnValue(infiniteQueryResultMock([page]));
+      useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
+         infiniteQueryResultMock([page])
+      );
 
       const { container } = renderWithReactQuery(
          <CollectionTemplates collectionId={collectionId} />
@@ -251,10 +281,12 @@ describe("CollectionTemplates rendering tests", () => {
          totalPages: 1,
       };
 
-      useLoadTemplateIdsMock.mockReturnValue(
+      useLoadCollectionTemplateIdsMock.mockReturnValue(
          templateIdsQueryResultMock(inCollectionIds)
       );
-      useInfiniteTemplatesMock.mockReturnValue(infiniteQueryResultMock([page]));
+      useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
+         infiniteQueryResultMock([page])
+      );
 
       renderWithReactQuery(<CollectionTemplates collectionId={collectionId} />);
 
@@ -276,8 +308,12 @@ describe("CollectionTemplates rendering tests", () => {
          totalPages: 1,
       };
 
-      useLoadTemplateIdsMock.mockReturnValue(templateIdsQueryResultMock([]));
-      useInfiniteTemplatesMock.mockReturnValue(infiniteQueryResultMock([page]));
+      useLoadCollectionTemplateIdsMock.mockReturnValue(
+         templateIdsQueryResultMock([])
+      );
+      useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
+         infiniteQueryResultMock([page])
+      );
 
       renderWithReactQuery(<CollectionTemplates collectionId={collectionId} />);
 
@@ -313,9 +349,15 @@ describe("CollectionTemplates functionality tests", () => {
          callbacks.onSettled();
       });
 
-      useLoadTemplateIdsMock.mockReturnValue(templateIdsQueryResultMock([]));
-      useInfiniteTemplatesMock.mockReturnValue(infiniteQueryResultMock([page]));
-      useAddTemplateMock.mockReturnValue(addMutationResultMock(mutateFn));
+      useLoadCollectionTemplateIdsMock.mockReturnValue(
+         templateIdsQueryResultMock([])
+      );
+      useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
+         infiniteQueryResultMock([page])
+      );
+      useAddTemplateToCollectionMock.mockReturnValue(
+         addMutationResultMock(mutateFn)
+      );
 
       renderWithReactQuery(<CollectionTemplates collectionId={collectionId} />);
 
@@ -362,9 +404,15 @@ describe("CollectionTemplates functionality tests", () => {
          callbacks.onSettled();
       });
 
-      useLoadTemplateIdsMock.mockReturnValue(templateIdsQueryResultMock([]));
-      useInfiniteTemplatesMock.mockReturnValue(infiniteQueryResultMock([page]));
-      useAddTemplateMock.mockReturnValue(addMutationResultMock(mutateFn));
+      useLoadCollectionTemplateIdsMock.mockReturnValue(
+         templateIdsQueryResultMock([])
+      );
+      useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
+         infiniteQueryResultMock([page])
+      );
+      useAddTemplateToCollectionMock.mockReturnValue(
+         addMutationResultMock(mutateFn)
+      );
 
       renderWithReactQuery(<CollectionTemplates collectionId={collectionId} />);
 
@@ -400,11 +448,15 @@ describe("CollectionTemplates functionality tests", () => {
          callbacks.onSettled();
       });
 
-      useLoadTemplateIdsMock.mockReturnValue(
+      useLoadCollectionTemplateIdsMock.mockReturnValue(
          templateIdsQueryResultMock(inCollectionIds)
       );
-      useInfiniteTemplatesMock.mockReturnValue(infiniteQueryResultMock([page]));
-      useRemoveTemplateMock.mockReturnValue(removeMutationResultMock(mutateFn));
+      useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
+         infiniteQueryResultMock([page])
+      );
+      useRemoveTemplateFromCollectionMock.mockReturnValue(
+         removeMutationResultMock(mutateFn)
+      );
 
       renderWithReactQuery(<CollectionTemplates collectionId={collectionId} />);
 
@@ -452,11 +504,15 @@ describe("CollectionTemplates functionality tests", () => {
          callbacks.onSettled();
       });
 
-      useLoadTemplateIdsMock.mockReturnValue(
+      useLoadCollectionTemplateIdsMock.mockReturnValue(
          templateIdsQueryResultMock(inCollectionIds)
       );
-      useInfiniteTemplatesMock.mockReturnValue(infiniteQueryResultMock([page]));
-      useRemoveTemplateMock.mockReturnValue(removeMutationResultMock(mutateFn));
+      useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
+         infiniteQueryResultMock([page])
+      );
+      useRemoveTemplateFromCollectionMock.mockReturnValue(
+         removeMutationResultMock(mutateFn)
+      );
 
       renderWithReactQuery(<CollectionTemplates collectionId={collectionId} />);
 
@@ -481,7 +537,7 @@ describe("CollectionTemplates functionality tests", () => {
       await userEvent.type(input, "test");
 
       await waitFor(() => {
-         expect(useInfiniteTemplatesMock).toHaveBeenCalledWith(
+         expect(useInfiniteLoadTemplateDescriptorsMock).toHaveBeenCalledWith(
             expect.objectContaining({
                filters: expect.objectContaining({ search: "test" }),
             })
@@ -493,7 +549,7 @@ describe("CollectionTemplates functionality tests", () => {
       renderWithReactQuery(<CollectionTemplates collectionId={collectionId} />);
 
       await waitFor(() => {
-         expect(useInfiniteTemplatesMock).toHaveBeenCalledWith(
+         expect(useInfiniteLoadTemplateDescriptorsMock).toHaveBeenCalledWith(
             expect.objectContaining({
                filters: expect.objectContaining({ search: undefined }),
             })
@@ -505,7 +561,9 @@ describe("CollectionTemplates functionality tests", () => {
       renderWithReactQuery(<CollectionTemplates collectionId={collectionId} />);
 
       await waitFor(() => {
-         expect(useLoadTemplateIdsMock).toHaveBeenCalledWith(collectionId);
+         expect(useLoadCollectionTemplateIdsMock).toHaveBeenCalledWith(
+            collectionId
+         );
       });
    });
 });

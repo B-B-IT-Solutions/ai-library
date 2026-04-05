@@ -183,13 +183,19 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
    const templatesList = () => {
       if (idsLoading) {
          return (
-            <div className="flex justify-center py-8">
+            <div
+               className="flex justify-center py-8"
+               data-testid="templates-loading"
+            >
                <Loader className="h-5 w-5 animate-spin text-slate-400" />
             </div>
          );
       }
       return (
-         <div className="max-h-130 overflow-y-auto rounded-lg border bg-white">
+         <div
+            className="max-h-130 overflow-y-auto rounded-lg border bg-white"
+            data-testid="templates-list"
+         >
             <div>
                <div className="sticky top-0 border-b bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase">
                   In dieser Sammlung ({templateIds.length})
@@ -209,7 +215,7 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
 
    return (
       <div className="flex flex-col gap-4" data-testid="collection-templates">
-         <div className="relative">
+         <div className="relative" data-testid="templates-search">
             <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <Input
                placeholder="Vorlagen durchsuchen..."
