@@ -20,7 +20,7 @@ type Props = {
    collectionId: string;
 };
 
-export const CollectionTemplateManager = ({ collectionId }: Props) => {
+export const CollectionTemplates = ({ collectionId }: Props) => {
    const [search, setSearch] = useState("");
 
    const { data: templateIds = [], isLoading: idsLoading } =

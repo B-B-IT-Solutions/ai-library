@@ -11,7 +11,7 @@ import { DCollection } from "@/data/types/domain/collection";
 import { CollectionBreadcrumb } from "../../breadcrumbs";
 
 import { CollectionEditForm } from "./collection-edit-form";
-import { CollectionTemplateManager } from "./collection-template-manager";
+import { CollectionTemplates } from "./collection-templates";
 
 type Props = {
    collection?: DCollection;
@@ -39,7 +39,7 @@ export const CollectionEdit = ({ collection }: Props) => {
          return (
             <div className="grid grid-cols-1 gap-6 pb-8 lg:grid-cols-[340px_1fr]">
                <CollectionEditForm collection={collection} />
-               <CollectionTemplateManager collectionId={collection.id} />
+               <CollectionTemplates collectionId={collection.id} />
             </div>
          );
       }
