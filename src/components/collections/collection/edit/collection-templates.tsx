@@ -109,6 +109,7 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
             className="h-7 shrink-0 cursor-pointer gap-1.5 px-2"
             onClick={() => handleToggle(descriptor, isIn)}
             disabled={isPending}
+            data-testid={`${isIn ? "remove" : "add"}-template-btn`}
          >
             {isPending ? (
                <Loader className="h-3.5 w-3.5 animate-spin" />

@@ -128,7 +128,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       useCreateCollectionMock.mockReturnValue(mutationResult);
    });
 
-   it("AddToLibraryCollectionDialog - open true - test", async () => {
+   it("open true - test", async () => {
       const mutationResult = updateMutationResultMock();
       const queryResult = queryResultMock();
 
@@ -156,7 +156,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("AddToLibraryCollectionDialog - open true - isLoading true - test", async () => {
+   it("open true - isLoading true - test", async () => {
       const entryCollectionIds = dtestData.dCollectionIds(3);
       const mutationResult = updateMutationResultMock();
       const queryResult = queryResultMock(entryCollectionIds, true);
@@ -185,7 +185,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("AddToLibraryCollectionDialog - open true - empty library collections - test", async () => {
+   it("open true - empty library collections - test", async () => {
       const mutationResult = updateMutationResultMock();
       const queryResult = queryResultMock();
 
@@ -212,7 +212,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("AddToLibraryCollectionDialog - isSaving true - save button disabled - test", async () => {
+   it("isSaving true - save button disabled - test", async () => {
       const mutationResult = mutationObserverLoadingResultMock();
       const queryResult = queryResultMock([]);
 
@@ -239,7 +239,7 @@ describe("AddToLibraryCollectionDialog rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("AddToLibraryCollectionDialog - open false - test", async () => {
+   it("open false - test", async () => {
       const mutationResult = updateMutationResultMock();
       const queryResult = queryResultMock();
 
@@ -275,7 +275,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       useCreateCollectionMock.mockReturnValue(mutationResult);
    });
 
-   it("AddToLibraryCollectionDialog - save btn clicked - success true - test", async () => {
+   it("save btn clicked - success true - test", async () => {
       const actionResult: ActionResult = {
          success: true,
          message: "Sammlungen aktualisiert",
@@ -346,7 +346,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       });
    });
 
-   it("AddToLibraryCollectionDialog - save btn clicked - success false - test", async () => {
+   it("save btn clicked - success false - test", async () => {
       const actionResult: ActionResult = {
          success: false,
          message: "Fehler beim Speichern",
@@ -416,7 +416,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       });
    });
 
-   it("AddToLibraryCollectionDialog - save btn clicked - onError - test", async () => {
+   it("save btn clicked - onError - test", async () => {
       const allCollections = dtestData.dCollections(3);
       const collection1 = allCollections[0];
       const selectedIds = [collection1.id];
@@ -474,7 +474,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       });
    });
 
-   it("AddToLibraryCollectionDialog - create first collection btn clicked - test", async () => {
+   it("create first collection btn clicked - test", async () => {
       const mutationResult = updateMutationResultMock();
       const queryResult = queryResultMock();
 
@@ -505,7 +505,7 @@ describe("AddToLibraryCollectionDialog functionality tests", () => {
       });
    });
 
-   it("AddToLibraryCollectionDialog - create new collection btn clicked - test", async () => {
+   it("create new collection btn clicked - test", async () => {
       const mutationResult = updateMutationResultMock();
       const queryResult = queryResultMock();
 
