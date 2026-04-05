@@ -13,7 +13,7 @@ import {
    AddTemplateToCollectionParams,
    RemoveTemplateFromCollectionParams,
    useAddTemplateToCollection,
-   useCollectionTemplateIds,
+   useLoadCollectionTemplateIds,
    useRemoveTemplateFromCollection,
 } from "@/data/ts-queries/collection";
 import { useInfiniteLoadTemplateDescriptors } from "@/data/ts-queries/library";
@@ -31,7 +31,7 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
    const { mutate: removeTemplate } = useRemoveTemplateFromCollection();
 
    const { data: templateIds = [], isLoading: idsLoading } =
-      useCollectionTemplateIds(collectionId);
+      useLoadCollectionTemplateIds(collectionId);
 
    const { data, fetchNextPage, hasNextPage, isFetching } =
       useInfiniteLoadTemplateDescriptors({

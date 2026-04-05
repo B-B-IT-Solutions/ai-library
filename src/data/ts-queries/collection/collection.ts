@@ -1,5 +1,6 @@
 import {
    keepPreviousData,
+   UndefinedInitialDataOptions,
    useMutation,
    UseMutationResult,
    useQuery,
@@ -20,15 +21,22 @@ import {
 } from "./types";
 import { collectionKeys } from "./utils";
 
-export const useCollectionTemplateIds = (
+export const loadCollectionTemplateIdsOptions = (
    collectionId: string
-): UseQueryResult<string[]> => {
-   return useQuery({
-      queryKey: collectionKeys.collectionTemplates(collectionId),
+): UndefinedInitialDataOptions<string[], Error, string[]> => {
+   return {
+      queryKey: collectionKeys.collectionTemplateIds(collectionId),
       queryFn: () => getCollectionTemplateIds(collectionId),
       placeholderData: keepPreviousData,
       staleTime: 2 * 60 * 1000,
-   });
+   };
+};
+
+export const useLoadCollectionTemplateIds = (
+   collectionId: string
+): UseQueryResult<string[]> => {
+   const options = loadCollectionTemplateIdsOptions(collectionId);
+   return useQuery(options);
 };
 
 export const useAddTemplateToCollection = (): UseMutationResult<
@@ -42,7 +50,7 @@ export const useAddTemplateToCollection = (): UseMutationResult<
          addTemplateToCollection(collectionId, templateDescriptorId),
       onSuccess: (_, { collectionId, templateDescriptorId }) => {
          queryClient.setQueryData<string[]>(
-            collectionKeys.collectionTemplates(collectionId),
+            collectionKeys.collectionTemplateIds(collectionId),
             (prev) =>
                prev ? [...prev, templateDescriptorId] : [templateDescriptorId]
          );
@@ -64,7 +72,7 @@ export const useRemoveTemplateFromCollection = (): UseMutationResult<
          removeTemplateFromCollection(collectionId, templateDescriptorId),
       onSuccess: (_, { collectionId, templateDescriptorId }) => {
          queryClient.setQueryData<string[]>(
-            collectionKeys.collectionTemplates(collectionId),
+            collectionKeys.collectionTemplateIds(collectionId),
             (prev) => prev?.filter((id) => id !== templateDescriptorId)
          );
          queryClient.invalidateQueries({

@@ -3,6 +3,6 @@ export const collectionKeys = {
    collections: () => [...collectionKeys.all] as const,
    collection: (id: string) =>
       [...collectionKeys.all, "collection", id] as const,
-   collectionTemplates: (id: string) =>
-      [...collectionKeys.all, "collection", id, "templates"] as const,
+   collectionTemplateIds: (id: string) =>
+      [...collectionKeys.all, "collection", id, "templateIds"] as const,
 };

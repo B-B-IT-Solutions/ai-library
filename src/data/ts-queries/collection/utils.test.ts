@@ -11,11 +11,11 @@ describe("collectionKeys tests", () => {
          "collection",
          collectionId,
       ]);
-      expect(collectionKeys.collectionTemplates(collectionId)).toEqual([
+      expect(collectionKeys.collectionTemplateIds(collectionId)).toEqual([
          "collections",
          "collection",
          collectionId,
-         "templates",
+         "templateIds",
       ]);
    });
 });
