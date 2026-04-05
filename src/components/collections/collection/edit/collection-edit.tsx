@@ -9,8 +9,8 @@ import {
 } from "@/components/shared/wrappers/item-details";
 import { DCollection } from "@/data/types/domain/collection";
 import { CollectionBreadcrumb } from "../../breadcrumbs";
-import { CollectionEditForm, CreateCollectionForm } from "..";
 
+import { CollectionEditForm } from "./collection-edit-form";
 import { CollectionTemplateManager } from "./collection-template-manager";
 
 type Props = {
@@ -37,13 +37,13 @@ export const CollectionEdit = ({ collection }: Props) => {
    const form = () => {
       if (isEdit) {
          return (
-            <>
+            <div className="grid grid-cols-1 gap-6 pb-8 lg:grid-cols-[340px_1fr]">
                <CollectionEditForm collection={collection} />
-               {/* <CollectionTemplateManager collectionId={collection.id} /> */}
-            </>
+               <CollectionTemplateManager collectionId={collection.id} />
+            </div>
          );
       }
-      return <CreateCollectionForm />;
+      return <CollectionEditForm collection={collection} />;
    };
 
    return (
@@ -53,11 +53,7 @@ export const CollectionEdit = ({ collection }: Props) => {
             <ItemDetailsEditBreadcrumbs>
                <CollectionBreadcrumb variant="new" />
             </ItemDetailsEditBreadcrumbs>
-            <ItemDetailsEditBody>
-               <div className="grid grid-cols-1 gap-6 pb-8 lg:grid-cols-[340px_1fr]">
-                  {form()}
-               </div>
-            </ItemDetailsEditBody>
+            <ItemDetailsEditBody>{form()}</ItemDetailsEditBody>
          </ItemDetailsEditContent>
       </ItemDetailsEdit>
    );
