@@ -31,7 +31,7 @@ describe("pGetCollections tests", () => {
 
    it("colelctions retrieved test", async () => {
       const userId = "user-id-1";
-      const collections = ptestData.pLibraryCollections();
+      const collections = ptestData.pTemplateCollections();
       prismaMock.libraryCollection.findMany.mockResolvedValue(collections);
 
       const result = await collectionRepository.pGetCollections(userId);
@@ -99,7 +99,7 @@ describe("pGetCollectionById tests", () => {
    it("collection - retrieved - test", async () => {
       const userId = "user-id-1";
 
-      const collection = ptestData.pLibraryCollection();
+      const collection = ptestData.pTemplateCollection();
       prismaMock.libraryCollection.findUnique.mockResolvedValue(collection);
 
       const result = await collectionRepository.pGetCollectionById(
@@ -166,7 +166,7 @@ describe("pGetCollectionByShareToken tests", () => {
 
    it("collection - retrieved - test", async () => {
       const token = "token-1";
-      const collection = ptestData.pLibraryCollection();
+      const collection = ptestData.pTemplateCollection();
       prismaMock.libraryCollection.findUnique.mockResolvedValue(collection);
 
       const result =
@@ -202,7 +202,7 @@ describe("pCreateCollection tests", () => {
    });
 
    it("all fields defined - test", async () => {
-      const collection = ptestData.pLibraryCollection();
+      const collection = ptestData.pTemplateCollection();
       prismaMock.libraryCollection.create.mockResolvedValue(collection);
 
       const userId = collection.userId;
@@ -243,7 +243,7 @@ describe("pCreateCollection tests", () => {
    });
 
    it("optional fields undefined - test", async () => {
-      const collection = ptestData.pLibraryCollection();
+      const collection = ptestData.pTemplateCollection();
       prismaMock.libraryCollection.create.mockResolvedValue(collection);
 
       const userId = "user-id-1";
@@ -293,7 +293,7 @@ describe("pUpdateCollection tests", () => {
 
    it("all fields defined - test", async () => {
       const userId = "user-id-1";
-      const collection = ptestData.pLibraryCollection();
+      const collection = ptestData.pTemplateCollection();
       prismaMock.libraryCollection.update.mockResolvedValue(collection);
 
       const data = dtestData.dCollectionUpdate();
@@ -337,7 +337,7 @@ describe("pUpdateCollection tests", () => {
 
    it("optional fields undefined - test", async () => {
       const userId = "user-id-123";
-      const collection = ptestData.pLibraryCollection();
+      const collection = ptestData.pTemplateCollection();
       prismaMock.libraryCollection.update.mockResolvedValue(collection);
 
       const data: DCollectionUpdate = {
@@ -386,7 +386,7 @@ describe("pDeleteCollection tests", () => {
 
    it("collection - deleted - test", async () => {
       const userId = "user-id-1";
-      const collection = ptestData.pLibraryCollection();
+      const collection = ptestData.pTemplateCollection();
       prismaMock.libraryCollection.delete.mockResolvedValue(collection);
 
       await collectionRepository.pDeleteCollection(userId, collection.id);
@@ -414,7 +414,7 @@ describe("pSetShareToken tests", () => {
       const userId = "user-id-1";
       const token = "token-1";
       const isPublic = true;
-      const collection = ptestData.pLibraryCollection();
+      const collection = ptestData.pTemplateCollection();
       prismaMock.libraryCollection.update.mockResolvedValue(collection);
 
       const result = await collectionRepository.pSetShareToken(
@@ -463,7 +463,7 @@ describe("pGetCollectionTemplateIds tests", () => {
       const userId = "user-id-1";
       const collectionId = "collection-id";
 
-      const entries = ptestData.pLibraryCollectionEntries();
+      const entries = ptestData.pTemplateCollectionEntries();
       prismaMock.libraryCollectionEntry.findMany.mockResolvedValue(entries);
 
       const result = await collectionRepository.pGetCollectionTemplateIds(

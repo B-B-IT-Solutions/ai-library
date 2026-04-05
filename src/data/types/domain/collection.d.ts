@@ -17,3 +17,9 @@ export type DCollection = {
    createdAt: string;
    updatedAt: string;
 };
+
+export type DTemplateCollectionEntry = {
+   collectionId: string;
+   templateDescriptorId: string;
+   addedAt: string;
+};

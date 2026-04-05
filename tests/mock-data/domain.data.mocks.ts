@@ -4,7 +4,11 @@ import { Check } from "lucide-react";
 
 import { Sort, SortOrder } from "@/data/types/common";
 import { DCart, DCartItem } from "@/data/types/domain/cart";
-import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
+import {
+   DCollection,
+   DCollectionUpdate,
+   DTemplateCollectionEntry,
+} from "@/data/types/domain/collection";
 import {
    DOrder,
    DOrderCreate,
@@ -223,7 +227,7 @@ export const dTemplateModels = (count = 3): string[] => {
 
 export const dCollectionIds = (count = 3): string[] => {
    const collections = dCollections(count);
-   return map(collections, "id");
+   return map(collections, (c) => c.id);
 };
 
 export const dCollections = (count = 3): DCollection[] => {
@@ -252,6 +256,27 @@ export const dCollectionUpdate = (index = 1): DCollectionUpdate => {
       description: `description ${index}`,
       color: `color ${index}`,
       order: index,
+   };
+};
+
+export const dTemplateCollectionEntryTemplateIds = (count = 3): string[] => {
+   const collections = dTemplateCollectionEntries(count);
+   return map(collections, (c) => c.templateDescriptorId);
+};
+
+export const dTemplateCollectionEntries = (
+   count = 3
+): DTemplateCollectionEntry[] => {
+   return range(0, count).map((i) => dTemplateCollectionEntry(i));
+};
+
+export const dTemplateCollectionEntry = (
+   index = 1
+): DTemplateCollectionEntry => {
+   return {
+      collectionId: `457bf695-6f74-44aa-9b3a-e179ea9e817${index}`,
+      templateDescriptorId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      addedAt: new Date("2025-09-27").toISOString(),
    };
 };
 

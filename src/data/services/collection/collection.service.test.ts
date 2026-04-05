@@ -150,6 +150,35 @@ describe("deleteCollection tests", () => {
    });
 });
 
+describe("getCollectionTemplateIds tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("collection templateIds retrieved - test", async () => {
+      const userId = "user-id-1";
+      const collectionId = "collection-id-1";
+      const templateIds = dtestData.dTemplateCollectionEntryTemplateIds();
+      collectionRepoMock.pGetCollectionTemplateIds.mockResolvedValue(
+         templateIds
+      );
+
+      const result = await collectionService.getCollectionTemplateIds(
+         userId,
+         collectionId
+      );
+
+      expect(result).toEqual(templateIds);
+      expect(
+         collectionRepoMock.pGetCollectionTemplateIds
+      ).toHaveBeenCalledTimes(1);
+      expect(collectionRepoMock.pGetCollectionTemplateIds).toHaveBeenCalledWith(
+         userId,
+         collectionId
+      );
+   });
+});
+
 describe("addTemplateToCollection tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
