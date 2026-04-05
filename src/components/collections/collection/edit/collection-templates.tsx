@@ -149,7 +149,7 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
       if (isEmpty(inCollection)) {
          return (
             <div className="py-6 text-center text-sm text-slate-400">
-               Keine Vorlagen
+               Noch keine Vorlagen hinzugefügt
             </div>
          );
       }
