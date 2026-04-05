@@ -7,6 +7,7 @@ import {
    LibraryCollectionCreateInput,
    LibraryCollectionDeleteArgs,
    LibraryCollectionEntryDeleteManyArgs,
+   LibraryCollectionEntryFindManyArgs,
    LibraryCollectionEntryUpsertArgs,
    LibraryCollectionFindManyArgs,
    LibraryCollectionFindUniqueArgs,
@@ -240,6 +241,26 @@ export class CollectionRepository {
       await this.prisma.libraryCollectionEntry.deleteMany(args);
    }
 
+   async pGetCollectionTemplateIds(
+      userId: string,
+      collectionId: string
+   ): Promise<string[]> {
+      const args = {
+         where: {
+            collectionId,
+            collection: {
+               userId,
+            },
+         },
+         select: {
+            templateDescriptorId: true,
+         },
+      } satisfies LibraryCollectionEntryFindManyArgs;
+
+      const entries = await this.prisma.libraryCollectionEntry.findMany(args);
+      return map(entries, (e) => e.templateDescriptorId);
+   }
+
    async pGetPublicCollectionTemplates(collectionId: string): Promise<
       {
          id: string;
@@ -262,20 +283,6 @@ export class CollectionRepository {
       });
 
       return entries.map((e) => e.templateDescriptor);
-   }
-
-   async pGetCollectionTemplateIds(
-      userId: string,
-      collectionId: string
-   ): Promise<string[]> {
-      const entries = await this.prisma.libraryCollectionEntry.findMany({
-         where: {
-            collectionId,
-            collection: { userId },
-         },
-         select: { templateDescriptorId: true },
-      });
-      return entries.map((e) => e.templateDescriptorId);
    }
 
    async pGetEntryCollectionIds(

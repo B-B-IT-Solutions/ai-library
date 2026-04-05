@@ -190,7 +190,9 @@ export const getCollectionTemplateIds = async (
    collectionId: string
 ): Promise<string[]> => {
    try {
-      if (!isValidUuid(collectionId)) throw new Error("Invalid collection ID.");
+      if (!isValidUuid(collectionId)) {
+         throw new Error("Invalid collection ID.");
+      }
       const user = await requireUser();
       const service = getService();
       return await service.getCollectionTemplateIds(user.id, collectionId);
