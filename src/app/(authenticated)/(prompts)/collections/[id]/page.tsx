@@ -4,6 +4,7 @@ import { SearchParams } from "nuqs/server";
 
 import { CollectionView } from "@/components/collections";
 import { collectionsSearchParamsCache } from "@/components/collections";
+import { templatesSearchParamsCache } from "@/components/templates";
 import { getCollectionById } from "@/data/actions/collection";
 
 export const metadata: Metadata = {
@@ -21,7 +22,7 @@ type PageProps = {
 
 const CollectionPage = async ({ params, searchParams }: PageProps) => {
    const { id: collectionId } = await params;
-   await collectionsSearchParamsCache.parse(searchParams);
+   await templatesSearchParamsCache.parse(searchParams);
 
    const collection = await getCollectionById(collectionId);
 
