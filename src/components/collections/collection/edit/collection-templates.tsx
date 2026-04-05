@@ -192,7 +192,7 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
          <div className="max-h-130 overflow-y-auto rounded-lg border bg-white">
             <div>
                <div className="sticky top-0 border-b bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase">
-                  In dieser Sammlung ({inCollection.length})
+                  In dieser Sammlung ({templateIds.length})
                </div>
                {templatesInCollection()}
             </div>
