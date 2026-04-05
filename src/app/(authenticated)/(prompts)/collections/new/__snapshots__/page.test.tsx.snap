@@ -97,13 +97,16 @@ exports[`NewCollectionPage rendering tests rendered test 1`] = `
           class="mx-auto max-w-5xl"
         >
           <div
-            class="px-6 pb-8"
+            class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
+            data-slot="card"
+            data-testid="collection-edit-form"
           >
             <div
-              class="mx-auto max-w-md"
+              class="px-6"
+              data-slot="card-content"
             >
               <form
-                class="space-y-6"
+                class="space-y-5"
               >
                 <div
                   class="grid gap-2"
@@ -131,7 +134,6 @@ exports[`NewCollectionPage rendering tests rendered test 1`] = `
                     data-testid="input"
                     id="_r_0_-form-item"
                     name="name"
-                    placeholder="z.B. Marketing-Vorlagen"
                     value=""
                   />
                 </div>
@@ -185,25 +187,75 @@ exports[`NewCollectionPage rendering tests rendered test 1`] = `
                     value="#3b82f6"
                   />
                 </div>
-                <div
-                  class="flex gap-3 pt-2"
+                <button
+                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 w-full"
+                  data-slot="button"
+                  type="submit"
                 >
+                  Änderungen speichern
+                </button>
+              </form>
+              <div
+                class="mt-6 space-y-3 border-t pt-6"
+              >
+                <p
+                  class="text-sm font-semibold text-slate-700"
+                >
+                  Freigabe
+                </p>
+                <div
+                  class="flex items-center justify-between rounded-lg border p-3"
+                >
+                  <div
+                    class="flex items-center gap-2.5"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-lock h-4 w-4 text-slate-400"
+                      fill="none"
+                      height="24"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect
+                        height="11"
+                        rx="2"
+                        ry="2"
+                        width="18"
+                        x="3"
+                        y="11"
+                      />
+                      <path
+                        d="M7 11V7a5 5 0 0 1 10 0v4"
+                      />
+                    </svg>
+                    <div>
+                      <p
+                        class="text-sm font-medium"
+                      >
+                        Privat
+                      </p>
+                      <p
+                        class="text-xs text-slate-500"
+                      >
+                        Nur für Sie sichtbar
+                      </p>
+                    </div>
+                  </div>
                   <button
-                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3"
+                    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
                     data-slot="button"
                     type="button"
                   >
-                    Abbrechen
-                  </button>
-                  <button
-                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3"
-                    data-slot="button"
-                    type="submit"
-                  >
-                    Sammlung erstellen
+                    Aktivieren
                   </button>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>

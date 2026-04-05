@@ -34,6 +34,19 @@ export const CollectionEdit = ({ collection }: Props) => {
       );
    };
 
+   const breadcrumbs = () => {
+      if (isEdit) {
+         return (
+            <CollectionBreadcrumb
+               variant="edit"
+               label={collection.name}
+               collectionId={collection.id}
+            />
+         );
+      }
+      return <CollectionBreadcrumb variant="new" />;
+   };
+
    const form = () => {
       if (isEdit) {
          return (
@@ -51,7 +64,7 @@ export const CollectionEdit = ({ collection }: Props) => {
          <ItemDetailsEditHeader>{header()}</ItemDetailsEditHeader>
          <ItemDetailsEditContent>
             <ItemDetailsEditBreadcrumbs>
-               <CollectionBreadcrumb variant="new" />
+               {breadcrumbs()}
             </ItemDetailsEditBreadcrumbs>
             <ItemDetailsEditBody>{form()}</ItemDetailsEditBody>
          </ItemDetailsEditContent>
