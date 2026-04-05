@@ -121,6 +121,11 @@ const assertTemplatesListRendered = () => {
    assertNotInDocument(loading);
 };
 
+const assertInCollecitonEmpty = () => {
+   const empty = screen.getByTestId("in-collection-empty");
+   assertInDocument(empty);
+};
+
 describe("CollectionTemplates rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -146,7 +151,7 @@ describe("CollectionTemplates rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("shows 'Noch keine Vorlagen hinzugefügt' when collection is empty", async () => {
+   it("in collection empty - test", async () => {
       const templates = dtestData.dPromptTemplateDescriptors(3);
       const page: DTemplateDescriptorsPage = {
          content: templates,
@@ -157,11 +162,12 @@ describe("CollectionTemplates rendering tests", () => {
          totalPages: 1,
       };
 
-      useLoadCollectionTemplateIdsMock.mockReturnValue(
-         templateIdsQueryResultMock([])
-      );
+      const templateIdsQueryResult = templateIdsQueryResultMock([]);
+      useLoadCollectionTemplateIdsMock.mockReturnValue(templateIdsQueryResult);
+
+      const loadTemplatesQueryResult = infiniteQueryResultMock([page]);
       useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
-         infiniteQueryResultMock([page])
+         loadTemplatesQueryResult
       );
 
       const { container } = renderWithReactQuery(
@@ -169,8 +175,9 @@ describe("CollectionTemplates rendering tests", () => {
       );
 
       await waitFor(() => {
-         const empty = screen.getByText("Noch keine Vorlagen hinzugefügt");
-         assertInDocument(empty);
+         assertRendered();
+         assertTemplatesListRendered();
+         assertInCollecitonEmpty();
       });
 
       expect(container).toMatchSnapshot();
