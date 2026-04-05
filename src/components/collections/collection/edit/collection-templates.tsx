@@ -42,6 +42,14 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
       [data]
    );
 
+   const inCollection = filter(allTemplates, (t) =>
+      includes(templateIds, t.id)
+   );
+   const notInCollection = filter(
+      allTemplates,
+      (t) => !includes(templateIds, t.id)
+   );
+
    const handleToggle = (descriptor: DPromptTemplateDescriptor) => {
       const isIn = includes(templateIds, descriptor.id);
       setPendingId(descriptor.id);
@@ -50,7 +58,9 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
             { collectionId, templateDescriptorId: descriptor.id },
             {
                onSuccess: (result) => {
-                  if (!result.success) toast.error(result.message);
+                  if (!result.success) {
+                     toast.error(result.message);
+                  }
                },
                onSettled: () => setPendingId(null),
             }
@@ -60,21 +70,15 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
             { collectionId, templateDescriptorId: descriptor.id },
             {
                onSuccess: (result) => {
-                  if (!result.success) toast.error(result.message);
+                  if (!result.success) {
+                     toast.error(result.message);
+                  }
                },
                onSettled: () => setPendingId(null),
             }
          );
       }
    };
-
-   const inCollection = filter(allTemplates, (t) =>
-      includes(templateIds, t.id)
-   );
-   const notInCollection = filter(
-      allTemplates,
-      (t) => !includes(templateIds, t.id)
-   );
 
    const rowControlBtn = (
       descriptor: DPromptTemplateDescriptor,
