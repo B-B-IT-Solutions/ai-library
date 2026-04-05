@@ -15,7 +15,7 @@ import {
    DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import { useLoadLibraryCollections } from "@/data/ts-queries/library";
+import { useLoadCollections } from "@/data/ts-queries/library";
 import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
 import { cn } from "@/lib/utils";
 import { templatesSearchParams } from "../../../search-params";
@@ -30,7 +30,7 @@ export const CollectionsFilter: FC<Props> = () => {
       templatesSearchParams["f_collectionIds"]
    );
 
-   const { data: collections = [] } = useLoadLibraryCollections();
+   const { data: collections = [] } = useLoadCollections();
    const [showCreateDialog, setShowCreateDialog] = useState(false);
 
    const toggleCollection = (collectionId: string) => {

@@ -87,7 +87,7 @@ export const preloadCollectionsOptions = (): FetchQueryOptions<
    };
 };
 
-export const infiniteLoadLibraryEntriesOptions = (
+export const infiniteLoadTemplateDescriptorsOptions = (
    params: LoadLibraryEntriesParams
 ): UndefinedInitialDataInfiniteOptions<
    DTemplateDescriptorsPage,
@@ -115,10 +115,10 @@ export const infiniteLoadLibraryEntriesOptions = (
    };
 };
 
-export const useInfiniteLoadLibraryEntries = (
+export const useInfiniteLoadTemplateDescriptors = (
    props: LoadLibraryEntriesParams
 ): UseInfiniteQueryResult<InfiniteData<DTemplateDescriptorsPage>, Error> => {
-   const options = infiniteLoadLibraryEntriesOptions(props);
+   const options = infiniteLoadTemplateDescriptorsOptions(props);
    return useInfiniteQuery(options);
 };
 
@@ -147,7 +147,7 @@ export const useToggleFavorite = (): UseMutationResult<
    return useMutation(options);
 };
 
-export const loadLibraryCollectionsOptions = (): UndefinedInitialDataOptions<
+export const loadCollectionsOptions = (): UndefinedInitialDataOptions<
    DCollection[],
    Error,
    DCollection[]
@@ -160,8 +160,8 @@ export const loadLibraryCollectionsOptions = (): UndefinedInitialDataOptions<
    };
 };
 
-export const useLoadLibraryCollections = (): UseQueryResult<DCollection[]> => {
-   const options = loadLibraryCollectionsOptions();
+export const useLoadCollections = (): UseQueryResult<DCollection[]> => {
+   const options = loadCollectionsOptions();
    return useQuery<DCollection[]>(options);
 };
 

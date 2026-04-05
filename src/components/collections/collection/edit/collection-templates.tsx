@@ -11,7 +11,7 @@ import { Input } from "@/components/shadcn/input";
 import {
    useAddTemplateToCollection,
    useCollectionTemplateIds,
-   useInfiniteLoadLibraryEntries,
+   useInfiniteLoadTemplateDescriptors,
    useRemoveTemplateFromCollection,
 } from "@/data/ts-queries/library";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
@@ -27,7 +27,7 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
       useCollectionTemplateIds(collectionId);
 
    const { data, fetchNextPage, hasNextPage, isFetching } =
-      useInfiniteLoadLibraryEntries({
+      useInfiniteLoadTemplateDescriptors({
          filters: { search: search || undefined },
       });
 
@@ -117,9 +117,66 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
       );
    };
 
+   const templatesList = () => {
+      if (idsLoading) {
+         return (
+            <div className="flex justify-center py-8">
+               <Loader className="h-5 w-5 animate-spin text-slate-400" />
+            </div>
+         );
+      }
+      return (
+         <div className="max-h-130 overflow-y-auto rounded-lg border bg-white">
+            {/* Templates in collection */}
+            {inCollection.length > 0 && (
+               <div>
+                  <div className="sticky top-0 border-b bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase">
+                     In dieser Sammlung ({inCollection.length})
+                  </div>
+                  {inCollection.map((t) => renderRow(t, true))}
+               </div>
+            )}
+
+            {/* Templates not in collection */}
+            {notInCollection.length > 0 && (
+               <div>
+                  <div className="sticky top-0 border-b bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase">
+                     Weitere Vorlagen
+                  </div>
+                  {notInCollection.map((t) => renderRow(t, false))}
+               </div>
+            )}
+
+            {allTemplates.length === 0 && !isFetching && (
+               <div className="py-12 text-center text-sm text-slate-400">
+                  Keine Vorlagen gefunden
+               </div>
+            )}
+
+            {/* Load more */}
+            {hasNextPage && (
+               <div className="border-t p-3">
+                  <Button
+                     variant="ghost"
+                     size="sm"
+                     className="w-full"
+                     onClick={() => fetchNextPage()}
+                     disabled={isFetching}
+                  >
+                     {isFetching ? (
+                        <Loader className="h-4 w-4 animate-spin" />
+                     ) : (
+                        "Mehr laden"
+                     )}
+                  </Button>
+               </div>
+            )}
+         </div>
+      );
+   };
+
    return (
-      <div className="flex flex-col gap-4">
-         {/* Search */}
+      <div className="flex flex-col gap-4" data-testid="collection-templates">
          <div className="relative">
             <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <Input
@@ -129,59 +186,7 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
                className="pl-9"
             />
          </div>
-
-         {idsLoading ? (
-            <div className="flex justify-center py-8">
-               <Loader className="h-5 w-5 animate-spin text-slate-400" />
-            </div>
-         ) : (
-            <div className="max-h-130 overflow-y-auto rounded-lg border bg-white">
-               {/* Templates in collection */}
-               {inCollection.length > 0 && (
-                  <div>
-                     <div className="sticky top-0 border-b bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase">
-                        In dieser Sammlung ({inCollection.length})
-                     </div>
-                     {inCollection.map((t) => renderRow(t, true))}
-                  </div>
-               )}
-
-               {/* Templates not in collection */}
-               {notInCollection.length > 0 && (
-                  <div>
-                     <div className="sticky top-0 border-b bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase">
-                        Weitere Vorlagen
-                     </div>
-                     {notInCollection.map((t) => renderRow(t, false))}
-                  </div>
-               )}
-
-               {allTemplates.length === 0 && !isFetching && (
-                  <div className="py-12 text-center text-sm text-slate-400">
-                     Keine Vorlagen gefunden
-                  </div>
-               )}
-
-               {/* Load more */}
-               {hasNextPage && (
-                  <div className="border-t p-3">
-                     <Button
-                        variant="ghost"
-                        size="sm"
-                        className="w-full"
-                        onClick={() => fetchNextPage()}
-                        disabled={isFetching}
-                     >
-                        {isFetching ? (
-                           <Loader className="h-4 w-4 animate-spin" />
-                        ) : (
-                           "Mehr laden"
-                        )}
-                     </Button>
-                  </div>
-               )}
-            </div>
-         )}
+         {templatesList()}
       </div>
    );
 };

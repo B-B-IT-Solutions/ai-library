@@ -39,9 +39,9 @@ import { ActionResult } from "@/data/types/utils";
 import {
    createCollectionOptions,
    deleteCollectionOptions,
-   infiniteLoadLibraryEntriesOptions,
+   infiniteLoadTemplateDescriptorsOptions,
+   loadCollectionsOptions,
    loadEntryCollectionIdsOptions,
-   loadLibraryCollectionsOptions,
    preloadCollectionsOptions,
    preloadLibraryEntriesOptions,
    toggleFavoriteOptions,
@@ -49,9 +49,9 @@ import {
    updateEntryCollectionsOptions,
    useCreateCollection,
    useDeleteCollection,
-   useInfiniteLoadLibraryEntries,
+   useInfiniteLoadTemplateDescriptors,
+   useLoadCollections,
    useLoadEntryCollectionIds,
-   useLoadLibraryCollections,
    useToggleFavorite,
    useUpdateCollection,
    useUpdateEntryCollections,
@@ -173,12 +173,12 @@ describe("prefetch options tests", () => {
    });
 });
 
-describe("loadLibraryEntries hooks tests", () => {
+describe("loadTemplateDescriptors hooks tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   test("infiniteLoadLibraryEntriesOptions - test", async () => {
+   test("infiniteLoadTemplateDescriptorsOptions - test", async () => {
       const filters = dtestData.dTemplateDescriptorsFilter();
       const sort = dtestData.sort();
       const params: LoadLibraryEntriesParams = { filters, sort };
@@ -197,11 +197,11 @@ describe("loadLibraryEntries hooks tests", () => {
          staleTime: 5 * 60 * 1000,
       };
 
-      const options = infiniteLoadLibraryEntriesOptions(params);
+      const options = infiniteLoadTemplateDescriptorsOptions(params);
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
    });
 
-   test("useInfiniteLoadLibraryEntries test", async () => {
+   test("useInfiniteLoadTemplateDescriptors test", async () => {
       const page = dtestData.dTemplateDescriptorsPage();
       getTemplateDescriptorsPageMock.mockResolvedValue(page);
 
@@ -210,7 +210,7 @@ describe("loadLibraryEntries hooks tests", () => {
       const params: LoadLibraryEntriesParams = { filters, sort };
 
       const { result } = renderHookWithReactQuery(() =>
-         useInfiniteLoadLibraryEntries(params)
+         useInfiniteLoadTemplateDescriptors(params)
       );
 
       const expectedQuery: DTemplateDescriptorsPageQuery = {
@@ -269,12 +269,12 @@ describe("toggleFavorite hooks tests", () => {
    });
 });
 
-describe("loadLibraryCollections hooks tests", () => {
+describe("loadCollections hooks tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   test("loadLibraryCollectionsOptions - test", async () => {
+   test("loadCollectionsOptions - test", async () => {
       const expectedOptions: UndefinedInitialDataOptions<
          DCollection[],
          Error,
@@ -286,17 +286,15 @@ describe("loadLibraryCollections hooks tests", () => {
          staleTime: 5 * 60 * 1000,
       };
 
-      const options = loadLibraryCollectionsOptions();
+      const options = loadCollectionsOptions();
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
    });
 
-   test("useLoadLibraryCollections test", async () => {
+   test("useLoadCollections test", async () => {
       const collections = dtestData.dCollections();
       getCollectionsMock.mockResolvedValue(collections);
 
-      const { result } = renderHookWithReactQuery(() =>
-         useLoadLibraryCollections()
-      );
+      const { result } = renderHookWithReactQuery(() => useLoadCollections());
 
       await waitFor(() => {
          expect(result.current.data).toEqual(collections);

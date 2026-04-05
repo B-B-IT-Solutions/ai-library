@@ -13,7 +13,7 @@ import {
    getTemplateDescriptorModels,
 } from "@/data/actions/prompt-template";
 import {
-   infiniteLoadLibraryEntriesOptions,
+   infiniteLoadTemplateDescriptorsOptions,
    preloadCollectionsOptions,
 } from "@/data/ts-queries/library";
 import { libraryKeys } from "@/data/ts-queries/library/utils";
@@ -46,7 +46,7 @@ export const CollectionView = async ({ collectionId }: Props) => {
 
    await Promise.all([
       queryClient.prefetchInfiniteQuery(
-         infiniteLoadLibraryEntriesOptions({
+         infiniteLoadTemplateDescriptorsOptions({
             filters,
             sort: resolveSort(sortBy),
          })
