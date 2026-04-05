@@ -1,12 +1,15 @@
 import {
    keepPreviousData,
+   QueryClient,
    UndefinedInitialDataOptions,
    useMutation,
+   UseMutationOptions,
    UseMutationResult,
    useQuery,
    useQueryClient,
    UseQueryResult,
 } from "@tanstack/react-query";
+import { isEmpty } from "es-toolkit/compat";
 
 import {
    addTemplateToCollection,
@@ -39,26 +42,40 @@ export const useLoadCollectionTemplateIds = (
    return useQuery(options);
 };
 
+export const addTemplateToCollectionOptions = (
+   queryClient: QueryClient
+): UseMutationOptions<ActionResult, Error, AddTemplateToCollectionParams> => {
+   return {
+      mutationFn: (params: AddTemplateToCollectionParams) => {
+         const { collectionId, templateDescriptorId } = params;
+         return addTemplateToCollection(collectionId, templateDescriptorId);
+      },
+      onSuccess: (_, params: AddTemplateToCollectionParams) => {
+         const { collectionId, templateDescriptorId } = params;
+
+         const updater = (templateIds: string[]) => {
+            if (isEmpty(templateIds)) {
+               return [templateDescriptorId];
+            }
+            return [...templateIds, templateDescriptorId];
+         };
+
+         queryClient.setQueryData(
+            collectionKeys.collectionTemplateIds(collectionId),
+            updater
+         );
+      },
+   };
+};
+
 export const useAddTemplateToCollection = (): UseMutationResult<
    ActionResult,
    Error,
    AddTemplateToCollectionParams
 > => {
    const queryClient = useQueryClient();
-   return useMutation({
-      mutationFn: ({ collectionId, templateDescriptorId }) =>
-         addTemplateToCollection(collectionId, templateDescriptorId),
-      onSuccess: (_, { collectionId, templateDescriptorId }) => {
-         queryClient.setQueryData<string[]>(
-            collectionKeys.collectionTemplateIds(collectionId),
-            (prev) =>
-               prev ? [...prev, templateDescriptorId] : [templateDescriptorId]
-         );
-         queryClient.invalidateQueries({
-            queryKey: collectionKeys.collections(),
-         });
-      },
-   });
+   const options = addTemplateToCollectionOptions(queryClient);
+   return useMutation(options);
 };
 
 export const useRemoveTemplateFromCollection = (): UseMutationResult<
