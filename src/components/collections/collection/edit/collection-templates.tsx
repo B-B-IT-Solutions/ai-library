@@ -129,6 +129,7 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
          <div
             key={descriptor.id}
             className="group flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid={`template-row-${isIn}`}
          >
             <div className="flex-1">
                <p className="truncate text-sm font-medium text-slate-900">

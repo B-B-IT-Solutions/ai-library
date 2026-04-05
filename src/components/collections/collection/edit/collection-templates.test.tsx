@@ -131,6 +131,11 @@ const assertNotInCollecitonEmpty = () => {
    assertInDocument(empty);
 };
 
+const assertTemplateRows = (count: number, isIn: boolean) => {
+   const rows = screen.getAllByTestId(`template-row-${isIn}`);
+   expect(rows).toHaveLength(count);
+};
+
 describe("CollectionTemplates rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -181,11 +186,12 @@ describe("CollectionTemplates rendering tests", () => {
    });
 
    it("in collection/not in collection - with items - test", async () => {
-      const templateIds = dtestData.dTemplateCollectionEntryTemplateIds();
+      const page = dtestData.dTemplateDescriptorsPage(6);
+      const templateIds = [page.content[0].id];
+
       const templateIdsQueryResult = templateIdsQueryResultMock(templateIds);
       useLoadCollectionTemplateIdsMock.mockReturnValue(templateIdsQueryResult);
 
-      const page = dtestData.dTemplateDescriptorsPage(3);
       const loadTemplatesQueryResult = infiniteQueryResultMock([page]);
       useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
          loadTemplatesQueryResult
@@ -198,39 +204,8 @@ describe("CollectionTemplates rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          assertTemplatesListRendered();
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("renders templates split between in-collection and not-in-collection", async () => {
-      const templates = dtestData.dPromptTemplateDescriptors(4);
-      const inCollectionIds = [templates[0].id, templates[1].id];
-      const page: DTemplateDescriptorsPage = {
-         content: templates,
-         numberOfElements: templates.length,
-         pageNumber: 1,
-         pageSize: 4,
-         totalElements: 4,
-         totalPages: 1,
-      };
-
-      useLoadCollectionTemplateIdsMock.mockReturnValue(
-         templateIdsQueryResultMock(inCollectionIds)
-      );
-      useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
-         infiniteQueryResultMock([page])
-      );
-
-      const { container } = renderWithReactQuery(
-         <CollectionTemplates collectionId={collectionId} />
-      );
-
-      await waitFor(() => {
-         assertInDocument(screen.getByText(templates[0].title));
-         assertInDocument(screen.getByText(templates[1].title));
-         assertInDocument(screen.getByText(templates[2].title));
-         assertInDocument(screen.getByText(templates[3].title));
+         assertTemplateRows(1, true);
+         assertTemplateRows(5, false);
       });
 
       expect(container).toMatchSnapshot();
