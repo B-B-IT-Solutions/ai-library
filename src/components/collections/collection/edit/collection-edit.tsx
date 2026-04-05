@@ -50,7 +50,7 @@ export const CollectionEdit = ({ collection }: Props) => {
    const form = () => {
       if (isEdit) {
          return (
-            <div className="grid grid-cols-1 gap-6 pb-8 lg:grid-cols-[340px_1fr]">
+            <div className="flex flex-col gap-8">
                <CollectionEditForm collection={collection} />
                <CollectionTemplates collectionId={collection.id} />
             </div>
