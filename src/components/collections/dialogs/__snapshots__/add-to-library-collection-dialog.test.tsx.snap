@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`AddToLibraryCollectionDialog rendering tests AddToLibraryCollectionDialog - isSaving true - save button disabled - test 1`] = `
+exports[`AddToLibraryCollectionDialog rendering tests isSaving true - save button disabled - test 1`] = `
 <div>
   <div
     data-slot="dialog"
@@ -643,7 +643,7 @@ exports[`AddToLibraryCollectionDialog rendering tests AddToLibraryCollectionDial
 </div>
 `;
 
-exports[`AddToLibraryCollectionDialog rendering tests AddToLibraryCollectionDialog - open false - test 1`] = `
+exports[`AddToLibraryCollectionDialog rendering tests open false - test 1`] = `
 <div>
   <div
     data-slot="dialog"
@@ -678,7 +678,7 @@ exports[`AddToLibraryCollectionDialog rendering tests AddToLibraryCollectionDial
 </div>
 `;
 
-exports[`AddToLibraryCollectionDialog rendering tests AddToLibraryCollectionDialog - open true - empty library collections - test 1`] = `
+exports[`AddToLibraryCollectionDialog rendering tests open true - empty library collections - test 1`] = `
 <div>
   <div
     data-slot="dialog"
@@ -849,7 +849,7 @@ exports[`AddToLibraryCollectionDialog rendering tests AddToLibraryCollectionDial
 </div>
 `;
 
-exports[`AddToLibraryCollectionDialog rendering tests AddToLibraryCollectionDialog - open true - isLoading true - test 1`] = `
+exports[`AddToLibraryCollectionDialog rendering tests open true - isLoading true - test 1`] = `
 <div>
   <div
     data-slot="dialog"
@@ -1027,7 +1027,7 @@ exports[`AddToLibraryCollectionDialog rendering tests AddToLibraryCollectionDial
 </div>
 `;
 
-exports[`AddToLibraryCollectionDialog rendering tests AddToLibraryCollectionDialog - open true - test 1`] = `
+exports[`AddToLibraryCollectionDialog rendering tests open true - test 1`] = `
 <div>
   <div
     data-slot="dialog"
