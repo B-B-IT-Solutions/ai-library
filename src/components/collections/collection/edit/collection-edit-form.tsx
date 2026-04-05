@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Check, Copy, Globe, Loader, Lock } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -29,9 +30,10 @@ export const CollectionEditForm = ({ collection }: Props) => {
    const router = useRouter();
    const isEdit = !!collection;
 
-   const { mutate: updateCollection, isPending: isSaving } =
+   const { mutate: updateCollection, isPending: isUpdating } =
       useUpdateCollection();
-   const { mutate: createCollection, isPending } = useCreateCollection();
+   const { mutate: createCollection, isPending: isCreating } =
+      useCreateCollection();
 
    const { mutate: setSharing, isPending: isTogglingShare } =
       useSetCollectionSharing();
@@ -41,6 +43,8 @@ export const CollectionEditForm = ({ collection }: Props) => {
       resolver: zodResolver(updateCollectionSchema),
       defaultValues: initCollection(collection),
    });
+
+   const isSubmitting = isUpdating || isCreating;
 
    const shareUrl =
       typeof window !== "undefined" && collection?.shareToken
@@ -106,6 +110,53 @@ export const CollectionEditForm = ({ collection }: Props) => {
       toast.success("Link kopiert");
    };
 
+   const cancelBtn = () => {
+      return (
+         <Link href={isEdit ? `/collections/${collection.id}` : "/collections"}>
+            <Button
+               type="button"
+               variant="outline"
+               disabled={isSubmitting}
+               className="cursor-pointer"
+               data-testid="cancel-btn"
+            >
+               Abbrechen
+            </Button>
+         </Link>
+      );
+   };
+
+   const submitBtn = () => {
+      return (
+         <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="cursor-pointer"
+            data-testid={"save-btn"}
+         >
+            {isSubmitting ? (
+               <>
+                  <Loader className="h-4 w-4 animate-spin" />
+                  {isEdit ? "Wird gespeichert..." : "Wird erstellt..."}
+               </>
+            ) : isEdit ? (
+               "Sammlung speichern"
+            ) : (
+               "Sammlung erstellen"
+            )}
+         </Button>
+      );
+   };
+
+   const buttons = () => {
+      return (
+         <div className="flex items-center justify-end gap-3 pt-2">
+            {cancelBtn()}
+            {submitBtn()}
+         </div>
+      );
+   };
+
    return (
       <Card data-testid="collection-edit-form">
          <CardContent>
@@ -132,17 +183,7 @@ export const CollectionEditForm = ({ collection }: Props) => {
                      type="color"
                      control={form.control}
                   />
-
-                  <Button type="submit" disabled={isSaving} className="w-full">
-                     {isSaving ? (
-                        <>
-                           <Loader className="mr-1.5 h-4 w-4 animate-spin" />
-                           Speichern...
-                        </>
-                     ) : (
-                        "Änderungen speichern"
-                     )}
-                  </Button>
+                  {buttons()}
                </form>
 
                {/* Sharing Section */}
