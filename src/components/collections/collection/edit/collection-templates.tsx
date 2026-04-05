@@ -135,7 +135,7 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
                <Loader className="h-5 w-5 animate-spin text-slate-400" />
             </div>
          ) : (
-            <div className="max-h-[520px] overflow-y-auto rounded-lg border bg-white">
+            <div className="max-h-130 overflow-y-auto rounded-lg border bg-white">
                {/* Templates in collection */}
                {inCollection.length > 0 && (
                   <div>
