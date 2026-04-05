@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { flatMap, includes } from "es-toolkit/compat";
+import { flatMap, includes, isEmpty, map } from "es-toolkit/compat";
 import { Check, Loader, Plus, Search, X } from "lucide-react";
 import { toast } from "sonner";
 
@@ -117,6 +117,28 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
       );
    };
 
+   const templatesInCollection = () => {
+      if (isEmpty(inCollection)) {
+         return (
+            <div className="py-6 text-center text-sm text-slate-400">
+               Keine Vorlagen
+            </div>
+         );
+      }
+      return map(inCollection, (t) => renderRow(t, true));
+   };
+
+   const templatesNotInCollection = () => {
+      if (isEmpty(notInCollection)) {
+         return (
+            <div className="py-6 text-center text-sm text-slate-400">
+               Keine weiteren Vorlagen gefunden
+            </div>
+         );
+      }
+      return map(notInCollection, (t) => renderRow(t, false));
+   };
+
    const templatesList = () => {
       if (idsLoading) {
          return (
@@ -127,25 +149,19 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
       }
       return (
          <div className="max-h-130 overflow-y-auto rounded-lg border bg-white">
-            {/* Templates in collection */}
-            {inCollection.length > 0 && (
-               <div>
-                  <div className="sticky top-0 border-b bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase">
-                     In dieser Sammlung ({inCollection.length})
-                  </div>
-                  {inCollection.map((t) => renderRow(t, true))}
+            <div>
+               <div className="sticky top-0 border-b bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase">
+                  In dieser Sammlung ({inCollection.length})
                </div>
-            )}
+               {templatesInCollection()}
+            </div>
 
-            {/* Templates not in collection */}
-            {notInCollection.length > 0 && (
-               <div>
-                  <div className="sticky top-0 border-b bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase">
-                     Weitere Vorlagen
-                  </div>
-                  {notInCollection.map((t) => renderRow(t, false))}
+            <div>
+               <div className="sticky top-0 border-b bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase">
+                  Weitere Vorlagen
                </div>
-            )}
+               {templatesNotInCollection()}
+            </div>
 
             {allTemplates.length === 0 && !isFetching && (
                <div className="py-12 text-center text-sm text-slate-400">
