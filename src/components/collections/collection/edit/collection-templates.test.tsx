@@ -273,17 +273,7 @@ describe("CollectionTemplates functionality tests", () => {
       });
    });
 
-   it("add template - success false - shows error toast", async () => {
-      const templates = dtestData.dPromptTemplateDescriptors(1);
-      const page: DTemplateDescriptorsPage = {
-         content: templates,
-         numberOfElements: 1,
-         pageNumber: 1,
-         pageSize: 1,
-         totalElements: 1,
-         totalPages: 1,
-      };
-
+   it("add template - success false - test", async () => {
       const actionResult: ActionResult = {
          success: false,
          message: "Fehler beim Hinzufügen",
@@ -293,27 +283,45 @@ describe("CollectionTemplates functionality tests", () => {
          callbacks.onSettled();
       });
 
-      useLoadCollectionTemplateIdsMock.mockReturnValue(
-         templateIdsQueryResultMock([])
-      );
+      const templateIdsQueryResult = templateIdsQueryResultMock([]);
+      useLoadCollectionTemplateIdsMock.mockReturnValue(templateIdsQueryResult);
+
+      const page = dtestData.dTemplateDescriptorsPage(3);
+      const loadTemplatesQueryResult = infiniteQueryResultMock([page]);
       useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
-         infiniteQueryResultMock([page])
+         loadTemplatesQueryResult
       );
-      useAddTemplateToCollectionMock.mockReturnValue(
-         addMutationResultMock(mutateFn)
-      );
+
+      const addResultMock = addMutationResultMock(mutateFn);
+      useAddTemplateToCollectionMock.mockReturnValue(addResultMock);
 
       renderWithReactQuery(<CollectionTemplates collectionId={collectionId} />);
 
       await waitFor(() => {
-         assertInDocument(screen.getByText(templates[0].title));
+         assertRendered();
+         assertTemplatesListRendered();
+         assertTemplateRows(3, false);
       });
 
-      const addButtons = screen.getAllByRole("button");
-      await userEvent.click(addButtons[0]);
+      const addBtn = screen.getAllByTestId("add-template-btn");
+      await userEvent.click(addBtn[0]);
+
+      const expectedParams: AddTemplateToCollectionParams = {
+         collectionId,
+         templateDescriptorId: page.content[0].id,
+      };
+
+      const expectedCallback = expect.objectContaining({
+         onSuccess: expect.any(Function),
+         onSettled: expect.any(Function),
+      });
 
       await waitFor(() => {
          expect(mutateFn).toHaveBeenCalledTimes(1);
+         expect(mutateFn).toHaveBeenCalledWith(
+            expectedParams,
+            expectedCallback
+         );
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(actionResult.message);
       });
