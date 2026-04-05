@@ -24,6 +24,10 @@ type Props = {
 
 export const CollectionTemplates = ({ collectionId }: Props) => {
    const [search, setSearch] = useState("");
+   const [pendingId, setPendingId] = useState<string | null>(null);
+
+   const { mutate: addTemplate } = useAddTemplateToCollection();
+   const { mutate: removeTemplate } = useRemoveTemplateFromCollection();
 
    const { data: templateIds = [], isLoading: idsLoading } =
       useCollectionTemplateIds(collectionId);
@@ -32,12 +36,6 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
       useInfiniteLoadTemplateDescriptors({
          filters: { search: search || undefined },
       });
-
-   const { mutate: addTemplate, isPending: isAdding } =
-      useAddTemplateToCollection();
-   const { mutate: removeTemplate, isPending: isRemoving } =
-      useRemoveTemplateFromCollection();
-   const [pendingId, setPendingId] = useState<string | null>(null);
 
    const allTemplates = useMemo(
       () => flatMap(data?.pages, (page) => page.content),

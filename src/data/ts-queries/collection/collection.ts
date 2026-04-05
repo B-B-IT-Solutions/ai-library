@@ -1,4 +1,5 @@
 import {
+   keepPreviousData,
    useMutation,
    UseMutationResult,
    useQuery,
@@ -25,6 +26,7 @@ export const useCollectionTemplateIds = (
    return useQuery({
       queryKey: collectionKeys.collectionTemplates(collectionId),
       queryFn: () => getCollectionTemplateIds(collectionId),
+      placeholderData: keepPreviousData,
       staleTime: 2 * 60 * 1000,
    });
 };
