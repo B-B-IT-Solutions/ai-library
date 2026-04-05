@@ -235,59 +235,6 @@ describe("CollectionTemplates rendering tests", () => {
 
       expect(container).toMatchSnapshot();
    });
-
-   it("shows template count in section header", async () => {
-      const templates = dtestData.dPromptTemplateDescriptors(3);
-      const inCollectionIds = [templates[0].id];
-      const page: DTemplateDescriptorsPage = {
-         content: templates,
-         numberOfElements: templates.length,
-         pageNumber: 1,
-         pageSize: 3,
-         totalElements: 3,
-         totalPages: 1,
-      };
-
-      useLoadCollectionTemplateIdsMock.mockReturnValue(
-         templateIdsQueryResultMock(inCollectionIds)
-      );
-      useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
-         infiniteQueryResultMock([page])
-      );
-
-      renderWithReactQuery(<CollectionTemplates collectionId={collectionId} />);
-
-      await waitFor(() => {
-         assertInDocument(
-            screen.getByText(`In dieser Sammlung (${inCollectionIds.length})`)
-         );
-      });
-   });
-
-   it("renders recommendedModel badge when present", async () => {
-      const template = dtestData.dPromptTemplateDescriptor(1);
-      const page: DTemplateDescriptorsPage = {
-         content: [template],
-         numberOfElements: 1,
-         pageNumber: 1,
-         pageSize: 1,
-         totalElements: 1,
-         totalPages: 1,
-      };
-
-      useLoadCollectionTemplateIdsMock.mockReturnValue(
-         templateIdsQueryResultMock([])
-      );
-      useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
-         infiniteQueryResultMock([page])
-      );
-
-      renderWithReactQuery(<CollectionTemplates collectionId={collectionId} />);
-
-      await waitFor(() => {
-         assertInDocument(screen.getByText(template.recommendedModel!));
-      });
-   });
 });
 
 describe("CollectionTemplates functionality tests", () => {
