@@ -1,8 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { flatMap, includes, isEmpty, map } from "es-toolkit/compat";
-import { Check, Loader, Plus, Search, X } from "lucide-react";
+import { filter, flatMap, includes, isEmpty, map } from "es-toolkit/compat";
+import { Check, Loader, Plus, RotateCw, Search, X } from "lucide-react";
 import { toast } from "sonner";
 
 import { Badge } from "@/components/shadcn/badge";
@@ -68,8 +68,11 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
       }
    };
 
-   const inCollection = allTemplates.filter((t) => includes(templateIds, t.id));
-   const notInCollection = allTemplates.filter(
+   const inCollection = filter(allTemplates, (t) =>
+      includes(templateIds, t.id)
+   );
+   const notInCollection = filter(
+      allTemplates,
       (t) => !includes(templateIds, t.id)
    );
 
@@ -130,13 +133,43 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
 
    const templatesNotInCollection = () => {
       if (isEmpty(notInCollection)) {
+         const text = isEmpty(allTemplates)
+            ? "Keine Vorlagen gefunden"
+            : "Keine weiteren Vorlagen gefunden";
+
          return (
             <div className="py-6 text-center text-sm text-slate-400">
-               Keine weiteren Vorlagen gefunden
+               {text}
             </div>
          );
       }
       return map(notInCollection, (t) => renderRow(t, false));
+   };
+
+   const loadMoreBtn = () => {
+      if (hasNextPage) {
+         return (
+            <div className="flex justify-center border-t p-2">
+               <Button
+                  variant="ghost"
+                  size="sm"
+                  className="cursor-pointer"
+                  onClick={() => fetchNextPage()}
+                  disabled={isFetching}
+                  data-testid="load-more-btn"
+               >
+                  {isFetching ? (
+                     <Loader className="h-4 w-4 animate-spin" />
+                  ) : (
+                     <>
+                        <RotateCw className="h-4 w-4" />
+                        Mehr laden
+                     </>
+                  )}
+               </Button>
+            </div>
+         );
+      }
    };
 
    const templatesList = () => {
@@ -169,24 +202,7 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
                </div>
             )}
 
-            {/* Load more */}
-            {hasNextPage && (
-               <div className="border-t p-3">
-                  <Button
-                     variant="ghost"
-                     size="sm"
-                     className="w-full"
-                     onClick={() => fetchNextPage()}
-                     disabled={isFetching}
-                  >
-                     {isFetching ? (
-                        <Loader className="h-4 w-4 animate-spin" />
-                     ) : (
-                        "Mehr laden"
-                     )}
-                  </Button>
-               </div>
-            )}
+            {loadMoreBtn()}
          </div>
       );
    };
