@@ -2,11 +2,12 @@
 
 import { useMemo, useState } from "react";
 import { filter, flatMap, includes, isEmpty, map } from "es-toolkit/compat";
-import { Check, Loader, Plus, RotateCw, Search, X } from "lucide-react";
+import { Check, Loader, Plus, Search, X } from "lucide-react";
 import { toast } from "sonner";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
+import InfiniteScroll from "@/components/shadcn/infinite-scroll";
 import { Input } from "@/components/shadcn/input";
 import {
    AddTemplateToCollectionParams,
@@ -167,33 +168,16 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
             </div>
          );
       }
-      return map(notInCollection, (t) => renderRow(t, false));
-   };
-
-   const loadMoreBtn = () => {
-      if (hasNextPage) {
-         return (
-            <div className="flex justify-center border-t p-2">
-               <Button
-                  variant="ghost"
-                  size="sm"
-                  className="cursor-pointer"
-                  onClick={() => fetchNextPage()}
-                  disabled={isFetching}
-                  data-testid="load-more-btn"
-               >
-                  {isFetching ? (
-                     <Loader className="h-4 w-4 animate-spin" />
-                  ) : (
-                     <>
-                        <RotateCw className="h-4 w-4" />
-                        Mehr laden
-                     </>
-                  )}
-               </Button>
-            </div>
-         );
-      }
+      return (
+         <InfiniteScroll
+            hasMore={hasNextPage}
+            isLoading={isFetching}
+            next={fetchNextPage}
+            threshold={0.7}
+         >
+            {map(notInCollection, (t) => renderRow(t, false))}
+         </InfiniteScroll>
+      );
    };
 
    const templatesList = () => {
@@ -219,14 +203,6 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
                </div>
                {templatesNotInCollection()}
             </div>
-
-            {allTemplates.length === 0 && !isFetching && (
-               <div className="py-12 text-center text-sm text-slate-400">
-                  Keine Vorlagen gefunden
-               </div>
-            )}
-
-            {loadMoreBtn()}
          </div>
       );
    };
