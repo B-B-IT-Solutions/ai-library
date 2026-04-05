@@ -13,7 +13,10 @@ import {
 } from "@/data/actions/collection";
 import { ActionResult } from "@/data/types/utils";
 
-import { AddTemplateToCollectionParams } from "./types";
+import {
+   AddTemplateToCollectionParams,
+   RemoveTemplateFromCollectionParams,
+} from "./types";
 import { collectionKeys } from "./utils";
 
 export const useCollectionTemplateIds = (
@@ -51,7 +54,7 @@ export const useAddTemplateToCollection = (): UseMutationResult<
 export const useRemoveTemplateFromCollection = (): UseMutationResult<
    ActionResult,
    Error,
-   { collectionId: string; templateDescriptorId: string }
+   RemoveTemplateFromCollectionParams
 > => {
    const queryClient = useQueryClient();
    return useMutation({

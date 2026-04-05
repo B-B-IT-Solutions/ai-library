@@ -3,7 +3,7 @@ export type AddTemplateToCollectionParams = {
    templateDescriptorId: string;
 };
 
-export type RemoveTemplateToCollectionParams = {
+export type RemoveTemplateFromCollectionParams = {
    collectionId: string;
    templateDescriptorId: string;
 };

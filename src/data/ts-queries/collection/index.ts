@@ -1,5 +1,5 @@
 export * from "./collection";
 export type {
    AddTemplateToCollectionParams,
-   RemoveTemplateToCollectionParams,
+   RemoveTemplateFromCollectionParams,
 } from "./types";

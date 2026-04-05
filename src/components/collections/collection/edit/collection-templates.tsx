@@ -9,6 +9,8 @@ import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
 import { Input } from "@/components/shadcn/input";
 import {
+   AddTemplateToCollectionParams,
+   RemoveTemplateFromCollectionParams,
    useAddTemplateToCollection,
    useCollectionTemplateIds,
    useRemoveTemplateFromCollection,
@@ -45,39 +47,52 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
    const inCollection = filter(allTemplates, (t) =>
       includes(templateIds, t.id)
    );
+
    const notInCollection = filter(
       allTemplates,
       (t) => !includes(templateIds, t.id)
    );
+
+   const addTemplateToCollection = (descriptor: DPromptTemplateDescriptor) => {
+      const params: AddTemplateToCollectionParams = {
+         collectionId,
+         templateDescriptorId: descriptor.id,
+      };
+      addTemplate(params, {
+         onSuccess: (result) => {
+            if (!result.success) {
+               toast.error(result.message);
+            }
+         },
+         onSettled: () => setPendingId(null),
+      });
+   };
+
+   const removeTemplateFromCollection = (
+      descriptor: DPromptTemplateDescriptor
+   ) => {
+      const params: RemoveTemplateFromCollectionParams = {
+         collectionId,
+         templateDescriptorId: descriptor.id,
+      };
+      removeTemplate(params, {
+         onSuccess: (result) => {
+            if (!result.success) {
+               toast.error(result.message);
+            }
+         },
+         onSettled: () => setPendingId(null),
+      });
+   };
 
    const handleToggle = (descriptor: DPromptTemplateDescriptor) => {
       const isIn = includes(templateIds, descriptor.id);
       setPendingId(descriptor.id);
 
       if (isIn) {
-         removeTemplate(
-            { collectionId, templateDescriptorId: descriptor.id },
-            {
-               onSuccess: (result) => {
-                  if (!result.success) {
-                     toast.error(result.message);
-                  }
-               },
-               onSettled: () => setPendingId(null),
-            }
-         );
+         removeTemplateFromCollection(descriptor);
       } else {
-         addTemplate(
-            { collectionId, templateDescriptorId: descriptor.id },
-            {
-               onSuccess: (result) => {
-                  if (!result.success) {
-                     toast.error(result.message);
-                  }
-               },
-               onSettled: () => setPendingId(null),
-            }
-         );
+         addTemplateToCollection(descriptor);
       }
    };
 
