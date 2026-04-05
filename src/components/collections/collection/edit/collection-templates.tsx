@@ -76,46 +76,50 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
       (t) => !includes(templateIds, t.id)
    );
 
-   const renderRow = (descriptor: DPromptTemplateDescriptor, isIn: boolean) => {
+   const rowControlBtn = (
+      descriptor: DPromptTemplateDescriptor,
+      isIn: boolean
+   ) => {
       const isPending = pendingId === descriptor.id;
+      return (
+         <Button
+            variant={isIn ? "ghost" : "outline"}
+            size="sm"
+            className="h-7 shrink-0 cursor-pointer gap-1.5 px-2"
+            onClick={() => handleToggle(descriptor)}
+            disabled={isPending}
+         >
+            {isPending ? (
+               <Loader className="h-3.5 w-3.5 animate-spin" />
+            ) : isIn ? (
+               <>
+                  <Check className="h-3.5 w-3.5 text-green-600 group-hover:hidden" />
+                  <X className="hidden h-3.5 w-3.5 text-slate-400 group-hover:inline" />
+               </>
+            ) : (
+               <Plus className="h-3.5 w-3.5" />
+            )}
+         </Button>
+      );
+   };
+
+   const renderRow = (descriptor: DPromptTemplateDescriptor, isIn: boolean) => {
       return (
          <div
             key={descriptor.id}
             className="group flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
          >
-            <div className="min-w-0 flex-1">
+            <div className="flex-1">
                <p className="truncate text-sm font-medium text-slate-900">
                   {descriptor.title}
                </p>
-               {descriptor.description && (
-                  <p className="truncate text-xs text-slate-400">
-                     {descriptor.description}
-                  </p>
-               )}
             </div>
             {descriptor.recommendedModel && (
                <Badge variant="secondary" className="shrink-0 text-xs">
                   {descriptor.recommendedModel}
                </Badge>
             )}
-            <Button
-               variant={isIn ? "ghost" : "outline"}
-               size="sm"
-               className="h-7 shrink-0 gap-1.5 px-2"
-               onClick={() => handleToggle(descriptor)}
-               disabled={isPending}
-            >
-               {isPending ? (
-                  <Loader className="h-3.5 w-3.5 animate-spin" />
-               ) : isIn ? (
-                  <>
-                     <Check className="h-3.5 w-3.5 text-green-600" />
-                     <X className="h-3.5 w-3.5 text-slate-400 opacity-0 group-hover:opacity-100" />
-                  </>
-               ) : (
-                  <Plus className="h-3.5 w-3.5" />
-               )}
-            </Button>
+            {rowControlBtn(descriptor, isIn)}
          </div>
       );
    };
