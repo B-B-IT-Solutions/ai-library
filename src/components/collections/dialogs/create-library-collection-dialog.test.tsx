@@ -165,6 +165,7 @@ describe("LibraryCollectionCreateDialog functionality tests", () => {
          name: nameValue,
          description: "",
          color: "#3b82f6",
+         order: 0,
       };
 
       const expectedCallback = expect.objectContaining({
@@ -229,6 +230,7 @@ describe("LibraryCollectionCreateDialog functionality tests", () => {
          name: nameValue,
          description: "",
          color: "#3b82f6",
+         order: 0,
       };
 
       const expectedCallback = expect.objectContaining({
