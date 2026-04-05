@@ -459,7 +459,7 @@ describe("pGetCollectionTemplateIds tests", () => {
       mockReset(prismaMock);
    });
 
-   it("collection templateIds retrieved - test", async () => {
+   it("templateIds retrieved - test", async () => {
       const userId = "user-id-1";
       const collectionId = "collection-id";
 
