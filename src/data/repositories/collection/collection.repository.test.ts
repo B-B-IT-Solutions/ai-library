@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { dtestData, ptestData } from "@tests";
+import { map } from "es-toolkit/compat";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
@@ -9,6 +10,7 @@ import {
    LibraryCollectionCreateInput,
    LibraryCollectionDeleteArgs,
    LibraryCollectionEntryDeleteManyArgs,
+   LibraryCollectionEntryFindManyArgs,
    LibraryCollectionEntryUpsertArgs,
    LibraryCollectionFindManyArgs,
    LibraryCollectionFindUniqueArgs,
@@ -522,6 +524,47 @@ describe("pRemoveTemplateFromCollection tests", () => {
          prismaMock.libraryCollectionEntry.deleteMany
       ).toHaveBeenCalledTimes(1);
       expect(prismaMock.libraryCollectionEntry.deleteMany).toHaveBeenCalledWith(
+         expectedArgs
+      );
+   });
+});
+
+describe("pGetCollectionTemplateIds tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("collection templateIds retrieved - test", async () => {
+      const userId = "user-id-1";
+      const collectionId = "collection-id";
+
+      const entries = ptestData.pLibraryCollectionEntries();
+      prismaMock.libraryCollectionEntry.findMany.mockResolvedValue(entries);
+
+      const result = await collectionRepository.pGetCollectionTemplateIds(
+         userId,
+         collectionId
+      );
+
+      const expectedResult = map(entries, (e) => e.templateDescriptorId);
+
+      const expectedArgs: LibraryCollectionEntryFindManyArgs = {
+         where: {
+            collectionId,
+            collection: {
+               userId,
+            },
+         },
+         select: {
+            templateDescriptorId: true,
+         },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.libraryCollectionEntry.findMany).toHaveBeenCalledTimes(
+         1
+      );
+      expect(prismaMock.libraryCollectionEntry.findMany).toHaveBeenCalledWith(
          expectedArgs
       );
    });
