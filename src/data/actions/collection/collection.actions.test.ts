@@ -16,6 +16,7 @@ import {
    getCollectionById,
    getCollectionByShareToken,
    getCollections,
+   getCollectionTemplateIds,
    getEntryCollectionIds,
    removeTemplateFromCollection,
    updateCollection,
@@ -35,6 +36,8 @@ const sAddTemplateToCollection =
    CollectionService.prototype.addTemplateToCollection;
 const sRemoveTemplateFromCollection =
    CollectionService.prototype.removeTemplateFromCollection;
+const sGetCollectionTemplateIds =
+   CollectionService.prototype.getCollectionTemplateIds;
 const sGetEntryCollectionIds =
    CollectionService.prototype.getEntryCollectionIds;
 const sUpdateEntryCollections =
@@ -70,6 +73,10 @@ const sRemoveTemplateFromCollectionMock =
 const sUpdateEntryCollectionsMock =
    sUpdateEntryCollections as jest.MockedFunction<
       typeof sUpdateEntryCollections
+   >;
+const sGetCollectionTemplateIdsMock =
+   sGetCollectionTemplateIds as jest.MockedFunction<
+      typeof sGetCollectionTemplateIds
    >;
 const sGetEntryCollectionIdsMock =
    sGetEntryCollectionIds as jest.MockedFunction<typeof sGetEntryCollectionIds>;
@@ -455,6 +462,86 @@ describe("deleteCollection tests", () => {
       expect(result).toEqual(expectedResult);
       expect(sDeleteCollectionMock).toHaveBeenCalledTimes(1);
       expect(sDeleteCollectionMock).toHaveBeenCalledWith(user.id, collectionId);
+   });
+});
+
+describe("getCollectionTemplateIds tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("invalid UUID - test", async () => {
+      const invalidId = "invalid-uuid-1";
+
+      const result = await getCollectionTemplateIds(invalidId);
+
+      expect(result).toEqual([]);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sGetCollectionTemplateIdsMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith("Invalid collection ID.");
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
+
+      const result = await getCollectionTemplateIds(collectionId);
+
+      expect(result).toEqual([]);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetCollectionTemplateIdsMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const error = new Error("DB Error");
+      sGetCollectionTemplateIdsMock.mockRejectedValue(error);
+
+      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
+
+      const result = await getCollectionTemplateIds(collectionId);
+
+      expect(result).toEqual([]);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetCollectionTemplateIdsMock).toHaveBeenCalledTimes(1);
+      expect(sGetCollectionTemplateIdsMock).toHaveBeenCalledWith(
+         user.id,
+         collectionId
+      );
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("templateIds retrieved - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const templateIds = dtestData.dCollectionIds();
+      sGetCollectionTemplateIdsMock.mockResolvedValue(templateIds);
+
+      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
+
+      const result = await getCollectionTemplateIds(collectionId);
+
+      expect(result).toEqual(templateIds);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sGetCollectionTemplateIdsMock).toHaveBeenCalledTimes(1);
+      expect(sGetCollectionTemplateIdsMock).toHaveBeenCalledWith(
+         user.id,
+         collectionId
+      );
    });
 });
 

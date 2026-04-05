@@ -5,8 +5,8 @@ import { flatMap } from "es-toolkit/compat";
 
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
 import {
-   useInfiniteLoadLibraryEntries,
-   useLoadLibraryCollections,
+   useInfiniteLoadTemplateDescriptors,
+   useLoadCollections,
 } from "@/data/ts-queries/library";
 import { resolveSort } from "@/data/ts-queries/utils";
 import {
@@ -33,9 +33,9 @@ export const TemplateItems = ({
    sortBy,
    filters,
 }: Props) => {
-   const { data: collections = [] } = useLoadLibraryCollections();
+   const { data: collections = [] } = useLoadCollections();
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
-      useInfiniteLoadLibraryEntries({
+      useInfiniteLoadTemplateDescriptors({
          filters,
          sort: resolveSort(sortBy),
       });

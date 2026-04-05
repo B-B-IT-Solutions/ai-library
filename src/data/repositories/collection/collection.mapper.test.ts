@@ -34,14 +34,14 @@ describe("toDCollections tests", () => {
    });
 
    it("toDCollections test", async () => {
-      const collections = ptestData.pLibraryCollections();
+      const collections = ptestData.pTemplateCollections();
       const result = toDCollections(collections);
       const expectedResult = toDCollectionsInternal(collections);
       expect(result).toEqual(expectedResult);
    });
 
    it("toDCollection test", async () => {
-      const collection = ptestData.pLibraryCollection();
+      const collection = ptestData.pTemplateCollection();
       const result = toDCollection(collection);
       const expectedResult = toDCollectionInternal(collection);
       expect(result).toEqual(expectedResult);

@@ -127,6 +127,22 @@ export const deleteCollection = async (
    }
 };
 
+export const getCollectionTemplateIds = async (
+   collectionId: string
+): Promise<string[]> => {
+   try {
+      if (!isValidUuid(collectionId)) {
+         throw new Error("Invalid collection ID.");
+      }
+      const user = await requireUser();
+      const service = getService();
+      return await service.getCollectionTemplateIds(user.id, collectionId);
+   } catch (error) {
+      console.error(formatError(error));
+      return [];
+   }
+};
+
 export const addTemplateToCollection = async (
    collectionId: string,
    templateDescriptorId: string
@@ -183,20 +199,6 @@ export const removeTemplateFromCollection = async (
          success: false,
          message: "Vorlage konnte nicht entfernt werden",
       };
-   }
-};
-
-export const getCollectionTemplateIds = async (
-   collectionId: string
-): Promise<string[]> => {
-   try {
-      if (!isValidUuid(collectionId)) throw new Error("Invalid collection ID.");
-      const user = await requireUser();
-      const service = getService();
-      return await service.getCollectionTemplateIds(user.id, collectionId);
-   } catch (error) {
-      console.error(formatError(error));
-      return [];
    }
 };
 

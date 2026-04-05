@@ -4,7 +4,7 @@ import { isEmpty } from "es-toolkit/compat";
 import { Folder } from "lucide-react";
 
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
-import { useLoadLibraryCollections } from "@/data/ts-queries/library";
+import { useLoadCollections } from "@/data/ts-queries/library";
 import { DListViewMode } from "@/data/types/domain/common";
 import { CreateCollectionButton } from "../buttons";
 
@@ -25,7 +25,7 @@ export const CollectionItems = ({ viewMode }: Props) => {
       // hasNextPage,
       isFetching,
       isLoading,
-   } = useLoadLibraryCollections();
+   } = useLoadCollections();
 
    if (isLoading) {
       return (

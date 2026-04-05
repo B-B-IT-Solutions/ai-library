@@ -1,20 +1,33 @@
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 
-import { CollectionEditDashboard } from "@/components/collections/collection-edit-dashboard";
+import { CollectionEdit } from "@/components/collections";
+import { getCollectionById } from "@/data/actions/collection";
 
 export const metadata: Metadata = {
-   title: "Sammlung bearbeiten",
+   title: "Sammlung Bearbeiten",
 };
 
-type PageProps = {
-   params: Promise<{ id: string }>;
+export type PageParams = {
+   id: string;
 };
 
-const CollectionEditPage = async ({ params }: PageProps) => {
-   const { id } = await params;
+export type PageProps = {
+   params: Promise<PageParams>;
+};
+
+export const CollectionEditPage = async ({ params }: PageProps) => {
+   const { id: collectionId } = await params;
+
+   const collection = await getCollectionById(collectionId);
+
+   if (!collection) {
+      return notFound();
+   }
+
    return (
       <div data-testid="collection-edit-page" className="h-full">
-         <CollectionEditDashboard collectionId={id} />
+         <CollectionEdit collection={collection} />
       </div>
    );
 };

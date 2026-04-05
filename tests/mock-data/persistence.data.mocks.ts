@@ -25,11 +25,12 @@ import {
 } from "@/data/types/db/prompt.template";
 import { SubscriptionWithPlan } from "@/data/types/db/subscription";
 import { UserUpdateData } from "@/data/types/db/user";
-import { Order } from "@/generated/prisma/browser";
 import {
    Cart,
    CartItem,
    GlobalTemplateField,
+   LibraryCollectionEntry,
+   Order,
    OrderItem,
    Product,
    ProductExample,
@@ -361,11 +362,11 @@ export const pOrderItem = (index = 1): OrderItem => {
    };
 };
 
-export const pLibraryCollections = (count = 3): PLibraryCollection[] => {
-   return range(0, count).map((i) => pLibraryCollection(i));
+export const pTemplateCollections = (count = 3): PLibraryCollection[] => {
+   return range(0, count).map((i) => pTemplateCollection(i));
 };
 
-export const pLibraryCollection = (index = 1): PLibraryCollection => {
+export const pTemplateCollection = (index = 1): PLibraryCollection => {
    return {
       id: `457bf695-6f74-44aa-9b3a-e179ea9e817${index}`,
       userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
@@ -380,6 +381,21 @@ export const pLibraryCollection = (index = 1): PLibraryCollection => {
       _count: {
          entries: index * 10,
       },
+   };
+};
+
+export const pTemplateCollectionEntries = (
+   count = 3
+): LibraryCollectionEntry[] => {
+   return range(0, count).map((i) => pTemplateCollectionEntry(i));
+};
+
+export const pTemplateCollectionEntry = (index = 1): LibraryCollectionEntry => {
+   return {
+      id: `f25ed912-b2f0-4a40-876c-44dae253446${index}`,
+      collectionId: `457bf695-6f74-44aa-9b3a-e179ea9e817${index}`,
+      templateDescriptorId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      addedAt: new Date("2025-09-27"),
    };
 };
 

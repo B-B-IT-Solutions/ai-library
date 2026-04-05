@@ -67,6 +67,16 @@ export class CollectionService {
       );
    }
 
+   async getCollectionTemplateIds(
+      userId: string,
+      collectionId: string
+   ): Promise<string[]> {
+      return await this.libraryRepository.pGetCollectionTemplateIds(
+         userId,
+         collectionId
+      );
+   }
+
    async addTemplateToCollection(
       userId: string,
       collectionId: string,
@@ -103,16 +113,6 @@ export class CollectionService {
 
    async getPublicCollectionTemplates(collectionId: string) {
       return await this.libraryRepository.pGetPublicCollectionTemplates(
-         collectionId
-      );
-   }
-
-   async getCollectionTemplateIds(
-      userId: string,
-      collectionId: string
-   ): Promise<string[]> {
-      return await this.libraryRepository.pGetCollectionTemplateIds(
-         userId,
          collectionId
       );
    }

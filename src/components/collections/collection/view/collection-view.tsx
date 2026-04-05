@@ -3,35 +3,29 @@ import {
    HydrationBoundary,
    QueryClient,
 } from "@tanstack/react-query";
-import { notFound } from "next/navigation";
 
 import { TemplateItems, TemplatesToolbar } from "@/components/templates/lists";
 import { templatesSearchParamsCache } from "@/components/templates/search-params";
-import { getCollectionById } from "@/data/actions/collection";
 import {
    getTemplateDescriptorCategories,
    getTemplateDescriptorModels,
 } from "@/data/actions/prompt-template";
 import {
-   infiniteLoadLibraryEntriesOptions,
+   infiniteLoadTemplateDescriptorsOptions,
    preloadCollectionsOptions,
 } from "@/data/ts-queries/library";
 import { libraryKeys } from "@/data/ts-queries/library/utils";
 import { resolveSort } from "@/data/ts-queries/utils";
+import { DCollection } from "@/data/types/domain/collection";
 import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
 
 import { CollectionHeader } from "./collection-header";
 
 type Props = {
-   collectionId: string;
+   collection: DCollection;
 };
 
-export const CollectionDashboard = async ({ collectionId }: Props) => {
-   const collection = await getCollectionById(collectionId);
-   if (!collection) {
-      notFound();
-   }
-
+export const CollectionView = async ({ collection }: Props) => {
    const queryClient = new QueryClient();
    const viewMode = templatesSearchParamsCache.get("view");
    const groupBy = templatesSearchParamsCache.get("group");
@@ -41,12 +35,12 @@ export const CollectionDashboard = async ({ collectionId }: Props) => {
       search: templatesSearchParamsCache.get("f_search"),
       categories: templatesSearchParamsCache.get("f_categories"),
       models: templatesSearchParamsCache.get("f_models"),
-      collectionIds: [collectionId],
+      collectionIds: [collection.id],
    };
 
    await Promise.all([
       queryClient.prefetchInfiniteQuery(
-         infiniteLoadLibraryEntriesOptions({
+         infiniteLoadTemplateDescriptorsOptions({
             filters,
             sort: resolveSort(sortBy),
          })
@@ -54,7 +48,7 @@ export const CollectionDashboard = async ({ collectionId }: Props) => {
       queryClient.prefetchQuery(preloadCollectionsOptions()),
    ]);
 
-   queryClient.setQueryData(libraryKeys.collection(collectionId), collection);
+   queryClient.setQueryData(libraryKeys.collection(collection.id), collection);
 
    const categories = await getTemplateDescriptorCategories();
    const models = await getTemplateDescriptorModels();

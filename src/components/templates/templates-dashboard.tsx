@@ -9,7 +9,7 @@ import {
    getTemplateDescriptorModels,
 } from "@/data/actions/prompt-template";
 import {
-   infiniteLoadLibraryEntriesOptions,
+   infiniteLoadTemplateDescriptorsOptions,
    preloadCollectionsOptions,
 } from "@/data/ts-queries/library";
 import { resolveSort } from "@/data/ts-queries/utils";
@@ -34,7 +34,7 @@ export const TemplatesDashboard = async () => {
 
    await Promise.all([
       queryClient.prefetchInfiniteQuery(
-         infiniteLoadLibraryEntriesOptions({
+         infiniteLoadTemplateDescriptorsOptions({
             filters,
             sort: resolveSort(sortBy),
          })
