@@ -58,7 +58,7 @@ import {
 } from "./library";
 import {
    LoadCollectionIdsParams,
-   LoadLibraryEntriesParams,
+   LoadTemplateDescriptorsParams,
    UpdateCollectionIdsParams,
    UpdateCollectionParams,
    UpdateIsFavoriteParams,
@@ -115,7 +115,7 @@ describe("prefetch options tests", () => {
 
       const filters = dtestData.dTemplateDescriptorsFilter();
       const sort = dtestData.sort();
-      const params: LoadLibraryEntriesParams = { filters, sort };
+      const params: LoadTemplateDescriptorsParams = { filters, sort };
 
       const options = preloadLibraryEntriesOptions(params);
       const queryFn =
@@ -181,7 +181,7 @@ describe("loadTemplateDescriptors hooks tests", () => {
    test("infiniteLoadTemplateDescriptorsOptions - test", async () => {
       const filters = dtestData.dTemplateDescriptorsFilter();
       const sort = dtestData.sort();
-      const params: LoadLibraryEntriesParams = { filters, sort };
+      const params: LoadTemplateDescriptorsParams = { filters, sort };
 
       const expectedOptions: UndefinedInitialDataInfiniteOptions<
          DTemplateDescriptorsPage,
@@ -207,7 +207,7 @@ describe("loadTemplateDescriptors hooks tests", () => {
 
       const filters = dtestData.dTemplateDescriptorsFilter();
       const sort = dtestData.sort();
-      const params: LoadLibraryEntriesParams = { filters, sort };
+      const params: LoadTemplateDescriptorsParams = { filters, sort };
 
       const { result } = renderHookWithReactQuery(() =>
          useInfiniteLoadTemplateDescriptors(params)

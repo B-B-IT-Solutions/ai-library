@@ -230,6 +230,7 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
                value={search}
                onChange={(e) => setSearch(e.target.value)}
                className="pl-9"
+               data-testid="search-input"
             />
          </div>
          {templatesList()}

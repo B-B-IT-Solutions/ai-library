@@ -20,6 +20,7 @@ import {
    useRemoveTemplateFromCollection,
 } from "@/data/ts-queries/collection";
 import { useInfiniteLoadTemplateDescriptors } from "@/data/ts-queries/library";
+import { LoadTemplateDescriptorsParams } from "@/data/ts-queries/library/types";
 import { DTemplateDescriptorsPage } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 
@@ -263,6 +264,10 @@ describe("CollectionTemplates functionality tests", () => {
          onSettled: expect.any(Function),
       });
 
+      const expectedLoadDescriptorsParams: LoadTemplateDescriptorsParams = {
+         filters: { search: undefined },
+      };
+
       await waitFor(() => {
          expect(mutateFn).toHaveBeenCalledTimes(1);
          expect(mutateFn).toHaveBeenCalledWith(
@@ -270,6 +275,12 @@ describe("CollectionTemplates functionality tests", () => {
             expectedCallback
          );
          expect(toastMock.error).not.toHaveBeenCalled();
+         expect(useInfiniteLoadTemplateDescriptorsMock).toHaveBeenCalledWith(
+            expectedLoadDescriptorsParams
+         );
+         expect(useLoadCollectionTemplateIdsMock).toHaveBeenCalledWith(
+            collectionId
+         );
       });
    });
 
@@ -316,6 +327,10 @@ describe("CollectionTemplates functionality tests", () => {
          onSettled: expect.any(Function),
       });
 
+      const expectedLoadDescriptorsParams: LoadTemplateDescriptorsParams = {
+         filters: { search: undefined },
+      };
+
       await waitFor(() => {
          expect(mutateFn).toHaveBeenCalledTimes(1);
          expect(mutateFn).toHaveBeenCalledWith(
@@ -324,6 +339,12 @@ describe("CollectionTemplates functionality tests", () => {
          );
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(actionResult.message);
+         expect(useInfiniteLoadTemplateDescriptorsMock).toHaveBeenCalledWith(
+            expectedLoadDescriptorsParams
+         );
+         expect(useLoadCollectionTemplateIdsMock).toHaveBeenCalledWith(
+            collectionId
+         );
       });
    });
 
@@ -427,39 +448,20 @@ describe("CollectionTemplates functionality tests", () => {
       });
    });
 
-   it("search input filters templates", async () => {
+   it("search input test", async () => {
       renderWithReactQuery(<CollectionTemplates collectionId={collectionId} />);
 
-      const input = screen.getByPlaceholderText("Vorlagen durchsuchen...");
-      await userEvent.type(input, "test");
+      const value = "test 1";
+      const input = screen.getByTestId("search-input");
+      await userEvent.type(input, value);
+
+      const expectedLoadDescriptorsParams: LoadTemplateDescriptorsParams = {
+         filters: { search: value },
+      };
 
       await waitFor(() => {
          expect(useInfiniteLoadTemplateDescriptorsMock).toHaveBeenCalledWith(
-            expect.objectContaining({
-               filters: expect.objectContaining({ search: "test" }),
-            })
-         );
-      });
-   });
-
-   it("search undefined when input is empty", async () => {
-      renderWithReactQuery(<CollectionTemplates collectionId={collectionId} />);
-
-      await waitFor(() => {
-         expect(useInfiniteLoadTemplateDescriptorsMock).toHaveBeenCalledWith(
-            expect.objectContaining({
-               filters: expect.objectContaining({ search: undefined }),
-            })
-         );
-      });
-   });
-
-   it("useLoadCollectionTemplateIds called with correct collectionId", async () => {
-      renderWithReactQuery(<CollectionTemplates collectionId={collectionId} />);
-
-      await waitFor(() => {
-         expect(useLoadCollectionTemplateIdsMock).toHaveBeenCalledWith(
-            collectionId
+            expectedLoadDescriptorsParams
          );
       });
    });
