@@ -81,7 +81,7 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
       return (
          <div
             key={descriptor.id}
-            className="flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            className="group flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
          >
             <div className="min-w-0 flex-1">
                <p className="truncate text-sm font-medium text-slate-900">
