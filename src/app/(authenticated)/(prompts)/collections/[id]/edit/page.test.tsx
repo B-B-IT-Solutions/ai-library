@@ -1,17 +1,32 @@
 jest.mock("@/data/actions/collection");
+jest.mock("@/data/actions/prompt-template");
 
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getCollectionById } from "@/data/actions/collection";
+import {
+   getCollectionById,
+   getCollectionTemplateIds,
+} from "@/data/actions/collection";
+import { getTemplateDescriptorsPage } from "@/data/actions/prompt-template";
 
 import { CollectionEditPage, metadata, PageParams, PageProps } from "./page";
 
 const getCollectionByIdMock = getCollectionById as jest.MockedFunction<
    typeof getCollectionById
 >;
+
+const getCollectionTemplateIdsMock =
+   getCollectionTemplateIds as jest.MockedFunction<
+      typeof getCollectionTemplateIds
+   >;
+
+const getTemplateDescriptorsPageMock =
+   getTemplateDescriptorsPage as jest.MockedFunction<
+      typeof getTemplateDescriptorsPage
+   >;
 
 const notFoundMock = notFound as jest.MockedFunction<typeof notFound>;
 
@@ -28,6 +43,14 @@ const assertRendered = () => {
 };
 
 describe("CollectionEditPage rendering tests", () => {
+   beforeAll(() => {
+      const templateIds = dtestData.dTemplateCollectionEntryTemplateIds();
+      getCollectionTemplateIdsMock.mockResolvedValue(templateIds);
+
+      const templateDescriptors = dtestData.dTemplateDescriptorsPage();
+      getTemplateDescriptorsPageMock.mockResolvedValue(templateDescriptors);
+   });
+
    beforeEach(() => {
       jest.clearAllMocks();
    });

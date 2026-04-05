@@ -97,7 +97,7 @@ exports[`CollectionEditPage rendering tests collection defined - test 1`] = `
           class="mx-auto max-w-5xl"
         >
           <div
-            class="grid grid-cols-1 gap-6 pb-8 lg:grid-cols-[340px_1fr]"
+            class="flex flex-col gap-8"
           >
             <div
               class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
@@ -192,13 +192,31 @@ exports[`CollectionEditPage rendering tests collection defined - test 1`] = `
                       value="color 1"
                     />
                   </div>
-                  <button
-                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 w-full"
-                    data-slot="button"
-                    type="submit"
+                  <div
+                    class="flex items-center justify-end gap-3 pt-2"
                   >
-                    Änderungen speichern
-                  </button>
+                    <a
+                      data-testid="mock-link"
+                      href="/collections/457bf695-6f74-44aa-9b3a-e179ea9e8171"
+                    >
+                      <button
+                        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+                        data-slot="button"
+                        data-testid="cancel-btn"
+                        type="button"
+                      >
+                        Abbrechen
+                      </button>
+                    </a>
+                    <button
+                      class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+                      data-slot="button"
+                      data-testid="save-btn"
+                      type="submit"
+                    >
+                      Sammlung speichern
+                    </button>
+                  </div>
                 </form>
                 <div
                   class="mt-6 space-y-3 border-t pt-6"
@@ -302,10 +320,31 @@ exports[`CollectionEditPage rendering tests collection defined - test 1`] = `
               <div
                 class="max-h-130 overflow-y-auto rounded-lg border bg-white"
               >
-                <div
-                  class="py-12 text-center text-sm text-slate-400"
-                >
-                  Keine Vorlagen gefunden
+                <div>
+                  <div
+                    class="sticky top-0 border-b bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase"
+                  >
+                    In dieser Sammlung (
+                    3
+                    )
+                  </div>
+                  <div
+                    class="py-6 text-center text-sm text-slate-400"
+                  >
+                    Noch keine Vorlagen hinzugefügt
+                  </div>
+                </div>
+                <div>
+                  <div
+                    class="sticky top-0 border-b bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase"
+                  >
+                    Weitere Vorlagen
+                  </div>
+                  <div
+                    class="py-6 text-center text-sm text-slate-400"
+                  >
+                    Keine Vorlagen gefunden
+                  </div>
                 </div>
               </div>
             </div>
