@@ -83,8 +83,10 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
       });
    };
 
-   const handleToggle = (descriptor: DPromptTemplateDescriptor) => {
-      const isIn = includes(templateIds, descriptor.id);
+   const handleToggle = (
+      descriptor: DPromptTemplateDescriptor,
+      isIn: boolean
+   ) => {
       setPendingId(descriptor.id);
 
       if (isIn) {
@@ -104,7 +106,7 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
             variant={isIn ? "ghost" : "outline"}
             size="sm"
             className="h-7 shrink-0 cursor-pointer gap-1.5 px-2"
-            onClick={() => handleToggle(descriptor)}
+            onClick={() => handleToggle(descriptor, isIn)}
             disabled={isPending}
          >
             {isPending ? (
