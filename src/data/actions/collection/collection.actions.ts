@@ -240,7 +240,7 @@ export const setCollectionPublic = async (
 };
 
 export const getPublicCollectionByToken = async (
-   shareToken: string
+   publicToken: string
 ): Promise<{
    collection: DCollection;
    templates: {
@@ -253,7 +253,7 @@ export const getPublicCollectionByToken = async (
 } | null> => {
    try {
       const service = getService();
-      const collection = await service.getCollectionByShareToken(shareToken);
+      const collection = await service.getCollectionByShareToken(publicToken);
       if (!collection) {
          return null;
       }

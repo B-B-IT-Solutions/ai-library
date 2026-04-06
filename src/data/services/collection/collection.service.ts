@@ -25,10 +25,10 @@ export class CollectionService {
    }
 
    async getCollectionByShareToken(
-      shareToken: string
+      publicToken: string
    ): Promise<DCollection | null> {
       return await this.libraryRepository.pGetCollectionByShareToken(
-         shareToken
+         publicToken
       );
    }
 

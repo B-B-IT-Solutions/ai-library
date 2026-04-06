@@ -375,7 +375,7 @@ export const pTemplateCollection = (index = 1): PLibraryCollection => {
       color: `color ${index}`,
       order: index,
       isPublic: index % 2 == 0,
-      shareToken: `token-${index}`,
+      publicToken: `token-${index}`,
       updatedAt: new Date("2025-09-27"),
       createdAt: new Date("2025-09-27"),
       _count: {
