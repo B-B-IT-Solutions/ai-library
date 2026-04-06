@@ -109,9 +109,13 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
             className="h-7 shrink-0 cursor-pointer gap-1.5 px-2"
             onClick={() => handleToggle(descriptor, isIn)}
             disabled={isPending}
+            data-testid={`${isIn ? "remove" : "add"}-template-btn`}
          >
             {isPending ? (
-               <Loader className="h-3.5 w-3.5 animate-spin" />
+               <Loader
+                  className="h-3.5 w-3.5 animate-spin"
+                  data-testid="loader-icon"
+               />
             ) : isIn ? (
                <>
                   <Check className="h-3.5 w-3.5 text-green-600 group-hover:hidden" />
@@ -129,6 +133,7 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
          <div
             key={descriptor.id}
             className="group flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-slate-50"
+            data-testid={`template-row-${isIn}`}
          >
             <div className="flex-1">
                <p className="truncate text-sm font-medium text-slate-900">
@@ -148,7 +153,10 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
    const templatesInCollection = () => {
       if (isEmpty(inCollection)) {
          return (
-            <div className="py-6 text-center text-sm text-slate-400">
+            <div
+               className="py-6 text-center text-sm text-slate-400"
+               data-testid="in-collection-empty"
+            >
                Noch keine Vorlagen hinzugefügt
             </div>
          );
@@ -163,7 +171,10 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
             : "Keine weiteren Vorlagen gefunden";
 
          return (
-            <div className="py-6 text-center text-sm text-slate-400">
+            <div
+               className="py-6 text-center text-sm text-slate-400"
+               data-testid="not-in-collection-empty"
+            >
                {text}
             </div>
          );
@@ -183,13 +194,19 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
    const templatesList = () => {
       if (idsLoading) {
          return (
-            <div className="flex justify-center py-8">
+            <div
+               className="flex justify-center py-8"
+               data-testid="templates-loading"
+            >
                <Loader className="h-5 w-5 animate-spin text-slate-400" />
             </div>
          );
       }
       return (
-         <div className="max-h-130 overflow-y-auto rounded-lg border bg-white">
+         <div
+            className="max-h-130 overflow-y-auto rounded-lg border bg-white"
+            data-testid="templates-list"
+         >
             <div>
                <div className="sticky top-0 border-b bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase">
                   In dieser Sammlung ({templateIds.length})
@@ -209,13 +226,14 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
 
    return (
       <div className="flex flex-col gap-4" data-testid="collection-templates">
-         <div className="relative">
+         <div className="relative" data-testid="templates-search">
             <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <Input
                placeholder="Vorlagen durchsuchen..."
                value={search}
                onChange={(e) => setSearch(e.target.value)}
                className="pl-9"
+               data-testid="search-input"
             />
          </div>
          {templatesList()}

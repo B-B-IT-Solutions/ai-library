@@ -1,10 +1,10 @@
 import { filterQueryKey } from "../utils";
 
-import { LoadLibraryEntriesParams } from "./types";
+import { LoadTemplateDescriptorsParams } from "./types";
 
 export const libraryKeys = {
    all: ["library"] as const,
-   entries: ({ filters, sort }: LoadLibraryEntriesParams) =>
+   entries: ({ filters, sort }: LoadTemplateDescriptorsParams) =>
       [...libraryKeys.all, "entries", filterQueryKey(filters, sort)] as const,
    entryCollections: (entryId: string) =>
       [...libraryKeys.all, "entry", entryId, "collections"] as const,

@@ -41,7 +41,7 @@ import { getNextPageParam, pageQuery } from "../utils";
 
 import {
    LoadCollectionIdsParams,
-   LoadLibraryEntriesParams,
+   LoadTemplateDescriptorsParams,
    UpdateCollectionIdsParams,
    UpdateCollectionParams,
    UpdateIsFavoriteParams,
@@ -49,7 +49,7 @@ import {
 import { libraryKeys } from "./utils";
 
 export const preloadLibraryEntriesOptions = (
-   params: LoadLibraryEntriesParams
+   params: LoadTemplateDescriptorsParams
 ): FetchQueryOptions<
    DTemplateDescriptorsPage,
    Error,
@@ -84,7 +84,7 @@ export const preloadCollectionsOptions = (): FetchQueryOptions<
 };
 
 export const infiniteLoadTemplateDescriptorsOptions = (
-   params: LoadLibraryEntriesParams
+   params: LoadTemplateDescriptorsParams
 ): UndefinedInitialDataInfiniteOptions<
    DTemplateDescriptorsPage,
    Error,
@@ -112,7 +112,7 @@ export const infiniteLoadTemplateDescriptorsOptions = (
 };
 
 export const useInfiniteLoadTemplateDescriptors = (
-   props: LoadLibraryEntriesParams
+   props: LoadTemplateDescriptorsParams
 ): UseInfiniteQueryResult<InfiniteData<DTemplateDescriptorsPage>, Error> => {
    const options = infiniteLoadTemplateDescriptorsOptions(props);
    return useInfiniteQuery(options);
