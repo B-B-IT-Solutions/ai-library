@@ -79,7 +79,7 @@ export const createCollection = async (
 export const updateCollection = async (
    collectionId: string,
    data: DCollectionUpdate
-): Promise<ActionResult> => {
+): Promise<ActionResult<DCollection>> => {
    try {
       if (!isValidUuid(collectionId)) {
          throw new Error("Invalid collection ID.");
@@ -87,11 +87,16 @@ export const updateCollection = async (
 
       const user = await requireUser();
       const service = getService();
-      await service.updateCollection(user.id, collectionId, data);
+      const collection = await service.updateCollection(
+         user.id,
+         collectionId,
+         data
+      );
 
       return {
          success: true,
          message: "Sammlung erfolgreich aktualisiert",
+         data: collection,
       };
    } catch (error) {
       console.error(formatError(error));

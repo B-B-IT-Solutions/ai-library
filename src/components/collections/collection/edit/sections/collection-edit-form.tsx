@@ -12,9 +12,7 @@ import { Button } from "@/components/shadcn/button";
 import { Card, CardContent } from "@/components/shadcn/card";
 import { Form } from "@/components/shadcn/form";
 import { FormInput, FormTextArea } from "@/components/shared/widgets";
-import { createCollection } from "@/data/actions/collection";
-import { useUpdateCollection } from "@/data/ts-queries/library";
-import { UpdateCollectionParams } from "@/data/ts-queries/library/types";
+import { createCollection, updateCollection } from "@/data/actions/collection";
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import { updateCollectionSchema } from "@/data/types/validators/collection";
 import { initCollection } from "../utils";
@@ -27,17 +25,12 @@ export const CollectionEditForm = ({ collection }: Props) => {
    const router = useRouter();
    const isEdit = !!collection;
 
-   const [isCreating, startTransition] = useTransition();
-
-   const { mutate: updateCollection, isPending: isUpdating } =
-      useUpdateCollection();
+   const [isSubmitting, startTransition] = useTransition();
 
    const form = useForm<DCollectionUpdate>({
       resolver: zodResolver(updateCollectionSchema),
       defaultValues: initCollection(collection),
    });
-
-   const isSubmitting = isUpdating || isCreating;
 
    const onCreateCollection = async (data: DCollectionUpdate) => {
       startTransition(async () => {
@@ -52,19 +45,14 @@ export const CollectionEditForm = ({ collection }: Props) => {
    };
 
    const onUpdateCollection = (data: DCollectionUpdate) => {
-      const params: UpdateCollectionParams = {
-         collectionId: collection!.id,
-         data,
-      };
-      updateCollection(params, {
-         onSuccess: (result) => {
-            if (result.success) {
-               toast.success(result.message);
-            } else {
-               toast.error(result.message);
-            }
-         },
-         onError: () => toast.error("Fehler beim Speichern"),
+      startTransition(async () => {
+         const result = await updateCollection(collection!.id, data);
+         if (result.success && result.data) {
+            toast.success(result.message);
+         } else {
+            toast.error(result.message);
+         }
+         router.refresh();
       });
    };
 
