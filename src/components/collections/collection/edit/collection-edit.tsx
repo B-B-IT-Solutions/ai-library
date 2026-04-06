@@ -59,13 +59,25 @@ export const CollectionEdit = ({ collection }: Props) => {
          return (
             <Tabs defaultValue="general" orientation="horizontal">
                <TabsList variant="default" className="w-full bg-slate-50">
-                  <TabsTrigger value="general" className="bg-slate-50">
+                  <TabsTrigger
+                     value="general"
+                     className="bg-slate-50"
+                     data-testid="tab-general-btn"
+                  >
                      Einstellungen
                   </TabsTrigger>
-                  <TabsTrigger value="templates" className="bg-slate-50">
+                  <TabsTrigger
+                     value="templates"
+                     className="bg-slate-50"
+                     data-testid="tab-templates-btn"
+                  >
                      Vorlagen
                   </TabsTrigger>
-                  <TabsTrigger value="sharing" className="bg-slate-50">
+                  <TabsTrigger
+                     value="other"
+                     className="bg-slate-50"
+                     data-testid="tab-other-btn"
+                  >
                      Freigabe
                   </TabsTrigger>
                </TabsList>
@@ -75,7 +87,7 @@ export const CollectionEdit = ({ collection }: Props) => {
                <TabsContent value="templates">
                   <CollectionTemplates collectionId={collection.id} />
                </TabsContent>
-               <TabsContent value="sharing">
+               <TabsContent value="other">
                   <CollectionSharing collection={collection} />
                </TabsContent>
             </Tabs>

@@ -15,6 +15,7 @@ import {
    useCreateCollection,
    useUpdateCollection,
 } from "@/data/ts-queries/library";
+import { UpdateCollectionParams } from "@/data/ts-queries/library/types";
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import { updateCollectionSchema } from "@/data/types/validators/collection";
 
@@ -42,19 +43,20 @@ export const CollectionEditForm = ({ collection }: Props) => {
 
    const onSubmit = (data: DCollectionUpdate) => {
       if (isEdit) {
-         updateCollection(
-            { collectionId: collection.id, data },
-            {
-               onSuccess: (result) => {
-                  if (result.success) {
-                     toast.success(result.message);
-                  } else {
-                     toast.error(result.message);
-                  }
-               },
-               onError: () => toast.error("Fehler beim Speichern"),
-            }
-         );
+         const params: UpdateCollectionParams = {
+            collectionId: collection.id,
+            data,
+         };
+         updateCollection(params, {
+            onSuccess: (result) => {
+               if (result.success) {
+                  toast.success(result.message);
+               } else {
+                  toast.error(result.message);
+               }
+            },
+            onError: () => toast.error("Fehler beim Speichern"),
+         });
       } else {
          createCollection(data, {
             onSuccess: (result) => {
