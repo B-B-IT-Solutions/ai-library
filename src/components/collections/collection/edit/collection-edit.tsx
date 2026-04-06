@@ -63,21 +63,21 @@ export const CollectionEdit = ({ collection }: Props) => {
                <TabsList variant="default" className="w-full bg-slate-50">
                   <TabsTrigger
                      value="general"
-                     className="bg-slate-50"
+                     className="bg-slate-50 py-3.5"
                      data-testid="tab-general-btn"
                   >
                      Einstellungen
                   </TabsTrigger>
                   <TabsTrigger
                      value="templates"
-                     className="bg-slate-50"
+                     className="bg-slate-50 py-3.5"
                      data-testid="tab-templates-btn"
                   >
                      Vorlagen
                   </TabsTrigger>
                   <TabsTrigger
                      value="other"
-                     className="bg-slate-50"
+                     className="bg-slate-50 py-3.5"
                      data-testid="tab-other-btn"
                   >
                      Freigabe

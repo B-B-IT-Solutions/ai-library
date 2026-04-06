@@ -21,7 +21,7 @@ const toDCollectionInternal = (c: PLibraryCollection): DCollection => {
       color: c.color,
       order: c.order,
       isPublic: c.isPublic,
-      shareToken: c.shareToken,
+      publicToken: c.publicToken,
       templateCount: c._count.entries,
       createdAt: c.createdAt.toISOString(),
       updatedAt: c.updatedAt.toISOString(),

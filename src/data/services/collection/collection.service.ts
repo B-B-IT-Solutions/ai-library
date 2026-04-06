@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+
 import { CollectionRepository } from "@/data/repositories/collection";
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 
@@ -22,11 +24,11 @@ export class CollectionService {
       );
    }
 
-   async getCollectionByShareToken(
-      shareToken: string
+   async getCollectionByPublicToken(
+      publicToken: string
    ): Promise<DCollection | null> {
-      return await this.libraryRepository.pGetCollectionByShareToken(
-         shareToken
+      return await this.libraryRepository.pGetCollectionByPublicToken(
+         publicToken
       );
    }
 
@@ -51,20 +53,6 @@ export class CollectionService {
 
    async deleteCollection(userId: string, collectionId: string): Promise<void> {
       await this.libraryRepository.pDeleteCollection(userId, collectionId);
-   }
-
-   async setCollectionSharing(
-      userId: string,
-      collectionId: string,
-      isPublic: boolean,
-      shareToken: string | null
-   ): Promise<DCollection> {
-      return await this.libraryRepository.pSetShareToken(
-         userId,
-         collectionId,
-         shareToken,
-         isPublic
-      );
    }
 
    async getCollectionTemplateIds(
@@ -108,6 +96,21 @@ export class CollectionService {
          userId,
          collectionId,
          templateDescriptorId
+      );
+   }
+
+   async setCollectionPublic(
+      userId: string,
+      collectionId: string,
+      isPublic: boolean
+   ): Promise<DCollection> {
+      const token = isPublic ? uuidv4() : null;
+
+      return await this.libraryRepository.pSetPublicToken(
+         userId,
+         collectionId,
+         token,
+         isPublic
       );
    }
 

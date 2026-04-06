@@ -1,0 +1,245 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`CollectionOther rendering tests private collection - test 1`] = `
+<div>
+  <div
+    class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
+    data-slot="card"
+    data-testid="collection-other"
+  >
+    <div
+      class="px-6 space-y-3 pt-6"
+      data-slot="card-content"
+    >
+      <p
+        class="text-sm font-semibold text-slate-700"
+      >
+        Freigabe
+      </p>
+      <div
+        class="flex items-center justify-between rounded-lg border p-3"
+        data-testid="public-toggle"
+      >
+        <div
+          class="flex items-center gap-2.5"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-lock h-4 w-4 text-slate-400"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              height="11"
+              rx="2"
+              ry="2"
+              width="18"
+              x="3"
+              y="11"
+            />
+            <path
+              d="M7 11V7a5 5 0 0 1 10 0v4"
+            />
+          </svg>
+          <div>
+            <p
+              class="text-sm font-medium"
+            >
+              Privat
+            </p>
+            <p
+              class="text-xs text-slate-500"
+            >
+              Nur für Sie sichtbar
+            </p>
+          </div>
+        </div>
+        <button
+          class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
+          data-slot="button"
+          data-testid="public-toggle-btn"
+          type="button"
+        >
+          Aktivieren
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CollectionOther rendering tests public collection - test 1`] = `
+<div>
+  <div
+    class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
+    data-slot="card"
+    data-testid="collection-other"
+  >
+    <div
+      class="px-6 space-y-3 pt-6"
+      data-slot="card-content"
+    >
+      <p
+        class="text-sm font-semibold text-slate-700"
+      >
+        Freigabe
+      </p>
+      <div
+        class="flex items-center justify-between rounded-lg border p-3"
+        data-testid="public-toggle"
+      >
+        <div
+          class="flex items-center gap-2.5"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-globe h-4 w-4 text-green-600"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="12"
+              cy="12"
+              r="10"
+            />
+            <path
+              d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"
+            />
+            <path
+              d="M2 12h20"
+            />
+          </svg>
+          <div>
+            <p
+              class="text-sm font-medium"
+            >
+              Öffentlich
+            </p>
+            <p
+              class="text-xs text-slate-500"
+            >
+              Jeder mit Link kann ansehen
+            </p>
+          </div>
+        </div>
+        <button
+          class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
+          data-slot="button"
+          data-testid="public-toggle-btn"
+          type="button"
+        >
+          Deaktivieren
+        </button>
+      </div>
+      <div
+        class="flex gap-2"
+      >
+        <div
+          class="flex-1 truncate rounded-md border bg-slate-50 px-3 py-2 text-xs text-slate-600"
+          data-testid="public-url"
+        >
+          http://localhost/p/collections/token-1
+        </div>
+        <button
+          class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 cursor-pointer shrink-0"
+          data-slot="tooltip-trigger"
+          data-state="closed"
+          data-testid="copy-url-btn"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-copy size-4"
+            data-testid="copy-icon"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              height="14"
+              rx="2"
+              ry="2"
+              width="14"
+              x="8"
+              y="8"
+            />
+            <path
+              d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+            />
+          </svg>
+        </button>
+        <div
+          data-testid="mock-react-presence"
+        >
+          <div
+            data-testid="mock-react-portal"
+          >
+            <div
+              data-testid="mock-react-presence"
+            >
+              <div
+                data-radix-popper-content-wrapper=""
+                style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px); min-width: max-content; --radix-popper-available-width: -16px; --radix-popper-available-height: 0px; --radix-popper-anchor-width: 0px; --radix-popper-anchor-height: 0px; --radix-popper-transform-origin: 0px 0px;"
+              >
+                <div
+                  class="bg-foreground text-background animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md px-3 py-1.5 text-xs text-balance"
+                  data-align="center"
+                  data-side="top"
+                  data-slot="tooltip-content"
+                  data-state="closed"
+                  style="--radix-tooltip-content-transform-origin: var(--radix-popper-transform-origin); --radix-tooltip-content-available-width: var(--radix-popper-available-width); --radix-tooltip-content-available-height: var(--radix-popper-available-height); --radix-tooltip-trigger-width: var(--radix-popper-anchor-width); --radix-tooltip-trigger-height: var(--radix-popper-anchor-height);"
+                >
+                  In Zwischenablage kopieren
+                  <span
+                    style="position: absolute; bottom: 0px; transform: translateY(100%); left: 0px;"
+                  >
+                    <svg
+                      class="bg-foreground fill-foreground z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]"
+                      height="5"
+                      preserveAspectRatio="none"
+                      style="display: block;"
+                      viewBox="0 0 30 10"
+                      width="10"
+                    >
+                      <polygon
+                        points="0,0 30,0 15,10"
+                      />
+                    </svg>
+                  </span>
+                  <span
+                    id="radix-_r_0_"
+                    role="tooltip"
+                    style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
+                  >
+                    In Zwischenablage kopieren
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

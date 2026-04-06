@@ -88,7 +88,7 @@ export const CopyButton = ({
             </Button>
          </TooltipTrigger>
          <TooltipContent>
-            {copied ? "Kopiert!" : "In Zwischenablage kopieren"}
+            {copied ? "Kopiert" : "In Zwischenablage kopieren"}
          </TooltipContent>
       </Tooltip>
    );

@@ -71,12 +71,12 @@ export class CollectionRepository {
       return toDCollection(collection);
    }
 
-   async pGetCollectionByShareToken(
-      shareToken: string
+   async pGetCollectionByPublicToken(
+      publicToken: string
    ): Promise<DCollection | null> {
       const collection = await this.prisma.libraryCollection.findUnique({
          where: {
-            shareToken,
+            publicToken,
             isPublic: true,
          },
          include: {
@@ -167,14 +167,14 @@ export class CollectionRepository {
       await this.prisma.libraryCollection.delete(args);
    }
 
-   async pSetShareToken(
+   async pSetPublicToken(
       userId: string,
       collectionId: string,
-      shareToken: string | null,
+      publicToken: string | null,
       isPublic: boolean
    ): Promise<DCollection> {
       const input: LibraryCollectionUpdateInput = {
-         shareToken,
+         publicToken,
          isPublic,
       };
 

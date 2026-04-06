@@ -131,21 +131,21 @@ describe("pGetCollectionById tests", () => {
    });
 });
 
-describe("pGetCollectionByShareToken tests", () => {
+describe("pGetCollectionByPublicToken tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
    it("collection - null - test", async () => {
-      const token = "non-existent-token";
+      const publicToken = "non-existent-token";
       prismaMock.libraryCollection.findUnique.mockResolvedValue(null);
 
       const result =
-         await collectionRepository.pGetCollectionByShareToken(token);
+         await collectionRepository.pGetCollectionByPublicToken(publicToken);
 
       const expectedArgs: LibraryCollectionFindUniqueArgs = {
          where: {
-            shareToken: token,
+            publicToken,
             isPublic: true,
          },
          include: {
@@ -165,18 +165,18 @@ describe("pGetCollectionByShareToken tests", () => {
    });
 
    it("collection - retrieved - test", async () => {
-      const token = "token-1";
+      const publicToken = "token-1";
       const collection = ptestData.pTemplateCollection();
       prismaMock.libraryCollection.findUnique.mockResolvedValue(collection);
 
       const result =
-         await collectionRepository.pGetCollectionByShareToken(token);
+         await collectionRepository.pGetCollectionByPublicToken(publicToken);
 
       const expectedResult = toDCollection(collection);
 
       const expectedArgs: LibraryCollectionFindUniqueArgs = {
          where: {
-            shareToken: token,
+            publicToken,
             isPublic: true,
          },
          include: {
@@ -405,29 +405,29 @@ describe("pDeleteCollection tests", () => {
    });
 });
 
-describe("pSetShareToken tests", () => {
+describe("pSetPublicToken tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
 
    it("token set - test", async () => {
       const userId = "user-id-1";
-      const token = "token-1";
+      const publicToken = "token-1";
       const isPublic = true;
       const collection = ptestData.pTemplateCollection();
       prismaMock.libraryCollection.update.mockResolvedValue(collection);
 
-      const result = await collectionRepository.pSetShareToken(
+      const result = await collectionRepository.pSetPublicToken(
          userId,
          collection.id,
-         token,
+         publicToken,
          isPublic
       );
 
       const expectedResult = toDCollection(collection);
 
       const expectedUpdateInput: LibraryCollectionUpdateInput = {
-         shareToken: token,
+         publicToken,
          isPublic,
       };
 

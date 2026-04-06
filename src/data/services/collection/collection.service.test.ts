@@ -1,12 +1,16 @@
 jest.mock("@/data/repositories/collection");
+jest.mock("uuid");
 
-import { dtestData } from "@tests";
+import { ctestData, dtestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
+import { v4 as uuidv4 } from "uuid";
 
 import { CollectionRepository } from "@/data/repositories/collection";
 import prisma from "@/data/repositories/prisma";
 
 import { CollectionService } from "./collection.service";
+
+const uuidv4Mock = uuidv4 as jest.MockedFunction<typeof uuidv4>;
 
 const collectionRepo = new CollectionRepository(prisma);
 const collectionRepoMock =
@@ -56,7 +60,7 @@ describe("getCollectionById tests", () => {
    });
 });
 
-describe("getCollectionByShareToken tests", () => {
+describe("getCollectionByPublicToken tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -64,18 +68,18 @@ describe("getCollectionByShareToken tests", () => {
    it("collection retrieved - test", async () => {
       const token = "token-1";
       const collection = dtestData.dCollection();
-      collectionRepoMock.pGetCollectionByShareToken.mockResolvedValue(
+      collectionRepoMock.pGetCollectionByPublicToken.mockResolvedValue(
          collection
       );
 
-      const result = await collectionService.getCollectionByShareToken(token);
+      const result = await collectionService.getCollectionByPublicToken(token);
 
       expect(result).toEqual(collection);
       expect(
-         collectionRepoMock.pGetCollectionByShareToken
+         collectionRepoMock.pGetCollectionByPublicToken
       ).toHaveBeenCalledTimes(1);
       expect(
-         collectionRepoMock.pGetCollectionByShareToken
+         collectionRepoMock.pGetCollectionByPublicToken
       ).toHaveBeenCalledWith(token);
    });
 });
@@ -292,6 +296,60 @@ describe("removeTemplateFromCollection tests", () => {
       expect(
          collectionRepoMock.pRemoveTemplateFromCollection
       ).toHaveBeenCalledWith(userId, collection.id, descriptorId);
+   });
+});
+
+describe("setCollectionPublic tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("isPublic true - test", async () => {
+      const userId = "user-id-1";
+      const collection = dtestData.dCollection();
+
+      const token = ctestData.uuid();
+      uuidv4Mock.mockReturnValue(token);
+      collectionRepoMock.pSetPublicToken.mockResolvedValue(collection);
+
+      const result = await collectionService.setCollectionPublic(
+         userId,
+         collection.id,
+         true
+      );
+
+      expect(result).toEqual(collection);
+      expect(uuidv4Mock).toHaveBeenCalledTimes(1);
+      expect(collectionRepoMock.pSetPublicToken).toHaveBeenCalledTimes(1);
+      expect(collectionRepoMock.pSetPublicToken).toHaveBeenCalledWith(
+         userId,
+         collection.id,
+         token,
+         true
+      );
+   });
+
+   it("isPublic false - test", async () => {
+      const userId = "user-id-1";
+      const collection = dtestData.dCollection();
+
+      collectionRepoMock.pSetPublicToken.mockResolvedValue(collection);
+
+      const result = await collectionService.setCollectionPublic(
+         userId,
+         collection.id,
+         false
+      );
+
+      expect(result).toEqual(collection);
+      expect(uuidv4Mock).not.toHaveBeenCalled();
+      expect(collectionRepoMock.pSetPublicToken).toHaveBeenCalledTimes(1);
+      expect(collectionRepoMock.pSetPublicToken).toHaveBeenCalledWith(
+         userId,
+         collection.id,
+         null,
+         false
+      );
    });
 });
 

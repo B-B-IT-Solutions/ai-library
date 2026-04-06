@@ -1,7 +1,6 @@
 "use server";
 
 import { isEmpty } from "es-toolkit/compat";
-import { v4 as uuidv4 } from "uuid";
 import { validate as isValidUuid } from "uuid";
 
 import { requireUser } from "@/data/actions/auth-utils";
@@ -39,7 +38,7 @@ export const getCollectionById = async (
    }
 };
 
-export const getCollectionByShareToken = async (
+export const getCollectionByPublicToken = async (
    token: string
 ): Promise<DCollection | null> => {
    try {
@@ -47,7 +46,7 @@ export const getCollectionByShareToken = async (
          throw new Error("Invalid token.");
       }
       const service = getService();
-      return await service.getCollectionByShareToken(token);
+      return await service.getCollectionByPublicToken(token);
    } catch (error) {
       console.error(formatError(error));
       return null;
@@ -207,36 +206,7 @@ export const removeTemplateFromCollection = async (
    }
 };
 
-export const getPublicCollectionByToken = async (
-   shareToken: string
-): Promise<{
-   collection: DCollection;
-   templates: {
-      id: string;
-      title: string;
-      description: string;
-      recommendedModel: string;
-      categories: { name: string }[];
-   }[];
-} | null> => {
-   try {
-      const service = getService();
-      const collection = await service.getCollectionByShareToken(shareToken);
-      if (!collection) {
-         return null;
-      }
-
-      const templates = await service.getPublicCollectionTemplates(
-         collection.id
-      );
-      return { collection, templates };
-   } catch (error) {
-      console.error(formatError(error));
-      return null;
-   }
-};
-
-export const setLibraryCollectionSharing = async (
+export const setCollectionPublic = async (
    collectionId: string,
    isPublic: boolean
 ): Promise<ActionResult<DCollection>> => {
@@ -244,19 +214,13 @@ export const setLibraryCollectionSharing = async (
       if (!isValidUuid(collectionId)) {
          throw new Error("Invalid collection ID.");
       }
+
       const user = await requireUser();
       const service = getService();
-
-      let shareToken: string | null = null;
-      if (isPublic) {
-         shareToken = uuidv4();
-      }
-
-      const collection = await service.setCollectionSharing(
+      const collection = await service.setCollectionPublic(
          user.id,
          collectionId,
-         isPublic,
-         shareToken
+         isPublic
       );
 
       return {
@@ -272,6 +236,35 @@ export const setLibraryCollectionSharing = async (
          success: false,
          message: "Freigabe konnte nicht geändert werden",
       };
+   }
+};
+
+export const getPublicCollectionByToken = async (
+   publicToken: string
+): Promise<{
+   collection: DCollection;
+   templates: {
+      id: string;
+      title: string;
+      description: string;
+      recommendedModel: string;
+      categories: { name: string }[];
+   }[];
+} | null> => {
+   try {
+      const service = getService();
+      const collection = await service.getCollectionByPublicToken(publicToken);
+      if (!collection) {
+         return null;
+      }
+
+      const templates = await service.getPublicCollectionTemplates(
+         collection.id
+      );
+      return { collection, templates };
+   } catch (error) {
+      console.error(formatError(error));
+      return null;
    }
 };
 
