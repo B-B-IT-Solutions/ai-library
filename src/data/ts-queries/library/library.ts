@@ -15,15 +15,13 @@ import {
    useQueryClient,
    UseQueryResult,
 } from "@tanstack/react-query";
-import { filter, map } from "es-toolkit/compat";
+import { filter } from "es-toolkit/compat";
 
 import {
    createCollection,
    deleteCollection,
    getCollections,
    getEntryCollectionIds,
-   setLibraryCollectionSharing,
-   updateCollection,
    updateEntryCollections,
 } from "@/data/actions/collection";
 import {
@@ -43,7 +41,6 @@ import {
    LoadCollectionIdsParams,
    LoadTemplateDescriptorsParams,
    UpdateCollectionIdsParams,
-   UpdateCollectionParams,
    UpdateIsFavoriteParams,
 } from "./types";
 import { libraryKeys } from "./utils";
@@ -191,38 +188,6 @@ export const useCreateCollection = (): UseMutationResult<
    return useMutation(createCollectionOptions(queryClient));
 };
 
-export const updateCollectionOptions = (
-   queryClient: QueryClient
-): UseMutationOptions<ActionResult, Error, UpdateCollectionParams> => {
-   return {
-      mutationFn: async (params: UpdateCollectionParams) => {
-         const { collectionId, data } = params;
-         return await updateCollection(collectionId, data);
-      },
-      onSuccess: (_, params) => {
-         const updater = (cols: DCollection[]) => {
-            return map(cols, (col) => {
-               if (col.id === params.collectionId) {
-                  return { ...col, ...params.data };
-               }
-               return col;
-            });
-         };
-
-         queryClient.setQueryData(libraryKeys.collections(), updater);
-      },
-   };
-};
-
-export const useUpdateCollection = (): UseMutationResult<
-   ActionResult,
-   Error,
-   UpdateCollectionParams
-> => {
-   const queryClient = useQueryClient();
-   return useMutation(updateCollectionOptions(queryClient));
-};
-
 export const deleteCollectionOptions = (
    queryClient: QueryClient
 ): UseMutationOptions<ActionResult, Error, string> => {
@@ -292,27 +257,4 @@ export const useUpdateEntryCollections = (): UseMutationResult<
 > => {
    const queryClient = useQueryClient();
    return useMutation(updateEntryCollectionsOptions(queryClient));
-};
-
-export const useSetCollectionSharing = (): UseMutationResult<
-   ActionResult<DCollection>,
-   Error,
-   { collectionId: string; isPublic: boolean }
-> => {
-   const queryClient = useQueryClient();
-   return useMutation({
-      mutationFn: ({ collectionId, isPublic }) =>
-         setLibraryCollectionSharing(collectionId, isPublic),
-      onSuccess: (result, { collectionId }) => {
-         if (result.data) {
-            queryClient.setQueryData(
-               libraryKeys.collection(collectionId),
-               result.data
-            );
-            const updater = (cols: DCollection[]) =>
-               cols.map((c) => (c.id === collectionId ? result.data! : c));
-            queryClient.setQueryData(libraryKeys.collections(), updater);
-         }
-      },
-   });
 };

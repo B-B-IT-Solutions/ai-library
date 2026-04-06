@@ -6,7 +6,6 @@ import { dtestData } from "@tests";
 import { requireUser } from "@/data/actions/auth-utils";
 import { CollectionService } from "@/data/services/collection";
 import { DCollection } from "@/data/types/domain/collection";
-import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { ActionResult } from "@/data/types/utils";
 
 import {
@@ -364,9 +363,10 @@ describe("updateCollection tests", () => {
       const data = dtestData.dCollectionUpdate();
       const result = await updateCollection(collection.id, data);
 
-      const expectedResult: ActionResult<DPromptUpdate> = {
+      const expectedResult: ActionResult<DCollection> = {
          success: true,
          message: "Sammlung erfolgreich aktualisiert",
+         data: collection,
       };
 
       expect(result).toEqual(expectedResult);
@@ -454,7 +454,7 @@ describe("deleteCollection tests", () => {
 
       const result = await deleteCollection(collectionId);
 
-      const expectedResult: ActionResult<DPromptUpdate> = {
+      const expectedResult: ActionResult = {
          success: true,
          message: "Sammlung erfolgreich gelöscht",
       };
@@ -909,7 +909,7 @@ describe("updateEntryCollections tests", () => {
 
       const result = await updateEntryCollections(entryId, collectionsId);
 
-      const expectedResult: ActionResult<DPromptUpdate> = {
+      const expectedResult: ActionResult = {
          success: true,
          message: "Sammlungen aktualisiert",
       };

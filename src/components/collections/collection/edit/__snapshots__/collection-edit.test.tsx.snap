@@ -1,0 +1,482 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`CollectionEdit rendering tests create mode - test 1`] = `
+<div>
+  <div
+    class="flex h-screen flex-col bg-slate-50"
+    data-testid="collection-edit"
+  >
+    <div
+      class="border-b border-slate-200 bg-white px-6 py-4"
+    >
+      <h1
+        class="text-2xl font-bold text-slate-900"
+      >
+        Neue Sammlung Erstellen
+      </h1>
+      <p
+        class="mt-0.5 text-sm text-slate-600"
+      >
+        Erstellen Sie eine neue Sammlung
+      </p>
+    </div>
+    <div
+      class="flex-1 overflow-y-auto"
+    >
+      <div
+        class="px-6 pt-3 pb-3.5"
+      >
+        <nav
+          aria-label="breadcrumb"
+          data-slot="breadcrumb"
+          data-testid="collection-breadcrumb"
+        >
+          <ol
+            class="flex flex-wrap items-center gap-1.5 text-sm break-words text-muted-foreground sm:gap-2.5"
+            data-slot="breadcrumb-list"
+          >
+            <li
+              class="inline-flex items-center gap-1.5"
+              data-slot="breadcrumb-item"
+            >
+              <a
+                class="transition-colors hover:text-foreground"
+                data-slot="breadcrumb-link"
+                data-testid="root-link"
+                href="/collections"
+              >
+                Sammlungen
+              </a>
+            </li>
+            <li
+              aria-hidden="true"
+              class="[&>svg]:size-3.5"
+              data-slot="breadcrumb-separator"
+              role="presentation"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-chevron-right"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="m9 18 6-6-6-6"
+                />
+              </svg>
+            </li>
+            <li
+              class="inline-flex items-center gap-1.5"
+              data-slot="breadcrumb-item"
+            >
+              <span
+                aria-current="page"
+                aria-disabled="true"
+                class="font-normal text-foreground"
+                data-slot="breadcrumb-page"
+                role="link"
+              >
+                Neue Sammlung
+              </span>
+            </li>
+          </ol>
+        </nav>
+      </div>
+      <div
+        class="mx-auto max-w-5xl"
+      >
+        <div
+          class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
+          data-slot="card"
+          data-testid="collection-edit-form"
+        >
+          <div
+            class="px-6"
+            data-slot="card-content"
+          >
+            <form
+              class="space-y-5"
+            >
+              <div
+                class="grid gap-2"
+                data-slot="form-item"
+                data-testid="name"
+              >
+                <label
+                  class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
+                  data-error="false"
+                  data-slot="form-label"
+                  for="_r_0_-form-item"
+                >
+                  Name
+                  <span
+                    class="text-destructive"
+                  >
+                    *
+                  </span>
+                </label>
+                <input
+                  aria-describedby="_r_0_-form-item-description"
+                  aria-invalid="false"
+                  class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                  data-slot="form-control"
+                  data-testid="input"
+                  id="_r_0_-form-item"
+                  name="name"
+                  value=""
+                />
+              </div>
+              <div
+                class="grid gap-2"
+                data-slot="form-item"
+                data-testid="description"
+              >
+                <label
+                  class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+                  data-error="false"
+                  data-slot="form-label"
+                  for="_r_1_-form-item"
+                >
+                  Beschreibung
+                </label>
+                <textarea
+                  aria-describedby="_r_1_-form-item-description"
+                  aria-invalid="false"
+                  class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+                  data-slot="form-control"
+                  data-testid="textarea"
+                  id="_r_1_-form-item"
+                  name="description"
+                  placeholder="Wofür wird diese Sammlung verwendet?"
+                  rows="3"
+                />
+              </div>
+              <div
+                class="grid gap-2"
+                data-slot="form-item"
+                data-testid="color"
+              >
+                <label
+                  class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+                  data-error="false"
+                  data-slot="form-label"
+                  for="_r_2_-form-item"
+                >
+                  Farbe
+                </label>
+                <input
+                  aria-describedby="_r_2_-form-item-description"
+                  aria-invalid="false"
+                  class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                  data-slot="form-control"
+                  data-testid="input"
+                  id="_r_2_-form-item"
+                  name="color"
+                  type="color"
+                  value="#3b82f6"
+                />
+              </div>
+              <div
+                class="flex items-center justify-end gap-3 pt-2"
+              >
+                <a
+                  data-testid="mock-link"
+                  href="/collections"
+                >
+                  <button
+                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+                    data-slot="button"
+                    data-testid="cancel-btn"
+                    type="button"
+                  >
+                    Abbrechen
+                  </button>
+                </a>
+                <button
+                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+                  data-slot="button"
+                  data-testid="save-btn"
+                  type="submit"
+                >
+                  Erstellen
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CollectionEdit rendering tests edit mode - test 1`] = `
+<div>
+  <div
+    class="flex h-screen flex-col bg-slate-50"
+    data-testid="collection-edit"
+  >
+    <div
+      class="border-b border-slate-200 bg-white px-6 py-4"
+    >
+      <h1
+        class="text-2xl font-bold text-slate-900"
+      >
+        Sammlung Bearbeiten
+      </h1>
+      <p
+        class="mt-0.5 text-sm text-slate-600"
+      >
+        Bearbeiten Sie die Details und Vorlagen der Sammlung
+      </p>
+    </div>
+    <div
+      class="flex-1 overflow-y-auto"
+    >
+      <div
+        class="px-6 pt-3 pb-3.5"
+      >
+        <nav
+          aria-label="breadcrumb"
+          data-slot="breadcrumb"
+          data-testid="collection-breadcrumb"
+        >
+          <ol
+            class="flex flex-wrap items-center gap-1.5 text-sm break-words text-muted-foreground sm:gap-2.5"
+            data-slot="breadcrumb-list"
+          >
+            <li
+              class="inline-flex items-center gap-1.5"
+              data-slot="breadcrumb-item"
+            >
+              <a
+                class="transition-colors hover:text-foreground"
+                data-slot="breadcrumb-link"
+                data-testid="root-link"
+                href="/collections"
+              >
+                Sammlungen
+              </a>
+            </li>
+            <li
+              aria-hidden="true"
+              class="[&>svg]:size-3.5"
+              data-slot="breadcrumb-separator"
+              role="presentation"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-chevron-right"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="m9 18 6-6-6-6"
+                />
+              </svg>
+            </li>
+            <li
+              class="inline-flex items-center gap-1.5"
+              data-slot="breadcrumb-item"
+            >
+              <a
+                class="transition-colors hover:text-foreground max-w-40 truncate"
+                data-slot="breadcrumb-link"
+                data-testid="item-link"
+                href="/collections/457bf695-6f74-44aa-9b3a-e179ea9e8171"
+                title="name 1"
+              >
+                name 1
+              </a>
+            </li>
+          </ol>
+        </nav>
+      </div>
+      <div
+        class="mx-auto max-w-5xl"
+      >
+        <div
+          class="group/tabs flex gap-2 data-[orientation=horizontal]:flex-col"
+          data-orientation="horizontal"
+          data-slot="tabs"
+          data-testid="mock-react-tabs-root"
+          orientation="horizontal"
+        >
+          <div
+            class="group/tabs-list inline-flex items-center justify-center rounded-lg p-[3px] text-muted-foreground group-data-[orientation=horizontal]/tabs:h-9 group-data-[orientation=vertical]/tabs:h-fit group-data-[orientation=vertical]/tabs:flex-col data-[variant=line]:rounded-none w-full bg-slate-50"
+            data-slot="tabs-list"
+            data-testid="mock-react-tabs-list"
+            data-variant="default"
+          >
+            <button
+              class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap text-foreground/60 transition-all group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-sm group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100 bg-slate-50"
+              data-slot="tabs-trigger"
+              data-state="active"
+              data-testid="tab-general-btn"
+            >
+              Einstellungen
+            </button>
+            <button
+              class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap text-foreground/60 transition-all group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-sm group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100 bg-slate-50"
+              data-slot="tabs-trigger"
+              data-state="inactive"
+              data-testid="tab-templates-btn"
+            >
+              Vorlagen
+            </button>
+            <button
+              class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap text-foreground/60 transition-all group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-sm group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100 bg-slate-50"
+              data-slot="tabs-trigger"
+              data-state="inactive"
+              data-testid="tab-other-btn"
+            >
+              Freigabe
+            </button>
+          </div>
+          <div
+            class="flex-1 outline-none"
+            data-slot="tabs-content"
+            data-testid="mock-react-tabs-content-general"
+          >
+            <div
+              class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
+              data-slot="card"
+              data-testid="collection-edit-form"
+            >
+              <div
+                class="px-6"
+                data-slot="card-content"
+              >
+                <form
+                  class="space-y-5"
+                >
+                  <div
+                    class="grid gap-2"
+                    data-slot="form-item"
+                    data-testid="name"
+                  >
+                    <label
+                      class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
+                      data-error="false"
+                      data-slot="form-label"
+                      for="_r_3_-form-item"
+                    >
+                      Name
+                      <span
+                        class="text-destructive"
+                      >
+                        *
+                      </span>
+                    </label>
+                    <input
+                      aria-describedby="_r_3_-form-item-description"
+                      aria-invalid="false"
+                      class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                      data-slot="form-control"
+                      data-testid="input"
+                      id="_r_3_-form-item"
+                      name="name"
+                      value="name 1"
+                    />
+                  </div>
+                  <div
+                    class="grid gap-2"
+                    data-slot="form-item"
+                    data-testid="description"
+                  >
+                    <label
+                      class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+                      data-error="false"
+                      data-slot="form-label"
+                      for="_r_4_-form-item"
+                    >
+                      Beschreibung
+                    </label>
+                    <textarea
+                      aria-describedby="_r_4_-form-item-description"
+                      aria-invalid="false"
+                      class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+                      data-slot="form-control"
+                      data-testid="textarea"
+                      id="_r_4_-form-item"
+                      name="description"
+                      placeholder="Wofür wird diese Sammlung verwendet?"
+                      rows="3"
+                    >
+                      description 1
+                    </textarea>
+                  </div>
+                  <div
+                    class="grid gap-2"
+                    data-slot="form-item"
+                    data-testid="color"
+                  >
+                    <label
+                      class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+                      data-error="false"
+                      data-slot="form-label"
+                      for="_r_5_-form-item"
+                    >
+                      Farbe
+                    </label>
+                    <input
+                      aria-describedby="_r_5_-form-item-description"
+                      aria-invalid="false"
+                      class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                      data-slot="form-control"
+                      data-testid="input"
+                      id="_r_5_-form-item"
+                      name="color"
+                      type="color"
+                      value="color 1"
+                    />
+                  </div>
+                  <div
+                    class="flex items-center justify-end gap-3 pt-2"
+                  >
+                    <a
+                      data-testid="mock-link"
+                      href="/collections/457bf695-6f74-44aa-9b3a-e179ea9e8171"
+                    >
+                      <button
+                        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+                        data-slot="button"
+                        data-testid="cancel-btn"
+                        type="button"
+                      >
+                        Abbrechen
+                      </button>
+                    </a>
+                    <button
+                      class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+                      data-slot="button"
+                      data-testid="save-btn"
+                      type="submit"
+                    >
+                      Speichern
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
