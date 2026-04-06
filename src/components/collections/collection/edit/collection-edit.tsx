@@ -16,9 +16,11 @@ import {
 import { DCollection } from "@/data/types/domain/collection";
 import { CollectionBreadcrumb } from "../../breadcrumbs";
 
-import { CollectionEditForm } from "./collection-edit-form";
-import { CollectionOther } from "./collection-other";
-import { CollectionTemplates } from "./collection-templates";
+import {
+   CollectionEditForm,
+   CollectionOther,
+   CollectionTemplates,
+} from "./sections";
 
 type Props = {
    collection?: DCollection;
