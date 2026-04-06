@@ -112,7 +112,10 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
             data-testid={`${isIn ? "remove" : "add"}-template-btn`}
          >
             {isPending ? (
-               <Loader className="h-3.5 w-3.5 animate-spin" />
+               <Loader
+                  className="h-3.5 w-3.5 animate-spin"
+                  data-testid="loader-icon"
+               />
             ) : isIn ? (
                <>
                   <Check className="h-3.5 w-3.5 text-green-600 group-hover:hidden" />

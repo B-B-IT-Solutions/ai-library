@@ -138,6 +138,11 @@ const assertTemplateRows = (count: number, isIn: boolean) => {
    expect(rows).toHaveLength(count);
 };
 
+const assertLoaderIcon = () => {
+   const icon = screen.getByTestId("loader-icon");
+   assertInDocument(icon);
+};
+
 describe("CollectionTemplates rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -228,7 +233,6 @@ describe("CollectionTemplates functionality tests", () => {
 
       const mutateFn = jest.fn((_params: unknown, callbacks) => {
          callbacks.onSuccess(actionResult);
-         callbacks.onSettled();
       });
 
       const templateIdsQueryResult = templateIdsQueryResultMock([]);
@@ -253,6 +257,10 @@ describe("CollectionTemplates functionality tests", () => {
 
       const addBtn = screen.getAllByTestId("add-template-btn");
       await userEvent.click(addBtn[0]);
+
+      await waitFor(() => {
+         assertLoaderIcon();
+      });
 
       const expectedParams: AddTemplateToCollectionParams = {
          collectionId,
