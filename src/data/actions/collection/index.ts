@@ -7,7 +7,7 @@ export {
    getCollectionById,
    getCollectionByShareToken,
    getPublicCollectionByToken,
-   setLibraryCollectionSharing,
+   setCollectionPublic,
    updateCollection,
    getCollectionTemplateIds,
    addTemplateToCollection,

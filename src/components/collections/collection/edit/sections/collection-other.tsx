@@ -7,7 +7,7 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
 import { Card, CardContent } from "@/components/shadcn/card";
-import { setLibraryCollectionSharing } from "@/data/actions/collection";
+import { setCollectionPublic } from "@/data/actions/collection";
 import { DCollection } from "@/data/types/domain/collection";
 
 type Props = {
@@ -28,7 +28,7 @@ export const CollectionOther = ({ collection }: Props) => {
    const handleToggleShare = () => {
       startTransition(async () => {
          const { id, isPublic } = collection;
-         const result = await setLibraryCollectionSharing(id, !isPublic);
+         const result = await setCollectionPublic(id, !isPublic);
          if (result.success) {
             toast.success(result.message);
          } else {

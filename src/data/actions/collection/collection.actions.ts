@@ -1,7 +1,6 @@
 "use server";
 
 import { isEmpty } from "es-toolkit/compat";
-import { v4 as uuidv4 } from "uuid";
 import { validate as isValidUuid } from "uuid";
 
 import { requireUser } from "@/data/actions/auth-utils";
@@ -207,6 +206,39 @@ export const removeTemplateFromCollection = async (
    }
 };
 
+export const setCollectionPublic = async (
+   collectionId: string,
+   isPublic: boolean
+): Promise<ActionResult<DCollection>> => {
+   try {
+      if (!isValidUuid(collectionId)) {
+         throw new Error("Invalid collection ID.");
+      }
+
+      const user = await requireUser();
+      const service = getService();
+      const collection = await service.setCollectionPublic(
+         user.id,
+         collectionId,
+         isPublic
+      );
+
+      return {
+         success: true,
+         message: isPublic
+            ? "Sammlung ist jetzt öffentlich zugänglich"
+            : "Sammlung ist jetzt privat",
+         data: collection,
+      };
+   } catch (error) {
+      console.error(formatError(error));
+      return {
+         success: false,
+         message: "Freigabe konnte nicht geändert werden",
+      };
+   }
+};
+
 export const getPublicCollectionByToken = async (
    shareToken: string
 ): Promise<{
@@ -233,45 +265,6 @@ export const getPublicCollectionByToken = async (
    } catch (error) {
       console.error(formatError(error));
       return null;
-   }
-};
-
-export const setLibraryCollectionSharing = async (
-   collectionId: string,
-   isPublic: boolean
-): Promise<ActionResult<DCollection>> => {
-   try {
-      if (!isValidUuid(collectionId)) {
-         throw new Error("Invalid collection ID.");
-      }
-      const user = await requireUser();
-      const service = getService();
-
-      let shareToken: string | null = null;
-      if (isPublic) {
-         shareToken = uuidv4();
-      }
-
-      const collection = await service.setCollectionSharing(
-         user.id,
-         collectionId,
-         isPublic,
-         shareToken
-      );
-
-      return {
-         success: true,
-         message: isPublic
-            ? "Sammlung ist jetzt öffentlich zugänglich"
-            : "Sammlung ist jetzt privat",
-         data: collection,
-      };
-   } catch (error) {
-      console.error(formatError(error));
-      return {
-         success: false,
-         message: "Freigabe konnte nicht geändert werden",
-      };
    }
 };
 
