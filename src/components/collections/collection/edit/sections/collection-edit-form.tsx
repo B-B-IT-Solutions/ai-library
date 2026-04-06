@@ -1,5 +1,6 @@
 "use client";
 
+import { useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 import Link from "next/link";
@@ -11,10 +12,8 @@ import { Button } from "@/components/shadcn/button";
 import { Card, CardContent } from "@/components/shadcn/card";
 import { Form } from "@/components/shadcn/form";
 import { FormInput, FormTextArea } from "@/components/shared/widgets";
-import {
-   useCreateCollection,
-   useUpdateCollection,
-} from "@/data/ts-queries/library";
+import { createCollection } from "@/data/actions/collection";
+import { useUpdateCollection } from "@/data/ts-queries/library";
 import { UpdateCollectionParams } from "@/data/ts-queries/library/types";
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import { updateCollectionSchema } from "@/data/types/validators/collection";
@@ -28,10 +27,10 @@ export const CollectionEditForm = ({ collection }: Props) => {
    const router = useRouter();
    const isEdit = !!collection;
 
+   const [isCreating, startTransition] = useTransition();
+
    const { mutate: updateCollection, isPending: isUpdating } =
       useUpdateCollection();
-   const { mutate: createCollection, isPending: isCreating } =
-      useCreateCollection();
 
    const form = useForm<DCollectionUpdate>({
       resolver: zodResolver(updateCollectionSchema),
@@ -40,40 +39,40 @@ export const CollectionEditForm = ({ collection }: Props) => {
 
    const isSubmitting = isUpdating || isCreating;
 
+   const onCreateCollection = async (data: DCollectionUpdate) => {
+      startTransition(async () => {
+         const result = await createCollection(data);
+         if (result.success && result.data) {
+            toast.success(result.message);
+            router.push(`/collections/${result.data.id}`);
+         } else {
+            toast.error(result.message);
+         }
+      });
+   };
+
+   const onUpdateCollection = (data: DCollectionUpdate) => {
+      const params: UpdateCollectionParams = {
+         collectionId: collection!.id,
+         data,
+      };
+      updateCollection(params, {
+         onSuccess: (result) => {
+            if (result.success) {
+               toast.success(result.message);
+            } else {
+               toast.error(result.message);
+            }
+         },
+         onError: () => toast.error("Fehler beim Speichern"),
+      });
+   };
+
    const onSubmit = (data: DCollectionUpdate) => {
       if (isEdit) {
-         const params: UpdateCollectionParams = {
-            collectionId: collection.id,
-            data,
-         };
-         updateCollection(params, {
-            onSuccess: (result) => {
-               if (result.success) {
-                  toast.success(result.message);
-               } else {
-                  toast.error(result.message);
-               }
-            },
-            onError: () => toast.error("Fehler beim Speichern"),
-         });
+         onUpdateCollection(data);
       } else {
-         createCollection(data, {
-            onSuccess: (result) => {
-               if (result.success && result.data) {
-                  toast.success(result.message);
-                  // if (onCreated) {
-                  //    onCreated(result.data.id);
-                  // } else {
-                  router.push(`/collections/${result.data.id}`);
-                  // }
-               } else {
-                  toast.error(result.message);
-               }
-            },
-            onError: () => {
-               toast.error("Fehler beim Erstellen der Sammlung");
-            },
-         });
+         onCreateCollection(data);
       }
    };
 
