@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
@@ -56,7 +56,7 @@ export const CollectionEditForm = ({ collection }: Props) => {
       });
    };
 
-   const onSubmit = (data: DCollectionUpdate) => {
+   const onSubmit: SubmitHandler<DCollectionUpdate> = (data) => {
       if (isEdit) {
          onUpdateCollection(data);
       } else {
