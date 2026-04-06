@@ -409,49 +409,63 @@ describe("CollectionTemplates functionality tests", () => {
    });
 
    it("remove template - success false - test", async () => {
-      const templates = dtestData.dPromptTemplateDescriptors(1);
-      const inCollectionIds = [templates[0].id];
-      const page: DTemplateDescriptorsPage = {
-         content: templates,
-         numberOfElements: 1,
-         pageNumber: 1,
-         pageSize: 1,
-         totalElements: 1,
-         totalPages: 1,
-      };
-
       const actionResult: ActionResult = {
          success: false,
          message: "Fehler beim Entfernen",
       };
+
       const mutateFn = jest.fn((_params: unknown, callbacks) => {
          callbacks.onSuccess(actionResult);
          callbacks.onSettled();
       });
 
-      useLoadCollectionTemplateIdsMock.mockReturnValue(
-         templateIdsQueryResultMock(inCollectionIds)
-      );
+      const page = dtestData.dTemplateDescriptorsPage(1);
+      const templateIds = [page.content[0].id];
+
+      const templateIdsQueryResult = templateIdsQueryResultMock(templateIds);
+      useLoadCollectionTemplateIdsMock.mockReturnValue(templateIdsQueryResult);
+
+      const loadTemplatesQueryResult = infiniteQueryResultMock([page]);
       useInfiniteLoadTemplateDescriptorsMock.mockReturnValue(
-         infiniteQueryResultMock([page])
+         loadTemplatesQueryResult
       );
-      useRemoveTemplateFromCollectionMock.mockReturnValue(
-         removeMutationResultMock(mutateFn)
-      );
+
+      const removeResultMock = removeMutationResultMock(mutateFn);
+      useRemoveTemplateFromCollectionMock.mockReturnValue(removeResultMock);
 
       renderWithReactQuery(<CollectionTemplates collectionId={collectionId} />);
 
-      await waitFor(() => {
-         assertInDocument(screen.getByText(templates[0].title));
+      const removeBtn = screen.getAllByTestId("remove-template-btn");
+      await userEvent.click(removeBtn[0]);
+
+      const expectedParams: AddTemplateToCollectionParams = {
+         collectionId,
+         templateDescriptorId: page.content[0].id,
+      };
+
+      const expectedCallback = expect.objectContaining({
+         onSuccess: expect.any(Function),
+         onSettled: expect.any(Function),
       });
 
-      const removeButtons = screen.getAllByRole("button");
-      await userEvent.click(removeButtons[0]);
+      const expectedLoadDescriptorsParams: LoadTemplateDescriptorsParams = {
+         filters: { search: undefined },
+      };
 
       await waitFor(() => {
          expect(mutateFn).toHaveBeenCalledTimes(1);
+         expect(mutateFn).toHaveBeenCalledWith(
+            expectedParams,
+            expectedCallback
+         );
          expect(toastMock.error).toHaveBeenCalledTimes(1);
          expect(toastMock.error).toHaveBeenCalledWith(actionResult.message);
+         expect(useInfiniteLoadTemplateDescriptorsMock).toHaveBeenCalledWith(
+            expectedLoadDescriptorsParams
+         );
+         expect(useLoadCollectionTemplateIdsMock).toHaveBeenCalledWith(
+            collectionId
+         );
       });
    });
 
