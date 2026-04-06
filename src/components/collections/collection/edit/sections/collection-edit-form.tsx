@@ -18,8 +18,7 @@ import {
 import { UpdateCollectionParams } from "@/data/ts-queries/library/types";
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import { updateCollectionSchema } from "@/data/types/validators/collection";
-
-import { initCollection } from "./utils";
+import { initCollection } from "../utils";
 
 type Props = {
    collection?: DCollection;
