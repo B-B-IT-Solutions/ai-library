@@ -1,0 +1,377 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`CollectionEditForm rendering tests create mode - test 1`] = `
+<div>
+  <div
+    class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
+    data-slot="card"
+    data-testid="collection-edit-form"
+  >
+    <div
+      class="px-6"
+      data-slot="card-content"
+    >
+      <form
+        class="space-y-5"
+      >
+        <div
+          class="grid gap-2"
+          data-slot="form-item"
+          data-testid="name"
+        >
+          <label
+            class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
+            data-error="false"
+            data-slot="form-label"
+            for="_r_0_-form-item"
+          >
+            Name
+            <span
+              class="text-destructive"
+            >
+              *
+            </span>
+          </label>
+          <input
+            aria-describedby="_r_0_-form-item-description"
+            aria-invalid="false"
+            class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+            data-slot="form-control"
+            data-testid="input"
+            id="_r_0_-form-item"
+            name="name"
+            value=""
+          />
+        </div>
+        <div
+          class="grid gap-2"
+          data-slot="form-item"
+          data-testid="description"
+        >
+          <label
+            class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+            data-error="false"
+            data-slot="form-label"
+            for="_r_1_-form-item"
+          >
+            Beschreibung
+          </label>
+          <textarea
+            aria-describedby="_r_1_-form-item-description"
+            aria-invalid="false"
+            class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+            data-slot="form-control"
+            data-testid="textarea"
+            id="_r_1_-form-item"
+            name="description"
+            placeholder="Wofür wird diese Sammlung verwendet?"
+            rows="3"
+          />
+        </div>
+        <div
+          class="grid gap-2"
+          data-slot="form-item"
+          data-testid="color"
+        >
+          <label
+            class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+            data-error="false"
+            data-slot="form-label"
+            for="_r_2_-form-item"
+          >
+            Farbe
+          </label>
+          <input
+            aria-describedby="_r_2_-form-item-description"
+            aria-invalid="false"
+            class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+            data-slot="form-control"
+            data-testid="input"
+            id="_r_2_-form-item"
+            name="color"
+            type="color"
+            value="#3b82f6"
+          />
+        </div>
+        <div
+          class="flex items-center justify-end gap-3 pt-2"
+        >
+          <a
+            data-testid="mock-link"
+            href="/collections"
+          >
+            <button
+              class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+              data-slot="button"
+              data-testid="cancel-btn"
+              type="button"
+            >
+              Abbrechen
+            </button>
+          </a>
+          <button
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+            data-slot="button"
+            data-testid="save-btn"
+            type="submit"
+          >
+            Erstellen
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CollectionEditForm rendering tests edit mode - test 1`] = `
+<div>
+  <div
+    class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
+    data-slot="card"
+    data-testid="collection-edit-form"
+  >
+    <div
+      class="px-6"
+      data-slot="card-content"
+    >
+      <form
+        class="space-y-5"
+      >
+        <div
+          class="grid gap-2"
+          data-slot="form-item"
+          data-testid="name"
+        >
+          <label
+            class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
+            data-error="false"
+            data-slot="form-label"
+            for="_r_3_-form-item"
+          >
+            Name
+            <span
+              class="text-destructive"
+            >
+              *
+            </span>
+          </label>
+          <input
+            aria-describedby="_r_3_-form-item-description"
+            aria-invalid="false"
+            class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+            data-slot="form-control"
+            data-testid="input"
+            id="_r_3_-form-item"
+            name="name"
+            value="name 1"
+          />
+        </div>
+        <div
+          class="grid gap-2"
+          data-slot="form-item"
+          data-testid="description"
+        >
+          <label
+            class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+            data-error="false"
+            data-slot="form-label"
+            for="_r_4_-form-item"
+          >
+            Beschreibung
+          </label>
+          <textarea
+            aria-describedby="_r_4_-form-item-description"
+            aria-invalid="false"
+            class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+            data-slot="form-control"
+            data-testid="textarea"
+            id="_r_4_-form-item"
+            name="description"
+            placeholder="Wofür wird diese Sammlung verwendet?"
+            rows="3"
+          >
+            description 1
+          </textarea>
+        </div>
+        <div
+          class="grid gap-2"
+          data-slot="form-item"
+          data-testid="color"
+        >
+          <label
+            class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+            data-error="false"
+            data-slot="form-label"
+            for="_r_5_-form-item"
+          >
+            Farbe
+          </label>
+          <input
+            aria-describedby="_r_5_-form-item-description"
+            aria-invalid="false"
+            class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+            data-slot="form-control"
+            data-testid="input"
+            id="_r_5_-form-item"
+            name="color"
+            type="color"
+            value="color 1"
+          />
+        </div>
+        <div
+          class="flex items-center justify-end gap-3 pt-2"
+        >
+          <a
+            data-testid="mock-link"
+            href="/collections/457bf695-6f74-44aa-9b3a-e179ea9e8171"
+          >
+            <button
+              class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+              data-slot="button"
+              data-testid="cancel-btn"
+              type="button"
+            >
+              Abbrechen
+            </button>
+          </a>
+          <button
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+            data-slot="button"
+            data-testid="save-btn"
+            type="submit"
+          >
+            Speichern
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CollectionEditForm rendering tests edit mode - test 2`] = `
+<div>
+  <div
+    class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm"
+    data-slot="card"
+    data-testid="collection-edit-form"
+  >
+    <div
+      class="px-6"
+      data-slot="card-content"
+    >
+      <form
+        class="space-y-5"
+      >
+        <div
+          class="grid gap-2"
+          data-slot="form-item"
+          data-testid="name"
+        >
+          <label
+            class="flex items-center text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive gap-1"
+            data-error="false"
+            data-slot="form-label"
+            for="_r_3_-form-item"
+          >
+            Name
+            <span
+              class="text-destructive"
+            >
+              *
+            </span>
+          </label>
+          <input
+            aria-describedby="_r_3_-form-item-description"
+            aria-invalid="false"
+            class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+            data-slot="form-control"
+            data-testid="input"
+            id="_r_3_-form-item"
+            name="name"
+            value="name 1"
+          />
+        </div>
+        <div
+          class="grid gap-2"
+          data-slot="form-item"
+          data-testid="description"
+        >
+          <label
+            class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+            data-error="false"
+            data-slot="form-label"
+            for="_r_4_-form-item"
+          >
+            Beschreibung
+          </label>
+          <textarea
+            aria-describedby="_r_4_-form-item-description"
+            aria-invalid="false"
+            class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+            data-slot="form-control"
+            data-testid="textarea"
+            id="_r_4_-form-item"
+            name="description"
+            placeholder="Wofür wird diese Sammlung verwendet?"
+            rows="3"
+          >
+            description 1
+          </textarea>
+        </div>
+        <div
+          class="grid gap-2"
+          data-slot="form-item"
+          data-testid="color"
+        >
+          <label
+            class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"
+            data-error="false"
+            data-slot="form-label"
+            for="_r_5_-form-item"
+          >
+            Farbe
+          </label>
+          <input
+            aria-describedby="_r_5_-form-item-description"
+            aria-invalid="false"
+            class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+            data-slot="form-control"
+            data-testid="input"
+            id="_r_5_-form-item"
+            name="color"
+            type="color"
+            value="color 1"
+          />
+        </div>
+        <div
+          class="flex items-center justify-end gap-3 pt-2"
+        >
+          <a
+            data-testid="mock-link"
+            href="/collections/457bf695-6f74-44aa-9b3a-e179ea9e8171"
+          >
+            <button
+              class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+              data-slot="button"
+              data-testid="cancel-btn"
+              type="button"
+            >
+              Abbrechen
+            </button>
+          </a>
+          <button
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+            data-slot="button"
+            data-testid="save-btn"
+            type="submit"
+          >
+            Speichern
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

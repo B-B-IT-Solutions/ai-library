@@ -35,7 +35,9 @@ export const CollectionOther = ({ collection }: Props) => {
    };
 
    const handleCopy = async () => {
-      if (!shareUrl) return;
+      if (!shareUrl) {
+         return;
+      }
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
