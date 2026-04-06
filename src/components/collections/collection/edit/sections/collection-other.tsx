@@ -22,9 +22,10 @@ export const CollectionOther = ({ collection }: Props) => {
 
    const publicUrl = `${window.location.origin}/p/collections/${collection.publicToken}`;
 
+   const { id, isPublic } = collection;
+
    const handleToggleShare = () => {
       startTransition(async () => {
-         const { id, isPublic } = collection;
          const result = await setCollectionPublic(id, !isPublic);
          if (result.success) {
             toast.success(result.message);
@@ -45,65 +46,76 @@ export const CollectionOther = ({ collection }: Props) => {
       toast.success("Link kopiert");
    };
 
+   const isPublicToggle = () => {
+      return (
+         <div className="flex items-center justify-between rounded-lg border p-3">
+            <div className="flex items-center gap-2.5">
+               {isPublic ? (
+                  <Globe className="h-4 w-4 text-green-600" />
+               ) : (
+                  <Lock className="h-4 w-4 text-slate-400" />
+               )}
+               <div>
+                  <p className="text-sm font-medium">
+                     {isPublic ? "Öffentlich" : "Privat"}
+                  </p>
+                  <p className="text-xs text-slate-500">
+                     {isPublic
+                        ? "Jeder mit Link kann ansehen"
+                        : "Nur für Sie sichtbar"}
+                  </p>
+               </div>
+            </div>
+            <Button
+               type="button"
+               variant={isPublic ? "destructive" : "outline"}
+               size="sm"
+               onClick={handleToggleShare}
+               disabled={isSubmitting}
+            >
+               {isSubmitting ? (
+                  <Loader className="h-4 w-4 animate-spin" />
+               ) : isPublic ? (
+                  "Deaktivieren"
+               ) : (
+                  "Aktivieren"
+               )}
+            </Button>
+         </div>
+      );
+   };
+
+   const url = () => {
+      if (isPublic) {
+         return (
+            <div className="flex gap-2">
+               <div className="flex-1 truncate rounded-md border bg-slate-50 px-3 py-2 text-xs text-slate-600">
+                  {publicUrl}
+               </div>
+               <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={handleCopy}
+                  className="shrink-0"
+               >
+                  {copied ? (
+                     <Check className="h-4 w-4 text-green-600" />
+                  ) : (
+                     <Copy className="h-4 w-4" />
+                  )}
+               </Button>
+            </div>
+         );
+      }
+   };
+
    return (
       <Card data-testid="collection-other">
          <CardContent className="space-y-3 pt-6">
             <p className="text-sm font-semibold text-slate-700">Freigabe</p>
-            <div className="flex items-center justify-between rounded-lg border p-3">
-               <div className="flex items-center gap-2.5">
-                  {collection.isPublic ? (
-                     <Globe className="h-4 w-4 text-green-600" />
-                  ) : (
-                     <Lock className="h-4 w-4 text-slate-400" />
-                  )}
-                  <div>
-                     <p className="text-sm font-medium">
-                        {collection.isPublic ? "Öffentlich" : "Privat"}
-                     </p>
-                     <p className="text-xs text-slate-500">
-                        {collection.isPublic
-                           ? "Jeder mit Link kann ansehen"
-                           : "Nur für Sie sichtbar"}
-                     </p>
-                  </div>
-               </div>
-               <Button
-                  type="button"
-                  variant={collection.isPublic ? "destructive" : "outline"}
-                  size="sm"
-                  onClick={handleToggleShare}
-                  disabled={isSubmitting}
-               >
-                  {isSubmitting ? (
-                     <Loader className="h-4 w-4 animate-spin" />
-                  ) : collection.isPublic ? (
-                     "Deaktivieren"
-                  ) : (
-                     "Aktivieren"
-                  )}
-               </Button>
-            </div>
-
-            {collection.isPublic && publicUrl && (
-               <div className="flex gap-2">
-                  <div className="flex-1 truncate rounded-md border bg-slate-50 px-3 py-2 text-xs text-slate-600">
-                     {publicUrl}
-                  </div>
-                  <Button
-                     type="button"
-                     variant="outline"
-                     size="sm"
-                     onClick={handleCopy}
-                     className="shrink-0"
-                  >
-                     {copied ? (
-                        <Check className="h-4 w-4 text-green-600" />
-                     ) : (
-                        <Copy className="h-4 w-4" />
-                     )}
-                  </Button>
-               </div>
-            )}
+            {isPublicToggle()}
+            {url()}
          </CardContent>
       </Card>
    );
