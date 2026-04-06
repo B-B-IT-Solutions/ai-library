@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { Check, Copy, Globe, Loader, Lock } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button";
 import { Card, CardContent } from "@/components/shadcn/card";
-import { useSetCollectionSharing } from "@/data/ts-queries/library";
+import { setLibraryCollectionSharing } from "@/data/actions/collection";
 import { DCollection } from "@/data/types/domain/collection";
 
 type Props = {
@@ -14,8 +15,9 @@ type Props = {
 };
 
 export const CollectionOther = ({ collection }: Props) => {
-   const { mutate: setSharing, isPending: isTogglingShare } =
-      useSetCollectionSharing();
+   const router = useRouter();
+   const [isSubmitting, startTransition] = useTransition();
+
    const [copied, setCopied] = useState(false);
 
    const shareUrl =
@@ -24,14 +26,16 @@ export const CollectionOther = ({ collection }: Props) => {
          : null;
 
    const handleToggleShare = () => {
-      setSharing(
-         { collectionId: collection.id, isPublic: !collection.isPublic },
-         {
-            onSuccess: (result) => {
-               if (!result.success) toast.error(result.message);
-            },
+      startTransition(async () => {
+         const { id, isPublic } = collection;
+         const result = await setLibraryCollectionSharing(id, !isPublic);
+         if (result.success) {
+            toast.success(result.message);
+         } else {
+            toast.error(result.message);
          }
-      );
+         router.refresh();
+      });
    };
 
    const handleCopy = async () => {
@@ -71,9 +75,9 @@ export const CollectionOther = ({ collection }: Props) => {
                   variant={collection.isPublic ? "destructive" : "outline"}
                   size="sm"
                   onClick={handleToggleShare}
-                  disabled={isTogglingShare}
+                  disabled={isSubmitting}
                >
-                  {isTogglingShare ? (
+                  {isSubmitting ? (
                      <Loader className="h-4 w-4 animate-spin" />
                   ) : collection.isPublic ? (
                      "Deaktivieren"

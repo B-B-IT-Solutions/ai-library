@@ -22,7 +22,6 @@ import {
    deleteCollection,
    getCollections,
    getEntryCollectionIds,
-   setLibraryCollectionSharing,
    updateEntryCollections,
 } from "@/data/actions/collection";
 import {
@@ -258,27 +257,4 @@ export const useUpdateEntryCollections = (): UseMutationResult<
 > => {
    const queryClient = useQueryClient();
    return useMutation(updateEntryCollectionsOptions(queryClient));
-};
-
-export const useSetCollectionSharing = (): UseMutationResult<
-   ActionResult<DCollection>,
-   Error,
-   { collectionId: string; isPublic: boolean }
-> => {
-   const queryClient = useQueryClient();
-   return useMutation({
-      mutationFn: ({ collectionId, isPublic }) =>
-         setLibraryCollectionSharing(collectionId, isPublic),
-      onSuccess: (result, { collectionId }) => {
-         if (result.data) {
-            queryClient.setQueryData(
-               libraryKeys.collection(collectionId),
-               result.data
-            );
-            const updater = (cols: DCollection[]) =>
-               cols.map((c) => (c.id === collectionId ? result.data! : c));
-            queryClient.setQueryData(libraryKeys.collections(), updater);
-         }
-      },
-   });
 };
