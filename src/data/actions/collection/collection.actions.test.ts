@@ -13,7 +13,7 @@ import {
    createCollection,
    deleteCollection,
    getCollectionById,
-   getCollectionByShareToken,
+   getCollectionByPublicToken,
    getCollections,
    getCollectionTemplateIds,
    getEntryCollectionIds,
@@ -28,7 +28,7 @@ const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 const sGetCollections = CollectionService.prototype.getCollections;
 const sGetCollectionById = CollectionService.prototype.getCollectionById;
 const sGetCollectionByShareToken =
-   CollectionService.prototype.getCollectionByShareToken;
+   CollectionService.prototype.getCollectionByPublicToken;
 const sCreateCollection = CollectionService.prototype.createCollection;
 const sUpdateCollection = CollectionService.prototype.updateCollection;
 const sDeleteCollection = CollectionService.prototype.deleteCollection;
@@ -181,7 +181,7 @@ describe("getCollectionById tests", () => {
    });
 });
 
-describe("getCollectionByShareToken tests", () => {
+describe("getCollectionByPublicToken tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -192,7 +192,7 @@ describe("getCollectionByShareToken tests", () => {
    });
 
    it("invalid token - test", async () => {
-      const result = await getCollectionByShareToken("");
+      const result = await getCollectionByPublicToken("");
 
       expect(result).toBeNull();
       expect(requireUserMock).not.toHaveBeenCalled();
@@ -207,7 +207,7 @@ describe("getCollectionByShareToken tests", () => {
 
       const token = "token-1";
 
-      const result = await getCollectionByShareToken(token);
+      const result = await getCollectionByPublicToken(token);
 
       expect(result).toEqual(collection);
       expect(sGetCollectionByShareTokenMock).toHaveBeenCalledTimes(1);

@@ -71,7 +71,7 @@ export class CollectionRepository {
       return toDCollection(collection);
    }
 
-   async pGetCollectionByShareToken(
+   async pGetCollectionByPublicToken(
       publicToken: string
    ): Promise<DCollection | null> {
       const collection = await this.prisma.libraryCollection.findUnique({

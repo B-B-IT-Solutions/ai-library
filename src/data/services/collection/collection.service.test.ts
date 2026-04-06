@@ -60,7 +60,7 @@ describe("getCollectionById tests", () => {
    });
 });
 
-describe("getCollectionByShareToken tests", () => {
+describe("getCollectionByPublicToken tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -68,18 +68,18 @@ describe("getCollectionByShareToken tests", () => {
    it("collection retrieved - test", async () => {
       const token = "token-1";
       const collection = dtestData.dCollection();
-      collectionRepoMock.pGetCollectionByShareToken.mockResolvedValue(
+      collectionRepoMock.pGetCollectionByPublicToken.mockResolvedValue(
          collection
       );
 
-      const result = await collectionService.getCollectionByShareToken(token);
+      const result = await collectionService.getCollectionByPublicToken(token);
 
       expect(result).toEqual(collection);
       expect(
-         collectionRepoMock.pGetCollectionByShareToken
+         collectionRepoMock.pGetCollectionByPublicToken
       ).toHaveBeenCalledTimes(1);
       expect(
-         collectionRepoMock.pGetCollectionByShareToken
+         collectionRepoMock.pGetCollectionByPublicToken
       ).toHaveBeenCalledWith(token);
    });
 });

@@ -5,7 +5,7 @@ export {
    updateEntryCollections,
    getCollections,
    getCollectionById,
-   getCollectionByShareToken,
+   getCollectionByPublicToken,
    getPublicCollectionByToken,
    setCollectionPublic,
    updateCollection,

@@ -38,7 +38,7 @@ export const getCollectionById = async (
    }
 };
 
-export const getCollectionByShareToken = async (
+export const getCollectionByPublicToken = async (
    token: string
 ): Promise<DCollection | null> => {
    try {
@@ -46,7 +46,7 @@ export const getCollectionByShareToken = async (
          throw new Error("Invalid token.");
       }
       const service = getService();
-      return await service.getCollectionByShareToken(token);
+      return await service.getCollectionByPublicToken(token);
    } catch (error) {
       console.error(formatError(error));
       return null;
@@ -253,7 +253,7 @@ export const getPublicCollectionByToken = async (
 } | null> => {
    try {
       const service = getService();
-      const collection = await service.getCollectionByShareToken(publicToken);
+      const collection = await service.getCollectionByPublicToken(publicToken);
       if (!collection) {
          return null;
       }

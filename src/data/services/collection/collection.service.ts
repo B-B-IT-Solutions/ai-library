@@ -24,10 +24,10 @@ export class CollectionService {
       );
    }
 
-   async getCollectionByShareToken(
+   async getCollectionByPublicToken(
       publicToken: string
    ): Promise<DCollection | null> {
-      return await this.libraryRepository.pGetCollectionByShareToken(
+      return await this.libraryRepository.pGetCollectionByPublicToken(
          publicToken
       );
    }

@@ -131,7 +131,7 @@ describe("pGetCollectionById tests", () => {
    });
 });
 
-describe("pGetCollectionByShareToken tests", () => {
+describe("pGetCollectionByPublicToken tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
@@ -141,7 +141,7 @@ describe("pGetCollectionByShareToken tests", () => {
       prismaMock.libraryCollection.findUnique.mockResolvedValue(null);
 
       const result =
-         await collectionRepository.pGetCollectionByShareToken(publicToken);
+         await collectionRepository.pGetCollectionByPublicToken(publicToken);
 
       const expectedArgs: LibraryCollectionFindUniqueArgs = {
          where: {
@@ -170,7 +170,7 @@ describe("pGetCollectionByShareToken tests", () => {
       prismaMock.libraryCollection.findUnique.mockResolvedValue(collection);
 
       const result =
-         await collectionRepository.pGetCollectionByShareToken(publicToken);
+         await collectionRepository.pGetCollectionByPublicToken(publicToken);
 
       const expectedResult = toDCollection(collection);
 
