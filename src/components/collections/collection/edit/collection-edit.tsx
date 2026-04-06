@@ -57,13 +57,13 @@ export const CollectionEdit = ({ collection }: Props) => {
    const body = () => {
       if (isEdit) {
          return (
-            <Tabs defaultValue="settings">
+            <Tabs defaultValue="general" orientation="horizontal">
                <TabsList>
-                  <TabsTrigger value="settings">Einstellungen</TabsTrigger>
+                  <TabsTrigger value="general">Einstellungen</TabsTrigger>
                   <TabsTrigger value="templates">Vorlagen</TabsTrigger>
                   <TabsTrigger value="sharing">Freigabe</TabsTrigger>
                </TabsList>
-               <TabsContent value="settings">
+               <TabsContent value="general">
                   <CollectionEditForm collection={collection} />
                </TabsContent>
                <TabsContent value="templates">
