@@ -104,12 +104,12 @@ export class CollectionService {
       collectionId: string,
       isPublic: boolean
    ): Promise<DCollection> {
-      const shareToken = isPublic ? uuidv4() : null;
+      const token = isPublic ? uuidv4() : null;
 
       return await this.libraryRepository.pSetPublicToken(
          userId,
          collectionId,
-         shareToken,
+         token,
          isPublic
       );
    }

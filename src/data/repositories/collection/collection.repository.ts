@@ -170,11 +170,11 @@ export class CollectionRepository {
    async pSetPublicToken(
       userId: string,
       collectionId: string,
-      shareToken: string | null,
+      publicToken: string | null,
       isPublic: boolean
    ): Promise<DCollection> {
       const input: LibraryCollectionUpdateInput = {
-         shareToken,
+         shareToken: publicToken,
          isPublic,
       };
 
