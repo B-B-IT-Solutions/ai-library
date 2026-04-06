@@ -1,6 +1,12 @@
 "use client";
 
 import {
+   Tabs,
+   TabsContent,
+   TabsList,
+   TabsTrigger,
+} from "@/components/shadcn/tabs";
+import {
    ItemDetailsEdit,
    ItemDetailsEditBody,
    ItemDetailsEditBreadcrumbs,
@@ -11,6 +17,7 @@ import { DCollection } from "@/data/types/domain/collection";
 import { CollectionBreadcrumb } from "../../breadcrumbs";
 
 import { CollectionEditForm } from "./collection-edit-form";
+import { CollectionSharing } from "./collection-sharing";
 import { CollectionTemplates } from "./collection-templates";
 
 type Props = {
@@ -47,13 +54,25 @@ export const CollectionEdit = ({ collection }: Props) => {
       return <CollectionBreadcrumb variant="new" />;
    };
 
-   const form = () => {
+   const body = () => {
       if (isEdit) {
          return (
-            <div className="flex flex-col gap-8">
-               <CollectionEditForm collection={collection} />
-               <CollectionTemplates collectionId={collection.id} />
-            </div>
+            <Tabs defaultValue="settings">
+               <TabsList>
+                  <TabsTrigger value="settings">Einstellungen</TabsTrigger>
+                  <TabsTrigger value="templates">Vorlagen</TabsTrigger>
+                  <TabsTrigger value="sharing">Freigabe</TabsTrigger>
+               </TabsList>
+               <TabsContent value="settings">
+                  <CollectionEditForm collection={collection} />
+               </TabsContent>
+               <TabsContent value="templates">
+                  <CollectionTemplates collectionId={collection.id} />
+               </TabsContent>
+               <TabsContent value="sharing">
+                  <CollectionSharing collection={collection} />
+               </TabsContent>
+            </Tabs>
          );
       }
       return <CollectionEditForm collection={collection} />;
@@ -66,7 +85,7 @@ export const CollectionEdit = ({ collection }: Props) => {
             <ItemDetailsEditBreadcrumbs>
                {breadcrumbs()}
             </ItemDetailsEditBreadcrumbs>
-            <ItemDetailsEditBody>{form()}</ItemDetailsEditBody>
+            <ItemDetailsEditBody>{body()}</ItemDetailsEditBody>
          </ItemDetailsEditContent>
       </ItemDetailsEdit>
    );
