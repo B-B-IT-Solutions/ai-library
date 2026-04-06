@@ -106,9 +106,9 @@ export const CollectionEditForm = ({ collection }: Props) => {
                   {isEdit ? "Wird gespeichert..." : "Wird erstellt..."}
                </>
             ) : isEdit ? (
-               "Sammlung speichern"
+               "Speichern"
             ) : (
-               "Sammlung erstellen"
+               "Erstellen"
             )}
          </Button>
       );
@@ -151,7 +151,6 @@ export const CollectionEditForm = ({ collection }: Props) => {
                   />
                   {buttons()}
                </form>
-
             </Form>
          </CardContent>
       </Card>

@@ -69,13 +69,13 @@ export const CollectionEdit = ({ collection }: Props) => {
                      Freigabe
                   </TabsTrigger>
                </TabsList>
-               <TabsContent value="general" className="pb-6">
+               <TabsContent value="general">
                   <CollectionEditForm collection={collection} />
                </TabsContent>
-               <TabsContent value="templates" className="pb-6">
+               <TabsContent value="templates">
                   <CollectionTemplates collectionId={collection.id} />
                </TabsContent>
-               <TabsContent value="sharing" className="pb-6">
+               <TabsContent value="sharing">
                   <CollectionSharing collection={collection} />
                </TabsContent>
             </Tabs>
