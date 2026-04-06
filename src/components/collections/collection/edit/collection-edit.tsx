@@ -58,18 +58,24 @@ export const CollectionEdit = ({ collection }: Props) => {
       if (isEdit) {
          return (
             <Tabs defaultValue="general" orientation="horizontal">
-               <TabsList>
-                  <TabsTrigger value="general">Einstellungen</TabsTrigger>
-                  <TabsTrigger value="templates">Vorlagen</TabsTrigger>
-                  <TabsTrigger value="sharing">Freigabe</TabsTrigger>
+               <TabsList variant="default" className="w-full bg-slate-50">
+                  <TabsTrigger value="general" className="bg-slate-50">
+                     Einstellungen
+                  </TabsTrigger>
+                  <TabsTrigger value="templates" className="bg-slate-50">
+                     Vorlagen
+                  </TabsTrigger>
+                  <TabsTrigger value="sharing" className="bg-slate-50">
+                     Freigabe
+                  </TabsTrigger>
                </TabsList>
-               <TabsContent value="general">
+               <TabsContent value="general" className="pb-6">
                   <CollectionEditForm collection={collection} />
                </TabsContent>
-               <TabsContent value="templates">
+               <TabsContent value="templates" className="pb-6">
                   <CollectionTemplates collectionId={collection.id} />
                </TabsContent>
-               <TabsContent value="sharing">
+               <TabsContent value="sharing" className="pb-6">
                   <CollectionSharing collection={collection} />
                </TabsContent>
             </Tabs>
