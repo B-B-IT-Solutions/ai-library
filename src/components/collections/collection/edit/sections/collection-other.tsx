@@ -20,10 +20,7 @@ export const CollectionOther = ({ collection }: Props) => {
 
    const [copied, setCopied] = useState(false);
 
-   const shareUrl =
-      typeof window !== "undefined" && collection.publicToken
-         ? `${window.location.origin}/p/collections/${collection.publicToken}`
-         : null;
+   const publicUrl = `${window.location.origin}/p/collections/${collection.publicToken}`;
 
    const handleToggleShare = () => {
       startTransition(async () => {
@@ -39,10 +36,10 @@ export const CollectionOther = ({ collection }: Props) => {
    };
 
    const handleCopy = async () => {
-      if (!shareUrl) {
+      if (!publicUrl) {
          return;
       }
-      await navigator.clipboard.writeText(shareUrl);
+      await navigator.clipboard.writeText(publicUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
       toast.success("Link kopiert");
@@ -87,10 +84,10 @@ export const CollectionOther = ({ collection }: Props) => {
                </Button>
             </div>
 
-            {collection.isPublic && shareUrl && (
+            {collection.isPublic && publicUrl && (
                <div className="flex gap-2">
                   <div className="flex-1 truncate rounded-md border bg-slate-50 px-3 py-2 text-xs text-slate-600">
-                     {shareUrl}
+                     {publicUrl}
                   </div>
                   <Button
                      type="button"

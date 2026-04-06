@@ -36,6 +36,7 @@ const sAddTemplateToCollection =
    CollectionService.prototype.addTemplateToCollection;
 const sRemoveTemplateFromCollection =
    CollectionService.prototype.removeTemplateFromCollection;
+const sSetCollectionPublic = CollectionService.prototype.setCollectionPublic;
 const sGetCollectionTemplateIds =
    CollectionService.prototype.getCollectionTemplateIds;
 const sGetEntryCollectionIds =
@@ -70,6 +71,9 @@ const sRemoveTemplateFromCollectionMock =
    sRemoveTemplateFromCollection as jest.MockedFunction<
       typeof sRemoveTemplateFromCollection
    >;
+const sSetCollectionPublicMock = sSetCollectionPublic as jest.MockedFunction<
+   typeof sSetCollectionPublic
+>;
 const sUpdateEntryCollectionsMock =
    sUpdateEntryCollections as jest.MockedFunction<
       typeof sUpdateEntryCollections
@@ -80,11 +84,6 @@ const sGetCollectionTemplateIdsMock =
    >;
 const sGetEntryCollectionIdsMock =
    sGetEntryCollectionIds as jest.MockedFunction<typeof sGetEntryCollectionIds>;
-
-const sSetCollectionPublic = CollectionService.prototype.setCollectionPublic;
-const sSetCollectionPublicMock = sSetCollectionPublic as jest.MockedFunction<
-   typeof sSetCollectionPublic
->;
 
 describe("getCollections tests", () => {
    beforeEach(() => {
