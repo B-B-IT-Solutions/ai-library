@@ -47,7 +47,7 @@ export const CollectionEditForm = ({ collection }: Props) => {
    const onUpdateCollection = (data: DCollectionUpdate) => {
       startTransition(async () => {
          const result = await updateCollection(collection!.id, data);
-         if (result.success && result.data) {
+         if (result.success) {
             toast.success(result.message);
          } else {
             toast.error(result.message);
