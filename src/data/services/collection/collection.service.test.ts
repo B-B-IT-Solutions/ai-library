@@ -308,7 +308,7 @@ describe("setCollectionPublic tests", () => {
       const userId = "user-id-1";
       const collection = dtestData.dCollection();
 
-      const token = ctestData.uuidv4();
+      const token = ctestData.uuid();
       uuidv4Mock.mockReturnValue(token);
       collectionRepoMock.pSetShareToken.mockResolvedValue(collection);
 

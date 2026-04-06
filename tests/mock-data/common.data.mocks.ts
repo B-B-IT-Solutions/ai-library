@@ -62,7 +62,7 @@ export const useMutationObserverLoadingResult = (
    };
 };
 
-export const uuidv4 = (index = 1) => {
+export const uuid = (index = 1) => {
    const encoder = new TextEncoder();
    return encoder.encode(`mock-uuid-${index}`);
 };
