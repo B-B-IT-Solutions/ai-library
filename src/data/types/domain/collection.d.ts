@@ -12,7 +12,7 @@ export type DCollection = {
    color: string | null;
    order: number;
    isPublic: boolean;
-   shareToken: string | null;
+   publicToken: string | null;
    templateCount: number;
    createdAt: string;
    updatedAt: string;

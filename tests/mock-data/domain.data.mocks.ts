@@ -243,7 +243,7 @@ export const dCollection = (index = 1): DCollection => {
       color: `color ${index}`,
       order: index,
       isPublic: index % 2 == 0,
-      shareToken: `token-${index}`,
+      publicToken: `token-${index}`,
       templateCount: index * 10,
       updatedAt: new Date("2025-09-27").toISOString(),
       createdAt: new Date("2025-09-27").toISOString(),

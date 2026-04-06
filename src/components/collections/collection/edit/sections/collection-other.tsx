@@ -21,8 +21,8 @@ export const CollectionOther = ({ collection }: Props) => {
    const [copied, setCopied] = useState(false);
 
    const shareUrl =
-      typeof window !== "undefined" && collection.shareToken
-         ? `${window.location.origin}/p/collections/${collection.shareToken}`
+      typeof window !== "undefined" && collection.publicToken
+         ? `${window.location.origin}/p/collections/${collection.publicToken}`
          : null;
 
    const handleToggleShare = () => {

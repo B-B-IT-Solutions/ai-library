@@ -72,11 +72,11 @@ export class CollectionRepository {
    }
 
    async pGetCollectionByShareToken(
-      shareToken: string
+      publicToken: string
    ): Promise<DCollection | null> {
       const collection = await this.prisma.libraryCollection.findUnique({
          where: {
-            shareToken,
+            publicToken,
             isPublic: true,
          },
          include: {
@@ -174,7 +174,7 @@ export class CollectionRepository {
       isPublic: boolean
    ): Promise<DCollection> {
       const input: LibraryCollectionUpdateInput = {
-         shareToken: publicToken,
+         publicToken,
          isPublic,
       };
 
