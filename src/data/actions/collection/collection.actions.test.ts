@@ -18,6 +18,7 @@ import {
    getCollectionTemplateIds,
    getEntryCollectionIds,
    removeTemplateFromCollection,
+   setCollectionPublic,
    updateCollection,
    updateEntryCollections,
 } from "./collection.actions";
@@ -79,6 +80,11 @@ const sGetCollectionTemplateIdsMock =
    >;
 const sGetEntryCollectionIdsMock =
    sGetEntryCollectionIds as jest.MockedFunction<typeof sGetEntryCollectionIds>;
+
+const sSetCollectionPublic = CollectionService.prototype.setCollectionPublic;
+const sSetCollectionPublicMock = sSetCollectionPublic as jest.MockedFunction<
+   typeof sSetCollectionPublic
+>;
 
 describe("getCollections tests", () => {
    beforeEach(() => {
@@ -796,6 +802,125 @@ describe("removeTemplateFromCollection tests", () => {
          user.id,
          collectionId,
          templateId
+      );
+   });
+});
+
+describe("setCollectionPublic tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("invalid UUID - test", async () => {
+      const result = await setCollectionPublic("invalid-uuid-1", true);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Freigabe konnte nicht geändert werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).not.toHaveBeenCalled();
+      expect(sSetCollectionPublicMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith("Invalid collection ID.");
+   });
+
+   it("user undefined - test", async () => {
+      const error = new Error("Unknow user");
+      requireUserMock.mockRejectedValue(error);
+
+      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
+      const result = await setCollectionPublic(collectionId, true);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Freigabe konnte nicht geändert werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(requireUserMock).toHaveBeenCalledTimes(1);
+      expect(sSetCollectionPublicMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("error - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const error = new Error("DB Error");
+      sSetCollectionPublicMock.mockRejectedValue(error);
+
+      const collectionId = "123e4567-e89b-12d3-a456-426614174000";
+      const result = await setCollectionPublic(collectionId, true);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Freigabe konnte nicht geändert werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sSetCollectionPublicMock).toHaveBeenCalledTimes(1);
+      expect(sSetCollectionPublicMock).toHaveBeenCalledWith(
+         user.id,
+         collectionId,
+         true
+      );
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("isPublic true - collection set public - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const collection = dtestData.dCollection();
+      sSetCollectionPublicMock.mockResolvedValue(collection);
+
+      const result = await setCollectionPublic(collection.id, true);
+
+      const expectedResult: ActionResult<DCollection> = {
+         success: true,
+         message: "Sammlung ist jetzt öffentlich zugänglich",
+         data: collection,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sSetCollectionPublicMock).toHaveBeenCalledTimes(1);
+      expect(sSetCollectionPublicMock).toHaveBeenCalledWith(
+         user.id,
+         collection.id,
+         true
+      );
+   });
+
+   it("isPublic false - collection set private - test", async () => {
+      const user = dtestData.dLoginUser();
+      requireUserMock.mockResolvedValue(user);
+
+      const collection = dtestData.dCollection();
+      sSetCollectionPublicMock.mockResolvedValue(collection);
+
+      const result = await setCollectionPublic(collection.id, false);
+
+      const expectedResult: ActionResult<DCollection> = {
+         success: true,
+         message: "Sammlung ist jetzt privat",
+         data: collection,
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sSetCollectionPublicMock).toHaveBeenCalledTimes(1);
+      expect(sSetCollectionPublicMock).toHaveBeenCalledWith(
+         user.id,
+         collection.id,
+         false
       );
    });
 });
