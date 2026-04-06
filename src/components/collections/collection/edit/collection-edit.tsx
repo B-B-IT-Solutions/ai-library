@@ -17,7 +17,7 @@ import { DCollection } from "@/data/types/domain/collection";
 import { CollectionBreadcrumb } from "../../breadcrumbs";
 
 import { CollectionEditForm } from "./collection-edit-form";
-import { CollectionSharing } from "./collection-sharing";
+import { CollectionOther } from "./collection-other";
 import { CollectionTemplates } from "./collection-templates";
 
 type Props = {
@@ -88,7 +88,7 @@ export const CollectionEdit = ({ collection }: Props) => {
                   <CollectionTemplates collectionId={collection.id} />
                </TabsContent>
                <TabsContent value="other">
-                  <CollectionSharing collection={collection} />
+                  <CollectionOther collection={collection} />
                </TabsContent>
             </Tabs>
          );

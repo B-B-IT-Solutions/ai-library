@@ -1,0 +1,163 @@
+jest.mock("@/data/actions/collection");
+jest.mock("@/data/actions/prompt-template");
+
+import { screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import {
+   assertInDocument,
+   assertNotInDocument,
+   dtestData,
+   renderWithReactQuery,
+} from "@tests";
+
+import { getCollectionTemplateIds } from "@/data/actions/collection";
+import { getTemplateDescriptorsPage } from "@/data/actions/prompt-template";
+
+import { CollectionEdit } from "./collection-edit";
+
+const getCollectionTemplateIdsMock =
+   getCollectionTemplateIds as jest.MockedFunction<
+      typeof getCollectionTemplateIds
+   >;
+
+const getTemplateDescriptorsPageMock =
+   getTemplateDescriptorsPage as jest.MockedFunction<
+      typeof getTemplateDescriptorsPage
+   >;
+
+const assertRendered = () => {
+   const edit = screen.getByTestId("collection-edit");
+   const breadcrumbs = screen.getByTestId("collection-breadcrumb");
+
+   assertInDocument(edit);
+   assertInDocument(breadcrumbs);
+};
+
+const assertCreateModeRendered = () => {
+   const editForm = screen.getByTestId("collection-edit-form");
+   const tabs = screen.queryByTestId("mock-react-tabs-root");
+
+   assertInDocument(editForm);
+   assertNotInDocument(tabs);
+};
+
+const assertEditModeRendered = () => {
+   const tabs = screen.getByTestId("mock-react-tabs-root");
+   const tabGeneral = screen.getByTestId("tab-general-btn");
+   const tabTemplates = screen.getByTestId("tab-templates-btn");
+   const tabOther = screen.getByTestId("tab-other-btn");
+
+   assertInDocument(tabs);
+   assertInDocument(tabGeneral);
+   assertInDocument(tabTemplates);
+   assertInDocument(tabOther);
+};
+
+const assertGeneralTabRendered = () => {
+   const editForm = screen.getByTestId("collection-edit-form");
+   const templates = screen.queryByTestId("collection-templates");
+   const other = screen.queryByTestId("collection-other");
+
+   assertInDocument(editForm);
+   assertNotInDocument(templates);
+   assertNotInDocument(other);
+};
+
+const assertTemplatesTabRendered = () => {
+   const templates = screen.getByTestId("collection-templates");
+   const editForm = screen.queryByTestId("collection-edit-form");
+   const other = screen.queryByTestId("collection-other");
+
+   assertInDocument(templates);
+   assertNotInDocument(editForm);
+   assertNotInDocument(other);
+};
+
+const assertOtherTabRendered = () => {
+   const other = screen.getByTestId("collection-other");
+   const editForm = screen.queryByTestId("collection-edit-form");
+   const templates = screen.queryByTestId("collection-templates");
+
+   assertInDocument(other);
+   assertNotInDocument(editForm);
+   assertNotInDocument(templates);
+};
+
+describe("CollectionEdit rendering tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("create mode - test", async () => {
+      const { container } = renderWithReactQuery(<CollectionEdit />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertCreateModeRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("edit mode - test", async () => {
+      const collection = dtestData.dCollection(1);
+
+      const { container } = renderWithReactQuery(
+         <CollectionEdit collection={collection} />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertEditModeRendered();
+         assertGeneralTabRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+});
+
+describe("CollectionEdit functionality tests", () => {
+   beforeAll(() => {
+      const templateIds = dtestData.dTemplateCollectionEntryTemplateIds();
+      getCollectionTemplateIdsMock.mockResolvedValue(templateIds);
+
+      const templateDescriptors = dtestData.dTemplateDescriptorsPage();
+      getTemplateDescriptorsPageMock.mockResolvedValue(templateDescriptors);
+   });
+
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("tab switching - test", async () => {
+      const collection = dtestData.dCollection(1);
+      renderWithReactQuery(<CollectionEdit collection={collection} />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertEditModeRendered();
+         assertGeneralTabRendered();
+      });
+
+      const tabTemplates = screen.getByTestId("tab-templates-btn");
+      userEvent.click(tabTemplates);
+
+      await waitFor(() => {
+         assertTemplatesTabRendered();
+      });
+
+      const tabOther = screen.getByTestId("tab-other-btn");
+      userEvent.click(tabOther);
+
+      await waitFor(() => {
+         assertOtherTabRendered();
+      });
+
+      const tabGeneral = screen.getByTestId("tab-general-btn");
+      userEvent.click(tabGeneral);
+
+      await waitFor(() => {
+         assertGeneralTabRendered();
+      });
+   });
+});

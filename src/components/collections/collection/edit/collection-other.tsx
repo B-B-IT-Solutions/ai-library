@@ -13,7 +13,7 @@ type Props = {
    collection: DCollection;
 };
 
-export const CollectionSharing = ({ collection }: Props) => {
+export const CollectionOther = ({ collection }: Props) => {
    const { mutate: setSharing, isPending: isTogglingShare } =
       useSetCollectionSharing();
    const [copied, setCopied] = useState(false);
@@ -43,7 +43,7 @@ export const CollectionSharing = ({ collection }: Props) => {
    };
 
    return (
-      <Card>
+      <Card data-testid="collection-other">
          <CardContent className="space-y-3 pt-6">
             <p className="text-sm font-semibold text-slate-700">Freigabe</p>
             <div className="flex items-center justify-between rounded-lg border p-3">
