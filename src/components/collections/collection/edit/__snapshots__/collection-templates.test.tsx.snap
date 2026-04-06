@@ -151,7 +151,7 @@ exports[`CollectionTemplates rendering tests in collection/not in collection - e
         >
           <div>
             <div
-              class="sticky top-0 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase"
+              class="sticky top-0 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-500 uppercase"
             >
               In dieser Sammlung (
               0
@@ -166,7 +166,7 @@ exports[`CollectionTemplates rendering tests in collection/not in collection - e
           </div>
           <div>
             <div
-              class="sticky top-0 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase"
+              class="sticky top-0 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-500 uppercase"
             >
               Weitere Vorlagen
             </div>
@@ -238,7 +238,7 @@ exports[`CollectionTemplates rendering tests in collection/not in collection - w
         >
           <div>
             <div
-              class="sticky top-0 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase"
+              class="sticky top-0 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-500 uppercase"
             >
               In dieser Sammlung (
               1
@@ -310,7 +310,7 @@ exports[`CollectionTemplates rendering tests in collection/not in collection - w
           </div>
           <div>
             <div
-              class="sticky top-0 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase"
+              class="sticky top-0 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-500 uppercase"
             >
               Weitere Vorlagen
             </div>

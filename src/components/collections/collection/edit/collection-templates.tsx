@@ -209,14 +209,14 @@ export const CollectionTemplates = ({ collectionId }: Props) => {
             data-testid="templates-list"
          >
             <div>
-               <div className="sticky top-0 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase">
+               <div className="sticky top-0 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-500 uppercase">
                   In dieser Sammlung ({templateIds.length})
                </div>
                {templatesInCollection()}
             </div>
 
             <div>
-               <div className="sticky top-0 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-400 uppercase">
+               <div className="sticky top-0 rounded-lg bg-slate-50 px-3 py-2 text-xs font-semibold tracking-wide text-slate-500 uppercase">
                   Weitere Vorlagen
                </div>
                {templatesNotInCollection()}
