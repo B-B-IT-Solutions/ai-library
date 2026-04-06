@@ -61,3 +61,8 @@ export const useMutationObserverLoadingResult = (
       submittedAt: 1771920253399,
    };
 };
+
+export const mockUuid = (index = 1) => {
+   const encoder = new TextEncoder();
+   return encoder.encode(`mock-uuid-${index}`);
+};

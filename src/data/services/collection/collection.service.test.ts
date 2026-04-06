@@ -1,12 +1,16 @@
 jest.mock("@/data/repositories/collection");
+jest.mock("uuid");
 
-import { dtestData } from "@tests";
+import { ctestData, dtestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
+import { v4 as uuidv4 } from "uuid";
 
 import { CollectionRepository } from "@/data/repositories/collection";
 import prisma from "@/data/repositories/prisma";
 
 import { CollectionService } from "./collection.service";
+
+const uuidv4Mock = uuidv4 as jest.MockedFunction<typeof uuidv4>;
 
 const collectionRepo = new CollectionRepository(prisma);
 const collectionRepoMock =
@@ -292,6 +296,60 @@ describe("removeTemplateFromCollection tests", () => {
       expect(
          collectionRepoMock.pRemoveTemplateFromCollection
       ).toHaveBeenCalledWith(userId, collection.id, descriptorId);
+   });
+});
+
+describe("setCollectionPublic tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("isPublic true - test", async () => {
+      const userId = "user-id-1";
+      const collection = dtestData.dCollection();
+
+      const token = ctestData.mockUuid();
+      uuidv4Mock.mockReturnValue(token);
+      collectionRepoMock.pSetShareToken.mockResolvedValue(collection);
+
+      const result = await collectionService.setCollectionPublic(
+         userId,
+         collection.id,
+         true
+      );
+
+      expect(result).toEqual(collection);
+      expect(uuidv4Mock).toHaveBeenCalledTimes(1);
+      expect(collectionRepoMock.pSetShareToken).toHaveBeenCalledTimes(1);
+      expect(collectionRepoMock.pSetShareToken).toHaveBeenCalledWith(
+         userId,
+         collection.id,
+         token,
+         true
+      );
+   });
+
+   it("isPublic false - test", async () => {
+      const userId = "user-id-1";
+      const collection = dtestData.dCollection();
+
+      collectionRepoMock.pSetShareToken.mockResolvedValue(collection);
+
+      const result = await collectionService.setCollectionPublic(
+         userId,
+         collection.id,
+         false
+      );
+
+      expect(result).toEqual(collection);
+      expect(uuidv4Mock).not.toHaveBeenCalled();
+      expect(collectionRepoMock.pSetShareToken).toHaveBeenCalledTimes(1);
+      expect(collectionRepoMock.pSetShareToken).toHaveBeenCalledWith(
+         userId,
+         collection.id,
+         null,
+         false
+      );
    });
 });
 
