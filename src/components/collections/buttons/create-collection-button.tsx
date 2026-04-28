@@ -3,10 +3,15 @@ import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
 
-export const CreateCollectionButton = () => {
+type Props = {
+   size?: "default" | "sm";
+};
+
+export const CreateCollectionButton = ({ size = "default" }: Props) => {
    return (
       <Button
          asChild={true}
+         size={size}
          className="cursor-pointer gap-2"
          data-testid="create-collection-btn"
       >

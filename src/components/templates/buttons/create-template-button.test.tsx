@@ -12,8 +12,18 @@ const assertRendered = () => {
 };
 
 describe("CreateTemplateButton rendering tests", () => {
-   it("rendered test", async () => {
+   it("size - undefined - rendered test", async () => {
       const { container } = render(<CreateTemplateButton />);
+
+      await waitFor(() => {
+         assertRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("size - sm - rendered test", async () => {
+      const { container } = render(<CreateTemplateButton size="sm" />);
 
       await waitFor(() => {
          assertRendered();

@@ -3,11 +3,15 @@ import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
 
-export const CreateTemplateButton = () => {
+type Props = {
+   size?: "default" | "sm";
+};
+
+export const CreateTemplateButton = ({ size = "default" }: Props) => {
    return (
       <Button
          asChild={true}
-         size="sm"
+         size={size}
          className="cursor-pointer gap-2"
          data-testid="create-template-btn"
       >
