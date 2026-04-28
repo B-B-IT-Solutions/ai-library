@@ -26,6 +26,7 @@ export const CollectionCard = ({ collection }: Props) => {
          <Link
             href={`/collections/${collection.id}`}
             className="flex flex-1 flex-col gap-3"
+            data-testid="collection-link"
          >
             {/* Icon + Name */}
             <div className="flex items-center gap-3">
@@ -36,7 +37,7 @@ export const CollectionCard = ({ collection }: Props) => {
                   <Folder className="h-5 w-5" style={{ color: iconColor }} />
                </div>
                <div className="min-w-0">
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-1.5" data-testid="name">
                      <span className="truncate font-semibold text-slate-900">
                         {collection.name}
                      </span>
@@ -50,13 +51,9 @@ export const CollectionCard = ({ collection }: Props) => {
             </div>
 
             {/* Description */}
-            {collection.description ? (
+            {collection.description && (
                <p className="line-clamp-2 text-sm text-slate-500">
                   {collection.description}
-               </p>
-            ) : (
-               <p className="text-sm text-slate-300 italic">
-                  Keine Beschreibung
                </p>
             )}
 
