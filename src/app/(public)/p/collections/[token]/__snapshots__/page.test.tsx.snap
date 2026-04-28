@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`PublicCollectionPage rendering tests collection defined - test 1`] = `
+<div>
+  <div
+    class="min-h-full bg-slate-50"
+    data-testid="public-collection-page"
+  >
+    <div
+      data-testid="public-collection-view"
+    />
+  </div>
+</div>
+`;
+
+exports[`PublicCollectionPage rendering tests collection null - test 1`] = `<div />`;

@@ -1,0 +1,139 @@
+jest.mock("@/data/actions/collection");
+jest.mock("@/components/collections", () => ({
+   PublicCollectionView: () => {
+      return <div data-testid="public-collection-view" />;
+   },
+}));
+
+import { screen, waitFor } from "@testing-library/dom";
+import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+
+import { getCollectionByPublicToken } from "@/data/actions/collection";
+
+import {
+   generateMetadata,
+   PageParams,
+   PageProps,
+   PublicCollectionPage,
+} from "./page";
+
+const getCollectionByPublicTokenMock =
+   getCollectionByPublicToken as jest.MockedFunction<
+      typeof getCollectionByPublicToken
+   >;
+
+const notFoundMock = notFound as jest.MockedFunction<typeof notFound>;
+
+const assertRendered = () => {
+   const page = screen.getByTestId("public-collection-page");
+   const view = screen.getByTestId("public-collection-view");
+
+   assertInDocument(page);
+   assertInDocument(view);
+};
+
+describe("PublicCollectionPage rendering tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("collection null - test", async () => {
+      getCollectionByPublicTokenMock.mockResolvedValue(null);
+
+      const pageParams: PageParams = { token: "collection-token-1" };
+
+      const props: PageProps = {
+         params: Promise.resolve(pageParams),
+      };
+
+      const { container } = await renderAsyncRSC(PublicCollectionPage, props);
+
+      await waitFor(() => {
+         expect(getCollectionByPublicTokenMock).toHaveBeenCalledTimes(1);
+         expect(getCollectionByPublicTokenMock).toHaveBeenCalledWith(
+            pageParams.token
+         );
+
+         expect(notFoundMock).toHaveBeenCalledTimes(1);
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("collection defined - test", async () => {
+      const collection = dtestData.dCollection();
+      getCollectionByPublicTokenMock.mockResolvedValue(collection);
+
+      const pageParams: PageParams = { token: "collection-token-1" };
+
+      const props: PageProps = {
+         params: Promise.resolve(pageParams),
+      };
+
+      const { container } = await renderAsyncRSC(PublicCollectionPage, props);
+
+      await waitFor(() => {
+         assertRendered();
+         expect(getCollectionByPublicTokenMock).toHaveBeenCalledTimes(1);
+         expect(getCollectionByPublicTokenMock).toHaveBeenCalledWith(
+            pageParams.token
+         );
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+});
+
+describe("PublicCollectionPage functionality tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("generateMetadata- collection null - test", async () => {
+      getCollectionByPublicTokenMock.mockResolvedValue(null);
+
+      const pageParams: PageParams = {
+         token: "collection-token-1",
+      };
+      const props: PageProps = {
+         params: Promise.resolve(pageParams),
+      };
+
+      const metadata = await generateMetadata(props);
+      const expectedMetadata: Metadata = {
+         title: "Sammlung nicht gefunden",
+      };
+
+      expect(metadata).toEqual(expectedMetadata);
+      expect(getCollectionByPublicTokenMock).toHaveBeenCalledTimes(1);
+      expect(getCollectionByPublicTokenMock).toHaveBeenCalledWith(
+         pageParams.token
+      );
+   });
+
+   it("generateMetadata- collection defined - test", async () => {
+      const collection = dtestData.dCollection();
+      getCollectionByPublicTokenMock.mockResolvedValue(collection);
+
+      const pageParams: PageParams = {
+         token: "collection-token-1",
+      };
+      const props: PageProps = {
+         params: Promise.resolve(pageParams),
+      };
+
+      const metadata = await generateMetadata(props);
+      const expectedMetadata: Metadata = {
+         title: `${collection.name} - Sammlung`,
+         description: collection.description,
+      };
+
+      expect(metadata).toEqual(expectedMetadata);
+      expect(getCollectionByPublicTokenMock).toHaveBeenCalledTimes(1);
+      expect(getCollectionByPublicTokenMock).toHaveBeenCalledWith(
+         pageParams.token
+      );
+   });
+});
