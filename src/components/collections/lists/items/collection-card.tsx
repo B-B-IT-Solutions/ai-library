@@ -5,7 +5,7 @@ import {
    Folder,
    Globe,
    Lock,
-   MoreHorizontal,
+   MoreVertical,
    Pencil,
    Trash2,
 } from "lucide-react";
@@ -51,7 +51,7 @@ export const CollectionCard: FC<Props> = ({ collection, onDeleted }) => {
                         className="h-7 w-7 p-0"
                         onClick={(e) => e.preventDefault()}
                      >
-                        <MoreHorizontal className="h-4 w-4" />
+                        <MoreVertical className="h-4 w-4" />
                      </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-44">

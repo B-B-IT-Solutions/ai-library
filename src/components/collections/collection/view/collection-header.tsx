@@ -1,12 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { Globe, Pencil, Trash2 } from "lucide-react";
+import { Globe, MoreVertical, Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
+import {
+   DropdownMenu,
+   DropdownMenuContent,
+   DropdownMenuItem,
+   DropdownMenuSeparator,
+   DropdownMenuTrigger,
+} from "@/components/shadcn/dropdown-menu";
+import { CreateTemplateButton } from "@/components/templates/buttons";
 import { DCollection } from "@/data/types/domain/collection";
 import { CollectionBreadcrumb } from "../../breadcrumbs";
 import { DeleteCollectionDialog } from "../../dialogs";
@@ -47,21 +55,30 @@ export const CollectionHeader = ({ collection }: Props) => {
             </div>
 
             <div className="flex shrink-0 items-center gap-2">
-               <Button asChild variant="outline" size="sm" className="gap-2">
-                  <Link href={`/collections/${collection.id}/edit`}>
-                     <Pencil className="h-4 w-4" />
-                     Bearbeiten
-                  </Link>
-               </Button>
-               <Button
-                  variant="outline"
-                  size="sm"
-                  className="gap-2 text-destructive hover:text-destructive"
-                  onClick={() => setShowDelete(true)}
-               >
-                  <Trash2 className="h-4 w-4" />
-                  Löschen
-               </Button>
+               <CreateTemplateButton />
+               <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                     <Button variant="outline" size="icon-sm">
+                        <MoreVertical className="h-4 w-4" />
+                     </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                     <DropdownMenuItem asChild>
+                        <Link href={`/collections/${collection.id}/edit`}>
+                           <Pencil className="h-4 w-4" />
+                           Bearbeiten
+                        </Link>
+                     </DropdownMenuItem>
+                     <DropdownMenuSeparator />
+                     <DropdownMenuItem
+                        className="text-destructive focus:text-destructive"
+                        onClick={() => setShowDelete(true)}
+                     >
+                        <Trash2 className="h-4 w-4" />
+                        Löschen
+                     </DropdownMenuItem>
+                  </DropdownMenuContent>
+               </DropdownMenu>
             </div>
          </div>
 
