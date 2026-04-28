@@ -17,7 +17,6 @@ export const PublicCollectionView = async ({ collection }: Props) => {
 
    return (
       <div className="min-h-full bg-slate-50">
-         {/* Collection Header */}
          <div
             className="border-b bg-white px-6 py-8"
             data-testid="collection-public-view"
