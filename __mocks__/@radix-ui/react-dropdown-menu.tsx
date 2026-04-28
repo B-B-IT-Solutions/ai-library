@@ -31,16 +31,25 @@ const Root: React.FC<{
    );
 };
 
-const Trigger: React.FC<{
-   asChild: boolean;
-   children: React.ReactNode;
-}> = ({ asChild, children, ...props }) => {
+type TriggerProps = { children: React.ReactNode; asChild: boolean };
+
+const Trigger = ({ asChild, children, ...props }: TriggerProps) => {
    clearProps(props);
    const ctx = React.useContext(DropdownContext)!;
 
+   const handleClick = () => {
+      ctx.setOpen(!ctx.open);
+   };
+
    if (asChild && React.isValidElement(children)) {
-      return React.cloneElement(children, {
-         onClick: () => ctx.setOpen(!ctx.open),
+      const child = children as React.ReactElement<{ onClick?: () => void }>;
+      const childOnClick = child.props.onClick;
+      return React.cloneElement(child, {
+         ...props,
+         onClick: () => {
+            childOnClick?.();
+            handleClick();
+         },
       });
    }
 
@@ -102,19 +111,36 @@ const Label: React.FC<{
    );
 };
 
-const Item: React.FC<{
+type ItemProps = {
    children: React.ReactNode;
-   onSelect: () => void;
-}> = ({ children, onSelect, ...props }) => {
+   asChild?: boolean;
+   onSelect?: () => void;
+};
+
+const Item = ({ children, onSelect, asChild, ...props }: ItemProps) => {
    clearProps(props);
    const ctx = React.useContext(DropdownContext)!;
 
+   const handleClick = () => {
+      onSelect?.();
+      ctx.setOpen(false);
+   };
+
+   if (asChild && React.isValidElement(children)) {
+      const child = children as React.ReactElement<{ onClick?: () => void }>;
+      const childOnClick = child.props.onClick;
+      return React.cloneElement(child, {
+         ...props,
+         onClick: () => {
+            childOnClick?.();
+            handleClick();
+         },
+      });
+   }
+
    return (
       <div
-         onClick={() => {
-            onSelect?.();
-            ctx.setOpen(false);
-         }}
+         onClick={handleClick}
          data-testid="mock-react-dropdown-menu-item"
          {...props}
       >

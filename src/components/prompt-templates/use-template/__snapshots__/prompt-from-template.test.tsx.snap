@@ -640,7 +640,7 @@ exports[`PromptFromTemplate rendering tests PromptFromTemplate renders test 1`] 
         data-testid="mock-react-dropdown-menu-root"
       >
         <button
-          data-slot="button"
+          data-slot="dropdown-menu-trigger"
           data-testid="open-in-ai-btn"
           type="button"
         >
