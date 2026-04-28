@@ -12,7 +12,7 @@ export const CreateCollectionButton = () => {
       >
          <Link href="/collections/new">
             <Plus className="h-4 w-4" />
-            Neue Vorlage
+            Neue Sammlung
          </Link>
       </Button>
    );
