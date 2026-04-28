@@ -53,6 +53,35 @@ export const getCollectionByPublicToken = async (
    }
 };
 
+export const getPublicCollectionByToken = async (
+   publicToken: string
+): Promise<{
+   collection: DCollection;
+   templates: {
+      id: string;
+      title: string;
+      description: string;
+      recommendedModel: string;
+      categories: { name: string }[];
+   }[];
+} | null> => {
+   try {
+      const service = getService();
+      const collection = await service.getCollectionByPublicToken(publicToken);
+      if (!collection) {
+         return null;
+      }
+
+      const templates = await service.getPublicCollectionTemplates(
+         collection.id
+      );
+      return { collection, templates };
+   } catch (error) {
+      console.error(formatError(error));
+      return null;
+   }
+};
+
 export const createCollection = async (
    data: DCollectionUpdate
 ): Promise<ActionResult<DCollection>> => {
@@ -236,35 +265,6 @@ export const setCollectionPublic = async (
          success: false,
          message: "Freigabe konnte nicht geändert werden",
       };
-   }
-};
-
-export const getPublicCollectionByToken = async (
-   publicToken: string
-): Promise<{
-   collection: DCollection;
-   templates: {
-      id: string;
-      title: string;
-      description: string;
-      recommendedModel: string;
-      categories: { name: string }[];
-   }[];
-} | null> => {
-   try {
-      const service = getService();
-      const collection = await service.getCollectionByPublicToken(publicToken);
-      if (!collection) {
-         return null;
-      }
-
-      const templates = await service.getPublicCollectionTemplates(
-         collection.id
-      );
-      return { collection, templates };
-   } catch (error) {
-      console.error(formatError(error));
-      return null;
    }
 };
 
