@@ -3,7 +3,6 @@ import {
    HydrationBoundary,
    QueryClient,
 } from "@tanstack/react-query";
-import { Folder } from "lucide-react";
 
 import { TemplateItems, TemplatesToolbar } from "@/components/templates/lists";
 import { templatesSearchParamsCache } from "@/components/templates/search-params";
@@ -54,21 +53,13 @@ export const CollectionView = async ({ collection }: Props) => {
    const categories = await getTemplateDescriptorCategories();
    const models = await getTemplateDescriptorModels();
 
-   const accentColor = collection.color ?? "#64748b";
-
    return (
       <HydrationBoundary state={dehydrate(queryClient)}>
          <div
-            className="flex h-full flex-col bg-slate-50"
+            className="flex h-full flex-col"
             data-testid="collection-dashboard"
          >
-            <div
-               className="border-b px-6 py-6"
-               style={{
-                  background: `linear-gradient(135deg, ${accentColor}22 0%, ${accentColor}08 100%)`,
-                  borderBottomColor: `${accentColor}40`,
-               }}
-            >
+            <div className="px-8 pt-6 pb-4">
                <CollectionHeader collection={collection} />
             </div>
 
@@ -79,29 +70,13 @@ export const CollectionView = async ({ collection }: Props) => {
                models={models}
             />
 
-            <div className="flex-1 overflow-y-auto">
-               <div className="flex items-center gap-3 px-6 py-4">
-                  <div className="h-px flex-1 bg-slate-200" />
-                  <span className="flex items-center gap-1.5 text-sm text-slate-500">
-                     <Folder
-                        className="h-4 w-4"
-                        style={{ color: accentColor }}
-                     />
-                     {collection.templateCount}{" "}
-                     {collection.templateCount === 1 ? "Vorlage" : "Vorlagen"}{" "}
-                     in dieser Sammlung
-                  </span>
-                  <div className="h-px flex-1 bg-slate-200" />
-               </div>
-
-               <div className="px-6 pb-6">
-                  <TemplateItems
-                     viewMode={viewMode}
-                     groupBy={groupBy}
-                     sortBy={sortBy}
-                     filters={filters}
-                  />
-               </div>
+            <div className="flex-1 overflow-y-auto px-8 py-6">
+               <TemplateItems
+                  viewMode={viewMode}
+                  groupBy={groupBy}
+                  sortBy={sortBy}
+                  filters={filters}
+               />
             </div>
          </div>
       </HydrationBoundary>
