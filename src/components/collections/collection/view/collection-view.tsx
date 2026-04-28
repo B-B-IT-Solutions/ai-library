@@ -59,7 +59,7 @@ export const CollectionView = async ({ collection }: Props) => {
             className="flex h-full flex-col"
             data-testid="collection-dashboard"
          >
-            <div className="px-8 pt-6 pb-4">
+            <div className="border-b bg-white px-6 py-4">
                <CollectionHeader collection={collection} />
             </div>
 

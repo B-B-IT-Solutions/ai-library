@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronLeft, Globe, Pencil, Trash2 } from "lucide-react";
+import { Globe, Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
 import { DCollection } from "@/data/types/domain/collection";
+import { CollectionBreadcrumb } from "../../breadcrumbs";
 import { DeleteCollectionDialog } from "../../dialogs";
 
 type Props = {
@@ -19,26 +21,26 @@ export const CollectionHeader = ({ collection }: Props) => {
 
    return (
       <>
-         <Link
-            href="/collections"
-            className="mb-4 flex w-fit items-center gap-1 text-sm text-slate-400 hover:text-slate-600"
-         >
-            <ChevronLeft className="h-4 w-4" />
-            Sammlungen
-         </Link>
+         <CollectionBreadcrumb variant="view" label={collection.name} />
 
-         <div className="flex items-start justify-between gap-4">
+         <div className="mt-3 flex items-start justify-between gap-4">
             <div className="min-w-0">
                <div className="flex items-center gap-2">
                   <h1 className="truncate text-2xl font-bold text-slate-900">
                      {collection.name}
                   </h1>
                   {collection.isPublic && (
-                     <Globe className="h-4 w-4 shrink-0 text-green-600" />
+                     <Badge
+                        variant="outline"
+                        className="gap-1 border-green-300 bg-green-50 text-green-700"
+                     >
+                        <Globe className="h-3 w-3" />
+                        Öffentlich
+                     </Badge>
                   )}
                </div>
                {collection.description && (
-                  <p className="mt-1 text-sm text-slate-500">
+                  <p className="mt-1 text-sm text-slate-600">
                      {collection.description}
                   </p>
                )}
@@ -52,12 +54,13 @@ export const CollectionHeader = ({ collection }: Props) => {
                   </Link>
                </Button>
                <Button
-                  variant="ghost"
+                  variant="outline"
                   size="sm"
-                  className="text-destructive hover:text-destructive"
+                  className="gap-2 text-destructive hover:text-destructive"
                   onClick={() => setShowDelete(true)}
                >
                   <Trash2 className="h-4 w-4" />
+                  Löschen
                </Button>
             </div>
          </div>
