@@ -114,12 +114,6 @@ export class CollectionService {
       );
    }
 
-   async getPublicCollectionTemplates(collectionId: string) {
-      return await this.collectionRepository.pGetPublicCollectionTemplates(
-         collectionId
-      );
-   }
-
    async getEntryCollectionIds(
       userId: string,
       entryId: string
