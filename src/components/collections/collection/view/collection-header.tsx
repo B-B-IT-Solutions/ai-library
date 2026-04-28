@@ -55,6 +55,7 @@ export const CollectionHeader = ({ collection }: Props) => {
                <MoreOptionsButton collection={collection} />
             </div>
          </div>
+
          <DeleteCollectionDialog
             collection={collection}
             open={showDelete}
