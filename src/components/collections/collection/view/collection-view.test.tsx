@@ -71,10 +71,15 @@ const mockSearchParams = (key: CacheKey): CacheValue => {
 };
 
 const assertRendered = () => {
-   assertInDocument(screen.getByTestId("collection-dashboard"));
-   assertInDocument(screen.getByTestId("collection-header"));
-   assertInDocument(screen.getByTestId("templates-toolbar"));
-   assertInDocument(screen.getByTestId("template-items-grid"));
+   const view = screen.getByTestId("collection-view");
+   const header = screen.getByTestId("collection-header");
+   const toolbar = screen.getByTestId("collection-toolbar");
+   const items = screen.getByTestId("template-items-grid");
+
+   assertInDocument(view);
+   assertInDocument(header);
+   assertInDocument(toolbar);
+   assertInDocument(items);
 };
 
 const assertGetLibraryEntriesPageCalled = (

@@ -1,4 +1,4 @@
-const CollectionLoading = () => {
+export const CollectionLoading = () => {
    return (
       <div
          className="flex h-full flex-col bg-slate-50"
