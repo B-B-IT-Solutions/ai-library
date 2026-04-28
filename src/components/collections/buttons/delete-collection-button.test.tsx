@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/prompt-template");
+jest.mock("@/data/actions/collection");
 jest.mock("sonner");
 
 import { screen, waitFor } from "@testing-library/dom";
@@ -8,16 +8,15 @@ import { assertInDocument, dtestData } from "@tests";
 import mockRouter from "next-router-mock";
 import { toast } from "sonner";
 
-import { deleteTemplateDescriptor } from "@/data/actions/prompt-template";
+import { deleteCollection } from "@/data/actions/collection";
 
 import { DeleteCollectionButton } from "./delete-collection-button";
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
-const deleteTemplateDescriptorMock =
-   deleteTemplateDescriptor as jest.MockedFunction<
-      typeof deleteTemplateDescriptor
-   >;
+const deleteTemplateDescriptorMock = deleteCollection as jest.MockedFunction<
+   typeof deleteCollection
+>;
 
 const assertRendered = () => {
    const deleteBtn = screen.getByTestId("delete-collection-menu-item");

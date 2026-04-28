@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { DeleteDropdownMenuItem } from "@/components/shared/dropdowns";
-import { deleteTemplateDescriptor } from "@/data/actions/prompt-template";
+import { deleteCollection } from "@/data/actions/collection";
 import { DCollection } from "@/data/types/domain/collection";
 
 type Props = {
@@ -15,7 +15,7 @@ export const DeleteCollectionButton = ({ collection }: Props) => {
    const router = useRouter();
 
    const handleDelete = async () => {
-      const result = await deleteTemplateDescriptor(collection.id);
+      const result = await deleteCollection(collection.id);
       if (result.success) {
          toast.success(result.message);
          router.push("/collections");
