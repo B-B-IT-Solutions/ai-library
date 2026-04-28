@@ -10,10 +10,7 @@ import {
    getTemplateDescriptorCategories,
    getTemplateDescriptorModels,
 } from "@/data/actions/prompt-template";
-import {
-   infiniteLoadTemplateDescriptorsOptions,
-   preloadCollectionsOptions,
-} from "@/data/ts-queries/library";
+import { infiniteLoadTemplateDescriptorsOptions } from "@/data/ts-queries/library";
 import { libraryKeys } from "@/data/ts-queries/library/utils";
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DCollection } from "@/data/types/domain/collection";
@@ -46,7 +43,6 @@ export const CollectionView = async ({ collection }: Props) => {
             sort: resolveSort(sortBy),
          })
       ),
-      queryClient.prefetchQuery(preloadCollectionsOptions()),
    ]);
 
    queryClient.setQueryData(libraryKeys.collection(collection.id), collection);
