@@ -1,6 +1,5 @@
 import { Folder, Globe } from "lucide-react";
 
-import { Badge } from "@/components/shadcn/badge";
 import { TemplateItems } from "@/components/templates/lists";
 import { DCollection } from "@/data/types/domain/collection";
 import {
@@ -8,14 +7,12 @@ import {
    DListSortByMode,
    DListViewMode,
 } from "@/data/types/domain/common";
-import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 type Props = {
    collection: DCollection;
 };
 
 export const PublicCollectionView = async ({ collection }: Props) => {
-   const templates: DPromptTemplateDescriptor[] = [];
    const iconColor = collection.color;
 
    return (
@@ -62,52 +59,6 @@ export const PublicCollectionView = async ({ collection }: Props) => {
                sortBy={DListSortByMode.DATE_ASC}
                filters={{}}
             />
-         </div>
-         {/* Templates */}
-         <div className="mx-auto max-w-5xl px-6 py-8">
-            {templates.length === 0 ? (
-               <div className="py-16 text-center">
-                  <Folder className="mx-auto mb-4 h-12 w-12 text-slate-300" />
-                  <p className="text-slate-500">
-                     Diese Sammlung enthält keine Vorlagen.
-                  </p>
-               </div>
-            ) : (
-               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                  {templates.map((template) => (
-                     <div
-                        key={template.id}
-                        className="rounded-xl border bg-white p-5 shadow-sm"
-                        data-testid="public-template-card"
-                     >
-                        <h3 className="mb-1 line-clamp-2 font-semibold text-slate-900">
-                           {template.title}
-                        </h3>
-                        {template.description && (
-                           <p className="mb-3 line-clamp-3 text-sm text-slate-500">
-                              {template.description}
-                           </p>
-                        )}
-                        <div className="flex flex-wrap gap-1.5">
-                           {template.recommendedModel && (
-                              <Badge variant="secondary" className="text-xs">
-                                 {template.recommendedModel}
-                              </Badge>
-                           )}
-                           {template.categories.slice(0, 2).map((cat) => (
-                              <Badge
-                                 key={cat.name}
-                                 variant="outline"
-                                 className="text-xs"
-                              >
-                                 {cat.name}
-                              </Badge>
-                           ))}
-                        </div>
-                     </div>
-                  ))}
-               </div>
-            )}
          </div>
       </div>
    );
