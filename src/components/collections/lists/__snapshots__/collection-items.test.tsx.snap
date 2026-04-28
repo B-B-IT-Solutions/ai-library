@@ -131,7 +131,7 @@ exports[`CollectionItems rendering tests view grid - test 1`] = `
         </div>
         <a
           class="flex flex-1 flex-col gap-3"
-          data-testid="mock-link"
+          data-testid="collection-link"
           href="/collections/457bf695-6f74-44aa-9b3a-e179ea9e8170"
         >
           <div
@@ -163,6 +163,7 @@ exports[`CollectionItems rendering tests view grid - test 1`] = `
             >
               <div
                 class="flex items-center gap-1.5"
+                data-testid="name"
               >
                 <span
                   class="truncate font-semibold text-slate-900"
@@ -269,7 +270,7 @@ exports[`CollectionItems rendering tests view grid - test 1`] = `
         </div>
         <a
           class="flex flex-1 flex-col gap-3"
-          data-testid="mock-link"
+          data-testid="collection-link"
           href="/collections/457bf695-6f74-44aa-9b3a-e179ea9e8171"
         >
           <div
@@ -301,6 +302,7 @@ exports[`CollectionItems rendering tests view grid - test 1`] = `
             >
               <div
                 class="flex items-center gap-1.5"
+                data-testid="name"
               >
                 <span
                   class="truncate font-semibold text-slate-900"
@@ -407,7 +409,7 @@ exports[`CollectionItems rendering tests view grid - test 1`] = `
         </div>
         <a
           class="flex flex-1 flex-col gap-3"
-          data-testid="mock-link"
+          data-testid="collection-link"
           href="/collections/457bf695-6f74-44aa-9b3a-e179ea9e8172"
         >
           <div
@@ -439,6 +441,7 @@ exports[`CollectionItems rendering tests view grid - test 1`] = `
             >
               <div
                 class="flex items-center gap-1.5"
+                data-testid="name"
               >
                 <span
                   class="truncate font-semibold text-slate-900"
@@ -559,7 +562,7 @@ exports[`CollectionItems rendering tests view list - test 1`] = `
         </div>
         <a
           class="flex flex-1 flex-col gap-3"
-          data-testid="mock-link"
+          data-testid="collection-link"
           href="/collections/457bf695-6f74-44aa-9b3a-e179ea9e8170"
         >
           <div
@@ -591,6 +594,7 @@ exports[`CollectionItems rendering tests view list - test 1`] = `
             >
               <div
                 class="flex items-center gap-1.5"
+                data-testid="name"
               >
                 <span
                   class="truncate font-semibold text-slate-900"
@@ -697,7 +701,7 @@ exports[`CollectionItems rendering tests view list - test 1`] = `
         </div>
         <a
           class="flex flex-1 flex-col gap-3"
-          data-testid="mock-link"
+          data-testid="collection-link"
           href="/collections/457bf695-6f74-44aa-9b3a-e179ea9e8171"
         >
           <div
@@ -729,6 +733,7 @@ exports[`CollectionItems rendering tests view list - test 1`] = `
             >
               <div
                 class="flex items-center gap-1.5"
+                data-testid="name"
               >
                 <span
                   class="truncate font-semibold text-slate-900"
@@ -835,7 +840,7 @@ exports[`CollectionItems rendering tests view list - test 1`] = `
         </div>
         <a
           class="flex flex-1 flex-col gap-3"
-          data-testid="mock-link"
+          data-testid="collection-link"
           href="/collections/457bf695-6f74-44aa-9b3a-e179ea9e8172"
         >
           <div
@@ -867,6 +872,7 @@ exports[`CollectionItems rendering tests view list - test 1`] = `
             >
               <div
                 class="flex items-center gap-1.5"
+                data-testid="name"
               >
                 <span
                   class="truncate font-semibold text-slate-900"
