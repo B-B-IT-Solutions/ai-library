@@ -6,7 +6,6 @@ export {
    getCollections,
    getCollectionById,
    getCollectionByPublicToken,
-   getPublicCollectionByToken,
    setCollectionPublic,
    updateCollection,
    getCollectionTemplateIds,

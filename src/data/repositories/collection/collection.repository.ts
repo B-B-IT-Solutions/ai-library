@@ -2,6 +2,7 @@ import { map } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
+import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 import {
    LibraryCollectionCreateArgs,
    LibraryCollectionCreateInput,
@@ -261,25 +262,21 @@ export class CollectionRepository {
       await this.prisma.libraryCollectionEntry.deleteMany(args);
    }
 
-   async pGetPublicCollectionTemplates(collectionId: string): Promise<
-      {
-         id: string;
-         title: string;
-         description: string;
-         recommendedModel: string;
-         categories: { name: string }[];
-         createdAt: Date;
-         updatedAt: Date;
-      }[]
-   > {
+   async pGetPublicCollectionTemplates(
+      collectionId: string
+   ): Promise<DPromptTemplateDescriptor[]> {
       const entries = await this.prisma.libraryCollectionEntry.findMany({
          where: { collectionId },
          include: {
             templateDescriptor: {
-               include: { categories: true },
+               include: {
+                  categories: true,
+               },
             },
          },
-         orderBy: { addedAt: "asc" },
+         orderBy: {
+            addedAt: "asc",
+         },
       });
 
       return entries.map((e) => e.templateDescriptor);

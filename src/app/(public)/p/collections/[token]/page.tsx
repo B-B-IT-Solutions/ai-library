@@ -5,22 +5,23 @@ import { notFound } from "next/navigation";
 
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
-import { getPublicCollectionByToken } from "@/data/actions/collection";
+import { getCollectionByPublicToken } from "@/data/actions/collection";
+import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 import { APP_NAME } from "@/lib/constants";
 
 export const generateMetadata = async ({
    params,
 }: PageProps): Promise<Metadata> => {
    const { token } = await params;
-   const result = await getPublicCollectionByToken(token);
-   if (!result) {
+   const collection = await getCollectionByPublicToken(token);
+   if (!collection) {
       return {
          title: "Sammlung nicht gefunden",
       };
    }
    return {
-      title: `${result.collection.name} – ${APP_NAME}`,
-      description: result.collection.description ?? undefined,
+      title: `${collection.name} - Sammlung`,
+      description: collection.description ?? undefined,
    };
 };
 
@@ -34,13 +35,13 @@ export type PageProps = {
 
 const PublicCollectionPage = async ({ params }: PageProps) => {
    const { token } = await params;
-   const result = await getPublicCollectionByToken(token);
+   const collection = await getCollectionByPublicToken(token);
 
-   if (!result) {
+   if (!collection) {
       return notFound();
    }
 
-   const { collection, templates } = result;
+   const templates: DPromptTemplateDescriptor[] = [];
    const iconColor = collection.color;
 
    return (
@@ -74,10 +75,6 @@ const PublicCollectionPage = async ({ params }: PageProps) => {
                               {collection.description}
                            </p>
                         )}
-                        <p className="mt-1 text-sm text-slate-400">
-                           {templates.length}{" "}
-                           {templates.length === 1 ? "Vorlage" : "Vorlagen"}
-                        </p>
                      </div>
                   </div>
                </div>
