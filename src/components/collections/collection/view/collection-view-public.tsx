@@ -1,6 +1,6 @@
 import { Folder, Globe } from "lucide-react";
 
-import { TemplateItems } from "@/components/templates/lists";
+import { TemplateItemsPublic } from "@/components/templates/lists";
 import { DCollection } from "@/data/types/domain/collection";
 import {
    DListGroupByMode,
@@ -52,7 +52,7 @@ export const CollectionViewPublic = async ({ collection }: Props) => {
          </div>
 
          <div className="flex-1 overflow-y-auto px-8 py-6">
-            <TemplateItems
+            <TemplateItemsPublic
                viewMode={DListViewMode.GRID}
                groupBy={DListGroupByMode.NONE}
                sortBy={DListSortByMode.DATE_ASC}

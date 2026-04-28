@@ -23,7 +23,7 @@ type Props = {
    filters: DTemplateDescriptorsFilter;
 };
 
-export const TemplateItems = ({
+export const TemplateItemsPublic = ({
    viewMode,
    groupBy,
    sortBy,
