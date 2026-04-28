@@ -30,10 +30,24 @@ const assertContextMenuNotRendered = () => {
 };
 
 describe("MoreOptionsButton rendering tests", () => {
-   it("rendered test", async () => {
+   it("size - default test", async () => {
       const collection = dtestData.dCollection();
       const { container } = render(
          <MoreOptionsButton collection={collection} />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertContextMenuNotRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("size - icon-sm - test", async () => {
+      const collection = dtestData.dCollection();
+      const { container } = render(
+         <MoreOptionsButton collection={collection} size="icon-sm" />
       );
 
       await waitFor(() => {

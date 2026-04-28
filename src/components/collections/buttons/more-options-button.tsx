@@ -16,15 +16,16 @@ import { EditCollectionButton } from "./edit-collection-button";
 
 type Props = {
    collection: DCollection;
+   size?: "icon" | "icon-sm";
 };
 
-export const MoreOptionsButton = ({ collection }: Props) => {
+export const MoreOptionsButton = ({ collection, size = "icon" }: Props) => {
    return (
       <DropdownMenu data-testid="more-options-btn">
          <DropdownMenuTrigger asChild={true}>
             <Button
                variant="outline"
-               size="icon-sm"
+               size={size}
                className="cursor-pointer"
                data-testid="more-options-trigger-btn"
             >

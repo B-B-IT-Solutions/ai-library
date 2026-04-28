@@ -19,7 +19,7 @@ export const CollectionCard = ({ collection }: Props) => {
       >
          {/* Actions Menu – only on hover */}
          <div className="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100">
-            <MoreOptionsButton collection={collection} />
+            <MoreOptionsButton collection={collection} size="icon-sm" />
          </div>
 
          {/* Clickable area → collection detail */}
