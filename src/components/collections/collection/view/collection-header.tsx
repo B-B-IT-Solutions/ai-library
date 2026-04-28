@@ -27,7 +27,7 @@ export const CollectionHeader = ({ collection }: Props) => {
          >
             <div>
                <CollectionBreadcrumb variant="view" label={collection.name} />
-               <div className="mt-3 min-w-0">
+               <div className="mt-3 min-w-0" data-testid="overview">
                   <div className="flex items-center gap-2">
                      <h1 className="truncate text-2xl font-bold text-slate-900">
                         {collection.name}
@@ -36,6 +36,7 @@ export const CollectionHeader = ({ collection }: Props) => {
                         <Badge
                            variant="outline"
                            className="gap-1 border-green-300 bg-green-50 text-green-700"
+                           data-testid="public-badge"
                         >
                            <Globe className="h-3 w-3" />
                            Öffentlich
@@ -50,7 +51,10 @@ export const CollectionHeader = ({ collection }: Props) => {
                </div>
             </div>
 
-            <div className="flex shrink-0 items-center gap-2">
+            <div
+               className="flex shrink-0 items-center gap-2"
+               data-testid="actions"
+            >
                <CreateTemplateButton />
                <MoreOptionsButton collection={collection} />
             </div>
