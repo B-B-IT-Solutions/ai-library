@@ -26,8 +26,6 @@ type Props = {
 };
 
 export const CollectionView = async ({ collection }: Props) => {
-   const queryClient = new QueryClient();
-
    const viewMode = templatesSearchParamsCache.get("view");
    const groupBy = templatesSearchParamsCache.get("group");
    const sortBy = templatesSearchParamsCache.get("sort");
@@ -38,6 +36,8 @@ export const CollectionView = async ({ collection }: Props) => {
       models: templatesSearchParamsCache.get("f_models"),
       collectionIds: [collection.id],
    };
+
+   const queryClient = new QueryClient();
 
    await Promise.all([
       queryClient.prefetchInfiniteQuery(
