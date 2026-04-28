@@ -393,7 +393,7 @@ exports[`Sidebar rendering tests sidebar collapsed - rendered test 1`] = `
                     data-active="false"
                     data-sidebar="menu-button"
                     data-size="default"
-                    data-slot="sidebar-menu-button"
+                    data-slot="dropdown-menu-trigger"
                     data-testid="sidebar-menu-btn"
                   >
                     <svg
@@ -867,7 +867,7 @@ exports[`Sidebar rendering tests sidebar open - rendered test 1`] = `
                     data-active="false"
                     data-sidebar="menu-button"
                     data-size="default"
-                    data-slot="sidebar-menu-button"
+                    data-slot="dropdown-menu-trigger"
                     data-testid="sidebar-menu-btn"
                   >
                     <svg

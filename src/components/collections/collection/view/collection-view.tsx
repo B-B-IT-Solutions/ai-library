@@ -10,10 +10,7 @@ import {
    getTemplateDescriptorCategories,
    getTemplateDescriptorModels,
 } from "@/data/actions/prompt-template";
-import {
-   infiniteLoadTemplateDescriptorsOptions,
-   preloadCollectionsOptions,
-} from "@/data/ts-queries/library";
+import { infiniteLoadTemplateDescriptorsOptions } from "@/data/ts-queries/library";
 import { libraryKeys } from "@/data/ts-queries/library/utils";
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DCollection } from "@/data/types/domain/collection";
@@ -26,7 +23,6 @@ type Props = {
 };
 
 export const CollectionView = async ({ collection }: Props) => {
-   const queryClient = new QueryClient();
    const viewMode = templatesSearchParamsCache.get("view");
    const groupBy = templatesSearchParamsCache.get("group");
    const sortBy = templatesSearchParamsCache.get("sort");
@@ -38,6 +34,8 @@ export const CollectionView = async ({ collection }: Props) => {
       collectionIds: [collection.id],
    };
 
+   const queryClient = new QueryClient();
+
    await Promise.all([
       queryClient.prefetchInfiniteQuery(
          infiniteLoadTemplateDescriptorsOptions({
@@ -45,7 +43,6 @@ export const CollectionView = async ({ collection }: Props) => {
             sort: resolveSort(sortBy),
          })
       ),
-      queryClient.prefetchQuery(preloadCollectionsOptions()),
    ]);
 
    queryClient.setQueryData(libraryKeys.collection(collection.id), collection);
@@ -56,10 +53,10 @@ export const CollectionView = async ({ collection }: Props) => {
    return (
       <HydrationBoundary state={dehydrate(queryClient)}>
          <div
-            className="flex h-full flex-col bg-slate-50"
+            className="flex h-full flex-col"
             data-testid="collection-dashboard"
          >
-            <div className="space-y-4 border-b bg-white px-6 py-4">
+            <div className="border-b bg-white px-6 py-4">
                <CollectionHeader collection={collection} />
             </div>
 
@@ -70,7 +67,7 @@ export const CollectionView = async ({ collection }: Props) => {
                models={models}
             />
 
-            <div className="flex-1 overflow-y-auto p-6">
+            <div className="flex-1 overflow-y-auto px-8 py-6">
                <TemplateItems
                   viewMode={viewMode}
                   groupBy={groupBy}

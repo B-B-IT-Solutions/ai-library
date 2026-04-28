@@ -16,7 +16,7 @@ exports[`CollectionsDashboard rendering tests rendered test 1`] = `
           <h1
             class="text-2xl font-bold text-slate-900"
           >
-            Sammlungen
+            Meine Sammlungen
           </h1>
           <p
             class="mt-1 text-sm text-slate-600"
@@ -53,7 +53,7 @@ exports[`CollectionsDashboard rendering tests rendered test 1`] = `
                 d="M12 5v14"
               />
             </svg>
-            Neue Vorlage
+            Neue Sammlung
           </a>
         </div>
       </div>
@@ -175,15 +175,16 @@ exports[`CollectionsDashboard rendering tests rendered test 1`] = `
             >
               <div
                 data-slot="dropdown-menu"
-                data-testid="mock-react-dropdown-menu-root"
+                data-testid="more-options-btn"
               >
                 <button
-                  class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-7 w-7 p-0"
-                  data-slot="button"
+                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-8 cursor-pointer"
+                  data-slot="dropdown-menu-trigger"
+                  data-testid="more-options-trigger-btn"
                 >
                   <svg
                     aria-hidden="true"
-                    class="lucide lucide-ellipsis h-4 w-4"
+                    class="lucide lucide-ellipsis-vertical h-4 w-4"
                     fill="none"
                     height="24"
                     stroke="currentColor"
@@ -200,13 +201,13 @@ exports[`CollectionsDashboard rendering tests rendered test 1`] = `
                       r="1"
                     />
                     <circle
-                      cx="19"
-                      cy="12"
+                      cx="12"
+                      cy="5"
                       r="1"
                     />
                     <circle
-                      cx="5"
-                      cy="12"
+                      cx="12"
+                      cy="19"
                       r="1"
                     />
                   </svg>
@@ -218,7 +219,7 @@ exports[`CollectionsDashboard rendering tests rendered test 1`] = `
             </div>
             <a
               class="flex flex-1 flex-col gap-3"
-              data-testid="mock-link"
+              data-testid="collection-link"
               href="/collections/457bf695-6f74-44aa-9b3a-e179ea9e8170"
             >
               <div
@@ -250,6 +251,7 @@ exports[`CollectionsDashboard rendering tests rendered test 1`] = `
                 >
                   <div
                     class="flex items-center gap-1.5"
+                    data-testid="name"
                   >
                     <span
                       class="truncate font-semibold text-slate-900"
@@ -304,21 +306,6 @@ exports[`CollectionsDashboard rendering tests rendered test 1`] = `
             </a>
           </div>
           <div
-            data-slot="alert-dialog"
-            data-testid="mock-react-alert-dialog-root"
-          >
-            <div
-              data-slot="alert-dialog-portal"
-              data-testid="mock-react-alert-dialog-portal"
-            >
-              <div
-                class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
-                data-slot="alert-dialog-overlay"
-                data-testid="mock-react-alert-dialog-overlay"
-              />
-            </div>
-          </div>
-          <div
             class="group relative flex flex-col rounded-xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
             data-testid="collection-item-card"
           >
@@ -327,15 +314,16 @@ exports[`CollectionsDashboard rendering tests rendered test 1`] = `
             >
               <div
                 data-slot="dropdown-menu"
-                data-testid="mock-react-dropdown-menu-root"
+                data-testid="more-options-btn"
               >
                 <button
-                  class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-7 w-7 p-0"
-                  data-slot="button"
+                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-8 cursor-pointer"
+                  data-slot="dropdown-menu-trigger"
+                  data-testid="more-options-trigger-btn"
                 >
                   <svg
                     aria-hidden="true"
-                    class="lucide lucide-ellipsis h-4 w-4"
+                    class="lucide lucide-ellipsis-vertical h-4 w-4"
                     fill="none"
                     height="24"
                     stroke="currentColor"
@@ -352,13 +340,13 @@ exports[`CollectionsDashboard rendering tests rendered test 1`] = `
                       r="1"
                     />
                     <circle
-                      cx="19"
-                      cy="12"
+                      cx="12"
+                      cy="5"
                       r="1"
                     />
                     <circle
-                      cx="5"
-                      cy="12"
+                      cx="12"
+                      cy="19"
                       r="1"
                     />
                   </svg>
@@ -370,7 +358,7 @@ exports[`CollectionsDashboard rendering tests rendered test 1`] = `
             </div>
             <a
               class="flex flex-1 flex-col gap-3"
-              data-testid="mock-link"
+              data-testid="collection-link"
               href="/collections/457bf695-6f74-44aa-9b3a-e179ea9e8171"
             >
               <div
@@ -402,6 +390,7 @@ exports[`CollectionsDashboard rendering tests rendered test 1`] = `
                 >
                   <div
                     class="flex items-center gap-1.5"
+                    data-testid="name"
                   >
                     <span
                       class="truncate font-semibold text-slate-900"
@@ -456,21 +445,6 @@ exports[`CollectionsDashboard rendering tests rendered test 1`] = `
             </a>
           </div>
           <div
-            data-slot="alert-dialog"
-            data-testid="mock-react-alert-dialog-root"
-          >
-            <div
-              data-slot="alert-dialog-portal"
-              data-testid="mock-react-alert-dialog-portal"
-            >
-              <div
-                class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
-                data-slot="alert-dialog-overlay"
-                data-testid="mock-react-alert-dialog-overlay"
-              />
-            </div>
-          </div>
-          <div
             class="group relative flex flex-col rounded-xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
             data-testid="collection-item-card"
           >
@@ -479,15 +453,16 @@ exports[`CollectionsDashboard rendering tests rendered test 1`] = `
             >
               <div
                 data-slot="dropdown-menu"
-                data-testid="mock-react-dropdown-menu-root"
+                data-testid="more-options-btn"
               >
                 <button
-                  class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[>svg]:px-2.5 h-7 w-7 p-0"
-                  data-slot="button"
+                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-8 cursor-pointer"
+                  data-slot="dropdown-menu-trigger"
+                  data-testid="more-options-trigger-btn"
                 >
                   <svg
                     aria-hidden="true"
-                    class="lucide lucide-ellipsis h-4 w-4"
+                    class="lucide lucide-ellipsis-vertical h-4 w-4"
                     fill="none"
                     height="24"
                     stroke="currentColor"
@@ -504,13 +479,13 @@ exports[`CollectionsDashboard rendering tests rendered test 1`] = `
                       r="1"
                     />
                     <circle
-                      cx="19"
-                      cy="12"
+                      cx="12"
+                      cy="5"
                       r="1"
                     />
                     <circle
-                      cx="5"
-                      cy="12"
+                      cx="12"
+                      cy="19"
                       r="1"
                     />
                   </svg>
@@ -522,7 +497,7 @@ exports[`CollectionsDashboard rendering tests rendered test 1`] = `
             </div>
             <a
               class="flex flex-1 flex-col gap-3"
-              data-testid="mock-link"
+              data-testid="collection-link"
               href="/collections/457bf695-6f74-44aa-9b3a-e179ea9e8172"
             >
               <div
@@ -554,6 +529,7 @@ exports[`CollectionsDashboard rendering tests rendered test 1`] = `
                 >
                   <div
                     class="flex items-center gap-1.5"
+                    data-testid="name"
                   >
                     <span
                       class="truncate font-semibold text-slate-900"
@@ -606,21 +582,6 @@ exports[`CollectionsDashboard rendering tests rendered test 1`] = `
                 </span>
               </div>
             </a>
-          </div>
-          <div
-            data-slot="alert-dialog"
-            data-testid="mock-react-alert-dialog-root"
-          >
-            <div
-              data-slot="alert-dialog-portal"
-              data-testid="mock-react-alert-dialog-portal"
-            >
-              <div
-                class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
-                data-slot="alert-dialog-overlay"
-                data-testid="mock-react-alert-dialog-overlay"
-              />
-            </div>
           </div>
         </div>
       </div>

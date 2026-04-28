@@ -1,6 +1,5 @@
 "use client";
 
-import { FC } from "react";
 import { MoreVertical } from "lucide-react";
 
 import { Button } from "@/components/shadcn/button";
@@ -18,7 +17,7 @@ type Props = {
    descriptor: DPromptTemplateDescriptorWithTemplate;
 };
 
-export const MoreOptionsButton: FC<Props> = ({ descriptor }) => {
+export const MoreOptionsButton = ({ descriptor }: Props) => {
    return (
       <DropdownMenu data-testid="more-options-btn">
          <DropdownMenuTrigger asChild={true}>

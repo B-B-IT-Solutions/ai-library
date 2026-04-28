@@ -1,13 +1,21 @@
 import { MouseEvent } from "react";
 import mockRouter from "next-router-mock";
 
-const Link: React.FC<{ children?: React.ReactNode; href: string }> = ({
+type LinkProps = {
+   children?: React.ReactNode;
+   href: string;
+   onClick?: () => void;
+};
+
+const Link = ({
    children,
    href,
+   onClick: externalOnClick,
    ...props
-}) => {
+}: LinkProps) => {
    const onClick = (e: MouseEvent) => {
       e.preventDefault();
+      externalOnClick?.();
       mockRouter.push(href);
    };
 

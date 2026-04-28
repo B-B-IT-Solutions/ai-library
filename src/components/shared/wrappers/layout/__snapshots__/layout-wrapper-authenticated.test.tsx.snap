@@ -399,7 +399,7 @@ exports[`AuthenticatedLayoutWrapper rendering tests isAuthenticated true - sideb
                       data-active="false"
                       data-sidebar="menu-button"
                       data-size="default"
-                      data-slot="sidebar-menu-button"
+                      data-slot="dropdown-menu-trigger"
                       data-testid="sidebar-menu-btn"
                     >
                       <svg
@@ -885,7 +885,7 @@ exports[`AuthenticatedLayoutWrapper rendering tests isAuthenticated true - sideb
                       data-active="false"
                       data-sidebar="menu-button"
                       data-size="default"
-                      data-slot="sidebar-menu-button"
+                      data-slot="dropdown-menu-trigger"
                       data-testid="sidebar-menu-btn"
                     >
                       <svg
@@ -1371,7 +1371,7 @@ exports[`AuthenticatedLayoutWrapper rendering tests isAuthenticated true - sideb
                       data-active="false"
                       data-sidebar="menu-button"
                       data-size="default"
-                      data-slot="sidebar-menu-button"
+                      data-slot="dropdown-menu-trigger"
                       data-testid="sidebar-menu-btn"
                     >
                       <svg
