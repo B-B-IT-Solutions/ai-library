@@ -4,21 +4,21 @@ import { CollectionRepository } from "@/data/repositories/collection";
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 
 export class CollectionService {
-   private libraryRepository: CollectionRepository;
+   private collectionRepository: CollectionRepository;
 
-   constructor(libraryRepository: CollectionRepository) {
-      this.libraryRepository = libraryRepository;
+   constructor(collectionRepository: CollectionRepository) {
+      this.collectionRepository = collectionRepository;
    }
 
    async getCollections(userId: string): Promise<DCollection[]> {
-      return await this.libraryRepository.pGetCollections(userId);
+      return await this.collectionRepository.pGetCollections(userId);
    }
 
    async getCollectionById(
       userId: string,
       collectionId: string
    ): Promise<DCollection | null> {
-      return await this.libraryRepository.pGetCollectionById(
+      return await this.collectionRepository.pGetCollectionById(
          userId,
          collectionId
       );
@@ -27,7 +27,7 @@ export class CollectionService {
    async getCollectionByPublicToken(
       publicToken: string
    ): Promise<DCollection | null> {
-      return await this.libraryRepository.pGetCollectionByPublicToken(
+      return await this.collectionRepository.pGetCollectionByPublicToken(
          publicToken
       );
    }
@@ -36,7 +36,7 @@ export class CollectionService {
       userId: string,
       data: DCollectionUpdate
    ): Promise<DCollection> {
-      return await this.libraryRepository.pCreateCollection(userId, data);
+      return await this.collectionRepository.pCreateCollection(userId, data);
    }
 
    async updateCollection(
@@ -44,7 +44,7 @@ export class CollectionService {
       collectionId: string,
       data: DCollectionUpdate
    ) {
-      return await this.libraryRepository.pUpdateCollection(
+      return await this.collectionRepository.pUpdateCollection(
          userId,
          collectionId,
          data
@@ -52,14 +52,14 @@ export class CollectionService {
    }
 
    async deleteCollection(userId: string, collectionId: string): Promise<void> {
-      await this.libraryRepository.pDeleteCollection(userId, collectionId);
+      await this.collectionRepository.pDeleteCollection(userId, collectionId);
    }
 
    async getCollectionTemplateIds(
       userId: string,
       collectionId: string
    ): Promise<string[]> {
-      return await this.libraryRepository.pGetCollectionTemplateIds(
+      return await this.collectionRepository.pGetCollectionTemplateIds(
          userId,
          collectionId
       );
@@ -75,7 +75,7 @@ export class CollectionService {
          throw new Error("Collection not found.");
       }
 
-      await this.libraryRepository.pAddTemplateToCollection(
+      await this.collectionRepository.pAddTemplateToCollection(
          userId,
          collectionId,
          templateDescriptorId
@@ -92,7 +92,7 @@ export class CollectionService {
          throw new Error("Collection not found.");
       }
 
-      await this.libraryRepository.pRemoveTemplateFromCollection(
+      await this.collectionRepository.pRemoveTemplateFromCollection(
          userId,
          collectionId,
          templateDescriptorId
@@ -106,7 +106,7 @@ export class CollectionService {
    ): Promise<DCollection> {
       const token = isPublic ? uuidv4() : null;
 
-      return await this.libraryRepository.pSetPublicToken(
+      return await this.collectionRepository.pSetPublicToken(
          userId,
          collectionId,
          token,
@@ -115,7 +115,7 @@ export class CollectionService {
    }
 
    async getPublicCollectionTemplates(collectionId: string) {
-      return await this.libraryRepository.pGetPublicCollectionTemplates(
+      return await this.collectionRepository.pGetPublicCollectionTemplates(
          collectionId
       );
    }
@@ -124,7 +124,7 @@ export class CollectionService {
       userId: string,
       entryId: string
    ): Promise<string[]> {
-      return await this.libraryRepository.pGetEntryCollectionIds(
+      return await this.collectionRepository.pGetEntryCollectionIds(
          userId,
          entryId
       );
@@ -135,7 +135,7 @@ export class CollectionService {
       entryId: string,
       collectionIds: string[]
    ): Promise<void> {
-      await this.libraryRepository.pUpdateEntryCollections(
+      await this.collectionRepository.pUpdateEntryCollections(
          userId,
          entryId,
          collectionIds
