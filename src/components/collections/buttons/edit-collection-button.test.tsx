@@ -1,7 +1,7 @@
 import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { assertInDocument, dtestData, renderWithRouter } from "@tests";
+import { assertInDocument, dtestData } from "@tests";
 import mockRouter from "next-router-mock";
 
 import { DropdownMenu } from "@/components/shadcn/dropdown-menu";
@@ -37,7 +37,7 @@ describe("EditCollectionButton functionality tests", () => {
 
    it("edit btn clicked - test", async () => {
       const collection = dtestData.dCollection();
-      renderWithRouter(
+      render(
          <DropdownMenu>
             <EditCollectionButton collection={collection} />
          </DropdownMenu>
@@ -45,7 +45,7 @@ describe("EditCollectionButton functionality tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         // expect(mockRouter.pathname).toEqual("/collections/test-id");
+         expect(mockRouter.pathname).toEqual("/collections/test-id");
       });
 
       const editBtn = screen.getByTestId("edit-collection-menu-item");

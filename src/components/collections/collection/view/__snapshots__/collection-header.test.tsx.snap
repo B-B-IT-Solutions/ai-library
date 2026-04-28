@@ -162,21 +162,6 @@ exports[`CollectionHeader rendering tests description null - test 1`] = `
       </div>
     </div>
   </div>
-  <div
-    data-slot="alert-dialog"
-    data-testid="mock-react-alert-dialog-root"
-  >
-    <div
-      data-slot="alert-dialog-portal"
-      data-testid="mock-react-alert-dialog-portal"
-    >
-      <div
-        class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
-        data-slot="alert-dialog-overlay"
-        data-testid="mock-react-alert-dialog-overlay"
-      />
-    </div>
-  </div>
 </div>
 `;
 
@@ -345,21 +330,6 @@ exports[`CollectionHeader rendering tests isPublic false - badge hidden - test 1
           data-testid="mock-react-dropdown-menu-portal"
         />
       </div>
-    </div>
-  </div>
-  <div
-    data-slot="alert-dialog"
-    data-testid="mock-react-alert-dialog-root"
-  >
-    <div
-      data-slot="alert-dialog-portal"
-      data-testid="mock-react-alert-dialog-portal"
-    >
-      <div
-        class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
-        data-slot="alert-dialog-overlay"
-        data-testid="mock-react-alert-dialog-overlay"
-      />
     </div>
   </div>
 </div>
@@ -562,21 +532,6 @@ exports[`CollectionHeader rendering tests isPublic true - badge shown - test 1`]
           data-testid="mock-react-dropdown-menu-portal"
         />
       </div>
-    </div>
-  </div>
-  <div
-    data-slot="alert-dialog"
-    data-testid="mock-react-alert-dialog-root"
-  >
-    <div
-      data-slot="alert-dialog-portal"
-      data-testid="mock-react-alert-dialog-portal"
-    >
-      <div
-        class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
-        data-slot="alert-dialog-overlay"
-        data-testid="mock-react-alert-dialog-overlay"
-      />
     </div>
   </div>
 </div>
