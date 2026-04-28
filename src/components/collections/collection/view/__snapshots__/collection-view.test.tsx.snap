@@ -4,7 +4,7 @@ exports[`CollectionView rendering tests rendered - test 1`] = `
 <div>
   <div
     class="flex h-full flex-col"
-    data-testid="collection-dashboard"
+    data-testid="collection-view"
   >
     <div
       class="border-b bg-white px-6 py-4"
