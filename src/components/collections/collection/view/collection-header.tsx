@@ -17,6 +17,7 @@ import {
 import { CreateTemplateButton } from "@/components/templates/buttons";
 import { DCollection } from "@/data/types/domain/collection";
 import { CollectionBreadcrumb } from "../../breadcrumbs";
+import { MoreOptionsButton } from "../../buttons";
 import { DeleteCollectionDialog } from "../../dialogs";
 
 type Props = {
@@ -56,6 +57,7 @@ export const CollectionHeader = ({ collection }: Props) => {
 
             <div className="flex shrink-0 items-center gap-2">
                <CreateTemplateButton />
+               <MoreOptionsButton collection={collection} />
                <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                      <Button variant="outline" size="icon-sm">

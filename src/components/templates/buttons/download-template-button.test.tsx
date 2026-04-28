@@ -31,7 +31,7 @@ const assertRenderedBtn = () => {
 };
 
 describe("DownloadTemplateButton rendering tests", () => {
-   it("DownloadTemplateButton - asMenuItem true - rendered test", async () => {
+   it("asMenuItem true - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptor();
       const { container } = render(
          <DownloadTemplateButton descriptor={descriptor} asMenuItem={true} />
@@ -44,7 +44,7 @@ describe("DownloadTemplateButton rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("DownloadTemplateButton - asMenuItem true - rendered test", async () => {
+   it("asMenuItem false - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptor();
       const { container } = render(
          <DownloadTemplateButton descriptor={descriptor} asMenuItem={false} />
@@ -63,7 +63,7 @@ describe("DownloadTemplateButton functionality tests", () => {
       jest.resetAllMocks();
    });
 
-   it("DownloadTemplateButton - download template btn clicked - result.success true - test", async () => {
+   it("download template btn clicked - result.success true - test", async () => {
       const result = {
          success: true,
          message: "data ready",
@@ -101,7 +101,7 @@ describe("DownloadTemplateButton functionality tests", () => {
       });
    });
 
-   it("DownloadTemplateButton - download template btn clicked - result.success false - test", async () => {
+   it("download template btn clicked - result.success false - test", async () => {
       const result = {
          success: false,
          message: "template cannot be downloaded",

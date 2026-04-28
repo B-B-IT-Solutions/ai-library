@@ -27,6 +27,7 @@ type Props = {
 
 export const CollectionView = async ({ collection }: Props) => {
    const queryClient = new QueryClient();
+
    const viewMode = templatesSearchParamsCache.get("view");
    const groupBy = templatesSearchParamsCache.get("group");
    const sortBy = templatesSearchParamsCache.get("sort");

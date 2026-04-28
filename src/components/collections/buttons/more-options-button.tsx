@@ -6,18 +6,19 @@ import { Button } from "@/components/shadcn/button";
 import {
    DropdownMenu,
    DropdownMenuContent,
+   DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import { DPromptTemplateDescriptorWithTemplate } from "@/data/types/domain/prompt.template";
+import { DCollection } from "@/data/types/domain/collection";
 
-import { DeleteTemplateButton } from "./delete-template-button";
-import { DownloadTemplateButton } from "./download-template-button";
+import { DeleteCollectionButton } from "./delete-collection-button";
+import { EditCollectionButton } from "./edit-collection-button";
 
 type Props = {
-   descriptor: DPromptTemplateDescriptorWithTemplate;
+   collection: DCollection;
 };
 
-export const MoreOptionsButton = ({ descriptor }: Props) => {
+export const MoreOptionsButton = ({ collection }: Props) => {
    return (
       <DropdownMenu data-testid="more-options-btn">
          <DropdownMenuTrigger asChild={true}>
@@ -31,8 +32,9 @@ export const MoreOptionsButton = ({ descriptor }: Props) => {
             </Button>
          </DropdownMenuTrigger>
          <DropdownMenuContent align="end">
-            <DownloadTemplateButton descriptor={descriptor} asMenuItem={true} />
-            <DeleteTemplateButton descriptor={descriptor} />
+            <EditCollectionButton collection={collection} />
+            <DropdownMenuSeparator />
+            <DeleteCollectionButton collection={collection} />
          </DropdownMenuContent>
       </DropdownMenu>
    );
