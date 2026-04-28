@@ -1,19 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Globe, MoreVertical, Pencil, Trash2 } from "lucide-react";
-import Link from "next/link";
+import { Globe } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { Badge } from "@/components/shadcn/badge";
-import { Button } from "@/components/shadcn/button";
-import {
-   DropdownMenu,
-   DropdownMenuContent,
-   DropdownMenuItem,
-   DropdownMenuSeparator,
-   DropdownMenuTrigger,
-} from "@/components/shadcn/dropdown-menu";
 import { CreateTemplateButton } from "@/components/templates/buttons";
 import { DCollection } from "@/data/types/domain/collection";
 import { CollectionBreadcrumb } from "../../breadcrumbs";
@@ -58,29 +49,6 @@ export const CollectionHeader = ({ collection }: Props) => {
             <div className="flex shrink-0 items-center gap-2">
                <CreateTemplateButton />
                <MoreOptionsButton collection={collection} />
-               <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                     <Button variant="outline" size="icon-sm">
-                        <MoreVertical className="h-4 w-4" />
-                     </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                     <DropdownMenuItem asChild>
-                        <Link href={`/collections/${collection.id}/edit`}>
-                           <Pencil className="h-4 w-4" />
-                           Bearbeiten
-                        </Link>
-                     </DropdownMenuItem>
-                     <DropdownMenuSeparator />
-                     <DropdownMenuItem
-                        className="text-destructive focus:text-destructive"
-                        onClick={() => setShowDelete(true)}
-                     >
-                        <Trash2 className="h-4 w-4" />
-                        Löschen
-                     </DropdownMenuItem>
-                  </DropdownMenuContent>
-               </DropdownMenu>
             </div>
          </div>
 
