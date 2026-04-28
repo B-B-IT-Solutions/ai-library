@@ -310,7 +310,9 @@ describe("setCollectionPublic tests", () => {
 
       const token = ctestData.uuid();
       uuidv4Mock.mockReturnValue(token);
-      collectionRepoMock.pSetPublicToken.mockResolvedValue(collection);
+      collectionRepoMock.pSetCollectionPublicToken.mockResolvedValue(
+         collection
+      );
 
       const result = await collectionService.setCollectionPublic(
          userId,
@@ -320,8 +322,10 @@ describe("setCollectionPublic tests", () => {
 
       expect(result).toEqual(collection);
       expect(uuidv4Mock).toHaveBeenCalledTimes(1);
-      expect(collectionRepoMock.pSetPublicToken).toHaveBeenCalledTimes(1);
-      expect(collectionRepoMock.pSetPublicToken).toHaveBeenCalledWith(
+      expect(
+         collectionRepoMock.pSetCollectionPublicToken
+      ).toHaveBeenCalledTimes(1);
+      expect(collectionRepoMock.pSetCollectionPublicToken).toHaveBeenCalledWith(
          userId,
          collection.id,
          token,
@@ -333,7 +337,9 @@ describe("setCollectionPublic tests", () => {
       const userId = "user-id-1";
       const collection = dtestData.dCollection();
 
-      collectionRepoMock.pSetPublicToken.mockResolvedValue(collection);
+      collectionRepoMock.pSetCollectionPublicToken.mockResolvedValue(
+         collection
+      );
 
       const result = await collectionService.setCollectionPublic(
          userId,
@@ -343,8 +349,10 @@ describe("setCollectionPublic tests", () => {
 
       expect(result).toEqual(collection);
       expect(uuidv4Mock).not.toHaveBeenCalled();
-      expect(collectionRepoMock.pSetPublicToken).toHaveBeenCalledTimes(1);
-      expect(collectionRepoMock.pSetPublicToken).toHaveBeenCalledWith(
+      expect(
+         collectionRepoMock.pSetCollectionPublicToken
+      ).toHaveBeenCalledTimes(1);
+      expect(collectionRepoMock.pSetCollectionPublicToken).toHaveBeenCalledWith(
          userId,
          collection.id,
          null,

@@ -106,7 +106,7 @@ export class CollectionService {
    ): Promise<DCollection> {
       const token = isPublic ? uuidv4() : null;
 
-      return await this.collectionRepository.pSetPublicToken(
+      return await this.collectionRepository.pSetCollectionPublicToken(
          userId,
          collectionId,
          token,

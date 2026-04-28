@@ -405,7 +405,7 @@ describe("pDeleteCollection tests", () => {
    });
 });
 
-describe("pSetPublicToken tests", () => {
+describe("pSetCollectionPublicToken tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
@@ -417,7 +417,7 @@ describe("pSetPublicToken tests", () => {
       const collection = ptestData.pTemplateCollection();
       prismaMock.libraryCollection.update.mockResolvedValue(collection);
 
-      const result = await collectionRepository.pSetPublicToken(
+      const result = await collectionRepository.pSetCollectionPublicToken(
          userId,
          collection.id,
          publicToken,

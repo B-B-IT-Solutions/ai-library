@@ -167,7 +167,7 @@ export class CollectionRepository {
       await this.prisma.libraryCollection.delete(args);
    }
 
-   async pSetPublicToken(
+   async pSetCollectionPublicToken(
       userId: string,
       collectionId: string,
       publicToken: string | null,
