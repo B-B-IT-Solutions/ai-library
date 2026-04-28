@@ -31,7 +31,7 @@ export const DeleteCollectionButton = ({ collection }: Props) => {
          dialog={{
             title: "Sammlung löschen?",
             description:
-               "Diese Aktion kann nicht rückgängig gemacht werden. Die Sammlung wird dauerhaft gelöscht.",
+               "Diese Aktion kann nicht rückgängig gemacht werden. Die Sammlung wird dauerhaft gelöscht. Die enthaltenen Vorlagen bleiben erhalten",
          }}
          data-testid="delete-collection-menu-item"
       />
