@@ -1,4 +1,4 @@
-jest.mock("@/data/ts-queries/library");
+jest.mock("@/data/actions/collection");
 
 import { screen, waitFor } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
@@ -11,22 +11,7 @@ import {
 } from "@tests";
 import mockRouter from "next-router-mock";
 
-import { useDeleteCollection } from "@/data/ts-queries/library";
-
 import { CollectionHeader } from "./collection-header";
-
-const useDeleteCollectionMock = useDeleteCollection as jest.MockedFunction<
-   typeof useDeleteCollection
->;
-
-const mockDeleteMutate = jest.fn();
-
-const setupMocks = () => {
-   useDeleteCollectionMock.mockReturnValue({
-      mutate: mockDeleteMutate,
-      isPending: false,
-   } as ReturnType<typeof useDeleteCollection>);
-};
 
 const assertRendered = () => {
    const header = screen.getByTestId("collection-header");
@@ -55,11 +40,6 @@ const assertPublicBadgeNotRendered = () => {
 };
 
 describe("CollectionHeader rendering tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      setupMocks();
-   });
-
    it("isPublic true - badge shown - test", async () => {
       const collection = dtestData.dCollection(1);
       collection.isPublic = true;
@@ -111,16 +91,19 @@ describe("CollectionHeader rendering tests", () => {
 describe("CollectionHeader functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      mockRouter.push("/collections/test-id");
-      setupMocks();
    });
 
-   it("create template btn clicked - navigates to /templates/new - test", async () => {
+   it("create template btn clicked - test", async () => {
       const collection = dtestData.dCollection(1);
-      renderWithRouter(<CollectionHeader collection={collection} />);
+
+      renderWithRouter(
+         <CollectionHeader collection={collection} />,
+         "/collections/test-id"
+      );
 
       await waitFor(() => {
          assertRendered();
+         expect(mockRouter.pathname).toEqual("/collections/test-id");
       });
 
       const createBtn = screen.getByTestId("create-template-btn");
