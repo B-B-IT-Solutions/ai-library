@@ -1,6 +1,10 @@
 jest.mock("@/data/actions/collection");
-jest.mock("@/data/actions/prompt-template");
 jest.mock("@/components/templates");
+jest.mock("@/components/collections", () => ({
+   CollectionView: () => {
+      return <div data-testid="collection-view" />;
+   },
+}));
 
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
@@ -11,32 +15,12 @@ import { SearchParams } from "nuqs/server";
 
 import { templatesSearchParamsCache } from "@/components/templates";
 import { getCollectionById } from "@/data/actions/collection";
-import {
-   getTemplateDescriptorCategories,
-   getTemplateDescriptorModels,
-   getTemplateDescriptorsPage,
-} from "@/data/actions/prompt-template";
 
 import { CollectionPage, metadata, PageParams, PageProps } from "./page";
 
 const getCollectionByIdMock = getCollectionById as jest.MockedFunction<
    typeof getCollectionById
 >;
-
-const getTemplateDescriptorsPageMock =
-   getTemplateDescriptorsPage as jest.MockedFunction<
-      typeof getTemplateDescriptorsPage
-   >;
-
-const getTemplateDescriptorCategoriesMock =
-   getTemplateDescriptorCategories as jest.MockedFunction<
-      typeof getTemplateDescriptorCategories
-   >;
-
-const getTemplateDescriptorModelsMock =
-   getTemplateDescriptorModels as jest.MockedFunction<
-      typeof getTemplateDescriptorModels
-   >;
 
 const templatesSearchParamsCacheMock =
    templatesSearchParamsCache as DeepMockProxy<
@@ -60,15 +44,6 @@ const assertRendered = () => {
 describe("CollectionPage rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-
-      const templateDescriptors = dtestData.dTemplateDescriptorsPage();
-      getTemplateDescriptorsPageMock.mockResolvedValue(templateDescriptors);
-
-      const categories = dtestData.dTemplateCategories();
-      const models = dtestData.dTemplateModels();
-
-      getTemplateDescriptorCategoriesMock.mockResolvedValue(categories);
-      getTemplateDescriptorModelsMock.mockResolvedValue(models);
    });
 
    it("collection null - test", async () => {
@@ -86,6 +61,7 @@ describe("CollectionPage rendering tests", () => {
 
       await waitFor(() => {
          expect(getCollectionByIdMock).toHaveBeenCalledTimes(1);
+         expect(getCollectionByIdMock).toHaveBeenCalledWith(pageParams.id);
          expect(templatesSearchParamsCacheMock.parse).toHaveBeenCalledTimes(1);
          expect(templatesSearchParamsCacheMock.parse).toHaveBeenCalledWith(
             props.searchParams
@@ -112,12 +88,13 @@ describe("CollectionPage rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
+         expect(getCollectionByIdMock).toHaveBeenCalledTimes(1);
+         expect(getCollectionByIdMock).toHaveBeenCalledWith(pageParams.id);
+
          expect(templatesSearchParamsCacheMock.parse).toHaveBeenCalledTimes(1);
          expect(templatesSearchParamsCacheMock.parse).toHaveBeenCalledWith(
             props.searchParams
          );
-         expect(getCollectionByIdMock).toHaveBeenCalledTimes(1);
-         expect(getCollectionByIdMock).toHaveBeenCalledWith(pageParams.id);
       });
 
       expect(container).toMatchSnapshot();
