@@ -8,26 +8,28 @@ import { Button } from "@/components/shadcn/button";
 import { getPublicCollectionByToken } from "@/data/actions/collection";
 import { APP_NAME } from "@/lib/constants";
 
-export type PageParams = {
-   token: string;
-};
-
-export type PageProps = {
-   params: Promise<PageParams>;
-};
-
 export const generateMetadata = async ({
    params,
 }: PageProps): Promise<Metadata> => {
    const { token } = await params;
    const result = await getPublicCollectionByToken(token);
    if (!result) {
-      return { title: "Sammlung nicht gefunden" };
+      return {
+         title: "Sammlung nicht gefunden",
+      };
    }
    return {
       title: `${result.collection.name} – ${APP_NAME}`,
       description: result.collection.description ?? undefined,
    };
+};
+
+export type PageParams = {
+   token: string;
+};
+
+export type PageProps = {
+   params: Promise<PageParams>;
 };
 
 const PublicCollectionPage = async ({ params }: PageProps) => {
