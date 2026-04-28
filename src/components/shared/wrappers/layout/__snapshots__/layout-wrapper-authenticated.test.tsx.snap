@@ -5,6 +5,7 @@ exports[`AuthenticatedLayoutWrapper rendering tests isAuthenticated false - test
 exports[`AuthenticatedLayoutWrapper rendering tests isAuthenticated true - sidebarCookie false - test 1`] = `
 <div>
   <div
+    class="h-full"
     data-testid="authenticated-layout-wrapper"
   >
     <div
@@ -469,6 +470,7 @@ exports[`AuthenticatedLayoutWrapper rendering tests isAuthenticated true - sideb
 exports[`AuthenticatedLayoutWrapper rendering tests isAuthenticated true - sidebarCookie true - test 1`] = `
 <div>
   <div
+    class="h-full"
     data-testid="authenticated-layout-wrapper"
   >
     <div
@@ -955,6 +957,7 @@ exports[`AuthenticatedLayoutWrapper rendering tests isAuthenticated true - sideb
 exports[`AuthenticatedLayoutWrapper rendering tests isAuthenticated true - sidebarCookie undefined - test 1`] = `
 <div>
   <div
+    class="h-full"
     data-testid="authenticated-layout-wrapper"
   >
     <div

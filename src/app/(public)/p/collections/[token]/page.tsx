@@ -1,4 +1,4 @@
-import { Folder, Globe, LogIn } from "lucide-react";
+import { Folder, Globe } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -74,13 +74,6 @@ const PublicCollectionPage = async ({ params }: PageProps) => {
                         </p>
                      </div>
                   </div>
-
-                  <Button asChild size="sm" className="shrink-0 gap-2">
-                     <Link href="/auth/sign-in">
-                        <LogIn className="h-4 w-4" />
-                        Anmelden
-                     </Link>
-                  </Button>
                </div>
             </div>
          </div>
@@ -144,9 +137,6 @@ const PublicCollectionPage = async ({ params }: PageProps) => {
                <div className="flex flex-wrap justify-center gap-3">
                   <Button asChild size="lg">
                      <Link href="/auth/sign-up">Kostenlos registrieren</Link>
-                  </Button>
-                  <Button asChild size="lg" variant="outline">
-                     <Link href="/auth/sign-in">Anmelden</Link>
                   </Button>
                </div>
             </div>

@@ -3,6 +3,7 @@
 exports[`PublicLayoutWrapper rendering tests PublicLayoutWrapper - isAuthenticated false - test 1`] = `
 <div>
   <div
+    class="h-full"
     data-testid="public-layout-wrapper"
   >
     <div
