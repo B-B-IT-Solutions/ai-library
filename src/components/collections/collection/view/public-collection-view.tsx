@@ -1,11 +1,14 @@
 import { Folder, Globe } from "lucide-react";
-import Link from "next/link";
 
 import { Badge } from "@/components/shadcn/badge";
-import { Button } from "@/components/shadcn/button";
+import { TemplateItems } from "@/components/templates/lists";
 import { DCollection } from "@/data/types/domain/collection";
+import {
+   DListGroupByMode,
+   DListSortByMode,
+   DListViewMode,
+} from "@/data/types/domain/common";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
-import { APP_NAME } from "@/lib/constants";
 
 type Props = {
    collection: DCollection;
@@ -52,6 +55,14 @@ export const PublicCollectionView = async ({ collection }: Props) => {
             </div>
          </div>
 
+         <div className="flex-1 overflow-y-auto px-8 py-6">
+            <TemplateItems
+               viewMode={DListViewMode.GRID}
+               groupBy={DListGroupByMode.NONE}
+               sortBy={DListSortByMode.DATE_ASC}
+               filters={{}}
+            />
+         </div>
          {/* Templates */}
          <div className="mx-auto max-w-5xl px-6 py-8">
             {templates.length === 0 ? (
@@ -97,23 +108,6 @@ export const PublicCollectionView = async ({ collection }: Props) => {
                   ))}
                </div>
             )}
-
-            {/* CTA */}
-            <div className="mt-12 rounded-xl border bg-white p-8 text-center shadow-sm">
-               <h2 className="mb-2 text-xl font-bold text-slate-900">
-                  Vorlagen mit {APP_NAME} nutzen
-               </h2>
-               <p className="mb-6 text-slate-500">
-                  Erstellen Sie ein kostenloses Konto, um diese und weitere
-                  Vorlagen zu verwenden, zu bearbeiten und eigene Sammlungen
-                  anzulegen.
-               </p>
-               <div className="flex flex-wrap justify-center gap-3">
-                  <Button asChild size="lg">
-                     <Link href="/auth/sign-up">Kostenlos registrieren</Link>
-                  </Button>
-               </div>
-            </div>
          </div>
       </div>
    );
