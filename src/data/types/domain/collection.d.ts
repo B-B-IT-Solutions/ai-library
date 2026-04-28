@@ -9,7 +9,7 @@ export type DCollection = {
    userId: string;
    name: string;
    description: string | null;
-   color: string | null;
+   color: string;
    order: number;
    isPublic: boolean;
    publicToken: string | null;

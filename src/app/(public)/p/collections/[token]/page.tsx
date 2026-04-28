@@ -8,8 +8,12 @@ import { Button } from "@/components/shadcn/button";
 import { getPublicCollectionByToken } from "@/data/actions/collection";
 import { APP_NAME } from "@/lib/constants";
 
-type PageProps = {
-   params: Promise<{ token: string }>;
+export type PageParams = {
+   token: string;
+};
+
+export type PageProps = {
+   params: Promise<PageParams>;
 };
 
 export const generateMetadata = async ({
@@ -31,11 +35,11 @@ const PublicCollectionPage = async ({ params }: PageProps) => {
    const result = await getPublicCollectionByToken(token);
 
    if (!result) {
-      notFound();
+      return notFound();
    }
 
    const { collection, templates } = result;
-   const iconColor = collection.color ?? "#64748b";
+   const iconColor = collection.color;
 
    return (
       <div

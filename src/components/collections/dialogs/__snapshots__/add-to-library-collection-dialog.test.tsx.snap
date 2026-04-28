@@ -1127,7 +1127,6 @@ exports[`AddToLibraryCollectionDialog rendering tests open true - test 1`] = `
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="2"
-                style="color: rgb(100, 116, 139);"
                 viewBox="0 0 24 24"
                 width="24"
                 xmlns="http://www.w3.org/2000/svg"

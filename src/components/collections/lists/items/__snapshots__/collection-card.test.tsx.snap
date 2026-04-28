@@ -63,7 +63,6 @@ exports[`CollectionCard rendering tests description null - test 1`] = `
       >
         <div
           class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
-          style="background-color: rgba(100, 116, 139, 0.125);"
         >
           <svg
             aria-hidden="true"
@@ -74,7 +73,6 @@ exports[`CollectionCard rendering tests description null - test 1`] = `
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
-            style="color: rgb(100, 116, 139);"
             viewBox="0 0 24 24"
             width="24"
             xmlns="http://www.w3.org/2000/svg"

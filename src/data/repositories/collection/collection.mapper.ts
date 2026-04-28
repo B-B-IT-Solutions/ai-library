@@ -3,6 +3,8 @@ import { map } from "es-toolkit/compat";
 import { PLibraryCollection } from "@/data/types/db/collection";
 import { DCollection } from "@/data/types/domain/collection";
 
+export const DEFAULT_COLOR = "#64748b";
+
 export const toDCollections = (
    collections: PLibraryCollection[]
 ): DCollection[] => {
@@ -15,7 +17,7 @@ export const toDCollection = (c: PLibraryCollection): DCollection => {
       userId: c.userId,
       name: c.name,
       description: c.description,
-      color: c.color,
+      color: c.color ?? DEFAULT_COLOR,
       order: c.order,
       isPublic: c.isPublic,
       publicToken: c.publicToken,
