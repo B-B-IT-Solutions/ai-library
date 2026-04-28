@@ -7,5 +7,5 @@ export { collectionsSearchParamsCache } from "./collections-search-params";
 export {
    CollectionEdit,
    CollectionView,
-   PublicCollectionView,
+   CollectionViewPublic,
 } from "./collection";

@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { PublicCollectionView } from "@/components/collections";
+import { CollectionViewPublic } from "@/components/collections";
 import { Button } from "@/components/shadcn/button";
 import { getCollectionByPublicToken } from "@/data/actions/collection";
 import { APP_NAME } from "@/lib/constants";
@@ -44,7 +44,7 @@ export const PublicCollectionPage = async ({ params }: PageProps) => {
          className="min-h-full bg-slate-50"
          data-testid="public-collection-page"
       >
-         <PublicCollectionView collection={collection} />
+         <CollectionViewPublic collection={collection} />
 
          {/* CTA */}
          <div className="mx-auto max-w-5xl px-6 py-8">

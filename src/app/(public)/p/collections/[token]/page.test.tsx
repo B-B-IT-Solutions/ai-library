@@ -1,7 +1,7 @@
 jest.mock("@/data/actions/collection");
 jest.mock("@/components/collections", () => ({
-   PublicCollectionView: () => {
-      return <div data-testid="public-collection-view" />;
+   CollectionViewPublic: () => {
+      return <div data-testid="collection-view-public" />;
    },
 }));
 
@@ -28,7 +28,7 @@ const notFoundMock = notFound as jest.MockedFunction<typeof notFound>;
 
 const assertRendered = () => {
    const page = screen.getByTestId("public-collection-page");
-   const view = screen.getByTestId("public-collection-view");
+   const view = screen.getByTestId("collection-view-public");
 
    assertInDocument(page);
    assertInDocument(view);

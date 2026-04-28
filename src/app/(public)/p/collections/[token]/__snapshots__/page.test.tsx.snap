@@ -7,8 +7,40 @@ exports[`PublicCollectionPage rendering tests collection defined - test 1`] = `
     data-testid="public-collection-page"
   >
     <div
-      data-testid="public-collection-view"
+      data-testid="collection-view-public"
     />
+    <div
+      class="mx-auto max-w-5xl px-6 py-8"
+    >
+      <div
+        class="mt-12 rounded-xl border bg-white p-8 text-center shadow-sm"
+      >
+        <h2
+          class="mb-2 text-xl font-bold text-slate-900"
+        >
+          Vorlagen mit 
+          Vision Notes
+           nutzen
+        </h2>
+        <p
+          class="mb-6 text-slate-500"
+        >
+          Erstellen Sie ein kostenloses Konto, um diese und weitere Vorlagen zu verwenden, zu bearbeiten und eigene Sammlungen anzulegen.
+        </p>
+        <div
+          class="flex flex-wrap justify-center gap-3"
+        >
+          <a
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-10 rounded-md px-6 has-[>svg]:px-4"
+            data-slot="button"
+            data-testid="mock-link"
+            href="/auth/sign-up"
+          >
+            Kostenlos registrieren
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 `;

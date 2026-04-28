@@ -12,14 +12,14 @@ type Props = {
    collection: DCollection;
 };
 
-export const PublicCollectionView = async ({ collection }: Props) => {
+export const CollectionViewPublic = async ({ collection }: Props) => {
    const iconColor = collection.color;
 
    return (
       <div className="min-h-full bg-slate-50">
          <div
             className="border-b bg-white px-6 py-8"
-            data-testid="collection-public-view"
+            data-testid="collection-view-public"
          >
             <div className="mx-auto max-w-5xl">
                <div className="flex items-start justify-between gap-4">
