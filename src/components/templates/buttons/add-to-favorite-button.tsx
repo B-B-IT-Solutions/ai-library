@@ -6,9 +6,9 @@ import { Star } from "lucide-react";
 import { toast } from "sonner";
 
 import {
-   UpdateIsFavoriteParams,
+   type UpdateIsFavoriteParams,
    useToggleFavorite,
-} from "@/data/ts-queries/library";
+} from "@/data/ts-queries/template";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 import { cn } from "@/lib/utils";
 

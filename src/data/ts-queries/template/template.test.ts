@@ -7,6 +7,7 @@ import {
    QueryKey,
    UndefinedInitialDataInfiniteOptions,
    UndefinedInitialDataOptions,
+   UseMutationOptions,
 } from "@tanstack/react-query";
 import { waitFor } from "@testing-library/dom";
 import { dtestData, renderHookWithReactQuery } from "@tests";
@@ -14,20 +15,24 @@ import { dtestData, renderHookWithReactQuery } from "@tests";
 import {
    getPromptTemplateCategories,
    getTemplateDescriptorsPage,
+   toggleTemplateDescriptorFavorite,
 } from "@/data/actions/template";
 import {
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
+import { ActionResult } from "@/data/types/utils";
 
 import {
    infiniteLoadTemplateDescriptorsOptions,
    loadPromptTemplateCategoriesOptions,
    preloadPromptTemplateCategoriesOptions,
+   toggleFavoriteOptions,
    useInfiniteLoadTemplateDescriptors,
    useLoadPromptTemplateCategories,
+   useToggleFavorite,
 } from "./template";
-import { LoadTemplateDescriptorsParams } from "./types";
+import { LoadTemplateDescriptorsParams, UpdateIsFavoriteParams } from "./types";
 
 const getTemplateDescriptorsPageMock =
    getTemplateDescriptorsPage as jest.MockedFunction<
@@ -37,6 +42,11 @@ const getTemplateDescriptorsPageMock =
 const getPromptTemplateCategoriesMock =
    getPromptTemplateCategories as jest.MockedFunction<
       typeof getPromptTemplateCategories
+   >;
+
+const toggleTemplateDescriptorFavoriteMock =
+   toggleTemplateDescriptorFavorite as jest.MockedFunction<
+      typeof toggleTemplateDescriptorFavorite
    >;
 
 describe("prefetch options tests", () => {
@@ -160,6 +170,41 @@ describe("loadPromptTemplateCategories hooks tests", () => {
       await waitFor(() => {
          expect(result.current.data).toEqual(categories);
          expect(getPromptTemplateCategoriesMock).toHaveBeenCalledTimes(1);
+      });
+   });
+});
+
+describe("toggleFavorite hooks tests", () => {
+   test("toggleFavoriteOptions test", async () => {
+      const expectedOptions: UseMutationOptions<
+         ActionResult,
+         Error,
+         UpdateIsFavoriteParams
+      > = {
+         mutationFn: jest.fn(),
+         onSuccess: jest.fn(),
+      };
+
+      const options = toggleFavoriteOptions();
+      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
+   });
+
+   test("useToggleFavorite test", async () => {
+      const { result } = renderHookWithReactQuery(() => useToggleFavorite());
+
+      const params: UpdateIsFavoriteParams = {
+         descriptorId: "1",
+         isFavorite: true,
+      };
+
+      await waitFor(() => {
+         result.current.mutate(params);
+         expect(result.current.isSuccess).toBe(true);
+         expect(toggleTemplateDescriptorFavoriteMock).toHaveBeenCalledTimes(1);
+         expect(toggleTemplateDescriptorFavoriteMock).toHaveBeenCalledWith(
+            params.descriptorId,
+            params.isFavorite
+         );
       });
    });
 });

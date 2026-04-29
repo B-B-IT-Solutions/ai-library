@@ -7,6 +7,9 @@ import {
    UndefinedInitialDataOptions,
    useInfiniteQuery,
    UseInfiniteQueryResult,
+   useMutation,
+   UseMutationOptions,
+   UseMutationResult,
    useQuery,
    UseQueryResult,
 } from "@tanstack/react-query";
@@ -14,15 +17,20 @@ import {
 import {
    getPromptTemplateCategories,
    getTemplateDescriptorsPage,
+   toggleTemplateDescriptorFavorite,
 } from "@/data/actions/template";
 import {
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
+import { ActionResult } from "@/data/types/utils";
 import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
 import { getNextPageParam, pageQuery } from "../utils";
 
-import { LoadTemplateDescriptorsParams } from "./types";
+import type {
+   LoadTemplateDescriptorsParams,
+   UpdateIsFavoriteParams,
+} from "./types";
 import { templateCategoriesKeys, templateKeys } from "./utils";
 
 export const preloadPromptTemplateCategoriesOptions = (): FetchQueryOptions<
@@ -88,4 +96,29 @@ export const loadPromptTemplateCategoriesOptions =
 export const useLoadPromptTemplateCategories = (): UseQueryResult<string[]> => {
    const options = loadPromptTemplateCategoriesOptions();
    return useQuery<string[]>(options);
+};
+
+export const toggleFavoriteOptions = (): UseMutationOptions<
+   ActionResult,
+   Error,
+   UpdateIsFavoriteParams
+> => {
+   return {
+      mutationFn: async (params: UpdateIsFavoriteParams) => {
+         const { descriptorId, isFavorite } = params;
+         return await toggleTemplateDescriptorFavorite(
+            descriptorId,
+            isFavorite
+         );
+      },
+   };
+};
+
+export const useToggleFavorite = (): UseMutationResult<
+   ActionResult,
+   Error,
+   UpdateIsFavoriteParams
+> => {
+   const options = toggleFavoriteOptions();
+   return useMutation(options);
 };

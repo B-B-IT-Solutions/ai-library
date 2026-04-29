@@ -3,6 +3,7 @@ export {
    infiniteLoadTemplateDescriptorsOptions,
    useInfiniteLoadTemplateDescriptors,
    useLoadPromptTemplateCategories,
+   useToggleFavorite,
 } from "./template";
 
 export {
@@ -10,4 +11,7 @@ export {
    useInfiniteLoadPublicTemplateDescriptors,
 } from "./template.public";
 
-export { type LoadTemplateDescriptorsParams } from "./types";
+export type {
+   LoadTemplateDescriptorsParams,
+   UpdateIsFavoriteParams,
+} from "./types";

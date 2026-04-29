@@ -19,14 +19,12 @@ import {
    getEntryCollectionIds,
    updateEntryCollections,
 } from "@/data/actions/collection";
-import { toggleTemplateDescriptorFavorite } from "@/data/actions/template";
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 
-import {
+import type {
    LoadCollectionIdsParams,
    UpdateCollectionIdsParams,
-   UpdateIsFavoriteParams,
 } from "./types";
 import { libraryKeys } from "./utils";
 
@@ -39,31 +37,6 @@ export const preloadCollectionsOptions = (): FetchQueryOptions<
       queryKey: libraryKeys.collections(),
       queryFn: getCollections,
    };
-};
-
-export const toggleFavoriteOptions = (): UseMutationOptions<
-   ActionResult,
-   Error,
-   UpdateIsFavoriteParams
-> => {
-   return {
-      mutationFn: async (params: UpdateIsFavoriteParams) => {
-         const { descriptorId, isFavorite } = params;
-         return await toggleTemplateDescriptorFavorite(
-            descriptorId,
-            isFavorite
-         );
-      },
-   };
-};
-
-export const useToggleFavorite = (): UseMutationResult<
-   ActionResult,
-   Error,
-   UpdateIsFavoriteParams
-> => {
-   const options = toggleFavoriteOptions();
-   return useMutation(options);
 };
 
 export const loadCollectionsOptions = (): UndefinedInitialDataOptions<

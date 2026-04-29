@@ -1,5 +1,4 @@
 jest.mock("@/data/actions/collection");
-jest.mock("@/data/actions/template");
 
 import {
    keepPreviousData,
@@ -23,7 +22,6 @@ import {
    updateCollection,
    updateEntryCollections,
 } from "@/data/actions/collection";
-import { toggleTemplateDescriptorFavorite } from "@/data/actions/template";
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
 
@@ -33,20 +31,14 @@ import {
    loadCollectionsOptions,
    loadEntryCollectionIdsOptions,
    preloadCollectionsOptions,
-   toggleFavoriteOptions,
    updateEntryCollectionsOptions,
    useCreateCollection,
    useDeleteCollection,
    useLoadCollections,
    useLoadEntryCollectionIds,
-   useToggleFavorite,
    useUpdateEntryCollections,
 } from "./library";
-import {
-   LoadCollectionIdsParams,
-   UpdateCollectionIdsParams,
-   UpdateIsFavoriteParams,
-} from "./types";
+import { LoadCollectionIdsParams, UpdateCollectionIdsParams } from "./types";
 
 const queryClientMock = mockDeep<QueryClient>();
 
@@ -58,11 +50,6 @@ const mutationContextMock: MutationFunctionContext = {
 const getCollectionsMock = getCollections as jest.MockedFunction<
    typeof getCollections
 >;
-
-const toggleTemplateDescriptorFavoriteMock =
-   toggleTemplateDescriptorFavorite as jest.MockedFunction<
-      typeof toggleTemplateDescriptorFavorite
-   >;
 
 const createCollectionMock = createCollection as jest.MockedFunction<
    typeof createCollection
@@ -109,41 +96,6 @@ describe("prefetch options tests", () => {
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
       expect(getCollectionsMock).toHaveBeenCalledTimes(1);
       expect(fnResult).toEqual(collections);
-   });
-});
-
-describe("toggleFavorite hooks tests", () => {
-   test("toggleFavoriteOptions test", async () => {
-      const expectedOptions: UseMutationOptions<
-         ActionResult,
-         Error,
-         UpdateIsFavoriteParams
-      > = {
-         mutationFn: jest.fn(),
-         onSuccess: jest.fn(),
-      };
-
-      const options = toggleFavoriteOptions();
-      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
-   });
-
-   test("useToggleFavorite test", async () => {
-      const { result } = renderHookWithReactQuery(() => useToggleFavorite());
-
-      const params: UpdateIsFavoriteParams = {
-         descriptorId: "1",
-         isFavorite: true,
-      };
-
-      await waitFor(() => {
-         result.current.mutate(params);
-         expect(result.current.isSuccess).toBe(true);
-         expect(toggleTemplateDescriptorFavoriteMock).toHaveBeenCalledTimes(1);
-         expect(toggleTemplateDescriptorFavoriteMock).toHaveBeenCalledWith(
-            params.descriptorId,
-            params.isFavorite
-         );
-      });
    });
 });
 
