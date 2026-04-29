@@ -24,8 +24,14 @@ export class PublicTemplateService {
    ): Promise<DTemplateDescriptorsPage> {
       const { collectionIds = [] } = query.filter || {};
       if (!isEmpty(collectionIds)) {
-         this.collectionService.ensureCollectionsPublic(collectionIds);
-         return await this.repository.pGetPublicTemplateDescriptorsPage(query);
+         const collectionsPublic =
+            await this.collectionService.ensureCollectionsPublic(collectionIds);
+
+         if (collectionsPublic) {
+            return await this.repository.pGetPublicTemplateDescriptorsPage(
+               query
+            );
+         }
       }
       throw new Error("Invalid public temmplates query.");
    }
