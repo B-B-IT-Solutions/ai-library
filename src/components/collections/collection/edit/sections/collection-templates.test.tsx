@@ -20,7 +20,7 @@ import {
    useRemoveTemplateFromCollection,
 } from "@/data/ts-queries/collection";
 import {
-   LoadTemplateDescriptorsParams,
+   type LoadTemplateDescriptorsParams,
    useInfiniteLoadTemplateDescriptors,
 } from "@/data/ts-queries/template";
 import { DTemplateDescriptorsPage } from "@/data/types/domain/prompt.template";
