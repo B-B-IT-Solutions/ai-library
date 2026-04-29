@@ -8,10 +8,8 @@ import {
    getTemplateDescriptorCategories,
    getTemplateDescriptorModels,
 } from "@/data/actions/prompt-template";
-import {
-   infiniteLoadTemplateDescriptorsOptions,
-   preloadCollectionsOptions,
-} from "@/data/ts-queries/library";
+import { preloadCollectionsOptions } from "@/data/ts-queries/library";
+import { infiniteLoadTemplateDescriptorsOptions } from "@/data/ts-queries/template";
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
 
