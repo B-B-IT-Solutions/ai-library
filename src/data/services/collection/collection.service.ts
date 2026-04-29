@@ -135,4 +135,8 @@ export class CollectionService {
          collectionIds
       );
    }
+
+   async ensureCollectionsPublic(collectionIds: string[]): Promise<boolean> {
+      return true;
+   }
 }

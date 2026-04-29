@@ -56,7 +56,9 @@ export const CollectionViewPublic = async ({ collection }: Props) => {
                viewMode={DListViewMode.GRID}
                groupBy={DListGroupByMode.NONE}
                sortBy={DListSortByMode.DATE_ASC}
-               filters={{}}
+               filters={{
+                  collectionIds: [collection.id],
+               }}
             />
          </div>
       </div>

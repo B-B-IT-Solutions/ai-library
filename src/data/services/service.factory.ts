@@ -4,7 +4,10 @@ import { CollectionService } from "@/data/services/collection";
 import { IubendaService } from "@/data/services/iubenda";
 import { OrderService } from "@/data/services/order";
 import { PromptService } from "@/data/services/prompt";
-import { PromptTemplateService } from "@/data/services/prompt-template";
+import {
+   PromptTemplateService,
+   PublicTemplateService,
+} from "@/data/services/prompt-template";
 import { SettingsService } from "@/data/services/settings";
 import { StripeService } from "@/data/services/stripe";
 import { SubscriptionService } from "@/data/services/subscription";
@@ -20,7 +23,8 @@ export class ServiceFactory {
    private stripeService?: StripeService;
    private subscriptionService?: SubscriptionService;
    private promptService?: PromptService;
-   private promptTemplateService?: PromptTemplateService;
+   private templateService?: PromptTemplateService;
+   private publicTemplateService?: PublicTemplateService;
    private settingsService?: SettingsService;
    private iubendaService?: IubendaService;
 
@@ -77,13 +81,23 @@ export class ServiceFactory {
    }
 
    getPromptTemplateService(): PromptTemplateService {
-      if (!this.promptTemplateService) {
-         this.promptTemplateService = new PromptTemplateService(
+      if (!this.templateService) {
+         this.templateService = new PromptTemplateService(
             this.repositories.promptTemplateRepository(),
             this.getSettingsService()
          );
       }
-      return this.promptTemplateService;
+      return this.templateService;
+   }
+
+   getPublicTemplateService(): PublicTemplateService {
+      if (!this.publicTemplateService) {
+         this.publicTemplateService = new PublicTemplateService(
+            this.repositories.publicTemplateRepository(),
+            this.getCollectionService()
+         );
+      }
+      return this.publicTemplateService;
    }
 
    getSubscriptionService(): SubscriptionService {

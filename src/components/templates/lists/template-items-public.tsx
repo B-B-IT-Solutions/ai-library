@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { flatMap } from "es-toolkit/compat";
 
 import InfiniteScroll from "@/components/shadcn/infinite-scroll";
-import { useInfiniteLoadTemplateDescriptors } from "@/data/ts-queries/library";
+import { useInfiniteLoadPublicTemplateDescriptors } from "@/data/ts-queries/library";
 import { resolveSort } from "@/data/ts-queries/utils";
 import {
    DListGroupByMode,
@@ -30,7 +30,7 @@ export const TemplateItemsPublic = ({
    filters,
 }: Props) => {
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
-      useInfiniteLoadTemplateDescriptors({
+      useInfiniteLoadPublicTemplateDescriptors({
          filters,
          sort: resolveSort(sortBy),
       });

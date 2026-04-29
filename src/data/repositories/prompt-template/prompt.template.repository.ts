@@ -93,6 +93,48 @@ export class PromptTemplateRepository {
       };
    }
 
+   async pGetPublicTemplateDescriptorsPage(
+      query: DTemplateDescriptorsPageQuery
+   ): Promise<DTemplateDescriptorsPage> {
+      const pagination = query?.pagination;
+      const pageNumber = pagination?.pageNumber ?? 0;
+      const pageSize = pagination?.pageSize ?? 20;
+      const skip = pageNumber * pageSize;
+
+      const where = this.resolveWhereInput(undefined, query?.filter);
+      const orderBy = this.resolveOrderBy(query?.sort);
+
+      const args: PromptTemplateDescriptorFindManyArgs = {
+         where,
+         include: {
+            categories: true,
+         },
+         orderBy,
+         skip,
+         take: pageSize,
+      };
+
+      const countArgs: PromptTemplateDescriptorCountArgs = {
+         where,
+      };
+
+      const [descriptors, totalElements] = await Promise.all([
+         this.prisma.promptTemplateDescriptor.findMany(args) as Promise<
+            PromptTemplateDescriptorWithCategories[]
+         >,
+         this.prisma.promptTemplateDescriptor.count(countArgs),
+      ]);
+
+      return {
+         content: toDPromptTemplateDescriptors(descriptors),
+         pageNumber,
+         pageSize,
+         numberOfElements: descriptors.length,
+         totalPages: Math.ceil(totalElements / pageSize),
+         totalElements: totalElements,
+      };
+   }
+
    async pGetPromptTemplateDescriptors(
       params?: PGetPromptTemplateDescriptorsParams
    ) {
@@ -385,7 +427,7 @@ export class PromptTemplateRepository {
    }
 
    private resolveWhereInput(
-      userId: string,
+      userId?: string,
       filter?: DTemplateDescriptorsFilter
    ): PromptTemplateDescriptorWhereInput {
       const where: PromptTemplateDescriptorWhereInput = { userId };

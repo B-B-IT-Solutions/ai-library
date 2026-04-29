@@ -6,6 +6,7 @@ import { OrderRepository } from "./order";
 import { ProductRepository } from "./product";
 import { PromptRepository } from "./prompt";
 import { PromptTemplateRepository } from "./prompt-template";
+import { PublicTemplateRepository } from "./prompt-template/template.public.repository";
 import { SettingsRepository } from "./settings";
 import { SubscriptionRepository } from "./subscription";
 import { UserRepository } from "./user";
@@ -18,7 +19,8 @@ export class RepositoryFactory {
    private orderRepo?: OrderRepository;
    private productRepo?: ProductRepository;
    private promptRepo?: PromptRepository;
-   private promptTemplateRepos?: PromptTemplateRepository;
+   private templateRepo?: PromptTemplateRepository;
+   private publicTemplateRepo?: PublicTemplateRepository;
    private subscriptionRepo?: SubscriptionRepository;
    private settingsRepo?: SettingsRepository;
 
@@ -69,10 +71,17 @@ export class RepositoryFactory {
    }
 
    promptTemplateRepository(): PromptTemplateRepository {
-      if (!this.promptTemplateRepos) {
-         this.promptTemplateRepos = new PromptTemplateRepository(this.prisma);
+      if (!this.templateRepo) {
+         this.templateRepo = new PromptTemplateRepository(this.prisma);
       }
-      return this.promptTemplateRepos;
+      return this.templateRepo;
+   }
+
+   publicTemplateRepository(): PublicTemplateRepository {
+      if (!this.publicTemplateRepo) {
+         this.publicTemplateRepo = new PublicTemplateRepository(this.prisma);
+      }
+      return this.publicTemplateRepo;
    }
 
    subscriptionRepository(): SubscriptionRepository {
