@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { TemplateEdit } from "@/components/templates";
-import { getTemplateDescriptor } from "@/data/actions/prompt-template";
+import { getTemplateDescriptor } from "@/data/actions/template";
 import { getGlobalTemplateFields } from "@/data/actions/settings";
 
 export const metadata: Metadata = {

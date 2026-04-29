@@ -5,3 +5,8 @@ export type LoadTemplateDescriptorsParams = {
    filters?: DTemplateDescriptorsFilter;
    sort?: Sort;
 };
+
+export type UpdateIsFavoriteParams = {
+   descriptorId: string;
+   isFavorite: boolean;
+};

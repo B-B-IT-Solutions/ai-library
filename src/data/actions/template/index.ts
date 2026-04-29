@@ -13,6 +13,6 @@ export {
    getPromptTemplateCategories,
    getPromptTemplates,
    getPromptTemplate,
-} from "./prompt.template.actions";
+} from "./template.actions";
 
 export { getPublicTemplateDescriptorsPage } from "./template.public.actions";

@@ -17,7 +17,7 @@ import {
    useLoadCollectionTemplateIds,
    useRemoveTemplateFromCollection,
 } from "@/data/ts-queries/collection";
-import { useInfiniteLoadTemplateDescriptors } from "@/data/ts-queries/library";
+import { useInfiniteLoadTemplateDescriptors } from "@/data/ts-queries/template";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 type Props = {

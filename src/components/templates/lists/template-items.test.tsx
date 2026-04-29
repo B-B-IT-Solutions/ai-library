@@ -1,11 +1,11 @@
 jest.mock("@/data/actions/collection");
-jest.mock("@/data/actions/prompt-template");
+jest.mock("@/data/actions/template");
 
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 
 import { getCollections } from "@/data/actions/collection";
-import { getTemplateDescriptorsPage } from "@/data/actions/prompt-template";
+import { getTemplateDescriptorsPage } from "@/data/actions/template";
 import {
    DListGroupByMode,
    DListSortByMode,

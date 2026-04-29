@@ -1,11 +1,11 @@
-jest.mock("@/data/services/prompt-template");
+jest.mock("@/data/services/template");
 jest.mock("@/data/actions/auth-utils");
 
 import { dtestData } from "@tests";
 
 import { requireUser } from "@/data/actions/auth-utils";
 import { EMPTY_PAGE } from "@/data/actions/utils";
-import { TemplateService } from "@/data/services/prompt-template";
+import { TemplateService } from "@/data/services/template";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
@@ -25,7 +25,7 @@ import {
    getTemplateDescriptorsPage,
    toggleTemplateDescriptorFavorite,
    updateTemplateDescriptor,
-} from "./prompt.template.actions";
+} from "./template.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 

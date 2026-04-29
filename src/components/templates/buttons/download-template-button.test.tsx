@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/prompt-template");
+jest.mock("@/data/actions/template");
 jest.mock("sonner");
 jest.mock("file-saver");
 
@@ -9,7 +9,7 @@ import { assertInDocument, dtestData } from "@tests";
 import { saveAs } from "file-saver";
 import { toast } from "sonner";
 
-import { downloadTemplate } from "@/data/actions/prompt-template";
+import { downloadTemplate } from "@/data/actions/template";
 
 import { DownloadTemplateButton } from "./download-template-button";
 

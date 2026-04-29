@@ -1,5 +1,5 @@
 jest.mock("@/data/ts-queries/collection");
-jest.mock("@/data/ts-queries/library");
+jest.mock("@/data/ts-queries/template");
 jest.mock("sonner");
 
 import { screen, waitFor } from "@testing-library/react";
@@ -19,8 +19,10 @@ import {
    useLoadCollectionTemplateIds,
    useRemoveTemplateFromCollection,
 } from "@/data/ts-queries/collection";
-import { useInfiniteLoadTemplateDescriptors } from "@/data/ts-queries/library";
-import { LoadTemplateDescriptorsParams } from "@/data/ts-queries/library/types";
+import {
+   type LoadTemplateDescriptorsParams,
+   useInfiniteLoadTemplateDescriptors,
+} from "@/data/ts-queries/template";
 import { DTemplateDescriptorsPage } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 

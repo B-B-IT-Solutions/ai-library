@@ -1,4 +1,4 @@
-jest.mock("@/data/repositories/prompt-template");
+jest.mock("@/data/repositories/template");
 jest.mock("@/data/services/settings");
 jest.mock("@/lib/template");
 
@@ -7,7 +7,7 @@ import { map } from "es-toolkit/compat";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { PromptTemplateRepository } from "@/data/repositories/prompt-template";
+import { PromptTemplateRepository } from "@/data/repositories/template";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
    DPromptTemplateDataPromptGeneration,

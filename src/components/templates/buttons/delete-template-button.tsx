@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { DeleteDropdownMenuItem } from "@/components/shared/dropdowns";
-import { deleteTemplateDescriptor } from "@/data/actions/prompt-template";
+import { deleteTemplateDescriptor } from "@/data/actions/template";
 import { DPromptTemplateDescriptorWithTemplate } from "@/data/types/domain/prompt.template";
 
 type Props = {

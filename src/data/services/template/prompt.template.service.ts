@@ -1,6 +1,6 @@
 import { filter, map } from "es-toolkit/compat";
 
-import { PromptTemplateRepository } from "@/data/repositories/prompt-template";
+import { PromptTemplateRepository } from "@/data/repositories/template";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
    DPromptTemplate,

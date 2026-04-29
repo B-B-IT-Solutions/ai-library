@@ -5,7 +5,7 @@ import { CollectionService, PublicCollectionService } from "./collection";
 import { IubendaService } from "./iubenda";
 import { OrderService } from "./order";
 import { PromptService } from "./prompt";
-import { PublicTemplateService, TemplateService } from "./prompt-template";
+import { PublicTemplateService, TemplateService } from "./template";
 import { ServiceFactory } from "./service.factory";
 import { SettingsService } from "./settings";
 import { StripeService } from "./stripe/stripe.service";

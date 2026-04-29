@@ -1,13 +1,8 @@
 import {
    FetchQueryOptions,
-   InfiniteData,
    keepPreviousData,
    QueryClient,
-   QueryKey,
-   UndefinedInitialDataInfiniteOptions,
    UndefinedInitialDataOptions,
-   useInfiniteQuery,
-   UseInfiniteQueryResult,
    useMutation,
    UseMutationOptions,
    UseMutationResult,
@@ -24,50 +19,14 @@ import {
    getEntryCollectionIds,
    updateEntryCollections,
 } from "@/data/actions/collection";
-import {
-   getTemplateDescriptorsPage,
-   toggleTemplateDescriptorFavorite,
-} from "@/data/actions/prompt-template";
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
-import {
-   DTemplateDescriptorsPage,
-   DTemplateDescriptorsPageQuery,
-} from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
-import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
-import { LoadTemplateDescriptorsParams } from "../prompt-template/types";
-import { getNextPageParam, pageQuery } from "../utils";
 
-import {
+import type {
    LoadCollectionIdsParams,
    UpdateCollectionIdsParams,
-   UpdateIsFavoriteParams,
 } from "./types";
 import { libraryKeys } from "./utils";
-
-export const preloadLibraryEntriesOptions = (
-   params: LoadTemplateDescriptorsParams
-): FetchQueryOptions<
-   DTemplateDescriptorsPage,
-   Error,
-   DTemplateDescriptorsPage
-> => {
-   const { filters, sort } = params;
-
-   return {
-      queryKey: libraryKeys.entries(params),
-      queryFn: async () => {
-         const query: DTemplateDescriptorsPageQuery = pageQuery(
-            INIT_PAGE_NUMBER,
-            PAGE_SIZE,
-            undefined,
-            filters,
-            sort
-         );
-         return await getTemplateDescriptorsPage(query);
-      },
-   };
-};
 
 export const preloadCollectionsOptions = (): FetchQueryOptions<
    DCollection[],
@@ -78,66 +37,6 @@ export const preloadCollectionsOptions = (): FetchQueryOptions<
       queryKey: libraryKeys.collections(),
       queryFn: getCollections,
    };
-};
-
-export const infiniteLoadTemplateDescriptorsOptions = (
-   params: LoadTemplateDescriptorsParams
-): UndefinedInitialDataInfiniteOptions<
-   DTemplateDescriptorsPage,
-   Error,
-   InfiniteData<DTemplateDescriptorsPage>,
-   QueryKey,
-   number
-> => {
-   const { filters, sort } = params;
-   return {
-      queryKey: libraryKeys.entries(params),
-      queryFn: async ({ pageParam }) => {
-         const query: DTemplateDescriptorsPageQuery = pageQuery(
-            pageParam,
-            PAGE_SIZE,
-            undefined,
-            filters,
-            sort
-         );
-         return await getTemplateDescriptorsPage(query);
-      },
-      initialPageParam: INIT_PAGE_NUMBER,
-      getNextPageParam: getNextPageParam,
-      staleTime: 5 * 60 * 1000,
-   };
-};
-
-export const useInfiniteLoadTemplateDescriptors = (
-   props: LoadTemplateDescriptorsParams
-): UseInfiniteQueryResult<InfiniteData<DTemplateDescriptorsPage>, Error> => {
-   const options = infiniteLoadTemplateDescriptorsOptions(props);
-   return useInfiniteQuery(options);
-};
-
-export const toggleFavoriteOptions = (): UseMutationOptions<
-   ActionResult,
-   Error,
-   UpdateIsFavoriteParams
-> => {
-   return {
-      mutationFn: async (params: UpdateIsFavoriteParams) => {
-         const { descriptorId, isFavorite } = params;
-         return await toggleTemplateDescriptorFavorite(
-            descriptorId,
-            isFavorite
-         );
-      },
-   };
-};
-
-export const useToggleFavorite = (): UseMutationResult<
-   ActionResult,
-   Error,
-   UpdateIsFavoriteParams
-> => {
-   const options = toggleFavoriteOptions();
-   return useMutation(options);
 };
 
 export const loadCollectionsOptions = (): UndefinedInitialDataOptions<

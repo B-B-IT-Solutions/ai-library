@@ -1,5 +1,5 @@
 jest.mock("@/data/actions/collection");
-jest.mock("@/data/actions/prompt-template");
+jest.mock("@/data/actions/template");
 jest.mock("@/components/templates/search-params");
 
 import { screen, waitFor } from "@testing-library/dom";
@@ -12,7 +12,7 @@ import {
    getTemplateDescriptorCategories,
    getTemplateDescriptorModels,
    getTemplateDescriptorsPage,
-} from "@/data/actions/prompt-template";
+} from "@/data/actions/template";
 import {
    DListGroupByMode,
    DListSortByMode,

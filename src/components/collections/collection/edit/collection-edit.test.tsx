@@ -1,5 +1,5 @@
 jest.mock("@/data/actions/collection");
-jest.mock("@/data/actions/prompt-template");
+jest.mock("@/data/actions/template");
 
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -11,7 +11,7 @@ import {
 } from "@tests";
 
 import { getCollectionTemplateIds } from "@/data/actions/collection";
-import { getTemplateDescriptorsPage } from "@/data/actions/prompt-template";
+import { getTemplateDescriptorsPage } from "@/data/actions/template";
 
 import { CollectionEdit } from "./collection-edit";
 

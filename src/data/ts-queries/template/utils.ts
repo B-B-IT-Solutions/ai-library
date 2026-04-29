@@ -1,6 +1,6 @@
 import { filterQueryKey } from "../utils";
 
-import { LoadTemplateDescriptorsParams } from "./types";
+import type { LoadTemplateDescriptorsParams } from "./types";
 
 export const templateKeys = {
    all: ["templates"] as const,

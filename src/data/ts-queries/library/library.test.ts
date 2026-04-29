@@ -1,15 +1,12 @@
 jest.mock("@/data/actions/collection");
-jest.mock("@/data/actions/prompt-template");
 
 import {
-   InfiniteData,
    keepPreviousData,
    MutationFunctionContext,
    QueryClient,
    QueryFunction,
    QueryFunctionContext,
    QueryKey,
-   UndefinedInitialDataInfiniteOptions,
    UndefinedInitialDataOptions,
    UseMutationOptions,
 } from "@tanstack/react-query";
@@ -25,41 +22,23 @@ import {
    updateCollection,
    updateEntryCollections,
 } from "@/data/actions/collection";
-import {
-   getTemplateDescriptorsPage,
-   toggleTemplateDescriptorFavorite,
-} from "@/data/actions/prompt-template";
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
-import {
-   DTemplateDescriptorsPage,
-   DTemplateDescriptorsPageQuery,
-} from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
-import { LoadTemplateDescriptorsParams } from "../prompt-template/types";
 
 import {
    createCollectionOptions,
    deleteCollectionOptions,
-   infiniteLoadTemplateDescriptorsOptions,
    loadCollectionsOptions,
    loadEntryCollectionIdsOptions,
    preloadCollectionsOptions,
-   preloadLibraryEntriesOptions,
-   toggleFavoriteOptions,
    updateEntryCollectionsOptions,
    useCreateCollection,
    useDeleteCollection,
-   useInfiniteLoadTemplateDescriptors,
    useLoadCollections,
    useLoadEntryCollectionIds,
-   useToggleFavorite,
    useUpdateEntryCollections,
 } from "./library";
-import {
-   LoadCollectionIdsParams,
-   UpdateCollectionIdsParams,
-   UpdateIsFavoriteParams,
-} from "./types";
+import { LoadCollectionIdsParams, UpdateCollectionIdsParams } from "./types";
 
 const queryClientMock = mockDeep<QueryClient>();
 
@@ -68,19 +47,9 @@ const mutationContextMock: MutationFunctionContext = {
    meta: {},
 };
 
-const getTemplateDescriptorsPageMock =
-   getTemplateDescriptorsPage as jest.MockedFunction<
-      typeof getTemplateDescriptorsPage
-   >;
-
 const getCollectionsMock = getCollections as jest.MockedFunction<
    typeof getCollections
 >;
-
-const toggleTemplateDescriptorFavoriteMock =
-   toggleTemplateDescriptorFavorite as jest.MockedFunction<
-      typeof toggleTemplateDescriptorFavorite
-   >;
 
 const createCollectionMock = createCollection as jest.MockedFunction<
    typeof createCollection
@@ -106,46 +75,6 @@ describe("prefetch options tests", () => {
       jest.resetAllMocks();
    });
 
-   test("preloadLibraryEntriesOptions  - test", async () => {
-      const page = dtestData.dTemplateDescriptorsPage();
-      getTemplateDescriptorsPageMock.mockResolvedValue(page);
-
-      const filters = dtestData.dTemplateDescriptorsFilter();
-      const sort = dtestData.sort();
-      const params: LoadTemplateDescriptorsParams = { filters, sort };
-
-      const options = preloadLibraryEntriesOptions(params);
-      const queryFn =
-         options.queryFn as QueryFunction<DTemplateDescriptorsPage>;
-      const context = {} as QueryFunctionContext;
-      const fnResult = await queryFn(context);
-
-      const expectedOptions: UndefinedInitialDataOptions<
-         DTemplateDescriptorsPage,
-         Error,
-         DTemplateDescriptorsPage
-      > = {
-         queryKey: ["library", "entries", { filters, sort }],
-         queryFn: jest.fn(),
-      };
-
-      const expectedQuery: DTemplateDescriptorsPageQuery = {
-         pagination: {
-            pageNumber: 0,
-            pageSize: 10,
-         },
-         filter: params.filters,
-         sort: params.sort,
-      };
-
-      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
-      expect(getTemplateDescriptorsPageMock).toHaveBeenCalledTimes(1);
-      expect(getTemplateDescriptorsPageMock).toHaveBeenCalledWith(
-         expectedQuery
-      );
-      expect(fnResult).toEqual(page);
-   });
-
    test("preloadLibraryCollectionsOptions  - test", async () => {
       const collections = dtestData.dCollections();
       getCollectionsMock.mockResolvedValue(collections);
@@ -167,102 +96,6 @@ describe("prefetch options tests", () => {
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
       expect(getCollectionsMock).toHaveBeenCalledTimes(1);
       expect(fnResult).toEqual(collections);
-   });
-});
-
-describe("loadTemplateDescriptors hooks tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   test("infiniteLoadTemplateDescriptorsOptions - test", async () => {
-      const filters = dtestData.dTemplateDescriptorsFilter();
-      const sort = dtestData.sort();
-      const params: LoadTemplateDescriptorsParams = { filters, sort };
-
-      const expectedOptions: UndefinedInitialDataInfiniteOptions<
-         DTemplateDescriptorsPage,
-         Error,
-         InfiniteData<DTemplateDescriptorsPage, unknown>,
-         QueryKey,
-         number
-      > = {
-         queryKey: ["library", "entries", { filters, sort }],
-         queryFn: jest.fn(),
-         initialPageParam: 0,
-         getNextPageParam: jest.fn(),
-         staleTime: 5 * 60 * 1000,
-      };
-
-      const options = infiniteLoadTemplateDescriptorsOptions(params);
-      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
-   });
-
-   test("useInfiniteLoadTemplateDescriptors test", async () => {
-      const page = dtestData.dTemplateDescriptorsPage();
-      getTemplateDescriptorsPageMock.mockResolvedValue(page);
-
-      const filters = dtestData.dTemplateDescriptorsFilter();
-      const sort = dtestData.sort();
-      const params: LoadTemplateDescriptorsParams = { filters, sort };
-
-      const { result } = renderHookWithReactQuery(() =>
-         useInfiniteLoadTemplateDescriptors(params)
-      );
-
-      const expectedQuery: DTemplateDescriptorsPageQuery = {
-         pagination: {
-            pageNumber: 0,
-            pageSize: 10,
-         },
-         filter: params.filters,
-         sort: params.sort,
-      };
-
-      await waitFor(() => {
-         expect(result.current.data?.pageParams).toEqual([0]);
-         expect(result.current.data?.pages).toHaveLength(1);
-         expect(result.current.data?.pages[0]).toEqual(page);
-         expect(getTemplateDescriptorsPageMock).toHaveBeenCalledTimes(1);
-         expect(getTemplateDescriptorsPageMock).toHaveBeenCalledWith(
-            expectedQuery
-         );
-      });
-   });
-});
-
-describe("toggleFavorite hooks tests", () => {
-   test("toggleFavoriteOptions test", async () => {
-      const expectedOptions: UseMutationOptions<
-         ActionResult,
-         Error,
-         UpdateIsFavoriteParams
-      > = {
-         mutationFn: jest.fn(),
-         onSuccess: jest.fn(),
-      };
-
-      const options = toggleFavoriteOptions();
-      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
-   });
-
-   test("useToggleFavorite test", async () => {
-      const { result } = renderHookWithReactQuery(() => useToggleFavorite());
-
-      const params: UpdateIsFavoriteParams = {
-         descriptorId: "1",
-         isFavorite: true,
-      };
-
-      await waitFor(() => {
-         result.current.mutate(params);
-         expect(result.current.isSuccess).toBe(true);
-         expect(toggleTemplateDescriptorFavoriteMock).toHaveBeenCalledTimes(1);
-         expect(toggleTemplateDescriptorFavoriteMock).toHaveBeenCalledWith(
-            params.descriptorId,
-            params.isFavorite
-         );
-      });
    });
 });
 

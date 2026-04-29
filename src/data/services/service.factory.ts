@@ -10,7 +10,7 @@ import { PromptService } from "@/data/services/prompt";
 import {
    PublicTemplateService,
    TemplateService,
-} from "@/data/services/prompt-template";
+} from "@/data/services/template";
 import { SettingsService } from "@/data/services/settings";
 import { StripeService } from "@/data/services/stripe";
 import { SubscriptionService } from "@/data/services/subscription";

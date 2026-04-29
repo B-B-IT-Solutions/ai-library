@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { TemplateView } from "@/components/templates";
-import { getTemplateDescriptor } from "@/data/actions/prompt-template";
+import { getTemplateDescriptor } from "@/data/actions/template";
 
 export const metadata: Metadata = {
    title: "Vorlage",
