@@ -11,7 +11,7 @@ import { PublicCollectionRepository } from "./collection.public.repository";
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const collectionRepository = new PublicCollectionRepository(prismaMock);
 
-describe("pGetCollectionByPublicToken tests", () => {
+describe("pGetPublicCollectionByToken tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
@@ -21,7 +21,7 @@ describe("pGetCollectionByPublicToken tests", () => {
       prismaMock.libraryCollection.findUnique.mockResolvedValue(null);
 
       const result =
-         await collectionRepository.pGetCollectionByPublicToken(publicToken);
+         await collectionRepository.pGetPublicCollectionByToken(publicToken);
 
       const expectedArgs: LibraryCollectionFindUniqueArgs = {
          where: {
@@ -50,7 +50,7 @@ describe("pGetCollectionByPublicToken tests", () => {
       prismaMock.libraryCollection.findUnique.mockResolvedValue(collection);
 
       const result =
-         await collectionRepository.pGetCollectionByPublicToken(publicToken);
+         await collectionRepository.pGetPublicCollectionByToken(publicToken);
 
       const expectedResult = toDCollection(collection);
 

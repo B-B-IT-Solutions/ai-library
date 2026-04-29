@@ -14,7 +14,7 @@ const collectionRepoMock =
 
 const collectionService = new PublicCollectionService(collectionRepoMock);
 
-describe("getCollectionByPublicToken tests", () => {
+describe("getPublicCollectionByToken tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -22,18 +22,18 @@ describe("getCollectionByPublicToken tests", () => {
    it("collection retrieved - test", async () => {
       const token = "token-1";
       const collection = dtestData.dCollection();
-      collectionRepoMock.pGetCollectionByPublicToken.mockResolvedValue(
+      collectionRepoMock.pGetPublicCollectionByToken.mockResolvedValue(
          collection
       );
 
-      const result = await collectionService.getCollectionByPublicToken(token);
+      const result = await collectionService.getPublicCollectionByToken(token);
 
       expect(result).toEqual(collection);
       expect(
-         collectionRepoMock.pGetCollectionByPublicToken
+         collectionRepoMock.pGetPublicCollectionByToken
       ).toHaveBeenCalledTimes(1);
       expect(
-         collectionRepoMock.pGetCollectionByPublicToken
+         collectionRepoMock.pGetPublicCollectionByToken
       ).toHaveBeenCalledWith(token);
    });
 });

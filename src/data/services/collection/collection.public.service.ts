@@ -8,10 +8,10 @@ export class PublicCollectionService {
       this.collectionRepository = collectionRepository;
    }
 
-   async getCollectionByPublicToken(
+   async getPublicCollectionByToken(
       publicToken: string
    ): Promise<DCollection | null> {
-      return await this.collectionRepository.pGetCollectionByPublicToken(
+      return await this.collectionRepository.pGetPublicCollectionByToken(
          publicToken
       );
    }

@@ -6,12 +6,12 @@ import { PublicCollectionService } from "@/data/services/collection";
 
 import { getPublicCollectionByToken } from "./collection.public.actions";
 
-const sGetCollectionByPublicToken =
-   PublicCollectionService.prototype.getCollectionByPublicToken;
+const sGetPublicCollectionByToken =
+   PublicCollectionService.prototype.getPublicCollectionByToken;
 
 const sGetCollectionByPublicTokenMock =
-   sGetCollectionByPublicToken as jest.MockedFunction<
-      typeof sGetCollectionByPublicToken
+   sGetPublicCollectionByToken as jest.MockedFunction<
+      typeof sGetPublicCollectionByToken
    >;
 
 describe("getPublicCollectionByToken tests", () => {

@@ -10,7 +10,7 @@ export class PublicCollectionRepository {
       this.prisma = prisma;
    }
 
-   async pGetCollectionByPublicToken(
+   async pGetPublicCollectionByToken(
       publicToken: string
    ): Promise<DCollection | null> {
       const collection = await this.prisma.libraryCollection.findUnique({

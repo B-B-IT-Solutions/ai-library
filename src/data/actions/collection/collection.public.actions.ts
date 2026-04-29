@@ -16,7 +16,7 @@ export const getPublicCollectionByToken = async (
          throw new Error("Invalid token.");
       }
       const service = getService();
-      return await service.getCollectionByPublicToken(token);
+      return await service.getPublicCollectionByToken(token);
    } catch (error) {
       console.error(formatError(error));
       return null;
