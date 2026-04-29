@@ -107,7 +107,7 @@ export class ServiceFactory {
       if (!this.publicTemplateService) {
          this.publicTemplateService = new PublicTemplateService(
             this.repositories.publicTemplateRepository(),
-            this.getCollectionService()
+            this.getPublicCollectionService()
          );
       }
       return this.publicTemplateService;

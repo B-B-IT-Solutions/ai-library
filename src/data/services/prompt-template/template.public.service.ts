@@ -5,15 +5,15 @@ import {
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
-import { CollectionService } from "../collection";
+import { PublicCollectionService } from "../collection";
 
 export class PublicTemplateService {
    private repository: PublicTemplateRepository;
-   private collectionService: CollectionService;
+   private collectionService: PublicCollectionService;
 
    constructor(
       repository: PublicTemplateRepository,
-      collectionService: CollectionService
+      collectionService: PublicCollectionService
    ) {
       this.repository = repository;
       this.collectionService = collectionService;
