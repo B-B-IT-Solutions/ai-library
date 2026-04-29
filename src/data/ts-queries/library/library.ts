@@ -28,7 +28,6 @@ import {
    getTemplateDescriptorsPage,
    toggleTemplateDescriptorFavorite,
 } from "@/data/actions/prompt-template";
-import { getPublicTemplateDescriptorsPage } from "@/data/actions/prompt-template";
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import {
    DTemplateDescriptorsPage,
@@ -36,11 +35,11 @@ import {
 } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
+import { LoadTemplateDescriptorsParams } from "../prompt-template/types";
 import { getNextPageParam, pageQuery } from "../utils";
 
 import {
    LoadCollectionIdsParams,
-   LoadTemplateDescriptorsParams,
    UpdateCollectionIdsParams,
    UpdateIsFavoriteParams,
 } from "./types";
@@ -113,41 +112,6 @@ export const useInfiniteLoadTemplateDescriptors = (
    props: LoadTemplateDescriptorsParams
 ): UseInfiniteQueryResult<InfiniteData<DTemplateDescriptorsPage>, Error> => {
    const options = infiniteLoadTemplateDescriptorsOptions(props);
-   return useInfiniteQuery(options);
-};
-
-export const infiniteLoadPublicTemplateDescriptorsOptions = (
-   params: LoadTemplateDescriptorsParams
-): UndefinedInitialDataInfiniteOptions<
-   DTemplateDescriptorsPage,
-   Error,
-   InfiniteData<DTemplateDescriptorsPage>,
-   QueryKey,
-   number
-> => {
-   const { filters, sort } = params;
-   return {
-      queryKey: libraryKeys.entries(params),
-      queryFn: async ({ pageParam }) => {
-         const query: DTemplateDescriptorsPageQuery = pageQuery(
-            pageParam,
-            PAGE_SIZE,
-            undefined,
-            filters,
-            sort
-         );
-         return await getPublicTemplateDescriptorsPage(query);
-      },
-      initialPageParam: INIT_PAGE_NUMBER,
-      getNextPageParam: getNextPageParam,
-      staleTime: 5 * 60 * 1000,
-   };
-};
-
-export const useInfiniteLoadPublicTemplateDescriptors = (
-   props: LoadTemplateDescriptorsParams
-): UseInfiniteQueryResult<InfiniteData<DTemplateDescriptorsPage>, Error> => {
-   const options = infiniteLoadPublicTemplateDescriptorsOptions(props);
    return useInfiniteQuery(options);
 };
 

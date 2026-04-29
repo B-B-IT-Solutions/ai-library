@@ -1,17 +1,18 @@
-import { paramQueryKey } from "../utils";
+import { filterQueryKey } from "../utils";
 
-import { LoadPromptTemplatesParams } from "./types";
+import { LoadTemplateDescriptorsParams } from "./types";
 
-export const promptTemplateKeys = {
-   all: ["prompt-templates"],
-   templates: (params?: LoadPromptTemplatesParams) => {
-      return [...promptTemplateKeys.all, paramQueryKey(params)] as const;
-   },
+export const templateKeys = {
+   all: ["templates"] as const,
+   templates: ({ filters, sort }: LoadTemplateDescriptorsParams) =>
+      [...templateKeys.all, filterQueryKey(filters, sort)] as const,
+   publicTemplates: ({ filters, sort }: LoadTemplateDescriptorsParams) =>
+      [...templateKeys.all, "public", filterQueryKey(filters, sort)] as const,
 };
 
-export const promptTemplateCategoriesKeys = {
+export const templateCategoriesKeys = {
    all: ["prompt-template-categories"],
    categories: () => {
-      return [...promptTemplateCategoriesKeys.all] as const;
+      return [...templateCategoriesKeys.all] as const;
    },
 };
