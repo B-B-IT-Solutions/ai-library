@@ -9,3 +9,5 @@ export {
    infiniteLoadPublicTemplateDescriptorsOptions,
    useInfiniteLoadPublicTemplateDescriptors,
 } from "./template.public";
+
+export { type LoadTemplateDescriptorsParams } from "./types";
