@@ -83,7 +83,7 @@ export class ServiceFactory {
    getTemplateService(): TemplateService {
       if (!this.templateService) {
          this.templateService = new TemplateService(
-            this.repositories.promptTemplateRepository(),
+            this.repositories.templateRepository(),
             this.getSettingsService()
          );
       }

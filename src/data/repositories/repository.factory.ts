@@ -70,7 +70,7 @@ export class RepositoryFactory {
       return this.promptRepo;
    }
 
-   promptTemplateRepository(): PromptTemplateRepository {
+   templateRepository(): PromptTemplateRepository {
       if (!this.templateRepo) {
          this.templateRepo = new PromptTemplateRepository(this.prisma);
       }
