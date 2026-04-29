@@ -3,4 +3,7 @@ export {
    useLoadPromptTemplateCategories,
 } from "./prompt.template";
 
-export { useInfiniteLoadPublicTemplateDescriptors } from "./template.public";
+export {
+   infiniteLoadPublicTemplateDescriptorsOptions,
+   useInfiniteLoadPublicTemplateDescriptors,
+} from "./template.public";
