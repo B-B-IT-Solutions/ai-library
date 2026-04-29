@@ -52,10 +52,7 @@ export const CollectionView = async ({ collection }: Props) => {
 
    return (
       <HydrationBoundary state={dehydrate(queryClient)}>
-         <div
-            className="flex h-full flex-col"
-            data-testid="collection-dashboard"
-         >
+         <div className="flex h-full flex-col" data-testid="collection-view">
             <div className="border-b bg-white px-6 py-4">
                <CollectionHeader collection={collection} />
             </div>

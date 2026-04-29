@@ -131,71 +131,6 @@ describe("pGetCollectionById tests", () => {
    });
 });
 
-describe("pGetCollectionByPublicToken tests", () => {
-   beforeEach(() => {
-      mockReset(prismaMock);
-   });
-
-   it("collection - null - test", async () => {
-      const publicToken = "non-existent-token";
-      prismaMock.libraryCollection.findUnique.mockResolvedValue(null);
-
-      const result =
-         await collectionRepository.pGetCollectionByPublicToken(publicToken);
-
-      const expectedArgs: LibraryCollectionFindUniqueArgs = {
-         where: {
-            publicToken,
-            isPublic: true,
-         },
-         include: {
-            _count: {
-               select: {
-                  entries: true,
-               },
-            },
-         },
-      };
-
-      expect(result).toBeNull();
-      expect(prismaMock.libraryCollection.findUnique).toHaveBeenCalledTimes(1);
-      expect(prismaMock.libraryCollection.findUnique).toHaveBeenCalledWith(
-         expectedArgs
-      );
-   });
-
-   it("collection - retrieved - test", async () => {
-      const publicToken = "token-1";
-      const collection = ptestData.pTemplateCollection();
-      prismaMock.libraryCollection.findUnique.mockResolvedValue(collection);
-
-      const result =
-         await collectionRepository.pGetCollectionByPublicToken(publicToken);
-
-      const expectedResult = toDCollection(collection);
-
-      const expectedArgs: LibraryCollectionFindUniqueArgs = {
-         where: {
-            publicToken,
-            isPublic: true,
-         },
-         include: {
-            _count: {
-               select: {
-                  entries: true,
-               },
-            },
-         },
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(prismaMock.libraryCollection.findUnique).toHaveBeenCalledTimes(1);
-      expect(prismaMock.libraryCollection.findUnique).toHaveBeenCalledWith(
-         expectedArgs
-      );
-   });
-});
-
 describe("pCreateCollection tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
@@ -405,7 +340,7 @@ describe("pDeleteCollection tests", () => {
    });
 });
 
-describe("pSetPublicToken tests", () => {
+describe("pSetCollectionPublicToken tests", () => {
    beforeEach(() => {
       mockReset(prismaMock);
    });
@@ -417,7 +352,7 @@ describe("pSetPublicToken tests", () => {
       const collection = ptestData.pTemplateCollection();
       prismaMock.libraryCollection.update.mockResolvedValue(collection);
 
-      const result = await collectionRepository.pSetPublicToken(
+      const result = await collectionRepository.pSetCollectionPublicToken(
          userId,
          collection.id,
          publicToken,

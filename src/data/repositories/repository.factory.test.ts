@@ -1,11 +1,14 @@
 import { PrismaClient } from "@prisma/client";
 
 import { CartRepository } from "./cart";
-import { CollectionRepository } from "./collection";
+import { CollectionRepository, PublicCollectionRepository } from "./collection";
 import { OrderRepository } from "./order";
 import { ProductRepository } from "./product";
 import { PromptRepository } from "./prompt";
-import { PromptTemplateRepository } from "./prompt-template";
+import {
+   PromptTemplateRepository,
+   PublicTemplateRepository,
+} from "./prompt-template";
 import { RepositoryFactory } from "./repository.factory";
 import { SettingsRepository } from "./settings";
 import { SubscriptionRepository } from "./subscription";
@@ -47,14 +50,27 @@ describe("RepositoryFactory tests", () => {
    });
 
    describe("collectionRepository tests", () => {
-      it("collectionRepository - new instance - test", () => {
+      it("new instance - test", () => {
          const repository = factory.collectionRepository();
          expect(repository).toBeInstanceOf(CollectionRepository);
       });
 
-      it("collectionRepository - existing instance - test", () => {
+      it("existing instance - test", () => {
          const repository1 = factory.collectionRepository();
          const repository2 = factory.collectionRepository();
+         expect(repository1).toBe(repository2);
+      });
+   });
+
+   describe("publicCollectionRepository tests", () => {
+      it("new instance - test", () => {
+         const repository = factory.publicCollectionRepository();
+         expect(repository).toBeInstanceOf(PublicCollectionRepository);
+      });
+
+      it("existing instance - test", () => {
+         const repository1 = factory.publicCollectionRepository();
+         const repository2 = factory.publicCollectionRepository();
          expect(repository1).toBe(repository2);
       });
    });
@@ -98,15 +114,28 @@ describe("RepositoryFactory tests", () => {
       });
    });
 
-   describe("promptTemplateRepository tests", () => {
-      it("promptTemplateRepository - new instance - test", () => {
-         const repository = factory.promptTemplateRepository();
+   describe("templateRepository tests", () => {
+      it("new instance - test", () => {
+         const repository = factory.templateRepository();
          expect(repository).toBeInstanceOf(PromptTemplateRepository);
       });
 
-      it("promptTemplateRepository - existing instance - test", () => {
-         const repository1 = factory.promptTemplateRepository();
-         const repository2 = factory.promptTemplateRepository();
+      it("existing instance - test", () => {
+         const repository1 = factory.templateRepository();
+         const repository2 = factory.templateRepository();
+         expect(repository1).toBe(repository2);
+      });
+   });
+
+   describe("publicTemplateRepository tests", () => {
+      it("new instance - test", () => {
+         const repository = factory.publicTemplateRepository();
+         expect(repository).toBeInstanceOf(PublicTemplateRepository);
+      });
+
+      it("existing instance - test", () => {
+         const repository1 = factory.publicTemplateRepository();
+         const repository2 = factory.publicTemplateRepository();
          expect(repository1).toBe(repository2);
       });
    });

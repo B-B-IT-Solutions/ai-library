@@ -15,5 +15,9 @@ export const PublicLayoutWrapper = async (props: Props) => {
       return redirect("/");
    }
 
-   return <div data-testid="public-layout-wrapper">{children}</div>;
+   return (
+      <div className="h-full" data-testid="public-layout-wrapper">
+         {children}
+      </div>
+   );
 };

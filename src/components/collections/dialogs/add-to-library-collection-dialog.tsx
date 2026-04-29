@@ -108,7 +108,7 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
                <Folder
                   className="h-4 w-4"
                   style={{
-                     color: collection.color || "#64748b",
+                     color: collection.color,
                   }}
                />
                <span className="font-medium">{collection.name}</span>

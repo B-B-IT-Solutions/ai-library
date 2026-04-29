@@ -13,7 +13,6 @@ import {
    createCollection,
    deleteCollection,
    getCollectionById,
-   getCollectionByPublicToken,
    getCollections,
    getCollectionTemplateIds,
    getEntryCollectionIds,
@@ -27,8 +26,6 @@ const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
 const sGetCollections = CollectionService.prototype.getCollections;
 const sGetCollectionById = CollectionService.prototype.getCollectionById;
-const sGetCollectionByShareToken =
-   CollectionService.prototype.getCollectionByPublicToken;
 const sCreateCollection = CollectionService.prototype.createCollection;
 const sUpdateCollection = CollectionService.prototype.updateCollection;
 const sDeleteCollection = CollectionService.prototype.deleteCollection;
@@ -50,10 +47,6 @@ const sGetCollectionsMock = sGetCollections as jest.MockedFunction<
 const sGetCollectionByIdMock = sGetCollectionById as jest.MockedFunction<
    typeof sGetCollectionById
 >;
-const sGetCollectionByShareTokenMock =
-   sGetCollectionByShareToken as jest.MockedFunction<
-      typeof sGetCollectionByShareToken
-   >;
 const sCreateCollectionMock = sCreateCollection as jest.MockedFunction<
    typeof sCreateCollection
 >;
@@ -177,40 +170,6 @@ describe("getCollectionById tests", () => {
          user.id,
          collection.id
       );
-   });
-});
-
-describe("getCollectionByPublicToken tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      jest.spyOn(console, "error").mockImplementation(() => {});
-   });
-
-   afterEach(() => {
-      jest.restoreAllMocks();
-   });
-
-   it("invalid token - test", async () => {
-      const result = await getCollectionByPublicToken("");
-
-      expect(result).toBeNull();
-      expect(requireUserMock).not.toHaveBeenCalled();
-      expect(sGetCollectionByShareTokenMock).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledTimes(1);
-      expect(console.error).toHaveBeenCalledWith("Invalid token.");
-   });
-
-   it("collection retrieved - test", async () => {
-      const collection = dtestData.dCollection();
-      sGetCollectionByShareTokenMock.mockResolvedValue(collection);
-
-      const token = "token-1";
-
-      const result = await getCollectionByPublicToken(token);
-
-      expect(result).toEqual(collection);
-      expect(sGetCollectionByShareTokenMock).toHaveBeenCalledTimes(1);
-      expect(sGetCollectionByShareTokenMock).toHaveBeenCalledWith(token);
    });
 });
 

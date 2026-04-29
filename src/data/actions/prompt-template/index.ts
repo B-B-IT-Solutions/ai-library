@@ -14,3 +14,5 @@ export {
    getPromptTemplates,
    getPromptTemplate,
 } from "./prompt.template.actions";
+
+export { getPublicTemplateDescriptorsPage } from "./template.public.actions";

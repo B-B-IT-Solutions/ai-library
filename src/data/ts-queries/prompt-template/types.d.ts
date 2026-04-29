@@ -1,4 +1,7 @@
-export type LoadPromptTemplatesParams = {
-   search?: string;
-   categories?: string[];
+import { Sort } from "@/data/types/common";
+import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
+
+export type LoadTemplateDescriptorsParams = {
+   filters?: DTemplateDescriptorsFilter;
+   sort?: Sort;
 };

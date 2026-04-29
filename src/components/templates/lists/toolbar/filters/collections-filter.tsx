@@ -88,7 +88,7 @@ export const CollectionsFilter: FC<Props> = () => {
                                     <Folder
                                        className="h-4 w-4 flex-shrink-0"
                                        style={{
-                                          color: collection.color || "#64748b",
+                                          color: collection.color,
                                        }}
                                     />
                                     <span className="truncate">

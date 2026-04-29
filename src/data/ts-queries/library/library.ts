@@ -35,11 +35,11 @@ import {
 } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
+import { LoadTemplateDescriptorsParams } from "../prompt-template/types";
 import { getNextPageParam, pageQuery } from "../utils";
 
 import {
    LoadCollectionIdsParams,
-   LoadTemplateDescriptorsParams,
    UpdateCollectionIdsParams,
    UpdateIsFavoriteParams,
 } from "./types";

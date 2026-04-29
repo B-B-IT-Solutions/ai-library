@@ -1,35 +1,35 @@
-import { promptTemplateCategoriesKeys, promptTemplateKeys } from "./utils";
+import { dtestData } from "@tests";
 
-describe("promptTemplateKeys tests", () => {
-   test("promptTemplateKeys - test", async () => {
-      expect(promptTemplateKeys.all).toEqual(["prompt-templates"]);
-      expect(promptTemplateKeys.templates()).toEqual(["prompt-templates", {}]);
-      expect(promptTemplateKeys.templates({})).toEqual([
-         "prompt-templates",
-         { params: {} },
+import { templateCategoriesKeys, templateKeys } from "./utils";
+
+describe("keys tests", () => {
+   test("templateKeys - test", async () => {
+      const filters = dtestData.dTemplateDescriptorsFilter();
+      const sort = dtestData.sort("name", "asc");
+
+      expect(templateKeys.all).toEqual(["templates"]);
+      expect(templateKeys.templates({})).toEqual(["templates", {}]);
+      expect(templateKeys.templates({ filters, sort })).toEqual([
+         "templates",
+         { filters, sort },
       ]);
-      expect(promptTemplateKeys.templates({ search: "test 1" })).toEqual([
-         "prompt-templates",
-         { params: { search: "test 1" } },
+      expect(templateKeys.publicTemplates({})).toEqual([
+         "templates",
+         "public",
+         {},
       ]);
-      expect(
-         promptTemplateKeys.templates({
-            search: "test 123",
-            categories: ["cat 1"],
-         })
-      ).toEqual([
-         "prompt-templates",
-         { params: { search: "test 123", categories: ["cat 1"] } },
+      expect(templateKeys.publicTemplates({ filters, sort })).toEqual([
+         "templates",
+         "public",
+         { filters, sort },
       ]);
    });
-});
 
-describe("promptTemplateCategoriesKeys tests", () => {
-   test("promptTemplateCategoriesKeys - test", async () => {
-      expect(promptTemplateCategoriesKeys.all).toEqual([
+   test("templateCategoriesKeys test", async () => {
+      expect(templateCategoriesKeys.all).toEqual([
          "prompt-template-categories",
       ]);
-      expect(promptTemplateCategoriesKeys.categories()).toEqual([
+      expect(templateCategoriesKeys.categories()).toEqual([
          "prompt-template-categories",
       ]);
    });

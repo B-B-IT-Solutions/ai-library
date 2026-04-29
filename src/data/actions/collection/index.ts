@@ -5,11 +5,11 @@ export {
    updateEntryCollections,
    getCollections,
    getCollectionById,
-   getCollectionByPublicToken,
-   getPublicCollectionByToken,
    setCollectionPublic,
    updateCollection,
    getCollectionTemplateIds,
    addTemplateToCollection,
    removeTemplateFromCollection,
 } from "./collection.actions";
+
+export { getPublicCollectionByToken } from "./collection.public.actions";

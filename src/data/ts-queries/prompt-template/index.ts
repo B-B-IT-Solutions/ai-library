@@ -1,6 +1,9 @@
 export {
    preloadPromptTemplateCategoriesOptions,
-   preloadPromptTemplatesOptions,
-   useLoadPromptTemplates,
    useLoadPromptTemplateCategories,
 } from "./prompt.template";
+
+export {
+   infiniteLoadPublicTemplateDescriptorsOptions,
+   useInfiniteLoadPublicTemplateDescriptors,
+} from "./template.public";

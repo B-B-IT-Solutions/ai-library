@@ -1,0 +1,123 @@
+jest.mock("@/data/repositories/prompt-template");
+jest.mock("@/data/services/collection");
+
+import { dtestData } from "@tests";
+import { DeepMockProxy } from "jest-mock-extended";
+
+import prisma from "@/data/repositories/prisma";
+import { PublicTemplateRepository } from "@/data/repositories/prompt-template";
+import { PublicCollectionService } from "../collection";
+import { ServiceFactory } from "../service.factory";
+
+import { PublicTemplateService } from "./template.public.service";
+
+const serviceFactory = new ServiceFactory(prisma);
+const collectionService = serviceFactory.getPublicCollectionService();
+
+const collectionServiceMock =
+   collectionService as DeepMockProxy<PublicCollectionService>;
+
+const templateRepo = new PublicTemplateRepository(prisma);
+const templateRepoMock =
+   templateRepo as DeepMockProxy<PublicTemplateRepository>;
+
+const templateService = new PublicTemplateService(
+   templateRepoMock,
+   collectionServiceMock
+);
+
+describe("getPublicTemplateDescriptorsPage tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("filter undefined - test", async () => {
+      const query = dtestData.dTemplateDescriptorsPageQuery();
+      query.filter = undefined;
+
+      const fn = () => templateService.getPublicTemplateDescriptorsPage(query);
+
+      await expect(fn).rejects.toThrow(Error);
+      expect(
+         collectionServiceMock.ensureCollectionsPublic
+      ).not.toHaveBeenCalled();
+      expect(
+         templateRepoMock.pGetPublicTemplateDescriptorsPage
+      ).not.toHaveBeenCalled();
+   });
+
+   it("filter.collectionIds undefined - test", async () => {
+      const query = dtestData.dTemplateDescriptorsPageQuery();
+      query.filter!.collectionIds = undefined;
+
+      const fn = () => templateService.getPublicTemplateDescriptorsPage(query);
+
+      await expect(fn).rejects.toThrow(Error);
+      expect(
+         collectionServiceMock.ensureCollectionsPublic
+      ).not.toHaveBeenCalled();
+      expect(
+         templateRepoMock.pGetPublicTemplateDescriptorsPage
+      ).not.toHaveBeenCalled();
+   });
+
+   it("filter.collectionIds empty - test", async () => {
+      const query = dtestData.dTemplateDescriptorsPageQuery();
+      query.filter!.collectionIds = [];
+
+      const fn = () => templateService.getPublicTemplateDescriptorsPage(query);
+
+      await expect(fn).rejects.toThrow(Error);
+      expect(
+         collectionServiceMock.ensureCollectionsPublic
+      ).not.toHaveBeenCalled();
+      expect(
+         templateRepoMock.pGetPublicTemplateDescriptorsPage
+      ).not.toHaveBeenCalled();
+   });
+
+   it("collection not public - test", async () => {
+      collectionServiceMock.ensureCollectionsPublic.mockResolvedValue(false);
+
+      const query = dtestData.dTemplateDescriptorsPageQuery();
+      const fn = () => templateService.getPublicTemplateDescriptorsPage(query);
+
+      await expect(fn).rejects.toThrow(Error);
+      expect(
+         collectionServiceMock.ensureCollectionsPublic
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         collectionServiceMock.ensureCollectionsPublic
+      ).toHaveBeenCalledWith(query.filter!.collectionIds);
+      expect(
+         templateRepoMock.pGetPublicTemplateDescriptorsPage
+      ).not.toHaveBeenCalled();
+   });
+
+   it("descriptors retrieved - test", async () => {
+      collectionServiceMock.ensureCollectionsPublic.mockResolvedValue(true);
+
+      const page = dtestData.dTemplateDescriptorsPage();
+      templateRepoMock.pGetPublicTemplateDescriptorsPage.mockResolvedValue(
+         page
+      );
+
+      const query = dtestData.dTemplateDescriptorsPageQuery();
+      const result =
+         await templateService.getPublicTemplateDescriptorsPage(query);
+
+      expect(result).toEqual(page);
+      expect(
+         collectionServiceMock.ensureCollectionsPublic
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         collectionServiceMock.ensureCollectionsPublic
+      ).toHaveBeenCalledWith(query.filter!.collectionIds);
+      expect(
+         templateRepoMock.pGetPublicTemplateDescriptorsPage
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         templateRepoMock.pGetPublicTemplateDescriptorsPage
+      ).toHaveBeenCalledWith(query);
+   });
+});

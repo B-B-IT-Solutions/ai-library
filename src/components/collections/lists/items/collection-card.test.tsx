@@ -50,7 +50,6 @@ describe("CollectionCard rendering tests", () => {
    it("description null - test", async () => {
       const collection = dtestData.dCollection(1);
       collection.description = null;
-      collection.color = null;
 
       const { container } = render(<CollectionCard collection={collection} />);
 

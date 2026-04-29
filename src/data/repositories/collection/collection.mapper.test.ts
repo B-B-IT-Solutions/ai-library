@@ -4,7 +4,13 @@ import { map } from "es-toolkit/compat";
 import { PLibraryCollection } from "@/data/types/db/collection";
 import { DCollection } from "@/data/types/domain/collection";
 
-import { toDCollection, toDCollections } from "./collection.mapper";
+import {
+   DEFAULT_COLOR,
+   toDCollection,
+   toDCollections,
+} from "./collection.mapper";
+
+const expectedDefaultColor = "#64748b";
 
 const toDCollectionsInternal = (
    collections: PLibraryCollection[]
@@ -18,7 +24,7 @@ const toDCollectionInternal = (c: PLibraryCollection): DCollection => {
       userId: c.userId,
       name: c.name,
       description: c.description,
-      color: c.color,
+      color: c.color ?? expectedDefaultColor,
       order: c.order,
       isPublic: c.isPublic,
       publicToken: c.publicToken,
@@ -45,5 +51,9 @@ describe("toDCollections tests", () => {
       const result = toDCollection(collection);
       const expectedResult = toDCollectionInternal(collection);
       expect(result).toEqual(expectedResult);
+   });
+
+   it("default color test", async () => {
+      expect(DEFAULT_COLOR).toEqual(expectedDefaultColor);
    });
 });

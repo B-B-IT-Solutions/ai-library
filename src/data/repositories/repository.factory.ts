@@ -1,11 +1,14 @@
 import { DbClient } from "@/data/types/db/common";
 
 import { CartRepository } from "./cart";
-import { CollectionRepository } from "./collection";
+import { CollectionRepository, PublicCollectionRepository } from "./collection";
 import { OrderRepository } from "./order";
 import { ProductRepository } from "./product";
 import { PromptRepository } from "./prompt";
-import { PromptTemplateRepository } from "./prompt-template";
+import {
+   PromptTemplateRepository,
+   PublicTemplateRepository,
+} from "./prompt-template";
 import { SettingsRepository } from "./settings";
 import { SubscriptionRepository } from "./subscription";
 import { UserRepository } from "./user";
@@ -15,10 +18,12 @@ export class RepositoryFactory {
    private userRepo?: UserRepository;
    private cartRepo?: CartRepository;
    private collectionRepo?: CollectionRepository;
+   private publicCollectionRepo?: PublicCollectionRepository;
    private orderRepo?: OrderRepository;
    private productRepo?: ProductRepository;
    private promptRepo?: PromptRepository;
-   private promptTemplateRepos?: PromptTemplateRepository;
+   private templateRepo?: PromptTemplateRepository;
+   private publicTemplateRepo?: PublicTemplateRepository;
    private subscriptionRepo?: SubscriptionRepository;
    private settingsRepo?: SettingsRepository;
 
@@ -47,6 +52,15 @@ export class RepositoryFactory {
       return this.collectionRepo;
    }
 
+   publicCollectionRepository(): PublicCollectionRepository {
+      if (!this.publicCollectionRepo) {
+         this.publicCollectionRepo = new PublicCollectionRepository(
+            this.prisma
+         );
+      }
+      return this.publicCollectionRepo;
+   }
+
    orderRepository(): OrderRepository {
       if (!this.orderRepo) {
          this.orderRepo = new OrderRepository(this.prisma);
@@ -68,11 +82,18 @@ export class RepositoryFactory {
       return this.promptRepo;
    }
 
-   promptTemplateRepository(): PromptTemplateRepository {
-      if (!this.promptTemplateRepos) {
-         this.promptTemplateRepos = new PromptTemplateRepository(this.prisma);
+   templateRepository(): PromptTemplateRepository {
+      if (!this.templateRepo) {
+         this.templateRepo = new PromptTemplateRepository(this.prisma);
       }
-      return this.promptTemplateRepos;
+      return this.templateRepo;
+   }
+
+   publicTemplateRepository(): PublicTemplateRepository {
+      if (!this.publicTemplateRepo) {
+         this.publicTemplateRepo = new PublicTemplateRepository(this.prisma);
+      }
+      return this.publicTemplateRepo;
    }
 
    subscriptionRepository(): SubscriptionRepository {

@@ -25,7 +25,7 @@ export const AuthenticatedLayoutWrapper = async (props: Props) => {
    const defaultOpen = !sidebarCookie || sidebarCookie.value === "true";
 
    return (
-      <div data-testid="authenticated-layout-wrapper">
+      <div className="h-full" data-testid="authenticated-layout-wrapper">
          <SidebarProvider
             defaultOpen={defaultOpen}
             data-testid="sidebar-wrapper"

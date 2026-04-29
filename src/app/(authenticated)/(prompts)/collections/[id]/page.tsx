@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { SearchParams } from "nuqs/server";
 
 import { CollectionView } from "@/components/collections";
-import { collectionsSearchParamsCache } from "@/components/collections";
 import { templatesSearchParamsCache } from "@/components/templates";
 import { getCollectionById } from "@/data/actions/collection";
 
@@ -15,12 +14,12 @@ export type PageParams = {
    id: string;
 };
 
-type PageProps = {
+export type PageProps = {
    params: Promise<PageParams>;
    searchParams: Promise<SearchParams>;
 };
 
-const CollectionPage = async ({ params, searchParams }: PageProps) => {
+export const CollectionPage = async ({ params, searchParams }: PageProps) => {
    const { id: collectionId } = await params;
    await templatesSearchParamsCache.parse(searchParams);
 

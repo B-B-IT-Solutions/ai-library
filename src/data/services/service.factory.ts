@@ -1,10 +1,16 @@
 import { RepositoryFactory } from "@/data/repositories";
 import { CartService } from "@/data/services/cart";
-import { CollectionService } from "@/data/services/collection";
+import {
+   CollectionService,
+   PublicCollectionService,
+} from "@/data/services/collection";
 import { IubendaService } from "@/data/services/iubenda";
 import { OrderService } from "@/data/services/order";
 import { PromptService } from "@/data/services/prompt";
-import { PromptTemplateService } from "@/data/services/prompt-template";
+import {
+   PublicTemplateService,
+   TemplateService,
+} from "@/data/services/prompt-template";
 import { SettingsService } from "@/data/services/settings";
 import { StripeService } from "@/data/services/stripe";
 import { SubscriptionService } from "@/data/services/subscription";
@@ -16,11 +22,13 @@ export class ServiceFactory {
    private userService?: UserService;
    private cartService?: CartService;
    private collectionService?: CollectionService;
+   private publicCollectionService?: PublicCollectionService;
    private orderService?: OrderService;
    private stripeService?: StripeService;
    private subscriptionService?: SubscriptionService;
    private promptService?: PromptService;
-   private promptTemplateService?: PromptTemplateService;
+   private templateService?: TemplateService;
+   private publicTemplateService?: PublicTemplateService;
    private settingsService?: SettingsService;
    private iubendaService?: IubendaService;
 
@@ -56,6 +64,15 @@ export class ServiceFactory {
       return this.collectionService;
    }
 
+   getPublicCollectionService(): PublicCollectionService {
+      if (!this.publicCollectionService) {
+         this.publicCollectionService = new PublicCollectionService(
+            this.repositories.publicCollectionRepository()
+         );
+      }
+      return this.publicCollectionService;
+   }
+
    getOrderService(): OrderService {
       if (!this.orderService) {
          this.orderService = new OrderService(
@@ -76,14 +93,24 @@ export class ServiceFactory {
       return this.promptService;
    }
 
-   getPromptTemplateService(): PromptTemplateService {
-      if (!this.promptTemplateService) {
-         this.promptTemplateService = new PromptTemplateService(
-            this.repositories.promptTemplateRepository(),
+   getTemplateService(): TemplateService {
+      if (!this.templateService) {
+         this.templateService = new TemplateService(
+            this.repositories.templateRepository(),
             this.getSettingsService()
          );
       }
-      return this.promptTemplateService;
+      return this.templateService;
+   }
+
+   getPublicTemplateService(): PublicTemplateService {
+      if (!this.publicTemplateService) {
+         this.publicTemplateService = new PublicTemplateService(
+            this.repositories.publicTemplateRepository(),
+            this.getPublicCollectionService()
+         );
+      }
+      return this.publicTemplateService;
    }
 
    getSubscriptionService(): SubscriptionService {

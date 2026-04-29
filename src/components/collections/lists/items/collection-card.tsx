@@ -10,7 +10,7 @@ type Props = {
 };
 
 export const CollectionCard = ({ collection }: Props) => {
-   const iconColor = collection.color ?? "#64748b";
+   const iconColor = collection.color;
 
    return (
       <div

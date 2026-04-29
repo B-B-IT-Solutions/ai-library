@@ -71,29 +71,6 @@ export class CollectionRepository {
       return toDCollection(collection);
    }
 
-   async pGetCollectionByPublicToken(
-      publicToken: string
-   ): Promise<DCollection | null> {
-      const collection = await this.prisma.libraryCollection.findUnique({
-         where: {
-            publicToken,
-            isPublic: true,
-         },
-         include: {
-            _count: {
-               select: {
-                  entries: true,
-               },
-            },
-         },
-      });
-
-      if (!collection) {
-         return null;
-      }
-      return toDCollection(collection);
-   }
-
    async pCreateCollection(
       userId: string,
       data: DCollectionUpdate
@@ -167,7 +144,7 @@ export class CollectionRepository {
       await this.prisma.libraryCollection.delete(args);
    }
 
-   async pSetPublicToken(
+   async pSetCollectionPublicToken(
       userId: string,
       collectionId: string,
       publicToken: string | null,
@@ -259,30 +236,6 @@ export class CollectionRepository {
       } satisfies LibraryCollectionEntryDeleteManyArgs;
 
       await this.prisma.libraryCollectionEntry.deleteMany(args);
-   }
-
-   async pGetPublicCollectionTemplates(collectionId: string): Promise<
-      {
-         id: string;
-         title: string;
-         description: string;
-         recommendedModel: string;
-         categories: { name: string }[];
-         createdAt: Date;
-         updatedAt: Date;
-      }[]
-   > {
-      const entries = await this.prisma.libraryCollectionEntry.findMany({
-         where: { collectionId },
-         include: {
-            templateDescriptor: {
-               include: { categories: true },
-            },
-         },
-         orderBy: { addedAt: "asc" },
-      });
-
-      return entries.map((e) => e.templateDescriptor);
    }
 
    async pGetEntryCollectionIds(

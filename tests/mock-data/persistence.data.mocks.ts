@@ -372,7 +372,7 @@ export const pTemplateCollection = (index = 1): PLibraryCollection => {
       userId: `037c87e0-9bbe-4529-9fea-f8ae91c65d9${index}`,
       name: `name ${index}`,
       description: `description ${index}`,
-      color: `color ${index}`,
+      color: index % 2 ? null : `color ${index}`,
       order: index,
       isPublic: index % 2 == 0,
       publicToken: `token-${index}`,
