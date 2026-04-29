@@ -427,7 +427,7 @@ export class PromptTemplateRepository {
    }
 
    private resolveWhereInput(
-      userId?: string,
+      userId: string,
       filter?: DTemplateDescriptorsFilter
    ): PromptTemplateDescriptorWhereInput {
       const where: PromptTemplateDescriptorWhereInput = { userId };
