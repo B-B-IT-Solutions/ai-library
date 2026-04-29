@@ -2,7 +2,7 @@ import { map } from "es-toolkit/compat";
 import { LucideIcon } from "lucide-react";
 import * as Icons from "lucide-react";
 
-import { toDPromptTemplateDescriptor } from "@/data/repositories/template/prompt.template.mapper";
+import { toDPromptTemplateDescriptor } from "@/data/repositories/template";
 import {
    ProductItemWithTemplate,
    ProductWithDetails,
