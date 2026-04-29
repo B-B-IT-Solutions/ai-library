@@ -1,6 +1,5 @@
 "use server";
 
-import { isEmpty } from "es-toolkit/compat";
 import { validate as isValidUuid } from "uuid";
 
 import { requireUser } from "@/data/actions/auth-utils";
@@ -32,21 +31,6 @@ export const getCollectionById = async (
       const user = await requireUser();
       const service = getService();
       return await service.getCollectionById(user.id, collectionId);
-   } catch (error) {
-      console.error(formatError(error));
-      return null;
-   }
-};
-
-export const getCollectionByPublicToken = async (
-   token: string
-): Promise<DCollection | null> => {
-   try {
-      if (isEmpty(token)) {
-         throw new Error("Invalid token.");
-      }
-      const service = getService();
-      return await service.getCollectionByPublicToken(token);
    } catch (error) {
       console.error(formatError(error));
       return null;

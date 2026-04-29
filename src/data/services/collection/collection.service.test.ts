@@ -60,30 +60,6 @@ describe("getCollectionById tests", () => {
    });
 });
 
-describe("getCollectionByPublicToken tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("collection retrieved - test", async () => {
-      const token = "token-1";
-      const collection = dtestData.dCollection();
-      collectionRepoMock.pGetCollectionByPublicToken.mockResolvedValue(
-         collection
-      );
-
-      const result = await collectionService.getCollectionByPublicToken(token);
-
-      expect(result).toEqual(collection);
-      expect(
-         collectionRepoMock.pGetCollectionByPublicToken
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         collectionRepoMock.pGetCollectionByPublicToken
-      ).toHaveBeenCalledWith(token);
-   });
-});
-
 describe("createCollection tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();

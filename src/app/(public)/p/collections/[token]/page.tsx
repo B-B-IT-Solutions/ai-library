@@ -4,14 +4,14 @@ import { notFound } from "next/navigation";
 
 import { CollectionViewPublic } from "@/components/collections";
 import { Button } from "@/components/shadcn/button";
-import { getCollectionByPublicToken } from "@/data/actions/collection";
+import { getPublicCollectionByToken } from "@/data/actions/collection";
 import { APP_NAME } from "@/lib/constants";
 
 export const generateMetadata = async ({
    params,
 }: PageProps): Promise<Metadata> => {
    const { token } = await params;
-   const collection = await getCollectionByPublicToken(token);
+   const collection = await getPublicCollectionByToken(token);
    if (!collection) {
       return {
          title: "Sammlung nicht gefunden",
@@ -33,7 +33,7 @@ export type PageProps = {
 
 export const PublicCollectionPage = async ({ params }: PageProps) => {
    const { token } = await params;
-   const collection = await getCollectionByPublicToken(token);
+   const collection = await getPublicCollectionByToken(token);
 
    if (!collection) {
       return notFound();

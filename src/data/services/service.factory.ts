@@ -1,6 +1,9 @@
 import { RepositoryFactory } from "@/data/repositories";
 import { CartService } from "@/data/services/cart";
-import { CollectionService } from "@/data/services/collection";
+import {
+   CollectionService,
+   PublicCollectionService,
+} from "@/data/services/collection";
 import { IubendaService } from "@/data/services/iubenda";
 import { OrderService } from "@/data/services/order";
 import { PromptService } from "@/data/services/prompt";
@@ -19,6 +22,7 @@ export class ServiceFactory {
    private userService?: UserService;
    private cartService?: CartService;
    private collectionService?: CollectionService;
+   private publicCollectionService?: PublicCollectionService;
    private orderService?: OrderService;
    private stripeService?: StripeService;
    private subscriptionService?: SubscriptionService;
@@ -58,6 +62,15 @@ export class ServiceFactory {
          );
       }
       return this.collectionService;
+   }
+
+   getPublicCollectionService(): PublicCollectionService {
+      if (!this.publicCollectionService) {
+         this.publicCollectionService = new PublicCollectionService(
+            this.repositories.publicCollectionRepository()
+         );
+      }
+      return this.publicCollectionService;
    }
 
    getOrderService(): OrderService {

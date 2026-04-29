@@ -10,7 +10,7 @@ import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getCollectionByPublicToken } from "@/data/actions/collection";
+import { getPublicCollectionByToken } from "@/data/actions/collection";
 
 import {
    generateMetadata,
@@ -19,9 +19,9 @@ import {
    PublicCollectionPage,
 } from "./page";
 
-const getCollectionByPublicTokenMock =
-   getCollectionByPublicToken as jest.MockedFunction<
-      typeof getCollectionByPublicToken
+const getPublicCollectionByTokenMock =
+   getPublicCollectionByToken as jest.MockedFunction<
+      typeof getPublicCollectionByToken
    >;
 
 const notFoundMock = notFound as jest.MockedFunction<typeof notFound>;
@@ -40,7 +40,7 @@ describe("PublicCollectionPage rendering tests", () => {
    });
 
    it("collection null - test", async () => {
-      getCollectionByPublicTokenMock.mockResolvedValue(null);
+      getPublicCollectionByTokenMock.mockResolvedValue(null);
 
       const pageParams: PageParams = { token: "collection-token-1" };
 
@@ -51,8 +51,8 @@ describe("PublicCollectionPage rendering tests", () => {
       const { container } = await renderAsyncRSC(PublicCollectionPage, props);
 
       await waitFor(() => {
-         expect(getCollectionByPublicTokenMock).toHaveBeenCalledTimes(1);
-         expect(getCollectionByPublicTokenMock).toHaveBeenCalledWith(
+         expect(getPublicCollectionByTokenMock).toHaveBeenCalledTimes(1);
+         expect(getPublicCollectionByTokenMock).toHaveBeenCalledWith(
             pageParams.token
          );
 
@@ -64,7 +64,7 @@ describe("PublicCollectionPage rendering tests", () => {
 
    it("collection defined - test", async () => {
       const collection = dtestData.dCollection();
-      getCollectionByPublicTokenMock.mockResolvedValue(collection);
+      getPublicCollectionByTokenMock.mockResolvedValue(collection);
 
       const pageParams: PageParams = { token: "collection-token-1" };
 
@@ -76,8 +76,8 @@ describe("PublicCollectionPage rendering tests", () => {
 
       await waitFor(() => {
          assertRendered();
-         expect(getCollectionByPublicTokenMock).toHaveBeenCalledTimes(1);
-         expect(getCollectionByPublicTokenMock).toHaveBeenCalledWith(
+         expect(getPublicCollectionByTokenMock).toHaveBeenCalledTimes(1);
+         expect(getPublicCollectionByTokenMock).toHaveBeenCalledWith(
             pageParams.token
          );
       });
@@ -92,7 +92,7 @@ describe("PublicCollectionPage functionality tests", () => {
    });
 
    it("generateMetadata- collection null - test", async () => {
-      getCollectionByPublicTokenMock.mockResolvedValue(null);
+      getPublicCollectionByTokenMock.mockResolvedValue(null);
 
       const pageParams: PageParams = {
          token: "collection-token-1",
@@ -107,15 +107,15 @@ describe("PublicCollectionPage functionality tests", () => {
       };
 
       expect(metadata).toEqual(expectedMetadata);
-      expect(getCollectionByPublicTokenMock).toHaveBeenCalledTimes(1);
-      expect(getCollectionByPublicTokenMock).toHaveBeenCalledWith(
+      expect(getPublicCollectionByTokenMock).toHaveBeenCalledTimes(1);
+      expect(getPublicCollectionByTokenMock).toHaveBeenCalledWith(
          pageParams.token
       );
    });
 
    it("generateMetadata- collection defined - test", async () => {
       const collection = dtestData.dCollection();
-      getCollectionByPublicTokenMock.mockResolvedValue(collection);
+      getPublicCollectionByTokenMock.mockResolvedValue(collection);
 
       const pageParams: PageParams = {
          token: "collection-token-1",
@@ -131,8 +131,8 @@ describe("PublicCollectionPage functionality tests", () => {
       };
 
       expect(metadata).toEqual(expectedMetadata);
-      expect(getCollectionByPublicTokenMock).toHaveBeenCalledTimes(1);
-      expect(getCollectionByPublicTokenMock).toHaveBeenCalledWith(
+      expect(getPublicCollectionByTokenMock).toHaveBeenCalledTimes(1);
+      expect(getPublicCollectionByTokenMock).toHaveBeenCalledWith(
          pageParams.token
       );
    });

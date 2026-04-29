@@ -1,12 +1,14 @@
 import { DbClient } from "@/data/types/db/common";
 
 import { CartRepository } from "./cart";
-import { CollectionRepository } from "./collection";
+import { CollectionRepository, PublicCollectionRepository } from "./collection";
 import { OrderRepository } from "./order";
 import { ProductRepository } from "./product";
 import { PromptRepository } from "./prompt";
-import { PromptTemplateRepository } from "./prompt-template";
-import { PublicTemplateRepository } from "./prompt-template/template.public.repository";
+import {
+   PromptTemplateRepository,
+   PublicTemplateRepository,
+} from "./prompt-template";
 import { SettingsRepository } from "./settings";
 import { SubscriptionRepository } from "./subscription";
 import { UserRepository } from "./user";
@@ -16,6 +18,7 @@ export class RepositoryFactory {
    private userRepo?: UserRepository;
    private cartRepo?: CartRepository;
    private collectionRepo?: CollectionRepository;
+   private publicCollectionRepo?: PublicCollectionRepository;
    private orderRepo?: OrderRepository;
    private productRepo?: ProductRepository;
    private promptRepo?: PromptRepository;
@@ -47,6 +50,15 @@ export class RepositoryFactory {
          this.collectionRepo = new CollectionRepository(this.prisma);
       }
       return this.collectionRepo;
+   }
+
+   publicCollectionRepository(): PublicCollectionRepository {
+      if (!this.publicCollectionRepo) {
+         this.publicCollectionRepo = new PublicCollectionRepository(
+            this.prisma
+         );
+      }
+      return this.publicCollectionRepo;
    }
 
    orderRepository(): OrderRepository {

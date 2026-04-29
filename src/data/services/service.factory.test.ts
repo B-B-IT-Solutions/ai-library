@@ -1,7 +1,7 @@
 import prisma from "@/data/repositories/prisma";
 
 import { CartService } from "./cart";
-import { CollectionService } from "./collection";
+import { CollectionService, PublicCollectionService } from "./collection";
 import { IubendaService } from "./iubenda";
 import { OrderService } from "./order";
 import { PromptService } from "./prompt";
@@ -41,14 +41,27 @@ describe("getCartService tests", () => {
 });
 
 describe("getCollectionService tests", () => {
-   it("getCollectionService - new instance - test", () => {
+   it("new instance - test", () => {
       const service = serviceFactory.getCollectionService();
       expect(service).toBeInstanceOf(CollectionService);
    });
 
-   it("getCollectionService - existing instance - test", () => {
+   it("existing instance - test", () => {
       const service1 = serviceFactory.getCollectionService();
       const service2 = serviceFactory.getCollectionService();
+      expect(service1).toBe(service2);
+   });
+});
+
+describe("getPublicCollectionService tests", () => {
+   it("new instance - test", () => {
+      const service = serviceFactory.getPublicCollectionService();
+      expect(service).toBeInstanceOf(PublicCollectionService);
+   });
+
+   it("existing instance - test", () => {
+      const service1 = serviceFactory.getPublicCollectionService();
+      const service2 = serviceFactory.getPublicCollectionService();
       expect(service1).toBe(service2);
    });
 });

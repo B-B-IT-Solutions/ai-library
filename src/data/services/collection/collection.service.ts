@@ -24,14 +24,6 @@ export class CollectionService {
       );
    }
 
-   async getCollectionByPublicToken(
-      publicToken: string
-   ): Promise<DCollection | null> {
-      return await this.collectionRepository.pGetCollectionByPublicToken(
-         publicToken
-      );
-   }
-
    async createCollection(
       userId: string,
       data: DCollectionUpdate
@@ -134,9 +126,5 @@ export class CollectionService {
          entryId,
          collectionIds
       );
-   }
-
-   async ensureCollectionsPublic(collectionIds: string[]): Promise<boolean> {
-      return true;
    }
 }
