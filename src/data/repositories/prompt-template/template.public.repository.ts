@@ -66,6 +66,26 @@ export class PublicTemplateRepository {
       };
    }
 
+   // async pGetPublicCollectionTemplates(
+   //    collectionId: string
+   // ): Promise<DPromptTemplateDescriptor[]> {
+   //    const entries = await this.prisma.libraryCollectionEntry.findMany({
+   //       where: { collectionId },
+   //       include: {
+   //          templateDescriptor: {
+   //             include: {
+   //                categories: true,
+   //             },
+   //          },
+   //       },
+   //       orderBy: {
+   //          addedAt: "asc",
+   //       },
+   //    });
+
+   //    return entries.map((e) => e.templateDescriptor);
+   // }
+
    private resolveWhereInput(
       userId?: string,
       filter?: DTemplateDescriptorsFilter
