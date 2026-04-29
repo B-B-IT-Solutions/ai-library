@@ -1,7 +1,7 @@
 export {
    preloadPromptTemplateCategoriesOptions,
    useLoadPromptTemplateCategories,
-} from "./prompt.template";
+} from "./template";
 
 export {
    infiniteLoadPublicTemplateDescriptorsOptions,

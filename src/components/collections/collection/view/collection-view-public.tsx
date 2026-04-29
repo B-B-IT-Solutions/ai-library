@@ -6,7 +6,7 @@ import {
 import { Folder, Globe } from "lucide-react";
 
 import { TemplateItemsPublic } from "@/components/templates/lists";
-import { infiniteLoadPublicTemplateDescriptorsOptions } from "@/data/ts-queries/prompt-template";
+import { infiniteLoadPublicTemplateDescriptorsOptions } from "@/data/ts-queries/template";
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DCollection } from "@/data/types/domain/collection";
 import {

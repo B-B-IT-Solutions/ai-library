@@ -14,7 +14,7 @@ import {
    loadPromptTemplateCategoriesOptions,
    preloadPromptTemplateCategoriesOptions,
    useLoadPromptTemplateCategories,
-} from "./prompt.template";
+} from "./template";
 
 const getPromptTemplateCategoriesMock =
    getPromptTemplateCategories as jest.MockedFunction<

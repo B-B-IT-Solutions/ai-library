@@ -35,7 +35,7 @@ import {
    DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
-import { LoadTemplateDescriptorsParams } from "../prompt-template/types";
+import { LoadTemplateDescriptorsParams } from "../template/types";
 
 import {
    createCollectionOptions,

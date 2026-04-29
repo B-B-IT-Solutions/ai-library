@@ -1,4 +1,4 @@
-import { LoadTemplateDescriptorsParams } from "../prompt-template/types";
+import { LoadTemplateDescriptorsParams } from "../template/types";
 import { filterQueryKey } from "../utils";
 
 export const libraryKeys = {
