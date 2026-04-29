@@ -6,7 +6,7 @@ import {
    UseInfiniteQueryResult,
 } from "@tanstack/react-query";
 
-import { getPublicTemplateDescriptorsPage } from "@/data/actions/prompt-template";
+import { getPublicTemplateDescriptorsPage } from "@/data/actions/template";
 import {
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,

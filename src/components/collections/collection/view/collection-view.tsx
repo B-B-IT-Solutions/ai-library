@@ -9,7 +9,7 @@ import { templatesSearchParamsCache } from "@/components/templates/search-params
 import {
    getTemplateDescriptorCategories,
    getTemplateDescriptorModels,
-} from "@/data/actions/prompt-template";
+} from "@/data/actions/template";
 import { libraryKeys } from "@/data/ts-queries/library/utils";
 import { infiniteLoadTemplateDescriptorsOptions } from "@/data/ts-queries/template";
 import { resolveSort } from "@/data/ts-queries/utils";

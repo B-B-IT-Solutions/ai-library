@@ -22,7 +22,7 @@ import {
 import {
    getTemplateDescriptorsPage,
    toggleTemplateDescriptorFavorite,
-} from "@/data/actions/prompt-template";
+} from "@/data/actions/template";
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import {
    DTemplateDescriptorsPage,

@@ -1,5 +1,5 @@
 jest.mock("@/data/actions/collection");
-jest.mock("@/data/actions/prompt-template");
+jest.mock("@/data/actions/template");
 
 import {
    keepPreviousData,
@@ -26,7 +26,7 @@ import {
 import {
    getTemplateDescriptorsPage,
    toggleTemplateDescriptorFavorite,
-} from "@/data/actions/prompt-template";
+} from "@/data/actions/template";
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import {
    DTemplateDescriptorsPage,

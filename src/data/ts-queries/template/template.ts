@@ -14,7 +14,7 @@ import {
 import {
    getPromptTemplateCategories,
    getTemplateDescriptorsPage,
-} from "@/data/actions/prompt-template";
+} from "@/data/actions/template";
 import {
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,

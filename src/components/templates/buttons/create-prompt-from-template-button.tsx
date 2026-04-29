@@ -10,7 +10,7 @@ import { Button } from "@/components/shadcn/button";
 import {
    composePromptFromTemplate,
    getPromptGenerationTemplateData,
-} from "@/data/actions/prompt-template";
+} from "@/data/actions/template";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
    DPromptTemplateDataPromptGeneration,

@@ -17,7 +17,7 @@ import { newTemplateFieldInitValues } from "@/components/shared/template-fields"
 import {
    createTemplateDescriptor,
    updateTemplateDescriptor,
-} from "@/data/actions/prompt-template";
+} from "@/data/actions/template";
 import {
    DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateField,

@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/prompt-template");
+jest.mock("@/data/actions/template");
 jest.mock("sonner");
 
 import { screen, waitFor } from "@testing-library/dom";
@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import {
    composePromptFromTemplate,
    getPromptGenerationTemplateData,
-} from "@/data/actions/prompt-template";
+} from "@/data/actions/template";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";

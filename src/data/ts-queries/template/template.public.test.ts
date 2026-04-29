@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/prompt-template");
+jest.mock("@/data/actions/template");
 
 import {
    InfiniteData,
@@ -8,7 +8,7 @@ import {
 import { waitFor } from "@testing-library/dom";
 import { dtestData, renderHookWithReactQuery } from "@tests";
 
-import { getPublicTemplateDescriptorsPage } from "@/data/actions/prompt-template";
+import { getPublicTemplateDescriptorsPage } from "@/data/actions/template";
 import {
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,

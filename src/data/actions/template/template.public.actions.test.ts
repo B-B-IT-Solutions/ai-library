@@ -1,9 +1,9 @@
-jest.mock("@/data/services/prompt-template");
+jest.mock("@/data/services/template");
 
 import { dtestData } from "@tests";
 
 import { EMPTY_PAGE } from "@/data/actions/utils";
-import { PublicTemplateService } from "@/data/services/prompt-template";
+import { PublicTemplateService } from "@/data/services/template";
 
 import { getPublicTemplateDescriptorsPage } from "./template.public.actions";
 

@@ -1,6 +1,6 @@
 import { isEmpty } from "es-toolkit/compat";
 
-import { PublicTemplateRepository } from "@/data/repositories/prompt-template";
+import { PublicTemplateRepository } from "@/data/repositories/template";
 import {
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,

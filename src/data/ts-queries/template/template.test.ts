@@ -1,4 +1,4 @@
-jest.mock("@/data/actions/prompt-template");
+jest.mock("@/data/actions/template");
 
 import {
    InfiniteData,
@@ -14,7 +14,7 @@ import { dtestData, renderHookWithReactQuery } from "@tests";
 import {
    getPromptTemplateCategories,
    getTemplateDescriptorsPage,
-} from "@/data/actions/prompt-template";
+} from "@/data/actions/template";
 import {
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,

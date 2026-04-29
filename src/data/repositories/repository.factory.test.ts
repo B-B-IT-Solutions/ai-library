@@ -5,10 +5,7 @@ import { CollectionRepository, PublicCollectionRepository } from "./collection";
 import { OrderRepository } from "./order";
 import { ProductRepository } from "./product";
 import { PromptRepository } from "./prompt";
-import {
-   PromptTemplateRepository,
-   PublicTemplateRepository,
-} from "./prompt-template";
+import { PromptTemplateRepository, PublicTemplateRepository } from "./template";
 import { RepositoryFactory } from "./repository.factory";
 import { SettingsRepository } from "./settings";
 import { SubscriptionRepository } from "./subscription";

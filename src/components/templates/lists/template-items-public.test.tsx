@@ -1,9 +1,9 @@
-jest.mock("@/data/actions/prompt-template");
+jest.mock("@/data/actions/template");
 
 import { screen, waitFor } from "@testing-library/dom";
 import { assertInDocument, dtestData, renderWithRouter } from "@tests";
 
-import { getPublicTemplateDescriptorsPage } from "@/data/actions/prompt-template";
+import { getPublicTemplateDescriptorsPage } from "@/data/actions/template";
 import {
    DListGroupByMode,
    DListSortByMode,
