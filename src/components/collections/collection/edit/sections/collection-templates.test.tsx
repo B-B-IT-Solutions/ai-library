@@ -19,8 +19,8 @@ import {
    useLoadCollectionTemplateIds,
    useRemoveTemplateFromCollection,
 } from "@/data/ts-queries/collection";
-import { useInfiniteLoadTemplateDescriptors } from "@/data/ts-queries/library";
-import { LoadTemplateDescriptorsParams } from "@/data/ts-queries/library/types";
+import { useInfiniteLoadTemplateDescriptors } from "@/data/ts-queries/template";
+import { LoadTemplateDescriptorsParams } from "@/data/ts-queries/template/types";
 import { DTemplateDescriptorsPage } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 

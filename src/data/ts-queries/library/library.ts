@@ -1,13 +1,8 @@
 import {
    FetchQueryOptions,
-   InfiniteData,
    keepPreviousData,
    QueryClient,
-   QueryKey,
-   UndefinedInitialDataInfiniteOptions,
    UndefinedInitialDataOptions,
-   useInfiniteQuery,
-   UseInfiniteQueryResult,
    useMutation,
    UseMutationOptions,
    UseMutationResult,
@@ -36,7 +31,7 @@ import {
 import { ActionResult } from "@/data/types/utils";
 import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
 import { LoadTemplateDescriptorsParams } from "../template/types";
-import { getNextPageParam, pageQuery } from "../utils";
+import { pageQuery } from "../utils";
 
 import {
    LoadCollectionIdsParams,
@@ -78,41 +73,6 @@ export const preloadCollectionsOptions = (): FetchQueryOptions<
       queryKey: libraryKeys.collections(),
       queryFn: getCollections,
    };
-};
-
-export const infiniteLoadTemplateDescriptorsOptions = (
-   params: LoadTemplateDescriptorsParams
-): UndefinedInitialDataInfiniteOptions<
-   DTemplateDescriptorsPage,
-   Error,
-   InfiniteData<DTemplateDescriptorsPage>,
-   QueryKey,
-   number
-> => {
-   const { filters, sort } = params;
-   return {
-      queryKey: libraryKeys.entries(params),
-      queryFn: async ({ pageParam }) => {
-         const query: DTemplateDescriptorsPageQuery = pageQuery(
-            pageParam,
-            PAGE_SIZE,
-            undefined,
-            filters,
-            sort
-         );
-         return await getTemplateDescriptorsPage(query);
-      },
-      initialPageParam: INIT_PAGE_NUMBER,
-      getNextPageParam: getNextPageParam,
-      staleTime: 5 * 60 * 1000,
-   };
-};
-
-export const useInfiniteLoadTemplateDescriptors = (
-   props: LoadTemplateDescriptorsParams
-): UseInfiniteQueryResult<InfiniteData<DTemplateDescriptorsPage>, Error> => {
-   const options = infiniteLoadTemplateDescriptorsOptions(props);
-   return useInfiniteQuery(options);
 };
 
 export const toggleFavoriteOptions = (): UseMutationOptions<

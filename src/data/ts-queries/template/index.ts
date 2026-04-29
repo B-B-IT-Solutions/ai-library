@@ -1,5 +1,6 @@
 export {
    preloadPromptTemplateCategoriesOptions,
+   useInfiniteLoadTemplateDescriptors,
    useLoadPromptTemplateCategories,
 } from "./template";
 
