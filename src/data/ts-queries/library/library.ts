@@ -19,19 +19,9 @@ import {
    getEntryCollectionIds,
    updateEntryCollections,
 } from "@/data/actions/collection";
-import {
-   getTemplateDescriptorsPage,
-   toggleTemplateDescriptorFavorite,
-} from "@/data/actions/template";
+import { toggleTemplateDescriptorFavorite } from "@/data/actions/template";
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
-import {
-   DTemplateDescriptorsPage,
-   DTemplateDescriptorsPageQuery,
-} from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
-import { INIT_PAGE_NUMBER, PAGE_SIZE } from "@/lib/constants";
-import { LoadTemplateDescriptorsParams } from "../template/types";
-import { pageQuery } from "../utils";
 
 import {
    LoadCollectionIdsParams,
@@ -39,30 +29,6 @@ import {
    UpdateIsFavoriteParams,
 } from "./types";
 import { libraryKeys } from "./utils";
-
-export const preloadLibraryEntriesOptions = (
-   params: LoadTemplateDescriptorsParams
-): FetchQueryOptions<
-   DTemplateDescriptorsPage,
-   Error,
-   DTemplateDescriptorsPage
-> => {
-   const { filters, sort } = params;
-
-   return {
-      queryKey: libraryKeys.entries(params),
-      queryFn: async () => {
-         const query: DTemplateDescriptorsPageQuery = pageQuery(
-            INIT_PAGE_NUMBER,
-            PAGE_SIZE,
-            undefined,
-            filters,
-            sort
-         );
-         return await getTemplateDescriptorsPage(query);
-      },
-   };
-};
 
 export const preloadCollectionsOptions = (): FetchQueryOptions<
    DCollection[],

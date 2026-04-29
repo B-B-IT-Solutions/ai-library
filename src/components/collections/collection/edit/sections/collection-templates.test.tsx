@@ -1,5 +1,5 @@
 jest.mock("@/data/ts-queries/collection");
-jest.mock("@/data/ts-queries/library");
+jest.mock("@/data/ts-queries/template");
 jest.mock("sonner");
 
 import { screen, waitFor } from "@testing-library/react";

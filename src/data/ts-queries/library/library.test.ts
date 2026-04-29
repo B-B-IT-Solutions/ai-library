@@ -23,17 +23,9 @@ import {
    updateCollection,
    updateEntryCollections,
 } from "@/data/actions/collection";
-import {
-   getTemplateDescriptorsPage,
-   toggleTemplateDescriptorFavorite,
-} from "@/data/actions/template";
+import { toggleTemplateDescriptorFavorite } from "@/data/actions/template";
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
-import {
-   DTemplateDescriptorsPage,
-   DTemplateDescriptorsPageQuery,
-} from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
-import { LoadTemplateDescriptorsParams } from "../template/types";
 
 import {
    createCollectionOptions,
@@ -41,7 +33,6 @@ import {
    loadCollectionsOptions,
    loadEntryCollectionIdsOptions,
    preloadCollectionsOptions,
-   preloadLibraryEntriesOptions,
    toggleFavoriteOptions,
    updateEntryCollectionsOptions,
    useCreateCollection,
@@ -63,11 +54,6 @@ const mutationContextMock: MutationFunctionContext = {
    client: queryClientMock,
    meta: {},
 };
-
-const getTemplateDescriptorsPageMock =
-   getTemplateDescriptorsPage as jest.MockedFunction<
-      typeof getTemplateDescriptorsPage
-   >;
 
 const getCollectionsMock = getCollections as jest.MockedFunction<
    typeof getCollections
@@ -100,46 +86,6 @@ const getEntryCollectionIdsMock = getEntryCollectionIds as jest.MockedFunction<
 describe("prefetch options tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
-   });
-
-   test("preloadLibraryEntriesOptions  - test", async () => {
-      const page = dtestData.dTemplateDescriptorsPage();
-      getTemplateDescriptorsPageMock.mockResolvedValue(page);
-
-      const filters = dtestData.dTemplateDescriptorsFilter();
-      const sort = dtestData.sort();
-      const params: LoadTemplateDescriptorsParams = { filters, sort };
-
-      const options = preloadLibraryEntriesOptions(params);
-      const queryFn =
-         options.queryFn as QueryFunction<DTemplateDescriptorsPage>;
-      const context = {} as QueryFunctionContext;
-      const fnResult = await queryFn(context);
-
-      const expectedOptions: UndefinedInitialDataOptions<
-         DTemplateDescriptorsPage,
-         Error,
-         DTemplateDescriptorsPage
-      > = {
-         queryKey: ["library", "entries", { filters, sort }],
-         queryFn: jest.fn(),
-      };
-
-      const expectedQuery: DTemplateDescriptorsPageQuery = {
-         pagination: {
-            pageNumber: 0,
-            pageSize: 10,
-         },
-         filter: params.filters,
-         sort: params.sort,
-      };
-
-      expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
-      expect(getTemplateDescriptorsPageMock).toHaveBeenCalledTimes(1);
-      expect(getTemplateDescriptorsPageMock).toHaveBeenCalledWith(
-         expectedQuery
-      );
-      expect(fnResult).toEqual(page);
    });
 
    test("preloadLibraryCollectionsOptions  - test", async () => {
