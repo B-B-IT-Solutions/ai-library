@@ -22,7 +22,7 @@ type DGetPromptTemplatesDescriptorsParams = {
    categories?: string[];
 };
 
-export class PromptTemplateService {
+export class TemplateService {
    private repository: PromptTemplateRepository;
    private settingService: SettingsService;
 

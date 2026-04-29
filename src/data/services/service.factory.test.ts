@@ -5,7 +5,7 @@ import { CollectionService } from "./collection";
 import { IubendaService } from "./iubenda";
 import { OrderService } from "./order";
 import { PromptService } from "./prompt";
-import { PromptTemplateService } from "./prompt-template";
+import { PublicTemplateService, TemplateService } from "./prompt-template";
 import { ServiceFactory } from "./service.factory";
 import { SettingsService } from "./settings";
 import { StripeService } from "./stripe/stripe.service";
@@ -79,15 +79,28 @@ describe("getPromptService tests", () => {
    });
 });
 
-describe("getPromptTemplateService tests", () => {
-   it("getPromptTemplateService - new instance - test", () => {
-      const service = serviceFactory.getPromptTemplateService();
-      expect(service).toBeInstanceOf(PromptTemplateService);
+describe("getTemplateService tests", () => {
+   it("new instance - test", () => {
+      const service = serviceFactory.getTemplateService();
+      expect(service).toBeInstanceOf(TemplateService);
    });
 
-   it("getPromptTemplateService - existing instance - test", () => {
-      const service1 = serviceFactory.getPromptTemplateService();
-      const service2 = serviceFactory.getPromptTemplateService();
+   it("existing instance - test", () => {
+      const service1 = serviceFactory.getTemplateService();
+      const service2 = serviceFactory.getTemplateService();
+      expect(service1).toBe(service2);
+   });
+});
+
+describe("getPublicTemplateService tests", () => {
+   it("new instance - test", () => {
+      const service = serviceFactory.getPublicTemplateService();
+      expect(service).toBeInstanceOf(PublicTemplateService);
+   });
+
+   it("existing instance - test", () => {
+      const service1 = serviceFactory.getPublicTemplateService();
+      const service2 = serviceFactory.getPublicTemplateService();
       expect(service1).toBe(service2);
    });
 });

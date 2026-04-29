@@ -290,5 +290,5 @@ export const getPromptTemplateCategories = async (): Promise<string[]> => {
 
 const getService = (dbClient: DbClient = prisma) => {
    const factory = new ServiceFactory(dbClient);
-   return factory.getPromptTemplateService();
+   return factory.getTemplateService();
 };

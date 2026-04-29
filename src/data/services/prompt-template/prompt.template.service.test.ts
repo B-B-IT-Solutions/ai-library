@@ -19,19 +19,19 @@ import { FieldsValidationResult, TemplateEngine } from "@/lib/template";
 import { ServiceFactory } from "../service.factory";
 import { SettingsService } from "../settings";
 
-import { PromptTemplateService } from "./prompt.template.service";
+import { TemplateService } from "./prompt.template.service";
 
 const serviceFactory = new ServiceFactory(prisma);
 const settingsService = serviceFactory.getSettingsService();
 
 const settingsServiceMock = settingsService as DeepMockProxy<SettingsService>;
 
-const promptTemplateRepo = new PromptTemplateRepository(prisma);
-const promptTemplateRepoMock =
-   promptTemplateRepo as DeepMockProxy<PromptTemplateRepository>;
+const templateRepo = new PromptTemplateRepository(prisma);
+const templateRepoMock =
+   templateRepo as DeepMockProxy<PromptTemplateRepository>;
 
-const promptTemplateService = new PromptTemplateService(
-   promptTemplateRepoMock,
+const templateService = new TemplateService(
+   templateRepoMock,
    settingsServiceMock
 );
 
@@ -54,22 +54,21 @@ describe("getTemplateDescriptorsPage tests", () => {
       const userId = "user-id-1";
       const page = dtestData.dTemplateDescriptorsPage();
       const query = dtestData.dTemplateDescriptorsPageQuery();
-      promptTemplateRepoMock.pGetTemplateDescriptorsPage.mockResolvedValue(
-         page
-      );
+      templateRepoMock.pGetTemplateDescriptorsPage.mockResolvedValue(page);
 
-      const result = await promptTemplateService.getTemplateDescriptorsPage(
+      const result = await templateService.getTemplateDescriptorsPage(
          userId,
          query
       );
 
       expect(result).toEqual(page);
       expect(
-         promptTemplateRepoMock.pGetTemplateDescriptorsPage
+         templateRepoMock.pGetTemplateDescriptorsPage
       ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateRepoMock.pGetTemplateDescriptorsPage
-      ).toHaveBeenCalledWith(userId, query);
+      expect(templateRepoMock.pGetTemplateDescriptorsPage).toHaveBeenCalledWith(
+         userId,
+         query
+      );
    });
 });
 
@@ -81,22 +80,19 @@ describe("getTemplateDescriptor tests", () => {
    it("getTemplateDescriptor - descriptor retrieved - test", async () => {
       const userId = "user-id-1";
       const template = dtestData.dPromptTemplateDescriptorWithTemplate();
-      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+      templateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
          template
       );
 
       const { id } = template;
-      const result = await promptTemplateService.getTemplateDescriptor(
-         userId,
-         id
-      );
+      const result = await templateService.getTemplateDescriptor(userId, id);
 
       expect(result).toEqual(template);
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+         templateRepoMock.pGetPromptTemplateDescriptorWithTemplate
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+         templateRepoMock.pGetPromptTemplateDescriptorWithTemplate
       ).toHaveBeenCalledWith(userId, id);
    });
 });
@@ -110,21 +106,21 @@ describe("createTemplateDescriptor tests", () => {
       const userId = "user-id-1";
       const newData = dtestData.dPromptTemplateUpdate();
       const newDescriptor = dtestData.dPromptTemplateDescriptor();
-      promptTemplateRepoMock.pCreatePromptTemplateDescriptor.mockResolvedValue(
+      templateRepoMock.pCreatePromptTemplateDescriptor.mockResolvedValue(
          newDescriptor
       );
 
-      const result = await promptTemplateService.createTemplateDescriptor(
+      const result = await templateService.createTemplateDescriptor(
          userId,
          newData
       );
 
       expect(result).toEqual(newDescriptor);
       expect(
-         promptTemplateRepoMock.pCreatePromptTemplateDescriptor
+         templateRepoMock.pCreatePromptTemplateDescriptor
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateRepoMock.pCreatePromptTemplateDescriptor
+         templateRepoMock.pCreatePromptTemplateDescriptor
       ).toHaveBeenCalledWith(userId, newData);
    });
 });
@@ -139,12 +135,12 @@ describe("updateTemplateDescriptor tests", () => {
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       const update = dtestData.dPromptTemplateUpdate();
 
-      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+      templateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
          null
       );
 
       const fn = async () =>
-         await promptTemplateService.updateTemplateDescriptor(
+         await templateService.updateTemplateDescriptor(
             userId,
             descriptorId,
             update
@@ -152,13 +148,13 @@ describe("updateTemplateDescriptor tests", () => {
 
       await expect(fn).rejects.toThrow("TemplateDescriptor not found");
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+         templateRepoMock.pGetPromptTemplateDescriptorWithTemplate
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+         templateRepoMock.pGetPromptTemplateDescriptorWithTemplate
       ).toHaveBeenCalledWith(userId, descriptorId);
       expect(
-         promptTemplateRepoMock.pUpdatePromptTemplateDescriptor
+         templateRepoMock.pUpdatePromptTemplateDescriptor
       ).not.toHaveBeenCalled();
    });
 
@@ -167,27 +163,27 @@ describe("updateTemplateDescriptor tests", () => {
       const update = dtestData.dPromptTemplateUpdate();
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
-      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+      templateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
          descriptor
       );
 
-      await promptTemplateService.updateTemplateDescriptor(
+      await templateService.updateTemplateDescriptor(
          userId,
          descriptor.id,
          update
       );
 
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+         templateRepoMock.pGetPromptTemplateDescriptorWithTemplate
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+         templateRepoMock.pGetPromptTemplateDescriptorWithTemplate
       ).toHaveBeenCalledWith(userId, descriptor.id);
       expect(
-         promptTemplateRepoMock.pUpdatePromptTemplateDescriptor
+         templateRepoMock.pUpdatePromptTemplateDescriptor
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateRepoMock.pUpdatePromptTemplateDescriptor
+         templateRepoMock.pUpdatePromptTemplateDescriptor
       ).toHaveBeenCalledWith(userId, descriptor.id, update);
    });
 });
@@ -201,25 +197,22 @@ describe("deleteTemplateDescriptor tests", () => {
       const userId = "user-id-1";
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
 
-      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+      templateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
          null
       );
 
       const fn = async () =>
-         await promptTemplateService.deleteTemplateDescriptor(
-            userId,
-            descriptorId
-         );
+         await templateService.deleteTemplateDescriptor(userId, descriptorId);
 
       await expect(fn).rejects.toThrow("TemplateDescriptor not found");
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+         templateRepoMock.pGetPromptTemplateDescriptorWithTemplate
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+         templateRepoMock.pGetPromptTemplateDescriptorWithTemplate
       ).toHaveBeenCalledWith(userId, descriptorId);
       expect(
-         promptTemplateRepoMock.pUpdatePromptTemplateDescriptor
+         templateRepoMock.pUpdatePromptTemplateDescriptor
       ).not.toHaveBeenCalled();
    });
 
@@ -227,26 +220,23 @@ describe("deleteTemplateDescriptor tests", () => {
       const userId = "user-id-1";
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
-      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+      templateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
          descriptor
       );
 
-      await promptTemplateService.deleteTemplateDescriptor(
-         userId,
-         descriptor.id
-      );
+      await templateService.deleteTemplateDescriptor(userId, descriptor.id);
 
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+         templateRepoMock.pGetPromptTemplateDescriptorWithTemplate
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+         templateRepoMock.pGetPromptTemplateDescriptorWithTemplate
       ).toHaveBeenCalledWith(userId, descriptor.id);
       expect(
-         promptTemplateRepoMock.pDeletePromptTemplateDescriptor
+         templateRepoMock.pDeletePromptTemplateDescriptor
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateRepoMock.pDeletePromptTemplateDescriptor
+         templateRepoMock.pDeletePromptTemplateDescriptor
       ).toHaveBeenCalledWith(userId, descriptor.id);
    });
 });
@@ -258,20 +248,17 @@ describe("getTemplateDataForPromptGeneration tests", () => {
 
    it("getTemplateDataForPromptGeneration - template null - test", async () => {
       const userId = "user-id-1";
-      promptTemplateRepoMock.pGetPromptTemplate.mockResolvedValue(null);
+      templateRepoMock.pGetPromptTemplate.mockResolvedValue(null);
 
       const templateId = "template-id-1";
-      const result =
-         await promptTemplateService.getTemplateDataForPromptGeneration(
-            userId,
-            templateId
-         );
+      const result = await templateService.getTemplateDataForPromptGeneration(
+         userId,
+         templateId
+      );
 
       expect(result).toBeNull();
-      expect(promptTemplateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(
-         1
-      );
-      expect(promptTemplateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
+      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(1);
+      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
          userId,
          templateId
       );
@@ -283,7 +270,7 @@ describe("getTemplateDataForPromptGeneration tests", () => {
    it("getTemplateDataForPromptGeneration - data retrieved - test", async () => {
       const userId = "user-id-1";
       const template = dtestData.dPromptTemplate();
-      promptTemplateRepoMock.pGetPromptTemplate.mockResolvedValue(template);
+      templateRepoMock.pGetPromptTemplate.mockResolvedValue(template);
 
       const globalFields = dtestData.dGlobalTemplateFields();
       settingsServiceMock.getGlobalTemplateFieldsByIds.mockResolvedValue(
@@ -291,13 +278,12 @@ describe("getTemplateDataForPromptGeneration tests", () => {
       );
 
       const { id, globalFieldIds } = template;
-      const result =
-         await promptTemplateService.getTemplateDataForPromptGeneration(
-            userId,
-            id
-         );
+      const result = await templateService.getTemplateDataForPromptGeneration(
+         userId,
+         id
+      );
 
-      const allFields = promptTemplateService.resolveAllTemplateFields(
+      const allFields = templateService.resolveAllTemplateFields(
          template,
          globalFields
       );
@@ -308,10 +294,8 @@ describe("getTemplateDataForPromptGeneration tests", () => {
       };
 
       expect(result).toEqual(expectedResult);
-      expect(promptTemplateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(
-         1
-      );
-      expect(promptTemplateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
+      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(1);
+      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
          userId,
          id
       );
@@ -330,7 +314,7 @@ describe("composePromptFromTemplate tests", () => {
    });
 
    it("composePromptFromTemplate - descriptor not found - test", async () => {
-      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+      templateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
          null
       );
 
@@ -339,21 +323,17 @@ describe("composePromptFromTemplate tests", () => {
       const fieldValues: DPromptTemplateFieldValues = {};
 
       const fn = () =>
-         promptTemplateService.composePromptFromTemplate(
-            userId,
-            id,
-            fieldValues
-         );
+         templateService.composePromptFromTemplate(userId, id, fieldValues);
 
       await expect(fn).rejects.toThrow(
          `TemplateDescriptor with ID ${id} not found`
       );
 
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+         templateRepoMock.pGetPromptTemplateDescriptorWithTemplate
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+         templateRepoMock.pGetPromptTemplateDescriptorWithTemplate
       ).toHaveBeenCalledWith(userId, id);
       expect(sValidateMock).not.toHaveBeenCalled();
    });
@@ -361,7 +341,7 @@ describe("composePromptFromTemplate tests", () => {
    it("composePromptFromTemplate - fieldValues invalid - test", async () => {
       const promptDescriptor =
          dtestData.dPromptTemplateDescriptorWithTemplate();
-      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+      templateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
          promptDescriptor
       );
       const validationResult: FieldsValidationResult = {
@@ -379,19 +359,15 @@ describe("composePromptFromTemplate tests", () => {
       };
 
       const fn = () =>
-         promptTemplateService.composePromptFromTemplate(
-            userId,
-            id,
-            fieldValues
-         );
+         templateService.composePromptFromTemplate(userId, id, fieldValues);
 
       await expect(fn).rejects.toThrow("Provided template fields are invalid:");
 
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+         templateRepoMock.pGetPromptTemplateDescriptorWithTemplate
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+         templateRepoMock.pGetPromptTemplateDescriptorWithTemplate
       ).toHaveBeenCalledWith(userId, id);
       expect(sValidateMock).toHaveBeenCalledTimes(1);
       expect(sValidateMock).toHaveBeenCalledWith(
@@ -403,7 +379,7 @@ describe("composePromptFromTemplate tests", () => {
    it("composePromptFromTemplate - fieldValues valid - test", async () => {
       const promptDescriptor =
          dtestData.dPromptTemplateDescriptorWithTemplate();
-      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+      templateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
          promptDescriptor
       );
       const validationResult: FieldsValidationResult = {
@@ -420,7 +396,7 @@ describe("composePromptFromTemplate tests", () => {
          email: "test1@email.com",
       };
 
-      const result = await promptTemplateService.composePromptFromTemplate(
+      const result = await templateService.composePromptFromTemplate(
          userId,
          id,
          fieldValues
@@ -436,10 +412,10 @@ describe("composePromptFromTemplate tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+         templateRepoMock.pGetPromptTemplateDescriptorWithTemplate
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+         templateRepoMock.pGetPromptTemplateDescriptorWithTemplate
       ).toHaveBeenCalledWith(userId, id);
       expect(sValidateMock).toHaveBeenCalledTimes(1);
       expect(sValidateMock).toHaveBeenCalledWith(
@@ -462,32 +438,32 @@ describe("downloadTemplate tests", () => {
    it("downloadTemplate - template not found - test", async () => {
       const userId = "user-id-1";
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
-      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+      templateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
          null
       );
 
       const fn = async () =>
-         await promptTemplateService.downloadTemplate(userId, descriptorId);
+         await templateService.downloadTemplate(userId, descriptorId);
 
       await expect(fn).rejects.toThrow(
          `TemplateDescriptor with ID ${descriptorId} not found`
       );
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+         templateRepoMock.pGetPromptTemplateDescriptorWithTemplate
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+         templateRepoMock.pGetPromptTemplateDescriptorWithTemplate
       ).toHaveBeenCalledWith(userId, descriptorId);
    });
 
    it("downloadTemplate - template downloaded - test", async () => {
       const userId = "user-id-1";
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
-      promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
+      templateRepoMock.pGetPromptTemplateDescriptorWithTemplate.mockResolvedValue(
          descriptor
       );
 
-      const result = await promptTemplateService.downloadTemplate(
+      const result = await templateService.downloadTemplate(
          userId,
          descriptor.id
       );
@@ -505,10 +481,10 @@ describe("downloadTemplate tests", () => {
 
       expect(result).toEqual(expectedDownloadData);
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+         templateRepoMock.pGetPromptTemplateDescriptorWithTemplate
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptorWithTemplate
+         templateRepoMock.pGetPromptTemplateDescriptorWithTemplate
       ).toHaveBeenCalledWith(userId, descriptor.id);
    });
 });
@@ -523,14 +499,14 @@ describe("toggleTemplateDescriptorFavorite tests", () => {
       const descriptorId = "descriptor-id-1";
       const isFavorite = true;
 
-      await promptTemplateService.toggleTemplateDescriptorFavorite(
+      await templateService.toggleTemplateDescriptorFavorite(
          userId,
          descriptorId,
          isFavorite
       );
 
-      expect(promptTemplateRepoMock.pToggleFavorite).toHaveBeenCalledTimes(1);
-      expect(promptTemplateRepoMock.pToggleFavorite).toHaveBeenCalledWith(
+      expect(templateRepoMock.pToggleFavorite).toHaveBeenCalledTimes(1);
+      expect(templateRepoMock.pToggleFavorite).toHaveBeenCalledWith(
          userId,
          descriptorId,
          isFavorite
@@ -545,43 +521,41 @@ describe("getPromptTemplateDescriptors tests", () => {
 
    it("getPromptTemplateDescriptors - params undefined - test", async () => {
       const templates = dtestData.dPromptTemplateDescriptors();
-      promptTemplateRepoMock.pGetPromptTemplateDescriptors.mockResolvedValue(
+      templateRepoMock.pGetPromptTemplateDescriptors.mockResolvedValue(
          templates
       );
 
-      const result = await promptTemplateService.getPromptTemplateDescriptors();
+      const result = await templateService.getPromptTemplateDescriptors();
 
       expect(result).toEqual(templates);
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptors
+         templateRepoMock.pGetPromptTemplateDescriptors
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptors
+         templateRepoMock.pGetPromptTemplateDescriptors
       ).toHaveBeenCalledWith(undefined);
    });
 
    it("getPromptTemplateDescriptors - params empty - test", async () => {
       const templates = dtestData.dPromptTemplateDescriptors();
-      promptTemplateRepoMock.pGetPromptTemplateDescriptors.mockResolvedValue(
+      templateRepoMock.pGetPromptTemplateDescriptors.mockResolvedValue(
          templates
       );
 
-      const result = await promptTemplateService.getPromptTemplateDescriptors(
-         {}
-      );
+      const result = await templateService.getPromptTemplateDescriptors({});
 
       expect(result).toEqual(templates);
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptors
+         templateRepoMock.pGetPromptTemplateDescriptors
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptors
+         templateRepoMock.pGetPromptTemplateDescriptors
       ).toHaveBeenCalledWith({});
    });
 
    it("getPromptTemplateDescriptors - params defined - test", async () => {
       const templates = dtestData.dPromptTemplateDescriptors();
-      promptTemplateRepoMock.pGetPromptTemplateDescriptors.mockResolvedValue(
+      templateRepoMock.pGetPromptTemplateDescriptors.mockResolvedValue(
          templates
       );
 
@@ -589,15 +563,14 @@ describe("getPromptTemplateDescriptors tests", () => {
       const categories = ["cat 1", "cat2", "cat 3"];
       const params = { search, categories };
 
-      const result =
-         await promptTemplateService.getPromptTemplateDescriptors(params);
+      const result = await templateService.getPromptTemplateDescriptors(params);
 
       expect(result).toEqual(templates);
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptors
+         templateRepoMock.pGetPromptTemplateDescriptors
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateDescriptors
+         templateRepoMock.pGetPromptTemplateDescriptors
       ).toHaveBeenCalledWith(params);
    });
 });
@@ -610,16 +583,14 @@ describe("getPromptTemplate tests", () => {
    it("getPromptTemplate - template retrieved - test", async () => {
       const userId = "user-id-1";
       const template = dtestData.dPromptTemplate();
-      promptTemplateRepoMock.pGetPromptTemplate.mockResolvedValue(template);
+      templateRepoMock.pGetPromptTemplate.mockResolvedValue(template);
 
       const { id } = template;
-      const result = await promptTemplateService.getPromptTemplate(userId, id);
+      const result = await templateService.getPromptTemplate(userId, id);
 
       expect(result).toEqual(template);
-      expect(promptTemplateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(
-         1
-      );
-      expect(promptTemplateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
+      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(1);
+      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
          userId,
          id
       );
@@ -634,21 +605,20 @@ describe("getPromptTemplateCategories tests", () => {
    it("getPromptTemplateCategories test", async () => {
       const userId = "user-id-1";
       const categories = ptestData.pPromptTemplateCategories();
-      promptTemplateRepoMock.pGetPromptTemplateCategories.mockResolvedValue(
+      templateRepoMock.pGetPromptTemplateCategories.mockResolvedValue(
          categories
       );
 
-      const result =
-         await promptTemplateService.getPromptTemplateCategories(userId);
+      const result = await templateService.getPromptTemplateCategories(userId);
 
       const expectedResult = map(categories, (c) => c.name);
 
       expect(result).toEqual(expectedResult);
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateCategories
+         templateRepoMock.pGetPromptTemplateCategories
       ).toHaveBeenCalledTimes(1);
       expect(
-         promptTemplateRepoMock.pGetPromptTemplateCategories
+         templateRepoMock.pGetPromptTemplateCategories
       ).toHaveBeenCalledWith(userId);
    });
 });
@@ -662,20 +632,16 @@ describe("getTemplateDescriptorCategories tests", () => {
       const userId = "user-id-1";
 
       const categories = dtestData.dTemplateCategories();
-      promptTemplateRepoMock.pGetTemplateCategories.mockResolvedValue(
-         categories
-      );
+      templateRepoMock.pGetTemplateCategories.mockResolvedValue(categories);
 
       const result =
-         await promptTemplateService.getTemplateDescriptorCategories(userId);
+         await templateService.getTemplateDescriptorCategories(userId);
 
       expect(result).toEqual(categories);
-      expect(
-         promptTemplateRepoMock.pGetTemplateCategories
-      ).toHaveBeenCalledTimes(1);
-      expect(
-         promptTemplateRepoMock.pGetTemplateCategories
-      ).toHaveBeenCalledWith(userId);
+      expect(templateRepoMock.pGetTemplateCategories).toHaveBeenCalledTimes(1);
+      expect(templateRepoMock.pGetTemplateCategories).toHaveBeenCalledWith(
+         userId
+      );
    });
 });
 
@@ -688,18 +654,13 @@ describe("getTemplateDescriptorModels tests", () => {
       const userId = "user-id-1";
 
       const models = dtestData.dTemplateModels();
-      promptTemplateRepoMock.pGetTemplateModels.mockResolvedValue(models);
+      templateRepoMock.pGetTemplateModels.mockResolvedValue(models);
 
-      const result =
-         await promptTemplateService.getTemplateDescriptorModels(userId);
+      const result = await templateService.getTemplateDescriptorModels(userId);
 
       expect(result).toEqual(models);
-      expect(promptTemplateRepoMock.pGetTemplateModels).toHaveBeenCalledTimes(
-         1
-      );
-      expect(promptTemplateRepoMock.pGetTemplateModels).toHaveBeenCalledWith(
-         userId
-      );
+      expect(templateRepoMock.pGetTemplateModels).toHaveBeenCalledTimes(1);
+      expect(templateRepoMock.pGetTemplateModels).toHaveBeenCalledWith(userId);
    });
 });
 
@@ -752,10 +713,7 @@ describe("resolveAllTemplateFields tests", () => {
 
       sExtractVariablesMock.mockReturnValue([field1.name, field2.name]);
 
-      const result = promptTemplateService.resolveAllTemplateFields(
-         template,
-         []
-      );
+      const result = templateService.resolveAllTemplateFields(template, []);
 
       expect(result).toEqual(fields);
    });
@@ -765,10 +723,7 @@ describe("resolveAllTemplateFields tests", () => {
       template.fields = [];
       sExtractVariablesMock.mockReturnValue(["var_a", "var_b"]);
 
-      const result = promptTemplateService.resolveAllTemplateFields(
-         template,
-         []
-      );
+      const result = templateService.resolveAllTemplateFields(template, []);
 
       const expectedResult = [
          missingVariableToTemplateFieldInternal("var_a", 0),
@@ -785,10 +740,7 @@ describe("resolveAllTemplateFields tests", () => {
 
       sExtractVariablesMock.mockReturnValue([fields[0].name, "missing_var"]);
 
-      const result = promptTemplateService.resolveAllTemplateFields(
-         template,
-         []
-      );
+      const result = templateService.resolveAllTemplateFields(template, []);
 
       const expectedResult = [
          ...fields,
@@ -808,7 +760,7 @@ describe("resolveAllTemplateFields tests", () => {
 
       sExtractVariablesMock.mockReturnValue(["global_var"]);
 
-      const result = promptTemplateService.resolveAllTemplateFields(template, [
+      const result = templateService.resolveAllTemplateFields(template, [
          globalField,
       ]);
 
@@ -823,10 +775,7 @@ describe("resolveAllTemplateFields tests", () => {
 
       sExtractVariablesMock.mockReturnValue([]);
 
-      const result = promptTemplateService.resolveAllTemplateFields(
-         template,
-         []
-      );
+      const result = templateService.resolveAllTemplateFields(template, []);
 
       expect(result).toEqual([]);
    });
@@ -845,7 +794,7 @@ describe("resolveAllTemplateFields tests", () => {
          "extra_var",
       ]);
 
-      const result = promptTemplateService.resolveAllTemplateFields(template, [
+      const result = templateService.resolveAllTemplateFields(template, [
          globalField,
       ]);
 
