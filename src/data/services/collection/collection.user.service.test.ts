@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 import { CollectionRepository } from "@/data/repositories/collection";
 import prisma from "@/data/repositories/prisma";
 
-import { CollectionService } from "./collection.service";
+import { CollectionService } from "./collection.user.service";
 
 const uuidv4Mock = uuidv4 as jest.MockedFunction<typeof uuidv4>;
 
