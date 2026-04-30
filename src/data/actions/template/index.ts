@@ -15,4 +15,7 @@ export {
    getPromptTemplate,
 } from "./template.user.actions";
 
-export { getPublicTemplateDescriptorsPage } from "./template.public.actions";
+export {
+   getPublicTemplateDescriptorsPage,
+   getPublicPromptGenerationTemplateData,
+} from "./template.public.actions";

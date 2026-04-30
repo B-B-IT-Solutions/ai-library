@@ -22,7 +22,7 @@ export const getPublicTemplateDescriptorsPage = async (
    }
 };
 
-export const getPromptGenerationTemplateData = async (
+export const getPublicPromptGenerationTemplateData = async (
    templateId: string
 ): Promise<DPromptTemplateDataPromptGeneration | null> => {
    try {

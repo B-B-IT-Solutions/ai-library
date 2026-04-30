@@ -7,15 +7,15 @@ import userEvent from "@testing-library/user-event";
 import { assertInDocument, assertNotInDocument, dtestData } from "@tests";
 import { toast } from "sonner";
 
-import { getPromptGenerationTemplateData } from "@/data/actions/template";
+import { getPublicPromptGenerationTemplateData } from "@/data/actions/template";
 
 import { PublicUseTemplateButton } from "./public-use-template-button";
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
-const getPromptGenerationTemplateDataMock =
-   getPromptGenerationTemplateData as jest.MockedFunction<
-      typeof getPromptGenerationTemplateData
+const getPublicPromptGenerationTemplateDataMock =
+   getPublicPromptGenerationTemplateData as jest.MockedFunction<
+      typeof getPublicPromptGenerationTemplateData
    >;
 
 const assertRendered = () => {
@@ -36,7 +36,7 @@ const assertDialogNotRendered = () => {
 describe("PublicUseTemplateButton rendering tests", () => {
    it("with fields - rendered test", async () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
-      getPromptGenerationTemplateDataMock.mockResolvedValue(data);
+      getPublicPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const { container } = render(
@@ -53,7 +53,7 @@ describe("PublicUseTemplateButton rendering tests", () => {
    it("without fields - rendered test", async () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
       data.allFields = [];
-      getPromptGenerationTemplateDataMock.mockResolvedValue(data);
+      getPublicPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const { container } = render(
@@ -69,7 +69,7 @@ describe("PublicUseTemplateButton rendering tests", () => {
 
    it("with className - rendered test", async () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
-      getPromptGenerationTemplateDataMock.mockResolvedValue(data);
+      getPublicPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const { container } = render(
@@ -95,7 +95,7 @@ describe("PublicUseTemplateButton functionality - tests", () => {
    });
 
    it("submit clicked - success - templateData null - test", async () => {
-      getPromptGenerationTemplateDataMock.mockResolvedValue(null);
+      getPublicPromptGenerationTemplateDataMock.mockResolvedValue(null);
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
@@ -112,8 +112,10 @@ describe("PublicUseTemplateButton functionality - tests", () => {
          assertDialogNotRendered();
       });
 
-      expect(getPromptGenerationTemplateDataMock).toHaveBeenCalledTimes(1);
-      expect(getPromptGenerationTemplateDataMock).toHaveBeenCalledWith(
+      expect(getPublicPromptGenerationTemplateDataMock).toHaveBeenCalledTimes(
+         1
+      );
+      expect(getPublicPromptGenerationTemplateDataMock).toHaveBeenCalledWith(
          descriptor.promptTemplateId
       );
       expect(toastMock.error).toHaveBeenCalledTimes(1);
@@ -124,7 +126,7 @@ describe("PublicUseTemplateButton functionality - tests", () => {
 
    it("submit clicked - success - templateData retrieved - test", async () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
-      getPromptGenerationTemplateDataMock.mockResolvedValue(data);
+      getPublicPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
@@ -144,7 +146,7 @@ describe("PublicUseTemplateButton functionality - tests", () => {
 
    it("close clicked- test", async () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
-      getPromptGenerationTemplateDataMock.mockResolvedValue(data);
+      getPublicPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
