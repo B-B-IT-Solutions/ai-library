@@ -24,7 +24,7 @@ describe("pGetTemplateDescriptorsPage tests", () => {
       jest.clearAllMocks();
    });
 
-   test("pGetTemplateDescriptorsPage - sort createdAt asc - test", async () => {
+   test("pGetTemplateDescriptorsPage - pagination undefined - test", async () => {
       const descriptors = ptestData.pPromptTemplateDescriptorsWithCategories();
       const totalEntries = 25;
       prismaMock.promptTemplateDescriptor.findMany.mockResolvedValue(
@@ -33,7 +33,6 @@ describe("pGetTemplateDescriptorsPage tests", () => {
       prismaMock.promptTemplateDescriptor.count.mockResolvedValue(totalEntries);
 
       const query: DTemplateDescriptorsPageQuery = {
-         pagination: { pageNumber: 2, pageSize: 10 },
          filter: { collectionIds: ["col-1"] },
          sort: { field: "createdAt", order: "asc" },
       };
@@ -42,10 +41,10 @@ describe("pGetTemplateDescriptorsPage tests", () => {
 
       const expectedResult: DTemplateDescriptorsPage = {
          content: toDPromptTemplateDescriptors(descriptors),
-         pageNumber: 2,
-         pageSize: 10,
+         pageNumber: 0,
+         pageSize: 20,
          numberOfElements: descriptors.length,
-         totalPages: Math.ceil(totalEntries / 10),
+         totalPages: Math.ceil(totalEntries / 20),
          totalElements: totalEntries,
       };
 
@@ -59,8 +58,8 @@ describe("pGetTemplateDescriptorsPage tests", () => {
             categories: true,
          },
          orderBy: { createdAt: "asc" },
-         skip: 20,
-         take: 10,
+         skip: 0,
+         take: 20,
       };
 
       const expectedCountArgs: PromptTemplateDescriptorCountArgs = {
@@ -80,7 +79,7 @@ describe("pGetTemplateDescriptorsPage tests", () => {
       );
    });
 
-   test("pGetTemplateDescriptorsPage - sort title asc - test", async () => {
+   test("pGetTemplateDescriptorsPage - pagination defined - test", async () => {
       const descriptors = ptestData.pPromptTemplateDescriptorsWithCategories();
       prismaMock.promptTemplateDescriptor.findMany.mockResolvedValue(
          descriptors
@@ -125,7 +124,7 @@ describe("pGetTemplateDescriptorsPage tests", () => {
       );
    });
 
-   test("pGetTemplateDescriptorsPage - sort title desc - test", async () => {
+   test("pGetTemplateDescriptorsPage - next page query - test", async () => {
       const descriptors = ptestData.pPromptTemplateDescriptorsWithCategories();
       prismaMock.promptTemplateDescriptor.findMany.mockResolvedValue(
          descriptors
@@ -133,7 +132,7 @@ describe("pGetTemplateDescriptorsPage tests", () => {
       prismaMock.promptTemplateDescriptor.count.mockResolvedValue(0);
 
       const query: DTemplateDescriptorsPageQuery = {
-         pagination: { pageNumber: 0, pageSize: 10 },
+         pagination: { pageNumber: 2, pageSize: 10 },
          filter: { collectionIds: ["col-1", "col-2", "col-3"] },
          sort: { field: "title", order: "desc" },
       };
@@ -150,7 +149,7 @@ describe("pGetTemplateDescriptorsPage tests", () => {
             categories: true,
          },
          orderBy: { title: "desc" },
-         skip: 0,
+         skip: 20,
          take: 10,
       };
 

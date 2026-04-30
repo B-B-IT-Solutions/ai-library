@@ -1,9 +1,13 @@
 import { dtestData } from "@tests";
 
+import { Sort } from "@/data/types/common";
 import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
-import { PromptTemplateDescriptorWhereInput } from "@/generated/prisma/models";
+import {
+   PromptDescriptorOrderByWithRelationInput,
+   PromptTemplateDescriptorWhereInput,
+} from "@/generated/prisma/models";
 
-import { resolveWhereInput } from "./utils";
+import { resolveOrderBy, resolveWhereInput } from "./utils";
 
 describe("resolveWhereInput tests", () => {
    const userId = "user-id-1";
@@ -173,6 +177,32 @@ describe("resolveWhereInput tests", () => {
          },
       };
 
+      expect(result).toEqual(expectedWhere);
+   });
+});
+
+describe("resolveOrderBy tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("sort undefined - test", async () => {
+      const result = resolveOrderBy();
+      const expectedWhere: PromptDescriptorOrderByWithRelationInput = {
+         createdAt: "desc" as const,
+      };
+      expect(result).toEqual(expectedWhere);
+   });
+
+   test("sort defined - test", async () => {
+      const sort: Sort = {
+         field: "title",
+         order: "asc",
+      };
+      const result = resolveOrderBy(sort);
+      const expectedWhere: PromptDescriptorOrderByWithRelationInput = {
+         title: "asc" as const,
+      };
       expect(result).toEqual(expectedWhere);
    });
 });
