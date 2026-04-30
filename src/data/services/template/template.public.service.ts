@@ -47,7 +47,7 @@ export class PublicTemplateService {
    async getPublicTemplateDataForPromptGeneration(
       teamplateId: string
    ): Promise<DPromptTemplateDataPromptGeneration | null> {
-      const template = await this.getPromptTemplate(teamplateId);
+      const template = await this.getPublicPromptTemplate(teamplateId);
 
       if (template) {
          const globalFields =
@@ -66,9 +66,9 @@ export class PublicTemplateService {
       return null;
    }
 
-   async getPromptTemplate(
+   async getPublicPromptTemplate(
       templateId: string
    ): Promise<DPromptTemplate | null> {
-      return await this.repository.pGetPromptTemplate(userId, templateId);
+      return await this.repository.pGetPublicPromptTemplate(templateId);
    }
 }

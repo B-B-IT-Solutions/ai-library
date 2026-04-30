@@ -1,5 +1,6 @@
 jest.mock("@/data/repositories/template");
 jest.mock("@/data/services/collection");
+jest.mock("@/data/services/settings");
 
 import { dtestData } from "@tests";
 import { DeepMockProxy } from "jest-mock-extended";
@@ -8,14 +9,19 @@ import prisma from "@/data/repositories/prisma";
 import { PublicTemplateRepository } from "@/data/repositories/template";
 import { PublicCollectionService } from "../collection";
 import { ServiceFactory } from "../service.factory";
+import { PublicSettingsService } from "../settings";
 
 import { PublicTemplateService } from "./template.public.service";
 
 const serviceFactory = new ServiceFactory(prisma);
 const collectionService = serviceFactory.getPublicCollectionService();
+const settingsService = serviceFactory.getPublicSettingsService();
 
 const collectionServiceMock =
    collectionService as DeepMockProxy<PublicCollectionService>;
+
+const settingsServiceMock =
+   settingsService as DeepMockProxy<PublicSettingsService>;
 
 const templateRepo = new PublicTemplateRepository(prisma);
 const templateRepoMock =
@@ -23,7 +29,8 @@ const templateRepoMock =
 
 const templateService = new PublicTemplateService(
    templateRepoMock,
-   collectionServiceMock
+   collectionServiceMock,
+   settingsServiceMock
 );
 
 describe("getPublicTemplateDescriptorsPage tests", () => {
@@ -119,5 +126,27 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
       expect(
          templateRepoMock.pGetPublicTemplateDescriptorsPage
       ).toHaveBeenCalledWith(query);
+   });
+});
+
+describe("getPublicPromptTemplate tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("template retrieved - test", async () => {
+      const template = dtestData.dPromptTemplate();
+      templateRepoMock.pGetPublicPromptTemplate.mockResolvedValue(template);
+
+      const { id } = template;
+      const result = await templateService.getPublicPromptTemplate(id);
+
+      expect(result).toEqual(template);
+      expect(templateRepoMock.pGetPublicPromptTemplate).toHaveBeenCalledTimes(
+         1
+      );
+      expect(templateRepoMock.pGetPublicPromptTemplate).toHaveBeenCalledWith(
+         id
+      );
    });
 });
