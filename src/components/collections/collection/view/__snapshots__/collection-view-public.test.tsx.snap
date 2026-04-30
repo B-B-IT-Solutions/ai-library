@@ -200,7 +200,7 @@ exports[`CollectionView rendering tests rendered - test 1`] = `
                   />
                 </svg>
                 <span>
-                  Prompt erstellen
+                  Prompt anwenden
                 </span>
               </button>
               <div
@@ -389,7 +389,7 @@ exports[`CollectionView rendering tests rendered - test 1`] = `
                   />
                 </svg>
                 <span>
-                  Prompt erstellen
+                  Prompt anwenden
                 </span>
               </button>
               <div
@@ -578,7 +578,7 @@ exports[`CollectionView rendering tests rendered - test 1`] = `
                   />
                 </svg>
                 <span>
-                  Prompt erstellen
+                  Prompt anwenden
                 </span>
               </button>
               <div
