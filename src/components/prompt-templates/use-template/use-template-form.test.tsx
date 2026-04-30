@@ -11,7 +11,7 @@ import {
 } from "@/data/types/domain/prompt.template";
 import { openExternalUrlInNewTab } from "@/lib/utils";
 
-import { PromptFromTemplate } from "./prompt-from-template";
+import { UseTemplateForm } from "./use-template-form";
 
 const openExternalUrlInNewTabMock =
    openExternalUrlInNewTab as jest.MockedFunction<
@@ -38,7 +38,7 @@ const createField = (
 };
 
 const assertRendered = () => {
-   const promptFromTemplate = screen.getByTestId("prompt-from-template");
+   const promptFromTemplate = screen.getByTestId("use-template-form");
    const preview = screen.getByTestId("template-preview");
    const form = screen.getByTestId("template-fields-form");
 
@@ -52,7 +52,7 @@ const assertRendered = () => {
    assertInDocument(openInAiBtn);
 };
 
-describe("PromptFromTemplate rendering tests", () => {
+describe("UseTemplateForm rendering tests", () => {
    it("renders test", async () => {
       const name = createField("TEXT", "name", "Name");
       const email = createField("EMAIL", "email", "Email Address");
@@ -84,7 +84,7 @@ describe("PromptFromTemplate rendering tests", () => {
       templateData.allFields = fields;
 
       const { container } = render(
-         <PromptFromTemplate templateData={templateData} />
+         <UseTemplateForm templateData={templateData} />
       );
 
       await waitFor(() => {
@@ -95,7 +95,7 @@ describe("PromptFromTemplate rendering tests", () => {
    });
 });
 
-describe("PromptFromTemplate functionality tests", () => {
+describe("UseTemplateForm functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -107,7 +107,7 @@ describe("PromptFromTemplate functionality tests", () => {
       templateData.allFields.push(field);
 
       render(
-         <PromptFromTemplate
+         <UseTemplateForm
             templateData={templateData}
             recommendedModel="chatgpt"
          />
@@ -144,10 +144,7 @@ describe("PromptFromTemplate functionality tests", () => {
       templateData.allFields.push(field);
 
       render(
-         <PromptFromTemplate
-            templateData={templateData}
-            recommendedModel="gpt"
-         />
+         <UseTemplateForm templateData={templateData} recommendedModel="gpt" />
       );
 
       await waitFor(() => {

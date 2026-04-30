@@ -98,7 +98,7 @@ exports[`UseTemplateDialog rendering tests mode fields-form - hasFeilds false - 
         >
           <form
             class="flex flex-1 flex-col px-6"
-            data-testid="prompt-from-template"
+            data-testid="use-template-form"
           >
             <div
               class="grid flex-1 grid-cols-1 gap-6 lg:min-h-[40vh] lg:grid-cols-2"
@@ -486,7 +486,7 @@ exports[`UseTemplateDialog rendering tests mode fields-form - hasFeilds true - t
         >
           <form
             class="flex flex-1 flex-col px-6"
-            data-testid="prompt-from-template"
+            data-testid="use-template-form"
           >
             <div
               class="grid flex-1 grid-cols-1 gap-6 lg:min-h-[40vh] lg:grid-cols-2"

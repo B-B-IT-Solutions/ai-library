@@ -7,7 +7,7 @@ import { UseTemplateDialog } from "./use-template-dialog";
 
 const assertDialogRendered = () => {
    const dialog = screen.getByTestId("use-template-dialog");
-   const promptFromTemplate = screen.getByTestId("prompt-from-template");
+   const promptFromTemplate = screen.getByTestId("use-template-form");
    const expandBtn = screen.getByTestId("expand-btn");
    const closeBtn = screen.getByTestId("close-btn");
 

@@ -16,7 +16,7 @@ import {
    DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
 } from "@/data/types/domain/prompt.template";
-import { PromptFromTemplate } from "../use-template/prompt-from-template";
+import { UseTemplateForm } from "../use-template/use-template-form";
 
 type Props = {
    descriptor: DPromptTemplateDescriptor;
@@ -85,7 +85,7 @@ export const UseTemplateDialog = ({
                </p>
             </DialogHeader>
             <div className="flex flex-1 flex-col overflow-y-auto">
-               <PromptFromTemplate
+               <UseTemplateForm
                   templateData={templateData}
                   recommendedModel={descriptor.recommendedModel}
                />

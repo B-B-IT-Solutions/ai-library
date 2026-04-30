@@ -36,10 +36,7 @@ type Props = {
    recommendedModel?: string;
 };
 
-export const PromptFromTemplate = ({
-   templateData,
-   recommendedModel,
-}: Props) => {
+export const UseTemplateForm = ({ templateData, recommendedModel }: Props) => {
    const { template, allFields: fields } = templateData;
 
    const fieldsSchema = buildFieldsSchema(fields);
@@ -137,7 +134,7 @@ export const PromptFromTemplate = ({
          <form
             onSubmit={form.handleSubmit(onSubmitInternal)}
             className="flex flex-1 flex-col px-6"
-            data-testid="prompt-from-template"
+            data-testid="use-template-form"
          >
             <div className="grid flex-1 grid-cols-1 gap-6 lg:min-h-[40vh] lg:grid-cols-2">
                <TemplatePreview
