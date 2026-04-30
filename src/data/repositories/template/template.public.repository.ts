@@ -22,13 +22,13 @@ export class PublicTemplateRepository {
    async pGetPublicTemplateDescriptorsPage(
       query: DTemplateDescriptorsPageQuery
    ): Promise<DTemplateDescriptorsPage> {
-      const pagination = query?.pagination;
+      const pagination = query.pagination;
       const pageNumber = pagination?.pageNumber ?? 0;
       const pageSize = pagination?.pageSize ?? 20;
       const skip = pageNumber * pageSize;
 
-      const where = resolveWhereInput(undefined, query?.filter);
-      const orderBy = resolveOrderBy(query?.sort);
+      const where = resolveWhereInput(undefined, query.filter);
+      const orderBy = resolveOrderBy(query.sort);
 
       const args: PromptTemplateDescriptorFindManyArgs = {
          where,
