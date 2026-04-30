@@ -53,7 +53,7 @@ describe("pGetGlobalTemplateFieldsByIds tests", () => {
       mockReset(prismaMock);
    });
 
-   test("pGetGlobalTemplateFieldsByIds test", async () => {
+   test("global fields - retrieved - test", async () => {
       const fields = ptestData.pGlobalTemplateFields();
       prismaMock.globalTemplateField.findMany.mockResolvedValue(fields);
 

@@ -7,8 +7,8 @@ import {
 export class SettingsService {
    private settingsRepository: SettingsRepository;
 
-   constructor(globalFieldRepository: SettingsRepository) {
-      this.settingsRepository = globalFieldRepository;
+   constructor(settingsRepository: SettingsRepository) {
+      this.settingsRepository = settingsRepository;
    }
 
    async getGlobalTemplateFields(
