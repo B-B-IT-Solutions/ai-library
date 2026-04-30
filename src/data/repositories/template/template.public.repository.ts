@@ -1,7 +1,11 @@
 import { DbClient } from "@/data/types/db/common";
-import { PromptTemplateDescriptorWithCategories } from "@/data/types/db/prompt.template";
+import {
+   PromptTemplateDescriptorWithCategories,
+   PromptTemplateDescriptorWithTemplate,
+} from "@/data/types/db/prompt.template";
 import {
    DPromptTemplate,
+   DPromptTemplateDescriptorWithTemplate,
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
@@ -13,6 +17,7 @@ import {
 import {
    toDPromptTemplate,
    toDPromptTemplateDescriptors,
+   toDPromptTemplateDescriptorWithTemplate,
 } from "./template.mapper";
 import { resolveOrderBy, resolveWhereInput } from "./utils";
 
@@ -63,6 +68,28 @@ export class PublicTemplateRepository {
          totalPages: Math.ceil(totalElements / pageSize),
          totalElements: totalElements,
       };
+   }
+
+   async pGetPublicTemplateDescriptorWithTemplate(
+      id: string
+   ): Promise<DPromptTemplateDescriptorWithTemplate | null> {
+      const descriptor: PromptTemplateDescriptorWithTemplate | null =
+         await this.prisma.promptTemplateDescriptor.findFirst({
+            where: { id },
+            include: {
+               categories: true,
+               promptTemplate: {
+                  include: {
+                     fields: true,
+                     globalFields: true,
+                  },
+               },
+            },
+         });
+
+      return descriptor
+         ? toDPromptTemplateDescriptorWithTemplate(descriptor)
+         : null;
    }
 
    async pGetPublicPromptTemplate(id: string): Promise<DPromptTemplate | null> {
