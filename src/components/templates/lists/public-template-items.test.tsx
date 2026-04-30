@@ -11,7 +11,7 @@ import {
 } from "@/data/types/domain/common";
 import { DTemplateDescriptorsPageQuery } from "@/data/types/domain/prompt.template";
 
-import { TemplateItemsPublic } from "./template-items-public";
+import { PublicTemplateItems } from "./public-template-items";
 
 const getPublicTemplateDescriptorsPageMock =
    getPublicTemplateDescriptorsPage as jest.MockedFunction<
@@ -51,7 +51,7 @@ describe("TemplateItemsPublic rendering tests", () => {
       const filters = dtestData.dTemplateDescriptorsFilter();
 
       const { container } = renderWithRouter(
-         <TemplateItemsPublic
+         <PublicTemplateItems
             viewMode={DListViewMode.GRID}
             groupBy={DListGroupByMode.NONE}
             sortBy={DListSortByMode.DATE_DESC}
@@ -80,7 +80,7 @@ describe("TemplateItemsPublic rendering tests", () => {
       const filters = dtestData.dTemplateDescriptorsFilter();
 
       const { container } = renderWithRouter(
-         <TemplateItemsPublic
+         <PublicTemplateItems
             viewMode={DListViewMode.LIST}
             groupBy={DListGroupByMode.NONE}
             sortBy={DListSortByMode.DATE_ASC}

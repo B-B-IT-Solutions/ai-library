@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-query";
 import { Folder, Globe } from "lucide-react";
 
-import { TemplateItemsPublic } from "@/components/templates/lists";
+import { PublicTemplateItems } from "@/components/templates/lists";
 import { infiniteLoadPublicTemplateDescriptorsOptions } from "@/data/ts-queries/template";
 import { resolveSort } from "@/data/ts-queries/utils";
 import { DCollection } from "@/data/types/domain/collection";
@@ -77,7 +77,7 @@ export const CollectionViewPublic = async ({ collection }: Props) => {
             </div>
 
             <div className="flex-1 overflow-y-auto px-8 py-6">
-               <TemplateItemsPublic
+               <PublicTemplateItems
                   viewMode={viewMode}
                   groupBy={groupBy}
                   sortBy={sortBy}

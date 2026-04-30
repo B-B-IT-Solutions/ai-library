@@ -1,3 +1,3 @@
 export { TemplateItems } from "./template-items";
-export { TemplateItemsPublic } from "./template-items-public";
+export { PublicTemplateItems } from "./public-template-items";
 export { TemplatesToolbar, CollectionsFilter } from "./toolbar";
