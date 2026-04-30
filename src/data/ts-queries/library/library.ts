@@ -16,8 +16,8 @@ import {
    createCollection,
    deleteCollection,
    getCollections,
-   getEntryCollectionIds,
-   updateEntryCollections,
+   getTemplateCollectionIds,
+   updateTemplateCollections,
 } from "@/data/actions/collection";
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
@@ -112,32 +112,32 @@ export const useDeleteCollection = (): UseMutationResult<
    return useMutation(deleteCollectionOptions(queryClient));
 };
 
-export const loadEntryCollectionIdsOptions = (
+export const loadTemplateCollectionIdsOptions = (
    params: LoadCollectionIdsParams
 ): UndefinedInitialDataOptions<string[], Error, string[]> => {
    const { entryId, enabled } = params;
    return {
       queryKey: libraryKeys.entryCollections(entryId),
-      queryFn: () => getEntryCollectionIds(entryId),
+      queryFn: () => getTemplateCollectionIds(entryId),
       placeholderData: keepPreviousData,
       enabled,
       staleTime: 5 * 60 * 1000,
    };
 };
 
-export const useLoadEntryCollectionIds = (
+export const useLoadTemplateCollectionIds = (
    params: LoadCollectionIdsParams
 ): UseQueryResult<string[]> => {
-   return useQuery(loadEntryCollectionIdsOptions(params));
+   return useQuery(loadTemplateCollectionIdsOptions(params));
 };
 
-export const updateEntryCollectionsOptions = (
+export const updateTemplateCollectionsOptions = (
    queryClient: QueryClient
 ): UseMutationOptions<ActionResult, Error, UpdateCollectionIdsParams> => {
    return {
       mutationFn: async (params: UpdateCollectionIdsParams) => {
          const { entryId, collectionIds } = params;
-         return await updateEntryCollections(entryId, collectionIds);
+         return await updateTemplateCollections(entryId, collectionIds);
       },
       onSuccess: (_, params) => {
          const { entryId, collectionIds } = params;
@@ -149,11 +149,11 @@ export const updateEntryCollectionsOptions = (
    };
 };
 
-export const useUpdateEntryCollections = (): UseMutationResult<
+export const useUpdateTemplateCollections = (): UseMutationResult<
    ActionResult,
    Error,
    UpdateCollectionIdsParams
 > => {
    const queryClient = useQueryClient();
-   return useMutation(updateEntryCollectionsOptions(queryClient));
+   return useMutation(updateTemplateCollectionsOptions(queryClient));
 };

@@ -337,59 +337,57 @@ describe("setCollectionPublic tests", () => {
    });
 });
 
-describe("getEntryCollectionIds tests", () => {
+describe("getTemplateCollectionIds tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("getEntryCollectionIds - collectionId retrieved - test", async () => {
+   it("collectionId retrieved - test", async () => {
       const userId = "user-id-1";
       const entryId = "entry-id-1";
       const collectionIds = dtestData.dCollectionIds();
 
-      collectionRepoMock.pGetEntryCollectionIds.mockResolvedValue(
+      collectionRepoMock.pGetTemplateCollectionIds.mockResolvedValue(
          collectionIds
       );
 
-      const result = await collectionService.getEntryCollectionIds(
+      const result = await collectionService.getTemplateCollectionIds(
          userId,
          entryId
       );
 
       expect(result).toEqual(collectionIds);
-      expect(collectionRepoMock.pGetEntryCollectionIds).toHaveBeenCalledTimes(
-         1
-      );
-      expect(collectionRepoMock.pGetEntryCollectionIds).toHaveBeenCalledWith(
+      expect(
+         collectionRepoMock.pGetTemplateCollectionIds
+      ).toHaveBeenCalledTimes(1);
+      expect(collectionRepoMock.pGetTemplateCollectionIds).toHaveBeenCalledWith(
          userId,
          entryId
       );
    });
 });
 
-describe("updateEntryCollections tests", () => {
+describe("updateTemplateCollections tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("updateEntryCollections - collection deleted - test", async () => {
+   it("collection updated - test", async () => {
       const userId = "user-id-1";
       const entryId = "entry-id-1";
       const collectionIds = dtestData.dCollectionIds();
 
-      await collectionService.updateEntryCollections(
+      await collectionService.updateTemplateCollections(
          userId,
          entryId,
          collectionIds
       );
 
-      expect(collectionRepoMock.pUpdateEntryCollections).toHaveBeenCalledTimes(
-         1
-      );
-      expect(collectionRepoMock.pUpdateEntryCollections).toHaveBeenCalledWith(
-         userId,
-         entryId,
-         collectionIds
-      );
+      expect(
+         collectionRepoMock.pUpdateTemplateCollections
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         collectionRepoMock.pUpdateTemplateCollections
+      ).toHaveBeenCalledWith(userId, entryId, collectionIds);
    });
 });

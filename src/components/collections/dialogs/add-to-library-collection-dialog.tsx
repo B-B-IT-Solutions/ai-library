@@ -17,8 +17,8 @@ import {
 } from "@/components/shadcn/dialog";
 import { Label } from "@/components/shadcn/label";
 import {
-   useLoadEntryCollectionIds,
-   useUpdateEntryCollections,
+   useLoadTemplateCollectionIds,
+   useUpdateTemplateCollections,
 } from "@/data/ts-queries/library";
 import { UpdateCollectionIdsParams } from "@/data/ts-queries/library/types";
 import { DCollection } from "@/data/types/domain/collection";
@@ -40,16 +40,18 @@ export const AddToLibraryCollectionDialog: FC<Props> = ({
    onOpenChange,
 }) => {
    const { mutate: updateCollections, isPending: isSaving } =
-      useUpdateEntryCollections();
+      useUpdateTemplateCollections();
    const [showCreateDialog, setShowCreateDialog] = useState(false);
    const initializedRef = useRef(false);
 
    const [selectedColIds, setSelectedColdIds] = useState<string[]>([]);
 
-   const { data: entryCollectionIds, isLoading } = useLoadEntryCollectionIds({
-      entryId: descriptor.id,
-      enabled: open,
-   });
+   const { data: entryCollectionIds, isLoading } = useLoadTemplateCollectionIds(
+      {
+         entryId: descriptor.id,
+         enabled: open,
+      }
+   );
 
    useEffect(() => {
       if (entryCollectionIds && !initializedRef.current) {

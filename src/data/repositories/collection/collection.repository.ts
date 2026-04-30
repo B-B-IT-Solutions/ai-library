@@ -238,7 +238,7 @@ export class CollectionRepository {
       await this.prisma.libraryCollectionEntry.deleteMany(args);
    }
 
-   async pGetEntryCollectionIds(
+   async pGetTemplateCollectionIds(
       userId: string,
       descriptorId: string
    ): Promise<string[]> {
@@ -251,7 +251,7 @@ export class CollectionRepository {
       return map(collectionEntries, (ce) => ce.collectionId);
    }
 
-   async pUpdateEntryCollections(
+   async pUpdateTemplateCollections(
       userId: string,
       descriptorId: string,
       collectionIds: string[]
