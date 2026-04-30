@@ -1,6 +1,5 @@
 import { flatMap, isEmpty, map, uniq } from "es-toolkit/compat";
 
-import { Sort } from "@/data/types/common";
 import { DbClient } from "@/data/types/db/common";
 import {
    PromptTemplateDescriptorWithCategories,
@@ -14,13 +13,11 @@ import {
    DPromptTemplateFieldType,
    DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
-   DTemplateDescriptorsFilter,
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
 import { Prisma } from "@/generated/prisma/client";
 import {
-   PromptDescriptorOrderByWithRelationInput,
    PromptTemplateDescriptorCountArgs,
    PromptTemplateDescriptorCreateArgs,
    PromptTemplateDescriptorCreateInput,
@@ -37,6 +34,7 @@ import {
    toDPromptTemplateDescriptors,
    toDPromptTemplateDescriptorWithTemplate,
 } from "./template.mapper";
+import { resolveOrderBy, resolveWhereInput } from "./utils";
 
 type PGetPromptTemplateDescriptorsParams = {
    search?: string;
@@ -59,8 +57,8 @@ export class TemplateRepository {
       const pageSize = pagination?.pageSize ?? 20;
       const skip = pageNumber * pageSize;
 
-      const where = this.resolveWhereInput(userId, query?.filter);
-      const orderBy = this.resolveOrderBy(query?.sort);
+      const where = resolveWhereInput(userId, query?.filter);
+      const orderBy = resolveOrderBy(query?.sort);
 
       const args: PromptTemplateDescriptorFindManyArgs = {
          where,
@@ -381,74 +379,6 @@ export class TemplateRepository {
       return {
          OR: searchClause,
          AND: categoriesClause,
-      };
-   }
-
-   private resolveWhereInput(
-      userId: string,
-      filter?: DTemplateDescriptorsFilter
-   ): PromptTemplateDescriptorWhereInput {
-      const where: PromptTemplateDescriptorWhereInput = { userId };
-
-      if (!filter) {
-         return where;
-      }
-
-      // Search
-      if (filter.search) {
-         where.OR = [
-            { title: { contains: filter.search, mode: "insensitive" } },
-            { description: { contains: filter.search, mode: "insensitive" } },
-         ];
-      }
-
-      // Categories
-      if (!isEmpty(filter.categories)) {
-         where.categories = {
-            some: {
-               name: {
-                  in: filter.categories,
-               },
-            },
-         };
-      }
-
-      // Models
-      if (!isEmpty(filter.models)) {
-         where.recommendedModel = {
-            in: filter.models,
-         };
-      }
-
-      // Favorites
-      if (filter.isFavorite !== undefined) {
-         where.isFavorite = filter.isFavorite;
-      }
-
-      // Collections
-      if (filter.collectionIds && filter.collectionIds.length > 0) {
-         where.collectionEntries = {
-            some: {
-               collectionId: {
-                  in: filter.collectionIds,
-               },
-            },
-         };
-      }
-
-      return where;
-   }
-
-   private resolveOrderBy(
-      sort?: Sort
-   ): PromptDescriptorOrderByWithRelationInput {
-      if (sort) {
-         return {
-            [sort.field]: sort.order,
-         };
-      }
-      return {
-         createdAt: "desc" as const,
       };
    }
 }
