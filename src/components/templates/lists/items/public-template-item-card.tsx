@@ -20,7 +20,7 @@ import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 import {
    AddToFavoriteButton,
    DownloadTemplateButton,
-   UseTemplateButton,
+   PublicUseTemplateButton,
 } from "../../buttons";
 
 type Props = {
@@ -120,7 +120,10 @@ export const PublicTemplateItemCard = ({ descriptor, collections }: Props) => {
             </p>
 
             <div className="flex gap-2 pt-2">
-               <UseTemplateButton descriptor={descriptor} className="flex-1" />
+               <PublicUseTemplateButton
+                  descriptor={descriptor}
+                  className="flex-1"
+               />
                {dropdownMenu()}
             </div>
          </CardContent>
