@@ -10,6 +10,8 @@ import {
 import { PublicCollectionService } from "../collection";
 import { PublicSettingsService } from "../settings";
 
+import { resolveAllTemplateFields } from "./utils";
+
 export class PublicTemplateService {
    private repository: PublicTemplateRepository;
    private collectionService: PublicCollectionService;
@@ -53,10 +55,7 @@ export class PublicTemplateService {
                template.globalFieldIds
             );
 
-         const allFields = this.resolveAllTemplateFields(
-            template,
-            globalFields
-         );
+         const allFields = resolveAllTemplateFields(template, globalFields);
 
          return {
             template,
