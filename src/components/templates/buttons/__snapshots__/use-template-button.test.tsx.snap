@@ -28,7 +28,7 @@ exports[`UseTemplateButton rendering tests with className - rendered test 1`] = 
       />
     </svg>
     <span>
-      Prompt erstellen
+      Prompt anwenden
     </span>
   </button>
 </div>
@@ -62,7 +62,7 @@ exports[`UseTemplateButton rendering tests with fields - rendered test 1`] = `
       />
     </svg>
     <span>
-      Prompt erstellen
+      Prompt anwenden
     </span>
   </button>
 </div>
@@ -96,7 +96,7 @@ exports[`UseTemplateButton rendering tests without fields - rendered test 1`] = 
       />
     </svg>
     <span>
-      Prompt erstellen
+      Prompt anwenden
     </span>
   </button>
 </div>

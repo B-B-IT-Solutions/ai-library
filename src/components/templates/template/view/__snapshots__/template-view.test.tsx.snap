@@ -138,7 +138,7 @@ exports[`TemplateView rendering tests rendered test 1`] = `
                     />
                   </svg>
                   <span>
-                    Prompt erstellen
+                    Prompt anwenden
                   </span>
                 </button>
                 <a

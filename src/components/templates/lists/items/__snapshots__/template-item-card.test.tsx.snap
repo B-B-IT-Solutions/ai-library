@@ -112,7 +112,7 @@ exports[`TemplateItemCard rendering tests viewMode grid - rendered test 1`] = `
             />
           </svg>
           <span>
-            Prompt erstellen
+            Prompt anwenden
           </span>
         </button>
         <div

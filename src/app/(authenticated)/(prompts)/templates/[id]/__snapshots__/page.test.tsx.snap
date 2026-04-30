@@ -142,7 +142,7 @@ exports[`TemplatePage rendering tests templateDescriptor defined - test 1`] = `
                       />
                     </svg>
                     <span>
-                      Prompt erstellen
+                      Prompt anwenden
                     </span>
                   </button>
                   <a

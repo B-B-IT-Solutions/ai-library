@@ -128,7 +128,7 @@ exports[`LibraryDashboard rendering tests LibraryEntries - groups - test 1`] = `
                   />
                 </svg>
                 <span>
-                  Prompt erstellen
+                  Prompt anwenden
                 </span>
               </button>
               <div
@@ -331,7 +331,7 @@ exports[`LibraryDashboard rendering tests LibraryEntries - groups - test 1`] = `
                   />
                 </svg>
                 <span>
-                  Prompt erstellen
+                  Prompt anwenden
                 </span>
               </button>
               <div
@@ -534,7 +534,7 @@ exports[`LibraryDashboard rendering tests LibraryEntries - groups - test 1`] = `
                   />
                 </svg>
                 <span>
-                  Prompt erstellen
+                  Prompt anwenden
                 </span>
               </button>
               <div
@@ -735,7 +735,7 @@ exports[`LibraryDashboard rendering tests LibraryEntries - view grid - test 1`] 
               />
             </svg>
             <span>
-              Prompt erstellen
+              Prompt anwenden
             </span>
           </button>
           <div
@@ -924,7 +924,7 @@ exports[`LibraryDashboard rendering tests LibraryEntries - view grid - test 1`] 
               />
             </svg>
             <span>
-              Prompt erstellen
+              Prompt anwenden
             </span>
           </button>
           <div
@@ -1113,7 +1113,7 @@ exports[`LibraryDashboard rendering tests LibraryEntries - view grid - test 1`] 
               />
             </svg>
             <span>
-              Prompt erstellen
+              Prompt anwenden
             </span>
           </button>
           <div
@@ -1312,7 +1312,7 @@ exports[`LibraryDashboard rendering tests LibraryEntries - view list - test 1`] 
               />
             </svg>
             <span>
-              Prompt erstellen
+              Prompt anwenden
             </span>
           </button>
           <div
@@ -1501,7 +1501,7 @@ exports[`LibraryDashboard rendering tests LibraryEntries - view list - test 1`] 
               />
             </svg>
             <span>
-              Prompt erstellen
+              Prompt anwenden
             </span>
           </button>
           <div
@@ -1690,7 +1690,7 @@ exports[`LibraryDashboard rendering tests LibraryEntries - view list - test 1`] 
               />
             </svg>
             <span>
-              Prompt erstellen
+              Prompt anwenden
             </span>
           </button>
           <div

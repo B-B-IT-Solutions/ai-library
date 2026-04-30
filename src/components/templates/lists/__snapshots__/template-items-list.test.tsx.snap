@@ -136,7 +136,7 @@ exports[`TemplateItemsList rendering tests templateDescriptors with items - test
               />
             </svg>
             <span>
-              Prompt erstellen
+              Prompt anwenden
             </span>
           </button>
           <div
@@ -325,7 +325,7 @@ exports[`TemplateItemsList rendering tests templateDescriptors with items - test
               />
             </svg>
             <span>
-              Prompt erstellen
+              Prompt anwenden
             </span>
           </button>
           <div
@@ -514,7 +514,7 @@ exports[`TemplateItemsList rendering tests templateDescriptors with items - test
               />
             </svg>
             <span>
-              Prompt erstellen
+              Prompt anwenden
             </span>
           </button>
           <div

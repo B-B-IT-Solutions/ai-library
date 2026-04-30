@@ -116,7 +116,7 @@ exports[`TemplateItemsPublic rendering tests view grid - test 1`] = `
               />
             </svg>
             <span>
-              Prompt erstellen
+              Prompt anwenden
             </span>
           </button>
           <div
@@ -305,7 +305,7 @@ exports[`TemplateItemsPublic rendering tests view grid - test 1`] = `
               />
             </svg>
             <span>
-              Prompt erstellen
+              Prompt anwenden
             </span>
           </button>
           <div
@@ -494,7 +494,7 @@ exports[`TemplateItemsPublic rendering tests view grid - test 1`] = `
               />
             </svg>
             <span>
-              Prompt erstellen
+              Prompt anwenden
             </span>
           </button>
           <div
@@ -693,7 +693,7 @@ exports[`TemplateItemsPublic rendering tests view list - test 1`] = `
               />
             </svg>
             <span>
-              Prompt erstellen
+              Prompt anwenden
             </span>
           </button>
           <div
@@ -882,7 +882,7 @@ exports[`TemplateItemsPublic rendering tests view list - test 1`] = `
               />
             </svg>
             <span>
-              Prompt erstellen
+              Prompt anwenden
             </span>
           </button>
           <div
@@ -1071,7 +1071,7 @@ exports[`TemplateItemsPublic rendering tests view list - test 1`] = `
               />
             </svg>
             <span>
-              Prompt erstellen
+              Prompt anwenden
             </span>
           </button>
           <div

@@ -52,7 +52,7 @@ exports[`LibraryEntryViewForm rendering tests categories empty - rendered test 1
               />
             </svg>
             <span>
-              Prompt erstellen
+              Prompt anwenden
             </span>
           </button>
           <a
@@ -294,7 +294,7 @@ exports[`LibraryEntryViewForm rendering tests with categories - rendered test 1`
               />
             </svg>
             <span>
-              Prompt erstellen
+              Prompt anwenden
             </span>
           </button>
           <a
