@@ -26,10 +26,7 @@ type Props = {
 
 type Mode = "fields-form" | "review";
 
-export const CreatePromptFromTemplateButton = ({
-   descriptor,
-   className,
-}: Props) => {
+export const UseTemplateButton = ({ descriptor, className }: Props) => {
    const [isPending, startTransition] = useTransition();
    const [mode, setMode] = useState<Mode | null>(null);
    const [templateData, setTemplateData] =
@@ -119,7 +116,7 @@ export const CreatePromptFromTemplateButton = ({
                "cursor-pointer bg-blue-600 text-white hover:bg-blue-700",
                className
             )}
-            data-testid="create-prompt-from-template-btn"
+            data-testid="use-template-btn"
          >
             {label()}
          </Button>

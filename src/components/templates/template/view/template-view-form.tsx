@@ -4,9 +4,9 @@ import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import { MDRenderer } from "@/components/shared/md";
 import { DPromptTemplateDescriptorWithTemplate } from "@/data/types/domain/prompt.template";
 import {
-   CreatePromptFromTemplateButton,
    EditTemplateButton,
    MoreOptionsButton,
+   UseTemplateButton,
 } from "../../buttons";
 
 import { PromptTextDisplay } from "./prompt-text-display";
@@ -43,7 +43,7 @@ export const TemplateViewForm = ({ descriptor }: Props) => {
                   </span>
                </div>
                <div className="flex shrink-0 items-center gap-2">
-                  <CreatePromptFromTemplateButton descriptor={descriptor} />
+                  <UseTemplateButton descriptor={descriptor} />
                   <EditTemplateButton descriptor={descriptor} />
                   <MoreOptionsButton descriptor={descriptor} />
                </div>
