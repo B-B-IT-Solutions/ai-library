@@ -1,1 +1,1 @@
-export { SettingsRepository } from "./settings.repository";
+export { SettingsRepository } from "./settings.user.repository";

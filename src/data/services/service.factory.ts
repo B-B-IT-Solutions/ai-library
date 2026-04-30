@@ -7,13 +7,13 @@ import {
 import { IubendaService } from "@/data/services/iubenda";
 import { OrderService } from "@/data/services/order";
 import { PromptService } from "@/data/services/prompt";
+import { SettingsService } from "@/data/services/settings";
+import { StripeService } from "@/data/services/stripe";
+import { SubscriptionService } from "@/data/services/subscription";
 import {
    PublicTemplateService,
    TemplateService,
 } from "@/data/services/template";
-import { SettingsService } from "@/data/services/settings";
-import { StripeService } from "@/data/services/stripe";
-import { SubscriptionService } from "@/data/services/subscription";
 import { UserService } from "@/data/services/user";
 import { DbClient } from "@/data/types/db/common";
 

@@ -5,6 +5,7 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
+   DPromptTemplateDataPromptGeneration,
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
@@ -18,6 +19,18 @@ export const getPublicTemplateDescriptorsPage = async (
    } catch (error) {
       console.error(formatError(error));
       return EMPTY_PAGE;
+   }
+};
+
+export const getPromptGenerationTemplateData = async (
+   templateId: string
+): Promise<DPromptTemplateDataPromptGeneration | null> => {
+   try {
+      const service = getService();
+      return await service.getPublicTemplateDataForPromptGeneration(templateId);
+   } catch (error) {
+      console.error(formatError(error));
+      return null;
    }
 };
 

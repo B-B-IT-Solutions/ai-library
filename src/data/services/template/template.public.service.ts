@@ -2,21 +2,27 @@ import { isEmpty } from "es-toolkit/compat";
 
 import { PublicTemplateRepository } from "@/data/repositories/template";
 import {
+   DPromptTemplate,
+   DPromptTemplateDataPromptGeneration,
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
 import { PublicCollectionService } from "../collection";
+import { SettingsService } from "../settings";
 
 export class PublicTemplateService {
    private repository: PublicTemplateRepository;
    private collectionService: PublicCollectionService;
+   private settingService: SettingsService;
 
    constructor(
       repository: PublicTemplateRepository,
-      collectionService: PublicCollectionService
+      collectionService: PublicCollectionService,
+      settingService: SettingsService
    ) {
       this.repository = repository;
       this.collectionService = collectionService;
+      this.settingService = settingService;
    }
 
    async getPublicTemplateDescriptorsPage(
@@ -34,5 +40,37 @@ export class PublicTemplateService {
          }
       }
       throw new Error("Invalid public temmplates query.");
+   }
+
+   async getPublicTemplateDataForPromptGeneration(
+      teamplateId: string
+   ): Promise<DPromptTemplateDataPromptGeneration | null> {
+      const template = await this.getPromptTemplate(teamplateId);
+
+      if (template) {
+         const globalFields =
+            await this.settingService.getGlobalTemplateFieldsByIds(
+               teamplate.userId,
+               template.globalFieldIds
+            );
+
+         const allFields = this.resolveAllTemplateFields(
+            template,
+            globalFields
+         );
+
+         return {
+            template,
+            allFields,
+         };
+      }
+
+      return null;
+   }
+
+   async getPromptTemplate(
+      templateId: string
+   ): Promise<DPromptTemplate | null> {
+      return await this.repository.pGetPromptTemplate(userId, templateId);
    }
 }

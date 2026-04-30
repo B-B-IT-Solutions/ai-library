@@ -6,7 +6,7 @@ import { DeepMockProxy } from "jest-mock-extended";
 import prisma from "@/data/repositories/prisma";
 import { SettingsRepository } from "@/data/repositories/settings";
 
-import { SettingsService } from "./settings.service";
+import { SettingsService } from "./settings.user.service";
 
 const settingsRepo = new SettingsRepository(prisma);
 const settingsRepoMock = settingsRepo as DeepMockProxy<SettingsRepository>;
