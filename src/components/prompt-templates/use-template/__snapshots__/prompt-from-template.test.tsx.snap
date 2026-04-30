@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`PromptFromTemplate rendering tests PromptFromTemplate renders test 1`] = `
+exports[`PromptFromTemplate rendering tests renders test 1`] = `
 <div>
   <form
     class="flex flex-1 flex-col px-6"
@@ -549,11 +549,66 @@ exports[`PromptFromTemplate rendering tests PromptFromTemplate renders test 1`] 
     <div
       class="sticky bottom-0 flex items-center justify-end gap-2 bg-background py-4"
     >
+      <div
+        data-slot="dropdown-menu"
+        data-testid="mock-react-dropdown-menu-root"
+      >
+        <button
+          data-slot="dropdown-menu-trigger"
+          data-testid="open-in-ai-btn"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-external-link h-4 w-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15 3h6v6"
+            />
+            <path
+              d="M10 14 21 3"
+            />
+            <path
+              d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+            />
+          </svg>
+          Öffnen In
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-chevron-down h-3.5 w-3.5 opacity-60"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="m6 9 6 6 6-6"
+            />
+          </svg>
+        </button>
+        <div
+          data-testid="mock-react-dropdown-menu-portal"
+        />
+      </div>
       <button
         data-slot="tooltip-trigger"
         data-state="closed"
         data-testid="copy-prompt-btn"
-        type="button"
+        type="submit"
       >
         <svg
           aria-hidden="true"
@@ -635,68 +690,6 @@ exports[`PromptFromTemplate rendering tests PromptFromTemplate renders test 1`] 
           </div>
         </div>
       </div>
-      <div
-        data-slot="dropdown-menu"
-        data-testid="mock-react-dropdown-menu-root"
-      >
-        <button
-          data-slot="dropdown-menu-trigger"
-          data-testid="open-in-ai-btn"
-          type="button"
-        >
-          <svg
-            aria-hidden="true"
-            class="lucide lucide-external-link h-4 w-4"
-            fill="none"
-            height="24"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-            width="24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M15 3h6v6"
-            />
-            <path
-              d="M10 14 21 3"
-            />
-            <path
-              d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
-            />
-          </svg>
-          Anwenden
-          <svg
-            aria-hidden="true"
-            class="lucide lucide-chevron-down h-3.5 w-3.5 opacity-60"
-            fill="none"
-            height="24"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-            width="24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="m6 9 6 6 6-6"
-            />
-          </svg>
-        </button>
-        <div
-          data-testid="mock-react-dropdown-menu-portal"
-        />
-      </div>
-      <button
-        data-slot="button"
-        data-testid="submit-btn"
-        type="submit"
-      >
-        Prompt erstellen
-      </button>
     </div>
   </form>
 </div>

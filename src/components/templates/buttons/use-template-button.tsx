@@ -10,7 +10,6 @@ import { getPromptGenerationTemplateData } from "@/data/actions/template";
 import {
    DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
-   DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
 import { cn } from "@/lib/utils";
 
@@ -42,16 +41,13 @@ export const UseTemplateButton = ({ descriptor, className }: Props) => {
       setTemplateData(null);
    };
 
-   const composePrompt = async (values: DPromptTemplateFieldValues) => {};
-
    const dialog = () => {
       if (templateData) {
          return (
             <UseTemplateDialog
-               onSubmit={composePrompt}
-               onCancel={handleCancel}
                descriptor={descriptor}
                templateData={templateData}
+               onCancel={handleCancel}
             />
          );
       }

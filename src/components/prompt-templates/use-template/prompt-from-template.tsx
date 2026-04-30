@@ -33,13 +33,11 @@ import { AiTool } from "./type";
 
 type Props = {
    templateData: DPromptTemplateDataPromptGeneration;
-   onSubmit: (values: DPromptTemplateFieldValues) => void;
    recommendedModel?: string;
 };
 
 export const PromptFromTemplate = ({
    templateData,
-   onSubmit,
    recommendedModel,
 }: Props) => {
    const { template, allFields: fields } = templateData;
@@ -87,12 +85,6 @@ export const PromptFromTemplate = ({
 
    const footer = () => (
       <div className="sticky bottom-0 flex items-center justify-end gap-2 bg-background py-4">
-         <CopyButton
-            content={resolvedContent}
-            size="sm"
-            showLabel={true}
-            data-testid="copy-prompt-btn"
-         />
          <DropdownMenu>
             <DropdownMenuTrigger asChild={true}>
                <Button
@@ -103,7 +95,7 @@ export const PromptFromTemplate = ({
                   data-testid="open-in-ai-btn"
                >
                   <ExternalLink className="h-4 w-4" />
-                  Anwenden
+                  Öffnen In
                   <ChevronDown className="h-3.5 w-3.5 opacity-60" />
                </Button>
             </DropdownMenuTrigger>
@@ -131,14 +123,14 @@ export const PromptFromTemplate = ({
                ))}
             </DropdownMenuContent>
          </DropdownMenu>
-         <Button
+         <CopyButton
+            content={resolvedContent}
             type="submit"
             size="sm"
-            className="cursor-pointer"
-            data-testid="submit-btn"
-         >
-            Prompt erstellen
-         </Button>
+            variant="default"
+            showLabel={true}
+            data-testid="copy-prompt-btn"
+         />
       </div>
    );
 
