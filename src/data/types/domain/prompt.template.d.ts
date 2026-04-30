@@ -3,7 +3,7 @@ import z from "zod";
 import {
    promptTemplateFieldSchema,
    updatePromptTemplateSchema,
-} from "@/data/types/validators/prompt-template";
+} from "@/data/types/validators/template";
 import { Page, PageQuery } from "../common";
 
 export type DTemplateDescriptorsPageQuery =
