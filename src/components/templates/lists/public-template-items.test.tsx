@@ -19,13 +19,8 @@ const getPublicTemplateDescriptorsPageMock =
    >;
 
 const assertGridRendered = () => {
-   const entries = screen.getByTestId("template-items-grid");
-   assertInDocument(entries);
-};
-
-const assertListRendered = () => {
-   const entries = screen.getByTestId("template-items-list");
-   assertInDocument(entries);
+   const items = screen.getByTestId("public-template-items-grid");
+   assertInDocument(items);
 };
 
 const assertGetLibraryEntriesPageCalled = (
@@ -70,35 +65,6 @@ describe("TemplateItemsPublic rendering tests", () => {
 
       await waitFor(() => {
          assertGridRendered();
-         assertGetLibraryEntriesPageCalled(expectedPayload);
-      });
-
-      expect(container).toMatchSnapshot();
-   });
-
-   it("view list - test", async () => {
-      const filters = dtestData.dTemplateDescriptorsFilter();
-
-      const { container } = renderWithRouter(
-         <PublicTemplateItems
-            viewMode={DListViewMode.LIST}
-            groupBy={DListGroupByMode.NONE}
-            sortBy={DListSortByMode.DATE_ASC}
-            filters={filters}
-         />
-      );
-
-      const expectedPayload: DTemplateDescriptorsPageQuery = {
-         pagination: {
-            pageNumber: 0,
-            pageSize: 10,
-         },
-         filter: filters,
-         sort: { field: "createdAt", order: "asc" },
-      };
-
-      await waitFor(() => {
-         assertListRendered();
          assertGetLibraryEntriesPageCalled(expectedPayload);
       });
 

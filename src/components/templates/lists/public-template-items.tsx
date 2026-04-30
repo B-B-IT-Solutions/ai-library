@@ -13,7 +13,7 @@ import {
 } from "@/data/types/domain/common";
 import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
 
-import { TemplateItemsGrid } from "./template-items-grid";
+import { PublicTemplateItemsGrid } from "./public-template-items-grid";
 
 type Props = {
    viewMode: DListViewMode;
@@ -57,7 +57,7 @@ export const PublicTemplateItems = ({
          next={fetchNextPage}
          threshold={0.7}
       >
-         <TemplateItemsGrid descriptors={entries} collections={[]} />
+         <PublicTemplateItemsGrid descriptors={entries} collections={[]} />
       </InfiniteScroll>
    );
 };

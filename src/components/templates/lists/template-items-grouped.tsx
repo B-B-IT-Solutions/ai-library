@@ -3,8 +3,8 @@
 import { useMemo } from "react";
 import { groupBy as lodashGroupBy, map } from "es-toolkit/compat";
 
-import { DListGroupByMode } from "@/data/types/domain/common";
 import { DCollection } from "@/data/types/domain/collection";
+import { DListGroupByMode } from "@/data/types/domain/common";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 
 import { TemplateItemCard } from "./items/template-item-card";
