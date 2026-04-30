@@ -13,7 +13,7 @@ import {
 } from "@/data/types/domain/common";
 import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
 
-import { PublicTemplateItemsGrid } from "./public-template-items-grid";
+import { PublicTemplateItemsGrid } from "./template-items-grid-public";
 
 type Props = {
    viewMode: DListViewMode;

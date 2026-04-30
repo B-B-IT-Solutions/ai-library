@@ -12,7 +12,7 @@ import mockRouter from "next-router-mock";
 
 import { getTemplateCollectionIds } from "@/data/actions/collection";
 
-import { PublicTemplateItemCard } from "./public-template-item-card";
+import { PublicTemplateItemCard } from "./template-item-card-public";
 
 const getTemplateCollectionIdsMock =
    getTemplateCollectionIds as jest.MockedFunction<

@@ -6,4 +6,4 @@ export { DownloadTemplateButton } from "./download-template-button";
 export { EditTemplateButton } from "./edit-template-button";
 export { MoreOptionsButton } from "./more-options-button";
 
-export { PublicUseTemplateButton } from "./public-use-template-button";
+export { PublicUseTemplateButton } from "./use-template-button-public";

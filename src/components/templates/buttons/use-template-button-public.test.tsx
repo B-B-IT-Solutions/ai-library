@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 import { getPublicPromptGenerationTemplateData } from "@/data/actions/template";
 
-import { PublicUseTemplateButton } from "./public-use-template-button";
+import { PublicUseTemplateButton } from "./use-template-button-public";
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
@@ -83,7 +83,7 @@ describe("PublicUseTemplateButton rendering tests", () => {
          assertRendered();
       });
 
-      const btn = screen.getByTestId("use-template-btn");
+      const btn = screen.getByTestId("public-use-template-btn");
       expect(btn).toHaveClass("custom-class");
       expect(container).toMatchSnapshot();
    });
@@ -105,7 +105,7 @@ describe("PublicUseTemplateButton functionality - tests", () => {
          assertRendered();
       });
 
-      const useTemplateBtn = screen.getByTestId("use-template-btn");
+      const useTemplateBtn = screen.getByTestId("public-use-template-btn");
       await userEvent.click(useTemplateBtn);
 
       await waitFor(() => {
@@ -136,7 +136,7 @@ describe("PublicUseTemplateButton functionality - tests", () => {
          assertRendered();
       });
 
-      const createPromptBtn = screen.getByTestId("use-template-btn");
+      const createPromptBtn = screen.getByTestId("public-use-template-btn");
       await userEvent.click(createPromptBtn);
 
       await waitFor(() => {
@@ -156,7 +156,7 @@ describe("PublicUseTemplateButton functionality - tests", () => {
          assertRendered();
       });
 
-      const createPromptBtn = screen.getByTestId("use-template-btn");
+      const createPromptBtn = screen.getByTestId("public-use-template-btn");
       await userEvent.click(createPromptBtn);
 
       await waitFor(() => {
