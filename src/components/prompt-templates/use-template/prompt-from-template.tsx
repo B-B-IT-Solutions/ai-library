@@ -79,9 +79,7 @@ export const PromptFromTemplate = ({
    const recommended = getRecommendedAiTool(recommendedModel);
    const otherServices = getOtherAiTools(recommended);
 
-   const onSubmitInternal: SubmitHandler<DFieldsType> = (data) => {
-      onSubmit(data as DPromptTemplateFieldValues);
-   };
+   const onSubmitInternal: SubmitHandler<DFieldsType> = (data) => {};
 
    const footer = () => (
       <div className="sticky bottom-0 flex items-center justify-end gap-2 bg-background py-4">
