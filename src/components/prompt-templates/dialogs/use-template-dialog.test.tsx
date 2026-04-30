@@ -5,7 +5,7 @@ import { assertInDocument, dtestData } from "@tests";
 
 import { DPromptTemplateFieldValues } from "@/data/types/domain/prompt.template";
 
-import { CreatePromptFromTemplateDialog } from "./create-prompt-from-template-dialog";
+import { UseTemplateDialog } from "./use-template-dialog";
 
 const assertDialogRendered = () => {
    const dialog = screen.getByTestId("create-prompt-from-template-dialog");
@@ -19,7 +19,7 @@ const assertDialogRendered = () => {
    assertInDocument(closeBtn);
 };
 
-describe("CreatePromptFromTemplateDialog rendering tests", () => {
+describe("UseTemplateDialog rendering tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -31,7 +31,7 @@ describe("CreatePromptFromTemplateDialog rendering tests", () => {
       const cancelFn = jest.fn();
 
       const { container } = render(
-         <CreatePromptFromTemplateDialog
+         <UseTemplateDialog
             descriptor={descriptor}
             templateData={templateData}
             onSubmit={submitFn}
@@ -54,7 +54,7 @@ describe("CreatePromptFromTemplateDialog rendering tests", () => {
       const cancelFn = jest.fn();
 
       const { container } = render(
-         <CreatePromptFromTemplateDialog
+         <UseTemplateDialog
             descriptor={descriptor}
             templateData={templateData}
             onSubmit={submitFn}
@@ -70,7 +70,7 @@ describe("CreatePromptFromTemplateDialog rendering tests", () => {
    });
 });
 
-describe("CreatePromptFromTemplateDialog functionality tests", () => {
+describe("UseTemplateDialog functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -85,7 +85,7 @@ describe("CreatePromptFromTemplateDialog functionality tests", () => {
       };
 
       render(
-         <CreatePromptFromTemplateDialog
+         <UseTemplateDialog
             descriptor={descriptor}
             templateData={templateData}
             onSubmit={submitFormCallback}
@@ -118,7 +118,7 @@ describe("CreatePromptFromTemplateDialog functionality tests", () => {
       const cancelFn = jest.fn();
 
       render(
-         <CreatePromptFromTemplateDialog
+         <UseTemplateDialog
             descriptor={descriptor}
             templateData={templateData}
             onSubmit={submitFn}

@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { Loader, Plus } from "lucide-react";
 import { toast } from "sonner";
 
-import { CreatePromptFromTemplateDialog } from "@/components/prompt-templates";
+import { UseTemplateDialog } from "@/components/prompt-templates";
 import { CreatePromptDialog } from "@/components/prompts";
 import { Button } from "@/components/shadcn/button";
 import {
@@ -77,7 +77,7 @@ export const UseTemplateButton = ({ descriptor, className }: Props) => {
       }
       if (mode === "fields-form" && templateData) {
          return (
-            <CreatePromptFromTemplateDialog
+            <UseTemplateDialog
                onSubmit={composePrompt}
                onCancel={handleCancel}
                descriptor={descriptor}
