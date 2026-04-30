@@ -1,6 +1,6 @@
 import { filter, map } from "es-toolkit/compat";
 
-import { PromptTemplateRepository } from "@/data/repositories/template";
+import { TemplateRepository } from "@/data/repositories/template";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
    DPromptTemplate,
@@ -23,11 +23,11 @@ type DGetPromptTemplatesDescriptorsParams = {
 };
 
 export class TemplateService {
-   private repository: PromptTemplateRepository;
+   private repository: TemplateRepository;
    private settingService: SettingsService;
 
    constructor(
-      repository: PromptTemplateRepository,
+      repository: TemplateRepository,
       settingsService: SettingsService
    ) {
       this.repository = repository;

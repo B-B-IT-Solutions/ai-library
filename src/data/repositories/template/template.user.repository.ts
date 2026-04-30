@@ -43,7 +43,7 @@ type PGetPromptTemplateDescriptorsParams = {
    categories?: string[];
 };
 
-export class PromptTemplateRepository {
+export class TemplateRepository {
    private prisma: DbClient;
 
    constructor(prisma: DbClient) {
