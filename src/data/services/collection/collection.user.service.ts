@@ -106,22 +106,22 @@ export class CollectionService {
       );
    }
 
-   async getEntryCollectionIds(
+   async getTemplateCollectionIds(
       userId: string,
       entryId: string
    ): Promise<string[]> {
-      return await this.collectionRepository.pGetEntryCollectionIds(
+      return await this.collectionRepository.pGetTemplateCollectionIds(
          userId,
          entryId
       );
    }
 
-   async updateEntryCollections(
+   async updateTemplateCollections(
       userId: string,
       entryId: string,
       collectionIds: string[]
    ): Promise<void> {
-      await this.collectionRepository.pUpdateEntryCollections(
+      await this.collectionRepository.pUpdateTemplateCollections(
          userId,
          entryId,
          collectionIds

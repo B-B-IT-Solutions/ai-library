@@ -24,7 +24,7 @@ import {
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
-import { updatePromptTemplateSchema } from "@/data/types/validators/prompt-template";
+import { updateTemplateSchema } from "@/data/types/validators/template";
 
 import {
    BasicInfo,
@@ -48,7 +48,7 @@ export const TemplateEditForm = ({ descriptor, globalFields }: Props) => {
    const isEdit = !!descriptor;
 
    const form = useForm<DPromptTemplateUpdate>({
-      resolver: zodResolver(updatePromptTemplateSchema),
+      resolver: zodResolver(updateTemplateSchema),
       defaultValues: initPromptTempalte(descriptor),
    });
 

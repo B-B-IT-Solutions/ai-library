@@ -17,6 +17,8 @@ export class PublicCollectionService {
    }
 
    async ensureCollectionsPublic(collectionIds: string[]): Promise<boolean> {
-      return true;
+      return await this.collectionRepository.pEnsureCollectionsPublic(
+         collectionIds
+      );
    }
 }

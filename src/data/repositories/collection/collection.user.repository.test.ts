@@ -9,6 +9,8 @@ import {
    LibraryCollectionCreateArgs,
    LibraryCollectionCreateInput,
    LibraryCollectionDeleteArgs,
+   LibraryCollectionEntryCreateManyArgs,
+   LibraryCollectionEntryCreateManyInput,
    LibraryCollectionEntryDeleteManyArgs,
    LibraryCollectionEntryFindManyArgs,
    LibraryCollectionEntryUpsertArgs,
@@ -19,7 +21,7 @@ import {
 } from "@/generated/prisma/models";
 
 import { toDCollection, toDCollections } from "./collection.mapper";
-import { CollectionRepository } from "./collection.repository";
+import { CollectionRepository } from "./collection.user.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const collectionRepository = new CollectionRepository(prismaMock);
@@ -459,6 +461,7 @@ describe("pAddTemplateToCollection tests", () => {
          create: {
             collectionId,
             templateDescriptorId,
+            userId,
          },
          update: {},
       };
@@ -501,6 +504,161 @@ describe("pRemoveTemplateFromCollection tests", () => {
       ).toHaveBeenCalledTimes(1);
       expect(prismaMock.libraryCollectionEntry.deleteMany).toHaveBeenCalledWith(
          expectedArgs
+      );
+   });
+});
+
+describe("pGetTemplateCollectionIds tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("no entries - returns empty array - test", async () => {
+      const userId = "user-id-1";
+      const descriptorId = "descriptor-id-1";
+
+      prismaMock.libraryCollectionEntry.findMany.mockResolvedValue([]);
+
+      const result = await collectionRepository.pGetTemplateCollectionIds(
+         userId,
+         descriptorId
+      );
+
+      const expectedArgs: LibraryCollectionEntryFindManyArgs = {
+         where: {
+            userId,
+            templateDescriptorId: descriptorId,
+         },
+         select: { collectionId: true },
+      };
+
+      expect(result).toEqual([]);
+      expect(prismaMock.libraryCollectionEntry.findMany).toHaveBeenCalledTimes(
+         1
+      );
+      expect(prismaMock.libraryCollectionEntry.findMany).toHaveBeenCalledWith(
+         expectedArgs
+      );
+   });
+
+   it("collectionIds retrieved - test", async () => {
+      const userId = "user-id-1";
+      const descriptorId = "descriptor-id-1";
+
+      const entries = ptestData.pTemplateCollectionEntries();
+      prismaMock.libraryCollectionEntry.findMany.mockResolvedValue(entries);
+
+      const result = await collectionRepository.pGetTemplateCollectionIds(
+         userId,
+         descriptorId
+      );
+
+      const expectedResult = map(entries, (e) => e.collectionId);
+
+      const expectedArgs: LibraryCollectionEntryFindManyArgs = {
+         where: {
+            userId,
+            templateDescriptorId: descriptorId,
+         },
+         select: { collectionId: true },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.libraryCollectionEntry.findMany).toHaveBeenCalledTimes(
+         1
+      );
+      expect(prismaMock.libraryCollectionEntry.findMany).toHaveBeenCalledWith(
+         expectedArgs
+      );
+   });
+});
+
+describe("pUpdateTemplateCollections tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("empty collectionIds - only deletes - test", async () => {
+      const userId = "user-id-1";
+      const descriptorId = "descriptor-id-1";
+
+      await collectionRepository.pUpdateTemplateCollections(
+         userId,
+         descriptorId,
+         []
+      );
+
+      const expectedDeleteArgs: LibraryCollectionEntryDeleteManyArgs = {
+         where: {
+            userId,
+            templateDescriptorId: descriptorId,
+         },
+      };
+
+      const expectedCreateArgs: LibraryCollectionEntryCreateManyArgs = {
+         data: [],
+      };
+
+      expect(
+         prismaMock.libraryCollectionEntry.deleteMany
+      ).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryCollectionEntry.deleteMany).toHaveBeenCalledWith(
+         expectedDeleteArgs
+      );
+      expect(
+         prismaMock.libraryCollectionEntry.createMany
+      ).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryCollectionEntry.createMany).toHaveBeenCalledWith(
+         expectedCreateArgs
+      );
+   });
+
+   it("collections updated - test", async () => {
+      const userId = "user-id-1";
+      const descriptorId = "descriptor-id-1";
+      const collectionIds = ["collection-id-1", "collection-id-2"];
+
+      await collectionRepository.pUpdateTemplateCollections(
+         userId,
+         descriptorId,
+         collectionIds
+      );
+
+      const expectedDeleteArgs: LibraryCollectionEntryDeleteManyArgs = {
+         where: {
+            userId,
+            templateDescriptorId: descriptorId,
+         },
+      };
+
+      const expectedCreateInputs: LibraryCollectionEntryCreateManyInput[] = [
+         {
+            userId,
+            templateDescriptorId: descriptorId,
+            collectionId: "collection-id-1",
+         },
+         {
+            userId,
+            templateDescriptorId: descriptorId,
+            collectionId: "collection-id-2",
+         },
+      ];
+
+      const expectedCreateArgs: LibraryCollectionEntryCreateManyArgs = {
+         data: expectedCreateInputs,
+      };
+
+      expect(
+         prismaMock.libraryCollectionEntry.deleteMany
+      ).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryCollectionEntry.deleteMany).toHaveBeenCalledWith(
+         expectedDeleteArgs
+      );
+      expect(
+         prismaMock.libraryCollectionEntry.createMany
+      ).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryCollectionEntry.createMany).toHaveBeenCalledWith(
+         expectedCreateArgs
       );
    });
 });

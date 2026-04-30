@@ -6,6 +6,8 @@ import {
    LibraryCollectionCreateArgs,
    LibraryCollectionCreateInput,
    LibraryCollectionDeleteArgs,
+   LibraryCollectionEntryCreateManyArgs,
+   LibraryCollectionEntryCreateManyInput,
    LibraryCollectionEntryDeleteManyArgs,
    LibraryCollectionEntryFindManyArgs,
    LibraryCollectionEntryUpsertArgs,
@@ -213,6 +215,7 @@ export class CollectionRepository {
          create: {
             collectionId,
             templateDescriptorId,
+            userId,
          },
          update: {},
       } satisfies LibraryCollectionEntryUpsertArgs;
@@ -238,33 +241,53 @@ export class CollectionRepository {
       await this.prisma.libraryCollectionEntry.deleteMany(args);
    }
 
-   async pGetEntryCollectionIds(
+   async pGetTemplateCollectionIds(
       userId: string,
       descriptorId: string
    ): Promise<string[]> {
+      const args = {
+         where: {
+            userId,
+            templateDescriptorId: descriptorId,
+         },
+         select: { collectionId: true },
+      } satisfies LibraryCollectionEntryFindManyArgs;
+
       const collectionEntries =
-         await this.prisma.libraryCollectionEntry.findMany({
-            where: { templateDescriptorId: descriptorId },
-            select: { collectionId: true },
-         });
+         await this.prisma.libraryCollectionEntry.findMany(args);
 
       return map(collectionEntries, (ce) => ce.collectionId);
    }
 
-   async pUpdateEntryCollections(
+   async pUpdateTemplateCollections(
       userId: string,
       descriptorId: string,
       collectionIds: string[]
    ): Promise<void> {
-      await this.prisma.libraryCollectionEntry.deleteMany({
-         where: { templateDescriptorId: descriptorId },
-      });
-
-      await this.prisma.libraryCollectionEntry.createMany({
-         data: map(collectionIds, (collectionId) => ({
+      const deleteArgs = {
+         where: {
+            userId,
             templateDescriptorId: descriptorId,
-            collectionId,
-         })),
-      });
+         },
+      } satisfies LibraryCollectionEntryDeleteManyArgs;
+
+      await this.prisma.libraryCollectionEntry.deleteMany(deleteArgs);
+
+      const createInputs: LibraryCollectionEntryCreateManyInput[] = map(
+         collectionIds,
+         (collectionId) => {
+            return {
+               templateDescriptorId: descriptorId,
+               collectionId,
+               userId,
+            };
+         }
+      );
+
+      const createArgs = {
+         data: createInputs,
+      } satisfies LibraryCollectionEntryCreateManyArgs;
+
+      await this.prisma.libraryCollectionEntry.createMany(createArgs);
    }
 }

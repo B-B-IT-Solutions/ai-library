@@ -4,7 +4,6 @@ import { flatMap, map, uniq } from "es-toolkit/compat";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { PromptTemplateDescriptorWithCategories } from "@/data/types/db/prompt.template";
 import {
    DPromptTemplateFieldType,
    DPromptTemplateFieldUpdate,
@@ -30,12 +29,12 @@ import {
    toDPromptTemplateDescriptor,
    toDPromptTemplateDescriptors,
    toDPromptTemplateDescriptorWithTemplate,
-} from "./prompt.template.mapper";
-import { PromptTemplateRepository } from "./prompt.template.repository";
+} from "./template.mapper";
+import { TemplateRepository } from "./template.user.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
-const repository = new PromptTemplateRepository(prismaMock);
+const repository = new TemplateRepository(prismaMock);
 
 describe("pGetTemplateDescriptorsPage tests", () => {
    beforeEach(() => {

@@ -7,7 +7,7 @@ import { map } from "es-toolkit/compat";
 import { DeepMockProxy } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { PromptTemplateRepository } from "@/data/repositories/template";
+import { TemplateRepository } from "@/data/repositories/template";
 import { DPromptUpdate } from "@/data/types/domain/prompt";
 import {
    DPromptTemplateDataPromptGeneration,
@@ -19,16 +19,15 @@ import { FieldsValidationResult, TemplateEngine } from "@/lib/template";
 import { ServiceFactory } from "../service.factory";
 import { SettingsService } from "../settings";
 
-import { TemplateService } from "./prompt.template.service";
+import { TemplateService } from "./template.user.service";
 
 const serviceFactory = new ServiceFactory(prisma);
 const settingsService = serviceFactory.getSettingsService();
 
 const settingsServiceMock = settingsService as DeepMockProxy<SettingsService>;
 
-const templateRepo = new PromptTemplateRepository(prisma);
-const templateRepoMock =
-   templateRepo as DeepMockProxy<PromptTemplateRepository>;
+const templateRepo = new TemplateRepository(prisma);
+const templateRepoMock = templateRepo as DeepMockProxy<TemplateRepository>;
 
 const templateService = new TemplateService(
    templateRepoMock,

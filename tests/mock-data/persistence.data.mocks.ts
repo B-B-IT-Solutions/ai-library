@@ -395,6 +395,7 @@ export const pTemplateCollectionEntry = (index = 1): LibraryCollectionEntry => {
       id: `f25ed912-b2f0-4a40-876c-44dae253446${index}`,
       collectionId: `457bf695-6f74-44aa-9b3a-e179ea9e817${index}`,
       templateDescriptorId: `334db648-f300-4284-8149-075ff465d75${index}`,
+      userId: `a1b2c3d4-e5f6-7890-abcd-ef1234567890`,
       addedAt: new Date("2025-09-27"),
    };
 };

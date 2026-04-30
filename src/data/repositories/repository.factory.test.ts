@@ -5,10 +5,10 @@ import { CollectionRepository, PublicCollectionRepository } from "./collection";
 import { OrderRepository } from "./order";
 import { ProductRepository } from "./product";
 import { PromptRepository } from "./prompt";
-import { PromptTemplateRepository, PublicTemplateRepository } from "./template";
 import { RepositoryFactory } from "./repository.factory";
 import { SettingsRepository } from "./settings";
 import { SubscriptionRepository } from "./subscription";
+import { PublicTemplateRepository, TemplateRepository } from "./template";
 import { UserRepository } from "./user";
 
 describe("RepositoryFactory tests", () => {
@@ -114,7 +114,7 @@ describe("RepositoryFactory tests", () => {
    describe("templateRepository tests", () => {
       it("new instance - test", () => {
          const repository = factory.templateRepository();
-         expect(repository).toBeInstanceOf(PromptTemplateRepository);
+         expect(repository).toBeInstanceOf(TemplateRepository);
       });
 
       it("existing instance - test", () => {

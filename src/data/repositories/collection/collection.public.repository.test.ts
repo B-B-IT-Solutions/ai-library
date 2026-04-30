@@ -1,9 +1,12 @@
 import { PrismaClient } from "@prisma/client";
-import { ptestData } from "@tests";
+import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
 
 import prisma from "@/data/repositories/prisma";
-import { LibraryCollectionFindUniqueArgs } from "@/generated/prisma/models";
+import {
+   LibraryCollectionCountArgs,
+   LibraryCollectionFindUniqueArgs,
+} from "@/generated/prisma/models";
 
 import { toDCollection } from "./collection.mapper";
 import { PublicCollectionRepository } from "./collection.public.repository";
@@ -71,6 +74,65 @@ describe("pGetPublicCollectionByToken tests", () => {
       expect(result).toEqual(expectedResult);
       expect(prismaMock.libraryCollection.findUnique).toHaveBeenCalledTimes(1);
       expect(prismaMock.libraryCollection.findUnique).toHaveBeenCalledWith(
+         expectedArgs
+      );
+   });
+});
+
+describe("pEnsureCollectionsPublic tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("empty array - test", async () => {
+      const result = await collectionRepository.pEnsureCollectionsPublic([]);
+
+      expect(result).toBe(false);
+      expect(prismaMock.libraryCollection.count).not.toHaveBeenCalled();
+   });
+
+   it("not all collections public - test", async () => {
+      const collectionIds = dtestData.dCollectionIds();
+      prismaMock.libraryCollection.count.mockResolvedValue(
+         collectionIds.length - 1
+      );
+
+      const result =
+         await collectionRepository.pEnsureCollectionsPublic(collectionIds);
+
+      const expectedArgs: LibraryCollectionCountArgs = {
+         where: {
+            id: { in: collectionIds },
+            isPublic: true,
+         },
+      };
+
+      expect(result).toBe(false);
+      expect(prismaMock.libraryCollection.count).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryCollection.count).toHaveBeenCalledWith(
+         expectedArgs
+      );
+   });
+
+   it("all collections public - test", async () => {
+      const collectionIds = dtestData.dCollectionIds();
+      prismaMock.libraryCollection.count.mockResolvedValue(
+         collectionIds.length
+      );
+
+      const result =
+         await collectionRepository.pEnsureCollectionsPublic(collectionIds);
+
+      const expectedArgs: LibraryCollectionCountArgs = {
+         where: {
+            id: { in: collectionIds },
+            isPublic: true,
+         },
+      };
+
+      expect(result).toBe(true);
+      expect(prismaMock.libraryCollection.count).toHaveBeenCalledTimes(1);
+      expect(prismaMock.libraryCollection.count).toHaveBeenCalledWith(
          expectedArgs
       );
    });

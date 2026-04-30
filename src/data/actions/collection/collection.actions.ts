@@ -223,7 +223,7 @@ export const setCollectionPublic = async (
    }
 };
 
-export const getEntryCollectionIds = async (
+export const getTemplateCollectionIds = async (
    entryId: string
 ): Promise<string[]> => {
    try {
@@ -233,14 +233,14 @@ export const getEntryCollectionIds = async (
 
       const user = await requireUser();
       const service = getService();
-      return await service.getEntryCollectionIds(user.id, entryId);
+      return await service.getTemplateCollectionIds(user.id, entryId);
    } catch (error) {
       console.error(formatError(error));
       return [];
    }
 };
 
-export const updateEntryCollections = async (
+export const updateTemplateCollections = async (
    entryId: string,
    collectionIds: string[]
 ): Promise<ActionResult> => {
@@ -251,7 +251,7 @@ export const updateEntryCollections = async (
 
       const user = await requireUser();
       const service = getService();
-      await service.updateEntryCollections(user.id, entryId, collectionIds);
+      await service.updateTemplateCollections(user.id, entryId, collectionIds);
 
       return {
          success: true,

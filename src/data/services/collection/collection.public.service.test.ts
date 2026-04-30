@@ -37,3 +37,41 @@ describe("getPublicCollectionByToken tests", () => {
       ).toHaveBeenCalledWith(token);
    });
 });
+
+describe("ensureCollectionsPublic tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("collections - public true - test", async () => {
+      const collectionIds = dtestData.dCollectionIds();
+      collectionRepoMock.pEnsureCollectionsPublic.mockResolvedValue(true);
+
+      const result =
+         await collectionService.ensureCollectionsPublic(collectionIds);
+
+      expect(result).toEqual(true);
+      expect(collectionRepoMock.pEnsureCollectionsPublic).toHaveBeenCalledTimes(
+         1
+      );
+      expect(collectionRepoMock.pEnsureCollectionsPublic).toHaveBeenCalledWith(
+         collectionIds
+      );
+   });
+
+   it("collections - public false - test", async () => {
+      const collectionIds = dtestData.dCollectionIds();
+      collectionRepoMock.pEnsureCollectionsPublic.mockResolvedValue(false);
+
+      const result =
+         await collectionService.ensureCollectionsPublic(collectionIds);
+
+      expect(result).toEqual(false);
+      expect(collectionRepoMock.pEnsureCollectionsPublic).toHaveBeenCalledTimes(
+         1
+      );
+      expect(collectionRepoMock.pEnsureCollectionsPublic).toHaveBeenCalledWith(
+         collectionIds
+      );
+   });
+});

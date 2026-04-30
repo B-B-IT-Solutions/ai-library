@@ -15,11 +15,11 @@ import {
    getCollectionById,
    getCollections,
    getCollectionTemplateIds,
-   getEntryCollectionIds,
+   getTemplateCollectionIds,
    removeTemplateFromCollection,
    setCollectionPublic,
    updateCollection,
-   updateEntryCollections,
+   updateTemplateCollections,
 } from "./collection.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
@@ -37,9 +37,9 @@ const sSetCollectionPublic = CollectionService.prototype.setCollectionPublic;
 const sGetCollectionTemplateIds =
    CollectionService.prototype.getCollectionTemplateIds;
 const sGetEntryCollectionIds =
-   CollectionService.prototype.getEntryCollectionIds;
+   CollectionService.prototype.getTemplateCollectionIds;
 const sUpdateEntryCollections =
-   CollectionService.prototype.updateEntryCollections;
+   CollectionService.prototype.updateTemplateCollections;
 
 const sGetCollectionsMock = sGetCollections as jest.MockedFunction<
    typeof sGetCollections
@@ -883,7 +883,7 @@ describe("setCollectionPublic tests", () => {
    });
 });
 
-describe("getEntryCollectionIds tests", () => {
+describe("getTemplateCollectionIds tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -893,23 +893,23 @@ describe("getEntryCollectionIds tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("getEntryCollectionIds - invalid UUID - test", async () => {
+   it("invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
 
-      const result = await getEntryCollectionIds(invalidId);
+      const result = await getTemplateCollectionIds(invalidId);
 
       expect(result).toEqual([]);
       expect(requireUserMock).not.toHaveBeenCalled();
       expect(sGetEntryCollectionIdsMock).not.toHaveBeenCalled();
    });
 
-   it("getEntryCollectionIds - user undefined - test", async () => {
+   it("user undefined - test", async () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
 
       const entryId = "123e4567-e89b-12d3-a456-426614174000";
 
-      const result = await getEntryCollectionIds(entryId);
+      const result = await getTemplateCollectionIds(entryId);
 
       expect(result).toEqual([]);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
@@ -918,7 +918,7 @@ describe("getEntryCollectionIds tests", () => {
       expect(console.error).toHaveBeenCalledWith(error.message);
    });
 
-   it("getEntryCollectionIds - collectionIds retrieved - test", async () => {
+   it("collectionIds retrieved - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -927,7 +927,7 @@ describe("getEntryCollectionIds tests", () => {
 
       const entryId = "123e4567-e89b-12d3-a456-426614174000";
 
-      const result = await getEntryCollectionIds(entryId);
+      const result = await getTemplateCollectionIds(entryId);
 
       expect(result).toEqual(collectionIds);
       expect(requireUserMock).toHaveBeenCalledTimes(1);
@@ -936,7 +936,7 @@ describe("getEntryCollectionIds tests", () => {
    });
 });
 
-describe("updateEntryCollections tests", () => {
+describe("updateTemplateCollections tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       jest.spyOn(console, "error").mockImplementation(() => {});
@@ -946,11 +946,11 @@ describe("updateEntryCollections tests", () => {
       jest.restoreAllMocks();
    });
 
-   it("updateEntryCollections - invalid UUID - test", async () => {
+   it("invalid UUID - test", async () => {
       const invalidId = "invalid-uuid-1";
 
       const collectionsId = dtestData.dCollectionIds();
-      const result = await updateEntryCollections(invalidId, collectionsId);
+      const result = await updateTemplateCollections(invalidId, collectionsId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -962,14 +962,14 @@ describe("updateEntryCollections tests", () => {
       expect(sUpdateEntryCollectionsMock).not.toHaveBeenCalled();
    });
 
-   it("updateEntryCollections - user undefined - test", async () => {
+   it("user undefined - test", async () => {
       const error = new Error("Unknow user");
       requireUserMock.mockRejectedValue(error);
 
       const entryId = "123e4567-e89b-12d3-a456-426614174000";
       const collectionsId = dtestData.dCollectionIds();
 
-      const result = await updateEntryCollections(entryId, collectionsId);
+      const result = await updateTemplateCollections(entryId, collectionsId);
 
       const expectedResult: ActionResult = {
          success: false,
@@ -981,7 +981,7 @@ describe("updateEntryCollections tests", () => {
       expect(sUpdateEntryCollectionsMock).not.toHaveBeenCalled();
    });
 
-   it("updateEntryCollections - success - test", async () => {
+   it("success - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -990,7 +990,7 @@ describe("updateEntryCollections tests", () => {
       const entryId = "123e4567-e89b-12d3-a456-426614174000";
       const collectionsId = dtestData.dCollectionIds();
 
-      const result = await updateEntryCollections(entryId, collectionsId);
+      const result = await updateTemplateCollections(entryId, collectionsId);
 
       const expectedResult: ActionResult = {
          success: true,
@@ -1006,7 +1006,7 @@ describe("updateEntryCollections tests", () => {
       );
    });
 
-   it("updateEntryCollections - error - test", async () => {
+   it("error - test", async () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
@@ -1017,7 +1017,7 @@ describe("updateEntryCollections tests", () => {
       const entryId = "123e4567-e89b-12d3-a456-426614174000";
       const collectionsId = dtestData.dCollectionIds();
 
-      const result = await updateEntryCollections(entryId, collectionsId);
+      const result = await updateTemplateCollections(entryId, collectionsId);
 
       const expectedResult: ActionResult = {
          success: false,

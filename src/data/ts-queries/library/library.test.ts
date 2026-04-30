@@ -18,9 +18,9 @@ import {
    createCollection,
    deleteCollection,
    getCollections,
-   getEntryCollectionIds,
+   getTemplateCollectionIds,
    updateCollection,
-   updateEntryCollections,
+   updateTemplateCollections,
 } from "@/data/actions/collection";
 import { DCollection, DCollectionUpdate } from "@/data/types/domain/collection";
 import { ActionResult } from "@/data/types/utils";
@@ -29,14 +29,14 @@ import {
    createCollectionOptions,
    deleteCollectionOptions,
    loadCollectionsOptions,
-   loadEntryCollectionIdsOptions,
+   loadTemplateCollectionIdsOptions,
    preloadCollectionsOptions,
-   updateEntryCollectionsOptions,
+   updateTemplateCollectionsOptions,
    useCreateCollection,
    useDeleteCollection,
    useLoadCollections,
-   useLoadEntryCollectionIds,
-   useUpdateEntryCollections,
+   useLoadTemplateCollectionIds,
+   useUpdateTemplateCollections,
 } from "./library";
 import { LoadCollectionIdsParams, UpdateCollectionIdsParams } from "./types";
 
@@ -63,12 +63,15 @@ const deleteCollectionMock = deleteCollection as jest.MockedFunction<
    typeof deleteCollection
 >;
 
-const updateEntryCollectionsMock =
-   updateEntryCollections as jest.MockedFunction<typeof updateEntryCollections>;
+const getTemplateCollectionIdsMock =
+   getTemplateCollectionIds as jest.MockedFunction<
+      typeof getTemplateCollectionIds
+   >;
 
-const getEntryCollectionIdsMock = getEntryCollectionIds as jest.MockedFunction<
-   typeof getEntryCollectionIds
->;
+const updateTemplateCollectionsMock =
+   updateTemplateCollections as jest.MockedFunction<
+      typeof updateTemplateCollections
+   >;
 
 describe("prefetch options tests", () => {
    beforeEach(() => {
@@ -279,12 +282,12 @@ describe("deleteCollection hooks tests", () => {
    });
 });
 
-describe("loadEntityCollectionIds hooks tests", () => {
+describe("loadTemplateCollectionIds hooks tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   test("loadEntryCollectionIdsOptions - test", async () => {
+   test("loadTemplateCollectionIdsOptions - test", async () => {
       const entryId = "entry-id-1";
       const enabled = true;
 
@@ -305,16 +308,16 @@ describe("loadEntityCollectionIds hooks tests", () => {
          enabled,
       };
 
-      const options = loadEntryCollectionIdsOptions(params);
+      const options = loadTemplateCollectionIdsOptions(params);
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
    });
 
-   test("useLoadEntryCollectionIds test", async () => {
+   test("useLoadTemplateCollectionIds test", async () => {
       const entryId = "entry-id-1";
       const enabled = true;
 
       const collectionIds = dtestData.dCollectionIds();
-      getEntryCollectionIdsMock.mockResolvedValue(collectionIds);
+      getTemplateCollectionIdsMock.mockResolvedValue(collectionIds);
 
       const params: LoadCollectionIdsParams = {
          entryId,
@@ -322,22 +325,22 @@ describe("loadEntityCollectionIds hooks tests", () => {
       };
 
       const { result } = renderHookWithReactQuery(() =>
-         useLoadEntryCollectionIds(params)
+         useLoadTemplateCollectionIds(params)
       );
 
       await waitFor(() => {
          expect(result.current.data).toEqual(collectionIds);
-         expect(getEntryCollectionIdsMock).toHaveBeenCalledTimes(1);
+         expect(getTemplateCollectionIdsMock).toHaveBeenCalledTimes(1);
       });
    });
 });
 
-describe("updateEntryCollections hooks tests", () => {
+describe("updateTemplateCollections hooks tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   test("updateEntryCollectionsOptions test", async () => {
+   test("updateTemplateCollectionsOptions test", async () => {
       const expectedOptions: UseMutationOptions<
          ActionResult,
          Error,
@@ -347,7 +350,7 @@ describe("updateEntryCollections hooks tests", () => {
          onSuccess: jest.fn(),
       };
 
-      const options = updateEntryCollectionsOptions(queryClientMock);
+      const options = updateTemplateCollectionsOptions(queryClientMock);
       expect(JSON.stringify(options)).toEqual(JSON.stringify(expectedOptions));
       expect(queryClientMock.setQueryData).not.toHaveBeenCalled();
 
@@ -379,15 +382,15 @@ describe("updateEntryCollections hooks tests", () => {
       );
    });
 
-   test("useUpdateEntryCollections test", async () => {
+   test("useUpdateTemplateCollections test", async () => {
       const actionResult: ActionResult = {
          success: true,
          message: "Collections updated",
       };
-      updateEntryCollectionsMock.mockResolvedValue(actionResult);
+      updateTemplateCollectionsMock.mockResolvedValue(actionResult);
 
       const { result } = renderHookWithReactQuery(() =>
-         useUpdateEntryCollections()
+         useUpdateTemplateCollections()
       );
 
       const entryId = "entry-id-1";
@@ -401,8 +404,8 @@ describe("updateEntryCollections hooks tests", () => {
       await waitFor(() => {
          result.current.mutate(params);
          expect(result.current.isSuccess).toBe(true);
-         expect(updateEntryCollectionsMock).toHaveBeenCalledTimes(1);
-         expect(updateEntryCollectionsMock).toHaveBeenCalledWith(
+         expect(updateTemplateCollectionsMock).toHaveBeenCalledTimes(1);
+         expect(updateTemplateCollectionsMock).toHaveBeenCalledWith(
             params.entryId,
             params.collectionIds
          );

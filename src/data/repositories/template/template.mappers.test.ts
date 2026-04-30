@@ -19,7 +19,7 @@ import {
    toDPromptTemplateDescriptor,
    toDPromptTemplateDescriptors,
    toDPromptTemplateDescriptorWithTemplate,
-} from "./prompt.template.mapper";
+} from "./template.mapper";
 
 const toDPromptTemplateDescriptorWithTemplateInternal = (
    desciptor: PromptTemplateDescriptorWithTemplate
