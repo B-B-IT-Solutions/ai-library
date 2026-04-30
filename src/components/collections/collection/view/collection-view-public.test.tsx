@@ -15,7 +15,7 @@ const getPublicTemplateDescriptorsPageMock =
 
 const assertRendered = () => {
    const view = screen.getByTestId("collection-view-public");
-   const items = screen.getByTestId("template-items-grid");
+   const items = screen.getByTestId("public-template-items-grid");
 
    assertInDocument(view);
    assertInDocument(items);
