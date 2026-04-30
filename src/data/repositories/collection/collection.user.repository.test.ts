@@ -461,6 +461,7 @@ describe("pAddTemplateToCollection tests", () => {
          create: {
             collectionId,
             templateDescriptorId,
+            userId,
          },
          update: {},
       };
@@ -525,6 +526,7 @@ describe("pGetTemplateCollectionIds tests", () => {
 
       const expectedArgs: LibraryCollectionEntryFindManyArgs = {
          where: {
+            userId,
             templateDescriptorId: descriptorId,
          },
          select: { collectionId: true },
@@ -555,6 +557,7 @@ describe("pGetTemplateCollectionIds tests", () => {
 
       const expectedArgs: LibraryCollectionEntryFindManyArgs = {
          where: {
+            userId,
             templateDescriptorId: descriptorId,
          },
          select: { collectionId: true },
@@ -587,6 +590,7 @@ describe("pUpdateTemplateCollections tests", () => {
 
       const expectedDeleteArgs: LibraryCollectionEntryDeleteManyArgs = {
          where: {
+            userId,
             templateDescriptorId: descriptorId,
          },
       };
@@ -622,16 +626,19 @@ describe("pUpdateTemplateCollections tests", () => {
 
       const expectedDeleteArgs: LibraryCollectionEntryDeleteManyArgs = {
          where: {
+            userId,
             templateDescriptorId: descriptorId,
          },
       };
 
       const expectedCreateInputs: LibraryCollectionEntryCreateManyInput[] = [
          {
+            userId,
             templateDescriptorId: descriptorId,
             collectionId: "collection-id-1",
          },
          {
+            userId,
             templateDescriptorId: descriptorId,
             collectionId: "collection-id-2",
          },

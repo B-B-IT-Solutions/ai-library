@@ -215,6 +215,7 @@ export class CollectionRepository {
          create: {
             collectionId,
             templateDescriptorId,
+            userId,
          },
          update: {},
       } satisfies LibraryCollectionEntryUpsertArgs;
@@ -246,6 +247,7 @@ export class CollectionRepository {
    ): Promise<string[]> {
       const args = {
          where: {
+            userId,
             templateDescriptorId: descriptorId,
          },
          select: { collectionId: true },
@@ -264,6 +266,7 @@ export class CollectionRepository {
    ): Promise<void> {
       const deleteArgs = {
          where: {
+            userId,
             templateDescriptorId: descriptorId,
          },
       } satisfies LibraryCollectionEntryDeleteManyArgs;
@@ -272,10 +275,13 @@ export class CollectionRepository {
 
       const createInputs: LibraryCollectionEntryCreateManyInput[] = map(
          collectionIds,
-         (collectionId) => ({
-            templateDescriptorId: descriptorId,
-            collectionId,
-         })
+         (collectionId) => {
+            return {
+               templateDescriptorId: descriptorId,
+               collectionId,
+               userId,
+            };
+         }
       );
 
       const createArgs = {
