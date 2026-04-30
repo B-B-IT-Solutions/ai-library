@@ -8,11 +8,10 @@ import { assertInDocument, dtestData, typeIntoInput } from "@tests";
 import {
    DPromptTemplateField,
    DPromptTemplateFieldType,
-   DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
 import { openExternalUrlInNewTab } from "@/lib/utils";
 
-import { PromptFromTemplate } from "./prompt-from-template";
+import { UseTemplateForm } from "./use-template-form";
 
 const openExternalUrlInNewTabMock =
    openExternalUrlInNewTab as jest.MockedFunction<
@@ -39,24 +38,22 @@ const createField = (
 };
 
 const assertRendered = () => {
-   const promptFromTemplate = screen.getByTestId("prompt-from-template");
+   const promptFromTemplate = screen.getByTestId("use-template-form");
    const preview = screen.getByTestId("template-preview");
    const form = screen.getByTestId("template-fields-form");
 
    const copyBtn = screen.getByTestId("copy-prompt-btn");
    const openInAiBtn = screen.getByTestId("open-in-ai-btn");
-   const submitBtn = screen.getByTestId("submit-btn");
 
    assertInDocument(promptFromTemplate);
    assertInDocument(form);
    assertInDocument(preview);
    assertInDocument(copyBtn);
    assertInDocument(openInAiBtn);
-   assertInDocument(submitBtn);
 };
 
-describe("PromptFromTemplate rendering tests", () => {
-   it("PromptFromTemplate renders test", async () => {
+describe("UseTemplateForm rendering tests", () => {
+   it("renders test", async () => {
       const name = createField("TEXT", "name", "Name");
       const email = createField("EMAIL", "email", "Email Address");
       const age = createField("NUMBER", "age", "Age");
@@ -86,10 +83,8 @@ describe("PromptFromTemplate rendering tests", () => {
       const templateData = dtestData.dPromptTemplateDataPromptGeneration();
       templateData.allFields = fields;
 
-      const onSubmit = jest.fn();
-
       const { container } = render(
-         <PromptFromTemplate templateData={templateData} onSubmit={onSubmit} />
+         <UseTemplateForm templateData={templateData} />
       );
 
       await waitFor(() => {
@@ -100,61 +95,20 @@ describe("PromptFromTemplate rendering tests", () => {
    });
 });
 
-describe("PromptFromTemplate functionality tests", () => {
+describe("UseTemplateForm functionality tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
-   it("PromptFromTemplate - submit btn clicked - test", async () => {
-      const field = createField("TEXT", "name", "Name", true);
-      const templateData = dtestData.dPromptTemplateDataPromptGeneration();
-      templateData.allFields.push(field);
-
-      const onSubmit = jest.fn();
-
-      render(
-         <PromptFromTemplate templateData={templateData} onSubmit={onSubmit} />
-      );
-
-      await waitFor(() => {
-         assertRendered();
-         expect(onSubmit).not.toHaveBeenCalled();
-      });
-
-      const submitBtn = screen.getByTestId("submit-btn");
-      await userEvent.click(submitBtn);
-
-      await waitFor(() => {
-         expect(onSubmit).not.toHaveBeenCalled();
-      });
-
-      await typeIntoInput("name", "John Doe");
-
-      await userEvent.click(submitBtn);
-
-      const expectedPayload: DPromptTemplateFieldValues = {
-         name: "John Doe",
-         field_0: "option 1",
-         field_1: "option 1",
-         field_2: "option 1",
-      };
-
-      await waitFor(() => {
-         expect(onSubmit).toHaveBeenCalledTimes(1);
-         expect(onSubmit).toHaveBeenCalledWith(expectedPayload);
-      });
-   });
-
-   it("PromptFromTemplate - open-in-ai btn clicked - aiModel gpt - test", async () => {
+   it("open-in-ai btn clicked - aiModel gpt - test", async () => {
       const field = createField("TEXT", "name", "Name", true);
       const templateData = dtestData.dPromptTemplateDataPromptGeneration();
       templateData.template.content = "Hello {{name}}";
       templateData.allFields.push(field);
 
       render(
-         <PromptFromTemplate
+         <UseTemplateForm
             templateData={templateData}
-            onSubmit={jest.fn()}
             recommendedModel="chatgpt"
          />
       );
@@ -183,18 +137,14 @@ describe("PromptFromTemplate functionality tests", () => {
       });
    });
 
-   it("PromptFromTemplate - open-in-ai btn clicked - aiModel claude - test", async () => {
+   it("open-in-ai btn clicked - aiModel claude - test", async () => {
       const field = createField("TEXT", "name", "Name", true);
       const templateData = dtestData.dPromptTemplateDataPromptGeneration();
       templateData.template.content = "Hello {{name}}";
       templateData.allFields.push(field);
 
       render(
-         <PromptFromTemplate
-            templateData={templateData}
-            onSubmit={jest.fn()}
-            recommendedModel="gpt"
-         />
+         <UseTemplateForm templateData={templateData} recommendedModel="gpt" />
       );
 
       await waitFor(() => {

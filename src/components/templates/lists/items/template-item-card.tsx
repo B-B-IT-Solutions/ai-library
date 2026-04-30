@@ -19,8 +19,8 @@ import { DCollection } from "@/data/types/domain/collection";
 import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 import {
    AddToFavoriteButton,
-   CreatePromptFromTemplateButton,
    DownloadTemplateButton,
+   UseTemplateButton,
 } from "../../buttons";
 
 type Props = {
@@ -120,10 +120,7 @@ export const TemplateItemCard = ({ descriptor, collections }: Props) => {
             </p>
 
             <div className="flex gap-2 pt-2">
-               <CreatePromptFromTemplateButton
-                  descriptor={descriptor}
-                  className="flex-1"
-               />
+               <UseTemplateButton descriptor={descriptor} className="flex-1" />
                {dropdownMenu()}
             </div>
          </CardContent>

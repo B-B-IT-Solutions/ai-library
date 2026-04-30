@@ -25,7 +25,7 @@ import {
    getTemplateDescriptorsPage,
    toggleTemplateDescriptorFavorite,
    updateTemplateDescriptor,
-} from "./template.actions";
+} from "./template.user.actions";
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 

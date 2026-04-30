@@ -4,18 +4,12 @@ import { useState, useTransition } from "react";
 import { Loader, Plus } from "lucide-react";
 import { toast } from "sonner";
 
-import { CreatePromptFromTemplateDialog } from "@/components/prompt-templates";
-import { CreatePromptDialog } from "@/components/prompts";
+import { UseTemplateDialog } from "@/components/prompt-templates";
 import { Button } from "@/components/shadcn/button";
-import {
-   composePromptFromTemplate,
-   getPromptGenerationTemplateData,
-} from "@/data/actions/template";
-import { DPromptUpdate } from "@/data/types/domain/prompt";
+import { getPromptGenerationTemplateData } from "@/data/actions/template";
 import {
    DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
-   DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
 import { cn } from "@/lib/utils";
 
@@ -24,28 +18,19 @@ type Props = {
    className?: string;
 };
 
-type Mode = "fields-form" | "review";
-
-export const CreatePromptFromTemplateButton = ({
-   descriptor,
-   className,
-}: Props) => {
+export const UseTemplateButton = ({ descriptor, className }: Props) => {
    const [isPending, startTransition] = useTransition();
-   const [mode, setMode] = useState<Mode | null>(null);
+
    const [templateData, setTemplateData] =
       useState<DPromptTemplateDataPromptGeneration | null>(null);
-   const [generatedPrompt, setGeneratedPrompt] = useState<DPromptUpdate | null>(
-      null
-   );
 
-   const handleCreate = async () => {
+   const handleUseTemplate = async () => {
       startTransition(async () => {
          const data = await getPromptGenerationTemplateData(
             descriptor.promptTemplateId
          );
          if (data) {
             setTemplateData(data);
-            setMode("fields-form");
          } else {
             toast.error("Vorlage konnte nicht geladen werden");
          }
@@ -53,38 +38,16 @@ export const CreatePromptFromTemplateButton = ({
    };
 
    const handleCancel = () => {
-      setMode(null);
-      setGeneratedPrompt(null);
-   };
-
-   const composePrompt = async (values: DPromptTemplateFieldValues) => {
-      startTransition(async () => {
-         const result = await composePromptFromTemplate(descriptor.id, values);
-         if (result.success && result.data) {
-            setMode("review");
-            setGeneratedPrompt(result.data);
-         } else {
-            toast.error(result.message);
-         }
-      });
+      setTemplateData(null);
    };
 
    const dialog = () => {
-      if (mode === "review" && generatedPrompt) {
+      if (templateData) {
          return (
-            <CreatePromptDialog
-               onCancel={handleCancel}
-               promptUpdate={generatedPrompt}
-            />
-         );
-      }
-      if (mode === "fields-form" && templateData) {
-         return (
-            <CreatePromptFromTemplateDialog
-               onSubmit={composePrompt}
-               onCancel={handleCancel}
+            <UseTemplateDialog
                descriptor={descriptor}
                templateData={templateData}
+               onCancel={handleCancel}
             />
          );
       }
@@ -95,7 +58,7 @@ export const CreatePromptFromTemplateButton = ({
          return (
             <>
                <Loader className="mr-1.5 h-4 w-4 animate-spin" />
-               <span>Erstellen...</span>
+               <span>Anwenden...</span>
             </>
          );
       }
@@ -103,7 +66,7 @@ export const CreatePromptFromTemplateButton = ({
       return (
          <>
             <Plus className="mr-1.5 h-4 w-4" />
-            <span>Prompt erstellen</span>
+            <span>Prompt anwenden</span>
          </>
       );
    };
@@ -113,13 +76,13 @@ export const CreatePromptFromTemplateButton = ({
          <Button
             variant="default"
             size="sm"
-            onClick={handleCreate}
+            onClick={handleUseTemplate}
             disabled={isPending}
             className={cn(
                "cursor-pointer bg-blue-600 text-white hover:bg-blue-700",
                className
             )}
-            data-testid="create-prompt-from-template-btn"
+            data-testid="use-template-btn"
          >
             {label()}
          </Button>

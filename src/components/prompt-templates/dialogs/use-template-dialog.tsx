@@ -15,22 +15,19 @@ import { CallbackFn } from "@/data/types/common";
 import {
    DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
-   DPromptTemplateFieldValues,
 } from "@/data/types/domain/prompt.template";
-import { PromptFromTemplate } from "../use-template/prompt-from-template";
+import { UseTemplateForm } from "../use-template/use-template-form";
 
 type Props = {
-   onSubmit: (values: DPromptTemplateFieldValues) => void;
-   onCancel: CallbackFn;
    descriptor: DPromptTemplateDescriptor;
    templateData: DPromptTemplateDataPromptGeneration;
+   onCancel: CallbackFn;
 };
 
-export const CreatePromptFromTemplateDialog = ({
-   onSubmit,
-   onCancel,
+export const UseTemplateDialog = ({
    descriptor,
    templateData,
+   onCancel,
 }: Props) => {
    const [isExpanded, setIsExpanded] = useState(false);
    const hasFields = !isEmpty(templateData.allFields);
@@ -62,7 +59,7 @@ export const CreatePromptFromTemplateDialog = ({
       <Dialog
          open={true}
          onOpenChange={() => onCancel()}
-         data-testid="create-prompt-from-template-dialog"
+         data-testid="use-template-dialog"
       >
          <DialogContent
             showCloseButton={false}
@@ -88,9 +85,8 @@ export const CreatePromptFromTemplateDialog = ({
                </p>
             </DialogHeader>
             <div className="flex flex-1 flex-col overflow-y-auto">
-               <PromptFromTemplate
+               <UseTemplateForm
                   templateData={templateData}
-                  onSubmit={onSubmit}
                   recommendedModel={descriptor.recommendedModel}
                />
             </div>
