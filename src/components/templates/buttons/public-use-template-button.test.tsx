@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 import { getPromptGenerationTemplateData } from "@/data/actions/template";
 
-import { UseTemplateButton } from "./use-template-button";
+import { PublicUseTemplateButton } from "./public-use-template-button";
 
 const toastMock = toast as jest.MockedFunction<typeof toast>;
 
@@ -19,7 +19,7 @@ const getPromptGenerationTemplateDataMock =
    >;
 
 const assertRendered = () => {
-   const btn = screen.getByTestId("use-template-btn");
+   const btn = screen.getByTestId("public-use-template-btn");
    assertInDocument(btn);
 };
 
@@ -33,14 +33,14 @@ const assertDialogNotRendered = () => {
    assertNotInDocument(dialog);
 };
 
-describe("UseTemplateButton rendering tests", () => {
+describe("PublicUseTemplateButton rendering tests", () => {
    it("with fields - rendered test", async () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
       getPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const { container } = render(
-         <UseTemplateButton descriptor={descriptor} />
+         <PublicUseTemplateButton descriptor={descriptor} />
       );
 
       await waitFor(() => {
@@ -57,7 +57,7 @@ describe("UseTemplateButton rendering tests", () => {
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const { container } = render(
-         <UseTemplateButton descriptor={descriptor} />
+         <PublicUseTemplateButton descriptor={descriptor} />
       );
 
       await waitFor(() => {
@@ -73,7 +73,10 @@ describe("UseTemplateButton rendering tests", () => {
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
       const { container } = render(
-         <UseTemplateButton descriptor={descriptor} className="custom-class" />
+         <PublicUseTemplateButton
+            descriptor={descriptor}
+            className="custom-class"
+         />
       );
 
       await waitFor(() => {
@@ -86,7 +89,7 @@ describe("UseTemplateButton rendering tests", () => {
    });
 });
 
-describe("UseTemplateButton functionality - tests", () => {
+describe("PublicUseTemplateButton functionality - tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
@@ -96,7 +99,7 @@ describe("UseTemplateButton functionality - tests", () => {
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
-      render(<UseTemplateButton descriptor={descriptor} />);
+      render(<PublicUseTemplateButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRendered();
@@ -125,7 +128,7 @@ describe("UseTemplateButton functionality - tests", () => {
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
-      render(<UseTemplateButton descriptor={descriptor} />);
+      render(<PublicUseTemplateButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRendered();
@@ -145,7 +148,7 @@ describe("UseTemplateButton functionality - tests", () => {
 
       const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
 
-      render(<UseTemplateButton descriptor={descriptor} />);
+      render(<PublicUseTemplateButton descriptor={descriptor} />);
 
       await waitFor(() => {
          assertRendered();
