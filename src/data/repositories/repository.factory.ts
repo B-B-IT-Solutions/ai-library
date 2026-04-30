@@ -5,7 +5,7 @@ import { CollectionRepository, PublicCollectionRepository } from "./collection";
 import { OrderRepository } from "./order";
 import { ProductRepository } from "./product";
 import { PromptRepository } from "./prompt";
-import { SettingsRepository } from "./settings";
+import { PublicSettingsRepository, SettingsRepository } from "./settings";
 import { SubscriptionRepository } from "./subscription";
 import { PublicTemplateRepository, TemplateRepository } from "./template";
 import { UserRepository } from "./user";
@@ -23,6 +23,7 @@ export class RepositoryFactory {
    private publicTemplateRepo?: PublicTemplateRepository;
    private subscriptionRepo?: SubscriptionRepository;
    private settingsRepo?: SettingsRepository;
+   private publicSettingsRepo?: PublicSettingsRepository;
 
    constructor(prisma: DbClient) {
       this.prisma = prisma;
@@ -105,5 +106,12 @@ export class RepositoryFactory {
          this.settingsRepo = new SettingsRepository(this.prisma);
       }
       return this.settingsRepo;
+   }
+
+   publicSettingsRepository(): PublicSettingsRepository {
+      if (!this.publicSettingsRepo) {
+         this.publicSettingsRepo = new PublicSettingsRepository(this.prisma);
+      }
+      return this.publicSettingsRepo;
    }
 }

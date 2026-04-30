@@ -12,7 +12,7 @@ import mockRouter from "next-router-mock";
 
 import { getTemplateCollectionIds } from "@/data/actions/collection";
 
-import { TemplateItemCard } from "./template-item-card";
+import { PublicTemplateItemCard } from "./template-item-card-public";
 
 const getTemplateCollectionIdsMock =
    getTemplateCollectionIds as jest.MockedFunction<
@@ -20,13 +20,13 @@ const getTemplateCollectionIdsMock =
    >;
 
 const assertRendered = () => {
-   const entryCard = screen.getByTestId("template-item-card");
+   const itemCard = screen.getByTestId("public-template-item-card");
    const viewDetailsTitle = screen.getByTestId("view-details-link-title");
    const categories = screen.getByTestId("categories");
-   const useTemplateBtn = screen.getByTestId("use-template-btn");
+   const useTemplateBtn = screen.getByTestId("public-use-template-btn");
    const dropdownMenuBtn = screen.getByTestId("dropdown-menu-btn");
 
-   assertInDocument(entryCard);
+   assertInDocument(itemCard);
    assertInDocument(viewDetailsTitle);
    assertInDocument(categories);
    assertInDocument(useTemplateBtn);
@@ -67,13 +67,16 @@ const assertAddToCollectionDialogNotRendered = () => {
    assertNotInDocument(dialog);
 };
 
-describe("TemplateItemCard rendering tests", () => {
+describe("PublicTemplateItemCard rendering tests", () => {
    it("viewMode grid - rendered test", async () => {
       const collections = dtestData.dCollections();
       const descriptor = dtestData.dPromptTemplateDescriptor();
 
       const { container } = renderWithReactQuery(
-         <TemplateItemCard descriptor={descriptor} collections={collections} />
+         <PublicTemplateItemCard
+            descriptor={descriptor}
+            collections={collections}
+         />
       );
 
       await waitFor(() => {
@@ -84,7 +87,7 @@ describe("TemplateItemCard rendering tests", () => {
    });
 });
 
-describe("TemplateItemCard functionality tests", () => {
+describe("PublicTemplateItemCard functionality tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
       mockRouter.push("/");
@@ -95,7 +98,10 @@ describe("TemplateItemCard functionality tests", () => {
       const collections = dtestData.dCollections();
 
       renderWithReactQuery(
-         <TemplateItemCard descriptor={descriptor} collections={collections} />
+         <PublicTemplateItemCard
+            descriptor={descriptor}
+            collections={collections}
+         />
       );
 
       await waitFor(() => {
@@ -117,7 +123,10 @@ describe("TemplateItemCard functionality tests", () => {
       const collections = dtestData.dCollections();
 
       renderWithReactQuery(
-         <TemplateItemCard descriptor={descriptor} collections={collections} />
+         <PublicTemplateItemCard
+            descriptor={descriptor}
+            collections={collections}
+         />
       );
 
       await waitFor(() => {
@@ -150,7 +159,10 @@ describe("TemplateItemCard functionality tests", () => {
       const collections = dtestData.dCollections();
 
       renderWithReactQuery(
-         <TemplateItemCard descriptor={descriptor} collections={collections} />
+         <PublicTemplateItemCard
+            descriptor={descriptor}
+            collections={collections}
+         />
       );
 
       await waitFor(() => {

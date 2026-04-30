@@ -1,6 +1,7 @@
 import { DbClient } from "@/data/types/db/common";
 import { PromptTemplateDescriptorWithCategories } from "@/data/types/db/prompt.template";
 import {
+   DPromptTemplate,
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
@@ -9,7 +10,10 @@ import {
    PromptTemplateDescriptorFindManyArgs,
 } from "@/generated/prisma/models";
 
-import { toDPromptTemplateDescriptors } from "./template.mapper";
+import {
+   toDPromptTemplate,
+   toDPromptTemplateDescriptors,
+} from "./template.mapper";
 import { resolveOrderBy, resolveWhereInput } from "./utils";
 
 export class PublicTemplateRepository {
@@ -59,5 +63,19 @@ export class PublicTemplateRepository {
          totalPages: Math.ceil(totalElements / pageSize),
          totalElements: totalElements,
       };
+   }
+
+   async pGetPublicPromptTemplate(id: string): Promise<DPromptTemplate | null> {
+      const template = await this.prisma.promptTemplate.findFirst({
+         where: {
+            id,
+         },
+         include: {
+            fields: true,
+            globalFields: true,
+         },
+      });
+
+      return template ? toDPromptTemplate(template) : null;
    }
 }

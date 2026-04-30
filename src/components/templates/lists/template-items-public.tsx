@@ -13,8 +13,7 @@ import {
 } from "@/data/types/domain/common";
 import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
 
-import { TemplateItemsGrid } from "./template-items-grid";
-import { TemplateItemsList } from "./template-items-list";
+import { PublicTemplateItemsGrid } from "./template-items-grid-public";
 
 type Props = {
    viewMode: DListViewMode;
@@ -23,7 +22,7 @@ type Props = {
    filters: DTemplateDescriptorsFilter;
 };
 
-export const TemplateItemsPublic = ({
+export const PublicTemplateItems = ({
    viewMode,
    groupBy,
    sortBy,
@@ -51,19 +50,6 @@ export const TemplateItemsPublic = ({
       );
    }
 
-   if (viewMode === DListViewMode.LIST) {
-      return (
-         <InfiniteScroll
-            hasMore={hasNextPage}
-            isLoading={isFetching}
-            next={fetchNextPage}
-            threshold={0.7}
-         >
-            <TemplateItemsList descriptors={entries} collections={[]} />
-         </InfiniteScroll>
-      );
-   }
-
    return (
       <InfiniteScroll
          hasMore={hasNextPage}
@@ -71,7 +57,7 @@ export const TemplateItemsPublic = ({
          next={fetchNextPage}
          threshold={0.7}
       >
-         <TemplateItemsGrid descriptors={entries} collections={[]} />
+         <PublicTemplateItemsGrid descriptors={entries} collections={[]} />
       </InfiniteScroll>
    );
 };

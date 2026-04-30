@@ -16,7 +16,7 @@ import {
    toDGlobalTemplateField,
    toDGlobalTemplateFields,
 } from "./settings.mapper";
-import { SettingsRepository } from "./settings.repository";
+import { SettingsRepository } from "./settings.user.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const settingsRepository = new SettingsRepository(prismaMock);
@@ -53,7 +53,7 @@ describe("pGetGlobalTemplateFieldsByIds tests", () => {
       mockReset(prismaMock);
    });
 
-   test("pGetGlobalTemplateFieldsByIds test", async () => {
+   test("global fields - retrieved - test", async () => {
       const fields = ptestData.pGlobalTemplateFields();
       prismaMock.globalTemplateField.findMany.mockResolvedValue(fields);
 

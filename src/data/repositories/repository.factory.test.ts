@@ -6,7 +6,7 @@ import { OrderRepository } from "./order";
 import { ProductRepository } from "./product";
 import { PromptRepository } from "./prompt";
 import { RepositoryFactory } from "./repository.factory";
-import { SettingsRepository } from "./settings";
+import { PublicSettingsRepository, SettingsRepository } from "./settings";
 import { SubscriptionRepository } from "./subscription";
 import { PublicTemplateRepository, TemplateRepository } from "./template";
 import { UserRepository } from "./user";
@@ -21,12 +21,12 @@ describe("RepositoryFactory tests", () => {
    });
 
    describe("userRepository tests", () => {
-      it("userRepository - new instance - test", () => {
+      it("new instance - test", () => {
          const repository = factory.userRepository();
          expect(repository).toBeInstanceOf(UserRepository);
       });
 
-      it("userRepository - existing instance - test", () => {
+      it("existing instance - test", () => {
          const repository1 = factory.userRepository();
          const repository2 = factory.userRepository();
          expect(repository1).toBe(repository2);
@@ -34,12 +34,12 @@ describe("RepositoryFactory tests", () => {
    });
 
    describe("cartRepository tests", () => {
-      it("cartRepository - new instance - test", () => {
+      it("new instance - test", () => {
          const repository = factory.cartRepository();
          expect(repository).toBeInstanceOf(CartRepository);
       });
 
-      it("cartRepository - existing instance - test", () => {
+      it("existing instance - test", () => {
          const repository1 = factory.cartRepository();
          const repository2 = factory.cartRepository();
          expect(repository1).toBe(repository2);
@@ -73,12 +73,12 @@ describe("RepositoryFactory tests", () => {
    });
 
    describe("orderRepository tests", () => {
-      it("orderRepository - new instance - test", () => {
+      it("new instance - test", () => {
          const repository = factory.orderRepository();
          expect(repository).toBeInstanceOf(OrderRepository);
       });
 
-      it("orderRepository - existing instance - test", () => {
+      it("existing instance - test", () => {
          const repository1 = factory.orderRepository();
          const repository2 = factory.orderRepository();
          expect(repository1).toBe(repository2);
@@ -86,12 +86,12 @@ describe("RepositoryFactory tests", () => {
    });
 
    describe("productRepository tests", () => {
-      it("productRepository - new instance - test", () => {
+      it("new instance - test", () => {
          const repository = factory.productRepository();
          expect(repository).toBeInstanceOf(ProductRepository);
       });
 
-      it("productRepository - existing instance - test", () => {
+      it("existing instance - test", () => {
          const repository1 = factory.productRepository();
          const repository2 = factory.productRepository();
          expect(repository1).toBe(repository2);
@@ -99,12 +99,12 @@ describe("RepositoryFactory tests", () => {
    });
 
    describe("promptRepository tests", () => {
-      it("promptRepository - new instance - test", () => {
+      it("new instance - test", () => {
          const repository = factory.promptRepository();
          expect(repository).toBeInstanceOf(PromptRepository);
       });
 
-      it("promptRepository - existing instance - test", () => {
+      it("existing instance - test", () => {
          const repository1 = factory.promptRepository();
          const repository2 = factory.promptRepository();
          expect(repository1).toBe(repository2);
@@ -138,12 +138,12 @@ describe("RepositoryFactory tests", () => {
    });
 
    describe("subscriptionRepository tests", () => {
-      it("subscriptionRepository - new instance - test", () => {
+      it("new instance - test", () => {
          const repository = factory.subscriptionRepository();
          expect(repository).toBeInstanceOf(SubscriptionRepository);
       });
 
-      it("subscriptionRepository - existing instance - test", () => {
+      it("existing instance - test", () => {
          const repository1 = factory.subscriptionRepository();
          const repository2 = factory.subscriptionRepository();
          expect(repository1).toBe(repository2);
@@ -151,14 +151,27 @@ describe("RepositoryFactory tests", () => {
    });
 
    describe("settingsRepository tests", () => {
-      it("settingsRepository - new instance - test", () => {
+      it("new instance - test", () => {
          const repository = factory.settingsRepository();
          expect(repository).toBeInstanceOf(SettingsRepository);
       });
 
-      it("settingsRepository - existing instance - test", () => {
+      it("existing instance - test", () => {
          const repository1 = factory.settingsRepository();
          const repository2 = factory.settingsRepository();
+         expect(repository1).toBe(repository2);
+      });
+   });
+
+   describe("publicSettingsRepository tests", () => {
+      it("new instance - test", () => {
+         const repository = factory.publicSettingsRepository();
+         expect(repository).toBeInstanceOf(PublicSettingsRepository);
+      });
+
+      it("existing instance - test", () => {
+         const repository1 = factory.publicSettingsRepository();
+         const repository2 = factory.publicSettingsRepository();
          expect(repository1).toBe(repository2);
       });
    });

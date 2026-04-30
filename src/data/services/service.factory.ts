@@ -8,12 +8,15 @@ import { IubendaService } from "@/data/services/iubenda";
 import { OrderService } from "@/data/services/order";
 import { PromptService } from "@/data/services/prompt";
 import {
+   PublicSettingsService,
+   SettingsService,
+} from "@/data/services/settings";
+import { StripeService } from "@/data/services/stripe";
+import { SubscriptionService } from "@/data/services/subscription";
+import {
    PublicTemplateService,
    TemplateService,
 } from "@/data/services/template";
-import { SettingsService } from "@/data/services/settings";
-import { StripeService } from "@/data/services/stripe";
-import { SubscriptionService } from "@/data/services/subscription";
 import { UserService } from "@/data/services/user";
 import { DbClient } from "@/data/types/db/common";
 
@@ -30,6 +33,7 @@ export class ServiceFactory {
    private templateService?: TemplateService;
    private publicTemplateService?: PublicTemplateService;
    private settingsService?: SettingsService;
+   private publicSettingsService?: PublicSettingsService;
    private iubendaService?: IubendaService;
 
    constructor(prisma: DbClient) {
@@ -107,7 +111,8 @@ export class ServiceFactory {
       if (!this.publicTemplateService) {
          this.publicTemplateService = new PublicTemplateService(
             this.repositories.publicTemplateRepository(),
-            this.getPublicCollectionService()
+            this.getPublicCollectionService(),
+            this.getPublicSettingsService()
          );
       }
       return this.publicTemplateService;
@@ -141,6 +146,15 @@ export class ServiceFactory {
          );
       }
       return this.settingsService;
+   }
+
+   getPublicSettingsService(): PublicSettingsService {
+      if (!this.publicSettingsService) {
+         this.publicSettingsService = new PublicSettingsService(
+            this.repositories.publicSettingsRepository()
+         );
+      }
+      return this.publicSettingsService;
    }
 
    getIubendaService(): IubendaService {
