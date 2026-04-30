@@ -5,13 +5,8 @@ import { Loader, Plus } from "lucide-react";
 import { toast } from "sonner";
 
 import { UseTemplateDialog } from "@/components/prompt-templates";
-import { CreatePromptDialog } from "@/components/prompts";
 import { Button } from "@/components/shadcn/button";
-import {
-   composePromptFromTemplate,
-   getPromptGenerationTemplateData,
-} from "@/data/actions/template";
-import { DPromptUpdate } from "@/data/types/domain/prompt";
+import { getPromptGenerationTemplateData } from "@/data/actions/template";
 import {
    DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
@@ -24,25 +19,19 @@ type Props = {
    className?: string;
 };
 
-type Mode = "fields-form" | "review";
-
 export const UseTemplateButton = ({ descriptor, className }: Props) => {
    const [isPending, startTransition] = useTransition();
-   const [mode, setMode] = useState<Mode | null>(null);
+
    const [templateData, setTemplateData] =
       useState<DPromptTemplateDataPromptGeneration | null>(null);
-   const [generatedPrompt, setGeneratedPrompt] = useState<DPromptUpdate | null>(
-      null
-   );
 
-   const handleCreate = async () => {
+   const handleUseTemplate = async () => {
       startTransition(async () => {
          const data = await getPromptGenerationTemplateData(
             descriptor.promptTemplateId
          );
          if (data) {
             setTemplateData(data);
-            setMode("fields-form");
          } else {
             toast.error("Vorlage konnte nicht geladen werden");
          }
@@ -50,32 +39,13 @@ export const UseTemplateButton = ({ descriptor, className }: Props) => {
    };
 
    const handleCancel = () => {
-      setMode(null);
-      setGeneratedPrompt(null);
+      setTemplateData(null);
    };
 
-   const composePrompt = async (values: DPromptTemplateFieldValues) => {
-      startTransition(async () => {
-         const result = await composePromptFromTemplate(descriptor.id, values);
-         if (result.success && result.data) {
-            setMode("review");
-            setGeneratedPrompt(result.data);
-         } else {
-            toast.error(result.message);
-         }
-      });
-   };
+   const composePrompt = async (values: DPromptTemplateFieldValues) => {};
 
    const dialog = () => {
-      if (mode === "review" && generatedPrompt) {
-         return (
-            <CreatePromptDialog
-               onCancel={handleCancel}
-               promptUpdate={generatedPrompt}
-            />
-         );
-      }
-      if (mode === "fields-form" && templateData) {
+      if (templateData) {
          return (
             <UseTemplateDialog
                onSubmit={composePrompt}
@@ -92,7 +62,7 @@ export const UseTemplateButton = ({ descriptor, className }: Props) => {
          return (
             <>
                <Loader className="mr-1.5 h-4 w-4 animate-spin" />
-               <span>Erstellen...</span>
+               <span>Anwenden...</span>
             </>
          );
       }
@@ -110,7 +80,7 @@ export const UseTemplateButton = ({ descriptor, className }: Props) => {
          <Button
             variant="default"
             size="sm"
-            onClick={handleCreate}
+            onClick={handleUseTemplate}
             disabled={isPending}
             className={cn(
                "cursor-pointer bg-blue-600 text-white hover:bg-blue-700",
