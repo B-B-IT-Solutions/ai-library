@@ -8,17 +8,17 @@ import {
    DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
 import { PublicCollectionService } from "../collection";
-import { SettingsService } from "../settings";
+import { PublicSettingsService } from "../settings";
 
 export class PublicTemplateService {
    private repository: PublicTemplateRepository;
    private collectionService: PublicCollectionService;
-   private settingService: SettingsService;
+   private settingService: PublicSettingsService;
 
    constructor(
       repository: PublicTemplateRepository,
       collectionService: PublicCollectionService,
-      settingService: SettingsService
+      settingService: PublicSettingsService
    ) {
       this.repository = repository;
       this.collectionService = collectionService;
@@ -49,8 +49,7 @@ export class PublicTemplateService {
 
       if (template) {
          const globalFields =
-            await this.settingService.getGlobalTemplateFieldsByIds(
-               teamplate.userId,
+            await this.settingService.getPublicGlobalTemplateFieldsByIds(
                template.globalFieldIds
             );
 
