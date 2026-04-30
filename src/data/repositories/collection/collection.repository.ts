@@ -6,6 +6,8 @@ import {
    LibraryCollectionCreateArgs,
    LibraryCollectionCreateInput,
    LibraryCollectionDeleteArgs,
+   LibraryCollectionEntryCreateManyArgs,
+   LibraryCollectionEntryCreateManyInput,
    LibraryCollectionEntryDeleteManyArgs,
    LibraryCollectionEntryFindManyArgs,
    LibraryCollectionEntryUpsertArgs,
@@ -242,11 +244,15 @@ export class CollectionRepository {
       userId: string,
       descriptorId: string
    ): Promise<string[]> {
+      const args = {
+         where: {
+            templateDescriptorId: descriptorId,
+         },
+         select: { collectionId: true },
+      } satisfies LibraryCollectionEntryFindManyArgs;
+
       const collectionEntries =
-         await this.prisma.libraryCollectionEntry.findMany({
-            where: { templateDescriptorId: descriptorId },
-            select: { collectionId: true },
-         });
+         await this.prisma.libraryCollectionEntry.findMany(args);
 
       return map(collectionEntries, (ce) => ce.collectionId);
    }
@@ -256,15 +262,26 @@ export class CollectionRepository {
       descriptorId: string,
       collectionIds: string[]
    ): Promise<void> {
-      await this.prisma.libraryCollectionEntry.deleteMany({
-         where: { templateDescriptorId: descriptorId },
-      });
+      const deleteArgs = {
+         where: {
+            templateDescriptorId: descriptorId,
+         },
+      } satisfies LibraryCollectionEntryDeleteManyArgs;
 
-      await this.prisma.libraryCollectionEntry.createMany({
-         data: map(collectionIds, (collectionId) => ({
+      await this.prisma.libraryCollectionEntry.deleteMany(deleteArgs);
+
+      const createInputs: LibraryCollectionEntryCreateManyInput[] = map(
+         collectionIds,
+         (collectionId) => ({
             templateDescriptorId: descriptorId,
             collectionId,
-         })),
-      });
+         })
+      );
+
+      const createArgs = {
+         data: createInputs,
+      } satisfies LibraryCollectionEntryCreateManyArgs;
+
+      await this.prisma.libraryCollectionEntry.createMany(createArgs);
    }
 }
