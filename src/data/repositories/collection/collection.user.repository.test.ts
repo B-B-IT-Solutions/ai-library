@@ -21,7 +21,7 @@ import {
 } from "@/generated/prisma/models";
 
 import { toDCollection, toDCollections } from "./collection.mapper";
-import { CollectionRepository } from "./collection.repository";
+import { CollectionRepository } from "./collection.user.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 const collectionRepository = new CollectionRepository(prismaMock);
