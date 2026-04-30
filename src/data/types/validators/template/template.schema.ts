@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const promptTemplateFieldTypeSchema = z.enum([
+export const templateFieldTypeSchema = z.enum([
    "TEXT",
    "TEXTAREA",
    "SELECT",
@@ -11,25 +11,25 @@ export const promptTemplateFieldTypeSchema = z.enum([
    "EMAIL",
 ]);
 
-export const promptTemplateFieldSchema = z.object({
+export const templateFieldSchema = z.object({
    name: z.string().min(1, "Name ist erforderlich").max(50).regex(/^\S+$/, {
       message: "Name darf keine Leerzeichen enthalten.",
    }),
    label: z.string().min(1, "Label ist erforderlich").max(250),
    description: z.string().max(500).optional(),
-   type: promptTemplateFieldTypeSchema,
+   type: templateFieldTypeSchema,
    required: z.boolean(),
    defaultValue: z.string().optional(),
    options: z.array(z.string()).optional(),
    order: z.number(),
 });
 
-export const updatePromptTemplateSchema = z.object({
+export const updateTemplateSchema = z.object({
    title: z.string().min(1, "Titel ist erforderlich"),
    description: z.string(),
    content: z.string(),
    recommendedModel: z.string(),
    categories: z.array(z.string()),
-   fields: z.array(promptTemplateFieldSchema),
+   fields: z.array(templateFieldSchema),
    globalFieldIds: z.array(z.string()),
 });
