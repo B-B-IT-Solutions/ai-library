@@ -14,7 +14,6 @@ import {
 import { DTemplateDescriptorsFilter } from "@/data/types/domain/prompt.template";
 
 import { TemplateItemsGrid } from "./template-items-grid";
-import { TemplateItemsList } from "./template-items-list";
 
 type Props = {
    viewMode: DListViewMode;
@@ -48,19 +47,6 @@ export const PublicTemplateItems = ({
                <p className="mt-4 text-sm text-slate-600">Lädt Vorlagen...</p>
             </div>
          </div>
-      );
-   }
-
-   if (viewMode === DListViewMode.LIST) {
-      return (
-         <InfiniteScroll
-            hasMore={hasNextPage}
-            isLoading={isFetching}
-            next={fetchNextPage}
-            threshold={0.7}
-         >
-            <TemplateItemsList descriptors={entries} collections={[]} />
-         </InfiniteScroll>
       );
    }
 
