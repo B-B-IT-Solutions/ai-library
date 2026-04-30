@@ -32,4 +32,8 @@ export class PublicCollectionRepository {
       }
       return toDCollection(collection);
    }
+
+   async pEnsureCollectionsPublic(collectionIds: string[]): Promise<boolean> {
+      return true;
+   }
 }
