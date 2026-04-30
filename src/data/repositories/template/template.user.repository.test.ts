@@ -30,8 +30,8 @@ import {
    toDPromptTemplateDescriptor,
    toDPromptTemplateDescriptors,
    toDPromptTemplateDescriptorWithTemplate,
-} from "./prompt.template.mapper";
-import { PromptTemplateRepository } from "./prompt.template.repository";
+} from "./template.mapper";
+import { PromptTemplateRepository } from "./template.user.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 

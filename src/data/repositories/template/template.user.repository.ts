@@ -36,7 +36,7 @@ import {
    toDPromptTemplateDescriptor,
    toDPromptTemplateDescriptors,
    toDPromptTemplateDescriptorWithTemplate,
-} from "./prompt.template.mapper";
+} from "./template.mapper";
 
 type PGetPromptTemplateDescriptorsParams = {
    search?: string;

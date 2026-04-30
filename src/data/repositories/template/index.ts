@@ -1,4 +1,4 @@
-export { PromptTemplateRepository } from "./prompt.template.repository";
+export { PromptTemplateRepository } from "./template.user.repository";
 export { PublicTemplateRepository } from "./template.public.repository";
 
-export { toDPromptTemplateDescriptor } from "./prompt.template.mapper";
+export { toDPromptTemplateDescriptor } from "./template.mapper";

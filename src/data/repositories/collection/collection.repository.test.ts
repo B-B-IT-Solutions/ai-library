@@ -504,3 +504,66 @@ describe("pRemoveTemplateFromCollection tests", () => {
       );
    });
 });
+
+describe("pGetTemplateCollectionIds tests", () => {
+   beforeEach(() => {
+      mockReset(prismaMock);
+   });
+
+   it("no entries - returns empty array - test", async () => {
+      const userId = "user-id-1";
+      const descriptorId = "descriptor-id-1";
+
+      prismaMock.libraryCollectionEntry.findMany.mockResolvedValue([]);
+
+      const result = await collectionRepository.pGetTemplateCollectionIds(
+         userId,
+         descriptorId
+      );
+
+      const expectedArgs: LibraryCollectionEntryFindManyArgs = {
+         where: {
+            templateDescriptorId: descriptorId,
+         },
+         select: { collectionId: true },
+      };
+
+      expect(result).toEqual([]);
+      expect(prismaMock.libraryCollectionEntry.findMany).toHaveBeenCalledTimes(
+         1
+      );
+      expect(prismaMock.libraryCollectionEntry.findMany).toHaveBeenCalledWith(
+         expectedArgs
+      );
+   });
+
+   it("collectionIds retrieved - test", async () => {
+      const userId = "user-id-1";
+      const descriptorId = "descriptor-id-1";
+
+      const entries = ptestData.pTemplateCollectionEntries();
+      prismaMock.libraryCollectionEntry.findMany.mockResolvedValue(entries);
+
+      const result = await collectionRepository.pGetTemplateCollectionIds(
+         userId,
+         descriptorId
+      );
+
+      const expectedResult = map(entries, (e) => e.collectionId);
+
+      const expectedArgs: LibraryCollectionEntryFindManyArgs = {
+         where: {
+            templateDescriptorId: descriptorId,
+         },
+         select: { collectionId: true },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(prismaMock.libraryCollectionEntry.findMany).toHaveBeenCalledTimes(
+         1
+      );
+      expect(prismaMock.libraryCollectionEntry.findMany).toHaveBeenCalledWith(
+         expectedArgs
+      );
+   });
+});

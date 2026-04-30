@@ -15,7 +15,7 @@ import {
    PromptTemplateDescriptorWhereInput,
 } from "@/generated/prisma/models";
 
-import { toDPromptTemplateDescriptors } from "./prompt.template.mapper";
+import { toDPromptTemplateDescriptors } from "./template.mapper";
 
 export class PublicTemplateRepository {
    private prisma: DbClient;
