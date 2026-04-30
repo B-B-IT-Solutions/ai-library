@@ -28,13 +28,13 @@ export const resolveAllTemplateFields = (
    ];
 };
 
-export const globalFieldsToTemplateFields = (
+const globalFieldsToTemplateFields = (
    gfs: DGlobalTemplateField[]
 ): DPromptTemplateField[] => {
    return map(gfs, globalFieldToTemplateField);
 };
 
-export const globalFieldToTemplateField = (
+const globalFieldToTemplateField = (
    gf: DGlobalTemplateField
 ): DPromptTemplateField => {
    return {
@@ -51,7 +51,7 @@ export const globalFieldToTemplateField = (
    };
 };
 
-export const missingVariablesToTemplateFields = (
+const missingVariablesToTemplateFields = (
    variableNames: string[]
 ): DPromptTemplateField[] => {
    return map(variableNames, (v, idx) =>
@@ -59,7 +59,7 @@ export const missingVariablesToTemplateFields = (
    );
 };
 
-export const missingVariableToTemplateField = (
+const missingVariableToTemplateField = (
    name: string,
    index: number
 ): DPromptTemplateField => {
