@@ -4,7 +4,7 @@ import {
    promptTemplateFieldSchema,
    promptTemplateFieldTypeSchema,
    updatePromptTemplateSchema,
-} from "./prompt.template.schema";
+} from "./template.schema";
 
 describe("promptTemplateFieldTypeSchema - tests", () => {
    it("promptTemplateFieldTypeSchema - TEXT type valid - test", () => {
