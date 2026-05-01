@@ -34,7 +34,7 @@ export const PublicTemplateItemCard = ({
    collections,
    collectionToken,
 }: Props) => {
-   const detailsUrl = collectionToken
+   const templateDetailsUrl = collectionToken
       ? `/p/templates/${descriptor.id}?col=${collectionToken}`
       : `/p/templates/${descriptor.id}`;
 
@@ -72,7 +72,7 @@ export const PublicTemplateItemCard = ({
             <DropdownMenuContent align="end">
                <DropdownMenuItem asChild={true}>
                   <Link
-                     href={detailsUrl}
+                     href={templateDetailsUrl}
                      className="cursor-pointer"
                      data-testid="view-details-link"
                   >
@@ -106,7 +106,7 @@ export const PublicTemplateItemCard = ({
          <AddToFavoriteButton descriptor={descriptor} />
          <CardHeader className="gap-3 border-b border-slate-200 p-5 pb-3">
             <Link
-               href={detailsUrl}
+               href={templateDetailsUrl}
                className="group/title"
                data-testid="view-details-link-title"
             >

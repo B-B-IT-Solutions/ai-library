@@ -90,7 +90,7 @@ describe("PublicTemplateItemCard rendering tests", () => {
 
 describe("PublicTemplateItemCard functionality tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
       mockRouter.push("/");
    });
 
