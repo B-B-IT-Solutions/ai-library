@@ -8,6 +8,7 @@ import { PublicTemplateService } from "@/data/services/template";
 import {
    getPublicPromptGenerationTemplateData,
    getPublicPromptTemplate,
+   getPublicTemplateDescriptor,
    getPublicTemplateDescriptorsPage,
 } from "./template.public.actions";
 
@@ -73,6 +74,72 @@ describe("getPublicTemplateDescriptorsPage tests", () => {
       expect(result).toEqual(page);
       expect(sGetPublicTemplateDescriptorsPageMock).toHaveBeenCalledTimes(1);
       expect(sGetPublicTemplateDescriptorsPageMock).toHaveBeenCalledWith(query);
+   });
+});
+
+describe("getPublicTemplateDescriptor tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("invalid UUID - test", async () => {
+      const invalidId = "invalid-uuid-1";
+
+      const result = await getPublicTemplateDescriptor(invalidId);
+
+      expect(result).toBeNull();
+      expect(sGetPublicTemplateDescriptorMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith("Invalid Descriptor ID.");
+   });
+
+   it("error - test", async () => {
+      const errorMessage = "db error";
+      const error = new Error(errorMessage);
+      sGetPublicTemplateDescriptorMock.mockRejectedValue(error);
+
+      const descriptorId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const result = await getPublicTemplateDescriptor(descriptorId);
+
+      expect(result).toBeNull();
+      expect(sGetPublicTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+      expect(sGetPublicTemplateDescriptorMock).toHaveBeenCalledWith(
+         descriptorId
+      );
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("descriptor null - test", async () => {
+      sGetPublicTemplateDescriptorMock.mockResolvedValue(null);
+
+      const descriptorId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const result = await getPublicTemplateDescriptor(descriptorId);
+
+      expect(result).toBeNull();
+      expect(sGetPublicTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+      expect(sGetPublicTemplateDescriptorMock).toHaveBeenCalledWith(
+         descriptorId
+      );
+   });
+
+   it("descriptor defined - test", async () => {
+      const descriptor = dtestData.dPromptTemplateDescriptor();
+      sGetPublicTemplateDescriptorMock.mockResolvedValue(descriptor);
+
+      const descriptorId = "6d3266e8-a69e-42aa-a04f-9953c211f509";
+      const result = await getPublicTemplateDescriptor(descriptorId);
+
+      expect(result).toEqual(descriptor);
+      expect(sGetPublicTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+      expect(sGetPublicTemplateDescriptorMock).toHaveBeenCalledWith(
+         descriptorId
+      );
    });
 });
 
