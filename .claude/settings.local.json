@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(npm run db:migrate:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run db:seed:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(cd /c/Users/Startklar/_code/ai/ai-library && npx jest src/components/library/buttons/add-to-favorite-button.test.tsx --no-coverage 2>&1)",
+      "Bash(cd /c/Users/Startklar/_code/ai/ai-library && npx jest src/components/library/dialog/create-library-collection-dialog.test.tsx --no-coverage 2>&1)",
+      "Bash(npx jest:*)"
+    ]
+  },
+  "outputStyle": "default"
+}
