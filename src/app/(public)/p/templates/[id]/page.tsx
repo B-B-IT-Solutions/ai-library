@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { PublicTemplateView } from "@/components/templates";
+import { getPublicCollectionByToken } from "@/data/actions/collection";
 import {
    getPublicPromptTemplate,
    getPublicTemplateDescriptor,
@@ -25,19 +26,32 @@ export type PageParams = {
    id: string;
 };
 
-export type PageProps = {
-   params: Promise<PageParams>;
+export type PageSearchParams = {
+   from?: string;
 };
 
-export const PublicTemplatePage = async ({ params }: PageProps) => {
+export type PageProps = {
+   params: Promise<PageParams>;
+   searchParams: Promise<PageSearchParams>;
+};
+
+export const PublicTemplatePage = async ({
+   params,
+   searchParams,
+}: PageProps) => {
    const { id } = await params;
+   const { from } = await searchParams;
+
    const descriptor = await getPublicTemplateDescriptor(id);
 
    if (!descriptor) {
       return notFound();
    }
 
-   const template = await getPublicPromptTemplate(descriptor.promptTemplateId);
+   const [template, collection] = await Promise.all([
+      getPublicPromptTemplate(descriptor.promptTemplateId),
+      from ? getPublicCollectionByToken(from) : Promise.resolve(null),
+   ]);
 
    if (!template) {
       return notFound();
@@ -45,7 +59,11 @@ export const PublicTemplatePage = async ({ params }: PageProps) => {
 
    return (
       <div data-testid="public-template-view-page">
-         <PublicTemplateView descriptor={descriptor} template={template} />
+         <PublicTemplateView
+            descriptor={descriptor}
+            template={template}
+            collection={collection}
+         />
       </div>
    );
 };

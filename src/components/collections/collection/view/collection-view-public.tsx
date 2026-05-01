@@ -94,6 +94,7 @@ export const CollectionViewPublic = async ({ collection }: Props) => {
                   groupBy={groupBy}
                   sortBy={sortBy}
                   filters={filters}
+                  collectionToken={collection.publicToken}
                />
             </div>
          </div>

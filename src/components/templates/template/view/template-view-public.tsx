@@ -1,10 +1,12 @@
 import { isEmpty, map } from "es-toolkit/compat";
-import { ArrowLeft, Bot, Sparkles, Tag } from "lucide-react";
+import { Bot, Sparkles, Tag } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
+import { PublicBreadcrumb } from "@/components/shared/breadcrumbs";
 import { MDRenderer } from "@/components/shared/md";
+import { DCollection } from "@/data/types/domain/collection";
 import {
    DPromptTemplate,
    DPromptTemplateDescriptor,
@@ -15,26 +17,42 @@ import { PromptTextDisplay } from "./prompt-text-display";
 type Props = {
    descriptor: DPromptTemplateDescriptor;
    template: DPromptTemplate;
+   collection?: DCollection | null;
 };
 
-export const PublicTemplateView = ({ descriptor, template }: Props) => {
+export const PublicTemplateView = ({
+   descriptor,
+   template,
+   collection,
+}: Props) => {
    const hasCategories = !isEmpty(descriptor.categories);
 
+   const breadcrumbItems = collection?.publicToken
+      ? [
+           {
+              href: `/p/collections/${collection.publicToken}`,
+              label: collection.name,
+           },
+        ]
+      : [
+           {
+              href: "/p/marketplace",
+              label: "Marketplace",
+           },
+        ];
+
    return (
-      <div
-         className="bg-slate-50"
-         data-testid="public-template-view"
-      >
+      <div className="bg-slate-50" data-testid="public-template-view">
          {/* Page header */}
          <div className="border-b bg-white">
             <div className="container mx-auto max-w-5xl px-4 py-6">
-               <Link
-                  href="/p/marketplace"
-                  className="mb-4 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
-               >
-                  <ArrowLeft className="h-3.5 w-3.5" />
-                  Zurück zum Marketplace
-               </Link>
+               <div className="mb-4">
+                  <PublicBreadcrumb
+                     items={breadcrumbItems}
+                     current={descriptor.title}
+                     data-testid="template-breadcrumb-public"
+                  />
+               </div>
                <h1 className="text-3xl font-bold tracking-tight text-slate-900">
                   {descriptor.title}
                </h1>
@@ -59,10 +77,7 @@ export const PublicTemplateView = ({ descriptor, template }: Props) => {
 
          {/* Content */}
          <div className="container mx-auto max-w-5xl px-4 py-8">
-            <Card
-               className="shadow-sm"
-               data-testid="template-view-public-form"
-            >
+            <Card className="shadow-sm" data-testid="template-view-public-form">
                <CardHeader className="border-b border-slate-100 pb-5">
                   <h2 className="text-lg font-semibold text-slate-900">
                      Beschreibung
@@ -95,16 +110,6 @@ export const PublicTemplateView = ({ descriptor, template }: Props) => {
                      <Link href="/auth/sign-in">Anmelden</Link>
                   </Button>
                </div>
-            </div>
-
-            <div className="mt-6 flex justify-center">
-               <Link
-                  href="/p/marketplace"
-                  className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
-               >
-                  <ArrowLeft className="h-3.5 w-3.5" />
-                  Alle Vorlagen ansehen
-               </Link>
             </div>
          </div>
       </div>
