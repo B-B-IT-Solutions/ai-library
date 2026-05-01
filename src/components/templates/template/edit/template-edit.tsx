@@ -5,7 +5,10 @@ import {
    ItemDetailsEditContent,
    ItemDetailsEditHeader,
 } from "@/components/shared/wrappers/item-details";
-import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
+import {
+   DPromptTemplate,
+   DPromptTemplateDescriptor,
+} from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
 import { TemplateBreadcrumb } from "../../breadcrumbs";
 
@@ -13,10 +16,11 @@ import { TemplateEditForm } from "./template-edit-form";
 
 type Props = {
    descriptor?: DPromptTemplateDescriptor;
+   template?: DPromptTemplate;
    globalFields: DGlobalTemplateField[];
 };
 
-export const TemplateEdit = ({ descriptor, globalFields }: Props) => {
+export const TemplateEdit = ({ descriptor, template, globalFields }: Props) => {
    const header = () => {
       const title = descriptor
          ? "Vorlage Bearbeiten"
@@ -56,6 +60,7 @@ export const TemplateEdit = ({ descriptor, globalFields }: Props) => {
             <ItemDetailsEditBody>
                <TemplateEditForm
                   descriptor={descriptor}
+                  template={template}
                   globalFields={globalFields}
                />
             </ItemDetailsEditBody>

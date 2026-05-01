@@ -1,6 +1,10 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`EditTemplatePage rendering tests templateDescriptor defined - test 1`] = `
+exports[`EditTemplatePage rendering tests descriptor null - test 1`] = `<div />`;
+
+exports[`EditTemplatePage rendering tests descriptor retrieved - template null - test 1`] = `<div />`;
+
+exports[`EditTemplatePage rendering tests descriptor retrieved - template retrieved - test 1`] = `
 <div>
   <div
     class="h-screen bg-slate-50"
@@ -3093,5 +3097,3 @@ exports[`EditTemplatePage rendering tests templateDescriptor defined - test 1`] 
   </div>
 </div>
 `;
-
-exports[`EditTemplatePage rendering tests templateDescriptor null - test 1`] = `<div />`;

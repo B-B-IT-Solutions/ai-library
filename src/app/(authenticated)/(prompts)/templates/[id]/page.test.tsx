@@ -5,12 +5,19 @@ import { assertInDocument, dtestData, renderAsyncRSC } from "@tests";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getTemplateDescriptor } from "@/data/actions/template";
+import {
+   getPromptTemplate,
+   getTemplateDescriptor,
+} from "@/data/actions/template";
 
 import { metadata, PageParams, PageProps, TemplatePage } from "./page";
 
 const getTemplateDescriptorMock = getTemplateDescriptor as jest.MockedFunction<
    typeof getTemplateDescriptor
+>;
+
+const getPromptTemplateMock = getPromptTemplate as jest.MockedFunction<
+   typeof getPromptTemplate
 >;
 
 const notFoundMock = notFound as jest.MockedFunction<typeof notFound>;
@@ -32,7 +39,7 @@ describe("TemplatePage rendering tests", () => {
       jest.clearAllMocks();
    });
 
-   it("templateDescriptor null - test", async () => {
+   it("descriptor null - test", async () => {
       getTemplateDescriptorMock.mockResolvedValue(null);
 
       const params: PageParams = { id: "descriptor-id-1" };
@@ -44,15 +51,46 @@ describe("TemplatePage rendering tests", () => {
 
       await waitFor(() => {
          expect(getTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+         expect(getTemplateDescriptorMock).toHaveBeenCalledWith(params.id);
+         expect(notFoundMock).toHaveBeenCalledTimes(1);
+         expect(getPromptTemplateMock).not.toHaveBeenCalled();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("descriptor retrieved - template null - test", async () => {
+      const descriptor = dtestData.dPromptTemplateDescriptor();
+      getTemplateDescriptorMock.mockResolvedValue(descriptor);
+
+      getPromptTemplateMock.mockResolvedValue(null);
+
+      const params: PageParams = { id: "descriptor-id-1" };
+      const props: PageProps = {
+         params: Promise.resolve(params),
+      };
+
+      const { container } = await renderAsyncRSC(TemplatePage, props);
+
+      await waitFor(() => {
+         expect(getTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+         expect(getTemplateDescriptorMock).toHaveBeenCalledWith(params.id);
+         expect(getPromptTemplateMock).toHaveBeenCalledTimes(1);
+         expect(getPromptTemplateMock).toHaveBeenCalledWith(
+            descriptor.promptTemplateId
+         );
          expect(notFoundMock).toHaveBeenCalledTimes(1);
       });
 
       expect(container).toMatchSnapshot();
    });
 
-   it("templateDescriptor defined - test", async () => {
-      const libraryEntry = dtestData.dPromptTemplateDescriptor();
-      getTemplateDescriptorMock.mockResolvedValue(libraryEntry);
+   it("descriptor retrieved - template retrieved - test", async () => {
+      const descriptor = dtestData.dPromptTemplateDescriptor();
+      getTemplateDescriptorMock.mockResolvedValue(descriptor);
+
+      const template = dtestData.dPromptTemplate();
+      getPromptTemplateMock.mockResolvedValue(template);
 
       const params: PageParams = { id: "descriptor-id-1" };
       const props: PageProps = {
@@ -64,6 +102,11 @@ describe("TemplatePage rendering tests", () => {
       await waitFor(() => {
          assertRendered();
          expect(getTemplateDescriptorMock).toHaveBeenCalledTimes(1);
+         expect(getTemplateDescriptorMock).toHaveBeenCalledWith(params.id);
+         expect(getPromptTemplateMock).toHaveBeenCalledTimes(1);
+         expect(getPromptTemplateMock).toHaveBeenCalledWith(
+            descriptor.promptTemplateId
+         );
       });
 
       expect(container).toMatchSnapshot();

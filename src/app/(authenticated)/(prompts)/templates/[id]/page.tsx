@@ -27,7 +27,11 @@ export const TemplatePage = async ({ params }: PageProps) => {
       return notFound();
    }
 
-   const template = await getPromptTemplate(descriptor?.promptTemplateId);
+   const template = await getPromptTemplate(descriptor.promptTemplateId);
+
+   if (!template) {
+      return notFound();
+   }
 
    return (
       <div className="h-screen bg-slate-50" data-testid="template-view-page">

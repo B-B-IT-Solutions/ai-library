@@ -27,10 +27,15 @@ describe("TemplateEdit rendering tests", () => {
 
    it("edit existing entry - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptor();
+      const template = dtestData.dPromptTemplate();
       const fields = dtestData.dGlobalTemplateFields();
 
       const { container } = render(
-         <TemplateEdit descriptor={descriptor} globalFields={fields} />
+         <TemplateEdit
+            descriptor={descriptor}
+            template={template}
+            globalFields={fields}
+         />
       );
 
       await waitFor(() => {
