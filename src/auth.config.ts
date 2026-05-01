@@ -48,7 +48,7 @@ export const authConfig: NextAuthConfig = {
             /\/prompts/,
             /^\/marketplace/,
             /\/products\/(.*)/,
-            /\/templates/,
+            /^\/templates/,
             /\/checkout/,
             /\/orders\/(.*)/,
             /\/profile/,

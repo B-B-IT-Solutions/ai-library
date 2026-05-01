@@ -2,25 +2,23 @@ import { screen, waitFor } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import { assertInDocument, dtestData } from "@tests";
 
-import { TemplateView } from "./template-view";
+import { PublicTemplateView } from "./template-view-public";
 
 const assertRendered = () => {
-   const libraryEntry = screen.getByTestId("template-view");
-   const breadcrumb = screen.getByTestId("template-breadcrumb");
-   const form = screen.getByTestId("template-view-form");
+   const view = screen.getByTestId("public-template-view");
+   const content = screen.getByTestId("prompt-text");
 
-   assertInDocument(libraryEntry);
-   assertInDocument(breadcrumb);
-   assertInDocument(form);
+   assertInDocument(view);
+   assertInDocument(content);
 };
 
-describe("TemplateView rendering tests", () => {
+describe("PublicTemplateView rendering tests", () => {
    it("rendered test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptor();
       const template = dtestData.dPromptTemplate();
 
       const { container } = render(
-         <TemplateView descriptor={descriptor} template={template} />
+         <PublicTemplateView descriptor={descriptor} template={template} />
       );
 
       await waitFor(() => {

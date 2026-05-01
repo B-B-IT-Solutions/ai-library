@@ -19,7 +19,8 @@ import {
    updateTemplateDescriptor,
 } from "@/data/actions/template";
 import {
-   DPromptTemplateDescriptorWithTemplate,
+   DPromptTemplate,
+   DPromptTemplateDescriptor,
    DPromptTemplateField,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
@@ -35,21 +36,26 @@ import {
 import {
    extractVariablesFromContent,
    getVariableStatus,
-   initPromptTempalte,
+   initPromptTemplate,
 } from "./utils";
 
 type Props = {
-   descriptor?: DPromptTemplateDescriptorWithTemplate;
+   descriptor?: DPromptTemplateDescriptor;
+   template?: DPromptTemplate;
    globalFields: DGlobalTemplateField[];
 };
 
-export const TemplateEditForm = ({ descriptor, globalFields }: Props) => {
+export const TemplateEditForm = ({
+   descriptor,
+   template,
+   globalFields,
+}: Props) => {
    const router = useRouter();
    const isEdit = !!descriptor;
 
    const form = useForm<DPromptTemplateUpdate>({
       resolver: zodResolver(updateTemplateSchema),
-      defaultValues: initPromptTempalte(descriptor),
+      defaultValues: initPromptTemplate(descriptor, template),
    });
 
    const {

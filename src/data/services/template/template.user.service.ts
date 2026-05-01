@@ -6,7 +6,6 @@ import {
    DPromptTemplate,
    DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
-   DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateFieldValues,
    DPromptTemplateUpdate,
    DTemplateDescriptorsPage,
@@ -44,11 +43,8 @@ export class TemplateService {
    async getTemplateDescriptor(
       userId: string,
       descriptorId: string
-   ): Promise<DPromptTemplateDescriptorWithTemplate | null> {
-      return await this.repository.pGetPromptTemplateDescriptorWithTemplate(
-         userId,
-         descriptorId
-      );
+   ): Promise<DPromptTemplateDescriptor | null> {
+      return await this.repository.pGetTemplateDescriptor(userId, descriptorId);
    }
 
    async createTemplateDescriptor(
@@ -127,12 +123,18 @@ export class TemplateService {
          );
       }
 
-      const { promptTemplate } = descriptor;
-
-      const validation = TemplateEngine.validate(
-         promptTemplate.fields,
-         fieldValues
+      const template = await this.getPromptTemplate(
+         userId,
+         descriptor.promptTemplateId
       );
+
+      if (!template) {
+         throw new Error(
+            `Template with ID ${descriptor.promptTemplateId} not found`
+         );
+      }
+
+      const validation = TemplateEngine.validate(template.fields, fieldValues);
 
       if (!validation.valid) {
          throw new Error(
@@ -140,10 +142,7 @@ export class TemplateService {
          );
       }
 
-      const content = TemplateEngine.replace(
-         promptTemplate.content,
-         fieldValues
-      );
+      const content = TemplateEngine.replace(template.content, fieldValues);
 
       return {
          content: content,
@@ -166,10 +165,21 @@ export class TemplateService {
          );
       }
 
+      const template = await this.getPromptTemplate(
+         userId,
+         descriptor.promptTemplateId
+      );
+
+      if (!template) {
+         throw new Error(
+            `Template with ID ${descriptor.promptTemplateId} not found`
+         );
+      }
+
       const downloadData = JSON.stringify(
          {
             title: descriptor.title,
-            content: descriptor.promptTemplate.content,
+            content: template.content,
             categories: descriptor.categories.map((c) => c.name),
             recommendedModel: descriptor.recommendedModel,
          },

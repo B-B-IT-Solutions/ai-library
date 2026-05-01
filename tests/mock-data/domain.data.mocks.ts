@@ -40,7 +40,6 @@ import {
    DPromptTemplateCategory,
    DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
-   DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateField,
    DPromptTemplateFieldUpdate,
    DPromptTemplateFieldValues,
@@ -472,17 +471,6 @@ export const dPromptTemplateDataPromptGeneration = (
    return {
       template: dPromptTemplate(index),
       allFields: dPromptTemplateFields(),
-   };
-};
-
-export const dPromptTemplateDescriptorWithTemplate = (
-   index = 1
-): DPromptTemplateDescriptorWithTemplate => {
-   const descriptor = dPromptTemplateDescriptor(index);
-   const promptTemplate = dPromptTemplate(index);
-   return {
-      ...descriptor,
-      promptTemplate,
    };
 };
 

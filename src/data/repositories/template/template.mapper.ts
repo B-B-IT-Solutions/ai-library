@@ -2,35 +2,22 @@ import { map } from "es-toolkit/compat";
 
 import {
    PromptTemplateDescriptorWithCategories,
-   PromptTemplateDescriptorWithTemplate,
    PromptTemplateWithFields,
 } from "@/data/types/db/prompt.template";
 import {
    DPromptTemplate,
    DPromptTemplateDescriptor,
-   DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateField,
 } from "@/data/types/domain/prompt.template";
 import { PromptTemplateField } from "@/generated/prisma/client";
 
-export const toDPromptTemplateDescriptorWithTemplate = (
-   desciptor: PromptTemplateDescriptorWithTemplate
-): DPromptTemplateDescriptorWithTemplate => {
-   const dDescriptor = toDPromptTemplateDescriptor(desciptor);
-   const promptTemplate = toDPromptTemplate(desciptor.promptTemplate);
-   return {
-      ...dDescriptor,
-      promptTemplate,
-   };
-};
-
-export const toDPromptTemplateDescriptors = (
+export const toDTemplateDescriptors = (
    pPrompts: PromptTemplateDescriptorWithCategories[]
 ): DPromptTemplateDescriptor[] => {
-   return map(pPrompts, (dbP) => toDPromptTemplateDescriptor(dbP));
+   return map(pPrompts, (dbP) => toDTemplateDescriptor(dbP));
 };
 
-export const toDPromptTemplateDescriptor = (
+export const toDTemplateDescriptor = (
    prompt: PromptTemplateDescriptorWithCategories
 ): DPromptTemplateDescriptor => {
    return {

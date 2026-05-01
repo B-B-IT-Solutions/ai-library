@@ -2,8 +2,11 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { TemplateEdit } from "@/components/templates";
-import { getTemplateDescriptor } from "@/data/actions/template";
 import { getGlobalTemplateFields } from "@/data/actions/settings";
+import {
+   getPromptTemplate,
+   getTemplateDescriptor,
+} from "@/data/actions/template";
 
 export const metadata: Metadata = {
    title: "Vorlage Bearbeiten",
@@ -20,18 +23,28 @@ export type PageProps = {
 export const EditTemplatePage = async ({ params }: PageProps) => {
    const { id: descriptorId } = await params;
 
-   const [entry, globalFields] = await Promise.all([
+   const [descriptor, globalFields] = await Promise.all([
       getTemplateDescriptor(descriptorId),
       getGlobalTemplateFields(),
    ]);
 
-   if (!entry) {
+   if (!descriptor) {
+      return notFound();
+   }
+
+   const template = await getPromptTemplate(descriptor.promptTemplateId);
+
+   if (!template) {
       return notFound();
    }
 
    return (
       <div className="h-screen bg-slate-50" data-testid="template-edit-page">
-         <TemplateEdit descriptor={entry} globalFields={globalFields} />
+         <TemplateEdit
+            descriptor={descriptor}
+            template={template}
+            globalFields={globalFields}
+         />
       </div>
    );
 };

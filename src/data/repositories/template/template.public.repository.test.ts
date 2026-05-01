@@ -9,13 +9,15 @@ import {
 } from "@/data/types/domain/prompt.template";
 import {
    PromptTemplateDescriptorCountArgs,
+   PromptTemplateDescriptorFindFirstArgs,
    PromptTemplateDescriptorFindManyArgs,
    PromptTemplateFindFirstArgs,
 } from "@/generated/prisma/models";
 
 import {
    toDPromptTemplate,
-   toDPromptTemplateDescriptors,
+   toDTemplateDescriptor,
+   toDTemplateDescriptors,
 } from "./template.mapper";
 import { PublicTemplateRepository } from "./template.public.repository";
 
@@ -44,7 +46,7 @@ describe("pGetTemplateDescriptorsPage tests", () => {
       const result = await repository.pGetPublicTemplateDescriptorsPage(query);
 
       const expectedResult: DTemplateDescriptorsPage = {
-         content: toDPromptTemplateDescriptors(descriptors),
+         content: toDTemplateDescriptors(descriptors),
          pageNumber: 0,
          pageSize: 20,
          numberOfElements: descriptors.length,
@@ -174,6 +176,58 @@ describe("pGetTemplateDescriptorsPage tests", () => {
    });
 });
 
+describe("pGetPublicTemplateDescriptor tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("descriptor null - test", async () => {
+      prismaMock.promptTemplateDescriptor.findFirst.mockResolvedValue(null);
+
+      const id = "descriptor-1";
+      const result = await repository.pGetPublicTemplateDescriptor(id);
+
+      const expectedArgs: PromptTemplateDescriptorFindFirstArgs = {
+         where: { id },
+         include: {
+            categories: true,
+         },
+      };
+      expect(result).toBeNull();
+      expect(
+         prismaMock.promptTemplateDescriptor.findFirst
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         prismaMock.promptTemplateDescriptor.findFirst
+      ).toHaveBeenCalledWith(expectedArgs);
+   });
+
+   test("descriptor retrieved - test", async () => {
+      const descriptor = ptestData.pPromptTemplateDescriptorWithCategories();
+      prismaMock.promptTemplateDescriptor.findFirst.mockResolvedValue(
+         descriptor
+      );
+
+      const id = "descriptor-1";
+      const result = await repository.pGetPublicTemplateDescriptor(id);
+      const expectedResult = toDTemplateDescriptor(descriptor);
+
+      const expectedArgs: PromptTemplateDescriptorFindFirstArgs = {
+         where: { id },
+         include: {
+            categories: true,
+         },
+      };
+      expect(result).toEqual(expectedResult);
+      expect(
+         prismaMock.promptTemplateDescriptor.findFirst
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         prismaMock.promptTemplateDescriptor.findFirst
+      ).toHaveBeenCalledWith(expectedArgs);
+   });
+});
+
 describe("pGetPublicPromptTemplate tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -185,7 +239,7 @@ describe("pGetPublicPromptTemplate tests", () => {
       const id = "prompt-template-id-1";
       const result = await repository.pGetPublicPromptTemplate(id);
 
-      const expectedWhere: PromptTemplateFindFirstArgs = {
+      const expectedArgs: PromptTemplateFindFirstArgs = {
          where: {
             id,
          },
@@ -197,7 +251,7 @@ describe("pGetPublicPromptTemplate tests", () => {
       expect(result).toBeNull();
       expect(prismaMock.promptTemplate.findFirst).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptTemplate.findFirst).toHaveBeenCalledWith(
-         expectedWhere
+         expectedArgs
       );
    });
 
@@ -209,7 +263,7 @@ describe("pGetPublicPromptTemplate tests", () => {
       const result = await repository.pGetPublicPromptTemplate(id);
       const expectedResult = toDPromptTemplate(prompt);
 
-      const expectedWhere: PromptTemplateFindFirstArgs = {
+      const expectedArgs: PromptTemplateFindFirstArgs = {
          where: {
             id,
          },
@@ -221,7 +275,7 @@ describe("pGetPublicPromptTemplate tests", () => {
       expect(result).toEqual(expectedResult);
       expect(prismaMock.promptTemplate.findFirst).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptTemplate.findFirst).toHaveBeenCalledWith(
-         expectedWhere
+         expectedArgs
       );
    });
 });

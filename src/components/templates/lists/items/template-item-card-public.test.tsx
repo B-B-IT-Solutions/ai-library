@@ -114,7 +114,7 @@ describe("PublicTemplateItemCard functionality tests", () => {
       userEvent.click(viewDetailsTitle);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual(`/templates/${descriptor.id}`);
+         expect(mockRouter.pathname).toEqual(`/p/templates/${descriptor.id}`);
       });
    });
 
@@ -147,7 +147,7 @@ describe("PublicTemplateItemCard functionality tests", () => {
       userEvent.click(viewDetailsLink);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual(`/templates/${descriptor.id}`);
+         expect(mockRouter.pathname).toEqual(`/p/templates/${descriptor.id}`);
       });
    });
 

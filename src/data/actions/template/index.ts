@@ -17,5 +17,7 @@ export {
 
 export {
    getPublicTemplateDescriptorsPage,
+   getPublicTemplateDescriptor,
+   getPublicPromptTemplate,
    getPublicPromptGenerationTemplateData,
 } from "./template.public.actions";

@@ -2,7 +2,10 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { TemplateView } from "@/components/templates";
-import { getTemplateDescriptor } from "@/data/actions/template";
+import {
+   getPromptTemplate,
+   getTemplateDescriptor,
+} from "@/data/actions/template";
 
 export const metadata: Metadata = {
    title: "Vorlage",
@@ -24,9 +27,15 @@ export const TemplatePage = async ({ params }: PageProps) => {
       return notFound();
    }
 
+   const template = await getPromptTemplate(descriptor.promptTemplateId);
+
+   if (!template) {
+      return notFound();
+   }
+
    return (
       <div className="h-screen bg-slate-50" data-testid="template-view-page">
-         <TemplateView descriptor={descriptor} />
+         <TemplateView descriptor={descriptor} template={template} />
       </div>
    );
 };

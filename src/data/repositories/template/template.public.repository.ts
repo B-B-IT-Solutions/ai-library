@@ -2,17 +2,21 @@ import { DbClient } from "@/data/types/db/common";
 import { PromptTemplateDescriptorWithCategories } from "@/data/types/db/prompt.template";
 import {
    DPromptTemplate,
+   DPromptTemplateDescriptor,
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
 import {
    PromptTemplateDescriptorCountArgs,
+   PromptTemplateDescriptorFindFirstArgs,
    PromptTemplateDescriptorFindManyArgs,
+   PromptTemplateFindFirstArgs,
 } from "@/generated/prisma/models";
 
 import {
    toDPromptTemplate,
-   toDPromptTemplateDescriptors,
+   toDTemplateDescriptor,
+   toDTemplateDescriptors,
 } from "./template.mapper";
 import { resolveOrderBy, resolveWhereInput } from "./utils";
 
@@ -56,7 +60,7 @@ export class PublicTemplateRepository {
       ]);
 
       return {
-         content: toDPromptTemplateDescriptors(descriptors),
+         content: toDTemplateDescriptors(descriptors),
          pageNumber,
          pageSize,
          numberOfElements: descriptors.length,
@@ -65,8 +69,24 @@ export class PublicTemplateRepository {
       };
    }
 
+   async pGetPublicTemplateDescriptor(
+      id: string
+   ): Promise<DPromptTemplateDescriptor | null> {
+      const args = {
+         where: { id },
+         include: {
+            categories: true,
+         },
+      } satisfies PromptTemplateDescriptorFindFirstArgs;
+
+      const descriptor: PromptTemplateDescriptorWithCategories | null =
+         await this.prisma.promptTemplateDescriptor.findFirst(args);
+
+      return descriptor ? toDTemplateDescriptor(descriptor) : null;
+   }
+
    async pGetPublicPromptTemplate(id: string): Promise<DPromptTemplate | null> {
-      const template = await this.prisma.promptTemplate.findFirst({
+      const args = {
          where: {
             id,
          },
@@ -74,7 +94,9 @@ export class PublicTemplateRepository {
             fields: true,
             globalFields: true,
          },
-      });
+      } satisfies PromptTemplateFindFirstArgs;
+
+      const template = await this.prisma.promptTemplate.findFirst(args);
 
       return template ? toDPromptTemplate(template) : null;
    }

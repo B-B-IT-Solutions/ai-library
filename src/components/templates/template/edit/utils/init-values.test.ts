@@ -2,23 +2,24 @@ import { dtestData } from "@tests";
 import { map } from "es-toolkit/compat";
 
 import {
-   DPromptTemplateDescriptorWithTemplate,
+   DPromptTemplate,
+   DPromptTemplateDescriptor,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 
-import { initPromptTempalte } from "./init-values";
+import { initPromptTemplate } from "./init-values";
 
 const expectedInitPromptTempalteExisting = (
-   descriptor: DPromptTemplateDescriptorWithTemplate
+   descriptor: DPromptTemplateDescriptor,
+   template: DPromptTemplate
 ): DPromptTemplateUpdate => {
-   const { promptTemplate } = descriptor;
    return {
       title: descriptor.title,
       description: descriptor.description,
-      content: descriptor.promptTemplate.content,
+      content: template.content,
       recommendedModel: descriptor.recommendedModel,
       categories: descriptor.categories.map((c) => c.name),
-      fields: map(promptTemplate.fields, (f) => ({
+      fields: map(template.fields, (f) => ({
          name: f.name,
          label: f.label,
          description: f.description ?? "",
@@ -28,7 +29,7 @@ const expectedInitPromptTempalteExisting = (
          defaultValue: f.defaultValue ?? "",
          options: f.options ?? [],
       })),
-      globalFieldIds: promptTemplate.globalFieldIds ?? [],
+      globalFieldIds: template.globalFieldIds ?? [],
    };
 };
 
@@ -45,18 +46,22 @@ const expectedInitPromptTempalteNew: DPromptTemplateUpdate = {
 
 describe("initPromptTempalte tests", () => {
    it("initPromptTempalte - new entry test", () => {
-      const initValue = initPromptTempalte();
+      const initValue = initPromptTemplate();
       expect(initValue).toEqual(expectedInitPromptTempalteNew);
    });
 
    it("initPromptTempalte - existing entry test", () => {
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
-      const field = descriptor.promptTemplate.fields[0];
+      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const template = dtestData.dPromptTemplate();
+      const field = template.fields[0];
       field.description = null;
       field.defaultValue = null;
       field.options = undefined;
-      const initValues = initPromptTempalte(descriptor);
-      const expectedValues = expectedInitPromptTempalteExisting(descriptor);
+      const initValues = initPromptTemplate(descriptor, template);
+      const expectedValues = expectedInitPromptTempalteExisting(
+         descriptor,
+         template
+      );
       expect(initValues).toEqual(expectedValues);
    });
 });

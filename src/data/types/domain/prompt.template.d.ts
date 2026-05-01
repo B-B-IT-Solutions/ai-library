@@ -52,11 +52,6 @@ export type DPromptTemplateDescriptor = {
    createdAt: string;
 };
 
-export type DPromptTemplateDescriptorWithTemplate =
-   DPromptTemplateDescriptor & {
-      promptTemplate: DPromptTemplate;
-   };
-
 export type DPromptTemplateFieldType =
    | "TEXT"
    | "TEXTAREA"

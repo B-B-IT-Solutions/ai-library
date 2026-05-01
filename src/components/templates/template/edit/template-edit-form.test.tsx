@@ -41,7 +41,7 @@ import { DPromptTemplateUpdate } from "@/data/types/domain/prompt.template";
 import { ActionResult } from "@/data/types/utils";
 
 import { TemplateEditForm } from "./template-edit-form";
-import { initPromptTempalte } from "./utils";
+import { initPromptTemplate } from "./utils";
 
 jest.setTimeout(10000);
 
@@ -139,11 +139,16 @@ describe("TemplateEditForm rendering tests", () => {
    });
 
    it("existing entry - rendered - test", () => {
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const template = dtestData.dPromptTemplate();
       const fields = dtestData.dGlobalTemplateFields();
 
       const { container } = render(
-         <TemplateEditForm descriptor={descriptor} globalFields={fields} />
+         <TemplateEditForm
+            descriptor={descriptor}
+            template={template}
+            globalFields={fields}
+         />
       );
 
       assertRendered();
@@ -154,12 +159,17 @@ describe("TemplateEditForm rendering tests", () => {
 
    it("existing entry - variables detected in content - test", async () => {
       const fields = dtestData.dGlobalTemplateFields();
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
-      descriptor.promptTemplate.content =
-         "Hello {{{{name}}, your role is {{{{role}}";
+      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const template = dtestData.dPromptTemplate();
+
+      template.content = "Hello {{{{name}}, your role is {{{{role}}";
 
       const { container } = render(
-         <TemplateEditForm descriptor={descriptor} globalFields={fields} />
+         <TemplateEditForm
+            descriptor={descriptor}
+            template={template}
+            globalFields={fields}
+         />
       );
 
       assertRendered();
@@ -203,11 +213,16 @@ describe("TemplateEditForm functionality tests", () => {
    });
 
    it("remove global field btn clicked - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const template = dtestData.dPromptTemplate();
       const fields = dtestData.dGlobalTemplateFields();
 
       render(
-         <TemplateEditForm descriptor={descriptor} globalFields={fields} />
+         <TemplateEditForm
+            descriptor={descriptor}
+            template={template}
+            globalFields={fields}
+         />
       );
 
       assertRendered();
@@ -379,11 +394,16 @@ describe("TemplateEditForm functionality tests", () => {
       };
       updateTemplateDescriptorMock.mockResolvedValue(result);
 
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const template = dtestData.dPromptTemplate();
       const fields = dtestData.dGlobalTemplateFields();
 
       render(
-         <TemplateEditForm descriptor={descriptor} globalFields={fields} />
+         <TemplateEditForm
+            descriptor={descriptor}
+            template={template}
+            globalFields={fields}
+         />
       );
 
       assertRendered();
@@ -398,7 +418,7 @@ describe("TemplateEditForm functionality tests", () => {
 
       await userEvent.click(saveBtn);
 
-      const initValue = initPromptTempalte(descriptor);
+      const initValue = initPromptTemplate(descriptor, template);
       const expectedPayload: DPromptTemplateUpdate = {
          title: initValue.title + "Test Template",
          description: initValue.description + "Test Description",
@@ -474,11 +494,16 @@ describe("TemplateEditForm functionality tests", () => {
       };
       updateTemplateDescriptorMock.mockResolvedValue(result);
 
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptor();
+      const template = dtestData.dPromptTemplate();
       const fields = dtestData.dGlobalTemplateFields();
 
       render(
-         <TemplateEditForm descriptor={descriptor} globalFields={fields} />
+         <TemplateEditForm
+            descriptor={descriptor}
+            template={template}
+            globalFields={fields}
+         />
       );
 
       assertRendered();
@@ -492,7 +517,7 @@ describe("TemplateEditForm functionality tests", () => {
       const saveBtn = screen.getByTestId("save-btn");
       await userEvent.click(saveBtn);
 
-      const initValue = initPromptTempalte(descriptor);
+      const initValue = initPromptTemplate(descriptor, template);
       const expectedPayload: DPromptTemplateUpdate = {
          title: initValue.title + "Test Template",
          description: initValue.description + "Test Description",

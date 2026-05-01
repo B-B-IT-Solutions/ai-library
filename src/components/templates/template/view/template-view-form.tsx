@@ -2,7 +2,10 @@ import { isEmpty, map } from "es-toolkit/compat";
 
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import { MDRenderer } from "@/components/shared/md";
-import { DPromptTemplateDescriptorWithTemplate } from "@/data/types/domain/prompt.template";
+import {
+   DPromptTemplate,
+   DPromptTemplateDescriptor,
+} from "@/data/types/domain/prompt.template";
 import {
    EditTemplateButton,
    MoreOptionsButton,
@@ -12,10 +15,11 @@ import {
 import { PromptTextDisplay } from "./prompt-text-display";
 
 type Props = {
-   descriptor: DPromptTemplateDescriptorWithTemplate;
+   descriptor: DPromptTemplateDescriptor;
+   template: DPromptTemplate;
 };
 
-export const TemplateViewForm = ({ descriptor }: Props) => {
+export const TemplateViewForm = ({ descriptor, template }: Props) => {
    const categories = () => {
       if (!isEmpty(descriptor.categories)) {
          return (
@@ -58,7 +62,7 @@ export const TemplateViewForm = ({ descriptor }: Props) => {
                </h2>
                <MDRenderer>{descriptor.description}</MDRenderer>
             </div>
-            <PromptTextDisplay template={descriptor.promptTemplate} />
+            <PromptTextDisplay template={template} />
          </CardContent>
       </Card>
    );

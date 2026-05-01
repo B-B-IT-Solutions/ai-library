@@ -193,6 +193,30 @@ describe("getPublicTemplateDataForPromptGeneration tests", () => {
    });
 });
 
+describe("getPublicTemplateDescriptor tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("descriptor retrieved - test", async () => {
+      const descriptor = dtestData.dPromptTemplateDescriptor();
+      templateRepoMock.pGetPublicTemplateDescriptor.mockResolvedValue(
+         descriptor
+      );
+
+      const { id } = descriptor;
+      const result = await templateService.getPublicTemplateDescriptor(id);
+
+      expect(result).toEqual(descriptor);
+      expect(
+         templateRepoMock.pGetPublicTemplateDescriptor
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         templateRepoMock.pGetPublicTemplateDescriptor
+      ).toHaveBeenCalledWith(id);
+   });
+});
+
 describe("getPublicPromptTemplate tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();

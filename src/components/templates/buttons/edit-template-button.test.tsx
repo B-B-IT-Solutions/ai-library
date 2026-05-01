@@ -12,7 +12,7 @@ const assertRendered = () => {
 
 describe("EditTemplateButton rendering tests", () => {
    it("rendered test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptor();
 
       const { container } = renderWithRouter(
          <EditTemplateButton descriptor={descriptor} />
@@ -33,7 +33,7 @@ describe("EditTemplateButton functionality tests", () => {
    });
 
    it("edit btn clicked - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptor();
       renderWithRouter(<EditTemplateButton descriptor={descriptor} />);
 
       await waitFor(() => {
