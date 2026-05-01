@@ -10,6 +10,7 @@ import {
    PromptTemplateDescriptorCountArgs,
    PromptTemplateDescriptorFindFirstArgs,
    PromptTemplateDescriptorFindManyArgs,
+   PromptTemplateFindFirstArgs,
 } from "@/generated/prisma/models";
 
 import {
@@ -85,7 +86,7 @@ export class PublicTemplateRepository {
    }
 
    async pGetPublicPromptTemplate(id: string): Promise<DPromptTemplate | null> {
-      const template = await this.prisma.promptTemplate.findFirst({
+      const args = {
          where: {
             id,
          },
@@ -93,7 +94,9 @@ export class PublicTemplateRepository {
             fields: true,
             globalFields: true,
          },
-      });
+      } satisfies PromptTemplateFindFirstArgs;
+
+      const template = await this.prisma.promptTemplate.findFirst(args);
 
       return template ? toDPromptTemplate(template) : null;
    }

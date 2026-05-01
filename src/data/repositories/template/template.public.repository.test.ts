@@ -239,7 +239,7 @@ describe("pGetPublicPromptTemplate tests", () => {
       const id = "prompt-template-id-1";
       const result = await repository.pGetPublicPromptTemplate(id);
 
-      const expectedWhere: PromptTemplateFindFirstArgs = {
+      const expectedArgs: PromptTemplateFindFirstArgs = {
          where: {
             id,
          },
@@ -251,7 +251,7 @@ describe("pGetPublicPromptTemplate tests", () => {
       expect(result).toBeNull();
       expect(prismaMock.promptTemplate.findFirst).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptTemplate.findFirst).toHaveBeenCalledWith(
-         expectedWhere
+         expectedArgs
       );
    });
 
@@ -263,7 +263,7 @@ describe("pGetPublicPromptTemplate tests", () => {
       const result = await repository.pGetPublicPromptTemplate(id);
       const expectedResult = toDPromptTemplate(prompt);
 
-      const expectedWhere: PromptTemplateFindFirstArgs = {
+      const expectedArgs: PromptTemplateFindFirstArgs = {
          where: {
             id,
          },
@@ -275,7 +275,7 @@ describe("pGetPublicPromptTemplate tests", () => {
       expect(result).toEqual(expectedResult);
       expect(prismaMock.promptTemplate.findFirst).toHaveBeenCalledTimes(1);
       expect(prismaMock.promptTemplate.findFirst).toHaveBeenCalledWith(
-         expectedWhere
+         expectedArgs
       );
    });
 });
