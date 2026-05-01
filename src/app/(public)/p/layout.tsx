@@ -12,24 +12,37 @@ const PublicLayout = async (props: Readonly<PublicLayoutProps>) => {
    const { children } = props;
 
    return (
-      <div className="flex h-full flex-col" data-testid="public-layout">
-         <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div
+         className="flex min-h-screen flex-col"
+         data-testid="public-layout"
+      >
+         <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container mx-auto px-4 py-4">
                <div className="flex items-center justify-between">
-                  <Link
-                     href="/p"
-                     className="flex items-center gap-3 transition-opacity hover:opacity-80"
-                  >
-                     <Image
-                        src="/images/logo.svg"
-                        width={40}
-                        height={40}
-                        alt={`${APP_NAME} logo`}
-                        priority={true}
-                        className="drop-shadow-lg"
-                     />
-                     <h1 className="text-xl font-bold">{APP_NAME}</h1>
-                  </Link>
+                  <div className="flex items-center gap-8">
+                     <Link
+                        href="/p"
+                        className="flex items-center gap-3 transition-opacity hover:opacity-80"
+                     >
+                        <Image
+                           src="/images/logo.svg"
+                           width={36}
+                           height={36}
+                           alt={`${APP_NAME} logo`}
+                           priority={true}
+                           className="drop-shadow-lg"
+                        />
+                        <span className="text-xl font-bold">{APP_NAME}</span>
+                     </Link>
+                     <nav className="hidden items-center gap-6 md:flex">
+                        <Link
+                           href="/p/marketplace"
+                           className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                        >
+                           Marketplace
+                        </Link>
+                     </nav>
+                  </div>
                   <div className="flex gap-3">
                      <Button variant="outline" asChild>
                         <Link href="/auth/sign-in" data-testid="sign-in-link">
@@ -45,7 +58,50 @@ const PublicLayout = async (props: Readonly<PublicLayoutProps>) => {
                </div>
             </div>
          </header>
+
          <main className="flex-1">{children}</main>
+
+         <footer className="border-t bg-muted/40 py-8">
+            <div className="container mx-auto px-4">
+               <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
+                  <Link
+                     href="/p"
+                     className="flex items-center gap-2 transition-opacity hover:opacity-80"
+                  >
+                     <Image
+                        src="/images/logo.svg"
+                        width={24}
+                        height={24}
+                        alt={`${APP_NAME} logo`}
+                     />
+                     <span className="text-sm font-semibold">{APP_NAME}</span>
+                  </Link>
+                  <nav className="flex gap-6">
+                     <Link
+                        href="/p/marketplace"
+                        className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                     >
+                        Marketplace
+                     </Link>
+                     <Link
+                        href="/auth/sign-in"
+                        className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                     >
+                        Anmelden
+                     </Link>
+                     <Link
+                        href="/auth/sign-up"
+                        className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                     >
+                        Registrieren
+                     </Link>
+                  </nav>
+                  <p className="text-sm text-muted-foreground">
+                     © {new Date().getFullYear()} {APP_NAME}
+                  </p>
+               </div>
+            </div>
+         </footer>
       </div>
    );
 };

@@ -3,7 +3,8 @@ import {
    HydrationBoundary,
    QueryClient,
 } from "@tanstack/react-query";
-import { Folder, Globe } from "lucide-react";
+import { ArrowLeft, Folder, Globe } from "lucide-react";
+import Link from "next/link";
 
 import { PublicTemplateItems } from "@/components/templates/lists";
 import { infiniteLoadPublicTemplateDescriptorsOptions } from "@/data/ts-queries/template";
@@ -45,38 +46,49 @@ export const CollectionViewPublic = async ({ collection }: Props) => {
    return (
       <HydrationBoundary state={dehydrate(queryClient)}>
          <div data-testid="collection-view-public">
-            <div className="border-b bg-white px-6 py-8">
-               <div className="mx-auto max-w-5xl">
-                  <div className="flex items-start justify-between gap-4">
-                     <div className="flex items-center gap-4">
-                        <div
-                           className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
-                           style={{ backgroundColor: `${iconColor}20` }}
-                        >
-                           <Folder
-                              className="h-6 w-6"
-                              style={{ color: iconColor }}
-                           />
+            {/* Collection header */}
+            <div className="border-b bg-white">
+               <div className="container mx-auto max-w-6xl px-4 py-8">
+                  <Link
+                     href="/p/marketplace"
+                     className="mb-5 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                     <ArrowLeft className="h-3.5 w-3.5" />
+                     Zurück zum Marketplace
+                  </Link>
+
+                  <div className="flex items-start gap-5">
+                     <div
+                        className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl shadow-sm"
+                        style={{ backgroundColor: `${iconColor}20` }}
+                     >
+                        <Folder
+                           className="h-7 w-7"
+                           style={{ color: iconColor }}
+                        />
+                     </div>
+                     <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center gap-2">
+                           <h1 className="text-2xl font-bold text-slate-900">
+                              {collection.name}
+                           </h1>
+                           <span className="inline-flex items-center gap-1 rounded-full border border-green-200 bg-green-50 px-2.5 py-0.5 text-xs font-medium text-green-700">
+                              <Globe className="h-3 w-3" />
+                              Öffentlich
+                           </span>
                         </div>
-                        <div>
-                           <div className="flex items-center gap-2">
-                              <h1 className="text-2xl font-bold text-slate-900">
-                                 {collection.name}
-                              </h1>
-                              <Globe className="h-4 w-4 text-green-600" />
-                           </div>
-                           {collection.description && (
-                              <p className="mt-1 text-slate-500">
-                                 {collection.description}
-                              </p>
-                           )}
-                        </div>
+                        {collection.description && (
+                           <p className="mt-1.5 text-slate-500">
+                              {collection.description}
+                           </p>
+                        )}
                      </div>
                   </div>
                </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto px-8 py-6">
+            {/* Template grid */}
+            <div className="container mx-auto max-w-6xl px-4 py-8">
                <PublicTemplateItems
                   viewMode={viewMode}
                   groupBy={groupBy}

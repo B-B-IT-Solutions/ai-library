@@ -44,10 +44,7 @@ export const PublicTemplatePage = async ({ params }: PageProps) => {
    }
 
    return (
-      <div
-         className="h-screen bg-slate-50"
-         data-testid="public-template-view-page"
-      >
+      <div data-testid="public-template-view-page">
          <PublicTemplateView descriptor={descriptor} template={template} />
       </div>
    );
