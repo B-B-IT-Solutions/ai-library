@@ -1,9 +1,9 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { PublicTemplateView } from "@/components/templates/template/view/template-view-public";
+import { PublicTemplateView } from "@/components/templates";
 import {
-   getPromptTemplate,
+   getPublicPromptTemplate,
    getPublicTemplateDescriptor,
 } from "@/data/actions/template";
 
@@ -37,13 +37,20 @@ export const PublicTemplatePage = async ({ params }: PageProps) => {
       return notFound();
    }
 
-   const template = await getPromptTemplate(descriptor.promptTemplateId);
+   const template = await getPublicPromptTemplate(descriptor.promptTemplateId);
 
    if (!template) {
       return notFound();
    }
 
-   return <PublicTemplateView descriptor={descriptor} template={template} />;
+   return (
+      <div
+         className="h-screen bg-slate-50"
+         data-testid="public-template-view-page"
+      >
+         <PublicTemplateView descriptor={descriptor} template={template} />
+      </div>
+   );
 };
 
 export default PublicTemplatePage;
