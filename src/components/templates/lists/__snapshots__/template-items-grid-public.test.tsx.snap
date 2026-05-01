@@ -62,7 +62,7 @@ exports[`PublicTemplateItemsGrid rendering tests descriptors - with items - test
         <a
           class="group/title"
           data-testid="view-details-link-title"
-          href="/templates/334db648-f300-4284-8149-075ff465d750"
+          href="/p/templates/334db648-f300-4284-8149-075ff465d750"
         >
           <h4
             class="cursor-pointer text-lg leading-tight font-semibold text-slate-900 transition-colors hover:text-blue-700"
@@ -251,7 +251,7 @@ exports[`PublicTemplateItemsGrid rendering tests descriptors - with items - test
         <a
           class="group/title"
           data-testid="view-details-link-title"
-          href="/templates/334db648-f300-4284-8149-075ff465d751"
+          href="/p/templates/334db648-f300-4284-8149-075ff465d751"
         >
           <h4
             class="cursor-pointer text-lg leading-tight font-semibold text-slate-900 transition-colors hover:text-blue-700"
@@ -440,7 +440,7 @@ exports[`PublicTemplateItemsGrid rendering tests descriptors - with items - test
         <a
           class="group/title"
           data-testid="view-details-link-title"
-          href="/templates/334db648-f300-4284-8149-075ff465d752"
+          href="/p/templates/334db648-f300-4284-8149-075ff465d752"
         >
           <h4
             class="cursor-pointer text-lg leading-tight font-semibold text-slate-900 transition-colors hover:text-blue-700"
