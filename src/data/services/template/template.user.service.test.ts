@@ -288,7 +288,7 @@ describe("composePromptFromTemplate tests", () => {
       jest.clearAllMocks();
    });
 
-   it("composePromptFromTemplate - descriptor not found - test", async () => {
+   it("descriptor not found - test", async () => {
       templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(null);
 
       const userId = "user-id-1";
@@ -307,14 +307,46 @@ describe("composePromptFromTemplate tests", () => {
          userId,
          id
       );
+      expect(templateRepoMock.pGetPromptTemplate).not.toHaveBeenCalled();
       expect(sValidateMock).not.toHaveBeenCalled();
    });
 
-   it("composePromptFromTemplate - fieldValues invalid - test", async () => {
-      const promptDescriptor = dtestData.dPromptTemplateDescriptor();
-      templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(
-         promptDescriptor
+   it("template not found - test", async () => {
+      const descriptor = dtestData.dPromptTemplateDescriptor();
+      templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(descriptor);
+      templateRepoMock.pGetPromptTemplate.mockResolvedValue(null);
+
+      const userId = "user-id-1";
+      const { id, promptTemplateId } = descriptor;
+      const fieldValues: DPromptTemplateFieldValues = {};
+
+      const fn = () =>
+         templateService.composePromptFromTemplate(userId, id, fieldValues);
+
+      await expect(fn).rejects.toThrow(
+         `Template with ID ${promptTemplateId} not found`
       );
+
+      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledTimes(1);
+      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledWith(
+         userId,
+         id
+      );
+      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(1);
+      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
+         userId,
+         promptTemplateId
+      );
+      expect(sValidateMock).not.toHaveBeenCalled();
+   });
+
+   it("fieldValues invalid - test", async () => {
+      const descriptor = dtestData.dPromptTemplateDescriptor();
+      templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(descriptor);
+
+      const template = dtestData.dPromptTemplate();
+      templateRepoMock.pGetPromptTemplate.mockResolvedValue(template);
+
       const validationResult: FieldsValidationResult = {
          valid: false,
          errors: {
@@ -324,7 +356,7 @@ describe("composePromptFromTemplate tests", () => {
       sValidateMock.mockReturnValue(validationResult);
 
       const userId = "user-id-1";
-      const { id, promptTemplate } = promptDescriptor;
+      const { id, promptTemplateId } = descriptor;
       const fieldValues: DPromptTemplateFieldValues = {
          email: "invalid-email",
       };
@@ -339,18 +371,22 @@ describe("composePromptFromTemplate tests", () => {
          userId,
          id
       );
-      expect(sValidateMock).toHaveBeenCalledTimes(1);
-      expect(sValidateMock).toHaveBeenCalledWith(
-         promptTemplate.fields,
-         fieldValues
+      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(1);
+      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
+         userId,
+         promptTemplateId
       );
+      expect(sValidateMock).toHaveBeenCalledTimes(1);
+      expect(sValidateMock).toHaveBeenCalledWith(template.fields, fieldValues);
    });
 
    it("composePromptFromTemplate - fieldValues valid - test", async () => {
-      const promptDescriptor = dtestData.dPromptTemplateDescriptor();
-      templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(
-         promptDescriptor
-      );
+      const descriptor = dtestData.dPromptTemplateDescriptor();
+      templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(descriptor);
+
+      const template = dtestData.dPromptTemplate();
+      templateRepoMock.pGetPromptTemplate.mockResolvedValue(template);
+
       const validationResult: FieldsValidationResult = {
          valid: true,
          errors: {},
@@ -360,7 +396,7 @@ describe("composePromptFromTemplate tests", () => {
       sReplaceMock.mockReturnValue(promptContent);
 
       const userId = "user-id-1";
-      const { id, promptTemplate } = promptDescriptor;
+      const { id, promptTemplateId } = descriptor;
       const fieldValues: DPromptTemplateFieldValues = {
          email: "test1@email.com",
       };
@@ -373,9 +409,9 @@ describe("composePromptFromTemplate tests", () => {
 
       const expectedResult: DPromptUpdate = {
          content: promptContent,
-         title: promptDescriptor.title,
-         recommendedModel: promptDescriptor.recommendedModel,
-         categories: promptDescriptor.categories.map((cat) => cat.name),
+         title: descriptor.title,
+         recommendedModel: descriptor.recommendedModel,
+         categories: descriptor.categories.map((cat) => cat.name),
          followUpPrompts: [],
       };
 
@@ -385,16 +421,15 @@ describe("composePromptFromTemplate tests", () => {
          userId,
          id
       );
+      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(1);
+      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
+         userId,
+         promptTemplateId
+      );
       expect(sValidateMock).toHaveBeenCalledTimes(1);
-      expect(sValidateMock).toHaveBeenCalledWith(
-         promptTemplate.fields,
-         fieldValues
-      );
+      expect(sValidateMock).toHaveBeenCalledWith(template.fields, fieldValues);
       expect(sReplaceMock).toHaveBeenCalledTimes(1);
-      expect(sReplaceMock).toHaveBeenCalledWith(
-         promptTemplate.content,
-         fieldValues
-      );
+      expect(sReplaceMock).toHaveBeenCalledWith(template.content, fieldValues);
    });
 });
 
@@ -403,7 +438,7 @@ describe("downloadTemplate tests", () => {
       jest.clearAllMocks();
    });
 
-   it("downloadTemplate - template not found - test", async () => {
+   it("descriptor not found - test", async () => {
       const userId = "user-id-1";
       const descriptorId = "123e4567-e89b-12d3-a456-426614174000";
       templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(null);
@@ -419,22 +454,51 @@ describe("downloadTemplate tests", () => {
          userId,
          descriptorId
       );
+      expect(templateRepoMock.pGetPromptTemplate).not.toHaveBeenCalled();
    });
 
-   it("downloadTemplate - template downloaded - test", async () => {
+   it("template not found - test", async () => {
+      const userId = "user-id-1";
+
+      const descriptor = dtestData.dPromptTemplateDescriptor();
+      templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(descriptor);
+      templateRepoMock.pGetPromptTemplate.mockResolvedValue(null);
+
+      const { id, promptTemplateId } = descriptor;
+
+      const fn = async () => await templateService.downloadTemplate(userId, id);
+
+      await expect(fn).rejects.toThrow(
+         `Template with ID ${promptTemplateId} not found`
+      );
+      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledTimes(1);
+      expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledWith(
+         userId,
+         id
+      );
+      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(1);
+      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
+         userId,
+         promptTemplateId
+      );
+   });
+
+   it("template downloaded - test", async () => {
       const userId = "user-id-1";
       const descriptor = dtestData.dPromptTemplateDescriptor();
       templateRepoMock.pGetTemplateDescriptor.mockResolvedValue(descriptor);
 
-      const result = await templateService.downloadTemplate(
-         userId,
-         descriptor.id
-      );
+      const template = dtestData.dPromptTemplate();
+      templateRepoMock.pGetPromptTemplate.mockResolvedValue(template);
+
+      const { id, promptTemplateId } = descriptor;
+
+      const result = await templateService.downloadTemplate(userId, id);
 
       const expectedDownloadData = JSON.stringify(
          {
             title: descriptor.title,
-            content: descriptor.promptTemplate.content,
+            content: template.content,
             categories: descriptor.categories.map((c) => c.name),
             recommendedModel: descriptor.recommendedModel,
          },
@@ -446,7 +510,12 @@ describe("downloadTemplate tests", () => {
       expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledTimes(1);
       expect(templateRepoMock.pGetTemplateDescriptor).toHaveBeenCalledWith(
          userId,
-         descriptor.id
+         id
+      );
+      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledTimes(1);
+      expect(templateRepoMock.pGetPromptTemplate).toHaveBeenCalledWith(
+         userId,
+         promptTemplateId
       );
    });
 });
