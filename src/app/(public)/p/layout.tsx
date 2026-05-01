@@ -36,7 +36,7 @@ const PublicLayout = async (props: Readonly<PublicLayoutProps>) => {
                            href="/p/marketplace"
                            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
                         >
-                           Marketplace
+                           Bibliothek
                         </Link>
                      </nav>
                   </div>
@@ -72,7 +72,7 @@ const PublicLayout = async (props: Readonly<PublicLayoutProps>) => {
                         href="/p/marketplace"
                         className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                      >
-                        Marketplace
+                        Bibliothek
                      </Link>
                   </nav>
                   <p className="text-sm text-muted-foreground">
