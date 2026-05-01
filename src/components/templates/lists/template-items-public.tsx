@@ -20,7 +20,7 @@ type Props = {
    groupBy: DListGroupByMode;
    sortBy: DListSortByMode;
    filters: DTemplateDescriptorsFilter;
-   collectionToken: string | null;
+   collectionToken?: string | null;
 };
 
 export const PublicTemplateItems = ({

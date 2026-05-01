@@ -4,12 +4,12 @@ import {
 } from "@/components/shared/breadcrumbs";
 
 type Props =
-   | { variant: "view"; label: string }
+   | { variant: "view"; label: string; root?: BreadcrumbLinkProps }
    | { variant: "edit"; label: string; entryId: string }
    | { variant: "new" };
 
 export const TemplateBreadcrumb = (props: Props) => {
-   const rootLink: BreadcrumbLinkProps = {
+   const defaultRoot: BreadcrumbLinkProps = {
       label: "Vorlagen",
       href: "/templates",
    };
@@ -17,7 +17,7 @@ export const TemplateBreadcrumb = (props: Props) => {
    if (props.variant === "new") {
       return (
          <ItemDetailsBreadcrumb
-            root={rootLink}
+            root={defaultRoot}
             variant={props.variant}
             page={{
                label: "Neue Vorlage",
@@ -30,10 +30,10 @@ export const TemplateBreadcrumb = (props: Props) => {
    if (props.variant === "edit") {
       return (
          <ItemDetailsBreadcrumb
-            root={rootLink}
+            root={defaultRoot}
             variant={props.variant}
             link={{
-               href: `${rootLink.href}/${props.entryId}`,
+               href: `${defaultRoot.href}/${props.entryId}`,
                label: props.label,
                tooltip: props.label,
             }}
@@ -44,7 +44,7 @@ export const TemplateBreadcrumb = (props: Props) => {
 
    return (
       <ItemDetailsBreadcrumb
-         root={rootLink}
+         root={props.root || defaultRoot}
          variant={props.variant}
          page={{
             label: props.label,

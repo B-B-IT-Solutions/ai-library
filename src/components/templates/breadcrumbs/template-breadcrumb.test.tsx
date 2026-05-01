@@ -25,7 +25,7 @@ const assertItemLinkNotRendered = () => {
 };
 
 describe("LibraryEntryBreadcrumb rendering test", () => {
-   it("variant - new - test", async () => {
+   it("variant new - test", async () => {
       const { container } = render(<TemplateBreadcrumb variant="new" />);
 
       await waitFor(() => {
@@ -36,7 +36,7 @@ describe("LibraryEntryBreadcrumb rendering test", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("variant - view - test", async () => {
+   it("variant view - root undefined - test", async () => {
       const { container } = render(
          <TemplateBreadcrumb variant="view" label="Template 1" />
       );
@@ -49,7 +49,27 @@ describe("LibraryEntryBreadcrumb rendering test", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("variant - edit - test", async () => {
+   it("variant view - root defined - test", async () => {
+      const { container } = render(
+         <TemplateBreadcrumb
+            variant="view"
+            label="Template 1"
+            root={{
+               href: "/root/1",
+               label: "Root Label",
+            }}
+         />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertItemLinkNotRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("variant edit - test", async () => {
       const { container } = render(
          <TemplateBreadcrumb
             variant="edit"
@@ -72,7 +92,7 @@ describe("LibraryEntryBreadcrumb funtionality tests", () => {
       mockRouter.push("/");
    });
 
-   it("variant - new - root link clicked - test", async () => {
+   it("variant new - root link clicked - test", async () => {
       render(<TemplateBreadcrumb variant="new" />);
 
       await waitFor(() => {
@@ -87,7 +107,7 @@ describe("LibraryEntryBreadcrumb funtionality tests", () => {
       });
    });
 
-   it("variant - view - root link clicked - test", async () => {
+   it("variant view - root link clicked - test", async () => {
       render(<TemplateBreadcrumb variant="view" label="Template 1" />);
 
       await waitFor(() => {
@@ -102,7 +122,7 @@ describe("LibraryEntryBreadcrumb funtionality tests", () => {
       });
    });
 
-   it("variant - edit - item link clicked - test", async () => {
+   it("variant edit - item link clicked - test", async () => {
       render(
          <TemplateBreadcrumb
             variant="edit"

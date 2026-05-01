@@ -8,7 +8,7 @@ import { PublicTemplateItemCard } from "./items";
 type Props = {
    descriptors: DPromptTemplateDescriptor[];
    collections: DCollection[];
-   collectionToken: string | null;
+   collectionToken?: string | null;
 };
 
 export const PublicTemplateItemsGrid = ({

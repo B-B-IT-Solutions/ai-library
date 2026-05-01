@@ -76,6 +76,7 @@ describe("PublicTemplateItemCard rendering tests", () => {
          <PublicTemplateItemCard
             descriptor={descriptor}
             collections={collections}
+            collectionToken="public-token-1"
          />
       );
 
@@ -101,6 +102,7 @@ describe("PublicTemplateItemCard functionality tests", () => {
          <PublicTemplateItemCard
             descriptor={descriptor}
             collections={collections}
+            collectionToken="public-token-1"
          />
       );
 

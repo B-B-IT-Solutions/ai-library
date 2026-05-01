@@ -26,7 +26,7 @@ import {
 type Props = {
    descriptor: DPromptTemplateDescriptor;
    collections: DCollection[];
-   collectionToken: string | null;
+   collectionToken?: string | null;
 };
 
 export const PublicTemplateItemCard = ({

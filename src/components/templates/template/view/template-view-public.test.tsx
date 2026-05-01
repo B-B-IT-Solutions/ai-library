@@ -6,9 +6,11 @@ import { PublicTemplateView } from "./template-view-public";
 
 const assertRendered = () => {
    const view = screen.getByTestId("public-template-view");
+   const breadcrumb = screen.getByTestId("template-breadcrumb");
    const content = screen.getByTestId("prompt-text");
 
    assertInDocument(view);
+   assertInDocument(breadcrumb);
    assertInDocument(content);
 };
 

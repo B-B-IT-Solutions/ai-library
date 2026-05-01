@@ -44,7 +44,6 @@ exports[`CollectionView rendering tests rendered - test 1`] = `
             >
               <div
                 class="flex flex-wrap items-center gap-2"
-                data-testid="public-badge"
               >
                 <h1
                   class="text-2xl font-bold text-slate-900"

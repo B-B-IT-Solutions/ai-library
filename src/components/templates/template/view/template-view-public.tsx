@@ -4,13 +4,14 @@ import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
-import { PublicBreadcrumb } from "@/components/shared/breadcrumbs";
+import { BreadcrumbLinkProps } from "@/components/shared/breadcrumbs";
 import { MDRenderer } from "@/components/shared/md";
 import { DCollection } from "@/data/types/domain/collection";
 import {
    DPromptTemplate,
    DPromptTemplateDescriptor,
 } from "@/data/types/domain/prompt.template";
+import { TemplateBreadcrumb } from "../../breadcrumbs";
 
 import { PromptTextDisplay } from "./prompt-text-display";
 
@@ -26,20 +27,14 @@ export const PublicTemplateView = ({
    collection,
 }: Props) => {
    const hasCategories = !isEmpty(descriptor.categories);
+   const isCollection = !!collection?.publicToken;
 
-   const breadcrumbItems = collection?.publicToken
-      ? [
-           {
-              href: `/p/collections/${collection.publicToken}`,
-              label: collection.name,
-           },
-        ]
-      : [
-           {
-              href: "/p/marketplace",
-              label: "Marketplace",
-           },
-        ];
+   const breadcrumbRoot: BreadcrumbLinkProps = {
+      href: isCollection
+         ? `/p/collections/${collection.publicToken}`
+         : "/p/marketplace",
+      label: isCollection ? collection.name : "Bibliothek",
+   };
 
    return (
       <div className="bg-slate-50" data-testid="public-template-view">
@@ -47,10 +42,10 @@ export const PublicTemplateView = ({
          <div className="border-b bg-white">
             <div className="container mx-auto max-w-5xl px-4 py-6">
                <div className="mb-4">
-                  <PublicBreadcrumb
-                     items={breadcrumbItems}
-                     current={descriptor.title}
-                     data-testid="template-breadcrumb-public"
+                  <TemplateBreadcrumb
+                     variant="view"
+                     label={descriptor.title}
+                     root={breadcrumbRoot}
                   />
                </div>
                <h1 className="text-3xl font-bold tracking-tight text-slate-900">
