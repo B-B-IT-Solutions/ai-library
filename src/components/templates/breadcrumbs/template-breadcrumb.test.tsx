@@ -25,8 +25,27 @@ const assertItemLinkNotRendered = () => {
 };
 
 describe("LibraryEntryBreadcrumb rendering test", () => {
-   it("variant new - test", async () => {
+   it("variant new - root undefined - test", async () => {
       const { container } = render(<TemplateBreadcrumb variant="new" />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertItemLinkNotRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("variant new - root defined - test", async () => {
+      const { container } = render(
+         <TemplateBreadcrumb
+            variant="new"
+            root={{
+               href: "/root/1",
+               label: "Root Label 1",
+            }}
+         />
+      );
 
       await waitFor(() => {
          assertRendered();
@@ -55,8 +74,8 @@ describe("LibraryEntryBreadcrumb rendering test", () => {
             variant="view"
             label="Template 1"
             root={{
-               href: "/root/1",
-               label: "Root Label",
+               href: "/root/2",
+               label: "Root Label 2",
             }}
          />
       );
@@ -69,12 +88,33 @@ describe("LibraryEntryBreadcrumb rendering test", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("variant edit - test", async () => {
+   it("variant edit - root undefined - test", async () => {
       const { container } = render(
          <TemplateBreadcrumb
             variant="edit"
             label="Template 2"
             entryId="entry-id-1"
+         />
+      );
+
+      await waitFor(() => {
+         assertRendered();
+         assertItemLinkRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("variant edit - root defined - test", async () => {
+      const { container } = render(
+         <TemplateBreadcrumb
+            variant="edit"
+            label="Template 2"
+            entryId="entry-id-1"
+            root={{
+               href: "/root/3",
+               label: "Root Label 3",
+            }}
          />
       );
 
