@@ -61,25 +61,6 @@ export const TemplateViewPublic = ({ descriptor }: Props) => {
                   <PromptTextDisplay template={descriptor.promptTemplate} />
                </CardContent>
             </Card>
-
-            <div className="mt-12 rounded-xl border bg-white p-8 text-center shadow-sm">
-               <h2 className="mb-2 text-xl font-bold text-slate-900">
-                  Vorlage mit {APP_NAME} nutzen
-               </h2>
-               <p className="mb-6 text-slate-500">
-                  Erstellen Sie ein kostenloses Konto, um diese und weitere
-                  Vorlagen zu verwenden, zu bearbeiten und eigene Sammlungen
-                  anzulegen.
-               </p>
-               <div className="flex flex-wrap justify-center gap-3">
-                  <Button asChild size="lg">
-                     <Link href="/auth/sign-up">Kostenlos registrieren</Link>
-                  </Button>
-                  <Button asChild variant="outline" size="lg">
-                     <Link href="/auth/sign-in">Anmelden</Link>
-                  </Button>
-               </div>
-            </div>
          </div>
       </div>
    );
