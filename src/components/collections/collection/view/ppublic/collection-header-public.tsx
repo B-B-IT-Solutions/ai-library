@@ -1,5 +1,6 @@
 import { Folder, Globe } from "lucide-react";
 
+import { Badge } from "@/components/shadcn/badge";
 import { DCollection } from "@/data/types/domain/collection";
 
 type Props = {
@@ -20,17 +21,18 @@ export const PublicCollectionHeader = ({ collection }: Props) => {
                />
             </div>
             <div className="min-w-0 flex-1">
-               <div
-                  className="flex flex-wrap items-center gap-2"
-                  data-testid="public-badge"
-               >
+               <div className="flex flex-wrap items-center gap-2">
                   <h1 className="text-2xl font-bold text-slate-900">
                      {collection.name}
                   </h1>
-                  <span className="inline-flex items-center gap-1 rounded-full border border-green-200 bg-green-50 px-2.5 py-0.5 text-xs font-medium text-green-700">
+                  <Badge
+                     variant="outline"
+                     className="gap-1 border-green-300 bg-green-50 text-green-700"
+                     data-testid="public-badge"
+                  >
                      <Globe className="h-3 w-3" />
                      Öffentlich
-                  </span>
+                  </Badge>
                </div>
                {collection.description && (
                   <p className="mt-1.5 text-slate-500">
