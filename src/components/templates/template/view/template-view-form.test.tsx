@@ -34,9 +34,10 @@ describe("LibraryEntryViewForm rendering tests", () => {
    it("categories empty - rendered test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptor();
       descriptor.categories = [];
+      const template = dtestData.dPromptTemplate();
 
       const { container } = render(
-         <TemplateViewForm descriptor={descriptor} />
+         <TemplateViewForm descriptor={descriptor} template={template} />
       );
 
       await waitFor(() => {
@@ -49,9 +50,10 @@ describe("LibraryEntryViewForm rendering tests", () => {
 
    it("with categories - rendered test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptor();
+      const template = dtestData.dPromptTemplate();
 
       const { container } = render(
-         <TemplateViewForm descriptor={descriptor} />
+         <TemplateViewForm descriptor={descriptor} template={template} />
       );
 
       await waitFor(() => {
