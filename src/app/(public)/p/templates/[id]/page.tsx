@@ -27,7 +27,7 @@ export type PageParams = {
 };
 
 export type PageSearchParams = {
-   from?: string;
+   col?: string;
 };
 
 export type PageProps = {
@@ -40,7 +40,7 @@ export const PublicTemplatePage = async ({
    searchParams,
 }: PageProps) => {
    const { id } = await params;
-   const { from } = await searchParams;
+   const { col: colToken } = await searchParams;
 
    const descriptor = await getPublicTemplateDescriptor(id);
 
@@ -50,7 +50,7 @@ export const PublicTemplatePage = async ({
 
    const [template, collection] = await Promise.all([
       getPublicPromptTemplate(descriptor.promptTemplateId),
-      from ? getPublicCollectionByToken(from) : Promise.resolve(null),
+      colToken ? getPublicCollectionByToken(colToken) : Promise.resolve(null),
    ]);
 
    if (!template) {

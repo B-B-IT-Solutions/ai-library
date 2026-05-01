@@ -88,7 +88,7 @@ export const PublicTemplateView = ({
             </Card>
 
             {/* CTA */}
-            <div className="mt-8 rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/5 via-background to-primary/10 p-8 text-center">
+            <div className="mt-8 rounded-2xl border border-primary/20 bg-linear-to-br from-primary/5 via-background to-primary/10 p-8 text-center">
                <Sparkles className="mx-auto mb-3 h-8 w-8 text-primary" />
                <h3 className="text-xl font-bold text-slate-900">
                   Vorlage verwenden

@@ -97,12 +97,13 @@ describe("PublicTemplateItemCard functionality tests", () => {
    it("title - view detail link clicked - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptor();
       const collections = dtestData.dCollections();
+      const collectionToken = "public-token-1";
 
       renderWithReactQuery(
          <PublicTemplateItemCard
             descriptor={descriptor}
             collections={collections}
-            collectionToken="public-token-1"
+            collectionToken={collectionToken}
          />
       );
 
@@ -116,7 +117,9 @@ describe("PublicTemplateItemCard functionality tests", () => {
       userEvent.click(viewDetailsTitle);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual(`/p/templates/${descriptor.id}`);
+         expect(mockRouter.pathname).toEqual(
+            `/p/templates/${descriptor.id}?col=${collectionToken}`
+         );
       });
    });
 

@@ -35,7 +35,7 @@ export const PublicTemplateItemCard = ({
    collectionToken,
 }: Props) => {
    const detailsUrl = collectionToken
-      ? `/p/templates/${descriptor.id}?from=${collectionToken}`
+      ? `/p/templates/${descriptor.id}?col=${collectionToken}`
       : `/p/templates/${descriptor.id}`;
 
    const [showAddToCollectionDialog, setShowAddToCollectionDialog] =
