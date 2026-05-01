@@ -12,11 +12,8 @@ const PublicLayout = async (props: Readonly<PublicLayoutProps>) => {
    const { children } = props;
 
    return (
-      <div
-         className="flex min-h-screen flex-col"
-         data-testid="public-layout"
-      >
-         <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="flex min-h-screen flex-col" data-testid="public-layout">
+         <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
             <div className="container mx-auto px-4 py-4">
                <div className="flex items-center justify-between">
                   <div className="flex items-center gap-8">
@@ -68,12 +65,6 @@ const PublicLayout = async (props: Readonly<PublicLayoutProps>) => {
                      href="/p"
                      className="flex items-center gap-2 transition-opacity hover:opacity-80"
                   >
-                     <Image
-                        src="/images/logo.svg"
-                        width={24}
-                        height={24}
-                        alt={`${APP_NAME} logo`}
-                     />
                      <span className="text-sm font-semibold">{APP_NAME}</span>
                   </Link>
                   <nav className="flex gap-6">
@@ -82,18 +73,6 @@ const PublicLayout = async (props: Readonly<PublicLayoutProps>) => {
                         className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                      >
                         Marketplace
-                     </Link>
-                     <Link
-                        href="/auth/sign-in"
-                        className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                     >
-                        Anmelden
-                     </Link>
-                     <Link
-                        href="/auth/sign-up"
-                        className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                     >
-                        Registrieren
                      </Link>
                   </nav>
                   <p className="text-sm text-muted-foreground">
