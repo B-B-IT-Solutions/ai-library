@@ -3,8 +3,8 @@ import { Globe } from "lucide-react";
 import { Badge } from "@/components/shadcn/badge";
 import { CreateTemplateButton } from "@/components/templates/buttons";
 import { DCollection } from "@/data/types/domain/collection";
-import { CollectionBreadcrumb } from "../../breadcrumbs";
-import { MoreOptionsButton } from "../../buttons";
+import { CollectionBreadcrumb } from "../../../breadcrumbs";
+import { MoreOptionsButton } from "../../../buttons";
 
 type Props = {
    collection: DCollection;
