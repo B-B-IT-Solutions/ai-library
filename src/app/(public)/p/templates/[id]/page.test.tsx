@@ -14,6 +14,7 @@ import {
    generateMetadata,
    PageParams,
    PageProps,
+   PageSearchParams,
    PublicTemplatePage,
 } from "./page";
 
@@ -46,8 +47,11 @@ describe("PublicTemplatePage rendering tests", () => {
       getPublicTemplateDescriptorMock.mockResolvedValue(null);
 
       const params: PageParams = { id: "descriptor-id-1" };
+      const searchParams: PageSearchParams = {};
+
       const props: PageProps = {
          params: Promise.resolve(params),
+         searchParams: Promise.resolve(searchParams),
       };
 
       const { container } = await renderAsyncRSC(PublicTemplatePage, props);
@@ -71,8 +75,11 @@ describe("PublicTemplatePage rendering tests", () => {
       getPublicPromptTemplateMock.mockResolvedValue(null);
 
       const params: PageParams = { id: "descriptor-id-1" };
+      const searchParams: PageSearchParams = { col: "collection-token-1" };
+
       const props: PageProps = {
          params: Promise.resolve(params),
+         searchParams: Promise.resolve(searchParams),
       };
 
       const { container } = await renderAsyncRSC(PublicTemplatePage, props);
@@ -100,8 +107,11 @@ describe("PublicTemplatePage rendering tests", () => {
       getPublicPromptTemplateMock.mockResolvedValue(template);
 
       const params: PageParams = { id: "descriptor-id-1" };
+      const searchParams: PageSearchParams = { col: "collection-token-1" };
+
       const props: PageProps = {
          params: Promise.resolve(params),
+         searchParams: Promise.resolve(searchParams),
       };
 
       const { container } = await renderAsyncRSC(PublicTemplatePage, props);
@@ -130,11 +140,12 @@ describe("PublicTemplatePage functionality tests", () => {
    it("generateMetadata- collection null - test", async () => {
       getPublicTemplateDescriptorMock.mockResolvedValue(null);
 
-      const pageParams: PageParams = {
-         id: "descriptor-id-1",
-      };
+      const pageParams: PageParams = { id: "descriptor-id-1" };
+      const searchParams: PageSearchParams = { col: "collection-token-1" };
+
       const props: PageProps = {
          params: Promise.resolve(pageParams),
+         searchParams: Promise.resolve(searchParams),
       };
 
       const metadata = await generateMetadata(props);
@@ -156,8 +167,11 @@ describe("PublicTemplatePage functionality tests", () => {
       const pageParams: PageParams = {
          id: "descriptor-id-1",
       };
+      const searchParams: PageSearchParams = { col: "collection-token-1" };
+
       const props: PageProps = {
          params: Promise.resolve(pageParams),
+         searchParams: Promise.resolve(searchParams),
       };
 
       const metadata = await generateMetadata(props);
