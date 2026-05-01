@@ -3,7 +3,6 @@ import {
    HydrationBoundary,
    QueryClient,
 } from "@tanstack/react-query";
-import { Folder, Globe } from "lucide-react";
 
 import { PublicTemplateItems } from "@/components/templates/lists";
 import { infiniteLoadPublicTemplateDescriptorsOptions } from "@/data/ts-queries/template";
@@ -23,8 +22,6 @@ type Props = {
 };
 
 export const CollectionViewPublic = async ({ collection }: Props) => {
-   const iconColor = collection.color;
-
    const viewMode = DListViewMode.GRID;
    const groupBy = DListGroupByMode.NONE;
    const sortBy = DListSortByMode.DATE_ASC;
@@ -47,14 +44,11 @@ export const CollectionViewPublic = async ({ collection }: Props) => {
    return (
       <HydrationBoundary state={dehydrate(queryClient)}>
          <div data-testid="collection-view-public">
-            {/* <div
-               className="border-b bg-white"
-               data-testid="collection-header-public"
-            >
-               <div className="container mx-auto max-w-6xl px-4 py-8"> */}
-            <PublicCollectionHeader collection={collection} />
-            {/* </div>
-            </div> */}
+            <div className="border-b">
+               <div className="container mx-auto max-w-6xl px-4 py-8">
+                  <PublicCollectionHeader collection={collection} />
+               </div>
+            </div>
 
             <div className="container mx-auto max-w-6xl px-4 py-8">
                <PublicTemplateItems
