@@ -1,8 +1,11 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { TemplateViewPublic } from "@/components/templates/template/view/template-view-public";
-import { getPublicTemplateDescriptor } from "@/data/actions/template";
+import { PublicTemplateView } from "@/components/templates/template/view/template-view-public";
+import {
+   getPromptTemplate,
+   getPublicTemplateDescriptor,
+} from "@/data/actions/template";
 
 export const generateMetadata = async ({
    params,
@@ -34,7 +37,13 @@ export const PublicTemplatePage = async ({ params }: PageProps) => {
       return notFound();
    }
 
-   return <TemplateViewPublic descriptor={descriptor} />;
+   const template = await getPromptTemplate(descriptor.promptTemplateId);
+
+   if (!template) {
+      return notFound();
+   }
+
+   return <PublicTemplateView descriptor={descriptor} template={template} />;
 };
 
 export default PublicTemplatePage;

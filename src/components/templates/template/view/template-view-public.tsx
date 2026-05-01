@@ -14,7 +14,7 @@ type Props = {
    template: DPromptTemplate;
 };
 
-export const TemplateViewPublic = ({ descriptor, template }: Props) => {
+export const PublicTemplateView = ({ descriptor, template }: Props) => {
    const categories = () => {
       if (!isEmpty(descriptor.categories)) {
          return (
@@ -35,7 +35,7 @@ export const TemplateViewPublic = ({ descriptor, template }: Props) => {
    return (
       <div
          className="min-h-full bg-slate-50"
-         data-testid="template-view-public"
+         data-testid="public-template-view"
       >
          <div className="mx-auto max-w-5xl px-6 py-8">
             <h1 className="mb-6 text-2xl font-bold text-slate-900">
