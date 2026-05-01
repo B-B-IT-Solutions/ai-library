@@ -8,6 +8,7 @@ import {
 } from "@/data/types/domain/prompt.template";
 import {
    PromptTemplateDescriptorCountArgs,
+   PromptTemplateDescriptorFindFirstArgs,
    PromptTemplateDescriptorFindManyArgs,
 } from "@/generated/prisma/models";
 
@@ -70,13 +71,15 @@ export class PublicTemplateRepository {
    async pGetPublicTemplateDescriptor(
       id: string
    ): Promise<DPromptTemplateDescriptor | null> {
+      const args = {
+         where: { id },
+         include: {
+            categories: true,
+         },
+      } satisfies PromptTemplateDescriptorFindFirstArgs;
+
       const descriptor: PromptTemplateDescriptorWithCategories | null =
-         await this.prisma.promptTemplateDescriptor.findFirst({
-            where: { id },
-            include: {
-               categories: true,
-            },
-         });
+         await this.prisma.promptTemplateDescriptor.findFirst(args);
 
       return descriptor ? toDTemplateDescriptor(descriptor) : null;
    }
