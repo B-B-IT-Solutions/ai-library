@@ -12,7 +12,6 @@ import {
    DPromptTemplate,
    DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
-   DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateFieldValues,
    DPromptTemplateUpdate,
    DTemplateDescriptorsPage,
@@ -40,7 +39,7 @@ export const getTemplateDescriptorsPage = async (
 
 export const getTemplateDescriptor = async (
    descriptorId: string
-): Promise<DPromptTemplateDescriptorWithTemplate | null> => {
+): Promise<DPromptTemplateDescriptor | null> => {
    try {
       const user = await requireUser();
       const service = getService();

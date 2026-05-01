@@ -6,7 +6,6 @@ import {
    DPromptTemplate,
    DPromptTemplateDataPromptGeneration,
    DPromptTemplateDescriptor,
-   DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateFieldValues,
    DPromptTemplateUpdate,
    DTemplateDescriptorsPage,
@@ -44,11 +43,8 @@ export class TemplateService {
    async getTemplateDescriptor(
       userId: string,
       descriptorId: string
-   ): Promise<DPromptTemplateDescriptorWithTemplate | null> {
-      return await this.repository.pGetPromptTemplateDescriptorWithTemplate(
-         userId,
-         descriptorId
-      );
+   ): Promise<DPromptTemplateDescriptor | null> {
+      return await this.repository.pGetTemplateDescriptor(userId, descriptorId);
    }
 
    async createTemplateDescriptor(

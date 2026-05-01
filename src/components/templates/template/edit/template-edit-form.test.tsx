@@ -139,7 +139,7 @@ describe("TemplateEditForm rendering tests", () => {
    });
 
    it("existing entry - rendered - test", () => {
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptor();
       const fields = dtestData.dGlobalTemplateFields();
 
       const { container } = render(
@@ -154,7 +154,7 @@ describe("TemplateEditForm rendering tests", () => {
 
    it("existing entry - variables detected in content - test", async () => {
       const fields = dtestData.dGlobalTemplateFields();
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptor();
       descriptor.promptTemplate.content =
          "Hello {{{{name}}, your role is {{{{role}}";
 
@@ -203,7 +203,7 @@ describe("TemplateEditForm functionality tests", () => {
    });
 
    it("remove global field btn clicked - test", async () => {
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptor();
       const fields = dtestData.dGlobalTemplateFields();
 
       render(
@@ -379,7 +379,7 @@ describe("TemplateEditForm functionality tests", () => {
       };
       updateTemplateDescriptorMock.mockResolvedValue(result);
 
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptor();
       const fields = dtestData.dGlobalTemplateFields();
 
       render(
@@ -474,7 +474,7 @@ describe("TemplateEditForm functionality tests", () => {
       };
       updateTemplateDescriptorMock.mockResolvedValue(result);
 
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptor();
       const fields = dtestData.dGlobalTemplateFields();
 
       render(

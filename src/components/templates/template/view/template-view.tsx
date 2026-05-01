@@ -5,16 +5,20 @@ import {
    ItemDetailsViewContent,
    ItemDetailsViewHeader,
 } from "@/components/shared/wrappers/item-details";
-import { DPromptTemplateDescriptorWithTemplate } from "@/data/types/domain/prompt.template";
+import {
+   DPromptTemplate,
+   DPromptTemplateDescriptor,
+} from "@/data/types/domain/prompt.template";
 import { TemplateBreadcrumb } from "../../breadcrumbs";
 
 import { TemplateViewForm } from "./template-view-form";
 
 type Props = {
-   descriptor: DPromptTemplateDescriptorWithTemplate;
+   descriptor: DPromptTemplateDescriptor;
+   template: DPromptTemplate;
 };
 
-export const TemplateView = ({ descriptor }: Props) => {
+export const TemplateView = ({ descriptor, template }: Props) => {
    return (
       <ItemDetailsView data-testid="template-view">
          <ItemDetailsViewHeader>
@@ -27,7 +31,7 @@ export const TemplateView = ({ descriptor }: Props) => {
                <TemplateBreadcrumb variant="view" label={descriptor.title} />
             </ItemDetailsViewBreadcrumbs>
             <ItemDetailsViewBody>
-               <TemplateViewForm descriptor={descriptor} />
+               <TemplateViewForm descriptor={descriptor} template={template} />
             </ItemDetailsViewBody>
          </ItemDetailsViewContent>
       </ItemDetailsView>

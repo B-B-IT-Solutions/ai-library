@@ -38,7 +38,7 @@ describe("PublicUseTemplateButton rendering tests", () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
       getPublicPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptor();
       const { container } = render(
          <PublicUseTemplateButton descriptor={descriptor} />
       );
@@ -55,7 +55,7 @@ describe("PublicUseTemplateButton rendering tests", () => {
       data.allFields = [];
       getPublicPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptor();
       const { container } = render(
          <PublicUseTemplateButton descriptor={descriptor} />
       );
@@ -71,7 +71,7 @@ describe("PublicUseTemplateButton rendering tests", () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
       getPublicPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptor();
       const { container } = render(
          <PublicUseTemplateButton
             descriptor={descriptor}
@@ -97,7 +97,7 @@ describe("PublicUseTemplateButton functionality - tests", () => {
    it("submit clicked - success - templateData null - test", async () => {
       getPublicPromptGenerationTemplateDataMock.mockResolvedValue(null);
 
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptor();
 
       render(<PublicUseTemplateButton descriptor={descriptor} />);
 
@@ -128,7 +128,7 @@ describe("PublicUseTemplateButton functionality - tests", () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
       getPublicPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptor();
 
       render(<PublicUseTemplateButton descriptor={descriptor} />);
 
@@ -148,7 +148,7 @@ describe("PublicUseTemplateButton functionality - tests", () => {
       const data = dtestData.dPromptTemplateDataPromptGeneration();
       getPublicPromptGenerationTemplateDataMock.mockResolvedValue(data);
 
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptor();
 
       render(<PublicUseTemplateButton descriptor={descriptor} />);
 

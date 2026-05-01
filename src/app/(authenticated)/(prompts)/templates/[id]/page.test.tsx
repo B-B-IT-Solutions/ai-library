@@ -51,7 +51,7 @@ describe("TemplatePage rendering tests", () => {
    });
 
    it("templateDescriptor defined - test", async () => {
-      const libraryEntry = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const libraryEntry = dtestData.dPromptTemplateDescriptor();
       getTemplateDescriptorMock.mockResolvedValue(libraryEntry);
 
       const params: PageParams = { id: "descriptor-id-1" };

@@ -6,14 +6,14 @@ import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
    DPromptTemplateDataPromptGeneration,
-   DPromptTemplateDescriptorWithTemplate,
+   DPromptTemplateDescriptor,
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
 
 export const getPublicTemplateDescriptor = async (
    descriptorId: string
-): Promise<DPromptTemplateDescriptorWithTemplate | null> => {
+): Promise<DPromptTemplateDescriptor | null> => {
    try {
       const service = getService();
       return await service.getPublicTemplateDescriptor(descriptorId);

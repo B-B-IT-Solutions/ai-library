@@ -13,10 +13,7 @@ import {
    PromptTemplateFindFirstArgs,
 } from "@/generated/prisma/models";
 
-import {
-   toDPromptTemplate,
-   toDPromptTemplateDescriptors,
-} from "./template.mapper";
+import { toDPromptTemplate, toDTemplateDescriptors } from "./template.mapper";
 import { PublicTemplateRepository } from "./template.public.repository";
 
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
@@ -44,7 +41,7 @@ describe("pGetTemplateDescriptorsPage tests", () => {
       const result = await repository.pGetPublicTemplateDescriptorsPage(query);
 
       const expectedResult: DTemplateDescriptorsPage = {
-         content: toDPromptTemplateDescriptors(descriptors),
+         content: toDTemplateDescriptors(descriptors),
          pageNumber: 0,
          pageSize: 20,
          numberOfElements: descriptors.length,

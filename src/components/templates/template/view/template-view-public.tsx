@@ -1,19 +1,20 @@
 import { isEmpty, map } from "es-toolkit/compat";
-import Link from "next/link";
 
-import { Button } from "@/components/shadcn/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/card";
 import { MDRenderer } from "@/components/shared/md";
-import { DPromptTemplateDescriptorWithTemplate } from "@/data/types/domain/prompt.template";
-import { APP_NAME } from "@/lib/constants";
+import {
+   DPromptTemplate,
+   DPromptTemplateDescriptor,
+} from "@/data/types/domain/prompt.template";
 
 import { PromptTextDisplay } from "./prompt-text-display";
 
 type Props = {
-   descriptor: DPromptTemplateDescriptorWithTemplate;
+   descriptor: DPromptTemplateDescriptor;
+   template: DPromptTemplate;
 };
 
-export const TemplateViewPublic = ({ descriptor }: Props) => {
+export const TemplateViewPublic = ({ descriptor, template }: Props) => {
    const categories = () => {
       if (!isEmpty(descriptor.categories)) {
          return (
@@ -58,7 +59,7 @@ export const TemplateViewPublic = ({ descriptor }: Props) => {
                      </h2>
                      <MDRenderer>{descriptor.description}</MDRenderer>
                   </div>
-                  <PromptTextDisplay template={descriptor.promptTemplate} />
+                  <PromptTextDisplay template={template} />
                </CardContent>
             </Card>
          </div>

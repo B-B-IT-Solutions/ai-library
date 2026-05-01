@@ -5,14 +5,14 @@ import {
    ItemDetailsEditContent,
    ItemDetailsEditHeader,
 } from "@/components/shared/wrappers/item-details";
-import { DPromptTemplateDescriptorWithTemplate } from "@/data/types/domain/prompt.template";
+import { DPromptTemplateDescriptor } from "@/data/types/domain/prompt.template";
 import { DGlobalTemplateField } from "@/data/types/domain/settings";
 import { TemplateBreadcrumb } from "../../breadcrumbs";
 
 import { TemplateEditForm } from "./template-edit-form";
 
 type Props = {
-   descriptor?: DPromptTemplateDescriptorWithTemplate;
+   descriptor?: DPromptTemplateDescriptor;
    globalFields: DGlobalTemplateField[];
 };
 

@@ -3,34 +3,20 @@ import { map } from "es-toolkit/compat";
 
 import {
    PromptTemplateDescriptorWithCategories,
-   PromptTemplateDescriptorWithTemplate,
    PromptTemplateWithFields,
 } from "@/data/types/db/prompt.template";
 import {
    DPromptTemplate,
    DPromptTemplateDescriptor,
-   DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateField,
 } from "@/data/types/domain/prompt.template";
 import { PromptTemplateField } from "@/generated/prisma/client";
 
 import {
    toDPromptTemplate,
-   toDPromptTemplateDescriptor,
-   toDPromptTemplateDescriptors,
-   toDPromptTemplateDescriptorWithTemplate,
+   toDTemplateDescriptor,
+   toDTemplateDescriptors,
 } from "./template.mapper";
-
-const toDPromptTemplateDescriptorWithTemplateInternal = (
-   desciptor: PromptTemplateDescriptorWithTemplate
-): DPromptTemplateDescriptorWithTemplate => {
-   const dDescriptor = toDPromptTemplateDescriptorInternal(desciptor);
-   const promptTemplate = toDPromptTemplateInternal(desciptor.promptTemplate);
-   return {
-      ...dDescriptor,
-      promptTemplate,
-   };
-};
 
 const toDPromptTemplateDescriptorsInternal = (
    pPrompts: PromptTemplateDescriptorWithCategories[]
@@ -95,24 +81,16 @@ describe("prompt.template mappers tests", () => {
       jest.clearAllMocks();
    });
 
-   it("toDPromptTemplateDescriptorWithPrompt test", async () => {
-      const descriptor = ptestData.pPromptTemplateDescriptorWithTemplate();
-      const result = toDPromptTemplateDescriptorWithTemplate(descriptor);
-      const expectedResult =
-         toDPromptTemplateDescriptorWithTemplateInternal(descriptor);
-      expect(result).toEqual(expectedResult);
-   });
-
-   it("toDPromptTemplateDescriptors test", async () => {
+   it("toDTemplateDescriptors test", async () => {
       const descriptors = ptestData.pPromptTemplateDescriptorsWithCategories();
-      const result = toDPromptTemplateDescriptors(descriptors);
+      const result = toDTemplateDescriptors(descriptors);
       const expectedResult = toDPromptTemplateDescriptorsInternal(descriptors);
       expect(result).toEqual(expectedResult);
    });
 
-   it("toDPromptTemplateDescriptor test", async () => {
+   it("toDTemplateDescriptor test", async () => {
       const descriptor = ptestData.pPromptTemplateDescriptorWithCategories();
-      const result = toDPromptTemplateDescriptor(descriptor);
+      const result = toDTemplateDescriptor(descriptor);
       const expectedResult = toDPromptTemplateDescriptorInternal(descriptor);
       expect(result).toEqual(expectedResult);
    });

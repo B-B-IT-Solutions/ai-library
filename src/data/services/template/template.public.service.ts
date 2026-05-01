@@ -4,7 +4,7 @@ import { PublicTemplateRepository } from "@/data/repositories/template";
 import {
    DPromptTemplate,
    DPromptTemplateDataPromptGeneration,
-   DPromptTemplateDescriptorWithTemplate,
+   DPromptTemplateDescriptor,
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
@@ -69,8 +69,8 @@ export class PublicTemplateService {
 
    async getPublicTemplateDescriptor(
       descriptorId: string
-   ): Promise<DPromptTemplateDescriptorWithTemplate | null> {
-      return await this.repository.pGetPublicTemplateDescriptorWithTemplate(descriptorId);
+   ): Promise<DPromptTemplateDescriptor | null> {
+      return await this.repository.pGetPublicTemplateDescriptor(descriptorId);
    }
 
    async getPublicPromptTemplate(

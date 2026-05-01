@@ -218,7 +218,7 @@ describe("getTemplateDescriptor tests", () => {
       const user = dtestData.dLoginUser();
       requireUserMock.mockResolvedValue(user);
 
-      const descriptor = dtestData.dPromptTemplateDescriptorWithTemplate();
+      const descriptor = dtestData.dPromptTemplateDescriptor();
       sGetTemplateDescriptorMock.mockResolvedValue(descriptor);
       const descriptorId = "a34e7e08-1806-419e-8f03-2e36a4f5466e";
 

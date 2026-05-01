@@ -1,11 +1,8 @@
 import { DbClient } from "@/data/types/db/common";
-import {
-   PromptTemplateDescriptorWithCategories,
-   PromptTemplateDescriptorWithTemplate,
-} from "@/data/types/db/prompt.template";
+import { PromptTemplateDescriptorWithCategories } from "@/data/types/db/prompt.template";
 import {
    DPromptTemplate,
-   DPromptTemplateDescriptorWithTemplate,
+   DPromptTemplateDescriptor,
    DTemplateDescriptorsPage,
    DTemplateDescriptorsPageQuery,
 } from "@/data/types/domain/prompt.template";
@@ -16,8 +13,8 @@ import {
 
 import {
    toDPromptTemplate,
-   toDPromptTemplateDescriptors,
-   toDPromptTemplateDescriptorWithTemplate,
+   toDTemplateDescriptor,
+   toDTemplateDescriptors,
 } from "./template.mapper";
 import { resolveOrderBy, resolveWhereInput } from "./utils";
 
@@ -61,7 +58,7 @@ export class PublicTemplateRepository {
       ]);
 
       return {
-         content: toDPromptTemplateDescriptors(descriptors),
+         content: toDTemplateDescriptors(descriptors),
          pageNumber,
          pageSize,
          numberOfElements: descriptors.length,
@@ -70,26 +67,18 @@ export class PublicTemplateRepository {
       };
    }
 
-   async pGetPublicTemplateDescriptorWithTemplate(
+   async pGetPublicTemplateDescriptor(
       id: string
-   ): Promise<DPromptTemplateDescriptorWithTemplate | null> {
-      const descriptor: PromptTemplateDescriptorWithTemplate | null =
+   ): Promise<DPromptTemplateDescriptor | null> {
+      const descriptor: PromptTemplateDescriptorWithCategories | null =
          await this.prisma.promptTemplateDescriptor.findFirst({
             where: { id },
             include: {
                categories: true,
-               promptTemplate: {
-                  include: {
-                     fields: true,
-                     globalFields: true,
-                  },
-               },
             },
          });
 
-      return descriptor
-         ? toDPromptTemplateDescriptorWithTemplate(descriptor)
-         : null;
+      return descriptor ? toDTemplateDescriptor(descriptor) : null;
    }
 
    async pGetPublicPromptTemplate(id: string): Promise<DPromptTemplate | null> {

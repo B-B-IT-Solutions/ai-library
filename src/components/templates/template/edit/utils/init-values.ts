@@ -2,12 +2,12 @@ import { map } from "es-toolkit/compat";
 
 import { existingTemplateFieldInitValues } from "@/components/shared/template-fields";
 import {
-   DPromptTemplateDescriptorWithTemplate,
+   DPromptTemplateDescriptor,
    DPromptTemplateUpdate,
 } from "@/data/types/domain/prompt.template";
 
-export const initPromptTempalte = (
-   descriptor?: DPromptTemplateDescriptorWithTemplate
+export const initPromptTemplate = (
+   descriptor?: DPromptTemplateDescriptor
 ): DPromptTemplateUpdate => {
    const { promptTemplate } = descriptor || {};
    return {

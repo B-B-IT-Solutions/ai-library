@@ -1,15 +1,11 @@
 import { flatMap, isEmpty, map, uniq } from "es-toolkit/compat";
 
 import { DbClient } from "@/data/types/db/common";
-import {
-   PromptTemplateDescriptorWithCategories,
-   PromptTemplateDescriptorWithTemplate,
-} from "@/data/types/db/prompt.template";
+import { PromptTemplateDescriptorWithCategories } from "@/data/types/db/prompt.template";
 import {
    DPromptTemplate,
    DPromptTemplateCategory,
    DPromptTemplateDescriptor,
-   DPromptTemplateDescriptorWithTemplate,
    DPromptTemplateFieldType,
    DPromptTemplateFieldUpdate,
    DPromptTemplateUpdate,
@@ -30,9 +26,8 @@ import {
 
 import {
    toDPromptTemplate,
-   toDPromptTemplateDescriptor,
-   toDPromptTemplateDescriptors,
-   toDPromptTemplateDescriptorWithTemplate,
+   toDTemplateDescriptor,
+   toDTemplateDescriptors,
 } from "./template.mapper";
 import { resolveOrderBy, resolveWhereInput } from "./utils";
 
@@ -82,7 +77,7 @@ export class TemplateRepository {
       ]);
 
       return {
-         content: toDPromptTemplateDescriptors(descriptors),
+         content: toDTemplateDescriptors(descriptors),
          pageNumber,
          pageSize,
          numberOfElements: descriptors.length,
@@ -104,29 +99,23 @@ export class TemplateRepository {
          take: 20,
       });
 
-      return toDPromptTemplateDescriptors(templates);
+      return toDTemplateDescriptors(templates);
    }
 
-   async pGetPromptTemplateDescriptorWithTemplate(
+   async pGetTemplateDescriptor(
       userId: string,
       id: string
-   ): Promise<DPromptTemplateDescriptorWithTemplate | null> {
-      const template: PromptTemplateDescriptorWithTemplate | null =
+   ): Promise<DPromptTemplateDescriptor | null> {
+      const template: PromptTemplateDescriptorWithCategories | null =
          await this.prisma.promptTemplateDescriptor.findFirst({
             where: { id, userId },
             include: {
                categories: true,
-               promptTemplate: {
-                  include: {
-                     fields: true,
-                     globalFields: true,
-                  },
-               },
             },
          });
 
       if (template) {
-         return toDPromptTemplateDescriptorWithTemplate(template);
+         return toDTemplateDescriptor(template);
       }
       return null;
    }
@@ -219,7 +208,7 @@ export class TemplateRepository {
          },
       };
       const newEntry = await this.prisma.promptTemplateDescriptor.create(args);
-      return toDPromptTemplateDescriptor(
+      return toDTemplateDescriptor(
          newEntry as PromptTemplateDescriptorWithCategories
       );
    }
