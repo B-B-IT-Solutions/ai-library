@@ -74,19 +74,25 @@ Access to the database always goes through a factory chain:
 
 ### Key Libraries
 
-| Concern | Library |
-|---|---|
-| UI primitives | Radix UI + shadcn/ui |
-| Styling | Tailwind CSS v4 + tailwind-merge + CVA |
-| Forms | React Hook Form + Zod |
-| Rich text | Tiptap |
-| URL state | nuqs |
-| Toasts | sonner |
-| Date utils | date-fns v4 |
-| Payment | Stripe SDK v20 |
-| Legal/consent | Iubenda |
-| HTTP client | axios + axios-retry |
+| Concern       | Library                                |
+| ------------- | -------------------------------------- |
+| UI primitives | Radix UI + shadcn/ui                   |
+| Styling       | Tailwind CSS v4 + tailwind-merge + CVA |
+| Forms         | React Hook Form + Zod                  |
+| Rich text     | Tiptap                                 |
+| URL state     | nuqs                                   |
+| Toasts        | sonner                                 |
+| Date utils    | date-fns v4                            |
+| Payment       | Stripe SDK v20                         |
+| Legal/consent | Iubenda                                |
+| HTTP client   | axios + axios-retry                    |
 
 ### Testing Setup
 
 Jest 30 + React Testing Library. Test environment: jsdom. Key mocks are pre-configured in `jest.config.ts` for: next-auth, next/headers, next/cache, Prisma client, Radix UI components, and Tiptap. The test timezone is forced to `CET` via `cross-env`.
+
+## Testing
+
+### Unit Tests
+
+- Whenever you add any changes add unit tests and run and make sure that the tets pass.
