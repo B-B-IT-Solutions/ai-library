@@ -20,6 +20,7 @@ type Props = {
    groupBy: DListGroupByMode;
    sortBy: DListSortByMode;
    filters: DTemplateDescriptorsFilter;
+   collectionToken?: string | null;
 };
 
 export const PublicTemplateItems = ({
@@ -27,6 +28,7 @@ export const PublicTemplateItems = ({
    groupBy,
    sortBy,
    filters,
+   collectionToken,
 }: Props) => {
    const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
       useInfiniteLoadPublicTemplateDescriptors({
@@ -57,7 +59,11 @@ export const PublicTemplateItems = ({
          next={fetchNextPage}
          threshold={0.7}
       >
-         <PublicTemplateItemsGrid descriptors={entries} collections={[]} />
+         <PublicTemplateItemsGrid
+            descriptors={entries}
+            collections={[]}
+            collectionToken={collectionToken}
+         />
       </InfiniteScroll>
    );
 };

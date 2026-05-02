@@ -51,6 +51,7 @@ describe("TemplateItemsPublic rendering tests", () => {
             groupBy={DListGroupByMode.NONE}
             sortBy={DListSortByMode.DATE_DESC}
             filters={filters}
+            collectionToken="public-token-1"
          />
       );
 

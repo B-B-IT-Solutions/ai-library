@@ -39,6 +39,7 @@ describe("PublicTemplateItemsGrid rendering tests", () => {
          <PublicTemplateItemsGrid
             descriptors={descriptors}
             collections={collections}
+            collectionToken="public-token-1"
          />
       );
 

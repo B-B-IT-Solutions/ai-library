@@ -6,23 +6,24 @@ exports[`CollectionView rendering tests rendered - test 1`] = `
     data-testid="collection-view-public"
   >
     <div
-      class="border-b bg-white px-6 py-8"
+      class="border-b"
     >
       <div
-        class="mx-auto max-w-5xl"
+        class="container mx-auto max-w-6xl px-4 py-8"
       >
         <div
-          class="flex items-start justify-between gap-4"
+          data-testid="collection-header-public"
         >
           <div
-            class="flex items-center gap-4"
+            class="flex items-center gap-5"
+            data-testid="overview"
           >
             <div
-              class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
+              class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl shadow-sm"
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-folder h-6 w-6"
+                class="lucide lucide-folder h-7 w-7"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -38,43 +39,52 @@ exports[`CollectionView rendering tests rendered - test 1`] = `
                 />
               </svg>
             </div>
-            <div>
+            <div
+              class="min-w-0 flex-1"
+            >
               <div
-                class="flex items-center gap-2"
+                class="flex flex-wrap items-center gap-2"
               >
                 <h1
                   class="text-2xl font-bold text-slate-900"
                 >
                   name 1
                 </h1>
-                <svg
-                  aria-hidden="true"
-                  class="lucide lucide-globe h-4 w-4 text-green-600"
-                  fill="none"
-                  height="24"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  xmlns="http://www.w3.org/2000/svg"
+                <span
+                  class="inline-flex items-center justify-center rounded-full border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&]:hover:bg-accent [a&]:hover:text-accent-foreground gap-1 border-green-300 bg-green-50 text-green-700"
+                  data-slot="badge"
+                  data-testid="public-badge"
                 >
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="10"
-                  />
-                  <path
-                    d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"
-                  />
-                  <path
-                    d="M2 12h20"
-                  />
-                </svg>
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-globe h-3 w-3"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                    />
+                    <path
+                      d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"
+                    />
+                    <path
+                      d="M2 12h20"
+                    />
+                  </svg>
+                  Öffentlich
+                </span>
               </div>
               <p
-                class="mt-1 text-slate-500"
+                class="mt-1.5 text-slate-500"
               >
                 description 1
               </p>
@@ -84,7 +94,7 @@ exports[`CollectionView rendering tests rendered - test 1`] = `
       </div>
     </div>
     <div
-      class="flex-1 overflow-y-auto px-8 py-6"
+      class="container mx-auto max-w-6xl px-4 py-8"
     >
       <div
         class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
@@ -126,7 +136,7 @@ exports[`CollectionView rendering tests rendered - test 1`] = `
             <a
               class="group/title"
               data-testid="view-details-link-title"
-              href="/p/templates/334db648-f300-4284-8149-075ff465d750"
+              href="/p/templates/334db648-f300-4284-8149-075ff465d750?col=token-1"
             >
               <h4
                 class="cursor-pointer text-lg leading-tight font-semibold text-slate-900 transition-colors hover:text-blue-700"
@@ -315,7 +325,7 @@ exports[`CollectionView rendering tests rendered - test 1`] = `
             <a
               class="group/title"
               data-testid="view-details-link-title"
-              href="/p/templates/334db648-f300-4284-8149-075ff465d751"
+              href="/p/templates/334db648-f300-4284-8149-075ff465d751?col=token-1"
             >
               <h4
                 class="cursor-pointer text-lg leading-tight font-semibold text-slate-900 transition-colors hover:text-blue-700"
@@ -504,7 +514,7 @@ exports[`CollectionView rendering tests rendered - test 1`] = `
             <a
               class="group/title"
               data-testid="view-details-link-title"
-              href="/p/templates/334db648-f300-4284-8149-075ff465d752"
+              href="/p/templates/334db648-f300-4284-8149-075ff465d752?col=token-1"
             >
               <h4
                 class="cursor-pointer text-lg leading-tight font-semibold text-slate-900 transition-colors hover:text-blue-700"

@@ -8,11 +8,13 @@ import { PublicTemplateItemCard } from "./items";
 type Props = {
    descriptors: DPromptTemplateDescriptor[];
    collections: DCollection[];
+   collectionToken?: string | null;
 };
 
 export const PublicTemplateItemsGrid = ({
    descriptors,
    collections,
+   collectionToken,
 }: Props) => {
    if (isEmpty(descriptors)) {
       return (
@@ -40,6 +42,7 @@ export const PublicTemplateItemsGrid = ({
                key={entry.id}
                descriptor={entry}
                collections={collections}
+               collectionToken={collectionToken}
             />
          ))}
       </div>

@@ -3,11 +3,11 @@
 exports[`PublicLayout rendering tests PublicLayout rendered test 1`] = `
 <div>
   <div
-    class="flex h-full flex-col"
+    class="flex min-h-screen flex-col"
     data-testid="public-layout"
   >
     <header
-      class="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+      class="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60"
     >
       <div
         class="container mx-auto px-4 py-4"
@@ -15,27 +15,42 @@ exports[`PublicLayout rendering tests PublicLayout rendered test 1`] = `
         <div
           class="flex items-center justify-between"
         >
-          <a
-            class="flex items-center gap-3 transition-opacity hover:opacity-80"
-            data-testid="mock-link"
-            href="/p"
+          <div
+            class="flex items-center gap-8"
           >
-            <img
-              alt="Vision Notes logo"
-              class="drop-shadow-lg"
-              data-nimg="1"
-              decoding="async"
-              height="40"
-              src="/images/logo.svg"
-              style="color: transparent;"
-              width="40"
-            />
-            <h1
-              class="text-xl font-bold"
+            <a
+              class="flex items-center gap-3 transition-opacity hover:opacity-80"
+              data-testid="mock-link"
+              href="/p"
             >
-              Vision Notes
-            </h1>
-          </a>
+              <img
+                alt="Vision Notes logo"
+                class="drop-shadow-lg"
+                data-nimg="1"
+                decoding="async"
+                height="36"
+                src="/images/logo.svg"
+                style="color: transparent;"
+                width="36"
+              />
+              <span
+                class="text-xl font-bold"
+              >
+                Vision Notes
+              </span>
+            </a>
+            <nav
+              class="hidden items-center gap-6 md:flex"
+            >
+              <a
+                class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                data-testid="mock-link"
+                href="/p/marketplace"
+              >
+                Bibliothek
+              </a>
+            </nav>
+          </div>
           <div
             class="flex gap-3"
           >
@@ -66,6 +81,48 @@ exports[`PublicLayout rendering tests PublicLayout rendered test 1`] = `
         data-testid="test-1"
       />
     </main>
+    <footer
+      class="border-t bg-muted/40 py-8"
+    >
+      <div
+        class="container mx-auto px-4"
+      >
+        <div
+          class="flex flex-col items-center justify-between gap-6 md:flex-row"
+        >
+          <a
+            class="flex items-center gap-2 transition-opacity hover:opacity-80"
+            data-testid="mock-link"
+            href="/p"
+          >
+            <span
+              class="text-sm font-semibold"
+            >
+              Vision Notes
+            </span>
+          </a>
+          <nav
+            class="flex gap-6"
+          >
+            <a
+              class="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              data-testid="mock-link"
+              href="/p/marketplace"
+            >
+              Bibliothek
+            </a>
+          </nav>
+          <p
+            class="text-sm text-muted-foreground"
+          >
+            © 
+            2026
+             
+            Vision Notes
+          </p>
+        </div>
+      </div>
+    </footer>
   </div>
 </div>
 `;

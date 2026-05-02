@@ -38,10 +38,7 @@ export const PublicCollectionPage = async ({ params }: PageProps) => {
    }
 
    return (
-      <div
-         className="min-h-full bg-slate-50"
-         data-testid="public-collection-page"
-      >
+      <div data-testid="public-collection-page">
          <CollectionViewPublic collection={collection} />
       </div>
    );

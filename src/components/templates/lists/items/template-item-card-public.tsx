@@ -26,9 +26,18 @@ import {
 type Props = {
    descriptor: DPromptTemplateDescriptor;
    collections: DCollection[];
+   collectionToken?: string | null;
 };
 
-export const PublicTemplateItemCard = ({ descriptor, collections }: Props) => {
+export const PublicTemplateItemCard = ({
+   descriptor,
+   collections,
+   collectionToken,
+}: Props) => {
+   const templateDetailsUrl = collectionToken
+      ? `/p/templates/${descriptor.id}?col=${collectionToken}`
+      : `/p/templates/${descriptor.id}`;
+
    const [showAddToCollectionDialog, setShowAddToCollectionDialog] =
       useState(false);
 
@@ -63,7 +72,7 @@ export const PublicTemplateItemCard = ({ descriptor, collections }: Props) => {
             <DropdownMenuContent align="end">
                <DropdownMenuItem asChild={true}>
                   <Link
-                     href={`/p/templates/${descriptor.id}`}
+                     href={templateDetailsUrl}
                      className="cursor-pointer"
                      data-testid="view-details-link"
                   >
@@ -97,7 +106,7 @@ export const PublicTemplateItemCard = ({ descriptor, collections }: Props) => {
          <AddToFavoriteButton descriptor={descriptor} />
          <CardHeader className="gap-3 border-b border-slate-200 p-5 pb-3">
             <Link
-               href={`/p/templates/${descriptor.id}`}
+               href={templateDetailsUrl}
                className="group/title"
                data-testid="view-details-link-title"
             >

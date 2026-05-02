@@ -76,6 +76,7 @@ describe("PublicTemplateItemCard rendering tests", () => {
          <PublicTemplateItemCard
             descriptor={descriptor}
             collections={collections}
+            collectionToken="public-token-1"
          />
       );
 
@@ -89,32 +90,36 @@ describe("PublicTemplateItemCard rendering tests", () => {
 
 describe("PublicTemplateItemCard functionality tests", () => {
    beforeEach(() => {
-      jest.resetAllMocks();
+      jest.clearAllMocks();
       mockRouter.push("/");
    });
 
    it("title - view detail link clicked - test", async () => {
       const descriptor = dtestData.dPromptTemplateDescriptor();
       const collections = dtestData.dCollections();
+      const collectionToken = "public-token-1";
 
       renderWithReactQuery(
          <PublicTemplateItemCard
             descriptor={descriptor}
             collections={collections}
+            collectionToken={collectionToken}
          />
       );
 
       await waitFor(() => {
          assertRendered();
          assertDropdownMenuItemsNotRendered();
-         expect(mockRouter.pathname).toEqual("/");
+         expect(mockRouter.asPath).toEqual("/");
       });
 
       const viewDetailsTitle = screen.getByTestId("view-details-link-title");
       userEvent.click(viewDetailsTitle);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual(`/p/templates/${descriptor.id}`);
+         expect(mockRouter.asPath).toEqual(
+            `/p/templates/${descriptor.id}?col=${collectionToken}`
+         );
       });
    });
 
@@ -132,7 +137,7 @@ describe("PublicTemplateItemCard functionality tests", () => {
       await waitFor(() => {
          assertRendered();
          assertDropdownMenuItemsNotRendered();
-         expect(mockRouter.pathname).toEqual("/");
+         expect(mockRouter.asPath).toEqual("/");
       });
 
       const dropdownMenuBtn = screen.getByTestId("dropdown-menu-btn");
@@ -140,14 +145,14 @@ describe("PublicTemplateItemCard functionality tests", () => {
 
       await waitFor(() => {
          assertDropdownMenuItemsRendered();
-         expect(mockRouter.pathname).toEqual("/");
+         expect(mockRouter.asPath).toEqual("/");
       });
 
       const viewDetailsLink = screen.getByTestId("view-details-link");
       userEvent.click(viewDetailsLink);
 
       await waitFor(() => {
-         expect(mockRouter.pathname).toEqual(`/p/templates/${descriptor.id}`);
+         expect(mockRouter.asPath).toEqual(`/p/templates/${descriptor.id}`);
       });
    });
 
