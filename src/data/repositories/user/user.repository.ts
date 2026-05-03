@@ -71,6 +71,21 @@ export class UserRepository {
       });
    }
 
+   async pVerifyUserEmail(email: string): Promise<void> {
+      await this.prisma.user.update({
+         where: { email },
+         data: { emailVerified: new Date() },
+      });
+   }
+
+   async pGetEmailVerified(email: string): Promise<Date | null | undefined> {
+      const user = await this.prisma.user.findFirst({
+         where: { email },
+         select: { emailVerified: true },
+      });
+      return user?.emailVerified;
+   }
+
    async pDeleteUser(userId: string) {
       await this.prisma.session.deleteMany({
          where: { userId },

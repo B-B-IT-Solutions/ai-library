@@ -7,6 +7,7 @@ import {
    IubendaService,
    LegalNoticesAcceptedParams,
 } from "@/data/services/iubenda";
+import { VerificationTokenService } from "@/data/services/verification-token";
 import { UserUpdateData } from "@/data/types/db/user";
 import {
    DUser,
@@ -27,17 +28,20 @@ export class UserService {
    private cartService: CartService;
    private orderService: OrderService;
    private iubendaService: IubendaService;
+   private verificationTokenService: VerificationTokenService;
 
    constructor(
       userRepository: UserRepository,
       cartService: CartService,
       orderService: OrderService,
-      iubendaService: IubendaService
+      iubendaService: IubendaService,
+      verificationTokenService: VerificationTokenService
    ) {
       this.userRepository = userRepository;
       this.cartService = cartService;
       this.orderService = orderService;
       this.iubendaService = iubendaService;
+      this.verificationTokenService = verificationTokenService;
    }
 
    async signUpUser(data: DUserSignUp): Promise<DUser> {
@@ -53,6 +57,14 @@ export class UserService {
 
       const user = await this.userRepository.pCreateUser(newUser);
       this.saveLegalNoticesAccepted(user, legalNoticesAcceptedAt);
+      this.verificationTokenService
+         .sendVerificationEmail(user.email, user.name)
+         .catch((err) =>
+            console.error(
+               `[UserService] Failed to send verification email to ${user.email}:`,
+               err
+            )
+         );
 
       return toDUser(user);
    }
@@ -62,7 +74,7 @@ export class UserService {
       if (user && user.password) {
          const isMatch = await compare(data.password, user.password);
 
-         if (isMatch) {
+         if (isMatch && user.emailVerified) {
             return {
                id: user.id,
                name: user.name,
@@ -70,6 +82,28 @@ export class UserService {
                role: user.role,
             };
          }
+      }
+      return null;
+   }
+
+   async isEmailVerified(email: string): Promise<boolean | null> {
+      const emailVerified =
+         await this.userRepository.pGetEmailVerified(email);
+
+      if (emailVerified === undefined) {
+         return null;
+      }
+      return emailVerified !== null;
+   }
+
+   async verifyEmail(email: string): Promise<void> {
+      await this.userRepository.pVerifyUserEmail(email);
+   }
+
+   async getUserByEmail(email: string): Promise<DUser | null> {
+      const user = await this.userRepository.pGetUserByEmail(email);
+      if (user) {
+         return toDUser(user);
       }
       return null;
    }

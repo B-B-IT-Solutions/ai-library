@@ -37,3 +37,20 @@ export const getIubendaConsentUrl = (): string => {
    }
    return IUBENDA_CONSENT_URL;
 };
+
+export const BREVO_API_KEY = process.env.BREVO_API_KEY;
+export const BREVO_SENDER_EMAIL = process.env.BREVO_SENDER_EMAIL;
+
+export const getBrevoApiKey = (): string => {
+   if (!BREVO_API_KEY) {
+      throw new Error("BREVO_API_KEY is not set in environment variables");
+   }
+   return BREVO_API_KEY;
+};
+
+export const getBrevoSenderEmail = (): string => {
+   if (!BREVO_SENDER_EMAIL) {
+      throw new Error("BREVO_SENDER_EMAIL is not set in environment variables");
+   }
+   return BREVO_SENDER_EMAIL;
+};

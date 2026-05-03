@@ -6,4 +6,5 @@ export {
    updateUserProfile,
    updatePassword,
    deleteUser,
+   resendVerificationEmail,
 } from "./user.actions";

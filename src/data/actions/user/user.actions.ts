@@ -1,6 +1,7 @@
 "use server";
 
 import { isRedirectError } from "next/dist/client/components/redirect-error";
+import { redirect } from "next/navigation";
 
 import { signIn, signOut } from "@/auth";
 import { requireUser } from "@/data/actions/auth-utils";
@@ -32,15 +33,9 @@ export const signUpUser = async (data: DUserSignUp) => {
       const service = getService();
       await service.signUpUser(validatedData);
 
-      await signIn("credentials", {
-         email: data.email,
-         password: data.password,
-      });
-
-      return {
-         success: true,
-         message: "User registered successfully",
-      };
+      redirect(
+         `/auth/verify-email?email=${encodeURIComponent(validatedData.email)}`
+      );
    } catch (error) {
       if (isRedirectError(error)) {
          throw error;
@@ -55,6 +50,18 @@ export const signUpUser = async (data: DUserSignUp) => {
 export const signInWithCredentials = async (data: DUserSignIn) => {
    try {
       const singInValues = signInSchema.parse(data);
+
+      const service = getService();
+      const isVerified = await service.isEmailVerified(singInValues.email);
+      if (isVerified === false) {
+         return {
+            success: false,
+            message:
+               "E-Mail-Adresse nicht bestätigt. Bitte überprüfe dein Postfach.",
+            emailNotVerified: true,
+         };
+      }
+
       await signIn("credentials", singInValues);
       return {
          success: true,
@@ -161,6 +168,45 @@ export const deleteUser = async (
       return {
          success: false,
          message: "Fehler beim Löschen des Kontos",
+      };
+   }
+};
+
+export const resendVerificationEmail = async (
+   email: string
+): Promise<ActionResult> => {
+   try {
+      const service = getService();
+      const isVerified = await service.isEmailVerified(email);
+
+      if (isVerified === null) {
+         return { success: false, message: "E-Mail-Adresse nicht gefunden" };
+      }
+      if (isVerified === true) {
+         return {
+            success: false,
+            message: "E-Mail-Adresse ist bereits bestätigt",
+         };
+      }
+
+      const user = await service.getUserByEmail(email);
+      if (!user) {
+         return { success: false, message: "E-Mail-Adresse nicht gefunden" };
+      }
+
+      const factory = new ServiceFactory(prisma);
+      await factory
+         .getVerificationTokenService()
+         .sendVerificationEmail(user.email, user.name);
+
+      return {
+         success: true,
+         message: "Verifizierungs-E-Mail wurde erneut gesendet",
+      };
+   } catch (error) {
+      return {
+         success: false,
+         message: formatError(error),
       };
    }
 };

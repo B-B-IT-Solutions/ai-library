@@ -9,10 +9,12 @@ import { PublicSettingsRepository, SettingsRepository } from "./settings";
 import { SubscriptionRepository } from "./subscription";
 import { PublicTemplateRepository, TemplateRepository } from "./template";
 import { UserRepository } from "./user";
+import { VerificationTokenRepository } from "./verification-token";
 
 export class RepositoryFactory {
    private prisma: DbClient;
    private userRepo?: UserRepository;
+   private verificationTokenRepo?: VerificationTokenRepository;
    private cartRepo?: CartRepository;
    private collectionRepo?: CollectionRepository;
    private publicCollectionRepo?: PublicCollectionRepository;
@@ -113,5 +115,14 @@ export class RepositoryFactory {
          this.publicSettingsRepo = new PublicSettingsRepository(this.prisma);
       }
       return this.publicSettingsRepo;
+   }
+
+   verificationTokenRepository(): VerificationTokenRepository {
+      if (!this.verificationTokenRepo) {
+         this.verificationTokenRepo = new VerificationTokenRepository(
+            this.prisma
+         );
+      }
+      return this.verificationTokenRepo;
    }
 }

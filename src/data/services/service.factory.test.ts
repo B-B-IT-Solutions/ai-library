@@ -2,6 +2,7 @@ import prisma from "@/data/repositories/prisma";
 
 import { CartService } from "./cart";
 import { CollectionService, PublicCollectionService } from "./collection";
+import { BrevoEmailService } from "./email";
 import { IubendaService } from "./iubenda";
 import { OrderService } from "./order";
 import { PromptService } from "./prompt";
@@ -11,6 +12,7 @@ import { StripeService } from "./stripe/stripe.service";
 import { SubscriptionService } from "./subscription";
 import { PublicTemplateService, TemplateService } from "./template";
 import { UserService } from "./user";
+import { VerificationTokenService } from "./verification-token";
 
 const serviceFactory = new ServiceFactory(prisma);
 
@@ -179,6 +181,32 @@ describe("getIubendaService tests", () => {
    it("existing instance - test", () => {
       const service1 = serviceFactory.getIubendaService();
       const service2 = serviceFactory.getIubendaService();
+      expect(service1).toBe(service2);
+   });
+});
+
+describe("getEmailService tests", () => {
+   it("new instance - test", () => {
+      const service = serviceFactory.getEmailService();
+      expect(service).toBeInstanceOf(BrevoEmailService);
+   });
+
+   it("existing instance - test", () => {
+      const service1 = serviceFactory.getEmailService();
+      const service2 = serviceFactory.getEmailService();
+      expect(service1).toBe(service2);
+   });
+});
+
+describe("getVerificationTokenService tests", () => {
+   it("new instance - test", () => {
+      const service = serviceFactory.getVerificationTokenService();
+      expect(service).toBeInstanceOf(VerificationTokenService);
+   });
+
+   it("existing instance - test", () => {
+      const service1 = serviceFactory.getVerificationTokenService();
+      const service2 = serviceFactory.getVerificationTokenService();
       expect(service1).toBe(service2);
    });
 });

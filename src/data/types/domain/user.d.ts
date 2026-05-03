@@ -24,6 +24,7 @@ export type DUser = {
 export type DUserInternal = DUser & {
    password: string | null;
    stripeCustomerId: string | null;
+   emailVerified: string | null;
 };
 
 export type DUserCreate = {

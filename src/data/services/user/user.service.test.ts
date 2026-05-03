@@ -2,6 +2,7 @@ jest.mock("@/data/repositories/user");
 jest.mock("@/data/services/cart");
 jest.mock("@/data/services/order");
 jest.mock("@/data/services/iubenda");
+jest.mock("@/data/services/verification-token");
 jest.mock("@/lib/encrypt");
 jest.mock("@/lib/utils");
 
@@ -19,6 +20,7 @@ import {
    LegalNoticesAcceptedParams,
 } from "@/data/services/iubenda";
 import { OrderService } from "@/data/services/order";
+import { VerificationTokenService } from "@/data/services/verification-token";
 import { UserUpdateData } from "@/data/types/db/user";
 import {
    DUserAccountDelete,
@@ -46,10 +48,13 @@ const serviceFactory = new ServiceFactory(prisma);
 const cartService = serviceFactory.getCartService();
 const orderService = serviceFactory.getOrderService();
 const iubendaService = serviceFactory.getIubendaService();
+const verificationTokenService = serviceFactory.getVerificationTokenService();
 
 const cartServiceMock = cartService as DeepMockProxy<CartService>;
 const orderServiceMock = orderService as DeepMockProxy<OrderService>;
 const iubendaServiceMock = iubendaService as DeepMockProxy<IubendaService>;
+const verificationTokenServiceMock =
+   verificationTokenService as DeepMockProxy<VerificationTokenService>;
 
 const userRepo = new UserRepository(prisma);
 const userRepoMock = userRepo as DeepMockProxy<UserRepository>;
@@ -58,7 +63,8 @@ const userService = new UserService(
    userRepoMock,
    cartServiceMock,
    orderServiceMock,
-   iubendaServiceMock
+   iubendaServiceMock,
+   verificationTokenServiceMock
 );
 
 describe("signUpUser tests", () => {
@@ -74,6 +80,9 @@ describe("signUpUser tests", () => {
    it("signUpUser - user created - iubenda synced true - test", async () => {
       const createdUser = dtestData.dUserInternal();
       userRepoMock.pCreateUser.mockResolvedValue(createdUser);
+      verificationTokenServiceMock.sendVerificationEmail.mockResolvedValue(
+         undefined
+      );
 
       const reqHeader = ntestData.headers();
       headersMock.mockResolvedValue(reqHeader);
@@ -129,11 +138,20 @@ describe("signUpUser tests", () => {
          createdUser.id,
          expecteUserUpdateData
       );
+      expect(
+         verificationTokenServiceMock.sendVerificationEmail
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         verificationTokenServiceMock.sendVerificationEmail
+      ).toHaveBeenCalledWith(createdUser.email, createdUser.name);
    });
 
    it("signUpUser - user created - iubenda synced false - test", async () => {
       const createdUser = dtestData.dUserInternal();
       userRepoMock.pCreateUser.mockResolvedValue(createdUser);
+      verificationTokenServiceMock.sendVerificationEmail.mockResolvedValue(
+         undefined
+      );
 
       const reqHeader = ntestData.headers();
       headersMock.mockResolvedValue(reqHeader);
@@ -179,6 +197,12 @@ describe("signUpUser tests", () => {
          expectedLegalNoticesParams
       );
       expect(userRepoMock.pUpdateUser).not.toHaveBeenCalled();
+      expect(
+         verificationTokenServiceMock.sendVerificationEmail
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         verificationTokenServiceMock.sendVerificationEmail
+      ).toHaveBeenCalledWith(createdUser.email, createdUser.name);
    });
 });
 
@@ -238,7 +262,25 @@ describe("singInUser tests", () => {
       expect(compareMock).toHaveBeenCalledWith(data.password, user.password);
    });
 
-   it("singInUser - user.password compare true - test", async () => {
+   it("singInUser - user.password compare true - email not verified - test", async () => {
+      const user = dtestData.dUserInternal();
+      user.emailVerified = null;
+      userRepoMock.pGetUserByEmail.mockResolvedValue(user);
+      compareMock.mockResolvedValue(true);
+
+      const data: DUserSignIn = {
+         email: "test@example.com",
+         password: "password123",
+      };
+
+      const result = await userService.singInUser(data);
+
+      expect(result).toBeNull();
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledTimes(1);
+      expect(compareMock).toHaveBeenCalledTimes(1);
+   });
+
+   it("singInUser - user.password compare true - email verified - test", async () => {
       const user = dtestData.dUserInternal();
       userRepoMock.pGetUserByEmail.mockResolvedValue(user);
       compareMock.mockResolvedValue(true);
@@ -664,5 +706,81 @@ describe("saveLegalNoticesAccepted tests", () => {
          expectedLegalNoticesParams
       );
       expect(userRepoMock.pUpdateUser).not.toHaveBeenCalled();
+   });
+});
+
+describe("getUserByEmail tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("getUserByEmail - user null - test", async () => {
+      userRepoMock.pGetUserByEmail.mockResolvedValue(null);
+
+      const result = await userService.getUserByEmail("test@email.com");
+
+      expect(result).toBeNull();
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledWith(
+         "test@email.com"
+      );
+   });
+
+   it("getUserByEmail - user retrieved - test", async () => {
+      const user = dtestData.dUserInternal();
+      userRepoMock.pGetUserByEmail.mockResolvedValue(user);
+
+      const result = await userService.getUserByEmail(user.email);
+
+      const expectedResult = toDUser(user);
+
+      expect(result).toEqual(expectedResult);
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledWith(user.email);
+   });
+});
+
+describe("isEmailVerified tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("isEmailVerified - user not found - returns null - test", async () => {
+      userRepoMock.pGetEmailVerified.mockResolvedValue(undefined);
+
+      const result = await userService.isEmailVerified("test@email.com");
+
+      expect(result).toBeNull();
+   });
+
+   it("isEmailVerified - email not verified - returns false - test", async () => {
+      userRepoMock.pGetEmailVerified.mockResolvedValue(null);
+
+      const result = await userService.isEmailVerified("test@email.com");
+
+      expect(result).toBe(false);
+   });
+
+   it("isEmailVerified - email verified - returns true - test", async () => {
+      userRepoMock.pGetEmailVerified.mockResolvedValue(new Date());
+
+      const result = await userService.isEmailVerified("test@email.com");
+
+      expect(result).toBe(true);
+   });
+});
+
+describe("verifyEmail tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("verifyEmail - calls pVerifyUserEmail - test", async () => {
+      const email = "test@email.com";
+
+      await userService.verifyEmail(email);
+
+      expect(userRepoMock.pVerifyUserEmail).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pVerifyUserEmail).toHaveBeenCalledWith(email);
    });
 });

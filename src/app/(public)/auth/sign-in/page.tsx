@@ -20,14 +20,22 @@ export const metadata: Metadata = {
 
 export type SignInPageSearchParams = {
    callbackUrl?: string;
+   verified?: string;
+   error?: string;
 };
 
 export type SignInPageProps = {
    searchParams: Promise<SignInPageSearchParams>;
 };
 
+const SIGN_IN_ERROR_MESSAGES: Record<string, string> = {
+   expired_link:
+      "Der Bestätigungslink ist abgelaufen. Bitte fordere einen neuen an.",
+   invalid_link: "Ungültiger Bestätigungslink. Bitte fordere einen neuen an.",
+};
+
 const SignInPage = async (props: SignInPageProps) => {
-   const { callbackUrl } = await props.searchParams;
+   const { callbackUrl, verified, error } = await props.searchParams;
 
    const session = await auth();
 
@@ -73,6 +81,23 @@ const SignInPage = async (props: SignInPageProps) => {
                   </div>
                </CardHeader>
                <CardContent className="px-6 pb-8">
+                  {verified === "true" && (
+                     <div
+                        className="mb-4 rounded-md border border-green-200 bg-green-50 p-3 text-sm text-green-700"
+                        data-testid="verified-banner"
+                     >
+                        E-Mail-Adresse erfolgreich bestätigt. Du kannst dich
+                        jetzt anmelden.
+                     </div>
+                  )}
+                  {error && SIGN_IN_ERROR_MESSAGES[error] && (
+                     <div
+                        className="mb-4 rounded-md border border-destructive/20 bg-destructive/10 p-3 text-sm text-destructive"
+                        data-testid="error-banner"
+                     >
+                        {SIGN_IN_ERROR_MESSAGES[error]}
+                     </div>
+                  )}
                   <CredentialsSignInForm />
                </CardContent>
             </Card>

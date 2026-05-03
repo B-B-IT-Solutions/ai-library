@@ -4,6 +4,7 @@ import {
    CollectionService,
    PublicCollectionService,
 } from "@/data/services/collection";
+import { BrevoEmailService } from "@/data/services/email";
 import { IubendaService } from "@/data/services/iubenda";
 import { OrderService } from "@/data/services/order";
 import { PromptService } from "@/data/services/prompt";
@@ -18,6 +19,7 @@ import {
    TemplateService,
 } from "@/data/services/template";
 import { UserService } from "@/data/services/user";
+import { VerificationTokenService } from "@/data/services/verification-token";
 import { DbClient } from "@/data/types/db/common";
 
 export class ServiceFactory {
@@ -35,6 +37,8 @@ export class ServiceFactory {
    private settingsService?: SettingsService;
    private publicSettingsService?: PublicSettingsService;
    private iubendaService?: IubendaService;
+   private emailService?: BrevoEmailService;
+   private verificationTokenService?: VerificationTokenService;
 
    constructor(prisma: DbClient) {
       this.repositories = new RepositoryFactory(prisma);
@@ -46,7 +50,8 @@ export class ServiceFactory {
             this.repositories.userRepository(),
             this.getCartService(),
             this.getOrderService(),
-            this.getIubendaService()
+            this.getIubendaService(),
+            this.getVerificationTokenService()
          );
       }
       return this.userService;
@@ -162,5 +167,22 @@ export class ServiceFactory {
          this.iubendaService = new IubendaService();
       }
       return this.iubendaService;
+   }
+
+   getEmailService(): BrevoEmailService {
+      if (!this.emailService) {
+         this.emailService = new BrevoEmailService();
+      }
+      return this.emailService;
+   }
+
+   getVerificationTokenService(): VerificationTokenService {
+      if (!this.verificationTokenService) {
+         this.verificationTokenService = new VerificationTokenService(
+            this.repositories.verificationTokenRepository(),
+            this.getEmailService()
+         );
+      }
+      return this.verificationTokenService;
    }
 }
