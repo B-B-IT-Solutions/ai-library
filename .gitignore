@@ -17,7 +17,6 @@
 /.next/
 /out/
 
-/.claude/agent-memory
 /.claude/settings.local.json
 
 # production
