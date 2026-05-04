@@ -24,7 +24,7 @@ export type PageProps = {
    searchParams: Promise<PageSearchParams>;
 };
 
-const VerifyEmailPage = async ({ searchParams }: PageProps) => {
+export const VerifyEmailPage = async ({ searchParams }: PageProps) => {
    const { email } = await searchParams;
 
    return (
@@ -35,18 +35,7 @@ const VerifyEmailPage = async ({ searchParams }: PageProps) => {
          <div className="w-full max-w-md">
             <Card className="border-2 shadow-xl">
                <CardHeader className="space-y-6 pb-6">
-                  <Link
-                     href="/"
-                     className="flex flex-col items-center gap-3 transition-transform hover:scale-105"
-                  >
-                     <Image
-                        src="/images/logo.svg"
-                        width={80}
-                        height={80}
-                        alt={`${APP_NAME} logo`}
-                        priority={true}
-                        className="drop-shadow-lg"
-                     />
+                  <Link href="/" className="flex flex-col items-center gap-3">
                      <h1 className="text-2xl font-bold">{APP_NAME}</h1>
                   </Link>
                   <div className="space-y-2">
