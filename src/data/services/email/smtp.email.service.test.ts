@@ -29,15 +29,11 @@ nodemailerMock.createTransport.mockReturnValue({
    sendMail: sendMailMock,
 } as unknown as ReturnType<typeof nodemailer.createTransport>);
 
-describe("SmtpEmailService tests", () => {
-   let service: SmtpEmailService;
+const service = new SmtpEmailService();
 
+describe("SmtpEmailService tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      nodemailerMock.createTransport.mockReturnValue({
-         sendMail: sendMailMock,
-      } as unknown as ReturnType<typeof nodemailer.createTransport>);
-      service = new SmtpEmailService();
    });
 
    it("sends email with correct params - test", async () => {
