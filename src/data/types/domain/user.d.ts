@@ -12,6 +12,10 @@ export type DUserSignIn = z.infer<typeof signInSchema>;
 
 export type DUserSignUp = z.infer<typeof signUpSchema>;
 
+export type DSignUpResult = {
+   emailNotVerified: boolean;
+};
+
 export type DUser = {
    id: string;
    name: string;

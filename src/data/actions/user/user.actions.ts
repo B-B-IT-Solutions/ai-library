@@ -10,6 +10,7 @@ import prisma from "@/data/repositories/prisma";
 import { ServiceFactory } from "@/data/services";
 import { DbClient } from "@/data/types/db/common";
 import {
+   DSignUpResult,
    DUser,
    DUserAccountDelete,
    DUserPasswordUpdate,
@@ -48,7 +49,9 @@ export const signUpUser = async (data: DUserSignUp) => {
    }
 };
 
-export const signInWithCredentials = async (data: DUserSignIn) => {
+export const signInWithCredentials = async (
+   data: DUserSignIn
+): Promise<ActionResult<DSignUpResult>> => {
    try {
       const singInValues = signInSchema.parse(data);
 
@@ -59,11 +62,14 @@ export const signInWithCredentials = async (data: DUserSignIn) => {
             success: false,
             message:
                "E-Mail-Adresse nicht bestätigt. Bitte überprüfe dein Postfach.",
-            emailNotVerified: true,
+            data: {
+               emailNotVerified: true,
+            },
          };
       }
 
       await signIn("credentials", singInValues);
+
       return {
          success: true,
          message: "Signed in successfully",

@@ -15,6 +15,7 @@ import { requireUser } from "@/data/actions/auth-utils";
 import prisma from "@/data/repositories/prisma";
 import { UserService, VerificationTokenService } from "@/data/services/user";
 import {
+   DSignUpResult,
    DUserAccountDelete,
    DUserPasswordUpdate,
    DUserSignIn,
@@ -180,65 +181,7 @@ describe("signInWithCredentials tests", () => {
       signInMock.mockReset();
    });
 
-   it("signInWithCredentials - valid email/password - email verified - test", async () => {
-      const formData: DUserSignIn = {
-         email: "test1@email.com",
-         password: "password123",
-      };
-      sIsEmailVerifiedMock.mockResolvedValue(true);
-
-      const result = await signInWithCredentials(formData);
-
-      const expectedResult = {
-         success: true,
-         message: "Signed in successfully",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sIsEmailVerifiedMock).toHaveBeenCalledTimes(1);
-      expect(sIsEmailVerifiedMock).toHaveBeenCalledWith(formData.email);
-      expect(signInMock).toHaveBeenCalledTimes(1);
-      expect(signInMock).toHaveBeenCalledWith("credentials", formData);
-   });
-
-   it("signInWithCredentials - email not verified - returns error - test", async () => {
-      const formData: DUserSignIn = {
-         email: "test1@email.com",
-         password: "password123",
-      };
-      sIsEmailVerifiedMock.mockResolvedValue(false);
-      isRedirectErrorMock.mockReturnValue(false);
-
-      const result = await signInWithCredentials(formData);
-
-      expect(result).toEqual({
-         success: false,
-         message:
-            "E-Mail-Adresse nicht bestätigt. Bitte überprüfe dein Postfach.",
-         emailNotVerified: true,
-      });
-      expect(sIsEmailVerifiedMock).toHaveBeenCalledTimes(1);
-      expect(signInMock).not.toHaveBeenCalled();
-   });
-
-   it("signInWithCredentials - user not found (isEmailVerified null) - proceeds to signIn - test", async () => {
-      const formData: DUserSignIn = {
-         email: "test1@email.com",
-         password: "password123",
-      };
-      sIsEmailVerifiedMock.mockResolvedValue(null);
-      isRedirectErrorMock.mockReturnValue(false);
-
-      const result = await signInWithCredentials(formData);
-
-      expect(signInMock).toHaveBeenCalledTimes(1);
-      expect(result).toEqual({
-         success: true,
-         message: "Signed in successfully",
-      });
-   });
-
-   it("signInWithCredentials - invalid email/password - test", async () => {
+   it("invalid email/password - test", async () => {
       const formData: DUserSignIn = {
          email: "test1email.com",
          password: "p123",
@@ -256,19 +199,89 @@ describe("signInWithCredentials tests", () => {
       expect(signInMock).not.toHaveBeenCalled();
    });
 
-   it("signInWithCredentials - redirect error - test", async () => {
+   it("email verified false - test", async () => {
+      sIsEmailVerifiedMock.mockResolvedValue(false);
+
       const formData: DUserSignIn = {
          email: "test1@email.com",
          password: "password123",
       };
+      const result = await signInWithCredentials(formData);
+
+      const expectedResult: ActionResult<DSignUpResult> = {
+         success: false,
+         message:
+            "E-Mail-Adresse nicht bestätigt. Bitte überprüfe dein Postfach.",
+         data: {
+            emailNotVerified: true,
+         },
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sIsEmailVerifiedMock).toHaveBeenCalledTimes(1);
+      expect(sIsEmailVerifiedMock).toHaveBeenCalledWith(formData.email);
+      expect(signInMock).not.toHaveBeenCalled();
+   });
+
+   it("email verified null - test", async () => {
+      sIsEmailVerifiedMock.mockResolvedValue(null);
+
+      const formData: DUserSignIn = {
+         email: "test1@email.com",
+         password: "password123",
+      };
+      const result = await signInWithCredentials(formData);
+
+      const expectedResult = {
+         success: true,
+         message: "Signed in successfully",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sIsEmailVerifiedMock).toHaveBeenCalledTimes(1);
+      expect(sIsEmailVerifiedMock).toHaveBeenCalledWith(formData.email);
+      expect(signInMock).toHaveBeenCalledTimes(1);
+      expect(signInMock).toHaveBeenCalledWith("credentials", formData);
+   });
+
+   it("email verified true - test", async () => {
       sIsEmailVerifiedMock.mockResolvedValue(true);
+
+      const formData: DUserSignIn = {
+         email: "test1@email.com",
+         password: "password123",
+      };
+      const result = await signInWithCredentials(formData);
+
+      const expectedResult = {
+         success: true,
+         message: "Signed in successfully",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sIsEmailVerifiedMock).toHaveBeenCalledTimes(1);
+      expect(sIsEmailVerifiedMock).toHaveBeenCalledWith(formData.email);
+      expect(signInMock).toHaveBeenCalledTimes(1);
+      expect(signInMock).toHaveBeenCalledWith("credentials", formData);
+   });
+
+   it("redirect error - test", async () => {
       const error = new Error("redirect error");
       signInMock.mockRejectedValue(error);
       isRedirectErrorMock.mockReturnValue(true);
 
+      sIsEmailVerifiedMock.mockResolvedValue(true);
+
+      const formData: DUserSignIn = {
+         email: "test1@email.com",
+         password: "password123",
+      };
+
       const fn = () => signInWithCredentials(formData);
 
       await expect(fn).rejects.toThrow(Error);
+      expect(sIsEmailVerifiedMock).toHaveBeenCalledTimes(1);
+      expect(sIsEmailVerifiedMock).toHaveBeenCalledWith(formData.email);
       expect(signInMock).toHaveBeenCalledTimes(1);
       expect(signInMock).toHaveBeenCalledWith("credentials", formData);
    });

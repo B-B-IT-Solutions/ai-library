@@ -43,7 +43,7 @@ export const CredentialsSignInForm = () => {
       setUnverifiedEmail(null);
       const result = await signInWithCredentials(data);
       if (!result?.success) {
-         if (result?.emailNotVerified) {
+         if (result?.data?.emailNotVerified) {
             setUnverifiedEmail(data.email);
          } else {
             setError("root.serverError", {
