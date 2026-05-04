@@ -11,7 +11,7 @@ type Props = {
    email?: string;
 };
 
-export const VerifyEmailContent = ({ email }: Props) => {
+export const VerifyEmailForm = ({ email }: Props) => {
    const [isLoading, setIsLoading] = useState(false);
    const [message, setMessage] = useState<{
       type: "success" | "error";
@@ -33,7 +33,7 @@ export const VerifyEmailContent = ({ email }: Props) => {
    };
 
    return (
-      <div className="space-y-6 text-center" data-testid="verify-email-content">
+      <div className="space-y-6 text-center" data-testid="verify-email-form">
          <div className="flex justify-center">
             <div className="rounded-full bg-primary/10 p-4">
                <Mail className="h-10 w-10 text-primary" />

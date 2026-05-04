@@ -8,7 +8,7 @@ import {
    CardHeader,
    CardTitle,
 } from "@/components/shadcn/card";
-import { VerifyEmailContent } from "@/components/shared/auth/verify-email-content";
+import { VerifyEmailForm } from "@/components/shared/auth/verify-email-form";
 import { APP_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -40,13 +40,13 @@ export const VerifyEmailPage = async ({ searchParams }: PageProps) => {
                   <div className="space-y-2">
                      <CardTitle
                         className="text-center text-3xl font-bold tracking-tight"
-                        data-testid="card-title"
+                        data-testid="title"
                      >
                         E-Mail bestätigen
                      </CardTitle>
                      <CardDescription
                         className="text-center text-base"
-                        data-testid="card-description"
+                        data-testid="description"
                      >
                         Wir haben dir eine E-Mail mit einem Bestätigungslink
                         geschickt
@@ -54,7 +54,7 @@ export const VerifyEmailPage = async ({ searchParams }: PageProps) => {
                   </div>
                </CardHeader>
                <CardContent className="px-6 pb-8">
-                  <VerifyEmailContent email={email} />
+                  <VerifyEmailForm email={email} />
                </CardContent>
             </Card>
          </div>
