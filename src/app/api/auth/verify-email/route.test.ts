@@ -35,8 +35,10 @@ describe("GET /api/auth/verify-email tests", () => {
       jest.clearAllMocks();
    });
 
-   it("GET - missing token - redirects to invalid_link - test", async () => {
-      setupSearchParams({ token: null, email: "user@test.com" });
+   it("GET - missing token and email - redirects to invalid_link - test", async () => {
+      const token = null;
+      const email = null;
+      setupSearchParams({ token, email });
 
       await GET(requestMock);
 
@@ -45,10 +47,29 @@ describe("GET /api/auth/verify-email tests", () => {
          "/auth/sign-in?error=invalid_link"
       );
       expect(sVerifyTokenMock).not.toHaveBeenCalled();
+      expect(sVerifyEmailMock).not.toHaveBeenCalled();
+   });
+
+   it("GET - missing token - redirects to invalid_link - test", async () => {
+      const token = null;
+      const email = "user@test.com";
+      setupSearchParams({ token, email });
+
+      await GET(requestMock);
+
+      expect(redirectMock).toHaveBeenCalledTimes(1);
+      expect(redirectMock).toHaveBeenCalledTimes(1);
+      expect(redirectMock).toHaveBeenCalledWith(
+         "/auth/sign-in?error=invalid_link"
+      );
+      expect(sVerifyTokenMock).not.toHaveBeenCalled();
+      expect(sVerifyEmailMock).not.toHaveBeenCalled();
    });
 
    it("GET - missing email - redirects to invalid_link - test", async () => {
-      setupSearchParams({ token: "abc-123", email: null });
+      const token = "abc-123";
+      const email = null;
+      setupSearchParams({ token, email });
 
       await GET(requestMock);
 
@@ -57,22 +78,13 @@ describe("GET /api/auth/verify-email tests", () => {
          "/auth/sign-in?error=invalid_link"
       );
       expect(sVerifyTokenMock).not.toHaveBeenCalled();
-   });
-
-   it("GET - missing token and email - redirects to invalid_link - test", async () => {
-      setupSearchParams({ token: null, email: null });
-
-      await GET(requestMock);
-
-      expect(redirectMock).toHaveBeenCalledTimes(1);
-      expect(redirectMock).toHaveBeenCalledWith(
-         "/auth/sign-in?error=invalid_link"
-      );
+      expect(sVerifyEmailMock).not.toHaveBeenCalled();
    });
 
    it("GET - invalid token - redirects to expired_link - test", async () => {
-      const email = "user@test.com";
       const token = "invalid-token";
+      const email = "user@test.com";
+      setupSearchParams({ token, email });
 
       setupSearchParams({ token, email });
       sVerifyTokenMock.mockResolvedValue(false);
@@ -89,10 +101,10 @@ describe("GET /api/auth/verify-email tests", () => {
    });
 
    it("GET - valid token - verifies email and redirects to verified - test", async () => {
-      const email = "user@test.com";
       const token = "valid-token";
-
+      const email = "user@test.com";
       setupSearchParams({ token, email });
+
       sVerifyTokenMock.mockResolvedValue(true);
       sVerifyEmailMock.mockResolvedValue(undefined);
 
