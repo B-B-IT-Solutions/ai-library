@@ -52,10 +52,10 @@ export class ServiceFactory {
       if (!this.userService) {
          this.userService = new UserService(
             this.repositories.userRepository(),
+            this.getVerificationTokenService(),
             this.getCartService(),
             this.getOrderService(),
-            this.getIubendaService(),
-            this.getVerificationTokenService()
+            this.getIubendaService()
          );
       }
       return this.userService;

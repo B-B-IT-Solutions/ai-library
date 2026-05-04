@@ -26,10 +26,10 @@ import { toDUser } from "./user.mapper";
 export class UserService {
    constructor(
       private readonly userRepository: UserRepository,
+      private readonly verificationTokenService: VerificationTokenService,
       private readonly cartService: CartService,
       private readonly orderService: OrderService,
-      private readonly iubendaService: IubendaService,
-      private readonly verificationTokenService: VerificationTokenService
+      private readonly iubendaService: IubendaService
    ) {}
 
    async signUpUser(data: DUserSignUp): Promise<DUser> {
