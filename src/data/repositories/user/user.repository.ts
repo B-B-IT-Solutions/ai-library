@@ -4,6 +4,7 @@ import { DUserCreate, DUserInternal } from "@/data/types/domain/user";
 import { User } from "@/generated/prisma/client";
 import {
    UserCreateInput,
+   UserFindFirstArgs,
    UserUpdateArgs,
    UserWhereInput,
 } from "@/generated/prisma/models";
@@ -76,10 +77,12 @@ export class UserRepository {
    }
 
    async pGetEmailVerified(email: string): Promise<boolean | null> {
-      const user = await this.prisma.user.findFirst({
+      const args = {
          where: { email },
          select: { emailVerified: true },
-      });
+      } satisfies UserFindFirstArgs;
+
+      const user = await this.prisma.user.findFirst(args);
       if (user) {
          return user.emailVerified != null;
       }
