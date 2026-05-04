@@ -42,8 +42,8 @@ export const CredentialsSignInForm = () => {
    const onSubmit: SubmitHandler<DUserSignIn> = async (data) => {
       setUnverifiedEmail(null);
       const result = await signInWithCredentials(data);
-      if (!result?.success) {
-         if (result?.data?.emailNotVerified) {
+      if (!result.success) {
+         if (result.data?.emailNotVerified) {
             setUnverifiedEmail(data.email);
          } else {
             setError("root.serverError", {
