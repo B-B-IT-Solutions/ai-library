@@ -13,6 +13,7 @@ export const toDUserInternatTest = (pUser: User): DUserInternal => {
       role: pUser.role,
       password: pUser.password,
       stripeCustomerId: pUser.stripeCustomerId,
+      emailVerified: pUser.emailVerified?.toISOString() ?? null,
       updatedAt: pUser.updatedAt.toISOString(),
       createdAt: pUser.createdAt.toISOString(),
    };
@@ -25,6 +26,15 @@ describe("toDUserInternal tests", () => {
 
    it("toDUserInternal test", async () => {
       const user = ptestData.pUser();
+      const result = toDUserInternal(user);
+      const expectedResult = toDUserInternatTest(user);
+      expect(result).toEqual(expectedResult);
+   });
+
+   it("toDUserInternal - emailVerified null - test", async () => {
+      const user = ptestData.pUser();
+      user.emailVerified = null;
+
       const result = toDUserInternal(user);
       const expectedResult = toDUserInternatTest(user);
       expect(result).toEqual(expectedResult);
