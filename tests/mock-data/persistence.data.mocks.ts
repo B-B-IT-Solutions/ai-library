@@ -49,6 +49,7 @@ import {
    SubscriptionHistory,
    SubscriptionPlan,
    User,
+   VerificationToken,
 } from "@/generated/prisma/client";
 import {
    PromptDescriptorCreateInput,
@@ -80,6 +81,14 @@ export const pUserUpdateData = (index = 1): UserUpdateData => {
       password: "password123",
       paymentMethod: "stripe",
       role: "user",
+   };
+};
+
+export const pVerificationToken = (index = 1): VerificationToken => {
+   return {
+      identifier: `user${index}@email.com`,
+      token: `token-${index}`,
+      expires: new Date("2025-09-27"),
    };
 };
 

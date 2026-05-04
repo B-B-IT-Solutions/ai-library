@@ -13,6 +13,8 @@ import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 import mockRouter from "next-router-mock";
 
 import { signInWithCredentials } from "@/data/actions/user";
+import { DSignUpResult } from "@/data/types/domain/user";
+import { ActionResult } from "@/data/types/utils";
 
 import { CredentialsSignInForm } from "./sign-in-form-credentials";
 
@@ -65,12 +67,17 @@ const assertPasswordNotVisible = () => {
    assertInDocument(icon);
 };
 
+const assertEmailNotVerifiedRendered = () => {
+   const banner = screen.getByTestId("email-not-verified-banner");
+   assertInDocument(banner);
+};
+
 describe("CredentialsSignInForm rendering tests", () => {
    beforeEach(() => {
       jest.resetAllMocks();
    });
 
-   it("CredentialsSignInForm - callbackUrl defined -  rendered test", async () => {
+   it("callbackUrl defined -  rendered test", async () => {
       const params = { callbackUrl: "callbackUrl/test-1" };
       const searchParams = new URLSearchParams(
          params
@@ -88,7 +95,7 @@ describe("CredentialsSignInForm rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("CredentialsSignInForm - callbackUrl undefined -  rendered test", async () => {
+   it("callbackUrl undefined -  rendered test", async () => {
       const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
       useSearchParamsMock.mockReturnValue(searchParams);
 
@@ -109,7 +116,7 @@ describe("CredentialsSignInForm functionality tests", () => {
       jest.resetAllMocks();
    });
 
-   it("CredentialsSignInForm - sign in clicked - success true - test", async () => {
+   it("sign in clicked - success true - test", async () => {
       const singInResult = {
          success: true,
          message: "Signed in successfully",
@@ -166,14 +173,16 @@ describe("CredentialsSignInForm functionality tests", () => {
       });
    });
 
-   it("CredentialsSignInForm - sign in clicked - success false - test", async () => {
-      const singInResult = {
+   it("sign in clicked - success false - emailNotVerified undefined - test", async () => {
+      const singInResult: ActionResult<DSignUpResult> = {
          success: false,
          message: "Invalid email or password",
       };
       signInWithCredentialsMock.mockResolvedValue(singInResult);
+
       const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
       useSearchParamsMock.mockReturnValue(searchParams);
+
       render(<CredentialsSignInForm />);
 
       await waitFor(() => {
@@ -226,7 +235,70 @@ describe("CredentialsSignInForm functionality tests", () => {
       assertInDocument(rootError);
    });
 
-   it("CredentialsSignInForm - show password btn clicked - test", async () => {
+   it("sign in clicked - success false - emailNotVerified true - test", async () => {
+      const singInResult: ActionResult<DSignUpResult> = {
+         success: false,
+         message: "Invalid email or password",
+         data: {
+            emailNotVerified: true,
+         },
+      };
+      signInWithCredentialsMock.mockResolvedValue(singInResult);
+
+      const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
+      useSearchParamsMock.mockReturnValue(searchParams);
+
+      render(<CredentialsSignInForm />);
+
+      await waitFor(() => {
+         assertRendered();
+         assertFieldsRendered();
+         expect(signInWithCredentialsMock).not.toHaveBeenCalled();
+      });
+
+      const signInBtn = screen.getByTestId("sign-in-btn");
+      await userEvent.click(signInBtn);
+
+      await waitFor(() => {
+         expect(signInWithCredentialsMock).not.toHaveBeenCalled();
+      });
+
+      const emailValue = "test1@email.com";
+      const email = getElementById("email");
+      await userEvent.type(email, emailValue);
+
+      const options = { timeout: 3000 };
+      await waitFor(() => {
+         const text = screen.getByDisplayValue(emailValue);
+         expect(text).toBeInTheDocument();
+      }, options);
+
+      const passwordValue = "pwd123";
+      const password = getElementById("password");
+      await userEvent.type(password, passwordValue);
+
+      await waitFor(() => {
+         const text = screen.getByDisplayValue(passwordValue);
+         expect(text).toBeInTheDocument();
+      }, options);
+
+      userEvent.click(signInBtn);
+
+      const expectedFormData = {
+         email: emailValue,
+         password: passwordValue,
+      };
+
+      await waitFor(() => {
+         assertEmailNotVerifiedRendered();
+         expect(signInWithCredentialsMock).toHaveBeenCalledTimes(1);
+         expect(signInWithCredentialsMock).toHaveBeenCalledWith(
+            expectedFormData
+         );
+      });
+   });
+
+   it("show password btn clicked - test", async () => {
       const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
       useSearchParamsMock.mockReturnValue(searchParams);
       render(<CredentialsSignInForm />);
@@ -261,7 +333,7 @@ describe("CredentialsSignInForm functionality tests", () => {
       });
    });
 
-   it("CredentialsSignInForm - sign-up link clicked - test", async () => {
+   it("sign-up link clicked - test", async () => {
       const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
       useSearchParamsMock.mockReturnValue(searchParams);
 

@@ -4,6 +4,11 @@ import {
    CollectionService,
    PublicCollectionService,
 } from "@/data/services/collection";
+import {
+   BrevoEmailService,
+   IEmailService,
+   SmtpEmailService,
+} from "@/data/services/email";
 import { IubendaService } from "@/data/services/iubenda";
 import { OrderService } from "@/data/services/order";
 import { PromptService } from "@/data/services/prompt";
@@ -17,12 +22,14 @@ import {
    PublicTemplateService,
    TemplateService,
 } from "@/data/services/template";
-import { UserService } from "@/data/services/user";
+import { UserService, VerificationTokenService } from "@/data/services/user";
 import { DbClient } from "@/data/types/db/common";
+import { EMAIL_PROVIDER } from "@/lib/constants";
 
 export class ServiceFactory {
    private repositories: RepositoryFactory;
    private userService?: UserService;
+   private verificationTokenService?: VerificationTokenService;
    private cartService?: CartService;
    private collectionService?: CollectionService;
    private publicCollectionService?: PublicCollectionService;
@@ -35,6 +42,7 @@ export class ServiceFactory {
    private settingsService?: SettingsService;
    private publicSettingsService?: PublicSettingsService;
    private iubendaService?: IubendaService;
+   private emailService?: IEmailService;
 
    constructor(prisma: DbClient) {
       this.repositories = new RepositoryFactory(prisma);
@@ -44,12 +52,23 @@ export class ServiceFactory {
       if (!this.userService) {
          this.userService = new UserService(
             this.repositories.userRepository(),
+            this.getVerificationTokenService(),
             this.getCartService(),
             this.getOrderService(),
             this.getIubendaService()
          );
       }
       return this.userService;
+   }
+
+   getVerificationTokenService(): VerificationTokenService {
+      if (!this.verificationTokenService) {
+         this.verificationTokenService = new VerificationTokenService(
+            this.repositories.verificationTokenRepository(),
+            this.getEmailService()
+         );
+      }
+      return this.verificationTokenService;
    }
 
    getCartService(): CartService {
@@ -162,5 +181,16 @@ export class ServiceFactory {
          this.iubendaService = new IubendaService();
       }
       return this.iubendaService;
+   }
+
+   getEmailService(): IEmailService {
+      if (!this.emailService) {
+         if (EMAIL_PROVIDER === "smtp") {
+            this.emailService = new SmtpEmailService();
+         } else {
+            this.emailService = new BrevoEmailService();
+         }
+      }
+      return this.emailService;
    }
 }

@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
+import MockDate from "mockdate";
 
 import prisma from "@/data/repositories/prisma";
 import {
@@ -24,7 +25,7 @@ describe("pGetUserById tests", () => {
       mockReset(prismaMock);
    });
 
-   test("pGetUserById - user null -  test", async () => {
+   test("user null -  test", async () => {
       const userId = "user-id-1";
       prismaMock.user.findFirst.mockResolvedValue(null);
 
@@ -43,7 +44,7 @@ describe("pGetUserById tests", () => {
       );
    });
 
-   test("pGetUserById - user retrieved - test", async () => {
+   test("user retrieved - test", async () => {
       const user = ptestData.pUser();
       prismaMock.user.findFirst.mockResolvedValue(user);
 
@@ -70,7 +71,7 @@ describe("pGetUserByEmail tests", () => {
       mockReset(prismaMock);
    });
 
-   test("pGetUserByEmail - user null -  test", async () => {
+   test("user null -  test", async () => {
       const email = "email1@test.cz";
       prismaMock.user.findFirst.mockResolvedValue(null);
 
@@ -89,7 +90,7 @@ describe("pGetUserByEmail tests", () => {
       );
    });
 
-   test("pGetUserByEmail - user retrieved -  test", async () => {
+   test("user retrieved -  test", async () => {
       const user = ptestData.pUser();
       prismaMock.user.findFirst.mockResolvedValue(user);
 
@@ -116,7 +117,7 @@ describe("pGetUser tests", () => {
       mockReset(prismaMock);
    });
 
-   test("pGetUser - by userId - test", async () => {
+   test("by userId - test", async () => {
       const user = ptestData.pUser();
       prismaMock.user.findFirst.mockResolvedValue(user);
 
@@ -135,7 +136,7 @@ describe("pGetUser tests", () => {
       );
    });
 
-   test("pGetUser - by email - test", async () => {
+   test("by email - test", async () => {
       const user = ptestData.pUser();
       prismaMock.user.findFirst.mockResolvedValue(user);
 
@@ -154,7 +155,7 @@ describe("pGetUser tests", () => {
       );
    });
 
-   test("pGetUser - params undefined - test", async () => {
+   test("params undefined - test", async () => {
       const user = ptestData.pUser();
       prismaMock.user.findFirst.mockResolvedValue(user);
 
@@ -240,6 +241,95 @@ describe("pUpdatePassword tests", () => {
       expect(result).toEqual(data);
       expect(prismaMock.user.update).toHaveBeenCalledTimes(1);
       expect(prismaMock.user.update).toHaveBeenCalledWith(expectedUpdateArgs);
+   });
+});
+
+describe("pVerifyUserEmail tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      MockDate.set("2025-09-27");
+   });
+
+   afterEach(() => {
+      MockDate.reset();
+   });
+
+   test("user updated - test", async () => {
+      const email = "test@email.com";
+      const data = ptestData.pUserUpdateData();
+      prismaMock.user.update.mockResolvedValue(data);
+
+      await userRepository.pVerifyUserEmail(email);
+
+      const expectedUpdateArgs: UserUpdateArgs = {
+         where: { email },
+         data: { emailVerified: new Date() },
+      };
+
+      expect(prismaMock.user.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.user.update).toHaveBeenCalledWith(expectedUpdateArgs);
+   });
+});
+
+describe("pGetEmailVerified tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   test("user null -  test", async () => {
+      const email = "test@email.com";
+      prismaMock.user.findFirst.mockResolvedValue(null);
+
+      const result = await userRepository.pGetEmailVerified(email);
+
+      const expectedFindFirstArgs: UserFindFirstArgs = {
+         where: { email },
+         select: { emailVerified: true },
+      };
+
+      expect(result).toBeNull();
+      expect(prismaMock.user.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.user.findFirst).toHaveBeenCalledWith(
+         expectedFindFirstArgs
+      );
+   });
+
+   test("emailVerified null - test", async () => {
+      const user = ptestData.pUser();
+      user.emailVerified = null;
+      prismaMock.user.findFirst.mockResolvedValue(user);
+
+      const result = await userRepository.pGetEmailVerified(user.email);
+
+      const expectedFindFirstArgs: UserFindFirstArgs = {
+         where: { email: user.email },
+         select: { emailVerified: true },
+      };
+
+      expect(result).toEqual(false);
+      expect(prismaMock.user.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.user.findFirst).toHaveBeenCalledWith(
+         expectedFindFirstArgs
+      );
+   });
+
+   test("emailVerified defined - test", async () => {
+      const user = ptestData.pUser();
+      user.emailVerified = new Date();
+      prismaMock.user.findFirst.mockResolvedValue(user);
+
+      const result = await userRepository.pGetEmailVerified(user.email);
+
+      const expectedFindFirstArgs: UserFindFirstArgs = {
+         where: { email: user.email },
+         select: { emailVerified: true },
+      };
+
+      expect(result).toEqual(true);
+      expect(prismaMock.user.findFirst).toHaveBeenCalledTimes(1);
+      expect(prismaMock.user.findFirst).toHaveBeenCalledWith(
+         expectedFindFirstArgs
+      );
    });
 });
 

@@ -1,8 +1,9 @@
 export {
    getUserById,
+   signUpUser,
    signInWithCredentials,
    signOutUser,
-   signUpUser,
+   resendVerificationEmail,
    updateUserProfile,
    updatePassword,
    deleteUser,

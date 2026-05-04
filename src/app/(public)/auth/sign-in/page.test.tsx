@@ -2,6 +2,7 @@ import { screen, waitFor } from "@testing-library/dom";
 import {
    assertHasAttributeWithValue,
    assertInDocument,
+   assertNotInDocument,
    AuthMockedFunction,
    ntestData,
    renderAsyncRSC,
@@ -11,11 +12,7 @@ import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 
-import SignInPage, {
-   metadata,
-   SignInPageProps,
-   SignInPageSearchParams,
-} from "./page";
+import { metadata, PageProps, PageSearchParams, SignInPage } from "./page";
 
 const authMock = auth as unknown as AuthMockedFunction;
 const redirectMock = redirect as jest.MockedFunction<typeof redirect>;
@@ -36,6 +33,22 @@ const assertRendered = () => {
    assertInDocument(title);
    assertInDocument(description);
    assertInDocument(credentialsForm);
+};
+
+const assertVerifiedBannerRendered = () => {
+   const verified = screen.getByTestId("verified-banner");
+   const error = screen.queryByTestId("error-banner");
+
+   assertInDocument(verified);
+   assertNotInDocument(error);
+};
+
+const assertErrorBannerRendered = () => {
+   const error = screen.getByTestId("error-banner");
+   const verified = screen.queryByTestId("verified-banner");
+
+   assertInDocument(error);
+   assertNotInDocument(verified);
 };
 
 const assertLegalNoticesLinksRendered = () => {
@@ -65,10 +78,10 @@ describe("SignInPage rendering tests", () => {
       const session = ntestData.session();
       authMock.mockResolvedValue(session);
 
-      const searchParams: SignInPageSearchParams = {
+      const searchParams: PageSearchParams = {
          callbackUrl: "/callback/test-1",
       };
-      const props: SignInPageProps = {
+      const props: PageProps = {
          searchParams: Promise.resolve(searchParams),
       };
       const { container } = await renderAsyncRSC(SignInPage, props);
@@ -85,8 +98,8 @@ describe("SignInPage rendering tests", () => {
       const session = ntestData.session();
       authMock.mockResolvedValue(session);
 
-      const searchParams: SignInPageSearchParams = { callbackUrl: undefined };
-      const props: SignInPageProps = {
+      const searchParams: PageSearchParams = { callbackUrl: undefined };
+      const props: PageProps = {
          searchParams: Promise.resolve(searchParams),
       };
       const { container } = await renderAsyncRSC(SignInPage, props);
@@ -99,18 +112,58 @@ describe("SignInPage rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("user not signed in - rendered test", async () => {
+   it("user not signed in - without searchParams - rendered test", async () => {
       authMock.mockResolvedValue(null);
-      const searchParams: SignInPageSearchParams = {
+      const searchParams: PageSearchParams = {
          callbackUrl: "/callback/test-1",
       };
-      const props: SignInPageProps = {
+      const props: PageProps = {
          searchParams: Promise.resolve(searchParams),
       };
       const { container } = await renderAsyncRSC(SignInPage, props);
 
       await waitFor(() => {
          assertRendered();
+         assertLegalNoticesLinksRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("user not signed in - searchParams - verified true - rendered test", async () => {
+      authMock.mockResolvedValue(null);
+      const searchParams: PageSearchParams = {
+         callbackUrl: "/callback/test-1",
+         verified: "true",
+      };
+      const props: PageProps = {
+         searchParams: Promise.resolve(searchParams),
+      };
+      const { container } = await renderAsyncRSC(SignInPage, props);
+
+      await waitFor(() => {
+         assertRendered();
+         assertVerifiedBannerRendered();
+         assertLegalNoticesLinksRendered();
+      });
+
+      expect(container).toMatchSnapshot();
+   });
+
+   it("user not signed in - searchParams - error expired_link - rendered test", async () => {
+      authMock.mockResolvedValue(null);
+      const searchParams: PageSearchParams = {
+         callbackUrl: "/callback/test-1",
+         error: "expired_link",
+      };
+      const props: PageProps = {
+         searchParams: Promise.resolve(searchParams),
+      };
+      const { container } = await renderAsyncRSC(SignInPage, props);
+
+      await waitFor(() => {
+         assertRendered();
+         assertErrorBannerRendered();
          assertLegalNoticesLinksRendered();
       });
 

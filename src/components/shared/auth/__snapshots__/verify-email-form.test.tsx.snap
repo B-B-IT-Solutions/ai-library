@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`VerifyEmailForm rendering tests email defined - test 1`] = `
+<div>
+  <div
+    class="space-y-6 text-center"
+    data-testid="verify-email-form"
+  >
+    <div
+      class="flex justify-center"
+    >
+      <div
+        class="rounded-full bg-primary/10 p-4"
+      >
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-mail h-10 w-10 text-primary"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"
+          />
+          <rect
+            height="16"
+            rx="2"
+            width="20"
+            x="2"
+            y="4"
+          />
+        </svg>
+      </div>
+    </div>
+    <p
+      class="text-sm text-muted-foreground"
+      data-testid="email-info"
+    >
+      Wir haben eine Bestätigungs-E-Mail an
+       
+      <span
+        class="font-medium text-foreground"
+      >
+        user@test.com
+      </span>
+       
+      gesendet. Klicke auf den Link in der E-Mail, um dein Konto zu aktivieren.
+    </p>
+    <p
+      class="text-xs text-muted-foreground"
+    >
+      Keine E-Mail erhalten? Prüfe deinen Spam-Ordner oder fordere eine neue E-Mail an.
+    </p>
+    <button
+      class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full cursor-pointer"
+      data-slot="button"
+      data-testid="resend-btn"
+    >
+      Erneut senden
+    </button>
+    <a
+      class="font-medium text-primary underline-offset-4 transition-colors hover:text-primary/80 hover:underline"
+      data-testid="sign-in-link"
+      href="/auth/sign-in"
+      target="_self"
+    >
+      Anmelden
+    </a>
+  </div>
+</div>
+`;
+
+exports[`VerifyEmailForm rendering tests email undefined - test 1`] = `
+<div>
+  <div
+    class="space-y-6 text-center"
+    data-testid="verify-email-form"
+  >
+    <div
+      class="flex justify-center"
+    >
+      <div
+        class="rounded-full bg-primary/10 p-4"
+      >
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-mail h-10 w-10 text-primary"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"
+          />
+          <rect
+            height="16"
+            rx="2"
+            width="20"
+            x="2"
+            y="4"
+          />
+        </svg>
+      </div>
+    </div>
+    <p
+      class="text-sm text-muted-foreground"
+    >
+      Bitte überprüfe dein Postfach und klicke auf den Bestätigungslink.
+    </p>
+    <p
+      class="text-xs text-muted-foreground"
+    >
+      Keine E-Mail erhalten? Prüfe deinen Spam-Ordner oder fordere eine neue E-Mail an.
+    </p>
+    <a
+      class="font-medium text-primary underline-offset-4 transition-colors hover:text-primary/80 hover:underline"
+      data-testid="sign-in-link"
+      href="/auth/sign-in"
+      target="_self"
+    >
+      Anmelden
+    </a>
+  </div>
+</div>
+`;

@@ -1,8 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
-import { auth } from "@/auth";
 import {
    Card,
    CardContent,
@@ -10,58 +8,53 @@ import {
    CardHeader,
    CardTitle,
 } from "@/components/shadcn/card";
-import { SignUpForm } from "@/components/shared/auth";
+import { VerifyEmailForm } from "@/components/shared/auth/verify-email-form";
 import { APP_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
-   title: "Registrieren",
+   title: "E-Mail bestätigen",
 };
 
-export type SignInPageSearchParams = {
-   callbackUrl?: string;
+export type PageSearchParams = {
+   email?: string;
 };
 
-export type SignUpPageProps = {
-   searchParams: Promise<SignInPageSearchParams>;
+export type PageProps = {
+   searchParams: Promise<PageSearchParams>;
 };
 
-const SignUpPage = async (props: SignUpPageProps) => {
-   const { callbackUrl } = await props.searchParams;
-
-   const session = await auth();
-
-   if (session) {
-      return redirect(callbackUrl || "/");
-   }
+export const VerifyEmailPage = async ({ searchParams }: PageProps) => {
+   const { email } = await searchParams;
 
    return (
       <div
          className="flex min-h-screen w-full items-center justify-center bg-linear-to-br from-background via-background to-primary/5 p-4"
-         data-testid="sign-up-page"
+         data-testid="verify-email-page"
       >
          <div className="w-full max-w-md">
             <Card className="border-2 shadow-xl">
-               <CardHeader className="space-y-6 pb-6" data-testid="card-header">
+               <CardHeader className="space-y-6 pb-6">
                   <Link href="/" className="flex flex-col items-center gap-3">
                      <h1 className="text-2xl font-bold">{APP_NAME}</h1>
                   </Link>
                   <div className="space-y-2">
                      <CardTitle
                         className="text-center text-3xl font-bold tracking-tight"
-                        data-testid="card-title"
+                        data-testid="title"
                      >
-                        Konto erstellen
+                        E-Mail bestätigen
                      </CardTitle>
                      <CardDescription
                         className="text-center text-base"
-                        data-testid="card-description"
+                        data-testid="description"
                      >
-                        Erstelle dein Konto und leg direkt los
+                        Wir haben dir eine E-Mail mit einem Bestätigungslink
+                        geschickt
                      </CardDescription>
                   </div>
                </CardHeader>
                <CardContent className="px-6 pb-8">
-                  <SignUpForm />
+                  <VerifyEmailForm email={email} />
                </CardContent>
             </Card>
          </div>
@@ -69,4 +62,4 @@ const SignUpPage = async (props: SignUpPageProps) => {
    );
 };
 
-export default SignUpPage;
+export default VerifyEmailPage;

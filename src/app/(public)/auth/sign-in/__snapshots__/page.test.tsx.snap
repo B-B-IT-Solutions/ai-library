@@ -4,10 +4,10 @@ exports[`SignInPage rendering tests user already signed in - callbackUrl defined
 
 exports[`SignInPage rendering tests user already signed in - callbackUrl undefined - rendered test 1`] = `<div />`;
 
-exports[`SignInPage rendering tests user not signed in - rendered test 1`] = `
+exports[`SignInPage rendering tests user not signed in - searchParams - error expired_link - rendered test 1`] = `
 <div>
   <div
-    class="flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4"
+    class="flex min-h-screen w-full items-center justify-center bg-linear-to-br from-background via-background to-primary/5 p-4"
     data-testid="sign-in-page"
   >
     <div
@@ -23,20 +23,200 @@ exports[`SignInPage rendering tests user not signed in - rendered test 1`] = `
           data-testid="card-header"
         >
           <a
-            class="flex flex-col items-center gap-3 transition-transform hover:scale-105"
+            class="flex flex-col items-center gap-3"
             data-testid="mock-link"
             href="/"
           >
-            <img
-              alt="Vision Notes logo"
-              class="drop-shadow-lg"
-              data-nimg="1"
-              decoding="async"
-              height="80"
-              src="/images/logo.svg"
-              style="color: transparent;"
-              width="80"
-            />
+            <h1
+              class="text-2xl font-bold"
+            >
+              Vision Notes
+            </h1>
+          </a>
+          <div
+            class="space-y-2"
+          >
+            <div
+              class="text-center text-3xl font-bold tracking-tight"
+              data-slot="card-title"
+              data-testid="card-title"
+            >
+              Willkommen zurück
+            </div>
+            <div
+              class="text-muted-foreground text-center text-base"
+              data-slot="card-description"
+              data-testid="card-description"
+            >
+              Melde dich an, um zu deinem Konto zu gelangen
+            </div>
+          </div>
+        </div>
+        <div
+          class="px-6 pb-8"
+          data-slot="card-content"
+        >
+          <div
+            class="mb-4 rounded-md border border-destructive/20 bg-destructive/10 p-3 text-sm text-destructive"
+            data-testid="error-banner"
+          >
+            Der Bestätigungslink ist abgelaufen. Bitte fordere einen neuen an.
+          </div>
+          <div
+            data-testid="signin-form-credentails-mock"
+          />
+        </div>
+      </div>
+      <p
+        class="mt-6 text-center text-xs text-muted-foreground"
+      >
+        Mit der Anmeldung stimmst du unseren
+         
+        <a
+          class="underline underline-offset-2 transition-colors hover:text-foreground"
+          data-testid="terms_conditions_link"
+          href="https://www.iubenda.com/terms-and-conditions/97062585"
+          target="_blank"
+        >
+          Nutzungsbedingungen
+        </a>
+         
+        und unserer
+         
+        <a
+          class="underline underline-offset-2 transition-colors hover:text-foreground"
+          data-testid="privacy_policy_link"
+          href="https://www.iubenda.com/privacy-policy/97062585/full-legal"
+          target="_blank"
+        >
+          Datenschutzerklärung
+        </a>
+         
+        zu
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SignInPage rendering tests user not signed in - searchParams - verified true - rendered test 1`] = `
+<div>
+  <div
+    class="flex min-h-screen w-full items-center justify-center bg-linear-to-br from-background via-background to-primary/5 p-4"
+    data-testid="sign-in-page"
+  >
+    <div
+      class="w-full max-w-md"
+    >
+      <div
+        class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl py-6 border-2 shadow-xl"
+        data-slot="card"
+      >
+        <div
+          class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 space-y-6 pb-6"
+          data-slot="card-header"
+          data-testid="card-header"
+        >
+          <a
+            class="flex flex-col items-center gap-3"
+            data-testid="mock-link"
+            href="/"
+          >
+            <h1
+              class="text-2xl font-bold"
+            >
+              Vision Notes
+            </h1>
+          </a>
+          <div
+            class="space-y-2"
+          >
+            <div
+              class="text-center text-3xl font-bold tracking-tight"
+              data-slot="card-title"
+              data-testid="card-title"
+            >
+              Willkommen zurück
+            </div>
+            <div
+              class="text-muted-foreground text-center text-base"
+              data-slot="card-description"
+              data-testid="card-description"
+            >
+              Melde dich an, um zu deinem Konto zu gelangen
+            </div>
+          </div>
+        </div>
+        <div
+          class="px-6 pb-8"
+          data-slot="card-content"
+        >
+          <div
+            class="mb-4 rounded-md border border-green-200 bg-green-50 p-3 text-sm text-green-700"
+            data-testid="verified-banner"
+          >
+            E-Mail-Adresse erfolgreich bestätigt. Du kannst dich jetzt anmelden.
+          </div>
+          <div
+            data-testid="signin-form-credentails-mock"
+          />
+        </div>
+      </div>
+      <p
+        class="mt-6 text-center text-xs text-muted-foreground"
+      >
+        Mit der Anmeldung stimmst du unseren
+         
+        <a
+          class="underline underline-offset-2 transition-colors hover:text-foreground"
+          data-testid="terms_conditions_link"
+          href="https://www.iubenda.com/terms-and-conditions/97062585"
+          target="_blank"
+        >
+          Nutzungsbedingungen
+        </a>
+         
+        und unserer
+         
+        <a
+          class="underline underline-offset-2 transition-colors hover:text-foreground"
+          data-testid="privacy_policy_link"
+          href="https://www.iubenda.com/privacy-policy/97062585/full-legal"
+          target="_blank"
+        >
+          Datenschutzerklärung
+        </a>
+         
+        zu
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SignInPage rendering tests user not signed in - without searchParams - rendered test 1`] = `
+<div>
+  <div
+    class="flex min-h-screen w-full items-center justify-center bg-linear-to-br from-background via-background to-primary/5 p-4"
+    data-testid="sign-in-page"
+  >
+    <div
+      class="w-full max-w-md"
+    >
+      <div
+        class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl py-6 border-2 shadow-xl"
+        data-slot="card"
+      >
+        <div
+          class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 space-y-6 pb-6"
+          data-slot="card-header"
+          data-testid="card-header"
+        >
+          <a
+            class="flex flex-col items-center gap-3"
+            data-testid="mock-link"
+            href="/"
+          >
             <h1
               class="text-2xl font-bold"
             >

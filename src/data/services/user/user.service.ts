@@ -7,6 +7,7 @@ import {
    IubendaService,
    LegalNoticesAcceptedParams,
 } from "@/data/services/iubenda";
+import { VerificationTokenService } from "@/data/services/user";
 import { UserUpdateData } from "@/data/types/db/user";
 import {
    DUser,
@@ -23,22 +24,13 @@ import { resolveIpAddresse } from "@/lib/utils";
 import { toDUser } from "./user.mapper";
 
 export class UserService {
-   private userRepository: UserRepository;
-   private cartService: CartService;
-   private orderService: OrderService;
-   private iubendaService: IubendaService;
-
    constructor(
-      userRepository: UserRepository,
-      cartService: CartService,
-      orderService: OrderService,
-      iubendaService: IubendaService
-   ) {
-      this.userRepository = userRepository;
-      this.cartService = cartService;
-      this.orderService = orderService;
-      this.iubendaService = iubendaService;
-   }
+      private readonly userRepository: UserRepository,
+      private readonly verificationTokenService: VerificationTokenService,
+      private readonly cartService: CartService,
+      private readonly orderService: OrderService,
+      private readonly iubendaService: IubendaService
+   ) {}
 
    async signUpUser(data: DUserSignUp): Promise<DUser> {
       const hashedPassword = await hash(data.password);
@@ -53,6 +45,7 @@ export class UserService {
 
       const user = await this.userRepository.pCreateUser(newUser);
       this.saveLegalNoticesAccepted(user, legalNoticesAcceptedAt);
+      this.sendVerificationEmail(user);
 
       return toDUser(user);
    }
@@ -62,7 +55,7 @@ export class UserService {
       if (user && user.password) {
          const isMatch = await compare(data.password, user.password);
 
-         if (isMatch) {
+         if (isMatch && user.emailVerified) {
             return {
                id: user.id,
                name: user.name,
@@ -76,6 +69,14 @@ export class UserService {
 
    async getUserById(userId: string): Promise<DUser | null> {
       const user = await this.userRepository.pGetUserById(userId);
+      if (user) {
+         return toDUser(user);
+      }
+      return null;
+   }
+
+   async getUserByEmail(email: string): Promise<DUser | null> {
+      const user = await this.userRepository.pGetUserByEmail(email);
       if (user) {
          return toDUser(user);
       }
@@ -172,5 +173,20 @@ export class UserService {
             this.updateIubendaLegalNoticesSynced(user.id, true);
          }
       });
+   }
+
+   async sendVerificationEmail(user: DUser) {
+      this.verificationTokenService.sendVerificationEmail(
+         user.email,
+         user.name
+      );
+   }
+
+   async isEmailVerified(email: string): Promise<boolean | null> {
+      return await this.userRepository.pGetEmailVerified(email);
+   }
+
+   async verifyEmail(email: string): Promise<void> {
+      await this.userRepository.pVerifyUserEmail(email);
    }
 }

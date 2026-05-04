@@ -10,7 +10,7 @@ import { PublicSettingsService, SettingsService } from "./settings";
 import { StripeService } from "./stripe/stripe.service";
 import { SubscriptionService } from "./subscription";
 import { PublicTemplateService, TemplateService } from "./template";
-import { UserService } from "./user";
+import { UserService, VerificationTokenService } from "./user";
 
 const serviceFactory = new ServiceFactory(prisma);
 
@@ -23,6 +23,19 @@ describe("getUserService tests", () => {
    it("existing instance - test", () => {
       const service1 = serviceFactory.getUserService();
       const service2 = serviceFactory.getUserService();
+      expect(service1).toBe(service2);
+   });
+});
+
+describe("getVerificationTokenService tests", () => {
+   it("new instance - test", () => {
+      const service = serviceFactory.getVerificationTokenService();
+      expect(service).toBeInstanceOf(VerificationTokenService);
+   });
+
+   it("existing instance - test", () => {
+      const service1 = serviceFactory.getVerificationTokenService();
+      const service2 = serviceFactory.getVerificationTokenService();
       expect(service1).toBe(service2);
    });
 });
@@ -180,5 +193,112 @@ describe("getIubendaService tests", () => {
       const service1 = serviceFactory.getIubendaService();
       const service2 = serviceFactory.getIubendaService();
       expect(service1).toBe(service2);
+   });
+});
+
+describe("getEmailService tests", () => {
+   describe("EMAIL_PROVIDER smtp  tests", () => {
+      beforeEach(() => {
+         process.env.EMAIL_PROVIDER = "smtp";
+         process.env.SMTP_HOST = "localhost";
+         process.env.SMTP_PORT = "1025";
+         process.env.SMTP_FROM = "noreply@localhost";
+      });
+
+      afterEach(() => {
+         delete process.env.EMAIL_PROVIDER;
+         delete process.env.SMTP_HOST;
+         delete process.env.SMTP_PORT;
+         delete process.env.SMTP_FROM;
+      });
+
+      it("new Instance - test", () => {
+         jest.isolateModules(() => {
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
+            const { ServiceFactory } = require("./service.factory");
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
+            const { SmtpEmailService } = require("./email");
+            const factory = new ServiceFactory(prisma);
+            const service = factory.getEmailService();
+            expect(service).toBeInstanceOf(SmtpEmailService);
+         });
+      });
+
+      it("existing instance - test", () => {
+         jest.isolateModules(() => {
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
+            const { ServiceFactory } = require("./service.factory");
+            const factory = new ServiceFactory(prisma);
+            const service1 = factory.getEmailService();
+            const service2 = factory.getEmailService();
+            expect(service1).toBe(service2);
+         });
+      });
+   });
+
+   describe("EMAIL_PROVIDER brevo  tests", () => {
+      beforeEach(() => {
+         process.env.EMAIL_PROVIDER = "brevo";
+      });
+
+      afterEach(() => {
+         delete process.env.EMAIL_PROVIDER;
+      });
+
+      it("new Instance - test", () => {
+         jest.isolateModules(() => {
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
+            const { ServiceFactory } = require("./service.factory");
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
+            const { BrevoEmailService } = require("./email");
+            const factory = new ServiceFactory(prisma);
+            const service = factory.getEmailService();
+            expect(service).toBeInstanceOf(BrevoEmailService);
+         });
+      });
+
+      it("existing instance - test", () => {
+         jest.isolateModules(() => {
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
+            const { ServiceFactory } = require("./service.factory");
+            const factory = new ServiceFactory(prisma);
+            const service1 = factory.getEmailService();
+            const service2 = factory.getEmailService();
+            expect(service1).toBe(service2);
+         });
+      });
+   });
+
+   describe("EMAIL_PROVIDER null  tests", () => {
+      beforeEach(() => {
+         process.env.EMAIL_PROVIDER = undefined;
+      });
+
+      afterEach(() => {
+         delete process.env.EMAIL_PROVIDER;
+      });
+
+      it("new Instance - test", () => {
+         jest.isolateModules(() => {
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
+            const { ServiceFactory } = require("./service.factory");
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
+            const { BrevoEmailService } = require("./email");
+            const factory = new ServiceFactory(prisma);
+            const service = factory.getEmailService();
+            expect(service).toBeInstanceOf(BrevoEmailService);
+         });
+      });
+
+      it("existing instance - test", () => {
+         jest.isolateModules(() => {
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
+            const { ServiceFactory } = require("./service.factory");
+            const factory = new ServiceFactory(prisma);
+            const service1 = factory.getEmailService();
+            const service2 = factory.getEmailService();
+            expect(service1).toBe(service2);
+         });
+      });
    });
 });

@@ -12,6 +12,10 @@ export type DUserSignIn = z.infer<typeof signInSchema>;
 
 export type DUserSignUp = z.infer<typeof signUpSchema>;
 
+export type DSignUpResult = {
+   emailNotVerified: boolean;
+};
+
 export type DUser = {
    id: string;
    name: string;
@@ -24,6 +28,7 @@ export type DUser = {
 export type DUserInternal = DUser & {
    password: string | null;
    stripeCustomerId: string | null;
+   emailVerified: Date | null;
 };
 
 export type DUserCreate = {
@@ -38,3 +43,9 @@ export type DUserUpdate = z.infer<typeof updateProfileSchema>;
 export type DUserPasswordUpdate = z.infer<typeof updatePasswordSchema>;
 
 export type DUserAccountDelete = z.infer<typeof deleteAccountSchema>;
+
+export type DVerificationToken = {
+   identifier: string;
+   token: string;
+   expires: Date;
+};

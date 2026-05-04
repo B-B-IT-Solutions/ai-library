@@ -52,6 +52,7 @@ describe("APP_URL - tests", () => {
             ...originalEnv,
             NEXT_PUBLIC_APP_URL: "https://my-app.com",
          };
+         // eslint-disable-next-line @typescript-eslint/no-require-imports
          const { APP_URL } = require("./constants");
 
          expect(APP_URL).toBe("https://my-app.com");
@@ -61,6 +62,7 @@ describe("APP_URL - tests", () => {
    it("APP_URL - env not set - returns default fallback - test", () => {
       jest.isolateModules(() => {
          process.env = { ...originalEnv, NEXT_PUBLIC_APP_URL: undefined };
+         // eslint-disable-next-line @typescript-eslint/no-require-imports
          const { APP_URL } = require("./constants");
 
          expect(APP_URL).toBe("http://localhost:3000");
@@ -78,6 +80,7 @@ describe("getIubendaApiKey - tests", () => {
    it("getIubendaApiKey - key set - returns key - test", () => {
       jest.isolateModules(() => {
          process.env = { ...originalEnv, IUBENDA_API_KEY: "test-api-key" };
+         // eslint-disable-next-line @typescript-eslint/no-require-imports
          const { getIubendaApiKey } = require("./constants");
 
          expect(getIubendaApiKey()).toBe("test-api-key");
@@ -87,6 +90,7 @@ describe("getIubendaApiKey - tests", () => {
    it("getIubendaApiKey - key not set - throws error - test", () => {
       jest.isolateModules(() => {
          process.env = { ...originalEnv, IUBENDA_API_KEY: undefined };
+         // eslint-disable-next-line @typescript-eslint/no-require-imports
          const { getIubendaApiKey } = require("./constants");
 
          expect(() => getIubendaApiKey()).toThrow(
@@ -109,6 +113,7 @@ describe("getIubendaConsentUrl - tests", () => {
             ...originalEnv,
             IUBENDA_CONSENT_URL: "https://consent.iubenda.com",
          };
+         // eslint-disable-next-line @typescript-eslint/no-require-imports
          const { getIubendaConsentUrl } = require("./constants");
 
          expect(getIubendaConsentUrl()).toBe("https://consent.iubenda.com");
@@ -118,10 +123,191 @@ describe("getIubendaConsentUrl - tests", () => {
    it("getIubendaConsentUrl - url not set - throws error - test", () => {
       jest.isolateModules(() => {
          process.env = { ...originalEnv, IUBENDA_CONSENT_URL: undefined };
+         // eslint-disable-next-line @typescript-eslint/no-require-imports
          const { getIubendaConsentUrl } = require("./constants");
 
          expect(() => getIubendaConsentUrl()).toThrow(
             "IUBENDA_CONSENT_URL is not set in environment variables"
+         );
+      });
+   });
+});
+
+describe("getBrevoApiKey - tests", () => {
+   const originalEnv = process.env;
+
+   afterEach(() => {
+      process.env = originalEnv;
+   });
+
+   it("getBrevoApiKey - key set - test", () => {
+      jest.isolateModules(() => {
+         process.env = {
+            ...originalEnv,
+            BREVO_API_KEY: "brevo-key-123",
+         };
+         // eslint-disable-next-line @typescript-eslint/no-require-imports
+         const { getBrevoApiKey } = require("./constants");
+
+         expect(getBrevoApiKey()).toBe("brevo-key-123");
+      });
+   });
+
+   it("getBrevoApiKey - key not set - test", () => {
+      jest.isolateModules(() => {
+         process.env = {
+            ...originalEnv,
+            BREVO_API_KEY: undefined,
+         };
+         // eslint-disable-next-line @typescript-eslint/no-require-imports
+         const { getBrevoApiKey } = require("./constants");
+
+         expect(() => getBrevoApiKey()).toThrow(
+            "BREVO_API_KEY is not set in environment variables"
+         );
+      });
+   });
+});
+
+describe("getBrevoSenderEmail - tests", () => {
+   const originalEnv = process.env;
+
+   afterEach(() => {
+      process.env = originalEnv;
+   });
+
+   it("getBrevoSenderEmail - email set - test", () => {
+      jest.isolateModules(() => {
+         process.env = {
+            ...originalEnv,
+            BREVO_SENDER_EMAIL: "noreply@example.com",
+         };
+         // eslint-disable-next-line @typescript-eslint/no-require-imports
+         const { getBrevoSenderEmail } = require("./constants");
+
+         expect(getBrevoSenderEmail()).toBe("noreply@example.com");
+      });
+   });
+
+   it("getBrevoSenderEmail - email not set - test", () => {
+      jest.isolateModules(() => {
+         process.env = {
+            ...originalEnv,
+            BREVO_SENDER_EMAIL: undefined,
+         };
+         // eslint-disable-next-line @typescript-eslint/no-require-imports
+         const { getBrevoSenderEmail } = require("./constants");
+
+         expect(() => getBrevoSenderEmail()).toThrow(
+            "BREVO_SENDER_EMAIL is not set in environment variables"
+         );
+      });
+   });
+});
+
+describe("getSmtpHost - tests", () => {
+   const originalEnv = process.env;
+
+   afterEach(() => {
+      process.env = originalEnv;
+   });
+
+   it("getSmtpHost - host set - test", () => {
+      jest.isolateModules(() => {
+         process.env = {
+            ...originalEnv,
+            SMTP_HOST: "localhost",
+         };
+         // eslint-disable-next-line @typescript-eslint/no-require-imports
+         const { getSmtpHost } = require("./constants");
+
+         expect(getSmtpHost()).toBe("localhost");
+      });
+   });
+
+   it("getSmtpHost - host not set - test", () => {
+      jest.isolateModules(() => {
+         process.env = {
+            ...originalEnv,
+            SMTP_HOST: undefined,
+         };
+         // eslint-disable-next-line @typescript-eslint/no-require-imports
+         const { getSmtpHost } = require("./constants");
+
+         expect(() => getSmtpHost()).toThrow(
+            "SMTP_HOST is not set in environment variables"
+         );
+      });
+   });
+});
+
+describe("getSmtpPort - tests", () => {
+   const originalEnv = process.env;
+
+   afterEach(() => {
+      process.env = originalEnv;
+   });
+
+   it("getSmtpPort - port set - test", () => {
+      jest.isolateModules(() => {
+         process.env = {
+            ...originalEnv,
+            SMTP_PORT: "1025",
+         };
+         // eslint-disable-next-line @typescript-eslint/no-require-imports
+         const { getSmtpPort } = require("./constants");
+
+         expect(getSmtpPort()).toBe(1025);
+      });
+   });
+
+   it("getSmtpPort - port not - test", () => {
+      jest.isolateModules(() => {
+         process.env = {
+            ...originalEnv,
+            SMTP_PORT: undefined,
+         };
+         // eslint-disable-next-line @typescript-eslint/no-require-imports
+         const { getSmtpPort } = require("./constants");
+
+         expect(() => getSmtpPort()).toThrow(
+            "SMTP_PORT is not set in environment variables"
+         );
+      });
+   });
+});
+
+describe("getSmtpFrom - tests", () => {
+   const originalEnv = process.env;
+
+   afterEach(() => {
+      process.env = originalEnv;
+   });
+
+   it("getSmtpFrom - from set - test", () => {
+      jest.isolateModules(() => {
+         process.env = {
+            ...originalEnv,
+            SMTP_FROM: "noreply@localhost",
+         };
+         // eslint-disable-next-line @typescript-eslint/no-require-imports
+         const { getSmtpFrom } = require("./constants");
+
+         expect(getSmtpFrom()).toBe("noreply@localhost");
+      });
+   });
+
+   it("getSmtpFrom - from not set - test", () => {
+      jest.isolateModules(() => {
+         process.env = {
+            ...originalEnv,
+            SMTP_FROM: undefined,
+         };
+         // eslint-disable-next-line @typescript-eslint/no-require-imports
+         const { getSmtpFrom } = require("./constants");
+
+         expect(() => getSmtpFrom()).toThrow(
+            "SMTP_FROM is not set in environment variables"
          );
       });
    });

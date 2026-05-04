@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -14,20 +13,28 @@ import {
 import { CredentialsSignInForm } from "@/components/shared/auth";
 import { APP_NAME } from "@/lib/constants";
 
+export const SIGN_IN_ERROR_MESSAGES: Record<string, string> = {
+   expired_link:
+      "Der Bestätigungslink ist abgelaufen. Bitte fordere einen neuen an.",
+   invalid_link: "Ungültiger Bestätigungslink. Bitte fordere einen neuen an.",
+};
+
 export const metadata: Metadata = {
    title: "Anmelden",
 };
 
-export type SignInPageSearchParams = {
+export type PageSearchParams = {
    callbackUrl?: string;
+   verified?: string;
+   error?: string;
 };
 
-export type SignInPageProps = {
-   searchParams: Promise<SignInPageSearchParams>;
+export type PageProps = {
+   searchParams: Promise<PageSearchParams>;
 };
 
-const SignInPage = async (props: SignInPageProps) => {
-   const { callbackUrl } = await props.searchParams;
+export const SignInPage = async ({ searchParams }: PageProps) => {
+   const { callbackUrl, verified, error } = await searchParams;
 
    const session = await auth();
 
@@ -35,26 +42,39 @@ const SignInPage = async (props: SignInPageProps) => {
       return redirect(callbackUrl || "/");
    }
 
+   const banners = () => {
+      if (verified === "true") {
+         return (
+            <div
+               className="mb-4 rounded-md border border-green-200 bg-green-50 p-3 text-sm text-green-700"
+               data-testid="verified-banner"
+            >
+               E-Mail-Adresse erfolgreich bestätigt. Du kannst dich jetzt
+               anmelden.
+            </div>
+         );
+      }
+      if (error && SIGN_IN_ERROR_MESSAGES[error]) {
+         return (
+            <div
+               className="mb-4 rounded-md border border-destructive/20 bg-destructive/10 p-3 text-sm text-destructive"
+               data-testid="error-banner"
+            >
+               {SIGN_IN_ERROR_MESSAGES[error]}
+            </div>
+         );
+      }
+   };
+
    return (
       <div
-         className="flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4"
+         className="flex min-h-screen w-full items-center justify-center bg-linear-to-br from-background via-background to-primary/5 p-4"
          data-testid="sign-in-page"
       >
          <div className="w-full max-w-md">
             <Card className="border-2 shadow-xl">
                <CardHeader className="space-y-6 pb-6" data-testid="card-header">
-                  <Link
-                     href="/"
-                     className="flex flex-col items-center gap-3 transition-transform hover:scale-105"
-                  >
-                     <Image
-                        src="/images/logo.svg"
-                        width={80}
-                        height={80}
-                        alt={`${APP_NAME} logo`}
-                        priority={true}
-                        className="drop-shadow-lg"
-                     />
+                  <Link href="/" className="flex flex-col items-center gap-3">
                      <h1 className="text-2xl font-bold">{APP_NAME}</h1>
                   </Link>
                   <div className="space-y-2">
@@ -73,6 +93,7 @@ const SignInPage = async (props: SignInPageProps) => {
                   </div>
                </CardHeader>
                <CardContent className="px-6 pb-8">
+                  {banners()}
                   <CredentialsSignInForm />
                </CardContent>
             </Card>

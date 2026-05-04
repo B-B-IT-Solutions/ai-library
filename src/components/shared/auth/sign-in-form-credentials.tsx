@@ -21,6 +21,7 @@ import { signInSchema } from "@/data/types/validators/user";
 
 export const CredentialsSignInForm = () => {
    const [showPassword, setShowPassword] = useState(false);
+   const [unverifiedEmail, setUnverifiedEmail] = useState<string | null>(null);
 
    const {
       handleSubmit,
@@ -39,17 +40,44 @@ export const CredentialsSignInForm = () => {
    const callbackUrl = searchParams.get("callbackUrl") || "/templates";
 
    const onSubmit: SubmitHandler<DUserSignIn> = async (data) => {
+      setUnverifiedEmail(null);
       const result = await signInWithCredentials(data);
       if (!result.success) {
-         setError("root.serverError", {
-            type: "custom",
-            message: result.message,
-         });
+         if (result.data?.emailNotVerified) {
+            setUnverifiedEmail(data.email);
+         } else {
+            setError("root.serverError", {
+               type: "custom",
+               message: result.message,
+            });
+         }
       }
    };
 
    const togglePasswordVisibility = () => {
       setShowPassword(!showPassword);
+   };
+
+   const unverifiedEmailBanner = () => {
+      if (unverifiedEmail) {
+         return (
+            <div
+               className="rounded-md border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800"
+               data-testid="email-not-verified-banner"
+            >
+               <p>
+                  E-Mail-Adresse nicht bestätigt. Bitte überprüfe dein Postfach.
+               </p>
+               <Link
+                  href={`/auth/verify-email?email=${encodeURIComponent(unverifiedEmail)}`}
+                  className="mt-1 block font-medium underline-offset-2 hover:underline"
+                  data-testid="verify-email-link"
+               >
+                  Erneut senden
+               </Link>
+            </div>
+         );
+      }
    };
 
    return (
@@ -168,6 +196,7 @@ export const CredentialsSignInForm = () => {
                   />
                </div>
             )}
+            {unverifiedEmailBanner()}
             <Field>
                <Button
                   disabled={isSubmitting}
