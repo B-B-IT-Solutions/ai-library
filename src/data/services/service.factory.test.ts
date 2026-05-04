@@ -2,7 +2,6 @@ import prisma from "@/data/repositories/prisma";
 
 import { CartService } from "./cart";
 import { CollectionService, PublicCollectionService } from "./collection";
-import { BrevoEmailService, SmtpEmailService } from "./email";
 import { IubendaService } from "./iubenda";
 import { OrderService } from "./order";
 import { PromptService } from "./prompt";
