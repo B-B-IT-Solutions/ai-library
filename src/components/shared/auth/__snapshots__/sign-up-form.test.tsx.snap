@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`SignUpForm rendering tests SignUpForm - callbackUrl defined -  rendered test 1`] = `
+exports[`SignUpForm rendering tests callbackUrl defined -  rendered test 1`] = `
 <div>
   <form
     class="space-y-5"
@@ -424,7 +424,7 @@ exports[`SignUpForm rendering tests SignUpForm - callbackUrl defined -  rendered
 </div>
 `;
 
-exports[`SignUpForm rendering tests SignUpForm - callbackUrl undefined -  rendered test 1`] = `
+exports[`SignUpForm rendering tests callbackUrl undefined -  rendered test 1`] = `
 <div>
   <form
     class="space-y-5"

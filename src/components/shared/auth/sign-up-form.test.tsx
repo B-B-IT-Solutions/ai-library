@@ -117,7 +117,7 @@ describe("SignUpForm rendering tests", () => {
       jest.resetAllMocks();
    });
 
-   it("SignUpForm - callbackUrl defined -  rendered test", async () => {
+   it("callbackUrl defined -  rendered test", async () => {
       const params = { callbackUrl: "callbackUrl/test-1" };
       const searchParams = new URLSearchParams(
          params
@@ -135,7 +135,7 @@ describe("SignUpForm rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("SignUpForm - callbackUrl undefined -  rendered test", async () => {
+   it("callbackUrl undefined -  rendered test", async () => {
       const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
       useSearchParamsMock.mockReturnValue(searchParams);
 
@@ -156,7 +156,7 @@ describe("SignUpForm functionality tests", () => {
       jest.resetAllMocks();
    });
 
-   it("SignUpForm - sign in clicked - success true - test", async () => {
+   it("sign in clicked - success true - test", async () => {
       const singUpResult = {
          success: true,
          message: "User registered successfully",
@@ -238,7 +238,7 @@ describe("SignUpForm functionality tests", () => {
       });
    });
 
-   it("SignUpForm - sign in clicked - success false - test", async () => {
+   it("sign in clicked - success false - test", async () => {
       const singUpResult = {
          success: false,
          message: "Email already exists",
@@ -323,7 +323,7 @@ describe("SignUpForm functionality tests", () => {
       assertInDocument(rootError);
    });
 
-   it("SignUpForm - show password btn clicked - test", async () => {
+   it("show password btn clicked - test", async () => {
       const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
       useSearchParamsMock.mockReturnValue(searchParams);
       render(<SignUpForm />);
@@ -358,7 +358,7 @@ describe("SignUpForm functionality tests", () => {
       });
    });
 
-   it("SignUpForm - show confirm password btn clicked - test", async () => {
+   it("show confirm password btn clicked - test", async () => {
       const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
       useSearchParamsMock.mockReturnValue(searchParams);
       render(<SignUpForm />);
@@ -395,7 +395,7 @@ describe("SignUpForm functionality tests", () => {
       });
    });
 
-   it("SignUpForm - sign-in link clicked - test", async () => {
+   it("sign-in link clicked - test", async () => {
       const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
       useSearchParamsMock.mockReturnValue(searchParams);
 

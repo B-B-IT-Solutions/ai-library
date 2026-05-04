@@ -89,12 +89,12 @@ exports[`VerifyEmailPage rendering tests email defined - test 1`] = `
             </div>
             <p
               class="text-sm text-muted-foreground"
+              data-testid="email-info"
             >
               Wir haben eine Bestätigungs-E-Mail an
                
               <span
                 class="font-medium text-foreground"
-                data-testid="email-display"
               >
                 user@test.com
               </span>
