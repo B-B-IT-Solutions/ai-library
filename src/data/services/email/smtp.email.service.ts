@@ -1,30 +1,35 @@
-import { BrevoClient } from "@getbrevo/brevo";
+import nodemailer from "nodemailer";
 
-import { APP_NAME, getBrevoApiKey, getBrevoSenderEmail } from "@/lib/constants";
+import { APP_NAME, getSmtpFrom, getSmtpHost, getSmtpPort } from "@/lib/constants";
 
 import type { IEmailService } from "./email.service.interface";
 import type { EmailVerificationParams } from "./types";
 
-export class BrevoEmailService implements IEmailService {
-   private client: BrevoClient;
-   private senderEmail: string;
+export class SmtpEmailService implements IEmailService {
    private senderName: string;
+   private senderEmail: string;
 
    constructor() {
-      this.client = new BrevoClient({ apiKey: getBrevoApiKey() });
-      this.senderEmail = getBrevoSenderEmail();
       this.senderName = APP_NAME;
+      this.senderEmail = getSmtpFrom();
    }
 
    async sendVerificationEmail(params: EmailVerificationParams): Promise<void> {
       const { to, name, verificationUrl } = params;
 
-      await this.client.transactionalEmails.sendTransacEmail({
-         to: [{ email: to, name }],
-         sender: { email: this.senderEmail, name: this.senderName },
+      const transporter = nodemailer.createTransport({
+         host: getSmtpHost(),
+         port: getSmtpPort(),
+         secure: false,
+         auth: undefined,
+      });
+
+      await transporter.sendMail({
+         from: `"${this.senderName}" <${this.senderEmail}>`,
+         to,
          subject: `${this.senderName} – E-Mail-Adresse bestätigen`,
-         htmlContent: this.buildHtml(name, verificationUrl),
-         textContent: this.buildText(name, verificationUrl),
+         html: this.buildHtml(name, verificationUrl),
+         text: this.buildText(name, verificationUrl),
       });
    }
 

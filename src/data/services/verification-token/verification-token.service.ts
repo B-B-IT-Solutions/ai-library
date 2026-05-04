@@ -1,11 +1,11 @@
 import { VerificationTokenRepository } from "@/data/repositories/verification-token";
-import { BrevoEmailService } from "@/data/services/email";
+import { IEmailService } from "@/data/services/email";
 import { APP_URL } from "@/lib/constants";
 
 export class VerificationTokenService {
    constructor(
       private readonly tokenRepo: VerificationTokenRepository,
-      private readonly emailService: BrevoEmailService
+      private readonly emailService: IEmailService
    ) {}
 
    async sendVerificationEmail(

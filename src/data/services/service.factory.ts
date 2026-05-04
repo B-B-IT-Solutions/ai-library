@@ -4,7 +4,12 @@ import {
    CollectionService,
    PublicCollectionService,
 } from "@/data/services/collection";
-import { BrevoEmailService } from "@/data/services/email";
+import {
+   BrevoEmailService,
+   IEmailService,
+   SmtpEmailService,
+} from "@/data/services/email";
+import { EMAIL_PROVIDER } from "@/lib/constants";
 import { IubendaService } from "@/data/services/iubenda";
 import { OrderService } from "@/data/services/order";
 import { PromptService } from "@/data/services/prompt";
@@ -37,7 +42,7 @@ export class ServiceFactory {
    private settingsService?: SettingsService;
    private publicSettingsService?: PublicSettingsService;
    private iubendaService?: IubendaService;
-   private emailService?: BrevoEmailService;
+   private emailService?: IEmailService;
    private verificationTokenService?: VerificationTokenService;
 
    constructor(prisma: DbClient) {
@@ -169,9 +174,12 @@ export class ServiceFactory {
       return this.iubendaService;
    }
 
-   getEmailService(): BrevoEmailService {
+   getEmailService(): IEmailService {
       if (!this.emailService) {
-         this.emailService = new BrevoEmailService();
+         this.emailService =
+            EMAIL_PROVIDER === "smtp"
+               ? new SmtpEmailService()
+               : new BrevoEmailService();
       }
       return this.emailService;
    }

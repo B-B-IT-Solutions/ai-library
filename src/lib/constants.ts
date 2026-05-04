@@ -54,3 +54,32 @@ export const getBrevoSenderEmail = (): string => {
    }
    return BREVO_SENDER_EMAIL;
 };
+
+export const EMAIL_PROVIDER = process.env.EMAIL_PROVIDER;
+
+export const SMTP_HOST = process.env.SMTP_HOST;
+export const SMTP_PORT = process.env.SMTP_PORT
+   ? parseInt(process.env.SMTP_PORT, 10)
+   : undefined;
+export const SMTP_FROM = process.env.SMTP_FROM;
+
+export const getSmtpHost = (): string => {
+   if (!SMTP_HOST) {
+      throw new Error("SMTP_HOST is not set in environment variables");
+   }
+   return SMTP_HOST;
+};
+
+export const getSmtpPort = (): number => {
+   if (!SMTP_PORT) {
+      throw new Error("SMTP_PORT is not set in environment variables");
+   }
+   return SMTP_PORT;
+};
+
+export const getSmtpFrom = (): string => {
+   if (!SMTP_FROM) {
+      throw new Error("SMTP_FROM is not set in environment variables");
+   }
+   return SMTP_FROM;
+};
