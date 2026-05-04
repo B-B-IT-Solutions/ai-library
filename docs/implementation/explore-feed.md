@@ -20,14 +20,14 @@ Der Explore-Feed bei `/explore` schließt diese kritische Lücke. Er basiert auf
 
 Das Herzstück dieser Entscheidung ist die saubere Trennung zweier Konzepte, die bisher implizit über `PromptTemplateDescriptor` laufen:
 
-| | **User Template** | **Catalog Entry** |
-|---|---|---|
-| **Eigentümer** | Einzelner User (`userId`) | Plattform (Admin-verwaltet) |
-| **Zweck** | Persönlicher Workflow, privat | Öffentliche Vorlage zur Inspiration |
-| **Sichtbarkeit** | Privat (nur der Nutzer selbst) | Öffentlich, auth-frei |
-| **Bearbeitbar durch Nutzer?** | Ja, vollständig | Nein (nur lesen / kopieren) |
-| **Kategorisierung** | Per-User (`PromptTemplateCategory`) | Global, admin-verwaltet |
-| **Aktuelles Modell** | `PromptTemplateDescriptor` | **Neu: `CatalogEntry`** |
+|                               | **User Template**                   | **Catalog Entry**                   |
+| ----------------------------- | ----------------------------------- | ----------------------------------- |
+| **Eigentümer**                | Einzelner User (`userId`)           | Plattform (Admin-verwaltet)         |
+| **Zweck**                     | Persönlicher Workflow, privat       | Öffentliche Vorlage zur Inspiration |
+| **Sichtbarkeit**              | Privat (nur der Nutzer selbst)      | Öffentlich, auth-frei               |
+| **Bearbeitbar durch Nutzer?** | Ja, vollständig                     | Nein (nur lesen / kopieren)         |
+| **Kategorisierung**           | Per-User (`PromptTemplateCategory`) | Global, admin-verwaltet             |
+| **Aktuelles Modell**          | `PromptTemplateDescriptor`          | **Neu: `CatalogEntry`**             |
 
 **Das Problem mit dem alten Ansatz:** `PromptTemplateDescriptor` hat immer eine `userId` — jede Repository-Methode filtert zwingend nach User. Dieses Modell für öffentliche Discovery zu missbrauchen würde beide Konzepte korrumpieren und zukünftige Entwicklung erschweren.
 
@@ -39,12 +39,12 @@ Das Herzstück dieser Entscheidung ist die saubere Trennung zweier Konzepte, die
 
 ### Warum dies Priority 1 ist
 
-| Problem | Auswirkung |
-|---|---|
+| Problem                                       | Auswirkung                                  |
+| --------------------------------------------- | ------------------------------------------- |
 | Keine auth-freie Startseite mit echtem Inhalt | 100% der neuen Nutzer sehen keine Templates |
-| Keine SEO-indexierbaren Inhaltsseiten | Zero organischer Suchtraffic |
-| Kein viraler Einstiegspunkt | Kein Sharing-Loop, kein Referral-Traffic |
-| Kein "Ausprobieren bevor registrieren" | Hohe Hürde für Neukunden-Konversion |
+| Keine SEO-indexierbaren Inhaltsseiten         | Zero organischer Suchtraffic                |
+| Kein viraler Einstiegspunkt                   | Kein Sharing-Loop, kein Referral-Traffic    |
+| Kein "Ausprobieren bevor registrieren"        | Hohe Hürde für Neukunden-Konversion         |
 
 ### Competitive Gap
 
@@ -88,31 +88,31 @@ Das Herzstück dieser Entscheidung ist die saubere Trennung zweier Konzepte, die
 
 ### In Scope (MVP)
 
-| Feature | Beschreibung |
-|---|---|
-| Route `/explore` | Auth-freie Server Component Seite |
-| Catalog-Grid | Responsive Karten-Ansicht der `CatalogEntry`-Objekte |
-| Kategorie-Filter | Filter nach `CatalogCategory` (globale Taxonomie) |
-| Volltextsuche | Suche in Titel und Beschreibung |
-| Sort: Neueste | Standard nach `publishedAt DESC` |
-| Sort: Beliebt | Nach `copyCount DESC` |
-| Detailseite `/explore/[slug]` | SEO-optimierte Einzelseite pro Catalog-Eintrag |
-| Preview der Felder | Anzeige der Form-Felder (Labels, Typen) ohne Ausführung |
+| Feature                            | Beschreibung                                                             |
+| ---------------------------------- | ------------------------------------------------------------------------ |
+| Route `/explore`                   | Auth-freie Server Component Seite                                        |
+| Catalog-Grid                       | Responsive Karten-Ansicht der `CatalogEntry`-Objekte                     |
+| Kategorie-Filter                   | Filter nach `CatalogCategory` (globale Taxonomie)                        |
+| Volltextsuche                      | Suche in Titel und Beschreibung                                          |
+| Sort: Neueste                      | Standard nach `publishedAt DESC`                                         |
+| Sort: Beliebt                      | Nach `copyCount DESC`                                                    |
+| Detailseite `/explore/[slug]`      | SEO-optimierte Einzelseite pro Catalog-Eintrag                           |
+| Preview der Felder                 | Anzeige der Form-Felder (Labels, Typen) ohne Ausführung                  |
 | "In meine Library" — Kopier-Aktion | Für eingeloggte Nutzer: erstellt eigene `PromptTemplateDescriptor`-Kopie |
-| Unauthenticated CTA | "Registrieren um zu übernehmen" → `/auth/sign-up` |
-| `copyCount`-Tracking | Inkrementierung bei jeder erfolgreichen Kopier-Aktion |
-| SEO Metadata | `generateMetadata` pro Catalog-Eintrag |
+| Unauthenticated CTA                | "Registrieren um zu übernehmen" → `/auth/sign-up`                        |
+| `copyCount`-Tracking               | Inkrementierung bei jeder erfolgreichen Kopier-Aktion                    |
+| SEO Metadata                       | `generateMetadata` pro Catalog-Eintrag                                   |
 
 ### Out of Scope (MVP)
 
-| Feature | Begründung | Priorität |
-|---|---|---|
-| In-Platform Prompt Testing | Eigene Initiative P2 | P2 |
-| Admin-UI für Catalog-Verwaltung | Initialer Seed via Script + Datenbank | Post-MVP |
-| Rating / Bewertungen | Erfordert eigene Infrastruktur | P7 |
-| "Ähnliche Vorlagen"-Empfehlungen | ML-basiert | Future |
-| Public Collections im Feed | Separate Entry Points existieren bereits | v2 |
-| Catalog-Kommentare | Community-Feature | Future |
+| Feature                          | Begründung                               | Priorität |
+| -------------------------------- | ---------------------------------------- | --------- |
+| In-Platform Prompt Testing       | Eigene Initiative P2                     | P2        |
+| Admin-UI für Catalog-Verwaltung  | Initialer Seed via Script + Datenbank    | Post-MVP  |
+| Rating / Bewertungen             | Erfordert eigene Infrastruktur           | P7        |
+| "Ähnliche Vorlagen"-Empfehlungen | ML-basiert                               | Future    |
+| Public Collections im Feed       | Separate Entry Points existieren bereits | v2        |
+| Catalog-Kommentare               | Community-Feature                        | Future    |
 
 ---
 
@@ -120,19 +120,19 @@ Das Herzstück dieser Entscheidung ist die saubere Trennung zweier Konzepte, die
 
 ### 6.1 Routing
 
-| Route | Auth | Rendering | Beschreibung |
-|---|---|---|---|
-| `/explore` | Keine | SSR (Server Component) | Übersichts-Feed |
+| Route             | Auth  | Rendering              | Beschreibung                       |
+| ----------------- | ----- | ---------------------- | ---------------------------------- |
+| `/explore`        | Keine | SSR (Server Component) | Übersichts-Feed                    |
 | `/explore/[slug]` | Keine | SSR (Server Component) | Detailseite eines Catalog-Eintrags |
 
 **URL-Parameter auf `/explore` (via `nuqs`):**
 
-| Parameter | Typ | Default | Beschreibung |
-|---|---|---|---|
-| `q` | `string` | `""` | Volltextsuche |
-| `category` | `string` | `""` | Kategorie-Slug |
-| `sort` | `"newest" \| "popular"` | `"newest"` | Sortierfeld |
-| `page` | `number` | `0` | Seitennummer (0-indexed) |
+| Parameter  | Typ                     | Default    | Beschreibung             |
+| ---------- | ----------------------- | ---------- | ------------------------ |
+| `q`        | `string`                | `""`       | Volltextsuche            |
+| `category` | `string`                | `""`       | Kategorie-Slug           |
+| `sort`     | `"newest" \| "popular"` | `"newest"` | Sortierfeld              |
+| `page`     | `number`                | `0`        | Seitennummer (0-indexed) |
 
 ### 6.2 Kopier-Aktion: "In meine Library übernehmen"
 
@@ -155,6 +155,7 @@ Nutzer klickt "In meine Library übernehmen"
 ```
 
 **Wichtige Eigenschaften der Kopie:**
+
 - Die Kopie ist vollständig unabhängig vom Original — Änderungen am Catalog-Eintrag betreffen bestehende Kopien nicht
 - Keine Referenz zurück zum Catalog-Eintrag (kein `sourceCatalogId` im MVP — User besitzt die Kopie bedingungslos)
 - Kategorien werden als neue `PromptTemplateCategory` für den User angelegt (via `connectOrCreate`, wie bei `pCreatePromptTemplateDescriptor` bereits implementiert)
@@ -165,6 +166,7 @@ Nutzer klickt "In meine Library übernehmen"
 Nur Catalog-Einträge mit `status = PUBLISHED` erscheinen im Feed und auf Detailseiten.
 
 Status-Lifecycle:
+
 ```
 DRAFT → PUBLISHED → ARCHIVED
           ↑              |
@@ -176,9 +178,10 @@ DRAFT → PUBLISHED → ARCHIVED
 `CatalogCategory` ist eine **admin-verwaltete globale Taxonomie** — nicht an User gebunden. Jeder `CatalogEntry` kann einer Kategorie zugeordnet sein.
 
 Beispiel-Kategorien für initialen Seed:
+
 - Marketing & Content
 - Coding & Development
-- Business & Strategy  
+- Business & Strategy
 - Research & Analysis
 - E-Mail & Kommunikation
 - SEO & Performance
@@ -494,6 +497,7 @@ src/components/explore/
 ```
 
 #### `explore-entry-card.tsx` — Zeigt:
+
 - Titel
 - Beschreibungs-Snippet (2 Zeilen)
 - Kategorie-Badge
@@ -504,14 +508,15 @@ src/components/explore/
 
 #### `explore-copy-button.tsx` — Auth-aware:
 
-| Zustand | Darstellung | Aktion |
-|---|---|---|
-| Unangemeldet | "Registrieren um zu übernehmen" (outlined) | → `/auth/sign-up?redirect=/explore/[slug]` |
-| Eingeloggt, noch nicht kopiert | "In meine Library übernehmen" (primary) | `copyCatalogEntryToUserLibrary(id)` → Toast + Link |
-| Loading | Disabled + Spinner | — |
-| Bereits kopiert (v2) | "Bereits in Library" (ghost, disabled) | — |
+| Zustand                        | Darstellung                                | Aktion                                             |
+| ------------------------------ | ------------------------------------------ | -------------------------------------------------- |
+| Unangemeldet                   | "Registrieren um zu übernehmen" (outlined) | → `/auth/sign-up?redirect=/explore/[slug]`         |
+| Eingeloggt, noch nicht kopiert | "In meine Library übernehmen" (primary)    | `copyCatalogEntryToUserLibrary(id)` → Toast + Link |
+| Loading                        | Disabled + Spinner                         | —                                                  |
+| Bereits kopiert (v2)           | "Bereits in Library" (ghost, disabled)     | —                                                  |
 
 #### `/explore/[slug]` Detailseite — zeigt:
+
 - Vollständiger Titel + Beschreibung
 - Kategorie + Modell
 - **Alle Formularfelder mit Labels, Typ und Beschreibung** (read-only Preview — kein Input)
@@ -521,16 +526,19 @@ src/components/explore/
 ### 8.6 SEO
 
 **`/explore`:**
+
 ```typescript
 export const metadata: Metadata = {
   title: "KI Prompt-Vorlagen entdecken",
   description: "Entdecke kuratierte AI-Prompt-Vorlagen mit strukturierten Feldern...",
 };
 ```
+
 - `revalidate = 300` (5 Minuten Cache)
 - Pagination: `?page=N` mit `rel="prev"` / `rel="next"`
 
 **`/explore/[slug]`:**
+
 ```typescript
 export const generateMetadata = async ({ params }): Promise<Metadata> => {
   const entry = await getCatalogEntryBySlug(params.slug);
@@ -541,6 +549,7 @@ export const generateMetadata = async ({ params }): Promise<Metadata> => {
   };
 };
 ```
+
 - Vollständig statisch renderbar (SSR, kein Client-State)
 - Slug ist human-readable und keyword-reich: `/explore/email-kampagne-copywriting-gpt4`
 
@@ -585,6 +594,7 @@ Phase 4 — Tests & SEO
 Gemäß Projekt-Konvention (99% Line/Statement, 98.2% Branch Coverage):
 
 ### Repository
+
 - `pGetPublishedEntriesPage` — filtert nur `PUBLISHED`, nicht `DRAFT`/`ARCHIVED`
 - `pGetPublishedEntriesPage` — Suche nach Titel/Beschreibung
 - `pGetPublishedEntriesPage` — Kategorie-Filter via Slug
@@ -594,17 +604,20 @@ Gemäß Projekt-Konvention (99% Line/Statement, 98.2% Branch Coverage):
 - `pIncrementCopyCount` — inkrementiert korrekt
 
 ### Service
+
 - `copyEntryToUserLibrary` — erstellt korrekte `DPromptTemplateUpdate` aus `CatalogEntry`
 - `copyEntryToUserLibrary` — Felder werden korrekt übernommen (Type, Label, Order etc.)
 - `copyEntryToUserLibrary` — inkrementiert `copyCount` nach erfolgreichem Create
 - `copyEntryToUserLibrary` — wirft wenn `CatalogEntry` nicht existiert
 
 ### Actions
+
 - `copyCatalogEntryToUserLibrary` — gibt `{ success: false }` zurück wenn nicht eingeloggt
 - `getCatalogEntriesPage` — gibt `EMPTY_PAGE` bei Fehler zurück
 - `getCatalogEntryBySlug` — gibt `null` bei ungültigem Slug zurück
 
 ### Komponenten
+
 - `ExploreCopyButton` — rendert "Registrieren"-CTA wenn unauthenticated
 - `ExploreCopyButton` — ruft Action auf und zeigt Toast bei Erfolg
 - `ExploreEntryCard` — rendert Titel, Kategorie, Felder-Anzahl
@@ -616,18 +629,18 @@ Gemäß Projekt-Konvention (99% Line/Statement, 98.2% Branch Coverage):
 
 Vor dem Launch müssen mindestens 10 Catalog-Einträge (PUBLISHED) vorhanden sein, verteilt auf ≥ 3 Kategorien. Empfohlene initiale Einträge:
 
-| Titel | Kategorie | Felder |
-|---|---|---|
-| Blog-Post Outline erstellen | Marketing & Content | Thema, Zielgruppe, Tonalität |
-| Professionelle E-Mail schreiben | E-Mail & Kommunikation | Empfänger, Anlass, Wunschergebnis |
-| Code Review Feedback | Coding & Development | Sprache, Code-Snippet, Fokus |
-| Wettbewerbsanalyse | Business & Strategy | Eigenes Produkt, Konkurrent, Markt |
-| LinkedIn-Beitrag | Marketing & Content | Thema, persönliche Erfahrung, CTA |
-| Bug-Report Beschreibung | Coding & Development | Fehler, Schritte, Erwartetes Verhalten |
-| Produktbeschreibung für Shop | Marketing & Content | Produkt, Features, Zielgruppe |
-| Meeting-Zusammenfassung | Produktivität | Teilnehmer, Themen, Beschlüsse |
-| Keyword-Cluster erstellen | SEO & Performance | Haupt-Keyword, Branche, Suchintention |
-| Research-Prompt | Research & Analysis | Fachbereich, Forschungsfrage, Kontext |
+| Titel                           | Kategorie              | Felder                                 |
+| ------------------------------- | ---------------------- | -------------------------------------- |
+| Blog-Post Outline erstellen     | Marketing & Content    | Thema, Zielgruppe, Tonalität           |
+| Professionelle E-Mail schreiben | E-Mail & Kommunikation | Empfänger, Anlass, Wunschergebnis      |
+| Code Review Feedback            | Coding & Development   | Sprache, Code-Snippet, Fokus           |
+| Wettbewerbsanalyse              | Business & Strategy    | Eigenes Produkt, Konkurrent, Markt     |
+| LinkedIn-Beitrag                | Marketing & Content    | Thema, persönliche Erfahrung, CTA      |
+| Bug-Report Beschreibung         | Coding & Development   | Fehler, Schritte, Erwartetes Verhalten |
+| Produktbeschreibung für Shop    | Marketing & Content    | Produkt, Features, Zielgruppe          |
+| Meeting-Zusammenfassung         | Produktivität          | Teilnehmer, Themen, Beschlüsse         |
+| Keyword-Cluster erstellen       | SEO & Performance      | Haupt-Keyword, Branche, Suchintention  |
+| Research-Prompt                 | Research & Analysis    | Fachbereich, Forschungsfrage, Kontext  |
 
 Seed-Script: `prisma/seeds/catalog.seed.ts` — ausgeführt via `npm run db:datainit`.
 
@@ -635,33 +648,33 @@ Seed-Script: `prisma/seeds/catalog.seed.ts` — ausgeführt via `npm run db:data
 
 ## 12. Offene Fragen
 
-| # | Frage | Empfehlung |
-|---|---|---|
-| 1 | Kann ein Nutzer denselben Catalog-Eintrag mehrfach in seine Library kopieren? | MVP: Ja (keine Duplikat-Prüfung). v2: Warnung, kein Hard-Block |
-| 2 | Soll der Explore-Link in der Auth-Navigation erscheinen (für eingeloggte Nutzer)? | Ja, als "Entdecken" — führt nach `/explore` |
-| 3 | Soll `revalidate` oder vollständiges dynamisches Rendering? | `revalidate = 300` (5 Min.) für Feed; Detailseiten `revalidate = 3600` |
-| 4 | Wer kann Catalog-Einträge erstellen? | MVP: Nur via direktem DB-Seed/Script. Admin-UI als separates Feature |
-| 5 | Soll die Kopie beim User eine "Quelle"-Referenz (`sourceCatalogId`) behalten? | MVP: Nein — der User besitzt die Kopie vollständig. Erleichtert Impl. |
+| #   | Frage                                                                             | Empfehlung                                                             |
+| --- | --------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| 1   | Kann ein Nutzer denselben Catalog-Eintrag mehrfach in seine Library kopieren?     | MVP: Ja (keine Duplikat-Prüfung). v2: Warnung, kein Hard-Block         |
+| 2   | Soll der Explore-Link in der Auth-Navigation erscheinen (für eingeloggte Nutzer)? | Ja, als "Entdecken" — führt nach `/explore`                            |
+| 3   | Soll `revalidate` oder vollständiges dynamisches Rendering?                       | `revalidate = 300` (5 Min.) für Feed; Detailseiten `revalidate = 3600` |
+| 4   | Wer kann Catalog-Einträge erstellen?                                              | MVP: Nur via direktem DB-Seed/Script. Admin-UI als separates Feature   |
+| 5   | Soll die Kopie beim User eine "Quelle"-Referenz (`sourceCatalogId`) behalten?     | MVP: Nein — der User besitzt die Kopie vollständig. Erleichtert Impl.  |
 
 ---
 
 ## 13. Erfolgsmetriken
 
-| Metrik | Baseline | Ziel (30 Tage post-Launch) |
-|---|---|---|
-| Unique Visits `/explore` | 0 | > 200/Woche organisch |
-| SEO-Impressions `/explore/[slug]` | 0 | Messbar steigend (Search Console) |
-| Kopier-Aktionen | 0 | > 50 Kopien total |
-| Sign-up Conversion aus Explore | n/a | > 2% der Explore-Besucher |
-| Catalog-Einträge (PUBLISHED) | 0 | ≥ 10 bei Launch |
+| Metrik                            | Baseline | Ziel (30 Tage post-Launch)        |
+| --------------------------------- | -------- | --------------------------------- |
+| Unique Visits `/explore`          | 0        | > 200/Woche organisch             |
+| SEO-Impressions `/explore/[slug]` | 0        | Messbar steigend (Search Console) |
+| Kopier-Aktionen                   | 0        | > 50 Kopien total                 |
+| Sign-up Conversion aus Explore    | n/a      | > 2% der Explore-Besucher         |
+| Catalog-Einträge (PUBLISHED)      | 0        | ≥ 10 bei Launch                   |
 
 ---
 
 ## 14. Risiken
 
-| Risiko | Wahrscheinlichkeit | Impact | Mitigation |
-|---|---|---|---|
-| Zu wenige Catalog-Einträge bei Launch → dünner Feed | Mittel | Hoch | Seed-Script vor Launch ausführen; ≥ 10 Einträge Minimum |
-| SEO-Indexing dauert Wochen | Hoch | Niedrig | Früh deployen; SEO ist ein Langzeitspiel |
-| Nutzer verwechseln Catalog mit ihren eigenen Templates | Niedrig | Mittel | Klare UX-Trennung: Explore hat eigenes Nav, eigenes Layout, "Kopieren"-Sprache statt "Bearbeiten" |
-| Schema-Komplexität durch neue Tabellen | Niedrig | Niedrig | Additive Migration, keine bestehenden Tabellen geändert |
+| Risiko                                                 | Wahrscheinlichkeit | Impact  | Mitigation                                                                                        |
+| ------------------------------------------------------ | ------------------ | ------- | ------------------------------------------------------------------------------------------------- |
+| Zu wenige Catalog-Einträge bei Launch → dünner Feed    | Mittel             | Hoch    | Seed-Script vor Launch ausführen; ≥ 10 Einträge Minimum                                           |
+| SEO-Indexing dauert Wochen                             | Hoch               | Niedrig | Früh deployen; SEO ist ein Langzeitspiel                                                          |
+| Nutzer verwechseln Catalog mit ihren eigenen Templates | Niedrig            | Mittel  | Klare UX-Trennung: Explore hat eigenes Nav, eigenes Layout, "Kopieren"-Sprache statt "Bearbeiten" |
+| Schema-Komplexität durch neue Tabellen                 | Niedrig            | Niedrig | Additive Migration, keine bestehenden Tabellen geändert                                           |
