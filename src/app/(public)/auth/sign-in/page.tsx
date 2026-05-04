@@ -34,7 +34,7 @@ export type PageProps = {
    searchParams: Promise<PageSearchParams>;
 };
 
-const SignInPage = async ({ searchParams }: PageProps) => {
+export const SignInPage = async ({ searchParams }: PageProps) => {
    const { callbackUrl, verified, error } = await searchParams;
 
    const session = await auth();

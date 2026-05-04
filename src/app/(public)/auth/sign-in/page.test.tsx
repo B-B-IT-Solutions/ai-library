@@ -12,7 +12,7 @@ import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 
-import SignInPage, { metadata, PageProps, PageSearchParams } from "./page";
+import { metadata, PageProps, PageSearchParams, SignInPage } from "./page";
 
 const authMock = auth as unknown as AuthMockedFunction;
 const redirectMock = redirect as jest.MockedFunction<typeof redirect>;
