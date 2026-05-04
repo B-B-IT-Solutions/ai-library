@@ -8,8 +8,7 @@ import { PromptRepository } from "./prompt";
 import { PublicSettingsRepository, SettingsRepository } from "./settings";
 import { SubscriptionRepository } from "./subscription";
 import { PublicTemplateRepository, TemplateRepository } from "./template";
-import { UserRepository } from "./user";
-import { VerificationTokenRepository } from "./verification-token";
+import { UserRepository, VerificationTokenRepository } from "./user";
 
 export class RepositoryFactory {
    private prisma: DbClient;

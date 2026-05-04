@@ -1,11 +1,11 @@
-jest.mock("@/data/repositories/verification-token");
+jest.mock("@/data/repositories/user");
 jest.mock("@/data/services/email");
 
 import { DeepMockProxy } from "jest-mock-extended";
 import MockDate from "mockdate";
 
 import prisma from "@/data/repositories/prisma";
-import { VerificationTokenRepository } from "@/data/repositories/verification-token";
+import { VerificationTokenRepository } from "@/data/repositories/user";
 import { BrevoEmailService } from "@/data/services/email";
 import { ServiceFactory } from "@/data/services/service.factory";
 
