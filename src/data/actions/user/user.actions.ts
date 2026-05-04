@@ -118,9 +118,10 @@ export const resendVerificationEmail = async (
          message: "Verifizierungs-E-Mail wurde erneut gesendet",
       };
    } catch (error) {
+      console.error(formatError(error));
       return {
          success: false,
-         message: formatError(error),
+         message: "Verifizierungs-E-Mail konnte nicht gesendet werden",
       };
    }
 };
