@@ -9,7 +9,7 @@ export const toDUserInternal = (pUser: User): DUserInternal => {
       role: pUser.role,
       password: pUser.password,
       stripeCustomerId: pUser.stripeCustomerId,
-      emailVerified: pUser.emailVerified?.toISOString() ?? null,
+      emailVerified: pUser.emailVerified,
       updatedAt: pUser.updatedAt.toISOString(),
       createdAt: pUser.createdAt.toISOString(),
    };
