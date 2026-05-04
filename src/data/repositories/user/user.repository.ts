@@ -2,7 +2,11 @@ import { DbClient } from "@/data/types/db/common";
 import { UserUpdateData } from "@/data/types/db/user";
 import { DUserCreate, DUserInternal } from "@/data/types/domain/user";
 import { User } from "@/generated/prisma/client";
-import { UserCreateInput, UserWhereInput } from "@/generated/prisma/models";
+import {
+   UserCreateInput,
+   UserUpdateArgs,
+   UserWhereInput,
+} from "@/generated/prisma/models";
 
 import { toDUserInternal } from "./user.mapper";
 
@@ -71,13 +75,6 @@ export class UserRepository {
       });
    }
 
-   async pVerifyUserEmail(email: string): Promise<void> {
-      await this.prisma.user.update({
-         where: { email },
-         data: { emailVerified: new Date() },
-      });
-   }
-
    async pGetEmailVerified(email: string): Promise<boolean | null> {
       const user = await this.prisma.user.findFirst({
          where: { email },
@@ -87,6 +84,15 @@ export class UserRepository {
          return user.emailVerified != null;
       }
       return null;
+   }
+
+   async pVerifyUserEmail(email: string): Promise<void> {
+      const args = {
+         where: { email },
+         data: { emailVerified: new Date() },
+      } satisfies UserUpdateArgs;
+
+      await this.prisma.user.update(args);
    }
 
    async pDeleteUser(userId: string) {

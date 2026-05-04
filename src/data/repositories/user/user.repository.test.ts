@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { dtestData, ptestData } from "@tests";
 import { DeepMockProxy, mockReset } from "jest-mock-extended";
+import MockDate from "mockdate";
 
 import prisma from "@/data/repositories/prisma";
 import {
@@ -238,6 +239,33 @@ describe("pUpdatePassword tests", () => {
       };
 
       expect(result).toEqual(data);
+      expect(prismaMock.user.update).toHaveBeenCalledTimes(1);
+      expect(prismaMock.user.update).toHaveBeenCalledWith(expectedUpdateArgs);
+   });
+});
+
+describe("pVerifyUserEmail tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      MockDate.set("2025-09-27");
+   });
+
+   afterEach(() => {
+      MockDate.reset();
+   });
+
+   test("user updated - test", async () => {
+      const email = "test@email.com";
+      const data = ptestData.pUserUpdateData();
+      prismaMock.user.update.mockResolvedValue(data);
+
+      await userRepository.pVerifyUserEmail(email);
+
+      const expectedUpdateArgs: UserUpdateArgs = {
+         where: { email },
+         data: { emailVerified: new Date() },
+      };
+
       expect(prismaMock.user.update).toHaveBeenCalledTimes(1);
       expect(prismaMock.user.update).toHaveBeenCalledWith(expectedUpdateArgs);
    });
