@@ -8,8 +8,19 @@ jest.mock("@/lib/constants", () => ({
 }));
 
 import nodemailer from "nodemailer";
+import Mail from "nodemailer/lib/mailer";
+import SMTPTransport from "nodemailer/lib/smtp-transport";
+
+import {
+   APP_NAME,
+   getSmtpFrom,
+   getSmtpHost,
+   getSmtpPort,
+} from "@/lib/constants";
 
 import { SmtpEmailService } from "./smtp.email.service";
+import { EmailVerificationParams } from "./types";
+import { buildHtml, buildText } from "./utils";
 
 const nodemailerMock = nodemailer as jest.Mocked<typeof nodemailer>;
 const sendMailMock = jest.fn().mockResolvedValue({});
@@ -29,46 +40,39 @@ describe("SmtpEmailService tests", () => {
       service = new SmtpEmailService();
    });
 
-   it("sendVerificationEmail - creates transporter with correct config - test", async () => {
-      const params = {
+   it("sends email with correct params - test", async () => {
+      const params: EmailVerificationParams = {
          to: "user@example.com",
          name: "Test User",
          verificationUrl: "https://example.com/verify?token=abc123",
       };
 
       await service.sendVerificationEmail(params);
+
+      const expectedTransportOptions: SMTPTransport.Options = {
+         host: getSmtpHost(),
+         port: getSmtpPort(),
+         secure: false,
+         auth: undefined,
+      };
+
+      const expectedMailOptions: Mail.Options = {
+         from: `"${APP_NAME}" <${getSmtpFrom()}>`,
+         to: params.to,
+         subject: `${APP_NAME} – E-Mail-Adresse bestätigen`,
+         html: buildHtml(APP_NAME, params.name, params.verificationUrl),
+         text: buildText(APP_NAME, params.name, params.verificationUrl),
+      };
 
       expect(nodemailerMock.createTransport).toHaveBeenCalledTimes(1);
       expect(nodemailerMock.createTransport).toHaveBeenCalledWith(
-         expect.objectContaining({
-            host: "localhost",
-            port: 1025,
-            secure: false,
-         })
+         expectedTransportOptions
       );
-   });
-
-   it("sendVerificationEmail - sends email with correct params - test", async () => {
-      const params = {
-         to: "user@example.com",
-         name: "Test User",
-         verificationUrl: "https://example.com/verify?token=abc123",
-      };
-
-      await service.sendVerificationEmail(params);
-
       expect(sendMailMock).toHaveBeenCalledTimes(1);
-      expect(sendMailMock).toHaveBeenCalledWith(
-         expect.objectContaining({
-            to: params.to,
-            subject: expect.stringContaining("E-Mail-Adresse bestätigen"),
-            html: expect.stringContaining(params.verificationUrl),
-            text: expect.stringContaining(params.verificationUrl),
-         })
-      );
+      expect(sendMailMock).toHaveBeenCalledWith(expectedMailOptions);
    });
 
-   it("sendVerificationEmail - throws error on failure - test", async () => {
+   it("throws error on failure - test", async () => {
       sendMailMock.mockRejectedValue(new Error("SMTP connection refused"));
       const params = {
          to: "user@example.com",

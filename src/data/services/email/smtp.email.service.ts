@@ -1,4 +1,6 @@
 import nodemailer from "nodemailer";
+import Mail from "nodemailer/lib/mailer";
+import SMTPTransport from "nodemailer/lib/smtp-transport";
 
 import {
    APP_NAME,
@@ -23,19 +25,21 @@ export class SmtpEmailService implements IEmailService {
    async sendVerificationEmail(params: EmailVerificationParams): Promise<void> {
       const { to, name, verificationUrl } = params;
 
-      const transporter = nodemailer.createTransport({
+      const transportOptions: SMTPTransport.Options = {
          host: getSmtpHost(),
          port: getSmtpPort(),
          secure: false,
          auth: undefined,
-      });
+      };
+      const transporter = nodemailer.createTransport(transportOptions);
 
-      await transporter.sendMail({
+      const mailOptions: Mail.Options = {
          from: `"${this.senderName}" <${this.senderEmail}>`,
          to,
          subject: `${this.senderName} – E-Mail-Adresse bestätigen`,
          html: buildHtml(this.senderName, name, verificationUrl),
          text: buildText(this.senderName, name, verificationUrl),
-      });
+      };
+      await transporter.sendMail(mailOptions);
    }
 }
