@@ -16,31 +16,26 @@ type Props = {
 export const VerifyEmailForm = ({ email }: Props) => {
    const [isPending, startTransition] = useTransition();
 
-   const [resendResult, setResendResult] = useState<ActionResult | null>(null);
+   const [result, setResult] = useState<ActionResult | null>(null);
 
-   const handleResend = async () => {
-      if (!email) {
-         return;
-      }
-      setResendResult(null);
+   const handleResend = async (email: string) => {
+      setResult(null);
 
       startTransition(async () => {
          const result = await resendVerificationEmail(email);
-         setResendResult(result);
+         setResult(result);
       });
    };
 
    const info = () => {
       if (email) {
          return (
-            <p className="text-sm text-muted-foreground">
+            <p
+               className="text-sm text-muted-foreground"
+               data-testid="email-info"
+            >
                Wir haben eine Bestätigungs-E-Mail an{" "}
-               <span
-                  className="font-medium text-foreground"
-                  data-testid="email-display"
-               >
-                  {email}
-               </span>{" "}
+               <span className="font-medium text-foreground">{email}</span>{" "}
                gesendet. Klicke auf den Link in der E-Mail, um dein Konto zu
                aktivieren.
             </p>
@@ -53,16 +48,16 @@ export const VerifyEmailForm = ({ email }: Props) => {
       );
    };
 
-   const resendMessage = () => {
-      if (resendResult) {
-         const { success, message } = resendResult;
+   const resendResult = () => {
+      if (result) {
+         const { success, message } = result;
          const styles = success
             ? "border-green-200 bg-green-50 text-green-700"
             : "border-destructive/20 bg-destructive/10 text-destructive";
          return (
             <div
                className={cn("rounded-md border p-3 text-sm", styles)}
-               data-testid="resend-message"
+               data-testid="resend-result"
             >
                {message}
             </div>
@@ -76,7 +71,7 @@ export const VerifyEmailForm = ({ email }: Props) => {
             <Button
                variant="outline"
                className="w-full cursor-pointer"
-               onClick={handleResend}
+               onClick={() => handleResend(email)}
                disabled={isPending}
                data-testid="resend-btn"
             >
@@ -108,7 +103,7 @@ export const VerifyEmailForm = ({ email }: Props) => {
             neue E-Mail an.
          </p>
 
-         {resendMessage()}
+         {resendResult()}
 
          {resendBtn()}
 

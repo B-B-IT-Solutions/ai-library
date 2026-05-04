@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`VerifyEmailForm rendering tests VerifyEmailForm - email defined - renders with email display and resend btn - test 1`] = `
+exports[`VerifyEmailForm rendering tests email defined - test 1`] = `
 <div>
   <div
     class="space-y-6 text-center"
@@ -40,12 +40,12 @@ exports[`VerifyEmailForm rendering tests VerifyEmailForm - email defined - rende
     </div>
     <p
       class="text-sm text-muted-foreground"
+      data-testid="email-info"
     >
       Wir haben eine Bestätigungs-E-Mail an
        
       <span
         class="font-medium text-foreground"
-        data-testid="email-display"
       >
         user@test.com
       </span>
@@ -76,7 +76,7 @@ exports[`VerifyEmailForm rendering tests VerifyEmailForm - email defined - rende
 </div>
 `;
 
-exports[`VerifyEmailForm rendering tests VerifyEmailForm - email undefined - renders without email display and resend btn - test 1`] = `
+exports[`VerifyEmailForm rendering tests email undefined - test 1`] = `
 <div>
   <div
     class="space-y-6 text-center"
