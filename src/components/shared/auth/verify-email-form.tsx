@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { Mail } from "lucide-react";
 import Link from "next/link";
 
@@ -12,7 +12,8 @@ type Props = {
 };
 
 export const VerifyEmailForm = ({ email }: Props) => {
-   const [isLoading, setIsLoading] = useState(false);
+   const [isPending, startTransition] = useTransition();
+
    const [message, setMessage] = useState<{
       type: "success" | "error";
       text: string;
@@ -22,27 +23,21 @@ export const VerifyEmailForm = ({ email }: Props) => {
       if (!email) {
          return;
       }
-      setIsLoading(true);
-      setMessage(null);
 
-      const result = await resendVerificationEmail(email);
+      startTransition(async () => {
+         setMessage(null);
 
-      setMessage({
-         type: result.success ? "success" : "error",
-         text: result.message,
+         const result = await resendVerificationEmail(email);
+         setMessage({
+            type: result.success ? "success" : "error",
+            text: result.message,
+         });
       });
-      setIsLoading(false);
    };
 
-   return (
-      <div className="space-y-6 text-center" data-testid="verify-email-form">
-         <div className="flex justify-center">
-            <div className="rounded-full bg-primary/10 p-4">
-               <Mail className="h-10 w-10 text-primary" />
-            </div>
-         </div>
-
-         {email ? (
+   const info = () => {
+      if (email) {
+         return (
             <p className="text-sm text-muted-foreground">
                Wir haben eine Bestätigungs-E-Mail an{" "}
                <span
@@ -54,12 +49,47 @@ export const VerifyEmailForm = ({ email }: Props) => {
                gesendet. Klicke auf den Link in der E-Mail, um dein Konto zu
                aktivieren.
             </p>
-         ) : (
-            <p className="text-sm text-muted-foreground">
-               Bitte überprüfe dein Postfach und klicke auf den
-               Bestätigungslink.
-            </p>
-         )}
+         );
+      }
+      return (
+         <p className="text-sm text-muted-foreground">
+            Bitte überprüfe dein Postfach und klicke auf den Bestätigungslink.
+         </p>
+      );
+   };
+
+   const resendBtn = () => {
+      if (email) {
+         return (
+            <Button
+               variant="outline"
+               className="w-full cursor-pointer"
+               onClick={handleResend}
+               disabled={isPending}
+               data-testid="resend-btn"
+            >
+               {isPending ? (
+                  <span className="flex items-center gap-2">
+                     <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                     Wird gesendet...
+                  </span>
+               ) : (
+                  "Erneut senden"
+               )}
+            </Button>
+         );
+      }
+   };
+
+   return (
+      <div className="space-y-6 text-center" data-testid="verify-email-form">
+         <div className="flex justify-center">
+            <div className="rounded-full bg-primary/10 p-4">
+               <Mail className="h-10 w-10 text-primary" />
+            </div>
+         </div>
+
+         {info()}
 
          <p className="text-xs text-muted-foreground">
             Keine E-Mail erhalten? Prüfe deinen Spam-Ordner oder fordere eine
@@ -79,24 +109,7 @@ export const VerifyEmailForm = ({ email }: Props) => {
             </div>
          )}
 
-         {email && (
-            <Button
-               variant="outline"
-               className="w-full cursor-pointer"
-               onClick={handleResend}
-               disabled={isLoading}
-               data-testid="resend-btn"
-            >
-               {isLoading ? (
-                  <span className="flex items-center gap-2">
-                     <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                     Wird gesendet...
-                  </span>
-               ) : (
-                  "Erneut senden"
-               )}
-            </Button>
-         )}
+         {resendBtn()}
 
          <Link
             href="/auth/sign-in"
