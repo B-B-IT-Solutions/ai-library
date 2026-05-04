@@ -70,26 +70,26 @@ describe("verifyToken tests", () => {
       const email = "test@email.com";
       const token = "token-123";
 
-      tokenRepoMock.pFindToken.mockResolvedValue(null);
+      tokenRepoMock.pGetToken.mockResolvedValue(null);
 
       const result = await service.verifyToken(email, token);
 
       expect(result).toBe(false);
-      expect(tokenRepoMock.pFindToken).toHaveBeenCalledTimes(1);
-      expect(tokenRepoMock.pFindToken).toHaveBeenCalledWith(email, token);
+      expect(tokenRepoMock.pGetToken).toHaveBeenCalledTimes(1);
+      expect(tokenRepoMock.pGetToken).toHaveBeenCalledWith(email, token);
       expect(tokenRepoMock.pDeleteToken).not.toHaveBeenCalled();
    });
 
    it("token expired - test", async () => {
       const token = dtestData.dVerificationToken();
       token.expires = new Date("2025-09-27");
-      tokenRepoMock.pFindToken.mockResolvedValue(token);
+      tokenRepoMock.pGetToken.mockResolvedValue(token);
 
       const result = await service.verifyToken(token.identifier, token.token);
 
       expect(result).toBe(false);
-      expect(tokenRepoMock.pFindToken).toHaveBeenCalledTimes(1);
-      expect(tokenRepoMock.pFindToken).toHaveBeenCalledWith(
+      expect(tokenRepoMock.pGetToken).toHaveBeenCalledTimes(1);
+      expect(tokenRepoMock.pGetToken).toHaveBeenCalledWith(
          token.identifier,
          token.token
       );
@@ -103,13 +103,13 @@ describe("verifyToken tests", () => {
    it("token valid - test", async () => {
       const token = dtestData.dVerificationToken();
       token.expires = new Date("2035-09-27");
-      tokenRepoMock.pFindToken.mockResolvedValue(token);
+      tokenRepoMock.pGetToken.mockResolvedValue(token);
 
       const result = await service.verifyToken(token.identifier, token.token);
 
       expect(result).toBe(true);
-      expect(tokenRepoMock.pFindToken).toHaveBeenCalledTimes(1);
-      expect(tokenRepoMock.pFindToken).toHaveBeenCalledWith(
+      expect(tokenRepoMock.pGetToken).toHaveBeenCalledTimes(1);
+      expect(tokenRepoMock.pGetToken).toHaveBeenCalledWith(
          token.identifier,
          token.token
       );

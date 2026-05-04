@@ -21,7 +21,7 @@ export class VerificationTokenService {
    }
 
    async verifyToken(email: string, token: string): Promise<boolean> {
-      const record = await this.tokenRepo.pFindToken(email, token);
+      const record = await this.tokenRepo.pGetToken(email, token);
 
       if (!record) {
          return false;

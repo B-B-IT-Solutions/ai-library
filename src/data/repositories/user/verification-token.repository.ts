@@ -1,5 +1,11 @@
 import { DbClient } from "@/data/types/db/common";
 import { DVerificationToken } from "@/data/types/domain/user";
+import {
+   VerificationTokenCreateArgs,
+   VerificationTokenDeleteArgs,
+   VerificationTokenDeleteManyArgs,
+   VerificationTokenFindUniqueArgs,
+} from "@/generated/prisma/models";
 
 const TOKEN_EXPIRY_HOURS = 24;
 
@@ -16,29 +22,41 @@ export class VerificationTokenRepository {
          Date.now() + TOKEN_EXPIRY_HOURS * 60 * 60 * 1000
       );
 
-      await this.prisma.verificationToken.deleteMany({
-         where: { identifier: email },
-      });
+      const deleteArgs = {
+         where: {
+            identifier: email,
+         },
+      } satisfies VerificationTokenDeleteManyArgs;
+      await this.prisma.verificationToken.deleteMany(deleteArgs);
 
-      await this.prisma.verificationToken.create({
-         data: { identifier: email, token, expires },
-      });
+      const createArgs = {
+         data: {
+            identifier: email,
+            token,
+            expires,
+         },
+      } satisfies VerificationTokenCreateArgs;
+      await this.prisma.verificationToken.create(createArgs);
 
       return token;
    }
 
-   async pFindToken(
+   async pGetToken(
       email: string,
       token: string
    ): Promise<DVerificationToken | null> {
-      return await this.prisma.verificationToken.findUnique({
+      const args = {
          where: { identifier_token: { identifier: email, token } },
-      });
+      } satisfies VerificationTokenFindUniqueArgs;
+
+      return await this.prisma.verificationToken.findUnique(args);
    }
 
    async pDeleteToken(email: string, token: string) {
-      await this.prisma.verificationToken.delete({
+      const deleteArgs = {
          where: { identifier_token: { identifier: email, token } },
-      });
+      } satisfies VerificationTokenDeleteArgs;
+
+      await this.prisma.verificationToken.delete(deleteArgs);
    }
 }
