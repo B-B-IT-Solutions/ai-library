@@ -312,7 +312,7 @@ describe("getUserById tests", () => {
       jest.clearAllMocks();
    });
 
-   it("getUserById - user null - test", async () => {
+   it("user null - test", async () => {
       const userId = "user-id-1";
       userRepoMock.pGetUserById.mockResolvedValue(null);
 
@@ -323,7 +323,7 @@ describe("getUserById tests", () => {
       expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(userId);
    });
 
-   it("getUserById - user retrieved - test", async () => {
+   it("user retrieved - test", async () => {
       const user = dtestData.dUserInternal();
       userRepoMock.pGetUserById.mockResolvedValue(user);
 
@@ -334,6 +334,36 @@ describe("getUserById tests", () => {
       expect(result).toEqual(expectedResult);
       expect(userRepoMock.pGetUserById).toHaveBeenCalledTimes(1);
       expect(userRepoMock.pGetUserById).toHaveBeenCalledWith(user.id);
+   });
+});
+
+describe("getUserByEmail tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("user null - test", async () => {
+      const email = "test@email.com";
+      userRepoMock.pGetUserByEmail.mockResolvedValue(null);
+
+      const result = await userService.getUserByEmail(email);
+
+      expect(result).toBeNull();
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledWith(email);
+   });
+
+   it("user retrieved - test", async () => {
+      const user = dtestData.dUserInternal();
+      userRepoMock.pGetUserByEmail.mockResolvedValue(user);
+
+      const result = await userService.getUserByEmail(user.email);
+
+      const expectedResult = toDUser(user);
+
+      expect(result).toEqual(expectedResult);
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledWith(user.email);
    });
 });
 
@@ -706,37 +736,6 @@ describe("saveLegalNoticesAccepted tests", () => {
          expectedLegalNoticesParams
       );
       expect(userRepoMock.pUpdateUser).not.toHaveBeenCalled();
-   });
-});
-
-describe("getUserByEmail tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("getUserByEmail - user null - test", async () => {
-      userRepoMock.pGetUserByEmail.mockResolvedValue(null);
-
-      const result = await userService.getUserByEmail("test@email.com");
-
-      expect(result).toBeNull();
-      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledTimes(1);
-      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledWith(
-         "test@email.com"
-      );
-   });
-
-   it("getUserByEmail - user retrieved - test", async () => {
-      const user = dtestData.dUserInternal();
-      userRepoMock.pGetUserByEmail.mockResolvedValue(user);
-
-      const result = await userService.getUserByEmail(user.email);
-
-      const expectedResult = toDUser(user);
-
-      expect(result).toEqual(expectedResult);
-      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledTimes(1);
-      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledWith(user.email);
    });
 });
 
