@@ -185,10 +185,11 @@ export class ServiceFactory {
 
    getEmailService(): IEmailService {
       if (!this.emailService) {
-         this.emailService =
-            EMAIL_PROVIDER === "smtp"
-               ? new SmtpEmailService()
-               : new BrevoEmailService();
+         if (EMAIL_PROVIDER === "smtp") {
+            this.emailService = new SmtpEmailService();
+         } else {
+            this.emailService = new BrevoEmailService();
+         }
       }
       return this.emailService;
    }

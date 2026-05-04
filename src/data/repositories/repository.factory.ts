@@ -37,6 +37,15 @@ export class RepositoryFactory {
       return this.userRepo;
    }
 
+   verificationTokenRepository(): VerificationTokenRepository {
+      if (!this.verificationTokenRepo) {
+         this.verificationTokenRepo = new VerificationTokenRepository(
+            this.prisma
+         );
+      }
+      return this.verificationTokenRepo;
+   }
+
    cartRepository(): CartRepository {
       if (!this.cartRepo) {
          this.cartRepo = new CartRepository(this.prisma);
@@ -114,14 +123,5 @@ export class RepositoryFactory {
          this.publicSettingsRepo = new PublicSettingsRepository(this.prisma);
       }
       return this.publicSettingsRepo;
-   }
-
-   verificationTokenRepository(): VerificationTokenRepository {
-      if (!this.verificationTokenRepo) {
-         this.verificationTokenRepo = new VerificationTokenRepository(
-            this.prisma
-         );
-      }
-      return this.verificationTokenRepo;
    }
 }

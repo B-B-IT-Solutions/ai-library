@@ -9,7 +9,7 @@ import { RepositoryFactory } from "./repository.factory";
 import { PublicSettingsRepository, SettingsRepository } from "./settings";
 import { SubscriptionRepository } from "./subscription";
 import { PublicTemplateRepository, TemplateRepository } from "./template";
-import { UserRepository } from "./user";
+import { UserRepository, VerificationTokenRepository } from "./user";
 
 describe("RepositoryFactory tests", () => {
    let mockPrisma: PrismaClient;
@@ -29,6 +29,19 @@ describe("RepositoryFactory tests", () => {
       it("existing instance - test", () => {
          const repository1 = factory.userRepository();
          const repository2 = factory.userRepository();
+         expect(repository1).toBe(repository2);
+      });
+   });
+
+   describe("verificationTokenRepository tests", () => {
+      it("new instance - test", () => {
+         const repository = factory.verificationTokenRepository();
+         expect(repository).toBeInstanceOf(VerificationTokenRepository);
+      });
+
+      it("existing instance - test", () => {
+         const repository1 = factory.verificationTokenRepository();
+         const repository2 = factory.verificationTokenRepository();
          expect(repository1).toBe(repository2);
       });
    });
