@@ -87,16 +87,16 @@ export class UserService {
       await this.userRepository.pVerifyUserEmail(email);
    }
 
-   async getUserByEmail(email: string): Promise<DUser | null> {
-      const user = await this.userRepository.pGetUserByEmail(email);
+   async getUserById(userId: string): Promise<DUser | null> {
+      const user = await this.userRepository.pGetUserById(userId);
       if (user) {
          return toDUser(user);
       }
       return null;
    }
 
-   async getUserById(userId: string): Promise<DUser | null> {
-      const user = await this.userRepository.pGetUserById(userId);
+   async getUserByEmail(email: string): Promise<DUser | null> {
+      const user = await this.userRepository.pGetUserByEmail(email);
       if (user) {
          return toDUser(user);
       }
