@@ -1,9 +1,8 @@
 jest.mock("@/data/services/verification-token");
 jest.mock("@/data/services/user");
 
-import { DeepMockProxy } from "jest-mock-extended";
+import { ntestData } from "@tests";
 import { redirect } from "next/navigation";
-import { NextRequest } from "next/server";
 
 import { UserService } from "@/data/services/user";
 import { VerificationTokenService } from "@/data/services/verification-token";
@@ -11,8 +10,6 @@ import { VerificationTokenService } from "@/data/services/verification-token";
 import { GET } from "./route";
 
 const redirectMock = redirect as jest.MockedFunction<typeof redirect>;
-
-const requestMock = NextRequest as unknown as DeepMockProxy<NextRequest>;
 
 const sVerifyToken = VerificationTokenService.prototype.verifyToken;
 const sVerifyEmail = UserService.prototype.verifyEmail;
@@ -24,23 +21,18 @@ const sVerifyEmailMock = sVerifyEmail as jest.MockedFunction<
    typeof sVerifyEmail
 >;
 
-const setupSearchParams = (params: Record<string, string | null>) => {
-   requestMock.nextUrl.searchParams.get.mockImplementation(
-      (key: string) => params[key] ?? null
-   );
-};
-
 describe("GET /api/auth/verify-email tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
    });
 
    it("GET - missing token and email - redirects to invalid_link - test", async () => {
-      const token = null;
-      const email = null;
-      setupSearchParams({ token, email });
+      const token = "";
+      const email = "";
+      const nextUrl = ntestData.nextURL({ token, email });
+      const request = ntestData.nextRequest(nextUrl);
 
-      await GET(requestMock);
+      await GET(request);
 
       expect(redirectMock).toHaveBeenCalledTimes(1);
       expect(redirectMock).toHaveBeenCalledWith(
@@ -51,11 +43,12 @@ describe("GET /api/auth/verify-email tests", () => {
    });
 
    it("GET - missing token - redirects to invalid_link - test", async () => {
-      const token = null;
+      const token = "";
       const email = "user@test.com";
-      setupSearchParams({ token, email });
+      const nextUrl = ntestData.nextURL({ token, email });
+      const request = ntestData.nextRequest(nextUrl);
 
-      await GET(requestMock);
+      await GET(request);
 
       expect(redirectMock).toHaveBeenCalledTimes(1);
       expect(redirectMock).toHaveBeenCalledTimes(1);
@@ -68,10 +61,11 @@ describe("GET /api/auth/verify-email tests", () => {
 
    it("GET - missing email - redirects to invalid_link - test", async () => {
       const token = "abc-123";
-      const email = null;
-      setupSearchParams({ token, email });
+      const email = "";
+      const nextUrl = ntestData.nextURL({ token, email });
+      const request = ntestData.nextRequest(nextUrl);
 
-      await GET(requestMock);
+      await GET(request);
 
       expect(redirectMock).toHaveBeenCalledTimes(1);
       expect(redirectMock).toHaveBeenCalledWith(
@@ -84,12 +78,12 @@ describe("GET /api/auth/verify-email tests", () => {
    it("GET - invalid token - redirects to expired_link - test", async () => {
       const token = "invalid-token";
       const email = "user@test.com";
-      setupSearchParams({ token, email });
+      const nextUrl = ntestData.nextURL({ token, email });
+      const request = ntestData.nextRequest(nextUrl);
 
-      setupSearchParams({ token, email });
       sVerifyTokenMock.mockResolvedValue(false);
 
-      await GET(requestMock);
+      await GET(request);
 
       expect(sVerifyTokenMock).toHaveBeenCalledTimes(1);
       expect(sVerifyTokenMock).toHaveBeenCalledWith(email, token);
@@ -103,12 +97,13 @@ describe("GET /api/auth/verify-email tests", () => {
    it("GET - valid token - verifies email and redirects to verified - test", async () => {
       const token = "valid-token";
       const email = "user@test.com";
-      setupSearchParams({ token, email });
+      const nextUrl = ntestData.nextURL({ token, email });
+      const request = ntestData.nextRequest(nextUrl);
 
       sVerifyTokenMock.mockResolvedValue(true);
       sVerifyEmailMock.mockResolvedValue(undefined);
 
-      await GET(requestMock);
+      await GET(request);
 
       expect(sVerifyTokenMock).toHaveBeenCalledTimes(1);
       expect(sVerifyTokenMock).toHaveBeenCalledWith(email, token);

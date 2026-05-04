@@ -1,3 +1,4 @@
+import { NextURL } from "next/dist/server/web/next-url";
 import { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { NextRequest } from "next/server";
@@ -21,8 +22,19 @@ export const headers = (init: HeadersInit = {}): ReadonlyHeaders => {
    return new Headers(init);
 };
 
-export const nextRequest = (body: object = {}): NextRequest => {
+export const nextURL = (params: Record<string, string> = {}): NextURL => {
+   const searchParams = new URLSearchParams(params);
    return {
+      searchParams,
+   } as NextURL;
+};
+
+export const nextRequest = (
+   nextUrl = nextURL(),
+   body: object = {}
+): NextRequest => {
+   return {
+      nextUrl,
       json: async () => body,
    } as NextRequest;
 };
