@@ -70,7 +70,7 @@ describe("CredentialsSignInForm rendering tests", () => {
       jest.resetAllMocks();
    });
 
-   it("CredentialsSignInForm - callbackUrl defined -  rendered test", async () => {
+   it("callbackUrl defined -  rendered test", async () => {
       const params = { callbackUrl: "callbackUrl/test-1" };
       const searchParams = new URLSearchParams(
          params
@@ -88,7 +88,7 @@ describe("CredentialsSignInForm rendering tests", () => {
       expect(container).toMatchSnapshot();
    });
 
-   it("CredentialsSignInForm - callbackUrl undefined -  rendered test", async () => {
+   it("callbackUrl undefined -  rendered test", async () => {
       const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
       useSearchParamsMock.mockReturnValue(searchParams);
 
@@ -109,7 +109,7 @@ describe("CredentialsSignInForm functionality tests", () => {
       jest.resetAllMocks();
    });
 
-   it("CredentialsSignInForm - sign in clicked - success true - test", async () => {
+   it("sign in clicked - success true - test", async () => {
       const singInResult = {
          success: true,
          message: "Signed in successfully",
@@ -166,7 +166,7 @@ describe("CredentialsSignInForm functionality tests", () => {
       });
    });
 
-   it("CredentialsSignInForm - sign in clicked - success false - test", async () => {
+   it("sign in clicked - success false - test", async () => {
       const singInResult = {
          success: false,
          message: "Invalid email or password",
@@ -226,7 +226,7 @@ describe("CredentialsSignInForm functionality tests", () => {
       assertInDocument(rootError);
    });
 
-   it("CredentialsSignInForm - show password btn clicked - test", async () => {
+   it("show password btn clicked - test", async () => {
       const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
       useSearchParamsMock.mockReturnValue(searchParams);
       render(<CredentialsSignInForm />);
@@ -261,7 +261,7 @@ describe("CredentialsSignInForm functionality tests", () => {
       });
    });
 
-   it("CredentialsSignInForm - sign-up link clicked - test", async () => {
+   it("sign-up link clicked - test", async () => {
       const searchParams = new URLSearchParams() as ReadonlyURLSearchParams;
       useSearchParamsMock.mockReturnValue(searchParams);
 
