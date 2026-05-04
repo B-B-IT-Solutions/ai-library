@@ -1,4 +1,5 @@
 import { DbClient } from "@/data/types/db/common";
+import { DVerificationToken } from "@/data/types/domain/user";
 
 const TOKEN_EXPIRY_HOURS = 24;
 
@@ -26,7 +27,10 @@ export class VerificationTokenRepository {
       return token;
    }
 
-   async pFindToken(email: string, token: string) {
+   async pFindToken(
+      email: string,
+      token: string
+   ): Promise<DVerificationToken | null> {
       return await this.prisma.verificationToken.findUnique({
          where: { identifier_token: { identifier: email, token } },
       });

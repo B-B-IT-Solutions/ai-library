@@ -43,3 +43,9 @@ export type DUserUpdate = z.infer<typeof updateProfileSchema>;
 export type DUserPasswordUpdate = z.infer<typeof updatePasswordSchema>;
 
 export type DUserAccountDelete = z.infer<typeof deleteAccountSchema>;
+
+export type DVerificationToken = {
+   identifier: string;
+   token: string;
+   expires: Date;
+};

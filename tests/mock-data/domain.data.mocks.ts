@@ -68,6 +68,7 @@ import {
    DUserCreate,
    DUserInternal,
    DUserUpdate,
+   DVerificationToken,
 } from "@/data/types/domain/user";
 import { LoginUser } from "@/data/types/next-auth";
 
@@ -97,6 +98,14 @@ export const dUserInternal = (index = 1): DUserInternal => {
       password: `password-${index}`,
       stripeCustomerId: `ac82ecc9-de60-4fba-acf6-8b57ad9a91a${index}`,
       emailVerified: new Date("2025-09-27").toISOString(),
+   };
+};
+
+export const dVerificationToken = (index = 1): DVerificationToken => {
+   return {
+      identifier: `user${index}@email.com`,
+      token: `token-${index}`,
+      expires: new Date("2035-09-27"),
    };
 };
 
