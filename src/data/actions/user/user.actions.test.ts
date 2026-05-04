@@ -13,7 +13,7 @@ import { redirect } from "next/navigation";
 import { signIn, signOut } from "@/auth";
 import { requireUser } from "@/data/actions/auth-utils";
 import prisma from "@/data/repositories/prisma";
-import { UserService } from "@/data/services/user";
+import { UserService, VerificationTokenService } from "@/data/services/user";
 import {
    DUserAccountDelete,
    DUserPasswordUpdate,
@@ -21,6 +21,7 @@ import {
    DUserSignUp,
    DUserUpdate,
 } from "@/data/types/domain/user";
+import { ActionResult } from "@/data/types/utils";
 
 import {
    deleteUser,
@@ -36,10 +37,15 @@ import {
 const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
 const sSignUpUser = UserService.prototype.signUpUser;
+const sIsEmailVerified = UserService.prototype.isEmailVerified;
 const sGetUserById = UserService.prototype.getUserById;
+const sGetUserByEmail = UserService.prototype.getUserByEmail;
 const sUpdateUser = UserService.prototype.updateUser;
 const sUpdatePassword = UserService.prototype.updatePassword;
 const sDeleteUser = UserService.prototype.deleteUser;
+
+const sSendVerificationEmail =
+   VerificationTokenService.prototype.sendVerificationEmail;
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
@@ -52,24 +58,22 @@ const signOutMock = signOut as jest.MockedFunction<typeof signOut>;
 const redirectMock = redirect as jest.MockedFunction<typeof redirect>;
 
 const sSignUpUserMock = sSignUpUser as jest.MockedFunction<typeof sSignUpUser>;
-const sIsEmailVerifiedMock = UserService.prototype
-   .isEmailVerified as jest.MockedFunction<
-   typeof UserService.prototype.isEmailVerified
+const sIsEmailVerifiedMock = sIsEmailVerified as jest.MockedFunction<
+   typeof sIsEmailVerified
 >;
-const sGetUserByEmailMock = UserService.prototype
-   .getUserByEmail as jest.MockedFunction<
-   typeof UserService.prototype.getUserByEmail
->;
-
 const sGetUserByIdMock = sGetUserById as jest.MockedFunction<
    typeof sGetUserById
 >;
-
+const sGetUserByEmailMock = sGetUserByEmail as jest.MockedFunction<
+   typeof sGetUserByEmail
+>;
 const sUpdateUserMock = sUpdateUser as jest.MockedFunction<typeof sUpdateUser>;
-
 const sUpdatePasswordMock = sUpdatePassword as jest.MockedFunction<
    typeof sUpdatePassword
 >;
+
+const sSendVerificationEmailMock =
+   sSendVerificationEmail as jest.MockedFunction<typeof sSendVerificationEmail>;
 
 const sDeleteUserMock = sDeleteUser as jest.MockedFunction<typeof sDeleteUser>;
 
@@ -259,6 +263,128 @@ describe("signUpUser tests", () => {
       expect(result).toEqual({ success: false, message: "DB error" });
       expect(sSignUpUserMock).toHaveBeenCalledTimes(1);
       expect(redirectMock).not.toHaveBeenCalled();
+   });
+});
+
+describe("resendVerificationEmail tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("user not found - test", async () => {
+      sIsEmailVerifiedMock.mockResolvedValue(null);
+
+      const email = "test@email.com";
+      const result = await resendVerificationEmail(email);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "E-Mail-Adresse nicht gefunden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sIsEmailVerifiedMock).toHaveBeenCalledTimes(1);
+      expect(sIsEmailVerifiedMock).toHaveBeenCalledWith(email);
+      expect(sGetUserByEmailMock).not.toHaveBeenCalled();
+      expect(sSendVerificationEmailMock).not.toHaveBeenCalled();
+   });
+
+   it("email already verified - test", async () => {
+      sIsEmailVerifiedMock.mockResolvedValue(true);
+
+      const email = "test@email.com";
+      const result = await resendVerificationEmail(email);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "E-Mail-Adresse ist bereits bestätigt",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sIsEmailVerifiedMock).toHaveBeenCalledTimes(1);
+      expect(sIsEmailVerifiedMock).toHaveBeenCalledWith(email);
+      expect(sGetUserByEmailMock).not.toHaveBeenCalled();
+      expect(sSendVerificationEmailMock).not.toHaveBeenCalled();
+   });
+
+   it("user not found by email - test", async () => {
+      sIsEmailVerifiedMock.mockResolvedValue(false);
+      sGetUserByEmailMock.mockResolvedValue(null);
+
+      const email = "test@email.com";
+      const result = await resendVerificationEmail(email);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "E-Mail-Adresse nicht gefunden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sIsEmailVerifiedMock).toHaveBeenCalledTimes(1);
+      expect(sIsEmailVerifiedMock).toHaveBeenCalledWith(email);
+      expect(sGetUserByEmailMock).toHaveBeenCalledTimes(1);
+      expect(sGetUserByEmailMock).toHaveBeenCalledWith(email);
+      expect(sSendVerificationEmailMock).not.toHaveBeenCalled();
+   });
+
+   it("error - test", async () => {
+      const user = dtestData.dUser();
+      sIsEmailVerifiedMock.mockResolvedValue(false);
+      sGetUserByEmailMock.mockResolvedValue(user);
+
+      const errorMessage = "API Error";
+      const error = new Error(errorMessage);
+      sSendVerificationEmailMock.mockRejectedValue(error);
+
+      const result = await resendVerificationEmail(user.email);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Verifizierungs-E-Mail konnte nicht gesendet werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sIsEmailVerifiedMock).toHaveBeenCalledTimes(1);
+      expect(sIsEmailVerifiedMock).toHaveBeenCalledWith(user.email);
+      expect(sGetUserByEmailMock).toHaveBeenCalledTimes(1);
+      expect(sGetUserByEmailMock).toHaveBeenCalledWith(user.email);
+      expect(sSendVerificationEmailMock).toHaveBeenCalledTimes(1);
+      expect(sSendVerificationEmailMock).toHaveBeenCalledWith(
+         user.email,
+         user.name
+      );
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+
+   it("success - test", async () => {
+      const user = dtestData.dUser();
+      sIsEmailVerifiedMock.mockResolvedValue(false);
+      sGetUserByEmailMock.mockResolvedValue(user);
+      sSendVerificationEmailMock.mockResolvedValue();
+
+      const result = await resendVerificationEmail(user.email);
+
+      const expectedResult: ActionResult = {
+         success: true,
+         message: "Verifizierungs-E-Mail wurde erneut gesendet",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sIsEmailVerifiedMock).toHaveBeenCalledTimes(1);
+      expect(sIsEmailVerifiedMock).toHaveBeenCalledWith(user.email);
+      expect(sGetUserByEmailMock).toHaveBeenCalledTimes(1);
+      expect(sGetUserByEmailMock).toHaveBeenCalledWith(user.email);
+      expect(sSendVerificationEmailMock).toHaveBeenCalledTimes(1);
+      expect(sSendVerificationEmailMock).toHaveBeenCalledWith(
+         user.email,
+         user.name
+      );
    });
 });
 
@@ -541,60 +667,5 @@ describe("deleteUser tests", () => {
       await expect(fn).rejects.toThrow(Error);
       expect(sDeleteUserMock).not.toHaveBeenCalled();
       expect(signOutMock).not.toHaveBeenCalled();
-   });
-});
-
-describe("resendVerificationEmail tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-   });
-
-   it("resendVerificationEmail - user not found - test", async () => {
-      sIsEmailVerifiedMock.mockResolvedValue(null);
-
-      const result = await resendVerificationEmail("test@email.com");
-
-      expect(result).toEqual({
-         success: false,
-         message: "E-Mail-Adresse nicht gefunden",
-      });
-   });
-
-   it("resendVerificationEmail - email already verified - test", async () => {
-      sIsEmailVerifiedMock.mockResolvedValue(true);
-
-      const result = await resendVerificationEmail("test@email.com");
-
-      expect(result).toEqual({
-         success: false,
-         message: "E-Mail-Adresse ist bereits bestätigt",
-      });
-   });
-
-   it("resendVerificationEmail - email not verified - user not found by email - test", async () => {
-      sIsEmailVerifiedMock.mockResolvedValue(false);
-      sGetUserByEmailMock.mockResolvedValue(null);
-
-      const result = await resendVerificationEmail("test@email.com");
-
-      expect(result).toEqual({
-         success: false,
-         message: "E-Mail-Adresse nicht gefunden",
-      });
-   });
-
-   it("resendVerificationEmail - success - test", async () => {
-      const user = dtestData.dUser();
-      sIsEmailVerifiedMock.mockResolvedValue(false);
-      sGetUserByEmailMock.mockResolvedValue(user);
-
-      const result = await resendVerificationEmail(user.email);
-
-      expect(result).toEqual({
-         success: true,
-         message: "Verifizierungs-E-Mail wurde erneut gesendet",
-      });
-      expect(sIsEmailVerifiedMock).toHaveBeenCalledWith(user.email);
-      expect(sGetUserByEmailMock).toHaveBeenCalledWith(user.email);
    });
 });

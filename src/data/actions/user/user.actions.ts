@@ -95,6 +95,7 @@ export const resendVerificationEmail = async (
             message: "E-Mail-Adresse nicht gefunden",
          };
       }
+
       if (isVerified === true) {
          return {
             success: false,
