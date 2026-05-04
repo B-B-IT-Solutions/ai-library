@@ -1,5 +1,5 @@
 import { VerificationTokenRepository } from "@/data/repositories/user";
-import { IEmailService } from "@/data/services/email";
+import { EmailVerificationParams, IEmailService } from "@/data/services/email";
 import { APP_URL } from "@/lib/constants";
 
 export class VerificationTokenService {
@@ -12,11 +12,12 @@ export class VerificationTokenService {
       const token = await this.tokenRepo.pCreateToken(email);
       const verificationUrl = `${APP_URL}/api/auth/verify-email?token=${token}&email=${encodeURIComponent(email)}`;
 
-      await this.emailService.sendVerificationEmail({
+      const params: EmailVerificationParams = {
          to: email,
          name,
          verificationUrl,
-      });
+      };
+      await this.emailService.sendVerificationEmail(params);
    }
 
    async verifyToken(email: string, token: string): Promise<boolean> {
