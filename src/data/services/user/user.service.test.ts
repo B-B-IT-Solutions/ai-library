@@ -61,10 +61,10 @@ const userRepoMock = userRepo as DeepMockProxy<UserRepository>;
 
 const userService = new UserService(
    userRepoMock,
+   verificationTokenServiceMock,
    cartServiceMock,
    orderServiceMock,
-   iubendaServiceMock,
-   verificationTokenServiceMock
+   iubendaServiceMock
 );
 
 describe("signUpUser tests", () => {
