@@ -16,20 +16,20 @@ export const metadata: Metadata = {
    title: "E-Mail bestätigen",
 };
 
-export type VerifyEmailPageSearchParams = {
+export type PageSearchParams = {
    email?: string;
 };
 
-export type VerifyEmailPageProps = {
-   searchParams: Promise<VerifyEmailPageSearchParams>;
+export type PageProps = {
+   searchParams: Promise<PageSearchParams>;
 };
 
-const VerifyEmailPage = async (props: VerifyEmailPageProps) => {
-   const { email } = await props.searchParams;
+const VerifyEmailPage = async ({ searchParams }: PageProps) => {
+   const { email } = await searchParams;
 
    return (
       <div
-         className="flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4"
+         className="flex min-h-screen w-full items-center justify-center bg-linear-to-br from-background via-background to-primary/5 p-4"
          data-testid="verify-email-page"
       >
          <div className="w-full max-w-md">
