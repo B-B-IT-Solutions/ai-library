@@ -24,7 +24,7 @@ export const GET = async (request: NextRequest) => {
    const userService = getUserService();
    await userService.verifyEmail(email);
 
-   redirect("/auth/sign-in?verified=true");
+   return redirect("/auth/sign-in?verified=true");
 };
 
 const getTokenService = (dbClient: DbClient = prisma) => {
