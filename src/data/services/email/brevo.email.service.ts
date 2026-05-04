@@ -24,8 +24,8 @@ export class BrevoEmailService implements IEmailService {
          to: [{ email: to, name }],
          sender: { email: this.senderEmail, name: this.senderName },
          subject: `${this.senderName} – E-Mail-Adresse bestätigen`,
-         htmlContent: buildHtml(name, verificationUrl),
-         textContent: buildText(name, verificationUrl),
+         htmlContent: buildHtml(this.senderName, name, verificationUrl),
+         textContent: buildText(this.senderName, name, verificationUrl),
       });
    }
 }

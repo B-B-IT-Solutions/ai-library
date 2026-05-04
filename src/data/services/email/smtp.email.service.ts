@@ -34,8 +34,8 @@ export class SmtpEmailService implements IEmailService {
          from: `"${this.senderName}" <${this.senderEmail}>`,
          to,
          subject: `${this.senderName} – E-Mail-Adresse bestätigen`,
-         html: buildHtml(name, verificationUrl),
-         text: buildText(name, verificationUrl),
+         html: buildHtml(this.senderName, name, verificationUrl),
+         text: buildText(this.senderName, name, verificationUrl),
       });
    }
 }
