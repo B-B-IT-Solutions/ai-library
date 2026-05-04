@@ -29,6 +29,7 @@ import { EMAIL_PROVIDER } from "@/lib/constants";
 export class ServiceFactory {
    private repositories: RepositoryFactory;
    private userService?: UserService;
+   private verificationTokenService?: VerificationTokenService;
    private cartService?: CartService;
    private collectionService?: CollectionService;
    private publicCollectionService?: PublicCollectionService;
@@ -42,7 +43,6 @@ export class ServiceFactory {
    private publicSettingsService?: PublicSettingsService;
    private iubendaService?: IubendaService;
    private emailService?: IEmailService;
-   private verificationTokenService?: VerificationTokenService;
 
    constructor(prisma: DbClient) {
       this.repositories = new RepositoryFactory(prisma);
@@ -59,6 +59,16 @@ export class ServiceFactory {
          );
       }
       return this.userService;
+   }
+
+   getVerificationTokenService(): VerificationTokenService {
+      if (!this.verificationTokenService) {
+         this.verificationTokenService = new VerificationTokenService(
+            this.repositories.verificationTokenRepository(),
+            this.getEmailService()
+         );
+      }
+      return this.verificationTokenService;
    }
 
    getCartService(): CartService {
@@ -181,15 +191,5 @@ export class ServiceFactory {
                : new BrevoEmailService();
       }
       return this.emailService;
-   }
-
-   getVerificationTokenService(): VerificationTokenService {
-      if (!this.verificationTokenService) {
-         this.verificationTokenService = new VerificationTokenService(
-            this.repositories.verificationTokenRepository(),
-            this.getEmailService()
-         );
-      }
-      return this.verificationTokenService;
    }
 }

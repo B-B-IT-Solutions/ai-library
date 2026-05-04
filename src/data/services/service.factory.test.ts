@@ -28,6 +28,19 @@ describe("getUserService tests", () => {
    });
 });
 
+describe("getVerificationTokenService tests", () => {
+   it("new instance - test", () => {
+      const service = serviceFactory.getVerificationTokenService();
+      expect(service).toBeInstanceOf(VerificationTokenService);
+   });
+
+   it("existing instance - test", () => {
+      const service1 = serviceFactory.getVerificationTokenService();
+      const service2 = serviceFactory.getVerificationTokenService();
+      expect(service1).toBe(service2);
+   });
+});
+
 describe("getCartService tests", () => {
    it("new instance - test", () => {
       const service = serviceFactory.getCartService();
@@ -193,19 +206,6 @@ describe("getEmailService tests", () => {
    it("existing instance - test", () => {
       const service1 = serviceFactory.getEmailService();
       const service2 = serviceFactory.getEmailService();
-      expect(service1).toBe(service2);
-   });
-});
-
-describe("getVerificationTokenService tests", () => {
-   it("new instance - test", () => {
-      const service = serviceFactory.getVerificationTokenService();
-      expect(service).toBeInstanceOf(VerificationTokenService);
-   });
-
-   it("existing instance - test", () => {
-      const service1 = serviceFactory.getVerificationTokenService();
-      const service2 = serviceFactory.getVerificationTokenService();
       expect(service1).toBe(service2);
    });
 });
