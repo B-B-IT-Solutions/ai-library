@@ -76,6 +76,7 @@ export const signInWithCredentials = async (
       };
    } catch (error) {
       if (isRedirectError(error)) {
+         console.error(formatError(error));
          throw error;
       }
       return {

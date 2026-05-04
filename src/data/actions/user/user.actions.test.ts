@@ -175,10 +175,11 @@ describe("signUpUser tests", () => {
 describe("signInWithCredentials tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
    });
 
    afterEach(() => {
-      signInMock.mockReset();
+      jest.restoreAllMocks();
    });
 
    it("invalid email/password - test", async () => {
@@ -197,6 +198,7 @@ describe("signInWithCredentials tests", () => {
 
       expect(result).toEqual(expectedResult);
       expect(signInMock).not.toHaveBeenCalled();
+      expect(sIsEmailVerifiedMock).not.toHaveBeenCalled();
    });
 
    it("email verified false - test", async () => {
@@ -284,6 +286,8 @@ describe("signInWithCredentials tests", () => {
       expect(sIsEmailVerifiedMock).toHaveBeenCalledWith(formData.email);
       expect(signInMock).toHaveBeenCalledTimes(1);
       expect(signInMock).toHaveBeenCalledWith("credentials", formData);
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
    });
 });
 
