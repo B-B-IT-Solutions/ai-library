@@ -49,7 +49,7 @@ const sSendVerificationEmail =
 
 const requireUserMock = requireUser as jest.MockedFunction<typeof requireUser>;
 
-const isRedirectErrorock = isRedirectError as jest.MockedFunction<
+const isRedirectErrorMock = isRedirectError as jest.MockedFunction<
    typeof isRedirectError
 >;
 const signInMock = signIn as jest.MockedFunction<typeof signIn>;
@@ -76,6 +76,100 @@ const sSendVerificationEmailMock =
    sSendVerificationEmail as jest.MockedFunction<typeof sSendVerificationEmail>;
 
 const sDeleteUserMock = sDeleteUser as jest.MockedFunction<typeof sDeleteUser>;
+
+describe("signUpUser tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+      isRedirectErrorMock.mockReset();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
+   });
+
+   it("valid form values - redirects to verify-email - test", async () => {
+      const data: DUserSignUp = {
+         name: "Test 1",
+         email: "test1@email.com",
+         password: "123456",
+         confirmPassword: "123456",
+         acceptTerms: true,
+      };
+      isRedirectErrorMock.mockReturnValue(true);
+      redirectMock.mockImplementation(() => {
+         throw new Error("NEXT_REDIRECT");
+      });
+
+      const fn = () => signUpUser(data);
+
+      await expect(fn).rejects.toThrow(Error);
+      expect(sSignUpUserMock).toHaveBeenCalledTimes(1);
+      expect(sSignUpUserMock).toHaveBeenCalledWith(data);
+      expect(redirectMock).toHaveBeenCalledTimes(1);
+      expect(redirectMock).toHaveBeenCalledWith(
+         `/auth/verify-email?email=${encodeURIComponent(data.email)}`
+      );
+      expect(signInMock).not.toHaveBeenCalled();
+   });
+
+   it("invalid form values - test", async () => {
+      isRedirectErrorMock.mockReturnValue(false);
+
+      const data: DUserSignUp = {
+         name: "Test 1",
+         email: "email.com",
+         password: "123456",
+         confirmPassword: "123",
+         acceptTerms: true,
+      };
+
+      const result = await signUpUser(data);
+
+      const expectedResult = {
+         success: false,
+         message: "Nutzer konnte nicht registriert werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sSignUpUserMock).not.toHaveBeenCalled();
+      expect(signInMock).not.toHaveBeenCalled();
+      expect(redirectMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(
+         "Invalid email address\nConfirm password must be at least 6 characters\nPasswords don't match"
+      );
+   });
+
+   it("error - test", async () => {
+      const errorMessage = "DB error";
+      const error = new Error(errorMessage);
+
+      sSignUpUserMock.mockRejectedValue(error);
+      isRedirectErrorMock.mockReturnValue(false);
+
+      const data: DUserSignUp = {
+         name: "Test 1",
+         email: "test1@email.com",
+         password: "123456",
+         confirmPassword: "123456",
+         acceptTerms: true,
+      };
+
+      const result = await signUpUser(data);
+
+      const expectedResult: ActionResult = {
+         success: false,
+         message: "Nutzer konnte nicht registriert werden",
+      };
+
+      expect(result).toEqual(expectedResult);
+      expect(sSignUpUserMock).toHaveBeenCalledTimes(1);
+      expect(redirectMock).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(error.message);
+   });
+});
 
 describe("signInWithCredentials tests", () => {
    beforeEach(() => {
@@ -113,7 +207,7 @@ describe("signInWithCredentials tests", () => {
          password: "password123",
       };
       sIsEmailVerifiedMock.mockResolvedValue(false);
-      isRedirectErrorock.mockReturnValue(false);
+      isRedirectErrorMock.mockReturnValue(false);
 
       const result = await signInWithCredentials(formData);
 
@@ -133,7 +227,7 @@ describe("signInWithCredentials tests", () => {
          password: "password123",
       };
       sIsEmailVerifiedMock.mockResolvedValue(null);
-      isRedirectErrorock.mockReturnValue(false);
+      isRedirectErrorMock.mockReturnValue(false);
 
       const result = await signInWithCredentials(formData);
 
@@ -149,7 +243,7 @@ describe("signInWithCredentials tests", () => {
          email: "test1email.com",
          password: "p123",
       };
-      isRedirectErrorock.mockReturnValue(false);
+      isRedirectErrorMock.mockReturnValue(false);
 
       const result = await signInWithCredentials(formData);
 
@@ -170,7 +264,7 @@ describe("signInWithCredentials tests", () => {
       sIsEmailVerifiedMock.mockResolvedValue(true);
       const error = new Error("redirect error");
       signInMock.mockRejectedValue(error);
-      isRedirectErrorock.mockReturnValue(true);
+      isRedirectErrorMock.mockReturnValue(true);
 
       const fn = () => signInWithCredentials(formData);
 
@@ -189,80 +283,6 @@ describe("signOutUser tests", () => {
       await signOutUser();
       expect(signOutMock).toHaveBeenCalledTimes(1);
       expect(signOutMock).toHaveBeenCalledWith({ redirectTo: "/p" });
-   });
-});
-
-describe("signUpUser tests", () => {
-   beforeEach(() => {
-      jest.clearAllMocks();
-      isRedirectErrorock.mockReset();
-   });
-
-   it("signUpUser - valid form values - redirects to verify-email - test", async () => {
-      const data: DUserSignUp = {
-         name: "Test 1",
-         email: "test1@email.com",
-         password: "123456",
-         confirmPassword: "123456",
-         acceptTerms: true,
-      };
-      isRedirectErrorock.mockReturnValue(true);
-      redirectMock.mockImplementation(() => {
-         throw new Error("NEXT_REDIRECT");
-      });
-
-      const fn = () => signUpUser(data);
-
-      await expect(fn).rejects.toThrow(Error);
-      expect(sSignUpUserMock).toHaveBeenCalledTimes(1);
-      expect(sSignUpUserMock).toHaveBeenCalledWith(data);
-      expect(redirectMock).toHaveBeenCalledTimes(1);
-      expect(redirectMock).toHaveBeenCalledWith(
-         `/auth/verify-email?email=${encodeURIComponent(data.email)}`
-      );
-      expect(signInMock).not.toHaveBeenCalled();
-   });
-
-   it("signUpUser - invalid form values - test", async () => {
-      const data: DUserSignUp = {
-         name: "Test 1",
-         email: "email.com",
-         password: "123456",
-         confirmPassword: "123",
-         acceptTerms: true,
-      };
-      isRedirectErrorock.mockReturnValue(false);
-
-      const result = await signUpUser(data);
-
-      const expectedResult = {
-         success: false,
-         message:
-            "Invalid email address\nConfirm password must be at least 6 characters\nPasswords don't match",
-      };
-
-      expect(result).toEqual(expectedResult);
-      expect(sSignUpUserMock).not.toHaveBeenCalled();
-      expect(signInMock).not.toHaveBeenCalled();
-      expect(redirectMock).not.toHaveBeenCalled();
-   });
-
-   it("signUpUser - service error - returns error - test", async () => {
-      const data: DUserSignUp = {
-         name: "Test 1",
-         email: "test1@email.com",
-         password: "123456",
-         confirmPassword: "123456",
-         acceptTerms: true,
-      };
-      sSignUpUserMock.mockRejectedValue(new Error("DB error"));
-      isRedirectErrorock.mockReturnValue(false);
-
-      const result = await signUpUser(data);
-
-      expect(result).toEqual({ success: false, message: "DB error" });
-      expect(sSignUpUserMock).toHaveBeenCalledTimes(1);
-      expect(redirectMock).not.toHaveBeenCalled();
    });
 });
 
@@ -419,7 +439,7 @@ describe("getUserById tests", () => {
 describe("updateUserProfile tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      isRedirectErrorock.mockReset();
+      isRedirectErrorMock.mockReset();
    });
 
    it("updateUserProfile - user undefined - test", async () => {
@@ -480,7 +500,7 @@ describe("updateUserProfile tests", () => {
    it("updateUserProfile - redirect error - test", async () => {
       const error = new Error("redirect error");
       requireUserMock.mockRejectedValue(error);
-      isRedirectErrorock.mockReturnValue(true);
+      isRedirectErrorMock.mockReturnValue(true);
 
       const data: DUserUpdate = {
          name: "test 1",
@@ -496,7 +516,7 @@ describe("updateUserProfile tests", () => {
 describe("updatePassword tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      isRedirectErrorock.mockReset();
+      isRedirectErrorMock.mockReset();
    });
 
    it("updatePassword - user undefined - test", async () => {
@@ -569,7 +589,7 @@ describe("updatePassword tests", () => {
    it("updatePassword - redirect error - test", async () => {
       const error = new Error("redirect error");
       requireUserMock.mockRejectedValue(error);
-      isRedirectErrorock.mockReturnValue(true);
+      isRedirectErrorMock.mockReturnValue(true);
 
       const data: DUserPasswordUpdate = {
          currentPassword: "test123",
@@ -588,7 +608,7 @@ describe("updatePassword tests", () => {
 describe("deleteUser tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
-      isRedirectErrorock.mockReset();
+      isRedirectErrorMock.mockReset();
    });
 
    it("deleteUser - user undefined - test", async () => {
@@ -656,7 +676,7 @@ describe("deleteUser tests", () => {
    it("deleteUser - redirect error - test", async () => {
       const error = new Error("redirect error");
       requireUserMock.mockRejectedValue(error);
-      isRedirectErrorock.mockReturnValue(true);
+      isRedirectErrorMock.mockReturnValue(true);
 
       const data: DUserAccountDelete = {
          password: "test123",

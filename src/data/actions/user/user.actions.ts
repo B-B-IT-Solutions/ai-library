@@ -33,16 +33,17 @@ export const signUpUser = async (data: DUserSignUp) => {
       const service = getUserService();
       await service.signUpUser(validatedData);
 
-      redirect(
+      return redirect(
          `/auth/verify-email?email=${encodeURIComponent(validatedData.email)}`
       );
    } catch (error) {
+      console.error(formatError(error));
       if (isRedirectError(error)) {
          throw error;
       }
       return {
          success: false,
-         message: formatError(error),
+         message: "Nutzer konnte nicht registriert werden",
       };
    }
 };
