@@ -211,7 +211,7 @@ describe("singInUser tests", () => {
       jest.clearAllMocks();
    });
 
-   it("singInUser - user null - test", async () => {
+   it("user null - test", async () => {
       userRepoMock.pGetUserByEmail.mockResolvedValue(null);
 
       const data: DUserSignIn = {
@@ -224,9 +224,10 @@ describe("singInUser tests", () => {
       expect(result).toBeNull();
       expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledTimes(1);
       expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledWith(data.email);
+      expect(compareMock).not.toHaveBeenCalled();
    });
 
-   it("singInUser - user.password is null - test", async () => {
+   it("user.password is null - test", async () => {
       const user = dtestData.dUserInternal();
       user.password = null;
       userRepoMock.pGetUserByEmail.mockResolvedValue(user);
@@ -241,9 +242,10 @@ describe("singInUser tests", () => {
       expect(result).toBeNull();
       expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledTimes(1);
       expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledWith(data.email);
+      expect(compareMock).not.toHaveBeenCalled();
    });
 
-   it("singInUser - user.password compare false - test", async () => {
+   it("user.password compare false - test", async () => {
       const user = dtestData.dUserInternal();
       userRepoMock.pGetUserByEmail.mockResolvedValue(user);
       compareMock.mockResolvedValue(false);
@@ -262,7 +264,7 @@ describe("singInUser tests", () => {
       expect(compareMock).toHaveBeenCalledWith(data.password, user.password);
    });
 
-   it("singInUser - user.password compare true - email not verified - test", async () => {
+   it("user.password compare true - email verified null - test", async () => {
       const user = dtestData.dUserInternal();
       user.emailVerified = null;
       userRepoMock.pGetUserByEmail.mockResolvedValue(user);
@@ -277,10 +279,12 @@ describe("singInUser tests", () => {
 
       expect(result).toBeNull();
       expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledTimes(1);
+      expect(userRepoMock.pGetUserByEmail).toHaveBeenCalledWith(data.email);
       expect(compareMock).toHaveBeenCalledTimes(1);
+      expect(compareMock).toHaveBeenCalledWith(data.password, user.password);
    });
 
-   it("singInUser - user.password compare true - email verified - test", async () => {
+   it("user.password compare true - email verified - test", async () => {
       const user = dtestData.dUserInternal();
       userRepoMock.pGetUserByEmail.mockResolvedValue(user);
       compareMock.mockResolvedValue(true);
