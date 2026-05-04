@@ -21,6 +21,8 @@ brevoClientMock.mockImplementation(
       }) as unknown as BrevoClient
 );
 
+const service = new BrevoEmailService();
+
 describe("BrevoEmailService tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
@@ -38,7 +40,6 @@ describe("BrevoEmailService tests", () => {
          verificationUrl: "https://example.com/verify?token=abc123",
       };
 
-      const service = new BrevoEmailService();
       await service.sendVerificationEmail(params);
 
       const expectedRequest: Brevo.SendTransacEmailRequest = {
@@ -71,9 +72,26 @@ describe("BrevoEmailService tests", () => {
          verificationUrl: "https://example.com/verify?token=abc123",
       };
 
-      const service = new BrevoEmailService();
       await service.sendVerificationEmail(params);
 
+      const expectedRequest: Brevo.SendTransacEmailRequest = {
+         to: [
+            {
+               email: params.to,
+               name: params.name,
+            },
+         ],
+         sender: {
+            email: getBrevoSenderEmail(),
+            name: `${APP_NAME}`,
+         },
+         subject: `${APP_NAME} – E-Mail-Adresse bestätigen`,
+         htmlContent: buildHtml(APP_NAME, params.name, params.verificationUrl),
+         textContent: buildText(APP_NAME, params.name, params.verificationUrl),
+      };
+
+      expect(sendTransacEmailMock).toHaveBeenCalledTimes(1);
+      expect(sendTransacEmailMock).toHaveBeenCalledWith(expectedRequest);
       expect(console.error).toHaveBeenCalledTimes(1);
    });
 });
