@@ -584,7 +584,7 @@ describe("deleteUser tests", () => {
       jest.clearAllMocks();
    });
 
-   it("deleteUser - user null - test", async () => {
+   it("user null - test", async () => {
       const user = dtestData.dUserInternal();
       userRepoMock.pGetUserById.mockResolvedValue(null);
 
@@ -603,7 +603,7 @@ describe("deleteUser tests", () => {
       expect(userRepoMock.pDeleteUser).not.toHaveBeenCalled();
    });
 
-   it("deleteUser - user.password null - test", async () => {
+   it("user.password null - test", async () => {
       const user = dtestData.dUserInternal();
       user.password = null;
       userRepoMock.pGetUserById.mockResolvedValue(user);
@@ -623,7 +623,7 @@ describe("deleteUser tests", () => {
       expect(userRepoMock.pDeleteUser).not.toHaveBeenCalled();
    });
 
-   it("deleteUser - password invalid - test", async () => {
+   it("password invalid - test", async () => {
       const user = dtestData.dUserInternal();
       userRepoMock.pGetUserById.mockResolvedValue(user);
       compareMock.mockResolvedValue(false);
@@ -642,7 +642,7 @@ describe("deleteUser tests", () => {
       expect(userRepoMock.pDeleteUser).not.toHaveBeenCalled();
    });
 
-   it("deleteUser - user deleted - test", async () => {
+   it("user deleted - test", async () => {
       const user = dtestData.dUserInternal();
       userRepoMock.pGetUserById.mockResolvedValue(user);
       compareMock.mockResolvedValue(true);
@@ -748,7 +748,7 @@ describe("isEmailVerified tests", () => {
       jest.clearAllMocks();
    });
 
-   it("isEmailVerified - user not found - returns null - test", async () => {
+   it("user not found - test", async () => {
       userRepoMock.pGetEmailVerified.mockResolvedValue(undefined);
 
       const result = await userService.isEmailVerified("test@email.com");
@@ -756,7 +756,7 @@ describe("isEmailVerified tests", () => {
       expect(result).toBeNull();
    });
 
-   it("isEmailVerified - email not verified - returns false - test", async () => {
+   it("email not verified - test", async () => {
       userRepoMock.pGetEmailVerified.mockResolvedValue(null);
 
       const result = await userService.isEmailVerified("test@email.com");
@@ -764,7 +764,7 @@ describe("isEmailVerified tests", () => {
       expect(result).toBe(false);
    });
 
-   it("isEmailVerified - email verified - returns true - test", async () => {
+   it("email verified - test", async () => {
       userRepoMock.pGetEmailVerified.mockResolvedValue(new Date());
 
       const result = await userService.isEmailVerified("test@email.com");

@@ -74,19 +74,6 @@ export class UserService {
       return null;
    }
 
-   async isEmailVerified(email: string): Promise<boolean | null> {
-      const emailVerified = await this.userRepository.pGetEmailVerified(email);
-
-      if (emailVerified === undefined) {
-         return null;
-      }
-      return emailVerified !== null;
-   }
-
-   async verifyEmail(email: string): Promise<void> {
-      await this.userRepository.pVerifyUserEmail(email);
-   }
-
    async getUserById(userId: string): Promise<DUser | null> {
       const user = await this.userRepository.pGetUserById(userId);
       if (user) {
@@ -193,5 +180,18 @@ export class UserService {
             this.updateIubendaLegalNoticesSynced(user.id, true);
          }
       });
+   }
+
+   async isEmailVerified(email: string): Promise<boolean | null> {
+      const emailVerified = await this.userRepository.pGetEmailVerified(email);
+
+      if (emailVerified === undefined) {
+         return null;
+      }
+      return emailVerified !== null;
+   }
+
+   async verifyEmail(email: string): Promise<void> {
+      await this.userRepository.pVerifyUserEmail(email);
    }
 }
