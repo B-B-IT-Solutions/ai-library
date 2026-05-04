@@ -6,6 +6,8 @@ import Link from "next/link";
 
 import { Button } from "@/components/shadcn/button";
 import { resendVerificationEmail } from "@/data/actions/user";
+import { ActionResult } from "@/data/types/utils";
+import { cn } from "@/lib/utils";
 
 type Props = {
    email?: string;
@@ -14,24 +16,17 @@ type Props = {
 export const VerifyEmailForm = ({ email }: Props) => {
    const [isPending, startTransition] = useTransition();
 
-   const [message, setMessage] = useState<{
-      type: "success" | "error";
-      text: string;
-   } | null>(null);
+   const [resendResult, setResendResult] = useState<ActionResult | null>(null);
 
    const handleResend = async () => {
       if (!email) {
          return;
       }
+      setResendResult(null);
 
       startTransition(async () => {
-         setMessage(null);
-
          const result = await resendVerificationEmail(email);
-         setMessage({
-            type: result.success ? "success" : "error",
-            text: result.message,
-         });
+         setResendResult(result);
       });
    };
 
@@ -56,6 +51,23 @@ export const VerifyEmailForm = ({ email }: Props) => {
             Bitte überprüfe dein Postfach und klicke auf den Bestätigungslink.
          </p>
       );
+   };
+
+   const resendMessage = () => {
+      if (resendResult) {
+         const { success, message } = resendResult;
+         const styles = success
+            ? "border-green-200 bg-green-50 text-green-700"
+            : "border-destructive/20 bg-destructive/10 text-destructive";
+         return (
+            <div
+               className={cn("rounded-md border p-3 text-sm", styles)}
+               data-testid="resend-message"
+            >
+               {message}
+            </div>
+         );
+      }
    };
 
    const resendBtn = () => {
@@ -96,18 +108,7 @@ export const VerifyEmailForm = ({ email }: Props) => {
             neue E-Mail an.
          </p>
 
-         {message && (
-            <div
-               className={`rounded-md border p-3 text-sm ${
-                  message.type === "success"
-                     ? "border-green-200 bg-green-50 text-green-700"
-                     : "border-destructive/20 bg-destructive/10 text-destructive"
-               }`}
-               data-testid="resend-message"
-            >
-               {message.text}
-            </div>
-         )}
+         {resendMessage()}
 
          {resendBtn()}
 
