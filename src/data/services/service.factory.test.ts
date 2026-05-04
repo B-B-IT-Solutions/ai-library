@@ -11,8 +11,7 @@ import { PublicSettingsService, SettingsService } from "./settings";
 import { StripeService } from "./stripe/stripe.service";
 import { SubscriptionService } from "./subscription";
 import { PublicTemplateService, TemplateService } from "./template";
-import { UserService } from "./user";
-import { VerificationTokenService } from "./verification-token";
+import { UserService, VerificationTokenService } from "./user";
 
 const serviceFactory = new ServiceFactory(prisma);
 

@@ -7,7 +7,7 @@ import {
    IubendaService,
    LegalNoticesAcceptedParams,
 } from "@/data/services/iubenda";
-import { VerificationTokenService } from "@/data/services/verification-token";
+import { VerificationTokenService } from "@/data/services/user";
 import { UserUpdateData } from "@/data/types/db/user";
 import {
    DUser,
@@ -87,8 +87,7 @@ export class UserService {
    }
 
    async isEmailVerified(email: string): Promise<boolean | null> {
-      const emailVerified =
-         await this.userRepository.pGetEmailVerified(email);
+      const emailVerified = await this.userRepository.pGetEmailVerified(email);
 
       if (emailVerified === undefined) {
          return null;

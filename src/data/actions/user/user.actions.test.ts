@@ -1,6 +1,5 @@
 jest.mock("@/data/services/user");
 jest.mock("@/data/services/iubenda");
-jest.mock("@/data/services/verification-token");
 jest.mock("@/data/services/email");
 jest.mock("@/data/actions/auth-utils");
 jest.mock("next/dist/client/components/redirect-error");

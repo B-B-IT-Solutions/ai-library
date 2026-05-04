@@ -8,10 +8,7 @@ export class VerificationTokenService {
       private readonly emailService: IEmailService
    ) {}
 
-   async sendVerificationEmail(
-      email: string,
-      name: string
-   ): Promise<void> {
+   async sendVerificationEmail(email: string, name: string): Promise<void> {
       const token = await this.tokenRepo.pCreateToken(email);
       const verificationUrl = `${APP_URL}/api/auth/verify-email?token=${token}&email=${encodeURIComponent(email)}`;
 

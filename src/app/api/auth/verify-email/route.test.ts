@@ -1,11 +1,9 @@
-jest.mock("@/data/services/verification-token");
 jest.mock("@/data/services/user");
 
 import { ntestData } from "@tests";
 import { redirect } from "next/navigation";
 
-import { UserService } from "@/data/services/user";
-import { VerificationTokenService } from "@/data/services/verification-token";
+import { UserService, VerificationTokenService } from "@/data/services/user";
 
 import { GET } from "./route";
 

@@ -1,1 +1,2 @@
-export * from "./user.service";
+export { UserService } from "./user.service";
+export { VerificationTokenService } from "./verification-token.service";

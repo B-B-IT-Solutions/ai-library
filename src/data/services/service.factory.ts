@@ -9,7 +9,6 @@ import {
    IEmailService,
    SmtpEmailService,
 } from "@/data/services/email";
-import { EMAIL_PROVIDER } from "@/lib/constants";
 import { IubendaService } from "@/data/services/iubenda";
 import { OrderService } from "@/data/services/order";
 import { PromptService } from "@/data/services/prompt";
@@ -23,9 +22,9 @@ import {
    PublicTemplateService,
    TemplateService,
 } from "@/data/services/template";
-import { UserService } from "@/data/services/user";
-import { VerificationTokenService } from "@/data/services/verification-token";
+import { UserService, VerificationTokenService } from "@/data/services/user";
 import { DbClient } from "@/data/types/db/common";
+import { EMAIL_PROVIDER } from "@/lib/constants";
 
 export class ServiceFactory {
    private repositories: RepositoryFactory;

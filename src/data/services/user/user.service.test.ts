@@ -2,7 +2,7 @@ jest.mock("@/data/repositories/user");
 jest.mock("@/data/services/cart");
 jest.mock("@/data/services/order");
 jest.mock("@/data/services/iubenda");
-jest.mock("@/data/services/verification-token");
+jest.mock("@/data/services/user");
 jest.mock("@/lib/encrypt");
 jest.mock("@/lib/utils");
 
@@ -20,7 +20,7 @@ import {
    LegalNoticesAcceptedParams,
 } from "@/data/services/iubenda";
 import { OrderService } from "@/data/services/order";
-import { VerificationTokenService } from "@/data/services/verification-token";
+import { VerificationTokenService } from "@/data/services/user";
 import { UserUpdateData } from "@/data/types/db/user";
 import {
    DUserAccountDelete,
