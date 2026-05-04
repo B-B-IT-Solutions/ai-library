@@ -77,12 +77,10 @@ describe("signUpUser tests", () => {
       MockDate.reset();
    });
 
-   it("signUpUser - user created - iubenda synced true - test", async () => {
+   it("user created - iubenda synced true - test", async () => {
       const createdUser = dtestData.dUserInternal();
       userRepoMock.pCreateUser.mockResolvedValue(createdUser);
-      verificationTokenServiceMock.sendVerificationEmail.mockResolvedValue(
-         undefined
-      );
+      verificationTokenServiceMock.sendVerificationEmail.mockResolvedValue();
 
       const reqHeader = ntestData.headers();
       headersMock.mockResolvedValue(reqHeader);
@@ -149,9 +147,7 @@ describe("signUpUser tests", () => {
    it("signUpUser - user created - iubenda synced false - test", async () => {
       const createdUser = dtestData.dUserInternal();
       userRepoMock.pCreateUser.mockResolvedValue(createdUser);
-      verificationTokenServiceMock.sendVerificationEmail.mockResolvedValue(
-         undefined
-      );
+      verificationTokenServiceMock.sendVerificationEmail.mockResolvedValue();
 
       const reqHeader = ntestData.headers();
       headersMock.mockResolvedValue(reqHeader);

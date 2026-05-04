@@ -45,14 +45,7 @@ export class UserService {
 
       const user = await this.userRepository.pCreateUser(newUser);
       this.saveLegalNoticesAccepted(user, legalNoticesAcceptedAt);
-      this.verificationTokenService
-         .sendVerificationEmail(user.email, user.name)
-         .catch((err) =>
-            console.error(
-               `[UserService] Failed to send verification email to ${user.email}:`,
-               err
-            )
-         );
+      this.sendVerificationEmail(user);
 
       return toDUser(user);
    }
@@ -180,6 +173,13 @@ export class UserService {
             this.updateIubendaLegalNoticesSynced(user.id, true);
          }
       });
+   }
+
+   async sendVerificationEmail(user: DUser) {
+      this.verificationTokenService.sendVerificationEmail(
+         user.email,
+         user.name
+      );
    }
 
    async isEmailVerified(email: string): Promise<boolean | null> {
