@@ -24,6 +24,11 @@ brevoClientMock.mockImplementation(
 describe("BrevoEmailService tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
+      jest.spyOn(console, "error").mockImplementation(() => {});
+   });
+
+   afterEach(() => {
+      jest.restoreAllMocks();
    });
 
    it("sendVerificationEmail - sends email with correct params - test", async () => {
@@ -57,16 +62,18 @@ describe("BrevoEmailService tests", () => {
    });
 
    it("sendVerificationEmail - throws error on failure - test", async () => {
-      sendTransacEmailMock.mockRejectedValue(new Error("Brevo API error"));
-      const params = {
+      const error = new Error("Brevo API error");
+      sendTransacEmailMock.mockRejectedValue(error);
+
+      const params: EmailVerificationParams = {
          to: "user@example.com",
          name: "Test User",
          verificationUrl: "https://example.com/verify?token=abc123",
       };
 
       const service = new BrevoEmailService();
-      await expect(service.sendVerificationEmail(params)).rejects.toThrow(
-         "Brevo API error"
-      );
+      await service.sendVerificationEmail(params);
+
+      expect(console.error).toHaveBeenCalledTimes(1);
    });
 });

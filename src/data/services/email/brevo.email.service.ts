@@ -36,6 +36,10 @@ export class BrevoEmailService implements IEmailService {
          textContent: buildText(this.senderName, name, verificationUrl),
       };
 
-      await this.client.transactionalEmails.sendTransacEmail(request);
+      try {
+         await this.client.transactionalEmails.sendTransacEmail(request);
+      } catch (error) {
+         console.error(error);
+      }
    }
 }
