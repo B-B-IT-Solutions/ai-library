@@ -7,7 +7,7 @@ exports[`SignUpPage rendering tests SignUpPage - user already signed in - callba
 exports[`SignUpPage rendering tests SignUpPage - user not signed in - rendered test 1`] = `
 <div>
   <div
-    class="flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4"
+    class="flex min-h-screen w-full items-center justify-center bg-linear-to-br from-background via-background to-primary/5 p-4"
     data-testid="sign-up-page"
   >
     <div
@@ -23,20 +23,10 @@ exports[`SignUpPage rendering tests SignUpPage - user not signed in - rendered t
           data-testid="card-header"
         >
           <a
-            class="flex flex-col items-center gap-3 transition-transform hover:scale-105"
+            class="flex flex-col items-center gap-3"
             data-testid="mock-link"
             href="/"
           >
-            <img
-              alt="Vision Notes logo"
-              class="drop-shadow-lg"
-              data-nimg="1"
-              decoding="async"
-              height="80"
-              src="/images/logo.svg"
-              style="color: transparent;"
-              width="80"
-            />
             <h1
               class="text-2xl font-bold"
             >
