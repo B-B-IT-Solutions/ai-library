@@ -24,11 +24,7 @@ describe("pCreateToken tests", () => {
    beforeEach(() => {
       jest.clearAllMocks();
       MockDate.set(FIXED_NOW);
-      jest
-         .spyOn(crypto, "randomUUID")
-         .mockReturnValue(
-            FIXED_UUID as `${string}-${string}-${string}-${string}-${string}`
-         );
+      jest.spyOn(crypto, "randomUUID").mockReturnValue(FIXED_UUID);
    });
 
    afterEach(() => {
@@ -78,7 +74,7 @@ describe("pGetToken tests", () => {
       mockReset(prismaMock);
    });
 
-   it("pGetToken - token not found - returns null - test", async () => {
+   it("token null - test", async () => {
       const email = "user@test.com";
       const token = "token-123";
       prismaMock.verificationToken.findUnique.mockResolvedValue(null);
@@ -86,7 +82,9 @@ describe("pGetToken tests", () => {
       const result = await repository.pGetToken(email, token);
 
       const expectedArgs: VerificationTokenFindUniqueArgs = {
-         where: { identifier_token: { identifier: email, token } },
+         where: {
+            identifier_token: { identifier: email, token },
+         },
       };
 
       expect(result).toBeNull();
@@ -96,7 +94,7 @@ describe("pGetToken tests", () => {
       );
    });
 
-   it("pGetToken - token found - returns token - test", async () => {
+   it("token retrieved - test", async () => {
       const pToken = ptestData.pVerificationToken();
       prismaMock.verificationToken.findUnique.mockResolvedValue(pToken);
 
@@ -127,17 +125,20 @@ describe("pDeleteToken tests", () => {
       mockReset(prismaMock);
    });
 
-   it("pDeleteToken - deletes token with correct args - test", async () => {
-      const email = "user@test.com";
-      const token = "token-123";
-      prismaMock.verificationToken.delete.mockResolvedValue(
-         ptestData.pVerificationToken()
-      );
+   it("token deleted - test", async () => {
+      const pToken = ptestData.pVerificationToken();
 
-      await repository.pDeleteToken(email, token);
+      prismaMock.verificationToken.delete.mockResolvedValue(pToken);
+
+      await repository.pDeleteToken(pToken.identifier, pToken.token);
 
       const expectedDeleteArgs: VerificationTokenDeleteArgs = {
-         where: { identifier_token: { identifier: email, token } },
+         where: {
+            identifier_token: {
+               identifier: pToken.identifier,
+               token: pToken.token,
+            },
+         },
       };
 
       expect(prismaMock.verificationToken.delete).toHaveBeenCalledTimes(1);
