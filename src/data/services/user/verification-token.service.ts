@@ -1,4 +1,4 @@
-import { VerificationTokenRepository } from "@/data/repositories/verification-token";
+import { VerificationTokenRepository } from "@/data/repositories/user";
 import { IEmailService } from "@/data/services/email";
 import { APP_URL } from "@/lib/constants";
 

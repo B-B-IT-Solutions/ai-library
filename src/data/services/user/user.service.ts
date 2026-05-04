@@ -24,25 +24,13 @@ import { resolveIpAddresse } from "@/lib/utils";
 import { toDUser } from "./user.mapper";
 
 export class UserService {
-   private userRepository: UserRepository;
-   private cartService: CartService;
-   private orderService: OrderService;
-   private iubendaService: IubendaService;
-   private verificationTokenService: VerificationTokenService;
-
    constructor(
-      userRepository: UserRepository,
-      cartService: CartService,
-      orderService: OrderService,
-      iubendaService: IubendaService,
-      verificationTokenService: VerificationTokenService
-   ) {
-      this.userRepository = userRepository;
-      this.cartService = cartService;
-      this.orderService = orderService;
-      this.iubendaService = iubendaService;
-      this.verificationTokenService = verificationTokenService;
-   }
+      private readonly userRepository: UserRepository,
+      private readonly cartService: CartService,
+      private readonly orderService: OrderService,
+      private readonly iubendaService: IubendaService,
+      private readonly verificationTokenService: VerificationTokenService
+   ) {}
 
    async signUpUser(data: DUserSignUp): Promise<DUser> {
       const hashedPassword = await hash(data.password);
