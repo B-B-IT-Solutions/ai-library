@@ -667,7 +667,7 @@ describe("saveLegalNoticesAccepted tests", () => {
       jest.clearAllMocks();
    });
 
-   it("saveLegalNoticesAccepted - iubenda synced true - test", async () => {
+   it("iubenda synced true - test", async () => {
       const user = dtestData.dUserInternal();
 
       const reqHeader = ntestData.headers();
@@ -707,7 +707,7 @@ describe("saveLegalNoticesAccepted tests", () => {
       );
    });
 
-   it("signUpUser - user created - iubenda synced false - test", async () => {
+   it("iubenda synced false - test", async () => {
       const user = dtestData.dUserInternal();
       userRepoMock.pCreateUser.mockResolvedValue(user);
 
@@ -736,6 +736,27 @@ describe("saveLegalNoticesAccepted tests", () => {
          expectedLegalNoticesParams
       );
       expect(userRepoMock.pUpdateUser).not.toHaveBeenCalled();
+   });
+});
+
+describe("sendVerificationEmail tests", () => {
+   beforeEach(() => {
+      jest.clearAllMocks();
+   });
+
+   it("email sent - test", async () => {
+      const user = dtestData.dUserInternal();
+
+      verificationTokenServiceMock.sendVerificationEmail.mockResolvedValue();
+
+      await userService.sendVerificationEmail(user);
+
+      expect(
+         verificationTokenServiceMock.sendVerificationEmail
+      ).toHaveBeenCalledTimes(1);
+      expect(
+         verificationTokenServiceMock.sendVerificationEmail
+      ).toHaveBeenCalledWith(user.email, user.name);
    });
 });
 
