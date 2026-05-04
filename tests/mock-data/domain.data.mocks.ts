@@ -97,7 +97,7 @@ export const dUserInternal = (index = 1): DUserInternal => {
       ...user,
       password: `password-${index}`,
       stripeCustomerId: `ac82ecc9-de60-4fba-acf6-8b57ad9a91a${index}`,
-      emailVerified: new Date("2025-09-27").toISOString(),
+      emailVerified: new Date("2025-09-27"),
    };
 };
 
