@@ -19,7 +19,9 @@ export const VerifyEmailForm = ({ email }: Props) => {
    } | null>(null);
 
    const handleResend = async () => {
-      if (!email) return;
+      if (!email) {
+         return;
+      }
       setIsLoading(true);
       setMessage(null);
 
@@ -80,7 +82,7 @@ export const VerifyEmailForm = ({ email }: Props) => {
          {email && (
             <Button
                variant="outline"
-               className="w-full"
+               className="w-full cursor-pointer"
                onClick={handleResend}
                disabled={isLoading}
                data-testid="resend-btn"
@@ -98,10 +100,11 @@ export const VerifyEmailForm = ({ email }: Props) => {
 
          <Link
             href="/auth/sign-in"
-            className="block text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+            target="_self"
+            className="font-medium text-primary underline-offset-4 transition-colors hover:text-primary/80 hover:underline"
             data-testid="sign-in-link"
          >
-            Zur Anmeldung
+            Anmelden
          </Link>
       </div>
    );
